@@ -48,6 +48,13 @@ describe('typed time of day', () => {
     expect(placeTimes(typed('museum', ['afternoon']))).toEqual([]);
   });
 
+  it('holds nothing for a sight good in the morning and the afternoon, whatever is later', () => {
+    // A monastery that closes at six is not held to its sunset.
+    const monastery = ['early_morning', 'morning', 'afternoon', 'sunset'] as const;
+    expect(placeTimes(typed('temple_shrine', monastery))).toEqual([]);
+    expect(placeTimes(typed('museum', ['morning', 'afternoon', 'evening']))).toEqual([]);
+  });
+
   it('narrows an afternoon to a late time, and keeps a morning beside it', () => {
     expect(placeTimes(typed('beach', ['afternoon', 'sunset']))).toEqual(['sunset']);
     expect(placeTimes(typed('nature', ['early_morning', 'sunset']))).toEqual(['morning', 'sunset']);
@@ -57,6 +64,14 @@ describe('typed time of day', () => {
   it('keeps a night venue late even when it is good at noon too', () => {
     expect(placeTimes(typed('nightlife', ['midday', 'sunset', 'evening']))).toEqual(['after_dark']);
     expect(placeTimes(typed('nightlife', []))).toEqual(['after_dark']);
+  });
+
+  it('reads a club’s early morning as the small hours of its night', () => {
+    expect(placeTimes(typed('nightlife', ['early_morning', 'after_dark']))).toEqual(['after_dark']);
+    expect(earlyNeed(typed('nightlife', ['early_morning', 'after_dark']))).toBe(0);
+    // A coffee bar by day and a bar by night keeps both.
+    const cafeBar = typed('food', ['morning', 'after_dark'], 'light', { tags: ['nightlife'] });
+    expect(placeTimes(cafeBar)).toEqual(['morning', 'after_dark']);
   });
 
   it('lets a meal place follow meal times', () => {
