@@ -50,6 +50,14 @@ export {
   type ScheduleDayInput,
 } from './schedule-day';
 export {
+  DAY_TRIP_BACK_MIN,
+  DAY_TRIP_LEAVES_MIN,
+  dayTripReach,
+  edgeDays,
+  landsOn,
+  leavesOn,
+} from './day-window';
+export {
   bestOrder,
   MAX_SEARCHED_STOPS,
   spansOn,
@@ -120,6 +128,7 @@ export type {
   DraftPoi,
   TravelMatrix,
   TripFrame,
+  DayReach,
 } from './types';
 export { resolveWishes, type ResolvedWishes } from './wishes';
 export {

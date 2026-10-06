@@ -66,24 +66,22 @@ export function nearHome(
 }
 
 /**
- * Takes the first and the last day off the open days of every place too far from home for them
- * (must-dos aside: `exempt`): the day the crew leaves and the afternoon it lands keep to a short hop
- * from the door (no pagoda across town straight off the plane; the far ones go on full days). A one-day trip is left.
+ * Takes the edge days (the day the crew lands and the day it leaves, `edgeDays` of ./day-window)
+ * off the open days of every place too far from home for them (must-dos aside: `exempt`): they
+ * keep to a short hop from the door (no pagoda across town straight off the plane; the far ones go
+ * on full days). A one-day trip is left.
  */
 export function keepEdgeDaysNearHome(
   openDays: Map<string, number[]>,
   places: readonly DraftPoi[],
   travel: TravelMatrix,
-  lastDay: number,
+  dayCount: number,
+  edgeDays: readonly number[],
   exempt: ReadonlySet<string>,
 ): void {
-  if (lastDay < 2) return;
-  const cap = hopCapMin(places, travel);
-  const edges = [
-    { day: lastDay, near: nearHome(places, travel, cap) },
-    { day: 1, near: nearHome(places, travel, cap) },
-  ];
-  for (const { day: edge, near } of edges) {
+  if (dayCount < 2) return;
+  const near = nearHome(places, travel, hopCapMin(places, travel));
+  for (const edge of [...edgeDays].reverse()) {
     if (near === null) continue;
     for (const [poiId, days] of openDays) {
       if (near.has(poiId) || exempt.has(poiId) || !days.includes(edge)) continue;

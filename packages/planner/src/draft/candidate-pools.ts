@@ -25,13 +25,11 @@
 import { foodRole } from './food-role';
 import { keepEdgeDaysNearHome, outingsFor } from './home';
 import type { Outing } from './outings';
-import { mealSlots, mealsInWindow } from './meal-slots';
-import { placeWindows } from './time-of-day';
 import { collapseSamePlaces } from './same-place';
 import { isEssential } from './typed-facts';
-import { closedOn, suitsDiet } from './validate-itinerary';
-import { ceilGrid, dayWindow } from './schedule-day';
-import { spansOn } from './sequence';
+import { suitsDiet } from './validate-itinerary';
+import { edgeDays } from './day-window';
+import { openOnDay } from './open-on-day';
 import { straightLineMatrix, type RoutedPairs } from './travel';
 import type { DraftPoi, TripFrame } from './types';
 
@@ -101,29 +99,6 @@ const MAX_EATERIES = 160;
 const CELL_DEG = 0.01;
 const cellOf = (poi: DraftPoi) =>
   `${Math.floor(poi.lat / CELL_DEG)}:${Math.floor(poi.lng / CELL_DEG)}`;
-
-/**
- * A place can go on a day when a whole visit fits inside both its hours and the day's window;
- * with `timed`, also at the time of day the place is for, or at a meal it serves.
- */
-function openOnDay(poi: DraftPoi, frame: TripFrame, index: number, timed: boolean): boolean {
-  const date = frame.dates[index] as string;
-  if (closedOn(frame, poi, date) === 'poi') return false;
-  const window = dayWindow(frame, index);
-  const visit = ceilGrid(poi.durationMin);
-  const owns = timed ? placeWindows(poi, date) : [];
-  if (timed && foodRole(poi) === 'meal') {
-    const served = mealSlots(poi, date);
-    if (!mealsInWindow(window).some((slot) => served.includes(slot))) return false;
-  }
-  // Any of its times of day will do (a beach early or late).
-  return (owns.length === 0 ? [null] : owns).some((own) =>
-    spansOn(poi.hours, date).some((span) => {
-      const start = Math.max(window.startMin, ceilGrid(span.start), own?.fromMin ?? 0);
-      return start + visit <= Math.min(window.endMin, span.end) && start <= (own?.toMin ?? start);
-    }),
-  );
-}
 
 function tasteScore(poi: DraftPoi, tastes: Readonly<Record<string, number>>): number {
   let score = 0;
@@ -243,6 +218,7 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     input.pois,
     straightLineMatrix(byId, input.routed),
     frame.dates.length,
+    edgeDays(frame),
     mustDoPlaces,
   );
   // Far essentials that sit together are one outing on one full day; a short trip takes the best.
