@@ -146,8 +146,9 @@ function AreaScene({
         }}
         travel={travelLine(MACHU)}
         length={copy.lengthTag('full')}
-        cost={copy.costLine(estimateText(locale, 14000, 'USD'))}
-        note={MACHU.note}
+        // Without places the facts are kept short, so the line about them shows without a scroll.
+        cost={places ? copy.costLine(estimateText(locale, 14000, 'USD')) : null}
+        note={places ? MACHU.note : null}
         offline={offline}
         picks={places ? PICKS : []}
         placesComing={!places}

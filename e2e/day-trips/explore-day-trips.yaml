@@ -25,7 +25,7 @@ appId: app.critterpass.dev
     env:
       {
         SCENE: day-trip-area-no-places,
-        READY: day-trip-places-coming,
+        READY: day-trip-add,
         SHOT: 'en-7g-3-day-trip-area-no-places',
       }
 - runFlow:
@@ -69,7 +69,7 @@ appId: app.critterpass.dev
     env:
       {
         SCENE: day-trip-area-no-places,
-        READY: day-trip-places-coming,
+        READY: day-trip-add,
         SHOT: 'vi-7g-3-day-trip-area-no-places',
       }
 - runFlow:
