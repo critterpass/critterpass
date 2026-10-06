@@ -105,7 +105,7 @@ export {
   placeTimes,
   placeWindows,
   windowFor,
-} from './place-time';
+} from './time-of-day';
 export { estimatedMinutes, routedPairKey, straightLineMatrix, type RoutedPairs } from './travel';
 export { type Reach, earlyNeed, opensDay, startFloor } from './day-start';
 export { homeBase, nearHome } from './home';
@@ -134,7 +134,14 @@ export {
   type StartWindow,
   type WishTime,
 } from './wish-time';
-export { usualHours, withOpenDataDefaults } from './open-data';
+export {
+  kindFacts,
+  usualHours,
+  withOpenDataDefaults,
+  withTypedFacts,
+  type ProfileFacts,
+} from './open-data';
+export { isEssential, isTyped, type TypedPoi } from './typed-facts';
 export {
   closedOn,
   DRAFT_VIOLATION_CODES,

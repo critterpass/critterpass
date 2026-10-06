@@ -5,8 +5,9 @@
  * marked as a guess: they shape a plain visit, and never overrule the time of day a must-do is
  * held to. Curated places keep what the editors wrote (unknown hours stay unknown).
  */
-import type { Hours } from '@cp/domain';
+import type { Hours, PlaceBestTime, PlaceMealRole } from '@cp/domain';
 
+import { derivedDurationMin } from './long-visits';
 import { defaultDurationMin } from './schedule-day';
 import type { DraftPoi } from './types';
 
@@ -38,5 +39,69 @@ export function withOpenDataDefaults(poi: DraftPoi): DraftPoi {
     ...poi,
     ...(poi.hours === null ? { hours: usualHours(poi.category), hoursGuessed: true } : {}),
     durationMin: poi.durationMin > 0 ? poi.durationMin : defaultDurationMin(poi.category),
+  };
+}
+
+/** A place's typed facts as its profile holds them (any of them may be empty). */
+export interface ProfileFacts {
+  readonly bestTimes: readonly PlaceBestTime[];
+  readonly visitMin: number | null;
+  readonly mealRole: PlaceMealRole | null;
+  readonly dish: string | null;
+}
+
+const MEAL_TAGS: ReadonlySet<string> = new Set(['sit_down_dining', 'sit_down', 'street_food']);
+const LIGHT_TAGS: ReadonlySet<string> = new Set([
+  'coffee',
+  'cafe',
+  'dessert',
+  'bakery',
+  'tea',
+  'ice_cream',
+]);
+
+/**
+ * What a place of `category` with `tags` is taken to be until it has a profile: any time of day
+ * (the kind's own rules still apply: a night venue after dark, a beach early or late), the kind's
+ * usual visit (a theme park the day, a hike half of it), and food by its tags (a cafe a break,
+ * any other eatery a meal; a venue that serves meals by its tags too).
+ */
+export function kindFacts(category: string, tags: readonly string[]): ProfileFacts {
+  const meal = tags.some((tag) => MEAL_TAGS.has(tag));
+  const light = tags.some((tag) => LIGHT_TAGS.has(tag));
+  const venue = (category === 'nightlife' || category === 'other') && !tags.includes('markets');
+  return {
+    bestTimes: [],
+    visitMin: derivedDurationMin(category, tags, []),
+    mealRole:
+      category === 'food' ? (light && !meal ? 'light' : 'meal') : venue && meal ? 'meal' : 'none',
+    dish: null,
+  };
+}
+
+/**
+ * `poi` with its typed facts: the profile's where it has one, the kind's where it has none (or
+ * left one empty). A visit length our editors gave wins over both, as any reviewed field does.
+ */
+export function withTypedFacts(
+  poi: DraftPoi,
+  facts: {
+    readonly profile: ProfileFacts | null;
+    readonly editorsVisitMin: number | null;
+    readonly essentialRank: number | null;
+  },
+): DraftPoi {
+  const kind = kindFacts(poi.category, poi.tags);
+  const profile = facts.profile;
+  const visitMin = facts.editorsVisitMin ?? profile?.visitMin ?? kind.visitMin ?? 90;
+  return {
+    ...poi,
+    durationMin: visitMin,
+    visitMin,
+    bestTimes:
+      profile !== null && profile.bestTimes.length > 0 ? profile.bestTimes : kind.bestTimes,
+    mealRole: profile?.mealRole ?? kind.mealRole ?? 'none',
+    dish: profile?.dish ?? null,
+    essentialRank: facts.essentialRank,
   };
 }

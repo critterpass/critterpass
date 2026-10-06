@@ -4,11 +4,25 @@
  * planner narrows them), plus every must-do's own place. Any other open-data place joins only as
  * a must-do, picked from search or named by a hand-typed must-do (`loadWishCandidates`). Rows
  * merged into another are never read.
+ *
+ * While the server key `planner.typed_places` is on (no row = off), each place also carries its
+ * typed facts: its ready profile's best times, visit length, meal role and dish, else its kind's
+ * (`withTypedFacts`), and its rank among the essentials. Off, the editors' text fills the place
+ * as before and the planner reads that.
  */
 import { recommendedOrderSql, recommendedSql, withSystem } from '@cp/db';
-import { hoursSchema } from '@cp/domain';
-import { derivedDurationMin, nameTokens, withOpenDataDefaults, type DraftPoi } from '@cp/planner';
+import { hoursSchema, PLACE_BEST_TIMES, PLACE_MEAL_ROLES, type PlaceBestTime } from '@cp/domain';
+import {
+  derivedDurationMin,
+  nameTokens,
+  withOpenDataDefaults,
+  withTypedFacts,
+  type DraftPoi,
+  type ProfileFacts,
+} from '@cp/planner';
 import type pg from 'pg';
+
+export const TYPED_PLACES_KEY = 'planner.typed_places';
 
 /**
  * Recommended places read per destination before the planner narrows them into pools. Every one
@@ -33,6 +47,27 @@ interface PoiRow {
   readonly editorial: unknown;
   readonly curation: string;
   readonly pick_source: string | null;
+  /** The place's ready profile, when it has one. */
+  readonly best_times: string[] | null;
+  readonly visit_min: number | null;
+  readonly meal_role: string | null;
+  readonly dish: string | null;
+}
+
+/** The columns every draft place query reads (`p` the place, `d` its destination). */
+const PLACE_COLUMNS = `p.id, p.name, p.name_local, p.category, p.lat, p.lng,
+       coalesce(p.timezone, d.tz) AS timezone, p.hours, p.price_level, p.tags, p.editorial,
+       p.curation, p.pick_source, pp.best_times, pp.visit_min, pp.meal_role, pp.dish`;
+const PROFILE_JOIN = `LEFT JOIN place_profiles pp ON pp.poi_id = p.id AND pp.status = 'ready'`;
+
+/** Whether drafts read places' typed facts (`ops.ops_config`). */
+export async function typedPlacesOn(pool: pg.Pool): Promise<boolean> {
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ value: unknown }>('SELECT value FROM ops.ops_config WHERE key = $1', [
+      TYPED_PLACES_KEY,
+    ]),
+  );
+  return rows[0]?.value === true;
 }
 
 /** The destination's recommended places (the editors' first), plus every must-do's place. */
@@ -41,28 +76,27 @@ export async function loadDraftPlaces(
   destinationId: string,
   mustDoPoiIds: readonly string[],
 ): Promise<DraftPoi[]> {
+  const typed = await typedPlacesOn(pool);
   const { rows } = await withSystem(pool, (tx) =>
     tx.query<PoiRow>(
-      `(SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-               p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
-          FROM pois p JOIN destinations d ON d.id = p.destination_id
+      `(SELECT ${PLACE_COLUMNS}
+          FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
          WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
            AND p.merged_into_id IS NULL
            AND p.category NOT IN ('transit', 'stay', 'health')
          ORDER BY ${recommendedOrderSql('p')}, p.id
          LIMIT $3)
        UNION
-       (SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-               p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
-          FROM pois p JOIN destinations d ON d.id = p.destination_id
+       (SELECT ${PLACE_COLUMNS}
+          FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
          WHERE p.id = ANY($2::uuid[]) AND p.status = 'active')`,
       [destinationId, mustDoPoiIds, MAX_DRAFT_PLACES],
     ),
   );
-  return rows.map(toDraftPoi);
+  return rows.map((row) => toDraftPoi(row, typed));
 }
 
-function toDraftPoi(row: PoiRow): DraftPoi {
+function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
   const editorial = (row.editorial ?? {}) as {
     time_needed_min?: unknown;
     must_see?: unknown;
@@ -77,7 +111,12 @@ function toDraftPoi(row: PoiRow): DraftPoi {
   const filled = Object.values(row.editorial ?? {}).filter(
     (value) => value !== null && value !== '',
   ).length;
-  return withOpenDataDefaults({
+  const editorsMin =
+    typeof editorial.time_needed_min === 'number' && editorial.time_needed_min > 0
+      ? Math.round(editorial.time_needed_min)
+      : null;
+  // With typed facts the visit length is set below; the notes are not read for it.
+  const poi = withOpenDataDefaults({
     id: row.id,
     name: row.name,
     nameLocal: row.name_local,
@@ -90,12 +129,13 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     priceLevel: (row.tags ?? []).includes('free') ? 0 : row.price_level,
     tags: row.tags ?? [],
     durationMin:
-      typeof editorial.time_needed_min === 'number' && editorial.time_needed_min > 0
-        ? Math.round(editorial.time_needed_min)
+      editorsMin ??
+      (typed
+        ? 0
         : derivedDurationMin(row.category, row.tags ?? [], [
             text(editorial.why_go),
             text(editorial.best_time),
-          ]),
+          ])),
     editorial: row.curation === 'editorial',
     // Where nothing is curated, the well-known places the model named stand in for must-sees, so
     // the sights a town is known for take their seats before the open-data fill.
@@ -106,6 +146,28 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),
   });
+  if (!typed) return poi;
+  return withTypedFacts(poi, {
+    profile: profileFacts(row),
+    editorsVisitMin: editorsMin,
+    // The editors' essentials (unranked today: each is first).
+    essentialRank: editorial.essential === true ? 1 : null,
+  });
+}
+
+function profileFacts(row: PoiRow): ProfileFacts | null {
+  if (row.best_times === null) return null;
+  const roles: readonly string[] = PLACE_MEAL_ROLES;
+  const times: readonly string[] = PLACE_BEST_TIMES;
+  return {
+    bestTimes: row.best_times.filter((time): time is PlaceBestTime => times.includes(time)),
+    visitMin: row.visit_min,
+    mealRole:
+      row.meal_role !== null && roles.includes(row.meal_role)
+        ? (row.meal_role as ProfileFacts['mealRole'])
+        : null,
+    dish: row.dish,
+  };
 }
 
 /**
@@ -121,6 +183,7 @@ export async function loadWishCandidates(
 ): Promise<DraftPoi[]> {
   const skip = new Set(ignore.flat());
   const found = new Map<string, DraftPoi>();
+  const typed = wishes.length > 0 && (await typedPlacesOn(pool));
   for (const wish of wishes) {
     // Raw and folded forms: the stored names are not stemmed ("mountains" and "mountain").
     const raw = wish
@@ -136,17 +199,15 @@ export async function loadWishCandidates(
     const { rows } = await withSystem(pool, (tx) =>
       tx.query<PoiRow>(
         `SELECT * FROM (
-           (SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-                   p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
-              FROM pois p JOIN destinations d ON d.id = p.destination_id
+           (SELECT ${PLACE_COLUMNS}
+              FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
              WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
                AND p.curation = 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')
                AND p.fts @@ to_tsquery('simple', $2)
              ORDER BY ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id LIMIT $3)
            UNION ALL
-           (SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-                   p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
-              FROM pois p JOIN destinations d ON d.id = p.destination_id
+           (SELECT ${PLACE_COLUMNS}
+              FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
              WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
                AND p.curation <> 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')
                AND p.fts @@ to_tsquery('simple', $2)
@@ -155,7 +216,7 @@ export async function loadWishCandidates(
         [destinationId, query, MAX_WISH_CANDIDATES],
       ),
     );
-    for (const row of rows) found.set(row.id, toDraftPoi(row));
+    for (const row of rows) found.set(row.id, toDraftPoi(row, typed));
   }
   return [...found.values()];
 }
