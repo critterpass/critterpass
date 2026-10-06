@@ -214,24 +214,49 @@ export async function runAttempt<Data>(
   }
 }
 
-/** Starts consuming `def.queue` on `boss`; resolves once the worker is registered. */
-export function workJob<Data>(
+/**
+ * Starts consuming `def.queue` on `boss` with `def.concurrency` workers; resolves with their ids once
+ * every worker is registered.
+ *
+ * pg-boss waits out the poll interval after every fetch, even one that returned a job, and its
+ * backlog trigger (`burstWhenReadyExceeds`) reads queue stats cached for a minute while
+ * `burstWhenBatchFull` is off at a batch size of one. On a notify-enabled queue that interval is the
+ * 30 s NOTIFY backstop, so a backlog drained one job per worker every 30 s. Each worker here is its
+ * own `work` registration, and a worker that just ran a job wakes itself, which pg-boss honours by
+ * fetching again at once: a backlog drains back to back, and the first empty fetch returns the worker
+ * to normal polling. Concurrency stays one job per worker, queue policies stay on the fetch, and any
+ * pacing a queue needs lives in its handler (shared slot reservations, call budgets, `startAfter`).
+ */
+export async function workJob<Data>(
   boss: PgBoss,
   def: JobDefinition<Data>,
   deps: WorkerDeps,
   report: JobFailureReport,
-): Promise<string> {
+): Promise<readonly string[]> {
   const options = {
     batchSize: 1,
     includeMetadata: true,
     perJobResults: true,
-    localConcurrency: def.concurrency ?? 1,
+    localConcurrency: 1,
     pollingIntervalSeconds: def.pollingIntervalSeconds ?? 2,
     ...(def.pollingIntervalSeconds === undefined
       ? {}
       : { notifyPollingIntervalSeconds: def.pollingIntervalSeconds }),
   } as const satisfies WorkOptions;
-  return boss.work<unknown, unknown, typeof options>(def.queue, options, async (jobs) =>
-    Promise.all(jobs.map((job) => runAttempt(def, job, deps, report))),
-  );
+  const workerIds: string[] = [];
+  for (let slot = 0; slot < (def.concurrency ?? 1); slot += 1) {
+    const workerId = await boss.work<unknown, unknown, typeof options>(
+      def.queue,
+      options,
+      async (jobs) => {
+        const results = await Promise.all(jobs.map((job) => runAttempt(def, job, deps, report)));
+        // Unset only for a job fetched before `work` resolved; that worker then polls as usual once.
+        const self = workerIds[slot];
+        if (self !== undefined) boss.notifyWorker(self);
+        return results;
+      },
+    );
+    workerIds.push(workerId);
+  }
+  return workerIds;
 }
