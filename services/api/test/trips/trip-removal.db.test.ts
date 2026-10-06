@@ -6,11 +6,14 @@
  * leaving is a decline that queues the dropout re-split, and an organiser may not leave.
  */
 import { onEventAppended, withSystem } from '@cp/db';
+import type { PgBoss } from 'pg-boss';
+import pino from 'pino';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { onTripChanged } from '../../src/billing/boost-lifecycle';
 import { billingTripHook } from '../../src/billing/trip-hooks';
 import { registerTripLifecycleCommands } from '../../src/commands/trips/lifecycle';
+import { startJobProducer } from '../../src/jobs/producer';
 import { runCommand } from '../location/location-fixture';
 import {
   startCommandDoors,
@@ -21,6 +24,7 @@ import {
 const PATH = ['won', 'setup', 'drafting', 'draft_review', 'proposed', 'confirmed', 'pre_trip'];
 
 let harness: CommandDoorsHarness;
+let boss: PgBoss;
 let organiser: SignedIn;
 let member: SignedIn;
 let crewId: string;
@@ -68,6 +72,12 @@ async function boost(tripId: string): Promise<void> {
 
 beforeAll(async () => {
   harness = await startCommandDoors(registerTripLifecycleCommands);
+  // The queues the commands and the billing hook send to, as the api creates them at boot.
+  boss = await startJobProducer({
+    connectionString: (harness.pool.options as { connectionString: string }).connectionString,
+    logger: pino({ level: 'silent' }),
+    startAttempts: 5,
+  });
   onEventAppended(billingTripHook);
   [organiser, member] = await Promise.all([
     harness.signInAnonymously(),
@@ -86,6 +96,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
+  await boss?.stop({ graceful: false });
   await harness?.stop();
 });
 
