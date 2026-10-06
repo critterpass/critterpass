@@ -27,6 +27,7 @@ import { Halftone } from '@/ui/textures/halftone';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { GuideFacts } from '../format';
+import type { HeroChip } from '../guide-copy';
 import { SaveButton } from './save-button';
 
 const GHOST_SIZE = 132;
@@ -76,7 +77,7 @@ export interface DestHeroProps {
   /** Drawn where SAVE sits (inside a trip: the crew's saved count). */
   readonly trailing?: ReactNode;
   /** Already worded facts, in display order. */
-  readonly chips: readonly string[];
+  readonly chips: readonly HeroChip[];
   readonly photo: MediaAsset | null;
   /**
    * `ghost`: the paper silhouette; `seated` (the default): the guide's own sticker.
@@ -177,7 +178,9 @@ export function DestHero(props: DestHeroProps) {
           {props.chips.length === 0 ? null : (
             <View style={styles.chips} testID="explore-hero-facts">
               {props.chips.map((chip) => (
-                <InfoPill key={chip}>{upper(chip, i18n.locale)}</InfoPill>
+                <InfoPill key={chip.text} nowrap={chip.nowrap}>
+                  {upper(chip.text, i18n.locale)}
+                </InfoPill>
               ))}
             </View>
           )}
