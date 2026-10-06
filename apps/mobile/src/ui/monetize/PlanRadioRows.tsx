@@ -31,6 +31,9 @@ export interface PlanRadioRowsProps {
   readonly testID?: string;
 }
 
+/** The price is a small figure beside the title (4b-3), in the accent on the chosen row. */
+const PRICE_SIZE = 20;
+
 const useStyles = makeStyles((th) => ({
   row: {
     backgroundColor: th.semantic.bg.raised,
@@ -88,7 +91,9 @@ export function PlanRadioRows({
                 {option.detail ? <SecondaryText>{option.detail}</SecondaryText> : null}
               </Stack>
               {checked ? option.badge : null}
-              <Text variant="h2">{option.price}</Text>
+              <Text variant="h3" designSize={PRICE_SIZE} {...(checked ? { color: accent } : {})}>
+                {option.price}
+              </Text>
             </Row>
           </PressScale>
         );

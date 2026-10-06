@@ -13,10 +13,12 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { PlanRadioRows, type PlanOption } from '@/ui/monetize/PlanRadioRows';
 import { AvatarStack } from '@/ui/people/AvatarStack';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { Disclosure, usePhaseLine } from '../paywall/purchase-copy';
+import { useClosedCopy } from './closed-copy';
 import type { BoostModel, BoostOption, SeatedMember, WhoPays } from './boost-model';
 
 export interface BoostViewProps {
@@ -36,6 +38,9 @@ export interface BoostViewProps {
   readonly onTerms: () => void;
   readonly onPrivacy: () => void;
 }
+
+/** The sticker beside the title, as 4b-3 draws it. */
+const STICKER = 60;
 
 const useStyles = makeStyles((t) => ({
   after: {
@@ -61,51 +66,15 @@ export function BoostView(props: BoostViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const phaseLine = usePhaseLine();
+  const closedCopy = useClosedCopy();
   const { model, destination, crew } = props;
   const { phase, offer, tripOffer, yearOffer } = model;
   const count = model.memberUids.length;
   const each = model.eachShare ?? '';
-  const lockedBy = model.lockedBy ?? '';
   const until = props.windowEnd ?? '';
   const busy = phase === 'purchasing' || phase === 'verifying';
 
-  const closed =
-    phase === 'boosted'
-      ? {
-          title: t({ id: 'monetize.boost.boosted', message: 'This trip is already boosted' }),
-          line: t({
-            id: 'monetize.boost.boostedLine',
-            message: 'Unlimited redrafts, the live map and crews of 16 are on for everyone.',
-          }),
-        }
-      : phase === 'ended'
-        ? {
-            title: t({ id: 'monetize.boost.ended', message: 'This trip is over' }),
-            line: t({
-              id: 'monetize.boost.endedLine',
-              message: 'A boost only runs during a trip, so there is nothing to buy here.',
-            }),
-          }
-        : phase === 'locked'
-          ? {
-              title:
-                lockedBy === ''
-                  ? t({ id: 'monetize.boost.locked', message: 'Someone is boosting this now' })
-                  : t({
-                      id: 'monetize.boost.lockedBy',
-                      message: `${lockedBy} is boosting this now`,
-                    }),
-              line: t({
-                id: 'monetize.boost.lockedLine',
-                message: 'Only one of you can pay at a time. Check back in a few minutes.',
-              }),
-            }
-          : phase === 'done'
-            ? {
-                title: t({ id: 'monetize.boost.done', message: 'Boosted' }),
-                line: t({ id: 'monetize.boost.doneLine', message: 'It’s on for the whole crew.' }),
-              }
-            : null;
+  const closed = closedCopy(phase, model.lockedBy ?? '');
 
   const options: PlanOption[] = [];
   if (tripOffer) {
@@ -150,14 +119,17 @@ export function BoostView(props: BoostViewProps) {
 
   return (
     <Stack gap="16" testID="boost">
-      <Stack gap="4">
-        <Text variant="eyebrow" color={theme.color.pink}>
-          {props.dates === '' ? crew : `${crew} · ${props.dates}`}
-        </Text>
-        <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'monetize.boost.title', message: `Boost ${destination}` })}
-        </Text>
-      </Stack>
+      <Row gap="12" align="center">
+        <Stack gap="4" flex={1}>
+          <Text variant="eyebrow" color={theme.color.pink}>
+            {props.dates === '' ? crew : `${crew} · ${props.dates}`}
+          </Text>
+          <Text variant="h1" accessibilityRole="header">
+            {t({ id: 'monetize.boost.title', message: `Boost ${destination}` })}
+          </Text>
+        </Stack>
+        <Sticker kind="tanuki" name="Pon" size={STICKER} />
+      </Row>
       {closed !== null ? (
         <View style={styles.state} testID={`boost-state-${phase}`}>
           <Text variant="h3">{closed.title}</Text>
@@ -222,10 +194,15 @@ export function BoostView(props: BoostViewProps) {
                           id: 'monetize.boost.splitLine',
                           message: `It splits ${count} ways and each share goes into Balances, like any shared expense.`,
                         })
-                      : t({
-                          id: 'monetize.boost.splitLineEach',
-                          message: `About ${each} each goes into Balances, like any shared expense. Settle it with the rest of the trip.`,
-                        })}
+                      : model.eachShareExact
+                        ? t({
+                            id: 'monetize.boost.splitLineExact',
+                            message: `${each} each goes into Balances, like any shared expense. Settle it with the rest of the trip.`,
+                          })
+                        : t({
+                            id: 'monetize.boost.splitLineEach',
+                            message: `About ${each} each goes into Balances, like any shared expense. Settle it with the rest of the trip.`,
+                          })}
                   </Text>
                 </Row>
               ) : null}

@@ -67,6 +67,24 @@ describe('boostModel', () => {
     expect(split.memberUids[0]).toBe('a');
     // 1199 / 7 = 171.28…: each owes 1.71 and the buyer keeps the remainder.
     expect(split.eachShare).toBe('$1.71');
+    expect(split.eachShareExact).toBe(false);
+  });
+
+  it('shows a share of whole units without decimals, exact when the price divides evenly', () => {
+    const even = model({
+      whoPays: 'split',
+      seated: SEATED.slice(0, 6),
+      products: { status: 'ready', offers: { boost_trip: offer('boost_trip', 12) } },
+    });
+    expect(even.eachShare).toBe('$2');
+    expect(even.eachShareExact).toBe(true);
+    // 1405 / 7 = 200.71…: each owes a whole 2 and the buyer keeps the remainder.
+    const floored = model({
+      whoPays: 'split',
+      products: { status: 'ready', offers: { boost_trip: offer('boost_trip', 14.05) } },
+    });
+    expect(floored.eachShare).toBe('$2');
+    expect(floored.eachShareExact).toBe(false);
   });
 
   it('has nothing to split on a trip for one, and no yearly crew boost', () => {
@@ -170,7 +188,7 @@ describe('boostModel', () => {
 describe('sharePreview', () => {
   it('uses the currency of the store price, whole units for a currency without cents', () => {
     const yen = offer('boost_trip', 1800, 'JPY');
-    expect(sharePreview(yen, 'a', ['a', 'b', 'c', 'd', 'e', 'f', 'g'], 'en-US')).toBe('¥257');
+    expect(sharePreview(yen, 'a', ['a', 'b', 'c', 'd', 'e', 'f', 'g'], 'en-US')?.text).toBe('¥257');
   });
 
   it('has no share to show when the buyer is alone or not among the members', () => {
