@@ -1,5 +1,5 @@
 /**
- * One traveller: profile and account (ban/unban), sessions, devices, entitlements and support
+ * One traveller: the header card (facts, revoke all sessions, ban/unban), entitlements and support
  * grants, their command trace, then every `userPanels` slot other modules register (deletion
  * status, feedback, ...). Each fix opens the reason dialog and runs one audited command.
  */
@@ -9,7 +9,6 @@ import { Link, useParams } from '@tanstack/react-router';
 import { useState } from 'react';
 
 import { ADMIN_MODULES } from '../../app/modules';
-import { PageHeader } from '../../app/shell';
 import { visibleModules } from '../../kit/registry';
 import { ErrorState, LoadingState } from '../../kit/states';
 import { POLL_MS } from '../../kit/table';
@@ -17,7 +16,8 @@ import { getJson } from '../../lib/api';
 import { useOperator } from '../../lib/session';
 import { ActionDialog, type SupportAction } from './action-dialog';
 import { CommandTrace } from './command-trace';
-import { AccountPanel, DevicesPanel, EntitlementsPanel, SessionsPanel } from './panels';
+import { AccountPanel } from './account-panel';
+import { DevicesPanel, EntitlementsPanel, SessionsPanel } from './panels';
 import type { OpenAction } from './use-user-command';
 
 function Detail({ user, open }: { user: SupportUser; open: OpenAction }) {
@@ -27,24 +27,28 @@ function Detail({ user, open }: { user: SupportUser; open: OpenAction }) {
   );
   return (
     <div className="stack">
+      <AccountPanel user={user} open={open} />
       <div className="split">
-        <AccountPanel user={user} open={open} />
-        <EntitlementsPanel user={user} open={open} />
+        <div className="stack">
+          <EntitlementsPanel user={user} open={open} />
+          {panels.map((panel) => (
+            <section key={panel.id} className="card stack" aria-label={panel.label}>
+              <div className="section-label">{panel.label}</div>
+              <panel.component uid={user.profile.uid} />
+            </section>
+          ))}
+        </div>
+        <div className="stack">
+          <SessionsPanel user={user} open={open} />
+          <DevicesPanel user={user} open={open} />
+          <section className="card panel" aria-label="Commands">
+            <div className="card-head">
+              <span className="section-label">Command trace</span>
+            </div>
+            <CommandTrace query={`uid=${user.profile.uid}`} />
+          </section>
+        </div>
       </div>
-      <div className="split">
-        <SessionsPanel user={user} open={open} />
-        <DevicesPanel user={user} open={open} />
-      </div>
-      <section className="card stack" aria-label="Commands">
-        <h2 className="section-title">Recent commands</h2>
-        <CommandTrace query={`uid=${user.profile.uid}`} />
-      </section>
-      {panels.map((panel) => (
-        <section key={panel.id} className="card stack" aria-label={panel.label}>
-          <h2 className="section-title">{panel.label}</h2>
-          <panel.component uid={user.profile.uid} />
-        </section>
-      ))}
     </div>
   );
 }
@@ -58,18 +62,14 @@ export function SupportUserPage() {
     queryFn: () => getJson(`/v1/admin/users/${uid}`, supportUserSchema),
     refetchInterval: POLL_MS,
   });
-  const title = user.data?.profile.display_name ?? user.data?.profile.username ?? 'Traveller';
   return (
     <div className="stack">
-      <PageHeader
-        title={title}
-        subtitle={uid}
-        actions={
-          <Link to="/support" className="btn">
-            Back to search
-          </Link>
-        }
-      />
+      <div className="row" style={{ justifyContent: 'space-between' }}>
+        <span className="page-eyebrow">People · Support</span>
+        <Link to="/support" className="btn btn-ghost">
+          Back to search
+        </Link>
+      </div>
       {user.isPending ? (
         <LoadingState />
       ) : user.isError ? (

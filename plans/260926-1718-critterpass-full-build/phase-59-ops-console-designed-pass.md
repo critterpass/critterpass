@@ -1,7 +1,7 @@
 ---
 phase: 59
 title: Ops console designed pass
-status: in-progress
+status: done
 depends_on: [18, 19, 35, 44, 45, 46, 47, 52, 55, 56, 58]
 wave: 23
 features: [F-025]
@@ -100,7 +100,7 @@ Done when: every Ops render has a matching screen (screenshot beside the render 
 - Files: `apps/admin/src/kit/**`, `apps/admin/src/modules/incidents/**`, `packages/domain/src/admin/incidents.ts`, `services/api/src/admin/incidents.ts`, migration (incidents), tests.
 - Tests: `pnpm --filter @cp/api test -- admin/incidents && pnpm --filter @cp/admin exec playwright test states.spec.ts`
 - Done when: every panel of `Ops-States.png` has a kit story + screenshot; a read-only maintenance window refuses a flag change with `STATE_INVALID {reason: 'maintenance'}` and the CLI still works.
-- Status: done — c80b20a8a1 (the stale-save state takes who and when; `VERSION_CONFLICT` details do not carry `updated_by`/`updated_at` yet)
+- Status: done — c80b20a8a1; `VERSION_CONFLICT` details carry `updated_by`/`updated_at` — 10c9af7f3c
 
 ### T3 — Home and My work
 - Files: `apps/admin/src/modules/{home,work}/**`, `services/api/src/admin/home.ts`, tests.
@@ -112,7 +112,7 @@ Done when: every Ops render has a matching screen (screenshot beside the render 
 - Files: `apps/admin/src/modules/{moderation,desk,support}/**`, tests.
 - Tests: `pnpm --filter @cp/admin exec playwright test moderation.spec.ts desk.spec.ts support.spec.ts`
 - Done when: screenshots match s04/s05/s07 with seeded data for each kind the owning phases registered; `revoke_all_sessions` ends app sessions only.
-- Status: blocked — the three panels take the console theme only; `revoke_all_sessions` needs `accounts.ts`/`support.ts` (outside owns) and the per-render restyle of moderation, desk and support is not done
+- Status: done — d6e036e8bd (per-filing notes, audience size and session location are not in the api, so they are not shown)
 
 ### T5 — Catalogue, Flags, Partners deltas
 - Files: `apps/admin/src/modules/{catalogue,flags,partners}/**`, `services/api/src/admin/{catalogue,partners}.ts`, migration (`ops.partner_adapters.certified_at`), tests.
@@ -130,7 +130,7 @@ Done when: every Ops render has a matching screen (screenshot beside the render 
 - Files: `packages/domain/src/admin/services-registry.ts`, `packages/db/src/schema/ops-services.ts`, migration (health + spend), `services/worker/src/jobs/ops/{service-health,vendor-usage}.ts`, `services/api/src/admin/services.ts`, `apps/admin/src/modules/services/**`, tests.
 - Tests: `pnpm --filter @cp/db test:db -- permissions/ops-incidents-services && pnpm --filter @cp/worker test -- service-health && pnpm --filter @cp/api test -- admin/services`
 - Done when: a vendor client error burst flips its row to DEGRADED within two ticks and back when healthy; AI tier and route spend match `ai_usage` sums; a vendor without data shows `unknown`, never a made-up value.
-- Status: blocked — read, registry, tables, spend and owner cost entry done (2b22a0b5bf); the worker health collector and vendor usage poller are not built, so every service reads `unknown` until they are
+- Status: done — 2b22a0b5bf, 56c96966c7 (health collector and usage poller; a service needs its worker variable or real calls before it leaves `unknown`)
 
 ### T8 — Phone check-ins
 - Files: `apps/admin/src/phone/**`, responsive rules in `apps/admin/src/app/styles.css`, tests.
