@@ -48,8 +48,10 @@ const insertPlace = async (
   values: { curation?: string; pickRank?: number; status?: string } = {},
 ): Promise<string> => {
   const rows = await system<{ id: string }>(
-    `INSERT INTO pois (destination_id, name, category, lat, lng, status, curation, pick_rank)
-     VALUES ($1, $2, 'other', 16.05, 108.2, $3, $4, $5) RETURNING id`,
+    `INSERT INTO pois (destination_id, name, category, lat, lng, status, curation, pick_rank,
+                       pick_source)
+     VALUES ($1, $2, 'other', 16.05, 108.2, $3, $4, $5::integer,
+             CASE WHEN $5::integer IS NOT NULL THEN 'fill' END) RETURNING id`,
     [
       destinationId,
       name,
@@ -93,7 +95,10 @@ describe('place_cards trigger', () => {
 
   it('follows a change to the place and ignores a change to columns the card does not carry', async () => {
     const id = await insertPlace('Before rename', { curation: 'editorial' });
-    await system("UPDATE pois SET name = 'After rename', pick_rank = 3 WHERE id = $1", [id]);
+    await system(
+      "UPDATE pois SET name = 'After rename', pick_rank = 3, pick_source = 'fill' WHERE id = $1",
+      [id],
+    );
     expect(await card(id)).toEqual(await placeAsCard(id));
     expect((await card(id))?.['name']).toBe('After rename');
 
@@ -111,7 +116,7 @@ describe('place_cards trigger', () => {
 
   it.each([
     ['hidden', "UPDATE pois SET status = 'hidden' WHERE id = $1"],
-    ['unpicked', 'UPDATE pois SET pick_rank = NULL WHERE id = $1'],
+    ['unpicked', 'UPDATE pois SET pick_rank = NULL, pick_source = NULL WHERE id = $1'],
     ['merged', 'UPDATE pois SET merged_into_id = $2 WHERE id = $1'],
     ['deleted', 'DELETE FROM pois WHERE id = $1'],
   ])('drops the card of a place %s', async (how, sql) => {
