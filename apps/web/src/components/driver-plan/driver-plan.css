@@ -200,6 +200,7 @@
 }
 .dp-form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
 .dp-card {
@@ -250,7 +251,7 @@
 }
 .dp-move-row {
   display: grid;
-  grid-template-columns: 118px 1fr auto auto;
+  grid-template-columns: 112px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
   padding: 8px 0;
