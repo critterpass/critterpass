@@ -11,12 +11,14 @@ import {
   LA_COPY,
   LA_LEAVE_BY_LEAD_MS,
   leaveByLaTrailMs,
+  toLocalWallTime,
   type LeaveByLaInput,
   type LeaveByState,
   type ReadinessState,
 } from '@cp/domain';
 import { arriveEarlyMinutes } from '@cp/planner';
 
+import { dayGuide } from '../quests/day-context';
 import { clockIn, ROUTINE, type LaLoader } from './snapshot';
 
 interface LeaveByRow {
@@ -31,7 +33,6 @@ interface LeaveByRow {
   pickup: { place?: string | null } | null;
   guide_note: string | null;
   participant_ids: string[];
-  guide: string | null;
   starts_at: Date;
   leg_kind: string | null;
   category: string | null;
@@ -44,8 +45,7 @@ const LINGER_MS = 15 * 60_000;
 export const leaveByLoader: LaLoader = async ({ tx, refId, now, render, redact = false }) => {
   const { rows } = await tx.query<LeaveByRow>(
     `SELECT l.id, l.trip_id, l.title, l.place_name, l.leave_at, l.tz, l.state, l.legs, l.pickup,
-            l.guide_note, (SELECT g.slug FROM trips t JOIN guides g ON g.id = t.guide_id
-                            WHERE t.id = l.trip_id) AS guide,
+            l.guide_note,
             l.starts_at, l.legs->0->>'kind' AS leg_kind, i.category,
             (SELECT s.dep_airport::text FROM flight_segments s
               WHERE s.booking_id = i.booking_id AND s.sched_dep_at = l.starts_at
@@ -64,6 +64,8 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render, redact =
     [refId],
   );
   const stateOf = new Map(readiness.rows.map((r) => [r.user_id, r.state]));
+  // The guide of the day the leave-by's stop is on: a later stop of the trip has its own.
+  const guide = await dayGuide(tx, row.trip_id, toLocalWallTime(row.starts_at, row.tz).date);
   // No travel leg: nothing says where the crew sets off from, so no trip is counted and the
   // activity shows where to be and by when (the departure airport and check-in time for a flight,
   // the place and the start otherwise), as the leave-by's pushes do.
@@ -99,7 +101,7 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render, redact =
     })),
     guideLine: row.guide_note ?? '',
     labels,
-    guide: row.guide,
+    guide: guide?.slug ?? null,
   });
   const shared = input({ stay, pickup });
   const leave = leaveAt.getTime();

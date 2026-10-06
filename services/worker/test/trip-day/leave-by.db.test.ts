@@ -4,10 +4,17 @@
  * nothing changed changes nothing, a moved pickup re-arms each timer exactly once, a vanished item
  * is cancelled, and the timers fire the remote alarm copy for unconfirmed sleepers and one crew
  * knock at T0.
+ *
+ * On a trip with two stops, where guides go by city, the leave-by, the quests and the briefing of
+ * a later stop's day are in that stop's guide's voice; the first stop's days, a one-stop trip and
+ * every trip while guides do not go by city keep the trip's own guide.
  */
+import { withSystem } from '@cp/db';
 import { toLocalWallTime } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { leaveByLoader } from '../../src/jobs/la/leave-by';
+import { dayGuide, questTrip } from '../../src/jobs/quests/day-context';
 import { recomputeLeaveBys } from '../../src/jobs/trip-day/leaveby-recompute';
 import { runLeaveByTimer } from '../../src/jobs/trip-day/leaveby-schedule';
 import {
@@ -196,5 +203,85 @@ describe('leaveby.schedule', () => {
       knocks.find((knock) => knock.payload.user_id === world.members[alex])?.payload.reason,
     ).toBe('snooze');
     expect((await leaveBys())[0]!.state).toBe('departed');
+  });
+});
+
+describe("the day's guide on a trip with two stops", () => {
+  // The trip runs 12 to 19 October: two nights at the first stop, then five at the second.
+  const FIRST_STOP_DAY = '2026-10-13';
+  const SECOND_STOP_DAY = '2026-10-15';
+
+  const perCity = (on: boolean) =>
+    world.q(
+      `INSERT INTO ops.ops_config (key, value, is_public) VALUES ('guides.per_city', $1::jsonb, false)
+       ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
+      [JSON.stringify(on)],
+    );
+
+  /** The guide of each day, of the quests of the later day, and on a leave-by of that day. */
+  const guides = () =>
+    withSystem(world.harness.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `SELECT id FROM leave_bys
+          WHERE trip_id = $1 AND (starts_at AT TIME ZONE tz)::date = $2::date LIMIT 1`,
+        [world.tripId, SECOND_STOP_DAY],
+      );
+      const snapshot = await leaveByLoader({
+        tx,
+        refId: rows[0]?.id ?? '',
+        now: NOW,
+        render: () => Promise.resolve(''),
+      });
+      const attributes = (await snapshot?.attributes('en')) as { guide?: string } | undefined;
+      return {
+        firstStop: (await dayGuide(tx, world.tripId, FIRST_STOP_DAY))?.slug,
+        secondStop: (await dayGuide(tx, world.tripId, SECOND_STOP_DAY))?.slug,
+        quests: (await questTrip(tx, world.tripId, SECOND_STOP_DAY))?.guide_slug,
+        leaveBy: attributes?.guide,
+      };
+    });
+
+  beforeAll(async () => {
+    await recomputeLeaveBys(world.harness.pool, world.tripId, router, NOW);
+    const [own] = await world.q<{ id: string }>(
+      "INSERT INTO guides (slug, name, colour) VALUES ('chava', 'Chà Vá', 'orange') RETURNING id",
+    );
+    await world.q(
+      `INSERT INTO guides (slug, name, colour, accent, critter_key)
+       VALUES ('ngua', 'Ngựa', 'pink', '#ff8fbf', 'cp-006')`,
+    );
+    const [next] = await world.q<{ id: string }>(
+      `INSERT INTO destinations (slug, name, country, coverage, currency, tz, critter_key)
+       VALUES ('ubud-two-stops', 'Ubud', 'ID', 'guest', 'IDR', $1, 'cp-006') RETURNING id`,
+      [TRIP_TZ],
+    );
+    await world.q('UPDATE trips SET guide_id = $2 WHERE id = $1', [world.tripId, own!.id]);
+    await world.q(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       SELECT t.id, t.crew_id, s.position, s.destination_id, s.nights
+         FROM trips t,
+              (VALUES (1, t.destination_id, 2), (2, $2::uuid, 5)) AS s(position, destination_id, nights)
+        WHERE t.id = $1`,
+      [world.tripId, next!.id],
+    );
+  }, 120_000);
+
+  it("gives a later stop's day its own guide where guides go by city", async () => {
+    await perCity(true);
+    expect(await guides()).toEqual({
+      firstStop: 'chava',
+      secondStop: 'ngua',
+      quests: 'ngua',
+      leaveBy: 'ngua',
+    });
+  });
+
+  it("keeps the trip's guide while guides do not go by city, and on a one-stop trip", async () => {
+    const own = { firstStop: 'chava', secondStop: 'chava', quests: 'chava', leaveBy: 'chava' };
+    await perCity(false);
+    expect(await guides()).toEqual(own);
+    await perCity(true);
+    await world.q('DELETE FROM trip_stops WHERE trip_id = $1', [world.tripId]);
+    expect(await guides()).toEqual(own);
   });
 });
