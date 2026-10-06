@@ -5,12 +5,13 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and command names, never copy. */
 import { generateUuidV7, type RecordRatingPromptPayload } from '@cp/domain';
+import { requireOptionalNativeModule } from 'expo';
 import { useEffect } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { requestStoreReview } from '@/lib/store-review';
+import type * as StoreReviewModule from '@/lib/store-review';
 
 import { arbitrateRecapEnd, type RatingRows } from './rating-prompt';
 
@@ -18,6 +19,14 @@ export const recordRatingPromptCommand = defineClientCommand<RecordRatingPromptP
   name: 'record_rating_prompt',
   offline: true,
 });
+
+/** Asks the store; false on a binary without the review module, which is loaded only when present. */
+async function askStore(): Promise<boolean> {
+  if (requireOptionalNativeModule('ExpoStoreReview') === null) return false;
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- guarded native-module load
+  const review = require('@/lib/store-review') as typeof StoreReviewModule;
+  return review.requestStoreReview();
+}
 
 /** Long enough for the recap page to land after the story, short enough to still be the moment. */
 const SETTLE_MS = 1200;
@@ -58,7 +67,7 @@ export function RecapEndArbiter({ recapId }: { readonly recapId: string }) {
         { ftfEnding: false, rateTripDue: false },
         {
           rows,
-          ask: requestStoreReview,
+          ask: askStore,
           record: (asked) =>
             commands.send(recordRatingPromptCommand, {
               id: generateUuidV7(),
