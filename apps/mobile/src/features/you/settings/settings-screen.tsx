@@ -128,6 +128,7 @@ export function SettingsScreen({
       onMapsApp: setMapsApp,
       onLanguage: () => router.push(YOU_ROUTES.language),
       onAppIcon: () => router.push(YOU_ROUTES.appIcon),
+      onWidgets: () => router.push(YOU_ROUTES.widgets),
       onShakeToReport: setShakeToReport,
       onSignOut: () => router.push(YOU_ROUTES.signOut),
       onRate: reviewUrl === null ? null : () => void Linking.openURL(reviewUrl),

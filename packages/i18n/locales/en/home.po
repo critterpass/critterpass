@@ -133,6 +133,18 @@ msgstr "{spoken} to {place}"
 msgid "home.inbox.nudge.payment"
 msgstr "A settle-up is waiting for you."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.add"
+msgstr "Add {title}"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.addAnother"
+msgstr "Add another {title}"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.title"
+msgstr "Add it from your home screen"
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.all"
 msgstr "All"
@@ -145,6 +157,15 @@ msgstr "All caught up"
 msgid "home.firstRun.searchBody"
 msgstr "Any city or region. A guide comes along wherever you go."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.balances"
+msgstr "Balances"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.tier.boost"
+msgstr "Boost"
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.nearHome"
 msgstr "Close to home"
@@ -153,9 +174,24 @@ msgstr "Close to home"
 msgid "home.joinTrip.failed"
 msgstr "Couldn’t join the trip. Try again."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.countdown"
+msgstr "Countdown"
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.crew"
 msgstr "Crew"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.crew"
+msgstr "Crew, live"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.critterdex"
+msgstr "Critterdex"
 
 #: ../../apps/mobile/src/features/home/countdown-chip.tsx
 msgid "home.countdown.dayLetter"
@@ -181,9 +217,17 @@ msgstr "Earlier"
 msgid "home.explore.title"
 msgstr "Explore"
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.android.pick"
+msgstr "Find CritterPass and drag {widget} into place."
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.fixShippedVersion"
 msgstr "Fixed in {version}: what you reported. Thanks for telling us."
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.tier.free"
+msgstr "Free"
 
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.guides"
@@ -221,6 +265,10 @@ msgstr "Join with a code"
 msgid "home.joinTrip.offline"
 msgstr "Joining needs a connection. Try again when you’re online."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.todayLine"
+msgstr "Large · the day’s plan and weather"
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.last"
 msgstr "Last trip · {last}"
@@ -249,9 +297,18 @@ msgstr "Marked read."
 msgid "home.inbox.markedRead"
 msgstr "Marked read. The {stillNeedYou} on top still need you."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.voteLine"
+msgstr "Medium · tap to vote"
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.needsYou"
 msgstr "Needs you · {needsYou}"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.nextFlight"
+msgstr "Next flight"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.eyebrowUndated"
@@ -313,6 +370,10 @@ msgstr "Nothing on the calendar yet. Pitch a place and I'll get the vote going."
 msgid "home.today.open"
 msgstr "Open today"
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.tier.passPlus"
+msgstr "Pass+"
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr "Pitch a place"
@@ -324,6 +385,10 @@ msgstr "plan {progress} percent done"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr "Plan {progress}%"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.intro"
+msgstr "Put the trip on your home screen. Tokek keeps them up to date, even offline."
 
 #: ../../apps/mobile/src/features/home/offline-line.tsx
 msgid "home.offline.ready"
@@ -341,6 +406,10 @@ msgstr "Search a place"
 msgid "home.firstRun.body"
 msgstr "Search a place or pick a guide to start a trip. Your crew can vote on it later."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.ios.pick"
+msgstr "Search CritterPass and pick {widget}."
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.open"
 msgstr "See the change"
@@ -349,6 +418,10 @@ msgstr "See the change"
 msgid "home.postTrip.open"
 msgstr "See the recap"
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.back"
+msgstr "Settings"
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.filters"
 msgstr "Show"
@@ -356,6 +429,26 @@ msgstr "Show"
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.more"
 msgstr "Show older"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.nextFlightLine"
+msgstr "Small · gate, seat, boarding time"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.countdownLine"
+msgstr "Small · home and lock screen"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.critterdexLine"
+msgstr "Small · the critters you’ve met"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.balancesLine"
+msgstr "Small · who owes who, and a nudge"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.crewLine"
+msgstr "Small or medium · everyone near the meet-up"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.inviteOpened"
@@ -401,6 +494,14 @@ msgstr "Still downloading today's files"
 msgid "home.inbox.nudge.open"
 msgstr "Take a look"
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.ios.edit"
+msgstr "Tap Edit, then Add Widget."
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.android.widgets"
+msgstr "Tap Widgets."
+
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refused"
 msgstr "That didn't go through"
@@ -437,6 +538,11 @@ msgstr "The plan now has {change}"
 msgid "home.joinTrip.full"
 msgstr "The trip is full. You’re number {position} in line for a seat."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.vote"
+msgstr "The vote"
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.ranOut"
 msgstr "The vote ran out. The plan stays as it was."
@@ -457,6 +563,11 @@ msgstr "They're saving you a spot."
 msgid "home.inbox.closed"
 msgstr "This one has closed."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.today"
+msgstr "Today"
+
 #: ../../apps/mobile/src/features/home/countdown-chip.tsx
 msgid "home.countdown.today"
 msgstr "Today"
@@ -464,6 +575,14 @@ msgstr "Today"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.inTrip.eyebrowOf"
 msgstr "Today · Day {dayNo} of {dayCount}"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.ios.hold"
+msgstr "Touch and hold an empty spot on your home screen."
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.android.hold"
+msgstr "Touch and hold an empty spot on your home screen."
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"
@@ -501,6 +620,10 @@ msgstr "Welcome, {0}"
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.title"
 msgstr "Where to first?"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.title"
+msgstr "Widgets"
 
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.tooSoon"

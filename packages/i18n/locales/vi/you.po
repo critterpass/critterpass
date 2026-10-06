@@ -1238,6 +1238,10 @@ msgstr ""
 msgid "you.sound.stickersLine"
 msgstr "Tiếng dán, tiếng đóng dấu, tiếng bóc"
 
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.widgetsLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
 msgid "you.profile.retakeTitle"
 msgstr "Cái này hay cái kia"
@@ -1355,6 +1359,10 @@ msgstr "Khi nào"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.why"
 msgstr "Vì sao bạn rời đi? Không bắt buộc"
+
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.widgets"
+msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.cooldown"
