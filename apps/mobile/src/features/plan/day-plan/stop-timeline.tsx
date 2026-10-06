@@ -21,7 +21,8 @@ import { tokens } from '@cp/design-tokens';
 
 import { isPhysicalSpring, springConfig } from '@/motion/easing';
 import { impact } from '@/motion/feedback';
-import { makeStyles } from '@/ui/theme';
+import { Text } from '@/ui/text/Text';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { DayItem } from '@/data/plan/plan-model';
 
@@ -33,7 +34,23 @@ const spring = isPhysicalSpring(tokens.motion.spring.snappy)
   ? springConfig(tokens.motion.spring.snappy)
   : undefined;
 
-const useStyles = makeStyles((t) => ({ list: { gap: t.space['4'] } }));
+const useStyles = makeStyles((t) => ({
+  list: { gap: t.space['4'] },
+  travel: { paddingVertical: t.space['8'], paddingHorizontal: t.space['4'] },
+}));
+
+/** The link between the stay's city and the day's area, as a quiet line at an edge of the day. */
+export function TravelEdge({ line, testID }: { readonly line: string; readonly testID: string }) {
+  const styles = useStyles();
+  const theme = useTheme();
+  return (
+    <View style={styles.travel} testID={testID}>
+      <Text variant="bodySm" color={theme.semantic.text.secondary}>
+        {line}
+      </Text>
+    </View>
+  );
+}
 
 export interface TimelineDrag {
   /** True when the stop may be lifted; false refuses (the caller says why). */
@@ -231,6 +248,7 @@ export function StopTimeline({
   drag,
   stay,
   mine,
+  travel,
 }: {
   readonly rows: readonly StopRow[];
   readonly context: StopListContext;
@@ -239,6 +257,8 @@ export function StopTimeline({
   readonly stay?: StayRows | undefined;
   /** The stops only I have on the day, listed under the crew's. */
   readonly mine?: readonly { readonly time: string; readonly stop: DayItem }[] | undefined;
+  /** A day trip's way there and back ("about 3 h 30 by train each way"): opens and ends the day. */
+  readonly travel?: string | undefined;
 }) {
   const styles = useStyles();
   const shared = useShared();
@@ -252,6 +272,7 @@ export function StopTimeline({
   }, [order]);
   return (
     <View style={styles.list} testID="day-plan-timeline">
+      {travel === undefined ? null : <TravelEdge line={travel} testID="day-plan-travel-out" />}
       {stay?.leave == null ? null : <StayEdge kind="leave" edge={stay.leave} />}
       {rows.map((row, index) => (
         <Block
@@ -265,6 +286,7 @@ export function StopTimeline({
         />
       ))}
       {stay?.back == null ? null : <StayEdge kind="back" edge={stay.back} />}
+      {travel === undefined ? null : <TravelEdge line={travel} testID="day-plan-travel-back" />}
       <MineList rows={mine ?? []} />
     </View>
   );
