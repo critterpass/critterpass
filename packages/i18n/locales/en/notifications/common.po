@@ -179,6 +179,10 @@ msgstr "{missing} still not up."
 msgid "notifications.setup.ask.not_movable"
 msgstr "{name} can't move {dates}. Pick the week that works best."
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_cancelled.body"
+msgstr "{name} cancelled the trip. The chat, money, bookings and photos stay to read."
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.freed"
 msgstr "{name} freed {dates}. The week works for all."
@@ -306,6 +310,10 @@ msgstr "{place} · running late"
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_title"
 msgstr "{place} · today"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_cancelled.title"
+msgstr "{place} is called off"
 
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.body"

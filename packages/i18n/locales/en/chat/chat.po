@@ -339,6 +339,10 @@ msgstr "Only http and https links can be sent."
 msgid "chat.photo.open"
 msgstr "Open photo"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.openSettings"
+msgstr "Opens crew settings"
+
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.line"
 msgstr "Our team reviews it. The sender is not told who reported it."

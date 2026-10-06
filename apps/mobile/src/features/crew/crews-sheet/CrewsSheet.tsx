@@ -31,7 +31,7 @@ import {
   type CrewCardView,
   type InviteCardView,
 } from './crew-view';
-import { CREW_ROUTES } from './routes';
+import { CREW_ROUTES, crewSettingsRoute } from './routes';
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], gap: th.space['12'], paddingBottom: th.space['32'] },
@@ -186,6 +186,7 @@ export function CrewsSheet() {
             members={card.members}
             active={card.active}
             onPress={() => pick(card.id)}
+            onSettings={() => router.push(crewSettingsRoute(card.id))}
           />
         ))}
         {open.map((invite) => (
