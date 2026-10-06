@@ -1,4 +1,5 @@
 /** The driver commands the app sends (docs/api-contracts-suppliers.md §4.11). */
+/* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
   AssignProviderPayload,
   ConfirmProviderFieldsPayload,

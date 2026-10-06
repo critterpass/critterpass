@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { createMMKV } from 'react-native-mmkv';
 
-import { useLiveRows } from '@/features/bookings/data/live-rows';
+import { useLiveRows } from './use-live-rows';
 
 import { deviceDriversApi, type DriversApi, type DriversRead } from './api';
 
@@ -38,19 +38,22 @@ export function useDrivers(tripId: string, api: DriversApi = deviceDriversApi) {
       ? { kind: 'loading' }
       : { kind: 'ready', data: cached, savedAt: cached.savedAt };
   });
-  const refresh = useCallback(async () => {
-    const outcome = await api.read(tripId);
-    if (outcome.kind === 'ok') {
-      const savedAt = new Date().toISOString();
-      store().set(keyOf(tripId), JSON.stringify({ ...outcome.value, savedAt }));
-      setState({ kind: 'ready', data: outcome.value, savedAt: null });
-    } else if (outcome.kind === 'offline') {
-      const cached = cachedDrivers(tripId);
-      setState({ kind: 'offline', data: cached, savedAt: cached?.savedAt ?? null });
-    } else {
-      setState((prev) => (prev.kind === 'ready' ? prev : { kind: 'error' }));
-    }
-  }, [api, tripId]);
+  const refresh = useCallback(
+    () =>
+      api.read(tripId).then((outcome) => {
+        if (outcome.kind === 'ok') {
+          const savedAt = new Date().toISOString();
+          store().set(keyOf(tripId), JSON.stringify({ ...outcome.value, savedAt }));
+          setState({ kind: 'ready', data: outcome.value, savedAt: null });
+        } else if (outcome.kind === 'offline') {
+          const cached = cachedDrivers(tripId);
+          setState({ kind: 'offline', data: cached, savedAt: cached?.savedAt ?? null });
+        } else {
+          setState((prev) => (prev.kind === 'ready' ? prev : { kind: 'error' }));
+        }
+      }),
+    [api, tripId],
+  );
   useEffect(() => {
     void refresh();
   }, [refresh]);

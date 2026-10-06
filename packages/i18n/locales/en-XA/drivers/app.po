@@ -1,0 +1,620 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 16:05+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en-XA\n"
+
+#. placeholder {0}: assigned.name ?? ''
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.assigned"
+msgstr ""
+
+#. placeholder {0}: dayLabel(long.date, locale)
+#. placeholder {1}: hoursFigure(long.hours)
+#. placeholder {2}: hoursFigure(card.included_hours)
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.overtime"
+msgstr ""
+
+#. placeholder {0}: required.length - left.length
+#. placeholder {1}: required.length
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.count"
+msgstr ""
+
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr ""
+
+#. placeholder {0}: day.window.start
+#. placeholder {1}: day.window.end
+#. placeholder {2}: hoursFigure(day.hours)
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.window"
+msgstr ""
+
+#. placeholder {0}: plan.guide.name
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.title"
+msgstr ""
+
+#. placeholder {0}: money(card.overtime_minor, card.currency, locale) ?? ''
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.perHour"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.priceHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+msgid "drivers.check.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.included"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/includes-line.tsx
+msgid "drivers.check.notIncl"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+msgid "drivers.compare.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedNumber"
+msgstr ""
+
+#. placeholder {0}: gap.km
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.dayOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.seats"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.takenBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.addDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/commands.ts
+msgid "drivers.queued.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/commands.ts
+msgid "drivers.queued.shared"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.addBudget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.back.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.addAnother"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.addContact"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+msgid "drivers.check.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.tours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.call"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.check"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.compare"
+msgstr ""
+
+#. placeholder {0}: drivers.length
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+msgid "drivers.compare.complete"
+msgstr ""
+
+#. placeholder {0}: left.length
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.confirmMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/check-dot.tsx
+msgid "drivers.check.confirmLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contact"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.footnote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.unread"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.cutOff"
+msgstr ""
+
+#. placeholder {0}: first.dayNo
+#. placeholder {1}: first.theme ?? dayLabel(first.date, locale)
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.draft"
+msgstr ""
+
+#. placeholder {0}: current.area
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.area"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.screenshotDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.each"
+msgstr ""
+
+#. placeholder {0}: chosen.length
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.eachDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.entry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.entry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.back.find"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.find"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.fix"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.legs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.found"
+msgstr ""
+
+#. placeholder {0}: card.currency
+#. placeholder {1}: card.price_from
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.price"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.fuel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.body"
+msgstr ""
+
+#. placeholder {0}: plan.area
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.askBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.tellBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.toursBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.language"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.licence"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.kindText"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.name"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.new"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.noRide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notIncl"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notSaid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notSaidHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.openViator"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.overtime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.overtime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.parking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.paste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.foundBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pastePlaceholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.price"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.klookLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.viatorLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.read"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.screenshot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.kindImage"
+msgstr ""
+
+#. placeholder {0}: chosen.length
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.set"
+msgstr ""
+
+#. placeholder {0}: item.shared_by_name ?? ''
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.sharedBy"
+msgstr ""
+
+#. placeholder {0}: plan.guide.name
+#. placeholder {1}: items.length
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.shared"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlist"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.back.shortlist"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.shortlisted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.shows"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.languages"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.speaks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.supplierChecks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.taken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.tapSlot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.tell"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pasteDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pasteLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.down"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.theirWords"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.noApp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedPickups"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.tolls"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.tolls"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.back.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.another"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.type"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.includes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedTerms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.whatsapp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.phone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.whatsappLater"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactPhone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.after"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.late"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.title"
+msgstr ""

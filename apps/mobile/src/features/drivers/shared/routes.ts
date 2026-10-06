@@ -12,7 +12,7 @@ export function driversRoute(
 ): Href {
   const pathname =
     screen === 'index' ? '/(trip)/[tripId]/drivers' : `/(trip)/[tripId]/drivers/${screen}`;
-  return { pathname, params: { tripId, ...params } } as Href;
+  return { pathname, params: { tripId, ...params } };
 }
 
 export const splitDays = (raw: string | undefined): string[] =>

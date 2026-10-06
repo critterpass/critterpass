@@ -35,7 +35,8 @@ export function useCardCopy(current: DriverCard) {
       }
       case 'overtime':
         return money(current.overtime_minor, current.currency, locale);
-      default:
+      case 'name':
+      case 'includes':
         return null;
     }
   };

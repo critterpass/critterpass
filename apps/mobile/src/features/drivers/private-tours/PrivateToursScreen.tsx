@@ -5,6 +5,7 @@
  * (or has nothing for the trip) its row is a plain link to its own search: no prices or ratings of
  * ours. The commission disclosure stays at the bottom.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values (link refs), never copy. */
 import { generateUuidV7 } from '@cp/domain';
 import { currencyExponent, isKnownCurrency } from '@cp/cost-engine';
 import { upper } from '@cp/i18n';
@@ -14,8 +15,7 @@ import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
-import { Disclosure } from '@/features/bookings/supplier/Disclosure';
-import { usePartnerLink } from '@/features/bookings/supplier/data/use-partner-link';
+import { Disclosure, usePartnerLink } from '@/features/bookings';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -65,7 +65,6 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripId, days]);
   const value = tours?.kind === 'ok' ? tours.value : null;
-  const partnerName = (partner: 'klook' | 'viator') => (partner === 'klook' ? 'Klook' : 'Viator');
   return (
     <Scaffold variant="dark" testID="drivers-tours">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
@@ -160,8 +159,9 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
                           tripId,
                           target: {
                             kind: 'activity',
-                            query: card.title,
-                            ...(card.product_url ? { pageUrl: card.product_url } : {}),
+                            ref: card.product_id,
+                            query: card.title.slice(0, 200),
+                            ...(card.product_url ? { page_url: card.product_url } : {}),
                           },
                         })
                       }
@@ -190,9 +190,17 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
                     : t({ id: 'drivers.tours.viatorLink', message: 'Private drivers on Viator ↗' })
                 }
                 onPress={() =>
-                  void openLink({ partner: link.partner, tripId, target: link.target })
+                  void openLink({
+                    partner: link.partner,
+                    tripId,
+                    target: {
+                      kind: 'activity',
+                      ref: `private-car:${link.partner}`,
+                      query: link.target.query,
+                      ...(link.target.date ? { date: link.target.date } : {}),
+                    },
+                  })
                 }
-                accessibilityHint={partnerName(link.partner)}
               />
             </View>
           ))}

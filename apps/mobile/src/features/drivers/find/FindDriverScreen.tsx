@@ -68,16 +68,16 @@ function SourceCard(props: {
       testID={props.testID}
     >
       <Row gap="12" align="center">
-        <Icon name={props.icon} size={28} color={theme.color.ink} decorative />
+        <Icon name={props.icon} size={28} color={theme.color.ink['950']} decorative />
         <Stack gap="2" style={{ flex: 1 }}>
-          <Text variant="title" color={theme.color.ink}>
+          <Text variant="title" color={theme.color.ink['950']}>
             {props.title}
           </Text>
-          <Text variant="bodySm" color={theme.color.ink}>
+          <Text variant="bodySm" color={theme.color.ink['950']}>
             {props.body}
           </Text>
         </Stack>
-        <Icon name="arrow" size={20} color={theme.color.ink} decorative />
+        <Icon name="arrow" size={20} color={theme.color.ink['950']} decorative />
       </Row>
     </PressScale>
   );

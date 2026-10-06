@@ -1,6 +1,5 @@
+/** A plan day's placed stops as the pickup-gap check reads them (`HH:MM` local times). */
 import type { GapStop } from '@cp/domain';
-
-export { DriverLegCard, type DriverLegCardProps } from './DriverLegCard';
 
 const hhmm = (minutes: number | null): string | null => {
   if (minutes === null) return null;
@@ -8,7 +7,6 @@ const hhmm = (minutes: number | null): string | null => {
   return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
 };
 
-/** A plan day's placed stops as the pickup-gap check reads them. */
 export function gapStopsOf(
   stops: readonly {
     readonly title: string;

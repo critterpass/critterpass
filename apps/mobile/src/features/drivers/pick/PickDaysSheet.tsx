@@ -172,7 +172,7 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
                         ]}
                       >
                         {on ? (
-                          <Text variant="label" color={theme.color.ink}>
+                          <Text variant="label" color={theme.color.ink['950']}>
                             ✓
                           </Text>
                         ) : null}

@@ -197,7 +197,7 @@ export function registerDriverRoutes(app: OpenAPIHono<AppEnv>, deps: DriverRoute
     if (!query.success) throw new DomainError('VALIDATION', { reason: 'query' });
     const { trip_id: tripId } = query.data;
     const days = query.data.days?.split(',') ?? [];
-    const { trip, people, klookOn, viatorOn } = await withUser(
+    const { trip, people } = await withUser(
       deps.pool,
       session.uid,
       generateUuidV7(),
@@ -208,16 +208,17 @@ export function registerDriverRoutes(app: OpenAPIHono<AppEnv>, deps: DriverRoute
           'SELECT count(*)::int AS n FROM trip_participants WHERE trip_id = $1 AND holds_seat',
           [tripId],
         );
-        const flag = (partner: 'klook_activity' | 'viator_booking') =>
-          isPartnerEnabled((sql, params) => tx.query(sql, params as unknown[]), partner);
-        return {
-          trip: context,
-          people: party.rows[0]?.n ?? 1,
-          klookOn: await flag('klook_activity'),
-          viatorOn: await flag('viator_booking'),
-        };
+        return { trip: context, people: party.rows[0]?.n ?? 1 };
       },
     );
+    // Partner switches live in the ops schema, which only the server reads.
+    const [klookOn, viatorOn] = await withSystem(deps.pool, (tx) => {
+      const query = (sql: string, params: readonly unknown[]) => tx.query(sql, [...params]);
+      return Promise.all([
+        isPartnerEnabled(query, 'klook_activity'),
+        isPartnerEnabled(query, 'viator_booking'),
+      ]);
+    });
     const date = days[0] ?? null;
     const target = privateTransportTarget(trip.area, date, people);
     const destinationRef = c.req.query('destination_ref');

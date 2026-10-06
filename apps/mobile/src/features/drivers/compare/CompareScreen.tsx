@@ -216,7 +216,7 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
           {upper(t({ id: 'drivers.compare.title', message: `Compare ${drivers.length}` }), locale)}
         </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <Stack gap="0">
+          <Stack gap="2">
             <Row gap="8">
               {drivers.map((driver, index) => (
                 <ColumnHead

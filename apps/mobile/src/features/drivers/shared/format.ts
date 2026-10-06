@@ -1,5 +1,6 @@
 /** Formatting the driver screens share: day labels and money in the driver's own currency. */
-import { formatAmount } from '@/features/money/format';
+/* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
+import { formatMoney, isKnownCurrency } from '@cp/cost-engine';
 
 /** "Wed 14" in the reader's language. */
 export function dayLabel(date: string, locale: string): string {
@@ -24,7 +25,12 @@ export function money(
   locale: string,
 ): string | null {
   if (minor === null || currency === null) return null;
-  return formatAmount(BigInt(Math.round(minor)), currency, locale);
+  const code: string = currency;
+  if (!isKnownCurrency(code)) return `${currency} ${String(minor)}`;
+  return formatMoney(
+    { amountMinor: BigInt(Math.round(minor)), currency: code },
+    { locale, mode: 'local' },
+  );
 }
 
 /** "11½ hours" style figures stay numeric: "11.5". */

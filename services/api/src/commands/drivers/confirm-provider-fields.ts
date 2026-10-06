@@ -34,6 +34,7 @@ export function createConfirmProviderFieldsCommand(deps: DriverDeps) {
     v: 1,
     schema: confirmProviderFieldsPayloadSchema,
     offline: false,
+    allowAnonymous: true,
     authorize: async (tx, payload) => {
       await requireMember(tx, payload.trip_id);
     },

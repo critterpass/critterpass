@@ -1,4 +1,3 @@
-/* eslint-disable lingui/no-unlocalized-strings -- developer-only screen. */
 import { router } from 'expo-router';
 import { ScrollView } from 'react-native';
 

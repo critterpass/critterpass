@@ -1,0 +1,620 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 16:05+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh-Hans\n"
+
+#. placeholder {0}: assigned.name ?? ''
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.assigned"
+msgstr "{0} 这天开车"
+
+#. placeholder {0}: dayLabel(long.date, locale)
+#. placeholder {1}: hoursFigure(long.hours)
+#. placeholder {2}: hoursFigure(card.included_hours)
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.overtime"
+msgstr "{0}是 {1} 小时，{name}的报价含 {2} 小时。"
+
+#. placeholder {0}: required.length - left.length
+#. placeholder {1}: required.length
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.count"
+msgstr "已核对 {0}/{1}"
+
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr "{0} 人"
+
+#. placeholder {0}: day.window.start
+#. placeholder {1}: day.window.end
+#. placeholder {2}: hoursFigure(day.hours)
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.window"
+msgstr "{0}–{1} · {2} 小时"
+
+#. placeholder {0}: plan.guide.name
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.title"
+msgstr "{0}的帖子"
+
+#. placeholder {0}: money(card.overtime_minor, card.currency, locale) ?? ''
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.perHour"
+msgstr "{0}/小时"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.priceHours"
+msgstr "{amount} · {hours} 小时"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+msgid "drivers.check.missing"
+msgstr "他的消息里缺 {count} 项。要我写个问题吗？"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.included"
+msgstr "含{included}"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/includes-line.tsx
+msgid "drivers.check.notIncl"
+msgstr "{item}另付"
+
+#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+msgid "drivers.compare.missing"
+msgstr "缺 {missing} 项"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedNumber"
+msgstr "{name}的号码、车和车牌"
+
+#. placeholder {0}: gap.km
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.dayOut"
+msgstr "{place}大约 {0} 公里远，这天又长。打车软件很少在那里等或接人。大多数队伍会包一天车。"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.seats"
+msgstr "{seats} 座"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.takenBy"
+msgstr "{takenBy} 已订"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.addDay"
+msgstr "+ 天"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.yes"
+msgstr "✓含"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.day"
+msgstr "每天"
+
+#: ../../apps/mobile/src/features/drivers/shared/commands.ts
+msgid "drivers.queued.notNow"
+msgstr "你说不需要司机的一天"
+
+#: ../../apps/mobile/src/features/drivers/shared/commands.ts
+msgid "drivers.queued.shared"
+msgstr "你分享的司机消息"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.addBudget"
+msgstr "加上预算"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.title"
+msgstr "添加司机"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.back.add"
+msgstr "添加司机"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.addAnother"
+msgstr "再加一个来比较"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.addContact"
+msgstr "添加"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.add"
+msgstr "加入比较"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.confirm"
+msgstr "加入候选"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+msgid "drivers.check.ask"
+msgstr "问{name}"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.ask"
+msgstr "替我问"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.tours"
+msgstr "预订私人包车"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.call"
+msgstr "打电话"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.note"
+msgstr "电话用信号，不用流量。消息会在你恢复联网后发出。"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.car"
+msgstr "车"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.car"
+msgstr "车"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.edit"
+msgstr "修改这部分"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.check"
+msgstr "待核对"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.compare"
+msgstr "比较"
+
+#. placeholder {0}: drivers.length
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.title"
+msgstr "比较 {0} 位"
+
+#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+msgid "drivers.compare.complete"
+msgstr "齐全"
+
+#. placeholder {0}: left.length
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.confirmMore"
+msgstr "还要确认 {0} 项"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/check-dot.tsx
+msgid "drivers.check.confirmLine"
+msgstr "确认这一行"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contact"
+msgstr "联系人"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.copied"
+msgstr "已复制"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.footnote"
+msgstr "从 WhatsApp 或 Facebook 复制消息粘贴到这里。我只读你发来的内容。"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.intro"
+msgstr "复制后自己发到群里。CritterPass 从不在群里发帖，也从不读群。"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.copy"
+msgstr "复制帖子"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.unread"
+msgstr "读不出"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.title"
+msgstr "读不出来"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.cutOff"
+msgstr "从这里截断"
+
+#. placeholder {0}: first.dayNo
+#. placeholder {1}: first.theme ?? dayLabel(first.date, locale)
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.back"
+msgstr "第 {0} 天 · {1}"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.draft"
+msgstr "起草"
+
+#. placeholder {0}: current.area
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.area"
+msgstr "司机 · {0}"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.screenshotDetail"
+msgstr "拖入或选择"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.each"
+msgstr "每人"
+
+#. placeholder {0}: chosen.length
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.eachDays"
+msgstr "每人，{0} 天"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.entry"
+msgstr "门票"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.entry"
+msgstr "门票"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.back.find"
+msgstr "找司机"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.find"
+msgstr "找司机"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.title"
+msgstr "找司机"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.fix"
+msgstr "修改"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.intro"
+msgstr "固定价格，在供应商那里预订和付款。标题、照片和评分都是他们的原话。"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.legs"
+msgstr "这些路段"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.found"
+msgstr "自己找到的"
+
+#. placeholder {0}: card.currency
+#. placeholder {1}: card.price_from
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.price"
+msgstr "{0} {1} 起"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.from"
+msgstr "来自 Viator"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactDetail"
+msgstr "来自 WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.fuel"
+msgstr "油费"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.body"
+msgstr "里面没找到司机的名字、号码或价格。"
+
+#. placeholder {0}: plan.area
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.askBody"
+msgstr "我来写一条{0}群的帖子，你来发。"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.tellBody"
+msgstr "我会写上日期和接送定位，你来发。"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.added"
+msgstr "已加入比较"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.title"
+msgstr "这样对吗？"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.toursBody"
+msgstr "Klook 和 Viator，每车固定价"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.language"
+msgstr "帖子语言"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.licence"
+msgstr "执照"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.loading"
+msgstr "正在加载候选"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.loading"
+msgstr "正在找私人包车"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.kindText"
+msgstr "消息"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactName"
+msgstr "名字"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.name"
+msgstr "名字"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.title"
+msgstr "这里要司机吗？"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.new"
+msgstr "新"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.noRide"
+msgstr "没有车"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notIncl"
+msgstr "不含"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.notNow"
+msgstr "先不用"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notSaid"
+msgstr "没说"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notSaidHint"
+msgstr "没说。用 WhatsApp 问他"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.openViator"
+msgstr "打开 Viator"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.overtime"
+msgstr "超时费"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.overtime"
+msgstr "每小时超时费"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.parking"
+msgstr "停车"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.paste"
+msgstr "粘贴"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.foundBody"
+msgstr "粘贴消息、放入截图、分享联系人"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pastePlaceholder"
+msgstr "粘贴司机写的内容，或他帖子的链接"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.pick"
+msgstr "选他"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.label"
+msgstr "选{name}"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.eyebrow"
+msgstr "选{name}"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.intro"
+msgstr "先选路段，再选司机来源。可以混合来源，之后再比较。"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.price"
+msgstr "价格"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.klookLink"
+msgstr "Klook 上的带司机包车 ↗"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.viatorLink"
+msgstr "Viator 上的私人司机 ↗"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.title"
+msgstr "私人包车"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.read"
+msgstr "读取"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.saved"
+msgstr "已存在手机上"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.queued"
+msgstr "已保存。你恢复联网后我就读。"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.screenshot"
+msgstr "截图"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.kindImage"
+msgstr "截图"
+
+#. placeholder {0}: chosen.length
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.set"
+msgstr "把{name}定在 {0} 天"
+
+#. placeholder {0}: item.shared_by_name ?? ''
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.sharedBy"
+msgstr "{0} 分享"
+
+#. placeholder {0}: plan.guide.name
+#. placeholder {1}: items.length
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.shared"
+msgstr "已与 {0} 分享 · {1}"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlist"
+msgstr "候选"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.back.shortlist"
+msgstr "候选"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.shortlisted"
+msgstr "已入候选"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.shows"
+msgstr "出示了"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.languages"
+msgstr "语言"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.speaks"
+msgstr "语言"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.supplierChecks"
+msgstr "供应商核验"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.taken"
+msgstr "已订"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.tapSlot"
+msgstr "点高亮部分可以修改"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.intro"
+msgstr "点每一行来确认或修改。你确认前，什么都不会发给大家。"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.tell"
+msgstr "用 WhatsApp 告诉{name}"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pasteDetail"
+msgstr "文字或链接"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.failed"
+msgstr "没保存成功，可能刚好有一天被订了。"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.error"
+msgstr "没保存成功。检查网络后再试。"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pasteLabel"
+msgstr "司机的消息"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.down"
+msgstr "供应商暂时没有响应，稍后再试。"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.theirWords"
+msgstr "他们的原话"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.noApp"
+msgstr "这里没有打车软件，这天各站之间距离不近。大多数队伍会包一天车。"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedPickups"
+msgstr "今天的接送和定位"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.tolls"
+msgstr "过路费"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.tolls"
+msgstr "过路费"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.back.trip"
+msgstr "行程"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.another"
+msgstr "换一张截图"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.type"
+msgstr "手动补全"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.includes"
+msgstr "价格包含"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedTerms"
+msgstr "你们谈好的"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.whatsapp"
+msgstr "WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.phone"
+msgstr "WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.whatsappLater"
+msgstr "WhatsApp · 稍后"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactPhone"
+msgstr "带国家区号的 WhatsApp 号码"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.after"
+msgstr "有人回复时，把消息分享给我。细节我来整理。"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.title"
+msgstr "哪些路段？"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.late"
+msgstr "你们从{place}回来得晚，晚上打车软件很少去那里接人。晚上请个司机是最稳妥的回程。"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.title"
+msgstr "你的回程车"

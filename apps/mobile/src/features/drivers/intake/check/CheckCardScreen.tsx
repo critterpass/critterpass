@@ -81,6 +81,7 @@ export function CheckCardScreen(props: {
   const [editing, setEditing] = useState<DriverField | null>(null);
   const [error, setError] = useState(false);
   const current: DriverCard = card ?? parsed?.card ?? EMPTY_DRIVER_CARD;
+  const { lineText, label, includeLabel } = useCardCopy(current);
   const back = (
     <BackEyebrow
       label={upper(t({ id: 'drivers.back.add', message: 'Add a driver' }), locale)}
@@ -116,7 +117,6 @@ export function CheckCardScreen(props: {
       return next;
     });
   };
-  const { lineText, label, includeLabel } = useCardCopy(current);
   const span = focus === null ? undefined : parsed?.spans[focus];
   const save = async () => {
     const providerId = generateUuidV7();

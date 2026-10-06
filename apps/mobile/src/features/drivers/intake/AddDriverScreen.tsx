@@ -12,7 +12,6 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import type { OcrApi } from '../../../../modules/cp-ocr';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -53,6 +52,11 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
+/** The phone's text reader (the `cp-ocr` module, passed in by the route); null without one. */
+export interface TextReader {
+  recognize(uri: string): Promise<{ readonly lines: readonly { readonly text: string }[] }>;
+}
+
 export function AddDriverScreen({
   tripId,
   days,
@@ -60,7 +64,7 @@ export function AddDriverScreen({
 }: {
   tripId: string;
   days?: string;
-  ocr: OcrApi | null;
+  ocr: TextReader | null;
 }) {
   const styles = useStyles();
   const theme = useTheme();

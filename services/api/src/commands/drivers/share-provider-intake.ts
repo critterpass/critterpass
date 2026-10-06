@@ -15,6 +15,7 @@ export const shareProviderIntakeCommand = defineCommand({
   v: 1,
   schema: shareProviderIntakePayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     await requireMember(tx, payload.trip_id);
   },

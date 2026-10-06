@@ -18,7 +18,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { freeGaps } from './day-gaps';
 import { DraftNote } from './draft-note';
-import { DriverLegCard, gapStopsOf } from '@/features/drivers/leg-card';
+import { DriverLegCard, gapStopsOf } from '@/features/drivers';
 import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { dayProgress, nextGoStop, usePlanClock } from './next-stop';
 import { dateLine, dayOfTrip, stopsLine } from './format';

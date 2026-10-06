@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useLiveRows } from '@/features/bookings/data/live-rows';
+import { useLiveRows } from '../shared/use-live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';

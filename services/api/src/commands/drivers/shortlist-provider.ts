@@ -16,6 +16,7 @@ export const shortlistProviderCommand = defineCommand({
   v: 1,
   schema: shortlistProviderPayloadSchema,
   offline: false,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     await requireMember(tx, payload.trip_id);
   },

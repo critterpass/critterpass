@@ -30,7 +30,7 @@ export function CheckDot({ on, onPress }: { readonly on: boolean; readonly onPre
       ]}
     >
       {on ? (
-        <Text variant="label" color={theme.color.ink}>
+        <Text variant="label" color={theme.color.ink['950']}>
           ✓
         </Text>
       ) : null}

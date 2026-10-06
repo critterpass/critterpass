@@ -13,6 +13,7 @@ export const dismissPickupGapCommand = defineCommand({
   v: 1,
   schema: dismissPickupGapPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     await requireMember(tx, payload.trip_id);
   },

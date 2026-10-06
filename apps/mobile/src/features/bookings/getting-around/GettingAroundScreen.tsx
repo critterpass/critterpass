@@ -16,7 +16,7 @@ import { useSupplierCopy } from '../supplier/copy';
 import { deviceSupplierApi } from '../supplier/data/api';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { rideAppName } from '../supplier/suppliers';
-import { RideBackCard } from '@/features/drivers/offline/RideBackCard';
+import { RideBackCard } from '@/features/drivers';
 import { GettingAroundView } from './GettingAroundView';
 import type { Leg } from './model';
 import { durationMessage } from './duration';

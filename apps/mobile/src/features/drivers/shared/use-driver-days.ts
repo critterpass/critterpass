@@ -1,14 +1,19 @@
 /**
- * The plan's days as the driver screens read them: each day's stops with their times, where it
- * starts (the stay), whether it needs a driver (`@cp/domain` pickup gaps, read from the day
- * itself), and the trip's area, party size and ride apps.
+ * The plan's days as the driver screens read them: each day's placed stops with their times,
+ * whether it needs a driver (`@cp/domain` pickup gaps, read from the day itself), and the trip's
+ * area, party size, currency and guide.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and table names. */
 import { pickupGapFor, rideAppsFor, type GapStop, type PickupGap } from '@cp/domain';
 import { useMemo } from 'react';
 
-import { useLiveRows } from '@/features/bookings/data/live-rows';
-import { useTripMapData } from '@/features/plan/trip-map/use-trip-map-data';
+import { dayItems } from '@/data/plan/plan-model';
+import { useTripPlan } from '@/data/plan/use-trip-plan';
+import { isGuideStickerId } from '@/ui/avatar/guides';
+import type { GuideId } from '@/ui/people/GuideLine';
+
+import { gapStopsOf } from './gap-stops';
+import { useLiveRows } from './use-live-rows';
 
 export interface DriverDay {
   readonly dayNo: number;
@@ -20,15 +25,10 @@ export interface DriverDay {
   readonly window: { readonly start: string; readonly end: string } | null;
 }
 
-const hhmm = (minutes: number | null): string | null => {
-  if (minutes === null) return null;
-  const m = ((Math.round(minutes) % 1440) + 1440) % 1440;
-  return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
-};
-
 const TRIP_SQL = `SELECT d.country, d.name AS area, t.local_currency,
     (SELECT count(*) FROM trip_participants p WHERE p.trip_id = t.id AND p.holds_seat = 1) AS people
   FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = ?`;
+const TRIP_TABLES = ['trips', 'destinations', 'trip_participants'];
 
 interface TripRow {
   readonly country: string | null;
@@ -37,51 +37,48 @@ interface TripRow {
   readonly people: number | null;
 }
 
+function windowOf(stops: readonly GapStop[]): DriverDay['window'] {
+  const starts = stops.map((s) => s.starts).filter((t): t is string => t !== null);
+  const ends = stops.map((s) => s.ends ?? s.starts).filter((t): t is string => t !== null);
+  const start = [...starts].sort()[0];
+  const end = [...ends].sort().at(-1);
+  return start === undefined || end === undefined ? null : { start, end };
+}
+
 export function useDriverDays(tripId: string) {
-  const data = useTripMapData(tripId);
-  const { rows } = useLiveRows<TripRow>(
-    TRIP_SQL,
-    [tripId],
-    ['trips', 'destinations', 'trip_participants'],
-  );
+  const plan = useTripPlan(tripId);
+  const { rows } = useLiveRows<TripRow>(TRIP_SQL, [tripId], TRIP_TABLES);
   const trip = rows[0] ?? null;
   const hasRideApp = rideAppsFor(trip?.country ?? null).length > 0;
+  const tz = plan.trip?.tz ?? 'UTC';
   const days = useMemo<DriverDay[]>(
     () =>
-      data.days
-        .filter((day) => day.date !== null)
-        .map((day) => {
-          const stops: GapStop[] = day.stops
-            .filter((stop) => stop.place !== null)
-            .map((stop) => ({
-              name: stop.title,
-              lat: stop.place?.lat ?? 0,
-              lng: stop.place?.lng ?? 0,
-              starts: hhmm(stop.start),
-              ends: hhmm(stop.end),
-            }));
-          const gap = pickupGapFor({ date: day.date ?? '', stops }, day.stay, hasRideApp);
-          const starts = stops.map((s) => s.starts).filter((t): t is string => t !== null);
-          const ends = stops.map((s) => s.ends ?? s.starts).filter((t): t is string => t !== null);
-          return {
-            dayNo: day.dayNo,
-            date: day.date ?? '',
-            theme: day.theme,
+      plan.dayRows.flatMap((row) => {
+        if (row.date === null) return [];
+        const stops = gapStopsOf(dayItems(plan.state, row.day_no, plan.display, tz));
+        return [
+          {
+            dayNo: row.day_no,
+            date: row.date,
+            theme: row.theme,
             stops,
-            gap,
-            window:
-              starts.length > 0 && ends.length > 0
-                ? { start: [...starts].sort()[0] ?? '', end: [...ends].sort().at(-1) ?? '' }
-                : null,
-          };
-        }),
-    [data.days, hasRideApp],
+            gap: pickupGapFor({ date: row.date, stops }, null, hasRideApp),
+            window: windowOf(stops),
+          },
+        ];
+      }),
+    [plan.dayRows, plan.state, plan.display, tz, hasRideApp],
   );
+  const slug = plan.trip?.guide_slug ?? null;
+  const guide: { readonly id: GuideId; readonly name: string } =
+    slug !== null && isGuideStickerId(slug)
+      ? { id: slug, name: plan.trip?.guide_name ?? 'Tokek' }
+      : { id: 'tokek', name: 'Tokek' };
   return {
-    loaded: data.loaded,
+    loaded: plan.loaded,
     days,
-    guide: data.guide,
-    uid: data.plan.uid,
+    guide,
+    uid: plan.uid,
     area: trip?.area ?? '',
     people: Math.max(1, Number(trip?.people ?? 1)),
     currency: trip?.local_currency ?? null,

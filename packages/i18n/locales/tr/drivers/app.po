@@ -1,0 +1,620 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 16:05+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: tr\n"
+
+#. placeholder {0}: assigned.name ?? ''
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.assigned"
+msgstr "Bu gün {0} sürüyor"
+
+#. placeholder {0}: dayLabel(long.date, locale)
+#. placeholder {1}: hoursFigure(long.hours)
+#. placeholder {2}: hoursFigure(card.included_hours)
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.overtime"
+msgstr "{0} {1} saat sürüyor. {name} için fiyat {2} saati kapsıyor."
+
+#. placeholder {0}: required.length - left.length
+#. placeholder {1}: required.length
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.count"
+msgstr "{1} satırdan {0} tanesi kontrol edildi"
+
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr "{0} kişi"
+
+#. placeholder {0}: day.window.start
+#. placeholder {1}: day.window.end
+#. placeholder {2}: hoursFigure(day.hours)
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.window"
+msgstr "{0}–{1} · {2} saat"
+
+#. placeholder {0}: plan.guide.name
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.title"
+msgstr "{0} gönderisi"
+
+#. placeholder {0}: money(card.overtime_minor, card.currency, locale) ?? ''
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.perHour"
+msgstr "{0}/saat"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.priceHours"
+msgstr "{amount} · {hours} saat"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+msgid "drivers.check.missing"
+msgstr "Mesajında {count} şey yok. Soruyu yazayım mı?"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.included"
+msgstr "{included} dahil"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/includes-line.tsx
+msgid "drivers.check.notIncl"
+msgstr "{item} ayrı"
+
+#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+msgid "drivers.compare.missing"
+msgstr "{missing} eksik"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedNumber"
+msgstr "{name}: numara, araç ve plaka"
+
+#. placeholder {0}: gap.km
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.dayOut"
+msgstr "{place} yaklaşık {0} km uzakta ve gün uzun. Araç çağırma uygulamaları orada pek beklemez, pek yolcu almaz. Ekiplerin çoğu günlük şoför tutuyor."
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.seats"
+msgstr "{seats} koltuk"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.takenBy"
+msgstr "{takenBy} ayırtıldı"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.addDay"
+msgstr "+ Gün"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.yes"
+msgstr "✓Evet"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.day"
+msgstr "Günlük"
+
+#: ../../apps/mobile/src/features/drivers/shared/commands.ts
+msgid "drivers.queued.notNow"
+msgstr "Şoför istemediğin bir gün"
+
+#: ../../apps/mobile/src/features/drivers/shared/commands.ts
+msgid "drivers.queued.shared"
+msgstr "Paylaştığın bir şoför mesajı"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.addBudget"
+msgstr "Bütçe ekle"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.title"
+msgstr "Şoför ekle"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.back.add"
+msgstr "Şoför ekle"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.addAnother"
+msgstr "Karşılaştırmak için bir tane daha ekle"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.addContact"
+msgstr "Ekle"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.add"
+msgstr "Karşılaştırmaya ekle"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.confirm"
+msgstr "Listeye ekle"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+msgid "drivers.check.ask"
+msgstr "{name} adlı şoföre sor"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.ask"
+msgstr "Benim için sor"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.tours"
+msgstr "Özel tur ayırt"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.call"
+msgstr "Ara"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.note"
+msgstr "Aramalar veri değil, şebeke kullanır. Mesaj, yeniden çevrimiçi olduğunda gönderilir."
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.car"
+msgstr "Araç"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.car"
+msgstr "Araç"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.edit"
+msgstr "Bu kısmı değiştir"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.check"
+msgstr "Kontrol et"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.compare"
+msgstr "Karşılaştır"
+
+#. placeholder {0}: drivers.length
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.title"
+msgstr "{0} şoförü karşılaştır"
+
+#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+msgid "drivers.compare.complete"
+msgstr "Tamam"
+
+#. placeholder {0}: left.length
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.confirmMore"
+msgstr "{0} tane daha onayla"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/check-dot.tsx
+msgid "drivers.check.confirmLine"
+msgstr "Bu satırı onayla"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contact"
+msgstr "Kişi"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.copied"
+msgstr "Kopyalandı"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.footnote"
+msgstr "WhatsApp veya Facebook’tan herhangi bir mesajı kopyalayıp buraya yapıştır. Yalnızca gönderdiğini okurum."
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.intro"
+msgstr "Kopyala ve gruplarda kendin paylaş. CritterPass orada asla paylaşım yapmaz ve grupları okumaz."
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.copy"
+msgstr "Gönderiyi kopyala"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.unread"
+msgstr "Okunamadı"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.title"
+msgstr "Okunamadı"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.cutOff"
+msgstr "Burada kesilmiş"
+
+#. placeholder {0}: first.dayNo
+#. placeholder {1}: first.theme ?? dayLabel(first.date, locale)
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.back"
+msgstr "{0}. gün · {1}"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.draft"
+msgstr "Taslak yaz"
+
+#. placeholder {0}: current.area
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.area"
+msgstr "Şoför · {0}"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.screenshotDetail"
+msgstr "Bırak veya seç"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.each"
+msgstr "Kişi başı"
+
+#. placeholder {0}: chosen.length
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.eachDays"
+msgstr "Kişi başı, {0} gün"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.entry"
+msgstr "Giriş"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.entry"
+msgstr "Giriş ücretleri"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.back.find"
+msgstr "Şoför bul"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.find"
+msgstr "Şoför bul"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.title"
+msgstr "Şoför bul"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.fix"
+msgstr "Düzelt"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.intro"
+msgstr "Sabit fiyat, rezervasyon ve ödeme sağlayıcıda. Başlıklar, fotoğraflar ve puanlar kelimesi kelimesine onlara ait."
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.legs"
+msgstr "Bu etaplar için"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.found"
+msgstr "Kendim buldum"
+
+#. placeholder {0}: card.currency
+#. placeholder {1}: card.price_from
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.price"
+msgstr "{0} {1} fiyatından başlar"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.from"
+msgstr "Viator’dan"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactDetail"
+msgstr "WhatsApp’tan"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.fuel"
+msgstr "Yakıt"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.body"
+msgstr "İçinde şoförün adını, numarasını veya fiyatını bulamadım."
+
+#. placeholder {0}: plan.area
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.askBody"
+msgstr "{0} grupları için bir gönderi yazarım. Sen paylaşırsın."
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.tellBody"
+msgstr "Tarihler ve alış konumlarıyla yazarım. Sen gönderirsin."
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.added"
+msgstr "Karşılaştırmada"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.title"
+msgstr "Doğru mu?"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.toursBody"
+msgstr "Klook ve Viator, araç başına sabit fiyat"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.language"
+msgstr "Gönderinin dili"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.licence"
+msgstr "Lisans"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.loading"
+msgstr "Liste yükleniyor"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.loading"
+msgstr "Özel araçlar aranıyor"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.kindText"
+msgstr "Mesaj"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactName"
+msgstr "Ad"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.name"
+msgstr "Ad"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.title"
+msgstr "Burada şoför gerekir mi?"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.new"
+msgstr "Yeni"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.noRide"
+msgstr "Araç yok"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notIncl"
+msgstr "Dahil değil"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.notNow"
+msgstr "Şimdi değil"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notSaid"
+msgstr "Söylemedi"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.notSaidHint"
+msgstr "Söylemedi. WhatsApp’tan sor"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.openViator"
+msgstr "Viator’ı aç"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.overtime"
+msgstr "Fazla mesai"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.overtime"
+msgstr "Saatlik fazla mesai"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.parking"
+msgstr "Otopark"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.paste"
+msgstr "Yapıştır"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.foundBody"
+msgstr "Mesaj yapıştır, ekran görüntüsü bırak, kişi paylaş"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pastePlaceholder"
+msgstr "Şoförün yazdığını veya gönderisinin bağlantısını yapıştır"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.pick"
+msgstr "Seç"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.label"
+msgstr "{name} seç"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.eyebrow"
+msgstr "{name} seç"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.intro"
+msgstr "Önce etapları, sonra şoförün nereden geleceğini seç. Kaynakları karıştırıp sonra karşılaştırabilirsin."
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.price"
+msgstr "Fiyat"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.klookLink"
+msgstr "Klook’ta şoförlü özel araçlar ↗"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.viatorLink"
+msgstr "Viator’da özel şoförler ↗"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.title"
+msgstr "Özel turlar"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.read"
+msgstr "Oku"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.saved"
+msgstr "Telefonunda kayıtlı"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.queued"
+msgstr "Kaydedildi. Yeniden çevrimiçi olduğunda okurum."
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.screenshot"
+msgstr "Ekran görüntüsü"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.kindImage"
+msgstr "Ekran görüntüsü"
+
+#. placeholder {0}: chosen.length
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.set"
+msgstr "{name}: {0} güne ayarla"
+
+#. placeholder {0}: item.shared_by_name ?? ''
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.sharedBy"
+msgstr "{0} paylaştı"
+
+#. placeholder {0}: plan.guide.name
+#. placeholder {1}: items.length
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.shared"
+msgstr "{0} ile paylaşıldı · {1}"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlist"
+msgstr "Liste"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.back.shortlist"
+msgstr "Liste"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.badge.shortlisted"
+msgstr "Listede"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.shows"
+msgstr "Gösteriyor"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.languages"
+msgstr "Diller"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.speaks"
+msgstr "Diller"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.supplierChecks"
+msgstr "Sağlayıcı denetler"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.taken"
+msgstr "Dolu"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.tapSlot"
+msgstr "Değiştirmek için vurgulu yere dokun"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.intro"
+msgstr "Onaylamak veya düzeltmek için her satıra dokun. Sen onaylamadan ekibe hiçbir şey gitmez."
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.tell"
+msgstr "WhatsApp’tan haber ver: {name}"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pasteDetail"
+msgstr "Metin veya bağlantı"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.failed"
+msgstr "Kaydedilmedi. Bir gün az önce dolmuş olabilir."
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.error"
+msgstr "Kaydedilmedi. Bağlantını kontrol edip yeniden dene."
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.pasteLabel"
+msgstr "Şoförün mesajı"
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.down"
+msgstr "Sağlayıcılar şu an yanıt vermiyor. Biraz sonra yeniden dene."
+
+#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
+msgid "drivers.tours.theirWords"
+msgstr "Onların sözleri"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.noApp"
+msgstr "Burada araç çağırma uygulaması yok ve bu günün durakları arasında ciddi mesafeler var. Ekiplerin çoğu günlük şoför tutuyor."
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedPickups"
+msgstr "Bugünkü alış noktaları ve konumlar"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.include.tolls"
+msgstr "Otoyol ücreti"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.tolls"
+msgstr "Otoyol ücreti"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.back.trip"
+msgstr "Gezi"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.another"
+msgstr "Başka bir ekran görüntüsü dene"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+msgid "drivers.unread.type"
+msgstr "Gerisini yaz"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.includes"
+msgstr "Fiyata dahil olanlar"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.savedTerms"
+msgstr "Anlaştıklarınız"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.whatsapp"
+msgstr "WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.line.phone"
+msgstr "WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.whatsappLater"
+msgstr "WhatsApp · sonra"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.contactPhone"
+msgstr "Ülke koduyla WhatsApp numarası"
+
+#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+msgid "drivers.ask.after"
+msgstr "Biri yanıtlayınca mesajını benimle paylaş. Ayrıntıları ben çıkarırım."
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.title"
+msgstr "Hangi etaplar?"
+
+#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
+msgid "drivers.leg.why.late"
+msgstr "{place} dönüşünüz geç saate kalıyor ve araç çağırma uygulamaları gece oradan pek yolcu almıyor. Akşam için bir şoför, güvenli dönüş yolu."
+
+#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+msgid "drivers.offline.title"
+msgstr "Dönüş aracın"
