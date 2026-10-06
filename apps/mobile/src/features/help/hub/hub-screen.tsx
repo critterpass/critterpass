@@ -16,12 +16,14 @@ import { storeReviewUrl } from '../data/store-review';
 import { useHelpArticles } from '../data/use-help-articles';
 import { useHelpSearch } from '../data/use-help-search';
 import { articleHref, feedbackHref } from '../routes';
+import { shakeToReportAvailable, useShakeToReport } from '../shake/shake-pref';
 import { HubView } from './HubView';
 
 export function HubScreen({ search = searchHelpOnline }: { readonly search?: SearchHelp }) {
   const params = useLocalSearchParams<{ context?: string }>();
   const context = typeof params.context === 'string' ? params.context : 'settings';
   const locale = useLocale();
+  const [shakeOn] = useShakeToReport();
   const { articles, fallback } = useHelpArticles();
   const [query, setQuery] = useState('');
   const found = useHelpSearch({ query, locale, context, articles, search });
@@ -42,7 +44,7 @@ export function HubScreen({ search = searchHelpOnline }: { readonly search?: Sea
       results={found.results}
       ideasToVote={ideasToVote}
       repliesVia={repliesVia}
-      shakeToReport={false}
+      shakeToReport={shakeToReportAvailable() && shakeOn}
       onBack={() => router.back()}
       onReport={() => router.push(feedbackHref({ mode: 'problem', context }))}
       onFeedback={() => router.push(feedbackHref({ mode: 'feedback', context }))}

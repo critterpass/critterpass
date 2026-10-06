@@ -32,6 +32,7 @@ import { deviceHelpApi } from '../data/help-api';
 import { useSpeech } from '../data/use-speech';
 import { telUrl } from '../format';
 import { safetyRoutes } from '../routes';
+import { SosAlertAccessRows } from '../sos/alert-access-rows';
 import { readsPhraseLanguage } from './checklist-model';
 import { ConsentSheet } from './consent-sheet';
 import { HelpView } from './help-view';
@@ -147,6 +148,7 @@ export function HelpScreen() {
   return (
     <>
       <HelpView
+        sosAccess={<SosAlertAccessRows />}
         hero={{
           guideName,
           guideSticker: guide,

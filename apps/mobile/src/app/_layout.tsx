@@ -107,6 +107,7 @@ import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
+import { ShakeToReport } from '@/features/help/shake/ShakeListener';
 import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
 
 void SplashScreen.preventAutoHideAsync();
@@ -278,6 +279,7 @@ export default function RootLayout() {
                   <SharedGrowHost />
                   <IslandToast Text={Text} />
                   <DevToolsShake />
+                  <ShakeToReport />
                   <LaunchHatch revealed={prewarmed && linksReady} />
                 </ScreenJoltProvider>
               </TravelDataReaderProvider>

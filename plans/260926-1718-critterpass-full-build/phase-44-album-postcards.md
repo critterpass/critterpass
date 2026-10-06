@@ -123,7 +123,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Enqueue (file, presign/multipart plan) → background transfer. 2. Resume parts after app kill. 3. Events to JS (progress, done, failed). 4. EXIF GPS strip before enqueue.
 - Tests: `xcodebuild test -scheme CpMediaUploadTests`; `./gradlew :cp-media-upload:testDebugUnitTest`
 - Done when: tests prove GPS tags removed and a killed upload resumes.
-- Status: blocked — native background transfer belongs to the native-batch lane; the app uploads in the foreground through the media api until then (6c817ae58)
+- Status: done — f7f673f852 (the album queue hands photos to `cp-media-upload`, keeps what is in flight on the phone, resumes after a relaunch, resends unsent parts, renews expired links and falls back to the foreground path; Jest over the queue, no device run)
 
 ### T3 — Upload queue + album server path
 - Goal: offline queue, register, process, reads, export.

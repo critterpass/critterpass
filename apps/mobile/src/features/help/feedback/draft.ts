@@ -44,12 +44,14 @@ export function topicsFor(mode: FeedbackMode): readonly FeedbackCategory[] {
   return mode === 'problem' ? ['bug', ...BASE_TOPICS] : BASE_TOPICS;
 }
 
-export function initialDraft(mode: FeedbackMode): FeedbackDraft {
+export function initialDraft(mode: FeedbackMode, screenshot: string | null = null): FeedbackDraft {
   return {
     mood: null,
     category: mode === 'problem' ? 'bug' : mode === 'idea' ? 'other' : null,
     text: '',
-    attachments: [],
+    // A shake's screenshot starts attached; the person can remove it before sending.
+    attachments:
+      screenshot === null ? [] : [{ uri: screenshot, contentType: 'image/jpeg', bytes: null }],
     includeDeviceInfo: true,
   };
 }

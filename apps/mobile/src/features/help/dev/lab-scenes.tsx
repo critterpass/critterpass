@@ -6,8 +6,15 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture articles and notes, never shipped copy. */
 import { useState, type ReactNode } from 'react';
+import { ScrollView } from 'react-native';
 
 import type { FeedbackCategory, FeedbackMood } from '@cp/domain';
+
+import { PillButton } from '@/ui/buttons/PillButton';
+import { ListCard } from '@/ui/cards/ListCard';
+import { Stack } from '@/ui/layout/Stack';
+import { Scaffold } from '@/ui/surface/Scaffold';
+import { Text } from '@/ui/text/Text';
 
 import { searchLocal, type LocalArticle } from '../data/search-local';
 import { canSend, initialDraft, topicsFor, type FeedbackDraft } from '../feedback/draft';
@@ -16,6 +23,9 @@ import { SentView } from '../feedback/SentView';
 import { HubView } from '../hub/HubView';
 import { ReaderView } from '../reader/ReaderView';
 import type { FeedbackMode } from '../routes';
+import { captureMasked } from '../shake/capture';
+import { PrivateContent } from '../shake/PrivateContent';
+import { deviceCapturePorts } from '../shake/ShakeListener';
 import { IDEA_SCENES } from './idea-scenes';
 
 const noop = () => undefined;
@@ -120,6 +130,80 @@ function Feedback({
   );
 }
 
+/** A crew's spending under the buttons, so the screenshot has a real screen to cover parts of. */
+const SPENDING = [
+  {
+    title: 'Villa in Ubud, 3 nights',
+    paidBy: 'Winston paid · split 5 ways',
+    amount: 'Rp 9.600.000',
+  },
+  { title: 'Scooter rental', paidBy: 'Jordan paid · split 4 ways', amount: 'Rp 1.200.000' },
+  { title: 'Dinner at Locavore', paidBy: 'Alex paid · split 5 ways', amount: 'Rp 4.850.000' },
+  { title: 'Tegallalang entry', paidBy: 'You paid · split 5 ways', amount: 'Rp 250.000' },
+  { title: 'Boat to Nusa Penida', paidBy: 'Mei paid · split 5 ways', amount: 'Rp 2.750.000' },
+  { title: 'Airport transfer', paidBy: 'Winston paid · split 5 ways', amount: 'Rp 450.000' },
+] as const;
+
+/**
+ * What a shake does, without the shake: takes the masked screenshot of this scene (as an ordinary
+ * screen, or as a private one that is covered whole) and opens the problem report with it attached.
+ */
+function ShakeReport() {
+  const [shot, setShot] = useState<string | null | undefined>(undefined);
+  if (shot !== undefined) {
+    return (
+      <Feedback
+        mode="problem"
+        start={{
+          attachments: shot === null ? [] : [{ uri: shot, contentType: 'image/jpeg', bytes: null }],
+        }}
+      />
+    );
+  }
+  const shake = (pathname: string) =>
+    void captureMasked(pathname, deviceCapturePorts).then(setShot);
+  return (
+    <Scaffold variant="dark" edges={['top', 'bottom']} testID="help-shake-lab">
+      <ScrollView>
+        <Stack gap="16" padding="20">
+          <Text variant="eyebrow">You owe Winston</Text>
+          <PrivateContent>
+            <Text variant="h1">Rp 4.500.000</Text>
+          </PrivateContent>
+          <Text variant="body">Amounts are marked private; names and places are not.</Text>
+          <PillButton
+            label="Shake here"
+            onPress={() => shake('/explore')}
+            testID="help-shake-here"
+          />
+          <PillButton
+            label="Shake on a private screen"
+            variant="secondary"
+            onPress={() => shake('/wallet')}
+            testID="help-shake-private"
+          />
+          <Text variant="eyebrow">Bali · what the crew spent</Text>
+          <Stack gap="8">
+            {SPENDING.map((row) => (
+              <ListCard
+                key={row.title}
+                title={row.title}
+                subtitle={row.paidBy}
+                chevron={false}
+                trailing={
+                  <PrivateContent>
+                    <Text variant="rowTitle">{row.amount}</Text>
+                  </PrivateContent>
+                }
+              />
+            ))}
+          </Stack>
+        </Stack>
+      </ScrollView>
+    </Scaffold>
+  );
+}
+
 const NOTE =
   'Tokek suggested the boat on a rainy morning. Could the guide check the forecast first?';
 
@@ -143,6 +227,7 @@ export const HELP_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   'feedback-empty': () => <Feedback mode="feedback" />,
   'feedback-problem': () => <Feedback mode="problem" />,
+  'shake-report': () => <ShakeReport />,
   '3p-3-sent': () => (
     <SentView
       ticketNo={2291}
