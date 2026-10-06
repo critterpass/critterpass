@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withUser } from '../../src/tx';
@@ -83,16 +85,34 @@ describe('crew_members RLS: write', () => {
     expect(organiserRow).not.toMatchObject({ colour: 'red' });
   });
 
-  it('lets a user join a crew for themselves only', async () => {
-    const joiner = fixture.outsiderId;
-    await withUser(db.pool, joiner, anonymousActor().device, async (tx) => {
+  it('rejects a user adding themselves to a crew they did not create', async () => {
+    await expect(
+      withUser(db.pool, fixture.outsiderId, anonymousActor().device, async (tx) => {
+        await tx.query(
+          "INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')",
+          [fixture.crewId, fixture.outsiderId],
+        );
+      }),
+    ).rejects.toThrow(/row-level security/i);
+    expect(await selectMembers(fixture.organiserId)).toHaveLength(2);
+  });
+
+  it('lets the creator of a new crew add their own row', async () => {
+    const crewId = randomUUID();
+    const actor = fixture.outsiderId;
+    const seen = await withUser(db.pool, actor, anonymousActor().device, async (tx) => {
+      await tx.query("INSERT INTO crews (id, name, created_by) VALUES ($1, 'Fresh', $2)", [
+        crewId,
+        actor,
+      ]);
       await tx.query(
-        "INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')",
-        [fixture.crewId, joiner],
+        "INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'organiser')",
+        [crewId, actor],
       );
+      const mine = await tx.query('SELECT 1 FROM crew_members WHERE crew_id = $1', [crewId]);
+      return mine.rowCount;
     });
-    const rows = await selectMembers(fixture.organiserId);
-    expect(rows.some((r) => r.user_id === joiner)).toBe(true);
+    expect(seen).toBe(1);
   });
 
   it('rejects inserting a membership row for someone else', async () => {

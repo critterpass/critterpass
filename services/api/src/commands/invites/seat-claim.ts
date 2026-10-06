@@ -15,11 +15,19 @@ import type pg from 'pg';
 
 import { activeCrewCount, maxActiveCrews } from '../crews/shared';
 
-const PG_UNIQUE_VIOLATION = '23505';
 const CLOSED_TRIP_STATUSES = new Set(['cancelled', 'archived', 'post_trip']);
 
+/** What entitles the caller to join the crew: the database checks it again before it adds them. */
+export type JoinProof =
+  { readonly code: string } | { readonly seatTokenHash: string } | { readonly inviteId: string };
+
 /** Joins the caller to the crew (or finds them already in it). Returns whether they just joined. */
-export async function joinCrew(tx: pg.PoolClient, crewId: string, uid: string): Promise<boolean> {
+export async function joinCrew(
+  tx: pg.PoolClient,
+  crewId: string,
+  uid: string,
+  proof: JoinProof,
+): Promise<boolean> {
   const { rows: lockRows } = await tx.query<{ active_members: number; member_ceiling: number }>(
     'SELECT active_members, member_ceiling FROM app.lock_crew_membership($1)',
     [crewId],
@@ -48,25 +56,18 @@ export async function joinCrew(tx: pg.PoolClient, crewId: string, uid: string): 
       break;
   }
 
-  // A former member's row comes back to life; anyone else gets a new one.
-  const { rows: revived } = await tx.query<{ revived: boolean }>(
-    'SELECT app.reactivate_membership($1) AS revived',
-    [crewId],
+  // A former member's row comes back to life; anyone else gets a new one. The database joins
+  // only a caller who holds the code or invite, whatever this command decided above.
+  const { rows: joined } = await tx.query<{ joined: boolean }>(
+    'SELECT app.join_crew($1, $2, $3, $4) AS joined',
+    [
+      crewId,
+      'code' in proof ? proof.code : null,
+      'seatTokenHash' in proof ? proof.seatTokenHash : null,
+      'inviteId' in proof ? proof.inviteId : null,
+    ],
   );
-  if (revived[0]?.revived !== true) {
-    await tx.query('SAVEPOINT join_crew');
-    try {
-      await tx.query(
-        `INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')`,
-        [crewId, uid],
-      );
-      await tx.query('RELEASE SAVEPOINT join_crew');
-    } catch (error) {
-      await tx.query('ROLLBACK TO SAVEPOINT join_crew');
-      if ((error as { code?: unknown }).code !== PG_UNIQUE_VIOLATION) throw error;
-      return false;
-    }
-  }
+  if (joined[0]?.joined !== true) return false;
   // Now a member, the joiner can see the colours already taken.
   const { rows: colours } = await tx.query<{ colour: string | null }>(
     `SELECT colour FROM crew_members WHERE crew_id = $1 AND status = 'active' AND user_id <> $2`,
