@@ -431,10 +431,12 @@ Store purchase itself: StoreKit 2 / Play Billing via RevenueCat SDK; `appAccount
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
 | `rate_places` | `{trip_id, verdicts[{poi_id, verdict, tip?}]}` | participant | – | `place.rated` (tip → moderation) | A, O | 52 |
-| `publish_shared_plan` | `{trip_id, toggles{photos, costs, names, notes}}` (PII scrub + face blur jobs first) | organiser | – | `shared_plan.published` | A | 52 |
+| `publish_shared_plan` | `{trip_id, toggles{names, costs, photos}}` (doc delta: any seat holder asks; it publishes when every seat holder approved; notes and chat never leave; only photos with no faces are shared) | seat holder | – | `shared_plan.published` | A | 52 |
 | `update_shared_plan` / `unpublish_shared_plan` | `{shared_plan_id, toggles?}` | organiser | – | `shared_plan.updated/unpublished` | A | 52 |
 | `create_plan_link` / `revoke_plan_link` | `{trip_id}` / `{link_id}` | organiser | – | `plan_link.created/revoked` | A | 52 |
 | `save_shared_plan` / `unsave_shared_plan` | `{shared_plan_id}` | self | – | `shared_plan.saved` | A, O | 52 |
+| `respond_publish_consent` / `withdraw_publish_consent` | `{shared_plan_id, approve}` / `{shared_plan_id}` | asked seat holder | – | `shared_plan.consent_given/declined/unpublished` | A, O | 52 |
+| `copy_shared_plan` / `suggest_shared_plan_to_organiser` | `{shared_plan_id, trip_id, days?[]}` → `{idea_ids, job_id, places}` (the places go into Ideas and the placing job fits them into the trip's days as an organiser-only draft change; never a redraft) / `{suggested}` | organiser / member | – | `shared_plan.copied/suggested` | A (copy), A, O (suggest) | 52 |
 | `submit_feedback` | `{id, mood?, category?, text, include_device_info, device_info?, context{screen?, trip_id?, article_slug?}, media_keys[] (≤ 3, own `feedback` uploads), source}`; text ≥ 3 characters or a mood and a category; `device_info` only when `include_device_info` → `{ticket_id, ticket_no}` (a replay of the same id returns the same number) | self (anonymous allowed) | – | `feedback.submitted` → tracker | A, O | 47 |
 | `submit_idea` / `vote_idea` / `unvote_idea` | `{id, title, description?, locale}` (contact details, links or a blocked word → `CONTENT_REJECTED`; lands `pending_review`) / `{idea_id}` → `{idea_id, votes_left, votes_count}` | self (anonymous allowed) | 10 votes per calendar month on the voter's calendar → `STATE_INVALID{over_budget}`; an idea not taking votes → `STATE_INVALID{idea_closed}`; a pending idea of someone else → `NOT_FOUND` | `idea.submitted/voted/unvoted` | A, O | 47 |
 | `record_rating_prompt` | `{id, trip_id?, shown}` | self | – | `rating.prompted` | A, O | 47 |
