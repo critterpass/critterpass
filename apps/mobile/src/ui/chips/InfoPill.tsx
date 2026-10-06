@@ -18,9 +18,8 @@ export interface InfoPillProps {
   /** Text too long for the row ends in an ellipsis on one line instead of wrapping (free text). */
   readonly oneLine?: boolean;
   /**
-   * A short fact the design sets on one line that is never cut: it neither wraps nor ends in an
-   * ellipsis. On Android a glyph the face lacks (₫, ≈) is drawn from a fallback font a hair wider
-   * than the pill was measured, which would push the last word onto a hidden second line.
+   * A short fact the design sets on one line that is never cut: the pill widens to the text instead
+   * of wrapping it (a glyph from a fallback font, ₫ or ≈, can draw wider than it was measured).
    */
   readonly nowrap?: boolean;
   readonly testID?: string;
@@ -79,7 +78,7 @@ export function InfoPill({
           variant="label"
           color={fg}
           {...(oneLine ? { numberOfLines: 1, style: { flexShrink: 1 } } : {})}
-          {...(nowrap && !oneLine ? { numberOfLines: 1, ellipsizeMode: 'clip' as const } : {})}
+          keepOneLine={nowrap && !oneLine}
         >
           {children}
         </Text>
