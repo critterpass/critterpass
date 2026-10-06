@@ -250,6 +250,11 @@ describe('GET /v1/places/search without plain-words filters', () => {
           'tags',
           'distanceM',
           'openNow',
+          'hours',
+          'mustSee',
+          'pickRank',
+          'whyGo',
+          'bestTime',
         ].sort(),
       );
     }
