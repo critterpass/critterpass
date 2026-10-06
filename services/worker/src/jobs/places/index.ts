@@ -1,6 +1,8 @@
 /**
- * `places.ingest` (monthly, 1st at 02:00 UTC): refreshes every destination's open-data places, or
- * only those of the countries in `PLACES_REFRESH_COUNTRIES` (ISO codes, comma-separated) when set.
+ * `places.ingest` (monthly, 1st at 02:00 UTC): refreshes the open-data places of the destinations
+ * people want: every live destination and every destination with a trip or a pitch in the last
+ * 90 days, plus every destination in the countries of `PLACES_REFRESH_COUNTRIES` (ISO codes,
+ * comma-separated; staging keeps Vietnam's cities fresh this way).
  *
  * The cron's run (no `slug`) is the fan-out: it fills missing `place_bounds`, then, when the FSQ OS
  * Places catalog is configured, starts an export run (`src/places/fsq-export-runs.ts`) and queues
@@ -71,25 +73,38 @@ const chunkSchema = z.object({
   priority: z.number().int().optional(),
 });
 
+/** How far back a trip or a pitch keeps a destination in the monthly refresh. */
+export const REFRESH_WINDOW_DAYS = 90;
+
 /**
- * The countries the monthly refresh covers (`PLACES_REFRESH_COUNTRIES`, e.g. `VN` or `VN,TH`), as
- * upper-case ISO codes; null for every destination.
+ * The countries whose destinations the monthly refresh always covers (`PLACES_REFRESH_COUNTRIES`,
+ * e.g. `VN` or `VN,TH`), as upper-case ISO codes; empty when unset.
  */
-export function refreshCountries(env: NodeJS.ProcessEnv = process.env): readonly string[] | null {
+export function refreshCountries(env: NodeJS.ProcessEnv = process.env): readonly string[] {
   const codes = (env['PLACES_REFRESH_COUNTRIES'] ?? '')
     .split(',')
     .map((code) => code.trim().toUpperCase())
     .filter((code) => /^[A-Z]{2}$/.test(code));
-  return codes.length === 0 ? null : [...new Set(codes)];
+  return [...new Set(codes)];
 }
 
-/** The slugs of the destinations whose critter set is in one of `countries`. */
-async function slugsInCountries(pool: pg.Pool, countries: readonly string[]): Promise<string[]> {
+/**
+ * The slugs the monthly refresh covers: live destinations, those with a trip or a pitch created in
+ * the last `REFRESH_WINDOW_DAYS`, and those whose critter set is in one of `countries`.
+ */
+export async function wantedSlugs(pool: pg.Pool, countries: readonly string[]): Promise<string[]> {
   const { rows } = await withSystem(pool, (tx) =>
     tx.query<{ slug: string }>(
-      `SELECT d.slug FROM destinations d JOIN critter_sets s ON s.id = d.critter_set_id
-        WHERE s.country = ANY($1::text[]) ORDER BY d.slug`,
-      [countries],
+      `SELECT d.slug FROM destinations d
+         LEFT JOIN critter_sets s ON s.id = d.critter_set_id
+        WHERE d.coverage = 'live'
+           OR s.country = ANY($1::text[])
+           OR EXISTS (SELECT 1 FROM trips t WHERE t.destination_id = d.id
+                         AND t.created_at >= now() - make_interval(days => $2))
+           OR EXISTS (SELECT 1 FROM pitches p WHERE p.destination_id = d.id
+                         AND p.created_at >= now() - make_interval(days => $2))
+        ORDER BY d.slug`,
+      [countries, REFRESH_WINDOW_DAYS],
     ),
   );
   return rows.map((row) => row.slug);
@@ -196,7 +211,7 @@ export function placesIngestJob(options: PlacesJobsOptions = {}): AnyJobDefiniti
       const countries = refreshCountries();
       const targets = await ingestTargets(pool, {
         except: data?.except ?? [],
-        ...(countries === null ? {} : { slugs: await slugsInCountries(pool, countries) }),
+        slugs: await wantedSlugs(pool, countries),
       });
       if (fsqOsSource() !== 'iceberg' || targets.length === 0) {
         await queueDestinations(
