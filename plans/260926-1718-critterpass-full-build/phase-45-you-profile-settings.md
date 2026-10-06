@@ -165,7 +165,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: avatar change appears in crew chat on a second device; locked tile shake + hint; photo upload offline retries.
 
 ### T4 — Settings framework 3n-2 / 3n-6, sign-out, voice samples
-- Status: blocked — registry, rows and sign-out done (722c8a5f7), help-and-feedback rows done (b364ce1d7), Music row to Sound done (be1a84e5a4); chattiness voice samples wait for the owned ElevenLabs voices, and the plan chip waits for the plan screen
+- Status: blocked — registry, rows and sign-out done (722c8a5f7), help-and-feedback rows done (b364ce1d7), Music row to Sound done (d05a6f456f); chattiness voice samples wait for the owned ElevenLabs voices, and the plan chip waits for the plan screen
 - Goal: one registry-driven settings screen.
 - Files: `apps/mobile/src/app/you/settings/index.tsx`, `apps/mobile/src/features/you/settings/{registry,rows,device-prefs,sign-out}/*`, `tools/scripts/render-settings-voice-samples.ts`, `packages/content/voice-samples/settings/manifest.json`, tests, `e2e/you/settings.yaml`.
 - Steps: 1. Registry + synced/device storage. 2. Rows from render; rows owned by P20/P34/P36/P46/P47/P49 import those phases' public APIs (all precede this phase: P47 `features/help/settings-rows.tsx`, P49 `/you/pings` + `/you/widgets` routes; hence wave 18). 3. Chattiness sample playback. 4. Sign-out flows incl. anonymous warning + full local clear. 5. Collapsing header, easter egg.
@@ -173,7 +173,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: a synced toggle changed offline on device A appears on device B after reconnect; sign-out leaves no local DB, App Group snapshot or push token.
 
 ### T5 — Sound 3n-7 + audio engine
-- Status: done — be1a84e5a4 (screen, theme pin and follow, previews over the existing engine, prefs and quiet rules; themes stay bundled, and the hatch and recap callers do not read the pinned theme yet)
+- Status: done — d05a6f456f (screen, theme pin and follow, previews over the existing engine, prefs and quiet rules; themes stay bundled, and the hatch and recap callers do not read the pinned theme yet)
 - Goal: music themes and effects with correct audio session behaviour.
 - Files: `apps/mobile/src/lib/audio/{session,music-player,crossfade,theme-cache,quiet-rules}.ts`, `apps/mobile/src/app/you/sound.tsx`, `apps/mobile/src/features/you/sound/*`, tests.
 - Steps: 1. Verify expo-audio supports ambient + mixWithOthers on iOS and mix on Android; if not, implement `cp-audio-session` minimal module (else delete it from owns). 2. Theme cache from R2 + follow-guide logic (trip phase). 3. Equal-power crossfade. 4. Quiet-on-road rules (trip tz window, place-of-worship foreground geofence). 5. Wire toggles into P06 feedback bus.
@@ -205,7 +205,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: Testcontainers scenario with two crewmates exports only the requester's rows (asserted absence of crewmate C3 and messages), link expires after 7 d.
 
 ### T9a — Deletion backend: preflight, close, restore
-- Status: done — e6d2739bfe (preflight); close and restore 16fe3312ec
+- Status: done — c2db2609b5 (preflight); close and restore 16fe3312ec
 - Goal: store-compliant immediate close with undo.
 - Files: `services/api/src/commands/account/{request-account-deletion,restore-account}.ts`, `services/api/src/account/{preflight,close,organiser-transfer}.ts`, `services/api/src/routes/me-account.ts` (preflight), `services/api/test/account/*.test.ts`.
 - Steps: 1. Preflight aggregation (balances per crew, organiser roles, active trip, boost IOUs, subscription source). 2. Close txn: status, deletion row, sessions revoke, rt disconnect, action keys revoke, LA end events, push tokens off, location shares stop, organiser transfer. 3. Restore within grace.
@@ -221,7 +221,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: purge test asserts every C3 table empty for uid (enumerated from the privacy registry, incl. Better Auth `user`/`session`/`account`/`verification`), C1 authored rows show former member, ledger still balances to zero across crew, `store_transactions.user_id` NULL; external purge test asserts one delete/redact call per store (recorded HTTP fixtures) and retries on failure.
 
 ### T10 — Deletion UI 3n-9 / 3n-10 / 3n-11 + restore interstitial
-- Status: done — 3c6f5b3e36 (preflight on 3n-9); screens and restore 60b02dc45c
+- Status: done — 0f58a0d20a (preflight on 3n-9); screens and restore 60b02dc45c
 - Goal: the designed exit flow.
 - Files: `apps/mobile/src/app/you/delete/{index,hold}.tsx`, `apps/mobile/src/app/account-closed.tsx`, `apps/mobile/src/features/you/delete/*`, tests, `e2e/you/delete-restore.yaml`.
 - Steps: 1. Preflight screen with all variants. 2. Hold sheet (P07 hold ring, peel thresholds, a11y confirm). 3. Closed page with stamps + undo. 4. Restore interstitial on relaunch/sign-in. 5. Settle-up and manage-subscription hand-offs.
