@@ -57,6 +57,10 @@ msgstr "Một mục trong lịch trình"
 msgid "guide.limit.attach"
 msgstr "Thêm tệp đính kèm"
 
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.ai"
+msgstr "Hướng dẫn viên AI · câu trả lời có thể sai, hãy kiểm tra lại điều quan trọng"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.allergies"
 msgstr "Dị ứng"

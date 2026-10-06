@@ -57,6 +57,10 @@ msgstr "A plan item"
 msgid "guide.limit.attach"
 msgstr "Add attachment"
 
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.ai"
+msgstr "AI guide · answers can be wrong, check what matters"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.allergies"
 msgstr "Allergies"
