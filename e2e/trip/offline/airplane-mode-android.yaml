@@ -2,8 +2,8 @@ appId: app.critterpass.dev
 ---
 # A trip day with no signal: the trip (a crew of six, on today) keeps working from what the phone
 # holds. With Wi-Fi and data off the day-of screen says it is offline, an item added to the pack
-# list waits on the phone, and the day's plan opens with its stops (the trip's places travel with
-# the trip as cards, so nothing is fetched). Back online, the queued item goes through and is still
+# list waits on the phone, and the hub's offline card opens today's plan with its stops (the trip's
+# places travel with the trip as cards, so nothing is fetched). Back online, the queued item goes through and is still
 # there after a relaunch. Android only: the runner cuts the emulator's network (/network).
 - runFlow:
     file: ../subflows/today-with-crew.yaml
@@ -56,17 +56,18 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'trip-offline-open-plan'
+# Today's plan is the day-of screen: its stops come from the phone, under the NO SIGNAL pill.
 - extendedWaitUntil:
     visible:
-      id: 'stop-[0-9]+'
+      id: 'trip-day-offline'
     timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-item-.*'
+    direction: DOWN
+    timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: offline-day-plan
-- back
-- extendedWaitUntil:
-    visible:
-      id: 'trip-offline-card'
-    timeout: 15000
 # Runner: back online.
 - evalScript: "${output.restored = http.post('http://127.0.0.1:7788/network?state=on', { body: '{}' }).status}"
 - assertTrue: ${output.restored == 200}

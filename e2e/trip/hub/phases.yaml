@@ -20,7 +20,7 @@ appId: app.critterpass.dev
 - runFlow: ../subflows/crew-of-six.yaml
 # The joins reach the hub through sync: the header counts six going.
 - extendedWaitUntil:
-    visible: '(?i).*6 going.*'
+    visible: '(?i).*6.going.*'
     timeout: 60000
 - assertVisible:
     id: 'trip-hub-header-pre'

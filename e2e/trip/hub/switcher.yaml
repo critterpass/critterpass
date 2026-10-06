@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Two trips on one phone: a trip that is on today (built in the app and joined by five simulated
-# travellers) and a solo trip still in planning, started from a place's Explore page. The hub opens
-# on the trip that is on; SWITCH TRIP lists both, and each opens in its own phase.
+# travellers) and a solo trip still in planning, started from a place's Explore page. The TRIPS
+# list holds both, each opens in its own phase, and SWITCH TRIP goes between them.
 - runFlow:
     file: ../../happy/subflows/trip-under-way.yaml
     env:
@@ -51,9 +51,46 @@ appId: app.critterpass.dev
       - back
       - waitForAnimationToEnd:
           timeout: 2000
-- runFlow: ../subflows/to-hub.yaml
+- tapOn:
+    id: 'tab-trips'
+# With two trips the tab can open on the list or on the last hub; either way, reach the list.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list|trip-hub-header-.*'
+    timeout: 30000
+- runFlow: ../../happy/subflows/answer-visit-offer.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-switch'
+    commands:
+      - tapOn:
+          id: 'trip-hub-switch'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list'
+    timeout: 15000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
 - assertVisible:
-    id: 'trip-hub-header-in'
+    id: 'trip-list-row-.*'
+    index: 1
+- waitForAnimationToEnd
+- takeScreenshot: switcher-list
+# The list puts the trip that is on first.
+- tapOn:
+    id: 'trip-list-row-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-in'
+    timeout: 15000
+- runFlow: ../../happy/subflows/answer-visit-offer.yaml
 - assertVisible:
     id: 'trip-hub-switch'
 - waitForAnimationToEnd
@@ -64,12 +101,7 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-list'
     timeout: 15000
-- assertVisible:
-    id: 'trip-list-row-.*'
-    index: 1
-- waitForAnimationToEnd
-- takeScreenshot: switcher-list
-# The list puts the trip that is on first; the second row is the solo trip in planning.
+# The second row is the solo trip still being set up.
 - tapOn:
     id: 'trip-list-row-.*'
     index: 1
