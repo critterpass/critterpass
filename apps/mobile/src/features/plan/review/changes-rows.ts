@@ -7,11 +7,13 @@
 import type { FitReason } from '@cp/domain';
 import type { Href } from 'expo-router';
 
+import { driverPickDetail } from '@/features/drivers';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { weekdayOf } from '../day/format';
 import { dayTileColour } from '../overview/model/day-colour';
 import { changeReason, leftLine, needsMoveExplainer, placedReason, wasLine } from './changes-copy';
+import { driverPickName } from './chat-card-title';
 import type { ChangeRow, NeedsYouRow } from './changes-review-view';
 import type { LeftForYou } from './data/use-review-extras';
 import type { ChangeCard } from './model/review-model';
@@ -29,6 +31,19 @@ export function changeRows(input: {
   readonly stopName: (stableId: string) => string | null;
 }): ChangeRow[] {
   return input.cards.map((card) => {
+    if (card.driverPick !== null) {
+      // A driver pick sits on its first day: the driver, then his days and the terms voted on.
+      const first = card.driverPick.days[0]?.date ?? null;
+      const day = input.days.find((d) => d.date === first);
+      return {
+        key: card.target,
+        dayTag: weekdayOf(first, input.locale).toUpperCase(),
+        dayColor: dayTileColour(day?.dayNo ?? 1),
+        title: `→ ${driverPickName(card.driverPick.name).toUpperCase()}`,
+        detail: driverPickDetail(card.driverPick, input.locale),
+        accepted: card.accepted,
+      };
+    }
     const side = card.after ?? card.before;
     const dayNo = side?.dayNo ?? card.before?.dayNo ?? null;
     const date = input.days.find((day) => day.dayNo === dayNo)?.date ?? null;

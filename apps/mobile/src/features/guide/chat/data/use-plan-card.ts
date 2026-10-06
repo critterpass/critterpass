@@ -1,12 +1,13 @@
 /**
  * A plan card's model (3j-1) from the plan area's change review: each change as what goes (with
  * its time) and what comes in, the same-for-everyone cost change ("+$22 each"), and where the
- * change set stands. Times and prices come from the change set and the plan, never from the
- * guide's words.
+ * change set stands. A driver the crew is asked to pick has his own line, with his days and
+ * terms. Times and prices come from the change set and the plan, never from the guide's words.
  */
 import type { ChangeSetOpKind } from '@cp/domain';
 import { useMemo } from 'react';
 
+import type { DriverPick } from '@/features/drivers';
 import { useChangeset, type ChangesetView } from '@/features/plan';
 
 type ChangesetState = ChangesetView['state'];
@@ -32,6 +33,8 @@ export interface PlanCardModel {
   readonly eachMinor: number | null;
   readonly currency: string | null;
   readonly swaps: readonly PlanSwap[];
+  /** The drivers the change set asks the crew to pick, each with his days and terms. */
+  readonly driverPicks: readonly (DriverPick & { readonly target: string })[];
 }
 
 export function toPlanCard(changesetId: string, view: ChangesetView): PlanCardModel | null {
@@ -44,7 +47,7 @@ export function toPlanCard(changesetId: string, view: ChangesetView): PlanCardMo
     currency: view.numbers?.currency ?? null,
     swaps: view.cards
       .filter((card) => card.accepted)
-      // A driver pick swaps no plan item: it has no line on this card.
+      // A driver pick swaps no plan item: it has its own line (`driverPicks`).
       .flatMap((card) => {
         const { op } = card;
         if (op === 'assign_provider') return [];
@@ -59,6 +62,11 @@ export function toPlanCard(changesetId: string, view: ChangesetView): PlanCardMo
           },
         ];
       }),
+    driverPicks: view.cards.flatMap((card) =>
+      card.accepted && card.driverPick !== null
+        ? [{ ...card.driverPick, target: card.target }]
+        : [],
+    ),
   };
 }
 

@@ -103,6 +103,10 @@ msgstr "Chưa mở"
 msgid "drivers.replied.overtime"
 msgstr "Phụ trội {0} mỗi giờ sau {1} giờ"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.pick"
+msgstr "Chọn {driverName} với giá này"
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.noDays"
 msgstr "Chọn ít nhất một ngày"

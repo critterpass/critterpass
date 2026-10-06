@@ -11,6 +11,7 @@ import { useContext, useMemo } from 'react';
 import { changeSetOpsSchema, type ChangeSetOp } from '@cp/domain';
 
 import type { SendResult } from '@/data/commands/client';
+import { driverPickOf } from '@/features/drivers';
 import type { ClientCommandSpec } from '@/data/commands/summaries';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
@@ -36,6 +37,7 @@ import {
   type Tally,
 } from '../model/review-model';
 import { reviewNumbers, type ReviewNumbers } from '../model/review-numbers';
+import { usePickedProviders } from './picked-providers';
 import {
   applyChangesetOnline,
   approveChangesetCommand,
@@ -165,6 +167,7 @@ export function useChangeset(tripId: string | null, changesetId: string | null):
     [ops],
   );
   const pois = useLiveRows<{ id: string; name: string }>(POIS_SQL, [poiIds], ['pois']);
+  const providers = usePickedProviders(ops);
 
   const locale = useActiveLocale();
   // The base version's own place names, so a stop is named here as in the plan itself.
@@ -188,7 +191,9 @@ export function useChangeset(tripId: string | null, changesetId: string | null):
 
   return useMemo((): ChangesetView => {
     const poiNames = new Map(pois.rows.map((p) => [p.id, p.name]));
-    const cards = buildChangeCards(ops, baseItems, poiNames, plan.trip?.tz ?? null);
+    const cards = buildChangeCards(ops, baseItems, poiNames, plan.trip?.tz ?? null, (op) =>
+      driverPickOf(op, providers),
+    );
     const eligible = idArray(poll?.eligible_voter_ids ?? null);
     return {
       status: !rows.loaded ? 'loading' : row === null ? 'missing' : 'ready',
@@ -219,7 +224,19 @@ export function useChangeset(tripId: string | null, changesetId: string | null):
     };
     // `crew` derives from plan.members, already a dependency.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ops, baseItems, pois.rows, plan, poll, ballots.rows, row, rows.loaded, days, inTrip]);
+  }, [
+    ops,
+    baseItems,
+    pois.rows,
+    providers,
+    plan,
+    poll,
+    ballots.rows,
+    row,
+    rows.loaded,
+    days,
+    inTrip,
+  ]);
 }
 
 export interface ChangesetActions {

@@ -103,6 +103,10 @@ msgstr "Not opened yet"
 msgid "drivers.replied.overtime"
 msgstr "Overtime {0} an hour after {1} hours"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.pick"
+msgstr "Pick {driverName} at this price"
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.noDays"
 msgstr "Pick at least one day"
