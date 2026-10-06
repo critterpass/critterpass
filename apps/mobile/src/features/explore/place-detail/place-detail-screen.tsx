@@ -13,6 +13,7 @@ import { Share } from 'react-native';
 import { currentAppEnvironment } from '@/data/app-session/endpoints';
 import { heroAt, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import type { PlaceProfile } from '@/data/places/place-read';
 import { dataOf } from '@/data/travel-data/freshness';
 import { goHref } from '@/features/go';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
@@ -38,13 +39,14 @@ import {
 import { PlaceDetailView } from './place-detail-view';
 import { areaFromAddress, sellsTickets } from './place-facts';
 import { RemoveForEveryone } from './remove-for-everyone';
-import { useSettleProvisionalIdeas } from './provisional-idea';
+import { PlaceProfileSection } from './place-profile';
 import { useIdeaSave } from './use-idea-save';
-import { usePlaceOnPhone } from './use-place-on-phone';
 
 export interface PlaceDetailScreenProps {
   readonly placeId: string;
   readonly row: PoiRow;
+  /** The place's AI-written profile, when the api has one. */
+  readonly profile?: PlaceProfile | null | undefined;
   readonly tripId: string | null;
   readonly onBack: () => void;
 }
@@ -59,7 +61,13 @@ function parseJson(text: string | null | undefined): Record<string, unknown> | n
   }
 }
 
-export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailScreenProps) {
+export function PlaceDetailScreen({
+  placeId,
+  row,
+  profile = null,
+  tripId,
+  onBack,
+}: PlaceDetailScreenProps) {
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
   const facts = useTripFacts(tripId, placeId);
@@ -133,13 +141,12 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
   const pick = (params: Record<string, string>) =>
     tripId === null ? undefined : hrefFor('7f-1', { tripId, placeId, ...params });
   const otherDays = pick({ pick: 'day' });
-  const onPhone = usePlaceOnPhone(tripId, placeId, row.name);
-  useSettleProvisionalIdeas();
+  const ready = profile?.status === 'ready' ? profile : null;
 
   const press = () => {
     if (cta.kind === 'add') {
       const href = pick({ dayId: cta.day.day_id, start: cta.day.start });
-      if (href !== undefined) return onPhone(() => router.push(href));
+      if (href !== undefined) router.push(href);
       return undefined;
     }
     if (cta.kind === 'inPlan' && tripId !== null) {
@@ -149,7 +156,8 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
       return undefined;
     }
     if (cta.kind === 'noFit' && otherDays !== undefined) {
-      return onPhone(() => router.push(otherDays));
+      router.push(otherDays);
+      return undefined;
     }
     if (tripId === null && row.destination_slug !== null) {
       router.push(exploreRoutes.destination(row.destination_slug));
@@ -184,7 +192,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
       category={row.category}
       guide={guide}
       photo={photo}
-      heroUrl={live.heroUrl}
+      heroUrl={live.heroUrl ?? ready?.photos[0]?.url ?? null}
       saved={heart.saved}
       offline={offline}
       onBack={onBack}
@@ -212,8 +220,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
                       grade:
                         context?.fits?.days.find((one) => one.day_no === cta.dayNo)?.grade ?? null,
                     },
-              onOtherDays:
-                otherDays === undefined ? undefined : () => onPhone(() => router.push(otherDays)),
+              onOtherDays: otherDays === undefined ? undefined : () => router.push(otherDays),
             }
       }
       fitNote={fitNote}
@@ -222,6 +229,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
       }
       further={
         <>
+          {ready === null ? null : <PlaceProfileSection profile={ready} />}
           <RemoveForEveryone
             tripId={tripId}
             placeId={placeId}

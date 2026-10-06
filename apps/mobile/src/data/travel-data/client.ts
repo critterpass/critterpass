@@ -81,8 +81,26 @@ export interface LastGoodCache {
   set(key: string, body: unknown, savedAt: Date): void;
 }
 
-export function createLastGoodCache(id = 'cp-travel-data'): LastGoodCache {
+/** The key a bounded cache keeps its key order under (oldest first). */
+const ORDER_KEY = '__order';
+
+/**
+ * Last good answers in MMKV instance `id`. With `max`, only the newest `max` keys are kept: a key
+ * written again counts as newest, and the oldest past the bound is dropped.
+ */
+export function createLastGoodCache(
+  id = 'cp-travel-data',
+  options: { readonly max?: number } = {},
+): LastGoodCache {
   const storage = createMMKV({ id });
+  const order = (): string[] => {
+    try {
+      const keys = JSON.parse(storage.getString(ORDER_KEY) ?? '[]') as unknown;
+      return Array.isArray(keys) ? keys.filter((key) => typeof key === 'string') : [];
+    } catch {
+      return [];
+    }
+  };
   return {
     get(key) {
       const raw = storage.getString(key);
@@ -98,6 +116,13 @@ export function createLastGoodCache(id = 'cp-travel-data'): LastGoodCache {
     },
     set(key, body, savedAt) {
       storage.set(key, JSON.stringify({ savedAt: savedAt.toISOString(), body }));
+      if (options.max === undefined) return;
+      const keys = order().filter((one) => one !== key);
+      keys.push(key);
+      for (const dropped of keys.splice(0, Math.max(0, keys.length - options.max))) {
+        storage.remove(dropped);
+      }
+      storage.set(ORDER_KEY, JSON.stringify(keys));
     },
   };
 }

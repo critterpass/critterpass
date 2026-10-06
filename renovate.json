@@ -28,6 +28,11 @@
       "schedule": ["at any time"],
       "description": "Auth advisories are patched within 48 h"
     },
+    {
+      "matchPackageNames": ["journeyapps/powersync-service", "@powersync/service-sync-rules"],
+      "groupName": "powersync service",
+      "description": "The sync budget test compiles streams with the compiler inside the PowerSync image: bump both together, the compiler to the version the new image ships"
+    },
     { "matchDepTypes": ["engines"], "enabled": false }
   ],
   "vulnerabilityAlerts": { "enabled": true, "schedule": ["at any time"] }

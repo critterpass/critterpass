@@ -118,6 +118,26 @@ describe('set_feature_flag', () => {
     );
   });
 
+  it('refuses to turn the retired planning switch off and leaves the row as it was', async () => {
+    const row = () =>
+      harness.pool
+        .query<{ value: unknown; version: number }>(
+          "SELECT value, version FROM ops.ops_config WHERE key = 'planning.redesign'",
+        )
+        .then((result) => result.rows[0] ?? null);
+    const before = await row();
+    const refused = await app.command(ops, 'set_feature_flag', {
+      key: 'planning.redesign',
+      value: false,
+      audience: { kind: 'all' },
+      version: before?.version ?? 0,
+      reason: 'try the earlier screens',
+    });
+    expect(refused.status).toBe(422);
+    expect(((await refused.json()) as { error: { code: string } }).error.code).toBe('VALIDATION');
+    expect(await row()).toEqual(before);
+  });
+
   it('writes one audit row per applied change', async () => {
     const opId = generateUuidV7();
     await app.command(

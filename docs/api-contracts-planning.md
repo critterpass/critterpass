@@ -118,7 +118,7 @@ How the plan check runs:
 
 | Key | Default | Public | Meaning |
 |---|---|---|---|
-| `planning.redesign` | false | yes | the section 7 screens; off keeps the earlier plan and places screens |
+| `planning.redesign` | true | yes | retired: the section 7 screens are the only plan and places screens. Pinned on (the schema refuses `false`, `VALIDATION`) and never deleted, because installed builds that still have the switch read a missing key as off; the server no longer reads it |
 | `plan.hub` | `map` | yes | what PLAN opens: the trip map (`map`) or the day plan (`day`) |
 | `plan.check.max_runs_per_trip_day` | 96 | no | plan check runs per trip per day |
 | `plan.check.thresholds` | `{too_far_day_min: 180, too_far_leg_min: 90, rain_pct: 50, normal_rain_pct: 40, busy_level: 70, pace_stops_per_9h: 6}` | no | when a day is too far, rainy, busy or packed |

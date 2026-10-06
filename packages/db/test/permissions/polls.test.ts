@@ -2,7 +2,7 @@
  * Poll permissions: crew members read a trip's polls, options, ballots and pitches; a voter casts
  * and changes only their own ballot, only while `app.can_vote` holds (open, eligible, still a
  * member); the state guard agrees with packages/domain/src/polls/state.ts; reveals are the
- * owner's alone; and the `trip`, `crew_polls` and `me` stream queries carry the same rows.
+ * owner's alone; and `crew_polls` and `me` carry the rows (the trip stream keeps no copy).
  */
 import { randomUUID } from 'node:crypto';
 
@@ -282,13 +282,16 @@ describe('poll state guard', () => {
 });
 
 describe('streams', () => {
-  it('carries trip polls, options, ballots and pitches on the trip stream', async () => {
+  it("carries a trip's polls, options, ballots and pitches on crew_polls, not again on trip", async () => {
     const { tripId } = harness.fixture;
-    const member = await harness.rows('trip', 'member', { trip_id: tripId });
+    const crew = await harness.rows('crew_polls', 'member');
+    const trip = await harness.rows('trip', 'member', { trip_id: tripId });
     for (const table of ['polls', 'poll_options', 'ballots', 'pitches']) {
-      expect(member.get(table)?.length ?? 0, table).toBe(1);
+      const ofTrip = (crew.get(table) ?? []).filter((row) => row['trip_id'] === tripId);
+      expect(ofTrip.length, table).toBe(1);
+      expect(trip.get(table) ?? [], table).toEqual([]);
     }
-    const outsider = await harness.rows('trip', 'outsider', { trip_id: tripId });
+    const outsider = await harness.rows('crew_polls', 'outsider');
     for (const table of ['polls', 'poll_options', 'ballots', 'pitches']) {
       expect(outsider.get(table) ?? [], table).toEqual([]);
     }

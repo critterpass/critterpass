@@ -1,21 +1,14 @@
 /**
  * `GET /v1/places/{id}/context?trip_id&date` (docs/api-contracts-explore.md, with the planning
- * delta in docs/api-contracts-planning.md): what a place page adds when opened from a trip. How far
- * it is from the stay, its quiet window on the date, who in the crew saved it or swiped yes, the
- * crew's Q&A line (this trip's chat only), whether it is in the plan already and, if not, the
- * suggested ADD TO DAY slot and how adding goes (the organiser applies, a member proposes a
- * change). The planning page adds when it fits (the fit engine), its fact tiles (our own hours and
+ * delta in docs/api-contracts-planning.md): what a place page adds when opened from a trip. Who in
+ * the crew saved it, the crew's Q&A line (this trip's chat only), whether it is in the plan
+ * already and how adding goes (the organiser applies, a member proposes a change). The place page
+ * adds when it fits (the fit engine), its fact tiles (our own hours and
  * approved editorial facts only), what is nearby and similar, and where the crew stands on it.
  * Supplier offers and live third-party details stay on their own routes and never land here.
  */
 import { withUser } from '@cp/db';
-import {
-  DomainError,
-  knownHours,
-  straightLineEtaProvider,
-  toLocalWallTime,
-  type BestWindow,
-} from '@cp/domain';
+import { DomainError, toLocalWallTime } from '@cp/domain';
 import { legKey, straightLineTravel, type FitLeg } from '@cp/planner';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
@@ -33,7 +26,6 @@ import { planningFitTravel } from '../routing/travel-modes';
 import { nearbyPlaces, type NearbyPlace } from '../planning/fit/nearby';
 import { readSplitSummary, type SplitSummary } from '../planning/split/stances';
 import { tripStay } from '../planning/stay';
-import { readCrowds } from '../travel-data/crowds-route';
 import {
   editorialExtras,
   factTiles,
@@ -43,7 +35,7 @@ import {
   type WhenItFits,
 } from './place-fit';
 import {
-  loadSlotDays,
+  loadPlanPlace,
   placeFacts,
   qnaLine,
   savedBy,
@@ -53,17 +45,14 @@ import {
   type SimilarPlace,
   type TripFacts,
 } from './plan-read';
-import { DEFAULT_VISIT_MIN, suggestSlot, type SuggestedSlot } from './slot-suggest';
 
 export interface PlaceContext {
   readonly poi_id: string;
   readonly trip_id: string;
-  readonly stay: {
-    readonly distance_m: number;
-    readonly minutes: number;
-    readonly estimate: boolean;
-  } | null;
-  readonly crowd: { readonly date: string; readonly best_window: BestWindow | null } | null;
+  /** Installed builds parse `stay`, `crowd`, `crew.yes_by` and `suggested_slot` as required
+   * keys; only the earlier place page read them, so they answer empty. */
+  readonly stay: null;
+  readonly crowd: null;
   readonly crew: { readonly saved_by: readonly string[]; readonly yes_by: readonly string[] };
   readonly qna: {
     readonly text: string;
@@ -75,7 +64,7 @@ export interface PlaceContext {
     readonly stable_id: string;
     readonly starts_at: string | null;
   } | null;
-  readonly suggested_slot: SuggestedSlot | null;
+  readonly suggested_slot: null;
   readonly add_mode: 'apply' | 'changeset';
   readonly base_version: string | null;
   /**
@@ -110,54 +99,18 @@ export async function readPlaceContext(
   const trip = await tripFacts(tx, input.tripId);
   const place = await placeFacts(tx, input.poiId);
   const tz = trip.tz ?? place.tz ?? 'UTC';
-  const plan = await loadSlotDays(tx, trip, input.poiId, tz);
+  const plan = await loadPlanPlace(tx, trip, input.poiId);
   const date = input.date ?? plan.firstDate ?? toLocalWallTime(new Date(), tz).date;
-  const crowd = await readCrowds(tx, input.poiId, date);
-  const stay =
-    plan.stay === null
-      ? null
-      : await straightLineEtaProvider
-          .eta({
-            originLat: plan.stay.lat,
-            originLng: plan.stay.lng,
-            destLat: place.lat,
-            destLng: place.lng,
-            mode: 'pedestrian',
-          })
-          .then((eta) => ({
-            distance_m: Math.round(eta.distanceM),
-            minutes: eta.minutes,
-            estimate: eta.estimate,
-          }));
-  const yes = await tx.query<{ user_id: string }>(
-    `SELECT DISTINCT user_id FROM swipe_yes_votes WHERE trip_id = $1 AND poi_id = $2 ORDER BY user_id`,
-    [trip.id, input.poiId],
-  );
   const planning = await planningExtras(tx, { trip, place, poiId: input.poiId, date }, deps);
-  // Installed builds read this field: it keeps the slot finder's answer, unchanged; the planning
-  // page reads `when_it_fits` instead.
-  const suggested =
-    plan.inPlan !== null
-      ? null
-      : suggestSlot({
-          days: plan.days,
-          tz,
-          hours: knownHours(place.hours),
-          quietStart: crowd.best_window?.start ?? null,
-          durationMin: place.timeNeededMin ?? DEFAULT_VISIT_MIN,
-        });
   return {
     poi_id: input.poiId,
     trip_id: trip.id,
-    stay,
-    crowd: crowd.hourly === null ? null : { date, best_window: crowd.best_window },
-    crew: {
-      saved_by: await savedBy(tx, trip, input.poiId),
-      yes_by: yes.rows.map((r) => r.user_id),
-    },
+    stay: null,
+    crowd: null,
+    crew: { saved_by: await savedBy(tx, trip, input.poiId), yes_by: [] },
     qna: await qnaLine(tx, trip.id, input.poiId, place.name),
     in_plan: plan.inPlan,
-    suggested_slot: suggested,
+    suggested_slot: null,
     add_mode: trip.organiser ? 'apply' : 'changeset',
     base_version: trip.current_version_id,
     plan_version: await visiblePlanVersion(tx, trip.id),

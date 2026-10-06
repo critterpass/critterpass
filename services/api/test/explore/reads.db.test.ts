@@ -150,19 +150,14 @@ describe('place context', () => {
     expect((await context(world.b.organiser, world.a.tripId)).status).toBe(404);
   });
 
-  it('knows the stay, the organiser applies, a member proposes, and suggests a free slot', async () => {
+  it('the organiser applies, a member proposes, and a place in the plan says where', async () => {
     const organiser = await context();
-    expect(organiser.body['stay']).toMatchObject({ estimate: true });
     expect(organiser.body['add_mode']).toBe('apply');
     expect(organiser.body['in_plan']).toBeNull();
-    const slot = organiser.body['suggested_slot'] as { day_no: number; starts_at: string } | null;
-    expect(slot).not.toBeNull();
-    expect(slot?.day_no).toBe(3);
     const member = await context(world.a.members[1]);
     expect(member.body['add_mode']).toBe('changeset');
     const inPlan = await context(world.a.organiser, world.a.tripId, world.pois.stay);
     expect(inPlan.body['in_plan']).toMatchObject({ day_no: 1 });
-    expect(inPlan.body['suggested_slot']).toBeNull();
   });
 
   it('lists crewmates who saved the place in the trip destination', async () => {

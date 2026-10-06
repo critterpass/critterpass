@@ -1,6 +1,6 @@
 # Critterpass API contracts: disruptions
 
-Companion to [api-contracts.md](./api-contracts.md) §4.12 and [api-contracts-trip.md](./api-contracts-trip.md): flight delay (3k-5), the forecast watch list and storm decision (3k-7, 3k-8), weather replan suggestions (3e-2) and running late (3k-9). Shapes live in `packages/domain/src/disruptions/` (`commands.ts`, `types.ts`, `late.ts`, `events.ts`, `queues.ts`, `templates.ts`); the deterministic work in `packages/planner/src/disruption/`; tables in [data-model.md](./data-model.md) §3.12.
+Companion to [api-contracts.md](./api-contracts.md) §4.12 and [api-contracts-trip.md](./api-contracts-trip.md): flight delay (3k-5), the forecast watch list and storm decision (3k-7, 3k-8), weather replan suggestions (the day plan's rain line, 7h-4) and running late (3k-9). Shapes live in `packages/domain/src/disruptions/` (`commands.ts`, `types.ts`, `late.ts`, `events.ts`, `queues.ts`, `templates.ts`); the deterministic work in `packages/planner/src/disruption/`; tables in [data-model.md](./data-model.md) §3.12.
 
 **Rules every surface keeps**
 
@@ -93,7 +93,7 @@ Disruption hints ride `trip_watch:{trip}` and `trip_plan:{trip}` (doc delta: the
 | `trip_watch` | `disruption.step` | `{disruption_id, action_id, state}`; `action_id` is a row id, or `late_options` (`ready`), `late_option` (the pick), `late_party` (`updated`, `resolved`), `supplier_move` |
 | `trip_watch` | `late.eta` | `{disruption_id, late_min, eta_at}` on every late check; `{disruption_id, stale: true}` when checks stopped |
 | `trip_watch` | `watch.changed` | `{watch_item_id, status}` for each row whose status or numbers changed |
-| `trip_plan` | `forecast.band` | `{disruption_id, change_set_id, item_stable_id, date, rain_from, rain_to}` for the 3e-2 overlay; `{disruption_id, change_set_id, withdrawn: true}` when the suggestion is gone |
+| `trip_plan` | `forecast.band` | `{disruption_id, change_set_id, item_stable_id, date, rain_from, rain_to}` (nothing in the app listens since the timeline overlay was retired; the suggestion shows from its ChangeSet on the day plan and 7h-4); `{disruption_id, change_set_id, withdrawn: true}` when the suggestion is gone |
 
 ## 6. Notifications
 
