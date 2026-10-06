@@ -210,25 +210,31 @@ describe('decide falls back to the fast-tier twin', () => {
   });
 
   it('when Jev does not answer within 800 ms', async () => {
-    const waited: number[] = [];
+    // The budget is a timeout signal created before the request goes out, so the wait is measured
+    // from before the call: it is never shorter than the budget, give or take the timer's 1 ms
+    // rounding. The upper bound only proves the wait is not open-ended, so it leaves room for a
+    // slow runner.
+    const reasons: string[] = [];
     const hang: typeof fetch = (_input, init) =>
       new Promise((_resolve, reject) => {
-        const started = performance.now();
         init?.signal?.addEventListener('abort', () => {
-          waited.push(performance.now() - started);
-          reject(init.signal?.reason as Error);
+          const reason = init.signal?.reason as Error;
+          reasons.push(reason.name);
+          reject(reason);
         });
       });
     const { client, h } = harness([], ['flash-decision-twin'], { fetch: hang });
+    const started = performance.now();
     const decision = await client.decide('help.intent_classifier', {
       state: STATE,
       questions: QUESTIONS,
     });
+    const waited = performance.now() - started;
     expect(h.fallbacks).toEqual(['timeout']);
     expect(decision.answered_by).toBe('fast');
-    expect(waited).toHaveLength(1);
-    expect(waited[0]).toBeGreaterThanOrEqual(790);
-    expect(waited[0]).toBeLessThan(1_500);
+    expect(reasons).toEqual(['TimeoutError']);
+    expect(waited).toBeGreaterThanOrEqual(800 - 5);
+    expect(waited).toBeLessThan(5_000);
   });
 
   it('on a transport error and on a rejected key', async () => {

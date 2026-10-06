@@ -17,7 +17,6 @@ import {
 describe('readPlanHub', () => {
   it('opens the trip map when the config is missing', () => {
     expect(readPlanHub([])).toBe('map');
-    expect(readPlanHub([{ key: 'planning.redesign', value: 'true' }])).toBe('map');
   });
 
   it('reads day as JSON text or a bare word', () => {
