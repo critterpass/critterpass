@@ -128,6 +128,7 @@ const IDEA = {
   user_id: crypto.randomUUID(),
 };
 const STANCE = { trip_id: IDEA.trip_id, poi_id: crypto.randomUUID(), user_id: IDEA.user_id };
+const SHARED_PLAN = { shared_plan_id: crypto.randomUUID(), trip_id: IDEA.trip_id };
 const SOS_REF = { trip_id: crypto.randomUUID(), sos_id: crypto.randomUUID() };
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
@@ -611,6 +612,24 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     status: 'declined',
   },
   'trip.areas_changed': { trip_id: IDEA.trip_id },
+  'shared_plan.requested': { ...SHARED_PLAN, user_id: IDEA.user_id },
+  'shared_plan.consent_given': { ...SHARED_PLAN, user_id: IDEA.user_id },
+  'shared_plan.declined': SHARED_PLAN,
+  'shared_plan.published': SHARED_PLAN,
+  'shared_plan.updated': SHARED_PLAN,
+  'shared_plan.unpublished': { ...SHARED_PLAN, reason: 'consent_withdrawn' },
+  'shared_plan.saved': { shared_plan_id: SHARED_PLAN.shared_plan_id, user_id: IDEA.user_id },
+  'shared_plan.unsaved': { shared_plan_id: SHARED_PLAN.shared_plan_id, user_id: IDEA.user_id },
+  'shared_plan.copied': { ...SHARED_PLAN, user_id: IDEA.user_id, days: [3] },
+  'shared_plan.suggested': { ...SHARED_PLAN, user_id: IDEA.user_id },
+  'plan_link.created': { link_id: crypto.randomUUID(), trip_id: IDEA.trip_id },
+  'plan_link.revoked': { link_id: crypto.randomUUID(), trip_id: IDEA.trip_id },
+  'place.rated': {
+    trip_id: IDEA.trip_id,
+    user_id: IDEA.user_id,
+    poi_ids: [STANCE.poi_id],
+    tips: 1,
+  },
   'briefing.built': {
     trip_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),

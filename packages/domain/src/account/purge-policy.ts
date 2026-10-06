@@ -217,6 +217,13 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.trip_ideas', ['created_by', keep(CREW)]),
   ...rules('public.trip_dropouts', ['user_id', keep(CREW)], ['resolved_by', keep(CREW)]),
   ...rules('public.place_tips', ['author_id', nul]),
+  // A purged seat holder's plans are already unpublished by the database; their answers, copies
+  // and ratings go (a published tip stays on its place without an author).
+  ...rules('public.shared_plans', ['requested_by', nul]),
+  ...rules('public.shared_plan_consents', ['user_id', del]),
+  ...rules('public.shared_plan_copies', ['copied_by', del]),
+  ...rules('public.ratings', ['user_id', del]),
+  ...rules('public.plan_links', ['created_by', nul]),
   ...rules('public.join_codes', ['created_by', keep('revoked by the purge; the row is history')]),
   ...rules(
     'public.invites',

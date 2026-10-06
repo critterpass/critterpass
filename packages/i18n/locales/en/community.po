@@ -6,3 +6,480 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: at + 1
+#. placeholder {1}: cards.length
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.counter"
+msgstr "{0} of {1}"
+
+#. placeholder {0}: face.approved
+#. placeholder {1}: face.total
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.waiting"
+msgstr "{0} of {1} in. It goes out when everyone agrees."
+
+#. placeholder {0}: projection.photos.length
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.photos"
+msgstr "{0} photos"
+
+#. placeholder {0}: plan.saves_count
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.published.saves"
+msgstr "{0} saves"
+
+#. placeholder {0}: page.total
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.total"
+msgstr "{0} shared"
+
+#. placeholder {0}: card.name
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.rejected"
+msgstr "{0}: that tip didn't make it through. Try without names or numbers."
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.cost.each"
+msgstr "{amount} each"
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.copies"
+msgstr "{count, plural, one {# copy} other {# copies}}"
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.days"
+msgstr "{days, plural, one {# day} other {# days}}"
+
+#: ../../apps/mobile/src/features/community/detail/note-copy.ts
+msgid "community.note.withBest"
+msgstr "{days} Day {best} alone is worth it."
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.copied"
+msgstr "{name} is fitting {places} places into your draft. Only you can see it."
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.crew.named"
+msgstr "{others, plural, one {{first} and one friend} other {{first} and # friends}}"
+
+#: ../../apps/mobile/src/features/community/detail/note-copy.ts
+msgid "community.note.overlapDays"
+msgstr "{overlap, plural, one {One of these days overlaps with your trip.} other {# of these days overlap with your trip.}}"
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.match"
+msgstr "{pct}% your taste"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.photosRow"
+msgstr "{photos} best photos"
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.title.generated"
+msgstr "{place}: {what}"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.moreDays"
+msgstr "+ {hidden} more days"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.addsOne"
+msgstr "+ adds one day"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.save"
+msgstr "♡ Save"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.saved"
+msgstr "♥ Saved"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.filter.mid"
+msgstr "6–8 days"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.filter.long"
+msgstr "9+ days"
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.crew.size"
+msgstr "A crew of {size}"
+
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.detail.heading"
+msgstr "A crew plan"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.copy"
+msgstr "A crew plan copied"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.report"
+msgstr "A crew plan reported"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.save"
+msgstr "A crew plan saved"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.suggest"
+msgstr "A crew plan suggested"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.unsave"
+msgstr "A crew plan unsaved"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.link"
+msgstr "A read-only link"
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.crew.solo"
+msgstr "A solo traveller"
+
+#. placeholder {0}: day.day_no
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.addDay"
+msgstr "Add day {0}"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.done"
+msgstr "All rated. Your tips are live for crews planning {place}."
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.approve"
+msgstr "Approve"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.publish"
+msgstr "Asking the crew to share the plan"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.clear"
+msgstr "Clear filters"
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.publish.link"
+msgstr "Copy a read-only link instead"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.copy"
+msgstr "Copy into our trip"
+
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.back.plans"
+msgstr "Crew plans"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.title"
+msgstr "Crew plans"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.offlineTitle"
+msgstr "Crew plans need a signal"
+
+#. placeholder {0}: current.day_no
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.day"
+msgstr "Day {0}"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.bestDay"
+msgstr "Day {bestDay} only"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.dayByDay"
+msgstr "Day by day"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.back.explore"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.noResultsLine"
+msgstr "Fewer filters, more plans."
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.fine"
+msgstr "Fine"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.preview"
+msgstr "How other crews will see it"
+
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.detail.missingLine"
+msgstr "It needs a signal the first time."
+
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.detail.goneLine"
+msgstr "Its crew stopped sharing it. Plenty more where it came from."
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.loved"
+msgstr "Loved it"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.chatLine"
+msgstr "Never leaves the crew"
+
+#: ../../apps/mobile/src/features/community/copy.ts
+msgid "community.rating.new"
+msgstr "New"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.filter.newest"
+msgstr "Newest"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.empty"
+msgstr "No crew has shared this place yet. Yours could be first."
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.emptyTitle"
+msgstr "No crew plans yet"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.offline"
+msgstr "No signal"
+
+#: ../../apps/mobile/src/features/community/detail/note-copy.ts
+msgid "community.note.allNew"
+msgstr "None of this is on your trip yet. Day {best} is the one to steal."
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.consent.declined"
+msgstr "Not everyone's in. The plan stays with the crew."
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.decline"
+msgstr "Not this one"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.noResults"
+msgstr "Nothing fits those filters"
+
+#: ../../apps/mobile/src/features/community/detail/note-copy.ts
+msgid "community.note.nothingNew"
+msgstr "Nothing here your trip does not have already."
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.none"
+msgstr "Nothing to rate yet"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.namesOff"
+msgstr "Off: you show up as a crew"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.namesOn"
+msgstr "On: first names only"
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.publish.noPlan"
+msgstr "Once the trip has a plan, you can share it here."
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.intro"
+msgstr "One tap a place. Your tips show up for crews planning {place}, and nothing else about you does."
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.tipLabel"
+msgstr "One tip for the next crew"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.noTrip"
+msgstr "Open this from one of your trips to copy it."
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.offlineLine"
+msgstr "Open this from your trip when you are back online."
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.offlineLine"
+msgstr "Open this once online and it stays here for later."
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.names"
+msgstr "Our names"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.costsLine"
+msgstr "Per person, rounded to 10"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.photosLine"
+msgstr "Picked by {guide}, only photos without faces"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.browse.pick"
+msgstr "Picked for you"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.noneLine"
+msgstr "Places you visit on the trip show up here."
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.back.plan"
+msgstr "Plan"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.notTravelled"
+msgstr "Planned, not travelled yet"
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.publish.cta"
+msgstr "Publish to crew plans"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.title"
+msgstr "Rate the trip"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.offline"
+msgstr "Rating needs a signal"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.linkCopied"
+msgstr "Read-only link copied."
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.browse.intro"
+msgstr "Real trips, shared by the crews who took them. Copy a whole one, or just the good days."
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.back.recap"
+msgstr "Recap"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.report"
+msgstr "Report this plan"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.suggested"
+msgstr "Sent to your organiser."
+
+#: ../../apps/mobile/src/features/community/register.tsx
+msgid "community.sharePill"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.publish.title"
+msgstr "Share the plan"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.share"
+msgstr "Share the plan too"
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.publish.offline"
+msgstr "Sharing needs a signal"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.skip"
+msgstr "Skip it"
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.ask"
+msgstr "Someone in the crew wants to share this plan with other crews. It only goes out if everyone agrees."
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.suggest"
+msgstr "Suggest to organiser"
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.withdraw"
+msgstr "Take my yes back"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.withdraw"
+msgstr "Taking the shared plan down"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.unpublish"
+msgstr "Taking the shared plan down"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.reported"
+msgstr "Thanks. We will take a look."
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.copyFailed"
+msgstr "That didn't go through. Try again in a moment."
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.chat"
+msgstr "The chat"
+
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.detail.missing"
+msgstr "This plan is out of reach"
+
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.detail.gone"
+msgstr "This plan was taken down"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.filter.rating"
+msgstr "Top rated"
+
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.publish.offlineLine"
+msgstr "Try again when you are back online."
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.published.revoke"
+msgstr "Turn off a read-only link"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.revoke"
+msgstr "Turning a read-only link off"
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.published.unpublish"
+msgstr "Unpublish"
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+msgid "community.filter.short"
+msgstr "Up to 5 days"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.costs"
+msgstr "What it cost"
+
+#: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
+msgid "community.publish.what"
+msgstr "What other crews see"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.update"
+msgstr "What the shared plan shows"
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.tips"
+msgstr "What they'd change"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.consent"
+msgstr "Your answer on sharing the plan"
+
+#: ../../apps/mobile/src/features/community/commands.ts
+msgid "community.queued.rate"
+msgstr "Your place ratings"
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.published.live"
+msgstr "Your plan is live in crew plans."

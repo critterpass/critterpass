@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# A shared plan (3o-2) that is out of reach.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-shared-plan'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-shared-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'shared-plan'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3o-2-shared-plan-missing
