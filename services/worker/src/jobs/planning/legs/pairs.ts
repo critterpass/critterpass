@@ -4,7 +4,7 @@
  * is read as one route. A day without a stay starts and ends at its stops; a day without stops has
  * no legs.
  */
-import { STAY_LEG_KEY } from '@cp/domain';
+import { STAY_LEG_KEY, type LegMode } from '@cp/domain';
 
 export interface LegPoint {
   readonly lat: number;
@@ -21,6 +21,17 @@ export interface PlannedDay {
   readonly stay: LegPoint | null;
   /** In time order. */
   readonly stops: readonly DayStop[];
+  /**
+   * A day spent on a day trip, away from the stay: its two stay legs are the link's (`link`), or
+   * none at all when the trip has no link to the area. Absent for a day where the crew sleeps.
+   */
+  readonly away?: { readonly link: DayLink | null };
+}
+
+/** How a day trip gets there and back: the link's minutes each way and its way to travel. */
+export interface DayLink {
+  readonly minutes: number;
+  readonly mode: LegMode;
 }
 
 export interface LegPair {
@@ -51,6 +62,10 @@ export function dayPairs(day: PlannedDay): LegPair[] {
   }
   return pairs;
 }
+
+/** Whether a pair leaves or returns to the night's stay. */
+export const isStayPair = (pair: Pick<LegPair, 'fromKey' | 'toKey'>): boolean =>
+  pair.fromKey === STAY_LEG_KEY || pair.toKey === STAY_LEG_KEY;
 
 /** Every day's pairs for one version; a repeated pair keeps its first day (one row per pair). */
 export function versionPairs(days: readonly PlannedDay[]): LegPair[] {

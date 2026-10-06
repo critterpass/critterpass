@@ -56,7 +56,8 @@ beforeAll(async () => {
     naraPlaces.push(poi.rows[0]?.id as string);
   }
   await harness.pool.query(
-    'INSERT INTO must_dos (trip_id, owner_id, title, poi_id) VALUES ($1, $2, $3, $4)',
+    // Her one must-do is in Nara now.
+    'UPDATE must_dos SET title = $3, poi_id = $4 WHERE trip_id = $1 AND owner_id = $2',
     [tripId, organiser, 'Tōdai-ji', naraPlaces[0]],
   );
 }, 240_000);
