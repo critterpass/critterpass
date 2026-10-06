@@ -1,24 +1,12 @@
 /**
  * A swipe match drops into the trip's Ideas with everyone who said yes as a backer (the founder's
- * group swiping decision, docs/product-decisions.md). Only while `planning.redesign` is on: with it
- * off the match keeps becoming a ChangeSet suggestion, so installed apps get the answer they know.
+ * group swiping decision, docs/product-decisions.md).
  */
-import { DomainError, PLANNING_CONFIG_DEFAULTS } from '@cp/domain';
+import { DomainError } from '@cp/domain';
 import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 import { backIdea, type IdeaPlace } from '../../commands/ideas';
-
-/** The rollout switch for the redesigned plan and places (public `ops.ops_config`). */
-export async function planningRedesignOn(tx: pg.PoolClient): Promise<boolean> {
-  const { rows } = await asSystemRole(tx, () =>
-    tx.query<{ value: unknown }>(
-      "SELECT value FROM ops.ops_config WHERE key = 'planning.redesign'",
-    ),
-  );
-  const value = rows[0]?.value;
-  return typeof value === 'boolean' ? value : PLANNING_CONFIG_DEFAULTS['planning.redesign'];
-}
 
 export interface MatchIdeaInput {
   readonly tripId: string;

@@ -306,6 +306,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id poi_id name name_local category lat:real lng:real backer_ids sources source_url fit fit_version_id created_by created_at updated_at deleted_at',
   trip_participants:
     'trip_id user_id role rsvp holds_seat:integer waitlist_position:integer chosen_options landed_at countdown_target_at egg_id created_at updated_at',
+  trip_places:
+    'trip_id poi_id visibility roles destination_id name name_local category lat:real lng:real address hours hours_verified_at price_level:integer editorial tags status curation pick_rank:integer visit_radius_m:integer timezone last_live_check_at poi_created_at poi_updated_at created_at updated_at',
   trip_share_totals:
     'trip_id user_id total_minor:integer currency calc_version is_missing:integer created_at updated_at',
   trips:

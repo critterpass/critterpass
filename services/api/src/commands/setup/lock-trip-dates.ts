@@ -25,7 +25,6 @@ import { asSystemRole } from '../../admin/command';
 import { recomputeTrip } from '../../entitlements';
 import { ensureDraftDays, reshapeDraftDays } from '../../plan/draft-days';
 import { lockTripDraft } from '../../plan/draft-versioning';
-import { planningRedesignOn } from '../../planning/ideas/match-to-idea';
 import { defineCommand } from '../_framework/define-command';
 import {
   daysBetween,
@@ -199,10 +198,10 @@ export const lockTripDatesCommand = defineCommand({
       await moveStep(tx, trip, next, ctx.uid);
       const result = { trip_id: trip.id, start: payload.start, end: payload.end, step: next };
       // The trip's days: a plan she already built follows the dates; a trip with none gets its
-      // empty plan while the redesigned plan screens are on for everyone.
+      // empty plan.
       const head = await lockTripDraft(tx, trip.id);
       if (head.draftVersionId === null) {
-        if (await planningRedesignOn(tx)) await ensureDraftDays(tx, head);
+        await ensureDraftDays(tx, head);
         return result;
       }
       if (!moved || head.currentVersionId !== null) return result;

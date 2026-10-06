@@ -274,14 +274,6 @@ msgstr ""
 msgid "search.link.couldBeNear"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/use-add-place.ts
-msgid "search.add.failed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/use-add-place.ts
-msgid "search.add.failedPlace"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.notFound"
 msgstr ""

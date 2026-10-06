@@ -222,3 +222,4 @@ export {
   postcardMailings,
   postcards,
 } from './album';
+export { tripPlaces } from './trip-places';

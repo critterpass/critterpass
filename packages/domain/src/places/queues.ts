@@ -20,6 +20,7 @@ export const PLACES_QUEUES = {
   profile: 'places.profile',
   profileTranslate: 'places.profile_translate',
   profileWarm: 'places.profile_warm',
+  tripRefresh: 'places.trip_refresh',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -75,6 +76,14 @@ export const PLACES_QUEUE_SPECS = {
     retryDelay: 60,
     expireInSeconds: 5 * 60,
   },
+  // Keyed by trip: one refresh of its places at a time, and one more waiting behind it.
+  'places.trip_refresh': {
+    policy: 'stately',
+    retryLimit: 3,
+    retryDelay: 10,
+    expireInSeconds: 5 * 60,
+    keepCompletedSeconds: 24 * 60 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function placesQueueSpecs(
@@ -97,6 +106,7 @@ export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEU
     'places.profile': "Writes one place's AI profile from web pages, with cited facts and photos",
     'places.profile_translate': "Translates one place's AI profile into a reader's language",
     'places.profile_warm': "Queues the profiles of a pitched or planned destination's top places",
+    'places.trip_refresh': "Brings a trip's synced place cards in line with the places it uses",
   };
 
 export const foursquareMatchJobSchema = z.object({

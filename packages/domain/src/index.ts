@@ -155,6 +155,7 @@ export * from './places/foursquare';
 export * from './places/foursquare-match';
 export * from './places/foursquare-photos';
 export * from './places/queues';
+export * from './places/trip-place-events';
 export { CANONICAL_TZ_PATTERN, canonicalTz, timeZoneIdSchema } from './time/canonical-tz';
 export { TZ_ALIASES, TZDATA_VERSION } from './time/tz-aliases';
 export {

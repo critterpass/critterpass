@@ -13,6 +13,7 @@ import { deviceGoApi, type GoApi } from './data/api';
 import { locateForGo } from './data/locate';
 import { bundledAirportAt } from './data/airport';
 import { loadGoPlace, type AirportLookup, type GoPlace, type GoTarget } from './data/go-place';
+import { useRemoteGoPlace } from './data/remote-go-place';
 import type { GoMode } from './maps-handoff';
 import {
   firstMode,
@@ -43,6 +44,7 @@ export function useGoPreview(
   findMe: (ask: boolean) => Promise<LocateState> = locateForGo,
 ): GoPreviewData {
   const { db } = useLocalFirst();
+  const remote = useRemoteGoPlace();
   const online = useSyncStatus().phase !== 'offline';
   const [loaded, setLoaded] = useState<{ key: string; place: GoPlace | null } | null>(null);
   const [locate, setLocate] = useState<LocateState>({ kind: 'locating' });
@@ -57,7 +59,7 @@ export function useGoPreview(
   useEffect(() => {
     if (target === null || targetKey === null) return undefined;
     let live = true;
-    void loadGoPlace(db, target, new Date(), airportAt)
+    void loadGoPlace(db, target, new Date(), airportAt, remote)
       .catch(() => null)
       .then((next) => {
         if (live) setLoaded({ key: targetKey, place: next });
@@ -67,7 +69,7 @@ export function useGoPreview(
     };
     // `target` is folded into `targetKey`.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [db, targetKey]);
+  }, [db, remote, targetKey]);
   const place = target === null ? null : loaded?.key === targetKey ? loaded.place : undefined;
 
   // Each look at where the phone is. A phone with location on and no fix yet is asked again every

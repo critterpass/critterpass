@@ -20,9 +20,9 @@ bypasses RLS, so a stream's WHERE clause is the only thing that keeps a row off 
 | `me` | auto | `auth.user_id()` | `users` (self), `user_settings`, `consents`, `account_deletions`, `cmd_results`, `user_entitlements`, `usage_counters` (user) |
 | `crews` | auto | active crew memberships | `crews`, `crew_members`, `trips` |
 | `crew_people` | auto | active co-members | `users` |
-| `trip` | client, `{trip_id}` | trip of an active crew | `trips`, `trip_participants`, crew-visible `itinerary_versions` and `change_sets`, `plan_days`/`plan_items` of the live crew versions and the one each replaced, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
-| `trip_draft` | client, `{trip_id}` | organiser seat + active crew | organiser-visible `itinerary_versions`/`plan_days` (every draft), `plan_items`/`change_sets` of drafts not superseded |
-| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (recommended: editorial or machine-picked, not hidden, not merged; plus every POI the trip references to its members: stops of non-superseded crew versions, organisers also their drafts' stops, and live `trip_ideas`), `map_regions` |
+| `trip` | client, `{trip_id}` | trip of an active crew | `trip_places` (crew rows, sent as `pois`), `trips`, `trip_participants`, crew-visible `itinerary_versions` and `change_sets`, `plan_days`/`plan_items` of the live crew versions and the one each replaced, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
+| `trip_draft` | client, `{trip_id}` | organiser seat + active crew | `trip_places` (organiser rows, sent as `pois`), organiser-visible `itinerary_versions`/`plan_days` (every draft), `plan_items`/`change_sets` of drafts not superseded |
+| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (recommended: editorial or machine-picked, not hidden, not merged), `map_regions` |
 | `explore` | client, `{destination_id}` | public | `pois` (recommended: editorial or machine-picked, not hidden, not merged) |
 | `catalog` | auto | none | `guides`, `destinations`, `client_config`, `products`, `perks` |
 | `fx` | auto | USD plus home, settlement and trip (own or destination) currencies | `fx_snapshots` |
@@ -79,6 +79,21 @@ The service logs each connection's cost; compare a replay with a line such as
 `railway logs --service powersync-api --environment staging | grep param_results` (the client id,
 `param_results` and `buckets` fields). No log alert watches it yet: Grafana alerting here reads
 metrics only, and the service's logs are not shipped to Grafana.
+
+## Trip places
+
+A trip's places (stops of plan versions not superseded, live ideas, must-dos, swipe decks) reach the
+phone as `trip_places` cards, written by `app.refresh_trip_places` (the worker's
+`places.trip_refresh`, queued by the events that add or drop a reference). The stream selects
+`poi_id AS id` and the `pois` column names `FROM trip_places AS pois`, so the cards land in the
+phone's existing `pois` table and its readers keep `FROM pois`. Checked against PowerSync 1.26.1's
+`@powersync/service-sync-rules` 0.42.0: the alias compiles, a crew card goes to the trip's own
+`trip` bucket (the same bucket and membership lookup as the trip's other rows) and an organiser card
+to `trip_draft`'s. On the phone, `powersync-sqlite-core`'s `sync_local` keeps the latest op for a
+`(table, id)` across every bucket and deletes the row only when no bucket holds it, so a place in
+two trips stays while either trip holds it. That only works while every bucket sends the same
+content for an id: the cards carry exactly the columns of the recommended `pois` queries, copied
+from the `pois` row, and nothing trip-specific (`roles`, `visibility` stay server-side).
 
 ## Local
 

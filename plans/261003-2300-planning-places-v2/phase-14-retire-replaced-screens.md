@@ -1,7 +1,7 @@
 ---
 phase: 14
 title: Retire the replaced screens and finish the migration
-status: pending
+status: superseded
 depends_on: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 wave: 5
 screens: []
@@ -15,6 +15,8 @@ mount_points:
   - every file listed in T2–T6 (deletions and id renames inside phases that are done)
 ---
 # Phase 14 — Retire the replaced screens and finish the migration
+
+Superseded by [`plans/261005-1210-remove-old-planning-flow/`](../261005-1210-remove-old-planning-flow/plan.md), which removed the earlier screens, the switch and the docs.
 
 ## Context links
 

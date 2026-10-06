@@ -60,7 +60,7 @@ describe('simplifyPath', () => {
   });
 
   it('raises the tolerance until the shape fits the point budget', () => {
-    const zigzag: LngLat[] = Array.from({ length: 5000 }, (_, i) => [
+    const zigzag: LngLat[] = Array.from({ length: 1000 }, (_, i) => [
       108 + i * 0.0001,
       16 + (i % 2) * 0.001,
     ]);

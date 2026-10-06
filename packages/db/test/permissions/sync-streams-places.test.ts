@@ -129,6 +129,7 @@ beforeAll(async () => {
       [dest],
     );
     await tx.query('UPDATE trips SET destination_id = $1 WHERE id = $2', [dest, fixture.tripId]);
+    await tx.query('SELECT app.refresh_trip_places($1)', [fixture.tripId]);
     return {
       dest,
       other: other.rows[0]!.id,
@@ -162,13 +163,22 @@ afterAll(async () => {
   await harness.stop();
 });
 
-describe('trip_pack stream', () => {
+describe('trip_pack and the trip streams', () => {
   const params = (): Record<string, string> => ({ trip_id: harness.fixture.tripId });
+  const TRIP_STREAMS = ['trip_pack', 'trip', 'trip_draft'] as const;
 
-  /** Distinct POI ids: a POI sent by two queries is one row on the phone, keyed by id. */
+  /**
+   * Distinct place ids on the phone: `trip_pack` sends the recommended `pois`, the trip streams the
+   * trip's own `trip_places` cards (as `pois`, keyed by the place id), and a place sent twice is one
+   * row on the phone.
+   */
   const poiIds = async (actor: 'member' | 'organiser'): Promise<string[]> => {
-    const rows = await harness.rows('trip_pack', actor, params());
-    return [...new Set(idsByTable(rows)['pois'])].sort();
+    const ids: string[] = [];
+    for (const stream of TRIP_STREAMS) {
+      const byTable = idsByTable(await harness.rows(stream, actor, params()));
+      ids.push(...(byTable['pois'] ?? []), ...(byTable['trip_places'] ?? []));
+    }
+    return [...new Set(ids)].sort();
   };
   const crewPlaces = (): string[] => [
     activePoiId,
@@ -205,12 +215,30 @@ describe('trip_pack stream', () => {
     'syncs zero rows to %s',
     async (actor) => {
       expect(totalRows(await harness.rows('trip_pack', actor, params()))).toBe(0);
+      const cards = await harness.rows('trip', actor, params());
+      expect(cards.get('trip_places') ?? []).toHaveLength(0);
     },
   );
 
+  it("sends the trip's places with no lookup per place: the pack holds only recommended places", async () => {
+    const pack = idsByTable(await harness.rows('trip_pack', 'organiser', params()))['pois'] ?? [];
+    expect([...new Set(pack)].sort()).toEqual([activePoiId, closedPoiId, pickedPoiId].sort());
+  });
+
+  it('sends a trip card with exactly the columns of a recommended place, so both land in one row', async () => {
+    const pack = (await harness.rows('trip_pack', 'member', params())).get('pois') ?? [];
+    const cards = (await harness.rows('trip', 'member', params())).get('trip_places') ?? [];
+    const card = cards.find((row) => row['id'] === activePoiId);
+    const place = pack.find((row) => row['id'] === activePoiId);
+    expect(card).toBeDefined();
+    expect(Object.keys(card ?? {}).sort()).toEqual(Object.keys(place ?? {}).sort());
+    expect(card).toEqual(place);
+  });
+
   it('keeps search vectors, PostGIS shapes and provider ids server-side', async () => {
     const rows = await harness.rows('trip_pack', 'member', params());
-    for (const row of rows.get('pois') ?? []) {
+    const cards = await harness.rows('trip', 'member', params());
+    for (const row of [...(rows.get('pois') ?? []), ...(cards.get('trip_places') ?? [])]) {
       for (const column of SERVER_ONLY_POI_COLUMNS) expect(row).not.toHaveProperty(column);
     }
   });

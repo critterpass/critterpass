@@ -3,16 +3,14 @@
  * opening, before the approved crowd curve's rush, with the bars lit over that slot), fact tiles
  * from our own hours and approved editorial facts only (missing ones omitted), nearby and similar
  * places, and where the crew stands. An outsider gets NOT_FOUND, and nothing live from a third
- * party or a supplier reaches the payload. The fields installed builds read answer as before.
+ * party or a supplier reaches the payload. Every key installed builds parse stays, with the
+ * earlier page's fields empty.
  */
 import { withSystem, withUser } from '@cp/db';
-import { knownHours } from '@cp/domain';
+import { placeContextSchema } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { readPlaceContext } from '../../../src/explore/place-context';
-import { loadSlotDays, placeFacts, tripFacts } from '../../../src/explore/plan-read';
-import { suggestSlot } from '../../../src/explore/slot-suggest';
-import { readCrowds } from '../../../src/travel-data/crowds-route';
 
 import { startExploreWorld, type ExploreWorld } from '../explore-world';
 
@@ -106,39 +104,14 @@ describe('place context for the planning page', () => {
     expect(fits.bars.hourly).toEqual(rushFromTen.slice(8, 17));
   });
 
-  it('answers the fields installed builds read exactly as the slot finder did', async () => {
+  it("keeps every key installed builds parse, with the earlier page's fields empty", async () => {
     const { body } = await context(spring);
-    const legacy = await withUser(
-      world.harness.pool,
-      world.a.organiser.uid,
-      'unknown',
-      async (tx) => {
-        const trip = await tripFacts(tx, world.a.tripId);
-        const place = await placeFacts(tx, spring);
-        const plan = await loadSlotDays(tx, trip, spring, 'Asia/Tokyo');
-        const crowd = await readCrowds(tx, spring, plan.firstDate ?? '');
-        return suggestSlot({
-          days: plan.days,
-          tz: 'Asia/Tokyo',
-          hours: knownHours(place.hours),
-          quietStart: crowd.best_window?.start ?? null,
-          durationMin: place.timeNeededMin ?? 90,
-        });
-      },
-    );
-    expect(body['suggested_slot']).toEqual(legacy);
-    for (const key of [
-      'poi_id',
-      'trip_id',
-      'stay',
-      'crowd',
-      'crew',
-      'qna',
-      'in_plan',
-      'add_mode',
-    ]) {
-      expect(body).toHaveProperty(key);
-    }
+    expect(placeContextSchema.parse(body)).toMatchObject({
+      stay: null,
+      crowd: null,
+      suggested_slot: null,
+      crew: { yes_by: [] },
+    });
     expect(body['add_mode']).toBe('apply');
     // The plan her plan screens show is the crew's here; a draft only before there is one.
     expect(body['plan_version']).toEqual({ id: body['base_version'], kind: 'crew' });

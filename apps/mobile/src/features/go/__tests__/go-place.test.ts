@@ -138,3 +138,31 @@ describe('GO from a flight leave-by', () => {
     });
   });
 });
+
+describe('GO to a place the phone does not hold', () => {
+  const PLACE = '0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e11';
+  const remote = (poiId: string) =>
+    Promise.resolve(
+      poiId === PLACE
+        ? { id: PLACE, name: 'Chùa Linh Ứng', lat: 16.1003, lng: 108.2778, address: 'Sơn Trà' }
+        : null,
+    );
+
+  it('goes to the api’s place, and to nothing when the api has none', async () => {
+    const dir = tempDatabaseDir();
+    const db = await openNodeDatabase({ dir, key: await installKey(new MemoryKeyStore()) });
+    opened.push({ db, dir });
+    await expect(
+      loadGoPlace(db, { kind: 'place', poiId: PLACE, tripId: TRIP }, NOW, bundledAirportAt, remote),
+    ).resolves.toMatchObject({
+      poiId: PLACE,
+      name: 'Chùa Linh Ứng',
+      lat: 16.1003,
+      tripId: TRIP,
+      address: 'Sơn Trà',
+    });
+    await expect(
+      loadGoPlace(db, { kind: 'place', poiId: DEST, tripId: null }, NOW, bundledAirportAt, remote),
+    ).resolves.toBeNull();
+  });
+});

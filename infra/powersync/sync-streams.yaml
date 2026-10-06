@@ -310,6 +310,14 @@ streams:
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |-
+        SELECT poi_id AS id, destination_id, name, name_local, category, lat, lng, address, hours,
+          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+          timezone, last_live_check_at, poi_created_at AS created_at, poi_updated_at AS updated_at
+        FROM trip_places AS pois
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND visibility = 'crew'
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
+      - |-
         SELECT * FROM comments
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
@@ -536,6 +544,15 @@ streams:
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |-
+        SELECT poi_id AS id, destination_id, name, name_local, category, lat, lng, address, hours,
+          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+          timezone, last_live_check_at, poi_created_at AS created_at, poi_updated_at AS updated_at
+        FROM trip_places AS pois
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND visibility = 'organiser'
+          AND trip_id IN organised_trips
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
+      - |-
         SELECT * FROM plan_legs
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
@@ -681,40 +698,6 @@ streams:
           AND status != 'hidden'
           AND merged_into_id IS NULL
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
-      - |-
-        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
-          timezone, last_live_check_at, created_at, updated_at
-        FROM pois
-        WHERE id IN (
-          SELECT poi_id FROM plan_items
-          WHERE trip_id = subscription.parameter('trip_id')
-            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
-            AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew' AND status != 'superseded')
-            AND poi_id IS NOT NULL)
-      - |-
-        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
-          timezone, last_live_check_at, created_at, updated_at
-        FROM pois
-        WHERE id IN (
-          SELECT poi_id FROM plan_items
-          WHERE trip_id = subscription.parameter('trip_id')
-            AND trip_id IN (SELECT trip_id FROM trip_participants WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id() AND role = 'organiser')
-            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
-            AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser' AND status != 'superseded')
-            AND poi_id IS NOT NULL)
-      - |-
-        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
-          timezone, last_live_check_at, created_at, updated_at
-        FROM pois
-        WHERE id IN (
-          SELECT poi_id FROM trip_ideas
-          WHERE trip_id = subscription.parameter('trip_id')
-            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
-            AND deleted_at IS NULL
-            AND poi_id IS NOT NULL)
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
       - |-

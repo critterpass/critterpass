@@ -42,6 +42,7 @@ import {
   RECAP_QUEUES,
   ALBUM_QUEUES,
   PLANNING_QUEUES,
+  TRIP_PLACES_REFRESH_QUEUE,
   queueSpec,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -96,6 +97,7 @@ export const PRODUCER_QUEUES: readonly string[] = [
   PLACES_INGEST_QUEUE,
   PLACES_PICK_QUEUE,
   ...PLACES_PROFILE_QUEUES,
+  TRIP_PLACES_REFRESH_QUEUE,
   PLANNING_QUEUES.legs,
   PLANNING_QUEUES.check,
 ];

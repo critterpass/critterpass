@@ -240,6 +240,8 @@ describe('trip_draft stream', () => {
         plan_legs: [],
         plan_check_issues: [],
         redraft_reservations: [harness.fixture.redraftReservationId],
+        // Organiser cards arrive once the refresh job runs (trip-places.test.ts).
+        trip_places: [],
       });
     },
   );
