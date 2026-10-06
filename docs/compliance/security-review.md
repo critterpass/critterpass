@@ -29,7 +29,8 @@ Accepted advisories (no patched release, not reachable from user input; reasons 
 
 `packages/db/test/fuzz/rls-fuzz.test.ts` builds random crews, trips and memberships next to the full
 permission fixture and has every user attack every other crew's rows in every RLS table (select,
-update, delete, insert into a foreign crew); at least 10,000 probes per run, zero rows reached.
+update, delete, insert into a foreign crew); at least 10,000 probes per run. Reads, updates and
+deletes reach nothing; three insert policies are open (finding 2).
 It also checks that no read-only role can write anywhere and that `app_user` holds nothing on a
 table without RLS.
 
@@ -37,6 +38,7 @@ table without RLS.
 
 | # | Source | Finding | Severity | Status |
 |---|---|---|---|---|
+| 2 | RLS fuzz | `crew_members`, `trip_participants` and `calendar_days` insert policies check only `user_id = app.uid()`: through the request role a user can add their own membership, participation or calendar day to a crew or trip they are not in. Commands gate joins today (invite and seat-claim checks), so reaching it takes a command bug; the database backstop does not hold. Fix: a migration that also requires an invite/seat path (for example inserts only through a `SECURITY DEFINER` join function, or `WITH CHECK` on crew membership for `trip_participants` and `calendar_days`), then remove the entries from `OPEN_INSERT_GAPS` in the fuzz. | medium | open: db owner |
 | 1 | Trivy DS-0002 | `infra/railway/{centrifugo,powersync,valhalla}.Dockerfile` set no non-root `USER`; the upstream images decide the user. Fix: add `USER` with the image's unprivileged user after checking volume permissions on Railway, or accept. | high (heuristic) | open: infra owner |
 
 External review findings are added here as they arrive, one row each, with the fixing commit or
