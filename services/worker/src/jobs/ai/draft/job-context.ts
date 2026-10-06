@@ -4,8 +4,10 @@
  * on the drafting screen, and giving the trip back to setup when the draft finally fails.
  */
 import {
+  joinedInput,
   withHeldStops,
   withWishAnswers,
+  type DayGroup,
   type DraftModel,
   type DraftPlanInput,
   type SkeletonPlan,
@@ -26,9 +28,11 @@ import {
   withMealKinds,
   type HeldStop,
 } from './held-stops';
+import { NO_GROUPS, planDayGroups, type GroupsPlan } from './day-groups';
+import { groupInputs } from './group-inputs';
 import { loadDraftTrip, type DraftTripData } from './load';
 import { loadDraftPlaces, loadWishCandidates } from './load-places';
-import { buildPlanInput, wishOffer } from './plan-input';
+import { buildPlanInput, tripDates, wishOffer } from './plan-input';
 import type { PrefetchResult } from './prefetch';
 import { savedWishAnswers } from './redraft-store';
 import { loadRoutedPairs } from './road-minutes';
@@ -42,6 +46,13 @@ export interface Loaded {
   readonly input: DraftPlanInput;
   /** Stops the organiser placed by hand on the draft this job starts from (./held-stops.ts). */
   readonly held: readonly HeldStop[];
+  /** The day groups the trip is planned in (./day-groups.ts); absent for one destination. */
+  readonly groups?: readonly DayGroup[];
+}
+
+/** The groups the job's first step settled on (none before it has run). */
+export function groupsPlanOf(ctx: AgentStepContext): GroupsPlan {
+  return (ctx.results.read_profiles as { groups?: GroupsPlan } | undefined)?.groups ?? NO_GROUPS;
 }
 
 /**
@@ -121,6 +132,31 @@ export async function load(
   const mustDos = trip.mustDos.filter(
     (m) => !made.has(m.id) && !(m.poiId !== null && taken.has(m.poiId)),
   );
+  // A redraft plans its day in that day's group, worked out from the version it redoes.
+  const plan = base.success
+    ? await planDayGroups(ctx.pool, {
+        tripId,
+        dayCount: tripDates(trip).length,
+        baseVersionId: base.data.base_version,
+        first: false,
+        held: there.held,
+      })
+    : groupsPlanOf(ctx);
+  if (plan.groups.length > 1) {
+    const groups = await groupInputs(ctx.pool, {
+      trip,
+      plan: plan.groups,
+      mustDos,
+      held: there.held,
+      ideaPlaces: there.ideaPlaces,
+      taken,
+      locale: there.locale,
+      options: { jobId: ctx.agentJob.id, skeletonRoute: await skeletonRoute(ctx.pool), closures },
+    });
+    const outline = ctx.results.skeleton as { skeleton?: { groups?: SkeletonPlan[] } } | undefined;
+    const input = joinedInput(groups, outline?.skeleton?.groups ?? []);
+    return { trip, input, held: there.held, groups };
+  }
   const places = await loadDraftPlaces(ctx.pool, trip.destinationId, [
     ...mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
     ...wished.offered,

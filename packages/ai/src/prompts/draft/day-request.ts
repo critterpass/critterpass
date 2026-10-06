@@ -15,6 +15,8 @@ import {
   type DraftPoi,
   type RepairReason,
   type WishTime,
+  landsOn,
+  leavesOn,
 } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
@@ -171,12 +173,11 @@ export function buildDayRequest(
   const index = day.dayNo - 1;
   const window = dayWindow(input.frame, index);
   const limit = stopBudget(window.endMin - window.startMin);
-  const edge =
-    index === 0
-      ? ' It is the day the crew arrives.'
-      : index === input.frame.dates.length - 1
-        ? ' The crew leaves after it.'
-        : '';
+  const edge = landsOn(input.frame, index)
+    ? ' It is the day the crew arrives.'
+    : leavesOn(input.frame, index)
+      ? ' The crew leaves after it.'
+      : '';
   const meals = mealsNeeded(input, day.dayNo);
   const sunAt = sunsetAt(input, day);
   const own = heldLines(input, day.dayNo, day.date);
