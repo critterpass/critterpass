@@ -16,7 +16,15 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clock } from '../day/format';
-import { chipWeekday, dateLine, dayOfMonth, tagColor, tagLabel, tripDates } from './format';
+import {
+  chipWeekday,
+  dateLine,
+  dayOfMonth,
+  tagColor,
+  tagLabel,
+  tripDates,
+  withArea,
+} from './format';
 import { checkingLine, countdownLine, daySummary, paceWords, tripCheckLine } from './sheet-copy';
 import type { TripMapSheetProps } from './sheet-props';
 import { useWayOut } from './use-ways-out';
@@ -111,7 +119,10 @@ export function TripSheet(
           const name = chipWeekday(locale, day.date);
           const spoken = day.date === null ? String(day.dayNo) : dateLine(locale, day.date);
           const n = day.dayNo;
-          const title = day.theme ?? t({ id: 'plan.tripMap.dayTitle', message: `Day ${n}` });
+          const title = withArea(
+            day.theme ?? t({ id: 'plan.tripMap.dayTitle', message: `Day ${n}` }),
+            day,
+          );
           return (
             <PlanningDayRow
               key={day.dayNo}

@@ -150,13 +150,19 @@ export function dayChips(
   return days.map((day) => {
     const n = day.dayNo;
     const name = day.date === null ? '' : dateLine(locale, day.date);
+    const area = day.area?.name ?? '';
     return {
       dayNo: n,
       weekday: chipWeekday(locale, day.date),
       ...(day.date === null ? {} : { dateLabel: dayOfMonth(day.date) }),
       ...(today !== null && day.date === today ? { today: true } : {}),
       color: day.color,
-      accessibilityLabel: t({ id: 'plan.tripMap.dayChip', message: `Day ${n}, ${name}` }),
+      // A day trip carries a mark on its chip; its area is named in the label.
+      ...(day.area === undefined ? {} : { mark: true }),
+      accessibilityLabel:
+        day.area === undefined || area === ''
+          ? t({ id: 'plan.tripMap.dayChip', message: `Day ${n}, ${name}` })
+          : t({ id: 'plan.tripMap.dayChipArea', message: `Day ${n}, ${name}, at ${area}` }),
     };
   });
 }

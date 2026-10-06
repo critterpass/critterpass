@@ -25,6 +25,10 @@ export interface DayChip {
   readonly today?: boolean | undefined;
   readonly color: string;
   readonly fit?: FitGrade | undefined;
+  /** The day is spent away from the trip's city (a day trip): a small mark, named in the label. */
+  readonly mark?: boolean | undefined;
+  /** The day cannot take what is being placed: drawn dimmed, still tappable to say why. */
+  readonly dimmed?: boolean | undefined;
   /** Screen-reader words for the day, e.g. "Wednesday 14 October". */
   readonly accessibilityLabel: string;
 }
@@ -76,6 +80,16 @@ const useStyles = makeStyles((t) => ({
     height: 7,
     borderRadius: 4,
   },
+  mark: {
+    position: 'absolute',
+    bottom: t.space['4'],
+    end: t.space['4'],
+    width: 6,
+    height: 6,
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a style value, never copy.
+    transform: [{ rotate: '45deg' }],
+  },
+  dimmed: { opacity: 0.4 },
   dot: {
     position: 'absolute',
     top: t.space['4'],
@@ -132,6 +146,7 @@ export function DayChips({
             styles.chip,
             { backgroundColor: fill },
             selected ? styles.ring : null,
+            day.dimmed === true ? styles.dimmed : null,
             dropTarget === undefined ? null : over ? styles.glow : styles.droppable,
           ]}
         >
@@ -167,6 +182,15 @@ export function DayChips({
           {selected ? null : <View style={[styles.underline, { backgroundColor: day.color }]} />}
           {day.today === true ? (
             <View style={[styles.today, { backgroundColor: selected ? ink : day.color }]} />
+          ) : null}
+          {day.mark === true ? (
+            <View
+              style={[
+                styles.mark,
+                { backgroundColor: selected ? ink : theme.semantic.text.secondary },
+              ]}
+              testID={`${testID}-${String(day.dayNo)}-area`}
+            />
           ) : null}
           {day.fit === undefined ? null : (
             <View style={[styles.dot, { backgroundColor: fitDotColor(theme, day.fit) }]} />

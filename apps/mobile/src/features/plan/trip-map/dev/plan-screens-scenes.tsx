@@ -19,6 +19,7 @@ import { estimatedRoute } from '../day-route';
 import type { TripMapModel } from '../sheet-props';
 import { TripMapView } from '../trip-map-view';
 import {
+  labDayTripModel,
   labDraftModel,
   labEmptyDaysModel,
   labEmptyModel,
@@ -196,6 +197,79 @@ function AllDaysScene({
   );
 }
 
+/** The boat day of the trip as a day trip to Nusa Penida (about 1 h 30 by boat each way). */
+const DAY_TRIP_DAY = 5;
+
+/** The trip with a day trip, on that day: the map is the area's, whose pack is not on the phone. */
+function useDayTripLab() {
+  const [model] = useState(() => ({ ...labDayTripModel(), destinationSlug: 'lab-no-region-pack' }));
+  const [dayNo, setDayNo] = useState(DAY_TRIP_DAY);
+  const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
+  const route = day === null ? { legs: [], after: [] } : estimatedRoute(day);
+  return { model, dayNo, setDayNo, day, route };
+}
+
+function DayTripMapScene({ snap }: { readonly snap: MapSheetSnap }) {
+  const { model, dayNo, setDayNo, route } = useDayTripLab();
+  return (
+    <TripMapView
+      model={model}
+      dayNo={dayNo}
+      onDayNo={setDayNo}
+      route={route}
+      initialSnap={snap}
+      onShare={noop}
+      onOpenDay={noop}
+      onBack={noop}
+      onOpenStop={noop}
+    />
+  );
+}
+
+function DayTripPlanScene() {
+  const { model, setDayNo, day, route } = useDayTripLab();
+  if (day === null) return null;
+  return (
+    <DayPlanView
+      model={model}
+      day={day}
+      route={route}
+      order={null}
+      rain={null}
+      here={[]}
+      drag={null}
+      onBack={noop}
+      onAllDays={noop}
+      onShare={noop}
+      onSelectDay={setDayNo}
+      onOpenMap={noop}
+      onOpenStop={noop}
+      onAdd={noop}
+    />
+  );
+}
+
+function DayTripAllDaysScene() {
+  const { model } = useDayTripLab();
+  return (
+    <AllDaysView
+      model={model}
+      from={model.days[DAY_TRIP_DAY - 1] ?? null}
+      over={null}
+      dragging={false}
+      measureKey={0}
+      onBack={noop}
+      onShare={noop}
+      onOpenDay={noop}
+      onMoveMenu={noop}
+      onRect={noop}
+      onHold={noop}
+      onDrag={noop}
+      onDrop={noop}
+    />
+  );
+}
+
 export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'trip-map': () => <TripMapScene snap="peek" />,
   'trip-map-day': () => <TripMapScene snap="half" />,
@@ -218,5 +292,10 @@ export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'all-days': () => <AllDaysScene />,
   'all-days-move': () => <AllDaysScene menuOpen />,
   'all-days-member': () => <AllDaysScene member menuOpen />,
+  // A day spent in a linked area: its name on every screen, its travel line, its own map.
+  'trip-map-day-trip': () => <DayTripMapScene snap="half" />,
+  'trip-map-day-trip-whole-trip': () => <DayTripMapScene snap="full" />,
+  'day-plan-day-trip': () => <DayTripPlanScene />,
+  'all-days-day-trip': () => <DayTripAllDaysScene />,
   ...LEGS_COMING_SCENES,
 };

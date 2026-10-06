@@ -86,3 +86,27 @@ describe('legPathsByPair', () => {
     ]);
   });
 });
+
+describe('a leg between two areas', () => {
+  const stay = { key: 'stay', lat: -13.5167, lng: -71.9781 };
+  const gate = { key: 'gate', lat: -13.1631, lng: -72.545 };
+  const stored = (mode: string, source: string) => ({
+    from_key: 'stay',
+    to_key: 'gate',
+    mode,
+    minutes: 210,
+    meters: 0,
+    source,
+    approx: 0,
+  });
+
+  it("keeps a stored link leg with the link's mode and minutes, always as an estimate", () => {
+    const [leg] = dayLegs([stay, gate], [stored('train', 'link')]);
+    expect(leg).toMatchObject({ mode: 'train', minutes: 210, source: 'link', approx: true });
+  });
+
+  it('still estimates a stored leg whose mode it does not know', () => {
+    const [leg] = dayLegs([stay, gate], [stored('teleport', 'link')]);
+    expect(leg).toMatchObject({ mode: 'drive', source: 'straight_line', approx: true });
+  });
+});
