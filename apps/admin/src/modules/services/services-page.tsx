@@ -9,6 +9,7 @@ import {
   SERVICE_GROUP_LABELS,
   servicesResponseSchema,
   type ServiceRow,
+  type ServicesResponse,
 } from '@cp/domain';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
@@ -24,7 +25,7 @@ const TIER_COLOURS: Readonly<Record<string, string>> = {
   gemini: 'var(--color-pink)',
 };
 
-export function usd(micros: number): string {
+function usd(micros: number): string {
   const dollars = micros / 1_000_000;
   return dollars >= 100
     ? `$${Math.round(dollars).toLocaleString('en-US')}`
@@ -99,6 +100,33 @@ function ServiceTableRow({ row }: { row: ServiceRow }) {
   );
 }
 
+type RouteSpend = ServicesResponse['routes'][number];
+
+function RouteTable({ routes }: { routes: readonly RouteSpend[] }) {
+  if (routes.length === 0) return null;
+  return (
+    <div className="table-wrap">
+      <table className="table">
+        <tbody>
+          {routes.map((route) => (
+            <tr key={route.route}>
+              <td className="mono">{route.switch_key}</td>
+              <td className="mono">{route.tier ?? '—'}</td>
+              <td>{route.calls_today} calls</td>
+              <td className="mono">{usd(route.today_micros)}</td>
+              <td>
+                <span className="state-pill" data-state={route.enabled ? 'ok' : 'down'}>
+                  {route.enabled ? 'on' : 'off'}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function ServicesPage() {
   const query = useQuery({
     queryKey: ['admin', 'services'],
@@ -111,6 +139,9 @@ export function ServicesPage() {
   const healthy = data.services.filter((row) => row.state === 'ok').length;
   const attention = data.services.filter((row) => row.state === 'degraded' || row.state === 'down');
   const unknown = data.services.filter((row) => row.state === 'unknown').length;
+  // Features with calls today or switched off first; the quiet rest fold away.
+  const busy = data.routes.filter((route) => route.calls_today > 0 || !route.enabled);
+  const quiet = data.routes.filter((route) => route.calls_today === 0 && route.enabled);
   const dayMax = Math.max(
     1,
     ...data.ai_days.map((day) => Object.values(day.by_tier).reduce((a, b) => a + b, 0)),
@@ -199,25 +230,14 @@ export function ServicesPage() {
 
       <section className="card stack" aria-label="AI features">
         <div className="section-label">AI features · kill switches · today</div>
-        <div className="table-wrap">
-          <table className="table">
-            <tbody>
-              {data.routes.map((route) => (
-                <tr key={route.route}>
-                  <td className="mono">{route.switch_key}</td>
-                  <td className="mono">{route.tier ?? '—'}</td>
-                  <td>{route.calls_today} calls</td>
-                  <td className="mono">{usd(route.today_micros)}</td>
-                  <td>
-                    <span className="state-pill" data-state={route.enabled ? 'ok' : 'down'}>
-                      {route.enabled ? 'on' : 'off'}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <RouteTable routes={busy} />
+        {busy.length === 0 && <p className="muted">No AI calls today and every switch is on.</p>}
+        {quiet.length > 0 && (
+          <details>
+            <summary className="muted">{quiet.length} more features, on and quiet today</summary>
+            <RouteTable routes={quiet} />
+          </details>
+        )}
       </section>
 
       <section className="card stack" aria-label="Third-party services">

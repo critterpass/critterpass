@@ -161,6 +161,7 @@ export function HomePage() {
                 {new Date(entry.at).toLocaleTimeString('en-GB', {
                   hour: '2-digit',
                   minute: '2-digit',
+                  timeZone: OPS_ZONE,
                 })}
               </span>
             </div>

@@ -49,7 +49,7 @@
 }
 .nav-groups {
   display: grid;
-  gap: var(--space-12);
+  gap: var(--space-8);
 }
 .nav-group {
   display: grid;
@@ -68,8 +68,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 34px;
-  padding: var(--space-6) var(--space-12) var(--space-6) var(--space-14);
+  min-height: 30px;
+  padding: var(--space-4) var(--space-12) var(--space-4) var(--space-14);
   border-radius: var(--radius-sm);
   color: var(--color-ink-150);
   text-decoration: none;

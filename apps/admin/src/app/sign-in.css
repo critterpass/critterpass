@@ -82,7 +82,7 @@
   color: var(--color-paper-ink);
   border-color: var(--color-paper-border);
 }
-.btn-pass {
+.btn.btn-pass {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -112,9 +112,10 @@
   padding-top: var(--space-12);
   border-top: 2px dashed var(--color-paper-border);
   color: var(--color-paper-muted);
-  font-size: 11.5px;
-  letter-spacing: 0.12em;
-  overflow-wrap: anywhere;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .pass-stamp {
   justify-self: start;
