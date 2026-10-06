@@ -152,6 +152,8 @@ Parameter budget (doc delta): PowerSync allows one connection 1,000 parameter re
 
 Trip areas (doc delta): `trip_stops` rides `crews` beside `trips`, so every crew member has a trip's route without opening it. `destination_links`, the area rows and their places are not synced: shared content is read over the api, and the `catalog` stream leaves out `coverage = 'area'` so an area never reaches a phone as a city. A day's area (`plan_days.destination_id`) rides the existing `plan_days` queries of `trip` and `trip_draft`.
 
+Drivers (doc delta): `provider_terms` and `provider_assignments` ride `trip` (infra/powersync/streams/drivers.yaml) so the ride-back card works offline; a member's own `pickup_gap_dismissals` ride `trip_me`. `provider_intake` is never published (it carries a third party's number): the crew reads it through `GET /v1/drivers`, and a driver's number is sealed in `providers.contact_enc` and opened by the same read.
+
 Write path: all client writes go to the local insert-only `commands` table → `uploadData` → `POST /sync/upload` (batch) → each op runs its command handler in `withUser`; results land in `cmd_results` (stream `me`). Optimistic local rows are written to local-only overlay tables and reconciled when the server row replicates. Account switch (uid change) → `disconnectAndClear()`.
 
 Foursquare (D24): of a Place Details answer only the photos' ids and image addresses are stored (`poi_foursquare_photos`, C0 public place data, RLS R, writes `app_system` only). The table is not published or in a sync stream: phones read the photos over `GET /v1/media`, and hours, rating, tips, price, website and phone are held in memory only.

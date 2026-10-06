@@ -234,3 +234,4 @@ export {
   postcards,
 } from './album';
 export { tripPlaces } from './trip-places';
+export { pickupGapDismissals, providerAssignments, providerIntake, providerTerms } from './drivers';

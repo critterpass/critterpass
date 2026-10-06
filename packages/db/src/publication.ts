@@ -57,6 +57,8 @@ import * as schema from './schema';
  * the server's; travellers see their effect in `flight_segments`.
  * `codes` (packages/db/src/schema/billing.ts) is "S": gift and promo codes are only ever checked by
  * the server (a hash lookup); a client sees its own `code_redemptions`, never a code row.
+ * `provider_intake` (packages/db/src/schema/drivers.ts) is "S": a shared driver message carries a
+ * third party's phone number, so it is read through the api and never replicated.
  * `affiliate_clicks` (packages/db/src/schema/suppliers.ts) is "S": clicks are written by the api
  * and read only by the conversions import and the ops console, never by a client.
  * `journey_checks` (packages/db/src/schema/disruptions.ts) is C2: the latest running-late ETA per
@@ -150,6 +152,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'poi_hours_proposals',
   'poi_live_checks',
   'pois',
+  'provider_intake',
   'proposal_followups',
   'push_tokens',
   'scheduled_events',
