@@ -111,9 +111,22 @@ beforeAll(async () => {
   }
   tripId = await one(
     `INSERT INTO trips (crew_id, status, start_date, end_date)
-     VALUES ($1, 'in_trip', '2026-10-14', '2026-10-18') RETURNING id`,
+     VALUES ($1, 'voting', '2026-10-14', '2026-10-18') RETURNING id`,
     [crewId],
   );
+  // The status guard only allows the trip's own steps.
+  for (const status of [
+    'won',
+    'setup',
+    'drafting',
+    'draft_review',
+    'proposed',
+    'confirmed',
+    'pre_trip',
+    'in_trip',
+  ]) {
+    await q('UPDATE trips SET status = $2 WHERE id = $1', [tripId, status]);
+  }
   providerId = await one(
     `INSERT INTO providers (trip_id, kind, name, contact_enc, vehicle, added_by)
      VALUES ($1, 'driver', 'Made', $2, '{"model":"Toyota Avanza","seats":6}', $3) RETURNING id`,

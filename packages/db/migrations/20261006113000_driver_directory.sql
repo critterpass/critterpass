@@ -1,4 +1,4 @@
--- Drivers our crews used (docs/product-decisions.md D21, D10): a driver is listed only after he
+-- Drivers our crews used: a driver is listed only after he
 -- confirms his own listing with a WhatsApp code on the web claim page; ratings come only from crews
 -- who rode with him. Every write goes through the api as app_system.
 --

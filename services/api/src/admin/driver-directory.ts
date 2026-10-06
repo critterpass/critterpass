@@ -2,7 +2,7 @@
  * Ops console: the DRIVERS tab of the community area. Listings with their stats (loved / fine /
  * not again, trips, listed date) and open rating-ring flags with the evidence; a listing's answers;
  * and the three actions: hold answers (they stop counting at once), take a listing down (gone from
- * the directory at once), clear a flag. Open flags are a work queue and a nav badge.
+ * the directory at once), clear a flag. Open flags are a work queue.
  */
 import {
   DomainError,
@@ -22,7 +22,6 @@ import {
   defineAdminRead,
   type AdminWorkSource,
 } from './registry';
-import { openItemsCount } from './work';
 
 const flagSchema = z.object({
   id: z.uuid(),
@@ -118,7 +117,6 @@ export function driverDirectoryArea(pool: pg.Pool) {
   return defineAdminArea({
     id: 'driver-directory',
     work,
-    count: { area: 'community', run: async (tx, now) => openItemsCount(await work.open(tx), now) },
     reads: [
       defineAdminRead({
         path: '/driver-directory/listings',

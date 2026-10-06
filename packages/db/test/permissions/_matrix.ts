@@ -2215,7 +2215,7 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   driver_listing_stats: {
     selectProbe: {
       sql: `SELECT 1 FROM driver_listing_stats s JOIN driver_listings l ON l.id = s.listing_id
-             WHERE l.phone_hash = 'matrix-probe-phone'`,
+             WHERE l.display_name = 'Matrix Probe Driver'`,
       params: () => [],
       seed: `WITH l AS (
                INSERT INTO driver_listings

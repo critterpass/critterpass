@@ -101,6 +101,9 @@ import * as schema from './schema';
  * cost.ts) and `crowd_forecasts` are RLS "R" but read over HTTP only (`/v1/destinations/{id}/season`,
  * `/v1/destinations/{id}/cost-indices`, `/v1/places/{id}/crowd-forecasts`): shared reference
  * content a phone asks for when it shows it, kept as its last good copy, never replicated.
+ * `driver_listings`, `driver_listing_stats`, `driver_invites`, `driver_ratings`, `driver_tips` and
+ * `driver_listing_flags` (packages/db/src/schema/driver-directory.ts) are read over HTTP only: the
+ * directory and the crew's own drivers are fetched when a screen shows them, never synced.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -115,6 +118,12 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'destination_briefs',
   'destination_links',
   'device_activities',
+  'driver_invites',
+  'driver_listing_flags',
+  'driver_listing_stats',
+  'driver_listings',
+  'driver_ratings',
+  'driver_tips',
   'critter_names',
   'crowd_forecasts',
   'destination_cost_indices',
