@@ -142,7 +142,7 @@ CREATE POLICY pickup_gap_dismissals_select ON pickup_gap_dismissals FOR SELECT T
 CREATE POLICY pickup_gap_dismissals_system ON pickup_gap_dismissals FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON pickup_gap_dismissals TO app_user;
-GRANT SELECT, INSERT, DELETE ON pickup_gap_dismissals TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON pickup_gap_dismissals TO app_system;
 GRANT SELECT ON pickup_gap_dismissals TO admin_reader;
 CREATE POLICY pickup_gap_dismissals_admin_reader ON pickup_gap_dismissals FOR SELECT
   TO admin_reader USING (true);

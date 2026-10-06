@@ -109,7 +109,7 @@ export function registerDriverRoutes(app: OpenAPIHono<AppEnv>, deps: DriverRoute
     await withUser(deps.pool, session.uid, generateUuidV7(), (tx) => requireMember(tx, tripId));
     const body = await withSystem(deps.pool, async (tx) => {
       const intake = await tx.query<IntakeRow>(
-        `SELECT i.id, i.kind, i.status, i.shared_by, u.name AS shared_by_name, i.raw_text, i.parsed,
+        `SELECT i.id, i.kind, i.status, i.shared_by, u.display_name AS shared_by_name, i.raw_text, i.parsed,
                 i.provider_id, i.created_at
            FROM provider_intake i LEFT JOIN users u ON u.id = i.shared_by
           WHERE i.trip_id = $1 ORDER BY i.created_at DESC LIMIT 50`,
