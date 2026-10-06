@@ -87,12 +87,20 @@ export function WelcomeView(props: WelcomeViewProps) {
                   value: name,
                 },
                 {
+                  key: 'entries',
+                  label: t({ id: 'monetize.paywall.entries', message: 'Entries' }),
+                  value: t({ id: 'monetize.paywall.unlimited', message: 'Unlimited' }),
+                },
+                {
                   key: 'works',
                   label: t({ id: 'monetize.paywall.worksIn', message: 'Works in' }),
                   value: t({ id: 'monetize.paywall.everyCrew', message: 'Every crew' }),
                 },
               ]}
-              perk=""
+              perk={props.perks
+                .slice(0, 2)
+                .map((line) => i18n._(line.copy))
+                .join('. ')}
               mrz={mrzLine(['V', 'CPPASS', 'PLUS', name])}
               accessibilityLabel={t({
                 id: 'monetize.welcome.visaLabel',
@@ -101,15 +109,18 @@ export function WelcomeView(props: WelcomeViewProps) {
               testID="welcome-visa"
             />
             {props.passPlus ? (
-              <Stamp
-                title={upper(t({ id: 'monetize.welcome.admitted', message: 'Admitted' }), locale)}
-                top={upper(t({ id: 'monetize.welcome.entry', message: 'Entry' }), locale)}
-                bottom={upper(props.admittedOn, locale)}
-                ink={theme.color.blue}
-                size={128}
-                slam={props.celebrate}
-                testID="welcome-stamp"
-              />
+              <Row justify="space-between" align="center">
+                <Stamp
+                  title={upper(t({ id: 'monetize.welcome.admitted', message: 'Admitted' }), locale)}
+                  top={upper(t({ id: 'monetize.welcome.entry', message: 'Entry' }), locale)}
+                  bottom={upper(props.admittedOn, locale)}
+                  ink={theme.color.blue}
+                  size={128}
+                  slam={props.celebrate}
+                  testID="welcome-stamp"
+                />
+                <Sticker kind="gecko" name="Tokek" size={128} />
+              </Row>
             ) : null}
           </SurfaceToneProvider>
         </View>

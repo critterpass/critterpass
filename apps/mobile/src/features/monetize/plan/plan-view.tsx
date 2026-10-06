@@ -16,6 +16,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { Tag } from '@/ui/plan/ActionPill';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -71,6 +72,10 @@ export function PlanView(props: PlanViewProps) {
             ? t({ id: 'monetize.plan.eyebrow.monthly', message: 'MONTHLY' })
             : t({ id: 'monetize.plan.eyebrow.gift', message: 'A GIFT' });
   const summary = plan === null ? '' : planLine(plan);
+  // The card's eyebrow already names the period, so a renewing plan reads "Renews <date>" there.
+  const renews = plan !== null && plan.kind === 'active' ? planDate(plan.date) : null;
+  const cardLine =
+    renews === null ? summary : t({ id: 'monetize.plan.renews', message: `Renews ${renews}` });
   const hasPassCard = plan !== null && plan.kind !== 'free' && plan.kind !== 'expired';
 
   const otherStore =
@@ -131,19 +136,22 @@ export function PlanView(props: PlanViewProps) {
         {plan === null ? <Skeleton preset="lines" testID="plan-loading" /> : null}
         {hasPassCard ? (
           <Card tone="yellow" halftone testID={`plan-card-${plan.kind}`}>
-            <Stack gap="4">
-              <Text variant="eyebrow" color={theme.color.ink[850]}>
-                {eyebrow}
-              </Text>
-              <Text variant="h2" color={theme.color.ink[850]}>
-                {t({ id: 'monetize.paywall.passPlus', message: 'Pass+' })}
-              </Text>
-              <Text variant="bodySm" color={theme.color.ink[850]} testID="plan-summary">
-                {props.price !== null && plan.kind === 'active'
-                  ? `${summary} · ${props.price}`
-                  : summary}
-              </Text>
-            </Stack>
+            <Row align="center" gap="12">
+              <Stack gap="4" style={styles.grow}>
+                <Text variant="eyebrow" color={theme.color.ink[850]}>
+                  {eyebrow}
+                </Text>
+                <Text variant="h2" color={theme.color.ink[850]}>
+                  {t({ id: 'monetize.paywall.passPlus', message: 'Pass+' })}
+                </Text>
+                <Text variant="bodySm" color={theme.color.ink[850]} testID="plan-summary">
+                  {props.price !== null && plan.kind === 'active'
+                    ? `${cardLine} · ${props.price}`
+                    : cardLine}
+                </Text>
+              </Stack>
+              <Sticker kind="gecko" name="Tokek" size={56} />
+            </Row>
           </Card>
         ) : null}
         {plan !== null && !hasPassCard ? (

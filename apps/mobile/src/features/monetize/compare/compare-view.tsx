@@ -12,6 +12,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { ComparisonTable } from '@/ui/monetize/ComparisonTable';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { SurfaceToneProvider } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -102,20 +103,33 @@ export function CompareView(props: CompareViewProps) {
                 { id: 'pass', label: passLabel },
                 { id: 'boost', label: boostLabel },
               ]}
-              rows={props.rows.map((row) => ({
-                label: i18n._(row.label),
-                values: row.cells.map(cell),
-              }))}
+              rows={[
+                ...props.rows.map((row) => ({
+                  label: i18n._(row.label),
+                  values: row.cells.map(cell),
+                })),
+                {
+                  label: t({ id: 'monetize.compare.covers', message: 'Covers' }),
+                  values: [
+                    t({ id: 'monetize.compare.covers.free', message: 'You' }),
+                    t({ id: 'monetize.compare.covers.pass', message: 'You, every crew' }),
+                    t({ id: 'monetize.compare.covers.boost', message: 'One trip, whole crew' }),
+                  ],
+                },
+              ]}
               testID="compare-table"
             />
           )}
-          <Text variant="voice" color={theme.color.rust.darkened}>
-            {t({
-              id: 'monetize.compare.note',
-              message:
-                'Voting, splitting money, offline maps and every critter stay free for everyone.',
-            })}
-          </Text>
+          <Row gap="12" align="center">
+            <Sticker kind="gecko" name="Tokek" size={48} />
+            <Text variant="voice" color={theme.color.rust.darkened} style={styles.half}>
+              {t({
+                id: 'monetize.compare.note',
+                message:
+                  'Voting, splitting money, offline maps and every critter stay free for everyone.',
+              })}
+            </Text>
+          </Row>
         </SurfaceToneProvider>
       </View>
       <Row gap="12">

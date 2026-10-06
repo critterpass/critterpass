@@ -133,6 +133,11 @@ export function PaywallView(props: PaywallViewProps) {
                 value: holder,
               },
               {
+                key: 'entries',
+                label: t({ id: 'monetize.paywall.entries', message: 'Entries' }),
+                value: t({ id: 'monetize.paywall.unlimited', message: 'Unlimited' }),
+              },
+              {
                 key: 'valid',
                 label: t({ id: 'monetize.paywall.valid', message: 'Valid' }),
                 value:

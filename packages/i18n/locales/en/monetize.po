@@ -228,6 +228,10 @@ msgstr "Checking your purchases…"
 msgid "monetize.issue.checking"
 msgstr "Checking…"
 
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers"
+msgstr "Covers"
+
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.seats"
 msgstr "Crew size"
@@ -260,6 +264,11 @@ msgstr "ENDED"
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.ends"
 msgstr "Ends {date}"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.entries"
+msgstr "Entries"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
@@ -453,6 +462,10 @@ msgstr "On until a week after you land"
 msgid "monetize.boost.thisTripUntil"
 msgstr "On until a week after you land, {until}"
 
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.boost"
+msgstr "One trip, whole crew"
+
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.lockedLine"
 msgstr "Only one of you can pay at a time. Check back in a few minutes."
@@ -531,6 +544,10 @@ msgid "monetize.cancel.pauseTitle"
 msgstr "Pause instead"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseTill"
+msgstr "Pause till {trip}"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseTitleTrip"
 msgstr "Pause until {trip} instead"
 
@@ -569,6 +586,10 @@ msgstr "Purchases aren’t available yet. Nothing can be charged from here."
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.redrafts"
 msgstr "Redrafts from the guide"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.renews"
+msgstr "Renews {renews}"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.restore"
@@ -717,6 +738,11 @@ msgstr "Turn off auto-renew"
 msgid "monetize.plan.turnBackOn"
 msgstr "Turn Pass+ back on"
 
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.unlimited"
+msgstr "Unlimited"
+
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusGuideUnlimited"
 msgstr "Unlimited guide chat, voice and camera"
@@ -818,12 +844,20 @@ msgid "monetize.plan.line.yearlyRenews"
 msgstr "Yearly · renews {date}"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.free"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.havePass"
 msgstr "You have Pass+"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.yourPlan"
 msgstr "You have Pass+ · Your plan"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.pass"
+msgstr "You, every crew"
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.title"

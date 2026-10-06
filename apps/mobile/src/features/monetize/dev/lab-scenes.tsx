@@ -30,9 +30,9 @@ function offer(
   return {
     key,
     storeProductId: key,
-    priceString: `€${price.toFixed(2)}`,
+    priceString: `$${price.toFixed(2)}`,
     price,
-    currencyCode: 'EUR',
+    currencyCode: 'USD',
     period: null,
     perMonthString: null,
     savingsPercent: null,
@@ -46,11 +46,14 @@ const READY: ProductsState = {
     pass_monthly: offer('pass_monthly', 3.99, { period: { unit: 'month', count: 1 } }),
     pass_yearly: offer('pass_yearly', 29.99, {
       period: { unit: 'year', count: 1 },
-      perMonthString: '€2.50',
+      perMonthString: '$2.50',
       savingsPercent: 37,
     }),
-    boost_trip: offer('boost_trip', 11.99),
-    boost_crew_year: offer('boost_crew_year', 59.99, { period: { unit: 'year', count: 1 } }),
+    boost_trip: offer('boost_trip', 12, { priceString: '$12' }),
+    boost_crew_year: offer('boost_crew_year', 59, {
+      priceString: '$59',
+      period: { unit: 'year', count: 1 },
+    }),
   },
 };
 
@@ -81,7 +84,7 @@ function Paywall(input: Partial<PaywallInput> & { readonly restore?: RestoreStat
         store="play"
         passPerks={PASS_PERKS.slice(0, 2)}
         boostPerks={BOOST_PERKS.slice(0, 3)}
-        firstTripFree={{ crew: 'Bali Six', until: 'Oct 26' }}
+        firstTripFree={{ crew: 'Bali Six', until: 'Oct 12–26' }}
         boostTrip={{ name: 'Kyoto' }}
         restore={input.restore ?? NO_RESTORE}
         onPeriod={noop}
@@ -151,7 +154,7 @@ function Boost(over: Partial<BoostInput>) {
           model={model}
           destination="Kyoto"
           crew="The Bali Six"
-          dates="Apr 2 – 9"
+          dates="Apr 2–9"
           windowEnd="Apr 16"
           seated={SEATED}
           store="play"
@@ -173,7 +176,7 @@ function Stamped({ boosted }: { readonly boosted: boolean }) {
       boosted={boosted}
       destination="Kyoto"
       crew="The Bali Six"
-      window="Apr 16"
+      window="Apr 2–16"
       split
       onDone={noop}
     />
@@ -206,6 +209,7 @@ export const MONETIZE_SCENES: Readonly<Record<string, () => ReactNode>> = {
       admittedOn="02 Nov 2026"
       perks={PASS_PERKS.slice(0, 3)}
       renewal="Yearly · renews Nov 2, 2027"
+      onPickIcon={noop}
       onDone={noop}
     />
   ),

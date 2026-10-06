@@ -228,6 +228,10 @@ msgstr ""
 msgid "monetize.issue.checking"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.seats"
 msgstr ""
@@ -259,6 +263,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.ends"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.entries"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
@@ -453,6 +462,10 @@ msgstr ""
 msgid "monetize.boost.thisTripUntil"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.boost"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.lockedLine"
 msgstr ""
@@ -531,6 +544,10 @@ msgid "monetize.cancel.pauseTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseTill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseTitleTrip"
 msgstr ""
 
@@ -568,6 +585,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.redrafts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.renews"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
@@ -717,6 +738,11 @@ msgstr ""
 msgid "monetize.plan.turnBackOn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.unlimited"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusGuideUnlimited"
 msgstr ""
@@ -818,11 +844,19 @@ msgid "monetize.plan.line.yearlyRenews"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.havePass"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.yourPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.pass"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx

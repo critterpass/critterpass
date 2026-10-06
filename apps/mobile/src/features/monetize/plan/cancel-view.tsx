@@ -150,7 +150,9 @@ export function CancelView(props: CancelViewProps) {
             <PillButton
               label={
                 play
-                  ? t({ id: 'monetize.cancel.pauseInPlay', message: 'Pause in Google Play' })
+                  ? nextTrip === null
+                    ? t({ id: 'monetize.cancel.pauseInPlay', message: 'Pause in Google Play' })
+                    : t({ id: 'monetize.cancel.pauseTill', message: `Pause till ${trip}` })
                   : t({
                       id: 'monetize.cancel.pauseInAppStore',
                       message: 'Turn off auto-renew',

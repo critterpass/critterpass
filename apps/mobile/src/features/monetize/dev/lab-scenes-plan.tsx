@@ -56,7 +56,7 @@ function Plan(over: Partial<PlanInput>, storeAvailable = true) {
   return (
     <PlanView
       plan={model}
-      price={model.kind === 'active' ? '€29.99' : null}
+      price={model.kind === 'active' ? '$29.99' : null}
       boosts={BOOSTS}
       restore={NO_RESTORE}
       storeAvailable={storeAvailable}
