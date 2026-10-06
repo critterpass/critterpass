@@ -17,7 +17,14 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { uploadAttachment, type MediaHttp } from '@/features/crew';
 
 import { registerPhotoCommand } from '../commands';
-import { AlbumUploadQueue, exifTakenAt, type PickedAlbumPhoto } from './upload-queue';
+import { deviceBackgroundQueue } from './device-background';
+import {
+  AlbumUploadQueue,
+  exifTakenAt,
+  joinUploads,
+  type AlbumUploads,
+  type PickedAlbumPhoto,
+} from './upload-queue';
 
 /** The picker's JPEG quality: re-encoding also leaves the camera's metadata behind. */
 const PHOTO_QUALITY = 0.85;
@@ -96,16 +103,27 @@ function hex(buffer: ArrayBuffer): string {
   return Array.from(new Uint8Array(buffer), (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
-let shared: AlbumUploadQueue | null = null;
+let shared: AlbumUploads | null = null;
 
-/** The app's one album upload queue, bound to the command client on first use. */
-export function albumUploadQueue(commands: CommandClient): AlbumUploadQueue {
-  shared ??= new AlbumUploadQueue({
+/**
+ * The app's one album upload queue, bound to the command client on first use: the system's
+ * background transfer where the app has it (uploads carry on with the app closed), with the
+ * foreground path for anything the system will not take and for binaries without the module.
+ */
+export function albumUploadQueue(commands: CommandClient): AlbumUploads {
+  if (shared !== null) return shared;
+  const foreground = new AlbumUploadQueue({
     readBytes: (uri) => new File(uri).bytes(),
     sha256: async (bytes) => hex(await digest(CryptoDigestAlgorithm.SHA256, new Uint8Array(bytes))),
     upload: (input, onProgress) => uploadAttachment(albumHttp, input, onProgress),
     register: (payload) => commands.send(registerPhotoCommand, payload),
     newId: () => randomUUID(),
   });
+  const background = deviceBackgroundQueue({
+    commands,
+    http: albumHttp,
+    foreground: (tripId, photo, known) => foreground.add(tripId, [photo], known),
+  });
+  shared = background === null ? foreground : joinUploads(background, foreground);
   return shared;
 }

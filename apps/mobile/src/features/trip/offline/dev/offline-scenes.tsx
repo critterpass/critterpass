@@ -104,8 +104,8 @@ const PARTIAL: SavedDay = {
 const CONFLICT: RejectedCommand = {
   opId: 'c1',
   cmd: 'cast_ballot',
-  code: 'CONFLICT',
-  messageKey: 'errors.CONFLICT',
+  code: 'VOTE_CLOSED',
+  messageKey: 'errors.VOTE_CLOSED',
   detail: null,
   summary: { id: 'vote.queued.ballot', message: 'Your vote' },
   rejectedAt: '2026-10-14T23:00:00Z',

@@ -25,6 +25,18 @@ export interface PickedAlbumPhoto extends PickedPhoto {
   readonly takenAt?: string;
 }
 
+/** The album's uploads as the screen sees them, whichever way the bytes travel. */
+export interface AlbumUploads {
+  readonly subscribe: (listener: () => void) => () => void;
+  readonly items: () => readonly UploadItem[];
+  /** Adds picked photos for a trip; `known` holds the SHA-256s the album already has. */
+  add(tripId: string, photos: readonly PickedAlbumPhoto[], known: ReadonlySet<string>): void;
+  /** Sends every waiting photo again (and a failed one when `failed` is set). */
+  resume(known: ReadonlySet<string>, failed?: boolean): void;
+  /** Forgets finished and skipped photos once the album shows them. */
+  clearSettled(): void;
+}
+
 export interface AlbumUploadPorts {
   readonly readBytes: (uri: string) => Promise<Uint8Array>;
   readonly sha256: (bytes: Uint8Array) => Promise<string>;
@@ -43,7 +55,7 @@ interface Entry {
   readonly tripId: string;
 }
 
-export class AlbumUploadQueue {
+export class AlbumUploadQueue implements AlbumUploads {
   private readonly entries = new Map<string, Entry>();
   private readonly listeners = new Set<() => void>();
   private snapshot: readonly UploadItem[] = [];
@@ -163,4 +175,32 @@ export function exifTakenAt(date: unknown, offset: unknown): string | undefined 
   }
   const [, y, mo, d, h, mi, s] = match;
   return `${y}-${mo}-${d}T${h}:${mi}:${s}${offset}`;
+}
+
+/** Two queues shown as one: new photos go to `primary`, which may hand some to `fallback`. */
+export function joinUploads(primary: AlbumUploads, fallback: AlbumUploads): AlbumUploads {
+  const listeners = new Set<() => void>();
+  let snapshot: readonly UploadItem[] = [...primary.items(), ...fallback.items()];
+  const refresh = () => {
+    snapshot = [...primary.items(), ...fallback.items()];
+    for (const listener of listeners) listener();
+  };
+  primary.subscribe(refresh);
+  fallback.subscribe(refresh);
+  return {
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    items: () => snapshot,
+    add: (tripId, photos, known) => primary.add(tripId, photos, known),
+    resume: (known, failed) => {
+      primary.resume(known, failed);
+      fallback.resume(known, failed);
+    },
+    clearSettled: () => {
+      primary.clearSettled();
+      fallback.clearSettled();
+    },
+  };
 }

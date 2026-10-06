@@ -2,7 +2,8 @@
  * What the hub's entry rows show in each phase (3k-1): the first day and its pack list before the
  * trip, my flight on a travel day, and during the trip today's leave-by or next stop. Once nothing
  * of today is ahead, a row still opens today's page, and the next stop on another day follows it,
- * labelled with its day and opening that day. After the trip, a row opens its recap.
+ * labelled with its day and opening that day. After the trip, rows open its recap, the places to
+ * rate for the next crew, and sharing the plan with other crews.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and icon names, never copy. */
 import { t } from '@lingui/core/macro';
@@ -27,25 +28,51 @@ export function hubEntries(input: {
   readonly locale: string;
   /** Opens the trip's recap once the trip is over; undefined until the recap screen exists. */
   readonly recap?: (() => void) | undefined;
+  /** Opens Rate the trip once the trip is over; undefined until that screen exists. */
+  readonly rate?: (() => void) | undefined;
+  /** Opens Share the plan once the trip is over; undefined until that screen exists. */
+  readonly sharePlan?: (() => void) | undefined;
 }): HubNext[] {
   const { header, tripId, tz, locale } = input;
   if (header.phase === 'post') {
-    return input.recap === undefined
-      ? []
-      : [
-          {
-            icon: 'spark',
-            label: null,
-            title: t({ id: 'trip.hub.recap', message: 'See the recap' }),
-            detail: t({
-              id: 'trip.hub.recapDetail',
-              message: 'Your trip in numbers and awards',
-            }),
-            tone: 'pink',
-            testID: 'trip-hub-recap',
-            onPress: input.recap,
-          },
-        ];
+    const rows: HubNext[] = [];
+    if (input.recap !== undefined) {
+      rows.push({
+        icon: 'spark',
+        label: null,
+        title: t({ id: 'trip.hub.recap', message: 'See the recap' }),
+        detail: t({ id: 'trip.hub.recapDetail', message: 'Your trip in numbers and awards' }),
+        tone: 'pink',
+        testID: 'trip-hub-recap',
+        onPress: input.recap,
+      });
+    }
+    if (input.rate !== undefined) {
+      rows.push({
+        icon: 'star',
+        label: null,
+        title: t({ id: 'trip.hub.rate', message: 'Rate the trip' }),
+        detail: t({ id: 'trip.hub.rateDetail', message: 'One tap a place, for the next crew' }),
+        tone: 'raised',
+        testID: 'trip-hub-rate',
+        onPress: input.rate,
+      });
+    }
+    if (input.sharePlan !== undefined) {
+      rows.push({
+        icon: 'ticket',
+        label: null,
+        title: t({ id: 'trip.hub.sharePlan', message: 'Share the plan' }),
+        detail: t({
+          id: 'trip.hub.sharePlanDetail',
+          message: 'Other crews can copy it. You choose what they see',
+        }),
+        tone: 'raised',
+        testID: 'trip-hub-share-plan',
+        onPress: input.sharePlan,
+      });
+    }
+    return rows;
   }
   if (header.phase === 'travel') {
     const { flight } = header;

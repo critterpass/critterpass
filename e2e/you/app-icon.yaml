@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# The app icon picker (3n-5) from the profile lab, in English: the icons the app bundles with one
+# earned icon open and new, an earned icon in use, and a locked icon saying how it is earned.
+# Switching the home-screen icon itself is the system's (an alert on iOS, a launcher refresh on
+# Android), so it is checked by hand on a device.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3n-5-app-icon'
+      ROOT: 'you-app-icon'
+- takeScreenshot: en-3n-5-app-icon
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-5-earned-in-use'
+      ROOT: 'you-app-icon'
+      SHOT: en-3n-5-earned-in-use
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-5-locked'
+      ROOT: 'you-app-icon-problem'
+      SHOT: en-3n-5-locked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-2-settings'
+      ROOT: 'you-settings-guide'
+      SHOT: en-3n-2-settings-app-icon

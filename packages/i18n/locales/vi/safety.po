@@ -112,6 +112,10 @@ msgstr "Một nhân viên trực sẽ cùng bạn gọi cho phòng khám và bá
 msgid "safety.action.addPolicy"
 msgstr "Thêm"
 
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.allow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.respond"
 msgstr "Đang trả lời SOS"
@@ -278,6 +282,10 @@ msgstr "Nếu mất hộ chiếu, hãy gọi {name} theo số {phone}."
 msgid "safety.step.embassy"
 msgstr "Nếu mất hộ chiếu, hãy liên hệ {name}."
 
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.dnd"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepInsurance"
 msgstr "Thông tin bảo hiểm chờ bạn đồng ý"
@@ -355,6 +363,14 @@ msgstr "Chưa có ai khác trong nhóm. Gọi {general} ngay."
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepSentNobody"
 msgstr "Không có ai khác trong chuyến đi để báo"
+
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.notifications"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.fullScreen"
+msgstr ""
 
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
