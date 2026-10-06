@@ -261,4 +261,19 @@ describe('catalog stream', () => {
     expect(ids['destinations']?.length).toBeGreaterThan(0);
     expect(ids['client_config']).toContain('matrix.probe');
   });
+
+  it('never syncs a day-trip area, which installed builds would offer as a city', async () => {
+    const areaId = await withSystem(harness.db.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO destinations (slug, name, tz, coverage)
+         VALUES ('catalog-area', 'Mỹ Sơn', 'Asia/Ho_Chi_Minh', 'area') RETURNING id`,
+      );
+      return rows[0]?.id ?? '';
+    });
+    for (const actor of STREAM_ACTORS) {
+      const ids = idsByTable(await harness.rows('catalog', actor));
+      expect(ids['destinations']?.length).toBeGreaterThan(0);
+      expect(ids['destinations']).not.toContain(areaId);
+    }
+  });
 });
