@@ -3,6 +3,9 @@
 @import './shell.css';
 @import './sign-in.css';
 @import './pages.css';
+@import './queues.css';
+@import './desk.css';
+@import './support.css';
 @import '../phone/phone.css';
 * {
   box-sizing: border-box;

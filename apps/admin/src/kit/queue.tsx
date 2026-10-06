@@ -1,7 +1,8 @@
 /**
- * Work-queue view for a `defineQueue` definition: status tabs, a keyset list, the focused item's
- * preview and its actions. Keyboard-first: `j`/`k` move the focus, each action's shortcut runs it
- * (or opens its confirm). Actions an item does not support are hidden for that item.
+ * Work-queue view for a `defineQueue` definition: status tabs, optional filter chips with counts,
+ * a keyset list, the focused item's detail with its actions, and an optional side column.
+ * Keyboard-first: `j`/`k` move the focus, each action's shortcut runs it (or opens its confirm).
+ * Actions an item does not support are hidden for that item.
  */
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -18,20 +19,25 @@ function isTyping(target: EventTarget | null): boolean {
   );
 }
 
+const total = (counts: Readonly<Record<string, number>>) =>
+  Object.values(counts).reduce((sum, count) => sum + count, 0);
+
 export function QueueView<Item>({ queue }: { queue: QueueDefinition<Item> }) {
   const [status, setStatus] = useState(queue.statuses[0] ?? '');
+  const [filter, setFilter] = useState<string | undefined>(undefined);
   const [focus, setFocus] = useState(0);
   const [busy, setBusy] = useState(false);
   const [pending, setPending] = useState<QueueAction<Item> | null>(null);
   const [failure, setFailure] = useState<unknown>(null);
   const client = useQueryClient();
-  const key = ['queue', queue.kind, status] as const;
+  const key = ['queue', queue.kind, status, filter ?? ''] as const;
   const query = useQuery({
     queryKey: key,
-    queryFn: () => queue.load(status, undefined),
+    queryFn: () => queue.load(status, undefined, filter),
     refetchInterval: POLL_MS,
   });
   const items = query.data?.items ?? [];
+  const counts = query.data?.counts;
   const current = items[Math.min(focus, items.length - 1)];
   const actions =
     current === undefined
@@ -70,24 +76,65 @@ export function QueueView<Item>({ queue }: { queue: QueueDefinition<Item> }) {
   });
 
   const prompt = pending && current !== undefined ? pending.confirm?.(current) : undefined;
+  const aside = current !== undefined ? queue.aside?.(current) : undefined;
+  const chips = queue.filterLabel !== undefined && counts !== undefined ? counts : null;
   return (
     <div className="stack">
-      <div className="tabs" role="tablist" aria-label="Status">
-        {queue.statuses.map((candidate) => (
-          <button
-            key={candidate}
-            type="button"
-            role="tab"
-            aria-selected={candidate === status}
-            className={candidate === status ? 'btn btn-primary' : 'btn'}
-            onClick={() => {
-              setStatus(candidate);
-              setFocus(0);
-            }}
-          >
-            {candidate.replaceAll('_', ' ')}
-          </button>
-        ))}
+      <div className="queue-bar">
+        {chips !== null ? (
+          <div className="chips" role="group" aria-label="Kind">
+            <button
+              type="button"
+              className="chip"
+              aria-pressed={filter === undefined}
+              onClick={() => {
+                setFilter(undefined);
+                setFocus(0);
+              }}
+            >
+              All <span className="chip-count">{total(chips)}</span>
+            </button>
+            {Object.entries(chips)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([id, count]) => (
+                <button
+                  key={id}
+                  type="button"
+                  className="chip"
+                  aria-pressed={filter === id}
+                  onClick={() => {
+                    setFilter(id);
+                    setFocus(0);
+                  }}
+                >
+                  {queue.filterLabel?.(id) ?? id} <span className="chip-count">{count}</span>
+                </button>
+              ))}
+          </div>
+        ) : (
+          <span />
+        )}
+        <div className="tabs queue-tabs" role="tablist" aria-label="Status">
+          {queue.statuses.map((candidate) => (
+            <button
+              key={candidate}
+              type="button"
+              role="tab"
+              aria-selected={candidate === status}
+              aria-label={candidate.replaceAll('_', ' ')}
+              className={candidate === status ? 'btn btn-primary' : 'btn btn-ghost'}
+              onClick={() => {
+                setStatus(candidate);
+                setFocus(0);
+              }}
+            >
+              {queue.statusLabel?.(candidate) ?? candidate.replaceAll('_', ' ')}
+              {candidate === status && counts !== undefined && (
+                <span className="chip-count"> {total(counts)}</span>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
       {query.isPending ? (
         <LoadingState />
@@ -96,36 +143,48 @@ export function QueueView<Item>({ queue }: { queue: QueueDefinition<Item> }) {
       ) : items.length === 0 ? (
         <EmptyState title={queue.emptyTitle ?? 'Nothing waiting'} />
       ) : (
-        <div className="split">
-          <ul className="stack queue-list" aria-label={`${queue.kind} queue`}>
-            {items.map((item, index) => (
-              <li key={queue.itemId(item)}>
-                <button
-                  type="button"
-                  className="card queue-item"
-                  data-selected={item === current}
-                  onClick={() => setFocus(index)}
-                >
-                  {queue.title(item)}
-                </button>
-              </li>
-            ))}
-          </ul>
+        <div className="queue-layout" data-aside={aside !== undefined}>
+          <div className="stack">
+            {queue.listLabel !== undefined && (
+              <div className="section-label queue-list-label">
+                <span>{queue.listLabel}</span>
+                <span>{items.length} shown</span>
+              </div>
+            )}
+            <ul className="stack queue-list" aria-label={`${queue.kind} queue`}>
+              {items.map((item, index) => (
+                <li key={queue.itemId(item)}>
+                  <button
+                    type="button"
+                    className="card queue-item"
+                    data-selected={item === current}
+                    onClick={() => setFocus(index)}
+                  >
+                    {queue.title(item)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
           {current !== undefined && (
-            <div className="card stack">
+            <div className="card stack queue-detail">
               {queue.preview(current)}
               {actions.length > 0 && (
-                <div className="row">
+                <div className="row queue-actions">
                   {actions.map((action) => (
                     <button
                       key={action.id}
                       type="button"
                       disabled={busy}
-                      className={action.tone === 'danger' ? 'btn btn-danger' : 'btn'}
+                      className="btn verdict"
+                      data-tone={action.tone ?? 'default'}
+                      aria-label={
+                        action.shortcut ? `${action.label} (${action.shortcut})` : action.label
+                      }
                       onClick={() => start(action, current)}
                     >
                       {action.label}
-                      {action.shortcut ? ` (${action.shortcut})` : ''}
+                      {action.shortcut !== undefined && <kbd>{action.shortcut}</kbd>}
                     </button>
                   ))}
                 </div>
@@ -133,6 +192,7 @@ export function QueueView<Item>({ queue }: { queue: QueueDefinition<Item> }) {
               {failure !== null && <ErrorState error={failure} title="That didn’t go through" />}
             </div>
           )}
+          {aside !== undefined && <div className="stack queue-aside">{aside}</div>}
         </div>
       )}
       <ConfirmDialog
