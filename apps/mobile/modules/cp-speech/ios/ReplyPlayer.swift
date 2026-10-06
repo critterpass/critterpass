@@ -50,8 +50,8 @@ final class ReplyPlayer: @unchecked Sendable {
   func play(turn: String, chunks: [ReplyChunk]) -> Bool {
     // A newer turn supersedes whatever of the previous reply is still playing.
     if lock.withLock({ queue.turn != nil && queue.turn != turn && outstanding > 0 }) { cancel() }
-    let (ready, generation, muted) = lock.withLock { () -> ([ReplyChunk], Int, Bool) in
-      if muted { return ([], self.generation, true) }
+    let (ready, generation, isMuted) = lock.withLock { () -> ([ReplyChunk], Int, Bool) in
+      if self.muted { return ([], self.generation, true) }
       if queue.turn != turn { started = false }
       let ready = chunks.sorted { $0.seq < $1.seq }.flatMap {
         queue.push(turn: turn, seq: $0.seq, item: $0)
@@ -59,7 +59,7 @@ final class ReplyPlayer: @unchecked Sendable {
       outstanding += ready.count
       return (ready, self.generation, false)
     }
-    if muted { return false }
+    if isMuted { return false }
     for chunk in ready {
       work.async { [weak self] in self?.schedule(chunk, turn: turn, generation: generation) }
     }
