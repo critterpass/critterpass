@@ -1,7 +1,7 @@
 ---
 phase: 59
 title: Ops console designed pass
-status: pending
+status: in-progress
 depends_on: [18, 19, 35, 44, 45, 46, 47, 52, 55, 56, 58]
 wave: 23
 features: [F-025]
@@ -94,46 +94,55 @@ Done when: every Ops render has a matching screen (screenshot beside the render 
 - Steps: self-host fonts + CSP; export stickers; grouped nav with `/counts` badges; sign-in card + refused + no-role states.
 - Tests: `pnpm --filter @cp/admin test && pnpm --filter @cp/admin exec playwright test auth.spec.ts`
 - Done when: screenshots of Nav (4 roles) and Sign In match `Ops-Nav.png` / `Ops-Sign-In.png`; no request leaves `admin.` for fonts.
+- Status: done — db5e86f011
 
 ### T2 — States kit, toast, incidents and maintenance
 - Files: `apps/admin/src/kit/**`, `apps/admin/src/modules/incidents/**`, `packages/domain/src/admin/incidents.ts`, `services/api/src/admin/incidents.ts`, migration (incidents), tests.
 - Tests: `pnpm --filter @cp/api test -- admin/incidents && pnpm --filter @cp/admin exec playwright test states.spec.ts`
 - Done when: every panel of `Ops-States.png` has a kit story + screenshot; a read-only maintenance window refuses a flag change with `STATE_INVALID {reason: 'maintenance'}` and the CLI still works.
+- Status: done — c80b20a8a1 (the stale-save state takes who and when; `VERSION_CONFLICT` details do not carry `updated_by`/`updated_at` yet)
 
 ### T3 — Home and My work
 - Files: `apps/admin/src/modules/{home,work}/**`, `services/api/src/admin/home.ts`, tests.
 - Tests: `pnpm --filter @cp/api test -- admin/home && pnpm --filter @cp/admin exec playwright test work.spec.ts`
 - Done when: seeded items from desk, moderation, feedback, content and listings appear in the right sections; TAKE moves an item from grabs to mine; support sees the activity summary without audit detail.
+- Status: done — f877adad30
 
 ### T4 — Moderation, Desk, Support to design
 - Files: `apps/admin/src/modules/{moderation,desk,support}/**`, tests.
 - Tests: `pnpm --filter @cp/admin exec playwright test moderation.spec.ts desk.spec.ts support.spec.ts`
 - Done when: screenshots match s04/s05/s07 with seeded data for each kind the owning phases registered; `revoke_all_sessions` ends app sessions only.
+- Status: blocked — the three panels take the console theme only; `revoke_all_sessions` needs `accounts.ts`/`support.ts` (outside owns) and the per-render restyle of moderation, desk and support is not done
 
 ### T5 — Catalogue, Flags, Partners deltas
 - Files: `apps/admin/src/modules/{catalogue,flags,partners}/**`, `services/api/src/admin/{catalogue,partners}.ts`, migration (`ops.partner_adapters.certified_at`), tests.
 - Tests: `pnpm --filter @cp/api test -- admin/catalogue admin/partners && pnpm --filter @cp/admin exec playwright test catalogue.spec.ts flags.spec.ts`
 - Done when: booking copy can't be set before `certified_at`; flag history shows old → new; tab counts match rows.
+- Status: done — 5cc178e8a7 (partner certification gate and states; catalogue tab counts and per-key diff, flag history as built earlier)
 
 ### T6 — Audit, Jobs & DLQ, Operators screens
 - Files: `apps/admin/src/modules/{audit,jobs,operators}/**`, `services/api/src/admin/audit-read.ts`, tests.
 - Tests: `pnpm --filter @cp/admin exec playwright test audit.spec.ts jobs.spec.ts operators.spec.ts`
 - Done when: ops gets `FORBIDDEN` on CSV export; a redrive from the UI writes one audit row that links back to the queue; Operators is absent for non-owners.
+- Status: done — 7345d6c1c9
 
 ### T7 — Services & spend
 - Files: `packages/domain/src/admin/services-registry.ts`, `packages/db/src/schema/ops-services.ts`, migration (health + spend), `services/worker/src/jobs/ops/{service-health,vendor-usage}.ts`, `services/api/src/admin/services.ts`, `apps/admin/src/modules/services/**`, tests.
 - Tests: `pnpm --filter @cp/db test:db -- permissions/ops-incidents-services && pnpm --filter @cp/worker test -- service-health && pnpm --filter @cp/api test -- admin/services`
 - Done when: a vendor client error burst flips its row to DEGRADED within two ticks and back when healthy; AI tier and route spend match `ai_usage` sums; a vendor without data shows `unknown`, never a made-up value.
+- Status: blocked — read, registry, tables, spend and owner cost entry done (2b22a0b5bf); the worker health collector and vendor usage poller are not built, so every service reads `unknown` until they are
 
 ### T8 — Phone check-ins
 - Files: `apps/admin/src/phone/**`, responsive rules in `apps/admin/src/app/styles.css`, tests.
 - Tests: `pnpm --filter @cp/admin exec playwright test phone.spec.ts` (390×844 viewport)
 - Done when: the three phone renders (Home in `Ops-Phone.png`; moderation verdict and desk task are only in the canvas render `Ops-Console.png`, screens 20–21) are matched; no horizontal scroll at 390 px on any area.
+- Status: done — f60358d6e1
 
 ### T9 — Role matrix, screenshot pass, doc cleanup
-- Files: `e2e/admin/{roles,screens}.spec.ts`, `e2e/admin/screens/`, `docs/undesigned-states.md` (ops row), P17 frontmatter note.
+- Files: `apps/admin/playwright/{roles,screens}.spec.ts` (the console's Playwright suite; `e2e/admin/` never existed), `docs/undesigned-states.md` (ops row), P17 frontmatter note.
 - Tests: `pnpm --filter @cp/admin exec playwright test`
 - Done when: every area × role is allowed/forbidden as in the Operators matrix; the report has each screen beside its render for every panel, including those built by 18/35/45/46/47/52/55/56.
+- Status: done — 733e1437eb
 
 ## Phase acceptance criteria
 

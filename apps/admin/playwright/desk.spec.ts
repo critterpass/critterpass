@@ -7,7 +7,7 @@ test('ops works the desk: soonest due first, approval card, gate on outbound tas
 }) => {
   await signInAs(page, 'ops');
   await expect(page.getByRole('link', { name: /Desk tasks due < 2 h/ })).toContainText('2');
-  await nav(page).getByRole('link', { name: 'Ops desk' }).click();
+  await nav(page).getByRole('link', { name: 'Concierge desk' }).click();
 
   const queue = page.getByRole('list', { name: 'desk queue' });
   const items = queue.getByRole('button');
@@ -45,7 +45,7 @@ test('ops works the desk: soonest due first, approval card, gate on outbound tas
 
 test('ops opens a task by hand', async ({ page }) => {
   await signInAs(page, 'ops');
-  await nav(page).getByRole('link', { name: 'Ops desk' }).click();
+  await nav(page).getByRole('link', { name: 'Concierge desk' }).click();
   await page.getByRole('button', { name: 'New task' }).click();
   const form = page.getByRole('region', { name: 'New task' });
   await form.getByLabel('Kind').selectOption('review');

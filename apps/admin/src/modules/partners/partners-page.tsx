@@ -26,16 +26,29 @@ function AdapterEditor({ adapter }: { adapter: PartnerAdapter }) {
   const [enabled, setEnabled] = useState(adapter.enabled);
   const [copyMode, setCopyMode] = useState<PartnerCopyMode>(adapter.copy_mode);
   const [notes, setNotes] = useState(adapter.notes ?? '');
+  const [certified, setCertified] = useState(adapter.certified_at !== null);
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [conflict, setConflict] = useState(false);
-  const next = { enabled, copy_mode: copyMode, notes: notes.trim() === '' ? null : notes.trim() };
+  const next = {
+    enabled,
+    copy_mode: copyMode,
+    notes: notes.trim() === '' ? null : notes.trim(),
+    certified,
+  };
   const changes = diffValues(
-    { enabled: adapter.enabled, copy_mode: adapter.copy_mode, notes: adapter.notes },
+    {
+      enabled: adapter.enabled,
+      copy_mode: adapter.copy_mode,
+      notes: adapter.notes,
+      certified: adapter.certified_at !== null,
+    },
     next,
   );
-  const invalid = copyMode === 'booking' && !enabled;
+  const needsLive = copyMode === 'booking' && !enabled;
+  const needsCertified = copyMode === 'booking' && !certified;
+  const invalid = needsLive || needsCertified;
 
   const save = async () => {
     setBusy(true);
@@ -76,6 +89,17 @@ function AdapterEditor({ adapter }: { adapter: PartnerAdapter }) {
         />
         Adapter live
       </label>
+      <label className="toggle">
+        <input
+          type="checkbox"
+          checked={certified}
+          onChange={(event) => setCertified(event.target.checked)}
+        />
+        Partner certified our booking flow
+        {adapter.certified_at !== null && (
+          <span className="muted"> · {new Date(adapter.certified_at).toLocaleDateString()}</span>
+        )}
+      </label>
       <div className="field">
         <label className="field-label" htmlFor="copy-mode">
           App copy
@@ -104,7 +128,10 @@ function AdapterEditor({ adapter }: { adapter: PartnerAdapter }) {
           onChange={(event) => setNotes(event.target.value)}
         />
       </div>
-      {invalid && <div className="field-error">Booking copy needs the adapter live.</div>}
+      {needsLive && <div className="field-error">Booking copy needs the adapter live.</div>}
+      {needsCertified && (
+        <div className="field-error">Booking copy needs the partner's certification first.</div>
+      )}
       <DiffView changes={changes} />
       <div className="row">
         <button
@@ -184,7 +211,11 @@ export function PartnersPage() {
                     <td className="mono">{item.partner}</td>
                     <td>
                       <span className="badge" data-tone={item.enabled ? 'success' : undefined}>
-                        {item.enabled ? 'live' : 'off'}
+                        {item.enabled
+                          ? 'live'
+                          : item.approved_at !== null
+                            ? 'approved · off'
+                            : 'off'}
                       </span>
                     </td>
                     <td>{item.copy_mode}</td>
