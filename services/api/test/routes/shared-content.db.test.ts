@@ -91,10 +91,10 @@ beforeAll(async () => {
     );
     await tx.query(
       `INSERT INTO help_articles (slug, locale, category, title, summary, body_md, release_id)
-       VALUES ('refunds', 'en', 'money', 'Refunds', 'How refunds work.', '# Refunds', $1),
-              ('refunds', 'vi', 'money', 'Hoàn tiền', 'Cách hoàn tiền.', '# Hoàn tiền', $1),
-              ('refunds', 'ja', 'money', '返金', '返金について。', '# 返金', $1),
-              ('unreleased', 'en', 'money', 'Unreleased', 'Still in review.', '# Soon', $2)`,
+       VALUES ('refunds', 'en', 'refunds', 'Refunds', 'How refunds work.', '# Refunds', $1),
+              ('refunds', 'vi', 'refunds', 'Hoàn tiền', 'Cách hoàn tiền.', '# Hoàn tiền', $1),
+              ('refunds', 'ja', 'refunds', '返金', '返金について。', '# 返金', $1),
+              ('unreleased', 'en', 'refunds', 'Unreleased', 'Still in review.', '# Soon', $2)`,
       [live, review],
     );
     await tx.query(
@@ -158,7 +158,7 @@ describe('GET /v1/help/library', () => {
     expect(body.articles.find((article) => article.locale === 'vi')).toEqual({
       slug: 'refunds',
       locale: 'vi',
-      category: 'money',
+      category: 'refunds',
       title: 'Hoàn tiền',
       summary: 'Cách hoàn tiền.',
       body_md: '# Hoàn tiền',

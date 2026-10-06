@@ -3,7 +3,7 @@
     {
       "slug": "offline-maps",
       "locale": "en",
-      "category": "trip_day",
+      "category": "offline_and_maps",
       "title": "Maps without signal",
       "summary": "What your phone keeps for a trip day.",
       "body_md": "# Maps without signal\n\nThe map of your trip is saved two days before you go."
@@ -11,7 +11,7 @@
     {
       "slug": "refunds",
       "locale": "en",
-      "category": "money",
+      "category": "refunds",
       "title": "Refunds",
       "summary": "How refunds work for the crew.",
       "body_md": "# Refunds\n\nOpen **Money** and pick the expense to refund."
