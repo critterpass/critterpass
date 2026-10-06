@@ -24,3 +24,8 @@ reason = "http-cache-semantics 4.2.0 (CVE-2026-93748, cross-user disclosure from
 id = "GHSA-86w9-cpqp-85rv"
 ignoreUntil = 2026-11-04T00:00:00Z
 reason = "node-forge 1.4.0 (CVE-2026-85393, RSA PKCS#1 v1.5 signature forgery in verify): no patched release exists (1.4.0 is the latest). @parse/node-apn uses it only to parse certificate/p12 credentials, and the worker authenticates to APNs with token (p8) auth, so forge never verifies a signature at runtime; @expo/cli and @expo/code-signing-certificates use it on the developer machine to create and self-check our own dev certificates. Override to the fix once node-forge ships one."
+
+[[IgnoredVulns]]
+id = "GHSA-hp3w-g68c-fv3c"
+ignoreUntil = 2026-11-06T00:00:00Z
+reason = "sprintf-js 1.0.3 via argparse 1 (js-yaml 3 in dev and build tooling): no patched release exists (1.0.3 is the latest of that line). It never formats untrusted input in the app or the services. Re-check when a patched release ships or when js-yaml 3 leaves the tree."
