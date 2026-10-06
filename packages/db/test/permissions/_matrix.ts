@@ -2196,6 +2196,84 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  // A plan waiting for consent: its crew sees it, nobody else (published plans: shared-plans.test).
+  shared_plans: {
+    selectProbe: {
+      ...tripRowProbe('shared_plans'),
+      seed: `INSERT INTO shared_plans (trip_id, destination_id)
+             SELECT t.id, t.destination_id FROM trips t
+              WHERE t.id = $1 AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $1)`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  shared_plan_consents: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM shared_plan_consents WHERE user_id = $1 AND $2::uuid IS NOT NULL',
+      params: (f) => [f.actors.organiser, f.tripId],
+      seed: `WITH plan AS (
+               INSERT INTO shared_plans (trip_id, destination_id)
+               SELECT t.id, t.destination_id FROM trips t
+                WHERE t.id = $2 AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2)
+               RETURNING id
+             ), target AS (
+               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2
+             )
+             INSERT INTO shared_plan_consents (shared_plan_id, user_id)
+             SELECT id, $1 FROM target LIMIT 1
+             ON CONFLICT (shared_plan_id, user_id) DO NOTHING`,
+    },
+    expectations: OWNER_READ,
+  },
+  shared_plan_copies: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM shared_plan_copies WHERE copied_by = $1 AND trip_id = $2',
+      params: (f) => [f.actors.organiser, f.tripId],
+      seed: `WITH plan AS (
+               INSERT INTO shared_plans (trip_id, destination_id)
+               SELECT t.id, t.destination_id FROM trips t
+                WHERE t.id = $2 AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2)
+               RETURNING id
+             ), target AS (
+               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2
+             )
+             INSERT INTO shared_plan_copies (shared_plan_id, copied_by, trip_id)
+             SELECT id, $1, $2 FROM target
+              WHERE NOT EXISTS (SELECT 1 FROM shared_plan_copies WHERE copied_by = $1)
+              LIMIT 1`,
+    },
+    expectations: OWNER_READ,
+  },
+  ratings: {
+    selectProbe: {
+      ...ownRowProbe('ratings'),
+      seed: `INSERT INTO ratings (trip_id, poi_id, user_id, verdict)
+             SELECT p.trip_id, poi.id, $1, 'loved'
+               FROM trip_participants p, pois poi
+              WHERE p.user_id = $1 AND poi.name = 'Matrix Probe POI'
+             ON CONFLICT (trip_id, poi_id, user_id) DO NOTHING`,
+    },
+    expectations: OWNER_READ,
+  },
+  place_rating_stats: {
+    selectProbe: {
+      sql: `SELECT 1 FROM place_rating_stats s JOIN pois p ON p.id = s.poi_id
+             WHERE p.name = 'Matrix Probe POI'`,
+      params: () => [],
+      seed: `INSERT INTO place_rating_stats (poi_id, loved)
+             SELECT id, 1 FROM pois WHERE name = 'Matrix Probe POI'
+             ON CONFLICT (poi_id) DO NOTHING`,
+    },
+    expectations: READ_ONLY_ALL,
+  },
+  plan_links: {
+    selectProbe: {
+      ...tripRowProbe('plan_links'),
+      seed: `INSERT INTO plan_links (trip_id, token_hash)
+             VALUES ($1, encode(sha256(convert_to($1::text, 'UTF8')), 'hex'))
+             ON CONFLICT (token_hash) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
 };
 
 /**

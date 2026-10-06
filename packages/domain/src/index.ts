@@ -279,6 +279,7 @@ export * from './trip-day';
 export * from './disruptions';
 export * from './explore';
 export * from './planning';
+export * from './community';
 export * from './proposal';
 export * from './critters';
 export * from './trips/lifecycle';

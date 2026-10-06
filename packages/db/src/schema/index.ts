@@ -232,3 +232,11 @@ export {
   postcards,
 } from './album';
 export { tripPlaces } from './trip-places';
+export {
+  placeRatingStats,
+  planLinks,
+  ratings,
+  sharedPlanConsents,
+  sharedPlanCopies,
+  sharedPlans,
+} from './community';

@@ -97,6 +97,10 @@ import * as schema from './schema';
  * how one destination leads to another is shared content phones read through the api.
  * `destination_briefs` (packages/db/src/schema/destination-briefs.ts) is RLS "R" but read over
  * HTTP only: Explore's picks and the recommended order read a destination's brief on the server.
+ *
+ * The community tables (packages/db/src/schema/community.ts) are shared content and their owners'
+ * own rows, read over HTTP with a cache: a crew plan, its consents, copies, ratings, place rating
+ * counts and plan links never sync.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -132,6 +136,8 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'persona_packs',
   'place_profiles',
   'place_qna_summaries',
+  'place_rating_stats',
+  'plan_links',
   'place_search_pace',
   'poi_embeddings',
   'poi_foursquare_ids',
@@ -141,7 +147,11 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'pois',
   'proposal_followups',
   'push_tokens',
+  'ratings',
   'scheduled_events',
+  'shared_plan_consents',
+  'shared_plan_copies',
+  'shared_plans',
   'sponsored_event_counts',
   'sponsored_placements',
   'swipe_votes',
