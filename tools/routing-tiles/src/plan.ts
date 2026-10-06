@@ -3,11 +3,12 @@
  * each, grouped so every extract is downloaded once (eleven Vietnamese destinations share one
  * download). The workflow runs the plan with `osmium extract`, merges the cuts and builds tiles.
  */
-import { bufferBbox, osmiumBbox, type Bbox, type BoxesFile } from './boxes';
+import { bufferBbox, osmiumBbox, type Bbox, type BoxesFile, type DestinationBox } from './boxes';
 import { REGION_BY_SLUG, regionFor, regionUrl } from './regions';
 
 export interface PlannedBox {
   readonly slug: string;
+  readonly reason: DestinationBox['reason'];
   readonly bbox: Bbox;
   /** `minLon,minLat,maxLon,maxLat` for `osmium extract --bbox`. */
   readonly osmium: string;
@@ -57,7 +58,7 @@ export function buildPlan(
     const region = regionFor(box.slug, regions);
     if (region === undefined) continue;
     const bbox = bufferBbox(box.bbox);
-    const planned = { slug: box.slug, bbox, osmium: osmiumBbox(bbox) };
+    const planned = { slug: box.slug, reason: box.reason, bbox, osmium: osmiumBbox(bbox) };
     byRegion.set(region, [...(byRegion.get(region) ?? []), planned]);
   }
   return {
@@ -79,4 +80,26 @@ export function boxesChanged(
   const planned = plan.regions.flatMap((region) => region.boxes.map(key)).sort();
   const built = published.map(key).sort();
   return planned.length !== built.length || planned.some((entry, index) => entry !== built[index]);
+}
+
+/**
+ * One drive inside every planned box (`drive` answers a line such as `12 min, 8400 m`, or null when
+ * no route was found). Every box's result is logged. A box with no route fails the run, except a
+ * day-trip area's: an area can be a valley one road reaches, and one such box must not block every
+ * destination's tiles. A plan saved before boxes carried a reason counts as live.
+ */
+export async function smokePlan(
+  plan: TilePlan,
+  drive: (bbox: Bbox) => Promise<string | null>,
+  log: (line: string) => void = console.log,
+): Promise<void> {
+  const failures: string[] = [];
+  for (const box of plan.regions.flatMap((region) => region.boxes)) {
+    const answer = await drive(box.bbox);
+    const tolerated = box.reason === 'area';
+    if (answer === null && !tolerated) failures.push(box.slug);
+    const note = answer === null && tolerated ? ' (an area: not a failure)' : '';
+    log(`${box.slug}: ${answer ?? 'no route between inner points'}${note}`);
+  }
+  if (failures.length > 0) throw new Error(`no route in ${failures.join(', ')}`);
 }

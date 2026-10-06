@@ -672,7 +672,7 @@ streams:
       - SELECT * FROM phrase_cards
       - SELECT * FROM emergency_numbers
       - SELECT * FROM guides
-      - SELECT * FROM destinations
+      - SELECT * FROM destinations WHERE coverage <> 'area'
       - SELECT *, key AS id FROM client_config
       - SELECT * FROM destination_cost_indices WHERE reviewed_at IS NOT NULL
       - SELECT *, key AS id FROM products

@@ -1,6 +1,7 @@
 /**
  * `GET /v1/map/regions/wanted` against a real migrated Postgres: which destinations are waiting
  * for a region pack, in which order, and that the answer carries slugs and boxes and nothing else.
+ * A trip asks for its destination, its stops and its days' areas.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -27,20 +28,56 @@ const DA_LAT_BOX =
 const BANGKOK_BOX =
   'POLYGON((100.3548 13.6177, 100.6322 13.6177, 100.6322 13.8872, 100.3548 13.8872, 100.3548 13.6177))';
 
-async function destination(slug: string, box: string | null): Promise<string> {
+async function destination(
+  slug: string,
+  box: string | null,
+  coverage: 'guest' | 'area' = 'guest',
+): Promise<string> {
   const { rows } = await pool.query<{ id: string }>(
-    `INSERT INTO destinations (slug, name, tz, place_bounds)
-     VALUES ($1, $1, 'UTC', ST_GeogFromText($2)) RETURNING id`,
-    [slug, box],
+    `INSERT INTO destinations (slug, name, coverage, tz, place_bounds)
+     VALUES ($1, $1, $3, 'UTC', ST_GeogFromText($2)) RETURNING id`,
+    [slug, box, coverage],
   );
   return rows[0]?.id ?? '';
 }
 
-async function trip(destinationId: string, daysAgo: number): Promise<void> {
-  await pool.query(
+async function trip(destinationId: string, daysAgo: number): Promise<string> {
+  const { rows } = await pool.query<{ id: string }>(
     `INSERT INTO trips (crew_id, status, destination_id, created_at)
-     VALUES ($1, 'setup', $2, now() - make_interval(days => $3))`,
+     VALUES ($1, 'setup', $2, now() - make_interval(days => $3)) RETURNING id`,
     [crewId, destinationId, daysAgo],
+  );
+  return rows[0]?.id ?? '';
+}
+
+async function pack(destinationId: string, slug: string): Promise<void> {
+  await pool.query(
+    `INSERT INTO map_regions (destination_id, pmtiles_key, bytes, version)
+     VALUES ($1, $2, 1000, 'v1')`,
+    [destinationId, `${slug}/tiles-v1.pmtiles`],
+  );
+}
+
+/** A trip to a city with a pack, a second stop and a day trip in an area, neither with a pack. */
+async function tripWithStopAndDayArea(daysAgo: number): Promise<void> {
+  const city = await destination('wanted-hue', DA_LAT_BOX);
+  await pack(city, 'wanted-hue');
+  const tripId = await trip(city, daysAgo);
+  const stop = await destination('wanted-hoi-an', DA_LAT_BOX);
+  await pool.query(
+    `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+     VALUES ($1, $2, 1, $3, 2), ($1, $2, 2, $4, 2)`,
+    [tripId, crewId, city, stop],
+  );
+  const area = await destination('wanted-my-son', DA_LAT_BOX, 'area');
+  const version = await pool.query<{ id: string }>(
+    `INSERT INTO itinerary_versions (trip_id, visibility, status) VALUES ($1, 'crew', 'current')
+     RETURNING id`,
+    [tripId],
+  );
+  await pool.query(
+    'INSERT INTO plan_days (version_id, trip_id, day_no, destination_id) VALUES ($1, $2, 3, $3)',
+    [version.rows[0]?.id, tripId, area],
   );
 }
 
@@ -68,11 +105,7 @@ beforeAll(async () => {
   // Has a pack already.
   const packed = await destination('wanted-has-pack', DA_LAT_BOX);
   await trip(packed, 2);
-  await pool.query(
-    `INSERT INTO map_regions (destination_id, pmtiles_key, bytes, version)
-     VALUES ($1, 'wanted-has-pack/tiles-v1.pmtiles', 1000, 'v1')`,
-    [packed],
-  );
+  await pack(packed, 'wanted-has-pack');
   // Nobody has asked in the window.
   await trip(await destination('wanted-long-ago', DA_LAT_BOX), 45);
   // Asked for, but nothing says where it is yet.
@@ -84,6 +117,8 @@ beforeAll(async () => {
      VALUES ($1, $2, 'wanted-pitched', now() - interval '2 days')`,
     [crewId, pitched],
   );
+  // Asked for 5 days ago: the city has a pack, its second stop and its day area do not.
+  await tripWithStopAndDayArea(5);
 }, 180_000);
 
 afterAll(async () => {
@@ -100,12 +135,15 @@ function publicApp() {
 
 describe('GET /v1/map/regions/wanted', () => {
   it('lists destinations asked for and without a pack, oldest request first, with no session', async () => {
-    const response = await publicApp().request('/v1/map/regions/wanted?limit=6');
+    const response = await publicApp().request('/v1/map/regions/wanted?limit=10');
     expect(response.status).toBe(200);
     expect(response.headers.get('cache-control')).toBe('public, max-age=300');
     const body = (await response.json()) as { regions: { slug: string; bounds: number[] }[] };
+    // One-stop trips add only their destination; the packed city's stop and day area join in.
     expect(body.regions.map((region) => region.slug)).toEqual([
       'wanted-da-lat',
+      'wanted-hoi-an',
+      'wanted-my-son',
       'wanted-bangkok',
       'wanted-pitched',
     ]);

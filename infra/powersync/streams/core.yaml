@@ -162,5 +162,7 @@ streams:
     auto_subscribe: true
     queries:
       - SELECT * FROM guides
-      - SELECT * FROM destinations
+      # A day-trip area is never a city: installed builds offer every synced destination as a place
+      # to go, so an area is read over the api only.
+      - SELECT * FROM destinations WHERE coverage <> 'area'
       - SELECT *, key AS id FROM client_config

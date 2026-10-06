@@ -6,6 +6,7 @@
  *   changed  --plan plan.json --manifest manifest.json   prints true when the plan's boxes differ
  *            from the published build's (or the file is missing: nothing is published yet)
  *   smoke    --url http://localhost:8002 --plan plan.json   one routed drive inside every box
+ *            (an area's box with no route is reported, not failed)
  *   manifest --plan plan.json --osm osm.json --tiles <file.tar.gz> --url <asset url> --out m.json
  */
 import { createHash } from 'node:crypto';
@@ -15,7 +16,7 @@ import { createValhallaClient, type ValhallaPoint } from '@cp/suppliers';
 
 import { fetchBoxes, innerPoints, readBoxesFile } from './boxes';
 import { createManifest, manifestSchema } from './manifest';
-import { boxesChanged, buildPlan, type TilePlan } from './plan';
+import { boxesChanged, buildPlan, smokePlan, type TilePlan } from './plan';
 
 function flag(argv: readonly string[], name: string): string | undefined {
   const index = argv.indexOf(`--${name}`);
@@ -61,7 +62,7 @@ function changed(argv: readonly string[]): void {
 /**
  * Drives inside every box: snaps the box's centre and inner points to the road graph and routes
  * from the centre to the first inner point it can reach (an island or a peninsula can leave some
- * inner points on another, unconnected shore).
+ * inner points on another, unconnected shore). A day-trip area's box is reported, never failed.
  */
 async function smoke(argv: readonly string[]): Promise<void> {
   const client = createValhallaClient({
@@ -69,25 +70,19 @@ async function smoke(argv: readonly string[]): Promise<void> {
     routeTimeoutMs: 10_000,
     retries: 2,
   });
-  const failures: string[] = [];
-  for (const box of readPlan(required(argv, 'plan')).regions.flatMap((region) => region.boxes)) {
-    const points = innerPoints(box.bbox).map(([lng, lat]): ValhallaPoint => ({ lat, lng }));
+  await smokePlan(readPlan(required(argv, 'plan')), async (bbox) => {
+    const points = innerPoints(bbox).map(([lng, lat]): ValhallaPoint => ({ lat, lng }));
     const [centre, ...others] = (await client.locate(points, 'auto').catch(() => [])).flatMap(
       (location) => (location.snapped === undefined ? [] : [location.snapped]),
     );
-    let answer: string | null = null;
     for (const other of others) {
       if (centre === undefined) break;
       const route = await client.route([centre, other], 'auto').catch(() => null);
-      if (route !== null && route.meters > 0) {
-        answer = `${Math.round(route.seconds / 60)} min, ${route.meters} m`;
-        break;
-      }
+      if (route !== null && route.meters > 0)
+        return `${Math.round(route.seconds / 60)} min, ${route.meters} m`;
     }
-    if (answer === null) failures.push(box.slug);
-    console.log(`${box.slug}: ${answer ?? 'no route between inner points'}`);
-  }
-  if (failures.length > 0) throw new Error(`no route in ${failures.join(', ')}`);
+    return null;
+  });
 }
 
 function manifest(argv: readonly string[]): void {

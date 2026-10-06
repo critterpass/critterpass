@@ -1,6 +1,6 @@
 /**
- * Routing tile boxes: one per destination the planning legs need (live guides and every
- * destination with an active trip), read by the tile build from the api (`GET /v1/routing/boxes`,
+ * Routing tile boxes: one per destination the planning legs need (live guides, day-trip areas with
+ * a place box, and every destination, stop or day area of an active trip), read by the tile build from the api (`GET /v1/routing/boxes`,
  * services/api/src/routes/routing-boxes.ts). The stored box is the destination's own extent; the
  * build widens it by 30 km so day trips out of town (Ubud → Tanah Lot, Đà Nẵng → Hội An) stay on
  * the graph.
@@ -24,8 +24,12 @@ const bboxSchema = z
 
 export const destinationBoxSchema = z.object({
   slug: z.string().min(1),
-  /** Why it is built: a live destination, or one with a trip in planning, pre or in. */
-  reason: z.enum(['live', 'active_trip']),
+  /**
+   * Why it is built: a live destination; a day-trip area, which may be a valley one road reaches,
+   * so its smoke drive never fails the build; or a destination, stop or day area of a trip in
+   * planning, pre or in.
+   */
+  reason: z.enum(['live', 'area', 'active_trip']),
   bbox: bboxSchema,
 });
 

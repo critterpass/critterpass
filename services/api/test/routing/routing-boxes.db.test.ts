@@ -1,7 +1,8 @@
 /**
- * `GET /v1/routing/boxes` against a real migrated Postgres: live destinations and those with a
- * trip in planning, pre or in get a box, from `place_bounds`, the geofence or their places, in
- * that order; the answer carries slugs, reasons and boxes and nothing else, with no session.
+ * `GET /v1/routing/boxes` against a real migrated Postgres: live destinations, day-trip areas with
+ * a place box, and the destinations, stops and day areas of a trip in planning, pre or in get a
+ * box, from `place_bounds`, the geofence or their places, in that order; the answer carries slugs,
+ * reasons and boxes and nothing else, with no session.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -28,7 +29,7 @@ const box = (minLon: number, minLat: number, maxLon: number, maxLat: number) =>
 
 async function destination(
   slug: string,
-  coverage: 'live' | 'guest',
+  coverage: 'live' | 'guest' | 'area',
   shape: { placeBounds?: string; geofence?: string } = {},
 ): Promise<string> {
   const { rows } = await pool.query<{ id: string }>(
@@ -40,13 +41,44 @@ async function destination(
 }
 
 /** A trip being set up, or one cancelled straight after (a trip's first status is always set-up). */
-async function trip(destinationId: string, status: 'setup' | 'cancelled'): Promise<void> {
+async function trip(destinationId: string, status: 'setup' | 'cancelled'): Promise<string> {
   const { rows } = await pool.query<{ id: string }>(
     `INSERT INTO trips (crew_id, status, destination_id) VALUES ($1, 'setup', $2) RETURNING id`,
     [crewId, destinationId],
   );
+  const tripId = rows[0]?.id ?? '';
   if (status === 'cancelled')
-    await pool.query("UPDATE trips SET status = 'cancelled' WHERE id = $1", [rows[0]?.id]);
+    await pool.query("UPDATE trips SET status = 'cancelled' WHERE id = $1", [tripId]);
+  return tripId;
+}
+
+async function stops(tripId: string, destinationIds: readonly string[]): Promise<void> {
+  for (const [index, destinationId] of destinationIds.entries())
+    await pool.query(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       VALUES ($1, $2, $3, $4, 2)`,
+      [tripId, crewId, index + 1, destinationId],
+    );
+}
+
+async function dayArea(tripId: string, areaId: string): Promise<void> {
+  const { rows } = await pool.query<{ id: string }>(
+    `INSERT INTO itinerary_versions (trip_id, visibility, status) VALUES ($1, 'organiser', 'draft')
+     RETURNING id`,
+    [tripId],
+  );
+  await pool.query(
+    'INSERT INTO plan_days (version_id, trip_id, day_no, destination_id) VALUES ($1, $2, 2, $3)',
+    [rows[0]?.id, tripId, areaId],
+  );
+}
+
+async function place(destinationId: string, lat: number, lng: number): Promise<void> {
+  await pool.query(
+    `INSERT INTO pois (destination_id, name, category, lat, lng)
+     VALUES ($1, 'Place', 'other', $2, $3)`,
+    [destinationId, lat, lng],
+  );
 }
 
 beforeAll(async () => {
@@ -75,15 +107,30 @@ beforeAll(async () => {
   });
   // A guest destination with a trip being planned, boxed by its one place.
   const lima = await destination('pe-lima', 'guest');
-  await trip(lima, 'setup');
-  await pool.query(
-    `INSERT INTO pois (destination_id, name, category, lat, lng)
-     VALUES ($1, 'Plaza', 'other', -12.05, -77.03)`,
-    [lima],
-  );
+  const limaTrip = await trip(lima, 'setup');
+  await place(lima, -12.05, -77.03);
+  // Its second stop, a guest city nobody else plans for.
+  const cusco = await destination('pe-cusco', 'guest', {
+    placeBounds: box(-72.1, -13.6, -71.9, -13.5),
+  });
+  await stops(limaTrip, [lima, cusco]);
+  // A day trip in the organiser's draft to an area known only by its places: needed for the day.
+  const aguas = await destination('pe-aguas-calientes', 'area');
+  await place(aguas, -13.155, -72.525);
+  await dayArea(limaTrip, aguas);
+  // An area with a place box and no trip yet: routable before its first trip.
+  await destination('vn-my-son', 'area', { placeBounds: box(108.11, 15.76, 108.14, 15.78) });
+  // An area with no place box and no trip: nothing to cut.
+  const unboxed = await destination('vn-ba-na', 'area');
+  await place(unboxed, 15.99, 107.99);
   // A guest destination whose only trip was cancelled: not needed.
   const over = await destination('pt-porto', 'guest', { placeBounds: box(-8.7, 41.1, -8.5, 41.2) });
-  await trip(over, 'cancelled');
+  const overTrip = await trip(over, 'cancelled');
+  // Its second stop goes with it.
+  const lisbon = await destination('pt-lisbon', 'guest', {
+    placeBounds: box(-9.2, 38.7, -9.1, 38.8),
+  });
+  await stops(overTrip, [over, lisbon]);
   // A guest destination with a trip being planned but nothing that says where it is.
   await trip(await destination('nowhere', 'guest'), 'setup');
   // A guest destination nobody plans for.
@@ -103,15 +150,18 @@ function publicApp(now?: () => number) {
 }
 
 describe('GET /v1/routing/boxes', () => {
-  it('lists live destinations and those with an active trip, with no session', async () => {
+  it('lists live destinations, boxed areas and what active trips need, with no session', async () => {
     const response = await publicApp().request('/v1/routing/boxes');
     expect(response.status).toBe(200);
     expect(response.headers.get('cache-control')).toBe('public, max-age=300');
     const body = (await response.json()) as RoutingBoxes;
     expect(body.boxes.map(({ slug, reason }) => [slug, reason])).toEqual([
       ['iceland', 'live'],
+      ['pe-aguas-calientes', 'area'],
+      ['pe-cusco', 'active_trip'],
       ['pe-lima', 'active_trip'],
       ['vn-da-lat', 'live'],
+      ['vn-my-son', 'area'],
     ]);
   });
 

@@ -1,7 +1,8 @@
 /**
  * The box lists and the build plan made from them: boxes widen by 30 km, each extract is
  * downloaded once, a box with no known extract is left out and reported, the api's answer is
- * checked before use, and a build starts only when the boxes changed.
+ * checked before use, a build starts only when the boxes changed, and the smoke drive fails the run
+ * for a city with no route but only reports a day-trip area with none.
  */
 import { describe, expect, it } from 'vitest';
 
@@ -9,7 +10,7 @@ import { join } from 'node:path';
 
 import { bufferBbox, fetchBoxes, readBoxes, readBoxesFile, type BoxesFile } from '../src/boxes';
 import { createManifest } from '../src/manifest';
-import { boxesChanged, buildPlan } from '../src/plan';
+import { boxesChanged, buildPlan, smokePlan } from '../src/plan';
 import { regionFor } from '../src/regions';
 
 const committed = readBoxes();
@@ -116,12 +117,53 @@ describe('fetchBoxes', () => {
     expect(boxes.boxes.map((box) => box.slug)).toEqual(['vn-da-lat']);
   });
 
+  it('takes a day-trip area as a reason', async () => {
+    const area = { ...answer, boxes: [{ ...answer.boxes[0], slug: 'vn-my-son', reason: 'area' }] };
+    const fetcher = (() => Promise.resolve(Response.json(area))) as typeof fetch;
+    const boxes = await fetchBoxes('https://api.example.test', fetcher);
+    expect(boxes.boxes.map((box) => box.reason)).toEqual(['area']);
+    expect(buildPlan(boxes).regions[0]?.boxes[0]?.reason).toBe('area');
+  });
+
   it('refuses an error status or a malformed box', async () => {
     const status = (() => Promise.resolve(new Response('nope', { status: 503 }))) as typeof fetch;
     await expect(fetchBoxes('https://api.example.test', status)).rejects.toThrow('503');
     const malformed = { ...answer, boxes: [{ ...answer.boxes[0], bbox: [1, 1, 1, 1] }] };
     const empty = (() => Promise.resolve(Response.json(malformed))) as typeof fetch;
     await expect(fetchBoxes('https://api.example.test', empty)).rejects.toThrow();
+  });
+});
+
+describe('smokePlan', () => {
+  const plan = buildPlan({
+    generatedAt: '2026-10-06',
+    boxes: [
+      { slug: 'vn-da-lat', reason: 'live', bbox: [108.3632, 11.8675, 108.5119, 12.013] },
+      { slug: 'vn-my-son', reason: 'area', bbox: [108.11, 15.76, 108.14, 15.78] },
+    ],
+  });
+  const noRouteIn =
+    (...slugs: string[]) =>
+    (bbox: readonly number[]) => {
+      const box = plan.regions[0]?.boxes.find((entry) => entry.bbox === bbox);
+      return Promise.resolve(
+        box !== undefined && slugs.includes(box.slug) ? null : '9 min, 4200 m',
+      );
+    };
+
+  it("succeeds when only an area's box finds no route, and says so", async () => {
+    const lines: string[] = [];
+    await smokePlan(plan, noRouteIn('vn-my-son'), (line) => lines.push(line));
+    expect(lines).toEqual([
+      'vn-da-lat: 9 min, 4200 m',
+      'vn-my-son: no route between inner points (an area: not a failure)',
+    ]);
+  });
+
+  it('fails when a live box finds no route', async () => {
+    await expect(smokePlan(plan, noRouteIn('vn-da-lat', 'vn-my-son'), () => {})).rejects.toThrow(
+      'no route in vn-da-lat',
+    );
   });
 });
 
