@@ -188,6 +188,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: switching to 日本語 re-renders current and back-stack screens without navigation reset; LOCAL/HOME/BOTH changes a Balances price on the Wallet tab.
 
 ### T7 — Alternate app icons 3n-5 + `cp-app-icon` + unlock job
+- Status: partial — 81ebf3236, 78ed48ce0 (cp-app-icon and its config plugin: iOS alternate icons, Android launcher aliases), 5c3f8ce93 (previews). Left: the 3n-5 screen, the unlock job (its source events do not exist yet), the lapse revert. Forced LIGHT/DARK/TINTED variants are supported by the plugin but not bundled: about 2 MB each per icon
 - Goal: icon picker with free/Pass+/earned gating on both platforms.
 - Files: `apps/mobile/modules/cp-app-icon/{ios/*.swift,android/src/**/*.kt,index.ts,expo-module.config.json,plugin/*}`, `apps/mobile/src/app/you/app-icon.tsx`, `apps/mobile/src/features/you/app-icon/*`, `services/worker/src/jobs/icons/unlock.ts`, `services/worker/test/account/icons-unlock.test.ts`, `e2e/you/app-icon.yaml`.
 - Steps: 1. Config plugin registers alternate icons (iOS asset names from P05 bake; Android activity-aliases + monochrome). 2. Module API `getCurrent/set/isSupported`. 3. Screen with appearance segmented + previews + motion. 4. Gating + paywall entry (explicit). 5. Unlock job + NEW badge. 6. Lapse revert on foreground.
