@@ -5,9 +5,11 @@
  * organiser copies a day of it into their trip's Ideas.
  */
 import { withSystem } from '@cp/db';
+import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerCommunityCommands } from '../../src/commands/community';
+import { startJobProducer } from '../../src/jobs/producer';
 import { registerSharedPlanRoutes } from '../../src/routes/shared-plans';
 import {
   buildSetupCrew,
@@ -20,6 +22,7 @@ import {
 } from '../setup/setup-harness';
 
 let harness: SetupHarness;
+let producer: PgBoss;
 let crewA: SetupCrew;
 let crewB: SetupCrew;
 let pois: string[];
@@ -75,6 +78,16 @@ beforeAll(async () => {
     (registry) => registerCommunityCommands(registry),
     (app, deps) => registerSharedPlanRoutes(app, deps),
   );
+  // The worker owns the screening queue; here a producer stands in for its boot.
+  producer = await startJobProducer({
+    connectionString: String(
+      (harness.pool.options as { connectionString: string }).connectionString,
+    ),
+    logger: { error: () => undefined },
+  });
+  if ((await producer.getQueue('compliance.check')) === null) {
+    await producer.createQueue('compliance.check', { policy: 'exclusive' });
+  }
   crewA = await buildSetupCrew(harness, 3);
   crewB = await buildSetupCrew(harness, 2);
   await seatAll(crewA);
@@ -110,6 +123,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
+  await producer?.stop();
   await harness?.stop();
 });
 
