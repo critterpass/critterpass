@@ -90,6 +90,11 @@ import * as schema from './schema';
  * replication keeps a copy of every row of a published table, so phones receive the recommended
  * places through `place_cards` (the trigger-kept card per recommended place) and search the rest
  * over HTTP.
+ * `place_profiles` (packages/db/src/schema/place-profiles.ts) is RLS "R" but read over HTTP only
+ * (`GET /v1/places/{id}`): phones get a place's profile through the api. `place_search_pace` (same
+ * file) is "S": the shared pace of the worker's place searches.
+ * `destination_briefs` (packages/db/src/schema/destination-briefs.ts) is RLS "R" but read over
+ * HTTP only: Explore's picks and the recommended order read a destination's brief on the server.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -101,6 +106,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'climate_normals',
   'codes',
   'content_releases',
+  'destination_briefs',
   'device_activities',
   'critter_names',
   'engagement_events',
@@ -121,7 +127,9 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'member_etas',
   'moderation_reports',
   'persona_packs',
+  'place_profiles',
   'place_qna_summaries',
+  'place_search_pace',
   'poi_embeddings',
   'poi_foursquare_ids',
   'poi_foursquare_photos',

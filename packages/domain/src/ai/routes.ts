@@ -73,6 +73,14 @@ export const AI_ROUTES = [
   'places.compromise',
   // The well-known places of a destination without a curated set, by name (system usage).
   'places.pick',
+  // A place's AI profile from web pages (system usage): the write on either tier, the second web
+  // source for fees and hours, and the translation into a reader's language.
+  'place.profile',
+  'place.profile_fast',
+  'place.profile_check',
+  'place.profile_translate',
+  // A destination's essentials, eateries and stay prices from web pages (system usage).
+  'destination.brief',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',
@@ -82,6 +90,7 @@ export const AI_ROUTES = [
   'availability.reply_intent',
   'vendor.reply_intent',
   'rsvp.reply_intent',
+  'place.labels',
 ] as const;
 export const aiRouteSchema = z.enum(AI_ROUTES);
 export type AiRoute = z.infer<typeof aiRouteSchema>;
@@ -96,6 +105,7 @@ export const DECISION_ROUTES = [
   'availability.reply_intent',
   'vendor.reply_intent',
   'rsvp.reply_intent',
+  'place.labels',
 ] as const satisfies readonly AiRoute[];
 export type DecisionRoute = (typeof DECISION_ROUTES)[number];
 

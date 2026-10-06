@@ -9,7 +9,7 @@
 import type { DraftDay, Itinerary } from '@cp/domain';
 
 import { nameTokens } from './place-names';
-import { sunsetMin } from './place-time';
+import { sunsetMin } from './time-of-day';
 import { minuteOfDate } from './schedule-day';
 import type { DraftPoi, TripFrame } from './types';
 

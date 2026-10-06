@@ -14,6 +14,7 @@ import {
 import { asSystemRole } from '../admin/command';
 import { moderationKind, recordModerationReport } from '../admin/moderation-intake';
 import { defineCommand } from './_framework/define-command';
+import './place-profile-report';
 
 export const reportContentCommand = defineCommand({
   name: 'report_content',
@@ -48,6 +49,7 @@ export const reportContentCommand = defineCommand({
           retry_after_s: Math.max(1, Math.ceil((freesAt - Date.now()) / 1000)),
         });
       }
+      await handler.reported?.(tx, payload.id);
       return recordModerationReport(tx, {
         kind: payload.kind,
         id: payload.id,

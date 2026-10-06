@@ -60,6 +60,16 @@ describe('routeIncomingUrl after onboarding', () => {
     );
   });
 
+  it.each([
+    'critterpass://',
+    'critterpass:///',
+    'critterpass-staging://?utm=x',
+    'https://critterpass.app',
+    'https://go.critterpass.app/',
+  ])('opens Home, with no notice, for the bare link %s', async (url) => {
+    await expect(routeIncomingUrl(url)).resolves.toBe('/');
+  });
+
   it('goes Home with a notice for unknown or malformed links of ours', async () => {
     await expect(routeIncomingUrl('https://critterpass.app/i/ZZZZ2K')).resolves.toBe(
       '/?notice=link_unknown',

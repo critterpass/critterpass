@@ -5,7 +5,7 @@
  */
 import type pg from 'pg';
 
-interface Seed {
+export interface Seed {
   readonly name: string;
   readonly category: string;
   readonly confidence?: number;
@@ -37,7 +37,7 @@ export const NAMED_IN_ORDER = [
   'Maze Bar',
 ] as const;
 
-const WELL_KNOWN: readonly Seed[] = [
+export const WELL_KNOWN: readonly Seed[] = [
   { name: 'Crazy House', category: 'other' },
   { name: 'Chùa Linh Phước', category: 'temple_shrine' },
   { name: 'Thiền Viện Trúc Lâm Đà Lạt', category: 'temple_shrine' },
@@ -75,7 +75,7 @@ export const FILL = {
   shopping: numbered('Tiệm Len', 'shopping', 2).map((seed) => seed.name),
 } as const;
 
-const EVERYDAY: readonly Seed[] = [
+export const EVERYDAY: readonly Seed[] = [
   { name: 'Langbiang', category: 'nature', confidence: 0.93 },
   { name: 'Đồi Thông Hai Mộ', category: 'nature', confidence: 0.92 },
   { name: 'Bảo Tàng Sinh Học', category: 'museum', confidence: 0.91 },

@@ -1,7 +1,8 @@
 /**
  * The place's AI-written profile, for a place without a reviewed note: its photos (each from a
  * cited page), why go, the best time and the crowd line under an "AI summary" label, the facts
- * (a fact with one source asks to be checked before going), and the pages it was written from.
+ * (a fact with one source asks to be checked before going), the pages it was written from, and
+ * "Report a problem".
  * Shown in English, said so, while the reader's language is being written. Nothing while the
  * profile is being written: the rest of the page stands on its own.
  */
@@ -13,6 +14,8 @@ import { singleSource, type ReadyProfile } from '@/data/places/place-read';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+
+import { ReportProfile } from './report-profile';
 
 const STRIP_HEIGHT = 96;
 const STRIP_WIDTH = 128;
@@ -46,7 +49,13 @@ function hostOf(url: string): string {
 /** The language a locale tag reads in (`vi-VN` → `vi`). */
 const languageOf = (tag: string): string => tag.toLowerCase().split(/[-_]/u)[0] ?? tag;
 
-export function PlaceProfileSection({ profile }: { readonly profile: ReadyProfile }) {
+export function PlaceProfileSection({
+  placeId,
+  profile,
+}: {
+  readonly placeId: string;
+  readonly profile: ReadyProfile;
+}) {
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
@@ -137,6 +146,7 @@ export function PlaceProfileSection({ profile }: { readonly profile: ReadyProfil
           ))}
         </View>
       )}
+      <ReportProfile poiId={placeId} />
     </View>
   );
 }

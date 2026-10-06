@@ -155,6 +155,7 @@ export function createApp(deps: AppDeps) {
       routeEtaProvider: routing,
       tilesBaseUrl: deps.tilesBaseUrl ?? DEFAULT_TILES_BASE_URL,
       ...(deps.foursquare !== undefined ? { foursquare: deps.foursquare } : {}),
+      profiles: { redis: deps.geocoding?.redis },
     });
     if (deps.geocoding !== undefined) {
       registerGeocodingRoutes(app, {

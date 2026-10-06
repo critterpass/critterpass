@@ -1,7 +1,7 @@
 /**
  * Search joins the app (imported from the planning register): 7d-1 opens the scoped field and 7d-3
  * add from a link. Both are new ids with no earlier screen to replace, so only section 7 screens
- * (behind `planning.redesign`) link to them.
+ * link to them.
  */
 import { registerScreens } from '@/lib/navigation/screen-registry';
 

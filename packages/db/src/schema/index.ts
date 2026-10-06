@@ -126,6 +126,8 @@ export {
 export { opsWorkClaims } from './ops-work';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
 export { placeCards } from './place-cards';
+export { placeProfiles, placeSearchPace } from './place-profiles';
+export { destinationBriefs } from './destination-briefs';
 export * from './explore';
 export * from './planning';
 export { ballots, pitches, pollOptions, pollReveals, polls } from './polls';

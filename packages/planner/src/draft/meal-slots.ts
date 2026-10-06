@@ -7,6 +7,7 @@
  */
 import { ceilGrid, spansOn } from './day-minutes';
 import { nameTokens } from './place-names';
+import { isTyped, typedMealTime } from './typed-facts';
 import type { DayWindow, DraftPoi } from './types';
 
 export type MealSlot = 'breakfast' | 'lunch' | 'dinner';
@@ -47,6 +48,14 @@ export function mealSlotAt(
 const LUNCH_WORDS = ['lunch', 'lunchtime', 'midday', 'noon', 'morning', 'breakfast'];
 const DINNER_WORDS = ['dinner', 'evening', 'night', 'sunset'];
 
+/** The meal a line names (lunch or dinner); null when it names both or neither. */
+function mealWords(text: string): 'lunch' | 'dinner' | null {
+  const words = nameTokens(text);
+  const lunch = LUNCH_WORDS.some((word) => words.includes(word));
+  const dinner = DINNER_WORDS.some((word) => words.includes(word));
+  return lunch === dinner ? null : lunch ? 'lunch' : 'dinner';
+}
+
 /** The meals a place can serve on a date: open for a whole meal inside the lunch or dinner stretch. */
 export function mealSlots(poi: DraftPoi, date: string): ('lunch' | 'dinner')[] {
   const spans = spansOn(poi.hours, date);
@@ -60,12 +69,11 @@ export function mealSlots(poi: DraftPoi, date: string): ('lunch' | 'dinner')[] {
     ...(serves(LUNCH) ? (['lunch'] as const) : []),
     ...(serves(DINNER) ? (['dinner'] as const) : []),
   ];
-  // Our editors' word on when to go narrows it ("Lunch, as it often sells out"), never widens it.
-  const words = nameTokens(poi.bestTime ?? '');
-  const lunch = LUNCH_WORDS.some((word) => words.includes(word));
-  const dinner = DINNER_WORDS.some((word) => words.includes(word));
-  if (lunch === dinner) return open;
-  const told = open.filter((slot) => slot === (lunch ? 'lunch' : 'dinner'));
+  // When to go narrows it ("Lunch, as it often sells out"), never widens it: the place's typed
+  // times of day, else our editors' words.
+  const said = isTyped(poi) ? typedMealTime(poi) : mealWords(poi.bestTime ?? '');
+  if (said === null) return open;
+  const told = open.filter((slot) => slot === said);
   return told.length > 0 ? told : open;
 }
 

@@ -1,0 +1,19 @@
+{
+  "source": "Live recording from TypeSafe Jev (route poi.duplicate_tiebreak) for the brief's one close call (Truc Lam Zen Monastery against Thiền Viện Trúc Lâm Đà Lạt), 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "pair_0": {
+          "type": "noul",
+          "noul": 0.8
+        }
+      },
+      "usage": {
+        "input_tokens": 427,
+        "output_tokens": 22
+      }
+    }
+  }
+}

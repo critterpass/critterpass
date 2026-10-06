@@ -73,6 +73,12 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.7, no: 0.3, minConfidence: 0.6 },
     fast: TWIN_BAND,
   },
+  // A place's kind, meal role and good times of day from our own row: an unsure answer leaves the
+  // label empty and the planner uses the kind's default.
+  'place.labels': {
+    jev: { yes: 0.5, no: 0.5, minConfidence: 0.5 },
+    fast: TWIN_BAND,
+  },
 };
 
 export function decisionBand(route: DecisionRoute, answeredBy: DecisionAnswerer): DecisionBand {

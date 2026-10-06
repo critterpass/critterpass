@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek flash through its Anthropic-format API (route place.profile_fast) for Bảo Đại Summer Palace, Đà Lạt, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "b0b3f603-b373-4606-ab1c-4ab028159ff2",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"write\",\"why_go\":{\"en\":\"A group walks through the last emperor's summer villa on a pine hill, with 25 rooms of original furniture and old royal photographs.\",\"vi\":\"Cả nhóm dạo qua dinh nghỉ dưỡng của vị vua cuối cùng trên đồi thông, với 25 phòng còn giữ nội thất nguyên vẹn và nhiều ảnh tư liệu xưa.\"},\"best_time\":{\"en\":\"Early morning or late afternoon, for quiet and good light\",\"vi\":\"Sáng sớm hoặc chiều muộn, vắng khách và ánh sáng đẹp\"},\"crowd\":{\"en\":\"Busy with tour groups from late morning; quieter early or after mid-afternoon\",\"vi\":\"Đông khách theo đoàn từ cuối buổi sáng; vắng hơn vào sáng sớm hoặc sau giữa buổi chiều\"},\"best_times\":[\"early_morning\",\"afternoon\"],\"visit_min\":60,\"meal_role\":\"none\",\"dish\":null,\"facts\":[{\"kind\":\"entry\",\"en\":\"Adult ticket 60.000 đ\",\"vi\":\"Vé người lớn 60.000 đ\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Người lớn: 60.000 đ/vé\"},{\"kind\":\"hours\",\"en\":\"Open 07:00 – 17:30 every day, holidays included\",\"vi\":\"Mở cửa 07:00 – 17:30 tất cả các ngày, kể cả ngày lễ\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Thời gian mở cửa, 07:00 – 17:30 tất cả các ngày trong tuần, kể cả ngày lễ.\"},{\"kind\":\"dress\",\"en\":\"Wear shoe covers inside to protect the wooden floors\",\"vi\":\"Mang bọc giày khi vào trong để bảo vệ sàn gỗ\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Du khách được yêu cầu mang bọc giày khi vào bên trong để bảo vệ sàn gỗ.\"},{\"kind\":\"know\",\"en\":\"Allow about an hour for the rooms and gardens\",\"vi\":\"Dành khoảng một giờ để xem các phòng và khu vườn\",\"source_url\":\"https://viet-go.com/en/attractions/bao-dai-summer-palace\",\"quote\":\"Allow about an hour to see the rooms and the gardens.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1727,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 604,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

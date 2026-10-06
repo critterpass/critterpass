@@ -13,8 +13,8 @@ import {
   type CostMember,
   type CurrencyCode,
   type FxContext,
-  type FxSnapshot,
 } from '@cp/cost-engine';
+import { readLatestRates } from '@cp/db';
 import type pg from 'pg';
 import { loadRoomComponents, pricedByRooms } from '../jobs/setup/room-costs';
 
@@ -227,38 +227,6 @@ async function loadIndexEstimates(
   ];
 }
 
-async function loadFx(
-  tx: pg.PoolClient,
-  currency: CurrencyCode,
-): Promise<{ fx: FxContext; id: string } | null> {
-  const { rows } = await tx.query<{
-    id: string;
-    base: string;
-    quote: string;
-    rate: string;
-    as_of: string;
-    source: string;
-  }>(
-    // The newest rate of every pair: the source dates each currency on its own, so the newest
-    // day's rows are rarely a complete set.
-    `SELECT id, base, quote, rate, as_of, source FROM (
-       SELECT DISTINCT ON (base, quote) id, base, quote, rate::text AS rate, as_of::text AS as_of,
-              source
-         FROM fx_snapshots ORDER BY base, quote, as_of DESC, created_at DESC
-     ) newest ORDER BY quote, source`,
-  );
-  const pinned = rows.find((r) => r.quote === currency) ?? rows[0];
-  if (!pinned) return null;
-  const snapshots: FxSnapshot[] = rows.map((r) => ({
-    base: assertCurrencyCode(r.base),
-    quote: assertCurrencyCode(r.quote),
-    rate: r.rate,
-    asOf: r.as_of,
-    source: r.source,
-  }));
-  return { fx: { snapshotId: pinned.id, snapshots }, id: pinned.id };
-}
-
 export async function loadCostInputs(
   tx: pg.PoolClient,
   tripId: string,
@@ -293,17 +261,17 @@ export async function loadCostInputs(
     ),
   ];
   const needsFx = components.some((c) => c.currency !== currency);
-  const fx = needsFx ? await loadFx(tx, currency) : null;
+  const fx = needsFx ? await readLatestRates(tx, currency, assertCurrencyCode) : null;
   const version = `cv_${fnv1a64(
-    canonicalJson({ currency, members, components, fx: fx?.id ?? null }),
+    canonicalJson({ currency, members, components, fx: fx?.snapshotId ?? null }),
   )}`;
   return {
     tripId,
     currency,
     members,
     components,
-    ...(fx ? { fx: fx.fx } : {}),
-    fxSnapshotId: fx?.id ?? null,
+    ...(fx ? { fx } : {}),
+    fxSnapshotId: fx?.snapshotId ?? null,
     version,
   };
 }

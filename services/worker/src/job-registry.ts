@@ -39,6 +39,8 @@ import { pitchJobs } from './jobs/pitches';
 import { planJobs } from './jobs/plan';
 import { mapRegionRegisterJob, placesJobs } from './jobs/places';
 import { placePickDeps, placesPickJob } from './jobs/places/pick';
+import { destinationBriefJobs } from './places/profile/brief-jobs';
+import { placeProfileDeps, placeProfileJobs } from './places/profile/jobs';
 import { tripPlacesRefreshJob } from './jobs/places/trip-refresh';
 import { planningJobs } from './jobs/planning';
 import { pollBoardAdvanceJob, pollCloseJob, pollRemindJob } from './jobs/polls';
@@ -70,6 +72,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
   const { env, processEnv, pool, logger, aiSwitches, llmObservability, renderer } = deps;
   const assertRouteOn = aiSwitches.assertAiRoute;
   const placePicks = placePickDeps(env, { pool, assertRouteOn, telemetry: llmObservability });
+  const profileDeps = placeProfileDeps(env, { pool, assertRouteOn, telemetry: llmObservability });
   const jobs: AnyJobDefinition[] = [
     enqueueDueJob(),
     purgeJob(),
@@ -107,6 +110,8 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...pitchJobs(env, assertRouteOn, llmObservability),
     ...setupJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     placesPickJob(placePicks),
+    ...placeProfileJobs(profileDeps),
+    ...destinationBriefJobs(profileDeps, env.PLACES_BRIEF_DAILY_CAP_USD),
     tripPlacesRefreshJob(),
     ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability, placePicks }),
     ...moneyJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),

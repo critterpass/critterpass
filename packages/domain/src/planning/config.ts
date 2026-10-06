@@ -34,6 +34,7 @@ export type PlanCheckThresholds = z.infer<typeof planCheckThresholdsSchema>;
 
 export const PLANNING_CONFIG_DEFAULTS = {
   'planning.redesign': true,
+  'planner.typed_places': false,
   'plan.hub': 'map',
   'plan.check.max_runs_per_trip_day': 96,
   'plan.check.thresholds': {
@@ -71,6 +72,14 @@ export const PLANNING_CONFIG_KEYS: Readonly<Record<PlanningConfigKey, ConfigKeyD
     critical: true,
     description:
       'Retired: the redesigned plan and places screens are the only ones. Stays on for installed builds that still read it',
+  },
+  'planner.typed_places': {
+    group: 'limits',
+    schema: z.boolean(),
+    isPublic: false,
+    critical: true,
+    description:
+      "Plan drafts from places' typed facts (profile best times, visit length, meal role, dish); off reads the editors' notes",
   },
   'plan.hub': {
     group: 'limits',

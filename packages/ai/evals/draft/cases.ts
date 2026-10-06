@@ -28,6 +28,7 @@ import { z } from 'zod';
 import type { DraftPlanInput } from '../../src/prompts/draft/context';
 import { withHeldStops } from '../../src/prompts/draft/held';
 import { derivedUuid } from '../../src/prompts/draft/ids';
+import { withGoldenFacts } from './typed-input';
 import { personaIdSchema } from '../../src/persona/schema';
 
 const GOLDEN = fileURLToPath(new URL('./golden/', import.meta.url));
@@ -188,6 +189,8 @@ function datesFrom(start: string, days: number): string[] {
 export function planInput(
   crew: CrewCase,
   skeletonRoute: DraftPlanInput['skeletonRoute'] = 'draft.skeleton',
+  /** Plan from typed place facts, as the job does while `planner.typed_places` is on. */
+  typed = false,
 ): DraftPlanInput {
   const city = CITIES[crew.city];
   if (city === undefined) throw new Error(`no golden city ${crew.city}`);
@@ -214,7 +217,10 @@ export function planInput(
       },
     ]),
   );
-  for (const [poiId, poi] of pois) pois.set(poiId, withOpenDataDefaults(poi));
+  for (const p of city.pois) {
+    const poi = withOpenDataDefaults(pois.get(p.id) as DraftPoi);
+    pois.set(p.id, typed ? withGoldenFacts(poi, p) : poi);
+  }
   const members = crew.members.map((_, i) => derivedUuid(`${crew.id}:member:${i}`));
   const ignore = destinationPhrases(city.destination);
   const wishes = crew.wishes.map((text, i) => ({ id: wishId(crew, i), text }));

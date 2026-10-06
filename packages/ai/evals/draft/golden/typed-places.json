@@ -1,0 +1,5538 @@
+{
+  "0199b000-0001-7000-8000-000000000001": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000002": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000003": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000004": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0001-7000-8000-000000000005": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0001-7000-8000-000000000006": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0001-7000-8000-000000000007": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000008": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0001-7000-8000-000000000009": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0001-7000-8000-000000000010": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0001-7000-8000-000000000011": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000012": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0001-7000-8000-000000000013": {
+    "best_times": ["afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000014": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000015": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0001-7000-8000-000000000016": {
+    "best_times": [],
+    "meal_role": "meal"
+  },
+  "0199b000-0001-7000-8000-000000000017": {
+    "best_times": [],
+    "meal_role": null
+  },
+  "0199b000-0001-7000-8000-000000000018": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0001-7000-8000-000000000019": {
+    "best_times": ["afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0001-7000-8000-000000000020": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0001-7000-8000-000000000021": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0001-7000-8000-000000000022": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0002-7000-8000-000000000001": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000002": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000003": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000004": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000005": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000006": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000007": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000008": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "0199b000-0002-7000-8000-000000000009": {
+    "best_times": ["early_morning", "morning", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000010": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000011": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000012": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000013": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "0199b000-0002-7000-8000-000000000014": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0002-7000-8000-000000000015": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0002-7000-8000-000000000016": {
+    "best_times": ["afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0002-7000-8000-000000000017": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0002-7000-8000-000000000018": {
+    "best_times": [],
+    "meal_role": "none"
+  },
+  "0199b000-0002-7000-8000-000000000019": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0002-7000-8000-000000000020": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0003-7000-8000-000000000001": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000002": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000003": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000004": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000005": {
+    "best_times": [],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000006": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000007": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000008": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000009": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000010": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000011": {
+    "best_times": ["afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "0199b000-0003-7000-8000-000000000012": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": null
+  },
+  "0199b000-0003-7000-8000-000000000013": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0003-7000-8000-000000000014": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "0199b000-0003-7000-8000-000000000015": {
+    "best_times": ["evening"],
+    "meal_role": "light"
+  },
+  "0199b000-0003-7000-8000-000000000016": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0003-7000-8000-000000000017": {
+    "best_times": [],
+    "meal_role": "none"
+  },
+  "0199b000-0003-7000-8000-000000000018": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0003-7000-8000-000000000019": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0003-7000-8000-000000000020": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0004-7000-8000-000000000001": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000002": {
+    "best_times": ["afternoon", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000003": {
+    "best_times": ["morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000004": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000005": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000006": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000007": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000008": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000009": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000010": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": null
+  },
+  "0199b000-0004-7000-8000-000000000011": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000012": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000013": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000014": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0004-7000-8000-000000000015": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "0199b000-0004-7000-8000-000000000016": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0004-7000-8000-000000000017": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0004-7000-8000-000000000018": {
+    "best_times": ["afternoon"],
+    "meal_role": "meal"
+  },
+  "0199b000-0004-7000-8000-000000000019": {
+    "best_times": [],
+    "meal_role": "none"
+  },
+  "0199b000-0004-7000-8000-000000000020": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0005-7000-8000-000000000001": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000002": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000003": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000004": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0005-7000-8000-000000000005": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000006": {
+    "best_times": ["morning", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0005-7000-8000-000000000007": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "0199b000-0005-7000-8000-000000000008": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000009": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000010": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000011": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000012": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000013": {
+    "best_times": ["afternoon", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "0199b000-0005-7000-8000-000000000014": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0005-7000-8000-000000000015": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0005-7000-8000-000000000016": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0005-7000-8000-000000000017": {
+    "best_times": [],
+    "meal_role": null
+  },
+  "0199b000-0005-7000-8000-000000000018": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0005-7000-8000-000000000019": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000001": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000002": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000003": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000004": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000005": {
+    "best_times": ["morning", "afternoon", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000006": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000007": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0006-7000-8000-000000000008": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000009": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000010": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0006-7000-8000-000000000011": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": null
+  },
+  "0199b000-0006-7000-8000-000000000012": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000013": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0006-7000-8000-000000000014": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000015": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000016": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000017": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000018": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "0199b000-0006-7000-8000-000000000019": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0006-7000-8000-000000000020": {
+    "best_times": ["morning", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0007-7000-8000-000000000001": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000002": {
+    "best_times": ["early_morning", "morning", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000003": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000004": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000005": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000006": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000007": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000008": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000009": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000010": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000011": {
+    "best_times": ["early_morning", "morning", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0007-7000-8000-000000000012": {
+    "best_times": ["early_morning", "morning", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0007-7000-8000-000000000013": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000014": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000015": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000016": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": null
+  },
+  "0199b000-0007-7000-8000-000000000017": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000018": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "0199b000-0007-7000-8000-000000000019": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "0199b000-0007-7000-8000-000000000020": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": null
+  },
+  "0199b000-0007-7000-8000-000000000021": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0007-7000-8000-000000000022": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0007-7000-8000-000000000023": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0007-7000-8000-000000000024": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "0199b000-0007-7000-8000-000000000025": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "0199b000-0007-7000-8000-000000000026": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "0199b000-0007-7000-8000-000000000027": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "0199b000-0007-7000-8000-000000000028": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-2cf1-70c1-8d9e-899f0d6cbd90": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-2fb9-7310-9f6b-a85c3cef6a72": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-3204-72df-ba21-f44db7266f11": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0edd4-36db-74d2-863e-0f3248eebb0a": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-393d-7e37-9453-9ffee1f95b57": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-394f-7fe9-9fef-6bc6a045c61d": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-3963-7fe7-a1c6-5aef51656fd9": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-3d9e-7404-875f-042347c7f309": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-3d9f-7357-810d-ff67f369c6b0": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-3daf-74e8-854a-eb5b7d6e1e1f": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-4200-700f-9143-af96b12dae26": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-421b-7c79-bbaf-470284d9bb90": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a0edd4-4222-7bff-b985-d0a919fa3f35": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-447d-7327-8555-1d797e43ceb9": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd4-4877-7618-b0b8-45f310f64210": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-487c-7169-8cd4-947b24f50878": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd4-488f-7279-8ca9-ad589897e823": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-4891-7c74-9d20-f3920a2adba1": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-4894-76e8-a835-8d9ad4ef4064": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-4895-7f46-93bb-b4c0d3341517": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-489e-79a1-9891-4a3fa876a312": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-48b3-75dc-afe8-090e673b3272": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-48b3-78d3-8597-ced4713fd4bb": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-48b4-782f-a7a6-452fc1161539": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd4-48bb-7ff8-8492-c54fd6595bed": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-4abe-7751-a91b-609d0b2d803e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-4cce-78dc-bcfd-79196ac3589e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-5195-7414-a094-0a2c70d26c18": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-53e0-7a73-a497-ea3a19572318": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-55bd-75da-8e30-29c0844b5bb1": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-5614-7eda-9ea3-075cd354b2eb": {
+    "best_times": ["early_morning", "morning", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-584a-7afd-b46c-3092b3e87252": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-5b27-7068-bbbf-0dc74e58d288": {
+    "best_times": ["sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-5da2-7efb-8d76-e5a43882772b": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-6bb4-7fc1-862c-675b63601e3c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-6bbf-74e4-8b32-6f596b3b624d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-6e1c-7e9d-998d-73e2a358405d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-6e24-7e61-956b-38bef6bb83e1": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-6e26-7626-b84c-8d75d6c7a5b3": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7039-735b-907d-a4c4b00a6cdb": {
+    "best_times": ["afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-722e-7822-b807-62b8c747feaf": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7233-7274-b31a-5d34e9ca9ef8": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-7251-7d35-8029-e5374a554383": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7255-788c-a237-64e4bdead226": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7270-75f4-9e00-40960745809c": {
+    "best_times": ["early_morning", "morning", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-728f-7377-afac-655092699f60": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7474-716c-b576-42c6800d80f4": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-76dd-77fa-a423-1236e41a70ac": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-76ef-7539-b99d-dbdf1c22ddbe": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7707-7b44-a53f-29e1da10e106": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0edd4-78f0-7929-bb49-71e0d5b0f00a": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-78f8-78d5-b227-e024715bfd4a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-7925-733e-93ec-551554fc7a21": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-7b57-7295-b2e2-d26ce9bb13ce": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7d3c-7d9c-9131-059930bd7b1a": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7d5e-769f-bf2d-129c59974eb6": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7f73-72fc-a956-4365688b0108": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7f75-7d12-a61a-af22946726e7": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-7fc3-78fc-b678-e822eb9b3049": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a0edd4-81e3-737f-a0f8-24c27e2f7d29": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd4-81fd-7efa-899f-607e85fd5cb3": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-898e-75ba-8286-3e6e240b3d42": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-9162-7a40-925d-5387e8b385e8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-95a4-7a03-bd6b-8e16b56bdee5": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-95f1-77ce-b922-5ddfde661361": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-a0e2-792f-81e9-061da40d5970": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-a30a-71a7-ad79-024819fcce5a": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-a715-7bfa-9119-be1c5c320dfb": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-b0a0-732a-ad38-9c46a7172a9f": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-b0a1-7d41-87a5-0624c79b8872": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-b0b7-7199-984a-3de88a6790b1": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-bcf2-7d02-9a6c-2ce839b8b9fc": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a0edd4-bcf7-7b16-9635-66a5ce954068": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0edd4-c22d-71cc-bd85-0e8d05bd0aca": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-c26a-7cb9-a543-0d92aec24b68": {
+    "best_times": ["afternoon", "sunset"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-cb48-712a-b832-fced51bbba84": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-cd42-7fda-98fc-f901cf4f249d": {
+    "best_times": ["midday", "afternoon", "sunset"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-cd4a-718f-92a9-c8008b74a501": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-cfca-7eff-8cae-bda722c93e16": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": null
+  },
+  "01a0edd4-d1d0-7efa-bbd9-851992350687": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-d1f6-7142-8840-4a513891426d": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-d3f5-7074-87b4-ca446917d212": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd4-d404-78d1-a96a-27228b77c4e7": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-d43a-74cd-85a6-23ab69849aa1": {
+    "best_times": ["after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-da83-706c-b241-c8558cb722c2": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd4-dcad-721e-9a4f-6bce7ec00025": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-e376-7ea8-8f96-611c8b21b58b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a0edd4-e5ec-7477-aef7-c633c40b316c": {
+    "best_times": ["early_morning", "morning", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-e8b6-7907-a1c3-7101cf266db1": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-e8d7-7e31-8579-7c5c9a09461b": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-e8de-79b1-8742-82de50cbaae1": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-e8f0-730b-9f3d-4cbd26e890df": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0edd4-eadd-7acf-9da5-e4832aef0394": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-eaf9-766d-8c24-75f941c31048": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-eb0d-7d95-9560-e7c3efc0796d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-eb2a-73d6-bd9c-7b7282aea9d0": {
+    "best_times": ["early_morning", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-eb34-730f-82fd-1019a3a53b8d": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-ed57-7002-ad05-4db4169e2a36": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-ed6f-7bf5-a47d-dbcd16f0e57a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd4-ed9d-7390-ae8c-126cd21d7996": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-efcd-7559-9365-adda6f6aa004": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-f6d1-72f6-870d-13ec9294b9d1": {
+    "best_times": ["morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-f919-7136-9015-f7126be2da91": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-f947-7c6c-9918-cec5b5822a67": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-fdbf-721d-9ced-49e14bcd9fc5": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0edd4-fdfa-7a4a-ae1c-885675e045b0": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd4-fe17-7e57-b984-dcde2c3dc53a": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-0015-7c2c-a9c6-5c7869d257e7": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd5-0025-78c3-bb0a-c0cbf16929f2": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-0054-70e9-891d-d5c0e60988c9": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-0056-7a34-92be-032069716af2": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd5-04df-71f1-83f2-dd2fc4b12676": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd5-0506-7f32-9b27-4f26cdeb6525": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd5-0734-78c0-8476-e0f1506d391c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd5-0a1f-76a6-ab7d-7507e22f0db3": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-10f1-7b49-9d49-e7f525c64292": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0edd5-1351-765b-9d4d-89a22f63d34e": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-19ec-7dc4-8792-1070f45afaa5": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-1cd0-7d42-b196-49aa7b84e3aa": {
+    "best_times": ["early_morning", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0edd5-21e8-76df-ab48-7d364363f291": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd5-294a-729a-8931-ca83267cf03b": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd5-4ecd-773b-b7e3-ba609ebc0b08": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd5-586f-75af-90cc-2b054af83739": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-5b35-7e3a-89d9-96b1c48226fd": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd5-6e35-7561-b44a-2926dae5ad13": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-7a39-728b-8274-7b380a2d9e1e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd5-850f-7dfb-b783-939d2a67be35": {
+    "best_times": ["early_morning", "morning", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0edd5-856b-75f1-a7cb-48fa63e32600": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd5-9420-76bb-af0b-a24a5da954e3": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd5-a046-73fa-9767-47c6346c0017": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0edd5-a4d4-7290-ab03-2074e167632a": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd5-c9f7-7cb3-bca7-84284c81157d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd5-f2ce-7f10-9348-955f5cc99fc4": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-05f8-7ea8-b409-d18a53004994": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-0f6d-7de8-b0f2-cd92b4712c51": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-13d8-79cc-95a3-f886f4a41a9d": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd6-141f-760e-9f12-2516b31cdc6a": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-186e-747b-821f-358c998bc659": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-187e-7521-a698-7d8afec8b1ea": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-2416-791c-8712-bed60cfc1523": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-383b-789f-9f30-0291fbe93367": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0edd6-3a4b-7f5d-8eee-bd20d0ed83e3": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a0edd6-5d5f-7a78-905d-a5967b944502": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd6-6518-7b0c-9ded-b717d2a68c3a": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-7209-7676-9c8e-e4fc084abc88": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-749f-7aee-a2e4-1c191eb33b5a": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-7b25-7372-8500-a2baf5d76901": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-7b5a-7b6b-9b1e-5fdf7fc2ba73": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-7d70-714d-b14e-b785ccbf4fea": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd6-8001-70c9-84c5-2dfbc26aa144": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-8278-7521-9580-d1eef183a280": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-827e-7a90-8e05-39a7b9b5f624": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-875d-7f2d-9f90-f3c27bf401c6": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-89ed-79f8-be01-3eea1fec4e81": {
+    "best_times": ["early_morning", "morning", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0edd6-8c36-7f05-8b76-3ea07f71f927": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-8e67-7336-9bfb-d60bd7b0c9e1": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-8e8c-741d-8092-70191ed916e5": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0edd6-8e8c-7702-9c65-dd6009295bc9": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd6-8e97-7919-b307-16a611789e66": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-9546-7672-ab02-ae45be4bd841": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-9b3a-700f-9f63-71d139213718": {
+    "best_times": ["early_morning", "morning", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0edd6-9d56-76ac-8ac6-1c5af5409ee7": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-a25d-79b8-bbb9-46731799bb60": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0edd6-acb2-76af-9c18-d6a1901e4697": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0edd6-acc5-7fba-8ee9-a924580d4e14": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-af2d-73bc-aeaa-2b3e47f0c518": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-b668-74e5-b283-7d530d09efca": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0edd6-b8a1-7945-a495-f36af5b5b1e8": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0edd6-bdf5-76e5-9290-a3dbb38958da": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-20ee-7691-a6f5-368a80d13b6b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-2106-7ce3-ac6f-76a894f5c543": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-2109-70fb-ab62-f3fde1915882": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-2116-7cd7-b83b-05b19022cd5d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-211f-7a2d-9049-7c2595e2706b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-2121-793a-91bd-5d6f7d48ad41": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2127-73a2-a6d6-b74d0eb18739": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-212d-7a1f-a31d-a3fbe2574cfe": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-21b0-78cf-8560-0165adc839e0": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-21b6-71a7-88e7-ddd547a4f182": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-21b8-7926-8a9e-35323366aaa2": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-21e0-7227-851f-58c9d7594ea6": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-21e3-795e-9628-fc53cd3a09ac": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-21f1-7bd2-8337-0c51e4454412": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-220a-7b2d-b9e7-bf46bf2ef5cd": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2a03-7b84-811d-63ee09da30d9": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-2a17-7cfa-9845-a95378ab3a53": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2a1f-733f-85cf-08085e08ac77": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2a33-7ada-8b5d-4eda93dad9f0": {
+    "best_times": [],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2a5a-709f-83be-84b0d24553f3": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2a71-7839-b911-721fccace653": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2a94-7013-b27f-24508aa1c892": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-2a9c-7848-bb23-90992a7d93aa": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-2aa3-70f0-8171-cacfb579514f": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-333d-7b9c-ada5-4c67a958cc84": {
+    "best_times": ["afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-333e-790f-9cdc-229e2549f37d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3343-7b47-8de0-a5ca4cbb5600": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3344-7515-8bbd-9ee6a5fe482e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3345-75f7-9a70-522ead86bad4": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-336c-7d42-9309-0545c76c2e8e": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3381-78ac-b983-d5f605e3b617": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-3388-759d-8352-1d2f8e6796fc": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3391-78b5-9304-f80e30228a3b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3398-7823-82f1-6609b8d4e0ba": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-33a1-780f-a9b3-32bb13a413ad": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-33a6-74d5-9595-6f2652905bc8": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-33b3-7dc6-9557-ab2516b53fe3": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-33b4-7de2-bf72-568d78fd243f": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-33d4-7287-bd7c-ea62ff6eee6e": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-33d6-78c4-ae4f-8d65234162ec": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-33e8-7c70-9f71-fec82b93119d": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-33f0-71f3-a4c7-c916cbef2342": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a0f2fd-33f6-7b32-8e03-b1dbf8417398": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-33ff-7896-ba06-04932b34e3e4": {
+    "best_times": ["early_morning", "morning", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3403-7b4e-9ac3-7c3c5467d478": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3408-787c-88d3-a4aef1da892f": {
+    "best_times": ["midday"],
+    "meal_role": null
+  },
+  "01a0f2fd-340c-7927-a844-ce34bc5db61f": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-340d-7c01-85c8-7318aacc88e3": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-340d-7e7b-89c6-3bf57b22dc1d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-340e-7158-98b9-59aa0b3f20a0": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3ca6-7cf1-8c9b-2acc1891fcec": {
+    "best_times": ["afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3ca8-7f33-aad1-8ea8657d892f": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3cad-7c41-8d92-214d49285f02": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3caf-7042-b972-a1aa0027aef1": {
+    "best_times": ["midday", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3cb1-77c7-9efe-a168432f1734": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3cc3-7325-b931-3d54d8478209": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3cc7-78ca-a400-d10e46725e6b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3cc8-7dd0-9028-b6260d2cdfe6": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3cda-7071-9d91-bcbd1bf5457c": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3cda-7707-9567-bf34e780fc8e": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d05-7b0d-b9ae-43ad018a151d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d07-718d-b5aa-3c366cfeb200": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d08-763f-9c85-ebc07b2d441d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d08-7fd7-a0a4-212ab23854a5": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d09-72eb-b272-99e6d1d47578": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d0a-73f1-969a-f56c5e6005f4": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d0a-7873-ac36-4b7a31484982": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d0b-749c-8950-a045e3a75600": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-3d14-7500-b46a-1c0754df36a9": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3d36-78c1-b9be-804e9066337e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-3d59-7cdf-8429-ddc999b117a7": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-3d5f-705b-88f4-d1df3744330a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-4680-70d6-8b91-eab7239eb669": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-469d-7e2d-8eb2-37bf0351febd": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-46a6-742b-983f-d4b204244f20": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a0f2fd-46b1-7d99-a7e4-ce41ca08c6e2": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-46b9-7830-aae4-469891b96045": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-46e0-7729-90ae-2e1d90462a6c": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-46f0-724d-8b90-4fa4a2d3f865": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0f2fd-4701-7f6e-b2b9-e29ac6f4d489": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-4725-7336-8137-1ad5a7534ce8": {
+    "best_times": ["morning", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-472d-7a97-9f18-121ab07c6d14": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-4734-7649-92e2-f2875d6a3a79": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-4fe5-78dd-b727-baba51300f5a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-5030-7c40-8bf0-78ccdcc24b4d": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-5054-70b2-be64-139676626642": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-507c-74f9-a757-0c82cd8d0779": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-5081-7e64-aedb-100eb005ef4d": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-5090-706c-9633-ed734324a0e9": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-5941-73d6-87fc-faa32cc2ff8e": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-5956-7466-b541-16cacadb80fb": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-5956-7739-8bf6-f4e6f376d7cd": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-595a-7fb4-928b-4670b72eb661": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-5993-7607-9f0e-8295deda4d4f": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-5994-72b2-abe4-c7d52fd695ac": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-5995-7927-a4de-029413ee2a24": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-59a6-7ac5-b2e2-9d5bb9a9e483": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-59a7-7899-b1ef-63d492de43ac": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-59c4-73d3-92ca-e296f96a970a": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-59c5-70f5-9581-7d3c55f8ad3b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-59d7-7970-b20e-5fe3152601d9": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-59de-7638-8d3f-f9579a95d13f": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-59e2-7b88-ade9-b90a5a45c9b2": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-59e3-7b02-b09d-216da2e39e5f": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-59e6-7bab-aca1-d6d67f202a6c": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-62aa-792d-837d-134a277fd59f": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-62c6-7c34-9fe1-8063ff94b35c": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-62cb-7d1d-9e92-f44b99e36aa1": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-62f6-7696-a579-ae0fdcb2e6ad": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-62fc-783f-874a-f6ae1c925152": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6304-7049-be83-5ceeee126b91": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-631c-7893-9e7b-90919c74ee5c": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6328-7ff0-89e8-cf94517cfcd7": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-6334-744c-89d8-e2d8b017359f": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-6339-7ca8-a577-2bd141b4d83d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-6350-763a-99c3-932503291f81": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6bf1-7b00-91ba-5bad77a6c5b8": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c02-7f3e-82c3-24a36ae69e1b": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c36-7fd5-82f5-bc65053873e9": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c39-7447-8be1-f6bfc10e6eec": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c42-7960-872a-a69d48c8fe61": {
+    "best_times": [],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c45-7901-9e4c-d7934a4256ff": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c5d-7aa1-8761-3e11aa1c0660": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c6e-7d5f-bf4f-792640ca2ba7": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-6c70-7852-b0a2-5675f4235f7f": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-6c76-7eac-ae55-d98336b559fc": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-6c7d-7e41-917d-56d020163012": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c8c-751a-85a3-14f8c4fcd400": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c8e-76ea-be58-50ede6b71f1b": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6c99-7660-8da3-5a511e906958": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6ca2-783f-875e-85d8ea0dec2b": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6ca7-7511-af54-8a5099be86ba": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6cae-79c7-b8a2-5a43ab7cbccd": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-6cbd-7a99-8513-2f1d3fd2a20e": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-6cbd-7df6-912f-66b81b2c9791": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-755c-788d-8eb8-8139fe1b9813": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7573-70a3-a466-17c43828121b": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7576-7426-8de0-abd73483e3e0": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-759e-73ac-bf60-fcc8ebab3c8a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-75a4-72c3-88cd-01666aa8cf56": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-75ae-7cda-b8e7-e8c5e31a07f8": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-75ce-7fc5-9cef-cd3f951425f0": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-75ee-71a8-acd7-3e06d5bca45c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-75f2-7b3c-a404-126056f07133": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-75fb-79a7-8f5b-9838816c4704": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7eb8-765f-8f4c-6b7477810064": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7eb9-7df9-a8c8-9099a143f044": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7ec1-7022-ae80-db3462e6a9d1": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7ecd-78eb-9934-98e59136dbe9": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7ece-7ed6-96b0-43208da98e52": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7ed0-7418-9db2-a7e7e6cfac23": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7edb-771a-aeeb-e1da14c4c826": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7edb-7e42-ba28-58b944c582d7": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7ee1-7c1b-b4b1-88f3b426d218": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7ee8-7918-89ae-b5a7d552a03c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7ee8-7da5-8bc0-7de2559a6862": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7eea-7bd9-a06b-1daa5166f0f6": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7efb-7dec-ba81-fd93e1288444": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7f01-7c16-a523-23dc1f9466d5": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7f1a-76ad-b52e-115b20929352": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7f2a-7899-862e-b847ff2cf37a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7f3c-74c0-ba0d-baae768ebced": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0f2fd-7f3d-707b-97bd-08f369e06710": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7f40-7742-9416-069d7eb4de16": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7f48-73bc-9e3b-22fb6f265057": {
+    "best_times": ["morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-7f49-7cc6-82c6-08658eee0a24": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-7f5e-7b75-abf8-839a4522bb2c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a0f2fd-7f5f-73be-ba63-31c724b9a293": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-880b-7c8c-9802-f0eaae235c85": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-880c-7c70-a808-c0e5cc311a07": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-8811-7b10-8f63-23f58653012d": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-8813-7987-b160-e6871b7b3b16": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-8818-73b1-9be1-addd4cb11930": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-8836-73c1-8041-0a2f69a25fc1": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-8837-7ebf-9c0f-c9a357b4b06e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-8859-78bf-a126-a64ffebd31c0": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-886b-7b1d-8471-20f9b5e54d91": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-a5f5-74c5-99df-4eb55da05f6e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-a636-7cc1-b1db-95dd1e475327": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-a63f-7137-9df1-100d7e05a3a9": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-a645-7d52-97fa-545ed50ec9bb": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a0f2fd-a64e-7f1a-b952-910c8a82112b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-a650-7edc-942e-d255180be2c9": {
+    "best_times": ["afternoon"],
+    "meal_role": "none"
+  },
+  "01a0f2fd-b8d3-71f9-b961-ecebf1770914": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-b95d-7ed5-a895-16a679cf8f1d": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a0f2fd-c21d-7b03-8394-d49bd1566f32": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-e33c-7081-b694-2ca5c8a56a01": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fd-e362-7e23-a74e-813fac0abfff": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-012b-754b-9618-fbce0d247e75": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-0a19-76e9-b143-b908ef3438bd": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-13ba-715d-95d9-3db6f811d55f": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-3ab1-713c-972f-a89d0e258eeb": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a0f2fe-50a9-7147-9607-4d5fd1601901": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a0f2fe-50c9-7588-bf97-ff3c58200518": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-5b71-7959-af48-51a890c37cb5": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2fe-5bbf-793f-a235-1266f867840f": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-65c7-72db-bb2f-2fe28b6b89a1": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-6e8d-7880-bd60-271476f7a4b0": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-6f3b-7e67-8018-9fb1011c12dd": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2fe-931a-7db8-a6a9-fff7b12c1eb5": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-af93-7649-9d02-5be171f07aad": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2fe-afe9-7d48-9de2-803a00208212": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f2ff-0328-7568-88e4-12a3463d0b91": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-033e-70f0-82a9-921642b86e94": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-0b2f-7cff-8c77-6f458ed7b9fe": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f2ff-0b41-717e-ad52-e51384c2d726": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a0f2ff-1d0e-7e6a-9e0a-02ae9586c123": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-2f3d-7a08-bafa-114674b4c3ff": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-2f3d-7d8a-b463-9c7b1b8f80da": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-37cf-7fb2-9eee-7b688ee56438": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-3809-7eca-9f9d-9cced77c9080": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-4012-7fae-9662-87e3b53e7ec8": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-5214-7917-8e6e-0fe032fa2894": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f2ff-5216-7afb-891b-f3e8f04e9beb": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-5221-750f-8059-5446f65a7412": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-5b71-73aa-b3ea-439deedbcc2c": {
+    "best_times": ["early_morning", "midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f2ff-5b7b-793f-a989-4b63b6f2b5ca": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-7b30-7365-8eac-3e7108e9ddff": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-9ea6-7efc-bc6d-f7f09d317ca5": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-9ebf-7e4c-aed4-0eb55e729bb1": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-b982-71f3-82cc-55a7b896e86b": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a0f2ff-d3fa-732f-ab58-a4b8d14f6deb": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-dc82-7e10-9b67-976255fc2b18": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-dcad-7654-b12d-789f3d8b6ab0": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-e53c-7449-9788-1df773533284": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-e58f-786e-ba61-114748b7a63a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-eef5-714e-bef5-53e881461338": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-ef49-79ab-b47e-620890c36c27": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f2ff-efcb-75e0-b481-757144c71881": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f2ff-faf0-73eb-bafd-917041e100c3": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-079b-7572-919b-a55f20453541": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a0f300-084d-7e6b-b592-76db443c6cb7": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f300-0884-78c3-afeb-7ea5966f9925": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-1668-7e3f-886b-85365ae08edd": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-21a6-722d-9daa-a547715b7cc6": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f300-21e0-7b3a-ab76-11c940259c05": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f300-2cf1-7bd2-857b-17e78e0855bd": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-2d1c-7046-b548-fd0b07a91465": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-2d43-7830-9ae5-3ac4b047bc5f": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-2d46-7810-a4c7-1c96755afa3a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-4329-7157-aed8-1e54b11fe8fc": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-43ab-7a99-90cb-14dd04f42948": {
+    "best_times": ["morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f300-43f5-746c-84da-9452c19e92af": {
+    "best_times": ["early_morning", "morning", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f300-4e59-7e1e-995a-719b5693e5d6": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f300-4ed3-7603-9301-33dcc6842b00": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-4efe-7404-8100-257faab16149": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-4f29-7333-9ce4-b08f6c1aac08": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-5a22-733e-881f-f6a0667a8034": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-5a66-752b-8a23-09532f8c1a02": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-5a7a-7705-99e5-fe8ec97ffd2e": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f300-663b-7a0a-bdd3-f14dfe8c442d": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f300-6699-72d8-87bc-b1eeb3165193": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f300-66a0-7350-a855-2db8351dfbf7": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a0f300-7cac-74f7-b8ca-2e89bfaa4c56": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-8766-712b-862e-910b1462d6ab": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f300-876d-7925-8027-836caea9e3a5": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-881f-7435-8589-9b9cc16dcdfc": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f300-8831-7fa0-918b-3a0dedef2b69": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-9278-7afb-9883-23a066c2ec70": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-92cc-767f-a258-fb51118b4db6": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-92d8-7437-9b54-afd525e9e546": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-a97e-707f-8892-93d3de48dca5": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f300-a9b8-767f-a023-93b53eea7b64": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0f300-b51a-7945-bfdf-1cc806ff7d22": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-bfc4-79f8-b4f0-4371c308f485": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f300-c050-7a44-ac8f-a6912384d9a4": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-cb21-7c80-9350-7a727318b0e3": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0f300-cb52-7707-8403-ee975a632986": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-cb53-7057-a416-49f92324f1d3": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-da82-70ad-9c9c-3109d9d57173": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f300-da8f-7f66-b713-b73c9bbd7229": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f300-fcf6-7163-9493-4cd6f768b41a": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f300-fd39-7103-a316-a17fd8fe3268": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-07cc-7606-aa12-bd64f8dd3b2f": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f301-13cf-7f00-b651-2a908f847efa": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f301-13ed-7a70-a695-61cad1884b30": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-3556-7d69-b343-e09cc0da2d30": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-3568-7ac8-8842-d4fb58fe8317": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-40c8-74c2-8681-1aecebd9f74b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-412c-73a9-abfb-dd7255d1c463": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0f301-4b8f-7f27-9327-eb421228f9e3": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-4bd0-75b5-85ea-cc6ef449b1a4": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-4bd9-7833-bc7f-87a3819e86fd": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-4bf8-7f29-abe4-76e2254c19fe": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-5732-73ce-a2f1-bb6bdad02587": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-573a-7109-b930-dfb8df5ddf1b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-573a-7393-a02a-29d1dbf863d8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-573d-786b-8e01-a6a0754dfe89": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a0f301-5744-7b43-9a39-0a9695e60067": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-5749-7045-814d-4ea663fb4359": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-574e-7889-937b-0f1c76a83fb9": {
+    "best_times": ["early_morning", "morning", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-574f-7027-a806-7b0d525c1e65": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-57a3-78be-a2f2-5a1942cb14e5": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-57b4-7f0e-93bb-128b01822fe4": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-6de3-7506-a704-9f10e9ee8572": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-6e43-7d86-b989-ad5c51c0c673": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-6e46-71f8-aa2d-5e84619dcc5a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-6e52-71de-966c-fc4a708ea884": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-78fd-7ba9-ba2c-9b7ea3a59110": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "meal"
+  },
+  "01a0f301-83f0-7954-a5e4-0c37c010049b": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-840e-7270-891b-e8ed05c58468": {
+    "best_times": ["early_morning", "morning", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-8435-789e-8a1c-a29274895214": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-8465-7054-a9f2-9ae45e1afbbe": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-8ee9-764b-b136-b48ee72285ba": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-8ef4-7ecf-88c1-d6ddaa2b7761": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-9d62-73f1-816a-203aa3899179": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f301-9dbf-7ad5-92dc-086aed26400b": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-9dc7-78c7-b1ce-7406e8405e8a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-aa71-7378-92ab-ff0349684cc4": {
+    "best_times": ["early_morning", "morning", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f301-aa82-7be6-aaee-5f1d49752e00": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-aada-7ba3-b39f-9440b1452e4e": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f301-b59b-7548-b92a-f1b6897db56a": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0f301-b5b4-798d-bc68-c5f196602036": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-b5e1-7c8c-98fd-b20c38021c47": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-b5f8-7927-9068-559b9177b550": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-b60e-7515-9790-cfb662ed6ca6": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-c11b-7cbd-ad68-35113f155dcf": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-c196-73bb-8134-6c333d8b11de": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-c1a5-7b6e-9d2a-d57271c595c4": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f301-c1a8-756c-9ff6-39e58ed85dea": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-c1b3-7bcd-a309-288fcd6fe878": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-cd13-769f-8346-67b6363040a8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-cd20-7d7f-a648-6aa56b251934": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-cd35-7bc5-9e1b-a877fa16785c": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-cd6f-74c8-b5c0-304641dbf436": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-cd78-772d-ad52-ac89fff5abd8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a0f301-cdaa-75cd-9407-33928db8bcfd": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-d8ab-749a-8df9-d6cc0a16134c": {
+    "best_times": ["midday", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-d8de-7a7b-a52b-9ea3b16bda0a": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f301-e39f-7431-9e30-a63f0c871bc4": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-e3a6-7090-bdbc-e6d6d218e5ef": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a0f301-e3a6-7e1d-9c6e-52e4091749cd": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-e3b7-74fd-b09d-f0ec825f3121": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f301-e414-7a6a-bac9-eeea26764e57": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-e46f-7fd0-bcef-32da32a18761": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f301-ef04-7cf9-a538-a4741481ffca": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f301-ef1a-7fe9-83f8-970228f60c90": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f301-ef64-787e-976c-3ea041ee3ccb": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f301-efdd-7016-a1a6-3931a2022690": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f301-fcc4-73bf-841f-24ca1a6b05e1": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-0727-7409-913f-620f66380f4c": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f302-073d-7f44-bec7-ea55d90e6efd": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-0757-7638-a3ab-aee4d7041d0f": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f302-1323-7885-8768-57017489f97d": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f302-1324-724f-88bd-537f1a8bb09a": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f302-1365-741f-93e8-7839d2cac6cf": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-1396-714d-abac-e7160ed6b9f1": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-139d-75f5-a5ad-78d8369f2782": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-1f61-744b-ac58-6cb6a5e47aa7": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f302-1f98-7a72-80cb-b886d860681a": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0f302-2a4c-7e09-bd5e-93927b4b514c": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-2ac8-7a80-9552-065583b56016": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-2ad8-7da6-b472-1508950bba0c": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-2b03-7ae8-8e07-78fbf90a68e2": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f302-363c-730f-83d4-40c3adccab5e": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a0f302-36dd-74fc-b84c-fc1c47476962": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-41b4-7353-b884-c166adeb18e3": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-423d-74e8-a9ee-f13aac2b7683": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-4d31-795e-84f2-863b60da8a5f": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f302-4d68-7e5b-a32e-4e772b4bb019": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-4d6e-77df-bab6-898a497ea5aa": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f302-4d74-717e-b420-9cc22a6d52f1": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f302-4db2-7e77-a9ba-dbf34218bd04": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-4db6-7d51-87e8-bf687ae4ef5c": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "meal"
+  },
+  "01a0f302-4df4-7af3-957a-a9c60d6ab651": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a0f302-58ec-7c0c-9934-7e8f70e80a46": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f302-7d78-735a-ae9e-087bcd9c16fa": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-7dbf-749a-96cc-b02025e2d249": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f302-89a8-75c7-8b5e-0fb811382e72": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-89b3-7c9d-9b39-eeec581b62c3": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-89c3-724d-a5f7-432de575fb2d": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f302-9534-7bee-9c1a-d30180ed6982": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-9535-73d9-8407-799e8f264add": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-9565-7baa-b78d-0ac61f80468f": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f302-956a-7d42-9593-1457b7a2ccdf": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-9576-7e12-a6f2-9a1b746e3489": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-95a1-7ac5-ac1a-cc6f83f0fd39": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f302-a107-7e0a-95d5-225c62e74061": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-a17d-7ceb-8724-1116949c3b2d": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f302-a17f-7834-9329-8e5416522261": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f302-a18c-7881-8698-20dcc26cb34a": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f302-aca9-71ee-ae28-ea3f1ae515f4": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f302-acf4-79b6-99e9-40454cf4c9df": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f302-ad00-73a5-8e29-ae73df5b360e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a0f302-c4d4-7d89-b358-62621666e909": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-c51c-76db-9a87-2c7a25db6714": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-d056-760b-b068-6d89dc21220c": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-d0db-70d7-96aa-d56497dc1652": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-db93-7b5d-867e-7b899863a2af": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f302-dc2d-7443-b552-f3f57c5b3c84": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-e78e-7a81-9d68-6e0001acf57b": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f302-f260-7581-ba4f-89a80c282656": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f302-f31d-7061-a5e1-f2c3147cc1c3": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f303-166c-7d8c-b5c7-586e2351676b": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-2155-7530-86e9-417049cee387": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f303-2181-7d5c-95b8-f07a4baa5f61": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a0f303-21f0-751f-96d2-f6ded58a5e35": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-21f2-744c-b59a-786cb6d9b0a5": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-2df4-72be-815f-186710d580b9": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-2e19-795d-8a43-3fbc312d7c18": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-3864-7d3a-85e2-55141f9e5b00": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-38a3-7b6b-8e8a-8b6643baf6ac": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-38a4-7d7e-8d99-263e75567af8": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-38d0-796f-a0bd-b31e63a1d92f": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-38e1-7692-a9d0-1d3d34476982": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-38e3-71fe-a004-f94ae559c853": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0f303-3915-7cb5-a363-dbc16b3cbae0": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-44ce-7316-b29d-b95def33a2a9": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-44df-70bc-8dbc-1ea024f4bfe5": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-49dc-79b0-bfde-3cde96e3c159": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-49dd-7ae4-aed5-1312581160d3": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-49ff-78d8-94e4-dce296d198df": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-4a12-7ebf-848e-e4afac84a193": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a0f303-4a14-7992-8b18-b6debcf1c27f": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a0f303-4a19-7b5d-8487-9aa1ddb81a99": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-4a1b-77cf-bd30-730b4a367ca7": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-4a20-7973-a27f-f80b106f50a9": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-4a3a-74ed-b8b5-01d0bbbbaad7": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-5404-7677-a76a-2a1bee0bdf90": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f303-5462-7616-92f7-cc2884e0e638": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-54a3-7b33-b1cc-94c2e8123d5e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-54a9-7893-a98b-0a0cffd0f482": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-54bf-7612-b81d-811edff53361": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f303-54dd-73bd-a68e-67ba3dc1045e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-5fee-7ce1-9e8a-0a0c251ec5ca": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f303-6061-735e-a404-239c6b1ec581": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f303-6c74-7844-97ee-55bbce664325": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a0f303-6d07-7645-b018-5f6c76fc2504": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f303-787e-7470-a8cf-196bbd0bf567": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-78bf-7412-933c-f82e3feaea51": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a0f303-78cd-79c2-afec-f92bc642f5b9": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-9c18-7a7e-a641-cde5b721409e": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a0f303-a6dd-7d06-a10a-8b2e7f3b70fc": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-b2df-7468-b740-277ed3fe624e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-bdce-7d03-a538-8619133578b8": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-be21-7936-9a4c-9d8dc948df1b": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-be2f-7d12-ad43-8dcffa6cf75f": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a0f303-be5c-7d70-9621-a9377e5335d0": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a0f303-ca53-7319-ab39-75be6ddd7499": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-d54b-77cc-a33e-256c57b05d5f": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-d550-72bd-a2df-aadb798beb65": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a0f303-d5b7-714b-8e11-e526dd6fac38": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-d5f2-7a61-9764-939c4e61f8b5": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-d5f6-7534-b7c3-8ed0ede019a1": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-ed7f-7981-aa77-afb6e9dbb52f": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-f889-7468-b0d1-bcd0b99be6a2": {
+    "best_times": ["early_morning", "morning", "sunset"],
+    "meal_role": "none"
+  },
+  "01a0f303-f89c-7afb-853e-8fe51ce3289f": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a0f303-f916-7c46-b944-860c6a327512": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-f92f-75fb-b1a0-d0a2cfb92ca2": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a0f303-f93c-7603-85d2-14c08725d688": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-f94d-752d-b2d5-6e4fbb58b164": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a0f303-f950-7ec2-a9b8-57b9732bc855": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a0f303-f954-70ad-8359-ed8efdc449e1": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a10319-6987-7d05-af46-6c5bf8c3da99": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a10319-8235-7f8b-85e6-d94b9e48cf8e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a10368-5d42-7a89-9f8f-f3b034896f39": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": null
+  },
+  "01a10368-7e30-7db3-8cc6-68bfbe87c0b9": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a10368-9d9b-77b7-bdc4-679eded1cda8": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fc9-7103-8c30-2d12d20807a3": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fc9-78da-a0b4-8aad45c15632": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-2fc9-7c1b-9b78-b9c09794f464": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fca-78bb-a51c-d8869c12f7d9": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fcb-7267-9528-8d418c7afc69": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fcb-74ed-9284-8bc5f0541104": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fcc-72ea-bdea-97673f19aba0": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fcc-79bf-8163-1a280890d97c": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-2fcc-7c67-a20e-cf587693d1b0": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fcd-70a9-bf28-54e8aded88b8": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fcd-740c-8870-ac5c768ee5b4": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2fcd-7d17-a6f8-018d9deb5da7": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fce-7e83-ace1-d98d1e317b51": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fcf-7216-b4b7-c5480af0a829": {
+    "best_times": ["midday", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fcf-74ce-818f-8a0cb4b7374c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fd0-7583-b67e-b6edc8bdefa2": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fd0-786f-bb89-4fafe9546e9d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fd2-75d1-8be2-a67626442990": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fd3-7324-a7de-8d86acacbcac": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fd6-76e4-9cf9-2e8bcc2b24bd": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-2fd6-7b1a-a5e9-4105ba9e2da0": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fd8-7019-a7cd-fc267fa7c5ac": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2fd8-7330-a281-647882c0f5df": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fd9-71f0-ae22-01153b251323": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fd9-74de-b4fe-81bda44cf031": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2fd9-7890-8c07-cdc3158beb92": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fdb-7049-b232-094d80aa88c0": {
+    "best_times": ["morning", "afternoon", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fdb-736f-89ec-ac16a243863e": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fdb-7a9f-8e91-075eede9f565": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-2fdb-7e5a-91ce-9a28108dcd01": {
+    "best_times": ["morning", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-2fdc-7883-b5af-bebadb2e1840": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fdc-7ba8-b797-3216d5371c30": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fdd-77b6-869f-4f4f61e5097f": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fdd-7b09-981c-1cf90f534431": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fdd-7e17-8108-67cc4d2403b0": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fde-708f-8810-c507ca923d79": {
+    "best_times": ["afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2fdf-7989-9b02-532fa7679af6": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-2fe1-791d-a517-1a7571318ec0": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fe2-7feb-b0ef-43db8b053a7b": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fe3-7350-89a4-a5ce53476cc6": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fe3-7a18-93fa-9e17b6c687be": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fe3-7dcb-9905-b243c9008630": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fe4-73d7-8811-68cbace6598f": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2fe5-70bd-b096-155f5c570eda": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fe7-7670-a380-6783c48fd4a5": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": null
+  },
+  "01a1053c-2fe9-7bc1-b3f4-9a0f06153c75": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fe9-7f43-9bec-e33ed80396b1": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fea-7f45-a86b-346ee15765d4": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-2fed-70c1-a9e1-30cde9ac051a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-2fed-7e75-8b83-378c573910e1": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2fee-7e9b-beb7-ad74d40c6001": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2fef-71b3-96de-00e216fac4f8": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2ff0-789a-a2f6-ee0efb27e42f": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-2ff1-7944-9813-dcef4fd06ddb": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2ff1-7c9b-915b-a084be4e88d8": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-2ff3-719a-a134-de5b530d49b8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2ff3-7547-b797-b35ec87ccaa2": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-2ff3-787b-9d50-3b681946d0b8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-2ff4-7496-af20-a61a9af2c527": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2ff4-7835-a48f-f566ad2ff7da": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2ff5-7462-90a8-bbbf7aaf55bf": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-2ff7-7124-ad0b-15f01abda6b4": {
+    "best_times": ["early_morning", "morning", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2ff7-7b90-b389-7f82fce2c345": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-2ff7-7fa5-a050-a4ac9b8a894b": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2ff8-7e01-b50b-6b9b102e7c96": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-2ffb-7cf4-9593-d7c1b1c8f9e7": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-2ffd-7145-a971-ad48fd38ecca": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-2ffd-7d24-9a02-48f1410b846a": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-2fff-7036-99c9-df78dcf49cb1": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3000-79ce-af20-82dea558016f": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3001-7185-a8b3-856b55ae215f": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3003-7084-9586-e5148e5394bb": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3006-7d66-a020-1171fbe7d9c4": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-3007-74c7-99c8-c0e6722ae1a9": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3007-7924-bd54-61c17918b319": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3009-7385-865f-0c87363f126b": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-300b-773f-bedb-75f6bf64f232": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-300e-782c-9e3f-62614be8a7cd": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "none"
+  },
+  "01a1053c-3012-7029-85d9-8d01efc87da8": {
+    "best_times": ["early_morning", "morning", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3013-7168-8086-4b1a528b5392": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-3013-74c9-80de-53d2e7687781": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3013-7891-9e29-a66bbc875c61": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-3014-7006-80a9-688684fa5791": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3014-7bcb-b271-14b02bc8bf59": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3018-7f4f-8c34-dd3e6895a7bc": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3019-7667-b59b-26a7a8620f6c": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-301c-7178-8177-9f3c54e609c8": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-301c-784e-a182-be2415d68378": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-301f-77b9-8678-410f94f982f2": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-3020-7815-b208-bfa5f5c2720b": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3020-7ed1-a607-9c715ce18c26": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3022-7444-b6fb-913f5f212720": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3025-789b-9c5f-5c9b5c8dd50a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3025-7f35-ad43-0f8e9d8e6938": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3028-7e0f-9c02-bf4b23f5e162": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-302b-79c8-bcd5-5f274053f23c": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-302b-7e31-8c4f-75507cc833fc": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-302d-761e-a4aa-ef98902181a3": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-302d-7f1c-8189-1a663b95b6b5": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "light"
+  },
+  "01a1053c-302f-7c6a-8b94-a67ab58f6ad4": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-3030-734e-82b5-59945d54a3ff": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3030-7b98-b387-c5e4f4dbbf73": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-3032-715d-b1f9-b96eb4a07f6c": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3035-72cb-bad9-8afe5263aa22": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-3035-767e-b7af-26032f7d5db1": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3036-722b-aa2f-99998041fae6": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3037-7cf4-ad58-0ce8d4e805b5": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3038-795b-8cae-dca9e35fec92": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3039-7b0f-b44f-95a8481c3e5a": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-303a-7045-989c-27e41c1a5bcb": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-303a-7c11-8e3f-bde2eee36922": {
+    "best_times": ["afternoon", "sunset"],
+    "meal_role": "light"
+  },
+  "01a1053c-303a-7ff0-b607-054420b708b8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-303c-7ea9-aad9-87d987eab8f1": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-303d-728e-a9d7-a78e6b4f97eb": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-303e-70ce-8840-5acda3c5c4c4": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-303f-712e-b233-85904ebbce0c": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-303f-791f-8a5a-6b083a21a44f": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3040-7919-ad19-52ab6aabd470": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3040-7d02-91ea-4d01f05b2ef4": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3041-7c35-9bd2-c2451f84fd37": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3044-76ce-a020-c79341dfb4ab": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3048-7ae5-9cb2-902bfcbdf4b1": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3049-7034-9d37-2904853af715": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3049-7e3d-ae24-c6d16d187e2a": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-304b-7065-88c1-5bc9aa5bbd5b": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-304c-7114-8b0d-2c38bd282ac6": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-304c-74bf-b685-e16786ed4533": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-304d-741b-8943-7c45e8c9a321": {
+    "best_times": ["early_morning", "morning", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-304d-7ebe-85ba-07845e4d6e72": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-304e-725e-8531-efff0bb6ba2e": {
+    "best_times": ["morning", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-304e-7a91-ba69-85e593a129c9": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-304f-7689-b262-eca12e019e70": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3051-71dd-a2e6-bbfbdb3e1afa": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3051-7905-9a59-d9d1b01b980a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-3052-73b1-9588-3e7dbb6a5c75": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-3052-7b20-a543-6884796ed355": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3053-7201-be63-c7ae9e6b9c77": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3054-7ac4-99c3-dc53bc823f77": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3054-7ebe-beb3-cecb15f8df6c": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a1053c-321d-7444-b42a-9433f80b194e": {
+    "best_times": ["morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-321d-7bce-bd68-ea8563d064be": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-321f-7180-8896-a4a36149b74a": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-3220-7b4c-8cdc-c3ae36afe6fd": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3221-7198-ab2f-c2b4ff5a0f9f": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-3222-7056-8119-72dfcebc6817": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3222-7c78-ba76-dfbaa9463ac6": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3224-735f-9444-03a09665914c": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3225-70c8-839d-dda4e48c8397": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-3229-738a-90c2-cb31013c1095": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3229-7a82-996d-669ed58cd729": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-322a-7aae-8e58-a26bc7d0a3b2": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-322d-7058-be87-c437c5fbc4cb": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-322d-7f99-b1b2-1edd9efe47f7": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-322e-784d-97b3-63d0b3ee63d4": {
+    "best_times": ["midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-322f-7855-8ea9-bb9afaff51bd": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3230-7393-a27c-7d8b6f69de7f": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3232-7f7e-a2d0-c6a6f174a258": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3233-7a12-b36c-160b436c50a0": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-3234-75c1-876e-55fb2a5fd60d": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-3235-7aef-9370-b04bf29f6e35": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-323d-7506-a9a0-24409703fdcf": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-323e-7dd7-a127-d509e1f06bb5": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3240-7b1d-984c-afc1a7371ff6": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3240-7ee1-bac9-18a085044bb8": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-3243-7731-83ed-f8b0791c3bdb": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3244-7a40-9df3-fb7cd0cf2ca8": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-3244-7ffc-8e80-9c3dc4c873a6": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3246-70e1-8bfd-600733fbd3ec": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-3246-7a7d-b5af-49a9edf56a1d": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3247-7f9d-8507-6a753e681de5": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-324b-711f-b3ab-c68f4462b48c": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-324c-74ac-9d3d-b94a6ff23ed4": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-324f-78a4-aad0-8da0a86f8eef": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-324f-7c0e-b40e-d5718bdde1fe": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-3251-70a9-89fd-9be48327d550": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-3252-7c59-bc23-daf9590ee083": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3256-7649-8811-32c19ccef7c2": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-327b-78a4-9783-5b0f63917864": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-327f-74b1-93a7-fc6b2c4289fd": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3280-7bb7-967c-f429f6254def": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3281-7cf7-88ef-afecafe43c01": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3289-7a9f-a76f-ecd944cc757f": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3295-7df3-a0d7-c4b8d632e574": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3296-7358-8735-e976734d3841": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-340b-7f1d-ba15-162319a3baa3": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3426-7fb9-88c2-e92a05eb7c58": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-3438-7233-9786-4e0d86de9c76": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-347a-709c-9878-4aaee4e6d025": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-34cb-7c08-93cc-6da4d6cf6fce": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a1053c-36f1-70df-ace3-112b3d502006": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3701-7146-9fd2-96e5cb98422a": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3705-7c37-9c38-e10528ceab09": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3725-791c-959d-b56cebaa09b1": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-38a8-7466-84da-56f96f337139": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-38b4-714f-9be9-f0af276d3dbe": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-38b9-7db4-b22a-2f168a947eaf": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-38c1-7f29-ae9a-963cb786e38b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a1053c-38d0-7d02-bea8-26f60e438c72": {
+    "best_times": ["afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-38db-70f0-84bd-7886d0bbb54d": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-38e5-7c60-9a96-a337cc84ff63": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-38e7-7b15-8431-088101e64eb3": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-38eb-7c92-b018-6fdcf55328bf": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-38ef-7355-9b8f-180ba4222bf8": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-38f2-7668-9a3a-3a7898bcf525": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3a59-7f67-8bc3-cb14b9bcfdbc": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3a5a-7aef-bbb7-2ebdd5b9d342": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3a63-7147-ba9e-782392a47d43": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3a7a-7035-97e2-3e123119df38": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3a86-77d9-807f-a38ecbb41944": {
+    "best_times": ["afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3a94-740a-8be3-f074045c8876": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3a99-7f66-85fd-5add5dfac994": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3a9c-73e4-8153-85baa7c9a3af": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3a9c-7dbb-ac5e-da5af0496ab6": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3aa7-7cf1-98d0-a5dbf08f1d7d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3c10-7810-97f1-5faf8a0d9c5b": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3c13-7c09-9dca-840b9c38f797": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3c15-7f3b-8046-b52e8bb74a2d": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3c1c-7735-a06d-e19acccb051d": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3c20-7bce-90ab-12d38f835e68": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3c21-70d6-ad22-5d724c0551ae": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-3c28-7627-ab00-d74335e2dd32": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3c2a-71d3-b43c-519852ac6809": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": null
+  },
+  "01a1053c-3c2f-72d9-ad05-8616a4b70448": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3c4c-7256-978f-040a4a144d9c": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3c58-77a4-b8e3-3f72274d2c30": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3c5b-7a79-9a23-f57b745ad596": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3c69-7700-9785-d8437a6fea04": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3dab-72fa-a960-36c1d1ed0793": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3db2-7a60-b098-dfc4a13f0a23": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3db6-7a87-8e29-dc338d3ca502": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3dbe-7422-aa27-5b63742733ac": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3dc4-764e-8039-bde59320baf0": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3dc8-7d4b-85bd-c09111fa0b3d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3dc8-7fd2-82ae-28ce3165db1f": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3dd8-7449-b7dd-183555134328": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3de5-7bdb-81c3-1acc453c5707": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-3deb-76a4-a17b-3723d762c7c9": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-3e02-77fe-b7c9-b7f5a0fbc950": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3f62-7655-aa9d-a62785f1bca6": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3f7c-7ae8-bf60-4f1b8361390b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-3f7e-722c-90fa-eb4d2f57b2cf": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-3f8b-7c1e-ba92-4730f9bfb945": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-3f99-7ef5-b52c-404f93db2457": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-3f9c-7c13-b904-ad9f97a43963": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-3f9e-7158-b828-c0d8311284ec": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-3fa7-7213-b208-f3292619e87d": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-3fb4-7c75-99b2-7ba537fa661f": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-3fb5-7f46-a967-c4ea7fe3303a": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4118-71c4-a31f-43053820158a": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-411a-7c8a-ac53-ebd309687917": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-4121-710d-9923-d48e2d98ad07": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-4122-7ae2-ac3a-4b22d284ed21": {
+    "best_times": ["morning", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-4130-747b-952e-f02f94f3837a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-413c-78da-9950-410c38944300": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-413f-7948-8f6a-9f8db71463bc": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-416d-7e48-9068-4474dcfd3d4c": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-416e-7b14-8c9c-5af9073c4e02": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-4175-70ea-a59f-9129ac7cbd52": {
+    "best_times": ["early_morning", "morning", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-42cf-7e45-949a-bba010b4db72": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-42d6-7559-b91d-15615a0fef92": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-42d9-7f0f-89ff-32c47d34a590": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-42e5-729f-85dd-d07218c55962": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-42e9-754d-a4ac-6d0fc212915e": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-42f6-78a1-91b3-ecd756cc2aed": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-42fd-729e-9240-349872370912": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4330-76ca-97cc-074490bd9a22": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-4338-708e-9132-07b0e1116c5a": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-433a-7d12-a01c-c2abcff840c0": {
+    "best_times": ["afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-433e-7bf2-b7ed-6c0d52cca0ae": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-44aa-7ced-ab86-00648dfe25ac": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-44b5-7575-9caa-cd1e0e1df8fe": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-44b8-7f63-bfac-b0650122399e": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-44bc-7a25-b2ba-b66fc4348528": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-44c2-792f-b251-15e6f417f10c": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-44ca-70e6-b7a1-58c2c346669a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-44eb-720c-bd69-371997013edd": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-44fe-7c9b-8bea-a0263993ea86": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-4674-7f2a-8718-f4fcf49173b2": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4675-7f12-92e0-c3437f0764fa": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4689-7417-867d-5071c08eb463": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-468d-7442-95c8-d8658a95079f": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4690-7192-9274-74fd82bae387": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4696-747d-9aa9-92a848904e2c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-4697-76a6-9c49-6ef7c0646a1b": {
+    "best_times": ["afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-469c-732e-913b-326b5a0e92bd": {
+    "best_times": ["afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-469c-7d89-934d-6e08af6593eb": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-46a1-7d80-adae-c45c6d6f9075": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-46c0-7dd7-8b74-dd8336d9f5b6": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-46c7-793e-a97d-337dcb7952de": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-46c8-71cc-a8be-426610d51110": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4838-7922-ab62-1d34fc36ff71": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-483c-7a01-a08c-247c8e9f22b3": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-4840-7c0f-a295-95a888b9c8b9": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-484c-72a6-82b5-4b594c10cdd9": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-4856-72c4-9578-d3572f46b905": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4856-7d6d-b2fc-1602e9f6bc94": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-4864-7c1a-b1c1-7b04346205f1": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4865-7e47-84a4-8c35e3460bbc": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-486e-7d4b-9c4f-293da83c8b38": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-487d-78cc-90b8-f61332f19938": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-4888-7151-921e-86d131ff4d71": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4889-71d5-b341-51b263476c6c": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-4892-7eb0-8e1d-2de135f54696": {
+    "best_times": ["afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-48a7-74d4-afc3-56030f155e0a": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-48a9-7d7d-8658-e41b14b7ec5e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-48c7-7465-86a2-6a831fc3eab0": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-4a11-7d34-b5bd-ed67267b1f51": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4a1f-7d2d-bee9-6af019f68bdc": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4a2c-70b7-b3e3-27fbdbfaedc7": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-4a2f-7dd4-bb60-4b4d32254db3": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4a43-7a86-b2db-d15c48b3d397": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-4a45-7d63-8b5a-de10b5d45e1c": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4a51-77a7-933f-8290074eac57": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4a55-79c4-bde0-d71ddfb829dd": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4a5e-7155-8b85-e210b563b4c3": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-4a62-739d-8a88-4e321d0290c5": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-4a68-7e9c-b447-4806da327030": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-4bb6-723b-88a8-bb54388cddf9": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4bc4-773b-9f72-ca432b145c38": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": null
+  },
+  "01a1053c-4bca-7952-9242-8d202f99ea6e": {
+    "best_times": ["morning", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-4bcf-7511-8776-b704a4833270": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "meal"
+  },
+  "01a1053c-4bd0-729f-95d6-806659488000": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-4bde-7cfe-ada0-c5a9219a7441": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4be2-78ab-b8c2-7898e72ead9e": {
+    "best_times": ["morning"],
+    "meal_role": null
+  },
+  "01a1053c-4bed-78b0-a4e9-e5fc14356f3d": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4bef-7ad3-9035-8018bb503597": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4bfa-7998-8206-73aa7452e780": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-4bfc-7b1b-ad41-fc2ce4e2d19f": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4bfd-7042-b43b-a4c5ee7560f6": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4bfd-7612-9387-e7af60cc49b4": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4c02-7d1f-80f0-d00b27196eac": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-4d5d-711d-822c-a3d74130afbd": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4d63-78ba-b6e5-b1be3192619c": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4d66-7b46-812c-638231c1601b": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-4d6c-7289-9f47-415380c909f9": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4d71-76ab-9693-e7e6bfc3428a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4d7c-7039-9483-5b9201dc9665": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-4d82-77e4-802f-973758130f8c": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4d97-7ec7-919d-b372dbdfd9c2": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-4d9a-79db-9377-d50185b89202": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-4daf-70eb-8a31-c10fc437d510": {
+    "best_times": ["midday", "afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4f14-7311-9eac-3cd935140bd2": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-4f17-70c5-bc1c-2d8dae73ac0a": {
+    "best_times": ["morning", "midday"],
+    "meal_role": "light"
+  },
+  "01a1053c-4f24-71ae-a7d2-7f0302b61dde": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-4f24-7deb-bea1-6c6a0985fd00": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-4f30-7d45-86ff-1cfaf79891e4": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4f39-7ea0-97e8-fe462858a8bf": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-4f43-7dcf-8911-d6e88a58207b": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-4f5b-7a76-8634-7c6fde8e1ab9": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "meal"
+  },
+  "01a1053c-4f60-7182-921a-85c7c7677dcf": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-50d8-76a8-a976-22e12089aafe": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-50e1-7b9e-adc2-8f315097c794": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-50e5-7c46-abd5-b00d70e54859": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-5108-76b8-9570-0eac22e47212": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-510b-745a-ad83-fed404ee036d": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-510c-76d5-8485-eb6c2b103649": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-5118-718a-9c15-17ab1a29819f": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-5122-7149-81f4-debf51e0e7ec": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-5127-743a-9e9a-16aeefdb9a86": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-5284-7470-abe8-7cbfedc93ea2": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-5287-7167-bd54-7b9a527bb74a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-529a-7305-84fa-133328d35e21": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-529e-7c48-a5c6-3aa21f14d92b": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-529f-76f4-9c78-82e93f0e1165": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-52a2-737a-a118-6af84316133e": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-52a5-73e5-8693-e92c72e9b337": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-52aa-70a1-8697-2c0561a9686f": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-52ab-7fa0-b55c-8aa3698ea607": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-52b2-70ab-b87b-f7d11085d74c": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-52b5-719d-828b-7a733d5cfb45": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-52c0-74b1-9a11-97ad5276a147": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-52cc-73d3-becd-e3167c488f09": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-544f-70f5-9e39-c9d6166f9635": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-545a-7676-904d-bb34f0ca0e03": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-545c-7df4-8f6c-2cdd314db9c6": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6894-78e8-83cb-8ff433f4ece5": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6898-7065-b663-52c11361d178": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-689a-7917-b2f7-22dd8bbea418": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-68a0-707f-a22f-cbc03703e6d3": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-68b3-71f9-ab7a-33a7311d3015": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-68bb-7b43-8895-97fd3c38481e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-68c3-7c6c-bafa-a32170032730": {
+    "best_times": ["morning", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-68cf-747b-8d1c-623459f777c8": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-6a40-7348-b623-c75ef954be35": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-6a49-7df5-b92f-d67da7f9a7e7": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-6a5c-789b-a7a5-f28106936cef": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-6a5d-74f8-bf15-50ce1b1a49e6": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-6a62-79d1-b0c2-74f0910b6030": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6a6e-717c-9125-fca0f2b1e6fb": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-6a73-79f5-b20f-eb840bfe8e04": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-6a76-7ac1-b9c7-ae8d2bf463bb": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6a81-7b03-8d18-6a58913a5cf9": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6a82-7126-9011-7685b215d26e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6a85-737c-82bc-755b97813a2a": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-6a8a-705e-b5f7-372188b54a3e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6a93-71af-bd57-a430242aefc6": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-6a96-759f-9dde-3492f8de83f1": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-6a96-7c2a-8bd2-18f70b530e92": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c07-73b7-95f0-928224b46be6": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6c0f-7d4e-964b-bef520fedc46": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c20-75cd-88da-a38389dd8581": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c25-7816-9a67-854c8021c25a": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c28-700d-9dd4-d16a5f2944af": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-6c2e-712a-83d5-e554d4abfa81": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6c30-761b-b0cc-90a54bf19bf2": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c35-787e-adfd-8874fc751fc3": {
+    "best_times": ["morning"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6c38-7888-b727-3494cbdb9591": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c40-7a24-9da7-ffc3bad403f1": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c41-7ae3-8c86-367f96398f8e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-6c4d-77ee-b66a-ad51a891d839": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-6c5d-7c91-a5ff-c2e9d5152a15": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6dc2-70d1-9e32-ea883387c170": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6dcc-7958-ab42-131723c6670a": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-6dcd-7883-8b2c-669bd57619a9": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-6de4-7417-9b6a-3a5af61e5d13": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6deb-7c1a-af55-2ba538d219d1": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6dfc-789e-8c9b-84c175c311dd": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6e0d-703d-b015-a25f28996d40": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-6e2f-7714-8530-ec4362fc0edb": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-6fc0-76d8-ad3a-390242e61883": {
+    "best_times": ["morning", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-6fc4-756b-84df-5ca3b1c16e89": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6fcd-7b21-ab45-7ed5151395a8": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-6fdb-7dbe-baa4-0a8669d9ccb4": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-7016-7612-adde-a4dff143c712": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-7017-70af-9c0d-5f2c0ddc718e": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-701b-75c9-aac6-39a262ca7588": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-7026-7738-92c5-6d71206428c8": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-702b-7e40-88c3-6bdd713b6998": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-704c-7f94-85e5-26135a4d2e96": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-71c6-7b17-92a6-9edce3be911f": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-71de-7ba6-979c-66f943e7d4f3": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-7219-76de-b256-65e033bca434": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-722b-7efe-9c3f-73100aba1ef4": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-7241-7a6c-bb71-152b5bb3ba42": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-7244-7b1e-9309-3541faf26b44": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-7251-7dc6-b5f7-48e49384ec17": {
+    "best_times": ["afternoon", "sunset"],
+    "meal_role": "light"
+  },
+  "01a1053c-7263-76c0-a4d6-7e440058c6e9": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-726c-75da-b196-c69ba85d906c": {
+    "best_times": ["midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-726f-7d51-95b5-3e3d372a18fd": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-73c3-700c-b8b0-1916a8b2f8c2": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-73d3-771d-993b-fcfa1d0ba2b7": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-73d6-713f-ad4d-b11a856a3030": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-73de-7434-9302-bbd518258e19": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-73e9-71b2-83ab-62a43f1926c9": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-73f7-75da-8573-b3d8f96c8c55": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-73ff-7398-9c0c-2a60d56314ca": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-73ff-7705-91b6-513baf7a26b1": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7406-7029-82e9-576544fc9fb4": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-7408-7a40-84e0-ad9cedebbe8f": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-740e-719e-9651-15af8182d33a": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-7410-75e3-b976-8dfd38abe395": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-7421-7869-aa60-6102fd687299": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-742a-7b82-af70-2a9f343fb8b7": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-7430-782a-9e34-e029fcde3e27": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-75a0-7227-8a65-84fa48b84596": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-75a4-7315-924a-e42b286b7e9d": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-75a9-70c8-833c-20730b8285f9": {
+    "best_times": ["morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7651-77d0-a1d5-5612f110122f": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-77bc-7ed8-b484-8dc816147474": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-77d4-70e2-ac8e-29b2ecb23bd1": {
+    "best_times": ["midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-77d7-767d-aa26-b39147381893": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-77d9-7732-a306-785d78a0cad9": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-77de-7491-9674-bcaefacbb160": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-77e7-7944-8d9d-78e67d21fe0b": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-77f9-7cef-a432-37583d1b81e0": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-77fa-7c79-9a80-2ec37da50f80": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-77fc-787f-b600-30f0b145c4bb": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-7804-7581-8655-d6ae80973b8b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-781b-7498-96c3-51bc9de283ba": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7847-767a-8bbb-d0b9c31e3d2d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "meal"
+  },
+  "01a1053c-79ab-711b-966e-59ae4b4bb9fb": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-79b9-7874-9ec9-f688831246fc": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a1053c-79d1-76e1-9577-dbf7734676e9": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-79df-769e-90cd-3d86ccbeaad7": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-79e1-7170-892e-78eea7db34d4": {
+    "best_times": ["morning"],
+    "meal_role": null
+  },
+  "01a1053c-79e3-735b-8c57-c8fc61cbffb6": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-79ed-7b1d-a3f8-e7cdb8ae1c26": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-79f0-7e3c-bf3b-5b65aff627de": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": null
+  },
+  "01a1053c-79f9-7ea1-b09d-da48b645abdb": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-7a07-7bb1-890b-43d160c4a67d": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-7a16-713a-85c5-9c29a5a62741": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": null
+  },
+  "01a1053c-7b83-78ee-a647-5a325d5d772f": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7b89-7dca-8df2-80bda7674632": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": null
+  },
+  "01a1053c-7b8b-789f-bc73-27ee13d1211d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-7b94-7e40-beb9-4717d3a4ae60": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-7b9a-7650-9b31-8361d8dbee32": {
+    "best_times": ["morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-7b9b-7974-892b-b8a793b805fb": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7b9e-763d-8f55-dc3d27e543c7": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-7bd5-706c-83ce-03b69d93ff35": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7bdf-7ef6-9cf0-07529473ffd2": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7be4-7ad3-a766-16336ee53dcd": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": null
+  },
+  "01a1053c-7bf6-7d4c-944d-af795d0bbd0c": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-7bf7-7abf-8e79-fbff483ad15f": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7bf9-73e4-bddd-bd115aa5bec0": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7d6c-7eda-89b9-ca86c31b8173": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-7d6d-79d9-bfc1-d42c506f9a16": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": null
+  },
+  "01a1053c-7d90-749d-add9-0981c7e713dc": {
+    "best_times": ["sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-7d99-7f38-bbce-1f35467f2b5e": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7dbd-7f2a-91f4-d6363b978f69": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "meal"
+  },
+  "01a1053c-7dc4-78b3-9521-da31df09bfb1": {
+    "best_times": ["early_morning", "morning", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-7dcf-7657-9b33-2e833bf5a1f5": {
+    "best_times": ["morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-7dd4-76b2-a024-a9943a8259e2": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7f41-7bf9-b147-e2977a42b7b3": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-7f4a-7020-a4fd-b7bca4504946": {
+    "best_times": ["afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-7f5d-7ab0-99cb-d7dc823efbe1": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": null
+  },
+  "01a1053c-7f75-7585-91da-f41cedf703f2": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-7f9a-7887-8f0b-d08fa677899b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-7fa9-7a97-8550-59635a3f1d2a": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-7fbb-71f4-af41-67f22b05fad4": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-8131-7630-97a8-d3ea38abd68d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-8135-7151-8968-d4b4e326e1ed": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8158-79a1-9981-c9c82165e095": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-815c-7687-aa08-54b56526af2d": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-8171-71e3-bcb4-5442531e15f9": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8175-7ded-94e0-1d1e2addbfd7": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-818c-733f-a461-6316ec564a4c": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-81c4-7562-ae57-68ce471be0c2": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-81c6-7042-8de3-653b621e9264": {
+    "best_times": ["midday", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-81c9-742e-83c6-a030d66e163b": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8327-7d3f-9a3e-85f1489d3f49": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8377-7e0c-a77c-205ade85d635": {
+    "best_times": ["afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-8399-727d-9877-9ab66d925e9b": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-83ab-741e-98d8-89e1e11b6323": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-83e4-7731-b719-7051ad27f483": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-854c-7b39-a00e-e9e9f5209d96": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-8554-74f7-9907-cfcbd1e46a13": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-855d-7bd0-903a-a7d5207deb1b": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-8564-7a79-ad80-35884e3a1639": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-8578-7f6a-865f-f6c864092f84": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-8580-7506-84bd-e11aa0da73b1": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-8582-7206-bd81-b4958896b887": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-8583-71c8-9183-c6b9cba27ae9": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-858c-79ea-a80a-8f7e24c2d5cf": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8593-7c51-a2c4-3221ed8b0320": {
+    "best_times": ["afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-8596-7304-afee-c31c04f35c0f": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-85a3-7a39-b2c1-7a7b4df45742": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-85ad-7f7c-a4f8-9f85101f326a": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": "meal"
+  },
+  "01a1053c-85cd-799f-9c30-df5cdaba527e": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-85ce-7207-9e99-dd3ff46b1c43": {
+    "best_times": ["early_morning", "morning", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-8759-7e31-8bce-d05d16335401": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "meal"
+  },
+  "01a1053c-8763-7dce-b03e-5b05491094bc": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-878e-7030-bc06-0e00def80b33": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-8794-7005-9004-ebf1526ed668": {
+    "best_times": ["morning", "midday", "afternoon", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-87ab-7e4c-be40-50c5f3a62216": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-87ad-7fac-a1b0-b9651c9874f0": {
+    "best_times": ["afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-87b0-7375-8432-45994e2bbfd9": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-87ba-757d-b21c-72c1c85c40fa": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-8934-737d-b051-544058c9da49": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": "none"
+  },
+  "01a1053c-893a-78cf-8e76-d5324d1fe998": {
+    "best_times": ["morning", "midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-8940-70b4-8310-9e8bf469930f": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-8946-7c23-86ed-f7632c2de1ba": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-8957-7734-a331-64a440d2e06d": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a1053c-895b-77b7-8d0e-455e930a2728": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-896d-7b17-ad40-69bc4587650e": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-8975-7f0e-ab57-178c98f5de60": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-89b3-7a39-81a7-2fb460d44819": {
+    "best_times": ["early_morning", "morning", "midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-89c8-742a-97f5-154506663c12": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-8b26-7231-b3cb-8c2361dc5fcf": {
+    "best_times": ["afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-8b3a-7225-bf20-7907c75b00fe": {
+    "best_times": ["afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053c-8b46-7bbd-90a5-ae9541f9dfe4": {
+    "best_times": ["midday", "afternoon"],
+    "meal_role": null
+  },
+  "01a1053c-8b51-7936-8c8c-3f3cac407764": {
+    "best_times": ["midday"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8b52-707c-b947-d1fc66872125": {
+    "best_times": ["early_morning", "morning", "midday", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053c-8b5a-7eee-ab80-159fa80dc669": {
+    "best_times": ["evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8b60-76bc-8582-4334a5459547": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "light"
+  },
+  "01a1053c-8b61-7e2a-a69a-a1b245c4c6f1": {
+    "best_times": ["midday", "evening", "after_dark"],
+    "meal_role": "meal"
+  },
+  "01a1053c-8b62-7d59-b742-c6646fe2532d": {
+    "best_times": ["morning", "afternoon"],
+    "meal_role": "light"
+  },
+  "01a1053c-8b86-7290-86ba-5bd1b7f2a12f": {
+    "best_times": ["afternoon", "sunset", "evening", "after_dark"],
+    "meal_role": "light"
+  },
+  "01a1053c-8b88-726b-9cd1-b2727426f3e0": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-8b95-746b-926b-a62211bb33d6": {
+    "best_times": ["morning", "midday", "afternoon", "evening"],
+    "meal_role": "light"
+  },
+  "01a1053c-8b9e-71aa-a056-622d1c7d518c": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053c-8c1e-7225-a100-e55118112e80": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": null
+  },
+  "01a1053d-612d-70c0-81b8-101b1dd75611": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset"],
+    "meal_role": "none"
+  },
+  "01a1053d-6132-7b3b-b361-cb278b26e302": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  },
+  "01a1053d-62d6-7e72-996d-d4fa2b99c619": {
+    "best_times": [
+      "early_morning",
+      "morning",
+      "midday",
+      "afternoon",
+      "sunset",
+      "evening",
+      "after_dark"
+    ],
+    "meal_role": "none"
+  },
+  "01a108e2-6aeb-7160-a3f8-6c35c497fbc2": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a108e2-6afd-7cc8-ae03-e191e347bcac": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a108e2-6b0c-7a93-9518-2941f16ae0ea": {
+    "best_times": ["morning"],
+    "meal_role": "none"
+  },
+  "01a108e2-6b1c-79c3-8f15-1687c68d2f9e": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a108e2-6b2c-728e-b2ff-05d41d99f666": {
+    "best_times": ["early_morning", "morning"],
+    "meal_role": "none"
+  },
+  "01a108e2-6b3b-7459-9e82-c340ab2b5a88": {
+    "best_times": ["early_morning", "morning", "afternoon", "sunset", "evening"],
+    "meal_role": "none"
+  }
+}

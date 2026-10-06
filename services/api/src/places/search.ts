@@ -36,6 +36,9 @@ const SAME_PLACE_ROOM = 30;
  */
 export { LOW_CONFIDENCE, LOW_QUALITY, QUALITY_SCORE };
 
+/** An editor's must-see: the destination's essentials. */
+const MUST_SEE = "(p.curation = 'editorial' AND (p.editorial->>'must_see')::boolean IS TRUE)";
+
 /** Weight of `QUALITY_SCORE` next to text relevance: a tie-breaker, never louder than the match. */
 const QUALITY_WEIGHT_WITH_QUERY = 0.05;
 
@@ -250,12 +253,14 @@ async function queryPlaceRows(
     const wordsParam = params.length;
     // A place whose own name has a word starting with each typed word comes before one that matches only by its
     // address or tags ("My Son" is the sanctuary, not every bar in Mỹ An, Sơn Trà). Within each,
-    // recommended places first: a query also matches every business on a street named after a
-    // sight, and a well-known villa's hotel listing shares its name.
-    // Low-quality open data still matches, after every other match.
+    // recommended places first, the editors' must-sees ahead of the rest: a query also matches every
+    // business on a street named after a sight, and a well-known sight's hotel shares its name (a
+    // picked "The Marble Mountain Hotel" is a better text match for "Marble Mountain" than the
+    // Marble Mountains). Low-quality open data still matches, after every other match, and a hotel
+    // comes after a place of the same standing that is not one.
     const nameMatch = `(SELECT bool_and(app.unaccent_immutable(lower(p.name || ' ' || coalesce(p.name_local, '')))
         ~ ('(^|[^[:alnum:]])' || app.unaccent_immutable(w))) FROM unnest($${wordsParam}::text[]) AS w)`;
-    orderExpression = `coalesce(${nameMatch}, false) DESC, ${recommendedSql('p')} DESC, ${LOW_QUALITY} ASC, ts_rank(p.fts, websearch_to_tsquery('simple', app.unaccent_immutable($${qParam}))) + similarity(p.name, $${qParam}) + ${QUALITY_WEIGHT_WITH_QUERY} * ${QUALITY_SCORE} DESC`;
+    orderExpression = `coalesce(${nameMatch}, false) DESC, ${recommendedSql('p')} DESC, ${MUST_SEE} DESC, ${LOW_QUALITY} ASC, (p.category = 'stay') ASC, ts_rank(p.fts, websearch_to_tsquery('simple', app.unaccent_immutable($${qParam}))) + similarity(p.name, $${qParam}) + ${QUALITY_WEIGHT_WITH_QUERY} * ${QUALITY_SCORE} DESC`;
   }
 
   let distanceSelect = 'NULL::double precision AS distance_m';
