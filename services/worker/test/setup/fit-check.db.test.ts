@@ -239,9 +239,9 @@ describe('ai.fit_check on a trip of two stops', () => {
     );
     await world.q(
       `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
-       SELECT id, crew_id, s.position, s.destination_id, s.nights
-         FROM trips, (VALUES (1, destination_id, 4), (2, $2::uuid, 3)) AS s(position, destination_id, nights)
-        WHERE id = $1`,
+       SELECT id, crew_id, 1, destination_id, 4 FROM trips WHERE id = $1
+       UNION ALL
+       SELECT id, crew_id, 2, $2::uuid, 3 FROM trips WHERE id = $1`,
       [world.tripId, osaka?.id],
     );
     const inOsaka = async (name: string, days: readonly string[]) => {

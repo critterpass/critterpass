@@ -6,9 +6,8 @@
  */
 import { randomUUID } from 'node:crypto';
 
-import { startAgentJob } from '@cp/ai';
-import { sendInTx, withSystem } from '@cp/db';
-import { DRAFT_QUEUES, DRAFT_STEP_IDS, type Itinerary } from '@cp/domain';
+import { withSystem } from '@cp/db';
+import type { Itinerary } from '@cp/domain';
 import { dayWindow } from '@cp/planner';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -278,16 +277,13 @@ describe('a first draft of a trip with an essential day trip', () => {
 
 describe('a step of a grouped draft that stopped mid-way', () => {
   it('finds the groups it finished on the job row and asks only for the other', async () => {
-    const job = await withSystem(harness.pool, (tx) =>
-      startAgentJob(tx, (queue, data, options) => sendInTx(tx, queue, data, options), {
-        kind: 'draft',
-        queue: DRAFT_QUEUES.draft,
-        userId: organiser,
-        tripId,
-        input: { trip_id: tripId, draft_seq: 9 },
-        stepIds: DRAFT_STEP_IDS,
-      }),
+    // A draft job as it stands while one of its steps runs.
+    const { rows } = await harness.pool.query<{ id: string }>(
+      `INSERT INTO agent_jobs (trip_id, user_id, kind, status, steps, input_hash)
+       VALUES ($1, $2, 'draft', 'running', '[]', $3) RETURNING id`,
+      [tripId, organiser, randomUUID()],
     );
+    const job = { id: rows[0]?.id as string };
     const progress = groupProgress(harness.pool, job.id, 'days');
     const asked: number[] = [];
     const run = (failing: boolean) => (index: number) => {
