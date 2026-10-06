@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import { expect, test } from '@playwright/test';
 
 import { nav, signInAs } from './session';
@@ -14,6 +16,14 @@ test('ops works the moderation queue from the keyboard', async ({ page }) => {
   await expect(preview).toContainText('spam_sam');
   await expect(preview).toContainText('2 traveller(s)');
   await expect(page.getByRole('button', { name: 'Hide (h)' })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Author' })).toContainText('Spammy Sam');
+  // The open queue is empty by the time the screenshot pass runs, so it is captured here.
+  const shots = process.env['ADMIN_SHOTS_DIR'];
+  if (shots !== undefined) {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.waitForLoadState('networkidle');
+    await page.screenshot({ path: path.join(shots, '1440-moderation-open.png'), fullPage: true });
+  }
 
   await page.keyboard.press('a');
   await expect(queue.getByRole('button')).toHaveCount(1);

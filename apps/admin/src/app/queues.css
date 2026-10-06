@@ -122,6 +122,9 @@
 .report-age[data-soon='true'] {
   color: var(--semantic-state-warning);
 }
+.report-title::first-letter {
+  text-transform: uppercase;
+}
 .report-title {
   grid-column: 1 / -1;
   font-size: 15px;

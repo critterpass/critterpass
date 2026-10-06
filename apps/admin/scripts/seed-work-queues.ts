@@ -64,8 +64,9 @@ async function seedReport(
   );
   if (rowCount !== 0) return;
   const { rows } = await client.query<{ id: string }>(
-    `INSERT INTO moderation_reports (reporter_id, target_kind, target_id, reason, report_count)
-     VALUES ($1, 'user', $2, $3, $4) RETURNING id`,
+    `INSERT INTO moderation_reports
+       (reporter_id, target_kind, target_id, reason, report_count, author_id, reason_counts)
+     VALUES ($1, 'user', $2, $3, $4, $2, jsonb_build_object($3::text, $4::int)) RETURNING id`,
     [reporters[0], target, reason, reporters.length],
   );
   for (const reporter of reporters) {
