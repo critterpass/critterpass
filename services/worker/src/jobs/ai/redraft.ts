@@ -31,6 +31,7 @@ import { candidateCoverage, loadBaseDraft, saveCandidate } from './draft/redraft
 import { loadRoutedLegs, onTheRoad } from './draft/road-minutes';
 import { draftChannel } from './draft/steps';
 import { readerLocale, release } from './draft/redraft-release';
+import { noteAsks, type NoteDecisions } from './redraft-note';
 
 const redraftInputSchema = z.object({
   trip_id: z.uuid(),
@@ -50,6 +51,8 @@ type RedraftStep = Pick<RedraftOutcome, 'day' | 'title' | 'summary'> & {
 
 export interface RedraftJobDeps {
   readonly model?: DraftModelFactory | undefined;
+  /** Reads what her note asks (`redraft.note_intent`); without it the guide alone reads the note. */
+  readonly decisions?: NoteDecisions | undefined;
 }
 
 function inputOf(ctx: AgentStepContext) {
@@ -77,6 +80,7 @@ async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
     dayNo: input.day,
     reasons: input.reasons,
     note: input.note,
+    asks: await noteAsks(deps.decisions, input.note, ctx.usage),
     chat: base.chat,
   });
   // The stops she added by hand on the day stay exactly as she placed them, whatever came back.

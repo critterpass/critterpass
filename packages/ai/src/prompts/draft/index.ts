@@ -22,6 +22,7 @@ export {
   type RedraftOutcome,
   type RedraftPlanInput,
 } from './redraft';
+export { readRedraftNote, REDRAFT_NOTE_ROUTE } from './redraft-asks';
 export {
   MAX_REPAIR_LOOPS,
   requiredMustDoIds,

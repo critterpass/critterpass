@@ -10,6 +10,7 @@ import type { DraftDay, Itinerary } from '@cp/domain';
 import { foodRole, isKept, minuteOfDate, redraftDiff } from '@cp/planner';
 
 import { spanOf } from '../../../src/prompts/draft/areas';
+import type { RedraftNoteAsk } from '../../../src/decide/questions';
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
 import { titleFits } from '../../../src/prompts/draft/day-titles';
 import { essentialsOf } from '../../../src/prompts/draft/essentials';
@@ -138,7 +139,7 @@ export function gradeRedraftRules(
   input: DraftPlanInput,
   base: Itinerary,
   dayNo: number,
-  asked: { readonly reasons: readonly string[]; readonly note: string | null },
+  asked: { readonly reasons: readonly string[]; readonly asks: readonly RedraftNoteAsk[] },
   outcome: RedraftOutcome,
 ): string[] {
   const before = base.days.find((d) => d.day_no === dayNo) as DraftDay;

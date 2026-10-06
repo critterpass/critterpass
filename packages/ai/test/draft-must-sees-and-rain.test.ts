@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 
 import { baselineItinerary } from '../evals/draft/baseline';
 import { CREWS, planInput } from '../evals/draft/cases';
+import type { RedraftNoteAsk } from '../src/decide/questions';
 import { buildDayRequest, scheduleChoices } from '../src/prompts/draft/day';
 import { essentialsLeftOut, essentialsOf, placeEssentials } from '../src/prompts/draft/essentials';
 import { withHeldStops } from '../src/prompts/draft/held';
@@ -83,37 +84,36 @@ describe('a redraft for rain', { timeout: 60_000 }, () => {
   const lake = [...input.pois.values()].find(
     (p) => p.category === 'nature' && p.mustSee,
   ) as DraftPoi;
-  const plain = (note: string | null) => ({
+  const plain = (asks: readonly RedraftNoteAsk[]) => ({
     ...input,
     base,
     dayNo: 2,
     reasons: [] as const,
-    note,
+    note: asks.length === 0 ? null : 'trời mưa',
+    asks,
     chat: [],
   });
 
-  it('is read from the organiser’s note, in her words', () => {
-    expect(wantsIndoors(plain('trời hay mưa, cho mình chỗ trong nhà'))).toBe(true);
-    expect(wantsIndoors(plain('It will rain all day, something indoors please'))).toBe(true);
-    // "mua" without its accent is "to buy".
-    expect(wantsIndoors(plain('mua qua cho me'))).toBe(false);
-    expect(wantsIndoors(plain(null))).toBe(false);
+  it('is asked for by the note’s indoor label alone', () => {
+    expect(wantsIndoors(plain(['indoor']))).toBe(true);
+    expect(wantsIndoors(plain(['slower', 'cheaper']))).toBe(false);
+    expect(wantsIndoors(plain([]))).toBe(false);
     expect(isOutdoors(lake)).toBe(true);
   });
 
   it('tells the guide which stops are in the open air, and offers places under a roof first', () => {
-    const wet = plain('trời mưa');
+    const wet = plain(['indoor']);
     const text = JSON.stringify(buildRedraftRequest(wet));
     expect(text).toContain('Rain means no stop in the open air');
     const offered = redraftSkeletonDay(wet).poiIds.map((id) => input.pois.get(id) as DraftPoi);
     const firstOutdoor = offered.findIndex(isOutdoors);
     const lastIndoor = offered.map((poi) => !isOutdoors(poi)).lastIndexOf(true);
     expect(firstOutdoor === -1 || lastIndoor < firstOutdoor).toBe(true);
-    expect(JSON.stringify(buildRedraftRequest(plain(null)))).not.toContain('Rain means');
+    expect(JSON.stringify(buildRedraftRequest(plain([])))).not.toContain('Rain means');
   });
 
   it('swaps a stop left outdoors for an indoor one, or says nothing indoors is near', () => {
-    const wet = plain('trời mưa');
+    const wet = plain(['indoor']);
     const skeleton = redraftSkeletonDay(wet);
     const day = base.days[1] as Itinerary['days'][number];
     const choices = [

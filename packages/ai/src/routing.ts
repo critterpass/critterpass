@@ -298,6 +298,8 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
   'vendor.reply_intent': twin(),
   'rsvp.reply_intent': twin(),
   'place.labels': twin(),
+  'must_do.resolve': twin(),
+  'redraft.note_intent': twin(),
 };
 
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {

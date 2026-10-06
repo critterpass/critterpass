@@ -1,0 +1,48 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (route redraft.note_intent), 2026-10-06. Note: cham hon",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "slower": {
+          "type": "noul",
+          "noul": 0.86
+        },
+        "faster": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "later_start": {
+          "type": "noul",
+          "noul": 0.21
+        },
+        "earlier_start": {
+          "type": "noul",
+          "noul": 0.05
+        },
+        "indoor": {
+          "type": "noul",
+          "noul": 0.1
+        },
+        "cheaper": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "swap_stop": {
+          "type": "noul",
+          "noul": 0.12
+        },
+        "less_walking": {
+          "type": "noul",
+          "noul": 0.29
+        }
+      },
+      "usage": {
+        "input_tokens": 989,
+        "output_tokens": 143
+      }
+    }
+  }
+}

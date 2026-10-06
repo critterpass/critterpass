@@ -6,6 +6,7 @@
 import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
 import { choicesOfDay, isKept, withinReach, type DayChoice, type DraftPoi } from '@cp/planner';
 
+import type { RedraftNoteAsk } from '../../decide/questions';
 import { areasOf } from './areas';
 import { noteReasons } from './redraft-asks';
 import type { DraftPlanInput } from './context';
@@ -25,6 +26,8 @@ export interface RedraftPlanInput extends DraftPlanInput {
   readonly dayNo: number;
   readonly reasons: readonly RedraftReasonKey[];
   readonly note: string | null;
+  /** What the note asks, read once by a typed decision (`readRedraftNote`); none when absent. */
+  readonly asks?: readonly RedraftNoteAsk[];
   readonly chat: readonly ChatLine[];
 }
 
@@ -75,11 +78,11 @@ function usedElsewhere(input: RedraftPlanInput): Set<string> {
 }
 
 /**
- * The redraft's input as the planner times and checks it: the reasons her note asks for in words
- * join the chips, and a later start opens the day later.
+ * The redraft's input as the planner times and checks it: the reasons her note asks for (its
+ * labels) join the chips, and a later start opens the day later.
  */
 export function plannedRedraft(input: RedraftPlanInput): RedraftPlanInput {
-  const added = noteReasons(input.note).filter((reason) => !input.reasons.includes(reason));
+  const added = noteReasons(input.asks).filter((reason) => !input.reasons.includes(reason));
   const reasons = added.length === 0 ? input.reasons : [...input.reasons, ...added];
   const frame = frameFor(input.frame, input.dayNo, reasons);
   return frame === input.frame && reasons === input.reasons ? input : { ...input, reasons, frame };

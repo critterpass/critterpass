@@ -63,6 +63,7 @@
     "day": 2,
     "reasons": ["slower", "cheaper"],
     "note": "We just want to relax.",
+    "asks": ["slower"],
     "chat": []
   },
   {
@@ -231,6 +232,7 @@
     "day": 3,
     "reasons": [],
     "note": "trời hay mưa, cho mình chỗ trong nhà",
+    "asks": ["indoor"],
     "chat": [],
     "locale": "vi"
   },
@@ -295,6 +297,7 @@
     "day": 3,
     "reasons": [],
     "note": "Hom do troi hay mua, cho minh cho trong nha",
+    "asks": ["indoor"],
     "chat": [],
     "locale": "vi",
     "base_day": [
@@ -312,6 +315,7 @@
     "day": 2,
     "reasons": ["slower"],
     "note": "them mot quan ca phe view dep, bot di bo",
+    "asks": ["less_walking"],
     "chat": [],
     "locale": "vi",
     "base_day": [

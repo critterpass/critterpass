@@ -1,0 +1,48 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (route redraft.note_intent), 2026-10-06. Note: It will rain all day, something indoors please",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "slower": {
+          "type": "noul",
+          "noul": 0.15
+        },
+        "faster": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "later_start": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "earlier_start": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "indoor": {
+          "type": "noul",
+          "noul": 0.97
+        },
+        "cheaper": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "swap_stop": {
+          "type": "noul",
+          "noul": 0.46
+        },
+        "less_walking": {
+          "type": "noul",
+          "noul": 0.28
+        }
+      },
+      "usage": {
+        "input_tokens": 995,
+        "output_tokens": 143
+      }
+    }
+  }
+}

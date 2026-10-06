@@ -25,6 +25,7 @@ import {
 } from '@cp/planner';
 import { z } from 'zod';
 
+import { REDRAFT_NOTE_ASKS } from '../../src/decide/questions';
 import type { DraftPlanInput } from '../../src/prompts/draft/context';
 import { withHeldStops } from '../../src/prompts/draft/held';
 import { derivedUuid } from '../../src/prompts/draft/ids';
@@ -146,6 +147,8 @@ export const redraftCaseSchema = z.object({
   day: z.int().positive(),
   reasons: z.array(redraftReasonKeySchema),
   note: z.string().nullable(),
+  /** What the note asks, as the typed decision reads it (`readRedraftNote`). */
+  asks: z.array(z.enum(REDRAFT_NOTE_ASKS)).default([]),
   chat: z.array(z.object({ author: z.string(), text: z.string() })),
   /** The language the organiser reads (the redraft writes in it). */
   locale: z.string().optional(),

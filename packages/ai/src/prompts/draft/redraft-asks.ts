@@ -1,45 +1,56 @@
 /**
- * What the organiser's own words ask of a redrafted day beyond the reason chips, where code can
- * hold the answer to it. "Less walking" ("bớt đi bộ", with or without its marks): the guide is
- * told how much the day walks now; the new day's walking is measured the same way, and when it
- * has not come down the summary says so instead of passing over what she asked. A slower pace
- * ("chậm hơn", "a slow afternoon") and a late start ("ngủ nướng", "sleep in") count as the chips
- * of the same name, so the planner holds them whichever way she asked.
+ * What the organiser's note asks of a redrafted day beyond the reason chips. The note is read once,
+ * by a typed decision (`redraft.note_intent`, one yes/no per closed label), never by matching
+ * words; the labels then drive the planner. "Less walking": the guide is told how much the day
+ * walks now; the new day's walking is measured the same way, and when it has not come down the
+ * summary says so instead of passing over what she asked. A slower pace and a later start count as
+ * the chips of the same name. Rain or indoors puts places under a roof first (./redraft-rain.ts).
+ * The other labels are kept for the record; the guide reads the note itself for them.
  */
 import type { DraftDay, RedraftReasonKey } from '@cp/domain';
+import { decisionBand } from '@cp/domain';
 import { metresBetween } from '@cp/planner';
 
+import type { DecisionClient } from '../../decide/client';
+import {
+  REDRAFT_NOTE_ASKS,
+  redraftNoteQuestions,
+  type RedraftNoteAsk,
+} from '../../decide/questions';
+import type { UsageContext } from '../../usage';
 import type { RedraftPlanInput } from './redraft-input';
+
+export const REDRAFT_NOTE_ROUTE = 'redraft.note_intent' as const;
 
 /** Two stops this close are walked between (the plan screen's own threshold). */
 const WALK_MAX_M = 1200;
-const LESS_WALKING =
-  /\b(less|fewer|no|not (so|too|as) much|shorter) walk(s|ing)?\b|\bwalk(ing)? less\b|\b(bot|it|do|giam|khong|ngai|han che|tranh) di bo\b/u;
 
-const SLOWER =
-  /\b(slow(er)?|relax(ed|ing)?|lazy|chill(ed|y)?|take it easy|easy ?going|unhurried|less (packed|rushed|busy)|fewer (stops|things|places)|not (so|too|as) (busy|packed|rushed))\b|\b(cham (hon|lai|rai|thoi)|di cham|nhip cham|thong tha|nhe nhang|thu gian|nghi ngoi|it (diem|cho) (hon|thoi)|bot (diem|lich|cho)|khong voi|tu tu)\b/u;
-const LATER_START =
-  /\b(sleep(ing)? in|lie[ -]in|late (start|morning|breakfast)|start(ing)? (late|later)|later start|no early (start|morning)|not (too )?early|slow morning)\b|\b(ngu nuong|ngu (them|du|muon)|di muon|day muon|sang muon|bat dau muon|xuat phat muon|khong (di|day) som|dung som)\b/u;
-
-const unmarked = (text: string) =>
-  text
-    .normalize('NFD')
-    .replace(/\p{M}+/gu, '')
-    .replace(/[đĐ]/gu, 'd')
-    .toLowerCase();
+/** The labels a note asks for; none when there is no note (or it says none of them). */
+export async function readRedraftNote(
+  decisions: Pick<DecisionClient, 'decide'>,
+  note: string | null,
+  usage: UsageContext = {},
+): Promise<RedraftNoteAsk[]> {
+  if (note === null || note.trim() === '') return [];
+  const decision = await decisions.decide(
+    REDRAFT_NOTE_ROUTE,
+    { state: note, questions: redraftNoteQuestions() },
+    usage,
+  );
+  const { yes } = decisionBand(REDRAFT_NOTE_ROUTE, decision.answered_by);
+  return REDRAFT_NOTE_ASKS.filter((ask) => decision.answers[ask].noul >= yes);
+}
 
 /** Whether the organiser's note asks for a day with less walking. */
-export function wantsLessWalking(input: Pick<RedraftPlanInput, 'note'>): boolean {
-  return input.note !== null && LESS_WALKING.test(unmarked(input.note));
+export function wantsLessWalking(input: Pick<RedraftPlanInput, 'asks'>): boolean {
+  return input.asks?.includes('less_walking') === true;
 }
 
 /** The reason chips the organiser's note asks for in her own words (see the file header). */
-export function noteReasons(note: string | null): RedraftReasonKey[] {
-  if (note === null) return [];
-  const said = unmarked(note);
+export function noteReasons(asks: readonly RedraftNoteAsk[] | undefined): RedraftReasonKey[] {
   return [
-    ...(SLOWER.test(said) ? (['slower'] as const) : []),
-    ...(LATER_START.test(said) ? (['later_start'] as const) : []),
+    ...(asks?.includes('slower') === true ? (['slower'] as const) : []),
+    ...(asks?.includes('later_start') === true ? (['later_start'] as const) : []),
   ];
 }
 

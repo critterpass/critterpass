@@ -1,0 +1,48 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (route redraft.note_intent), 2026-10-06. Note: muon mua dac san o cho",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "slower": {
+          "type": "noul",
+          "noul": 0.13
+        },
+        "faster": {
+          "type": "noul",
+          "noul": 0.13
+        },
+        "later_start": {
+          "type": "noul",
+          "noul": 0.11
+        },
+        "earlier_start": {
+          "type": "noul",
+          "noul": 0.09
+        },
+        "indoor": {
+          "type": "noul",
+          "noul": 0.11
+        },
+        "cheaper": {
+          "type": "noul",
+          "noul": 0.31
+        },
+        "swap_stop": {
+          "type": "noul",
+          "noul": 0.19
+        },
+        "less_walking": {
+          "type": "noul",
+          "noul": 0.07
+        }
+      },
+      "usage": {
+        "input_tokens": 993,
+        "output_tokens": 143
+      }
+    }
+  }
+}

@@ -229,6 +229,7 @@ async function redraftCase(
       dayNo: redraft.day,
       reasons: redraft.reasons,
       note: redraft.note,
+      asks: redraft.asks,
       ...(redraft.locale === undefined ? {} : { locale: redraft.locale }),
       chat: redraft.chat.map((line, i) => ({
         id: `chat-${i}`,
@@ -247,7 +248,7 @@ async function redraftCase(
           ...gradeRedraftReasons(input, base, redraft.day, redraft.reasons, outcome),
           ...gradeHeld(input, outcome.itinerary),
           ...gradeLanguage(redraft.locale, outcome),
-          ...gradeRain(input, redraft.note, outcome),
+          ...gradeRain(input, redraft.asks, outcome),
           ...gradeRedraftRules(input, base, redraft.day, redraft, outcome),
         ],
         output,

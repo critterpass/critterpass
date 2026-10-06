@@ -9,6 +9,7 @@ import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
 import { dayWindow, isKept, mealAt, mealSlots, mealsInWindow, minuteOfDate } from '@cp/planner';
 
 import { spanOf } from '../../../src/prompts/draft/areas';
+import type { RedraftNoteAsk } from '../../../src/decide/questions';
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
 import { titleFits } from '../../../src/prompts/draft/day-titles';
 import { plannerLines } from '../../../src/prompts/draft/final-notes';
@@ -231,10 +232,10 @@ export function gradeHoles(input: DraftPlanInput, itinerary: Itinerary): string[
 /** A day redrafted for rain keeps no stop in the open air without saying nothing indoors is near. */
 export function gradeRain(
   input: DraftPlanInput,
-  note: string | null,
+  asks: readonly RedraftNoteAsk[],
   outcome: RedraftOutcome,
 ): string[] {
-  if (!wantsIndoors({ note })) return [];
+  if (!wantsIndoors({ asks })) return [];
   const line = plannerLines(input.locale).outdoors;
   return outcome.day.items.flatMap((item) => {
     const poi = input.pois.get(item.poi_id ?? '');
