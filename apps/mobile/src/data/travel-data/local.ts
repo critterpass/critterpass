@@ -1,30 +1,23 @@
 /**
- * Travel-data answers from the synced trip pack (PowerSync `trip_pack`: `weather_snapshots`,
- * `crowd_forecasts`, `pois`; `catalog`: reviewed `season_months`), shaped exactly like the api's so
- * a hook's callers never care where the answer came from. `null` = nothing synced for the ask, and
- * the hook falls through to the api.
+ * Travel-data answers from the synced trip pack (PowerSync `trip_pack`: `weather_snapshots`),
+ * shaped exactly like the api's so a hook's callers never care where the answer came from. `null` =
+ * nothing synced for the ask, and the hook falls through to the api.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is SQL or a wire value, never copy. */
 import {
   adjustTempForElevation,
-  bestWindow,
-  hoursSchema,
   isWeatherStale,
   MARINE_POINT_RADIUS_KM,
   marineSnapshotBodySchema,
-  pickCrowdCurve,
   TRAVEL_DESTINATIONS,
   WEATHER_ATTRIBUTION,
   WEATHER_POINT_RADIUS_KM,
-  WEEKDAYS,
   weatherSnapshotBodySchema,
-  type SeasonColourRole,
-  type TimeSpan,
 } from '@cp/domain';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
-import type { CrowdsResponse, MarineResponse, WeatherResponse } from '@cp/domain';
+import type { MarineResponse, WeatherResponse } from '@cp/domain';
 
 export interface LocalWeatherWindow {
   readonly lat: number;
@@ -187,70 +180,5 @@ export async function readLocalMarine(
     ),
     hourly,
     tides,
-  };
-}
-
-interface CrowdMonthRow {
-  readonly month: number;
-  readonly crowd_index: number;
-  readonly colour_role: SeasonColourRole;
-  readonly highlight_tag: string | null;
-  readonly source: string;
-}
-
-function spansOn(rawHours: string | null, date: string): TimeSpan[] {
-  if (rawHours === null) return [];
-  const parsed = hoursSchema.safeParse(JSON.parse(rawHours));
-  if (!parsed.success) return [];
-  const exception = parsed.data.exceptions?.find((entry) => entry.date === date);
-  if (exception !== undefined) return exception.spans;
-  const weekday = WEEKDAYS[(new Date(`${date}T00:00:00Z`).getUTCDay() + 6) % 7];
-  return weekday === undefined ? [] : (parsed.data.weekly[weekday] ?? []);
-}
-
-export async function readLocalCrowds(
-  db: AbstractPowerSyncDatabase,
-  poiId: string,
-  date: string,
-): Promise<CrowdsResponse | null> {
-  const poi = await db.getOptional<{ destination_id: string | null; hours: string | null }>(
-    'SELECT destination_id, hours FROM pois WHERE id = ?',
-    [poiId],
-  );
-  if (poi === null) return null;
-  const dow = new Date(`${date}T00:00:00Z`).getUTCDay();
-  const pattern = pickCrowdCurve(
-    await db.getAll<{
-      hourly: string;
-      source: string;
-      fetched_at: string;
-      approved_at: string | null;
-    }>(
-      'SELECT hourly, source, fetched_at, approved_at FROM crowd_forecasts WHERE poi_id = ? AND dow = ?',
-      [poiId, dow],
-    ),
-  );
-  const curveRows =
-    poi.destination_id === null
-      ? []
-      : await db.getAll<CrowdMonthRow>(
-          `SELECT month, crowd_index, colour_role, highlight_tag, source FROM season_months
-            WHERE destination_id = ? AND reviewed_at IS NOT NULL ORDER BY month`,
-          [poi.destination_id],
-        );
-  if (pattern === null && curveRows.length === 0) return null;
-  const hourly = pattern === null ? null : (JSON.parse(pattern.hourly) as number[]);
-  const curve = curveRows.map(({ source: _source, ...row }) => row);
-  const month = Number(date.slice(5, 7));
-  return {
-    poi_id: poiId,
-    date,
-    hourly,
-    best_window: hourly === null ? null : bestWindow(hourly, spansOn(poi.hours, date)),
-    source: pattern?.source ?? null,
-    fetched_at: pattern?.fetched_at ?? null,
-    month: curve.find((row) => row.month === month) ?? null,
-    curve: curve.length === 0 ? null : curve,
-    curve_source: curveRows[0]?.source ?? null,
   };
 }

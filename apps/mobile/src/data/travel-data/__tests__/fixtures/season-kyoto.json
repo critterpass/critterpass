@@ -1,0 +1,165 @@
+{
+  "destination_id": "0192f000-0000-7000-8000-00000000d001",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 2,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 3,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 4,
+      "crowd_index": 44,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": "APR BLOSSOMS",
+      "colour_role": "peak",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 5,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 6,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 7,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 8,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 9,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 10,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "month": 11,
+      "crowd_index": 30,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "JNTO arrivals",
+      "source_url": "https://www.jnto.go.jp/statistics/",
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    }
+  ],
+  "events": [
+    {
+      "key": "cherry-blossom",
+      "kind": "blossom",
+      "name": "Cherry blossom",
+      "starts_on": "2027-03-28",
+      "ends_on": "2027-04-08",
+      "confidence": "forecast",
+      "source": "JMC forecast",
+      "source_url": null,
+      "sourced_on": "2026-09-28",
+      "forecast_updated_at": "2026-09-28T00:00:00.000Z",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    },
+    {
+      "key": "gion-matsuri",
+      "kind": "festival",
+      "name": "Gion Matsuri",
+      "starts_on": "2027-07-01",
+      "ends_on": "2027-07-31",
+      "confidence": "typical",
+      "source": "Kyoto City",
+      "source_url": null,
+      "sourced_on": "2026-09-28",
+      "forecast_updated_at": null,
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    }
+  ]
+}

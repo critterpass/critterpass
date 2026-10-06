@@ -7,277 +7,429 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
 
+#. placeholder {0}: props.votesLeft
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.votesLeft"
+msgstr "{0, plural, other {#표 남음}}"
+
+#. placeholder {0}: match.count
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMeta"
+msgstr "{0, plural, other {#표}}"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, other {{first} 외 #명도}}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.suggest"
+msgstr "+ 아이디어 제안"
+
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerEmail"
-msgstr ""
+msgstr "이틀 안에 담당자가 이메일로 답해 드려요."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerInbox"
-msgstr ""
+msgstr "이틀 안에 담당자가 받은편지함으로 답해 드려요."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footer"
-msgstr ""
+msgstr "이틀 안에 담당자가 답해 드려요."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.unvote"
+msgstr "취소한 투표"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.about"
-msgstr ""
+msgstr "소개"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.addPhoto"
-msgstr ""
+msgstr "사진 추가"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.askHuman"
-msgstr ""
+msgstr "담당자에게 문의"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.askHuman"
-msgstr ""
+msgstr "담당자에게 문의"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.done"
-msgstr ""
+msgstr "설정으로 돌아가기"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.bug"
-msgstr ""
+msgstr "버그"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.building"
+msgstr "개발 중"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.critters"
-msgstr ""
+msgstr "크리터"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.declined"
+msgstr "보류됨"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.device"
-msgstr ""
+msgstr "기기 정보"
 
 #. placeholder {0}: props.articleTitle
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.fromArticle"
-msgstr ""
+msgstr "「{0}」에서"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.good"
-msgstr ""
+msgstr "좋아요"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.grr"
-msgstr ""
+msgstr "으으"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.guideChat"
-msgstr ""
+msgstr "가이드 채팅"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
+msgstr "도움말"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
-msgstr ""
+msgstr "도움말"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.back"
-msgstr ""
+msgstr "도움말"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.title"
-msgstr ""
+msgstr "도움말과 피드백"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
-msgstr ""
+msgstr "도움말 센터"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
-msgstr ""
+msgstr "어때요?"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.hq"
-msgstr ""
+msgstr "본부 · 게시"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.titleLabel"
+msgstr "간단히 한마디"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.includeDevice"
-msgstr ""
+msgstr "기기 정보 포함"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingBody"
-msgstr ""
+msgstr "다음에 온라인이 되면 도움말 센터와 함께 도착해요."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.open"
+msgstr "검토 중"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.love"
-msgstr ""
+msgstr "최고예요"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.meh"
-msgstr ""
+msgstr "그저 그래요"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.merged"
+msgstr "병합됨"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.postAnyway"
+msgstr "내 건 달라요, 그래도 올리기"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.money"
-msgstr ""
+msgstr "돈"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.new"
+msgstr "신규"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.eyebrow"
+msgstr "새 아이디어"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.no"
-msgstr ""
+msgstr "아니요"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.none"
+msgstr "아직 아이디어가 없어요. 첫 번째 주인공이 되어 보세요."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.noResults"
-msgstr ""
+msgstr "도움말 센터에 일치하는 내용이 아직 없어요."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.noneShipped"
+msgstr "여기서 출시된 건 아직 없어요."
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
-msgstr ""
+msgstr "괜찮아요"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.reportShake"
-msgstr ""
+msgstr "또는 아무 화면에서 흔들기"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
-msgstr ""
+msgstr "기타"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.pinned"
-msgstr ""
+msgstr "고정됨"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.title"
-msgstr ""
+msgstr "보드에 고정했어요"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.queued"
-msgstr ""
+msgstr "고정했어요. 온라인으로 돌아오면 올라가고, 그때 담당자가 읽어요."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.planned"
+msgstr "예정"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.planning"
-msgstr ""
+msgstr "계획"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.post"
-msgstr ""
+msgstr "게시 · 우편"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.post"
+msgstr "올리기"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.posted"
+msgstr "「신규」에 올렸어요. 상태가 바뀌면 Tokek이 알려 줄 거예요."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rate"
-msgstr ""
+msgstr "앱 평가하기"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.received"
-msgstr ""
+msgstr "접수됨"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.search"
-msgstr ""
+msgstr "환불, 오프라인 지도, 정산…"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.removePhoto"
-msgstr ""
+msgstr "이 사진 삭제"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.report"
-msgstr ""
+msgstr "문제 신고"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleProblem"
-msgstr ""
+msgstr "문제 신고"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedback"
-msgstr ""
+msgstr "피드백 보내기"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.title"
-msgstr ""
+msgstr "피드백 보내기"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.send"
-msgstr ""
+msgstr "보내기"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.back"
-msgstr ""
+msgstr "설정"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shipped"
+msgstr "출시됨"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shippedTab"
+msgstr "출시됨"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.english"
-msgstr ""
+msgstr "지금은 영어로 보여 드려요"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.english"
-msgstr ""
+msgstr "지금은 영어로 보여 드려요"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.guideLine"
-msgstr ""
+msgstr "뭔가 고장 났거나 빠진 게 있나요? 알려 주세요. 담당자에게 바로 전달할게요."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMany"
+msgstr "이 중 하나와 비슷해요. 투표하면 더 빨리 반영돼요."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchOne"
+msgstr "이거랑 비슷해요. 투표하면 더 빨리 반영돼요."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.stuck"
-msgstr ""
+msgstr "아직 해결이 안 됐나요?"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggest"
-msgstr ""
+msgstr "기능 제안"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleIdea"
-msgstr ""
+msgstr "기능 제안"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.title"
+msgstr "아이디어 제안"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rateCaption"
-msgstr ""
+msgstr "10초면 돼요"
 
 #. placeholder {0}: props.name
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanks"
-msgstr ""
+msgstr "{0}님, 고마워요. 담당자가 하나하나 읽어요. 더 필요한 게 있으면 물어볼게요. 해결되면 Tokek이 알려 드려요."
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanksNoName"
-msgstr ""
+msgstr "고마워요. 담당자가 하나하나 읽어요. 더 필요한 게 있으면 물어볼게요. 해결되면 Tokek이 알려 드려요."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.thanks"
-msgstr ""
+msgstr "고마워요. 글을 고치는 데 도움이 돼요."
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.tooBig"
-msgstr ""
+msgstr "사진이 너무 커서 보낼 수 없어요. 스크린샷으로 시도해 보세요."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.offline"
+msgstr "온라인으로 돌아오면 보드가 열려요."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
-msgstr ""
+msgstr "이 글은 아직 없어요"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.toHumans"
-msgstr ""
+msgstr "담당자에게"
+
+#. placeholder {0}: row.teamNote
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.teamNote"
+msgstr "Tokek: {0}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.top"
+msgstr "인기"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.underReview"
+msgstr "검토 중"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.vote"
+msgstr "투표 ▲"
 
 #. placeholder {0}: props.ideasToVote
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggestCaption"
-msgstr ""
+msgstr "아이디어 {0}개에 투표"
+
+#. placeholder {0}: idea.title
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.votedFor"
+msgstr "{0}에 투표했어요. 이제 {count}표예요."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.helpful"
-msgstr ""
+msgstr "도움이 됐나요?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderProblem"
-msgstr ""
+msgstr "무슨 일이 있었나요? 어떻게 되길 기대했나요?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderIdea"
-msgstr ""
+msgstr "CritterPass가 다음에 뭘 하면 좋을까요?"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.descriptionLabel"
+msgstr "어떤 기능인가요? 선택"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedbackCaption"
-msgstr ""
+msgstr "좋은 점, 불편한 점"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholder"
-msgstr ""
+msgstr "좋은 점, 불편한 점…"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.title"
+msgstr "다음은 뭘까요?"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.tabs"
+msgstr "아이디어 보기 필터"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.yes"
-msgstr ""
+msgstr "네"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.outOfVotes"
+msgstr "이번 달 {IDEA_VOTE_BUDGET}표를 모두 썼어요. 하나를 취소하면 옮길 수 있어요."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.idea"
+msgstr "보드에 올릴 내 아이디어"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
-msgstr ""
+msgstr "내 메모"
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
-msgstr ""
+msgstr "담당자에게 보낼 메모"
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.vote"
+msgstr "아이디어 투표"

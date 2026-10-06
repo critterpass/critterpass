@@ -9,7 +9,7 @@
 import { readFileSync } from 'node:fs';
 import { createServer, type ServerResponse } from 'node:http';
 
-import { linkPreviewSchema, linkSettingsSchema } from '@cp/domain';
+import { linkPreviewSchema, linkSettingsSchema, publicProposalSchema } from '@cp/domain';
 
 function fixture(path: string): unknown {
   return JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
@@ -30,6 +30,10 @@ const PREVIEWS = new Map<string, unknown>([
   ['FRAP44', preview('./fixtures/preview-trip-invite.json')],
   ['VANE55', preview('./fixtures/preview-trip-invite.json')],
 ]);
+/** The sent draft behind SANDY4; every other code has none. */
+const PROPOSALS = new Map<string, unknown>([
+  ['SANDY4', publicProposalSchema.parse(fixture('./fixtures/public-proposal.json'))],
+]);
 const REVOKED = preview('../links/fixtures/preview-revoked-invite.json');
 const NOT_FOUND = fixture('../links/fixtures/error-not-found.json');
 const SETTINGS = linkSettingsSchema.parse({ app_clip: false });
@@ -49,6 +53,11 @@ createServer((request, response) => {
   if (revoke !== null && request.method === 'POST') {
     PREVIEWS.set(decodeURIComponent(revoke[1] ?? ''), REVOKED);
     return json(response, 200, { ok: true });
+  }
+  const proposal = /^\/v1\/public\/proposal\/([^/]+)$/.exec(url.pathname);
+  if (proposal !== null) {
+    const found = PROPOSALS.get(decodeURIComponent(proposal[1] ?? ''));
+    return found === undefined ? json(response, 404, NOT_FOUND) : json(response, 200, found);
   }
   const match = /^\/v1\/links\/([^/]+)\/preview$/.exec(url.pathname);
   const body = match === null ? undefined : PREVIEWS.get(decodeURIComponent(match[1] ?? ''));

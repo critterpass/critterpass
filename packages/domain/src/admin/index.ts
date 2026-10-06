@@ -18,3 +18,5 @@ export * from './cost-review';
 export * from './work';
 export * from './operators';
 export * from './service-keys';
+export * from './incidents';
+export * from './services-registry';

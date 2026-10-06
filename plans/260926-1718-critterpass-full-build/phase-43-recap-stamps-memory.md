@@ -142,6 +142,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Tiles, forms card, got-away, award chips, share, WHERE NEXT. 2. Generating/partial/failed/offline/updated states.
 - Tests: `pnpm --filter @cp/mobile test -- features/recap/summary`
 - Done when: RNTL covers all states; WHERE NEXT navigates to Home vote.
+- Status: done — 67c4b676c
 
 ### T6 — Story cards 1–4 + music/narration
 - Goal: cover, critters, route, awards + MVP vote.
@@ -149,6 +150,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Card registry on P31 StoryPlayer with per-card durations. 2. Choreographies (Reanimated/Skia route draw). 3. Music theme + narration playback of `recap.narrate` audio (voice toggle respects sound settings; text fallback). 4. MVP vote sheet + gold edge. 5. Story end → emit `recap.story_completed` + mount `apps/mobile/src/features/recap/story/RecapEndSlot.tsx` (P47 fills).
 - Tests: `pnpm --filter @cp/mobile test -- features/recap/cards features/recap/story`
 - Done when: pause/resume keeps all timelines in sync (unit test on shared clock); Reduce Motion variant renders; `recap.story_completed` fires once at story end (not on first open) and no rating UI exists in this phase.
+- Status: done — 39d485db3
 
 ### T7 — Story cards 5–7 + signature sheet
 - Goal: receipt, got-away, stamp.
@@ -156,6 +158,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Receipt print + own split + save image. 2. Got-away + remind me. 3. Stamp slam + live signature writing from `recap:` events. 4. Signature capture sheet (Skia path → vector JSON upload).
 - Tests: `pnpm --filter @cp/mobile test -- features/recap/cards features/recap/signature`
 - Done when: signature from device A appears on device B's stamp card via mocked channel in tests.
+- Status: done — 39d485db3
 
 ### T8 — Anniversary memory + reunion
 - Goal: F-139 end to end.
@@ -163,7 +166,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Schedule at recap ready; scan per tz bucket; build memory (photo provider interface + fallback). 2. N-35 passive. 3. Screen + reactions composer + share. 4. Reunion → P26 poll with place pitched.
 - Tests: `pnpm --filter @cp/worker test -- recap/anniversary`; `pnpm --filter @cp/mobile test -- features/recap/memory`
 - Done when: time-travel test fires exactly once at best-day + 365 d in each member tz; reunion creates a destination poll.
-- Status: server half done — c84b3a444 (scan, memory, react_memory, start_reunion); the memory screen is the app lane's
+- Status: done — c84b3a444 (server), d0b6cecfb (memory screen, reactions, reunion, share image)
 
 ### T9 — Share renders + end-to-end
 - Goal: share images and Maestro coverage.
@@ -171,6 +174,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Recap cards 9:16, receipt, memory-with-signatures via P5 templates. 2. Maestro flows with seeded post-trip fixture.
 - Tests: `pnpm --filter @cp/worker test -- recap/share-render`; `maestro test e2e/recap`
 - Done when: flows pass on iOS and Android; share images byte-stable for fixtures.
+- Status: done in part — d0b6cecfb (share images are drawn on the phone: recap card 67c4b676c, memory card d0b6cecfb, so there is no worker render job; lab-scene flows for the page, story and memory are in `e2e/recap`). Not built: seeded two-device Maestro flows for the MVP vote, signatures and the late-expense re-run (the api and worker database tests cover that behaviour)
 
 ## Phase acceptance criteria
 - [ ] Every recap number comes from code (number guard test passes); route legs from plan + rides only

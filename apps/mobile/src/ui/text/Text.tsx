@@ -21,6 +21,7 @@ import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE, horizontalInset, useAutoFit } from '
 import { displayAdvance } from './display-advance';
 import { glyphRoomStyle, lineBoxEm } from './glyph-room';
 import { useWrappedLeading } from './line-box';
+import { useOneLineWidth } from './one-line-width';
 
 const { type } = tokens;
 
@@ -86,6 +87,8 @@ export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'all
    * for the button and label variants.
    */
   readonly singleLine?: boolean | undefined;
+  /** A short hugging label that widens its box to stay on one line (see one-line-width.ts). */
+  readonly keepOneLine?: boolean | undefined;
   readonly style?: StyleProp<TextStyle> | undefined;
 }
 
@@ -146,6 +149,7 @@ export function Text({
   autoFitMinSize,
   designSize,
   singleLine: oneLineIntent,
+  keepOneLine = false,
   style,
   numberOfLines,
   onLayout,
@@ -213,6 +217,7 @@ export function Text({
   });
 
   const fontSize = fit.fontSize;
+  const oneLine = useOneLineWidth(keepOneLine, fontSize);
   // Wrapped display text opens its leading for marks stacked under another line (Ẵ under ĐÀ); a
   // caller's own line height (a wrapped pill label) is what's laid out.
   const callerLineHeight = callerStyle?.lineHeight;
@@ -251,7 +256,7 @@ export function Text({
       {...rest}
       allowFontScaling={false}
       numberOfLines={fit.numberOfLines}
-      style={[variantStyle, style, room]}
+      style={[variantStyle, style, room, oneLine.style]}
       onLayout={(event) => {
         // Pulled up above its parent's top edge (the first line of a scroll view's content, which
         // clips there), the room would be cut off with the glyphs it makes room for: keep it inside.
@@ -268,7 +273,8 @@ export function Text({
       }}
       onTextLayout={(event) => {
         const opened = leading.onLines(event.nativeEvent.lines);
-        const adjusting = fit.onTextLayout(event) || opened;
+        const widened = oneLine.onLines(event.nativeEvent.lines);
+        const adjusting = fit.onTextLayout(event) || opened || widened;
         if (UI_QA_ENABLED && !adjusting && text !== null) {
           const problems = textLayoutProblems({
             lines: event.nativeEvent.lines,

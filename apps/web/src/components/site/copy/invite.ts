@@ -44,6 +44,11 @@ export const inviteCopy = {
     message: "That code doesn't look right. Check each character.",
   },
   estimateEach: /*i18n*/ { id: 'web.invite.estimateEach', message: '~{amount} each' },
+  draftTitle: /*i18n*/ {
+    id: 'web.invite.draftTitle',
+    message: "{guide}'s draft · {shown} of {total, plural, one {# day} other {# days}}",
+  },
+  draftDay: /*i18n*/ { id: 'web.invite.draftDay', message: 'Day {n}' },
   membersLabel: /*i18n*/ { id: 'web.invite.membersLabel', message: 'Already in: {names}' },
   waitingSeat: /*i18n*/ { id: 'web.invite.waitingSeat', message: 'A seat still open' },
   joinTitle: /*i18n*/ { id: 'web.invite.joinTitle', message: 'Join with a code' },

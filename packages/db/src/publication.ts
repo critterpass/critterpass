@@ -97,6 +97,10 @@ import * as schema from './schema';
  * how one destination leads to another is shared content phones read through the api.
  * `destination_briefs` (packages/db/src/schema/destination-briefs.ts) is RLS "R" but read over
  * HTTP only: Explore's picks and the recommended order read a destination's brief on the server.
+ * `season_months`, `season_events`, `destination_cost_indices` (packages/db/src/schema/travel-data.ts,
+ * cost.ts) and `crowd_forecasts` are RLS "R" but read over HTTP only (`/v1/destinations/{id}/season`,
+ * `/v1/destinations/{id}/cost-indices`, `/v1/places/{id}/crowd-forecasts`): shared reference
+ * content a phone asks for when it shows it, kept as its last good copy, never replicated.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -112,6 +116,8 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'destination_links',
   'device_activities',
   'critter_names',
+  'crowd_forecasts',
+  'destination_cost_indices',
   'engagement_events',
   'fair_use_counters',
   'fare_cells',
@@ -142,6 +148,8 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'proposal_followups',
   'push_tokens',
   'scheduled_events',
+  'season_events',
+  'season_months',
   'sponsored_event_counts',
   'sponsored_placements',
   'swipe_votes',

@@ -113,6 +113,80 @@
   text-transform: uppercase;
 }
 
+/* ---------- The proposal's draft days ---------- */
+.pv-draft {
+  margin-top: 24px;
+  padding: 18px 16px 16px;
+  border-radius: 24px;
+  background: var(--color-ink-850);
+  color: var(--color-paper-cream);
+}
+.pv-draft__title {
+  margin: 0 0 12px 6px;
+  color: var(--color-ink-100);
+}
+.pv-draft__days {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pv-draft__day {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--color-ink-780);
+}
+.pv-draft__tile {
+  display: grid;
+  flex: none;
+  place-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  color: var(--color-ink-850);
+  text-align: center;
+  font-family: Archivo, sans-serif;
+  font-weight: 800;
+  line-height: 1;
+}
+.pv-draft__tile--green {
+  background: var(--color-green-base);
+}
+.pv-draft__tile--orange {
+  background: var(--color-orange);
+}
+.pv-draft__tile--blue {
+  background: var(--color-blue-light);
+}
+.pv-draft__tile-num {
+  font-size: 22px;
+}
+.pv-draft__tile-week,
+.pv-draft__tile-day {
+  margin-top: 3px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pv-draft__text {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.pv-draft__name {
+  font-size: 18px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.pv-draft__line {
+  color: var(--color-ink-100);
+  font-size: 14px;
+}
+
 /* ---------- Code panel ---------- */
 .pv-side {
   display: grid;

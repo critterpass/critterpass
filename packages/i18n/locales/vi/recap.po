@@ -64,6 +64,14 @@ msgstr "{days, plural, other {Sau # ngày}}"
 msgid "recap.summary.owed.early"
 msgstr "{days, plural, other {trả xong sớm # ngày}}"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.crew"
+msgstr "{days} ngày, {travellers} người."
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.solo"
+msgstr "{days} ngày, chỉ mình bạn."
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.meals.caption"
 msgstr "{each} mỗi người, trọn gói"
@@ -103,6 +111,10 @@ msgstr "{meals, plural, other {# bữa ăn}}"
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.food"
 msgstr "{meals, plural, other {Ăn uống · # bữa}}"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.reactedMany"
+msgstr "{name} và mọi người: {label}"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.route.driver"
@@ -144,6 +156,10 @@ msgstr "Đã đóng dấu {place}"
 msgid "recap.summary.title"
 msgstr "{place},\n"
 "tổng kết"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.title"
+msgstr "{place}, một năm sau"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitle"
@@ -205,6 +221,10 @@ msgstr "{value, plural, other {{name}, lo # chuyến xe}}"
 msgid "recap.mvp.votes"
 msgstr "{votes} phiếu"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.reactChip"
+msgstr "+ Thả cảm xúc"
+
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.gotAway.unnamed"
 msgstr "Một bé vàng"
@@ -220,6 +240,10 @@ msgstr "Một bé hiếm đã trốn mất."
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.remind"
 msgstr "Nhắc về bé đã trốn mất"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.titleNoPlace"
+msgstr "Một năm sau"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.about"
@@ -253,9 +277,21 @@ msgstr "Đang làm lại bản tổng kết"
 msgid "recap.receipt.cheapest"
 msgstr "Ngày rẻ nhất"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.close"
+msgstr "Đóng"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.failed"
 msgstr "Chưa yêu cầu lại được"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.reunionFailed"
+msgstr "Chưa đề xuất được buổi họp mặt"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.reactFailed"
+msgstr "Chưa gửi được cảm xúc đó"
 
 #: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
 msgid "recap.signature.failed"
@@ -276,6 +312,10 @@ msgstr "N{day} · {each} mỗi người"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.chava"
 msgstr "đàn bầu lo-fi"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.bestDay"
+msgstr "Ngày {dayNo} trên {days}. Ngày cả nhóm vẫn còn nhắc mãi."
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.route.day"
@@ -393,6 +433,10 @@ msgstr "Tiền nong, gói gọn"
 msgid "recap.mvp.winner"
 msgstr "MVP · {votes} phiếu"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.reunionOffline"
+msgstr "Cần có sóng để đề xuất"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.offline"
 msgstr "Cần có sóng để thử lại"
@@ -421,6 +465,11 @@ msgstr "Ký một lần, chữ ký sẽ có trên mọi con dấu chung với nh
 msgid "recap.mvp.open"
 msgstr "Chạm một lần. Bạn có thể đổi đến khi cả nhóm bầu xong."
 
+#: ../../apps/mobile/src/features/recap/dev/memory-scenes.tsx
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.eyebrow"
+msgstr "Đúng một năm trước"
+
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.other"
 msgstr "Khác"
@@ -437,6 +486,14 @@ msgstr "Đã trả"
 msgid "recap.story.theme.paco"
 msgstr "sáo pan và charango"
 
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.reunion"
+msgstr "Đang đề xuất họp mặt với nhóm"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.reunion"
+msgstr "Lên kế hoạch họp mặt"
+
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.planned"
 msgstr "Dự kiến"
@@ -449,6 +506,14 @@ msgstr "Xem lại câu chuyện"
 msgid "recap.receipt.priciest"
 msgstr "Đắt nhất"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.react"
+msgstr "Thả cảm xúc"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+msgid "recap.memory.reactTitle"
+msgstr "Thả cảm xúc cho kỷ niệm"
+
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.remind"
 msgstr "Nhắc tôi"
@@ -456,6 +521,14 @@ msgstr "Nhắc tôi"
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.remindIn"
 msgstr "Nhắc tôi vào {month}"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+msgid "recap.memory.lineLabel"
+msgstr "Nói gì đó"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+msgid "recap.memory.send"
+msgstr "Gửi"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -468,6 +541,10 @@ msgstr "trả xong vào ngày cuối"
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.share"
 msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.share"
+msgstr "Chia sẻ kỷ niệm"
 
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.sign"
@@ -625,6 +702,10 @@ msgstr "Di chuyển"
 msgid "recap.summary.failed.retry"
 msgstr "Thử lại"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.sunrise"
+msgstr "Dậy và lên đường lúc {time} để tới {name}."
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.updated.other"
 msgstr "Đã cập nhật thêm"
@@ -649,6 +730,10 @@ msgstr "Đã xem tổng kết"
 msgid "recap.summary.whereNext"
 msgstr "Đi đâu tiếp? →"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.you"
+msgstr "Bạn"
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.you"
 msgstr "Bạn"
@@ -668,6 +753,10 @@ msgstr "tài xế của bạn"
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.mvp"
 msgstr "Phiếu MVP của bạn"
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.react"
+msgstr "Cảm xúc của bạn về kỷ niệm"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.yourShare"

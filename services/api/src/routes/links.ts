@@ -79,7 +79,10 @@ function secretMatches(given: string | undefined, expected: string | undefined):
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-function visitorOf(c: Context<AppEnv>, deps: LinkRouteDeps): Visitor {
+export function visitorOf(
+  c: Context<AppEnv>,
+  deps: Pick<LinkRouteDeps, 'webProxySecret'>,
+): Visitor {
   if (secretMatches(c.req.header('x-cp-web-proxy'), deps.webProxySecret)) {
     return {
       ip: c.req.header('x-cp-visitor-ip') ?? 'unknown',
@@ -89,7 +92,7 @@ function visitorOf(c: Context<AppEnv>, deps: LinkRouteDeps): Visitor {
   return { ip: c.req.header('x-real-ip') ?? 'unknown', userAgent: c.req.header('user-agent') };
 }
 
-async function enforce(redis: RateLimitRedisClient, key: string, rule: RateLimitRule) {
+export async function enforce(redis: RateLimitRedisClient, key: string, rule: RateLimitRule) {
   const decision = await checkRateLimit(redis, key, rule);
   if (!decision.allowed) {
     throw new DomainError('RATE_LIMITED', { retry_after_s: decision.retryAfterS });

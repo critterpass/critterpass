@@ -17,7 +17,8 @@ appId: app.critterpass.dev
     timeout: 6000
 - takeScreenshot: ${SHOT}
 - runFlow: ../../screens/sweep/subflows/back.yaml
+# The list is longer than a screen, so the row just opened is what shows on the way back.
 - extendedWaitUntil:
     visible:
-      id: 'help-lab-live'
+      id: 'help-lab-${SCENE}'
     timeout: 10000

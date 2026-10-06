@@ -1,7 +1,8 @@
 /**
  * The recap area's routes and the design ids the navigation registry knows them by: the recap page
  * (3m-1) and its story (3m-3…3m-8), opened from Home's post-trip card, the trip hub after the trip, the passport stamps and
- * the recap-ready push (`/recap/<tripId>`). Imported once by the root layout.
+ * the recap-ready push (`/recap/<tripId>`); and the year-later memory (3m-10), opened from the
+ * anniversary push (`/memory/<memoryId>?trip=<tripId>`). Imported once by the root layout.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import type { Href } from 'expo-router';
@@ -15,8 +16,13 @@ export const recapRoutes = {
     params: ended ? { tripId, ended: '1' } : { tripId },
   }),
   story: (tripId: string): Href => ({ pathname: '/recap/[tripId]/story', params: { tripId } }),
+  memory: (memoryId: string, tripId: string): Href => ({
+    pathname: '/memory/[memoryId]',
+    params: { memoryId, trip: tripId },
+  }),
 };
 
 registerScreens({
   '3m-1': (params) => recapRoutes.summary(params['tripId'] ?? ''),
+  '3m-10': (params) => recapRoutes.memory(params['memoryId'] ?? '', params['tripId'] ?? ''),
 });

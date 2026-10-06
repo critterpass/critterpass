@@ -7,277 +7,429 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: props.votesLeft
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.votesLeft"
+msgstr "{0, plural, other {Còn # lượt bình chọn}}"
+
+#. placeholder {0}: match.count
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMeta"
+msgstr "{0, plural, other {# lượt bình chọn}}"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, other {{first} và # người khác nữa}}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.suggest"
+msgstr "+ Gợi ý ý tưởng"
+
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerEmail"
-msgstr ""
+msgstr "Một người thật sẽ trả lời qua email trong vòng hai ngày."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerInbox"
-msgstr ""
+msgstr "Một người thật sẽ trả lời trong Hộp thư của bạn trong vòng hai ngày."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footer"
-msgstr ""
+msgstr "Một người thật sẽ trả lời trong vòng hai ngày."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.unvote"
+msgstr "Một lượt bình chọn đã rút lại"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.about"
-msgstr ""
+msgstr "Về"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.addPhoto"
-msgstr ""
+msgstr "Thêm ảnh"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.askHuman"
-msgstr ""
+msgstr "Hỏi người thật"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.askHuman"
-msgstr ""
+msgstr "Hỏi người thật"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.done"
-msgstr ""
+msgstr "Về Cài đặt"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.bug"
-msgstr ""
+msgstr "Lỗi"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.building"
+msgstr "Đang xây dựng"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.critters"
-msgstr ""
+msgstr "Critters"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.declined"
+msgstr "Đã từ chối"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.device"
-msgstr ""
+msgstr "Thông tin thiết bị"
 
 #. placeholder {0}: props.articleTitle
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.fromArticle"
-msgstr ""
+msgstr "Từ “{0}”"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.good"
-msgstr ""
+msgstr "Tốt"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.grr"
-msgstr ""
+msgstr "Grr"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.guideChat"
-msgstr ""
+msgstr "Chat với hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
+msgstr "Trợ giúp"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
-msgstr ""
+msgstr "Trợ giúp"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.back"
-msgstr ""
+msgstr "Trợ giúp"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.title"
-msgstr ""
+msgstr "Trợ giúp và góp ý"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
-msgstr ""
+msgstr "Trung tâm trợ giúp"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
-msgstr ""
+msgstr "Mọi thứ thế nào?"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.hq"
-msgstr ""
+msgstr "Trụ sở · Bưu phẩm"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.titleLabel"
+msgstr "Nói ngắn gọn"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.includeDevice"
-msgstr ""
+msgstr "Kèm thông tin thiết bị"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingBody"
-msgstr ""
+msgstr "Bài sẽ có cùng trung tâm trợ giúp lần tới khi bạn online."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.open"
+msgstr "Đang xem xét"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.love"
-msgstr ""
+msgstr "Quá thích"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.meh"
-msgstr ""
+msgstr "Tạm được"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.merged"
+msgstr "Đã gộp"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.postAnyway"
+msgstr "Ý của mình khác, vẫn đăng"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.money"
-msgstr ""
+msgstr "Tiền"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.new"
+msgstr "Mới"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.eyebrow"
+msgstr "Ý tưởng mới"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.no"
-msgstr ""
+msgstr "Không"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.none"
+msgstr "Chưa có ý tưởng nào. Của bạn có thể là ý tưởng đầu tiên."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.noResults"
-msgstr ""
+msgstr "Trung tâm trợ giúp chưa có gì khớp với từ này."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.noneShipped"
+msgstr "Chưa có gì được ra mắt từ đây."
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
-msgstr ""
+msgstr "Ổn"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.reportShake"
-msgstr ""
+msgstr "Hoặc lắc máy ở bất kỳ màn hình nào"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
-msgstr ""
+msgstr "Khác"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.pinned"
-msgstr ""
+msgstr "Đã ghim"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.title"
-msgstr ""
+msgstr "Đã ghim lên bảng"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.queued"
-msgstr ""
+msgstr "Đã ghim. Bài sẽ được đăng khi bạn online lại, và lúc đó sẽ có người thật đọc."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.planned"
+msgstr "Đã lên kế hoạch"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.planning"
-msgstr ""
+msgstr "Lên kế hoạch"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.post"
-msgstr ""
+msgstr "Đăng · Courrier"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.post"
+msgstr "Đăng"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.posted"
+msgstr "Đã đăng ở mục MỚI. Tokek sẽ báo bạn nếu có tiến triển."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rate"
-msgstr ""
+msgstr "Đánh giá ứng dụng"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.received"
-msgstr ""
+msgstr "Đã nhận"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.search"
-msgstr ""
+msgstr "Hoàn tiền, bản đồ offline, chia tiền…"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.removePhoto"
-msgstr ""
+msgstr "Xóa ảnh này"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.report"
-msgstr ""
+msgstr "Báo cáo sự cố"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleProblem"
-msgstr ""
+msgstr "Báo cáo sự cố"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedback"
-msgstr ""
+msgstr "Gửi góp ý"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.title"
-msgstr ""
+msgstr "Gửi góp ý"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.send"
-msgstr ""
+msgstr "Gửi"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.back"
-msgstr ""
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shipped"
+msgstr "Đã ra mắt"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shippedTab"
+msgstr "Đã ra mắt"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.english"
-msgstr ""
+msgstr "Tạm thời hiển thị tiếng Anh"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.english"
-msgstr ""
+msgstr "Tạm thời hiển thị tiếng Anh"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.guideLine"
-msgstr ""
+msgstr "Có gì trục trặc hay còn thiếu gì không? Cứ nói với mình. Mình chuyển thẳng cho đội ngũ."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMany"
+msgstr "Nghe giống một trong những ý này. Bình chọn để nó đến sớm hơn."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchOne"
+msgstr "Nghe giống ý này. Bình chọn để nó đến sớm hơn."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.stuck"
-msgstr ""
+msgstr "Vẫn chưa xong?"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggest"
-msgstr ""
+msgstr "Gợi ý tính năng"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleIdea"
-msgstr ""
+msgstr "Gợi ý tính năng"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.title"
+msgstr "Gợi ý ý tưởng"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rateCaption"
-msgstr ""
+msgstr "Chỉ mất mười giây"
 
 #. placeholder {0}: props.name
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanks"
-msgstr ""
+msgstr "Cảm ơn {0}. Mọi tin nhắn như thế này đều có người thật đọc. Nếu cần thêm thông tin, bọn mình sẽ hỏi, và Tokek sẽ báo bạn khi đã sửa xong."
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanksNoName"
-msgstr ""
+msgstr "Cảm ơn bạn. Mọi tin nhắn như thế này đều có người thật đọc. Nếu cần thêm thông tin, bọn mình sẽ hỏi, và Tokek sẽ báo bạn khi đã sửa xong."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.thanks"
-msgstr ""
+msgstr "Cảm ơn bạn. Điều này giúp bọn mình sửa lại cách diễn đạt."
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.tooBig"
-msgstr ""
+msgstr "Ảnh này quá lớn để gửi. Hãy thử dùng ảnh chụp màn hình."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.offline"
+msgstr "Bảng sẽ mở khi bạn online lại."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
-msgstr ""
+msgstr "Bài này chưa có ở đây"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.toHumans"
-msgstr ""
+msgstr "Gửi đội ngũ"
+
+#. placeholder {0}: row.teamNote
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.teamNote"
+msgstr "Tokek: {0}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.top"
+msgstr "Hàng đầu"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.underReview"
+msgstr "Đang xem xét"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.vote"
+msgstr "Bình chọn ▲"
 
 #. placeholder {0}: props.ideasToVote
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggestCaption"
-msgstr ""
+msgstr "Bình chọn cho {0} ý tưởng"
+
+#. placeholder {0}: idea.title
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.votedFor"
+msgstr "Đã bình chọn cho {0}. Giờ là {count}."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.helpful"
-msgstr ""
+msgstr "Bài này có hữu ích không?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderProblem"
-msgstr ""
+msgstr "Chuyện gì đã xảy ra, và bạn mong đợi điều gì?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderIdea"
-msgstr ""
+msgstr "CritterPass nên làm gì tiếp theo?"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.descriptionLabel"
+msgstr "Nó sẽ làm gì? Không bắt buộc"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedbackCaption"
-msgstr ""
+msgstr "Điều bạn thích, điều làm bạn bực"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholder"
-msgstr ""
+msgstr "Điều bạn thích, điều làm bạn bực…"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.title"
+msgstr "Tiếp theo là gì?"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.tabs"
+msgstr "Ý tưởng nào"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.yes"
-msgstr ""
+msgstr "Có"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.outOfVotes"
+msgstr "Bạn đã dùng hết {IDEA_VOTE_BUDGET} lượt bình chọn của tháng này. Rút lại một lượt để chuyển sang ý khác."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.idea"
+msgstr "Ý tưởng của bạn cho bảng"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
-msgstr ""
+msgstr "Ghi chú của bạn"
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
-msgstr ""
+msgstr "Ghi chú của bạn gửi đội ngũ"
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.vote"
+msgstr "Lượt bình chọn của bạn cho một ý tưởng"

@@ -7,277 +7,429 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
 
+#. placeholder {0}: props.votesLeft
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.votesLeft"
+msgstr "{0, plural, other {# suara tersisa}}"
+
+#. placeholder {0}: match.count
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMeta"
+msgstr "{0, plural, other {# suara}}"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, other {{first} dan # lainnya juga}}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.suggest"
+msgstr "+ Usulkan ide"
+
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerEmail"
-msgstr ""
+msgstr "Manusia membalas lewat email dalam dua hari."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerInbox"
-msgstr ""
+msgstr "Manusia membalas di Kotak Masuk-mu dalam dua hari."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footer"
-msgstr ""
+msgstr "Manusia membalas dalam dua hari."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.unvote"
+msgstr "Suara yang ditarik kembali"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.about"
-msgstr ""
+msgstr "Tentang"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.addPhoto"
-msgstr ""
+msgstr "Tambah gambar"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.askHuman"
-msgstr ""
+msgstr "Tanya manusia"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.askHuman"
-msgstr ""
+msgstr "Tanya manusia"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.done"
-msgstr ""
+msgstr "Kembali ke pengaturan"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.bug"
-msgstr ""
+msgstr "Bug"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.building"
+msgstr "Sedang dibuat"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.critters"
-msgstr ""
+msgstr "Critter"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.declined"
+msgstr "Ditolak"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.device"
-msgstr ""
+msgstr "Info perangkat"
 
 #. placeholder {0}: props.articleTitle
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.fromArticle"
-msgstr ""
+msgstr "Dari “{0}”"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.good"
-msgstr ""
+msgstr "Bagus"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.grr"
-msgstr ""
+msgstr "Grr"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.guideChat"
-msgstr ""
+msgstr "Chat pemandu"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
+msgstr "Bantuan"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
-msgstr ""
+msgstr "Bantuan"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.back"
-msgstr ""
+msgstr "Bantuan"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.title"
-msgstr ""
+msgstr "Bantuan dan masukan"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
-msgstr ""
+msgstr "Pusat bantuan"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
-msgstr ""
+msgstr "Bagaimana sejauh ini?"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.hq"
-msgstr ""
+msgstr "HQ · Pos"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.titleLabel"
+msgstr "Dalam beberapa kata"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.includeDevice"
-msgstr ""
+msgstr "Sertakan info perangkat"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingBody"
-msgstr ""
+msgstr "Artikel ini hadir bersama pusat bantuan saat kamu online lagi."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.open"
+msgstr "Sedang dilihat"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.love"
-msgstr ""
+msgstr "Suka banget"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.meh"
-msgstr ""
+msgstr "Biasa saja"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.merged"
+msgstr "Digabung"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.postAnyway"
+msgstr "Ideku beda, posting saja"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.money"
-msgstr ""
+msgstr "Uang"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.new"
+msgstr "Baru"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.eyebrow"
+msgstr "Ide baru"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.no"
-msgstr ""
+msgstr "Tidak"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.none"
+msgstr "Belum ada ide. Idemu bisa jadi yang pertama."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.noResults"
-msgstr ""
+msgstr "Belum ada yang cocok di pusat bantuan."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.noneShipped"
+msgstr "Belum ada yang dirilis dari sini."
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
-msgstr ""
+msgstr "Lumayan"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.reportShake"
-msgstr ""
+msgstr "Atau goyangkan layar mana saja"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
-msgstr ""
+msgstr "Lainnya"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.pinned"
-msgstr ""
+msgstr "Disematkan"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.title"
-msgstr ""
+msgstr "Disematkan di papan"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.queued"
-msgstr ""
+msgstr "Tersemat. Akan terkirim saat kamu online lagi, lalu dibaca manusia."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.planned"
+msgstr "Direncanakan"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.planning"
-msgstr ""
+msgstr "Perencanaan"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.post"
-msgstr ""
+msgstr "Pos · Kurir"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.post"
+msgstr "Posting"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.posted"
+msgstr "Diposting di BARU. Tokek akan memberitahumu jika ada perubahan."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rate"
-msgstr ""
+msgstr "Beri nilai aplikasi"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.received"
-msgstr ""
+msgstr "Diterima"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.search"
-msgstr ""
+msgstr "Pengembalian dana, peta offline, bagi tagihan…"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.removePhoto"
-msgstr ""
+msgstr "Hapus gambar ini"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.report"
-msgstr ""
+msgstr "Laporkan masalah"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleProblem"
-msgstr ""
+msgstr "Laporkan masalah"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedback"
-msgstr ""
+msgstr "Kirim masukan"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.title"
-msgstr ""
+msgstr "Kirim masukan"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.send"
-msgstr ""
+msgstr "Kirim"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.back"
-msgstr ""
+msgstr "Pengaturan"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shipped"
+msgstr "Dirilis"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shippedTab"
+msgstr "Dirilis"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.english"
-msgstr ""
+msgstr "Sementara dalam bahasa Inggris"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.english"
-msgstr ""
+msgstr "Sementara dalam bahasa Inggris"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.guideLine"
-msgstr ""
+msgstr "Ada yang rusak atau kurang? Kabari aku. Langsung kuteruskan ke tim manusia."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMany"
+msgstr "Mirip salah satu ini. Beri suara dan ide itu jadi lebih cepat terwujud."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchOne"
+msgstr "Mirip yang ini. Beri suara dan ide itu jadi lebih cepat terwujud."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.stuck"
-msgstr ""
+msgstr "Masih buntu?"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggest"
-msgstr ""
+msgstr "Usulkan fitur"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleIdea"
-msgstr ""
+msgstr "Usulkan fitur"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.title"
+msgstr "Usulkan ide"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rateCaption"
-msgstr ""
+msgstr "Cuma sepuluh detik"
 
 #. placeholder {0}: props.name
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanks"
-msgstr ""
+msgstr "Makasih, {0}. Setiap catatan seperti ini dibaca manusia. Kalau butuh info lebih, kami akan bertanya, dan Tokek akan memberitahumu saat sudah beres."
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanksNoName"
-msgstr ""
+msgstr "Makasih. Setiap catatan seperti ini dibaca manusia. Kalau butuh info lebih, kami akan bertanya, dan Tokek akan memberitahumu saat sudah beres."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.thanks"
-msgstr ""
+msgstr "Makasih. Ini membantu kami memperbaiki tulisannya."
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.tooBig"
-msgstr ""
+msgstr "Gambar itu terlalu besar untuk dikirim. Coba pakai tangkapan layar."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.offline"
+msgstr "Papan terbuka setelah kamu online lagi."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
-msgstr ""
+msgstr "Artikel ini belum tersedia"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.toHumans"
-msgstr ""
+msgstr "Untuk manusia"
+
+#. placeholder {0}: row.teamNote
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.teamNote"
+msgstr "Tokek: {0}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.top"
+msgstr "Teratas"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.underReview"
+msgstr "Ditinjau"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.vote"
+msgstr "Pilih ▲"
 
 #. placeholder {0}: props.ideasToVote
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggestCaption"
-msgstr ""
+msgstr "Beri suara untuk {0} ide"
+
+#. placeholder {0}: idea.title
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.votedFor"
+msgstr "Kamu memilih {0}. Jadi {count}."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.helpful"
-msgstr ""
+msgstr "Apakah ini membantu?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderProblem"
-msgstr ""
+msgstr "Apa yang terjadi, dan apa yang kamu harapkan?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderIdea"
-msgstr ""
+msgstr "Apa yang sebaiknya dilakukan CritterPass berikutnya?"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.descriptionLabel"
+msgstr "Apa fungsinya? Opsional"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedbackCaption"
-msgstr ""
+msgstr "Yang kamu suka, yang bikin kesal"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholder"
-msgstr ""
+msgstr "Yang kamu suka, yang bikin kesal…"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.title"
+msgstr "Apa selanjutnya?"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.tabs"
+msgstr "Ide mana"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.yes"
-msgstr ""
+msgstr "Ya"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.outOfVotes"
+msgstr "Kamu sudah memakai {IDEA_VOTE_BUDGET} suara bulan ini. Tarik satu untuk memindahkannya."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.idea"
+msgstr "Ide kamu untuk papan"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
-msgstr ""
+msgstr "Catatanmu"
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
-msgstr ""
+msgstr "Catatanmu untuk manusia"
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.vote"
+msgstr "Suaramu untuk sebuah ide"

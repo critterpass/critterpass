@@ -2,15 +2,17 @@
  * Client specs for the recap's commands. Opening and finishing the recap, the signature, the MVP
  * vote and the got-away reminder may wait in the offline queue (the server replays them by id);
  * asking for a failed build again is online only, so the page never says it failed while a retry
- * waits unsent.
+ * waits unsent. Reacting to a year-later memory and pitching a reunion also wait offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
   CastMvpVotePayload,
+  ReactMemoryPayload,
   RecordRecapViewPayload,
   RetryRecapPayload,
   SaveSignaturePayload,
   SetLegendaryReminderPayload,
+  StartReunionPayload,
 } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
@@ -48,4 +50,16 @@ export const setLegendaryReminderCommand = defineClientCommand<SetLegendaryRemin
   offline: true,
   summarize: () =>
     msg({ id: 'recap.queued.remind', message: 'A reminder for the one that got away' }),
+});
+
+export const reactMemoryCommand = defineClientCommand<ReactMemoryPayload>({
+  name: 'react_memory',
+  offline: true,
+  summarize: () => msg({ id: 'recap.queued.react', message: 'Your reaction to the memory' }),
+});
+
+export const startReunionCommand = defineClientCommand<StartReunionPayload>({
+  name: 'start_reunion',
+  offline: true,
+  summarize: () => msg({ id: 'recap.queued.reunion', message: 'Pitching a reunion to the crew' }),
 });

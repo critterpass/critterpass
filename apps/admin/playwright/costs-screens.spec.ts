@@ -7,7 +7,7 @@ import path from 'node:path';
 
 import { expect, test, type Page } from '@playwright/test';
 
-import { nav, signInAs } from './session';
+import { signInAs } from './session';
 
 const shotsDir = process.env['ADMIN_SHOTS_DIR'];
 const WIDTHS = [
@@ -28,7 +28,8 @@ for (const size of WIDTHS) {
     await expect(page.getByRole('link', { name: /Cost indices to review/ })).not.toContainText('…');
     await shot(page, 'home-content', size.name, false);
 
-    await nav(page).getByRole('link', { name: 'Cost indices' }).click();
+    // Phone width hides the side nav behind MORE; open the page directly.
+    await page.goto('/costs');
     await expect(page.getByRole('article').first()).toBeVisible();
     await shot(page, 'costs-pending', size.name, false);
 

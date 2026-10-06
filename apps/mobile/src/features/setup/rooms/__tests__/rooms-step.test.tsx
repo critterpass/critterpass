@@ -40,6 +40,8 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { TravelDataReaderProvider } from '@/data/travel-data/client';
+import { recordedReader } from '@/data/travel-data/test-support/recorded-reader';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import {
@@ -288,20 +290,19 @@ describe('a stay pick the server refused after it was queued', () => {
        VALUES (?, 'crew-1', 'setup', 'rooms', 'dest-1')`,
       [TRIP_ID],
     );
-    await stack.db.execute(
-      `INSERT INTO destination_cost_indices (id, destination_id, stay_type, nightly_minor_low,
-         nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, reviewed_at)
-       VALUES ('ci-1', 'dest-1', 'hostel', 700, 1800, 2000, 1000, 'USD', '2027-01-01')`,
-    );
+    // The destination's one reviewed stay type, a hostel, as the api's cost index read answers it.
+    const costs = recordedReader({ '/v1/destinations/': [200, 'cost-indices-hostel'] });
     i18n.loadAndActivate({ locale: 'en', messages: {} });
     await render(
       <I18nProvider i18n={i18n}>
         <SafeAreaProvider initialMetrics={METRICS}>
           <GestureHandlerRootView>
             <LocalFirstProvider value={stack.value}>
-              <ScreenJoltProvider>
-                <RoomsStep trip={trip} shell={sceneFrame(trip, 'rooms')} />
-              </ScreenJoltProvider>
+              <TravelDataReaderProvider value={costs}>
+                <ScreenJoltProvider>
+                  <RoomsStep trip={trip} shell={sceneFrame(trip, 'rooms')} />
+                </ScreenJoltProvider>
+              </TravelDataReaderProvider>
             </LocalFirstProvider>
           </GestureHandlerRootView>
         </SafeAreaProvider>

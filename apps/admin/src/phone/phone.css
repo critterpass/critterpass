@@ -1,0 +1,92 @@
+/* Phone check-ins: at 480 px and below the side nav becomes a MORE sheet over bottom tabs. */
+.phone-tabs {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 72px;
+  }
+  .shell-nav {
+    display: none;
+  }
+  .shell[data-more='true'] .shell-nav {
+    display: flex;
+    position: fixed;
+    inset: 0 0 64px;
+    z-index: 15;
+    height: auto;
+    border-right: none;
+  }
+  .shell-main {
+    padding: var(--space-16) var(--space-12) var(--space-24);
+  }
+  .phone-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 16;
+    height: 64px;
+    background: var(--color-ink-930);
+    border-top: 1px solid var(--semantic-border-decorative);
+  }
+  .phone-tab {
+    appearance: none;
+    border: none;
+    background: transparent;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    color: var(--color-ink-150);
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .phone-tab[data-status='active'],
+  .phone-tab[aria-expanded='true'] {
+    color: var(--color-yellow);
+  }
+  .page-title {
+    font-size: 34px;
+  }
+  .hero {
+    padding: var(--space-20);
+  }
+  .hero-title {
+    font-size: 40px;
+  }
+  .work-row,
+  .list-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .work-row .queue-tag,
+  .list-row .queue-tag {
+    grid-column: 1 / -1;
+  }
+  .table-wrap {
+    max-width: calc(100vw - 24px);
+  }
+  .btn {
+    min-height: 44px;
+  }
+  .chips {
+    border-radius: var(--radius-md);
+  }
+  .tiles,
+  .counter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .tile-value,
+  .counter-value {
+    font-size: 32px;
+  }
+}

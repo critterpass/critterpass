@@ -46,8 +46,8 @@ maintained by a job; `fx` is bounded by currency instead.
 
 What is synced: the crew's own data (trip, plan, ideas, money, bookings, chat, trip day, game), the
 caller's own rows, and the small catalogue a trip day needs offline. Content that is the same for
-every user (places, place pages, Explore browsing, tips, help articles) is read from the api with a
-cached last good copy. Nothing new goes onto sync without that reason, and no table reaches a phone
+every user (places, place pages, Explore browsing, tips, help articles, the ideas board, season
+months and events, cost indices, crowd curves) is read from the api with a cached last good copy. Nothing new goes onto sync without that reason, and no table reaches a phone
 twice through two streams.
 
 A trip with several cities syncs its route (`trip_stops`, filtered on the row's own `crew_id`) on
