@@ -1,0 +1,547 @@
+appId: app.critterpass.dev
+---
+# Live walk, on the trip, third pass: the day under way. The device's clock is real time, so a run
+# at night finds day 1 not begun. To see a stop in progress and a day that is over without waiting
+# for the afternoon, the traveller moves today's stops herself from their sheets (the −15 control,
+# which keeps a stop's length): the first stop to half an hour ago, the second to about three
+# quarters of an hour from now. Then the day plan, the trip map, the hub and the day-of screen are
+# read again, with GO. For the end of the day she pushes the two stops she did not reach to
+# tomorrow and the first one fully into the past, and reads the hub, today's page, tomorrow's page
+# and tomorrow's plan.
+# A walk, not a check: steps are optional so the frames keep coming where the app refuses.
+- runFlow:
+    file: subflows/on-trip-start.yaml
+    env:
+      SHOTS: on-trip-clock-00-setup
+# Where she is: a hotel street behind Mỹ Khê beach, about three kilometres from the first stops
+# (the emulator has no position of its own, and GO draws no route without one).
+- setLocation:
+    latitude: 16.0605
+    longitude: 108.2452
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-01-day-plan-before
+
+# The second stop first (its number stays 2): to the next quarter hour at least 40 minutes away.
+- tapOn:
+    id: 'stop-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-time-start-value'
+    timeout: 10000
+    optional: true
+- evalScript: ${maestro.copiedText = '00:00'}
+- runFlow:
+    when:
+      visible:
+        id: 'plan-time-start-value'
+    commands:
+      - copyTextFrom:
+          id: 'plan-time-start-value'
+- evalScript: ${var now = new Date(Date.now() + 7 * 3600000); var nowMin = now.getUTCHours() * 60 + now.getUTCMinutes(); var parts = maestro.copiedText.split(':'); var start = Number(parts[0]) * 60 + Number(parts[1]); var target = Math.ceil((nowMin + 40) / 15) * 15; output.taps = Math.max(0, Math.round((start - target) / 15)); output.done = 0}
+- repeat:
+    while:
+      true: ${output.done < output.taps}
+    commands:
+      - tapOn:
+          id: 'plan-time-start-earlier'
+          optional: true
+      - evalScript: ${output.done = output.done + 1}
+- takeScreenshot: on-trip-clock-02-second-stop-moved-near
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - takeScreenshot: on-trip-clock-03-second-stop-asks
+      - tapOn:
+          id: 'plan-item-confirm'
+      - waitForAnimationToEnd:
+          timeout: 6000
+- takeScreenshot: on-trip-clock-04-second-stop-saved
+
+# The first stop: started half an hour ago.
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-time-start-value'
+    timeout: 10000
+    optional: true
+- evalScript: ${maestro.copiedText = '00:00'}
+- runFlow:
+    when:
+      visible:
+        id: 'plan-time-start-value'
+    commands:
+      - copyTextFrom:
+          id: 'plan-time-start-value'
+- evalScript: ${var now = new Date(Date.now() + 7 * 3600000); var nowMin = now.getUTCHours() * 60 + now.getUTCMinutes(); var parts = maestro.copiedText.split(':'); var start = Number(parts[0]) * 60 + Number(parts[1]); var target = Math.floor((nowMin - 30) / 15) * 15; output.taps = Math.max(0, Math.round((start - target) / 15)); output.done = 0}
+- repeat:
+    while:
+      true: ${output.done < output.taps}
+    commands:
+      - tapOn:
+          id: 'plan-time-start-earlier'
+          optional: true
+      - evalScript: ${output.done = output.done + 1}
+- takeScreenshot: on-trip-clock-05-first-stop-moved-to-now
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - tapOn:
+          id: 'plan-item-confirm'
+      - waitForAnimationToEnd:
+          timeout: 6000
+
+# A stop in progress, the next one coming up: the day plan, the trip map, the hub, the day-of.
+- takeScreenshot: on-trip-clock-06-day-plan-stop-in-progress
+- extendedWaitUntil:
+    visible:
+      id: 'never-shown-legs-settle'
+    timeout: 60000
+    optional: true
+- takeScreenshot: on-trip-clock-07-day-plan-a-minute-later
+- swipe:
+    start: 50%, 75%
+    end: 50%, 40%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-08-day-plan-lower
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-09-sheet-of-stop-in-progress
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'day-plan-mini-map'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-map'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-clock-10-day-map-in-progress
+- runFlow:
+    when:
+      visible:
+        id: 'day-map'
+    commands:
+      - tapOn:
+          id: 'day-map-back'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'day-plan-back'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-clock-11-day-plan-back-leads-to
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-half|trip-map-peek'
+    commands:
+      - takeScreenshot: on-trip-clock-12-trip-map-in-progress
+- runFlow: subflows/on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: on-trip-clock-13-hub-in-progress
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-14-day-of-in-progress
+- swipe:
+    start: 50%, 75%
+    end: 50%, 30%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-15-day-of-in-progress-timeline
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-back'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-go'
+    commands:
+      - tapOn:
+          id: 'trip-day-go'
+      - extendedWaitUntil:
+          visible:
+            id: 'go-map-ready'
+          timeout: 25000
+          optional: true
+      - takeScreenshot: on-trip-clock-16-go-to-the-next-stop
+      - tapOn:
+          text: 'Lái xe.*'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - takeScreenshot: on-trip-clock-16b-go-by-car
+      - tapOn:
+          text: 'Đi bộ.*'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - takeScreenshot: on-trip-clock-16c-go-on-foot
+      - tapOn:
+          id: 'go-back'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+# Home, with a stop going on.
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-clock-17-home-in-progress
+
+# The end of the day: the two stops she did not reach go to tomorrow, the first is over.
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- repeat:
+    times: 2
+    commands:
+      - tapOn:
+          id: 'stop-2'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-item-scroll'
+          timeout: 10000
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'plan-item-move-2'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'plan-item-move-2'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - runFlow:
+          when:
+            visible:
+              id: 'plan-item-confirm'
+          commands:
+            - tapOn:
+                id: 'plan-item-confirm'
+            - waitForAnimationToEnd:
+                timeout: 6000
+      - runFlow:
+          when:
+            visible:
+              id: 'plan-item-scroll'
+          commands:
+            - back
+            - waitForAnimationToEnd:
+                timeout: 3000
+- takeScreenshot: on-trip-clock-18-two-stops-sent-to-tomorrow
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-time-start-value'
+    timeout: 10000
+    optional: true
+- repeat:
+    times: 4
+    commands:
+      - tapOn:
+          id: 'plan-time-start-earlier'
+          optional: true
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - tapOn:
+          id: 'plan-item-confirm'
+      - waitForAnimationToEnd:
+          timeout: 6000
+- takeScreenshot: on-trip-clock-19-day-plan-day-over
+- tapOn:
+    id: 'day-plan-day-chips-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-clock-20-tomorrow-with-the-two-stops
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-21-tomorrow-lower
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-22-tomorrow-end
+- runFlow: subflows/on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: on-trip-clock-23-hub-day-over
+- tapOn:
+    id: 'trip-hub-today'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-24-day-of-day-over
+- swipe:
+    start: 50%, 75%
+    end: 50%, 30%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-25-day-of-day-over-timeline
+- runFlow: subflows/on-trip-to-hub.yaml
+- tapOn:
+    id: 'trip-hub-next'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-26-day-of-tomorrow
+- swipe:
+    start: 50%, 75%
+    end: 50%, 30%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-27-day-of-tomorrow-timeline
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-to-today'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-day-to-today'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-28-day-of-back-to-today
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-clock-29-home-day-over
+
+# Tomorrow now carries the two stops she sent there: what the guide says about it, and its fix.
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-29b-what-rose-on-arrival
+- runFlow: subflows/on-trip-pass-arrival.yaml
+- scrollUntilVisible:
+    element:
+      id: 'stop-.*-note'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- takeScreenshot: on-trip-clock-30-tomorrow-guide-note
+- tapOn:
+    text: 'XEM'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-clock-31-guide-fix-opens
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-32-guide-fix-lower
+- runFlow:
+    when:
+      visible:
+        id: 'plan-check-fix-.*'
+    commands:
+      - tapOn:
+          id: 'plan-check-fix-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-check-use-.*'
+          timeout: 60000
+          optional: true
+      - takeScreenshot: on-trip-clock-33-guide-fix-offer
+      - tapOn:
+          id: 'plan-check-use-.*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-clock-34-guide-fix-used
+
+# The hub's briefing and the inbox: where a trip row and a briefing line lead.
+- runFlow: subflows/on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-briefing-.*'
+    direction: UP
+    timeout: 15000
+    optional: true
+- takeScreenshot: on-trip-clock-35-hub-briefing
+- runFlow:
+    when:
+      visible:
+        id: 'trip-briefing-chip-.*'
+    commands:
+      - tapOn:
+          id: 'trip-briefing-chip-.*'
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-clock-36-briefing-open-leads-to
+      - runFlow: subflows/on-trip-to-hub.yaml
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- runFlow: subflows/on-trip-pass-arrival.yaml
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: on-trip-clock-36b-home-trip-on
+- tapOn:
+    id: 'home-header-inbox'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-screen'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-37-inbox
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-38-inbox-lower
+- tapOn:
+    id: 'inbox-row-.*|inbox-card-.*'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-clock-39-inbox-first-row-leads-to
+- runFlow:
+    when:
+      notVisible:
+        id: 'inbox-screen'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 4000
+- tapOn:
+    id: 'inbox-row-.*|inbox-card-.*'
+    index: 1
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-clock-40-inbox-second-row-leads-to
