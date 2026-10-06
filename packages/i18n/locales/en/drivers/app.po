@@ -51,9 +51,21 @@ msgstr "{0}/hr"
 msgid "drivers.check.priceHours"
 msgstr "{amount} · {hours} hours"
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.daysFrom"
+msgstr "{count} days from {first}"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 msgid "drivers.check.missing"
 msgstr "{count} things aren't in his message. Want me to write the question?"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.takenDays"
+msgstr "{days} just went to another driver. Untick it and try again."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.titlePlain"
+msgstr "{driver} to drive"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.included"
@@ -67,14 +79,42 @@ msgstr "{item} extra"
 msgid "drivers.compare.missing"
 msgstr "{missing} missing"
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.title"
+msgstr "{name} wants {driver} to drive"
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedNumber"
 msgstr "{name}’s number, car and plate"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.quote"
+msgstr "{name}'s quote"
 
 #. placeholder {0}: gap.km
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.dayOut"
 msgstr "{place} is about {0} km out and the day is long. Ride apps rarely wait or pick up out there. Most crews hire a driver for the day."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.car"
+msgstr "{price} a car"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.day"
+msgstr "{price} a day"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.hours"
+msgstr "{price} for {hours} hours"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.group"
+msgstr "{price} for the group"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.trip"
+msgstr "{price} for the trip"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.seats"
@@ -96,9 +136,21 @@ msgstr "✓Yes"
 msgid "drivers.compare.day"
 msgstr "A day"
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.days"
+msgstr "A day is in there twice. Pick each day once."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.taken"
+msgstr "A day just went to another driver."
+
 #: ../../apps/mobile/src/features/drivers/shared/commands.ts
 msgid "drivers.queued.notNow"
 msgstr "A day you said no driver for"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.aDriver"
+msgstr "a driver"
 
 #: ../../apps/mobile/src/features/drivers/shared/commands.ts
 msgid "drivers.queued.shared"
@@ -139,6 +191,10 @@ msgstr "Ask {name}"
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.ask"
 msgstr "Ask for me"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.ask"
+msgstr "Ask the crew first"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.tours"
@@ -217,6 +273,10 @@ msgstr "Couldn’t read"
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.title"
 msgstr "Couldn’t read it"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.covers"
+msgstr "covers {hours} hours"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.cutOff"
@@ -315,7 +375,7 @@ msgstr "I couldn’t find a driver’s name, number or price in it."
 msgid "drivers.find.askBody"
 msgstr "I'll write a post for the {0} groups. You post it."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tellBody"
 msgstr "I'll write it with dates and pickup pins. You send it."
 
@@ -419,11 +479,11 @@ msgstr "Paste what the driver wrote, or a link to his post"
 msgid "drivers.compare.pick"
 msgstr "Pick"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.label"
 msgstr "Pick {name}"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.eyebrow"
 msgstr "Pick {name}"
 
@@ -434,6 +494,10 @@ msgstr "Pick the legs, then where the driver comes from. You can mix sources and
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.price"
 msgstr "Price"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.noPrice"
+msgstr "Price not said"
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.klookLink"
@@ -467,8 +531,11 @@ msgstr "Screenshot"
 msgid "drivers.add.kindImage"
 msgstr "Screenshot"
 
-#. placeholder {0}: chosen.length
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.asked"
+msgstr "Sent to the crew"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.set"
 msgstr "Set {name} on {0} days"
 
@@ -511,7 +578,7 @@ msgstr "Speaks"
 msgid "drivers.compare.supplierChecks"
 msgstr "Supplier checks"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"
 msgstr "Taken"
 
@@ -523,7 +590,7 @@ msgstr "Tap a highlight to change it"
 msgid "drivers.check.intro"
 msgstr "Tap each line to confirm or fix it. Nothing reaches the crew until you do."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tell"
 msgstr "Tell {name} on WhatsApp"
 
@@ -535,17 +602,25 @@ msgstr "Text or a link"
 msgid "drivers.add.failed"
 msgstr "That didn’t go through. Try again in a moment."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
-msgid "drivers.pick.failed"
-msgstr "That didn’t save. A day may have just been taken."
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.failed"
+msgstr "That didn’t go through. Try again."
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.error"
 msgstr "That didn’t save. Check you’re online and try again."
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.signal"
+msgstr "That needs a connection. Try again when you’re back online."
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.pasteLabel"
 msgstr "The driver’s message"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.moved"
+msgstr "The plan just changed. Check the days and try again."
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.down"
@@ -558,6 +633,10 @@ msgstr "Their words"
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.noApp"
 msgstr "There's no ride app here, and this day has real distances between stops. Most crews hire a driver for the day."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.gone"
+msgstr "This driver is no longer on the shortlist."
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedPickups"
@@ -611,7 +690,7 @@ msgstr "WhatsApp number, with its country code"
 msgid "drivers.ask.after"
 msgstr "When someone replies, share their message to me. I'll pull out the details."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.title"
 msgstr "Which legs?"
 
@@ -619,6 +698,14 @@ msgstr "Which legs?"
 msgid "drivers.leg.why.late"
 msgstr "You come back late from {place}, and ride apps rarely pick up out there at night. A driver for the evening is the safe way back."
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.titleMine"
+msgstr "You want {driver} to drive"
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.title"
 msgstr "Your ride back"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.askedLine"
+msgstr "Your yes is counted. {name} is set once enough of them say yes."

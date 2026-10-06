@@ -1,0 +1,106 @@
+appId: app.critterpass.dev
+---
+# The crew's driver pick, from the labs' fixed scenes: the pick sheet on a crew trip (SET and "Ask
+# the crew first"), on a trip of one, on the driver's quote and when a day just went to another
+# driver; then the pick as a card in crew chat and as a row in the changes review.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: ../plan/subflows/open-lab-scene.yaml
+    env:
+      LAB: 'dev-nav-drivers-lab'
+      SCENE: 'drivers-lab-pick-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-pick-ask'
+    timeout: 20000
+- assertVisible:
+    id: 'drivers-pick-set'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6d-2-pick-ask-the-crew
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-pick-solo'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-pick-solo'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-pick-set'
+    timeout: 20000
+- assertNotVisible:
+    id: 'drivers-pick-ask'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6d-2-pick-solo
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-pick-quote'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-pick-quote'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-pick-quote'
+    timeout: 20000
+- assertNotVisible:
+    id: 'drivers-pick-set'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6d-2-pick-quote
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-pick-day-taken'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-pick-day-taken'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-pick-error'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6d-2-pick-day-taken
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../plan/subflows/dev-tools-again.yaml
+- runFlow:
+    file: ../plan/subflows/open-lab-scene.yaml
+    env:
+      LAB: 'dev-nav-plan-views-lab'
+      SCENE: 'plan-views-lab-review-driver-pick-cards'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-driver-pick-cards'
+    timeout: 20000
+- assertVisible:
+    id: 'changeset-card-detail'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-driver-pick-chat-cards
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../plan/subflows/dev-tools-again.yaml
+- runFlow:
+    file: ../plan/subflows/open-lab-scene.yaml
+    env:
+      LAB: 'dev-nav-plan-ideas-lab'
+      SCENE: 'plan-ideas-lab-review-driver-pick'
+- extendedWaitUntil:
+    visible:
+      text: '.*MADE.*'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-driver-pick-review
