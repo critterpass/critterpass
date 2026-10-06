@@ -39,6 +39,11 @@ const poiSql = (
   FROM pois p LEFT JOIN destinations d ON d.id = p.destination_id WHERE p.id = ?`;
 const POI_TABLES = ['pois', 'destinations', 'critter_sets', ...DESTINATION_GUIDE_TABLES];
 
+/**
+ * The phone's row for a place: the trip's own cards and a browsed destination's places. A place
+ * the phone lacks is read through the api by the page (`usePlaceRow`, which asks the api for the
+ * profile either way), so this read stays local and the page asks the api once.
+ */
 export function usePoi(poiId: string | null): {
   readonly row: PoiRow | null;
   readonly loaded: boolean;

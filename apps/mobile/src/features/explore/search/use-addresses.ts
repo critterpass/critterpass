@@ -1,15 +1,18 @@
 /**
  * Street addresses for what was typed, from the api's address lookup (`GET /v1/geocode`, Mapbox
- * behind our own places). Asked once the typing rests, never per keystroke, and
+ * behind our own places), leaning on the destination's centre (its places, phone or api). Asked once the typing rests, never per keystroke, and
  * only when `wantsAddresses` says so. The answer lives in this hook's state and goes with the
  * screen: an address is shown to the person who searched and is never saved as it came. A pick
  * only seeds DROP A PIN, where the traveller places the pin themselves.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, SQL and wire values, never copy. */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type { GetPlaceJson } from '@/data/places/more-places';
 import { useLiveRows } from '@/data/plan/live-rows';
+import { dataOf } from '@/data/travel-data/freshness';
+
+import { useDestinationPlaces, type BrowsePlace } from '../map-queries';
 
 /** Typing has to rest this long before an address lookup is spent on it. */
 export const ADDRESS_DEBOUNCE_MS = 700;
@@ -80,16 +83,36 @@ export function addressesState(wanted: boolean, key: string, found: Found | null
   return { kind: 'done', addresses: found.addresses, credits: found.credits };
 }
 
-/** The middle of the destination's places on the phone: where an address search leans. */
+/** The middle of the phone's places, else of the api's browse (or its last good copy). */
+export function centreOf(
+  held: { readonly lat: number | null; readonly lng: number | null } | undefined,
+  browsed: readonly BrowsePlace[],
+): AddressPoint | null {
+  if (held !== undefined && held.lat !== null && held.lng !== null) {
+    return { lat: held.lat, lng: held.lng };
+  }
+  if (browsed.length === 0) return null;
+  const sum = browsed.reduce(
+    (acc, place) => ({ lat: acc.lat + place.lat, lng: acc.lng + place.lng }),
+    {
+      lat: 0,
+      lng: 0,
+    },
+  );
+  return { lat: sum.lat / browsed.length, lng: sum.lng / browsed.length };
+}
+
+/** The middle of the destination's places: where an address search leans and a pin starts. */
 export function useDestinationCentre(destinationId: string | null): AddressPoint | null {
-  const centre = useLiveRows<{ lat: number | null; lng: number | null }>(
+  const held = useLiveRows<{ lat: number | null; lng: number | null }>(
     CENTRE_SQL,
     destinationId === null ? null : [destinationId],
     ['pois'],
   ).rows[0];
-  return centre === undefined || centre.lat === null || centre.lng === null
-    ? null
-    : { lat: centre.lat, lng: centre.lng };
+  const browsed = dataOf(useDestinationPlaces(destinationId))?.results;
+  const lat = held?.lat ?? null;
+  const lng = held?.lng ?? null;
+  return useMemo(() => centreOf({ lat, lng }, browsed ?? []), [lat, lng, browsed]);
 }
 
 export function useAddresses(options: {

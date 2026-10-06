@@ -3,7 +3,6 @@
  * pin; a name and ADD TO IDEAS save it to the trip's Ideas as a pin (`save_idea{pin}`), which
  * works offline from the queue.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { generateUuidV7 } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import type { CameraRef, LngLat } from '@maplibre/maplibre-react-native';
@@ -11,7 +10,6 @@ import { useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useLiveRows } from '@/data/plan/live-rows';
 import { makeStyles, Text, useTheme } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
@@ -20,9 +18,8 @@ import { PlanningMapCanvas } from '@/ui/map/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
 
 import { saveIdeaCommand } from './commands';
+import { useDestinationCentre } from './use-addresses';
 
-const CENTRE_SQL = `SELECT avg(lat) AS lat, avg(lng) AS lng FROM pois
-  WHERE destination_id = ? AND status = 'active'`;
 const PIN_SIZE = 34;
 
 const useStyles = makeStyles((th) => ({
@@ -55,16 +52,8 @@ export function DropPinSheet(props: DropPinSheetProps) {
   const theme = useTheme();
   const save = useCommand(saveIdeaCommand);
   const cameraRef = useRef<CameraRef | null>(null);
-  const centre = useLiveRows<{ lat: number | null; lng: number | null }>(
-    CENTRE_SQL,
-    props.destinationId === null ? null : [props.destinationId],
-    ['pois'],
-  ).rows[0];
-  const start =
-    props.start ??
-    (centre?.lat === null || centre?.lat === undefined || centre.lng === null
-      ? null
-      : { lat: centre.lat, lng: centre.lng });
+  const centre = useDestinationCentre(props.destinationId);
+  const start = props.start ?? centre;
   const [point, setPoint] = useState<LngLat | null>(null);
   const [name, setName] = useState(props.name);
   const title = t({ id: 'search.pin.title', message: 'Drop a pin' });

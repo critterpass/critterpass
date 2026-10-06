@@ -1,12 +1,16 @@
 /**
- * What the list's rows and order read beyond the map's places, from the phone: where each place
- * stands in the recommended order (the editors' must-sees, the rest of the curated set, then the
- * machine picks by rank; the order every reader shares) and the area its own address names.
+ * What the list's rows and order read beyond the map's places: where each place stands in the
+ * recommended order (the editors' must-sees, the rest of the curated set, then the machine picks by
+ * rank; the order every reader shares) and the area its own address names. The phone's rows answer
+ * first; a place only the api's browse holds ranks by its place in the browse when recommended.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and address words, never copy. */
 import { useMemo } from 'react';
 
+import { dataOf } from '@/data/travel-data/freshness';
+
 import { useLiveRows } from '../data/live-rows';
+import { useDestinationPlaces, type BrowsePlace } from '../map-queries';
 
 const STREET =
   /^(jl\.?|jalan|gang|gg\.?|đường|duong|ngõ|hẻm|street|st\.?|road|rd\.?|avenue|ave\.?|lane|calle|rua|av\.?)\s/iu;
@@ -60,12 +64,41 @@ const FACTS_SQL = `SELECT id, curation, pick_rank, address,
   FROM pois WHERE destination_id = ?`;
 const FACTS_TABLES = ['pois'];
 
-interface FactsRow {
+export interface FactsRow {
   readonly id: string;
   readonly curation: string | null;
   readonly pick_rank: number | null;
   readonly address: string | null;
   readonly must_see: number | string | null;
+}
+
+/** The facts of the phone's rows, then of the browse's places the phone does not hold. */
+export function placeFacts(
+  rows: readonly FactsRow[],
+  browsed: readonly BrowsePlace[],
+  destinationName: string,
+): ReadonlyMap<string, PlaceFacts> {
+  const facts = new Map<string, PlaceFacts>(
+    rows.map((row) => [
+      row.id,
+      {
+        rank: recommendedRank({
+          curation: row.curation,
+          pick_rank: row.pick_rank,
+          must_see: row.must_see === 1 || row.must_see === 'true',
+        }),
+        area: areaOf(row.address, destinationName),
+      },
+    ]),
+  );
+  browsed.forEach((place, index) => {
+    if (facts.has(place.id)) return;
+    facts.set(place.id, {
+      rank: place.recommended ? PICK_BASE + index : null,
+      area: place.area ?? areaOf(place.address, destinationName),
+    });
+  });
+  return facts;
 }
 
 export function usePlaceFacts(
@@ -77,21 +110,9 @@ export function usePlaceFacts(
     destinationId === null ? null : [destinationId],
     FACTS_TABLES,
   );
+  const browsed = dataOf(useDestinationPlaces(destinationId))?.results;
   return useMemo(
-    () =>
-      new Map(
-        rows.map((row) => [
-          row.id,
-          {
-            rank: recommendedRank({
-              curation: row.curation,
-              pick_rank: row.pick_rank,
-              must_see: row.must_see === 1 || row.must_see === 'true',
-            }),
-            area: areaOf(row.address, destinationName),
-          },
-        ]),
-      ),
-    [rows, destinationName],
+    () => placeFacts(rows, browsed ?? [], destinationName),
+    [rows, browsed, destinationName],
   );
 }

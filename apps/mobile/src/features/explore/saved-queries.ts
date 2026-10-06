@@ -1,9 +1,15 @@
 /**
- * The saved hub's local reads: the viewer's saved destinations and places with the offline queue
- * applied, what the device knows about each (its name, category and destination), and their lists.
+ * The saved hub's reads: the viewer's saved destinations and places with the offline queue
+ * applied, what is known about each (its name, category and destination) and their lists. A saved
+ * place the phone does not hold is read through the api (`GET /v1/places/{id}`), whose last good
+ * copy answers offline, so a place never synced still shows in its destination's group.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { readPlace, type PlaceWire } from '@/data/places/place-read';
+import { useTravelDataReader, type TravelDataReader } from '@/data/travel-data/client';
+import { dataOf } from '@/data/travel-data/freshness';
 
 import { useLiveRows } from './data/live-rows';
 import { useMyUid } from './queries';
@@ -35,6 +41,9 @@ const SUBJECTS_SQL = `SELECT p.id, 'poi' AS kind, p.name, p.category, p.destinat
   WHERE d.id IN (SELECT value FROM json_each(?))`;
 const SUBJECTS_TABLES = ['pois', 'destinations'];
 
+const DESTINATIONS_SQL = `SELECT id, name, slug FROM destinations
+  WHERE id IN (SELECT value FROM json_each(?))`;
+
 const LISTS_SQL = `SELECT id, name FROM saved_lists WHERE user_id = ? ORDER BY position, created_at`;
 const LISTS_TABLES = ['saved_lists'];
 
@@ -55,6 +64,82 @@ interface SubjectRow {
   readonly destination_name: string | null;
   readonly destination_slug: string | null;
 }
+
+/** Places asked of the api at a time, so a long saved list does not open dozens of requests. */
+const READ_BATCH = 6;
+
+/** The saved places the phone does not hold, read from the api or their last good copies. */
+export async function readMissingPlaces(
+  reader: TravelDataReader | null,
+  ids: readonly string[],
+  signal?: AbortSignal,
+): Promise<readonly PlaceWire[]> {
+  const found: PlaceWire[] = [];
+  for (let at = 0; at < ids.length && signal?.aborted !== true; at += READ_BATCH) {
+    const states = await Promise.all(
+      ids
+        .slice(at, at + READ_BATCH)
+        .map((id) => readPlace(reader, id, signal === undefined ? {} : { signal })),
+    );
+    for (const state of states) {
+      const place = dataOf(state);
+      if (place !== undefined) found.push(place);
+    }
+  }
+  return found;
+}
+
+/** The api's places as saved subjects, named for their destinations the catalogue holds. */
+export function apiSubjects(
+  places: readonly PlaceWire[],
+  destinations: readonly { readonly id: string; readonly name: string; readonly slug: string }[],
+): ReadonlyMap<string, SavedSubject> {
+  const byId = new Map(destinations.map((row) => [row.id, row]));
+  return new Map(
+    places.map((place) => {
+      const destination = place.destinationId === null ? undefined : byId.get(place.destinationId);
+      return [
+        place.id,
+        {
+          kind: 'poi',
+          name: place.name,
+          category: place.category,
+          destinationId: place.destinationId,
+          destinationName: destination?.name ?? null,
+          destinationSlug: destination?.slug ?? null,
+        },
+      ];
+    }),
+  );
+}
+
+/** Saved places the phone has no row for, through the api; empty until they land. */
+function useApiSubjects(missing: readonly string[]): ReadonlyMap<string, SavedSubject> {
+  const reader = useTravelDataReader();
+  const key = JSON.stringify(missing);
+  const [read, setRead] = useState<{ key: string; places: readonly PlaceWire[] } | null>(null);
+  useEffect(() => {
+    const ids = JSON.parse(key) as string[];
+    if (ids.length === 0) return undefined;
+    const controller = new AbortController();
+    void readMissingPlaces(reader, ids, controller.signal).then((places) => {
+      if (!controller.signal.aborted) setRead({ key, places });
+    });
+    return () => controller.abort();
+  }, [reader, key]);
+  const places = read?.key === key ? read.places : NO_PLACES;
+  const destinationIds = JSON.stringify(
+    [...new Set(places.flatMap((place) => place.destinationId ?? []))].sort(),
+  );
+  const destinations = useLiveRows<{ id: string; name: string; slug: string }>(
+    DESTINATIONS_SQL,
+    places.length === 0 ? null : [destinationIds],
+    ['destinations'],
+  ).rows;
+  return useMemo(() => apiSubjects(places, destinations), [places, destinations]);
+}
+
+const NO_PLACES: readonly PlaceWire[] = [];
 
 function queuedOp(row: QueueRow): QueuedSavedOp[] {
   if (row.cmd === 'save_place' && row.place_id !== null) {
@@ -101,11 +186,19 @@ export function useSaved(): Saved {
     [items.rows, queue.rows],
   );
   const subjects = useLiveRows<SubjectRow>(SUBJECTS_SQL, [refs, refs], SUBJECTS_TABLES);
+  // Only once the phone has answered: what it lacks is then asked of the api.
+  const missing = useMemo(() => {
+    if (!subjects.loaded) return [];
+    const held = new Set(subjects.rows.map((row) => row.id));
+    return (JSON.parse(refs) as string[]).filter((id) => !held.has(id));
+  }, [subjects.loaded, subjects.rows, refs]);
+  const remote = useApiSubjects(missing);
   const lists = useLiveRows<SavedList>(LISTS_SQL, uid === null ? null : [uid], LISTS_TABLES);
 
   const rows = useMemo(() => {
-    const known = new Map<string, SavedSubject>(
-      subjects.rows.map((row) => [
+    const known = new Map<string, SavedSubject>([
+      ...remote,
+      ...subjects.rows.map((row): [string, SavedSubject] => [
         row.id,
         {
           kind: row.kind,
@@ -116,7 +209,7 @@ export function useSaved(): Saved {
           destinationSlug: row.destination_slug,
         },
       ]),
-    );
+    ]);
     const synced = items.rows.map((row): SavedRow => ({
       id: row.id,
       refId: row.ref_id,
@@ -125,7 +218,7 @@ export function useSaved(): Saved {
       pending: false,
     }));
     return applyQueue(synced, queue.rows.flatMap(queuedOp), known);
-  }, [items.rows, queue.rows, subjects.rows]);
+  }, [items.rows, queue.rows, subjects.rows, remote]);
 
   return { rows, lists: lists.rows, loaded: items.loaded && subjects.loaded };
 }
