@@ -42,6 +42,8 @@ const DISMISS_DISTANCE = 120;
 const DISMISS_VELOCITY = 900;
 /** How far a finger travels before a drag is taken as down (not a tap, not a page turn). */
 const DRAG_SLOP = 14;
+/** Movement after the drag is recognised before it is read as sideways or down. */
+const AXIS_SLOP = 4;
 /** A sideways drag past this share of the screen, or a flick this fast, turns the page. */
 const TURN_SHARE = 0.2;
 const TURN_VELOCITY = 500;
@@ -124,13 +126,21 @@ export function Lightbox({ items, initialIndex = 0, onClose, testID = 'lightbox'
     .failOffsetY(-DRAG_SLOP)
     .hitSlop(overVideo ? { bottom: -(Math.max(footHeight, insets.bottom) + SCRUB_STRIP) } : 0)
     .withTestId('lightbox-pan')
-    .onStart((event) => {
+    .onStart(() => {
       'worklet';
       startRowX.value = rowX.value;
-      axis.value = Math.abs(event.translationX) >= Math.abs(event.translationY) ? 1 : 2;
+      axis.value = 0;
     })
     .onUpdate((event) => {
       'worklet';
+      if (axis.value === 0) {
+        // The way is read from the first real movement: Android counts the drag from where it
+        // was recognised, so there is none yet when it starts.
+        const across = Math.abs(event.translationX);
+        const down = Math.abs(event.translationY);
+        if (Math.max(across, down) < AXIS_SLOP) return;
+        axis.value = across >= down ? 1 : 2;
+      }
       if (axis.value === 1) {
         const least = -(count - 1) * width - EDGE_GIVE;
         rowX.value = Math.min(Math.max(startRowX.value + event.translationX, least), EDGE_GIVE);

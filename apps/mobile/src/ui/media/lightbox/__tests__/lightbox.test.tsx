@@ -1,7 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
-import { Gesture } from 'react-native-gesture-handler';
+import { Gesture, State } from 'react-native-gesture-handler';
+import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-handler/jest-utils';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { renderUi } from '../../../test-support/render';
@@ -57,6 +58,28 @@ describe('the full-screen viewer', () => {
     await show(<Lightbox items={ITEMS.slice(0, 1)} onClose={onClose} />);
     expect(screen.queryByTestId('lightbox-counter')).toBeNull();
     await fireEvent.press(screen.getByTestId('lightbox-close'));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('reads a drag from its first movement: down closes, sideways turns the page', async () => {
+    const onClose = jest.fn();
+    await show(<Lightbox items={ITEMS} onClose={onClose} />);
+    // As Android reports it: no movement yet at the moment the drag is recognised.
+    const drag = async (translationX: number, translationY: number) => {
+      await act(async () => {
+        fireGestureHandler(getByGestureTestId('lightbox-pan'), [
+          { state: State.BEGAN, translationX: 0, translationY: 0 },
+          { state: State.ACTIVE, translationX: 0, translationY: 0 },
+          { state: State.ACTIVE, translationX, translationY },
+          { state: State.END, translationX, translationY, velocityX: 0, velocityY: 0 },
+        ]);
+        await Promise.resolve();
+      });
+    };
+    await drag(-300, 6);
+    expect(onClose).not.toHaveBeenCalled();
+    expect(screen.getByTestId('lightbox-counter')).toHaveTextContent('2 / 3');
+    await drag(4, 400);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
