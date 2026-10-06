@@ -351,10 +351,6 @@ msgstr "Our team reviews it. The sender is not told who reported it."
 msgid "chat.voice.pause"
 msgstr "Pause voice note"
 
-#: ../../apps/mobile/src/features/crew/chat/media/media-viewer.tsx
-msgid "chat.photo.full"
-msgstr "Photo"
-
 #: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
 msgid "chat.photo.one"
 msgstr "Photo"

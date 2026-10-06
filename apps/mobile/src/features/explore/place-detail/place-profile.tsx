@@ -12,9 +12,11 @@ import { Image, Linking, ScrollView, View } from 'react-native';
 
 import { singleSource, type ReadyProfile } from '@/data/places/place-read';
 import { TextLink } from '@/ui/buttons/TextLink';
+import { LightboxThumb, useLightbox } from '@/ui/media/lightbox/use-lightbox';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { profilePhotoItems } from '../place-lightbox';
 import { ReportProfile } from './report-profile';
 
 const STRIP_HEIGHT = 96;
@@ -60,6 +62,7 @@ export function PlaceProfileSection({
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const english = languageOf(profile.locale) !== languageOf(i18n.locale);
+  const lightbox = useLightbox(profilePhotoItems(profile.photos), 'place-profile-lightbox');
   const lines = [profile.whyGo, profile.bestTime, profile.crowd].filter((line) => line !== '');
   return (
     <View style={{ gap: theme.space['14'] }} testID="place-detail-profile">
@@ -70,16 +73,24 @@ export function PlaceProfileSection({
           contentContainerStyle={styles.strip}
           testID="place-detail-profile-photos"
         >
-          {profile.photos.map((photo) => (
-            <Image
+          {profile.photos.map((photo, index) => (
+            <LightboxThumb
               key={photo.url}
-              source={{ uri: photo.url }}
-              style={styles.photo}
-              accessibilityIgnoresInvertColors
-            />
+              position={index + 1}
+              total={profile.photos.length}
+              onPress={() => lightbox.open(photo.url)}
+              testID={`place-detail-profile-photo-${index}`}
+            >
+              <Image
+                source={{ uri: photo.url }}
+                style={styles.photo}
+                accessibilityIgnoresInvertColors
+              />
+            </LightboxThumb>
           ))}
         </ScrollView>
       )}
+      {lightbox.viewer}
       {lines.length === 0 ? null : (
         <View style={{ gap: theme.space['8'] }} testID="place-detail-profile-text">
           <Text variant="eyebrow" color={theme.semantic.text.secondary}>

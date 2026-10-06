@@ -12,18 +12,21 @@
 import { tokens } from '@cp/design-tokens';
 import type { PlaceMediaAsset } from '@cp/domain';
 import { useEffect } from 'react';
-import { Image, View } from 'react-native';
+import { Image, PixelRatio, Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { bezierEasing } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
+import { savedMediaUri } from '@/lib/media/media-files';
 import { Icon } from '@/ui/icons/Icon';
+import { useLightbox, useOpenPhotoLabel } from '@/ui/media/lightbox/use-lightbox';
 import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon } from '../category';
 import { CATEGORY_ACCENT } from '../place-detail/category-accent';
+import { heroPhotoItems } from '../place-lightbox';
 import { isGenericPhoto } from '../place-photo';
 import { GenericPhotoLabel } from './generic-photo-label';
 
@@ -55,14 +58,34 @@ export interface PlacePhotoProps {
   /** The place's own asset; null draws the live photo or the category's doodle. */
   readonly photo: PlaceMediaAsset | null;
   readonly heroUrl?: string | null | undefined;
+  /** Where the live photo is from, shown with it in the full-screen view. */
+  readonly heroCredit?: string | undefined;
   readonly category: string;
   readonly accent: string;
   /** From `heroCaptionInset`. */
   readonly captionInset: number;
 }
 
-export function PlacePhoto({ photo, heroUrl, category, accent, captionInset }: PlacePhotoProps) {
+export function PlacePhoto({
+  photo,
+  heroUrl,
+  heroCredit,
+  category,
+  accent,
+  captionInset,
+}: PlacePhotoProps) {
   const styles = useStyles();
+  const openLabel = useOpenPhotoLabel();
+  const pixels = useWindowDimensions().width * PixelRatio.get();
+  const items = heroPhotoItems({
+    photo,
+    generic: isGenericPhoto(photo),
+    heroUrl,
+    heroCredit,
+    pixels,
+    savedUri: (url) => (photo === null ? null : savedMediaUri(photo.id, url)),
+  });
+  const lightbox = useLightbox(items, 'place-hero-lightbox');
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
   const scale = useSharedValue(1);
@@ -116,6 +139,16 @@ export function PlacePhoto({ photo, heroUrl, category, accent, captionInset }: P
           />
         </View>
       ) : null}
+      {items[0] === undefined ? null : (
+        <Pressable
+          style={styles.fill}
+          accessibilityRole="imagebutton"
+          accessibilityLabel={openLabel()}
+          onPress={() => lightbox.open(items[0]?.key ?? '')}
+          testID="explore-place-hero-open"
+        />
+      )}
+      {lightbox.viewer}
     </Animated.View>
   );
 }
