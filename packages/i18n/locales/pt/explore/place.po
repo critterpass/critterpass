@@ -118,6 +118,10 @@ msgstr ""
 msgid "explore.detail.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.label"
+msgstr "Resumo de IA"
+
 #. placeholder {0}: props.guide.name
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.chat"
@@ -141,16 +145,16 @@ msgstr ""
 msgid "explore.place.call"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.check"
+msgstr "Confirme antes de ir"
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.chooseDay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.closed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
-msgid "explore.detail.addFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -196,6 +200,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.inDayAt"
 msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.english"
+msgstr "Em inglês enquanto é escrito no seu idioma."
 
 #: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
 msgid "explore.detail.fits.inPlan"
@@ -428,6 +436,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyTitle"
 msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.sources"
+msgstr "Escrito a partir de"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.freeDay"

@@ -1,14 +1,18 @@
 /**
- * The place the Add to plan sheet adds, from synced rows: a curated place by its id, else the
- * trip's idea for it (a place the phone holds no row for, or a dropped pin opened by the idea's
- * own id), with the name, kind and spot the sheet shows and the stop carries.
+ * The place the Add to plan sheet adds: the phone's place by its id (the trip's own places and a
+ * destination's recommended ones), else the trip's idea for it (or a dropped pin opened by the
+ * idea's own id), else the place from the api (a search result, a link, chat), with the name, kind
+ * and spot the sheet shows and the stop carries. The stop carries the place's id; its card
+ * reaches the phone with the next sync.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { shownName } from '@cp/domain';
 import { useMemo } from 'react';
 
+import { usePlaceRead } from '@/data/places/place-read';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { useLiveRows } from '@/data/plan/live-rows';
+import { dataOf } from '@/data/travel-data/freshness';
 
 export interface AddSubject {
   readonly poiId: string | null;
@@ -50,14 +54,32 @@ export function useAddSubject(
     [placeId, tripId],
     ['pois', 'trip_ideas', 'trips'],
   );
+  const onPhone = rows.rows[0];
+  const read = usePlaceRead(rows.loaded && onPhone === undefined ? placeId : null);
+  const remote = dataOf(read);
   // The name in the reader's language (`@cp/domain` `shownName`), as every list shows it.
-  const readsLocal = useReadsLocalNames(rows.rows[0]?.destination_id);
+  const readsLocal = useReadsLocalNames(onPhone?.destination_id ?? remote?.destinationId);
   return useMemo(() => {
-    const place = rows.rows[0];
-    if (place === undefined) return { loaded: rows.loaded, subject: null };
+    const place: SubjectRow | undefined =
+      onPhone ??
+      (remote === undefined
+        ? undefined
+        : {
+            poi_id: remote.id,
+            idea_id: null,
+            name: remote.name,
+            name_local: remote.nameLocal,
+            category: remote.category,
+            lat: remote.lat,
+            lng: remote.lng,
+            destination_id: remote.destinationId,
+          });
+    // Still asking the api: not loaded yet, so the sheet waits rather than saying it is gone.
+    const loaded = rows.loaded && (onPhone !== undefined || read.status !== 'loading');
+    if (place === undefined) return { loaded, subject: null };
     const idea = rows.rows.find((row) => row.idea_id !== null);
     return {
-      loaded: rows.loaded,
+      loaded,
       subject: {
         poiId: place.poi_id,
         ideaId: idea?.idea_id ?? null,
@@ -67,5 +89,5 @@ export function useAddSubject(
         lng: place.lng,
       },
     };
-  }, [rows.loaded, rows.rows, readsLocal]);
+  }, [rows.loaded, rows.rows, onPhone, remote, read.status, readsLocal]);
 }
