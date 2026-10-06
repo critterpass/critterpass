@@ -195,7 +195,7 @@ export function PracticeView(props: PracticeViewProps) {
               <Text variant="bodySm" color={theme.semantic.text.secondary}>
                 {t({
                   id: 'guide.practice.checkCaption',
-                  message: `Your phone listens, and ${props.guideName} gives one tip when it's off.`,
+                  message: `Your phone listens, and ${props.guideName} gives one tip when a word needs work.`,
                 })}
               </Text>
             </Stack>

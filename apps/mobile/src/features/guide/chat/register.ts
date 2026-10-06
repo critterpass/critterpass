@@ -1,6 +1,7 @@
 /**
  * The guide area's registrations into other areas, imported once by the root layout: the guide
- * sheet (3j-1) and voice mode (3j-2) in the navigation registry (the guide button opens the
+ * sheet (3j-1), voice mode (3j-2), point and ask (3j-3) and phrase practice in the navigation
+ * registry (the guide button opens the
  * sheet, its microphone opens voice mode), the guide's offer card in
  * crew chat, the guide's live line above the crew chat composer, and the device's phrase audio.
  */
@@ -22,6 +23,11 @@ import { deviceGuideServices } from './data/guide-stream';
 export const guideRoutes = {
   /** Food and access needs (from the guide sheet's "+", trip setup and You settings). */
   dietary: (): Href => '/guide/dietary',
+  /** Point and ask: the menu camera. */
+  camera: (params: { tripId?: string } = {}): Href => ({
+    pathname: '/guide/camera',
+    params: params.tripId === undefined ? {} : { tripId: params.tripId },
+  }),
   /** Phrase practice, for a language and optionally the phrase to start on. */
   practice: (params: { tripId?: string; lang?: string; text?: string } = {}): Href => ({
     pathname: '/guide/practice',
@@ -61,6 +67,8 @@ registerScreens({
       // A question to start from (search's ASK): it waits in the composer, not sent.
       ...(params['q'] === undefined ? {} : { q: params['q'] }),
     }),
+  '3j-3': (params) =>
+    guideRoutes.camera(params['tripId'] === undefined ? {} : { tripId: params['tripId'] }),
   // Not a design screen: phrase cards and the phrase quest open practice by this key.
   'guide-practice': (params) =>
     guideRoutes.practice({

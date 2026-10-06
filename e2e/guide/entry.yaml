@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the voice consent step, phrase practice and point and ask (3j-3) from the guide
+# lab's scenes over fixed data.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/entry-scenes.yaml
+    env: { PREFIX: en }

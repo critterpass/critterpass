@@ -1,0 +1,69 @@
+appId: app.critterpass.dev
+---
+# The ways into talking, practising and the menu camera, prefixed `${PREFIX}`: the voice consent
+# step and voice mode opening from its yes, phrase practice (ready, a miss with the guide's tip, a
+# pass, the consent asked under the switch) and point and ask (3j-3: before a scan, the menu read
+# with a clash, and the stops: no camera, camera refused, offline).
+# These scenes sit at the end of the lab's list: the list is brought there first.
+- scrollUntilVisible:
+    element:
+      id: 'guide-lab-voice-consent'
+    direction: DOWN
+    timeout: 120000
+    centerElement: true
+- tapOn:
+    id: 'guide-lab-voice-consent'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-voice-consent-yes'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PREFIX}-voice-consent
+- tapOn:
+    id: 'guide-voice-consent-yes'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-voice-talk'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PREFIX}-3j-2-after-consent
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'guide-lab-voice-consent'
+    timeout: 10000
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: practice-ready, READY: guide-practice-said, SHOT: '${PREFIX}-practice-ready' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: practice-tip, READY: guide-practice-tip, SHOT: '${PREFIX}-practice-tip' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: practice-ok, READY: guide-practice-next, SHOT: '${PREFIX}-practice-ok' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: practice-consent,
+        READY: guide-practice-consent-yes,
+        SHOT: '${PREFIX}-practice-consent',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: camera-aiming, READY: guide-camera-scan, SHOT: '${PREFIX}-3j-3-aiming' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: camera-menu, READY: guide-camera-caution, SHOT: '${PREFIX}-3j-3-menu' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: camera-no-camera, READY: guide-camera-type, SHOT: '${PREFIX}-3j-3-no-camera' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: camera-denied, READY: guide-camera-denied, SHOT: '${PREFIX}-3j-3-denied' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: camera-offline, READY: guide-camera-issue-offline, SHOT: '${PREFIX}-3j-3-offline' }

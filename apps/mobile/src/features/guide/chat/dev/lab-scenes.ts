@@ -1,6 +1,7 @@
 /** Every guide lab scene by name, for the (dev) guide lab and its screenshot flows. */
 import type { ReactNode } from 'react';
 
+import { CAMERA_SCENES } from '../../camera/dev/lab-scenes-camera';
 import { CREW_SCENES } from '../../crew-mention/dev/lab-scenes-crew';
 import { DIETARY_SCENES } from '../../dietary/dev/lab-scenes-dietary';
 import { METER_SCENES } from '../../meter/dev/lab-scenes-meter';
@@ -21,6 +22,7 @@ export const GUIDE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...CITY_GUIDE_SCENES,
   ...VOICE_SCENES,
   ...PRACTICE_SCENES,
+  ...CAMERA_SCENES,
 };
 
 export const GUIDE_LAB_SCENE_NAMES: readonly string[] = Object.keys(GUIDE_LAB_SCENES);
