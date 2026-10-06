@@ -19,6 +19,9 @@ jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
 }));
 
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 
@@ -28,6 +31,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
+import type { ApiRead, SetupServices } from '../../data/services';
 import { DEV, kyotoTrip, MAYA, sceneFrame, TRIP_ID, WINSTON } from '../../scenes/fixtures';
 import { AddMustDoSheet } from '../add-must-do-sheet';
 import { MustDosStep } from '../must-dos-step';
@@ -39,6 +43,10 @@ import {
   seedMustDo,
   services,
 } from '../test-support/must-dos-harness';
+
+const browseBody: unknown = JSON.parse(
+  readFileSync(path.join(__dirname, 'fixtures', 'places-browse-kyoto.json'), 'utf8'),
+);
 
 let stack: TestLocalFirst | null = null;
 
@@ -109,6 +117,28 @@ describe('the list', () => {
     await renderWith(stack, services().value, step(WINSTON));
     expect(await screen.findByTestId('must-dos-add')).toBeTruthy();
     expect(screen.queryByTestId('must-dos-draft')).toBeNull();
+  });
+});
+
+describe('reading places through the api', () => {
+  it('shows the step and the add field at once, and the examples once the browse answers', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    await seedKyoto(stack);
+    let answer: (read: ApiRead) => void = () => undefined;
+    const pending = new Promise<ApiRead>((resolve) => {
+      answer = resolve;
+    });
+    const api: SetupServices = { ...services().value, getJson: () => pending };
+    const sheet = await renderWith(stack, api, <AddMustDoSheet tripId={TRIP_ID} />);
+    expect(await screen.findByTestId('add-must-do-field')).toBeTruthy();
+    await sheet.unmount();
+
+    await renderWith(stack, api, step(WINSTON));
+    expect(await screen.findByTestId('must-dos-add')).toBeTruthy();
+    expect(screen.queryByTestId('must-dos-examples')).toBeNull();
+    answer({ kind: 'ok', body: browseBody });
+    expect(await screen.findByTestId('must-dos-examples')).toBeTruthy();
+    expect(screen.getByLabelText(/fushimi inari taisha/i)).toBeTruthy();
   });
 });
 
