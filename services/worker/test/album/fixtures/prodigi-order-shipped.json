@@ -1,0 +1,31 @@
+{
+  "outcome": "Ok",
+  "order": {
+    "id": "ord_840796",
+    "status": {
+      "stage": "Complete",
+      "issues": [],
+      "details": {
+        "downloadAssets": "Complete",
+        "printReadyAssetsPrepared": "Complete",
+        "allocateProductionLocation": "Complete",
+        "inProduction": "Complete",
+        "shipping": "Complete"
+      }
+    },
+    "shipments": [
+      {
+        "id": "shp_77",
+        "status": "Shipped",
+        "carrier": { "name": "Royal Mail", "service": "International Standard" },
+        "tracking": {
+          "number": "RM123456789GB",
+          "url": "https://www.royalmail.com/track-your-item#/tracking-results/RM123456789GB"
+        },
+        "dispatchDate": "2026-10-08T09:30:00Z",
+        "items": [{ "itemId": "ori_1029384" }],
+        "fulfillmentLocation": { "countryCode": "GB", "labCode": "uk1" }
+      }
+    ]
+  }
+}

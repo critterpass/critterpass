@@ -211,7 +211,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. Seed Bali trip with early day, 6 members (5 simulated via API). 2. Maestro flows incl. airplane mode toggle, reconnect, alarm fire on Android emulator with time shift, iOS alarm scheduled (list API assertion). 3. Crew readiness propagation assertion via second client.
 - Tests: `maestro test e2e/trip/`
 - Done when: all flows green in CI on iOS 26 simulator + Android API 36 emulator.
-- Status: todo — `e2e/trip/` holds lab, fresh-user and cold-start flows; the seeded phases, switcher, readiness, packing, alarm, airplane-mode and conflict flows and `tools/scripts/seed-trip-day.ts` are not written
+- Status: blocked — fa08582c. `tools/scripts/seed-trip-day.ts` joins five simulated travellers through the api (the runner's `/scenario?name=trip-day`), on a trip the flow builds in the app. Green on Android: hub/phases, hub/switcher and offline/airplane-mode-android (https://github.com/critterpass/critterpass/actions/runs/37444846354) and day-of/packing (https://github.com/critterpass/critterpass/actions/runs/37438092121). Not written: day-of/readiness (I'M UP shows only before the day's first leave-by, and a trip built today starts after noon, so it needs a morning run or a seeded early day), offline/conflict (needs a write the server rejects after reconnect), alarm/android-fullscreen (needs a leave-by ahead and a clock shift) and alarm/ios-alarm-schedule (waits for AlarmKit in the native batch)
 
 ## Phase acceptance criteria
 - [ ] Hub renders all 5 phases; trip switcher when > 1 active trip; countdown follows C14

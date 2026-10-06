@@ -1,0 +1,47 @@
+appId: app.critterpass.dev
+---
+# Every album and postcard lab scene (apps/mobile/src/features/album/dev/album-scenes.tsx): the
+# album's picks, everything, by person, the guide choosing, uploads going up, waiting and failed,
+# an empty album, the postcard composer, after a send, a printed mailing on
+# its way, and the address form. ${LANG} prefixes the screenshots so compare mode pairs each with
+# its render. The full-screen viewer is left out: without the media api the lab has no photo to show.
+- runFlow: open-lab.yaml
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-best', ROOT: 'album-screen', SHOT: '${LANG}-3m-2-best' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-all', ROOT: 'album-screen', SHOT: '${LANG}-3m-2-all' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-people', ROOT: 'album-screen', SHOT: '${LANG}-3m-2-people' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-curating', ROOT: 'album-curating', SHOT: '${LANG}-3m-2-curating' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-uploading', ROOT: 'album-upload-banner', SHOT: '${LANG}-3m-2-uploading' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-waiting', ROOT: 'album-upload-banner', SHOT: '${LANG}-3m-2-waiting' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-failed', ROOT: 'album-upload-retry', SHOT: '${LANG}-3m-2-failed' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-2-empty', ROOT: 'album-empty', SHOT: '${LANG}-3m-2-empty' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-9-postcard', ROOT: 'postcard-screen', SHOT: '${LANG}-3m-9-postcard' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-9-sent', ROOT: 'postcard-sent', SHOT: '${LANG}-3m-9-sent' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-9-mailed', ROOT: 'postcard-mailing', SHOT: '${LANG}-3m-9-mailed' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-9-received', ROOT: 'postcard-received', SHOT: '${LANG}-3m-9-received' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: 'album-address', ROOT: 'album-address', SHOT: '${LANG}-album-address' }

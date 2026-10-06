@@ -1,12 +1,10 @@
 appId: app.critterpass.dev
 ---
 # An unboosted trip in its trip days shows the Boost gate over a frozen map: no crewmates, no
-# positions.
-#
-# Needs before it can pass: the sim's seed (its unboosted trip ${UNBOOSTED_TRIP_ID}, with ${UID}
-# joined).
-- launchApp
-- openLink: critterpass-dev://map/${UNBOOSTED_TRIP_ID}
+# positions, even with the simulated crew sharing on the crew's other (boosted) trip.
+- runFlow: subflows/seeded-crew.yaml
+- tapOn:
+    id: 'dev-seed-live-map-open-gate'
 - extendedWaitUntil:
     visible:
       id: 'live-gate-boost_required'

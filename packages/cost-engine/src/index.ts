@@ -129,6 +129,13 @@ export {
 } from './budget/breakdown';
 export { chooseStayMix, type StayMix, type StayMixPart, type StayRate } from './budget/stay-mix';
 export {
+  chooseStopsStayMix,
+  stopDays,
+  stopsBreakdown,
+  stopsFeasibleLow,
+  type StopEstimate,
+} from './budget/stops';
+export {
   budgetAggregate,
   type BudgetAggregate,
   type BudgetAggregateInput,

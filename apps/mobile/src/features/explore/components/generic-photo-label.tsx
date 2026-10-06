@@ -3,13 +3,13 @@
  * it), so it never passes for the place itself. Sits in the photo's start corner, opposite the
  * licence credit; nothing for the place's own photo or no photo.
  */
-import type { PlaceMediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { isGenericPhoto } from '../place-photo';
+import type { ShownPhoto } from '../profile-photo';
 
 const useStyles = makeStyles((t) => ({
   label: {
@@ -29,7 +29,7 @@ export function GenericPhotoLabel({
   at = 'bottom',
   inset = 6,
 }: {
-  readonly photo: PlaceMediaAsset | null | undefined;
+  readonly photo: ShownPhoto | null | undefined;
   readonly at?: 'top' | 'bottom';
   /** How far from that edge. */
   readonly inset?: number;

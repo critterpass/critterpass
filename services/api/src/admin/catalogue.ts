@@ -26,6 +26,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { handleUpsertPoi } from '../places/admin-upsert-poi';
+import { lastSave } from './last-save';
 import { decodeCursor, encodeCursor, withAdminReader } from './reads';
 import {
   defineAdminArea,
@@ -251,6 +252,7 @@ export function catalogueArea(pool: pg.Pool) {
               throw new DomainError('VERSION_CONFLICT', {
                 current_version: current.version,
                 current: toItem(payload.kind, current).data,
+                ...(await lastSave(tx, { targetId: payload.id })),
               });
             }
           }

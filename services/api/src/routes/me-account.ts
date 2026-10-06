@@ -1,12 +1,13 @@
 /**
  * The caller's account routes (docs/api-contracts.md §5.5, docs/api-contracts-you.md): username
- * availability for 3n-3, the account state the restore interstitial needs (answered while the
+ * availability for 3n-3, the delete-account preflight for 3n-9, the account state the restore interstitial needs (answered while the
  * account is closed), and the immediate purge test devices use. Every route acts on the session's
  * own uid only.
  */
 import { withSystem } from '@cp/db';
 import {
   accountStateSchema,
+  deletionPreflightSchema,
   DomainError,
   normalizeUsername,
   purgeNowResultSchema,
@@ -18,6 +19,7 @@ import {
 import { createRoute, z, type OpenAPIHono } from '@hono/zod-openapi';
 
 import type { AccountAuthControl } from '../account/auth-control';
+import { deletionPreflight } from '../account/preflight';
 import { purgeNow, type AppEnvTier } from '../account/purge-now';
 import type { AppEnv } from '../app';
 import {
@@ -70,6 +72,14 @@ const accountRoute = createRoute({
   tags: ['me'],
   summary: "The caller's account status and any open deletion (answered while closed)",
   responses: json(accountStateSchema, 'The account state'),
+});
+
+const preflightRoute = createRoute({
+  method: 'get',
+  path: '/v1/me/deletion/preflight',
+  tags: ['me'],
+  summary: 'What deleting the account takes, and what the crew keeps (3n-9)',
+  responses: json(deletionPreflightSchema, 'Counts, crew balances, organiser hand-overs, billing'),
 });
 
 const purgeNowRoute = createRoute({
@@ -137,6 +147,16 @@ export function registerMeAccountRoutes(app: OpenAPIHono<AppEnv>, deps: MeAccoun
                 purge_at: state.purge_at.toISOString(),
               },
       };
+      return c.json(body, 200);
+    },
+    validationHook,
+  );
+
+  app.openapi(
+    preflightRoute,
+    async (c) => {
+      const { uid } = await session(c.req.raw.headers, 'me_deletion_preflight');
+      const body = await withSystem(deps.pool, (tx) => deletionPreflight(tx, uid));
       return c.json(body, 200);
     },
     validationHook,

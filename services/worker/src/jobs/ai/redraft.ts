@@ -27,6 +27,7 @@ import {
 import { load, modelFor, type DraftModelFactory } from './draft/job-context';
 import { holdDay } from './draft/held-stops';
 import { staysPpMinor } from './draft/plan-input';
+import { scopeRedraft } from './draft/redraft-group';
 import { candidateCoverage, loadBaseDraft, saveCandidate } from './draft/redraft-store';
 import { loadRoutedLegs, onTheRoad } from './draft/road-minutes';
 import { draftChannel } from './draft/steps';
@@ -61,7 +62,7 @@ function inputOf(ctx: AgentStepContext) {
 
 async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
   const input = inputOf(ctx);
-  const { trip, input: plan, held } = await load(ctx);
+  const { trip, input: plan, held, groups } = await load(ctx);
   const base = await loadBaseDraft(
     ctx.pool,
     ctx.agentJob.userId ?? '',
@@ -72,17 +73,20 @@ async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
     new Set(held.map((stop) => stop.item.stable_id)),
   );
   if (base === null) throw new Error('base_version_gone');
-  const redone = await runRedraft(modelFor(deps.model, ctx), {
-    ...plan,
+  // On a trip of several areas the day is redone in its own area, on its group's days.
+  const scoped = scopeRedraft(groups, input.day, base.itinerary);
+  const asked = await runRedraft(modelFor(deps.model, ctx), {
+    ...(scoped?.group.input ?? plan),
     // The organiser reads the redraft's title, summary and reasons: they are written in her language.
     ...(await readerLocale(ctx.pool, ctx.agentJob.userId)),
-    base: base.itinerary,
-    dayNo: input.day,
+    base: scoped?.base ?? base.itinerary,
+    dayNo: scoped?.dayNo ?? input.day,
     reasons: input.reasons,
     note: input.note,
     asks: await noteAsks(deps.decisions, input.note, ctx.usage),
     chat: base.chat,
   });
+  const redone = scoped === null ? asked : scoped.back(asked);
   // The stops she added by hand on the day stay exactly as she placed them, whatever came back.
   const outcome = { ...redone, day: holdDay(redone.day, held, plan.travel).day };
   return { trip, plan, base: base.itinerary, outcome };

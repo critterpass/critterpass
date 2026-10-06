@@ -24,6 +24,7 @@ import { TRIP_DAY_QUEUES, type BriefingLine } from '@cp/domain';
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { dayGuide } from '../quests/day-context';
 import { briefingCandidates } from './briefing-candidates';
 import {
   armNextBriefing,
@@ -36,12 +37,13 @@ export type BriefingWriter = (
   onUsage: (record: AiUsageRecord) => Promise<void>,
 ) => Pick<Gateway, 'callModel'>;
 
-async function personaOfTrip(tx: pg.PoolClient, tripId: string): Promise<PersonaId> {
-  const { rows } = await tx.query<{ slug: string | null }>(
-    'SELECT g.slug FROM trips t LEFT JOIN guides g ON g.id = t.guide_id WHERE t.id = $1',
-    [tripId],
-  );
-  const parsed = personaIdSchema.safeParse(rows[0]?.slug);
+/** The briefing of a day is in that day's guide's voice. */
+async function personaOfDay(
+  tx: pg.PoolClient,
+  tripId: string,
+  localDate: string,
+): Promise<PersonaId> {
+  const parsed = personaIdSchema.safeParse((await dayGuide(tx, tripId, localDate))?.slug);
   return parsed.success ? parsed.data : 'guest';
 }
 
@@ -129,7 +131,7 @@ export async function runBriefing(
     const tz = briefingZone(row, localDate);
     const scope = { tripId: row.trip_id, userId: row.user_id, localDate, tz, now };
     const candidates = await briefingCandidates(tx, scope);
-    return { row, candidates, persona: await personaOfTrip(tx, row.trip_id) };
+    return { row, candidates, persona: await personaOfDay(tx, row.trip_id, localDate) };
   });
   if (setup === null) return { outcome: 'not_going' };
   const { row, candidates, persona } = setup;

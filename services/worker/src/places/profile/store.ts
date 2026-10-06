@@ -88,6 +88,25 @@ export async function spentTodayMicros(pool: pg.Pool, now: Date): Promise<number
   });
 }
 
+/** The error a run skipped at the spent daily cap leaves; readers queue nothing until midnight UTC. */
+export const DAILY_CAP_ERROR = 'daily_cap';
+
+/**
+ * Marks a place whose run stopped at the spent daily cap (`failed`, `daily_cap`, stamped now), so
+ * its readers queue no new run until the cap resets. A ready or declined profile is left as it is.
+ */
+export async function markCapped(pool: pg.Pool, poiId: string, now: Date): Promise<void> {
+  await withSystem(pool, (tx) =>
+    tx.query(
+      `INSERT INTO place_profiles (poi_id, status, error, requested_at, updated_at)
+       VALUES ($1, 'failed', $3, $2, $2)
+       ON CONFLICT (poi_id) DO UPDATE SET status = 'failed', error = $3, updated_at = $2
+         WHERE place_profiles.status NOT IN ('ready', 'declined')`,
+      [poiId, now, DAILY_CAP_ERROR],
+    ),
+  );
+}
+
 /** Starts a run: a new row is pending; a ready profile stays readable while it is rewritten. */
 export async function markRunStarted(pool: pg.Pool, poiId: string, now: Date): Promise<void> {
   await withSystem(pool, (tx) =>

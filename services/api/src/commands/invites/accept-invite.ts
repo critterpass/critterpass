@@ -5,10 +5,10 @@
  * row lock and a full trip waitlists the joiner (`result.waitlisted`, never an error). Joining a
  * crew whose trip is confirmed or under way seats the joiner on that trip too, whatever brought
  * them in (./join-trip.ts): no proposal will reach them, and a friend who joins mid-trip is there
- * for the plan and the money, not the chat alone. A personal
- * link opened by someone other than its invitee joins them through a generic seat and never
- * reveals or consumes the named one. Every failure that could confirm a code exists answers the
- * same `CODE_INVALID`; a verified personal link may say it expired or was revoked.
+ * for the plan and the money, not the chat alone. A personal link opened by someone other than its
+ * invitee joins them through a generic seat and never reveals or consumes the named one. Every
+ * failure that could confirm a code exists answers the same `CODE_INVALID`; a verified personal
+ * link may say it expired or was revoked. The join carries what the caller presented (`proof`).
  */
 import { appendDomainEvent, outbox } from '@cp/db';
 import {
@@ -33,7 +33,7 @@ import { attributeReferral } from '../referrals/attribute';
 import type { InviteCommandDeps } from './deps';
 import { seatTokenHash } from './deps';
 import { seatOnOpenTrips } from './join-trip';
-import { claimTripSeat, joinCrew, type SeatClaim } from './seat-claim';
+import { claimTripSeat, joinCrew, type JoinProof, type SeatClaim } from './seat-claim';
 
 interface JoinTarget {
   readonly crewId: string;
@@ -44,6 +44,7 @@ interface JoinTarget {
   /** The generic code this join counts one use of. */
   readonly code: string | null;
   readonly forwarded: boolean;
+  readonly proof: JoinProof;
 }
 
 interface CodeRow {
@@ -74,6 +75,7 @@ async function codeTarget(
     inviterId: null,
     code,
     forwarded,
+    proof: { code },
   };
 }
 
@@ -126,6 +128,7 @@ async function seatTarget(
     inviterId: invite.inviter_id,
     code: null,
     forwarded: false,
+    proof: { seatTokenHash: seatTokenHash(seat) },
   };
 }
 
@@ -159,6 +162,7 @@ async function inAppTarget(
     inviterId: invite.inviter_id,
     code: null,
     forwarded: false,
+    proof: { inviteId },
   };
 }
 
@@ -226,7 +230,7 @@ export function createAcceptInviteCommand(deps: InviteCommandDeps) {
     handle: async (tx, payload, ctx): Promise<AcceptInviteResult> => {
       const now = ctx.clock.serverNow;
       const target = await resolveTarget(tx, deps, payload, ctx.uid, now);
-      const joined = await joinCrew(tx, target.crewId, ctx.uid);
+      const joined = await joinCrew(tx, target.crewId, ctx.uid, target.proof);
       // A new member gets on every trip of the crew that is locked in; someone already in the
       // crew only on the trip their invite names (the others they chose for themselves).
       const open =

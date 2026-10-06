@@ -5,6 +5,9 @@
  * Locking rooms moves setup on and prompts each member for their must-do exactly once. A member
  * edits only their own must-dos, a place someone already has merges with both avatars, each change
  * queues the fit check, and tracking a lottery sets reminders without entering anything.
+ *
+ * On a trip with two stops the stays fill the stops in order and each is priced from its own
+ * stop's index; a stay that crosses stops, or that its stop does not list, is refused.
  */
 import { withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -263,5 +266,109 @@ describe('must-dos', () => {
       [rows[0]?.id],
     );
     expect(timers.rowCount).toBe(2);
+  });
+});
+
+describe('rooms on a trip with two stops', () => {
+  let route: SetupCrew;
+  const choose = (stayOptionId: string, stays?: [string, number][]) =>
+    harness.run(route.organiser, 'set_stay_choice', {
+      trip_id: route.tripId,
+      stay_option_id: stayOptionId,
+      ...(stays === undefined
+        ? {}
+        : { stays: stays.map(([stay_type, nights]) => ({ stay_type, nights })) }),
+    });
+  const stored = async () => {
+    const { rows } = await harness.pool.query<{
+      rooms: { stay_key: string; stay_type: string; stay_nights: number; nightly_minor: number }[];
+    }>('SELECT rooms FROM room_plans WHERE trip_id = $1', [route.tripId]);
+    // One line per stay: its first room, a double.
+    return (rows[0]?.rooms ?? [])
+      .filter((room, at, all) => all.findIndex((r) => r.stay_key === room.stay_key) === at)
+      .map((room) => [room.stay_key, room.stay_type, room.stay_nights, room.nightly_minor]);
+  };
+
+  beforeAll(async () => {
+    route = await buildSetupCrew(harness, 3);
+    const locked = await harness.run(route.organiser, 'lock_trip_dates', {
+      trip_id: route.tripId,
+      start: day(60),
+      end: day(64),
+    });
+    if (locked.status !== 200) throw new Error(JSON.stringify(locked.body));
+    // Kyoto two nights (ryokan, apartment), then Osaka two nights (hotel, a cheaper apartment).
+    await withSystem(harness.pool, async (tx) => {
+      const { rows: trip } = await tx.query<{ destination_id: string; crew_id: string }>(
+        'SELECT destination_id, crew_id FROM trips WHERE id = $1',
+        [route.tripId],
+      );
+      const { rows: next } = await tx.query<{ id: string }>(
+        `INSERT INTO destinations (slug, name, coverage, currency, tz)
+         VALUES ('osaka-' || gen_random_uuid(), 'Osaka', 'guest', 'USD', 'Asia/Tokyo') RETURNING id`,
+      );
+      const kyoto = trip[0]!.destination_id;
+      const osaka = next[0]!.id;
+      await tx.query(
+        `INSERT INTO destination_cost_indices (destination_id, stay_type, nightly_minor_low,
+           nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, source, sourced_on,
+           reviewed_at)
+         VALUES ($1, 'ryokan', 9000, 11000, 2750, 1250, 'USD', 'editorial', current_date, now()),
+                ($1, 'apartment', 4000, 5000, 2750, 1250, 'USD', 'editorial', current_date, now()),
+                ($2, 'hotel', 6000, 8000, 2000, 1000, 'USD', 'editorial', current_date, now()),
+                ($2, 'apartment', 3000, 3500, 2000, 1000, 'USD', 'editorial', current_date, now())`,
+        [kyoto, osaka],
+      );
+      await tx.query(
+        `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+         VALUES ($1, $2, 1, $3, 2), ($1, $2, 2, $4, 2)`,
+        [route.tripId, trip[0]!.crew_id, kyoto, osaka],
+      );
+    });
+  }, 120_000);
+
+  it("prices each stay from its own stop's index, and gives every stop a stay by default", async () => {
+    expect((await choose('apartment')).status).toBe(200);
+    expect(await stored()).toEqual([
+      ['stay-1', 'apartment', 2, 10_000],
+      ['stay-2', 'apartment', 2, 7_000],
+    ]);
+    expect(
+      (
+        await choose('ryokan', [
+          ['ryokan', 1],
+          ['apartment', 1],
+          ['hotel', 2],
+        ])
+      ).status,
+    ).toBe(200);
+    expect(await stored()).toEqual([
+      ['stay-1', 'ryokan', 1, 22_000],
+      ['stay-2', 'apartment', 1, 10_000],
+      ['stay-3', 'hotel', 2, 16_000],
+    ]);
+  });
+
+  it('refuses a stay that runs from one stop into the next, and one its stop does not list', async () => {
+    const crossing = await choose('apartment', [
+      ['apartment', 3],
+      ['apartment', 1],
+    ]);
+    expect(errorOf(crossing)).toMatchObject({
+      code: 'VALIDATION',
+      detail: { reason: 'stay_nights', stop: 1 },
+    });
+    const noRyokan = { code: 'STATE_INVALID', detail: { reason: 'stay_unavailable' } };
+    expect(
+      errorOf(
+        await choose('ryokan', [
+          ['ryokan', 2],
+          ['ryokan', 2],
+        ]),
+      ),
+    ).toMatchObject(noRyokan);
+    expect(errorOf(await choose('ryokan'))).toMatchObject(noRyokan);
+    // The plan chosen before is still there.
+    expect((await stored()).map((stay) => stay[0])).toEqual(['stay-1', 'stay-2', 'stay-3']);
   });
 });

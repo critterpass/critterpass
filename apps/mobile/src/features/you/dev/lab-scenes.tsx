@@ -8,18 +8,16 @@ import type { ReactNode } from 'react';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { memberFirstName } from '@/ui/people/member-name';
 
-import { ClosedView, type ClosedMode } from '../account/closed-view';
-import { DeleteView, type DeleteStep } from '../account/delete-view';
-import { SignOutView } from '../account/sign-out-view';
 import { featuredLanguages, languageChoices } from '../language/language-names';
 import { CurrencySection } from '../language/currency-section';
 import { LanguageView } from '../language/language-view';
 import type { ProfileModel } from '../profile/profile-model';
 import { ProfileView } from '../profile/profile-view';
+import { ACCOUNT_SCENES } from './lab-scenes-account';
 import { FormerMemberChat } from './lab-scenes-former';
 import { EDIT_SCENES } from './lab-scenes-edit';
 import { HISTORY_SCENES } from './lab-scenes-history';
-import { Settings } from './lab-scenes-settings';
+import { Settings, Sound } from './lab-scenes-settings';
 
 const noop = () => undefined;
 
@@ -137,51 +135,6 @@ function Profile({ model }: { readonly model: ProfileModel | null }) {
   );
 }
 
-function Delete({ step, online = true }: { readonly step: DeleteStep; readonly online?: boolean }) {
-  return (
-    <DeleteView
-      step={step}
-      online={online}
-      busy={false}
-      passPlus
-      reason={step === 'hold' ? 'too_many_pings' : null}
-      problem={null}
-      onContinue={noop}
-      onReason={noop}
-      onDelete={noop}
-      onKeep={noop}
-      onBack={noop}
-    />
-  );
-}
-
-function Closed({ mode }: { readonly mode: ClosedMode }) {
-  return (
-    <ClosedView
-      mode={mode}
-      purgeAt={mode === 'erased' ? null : '2026-10-26T09:00:00Z'}
-      closedOn={new Date('2026-09-26T09:00:00Z')}
-      busy={false}
-      problem={null}
-      onKeep={noop}
-      onClose={noop}
-    />
-  );
-}
-
-function SignOut({ saved }: { readonly saved: boolean }) {
-  return (
-    <SignOutView
-      saved={saved}
-      busy={false}
-      problem={null}
-      onSignOut={noop}
-      onSavePass={noop}
-      onBack={noop}
-    />
-  );
-}
-
 /** In the language the lab runs in, as the real screen is: current first, names in that language. */
 function Language({ open = false }: { readonly open?: boolean }) {
   const locale = useLocale();
@@ -273,18 +226,13 @@ export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...HISTORY_SCENES,
   ...EDIT_SCENES,
   '3n-2-settings': () => <Settings />,
+  '3n-7-sound': () => <Sound />,
+  '3n-7-music-off': () => <Sound musicOn={false} />,
   '3n-8-language': () => <Language />,
   '3n-8-language-all': () => <Language open />,
   'former-member-crew': () => <Profile model={withFormer()} />,
   'former-member-chat': () => <FormerMemberChat />,
-  'sign-out-saved': () => <SignOut saved />,
-  'sign-out-unsaved': () => <SignOut saved={false} />,
-  '3n-9-delete': () => <Delete step="review" />,
-  '3n-10-hold': () => <Delete step="hold" />,
-  '3n-10-offline': () => <Delete step="hold" online={false} />,
-  '3n-11-closed': () => <Closed mode="closed" />,
-  '3n-11-erased': () => <Closed mode="erased" />,
-  '3n-11-restore': () => <Closed mode="restore" />,
+  ...ACCOUNT_SCENES,
 };
 
 export const YOU_SCENE_NAMES = Object.keys(YOU_SCENES);

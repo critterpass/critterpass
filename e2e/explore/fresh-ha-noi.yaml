@@ -1,0 +1,87 @@
+appId: app.critterpass.dev
+---
+# A brand-new traveller opens a destination that has no curated media, read from staging: Hà Nội,
+# whose places are machine picks with AI profiles. Explore's front page → Hà Nội: the hero shows a
+# pick's photo as its cover and the pick cards show their photos. MAP OF HÀ NỘI opens the places
+# map on the picks (sights first, never a dead screen), and its list shows the same places with
+# their photos.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: ../home/subflows/onboard.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'home-guide-.*'
+    timeout: 60000
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore
+- extendedWaitUntil:
+    visible:
+      id: 'explore-home'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'explore-home-vn-ha-noi'
+    direction: DOWN
+    timeout: 60000
+- tapOn:
+    id: 'explore-home-vn-ha-noi'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'explore-picks'
+    timeout: 45000
+# The cover and the pick photos load after the page.
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-3d-1-ha-noi-cover
+- scrollUntilVisible:
+    element:
+      id: 'explore-pick-0'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3d-1-ha-noi-picks
+- scrollUntilVisible:
+    element:
+      id: 'explore-open-map'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'explore-open-map'
+# The map opens on its peek with the count of places in view.
+- extendedWaitUntil:
+    visible:
+      id: 'places-peek'
+    timeout: 60000
+- assertVisible:
+    id: 'places-map-canvas'
+- waitForAnimationToEnd:
+    timeout: 8000
+# The tiles and layers draw after the screen: a fixed wait for them (an id that never shows).
+- extendedWaitUntil:
+    visible:
+      id: 'places-tiles-wait'
+    timeout: 10000
+    optional: true
+- takeScreenshot: en-7c-1-ha-noi-map
+- tapOn:
+    id: 'places-peek-list'
+- extendedWaitUntil:
+    visible:
+      id: 'places-[a-z]+-0'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7c-3-ha-noi-list

@@ -50,6 +50,10 @@ msgstr ""
 msgid "you.language.more"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.passCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.inDays"
 msgstr ""
@@ -78,6 +82,18 @@ msgstr ""
 msgid "you.settings.languageBoth"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripCoOrganiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/music-line.ts
+msgid "you.settings.musicFollows"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripHandOver"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.today"
 msgstr ""
@@ -92,6 +108,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.twentyFourHour"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.voicesLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -269,12 +289,20 @@ msgstr ""
 msgid "you.avatar.formLabel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.voices"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
 msgid "you.currency.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.chava"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -309,8 +337,16 @@ msgstr ""
 msgid "you.settings.downloadData"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.downloadFirst"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.trips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.musicLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -323,6 +359,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.effects"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.effectsVolume"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -348,6 +392,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.expenses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.sardi"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.follow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -378,6 +430,10 @@ msgstr ""
 msgid "you.currency.fromAirport"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.tokek"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.getPassPlus"
 msgstr ""
@@ -391,8 +447,8 @@ msgstr ""
 msgid "you.delete.goes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.haptics"
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.haptics"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
@@ -514,6 +570,10 @@ msgstr ""
 msgid "you.language.name.ko"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.pon"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.languageCurrency"
 msgstr ""
@@ -571,6 +631,14 @@ msgstr ""
 msgid "you.settings.location"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.manageSubscription"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.ajo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.mentions"
@@ -582,6 +650,22 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.miLong"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.music"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.music"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.musicVolume"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.quietLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
@@ -605,6 +689,10 @@ msgstr ""
 msgid "you.profile.crew.none"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripAlone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.normal"
 msgstr ""
@@ -618,6 +706,10 @@ msgstr ""
 msgid "you.settings.notifications"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/music-line.ts
+msgid "you.settings.musicOff"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.off"
@@ -629,6 +721,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/music-line.ts
+msgid "you.settings.musicOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
@@ -651,11 +747,23 @@ msgstr ""
 msgid "you.avatar.initialsTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.paco"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.backPass"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.billedPlay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.billedAppStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.passPlus"
 msgstr ""
 
@@ -704,6 +812,10 @@ msgstr ""
 msgid "you.export.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.playMusic"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.pt"
 msgstr ""
@@ -730,6 +842,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.quiet"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -800,6 +916,10 @@ msgstr ""
 msgid "you.settings.feedback"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
 msgstr ""
@@ -818,6 +938,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.settleUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.owedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -853,6 +981,10 @@ msgstr ""
 msgid "you.profile.since"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.lundi"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.account.incomplete"
@@ -872,6 +1004,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.stamp.soon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -906,6 +1042,10 @@ msgstr ""
 msgid "you.settings.soundEffectsLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.stickers"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.feedbackLine"
 msgstr ""
@@ -918,8 +1058,8 @@ msgstr ""
 msgid "you.settings.talkOutLoud"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.hapticsLine"
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.hapticsLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
@@ -958,12 +1098,20 @@ msgstr ""
 msgid "you.delete.keeps"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.stickersLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
 msgid "you.profile.retakeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.unsavedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closesInstant"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
@@ -1076,8 +1224,20 @@ msgstr ""
 msgid "you.edit.save.cooldown"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.owe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.activeTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.owed"
 msgstr ""
 
 #. placeholder {0}: until ?? ''
@@ -1131,6 +1291,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.profile"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripFallback"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx

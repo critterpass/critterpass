@@ -45,6 +45,8 @@ export interface AccountControl {
   sessions(uid: string): Promise<readonly SessionSummary[]>;
   /** False when the session is not (or no longer) one of the user's. */
   revokeSession(uid: string, sessionId: string): Promise<boolean>;
+  /** Ends every app session of the user (never a console session); answers how many were live. */
+  revokeAllSessions(uid: string): Promise<number>;
   ban(uid: string, input: BanInput): Promise<void>;
   unban(uid: string): Promise<void>;
 }
@@ -159,6 +161,12 @@ export function createAccountControl(appAuth: AppAuthHandle, pool: pg.Pool): Acc
       await (await context()).internalAdapter.deleteSession(session.token);
       await fanOutSessionRevoked(pool, uid);
       return true;
+    },
+    async revokeAllSessions(uid) {
+      const live = (await liveSessions(uid)).length;
+      await (await context()).internalAdapter.deleteUserSessions(uid);
+      await fanOutSessionRevoked(pool, uid);
+      return live;
     },
     async ban(uid, input) {
       const adapter = (await context()).internalAdapter;

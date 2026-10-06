@@ -245,10 +245,28 @@ export const QUEUES = {
     keepCompletedSeconds: DAY,
     cron: { expr: '*/5 * * * *', tz: 'UTC' },
   }),
+  // Every minute: one health snapshot per monitored service for the console's Services screen.
+  'ops.service_health': spec({
+    policy: 'stately',
+    retryLimit: 0,
+    expireInSeconds: 50,
+    keepCompletedSeconds: 60 * 60,
+    cron: { expr: '* * * * *', tz: 'UTC' },
+  }),
+  // Hourly: quota and billed spend from the vendors that report usage.
+  'ops.vendor_usage': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 5 * 60,
+    keepCompletedSeconds: DAY,
+    cron: { expr: '7 * * * *', tz: 'UTC' },
+  }),
   // Home: one inbox fan-out per domain event (idempotent per (event, user) in the table), a nudge
   // delivered at its target's engagement hour, the morning tip scan (and a rerun per crew when a
   // fare drops), and the countdown target recomputed when its inputs change.
   'inbox.fanout': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
+  'feedback.forward': spec({ policy: 'exclusive', deadLetter: true }),
+  'feedback.fix_shipped': spec({ policy: 'exclusive', deadLetter: true }),
   'nudge.dispatch': spec({ policy: 'exclusive', deadLetter: true }),
   'tips.generate': spec({
     policy: 'exclusive',
@@ -319,8 +337,12 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'og.render': 'Draws or purges one invite or referral share card',
   'ops.backup': 'Backs the database up to object storage',
   'ops.ai_cost_guard': 'Checks AI spend against its caps; pauses a tier over its cap',
+  'ops.service_health': 'Writes a health snapshot for every monitored service',
+  'ops.vendor_usage': 'Reads quota and billed spend from vendors with a usage API',
   'compliance.check': 'Screens text created offline',
   'inbox.fanout': "Files a domain event's inbox items and settles the ones it answers",
+  'feedback.forward': 'Triages a feedback ticket and files it in the issue tracker',
+  'feedback.fix_shipped': 'Tells a reporter the fix they asked for is in their app',
   'nudge.dispatch': "Delivers a nudge at its target's engagement hour",
   'tips.generate': "Finds data-backed tips for crews' Home strip",
   'countdown.recompute': "Recomputes trip participants' countdown targets",

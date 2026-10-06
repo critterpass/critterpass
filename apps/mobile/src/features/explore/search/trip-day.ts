@@ -1,8 +1,9 @@
 /**
  * Search on the trip's own days. On a day of the trip she is somewhere: rows run nearest first,
  * from where she is (the phone's last known spot) or else from the day's next stop, so "ca phe"
- * does not lead with a café up a mountain pass. A search opened for a day keeps that day: a
- * place's fit line names that day when the place fits it.
+ * does not lead with a café up a mountain pass, though never above a place the search ranks
+ * higher. A search opened for a day keeps that day: a place's fit line names that day when the
+ * place fits it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { toLocalWallTime, type PlaceFit } from '@cp/domain';
@@ -49,19 +50,37 @@ export function tripDayFrom(here: Point | null, nextStop: Point | null): Point |
   return metresBetween(here, nextStop) <= AWAY_M ? here : nextStop;
 }
 
-/** `rows` nearest first from `from`; rows with no spot keep their order after the rest. */
-export function nearestRows<T extends { readonly lat: number | null; readonly lng: number | null }>(
-  rows: readonly T[],
-  from: Point | null,
-): T[] {
+interface RankedRow {
+  readonly lat: number | null;
+  readonly lng: number | null;
+  readonly source?: string;
+  readonly category?: string | null;
+  readonly recommended?: boolean;
+}
+
+/**
+ * `rows` nearest first from `from`, but only among neighbours of one standing: the search's own
+ * order says which places stand higher (the crew's ideas and the phone's places before the
+ * server's, the api's picks with the editors' must-sees first, a hotel after a place of the same
+ * standing), so "Marble Mountains" keeps the sight above a nearer hotel named after it. A pick
+ * never moves; plain places run nearest first, rows with no spot after the rest of their run.
+ */
+export function nearestRows<T extends RankedRow>(rows: readonly T[], from: Point | null): T[] {
   if (from === null) return [...rows];
   const metres = (row: T) =>
     row.lat === null || row.lng === null
       ? Number.POSITIVE_INFINITY
       : metresBetween(from, { lat: row.lat, lng: row.lng });
+  let run = 0;
+  let standing: string | null = null;
   return rows
-    .map((row, index) => ({ row, index, metres: metres(row) }))
-    .sort((a, b) => a.metres - b.metres || a.index - b.index)
+    .map((row, index) => {
+      const own = row.recommended === true ? null : `${row.source}:${row.category === 'stay'}`;
+      if (own === null || own !== standing) run += 1;
+      standing = own;
+      return { row, index, run, metres: metres(row) };
+    })
+    .sort((a, b) => a.run - b.run || a.metres - b.metres || a.index - b.index)
     .map((entry) => entry.row);
 }
 

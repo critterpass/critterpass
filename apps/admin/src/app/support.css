@@ -1,0 +1,99 @@
+/* The support lookup and the traveller page. */
+.lookup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-8) var(--space-8) var(--space-8) var(--space-16);
+  border: 2px solid var(--color-yellow);
+  border-radius: var(--radius-md);
+  background: var(--color-ink-930);
+}
+.lookup input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 17px;
+  outline: none;
+}
+.user-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-20);
+  align-items: center;
+}
+.user-avatar {
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 3px solid var(--color-ink-900);
+  outline: 2px solid var(--semantic-state-urgent);
+  background: var(--semantic-state-urgent);
+  color: var(--color-ink-900);
+  font-family: Archivo, system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 34px;
+}
+.user-name {
+  margin: 0;
+  font-family: Archivo, system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 32px;
+  text-transform: uppercase;
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: var(--space-8) var(--space-20);
+  margin: var(--space-8) 0 0;
+}
+.facts dt {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-200);
+}
+.facts dd {
+  margin: 0;
+}
+.private-note {
+  margin: 0 calc(-1 * var(--space-16)) calc(-1 * var(--space-16));
+  padding: var(--space-12) var(--space-16);
+  border-top: 1px solid var(--color-ink-700);
+  background: var(--color-ink-900);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: var(--color-ink-150);
+}
+.panel {
+  padding: 0;
+}
+.panel > .card-head {
+  padding: var(--space-12) var(--space-16);
+  margin: 0;
+}
+.panel-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  border-top: 1px solid var(--color-ink-700);
+}
+.panel > .state,
+.panel > .muted {
+  padding: var(--space-16);
+}
+.btn-sm {
+  padding: var(--space-4) var(--space-10);
+  font-size: 11px;
+}
+@media (max-width: 720px) {
+  .user-head {
+    grid-template-columns: 1fr;
+  }
+}

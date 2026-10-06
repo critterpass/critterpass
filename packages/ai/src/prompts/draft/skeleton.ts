@@ -8,6 +8,8 @@
  * outline also answers the must-dos members typed by hand (./wish-answers.ts). The request itself
  * is built in ./skeleton-request.ts.
  */
+import { landsOn, leavesOn } from '@cp/planner';
+
 import { placeCore } from './core-days';
 import { assignMeals, assignSpares, keepWhatFits, topUpDays } from './skeleton-days';
 import { checkWishAnswers, whenOf, withWishAnswers, type WishAnswer } from './wish-answers';
@@ -136,13 +138,16 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
     lightest?.mustDoIds.push(slot.mustDoId);
   }
   // A wish for a morning is not left for the morning the crew leaves when an earlier one is free.
-  const last = days[days.length - 1];
+  const last = days.find((day) => leavesOn(input.frame, day.dayNo - 1));
   for (const mustDoId of [...(last?.mustDoIds ?? [])]) {
     const slot = pools.mustDos.find((s) => s.mustDoId === mustDoId);
     const when = whenOf(input, mustDoId);
     if (last === undefined || slot === undefined || !MORNING_WISHES.has(when ?? '')) continue;
     const earlier = days.find(
-      (day) => day.dayNo > 1 && day.dayNo < last.dayNo && slot.openDays.includes(day.dayNo),
+      (day) =>
+        !landsOn(input.frame, day.dayNo - 1) &&
+        day.dayNo < last.dayNo &&
+        slot.openDays.includes(day.dayNo),
     );
     if (earlier === undefined) continue;
     last.mustDoIds.splice(last.mustDoIds.indexOf(mustDoId), 1);

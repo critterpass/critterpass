@@ -4,7 +4,7 @@
  * who is travelling, whether anyone shares visits, the destination's critter sets and co-presence
  * spawns, and whether the trip still has money to settle. Visit history itself is never read.
  */
-import { withGuideReader, withSystem } from '@cp/db';
+import { tripAreas, withGuideReader, withSystem } from '@cp/db';
 import {
   EXPENSE_CATEGORIES,
   localSchedule,
@@ -26,6 +26,48 @@ export interface QuestTrip {
   readonly guide_slug: string | null;
 }
 
+export interface DayGuide {
+  readonly slug: string;
+  readonly name: string;
+}
+
+/**
+ * The guide of one day of a trip. A trip with several stops is guided on a later stop's days by
+ * that stop's own city critter, where guides go by city; a day trip keeps the guide of the stop it
+ * leaves from. The first stop's days, a one-stop trip's, and every day while guides do not go by
+ * city have the trip's own guide. Runs as the system.
+ */
+export async function dayGuide(
+  tx: pg.PoolClient,
+  tripId: string,
+  /** Null when the day is not known: the trip's own guide. */
+  localDate: string | null,
+): Promise<DayGuide | null> {
+  const { rows } = await tx.query<{
+    guide_id: string | null;
+    day_no: number | null;
+    per_city: boolean;
+  }>(
+    `SELECT t.guide_id, ($2::date - t.start_date) + 1 AS day_no,
+            EXISTS (SELECT 1 FROM ops.ops_config c
+                     WHERE c.key = 'guides.per_city' AND c.value = 'true'::jsonb) AS per_city
+       FROM trips t WHERE t.id = $1`,
+    [tripId, localDate],
+  );
+  const trip = rows[0];
+  if (trip === undefined) return null;
+  let guideId = trip.guide_id;
+  const dayNo = trip.day_no;
+  if (trip.per_city && dayNo !== null) {
+    const areas = await tripAreas(tx, tripId);
+    const stop = areas?.stops.find((row) => dayNo >= row.firstDay && dayNo <= row.lastDay);
+    if (stop !== undefined && stop.position > 1 && stop.guideId !== null) guideId = stop.guideId;
+  }
+  if (guideId === null) return null;
+  const guide = await tx.query<DayGuide>('SELECT slug, name FROM guides WHERE id = $1', [guideId]);
+  return guide.rows[0] ?? null;
+}
+
 /** A trip travelling on `localDate`: the date within its dates, whatever planning stage it reached. */
 export async function questTrip(
   tx: pg.PoolClient,
@@ -35,19 +77,21 @@ export async function questTrip(
   const { rows } = await tx.query<QuestTrip>(
     `SELECT t.id, t.crew_id, coalesce(t.tz, d.tz, 'UTC') AS tz, t.start_date::text AS start_date,
             t.end_date::text AS end_date, t.destination_id, coalesce(d.name, '') AS place,
-            g.slug AS guide_slug,
+            NULL::text AS guide_slug,
             (SELECT p.user_id FROM trip_participants p
               WHERE p.trip_id = t.id AND p.role = 'organiser' AND p.rsvp <> 'out'
               ORDER BY p.created_at LIMIT 1) AS organiser_id
        FROM trips t
        LEFT JOIN destinations d ON d.id = t.destination_id
-       LEFT JOIN guides g ON g.id = t.guide_id
       WHERE t.id = $1 AND t.status NOT IN ('voting', 'cancelled', 'archived')
         AND t.start_date IS NOT NULL AND t.end_date IS NOT NULL
         AND $2::date BETWEEN t.start_date AND t.end_date`,
     [tripId, localDate],
   );
-  return rows[0];
+  const trip = rows[0];
+  if (trip === undefined) return undefined;
+  // The quests of a day are written in that day's guide's voice.
+  return { ...trip, guide_slug: (await dayGuide(tx, tripId, localDate))?.slug ?? null };
 }
 
 /** The local day as UTC instants: [00:00, next 00:00). */

@@ -10,6 +10,10 @@
  *   pnpm tsx tools/scripts/live-map-sim/sim.ts --api http://localhost:8787 --db <owner url> \
  *       [--join <uid>] [--speed 4] [--minutes 10]
  *       Drives a running stack; `--join` adds an existing user (a device) to the crew and both trips.
+ *   pnpm tsx tools/scripts/live-map-sim/sim.ts --api <staging api> --code <crew code> --trip <id> \
+ *       --poi <id> [--speed 4] [--minutes 10]
+ *       Device runs (no database): the crew and trips come from the api's dev seed; the crewmates
+ *       join with the code over HTTP (the shard runner's `/scenario?name=live-map`).
  */
 import { randomUUID } from 'node:crypto';
 import { parseArgs } from 'node:util';
@@ -17,17 +21,15 @@ import { parseArgs } from 'node:util';
 import { generateUuidV7 } from '@cp/domain';
 import pg from 'pg';
 
-import { CAMPUHAN_RIDGE, crewMembers, pointAlong, trackLength, type SimMember } from './routes';
+import { driveByCode } from './by-code';
+import { ride, type Rider, type RiderSession } from './ride';
+import { CAMPUHAN_RIDGE, crewMembers } from './routes';
 import { seedLiveMapCrew, type SeededCrew } from './seed';
 import { startSimStack, type Http } from './stack';
 
-const TICK_MS = 5000;
 const log = (line: string) => process.stdout.write(`${line}\n`);
 
-interface Session {
-  readonly uid: string;
-  readonly cookie: string;
-}
+type Session = RiderSession;
 
 async function signIn(http: Http): Promise<Session> {
   const response = await http('/api/auth/sign-in/anonymous', { method: 'POST', body: '{}' });
@@ -63,12 +65,6 @@ async function command(
   const body = (await response.json()) as Record<string, unknown>;
   if (!response.ok) throw new Error(`${cmd}: HTTP ${response.status} ${JSON.stringify(body)}`);
   return body['result'] as Record<string, unknown>;
-}
-
-interface Rider {
-  readonly member: SimMember;
-  readonly session: Session;
-  readonly shareId: string;
 }
 
 export interface SimRun {
@@ -113,47 +109,12 @@ export async function startCrew(
   });
   log(`meet-up ${meetup['id'] as string} at ${CAMPUHAN_RIDGE.name}`);
 
-  const started = Date.now();
-  const tick = async () => {
-    const elapsedS = (Date.now() - started) / 1000;
-    await Promise.all(
-      riders.map(async (rider) => {
-        const travelled = rider.member.speedMps * options.speed * elapsedS;
-        const done = travelled >= trackLength(rider.member.track);
-        const at = pointAlong(rider.member.track, travelled);
-        const response = await http('/v1/loc', {
-          method: 'POST',
-          headers: { cookie: rider.session.cookie },
-          body: JSON.stringify({
-            share_id: rider.shareId,
-            fixes: [
-              {
-                lat: at.lat,
-                lng: at.lng,
-                acc: 8,
-                activity: done ? 'stationary' : rider.member.activity,
-                at: new Date().toISOString(),
-                mock: 0,
-              },
-            ],
-          }),
-        });
-        if (response.status !== 202 && response.status !== 429 && response.status !== 403) {
-          log(`fix for ${rider.member.name}: HTTP ${response.status}`);
-        }
-      }),
-    );
-  };
-  await tick();
-  const timer = setInterval(() => void tick(), TICK_MS);
+  const stop = await ride(http, riders, options.speed);
   return {
     crew,
     riders,
     meetupId: meetup['id'] as string,
-    stop: () => {
-      clearInterval(timer);
-      return Promise.resolve();
-    },
+    stop,
   };
 }
 
@@ -266,6 +227,9 @@ const { values } = parseArgs({
     api: { type: 'string' },
     db: { type: 'string' },
     join: { type: 'string' },
+    code: { type: 'string' },
+    trip: { type: 'string' },
+    poi: { type: 'string' },
     speed: { type: 'string', default: '4' },
     minutes: { type: 'string', default: '10' },
   },
@@ -273,6 +237,20 @@ const { values } = parseArgs({
 
 if (values.check) {
   await check();
+} else if (
+  values.api !== undefined &&
+  values.code !== undefined &&
+  values.trip !== undefined &&
+  values.poi !== undefined
+) {
+  await driveByCode({
+    api: values.api,
+    code: values.code,
+    trip: values.trip,
+    poi: values.poi,
+    speed: Number(values.speed),
+    minutes: Number(values.minutes),
+  });
 } else if (values.api !== undefined && values.db !== undefined) {
   await drive({
     api: values.api,
@@ -283,7 +261,7 @@ if (values.check) {
   });
 } else {
   log(
-    'usage: sim.ts --check | --api <url> --db <owner url> [--join <uid>] [--speed n] [--minutes n]',
+    'usage: sim.ts --check | --api <url> (--db <owner url> [--join <uid>] | --code <c> --trip <id> --poi <id>) [--speed n] [--minutes n]',
   );
   process.exit(2);
 }

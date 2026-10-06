@@ -5,6 +5,8 @@
  * exactly what production writes produce. `e2e_flaky_step` stands in for a transient database
  * failure: its first attempt per key throws a non-domain error, which the doors treat as retryable.
  */
+import { createHash } from 'node:crypto';
+
 import { outbox } from '@cp/db';
 import { crewChannel, DomainError } from '@cp/domain';
 import type pg from 'pg';
@@ -19,6 +21,17 @@ async function holds(tx: pg.PoolClient, check: string, crewId: string): Promise<
 }
 
 const crewId = z.object({ crew_id: z.uuid() });
+
+const CODE_ALPHABET = '23456789ABCDEFGHJKMNPQRSTVWXYZ';
+
+/**
+ * The crew's join code in this harness, derived from its id so a joining client needs no extra
+ * round trip: the database only lets someone into a crew who presents a live code or invite.
+ */
+function joinCodeOf(crew: string): string {
+  const digest = createHash('sha256').update(crew).digest();
+  return Array.from(digest.subarray(0, 6), (b) => CODE_ALPHABET[b % CODE_ALPHABET.length]).join('');
+}
 
 /** Creates a crew with the caller as organiser; one `crew.created` hint per execution. */
 export const createCrew = defineCommand({
@@ -38,6 +51,10 @@ export const createCrew = defineCommand({
       `INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'organiser')`,
       [payload.crew_id, ctx.uid],
     );
+    await tx.query(
+      `SELECT app.issue_join_code($1, 'crew', $2, now() + interval '1 day', NULL, false)`,
+      [joinCodeOf(payload.crew_id), payload.crew_id],
+    );
     await outbox(tx, crewChannel(payload.crew_id), 'crew.created', { crew_id: payload.crew_id });
     return { crew_id: payload.crew_id };
   },
@@ -50,10 +67,10 @@ export const joinCrew = defineCommand({
   offline: true,
   allowAnonymous: true,
   authorize: () => Promise.resolve(),
-  handle: async (tx, payload, ctx) => {
-    await tx.query(`INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')`, [
+  handle: async (tx, payload) => {
+    await tx.query('SELECT app.join_crew($1, $2, NULL, NULL)', [
       payload.crew_id,
-      ctx.uid,
+      joinCodeOf(payload.crew_id),
     ]);
     return null;
   },

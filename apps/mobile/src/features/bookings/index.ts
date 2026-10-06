@@ -11,3 +11,5 @@ export { MailboxConnectedScreen } from './mailbox/MailboxConnectedScreen';
 export { parseMailboxReturn } from './mailbox/oauth';
 export { WalletSwitch } from './stack/WalletSwitch';
 export { useWalletGuide, WalletGuideProvider } from './data/wallet-guide';
+export { Disclosure } from './supplier/Disclosure';
+export { usePartnerLink } from './supplier/data/use-partner-link';

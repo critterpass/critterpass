@@ -8,7 +8,15 @@
  * stops when that fails too.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { foodRole, isKept, minuteOfDate, nameTokens, type DraftPoi } from '@cp/planner';
+import {
+  foodRole,
+  isKept,
+  landsOn,
+  leavesOn,
+  minuteOfDate,
+  nameTokens,
+  type DraftPoi,
+} from '@cp/planner';
 
 import { spanOf } from './areas';
 
@@ -54,10 +62,11 @@ export function claimsTransport(
   day: Pick<DraftDay, 'theme' | 'date'>,
 ): boolean {
   if (!TRANSPORT.test(day.theme.normalize('NFC'))) return false;
-  const { dates, arrivalMin, departureMin } = input.frame;
+  const { frame } = input;
+  const index = frame.dates.indexOf(day.date);
   const entered =
-    (day.date === dates[0] && arrivalMin !== null) ||
-    (day.date === dates[dates.length - 1] && departureMin !== null);
+    (landsOn(frame, index) && frame.arrivalMin !== null) ||
+    (leavesOn(frame, index) && frame.departureMin !== null);
   return !entered;
 }
 const NOON = 12 * 60;

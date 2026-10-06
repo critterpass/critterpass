@@ -32,6 +32,8 @@ import {
 } from '../destination-model';
 import { guideFor, poiSubject } from '../format';
 import { guideTagline, heroChips } from '../guide-copy';
+import { useBrowsePhotos } from '../map-queries';
+import { coverMedia, pickPhoto } from '../profile-photo';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { useSoloTrip } from '../hooks/use-solo-trip';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
@@ -84,7 +86,8 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   );
   const { saved, toggle } = useSavedPlace(id, 'place', name);
   const solo = useSoloTrip({ placeId: id, placeName: name, crewId });
-  const photo = heroAt(useDestinationMedia(slug).items);
+  // The curated cover; a destination without one shows a pick's photo, credited.
+  const photo = heroAt(useDestinationMedia(slug).items) ?? coverMedia(data?.cover);
 
   // The guide's read gives the picks; when it sent none or did not load, the recommended places
   // this phone holds draw the row, so a place with places never reads as unwritten.
@@ -99,6 +102,8 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   const pickMedia = useSubjectMedia(
     organic.length === 0 ? null : organic.map((pick) => poiSubject(pick.poiId)).join(','),
   ).items;
+  // Picks drawn from the browse (the guide's read sent none) take their photos from it too.
+  const browsedPhotos = useBrowsePhotos(id);
   const pricedData = dataOf(priced);
   const names = useNames(
     useMemo(
@@ -234,7 +239,11 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
         id: pick.poiId,
         name: pick.name,
         category: pick.category,
-        photo: pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poiId))) ?? null,
+        photo: pickPhoto(
+          pick.poiId,
+          pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poiId))),
+          data?.pick_photos[pick.poiId] ?? browsedPhotos.get(pick.poiId),
+        ),
         sponsored:
           pick.sponsored === null
             ? undefined

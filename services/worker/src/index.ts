@@ -1,6 +1,8 @@
 import { resolveRoute } from '@cp/ai';
 import { createKillSwitchReader, onEventAppended, watchPoolErrors } from '@cp/db';
+import { meterVendorCalls, redisCallSink } from '@cp/domain';
 import { serve } from '@hono/node-server';
+import { subscribe } from 'node:diagnostics_channel';
 import pg from 'pg';
 import { createClient } from 'redis';
 
@@ -17,6 +19,7 @@ import { createMetricsRecorder } from './obs/metrics';
 import { initWorkerSentry } from './obs/sentry';
 import { registerChatNotifications } from './jobs/chat';
 import { registerLiveMapNotifications } from './jobs/live-map';
+import { registerHelpFanouts } from './jobs/help';
 import { inboxEventHook, registerHomeInboxFanouts, registerHomeRetention } from './jobs/inbox';
 import { registerNudgeNotifications } from './jobs/nudges';
 import { countdownEventHook } from './jobs/countdown';
@@ -58,6 +61,17 @@ redis.on('error', (error: unknown) => logger.warn({ err: error }, 'redis connect
 redis
   .connect()
   .catch((error: unknown) => logger.warn({ err: error }, 'redis initial connect failed'));
+
+// Outbound vendor calls feed the console's Services screen (ops.service_health).
+meterVendorCalls(subscribe, redisCallSink(redis));
+const storagePool =
+  env.POWERSYNC_STORAGE_URL === undefined
+    ? undefined
+    : new pg.Pool({
+        connectionString: env.POWERSYNC_STORAGE_URL,
+        max: 1,
+        idleTimeoutMillis: 30_000,
+      });
 
 const health = createHealthApp({
   version: packageJson.version,
@@ -111,6 +125,8 @@ const jobs = await buildJobRegistry({
   metrics,
   renderer,
   pushProviders,
+  opsRedis: redis,
+  storagePool,
 });
 // Domain events appended in this process enqueue their routing jobs in the same transaction.
 for (const hook of [routeEventHook, inboxEventHook, countdownEventHook, tipsEventHook])
@@ -119,6 +135,7 @@ registerHomeInboxFanouts();
 registerHomeRetention();
 registerNudgeNotifications();
 registerPollFanouts();
+registerHelpFanouts();
 registerPitchTipCandidates();
 registerInviteNotifications();
 registerChatNotifications();
@@ -194,6 +211,7 @@ const shutdown = createShutdown({
   ],
   closes: [
     () => pool.end(),
+    () => storagePool?.end(),
     () => (redis.isOpen ? redis.close() : undefined),
     () => errors.flush(),
   ],
