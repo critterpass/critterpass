@@ -17,6 +17,11 @@ msgstr "{0, plural, other {Còn # lượt bình chọn}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# lượt bình chọn}}"
 
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, other {{first} và # người khác nữa}}"
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ Gợi ý ý tưởng"
@@ -428,8 +433,3 @@ msgstr "Ghi chú của bạn gửi đội ngũ"
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Lượt bình chọn của bạn cho một ý tưởng"
-
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, other {{first} và # người khác nữa}}"

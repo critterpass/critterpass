@@ -17,6 +17,11 @@ msgstr "{0, plural, other {#표 남음}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {#표}}"
 
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, other {{first} 외 #명도}}"
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ 아이디어 제안"
@@ -428,8 +433,3 @@ msgstr "담당자에게 보낼 메모"
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "아이디어 투표"
-
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, other {{first} 외 #명도}}"

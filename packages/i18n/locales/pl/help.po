@@ -17,6 +17,11 @@ msgstr "{0, plural, one {# głos został} few {# głosy zostały} many {# głos�
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# głos} few {# głosy} many {# głosów} other {# głosu}}"
 
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, one {{first} i # inna osoba też} few {{first} i # inne osoby też} many {{first} i # innych osób też} other {{first} i # innej osoby też}}"
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ Zgłoś pomysł"
@@ -428,8 +433,3 @@ msgstr "Twoja wiadomość do ludzi"
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Twój głos na pomysł"
-
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, one {{first} i # inna osoba też} few {{first} i # inne osoby też} many {{first} i # innych osób też} other {{first} i # innej osoby też}}"

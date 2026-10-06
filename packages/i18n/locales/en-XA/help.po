@@ -17,6 +17,11 @@ msgstr ""
 msgid "help.suggest.matchMeta"
 msgstr ""
 
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr ""
@@ -427,9 +432,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
-msgstr ""
-
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
 msgstr ""
