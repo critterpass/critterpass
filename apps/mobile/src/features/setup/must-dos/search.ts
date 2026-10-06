@@ -1,23 +1,21 @@
 /**
  * The add sheet's search (3c-10): places matching every keystroke (debounced 120 ms), from
- * `/v1/places/search` biased to the trip's destination, or
- * from the destination's places already on the phone when there is no signal, by the shared folded
- * match (data/places). Each result carries its pill, decided from what is known
- * before a draft exists: a lottery or book-ahead tag, else whether the place is open on any trip
- * day (FITS, or CLASH when it is closed on all of them); unknown hours carry no pill.
+ * `/v1/places/search` biased to the trip's destination, or, with no signal, from the destination's
+ * browse kept on the phone, by the shared folded match (data/places). Each result carries its
+ * pill, decided from what the api sends before a draft exists: a lottery or book-ahead tag, else
+ * whether the place is open on any trip day (FITS, or CLASH when it is closed on all of them);
+ * unknown hours carry no pill.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- SQL, a route path and wire values, never copy. */
-import { hoursSchema, shownName, WEEKDAYS, type Hours } from '@cp/domain';
+/* eslint-disable lingui/no-unlocalized-strings -- dates, tags and wire values, never copy. */
+import { shownName, WEEKDAYS, type Hours } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
-import { editorialFor } from '@/data/places/editorial-note';
-import { useActiveLocale } from '@/lib/i18n/use-locale';
+import { dataOf } from '@/data/travel-data/freshness';
 import { matchPlaces } from '@/data/places/match-places';
-import { useLocalFirst } from '@/data/powersync/local-first-context';
 
-import { parseIdList, parseJson } from '../data/rows';
 import type { SetupServices } from '../data/services';
 import type { FitPill } from './model';
+import { readBrowse, readerOf, readSearch, type CandidatePlace } from './places';
 
 export const SEARCH_DEBOUNCE_MS = 120;
 const LIMIT = 6;
@@ -33,25 +31,6 @@ export type SearchState =
   | { readonly kind: 'idle' }
   | { readonly kind: 'loading' }
   | { readonly kind: 'done'; readonly results: readonly PlaceResult[]; readonly offline: boolean };
-
-interface LocalPlace {
-  readonly id: string;
-  readonly name: string;
-  readonly address: string | null;
-  readonly tags: string | null;
-  readonly hours: string | null;
-  readonly editorial: string | null;
-  readonly name_local?: string | null;
-  readonly category?: string | null;
-}
-
-interface OnlinePlace {
-  readonly id: string;
-  readonly name: string;
-  readonly nameLocal?: string | null;
-  readonly address: string | null;
-  readonly tags: readonly string[];
-}
 
 function datesBetween(start: string, end: string): string[] {
   const dates: string[] = [];
@@ -87,41 +66,55 @@ export function pillFor(
   return open ? { kind: 'fits', day: null } : { kind: 'clash' };
 }
 
-function hoursOf(value: string | null): Hours | null {
-  const parsed = hoursSchema.safeParse(parseJson<unknown>(value, null));
-  return parsed.success ? parsed.data : null;
-}
-
-function blurbOf(
-  local: LocalPlace | undefined,
-  address: string | null,
-  locale: string,
-): string | null {
-  const why = editorialFor(local?.editorial, locale)?.['why_go'];
-  return typeof why === 'string' && why !== '' ? why : address;
-}
-
-const LOCAL_SQL = `SELECT id, name, name_local, category, address, tags, hours, editorial FROM pois
-  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL`;
-
-/** The destination's places on the phone matching `query`, by the shared folded match. */
-function matchLocal(rows: readonly LocalPlace[], query: string): LocalPlace[] {
-  const byId = new Map(rows.map((row) => [row.id, row]));
-  const candidates = rows.map((row) => ({
-    id: row.id,
-    poiId: row.id,
-    name: row.name,
-    nameLocal: row.name_local ?? null,
-    category: row.category ?? null,
+/** The browse's places matching `query`, by the shared folded match. */
+export function matchBrowse(
+  places: readonly CandidatePlace[],
+  query: string,
+): readonly CandidatePlace[] {
+  const byId = new Map(places.map((place) => [place.id, place]));
+  const candidates = places.map((place) => ({
+    id: place.id,
+    poiId: place.id,
+    name: place.name,
+    nameLocal: place.nameLocal,
+    category: place.category,
     lat: null,
     lng: null,
-    tags: parseIdList(row.tags),
+    tags: [...place.tags],
     source: 'curated' as const,
   }));
-  return matchPlaces(candidates, query, { limit: LIMIT }).flatMap((place) => {
-    const row = byId.get(place.id);
-    return row === undefined ? [] : [row];
+  return matchPlaces(candidates, query, { limit: LIMIT }).flatMap((match) => {
+    const place = byId.get(match.id);
+    return place === undefined ? [] : [place];
   });
+}
+
+/** A result row: the reader's name, the note's line (else the address), and its pill. */
+export function resultOf(
+  place: CandidatePlace,
+  dates: readonly string[],
+  readsLocal: boolean,
+): PlaceResult {
+  return {
+    id: place.id,
+    name: shownName(place, readsLocal),
+    blurb: place.whyGo ?? place.address,
+    pill: pillFor(place.tags, place.hours, dates),
+  };
+}
+
+/** Online: the api's search. Offline: the destination's kept browse, matched on the phone. */
+export async function searchCandidates(
+  services: SetupServices,
+  destinationId: string | null,
+  query: string,
+): Promise<{ readonly places: readonly CandidatePlace[]; readonly offline: boolean }> {
+  const reader = readerOf(services);
+  const online = await readSearch(reader, query, destinationId, LIMIT);
+  if (online !== null) return { places: online, offline: false };
+  if (destinationId === null) return { places: [], offline: true };
+  const kept = dataOf(await readBrowse(reader, destinationId))?.results ?? [];
+  return { places: matchBrowse(kept, query), offline: true };
 }
 
 export function useMustDoSearch(options: {
@@ -132,8 +125,6 @@ export function useMustDoSearch(options: {
   /** The reader sees places under their local names here (`@cp/domain` `readsLocalNames`). */
   readonly readsLocal?: boolean;
 }): SearchState {
-  const { db } = useLocalFirst();
-  const locale = useActiveLocale();
   const { services, destinationId } = options;
   const readsLocal = options.readsLocal === true;
   const query = options.query.trim();
@@ -147,54 +138,20 @@ export function useMustDoSearch(options: {
     let live = true;
     const dates = dateKey === '' ? [] : dateKey.split(',');
     const timer = setTimeout(() => {
-      void (async () => {
-        const params = new URLSearchParams({ q: query, limit: String(LIMIT) });
-        if (destinationId !== null) params.set('destination_id', destinationId);
-        const read = await services.getJson(`/v1/places/search?${params.toString()}`);
-        const online =
-          read.kind === 'ok'
-            ? ((read.body as { results?: OnlinePlace[] } | null)?.results ?? [])
-            : null;
-        const local =
-          online !== null
-            ? await db.getAll<LocalPlace>(
-                `SELECT id, name, address, tags, hours, editorial FROM pois WHERE id IN (${online
-                  .map(() => '?')
-                  .join(',')})`,
-                online.map((place) => place.id),
-              )
-            : destinationId === null
-              ? []
-              : matchLocal(await db.getAll<LocalPlace>(LOCAL_SQL, [destinationId]), query);
-        const byId = new Map(local.map((place) => [place.id, place]));
-        const places = (
-          online ??
-          local.map((place) => ({
-            id: place.id,
-            name: place.name,
-            address: place.address,
-            tags: parseIdList(place.tags),
-          }))
-        ).map((place) => {
-          const known = byId.get(place.id);
-          return {
-            id: place.id,
-            name: shownName(place, readsLocal),
-            blurb: blurbOf(known, place.address, locale),
-            pill: pillFor(place.tags, hoursOf(known?.hours ?? null), dates),
-          };
+      void searchCandidates(services, destinationId, query)
+        .then(({ places, offline }) => {
+          const results = places.map((place) => resultOf(place, dates, readsLocal));
+          if (live) setFound({ key, state: { kind: 'done', results, offline } });
+        })
+        .catch(() => {
+          if (live) setFound({ key, state: { kind: 'done', results: [], offline: true } });
         });
-        if (live)
-          setFound({ key, state: { kind: 'done', results: places, offline: online === null } });
-      })().catch(() => {
-        if (live) setFound({ key, state: { kind: 'done', results: [], offline: true } });
-      });
     }, SEARCH_DEBOUNCE_MS);
     return () => {
       live = false;
       clearTimeout(timer);
     };
-  }, [db, services, destinationId, query, dateKey, key, readsLocal, locale]);
+  }, [services, destinationId, query, dateKey, key, readsLocal]);
   if (query === '') return { kind: 'idle' };
   if (found?.key === key) return found.state;
   // While the next keystroke's results load, keep the last ones on screen.
