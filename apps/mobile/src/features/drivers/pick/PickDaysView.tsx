@@ -18,6 +18,8 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 const useStyles = makeStyles((t) => ({
+  // The sheet's own gutter, as its title has: the days, the toggle and both buttons sit inside it.
+  body: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['24'] },
   group: {
     backgroundColor: t.semantic.bg.raised,
     borderRadius: t.radius.lg,
@@ -77,7 +79,7 @@ export function PickDaysView(props: PickDaysViewProps) {
       accessibilityLabel={t({ id: 'drivers.pick.label', message: `Pick ${name}` })}
       testID="drivers-pick"
     >
-      <Stack gap="14">
+      <Stack gap="14" style={styles.body}>
         <Text variant="eyebrow" color={theme.semantic.text.secondary}>
           {upper(t({ id: 'drivers.pick.eyebrow', message: `Pick ${name}` }), locale)}
         </Text>
@@ -175,7 +177,7 @@ export function PickDaysView(props: PickDaysViewProps) {
         )}
         {props.onSet === null ? null : (
           <PillButton
-            label={t({ id: 'drivers.pick.set', message: `Set ${name} on ${chosen} days` })}
+            label={t({ id: 'drivers.pick.set', message: `Set ${name} on ${props.chosen} days` })}
             tone="yellow"
             block
             disabled={none}
