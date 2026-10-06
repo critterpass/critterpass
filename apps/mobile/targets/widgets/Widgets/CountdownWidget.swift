@@ -11,6 +11,7 @@ struct CountdownWidget: Widget {
             CountdownFamilyView(entry: entry)
                 .widgetURL(LADeepLink.url(route: CountdownView.route(entry)))
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Countdown")
         .description("Days until the trip, on your home screen.")
         .supportedFamilies([.systemSmall, .accessoryInline, .accessoryCircular])
@@ -28,13 +29,15 @@ struct CountdownProvider: TimelineProvider {
 
     /// One entry now and one at each of the next days' local midnights, where the count changes.
     func getTimeline(in context: Context, completion: @escaping (Timeline<HomeWidgetEntry>) -> Void) {
-        let first = HomeWidgetEntry.now()
-        let zone = first.file?.snapshot.trip?.tz.flatMap(TimeZone.init(identifier:)) ?? .current
-        let nights = CountdownModel.midnights(after: first.date, count: 7, zone: zone)
-        let entries = [first] + nights.map {
-            HomeWidgetEntry(date: $0, file: first.file, pendingVote: nil)
+        WidgetSnapshotFetcher.afterRefresh(completion) { (completion: @escaping (Timeline<HomeWidgetEntry>) -> Void) in
+            let first = HomeWidgetEntry.now()
+            let zone = first.file?.snapshot.trip?.tz.flatMap(TimeZone.init(identifier:)) ?? .current
+            let nights = CountdownModel.midnights(after: first.date, count: 7, zone: zone)
+            let entries = [first] + nights.map {
+                HomeWidgetEntry(date: $0, file: first.file, pendingVote: nil)
+            }
+            completion(Timeline(entries: entries, policy: .atEnd))
         }
-        completion(Timeline(entries: entries, policy: .atEnd))
     }
 }
 

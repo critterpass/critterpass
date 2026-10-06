@@ -1,0 +1,195 @@
+---
+/* eslint-disable lingui/no-unlocalized-strings -- form field names, actions and class names, not UI copy. */
+// The driver's own page (6h-1 claim, 6h-2 listed): critterpass.app/d/{key}, web-only (never a
+// Universal or App Link) and noindex. Plain HTML forms posted to this page (a few lines of script
+// send them as JSON), system fonts and no images, so it stays far under 60 KB on a slow phone.
+import { env } from 'cloudflare:workers';
+import { createServerI18n } from '@cp/i18n/server';
+import type { MessageDescriptor } from '@lingui/core';
+import type { DriverClaimView } from '@cp/domain';
+
+import ClaimStyles from '../../components/driver-claim/ClaimStyles.astro';
+import ClaimSubmit from '../../components/driver-claim/ClaimSubmit.astro';
+import DetailsFields from '../../components/driver-claim/DetailsFields.astro';
+import { runClaimAction, type ClaimOutcome } from '../../components/driver-claim/claim-actions';
+import {
+  asView,
+  callClaimApi,
+  claimLang,
+  postedForm,
+} from '../../components/driver-claim/claim-api';
+import { claimCopy as c, tagCopy } from '../../components/driver-claim/copy';
+import { linkRequestContext, type LinksWebEnv } from '../../lib/links/web-env';
+
+export const prerender = false;
+
+const key = Astro.params.key ?? '';
+const lang = claimLang(Astro.url);
+const i18n = await createServerI18n(lang, ['driver-claim/web']);
+const t = (d: MessageDescriptor, values?: Record<string, unknown>) =>
+  i18n._(values === undefined ? d : { ...d, values });
+const api = {
+  baseUrl: linkRequestContext(Astro.url, env as unknown as LinksWebEnv).apiBaseUrl,
+  key,
+  clientIp: Astro.request.headers.get('cf-connecting-ip'),
+};
+const here = (k: string) => `/d/${encodeURIComponent(k)}${lang === 'id' ? '?lang=id' : ''}`;
+
+let outcome: ClaimOutcome = {};
+if (Astro.request.method === 'POST') {
+  outcome = await runClaimAction(api, await postedForm(Astro.request), lang);
+  if (outcome.nextKey !== undefined) return Astro.redirect(here(outcome.nextKey), 303);
+}
+
+let view: DriverClaimView = { state: 'invalid' };
+if (outcome.finalState !== undefined) {
+  view = { state: 'removed' };
+} else {
+  const loaded = await callClaimApi(api, 'GET', '');
+  if (loaded.ok) view = asView(loaded.body);
+}
+Astro.response.headers.set('Cache-Control', 'no-store');
+Astro.response.headers.set('X-Robots-Tag', 'noindex');
+Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+
+const details = outcome.draft ?? view.details;
+const name = details?.display_name ?? '';
+const first = name.split(' ')[0] ?? name;
+const showRatings = outcome.showRatings ?? view.show_ratings ?? true;
+const loved = view.crews_loved ?? 0;
+const rated = view.crews_rated ?? 0;
+const tags = (view.top_tags ?? []).flatMap((tag) =>
+  tag in tagCopy ? [t(tagCopy[tag as keyof typeof tagCopy])] : [],
+);
+const errorText = outcome.error === undefined ? null : t(c[outcome.error]);
+const final = outcome.finalState;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{t(c.pageTitle)}</title>
+    <ClaimStyles />
+  </head>
+  <body>
+    <header>
+      <strong class="brand">CRITTERPASS</strong>
+      <nav aria-label="Language">
+        <a href={`/d/${encodeURIComponent(key)}`} aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+        <a href={`/d/${encodeURIComponent(key)}?lang=id`} aria-current={lang === 'id' ? 'page' : undefined}>ID</a>
+      </nav>
+    </header>
+    <main data-state={final ?? view.state}>
+      {errorText !== null && <p class="error" role="alert">{errorText}</p>}
+
+      {final === 'declined' && (
+        <section><h1>{t(c.declined)}</h1><p>{t(c.declinedBody)}</p></section>
+      )}
+      {(final === 'removed' || (final === undefined && view.state === 'removed')) && (
+        <section><h1>{t(c.removed)}</h1><p>{t(c.removedBody)}</p></section>
+      )}
+      {final === undefined && view.state === 'invalid' && (
+        <section><h1>{t(c.invalid)}</h1><p>{t(c.invalidBody)}</p></section>
+      )}
+      {final === undefined && view.state === 'expired' && (
+        <section><h1>{t(c.expired)}</h1><p>{t(c.expiredBody)}</p></section>
+      )}
+
+      {final === undefined && view.state === 'used' && (
+        <section>
+          <h1>{t(c.used)}</h1>
+          <p>{t(c.usedBody)}</p>
+          {outcome.codeSentTo === undefined ? (
+            <form method="post"><button name="action" value="recover-otp">{t(c.sendCode)}</button></form>
+          ) : (
+            <form method="post">
+              <p>{t(c.codeSent, { phone: outcome.codeSentTo })}</p>
+              <input type="hidden" name="masked" value={outcome.codeSentTo} />
+              <label>{t(c.code)}<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" required /></label>
+              <button name="action" value="recover">{t(c.open)}</button>
+            </form>
+          )}
+        </section>
+      )}
+
+      {final === undefined && view.state === 'invited' && details !== undefined && (
+        <section>
+          <h1>{t(c.hello, { name: first, size: view.crew_size ?? 1 })}</h1>
+          <p>{t(c.intro)}</p>
+          <form method="post">
+            <DetailsFields details={details} t={t} />
+            <div class="field">
+              <span class="label">{t(c.whatsapp)}</span>
+              <span>{outcome.codeSentTo ?? view.masked_phone}</span>
+            </div>
+            <div class="card" aria-label={t(c.preview)}>
+              <span class="label">{t(c.preview)}</span>
+              <p class="big">{name.toUpperCase()}</p>
+              <p class="muted">{t(c.driver)} · {details.areas.join(', ')}</p>
+              {showRatings && rated > 0 && <p>♥ {loved}/{rated}</p>}
+              {showRatings && tags.length > 0 && <p class="tags">{tags.map((tag) => <span>{tag}</span>)}</p>}
+            </div>
+            <label class="check"><input type="checkbox" name="show_ratings" checked={showRatings} /> {t(c.showRatings)}</label>
+            {outcome.codeSentTo === undefined ? (
+              <button name="action" value="otp" class="primary">{t(c.sendCode)}</button>
+            ) : (
+              <>
+                <p>{t(c.codeSent, { phone: outcome.codeSentTo })}</p>
+                <input type="hidden" name="masked" value={outcome.codeSentTo} />
+                <label>{t(c.code)}<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" required /></label>
+                <p class="muted small">{t(c.consent)}</p>
+                <button name="action" value="confirm" class="primary">{t(c.yes)}</button>
+              </>
+            )}
+          </form>
+          <form method="post"><button name="action" value="decline" class="link" formnovalidate>{t(c.noThanks)}</button></form>
+        </section>
+      )}
+
+      {final === undefined && (view.state === 'listed' || view.state === 'paused') && details !== undefined && (
+        <section>
+          <span class="badge">{view.state === 'listed' ? t(c.listedBadge) : t(c.pausedBadge)}</span>
+          <h1>{view.state === 'listed' ? t(c.listedTitle, { name: first }) : t(c.pausedTitle, { name: first })}</h1>
+          <p>{view.state === 'listed' ? t(c.listedBody, { area: details.areas[0] ?? '' }) : t(c.pausedBody)}</p>
+          <p class="muted small">{t(c.bookmark)}</p>
+          {outcome.askRemove === true ? (
+            <form method="post" class="danger">
+              <h2>{t(c.removeAsk)}</h2>
+              <p>{t(c.removeBody)}</p>
+              <button name="action" value="remove" class="primary">{t(c.removeYes)}</button>
+              <a href={here(key)}>{t(c.keep)}</a>
+            </form>
+          ) : (
+            <>
+              <form method="post" class="row">
+                <span><strong>{view.state === 'listed' ? t(c.pause) : t(c.resume)}</strong><br /><span class="muted">{t(c.pauseHint)}</span></span>
+                <button name="action" value={view.state === 'listed' ? 'pause' : 'resume'}>{view.state === 'listed' ? t(c.pause) : t(c.resume)}</button>
+              </form>
+              <form method="post" class="row">
+                <input type="hidden" name="value" value={showRatings ? 'off' : 'on'} />
+                <span><strong>{t(c.showRatings)}</strong><br /><span class="muted">{showRatings ? t(c.ratingsOn, { loved, rated }) : t(c.ratingsOff)}</span></span>
+                <button name="action" value="ratings">{showRatings ? t(c.turnOff) : t(c.turnOn)}</button>
+              </form>
+              <details>
+                <summary>{t(c.change)}</summary>
+                <form method="post">
+                  <DetailsFields details={details} t={t} />
+                  <button name="action" value="details" class="primary">{t(c.save)}</button>
+                </form>
+              </details>
+              <form method="post" class="danger">
+                <h2>{t(c.remove)}</h2>
+                <p>{t(c.removeBody)}</p>
+                <button name="action" value="remove-ask">{t(c.remove)}</button>
+              </form>
+            </>
+          )}
+        </section>
+      )}
+    </main>
+    <ClaimSubmit />
+  </body>
+</html>

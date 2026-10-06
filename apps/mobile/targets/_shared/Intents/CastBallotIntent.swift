@@ -3,9 +3,10 @@ import ActivityKit
 import Foundation
 import WidgetKit
 
-/// A vote from the vote activity or the vote widget (api-contracts-async.md §4): queues
-/// `cast_ballot` and counts it at once on this phone (the activity's tallies and stamp, or the
-/// widget's count); the server's next frame and snapshot carry the real tallies to everyone.
+/// A vote from the vote activity or the vote widget (api-contracts-async.md §4): counts it at once
+/// on this phone (the activity's tallies and stamp, or the widget's count), then sends
+/// `cast_ballot` or queues it for the app; the server's next frame and snapshot carry the real
+/// tallies to everyone.
 struct CastBallotIntent: LiveActivityIntent {
     static let title: LocalizedStringResource = "Vote"
     static let description = IntentDescription("Casts your vote in a crew vote.")
@@ -33,9 +34,6 @@ struct CastBallotIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        try PendingActionsOutbox.append(
-            .ballot(pollId: pollId, optionId: optionId, via: fromWidget ? .widget : .laIntent),
-            root: AppGroupContainer.url)
         if fromWidget {
             try? PendingVote(pollId: pollId, optionId: optionId, at: Date())
                 .write(root: AppGroupContainer.url)
@@ -47,6 +45,9 @@ struct CastBallotIntent: LiveActivityIntent {
             let state = Self.counted(activity.content.state, pollId: pollId, optionId: optionId, uid: uid)
             await activity.update(ActivityContent(state: state, staleDate: activity.content.staleDate))
         }
+        try await SignedActionSender.deliver(
+            .ballot(pollId: pollId, optionId: optionId, via: fromWidget ? .widget : .laIntent),
+            root: AppGroupContainer.url)
         return .result()
     }
 

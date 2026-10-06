@@ -11,6 +11,18 @@ msgstr ""
 msgid "plan.allDays.titleDays"
 msgstr "{count} ngày"
 
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.none"
+msgstr "{guide} không tìm thấy cách nào đi từ {home} đến {place} có nguồn dẫn chứng, nên không hiển thị gì."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.loading"
+msgstr "{guide} đang tra các cách đi đến nơi. Lần tra đầu mất khoảng một phút."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.slow"
+msgstr "{guide} vẫn đang tra. Lần này lâu hơn thường lệ."
+
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideasWaiting"
 msgstr "{ideas, plural, other {# chỗ đã lưu chưa có trong ngày nào}}"
@@ -18,6 +30,14 @@ msgstr "{ideas, plural, other {# chỗ đã lưu chưa có trong ngày nào}}"
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.title"
 msgstr "{place}, {count} ngày"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.cost"
+msgstr "khoảng {amount} mỗi người, một chiều"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.noHome"
+msgstr "Thêm sân bay nhà vào hồ sơ để xem các cách đi đến nơi."
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.back"
@@ -31,6 +51,22 @@ msgstr "Đã đối chiếu giờ mở cửa, đường lái xe và đặt chỗ
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.dayTitle"
 msgstr "Ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.estimateDated"
+msgstr "Ước tính từ web, viết ngày {written}. Hãy kiểm tra trước khi đặt."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.estimate"
+msgstr "Ước tính từ web. Hãy kiểm tra trước khi đặt."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.titlePlain"
+msgstr "Đường đến nơi"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.title"
+msgstr "Đường đến nơi từ {city}"
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideas"
@@ -92,6 +128,22 @@ msgstr "Chia sẻ"
 msgid "plan.allDays.preview.suggest"
 msgstr "Đề xuất với cả nhóm"
 
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.failed"
+msgstr "Chưa tải được các cách đi đến nơi."
+
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.backTrip"
 msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.sources"
+msgstr "Viết từ"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.offline"
+msgstr "Bạn đang ngoại tuyến. Các cách đi đến nơi sẽ tải khi có mạng trở lại."
