@@ -61,7 +61,7 @@ test.describe('the driver plan page', () => {
     await expect(page.getByRole('alert')).toContainText('Tips cannot include links');
 
     await page.getByLabel('Price per day').fill('Rp 700.000');
-    await page.getByLabel('Jatiluwih rice terraces').fill('07:00');
+    await page.getByLabel('Jatiluwih rice terraces', { exact: true }).fill('07:00');
     await page.locator('textarea[name="tip"]').first().fill('Bring sarongs for Uluwatu.');
     await page.getByRole('button', { name: 'Send to the crew' }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sent to the crew');
