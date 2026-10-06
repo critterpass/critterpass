@@ -124,6 +124,13 @@ describe('delete_trip', { timeout: 60_000 }, () => {
     expect(await q('SELECT 1 FROM trip_participants WHERE trip_id = $1', [tripId])).toEqual([]);
   });
 
+  it('removes a trip whose place is chosen but whose setup has not started', async () => {
+    const tripId = await trip('won', false);
+    const deleted = await runCommand(harness, organiser, 'delete_trip', { trip_id: tripId });
+    expect(deleted.body).toMatchObject({ result: { deleted: true } });
+    expect(await status(tripId)).toBeUndefined();
+  });
+
   it('refuses a trip someone else is on, a trip past setup, and one holding a boost', async () => {
     const shared = await trip('setup');
     const proposed = await trip('proposed', false);

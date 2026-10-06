@@ -3,8 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { tripRemovals } from '../../src/trips/removal';
 
 describe('tripRemovals', () => {
-  it('lets an organiser delete a setup trip nobody else is on, and cancel it once others are', () => {
-    expect(tripRemovals({ status: 'setup', organiser: true, othersOnTrip: 0 })).toEqual(['delete']);
+  it('lets an organiser delete a trip being set up alone, and cancel it once others are on', () => {
+    for (const status of ['won', 'setup']) {
+      expect(tripRemovals({ status, organiser: true, othersOnTrip: 0 })).toEqual(['delete']);
+    }
+    expect(tripRemovals({ status: 'won', organiser: true, othersOnTrip: 2 })).toEqual([]);
     expect(tripRemovals({ status: 'setup', organiser: true, othersOnTrip: 2 })).toEqual(['cancel']);
   });
 

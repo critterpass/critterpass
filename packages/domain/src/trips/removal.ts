@@ -1,8 +1,9 @@
 /**
- * Ending a trip before it happens. An organiser deletes a trip still in setup that nobody else is
- * on (it is removed, rows and all) or cancels any other trip that has not started (`cancelled`:
- * kept to read, nothing new added); a member who is not an organiser leaves a trip, which is the
- * same as answering OUT (the seat frees and the money re-splits without them).
+ * Ending a trip before it happens. An organiser deletes a trip nobody else is on while it is still
+ * being set up (place chosen or setup under way: it is removed, rows and all) or cancels any other
+ * trip that has not started (`cancelled`: kept to read); a member who is not an organiser leaves
+ * a trip, which is the same as answering OUT (the seat frees and the money re-splits without
+ * them).
  */
 import { z } from 'zod';
 
@@ -32,6 +33,9 @@ export interface LeaveTripResult {
   readonly trip_id: string;
   readonly rsvp: 'out';
 }
+
+/** Place chosen, nothing sent to anyone yet: deletable while nobody else is on the trip. */
+export const DELETABLE_TRIP_STATUSES: ReadonlySet<TripStatus> = new Set(['won', 'setup']);
 
 /** The statuses an organiser may cancel from (the trip state machine's edges into `cancelled`). */
 export const CANCELLABLE_TRIP_STATUSES: ReadonlySet<TripStatus> = new Set([
@@ -65,6 +69,6 @@ export function tripRemovals(input: {
 }): readonly TripRemoval[] {
   const status = input.status as TripStatus;
   if (!input.organiser) return LEAVABLE_TRIP_STATUSES.has(status) ? ['leave'] : [];
-  if (status === 'setup' && input.othersOnTrip === 0) return ['delete'];
+  if (DELETABLE_TRIP_STATUSES.has(status) && input.othersOnTrip === 0) return ['delete'];
   return CANCELLABLE_TRIP_STATUSES.has(status) ? ['cancel'] : [];
 }

@@ -1,6 +1,6 @@
 /**
  * The foot of the trip hub: the one way to end this trip the reader may take (an organiser
- * deletes a setup trip nobody else is on, or calls any other trip off before it starts; a member
+ * deletes a trip still being set up that nobody else is on, or calls any other trip off before it starts; a member
  * leaves), behind a confirm sheet that says what happens. A called-off trip shows a note instead.
  */
 import { tripRemovals, type TripRemoval } from '@cp/domain';

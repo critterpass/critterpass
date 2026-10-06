@@ -1,14 +1,17 @@
 /**
- * `delete_trip` (doc delta, docs/api-contracts.md §4.7): an organiser deletes a trip still in setup
- * that nobody else is on (a crewmate who answered OUT does not count). The trip and every row that
- * hangs off it go, in this one transaction. A trip that already holds money, bookings, photos or a
- * boost is refused (`STATE_INVALID` `has_records`): cancelling keeps those readable instead.
+ * `delete_trip` (doc delta, docs/api-contracts.md §4.7): an organiser deletes a trip still being
+ * set up (`won` or `setup`) that nobody else is on (a crewmate who answered OUT does not count).
+ * The trip and every row that hangs off it go, in this one transaction. A trip that already holds
+ * money, bookings, photos or a boost is refused (`STATE_INVALID` `has_records`): cancelling keeps
+ * those readable instead.
  */
 import {
+  DELETABLE_TRIP_STATUSES,
   deleteTripPayloadSchema,
   DomainError,
   type DeleteTripPayload,
   type DeleteTripResult,
+  type TripStatus,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -45,7 +48,7 @@ export const deleteTripCommand = defineCommand({
     asSystemRole(tx, async () => {
       const tripId = payload.trip_id;
       const status = await lockTripStatus(tx, tripId);
-      if (status !== 'setup') {
+      if (!DELETABLE_TRIP_STATUSES.has(status as TripStatus)) {
         throw new DomainError('STATE_INVALID', { reason: 'trip_status', state: status });
       }
       const blocked = await blockers(tx, tripId, ctx.uid);
