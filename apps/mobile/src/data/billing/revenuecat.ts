@@ -8,6 +8,7 @@
  * (EAS environment variables). Without one, billing is unavailable and every paywall shows its
  * "purchases unavailable" state.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, store codes and product ids, never copy. */
 import type { StorePlatform } from '@cp/domain';
 import { Platform } from 'react-native';
 import Purchases, {
@@ -170,8 +171,9 @@ export function createRevenueCatStore(uid: string): StorePort | null {
       } catch (error) {
         if ((error as Partial<PurchasesError>).userCancelled) return { kind: 'cancelled' };
         const code = errorCode(error);
-        if (code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) return { kind: 'cancelled' };
-        if (code === PURCHASES_ERROR_CODE.PAYMENT_PENDING_ERROR) return { kind: 'pending' };
+        if (code === String(PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR))
+          return { kind: 'cancelled' };
+        if (code === String(PURCHASES_ERROR_CODE.PAYMENT_PENDING_ERROR)) return { kind: 'pending' };
         return { kind: 'failed', code };
       }
     },
@@ -183,7 +185,7 @@ export function createRevenueCatStore(uid: string): StorePort | null {
         };
       } catch (error) {
         const code = errorCode(error);
-        if (code === PURCHASES_ERROR_CODE.RECEIPT_ALREADY_IN_USE_ERROR)
+        if (code === String(PURCHASES_ERROR_CODE.RECEIPT_ALREADY_IN_USE_ERROR))
           return { kind: 'other_account' };
         return { kind: 'failed', code };
       }

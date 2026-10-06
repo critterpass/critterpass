@@ -4,6 +4,7 @@
  * Critterpass account gets. Purchases bound to another Critterpass account are not moved; the
  * user is asked to sign in to that account.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, store codes and product ids, never copy. */
 import type { FulfilPurchaseResult } from '@cp/domain';
 
 import type { StorePort } from './revenuecat';

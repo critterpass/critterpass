@@ -11,6 +11,7 @@
  * when the store said nothing was charged (`store_failed`); a failed verification retries the
  * verification, not the charge.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, store codes and product ids, never copy. */
 import type { FulfilPurchaseResult, ProductKey } from '@cp/domain';
 
 /** How long the UI waits on the server's confirmation before moving on (`background`). */
@@ -87,23 +88,16 @@ export function purchaseTransition(state: PurchaseState, event: PurchaseEvent): 
       }
       return state;
     case 'purchasing':
-      switch (event.type) {
-        case 'store_success':
-          return verifying(state.productKey, event.transactionId);
-        case 'store_pending':
-          return { status: 'pending', productKey: state.productKey };
-        case 'store_cancelled':
-          return { status: 'cancelled', productKey: state.productKey };
-        case 'store_failed':
-          return {
-            status: 'failed',
-            productKey: state.productKey,
-            stage: 'store',
-            code: event.code,
-          };
-        default:
-          return state;
+      if (event.type === 'store_success') return verifying(state.productKey, event.transactionId);
+      if (event.type === 'store_pending')
+        return { status: 'pending', productKey: state.productKey };
+      if (event.type === 'store_cancelled') {
+        return { status: 'cancelled', productKey: state.productKey };
       }
+      if (event.type === 'store_failed') {
+        return { status: 'failed', productKey: state.productKey, stage: 'store', code: event.code };
+      }
+      return state;
     case 'pending':
       if (event.type === 'listener_success') {
         return verifying(state.productKey, event.transactionId);
@@ -111,26 +105,23 @@ export function purchaseTransition(state: PurchaseState, event: PurchaseEvent): 
       if (event.type === 'entitlement_changed') return fromEntitlement(state.productKey);
       return state;
     case 'verifying':
-      switch (event.type) {
-        case 'verified':
-          return event.result.status === 'fulfilled'
-            ? done(state.productKey, event.result.pass_plus, event.result.boost_id)
-            : { ...state, status: 'background' };
-        case 'verify_timeout':
-          return { ...state, status: 'background' };
-        case 'verify_failed':
-          return {
-            status: 'failed',
-            productKey: state.productKey,
-            stage: 'verify',
-            code: event.code,
-            transactionId: state.transactionId,
-          };
-        case 'entitlement_changed':
-          return fromEntitlement(state.productKey);
-        default:
-          return state;
+      if (event.type === 'verified') {
+        return event.result.status === 'fulfilled'
+          ? done(state.productKey, event.result.pass_plus, event.result.boost_id)
+          : { ...state, status: 'background' };
       }
+      if (event.type === 'verify_timeout') return { ...state, status: 'background' };
+      if (event.type === 'verify_failed') {
+        return {
+          status: 'failed',
+          productKey: state.productKey,
+          stage: 'verify',
+          code: event.code,
+          transactionId: state.transactionId,
+        };
+      }
+      if (event.type === 'entitlement_changed') return fromEntitlement(state.productKey);
+      return state;
     case 'background':
       if (event.type === 'verified' && event.result.status === 'fulfilled') {
         return done(state.productKey, event.result.pass_plus, event.result.boost_id);
@@ -158,24 +149,24 @@ function done(productKey: ProductKey, passPlus: boolean, boostId: string | null)
 export interface PurchaseFlowDeps {
   readonly platform: 'app_store' | 'play';
   /** The store charge (RevenueCat). */
-  purchase(
+  readonly purchase: (
     storeProductId: string,
-  ): Promise<
+  ) => Promise<
     | { readonly kind: 'success'; readonly transactionId: string; readonly productId: string }
     | { readonly kind: 'pending' }
     | { readonly kind: 'cancelled' }
     | { readonly kind: 'failed'; readonly code: string }
   >;
   /** `fulfil_purchase {source: client_sync}`: rejects with the wire error code. */
-  fulfil(payload: {
+  readonly fulfil: (payload: {
     source: 'client_sync';
     platform: 'app_store' | 'play';
     transaction_id: string;
     store_product_id: string;
     intent_id?: string;
-  }): Promise<FulfilPurchaseResult>;
+  }) => Promise<FulfilPurchaseResult>;
   /** Resolves after `ms`; injectable so tests do not wait. */
-  sleep?(ms: number): Promise<void>;
+  readonly sleep?: (ms: number) => Promise<void>;
 }
 
 /**

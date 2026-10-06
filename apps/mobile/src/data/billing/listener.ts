@@ -4,6 +4,7 @@
  * reports them, so the entitlement never waits on RevenueCat's webhook. Each transaction is sent
  * once per process; the server is idempotent on the transaction id anyway.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, store codes and product ids, never copy. */
 import type { FulfilPurchaseResult } from '@cp/domain';
 
 import type { StorePort, StoreTransaction } from './revenuecat';

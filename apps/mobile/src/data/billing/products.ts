@@ -4,6 +4,7 @@
  * payments. Store product ids default to the product keys (the StoreKit configuration file and
  * the RevenueCat products use them verbatim); a synced `products.store_ids` row overrides them.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, store codes and product ids, never copy. */
 import { PRODUCT_KEYS, type ProductKey, type StoreIds, type StorePlatform } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
@@ -105,15 +106,14 @@ export function useProducts(
   locale: string,
   catalogue?: ReadonlyArray<{ readonly key: ProductKey; readonly storeIds: StoreIds }>,
 ): ProductsState {
-  const [state, setState] = useState<ProductsState>(
-    store ? { status: 'loading' } : { status: 'unavailable' },
-  );
+  const [loaded, setLoaded] = useState<{
+    readonly store: StorePort;
+    readonly state: ProductsState;
+  } | null>(null);
   useEffect(() => {
-    if (!store) {
-      setState({ status: 'unavailable' });
-      return;
-    }
+    if (!store) return undefined;
     let live = true;
+    const setState = (state: ProductsState) => setLoaded({ store, state });
     const ids = storeProductIds(store.platform, catalogue);
     store
       .products(Object.values(ids))
@@ -131,5 +131,6 @@ export function useProducts(
       live = false;
     };
   }, [store, locale, catalogue]);
-  return state;
+  if (!store) return { status: 'unavailable' };
+  return loaded?.store === store ? loaded.state : { status: 'loading' };
 }
