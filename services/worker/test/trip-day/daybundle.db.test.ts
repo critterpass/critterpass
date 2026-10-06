@@ -107,7 +107,7 @@ describe('daybundle.build', () => {
   it("labels every stop of the day from the trip's own place cards, even before their refresh", async () => {
     const [temple] = await world.q<{ id: string }>(
       `INSERT INTO pois (destination_id, name, category, lat, lng, address)
-       VALUES ($1, 'Pura Ulun Danu Batur', 'culture', -8.2563, 115.3388, 'Kintamani') RETURNING id`,
+       VALUES ($1, 'Pura Ulun Danu Batur', 'temple_shrine', -8.2563, 115.3388, 'Kintamani') RETURNING id`,
       [world.destinationId],
     );
     const [trek] = await world.q<{ version_id: string; day_id: string }>(
