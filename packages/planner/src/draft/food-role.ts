@@ -9,8 +9,12 @@
  *
  * A dish is read from the names: two places whose names lead with the same two words that are not
  * generic ("mì quảng", "babi guling", "bánh căn") serve the same thing.
+ *
+ * A place with typed facts is read from them instead (`mealRole`, `dish`: ./typed-facts), never
+ * from its name.
  */
 import { nameAliases, nameTokens } from './place-names';
+import { isTyped, typedDish, typedFoodRole, typedSharesDish } from './typed-facts';
 import type { DraftPoi } from './types';
 
 export type FoodRole = 'meal' | 'light';
@@ -92,7 +96,7 @@ const ROLES = new WeakMap<DraftPoi, FoodRole | null>();
 export function foodRole(poi: DraftPoi): FoodRole | null {
   const cached = ROLES.get(poi);
   if (cached !== undefined) return cached;
-  const role = readRole(poi);
+  const role = isTyped(poi) ? typedFoodRole(poi) : readRole(poi);
   ROLES.set(poi, role);
   return role;
 }
@@ -162,6 +166,11 @@ const DISHES = new WeakMap<DraftPoi, string | null>();
 export function dishOf(poi: DraftPoi): string | null {
   const cached = DISHES.get(poi);
   if (cached !== undefined) return cached;
+  if (isTyped(poi)) {
+    const typed = typedDish(poi);
+    DISHES.set(poi, typed);
+    return typed;
+  }
   // One spelling for the vowel pair people write either way ("mỳ" and "mì").
   const words = (nameAliases(poi.name).primary[0] ?? [])
     .map((word) => word.replaceAll('y', 'i'))
@@ -184,6 +193,7 @@ export function sameDish(a: DraftPoi, b: DraftPoi): boolean {
  * name.
  */
 export function sharesDish(a: DraftPoi, b: DraftPoi): boolean {
+  if (isTyped(a) && isTyped(b)) return typedSharesDish(a, b);
   if (sameDish(a, b)) return true;
   const within = (dish: string | null, poi: DraftPoi) =>
     dish !== null &&

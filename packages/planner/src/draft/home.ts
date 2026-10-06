@@ -8,6 +8,7 @@ import { foodRole } from './food-role';
 import { hopCapMin } from './hops';
 import { keepOutingsTogether, planOutings, type Outing } from './outings';
 import { straightLineMatrix, type RoutedPairs } from './travel';
+import { isEssential } from './typed-facts';
 import type { DraftPoi, TravelMatrix } from './types';
 
 /** Places sampled for the middle, taken evenly across the list. */
@@ -116,9 +117,7 @@ export function outingsFor(
   const outings = planOutings({
     places: places.filter(
       (poi) =>
-        openDays.has(poi.id) &&
-        (poi.essential === true || asked.has(poi.id)) &&
-        foodRole(poi) !== 'meal',
+        openDays.has(poi.id) && (isEssential(poi) || asked.has(poi.id)) && foodRole(poi) !== 'meal',
     ),
     travel,
     homeId: home.id,

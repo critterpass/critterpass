@@ -26,8 +26,9 @@ import { foodRole } from './food-role';
 import { keepEdgeDaysNearHome, outingsFor } from './home';
 import type { Outing } from './outings';
 import { mealSlots, mealsInWindow } from './meal-slots';
-import { placeWindows } from './place-time';
+import { placeWindows } from './time-of-day';
 import { collapseSamePlaces } from './same-place';
+import { isEssential } from './typed-facts';
 import { closedOn, suitsDiet } from './validate-itinerary';
 import { ceilGrid, dayWindow } from './schedule-day';
 import { spansOn } from './sequence';
@@ -153,7 +154,7 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
   const score = new Map(
     pois.map((poi) => [
       poi.id,
-      (poi.essential === true ? 100 : 0) +
+      (isEssential(poi) ? 100 : 0) +
         (poi.mustSee ? 6 : 0) +
         (poi.editorial ? 4 : 0) +
         tasteScore(poi, ranking.tastes),
@@ -278,7 +279,7 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     {
       keep: new Set([
         ...mustDoPois,
-        ...input.pois.filter((poi) => poi.essential === true).map((poi) => poi.id),
+        ...input.pois.filter((poi) => isEssential(poi)).map((poi) => poi.id),
       ]),
       ignore: input.ignoreNames ?? [],
     },

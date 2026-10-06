@@ -5,7 +5,15 @@
  * `DayChoice`s: which places, in which order, with a line of prose; the planner turns them into
  * timed, priced items and checks them.
  */
-import type { ClosureRecord, DraftDay, DraftItem, Hours, LockedReason } from '@cp/domain';
+import type {
+  ClosureRecord,
+  DraftDay,
+  DraftItem,
+  Hours,
+  LockedReason,
+  PlaceBestTime,
+  PlaceMealRole,
+} from '@cp/domain';
 
 import { localMinute } from '../feasibility/grid';
 import type { WishTime } from './wish-time';
@@ -42,6 +50,19 @@ export interface DraftPoi {
   /** What our editors wrote: why go, and the best time to (`editorial.why_go`, `best_time`). */
   readonly whyGo?: string | null;
   readonly bestTime?: string | null;
+  /**
+   * Typed facts (the place's profile, else its kind's default, see ./open-data), set by the loader
+   * only while the server key `planner.typed_places` is on. A place that has them is planned from
+   * them alone (./typed-facts); one without them is read from the text above.
+   */
+  readonly bestTimes?: readonly PlaceBestTime[];
+  /** Minutes a visit takes (equal to `durationMin` when typed). */
+  readonly visitMin?: number;
+  readonly mealRole?: PlaceMealRole;
+  /** The dish or drink the place is known for, in its local name. */
+  readonly dish?: string | null;
+  /** Its place among the destination's essentials (1 first); null when it is not one. */
+  readonly essentialRank?: number | null;
 }
 
 export interface DraftMustDo {
