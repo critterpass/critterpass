@@ -242,6 +242,7 @@ export {
   driverRatings,
   driverTips,
 } from './driver-directory';
+export {
   placeRatingStats,
   planLinks,
   ratings,

@@ -2318,6 +2318,39 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
                     now() + interval '30 days'
                FROM providers p JOIN trips t ON t.id = p.trip_id
               WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (token_hash) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_ratings: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_ratings WHERE trip_id = $1 AND user_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_ratings (provider_id, trip_id, crew_id, user_id, verdict)
+             SELECT p.id, t.id, t.crew_id, $2, 'loved'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (provider_id, trip_id, user_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_tips: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_tips WHERE trip_id = $1 AND $2::uuid IS NOT NULL',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_tips
+               (provider_id, trip_id, crew_id, author_id, text, crew_size, month)
+             SELECT p.id, t.id, t.crew_id, $2, 'Ask for the upper car park.', 4, '2026-08-01'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (provider_id, trip_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_listing_flags: {
+    selectProbe: { sql: 'SELECT 1 FROM driver_listing_flags', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
   // A plan waiting for consent: its crew sees it, nobody else (published plans: shared-plans.test).
   shared_plans: {
     selectProbe: {
@@ -2403,35 +2436,6 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
              ON CONFLICT (token_hash) DO NOTHING`,
     },
     expectations: CREW_VISIBLE_READ,
-  },
-  driver_ratings: {
-    selectProbe: {
-      sql: 'SELECT 1 FROM driver_ratings WHERE trip_id = $1 AND user_id = $2',
-      params: (f) => [f.tripId, f.actors.organiser],
-      seed: `INSERT INTO driver_ratings (provider_id, trip_id, crew_id, user_id, verdict)
-             SELECT p.id, t.id, t.crew_id, $2, 'loved'
-               FROM providers p JOIN trips t ON t.id = p.trip_id
-              WHERE t.id = $1 LIMIT 1
-             ON CONFLICT (provider_id, trip_id, user_id) DO NOTHING`,
-    },
-    expectations: CREW_VISIBLE_READ,
-  },
-  driver_tips: {
-    selectProbe: {
-      sql: 'SELECT 1 FROM driver_tips WHERE trip_id = $1 AND $2::uuid IS NOT NULL',
-      params: (f) => [f.tripId, f.actors.organiser],
-      seed: `INSERT INTO driver_tips
-               (provider_id, trip_id, crew_id, author_id, text, crew_size, month)
-             SELECT p.id, t.id, t.crew_id, $2, 'Ask for the upper car park.', 4, '2026-08-01'
-               FROM providers p JOIN trips t ON t.id = p.trip_id
-              WHERE t.id = $1 LIMIT 1
-             ON CONFLICT (provider_id, trip_id) DO NOTHING`,
-    },
-    expectations: CREW_VISIBLE_READ,
-  },
-  driver_listing_flags: {
-    selectProbe: { sql: 'SELECT 1 FROM driver_listing_flags', params: () => [] },
-    expectations: SYSTEM_ONLY,
   },
 };
 
