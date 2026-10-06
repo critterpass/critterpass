@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# A new account with the crew live map scenario: Developer tools seeds a crew it organises with a
+# boosted and an unboosted trip that are on in Ubud (POST /v1/dev/seed-live-map), the runner puts
+# the phone at the edge of Ubud and starts the simulated crewmates (tools/scripts/live-map-sim
+# `--code`: they join with the crew code, share and walk toward Campuhan Ridge). Ends on Developer
+# tools, whose two entries open either trip's map.
+- runFlow: ../../../happy/subflows/fresh-account.yaml
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-seed-live-map'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'dev-seed-live-map'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-seed-live-map-done'
+    timeout: 120000
+- scrollUntilVisible:
+    element:
+      id: 'dev-seed-live-map-open-gate'
+    direction: DOWN
+    timeout: 10000
+- copyTextFrom:
+    id: 'dev-seed-live-map-done'
+- evalScript: ${output.seed = maestro.copiedText.trim().split(/\s+/)}
+- evalScript: ${output.code = output.seed[0]; output.tripId = output.seed[1]; output.unboostedTripId = output.seed[2]; output.poiId = output.seed[3]}
+# Runner: the phone stands at the edge of Ubud.
+- evalScript: "${output.located = http.post('http://127.0.0.1:7788/location?lat=-8.5058&lng=115.2569', { body: '{}' }).status}"
+- assertTrue: ${output.located == 200}
+# Runner: the crewmates join and start walking; /scenario-output answers 200 once they move.
+- evalScript: "${output.simStarted = http.post('http://127.0.0.1:7788/scenario?name=live-map&code=' + output.code + '&trip=' + output.tripId + '&poi=' + output.poiId, { body: '{}' }).status}"
+- assertTrue: ${output.simStarted == 202}
+- evalScript: ${output.simReady = 202}
+- repeat:
+    times: 40
+    while:
+      true: ${output.simReady == 202}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'runner-scenario-never-shown'
+          timeout: 3000
+          optional: true
+      - evalScript: "${output.simReady = http.get('http://127.0.0.1:7788/scenario-output?name=live-map').status}"
+- assertTrue: ${output.simReady == 200}

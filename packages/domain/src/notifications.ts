@@ -153,6 +153,7 @@ const CATALOGUE = [
   spec('hold_expiring', 'always', 'cp.generic', 'cp_always', 'guide', 'hold:{hold_id}'),
   spec('rsvp_changed', 'budgeted', 'cp.generic', 'cp_trip', 'member', 'rsvp:{trip_id}'),
   spec('trip_confirmed', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { collapse: 'trip_confirmed:{trip_id}', relevance: 0.9 }),
+  spec('trip_cancelled', 'budgeted', 'cp.generic', 'cp_trip', 'member', { collapse: 'trip_cancelled:{trip_id}', relevance: 0.9 }),
   // Chat collapses to one banner per crew, so it cannot pile up: it does not spend the budget.
   spec('crew_chat', 'budgeted', 'cp.chat', 'cp_crew_chat', 'member', { pref: 'crew_chat', private: true, capped: false, collapse: 'chat:{crew_id}' }),
   spec('nudge', 'budgeted', 'cp.generic', 'cp_guide', 'guide', { pref: 'guide_tips' }),
@@ -374,8 +375,9 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'proposal.sent': ['proposal_version'],
   // A member's own answer to the trip (in, maybe, out, waitlisted), to its organisers.
   'rsvp.changed': ['rsvp_changed'],
-  // The trip is on (the organiser locked it, or enough were in at reply-by), to everyone on it.
-  'trip.status_changed': ['trip_confirmed'],
+  // The trip is on (the organiser locked it, or enough were in at reply-by), or called off by an
+  // organiser, to everyone on it.
+  'trip.status_changed': ['trip_confirmed', 'trip_cancelled'],
   'followup.due': ['scheduled_resend'],
   'proposal.reply_by_soon': ['reply_by_expiring'],
   'leave_by.knocked': ['crew_knock'],

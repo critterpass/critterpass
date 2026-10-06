@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# 3b-3 → 3b-1: from a guest place, PITCH TO THE CREW opens the pitch sheet; the guide's pitch
+# 3b-3 → 3b-1: from a place (its Explore page, or the guest guide's page where no guide lives), PITCH TO THE CREW opens the pitch sheet; the guide's pitch
 # streams in section by section (sticker, chips, headline, reasons, quote); ADD TO THE VOTE puts
 # the place on the crew's board and Home shows WHERE NEXT? with its sticker.
 #
@@ -40,23 +40,55 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'place-result-.*'
     index: 0
-# The pitch action sits below the guest guide's brief.
+# A place with a guide opens its Explore page (PITCH TO THE CREW is `explore-pitch`); any other
+# place opens the guest guide's page (`guest-pitch`). Either button opens the pitch.
 - scrollUntilVisible:
     element:
-      id: 'guest-pitch'
+      id: 'explore-pitch|guest-pitch'
     direction: DOWN
     timeout: 30000
-- tapOn:
-    id: 'guest-pitch'
-# Until the new crew has synced the page asks which crew to pitch to; pick it there.
 - runFlow:
     when:
       visible:
-        id: 'crew-picker'
+        id: 'explore-pitch'
     commands:
       - tapOn:
-          id: 'crew-pick-.*'
-          index: 0
+          id: 'explore-pitch'
+      # With one crew the pitch opens at once; before the new crew has synced the page asks
+      # which crew gets it (and says there is none until the crew arrives).
+      - runFlow:
+          when:
+            visible:
+              id: 'explore-pitch-no-crew'
+          commands:
+            - extendedWaitUntil:
+                visible:
+                  id: 'explore-pitch-crews'
+                timeout: 30000
+      - runFlow:
+          when:
+            visible:
+              id: 'explore-pitch-crews'
+          commands:
+            - tapOn:
+                id: 'explore-pitch-crew-.*'
+                index: 0
+- runFlow:
+    when:
+      visible:
+        id: 'guest-pitch'
+    commands:
+      - tapOn:
+          id: 'guest-pitch'
+      # Until the new crew has synced the page asks which crew to pitch to; pick it there.
+      - runFlow:
+          when:
+            visible:
+              id: 'crew-picker'
+          commands:
+            - tapOn:
+                id: 'crew-pick-.*'
+                index: 0
 - extendedWaitUntil:
     visible:
       id: 'pitch-sheet'
