@@ -6,7 +6,8 @@
 #   bash tools/scripts/security/scan.sh secrets deps    # only the named steps
 #   CI_RUNS=50 SCAN_IMAGES="ghcr.io/x/api:sha" bash tools/scripts/security/scan.sh containers ci-logs
 #
-# Steps: secrets, ci-logs, deps, osv, containers. Each uses the native binary when installed and
+# Steps: secrets, ci-logs, deps, osv, containers, plus `tracked` (secrets in the files tracked at
+# HEAD only, for a clone without full history) when named. Each uses the native binary when installed and
 # falls back to its pinned Docker image. Findings are printed redacted; the exit code is non-zero
 # when any step finds something or cannot run. Results go into docs/compliance/security-review.md.
 set -uo pipefail
@@ -46,6 +47,26 @@ run_tool() {
 step_secrets() {
   run_tool gitleaks "$GITLEAKS_IMAGE" /repo git "$ROOT" --config "$ROOT/.gitleaks.toml" \
     --redact --no-banner --exit-code 1
+}
+
+# Only the files tracked at HEAD, exported to a scratch directory: no history walk, so it is safe
+# on a partial clone, and ignored files (node_modules, .env) are never read.
+step_tracked() {
+  local dir
+  dir="$(mktemp -d "$ROOT/.scan-tracked.XXXXXX")"
+  trap 'rm -rf "$dir"' RETURN
+  git archive HEAD | tar -x -C "$dir" || return 3
+  # .gitleaksignore names findings by commit; a directory scan names them by path, so the same
+  # accepted findings are rewritten without the commit (native and container path forms).
+  local accepted
+  accepted="$(sed -n -E 's/^[0-9a-f]{40}:(.+)$/\1/p' .gitleaksignore 2>/dev/null)"
+  {
+    printf '%s\n' "$accepted" | sed "s|^|$dir/|"
+    printf '%s\n' "$accepted" | sed "s|^|/repo/${dir#"$ROOT"/}/|"
+  } >"$dir/.gitleaksignore"
+  echo "  scanning $(git ls-files | wc -l | tr -d ' ') tracked files"
+  run_tool gitleaks "$GITLEAKS_IMAGE" /repo dir "$dir" --config "$ROOT/.gitleaks.toml" \
+    --gitleaks-ignore-path "$dir" --redact --no-banner --exit-code 1
 }
 
 step_ci_logs() {
@@ -117,6 +138,7 @@ for step in "${STEPS[@]}"; do
   echo "== $step"
   case "$step" in
     secrets) step_secrets ;;
+    tracked) step_tracked ;;
     ci-logs) step_ci_logs ;;
     deps) step_deps ;;
     osv) step_osv ;;

@@ -129,13 +129,13 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Status: done — 899f04d04 (view), 9c410cf65 (server), 7a0c3f737 (ends by schedule), 30b7f5b40 (the guide holds the pickup sign)
 
 ### T7 — Critter-nearby LA
-- Status: partial — 8a48ec237 (view and app start path); no worker push-to-start job for a dwell that starts in the background
+- Status: partial — 8a48ec237 (view and app start path), 97a8302480 (the app takes over an activity the server started by push, matched on the encounter's id, instead of starting a second one); the worker's push-to-start for a dwell that starts in the background is in its own change
 - Goal: 5a-4 dwell ring with locked phone.
 - Files: `apps/mobile/targets/widgets/LiveActivities/CritterNearbyLiveActivity.swift`, `apps/mobile/src/features/trip/live-activities/critter-nearby.ts`.
 - Steps: 1. Start path: foreground → local request; background → worker sends APNs push-to-start on `encounter.dwell_started` (POI id + distance band only) using the stored push-to-start token; missing token/permission → time-sensitive notification. 2. Ring/blur stage from server-confirmed dwell fraction (10 steps); drain on leave. 3. End on catch with found art / on expiry.
 - Tests: `xcodebuild test -scheme CPWidgets -only-testing:CritterSnapshots`; `pnpm --filter @cp/mobile test -- critter-nearby`; `pnpm --filter @cp/worker test -- la/critter-start` (background dwell → push-to-start payload; no token → time-sensitive notification; payload contains no coordinates).
 - Done when: simulated dwell sequence produces 10 ring states and drains without reset; backgrounded dwell start goes via push-to-start, never local `Activity.request`.
-- Status: partly done — 8a48ec237d (the lock-screen view and the in-app start, ring and end, with `critter-nearby` tests). Not built: the worker's push-to-start when a dwell begins with the app in the background
+- Status: done — 8a48ec237d (the lock-screen view and the in-app start, ring and end, with `critter-nearby` tests), 48a9d92cfc (the worker's push-to-start for a background dwell, the ring from reported samples, the notification when the phone cannot show it). Not built: the app adopting a push-started activity (it keys its own by spawn rule, the server by encounter), and a re-run on each sample report (the ring moves on the minute sweep)
 
 ### T8 — Crew-live LA + lock-screen offer (5a-2, 5a-6)
 - Status: done — 8a48ec237, 7e32959f9, e021880d5 (intents send directly with the device key). No Maestro flow
@@ -153,7 +153,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Triggers per kind; concurrency demotion to notifications. 2. SOS p10 to recipients, local for sender. 3. Snapshots all states.
 - Tests: `pnpm --filter @cp/worker test -- la`; `xcodebuild test -scheme CPWidgets`.
 - Done when: SOS pre-empts a running LeaveBy on a device at the 2-activity cap; ballot intent returns tallies and shows the stamp.
-- Status: partly done — 8a48ec237d (Vote, Storm, SOS and Ride views, the ballot and coming intents, the worker's vote and SOS loaders). Not built: worker loaders that start the Storm and Ride activities
+- Status: done — 8a48ec237d (Vote, Storm, SOS and Ride views, the ballot and coming intents, the worker's vote and SOS loaders), d708e84128 (the worker's Storm and Ride loaders and their minute-sweep starts)
 
 ### T10 — Alarm countdown presentation + E2E pass
 - Status: partial — fdbd3fa1d, 8a48ec237 (AlarmKit presentation); no e2e suite

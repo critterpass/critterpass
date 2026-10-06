@@ -9,13 +9,24 @@ import { describe, expect, it } from '@jest/globals';
 import {
   CRITTER_FOUND_LINGER_S,
   critterNearbyInput,
+  runningCritterActivity,
   startCritterNearbyActivity,
   type NearbyPort,
+  type RunningActivity,
   type NearbySnapshot,
 } from '../critter-nearby';
 
 const SPAWN = '0199a3c0-0000-7000-8000-00000000e001';
+const ENCOUNTER = '0199a3c0-0000-7000-8000-00000000e0aa';
 const NOW = 1_790_000_000_000;
+
+/** An activity already on the lock screen, as the module lists it. */
+const running = (id: string, key: string, state = 'active'): RunningActivity => ({
+  id,
+  kind: 'critter_nearby',
+  attributes: { spawn_id: key, silhouette_key: 'gecko-tokek', place_name: 'Tirta Empul' },
+  state,
+});
 
 const at = (phase: string, progress: number, band: string | null = '0_10'): NearbySnapshot => ({
   phase,
@@ -27,10 +38,22 @@ const at = (phase: string, progress: number, band: string | null = '0_10'): Near
   },
 });
 
-function world(options: { drawn?: readonly string[] | null; refuseStarts?: number } = {}) {
+function world(
+  options: {
+    drawn?: readonly string[] | null;
+    refuseStarts?: number;
+    /** What the phone already shows; absent for a build that cannot list activities. */
+    running?: () => readonly RunningActivity[];
+  } = {},
+) {
   let snapshot: NearbySnapshot = { phase: 'none', progress: 0, band: null, candidate: null };
   const listeners = new Set<() => void>();
-  const calls: { op: string; state?: Record<string, unknown>; dismissAt?: number }[] = [];
+  const calls: {
+    op: string;
+    id?: string;
+    state?: Record<string, unknown>;
+    dismissAt?: number;
+  }[] = [];
   let refusals = options.refuseStarts ?? 0;
   const port: NearbyPort = {
     authorization: () => ({ enabled: true }),
@@ -45,18 +68,20 @@ function world(options: { drawn?: readonly string[] | null; refuseStarts?: numbe
       return Promise.resolve('activity-1');
     },
     update: (request) => {
-      calls.push({ op: 'update', state: { ...request.state } });
+      calls.push({ op: 'update', id: request.id, state: { ...request.state } });
       return Promise.resolve();
     },
     end: (request) => {
       calls.push({
         op: 'end',
+        id: request.id,
         ...(request.state === undefined ? {} : { state: { ...request.state } }),
         ...(request.dismissAt === undefined ? {} : { dismissAt: request.dismissAt }),
       });
       return Promise.resolve();
     },
   };
+  if (options.running !== undefined) port.list = options.running;
   const settle = async () => {
     for (let i = 0; i < 10; i += 1) await Promise.resolve();
   };
@@ -160,6 +185,56 @@ describe('critter-nearby activity from the encounter engine', () => {
     w.stop();
     await w.settle();
     expect(w.calls.map((call) => call.op)).toEqual(['start', 'end']);
+  });
+
+  it('takes over the activity the server started by push instead of starting a second one', async () => {
+    // The dwell began in the background: the phone refused the app's start, the server's push
+    // started one under the encounter's id, and then the app came to the front.
+    let shown: RunningActivity[] = [];
+    const w = world({ refuseStarts: 3, running: () => shown });
+    await w.move({ ...at('accruing', 0.2), encounterId: ENCOUNTER });
+    expect(w.calls).toEqual([]);
+    shown = [running('pushed-1', ENCOUNTER)];
+    await w.move({ ...at('accruing', 0.45), encounterId: ENCOUNTER });
+    await w.move({ ...at('accruing', 0.62), encounterId: ENCOUNTER });
+    await w.move({ ...at('befriended', 1), encounterId: ENCOUNTER });
+    expect(w.calls.map((call) => [call.op, call.id])).toEqual([
+      ['update', 'pushed-1'],
+      ['update', 'pushed-1'],
+      ['end', 'pushed-1'],
+    ]);
+    expect(w.calls[0]?.state).toMatchObject({ state: 'dwelling', ring: 4 });
+    expect(w.calls.at(-1)).toMatchObject({
+      state: { state: 'caught', found_key: 'gecko-tokek' },
+      dismissAt: NOW / 1000 + CRITTER_FOUND_LINGER_S,
+    });
+  });
+
+  it('ends a push-started activity on the found art when the app opens after the catch', async () => {
+    const w = world({ running: () => [running('pushed-1', ENCOUNTER)] });
+    await w.move({ ...at('befriended', 1), encounterId: ENCOUNTER });
+    expect(w.calls.map((call) => [call.op, call.id])).toEqual([['end', 'pushed-1']]);
+  });
+
+  it("leaves another encounter's activity alone and starts its own", async () => {
+    const other = '0199a3c0-0000-7000-8000-00000000e0bb';
+    const w = world({ running: () => [running('pushed-9', other)] });
+    await w.move({ ...at('accruing', 0.3), encounterId: ENCOUNTER });
+    expect(w.calls.map((call) => call.op)).toEqual(['start']);
+  });
+
+  it('picks the push-started activity first, then its own, and never one that is over', () => {
+    const keys = { encounterId: ENCOUNTER, spawnId: SPAWN };
+    const own = running('own-1', SPAWN);
+    const pushed = running('pushed-1', ENCOUNTER, 'stale');
+    expect(runningCritterActivity([own, pushed], keys)?.id).toBe('pushed-1');
+    expect(runningCritterActivity([own], keys)?.id).toBe('own-1');
+    expect(runningCritterActivity([own], { ...keys, encounterId: null })?.id).toBe('own-1');
+    expect(runningCritterActivity([running('gone', ENCOUNTER, 'dismissed')], keys)).toBeNull();
+    expect(runningCritterActivity([running('done', ENCOUNTER, 'ended')], keys)).toBeNull();
+    expect(
+      runningCritterActivity([{ ...pushed, kind: 'leave_by', state: 'active' }], keys),
+    ).toBeNull();
   });
 
   it('has nothing to show before the ring starts filling', () => {

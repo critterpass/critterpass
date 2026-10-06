@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# One more simulated traveller joins the crew behind ${output.crewCode} and changes its shared pack
+# list through the api (tools/scripts/seed-trip-pack.ts, started by the shard's runner): ${ACTION}
+# is `add` or `remove`, ${LABEL} the item. Waits until the script says it is done.
+# Runner: /scenario starts it, /scenario-output answers 200 once it is done. The runner is on the
+# host, so this works while the device has no network.
+- evalScript: "${output.packStarted = http.post('http://127.0.0.1:7788/scenario?name=trip-pack&code=' + output.crewCode + '&action=' + ACTION + '&label=' + LABEL, { body: '{}' }).status}"
+- assertTrue: ${output.packStarted == 202}
+- evalScript: ${output.packDone = 202}
+- repeat:
+    times: 60
+    while:
+      true: ${output.packDone == 202}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'runner-scenario-never-shown'
+          timeout: 3000
+          optional: true
+      - evalScript: "${output.packDone = http.get('http://127.0.0.1:7788/scenario-output?name=trip-pack').status}"
+- assertTrue: ${output.packDone == 200}

@@ -9,6 +9,12 @@
  * iOS refuses to start an activity from the background, so a refused start is simply tried again
  * on the next change; updates and the end work while the app runs in the background. A build
  * whose widget extension has no view for this kind never starts one.
+ *
+ * For a dwell that began with the app in the background the server starts the activity by push,
+ * under the encounter's id (the app's own start names the spawn). Before starting anything the
+ * driver therefore looks at what is already on the lock screen: an activity for this encounter, or
+ * one this app started for the spawn before a reload, is taken over and updated in place, so there
+ * is never a second ring beside it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: wire values, never copy. */
 import {
@@ -25,6 +31,8 @@ export const CRITTER_GONE_LINGER_S = 60;
 
 /** What the driver reads of the encounter engine's snapshot (features/critters/engine). */
 export interface NearbySnapshot {
+  /** The encounter in play, as the server knows it; null before one has begun. */
+  readonly encounterId?: string | null;
   readonly phase: string;
   /** Ring fill, 0–1. */
   readonly progress: number;
@@ -64,6 +72,32 @@ export interface NearbyPort {
     readonly state?: Readonly<Record<string, unknown>>;
     readonly dismissAt?: number;
   }): Promise<void>;
+  /** The activities on this phone right now; absent in a build that cannot list them. */
+  list?(): readonly RunningActivity[];
+}
+
+export interface RunningActivity {
+  readonly id: string;
+  readonly kind: string;
+  readonly attributes: Readonly<Record<string, unknown>>;
+  readonly state: string;
+}
+
+const SHOWING = new Set(['pending', 'active', 'stale']);
+
+/**
+ * The critter-nearby activity already on the lock screen for this dwell, if any: the one the
+ * server started by push (its `spawn_id` is the encounter's id) before the one this app started
+ * itself (its `spawn_id` is the spawn's). Ended and dismissed activities are never taken over.
+ */
+export function runningCritterActivity(
+  running: readonly RunningActivity[],
+  keys: { readonly encounterId: string | null; readonly spawnId: string },
+): RunningActivity | null {
+  const showing = running.filter((a) => a.kind === KIND && SHOWING.has(a.state));
+  const named = (key: string | null) =>
+    key === null ? undefined : showing.find((a) => a.attributes['spawn_id'] === key);
+  return named(keys.encounterId) ?? named(keys.spawnId) ?? null;
 }
 
 const STATES: Readonly<Record<string, CritterLaInput['state']>> = {
@@ -117,6 +151,17 @@ export function startCritterNearbyActivity(deps: CritterNearbyDeps): () => void 
 
   const drawn = () => port.authorization().enabled && (port.drawnKinds()?.includes(KIND) ?? false);
 
+  function adoptable(spawnId: string): RunningActivity | null {
+    try {
+      return runningCritterActivity(port.list?.() ?? [], {
+        encounterId: source.snapshot().encounterId ?? null,
+        spawnId,
+      });
+    } catch {
+      return null;
+    }
+  }
+
   async function finish(final: Readonly<Record<string, unknown>> | null, lingerS: number) {
     if (active === null) return;
     const { id } = active;
@@ -141,7 +186,15 @@ export function startCritterNearbyActivity(deps: CritterNearbyDeps): () => void 
     // The frame without its version: the engine ticks every second, the ring moves far less often.
     const frame = JSON.stringify(buildCritterLaState(input, 0));
     if (active === null) {
-      if (over || !drawn()) return;
+      if (!drawn()) return;
+      const running = adoptable(input.spawnId);
+      if (running !== null) {
+        // Taken over with no frame yet, so the engine's current frame goes out just below.
+        active = { id: running.id, spawnId: input.spawnId, frame: '' };
+      }
+    }
+    if (active === null) {
+      if (over) return;
       seq = 1;
       try {
         const id = await port.start({

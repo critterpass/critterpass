@@ -5,7 +5,7 @@
  */
 import { requireOptionalNativeModule } from 'expo';
 
-import type { NearbyPort } from './critter-nearby';
+import type { NearbyPort, RunningActivity } from './critter-nearby';
 
 export type LaDeviceState = 'active' | 'stale' | 'ended' | 'dismissed';
 
@@ -24,6 +24,8 @@ export interface LaPort extends Pick<NearbyPort, 'start' | 'update' | 'end'> {
    * server then starts only the kinds every build draws).
    */
   drawnKinds(): readonly string[] | null;
+  /** Every activity ActivityKit still holds for the app, however it was started. */
+  list(): readonly RunningActivity[];
   onPushToStartToken(
     listener: (event: { readonly kind: string; readonly token: string }) => void,
   ): { remove(): void };
@@ -38,6 +40,7 @@ export interface LaPort extends Pick<NearbyPort, 'start' | 'update' | 'end'> {
 interface NativeLaModule extends Pick<NearbyPort, 'start' | 'update' | 'end'> {
   authorization(): { readonly enabled: boolean; readonly frequent: boolean };
   drawnKinds?(): string[];
+  list?(): RunningActivity[];
   addListener(event: string, listener: (event: never) => void): { remove(): void };
 }
 
@@ -56,6 +59,7 @@ export function installedLaPort(): LaPort | null {
           start: (request) => native.start(request),
           update: (request) => native.update(request),
           end: (request) => native.end(request),
+          list: () => (typeof native.list === 'function' ? native.list() : []),
           onPushToStartToken: (listener) => native.addListener('onPushToStartToken', listener),
           onUpdateToken: (listener) => native.addListener('onUpdateToken', listener),
           onActivityState: (listener) => native.addListener('onActivityState', listener),
