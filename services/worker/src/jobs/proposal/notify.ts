@@ -109,6 +109,8 @@ export function registerProposalNotifications(): void {
         crewId: trip.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
         deepLink: `/proposal/${str(routed, 'proposal_id') ?? ''}`,
+        // The poster's I'M IN and MAYBE answer this proposal without opening the app.
+        ctx: { proposal_id: str(routed, 'proposal_id') },
         needsYou: true,
       };
     },
@@ -168,6 +170,7 @@ export function registerProposalNotifications(): void {
         crewId: trip.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
         deepLink: `/proposal/${str(routed, 'proposal_id') ?? ''}`,
+        ctx: { proposal_id: str(routed, 'proposal_id') },
         needsYou: true,
         collapseVars: { trip_id: str(routed, 'trip_id') ?? '' },
       };
