@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Below Android 12 a queued action is sent by a short foreground job, which needs a line. -->
+  <string name="cp_surfaces_sending">Sending your answer</string>
+
+  <!-- Notification and Live Update buttons (docs/api-contracts-async.md §3.4). -->
+  <string name="cp_action_open">Open</string>
+  <string name="cp_action_yes">Yes</string>
+  <string name="cp_action_no">No</string>
+  <string name="cp_action_do_it">Do it</string>
+  <string name="cp_action_im_up">I\'m up</string>
+  <string name="cp_action_snooze">Snooze</string>
+  <string name="cp_action_late_10">10 min late</string>
+  <string name="cp_action_ping_all">Ping all</string>
+  <string name="cp_action_on_my_way">On my way</string>
+  <string name="cp_action_coming">I\'m coming</string>
+  <string name="cp_action_got_it">Got it</string>
+  <string name="cp_action_nudge">Nudge</string>
+  <string name="cp_action_reply">Reply</string>
+  <string name="cp_action_mark_read">Mark read</string>
+  <string name="cp_action_im_in">I\'m in</string>
+  <string name="cp_action_maybe">Maybe</string>
+  <string name="cp_action_join">Join</string>
+  <string name="cp_action_stop_sharing">Stop sharing</string>
+  <string name="cp_action_can_make_it">I can make it</string>
+  <string name="cp_action_cant_move_it">Can\'t move it</string>
+
+  <!-- The vote notification once answered from the shade. -->
+  <string name="cp_vote_stamp">Vote in. Thanks!</string>
+  <string name="cp_vote_stamp_option">You voted %1$s</string>
+
+  <!-- Live Update status lines, by the spec's status key. -->
+  <string name="cp_lu_status_leave_by_waiting">Leave-by set</string>
+  <string name="cp_lu_status_leave_by_soon">Leaving soon</string>
+  <string name="cp_lu_status_leave_by_go">Time to go</string>
+  <string name="cp_lu_status_leave_by_late">Running late</string>
+  <string name="cp_lu_status_leave_by_done">On the way</string>
+  <string name="cp_lu_status_flight_check_in">Check-in open</string>
+  <string name="cp_lu_status_flight_boarding">Boarding</string>
+  <string name="cp_lu_status_flight_departed">In the air</string>
+  <string name="cp_lu_status_flight_landed">Landed</string>
+  <string name="cp_lu_status_flight_pickup">Pickup</string>
+  <string name="cp_lu_status_flight_cancelled">Flight cancelled</string>
+  <string name="cp_lu_status_flight_diverted">Flight diverted</string>
+  <string name="cp_lu_status_meet_up_gathering">Crew on the way</string>
+  <string name="cp_lu_status_meet_up_close">Almost everyone is close</string>
+  <string name="cp_lu_status_meet_up_arrived">Everyone is here</string>
+  <string name="cp_lu_status_meet_up_late">Not everyone is there yet</string>
+  <string name="cp_lu_status_meet_up_ended">Meet-up over</string>
+  <string name="cp_lu_status_critter_dwelling">A critter is near. Stay put</string>
+  <string name="cp_lu_status_critter_draining">Keep still a little longer</string>
+  <string name="cp_lu_status_critter_caught">Caught!</string>
+  <string name="cp_lu_status_critter_expired">It slipped away</string>
+  <string name="cp_lu_status_sos_open">SOS sent to your crew</string>
+  <string name="cp_lu_status_sos_responding">Help is coming</string>
+  <string name="cp_lu_status_sos_resolved">SOS resolved</string>
+  <string name="cp_lu_status_sos_cancelled">SOS cancelled</string>
+
+  <!-- Status-bar chip labels (about seven characters). -->
+  <string name="cp_lu_chip_check_in">CHECK-IN</string>
+  <string name="cp_lu_chip_boarding">BOARD</string>
+  <string name="cp_lu_chip_departed">FLYING</string>
+  <string name="cp_lu_chip_landed">LANDED</string>
+  <string name="cp_lu_chip_pickup">PICKUP</string>
+  <string name="cp_lu_chip_cancelled">CNCLD</string>
+  <string name="cp_lu_chip_diverted">DIVERT</string>
+  <string name="cp_lu_chip_near">NEAR</string>
+  <string name="cp_lu_chip_close">CLOSE</string>
+  <string name="cp_lu_chip_here">HERE</string>
+  <string name="cp_lu_chip_sos">SOS</string>
+
+  <!-- MetricStyle labels. -->
+  <string name="cp_lu_metric_leave_in">Leave in (min)</string>
+  <string name="cp_lu_metric_up">Up</string>
+  <string name="cp_lu_metric_boarding_in">Boarding in (min)</string>
+  <string name="cp_lu_metric_departs_in">Departs in (min)</string>
+  <string name="cp_lu_metric_lands_in">Lands in (min)</string>
+  <string name="cp_lu_metric_delay">Delay (min)</string>
+  <string name="cp_lu_metric_eta">ETA (min)</string>
+  <string name="cp_lu_metric_stay">Stay (min)</string>
+  <string name="cp_lu_metric_coming">Coming</string>
+
+  <!-- A session with no spec of its own (vote, storm) and the app name fallback. -->
+  <string name="cp_lu_fallback_title">CritterPass</string>
+
+  <!-- Home-screen widgets (5c-1, 5c-2): names in the widget picker, descriptions, states. -->
+  <string name="cp_widget_countdown">Countdown</string>
+  <string name="cp_widget_countdown_description">Days to your trip, then time to leave</string>
+  <string name="cp_widget_countdown_empty">No trip on the calendar yet</string>
+  <string name="cp_widget_vote">Crew vote</string>
+  <string name="cp_widget_vote_description">The open vote, with a tap to pick</string>
+  <string name="cp_widget_vote_empty">No open vote right now</string>
+  <string name="cp_widget_vote_tally">%1$d of %2$d voted</string>
+  <string name="cp_widget_vote_option">%1$s · %2$d</string>
+  <string name="cp_widget_today">Today</string>
+  <string name="cp_widget_today_description">The day's plan, briefing and packing</string>
+  <string name="cp_widget_today_empty">Nothing planned for today</string>
+  <string name="cp_widget_today_weather">Today · %1$d°</string>
+  <string name="cp_widget_balances">Balances</string>
+  <string name="cp_widget_balances_description">What you owe or are owed</string>
+  <string name="cp_widget_balances_empty">All square</string>
+  <string name="cp_widget_balances_owed">You're owed</string>
+  <string name="cp_widget_balances_owe">You owe</string>
+  <string name="cp_widget_balances_nudge">Nudge %1$s</string>
+  <string name="cp_widget_critterdex">Critterdex</string>
+  <string name="cp_widget_critterdex_description">Critters you've found</string>
+  <string name="cp_widget_critterdex_count">%1$d / %2$d</string>
+  <string name="cp_widget_crew">Crew</string>
+  <string name="cp_widget_crew_description">Who's close to the meet-up</string>
+  <string name="cp_widget_crew_empty">No meet-up right now</string>
+  <string name="cp_widget_next_flight">Next flight</string>
+  <string name="cp_widget_next_flight_description">Your next flight, gate and delays</string>
+  <string name="cp_widget_next_flight_empty">No flight coming up</string>
+  <string name="cp_widget_gate">Gate %1$s</string>
+  <string name="cp_widget_delay">%1$d min late</string>
+  <string name="cp_widget_signed_out">Open CritterPass to set this up</string>
+  <string name="cp_widget_locked_boost">Boost the trip to see your crew here</string>
+  <string name="cp_widget_locked_pass_plus">Get Pass+ for live flight updates</string>
+  <string name="cp_widget_updated_at">Updated %1$s</string>
+  <string name="cp_widget_now">Now</string>
+  <string name="cp_widget_hours_minutes">%1$dh %2$dm</string>
+  <string name="cp_widget_minutes">%1$d min</string>
+  <plurals name="cp_widget_days">
+    <item quantity="one">%d day</item>
+    <item quantity="other">%d days</item>
+  </plurals>
+
+  <!-- The sleepy clock screen saver (5c-4); Android only runs it while charging or docked. -->
+  <string name="cp_dream_label">CritterPass sleepy clock (while charging)</string>
+  <string name="cp_dream_leave_by">Leave by · %1$s</string>
+  <string name="cp_dream_no_leave_by">Tokek is asleep. No leave-by set.</string>
+</resources>
