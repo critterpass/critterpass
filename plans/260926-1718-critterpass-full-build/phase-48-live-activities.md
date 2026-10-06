@@ -129,7 +129,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Status: done — 899f04d04 (view), 9c410cf65 (server), 7a0c3f737 (ends by schedule), 30b7f5b40 (the guide holds the pickup sign)
 
 ### T7 — Critter-nearby LA
-- Status: partial — 8a48ec237 (view and app start path); no worker push-to-start job for a dwell that starts in the background
+- Status: partial — 8a48ec237 (view and app start path), 97a8302480 (the app takes over an activity the server started by push, matched on the encounter's id, instead of starting a second one); the worker's push-to-start for a dwell that starts in the background is in its own change
 - Goal: 5a-4 dwell ring with locked phone.
 - Files: `apps/mobile/targets/widgets/LiveActivities/CritterNearbyLiveActivity.swift`, `apps/mobile/src/features/trip/live-activities/critter-nearby.ts`.
 - Steps: 1. Start path: foreground → local request; background → worker sends APNs push-to-start on `encounter.dwell_started` (POI id + distance band only) using the stored push-to-start token; missing token/permission → time-sensitive notification. 2. Ring/blur stage from server-confirmed dwell fraction (10 steps); drain on leave. 3. End on catch with found art / on expiry.

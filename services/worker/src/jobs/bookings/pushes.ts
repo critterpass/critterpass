@@ -58,6 +58,8 @@ export function registerFoundPush(): void {
         crewId: routed.crewId,
         tripId: routed.tripId,
         deepLink: '/wallet/bookings/add',
+        // ADD ALL on the push adds this find without opening the app.
+        ctx: { candidate_id: str(routed, 'candidate_id') },
       };
     },
   });

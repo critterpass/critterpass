@@ -68,6 +68,7 @@ function modulePort(overrides: Partial<LaPort> = {}): LaPort {
     start: () => Promise.resolve('activity'),
     update: () => Promise.resolve(),
     end: () => Promise.resolve(),
+    list: () => [],
     onPushToStartToken: none,
     onUpdateToken: none,
     onActivityState: none,
