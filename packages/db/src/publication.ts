@@ -86,6 +86,9 @@ import * as schema from './schema';
  * `climate_normals` (packages/db/src/schema/planning.ts) is RLS "R" but served over HTTP only: the
  * usual rain by hour for every cell of every destination is reference data the fit routes read,
  * not something a phone keeps. (`route_cache` in the same file is C4, so it never qualifies.)
+ * `place_profiles` (packages/db/src/schema/place-profiles.ts) is RLS "R" but read over HTTP only
+ * (`GET /v1/places/{id}`): phones get a place's profile through the api. `place_search_pace` (same
+ * file) is "S": the shared pace of the worker's place searches.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -117,7 +120,9 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'member_etas',
   'moderation_reports',
   'persona_packs',
+  'place_profiles',
   'place_qna_summaries',
+  'place_search_pace',
   'poi_embeddings',
   'poi_foursquare_ids',
   'poi_foursquare_photos',

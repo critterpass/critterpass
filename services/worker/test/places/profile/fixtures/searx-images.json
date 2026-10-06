@@ -1,0 +1,24 @@
+{
+  "source": "SearXNG images answer shape (searxng/searxng 2026.10).",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Dinh Bảo Đại III Đà Lạt",
+      "results": [
+        {
+          "url": "https://www.pinterest.com/pin/123/",
+          "title": "pin",
+          "img_src": "https://i.pinimg.com/736x/aa.jpg",
+          "engine": "bing images"
+        },
+        {
+          "url": "https://vinwonders.com/vi/wonderpedia/news/dinh-3-da-lat/",
+          "title": "Dinh 3",
+          "img_src": "https://vinwonders.com/images/dinh-3.jpg",
+          "engine": "bing images"
+        }
+      ],
+      "unresponsive_engines": []
+    }
+  }
+}

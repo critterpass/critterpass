@@ -1,0 +1,35 @@
+{
+  "source": "SearXNG JSON answer shape (searxng/searxng 2026.10), results as the place pipeline's run of 6 Oct 2026 returned them for this place.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Dinh Bảo Đại III Đà Lạt giờ mở cửa giá vé",
+      "number_of_results": 0,
+      "results": [
+        {
+          "url": "https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/",
+          "title": "Dinh Bảo Đại Đà Lạt (Dinh III): giá vé, giờ mở cửa",
+          "content": "Giá vé tham quan Dinh III. Người lớn: 60.000 đ/vé. Thời gian mở cửa 07:00 – 17:30.",
+          "engine": "bing"
+        },
+        {
+          "url": "https://www.facebook.com/dinh3dalat/",
+          "title": "Dinh III Đà Lạt",
+          "content": "Trang chính thức.",
+          "engine": "bing"
+        },
+        {
+          "url": "https://vinwonders.com/vi/wonderpedia/news/dinh-3-da-lat/",
+          "title": "Dinh 3 Đà Lạt có gì?",
+          "content": "Dinh 3 Bảo Đại nằm trên đường Triệu Việt Vương, mở cửa từ 7h đến 17h30.",
+          "engine": "mojeek"
+        }
+      ],
+      "answers": [],
+      "corrections": [],
+      "infoboxes": [],
+      "suggestions": [],
+      "unresponsive_engines": []
+    }
+  }
+}

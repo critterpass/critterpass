@@ -186,6 +186,13 @@ const PLANNING_CALL: SpecOptions = {
   temperature: 0.3,
 };
 
+const PROFILE_CALL: SpecOptions = {
+  output: 'structured',
+  thinking: 'disabled',
+  temperature: 0,
+  cacheLayers: PLAIN_LAYERS,
+};
+
 const GUIDE_STREAM: SpecOptions = {
   delivery: 'stream',
   cacheLayers: GUIDE_LAYERS,
@@ -272,6 +279,13 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
     temperature: 0,
     cacheLayers: PLAIN_LAYERS,
   }),
+  // A place's profile from the pages code fetched (system usage): pro by default, fast when the
+  // worker's PLACES_PROFILE_MODEL says so. Structured, no thinking, sampled flat.
+  'place.profile': pro(null, 2500, 'low', PROFILE_CALL),
+  'place.profile_fast': fast(null, 2500, PROFILE_CALL),
+  // DeepSeek's own web search (its server tool) as the second source for fees, hours and closures.
+  'place.profile_check': pro('R', 800, 'low', { thinking: 'disabled', temperature: 0 }),
+  'place.profile_translate': fast(null, 2048, { output: 'structured', temperature: 0.2 }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
@@ -283,6 +297,7 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
   'availability.reply_intent': twin(),
   'vendor.reply_intent': twin(),
   'rsvp.reply_intent': twin(),
+  'place.labels': twin(),
 };
 
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {

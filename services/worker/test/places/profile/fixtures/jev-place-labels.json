@@ -1,0 +1,72 @@
+{
+  "source": "Live recording from TypeSafe Jev (route place.labels) for the same place, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "category": {
+          "type": "choice",
+          "choice": "museum",
+          "confidence": 1,
+          "probabilities": {
+            "other": 0,
+            "transit": 0,
+            "nightlife": 0,
+            "beach": 0,
+            "museum": 1,
+            "food": 0,
+            "shopping": 0,
+            "health": 0,
+            "market": 0,
+            "temple_shrine": 0,
+            "stay": 0,
+            "nature": 0
+          }
+        },
+        "meal": {
+          "type": "choice",
+          "choice": "none",
+          "confidence": 0.99,
+          "probabilities": {
+            "meal": 0,
+            "none": 0.99,
+            "light": 0.01
+          }
+        },
+        "early_morning": {
+          "type": "noul",
+          "noul": 0.6
+        },
+        "morning": {
+          "type": "noul",
+          "noul": 0.64
+        },
+        "midday": {
+          "type": "noul",
+          "noul": 0.33
+        },
+        "afternoon": {
+          "type": "noul",
+          "noul": 0.61
+        },
+        "sunset": {
+          "type": "noul",
+          "noul": 0.56
+        },
+        "evening": {
+          "type": "noul",
+          "noul": 0.41
+        },
+        "after_dark": {
+          "type": "noul",
+          "noul": 0.19
+        }
+      },
+      "usage": {
+        "input_tokens": 613,
+        "output_tokens": 266
+      }
+    }
+  }
+}

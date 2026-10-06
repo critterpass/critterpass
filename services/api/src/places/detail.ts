@@ -16,12 +16,14 @@ import {
   DomainError,
   type EditorialOverlay,
   type Hours,
+  type PlaceProfileWire,
   type PoiCategory,
   type RouteEtaProvider,
 } from '@cp/domain';
 import type pg from 'pg';
 
 import { tripLocalDate, tripStay } from '../planning/stay';
+import { readPlaceProfile, type ProfileReadOptions } from './profile';
 
 export interface PlaceDetailResult {
   readonly id: string;
@@ -48,6 +50,8 @@ export interface PlaceDetailResult {
   readonly distanceFromLodgingM?: number;
   readonly etaFromLodgingMinutes?: number;
   readonly etaFromLodgingIsEstimate?: boolean;
+  /** The AI profile in the reader's language (./profile.ts); present when the route reads it. */
+  readonly profile?: PlaceProfileWire | null;
 }
 
 interface PlaceDetailRow {
@@ -76,6 +80,8 @@ export interface GetPlaceDetailOptions {
   readonly tripId?: string;
   readonly now?: Date;
   readonly routeEtaProvider?: RouteEtaProvider;
+  /** Reads (and queues when missing) the place's AI profile. */
+  readonly profile?: ProfileReadOptions;
 }
 
 export async function getPlaceDetail(
@@ -124,6 +130,19 @@ export async function getPlaceDetail(
     liveIsOpenNow: row.is_open_now,
     closedPermanently: row.closed_permanently ?? false,
     liveCheckedAt: row.live_checked_at?.toISOString() ?? null,
+    ...(options.profile === undefined
+      ? {}
+      : {
+          profile: await readPlaceProfile(
+            tx,
+            {
+              id: row.id,
+              category: row.category,
+              reviewed: typeof row.editorial.why_go === 'string' && row.editorial.why_go !== '',
+            },
+            options.profile,
+          ),
+        }),
   };
 
   if (options.tripId === undefined) return result;

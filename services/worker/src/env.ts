@@ -109,6 +109,25 @@ export const workerEnvSchema = z.object({
   R2_BUCKET: optionalString,
   R2_ACCESS_KEY_ID: optionalString,
   R2_SECRET_ACCESS_KEY: optionalString,
+  /** SearXNG on the private network for place research (staging:
+   *  `http://searxng.railway.internal:8080`); unset = no place profiles are written. */
+  SEARXNG_URL: optionalUrl,
+  /** Web engines a place search rotates over, two per query (each must be enabled in
+   *  infra/searxng/settings.yml), so no single scraped engine sees every query. */
+  SEARXNG_ENGINES: z.preprocess(
+    emptyAsUndefined,
+    z.string().min(1).default('bing,mojeek,startpage,qwant,duckduckgo,brave'),
+  ),
+  /** Gap between two place searches across every worker (ms): the engines behind SearXNG suspend
+   *  after about 200 queries in 30 minutes. */
+  PLACES_SEARCH_GAP_MS: z.preprocess(
+    emptyAsUndefined,
+    z.coerce.number().int().min(0).max(60_000).default(4000),
+  ),
+  /** The tier that writes a place profile: `fast` (DeepSeek flash) or `pro`. */
+  PLACES_PROFILE_MODEL: z.preprocess(emptyAsUndefined, z.enum(['fast', 'pro']).default('fast')),
+  /** Spend on place profiles per UTC day (USD) before new runs wait for tomorrow. */
+  PLACES_PROFILE_DAILY_CAP_USD: z.preprocess(emptyAsUndefined, z.coerce.number().min(0).default(5)),
   /** PhotoDNA Cloud Service key: known-image hash matching for photo avatars once ops switches
    *  `moderation.hash_match` on; unset = photos wait for ops review. */
   PHOTODNA_API_KEY: optionalString,

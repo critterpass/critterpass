@@ -131,6 +131,7 @@ export {
   type PoiCategory,
 } from './places/categories';
 export * from './places/editorial';
+export * from './places/place-profile';
 export {
   EMPTY_HOURS,
   WEEKDAYS,
