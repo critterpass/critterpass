@@ -1,0 +1,8 @@
+{
+  "$comment": "Performance budgets from docs/system-architecture.md §9, checked by tools/scripts/perf/run.ts. Change them only with that table.",
+  "coldStartMs": { "android": 1200, "ios": 800 },
+  "androidMinFps": 55,
+  "iosDownloadMb": 40,
+  "commandP95Ms": 300,
+  "dbP50Ms": 3
+}

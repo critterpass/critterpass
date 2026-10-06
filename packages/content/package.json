@@ -12,7 +12,8 @@
     "./airports/schema": "./airports/schema.ts",
     "./releases/*": "./releases/*",
     "./tips": "./src/tips/schema.ts",
-    "./legal": "./src/legal/index.ts"
+    "./legal": "./src/legal/index.ts",
+    "./store": "./src/store/index.ts"
   },
   "scripts": {
     "lint": "eslint .",

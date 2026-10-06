@@ -1,7 +1,7 @@
 ---
 phase: 53
 title: Store listing & social kit
-status: pending
+status: in progress
 depends_on: [5, 40, 43, 45, 47, 49, 50, 51]
 wave: 22
 early_block:
@@ -66,6 +66,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. Create anonymous accounts via Better Auth API, crew, trip, poll, plan, expenses through `/v1/cmd`. 2. Bookings only via the Viator sandbox (activities) and forwarded-booking fixtures (stays) through the real ingest path. 3. Idempotent (op_ids derived from seed name). 4. Guards: refuses non-staging API base; refuses to run unless the target's `/v1/health` reports supplier mode `sandbox` for every supplier adapter (no production supplier keys).
 - Tests: `pnpm tsx tools/scripts/store-kit/seed-demo-crew.ts --api http://localhost:8787 --dry-run` then full run on local compose stack; `pnpm vitest run tools/scripts/store-kit/seed-guard`.
 - Done when: rerun produces no duplicates; refusing prod base URL and production supplier mode both tested.
+- Status: blocked — the seed guard needs the api to report each supplier adapter's mode; `/health` does not, and that route belongs to another phase
 
 ### T2 — Maestro capture flows (iOS + Android, all locales)
 - Goal: raw screenshots + preview video.
@@ -87,6 +88,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. zod limits. 2. Generate EAS metadata file. 3. Play API upload (dry-run flag). 4. CPP + event card assets.
 - Tests: `pnpm --filter @cp/content test -- store`; `npx eas-cli metadata:lint`; `pnpm tsx tools/scripts/store-kit/play-listing.ts --dry-run`.
 - Done when: over-length copy fails the schema; dry runs pass.
+- Status: done — 88b9ab39
 
 ### T5 — Preview video assembly
 - Goal: App Store preview + Play promo.
@@ -101,6 +103,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. Templates from Social-Kit page. 2. Batch per set × locale. 3. Manifest with alt text.
 - Tests: `pnpm vitest run tools/scripts/social-kit` (golden diff).
 - Done when: `local-of-the-week` set renders square + story for each shipped locale.
+- Status: blocked — waits for the web phase (OG templates and fonts) to merge
 
 ## Phase acceptance criteria
 - [ ] One command regenerates all store screenshots for both stores and all shipped locales
