@@ -8,6 +8,7 @@ import { albumCurateForEvent } from '@cp/domain';
 import type pg from 'pg';
 
 import type { CommandRegistry } from '../_framework/registry';
+import './moderation-kind';
 import { deletePhotoCommand } from './delete-photo';
 import { registerPhotoCommand } from './register-photo';
 import { requestAlbumExportCommand } from './request-album-export';
