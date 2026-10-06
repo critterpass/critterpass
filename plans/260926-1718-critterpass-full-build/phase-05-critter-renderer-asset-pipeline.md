@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: Runtime sticker renderer, bake pipeline, share images
-status: in_progress
+status: done
 depends_on: [2, 3, 4]
 wave: 3
 features: [F-007, F-008, F-140]
@@ -10,6 +10,8 @@ tasks: 10
 owns: [packages/critter-art/src/backends/skia/, packages/critter-art/src/share/, packages/critter-art/src/web/, packages/critter-bake/, apps/mobile/src/ui/sticker/, apps/mobile/src/ui/share-image/, apps/mobile/src/app/(dev)/sticker-lab.tsx, apps/mobile/plugins/with-critter-art.ts, apps/mobile/generated/critter-art/, apps/web/public/critters/, e2e/critters/sticker-lab.yaml]
 ---
 # Phase 5 — Runtime sticker renderer, bake pipeline, share images
+
+> **Status, 6 Oct 2026:** every task is done; finished stickers draw as plain images (#506, #533). Goldens are self-consistency checks; the share cards are reviewed on the design | device sheets.
 
 ## Context links
 

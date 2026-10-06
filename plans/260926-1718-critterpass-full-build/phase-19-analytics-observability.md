@@ -1,7 +1,7 @@
 ---
 phase: 19
 title: Analytics, experiments, observability
-status: in_progress
+status: done
 depends_on: [1, 7, 8, 10, 11, 17]
 wave: 6
 features: [F-024]
@@ -25,6 +25,8 @@ owns:
   - tools/scripts/posthog-*.ts, tools/scripts/grafana-*.ts
 ---
 # Phase 19 — Analytics, experiments, observability
+
+> **Status, 6 Oct 2026:** every task is done. Left for the live-test pass: `EXPO_PUBLIC_POSTHOG_KEY` and `SENTRY_AUTH_TOKEN` in the EAS environments (no device build sends analytics or uploads source maps until then), and the analytics consent toggle, which lives in the You privacy settings (phase 45).
 
 ## Context links
 | Source | Section |

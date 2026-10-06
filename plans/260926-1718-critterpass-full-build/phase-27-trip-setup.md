@@ -1,7 +1,7 @@
 ---
 phase: 27
 title: Trip setup: dates, budgets, rooms, must-dos
-status: in_progress
+status: done
 depends_on: [10, 16, 20, 24, 25, 26]
 wave: 13
 features: [F-069, F-070, F-071, F-072, F-073]
@@ -32,6 +32,8 @@ owns:
   - e2e/setup/**
 ---
 # Phase 27 — Trip setup: dates, budgets, rooms, must-dos
+
+> **Status, 6 Oct 2026:** every task is done; the dates picker (#625) and the set-up fixes from the live tests (#680, #706) are on main.
 
 ## Context links
 

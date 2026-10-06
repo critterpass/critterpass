@@ -33,6 +33,8 @@ owns:
 ---
 # Phase 22 — Onboarding: passport, taste, home airport, avatar
 
+> **Status, 6 Oct 2026:** open: T10's `first-run-ios` rerun (the last run died in the runner's XCUITest driver, not on an app assertion). Everything else is done.
+
 ## Context links
 
 | Source | Section |
