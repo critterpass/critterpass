@@ -1,7 +1,9 @@
 import { router } from 'expo-router';
 import { ScrollView } from 'react-native';
 
+import { usePlaceRead } from '@/data/places/place-read';
 import { usePlaceSearch } from '@/data/places/usePlaceSearch';
+import { dataOf } from '@/data/travel-data/freshness';
 import { useLiveRows } from '@/features/bookings/data/live-rows';
 import { useWalletContext } from '@/features/bookings/data/use-wallet-context';
 import { SUPPLIER_LAB_SCENE_NAMES } from '@/features/bookings/supplier/dev/lab-scenes';
@@ -18,13 +20,11 @@ import { ListCard } from '@/ui/cards/ListCard';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-// A place on the plan, else the first place a catalogue search finds (the demo crew's plan has
-// none).
-const PLACE_SQL = `SELECT p.id, p.name
-    FROM trips t LEFT JOIN plan_items pi ON pi.trip_id = t.id
-    LEFT JOIN pois p ON p.id = pi.poi_id
-   WHERE t.id = ? ORDER BY p.id IS NULL, pi.starts_at LIMIT 1`;
-const PLACE_TABLES = ['plan_items', 'pois', 'trips'];
+// A place on the plan (named through the api), else the first place a catalogue search finds (the
+// demo crew's plan has none).
+const PLACE_SQL = `SELECT pi.poi_id AS id FROM plan_items pi
+   WHERE pi.trip_id = ? AND pi.poi_id IS NOT NULL ORDER BY pi.starts_at LIMIT 1`;
+const PLACE_TABLES = ['plan_items'];
 
 /**
  * Supplier cards, booking and cancel sheets, Getting around (3h-3) and vendor messages: the live
@@ -33,11 +33,10 @@ const PLACE_TABLES = ['plan_items', 'pois', 'trips'];
 export default function SupplierLab() {
   const { trip } = useWalletContext();
   const tripId = trip?.id ?? null;
-  const planned = useLiveRows<{
-    id: string | null;
-    name: string | null;
-    destination_id: string | null;
-  }>(PLACE_SQL, tripId === null ? null : [tripId], PLACE_TABLES).rows[0];
+  const plannedId =
+    useLiveRows<{ id: string }>(PLACE_SQL, tripId === null ? null : [tripId], PLACE_TABLES).rows[0]
+      ?.id ?? null;
+  const planned = dataOf(usePlaceRead(plannedId));
   // Any catalogue place will do for a live check (the demo destination has none of its own).
   const search = usePlaceSearch({ limit: 1 });
   const found = search.places[0];

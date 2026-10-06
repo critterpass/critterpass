@@ -1,18 +1,21 @@
 /**
  * Explore's local reads: the destination and its guide from the synced catalogue, the month curve
  * (so WHEN TO GO draws offline), the viewer's home airport and currency, their crews, whether a
- * place is saved (a queued save or unsave shows at once) and how a queued command settled.
+ * place is saved (a queued save or unsave shows at once) and how a queued command settled. Picks
+ * and kind counts add the api's browse (`useDestinationPlaces`), so unsynced places count too.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { shownName } from '@cp/domain';
 import { useMemo } from 'react';
 
+import { dataOf } from '@/data/travel-data/freshness';
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 import { PICK_KIND_ORDER } from './category';
 import { useLiveRows } from './data/live-rows';
+import { useDestinationPlaces, type BrowsePlace } from './map-queries';
 
 export interface DestinationRow {
   readonly id: string;
@@ -82,35 +85,68 @@ export interface LocalPick {
   readonly category: string;
 }
 
+type HeldPick = LocalPick & { readonly nameLocal: string | null };
+
+/** The phone's picks in order, then the browse's recommended places it lacks, up to `limit`. */
+export function picksWithBrowsed(
+  held: readonly HeldPick[],
+  browsed: readonly BrowsePlace[],
+  limit: number,
+  readsLocal: boolean,
+): readonly LocalPick[] {
+  const ids = new Set(held.map((pick) => pick.poiId));
+  const extra = browsed
+    .filter((p) => p.recommended && p.category !== 'stay' && !ids.has(p.id))
+    .map((p) => ({ poiId: p.id, name: p.name, nameLocal: p.nameLocal, category: p.category }));
+  return [...held, ...extra].slice(0, limit).map(({ nameLocal, ...pick }) => ({
+    ...pick,
+    name: shownName({ name: pick.name, nameLocal }, readsLocal),
+  }));
+}
+
 export function useLocalPicks(destinationId: string | null, limit: number): readonly LocalPick[] {
   const readsLocal = useReadsLocalNames(destinationId);
-  const rows = useLiveRows<LocalPick & { readonly nameLocal: string | null }>(
+  const rows = useLiveRows<HeldPick>(
     LOCAL_PICKS_SQL,
     destinationId === null ? null : [destinationId, limit],
     ['pois'],
   ).rows;
+  const browsed = dataOf(useDestinationPlaces(destinationId))?.results;
   return useMemo(
-    () =>
-      rows.map(({ nameLocal, ...pick }) => ({
-        ...pick,
-        name: shownName({ name: pick.name, nameLocal }, readsLocal),
-      })),
-    [rows, readsLocal],
+    () => picksWithBrowsed(rows, browsed ?? [], limit, readsLocal),
+    [rows, browsed, limit, readsLocal],
   );
 }
 
-const KINDS_SQL = `SELECT category, count(*) AS n FROM pois
-  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL GROUP BY category`;
+const KINDS_SQL = `SELECT id, category FROM pois
+  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL`;
 
-/** How many places of each category this phone holds for a destination. */
-export function usePlaceKindCounts(
-  destinationId: string | null,
-): readonly { readonly category: string; readonly n: number }[] {
-  return useLiveRows<{ category: string; n: number }>(
+export interface KindCount {
+  readonly category: string;
+  readonly n: number;
+}
+/** How many places of each kind, counting each place once across the phone and the browse. */
+export function countKinds(
+  held: readonly { readonly id: string; readonly category: string }[],
+  browsed: readonly BrowsePlace[],
+): readonly KindCount[] {
+  const kinds = new Map<string, string>();
+  // The phone's row is set last, so its kind wins for a place both hold.
+  for (const place of [...browsed, ...held]) kinds.set(place.id, place.category);
+  const counts = new Map<string, number>();
+  for (const category of kinds.values()) counts.set(category, (counts.get(category) ?? 0) + 1);
+  return [...counts].map(([category, n]) => ({ category, n }));
+}
+
+/** How many places of each category a destination has, on the phone or in the api's browse. */
+export function usePlaceKindCounts(destinationId: string | null): readonly KindCount[] {
+  const held = useLiveRows<{ id: string; category: string }>(
     KINDS_SQL,
     destinationId === null ? null : [destinationId],
     ['pois'],
   ).rows;
+  const browsed = dataOf(useDestinationPlaces(destinationId))?.results;
+  return useMemo(() => countKinds(held, browsed ?? []), [held, browsed]);
 }
 
 export interface SeasonMonthRow {

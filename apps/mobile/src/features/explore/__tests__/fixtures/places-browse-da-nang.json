@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e11",
+      "name": "Chùa Linh Ứng",
+      "nameLocal": "Chùa Linh Ứng",
+      "category": "temple_shrine",
+      "lat": 16.1003,
+      "lng": 108.2778,
+      "address": "Hoàng Sa, Thọ Quang, Sơn Trà, Đà Nẵng",
+      "area": "Sơn Trà",
+      "recommended": true,
+      "priceLevel": null,
+      "tags": ["temple"],
+      "distanceM": null,
+      "openNow": null,
+      "hours": {
+        "weekly": {
+          "mon": [["06:00", "21:30"]]
+        }
+      },
+      "mustSee": true,
+      "pickRank": null,
+      "whyGo": "The Lady Buddha looks over the whole bay.",
+      "bestTime": "Before 07:00"
+    },
+    {
+      "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e22",
+      "name": "Bánh Xèo Bà Dưỡng",
+      "nameLocal": null,
+      "category": "food",
+      "lat": 16.0581,
+      "lng": 108.2093,
+      "address": "K280/23 Hoàng Diệu, Bình Hiên, Hải Châu, Đà Nẵng",
+      "area": "Hải Châu",
+      "recommended": false,
+      "priceLevel": 1,
+      "tags": [],
+      "distanceM": null,
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": null,
+      "whyGo": null,
+      "bestTime": null
+    },
+    {
+      "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e33",
+      "name": "Sala Danang Beach Hotel",
+      "nameLocal": null,
+      "category": "stay",
+      "lat": 16.0612,
+      "lng": 108.2459,
+      "address": "36-38 Lâm Hoành, Phước Mỹ, Sơn Trà, Đà Nẵng",
+      "area": "Sơn Trà",
+      "recommended": true,
+      "priceLevel": 3,
+      "tags": [],
+      "distanceM": null,
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": 4,
+      "whyGo": "  ",
+      "bestTime": null
+    },
+    {
+      "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e44",
+      "name": "",
+      "lat": 16.0,
+      "lng": 108.2
+    }
+  ]
+}
