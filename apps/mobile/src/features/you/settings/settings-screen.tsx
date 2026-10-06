@@ -11,7 +11,14 @@ import { useState } from 'react';
 import { Linking, Platform } from 'react-native';
 
 import { BOOKINGS_ROUTES, useMailboxSettingsRow } from '@/features/bookings';
-import { feedbackHref, HELP_ROUTES, storeReviewUrl, useIdeasToVote } from '@/features/help';
+import {
+  feedbackHref,
+  HELP_ROUTES,
+  shakeToReportAvailable,
+  storeReviewUrl,
+  useIdeasToVote,
+  useShakeToReport,
+} from '@/features/help';
 import { useMoneyDisplay } from '@/data/money';
 import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -26,6 +33,7 @@ import { exportLine } from '../export/export-copy';
 import { useDataExport } from '../export/use-data-export';
 import { languageLine } from '../language/currency-model';
 import { nativeNameOf } from '../language/language-names';
+import { hasAlternateAppIcons } from '../app-icon/device';
 import { YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
 import { useHelpShareConsent } from './help-share-consent';
@@ -63,6 +71,7 @@ export function SettingsScreen({
   const location = useLocationRow();
   const money = useMoneyDisplay();
   const ideasToVote = useIdeasToVote();
+  const [shakeToReport, setShakeToReport] = useShakeToReport();
   const reviewUrl = storeReviewUrl(Platform.OS, Application.applicationId);
   const dataExport = useDataExport();
   const [chosenMapsApp, setMapsApp] = useChosenMapsApp();
@@ -91,6 +100,8 @@ export function SettingsScreen({
       mapsApp: Platform.OS === 'ios' ? mapsAppFor('ios', chosenMapsApp) : null,
       account: account?.kind === 'ok',
       language: languageLine(nativeNameOf(locale), money),
+      appIcon: hasAlternateAppIcons(),
+      shakeToReport: shakeToReportAvailable() ? shakeToReport : null,
       ideasToVote,
       storeName:
         Platform.OS === 'ios'
@@ -116,6 +127,8 @@ export function SettingsScreen({
       onMusic: () => router.push(YOU_ROUTES.sound),
       onMapsApp: setMapsApp,
       onLanguage: () => router.push(YOU_ROUTES.language),
+      onAppIcon: () => router.push(YOU_ROUTES.appIcon),
+      onShakeToReport: setShakeToReport,
       onSignOut: () => router.push(YOU_ROUTES.signOut),
       onRate: reviewUrl === null ? null : () => void Linking.openURL(reviewUrl),
       onFeedback: () => router.push(feedbackHref({ mode: 'feedback', context: 'settings' })),

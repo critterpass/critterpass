@@ -11,7 +11,8 @@
  * flow or any `[ui-qa]` report fails the shard, and so does any screen-check finding;
  * on GitHub Actions each also becomes an error annotation and a line in the job summary.
  * `--env NAME` forwards that environment variable to every flow as `-e NAME=value` when it is set.
- * `--video` records the screen during each flow into `videos/<flow>/` (./screen-video).
+ * `--video` records the screen during each flow into `videos/<flow>/` (./screen-video);
+ * `SAVE_HIERARCHY=true` saves each Android flow's last screen (./screen-hierarchy).
  */
 import { spawn, spawnSync } from 'node:child_process';
 import {
@@ -30,6 +31,7 @@ import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-fl
 import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
 import type { DevicePlatform } from './plan-shards';
 import { recordFlowMeasurements } from './encode-totals';
+import { saveHierarchy } from './screen-hierarchy';
 import { appBackground, scanScreenshots, SCREEN_CHECKS_LOG, writeFindings } from './screen-scan';
 import { startScreenRecorder } from './screen-video';
 
@@ -176,6 +178,7 @@ export function runShard(options: ShardOptions): {
     } else {
       uiQa.set(label, scanUiQa(adb(options.device, ['logcat', '-d', '-s', 'ReactNativeJS:V'])));
       recordFlowMeasurements(options.out, slug, (args) => adb(options.device, args));
+      saveHierarchy(MAESTRO, options.device, path.join(options.out, 'hierarchy', `${slug}.json`));
     }
     summary(`| ${passed ? 'pass' : '**fail**'} | \`${label}\` | ${String(seconds)}s |`);
     // With --test-output-dir, `takeScreenshot` writes to its `screenshots/` folder; Maestro's own

@@ -31,7 +31,7 @@ import { useTheme } from '@/ui/theme';
 import { useDestinationSlug } from '../data/use-destination-slug';
 import { stackOf, type Person } from '../data/use-people';
 import { FadeSection } from './fade-section';
-import type { PitchState } from '../data/use-pitch-stream';
+import { pitchShowsAiLabel, type PitchState } from '../data/use-pitch-stream';
 import { flightHours, guideOr, money, monthShort, upper } from '../format';
 
 const TAG_ICONS: Readonly<Record<string, DoodleName>> = {
@@ -231,6 +231,11 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
             </Text>
           </FadeSection>
         )}
+        {pitchShowsAiLabel(state) ? (
+          <Text variant="caption" color={ink} testID="pitch-ai-label">
+            {t({ id: 'vote.pitch.ai', message: 'Written by AI' })}
+          </Text>
+        ) : null}
         {state.phase === 'error' ? (
           <View>
             <PillButton

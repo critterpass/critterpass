@@ -35,6 +35,10 @@ export interface SettingsValues extends SyncedSettings {
   readonly mapsApp?: MapsApp | null;
   /** The app's language in its own script and how prices show ("English · prices in S$ and local"). */
   readonly language: string;
+  /** The App icon row is offered only where the app has other icons to switch to. */
+  readonly appIcon?: boolean;
+  /** Shake to report on this phone; absent where a shake cannot open a report. */
+  readonly shakeToReport?: boolean | null;
   /** "On the App Store" / "On Google Play", under Rate CritterPass. */
   readonly storeName: string;
   /** Ideas open to votes on the idea board, from its synced rows; null until known. */
@@ -57,6 +61,8 @@ export interface SettingsHandlers {
   readonly onMusic: () => void;
   readonly onMapsApp?: (next: MapsApp) => void;
   readonly onLanguage: () => void;
+  readonly onAppIcon?: () => void;
+  readonly onShakeToReport?: (next: boolean) => void;
   readonly onSignOut: () => void;
   readonly onRate: (() => void) | null;
   readonly onFeedback: () => void;
@@ -246,6 +252,20 @@ export function useSettingsSections(
       value: '',
       onPress: handlers.onLanguage,
     },
+    'app-icon':
+      values.appIcon === true && handlers.onAppIcon !== undefined
+        ? {
+            key: 'app-icon',
+            kind: 'value',
+            title: t({ id: 'you.settings.appIcon', message: 'App icon' }),
+            subtitle: t({
+              id: 'you.settings.appIconLine',
+              message: 'Pick the one on your home screen',
+            }),
+            value: '',
+            onPress: handlers.onAppIcon,
+          }
+        : null,
     ...helpRows(values, handlers),
     'download-data': values.account
       ? {

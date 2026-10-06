@@ -64,6 +64,10 @@ on:
         type: choice
         options: [none, sweep, happy]
         default: none
+      hierarchy:
+        description: Save each Android flow's last screen as a view hierarchy (hierarchy/*.json in the shard artifact) for the accessibility scan; always on for the happy preset
+        type: boolean
+        default: false
   schedule:
     # Nightly on main: the full UI sweep (02:30 in Vietnam).
     - cron: '30 19 * * *'
@@ -352,6 +356,8 @@ jobs:
           E2E_API_BASE_URL: ${{ vars.E2E_API_BASE_URL || 'https://api-staging-de92.up.railway.app' }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
+          # View hierarchies for the accessibility scan: an artifact only, never a failure.
+          SAVE_HIERARCHY: ${{ inputs.hierarchy == true || needs.prepare.outputs.video == 'true' }}
         with:
           api-level: 35
           target: google_apis
