@@ -27,6 +27,8 @@ struct ImUpIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
+        // The Control Center button with no leave-by coming up.
+        guard !leaveById.isEmpty else { return .result() }
         let root = AppGroupContainer.url
         if let uid = try? ActionKeyStore.read().userId {
             let mine = LAMemberHash.of(scope: leaveById, uid: uid)
