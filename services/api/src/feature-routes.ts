@@ -55,6 +55,8 @@ import { registerLiveActivities } from './commands/live-activities';
 import { guardClosedAccounts } from './account/closed-guard';
 import { registerAccount } from './account/register';
 import { registerSafety } from './commands/safety';
+import { registerDriverDirectory } from './commands/driver-directory';
+import { driverDirectoryDepsFromEnv } from './commands/driver-directory/from-env';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -99,6 +101,11 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerAlbum(doors);
   registerLiveActivities(doors);
   registerSafety(app, doors, env, keyring);
+  registerDriverDirectory(
+    app,
+    doors,
+    driverDirectoryDepsFromEnv(env, keyring, (message) => logger.warn(message)),
+  );
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerHelpArticleRoutes(app, doors);
   registerSharedContentRoutes(app, doors);

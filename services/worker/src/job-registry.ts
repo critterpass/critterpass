@@ -51,6 +51,7 @@ import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
 import { setupJobs } from './jobs/setup';
 import { tipsJobs } from './jobs/tips';
+import { driverDirectoryJobs } from './jobs/driver-directory';
 import type { createLogger } from './obs/logger';
 import type { MetricsRecorder } from './obs/metrics';
 import { defaultBundleId, type CopyRenderer, type PushProviders } from './push';
@@ -113,6 +114,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     pollBoardAdvanceJob(),
     pollRemindJob(),
     ...tipsJobs(env, assertRouteOn, llmObservability),
+    ...driverDirectoryJobs(),
     ...pitchJobs(env, assertRouteOn, llmObservability),
     ...setupJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     placesPickJob(placePicks),
