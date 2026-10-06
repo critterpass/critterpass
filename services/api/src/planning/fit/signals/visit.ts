@@ -7,6 +7,7 @@ import { knownHours } from '@cp/domain';
 import { isOutdoorCategory, type FitPlace } from '@cp/planner';
 import type pg from 'pg';
 
+import { asSystemRole } from '../../../admin/command';
 import { readCrowdWeeks } from './crowds';
 
 export interface PlaceRow {
@@ -67,8 +68,10 @@ async function readPlaceAreas(
   tripId: string,
   ids: readonly string[],
 ): Promise<Map<string, string>> {
-  const { rows } = await tx.query<{ id: string; area_id: string | null }>(
-    `WITH areas AS (SELECT unnest(app.trip_area_ids($1, true)) AS id)
+  // Place boxes are not the traveller's to read; the caller already checked the trip.
+  const { rows } = await asSystemRole(tx, () =>
+    tx.query<{ id: string; area_id: string | null }>(
+      `WITH areas AS (SELECT unnest(app.trip_area_ids($1, true)) AS id)
      SELECT p.id, (
               SELECT d.id FROM areas a JOIN destinations d ON d.id = a.id
                WHERE ST_Intersects(p.location, d.place_bounds) OR p.destination_id = d.id
@@ -77,7 +80,8 @@ async function readPlaceAreas(
                LIMIT 1) AS area_id
        FROM pois p
       WHERE p.id = ANY($2::uuid[]) AND (SELECT count(*) FROM areas) > 1`,
-    [tripId, ids],
+      [tripId, ids],
+    ),
   );
   return new Map(rows.flatMap((row) => (row.area_id === null ? [] : [[row.id, row.area_id]])));
 }
