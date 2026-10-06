@@ -692,11 +692,10 @@ streams:
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
           hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
           timezone, last_live_check_at, created_at, updated_at
-        FROM pois
+        FROM place_cards AS pois
         WHERE destination_id IN trip_destination
           AND (curation = 'editorial' OR pick_rank IS NOT NULL)
           AND status != 'hidden'
-          AND merged_into_id IS NULL
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
@@ -786,11 +785,10 @@ streams:
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
           hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
           timezone, last_live_check_at, created_at, updated_at
-        FROM pois
+        FROM place_cards AS pois
         WHERE destination_id = subscription.parameter('destination_id')
           AND (curation = 'editorial' OR pick_rank IS NOT NULL)
           AND status != 'hidden'
-          AND merged_into_id IS NULL
   guide_chat:
     auto_subscribe: true
     queries:

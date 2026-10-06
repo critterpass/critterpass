@@ -195,6 +195,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   pitches:
     'crew_id trip_id destination_id pitched_by month:integer sections quote_ids model prompt_version cache_key fare_snapshot_id status created_at updated_at i18n',
+  place_cards:
+    'destination_id name name_local category lat:real lng:real address hours hours_verified_at price_level:integer editorial tags status curation pick_rank:integer visit_radius_m:integer timezone last_live_check_at created_at updated_at',
   place_hides: 'user_id poi_id created_at',
   place_stances: 'trip_id poi_id user_id stance note created_at updated_at',
   place_tips: 'poi_id destination_id author_id text lang moderation_status created_at updated_at',

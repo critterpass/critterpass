@@ -1,6 +1,8 @@
 /**
  * Renders `../synced-tables.generated.ts` from the Drizzle schema: one PowerSync table per table in
- * the `powersync` publication allow-list, one column per Drizzle column. Run as its own Node
+ * the `powersync` publication allow-list, plus each table a stream fills by alias (`FROM place_cards
+ * AS pois` keeps the phone's `pois` table while `pois` itself is not published), one column per
+ * Drizzle column. Run as its own Node
  * process (`tsx`), never bundled: the app may not import `@cp/db` (server-only, lint-enforced), so
  * the server package is loaded by file path at generation time only.
  *
@@ -46,6 +48,8 @@ interface DrizzleOrm {
 const REPO_ROOT = path.resolve(__dirname, '../../../../../..');
 const DB_PACKAGE_DIR = path.join(REPO_ROOT, 'packages/db');
 const OUTPUT_FILE = path.resolve(__dirname, '../synced-tables.generated.ts');
+// Tables streamed by alias but no longer published (`FROM place_cards AS pois`): the phone keeps them.
+const STREAM_ALIAS_TABLES = ['pois'];
 
 const INTEGER_TYPES = new Set(['integer', 'bigint', 'smallint', 'boolean', 'serial', 'bigserial']);
 const REAL_TYPES = new Set(['double precision', 'real']);
@@ -68,7 +72,7 @@ async function loadTables(): Promise<DrizzleTableConfig[]> {
     pathToFileURL(dbRequire.resolve('drizzle-orm')).href
   )) as DrizzleOrm;
 
-  const published = new Set(db.computePublicationAllowList());
+  const published = new Set([...db.computePublicationAllowList(), ...STREAM_ALIAS_TABLES]);
   const configs = Object.values(db.schema)
     .filter((value) => drizzle.is(value, pgCore.PgTable))
     .map((table) => pgCore.getTableConfig(table))
