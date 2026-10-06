@@ -18,13 +18,13 @@ bypasses RLS, so a stream's WHERE clause is the only thing that keeps a row off 
 | Stream | Subscribe | Parameters | Tables |
 |---|---|---|---|
 | `me` | auto | `auth.user_id()` | `users` (self), `user_settings`, `consents`, `account_deletions`, `cmd_results`, `user_entitlements`, `usage_counters` (user) |
-| `crews` | auto | active crew memberships | `crews`, `crew_members`, `trips` |
+| `crews` | auto | active crew memberships | `crews`, `crew_members`, `trips`, `trip_stops` |
 | `crew_people` | auto | active co-members | `users` |
 | `trip` | client, `{trip_id}` | trip of an active crew | `trip_places` (crew rows, sent as `pois`), `trips`, `trip_participants`, crew-visible `itinerary_versions` and `change_sets`, `plan_days`/`plan_items` of the live crew versions and the one each replaced, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
 | `trip_draft` | client, `{trip_id}` | organiser seat + active crew | `trip_places` (organiser rows, sent as `pois`), organiser-visible `itinerary_versions`/`plan_days` (every draft), `plan_items`/`change_sets` of drafts not superseded |
 | `trip_pack` | client, `{trip_id}` | destination of a member trip | `place_cards` (recommended places, sent as `pois`), `map_regions` |
 | `explore` | client, `{destination_id}` | public | `place_cards` (recommended places, sent as `pois`) |
-| `catalog` | auto | none | `guides`, `destinations`, `client_config`, `products`, `perks` |
+| `catalog` | auto | none | `guides`, `destinations` (never `coverage = 'area'`), `client_config`, `products`, `perks` |
 | `fx` | auto | USD plus home, settlement and trip (own or destination) currencies | `fx_snapshots` |
 
 Rules for a new area (a phase that publishes new tables):
@@ -49,6 +49,11 @@ caller's own rows, and the small catalogue a trip day needs offline. Content tha
 every user (places, place pages, Explore browsing, tips, help articles) is read from the api with a
 cached last good copy. Nothing new goes onto sync without that reason, and no table reaches a phone
 twice through two streams.
+
+A trip with several cities syncs its route (`trip_stops`, filtered on the row's own `crew_id`) on
+`crews`, and a day's area rides `plan_days`. The links between destinations, a day-trip area's row
+and its places are shared content, read over the api; `catalog` leaves out `coverage = 'area'`,
+because installed builds offer every synced destination as a city to go to.
 
 ### Connection budget
 
