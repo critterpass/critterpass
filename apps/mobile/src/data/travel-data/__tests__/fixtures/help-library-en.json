@@ -1,0 +1,20 @@
+{
+  "articles": [
+    {
+      "slug": "offline-maps",
+      "locale": "en",
+      "category": "trip_day",
+      "title": "Maps without signal",
+      "summary": "What your phone keeps for a trip day.",
+      "body_md": "# Maps without signal\n\nThe map of your trip is saved two days before you go."
+    },
+    {
+      "slug": "refunds",
+      "locale": "en",
+      "category": "money",
+      "title": "Refunds",
+      "summary": "How refunds work for the crew.",
+      "body_md": "# Refunds\n\nOpen **Money** and pick the expense to refund."
+    }
+  ]
+}
