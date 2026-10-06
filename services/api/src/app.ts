@@ -19,6 +19,7 @@ import type { RoutingProvider } from './routing/provider';
 import { registerRoutingRoutes } from './routing/routes';
 import { registerHealthRoutes, type ReadinessCheck } from './routes/health';
 import { registerRoutingBoxesRoute } from './routes/routing-boxes';
+import { securityHeaders } from './security-headers';
 
 export interface AppDeps {
   service: string;
@@ -101,6 +102,7 @@ export function createApp(deps: AppDeps) {
   const app = new OpenAPIHono<AppEnv>();
 
   app.use(requestId());
+  app.use(securityHeaders({ docsPath: '/docs' }));
   app.use(async (c, next) => {
     const startedAt = performance.now();
     await next();

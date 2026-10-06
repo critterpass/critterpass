@@ -32,6 +32,10 @@ msgstr "{0} {1}"
 msgid "chat.upload.progress"
 msgstr "{0}% uploaded"
 
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.guideAuthor"
+msgstr "{author} · AI guide"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.people"
 msgstr "{count, plural, one {# person} other {# people}}"
