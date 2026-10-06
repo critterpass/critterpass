@@ -76,5 +76,7 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
       </Scaffold>
     );
   }
-  return <PlanView detail={detail} tripId={tripId} onChanged={reload} />;
+  return (
+    <PlanView detail={detail} projection={detail.projection} tripId={tripId} onChanged={reload} />
+  );
 }

@@ -24,6 +24,7 @@ import { ACCOUNT_EVENT_TYPES } from '../../src/account/events';
 import { HELP_EVENT_TYPES } from '../../src/help/events';
 import { RECAP_EVENT_TYPES } from '../../src/recap/events';
 import { ALBUM_EVENT_TYPES } from '../../src/album/events';
+import { COMMUNITY_EVENT_TYPES } from '../../src/community/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -158,6 +159,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...RECAP_EVENT_TYPES,
   // The album speaks through its own live channel and the evening roundup, never the ticker.
   ...ALBUM_EVENT_TYPES,
+  // Crew plans speak through their crew chat lines; consents and ratings are one person's.
+  ...COMMUNITY_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

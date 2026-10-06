@@ -182,10 +182,9 @@ msgstr "Crew plans need a signal"
 msgid "community.rate.day"
 msgstr "Day {0}"
 
-#. placeholder {0}: note.best_day
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.detail.bestDay"
-msgstr "Day {0} only"
+msgstr "Day {bestDay} only"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.detail.dayByDay"

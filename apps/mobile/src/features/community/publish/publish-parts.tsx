@@ -19,6 +19,7 @@ import { Text } from '@/ui/text/Text';
 
 import { createPlanLink } from '../commands';
 import { crewLine, daysLabel, planTitle } from '../copy';
+import { toastIds } from '../ids';
 
 export function Preview({ data, toggles }: { data: TripSharedPlan; toggles: SharedPlanToggles }) {
   const { t } = useLingui();
@@ -133,7 +134,7 @@ export function useLinkCopy(tripId: string) {
     if (result.kind !== 'applied') return;
     await Clipboard.setStringAsync((result.result as { url: string }).url);
     toast.show({
-      id: `community-link-${tripId}`,
+      id: toastIds.link(tripId),
       title: t({ id: 'community.publish.linkCopied', message: 'Read-only link copied.' }),
     });
   };

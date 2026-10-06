@@ -5,7 +5,7 @@
  * commission-neutral: copies and saves never enter the score.
  */
 
-export interface CrewTaste {
+export interface ViewerTaste {
   /** Each visible taste tag's share of the crew's members who hold it (0–1). */
   readonly tags: Readonly<Record<string, number>>;
   readonly crew_size: number;
@@ -60,7 +60,7 @@ export function budgetFit(budget: number | null, cost: number | null): number {
 }
 
 /** 0–100, the "{pct}% YOUR TASTE" on a card. */
-export function matchScore(crew: CrewTaste, plan: PlanMatchInput): number {
+export function matchScore(crew: ViewerTaste, plan: PlanMatchInput): number {
   const score =
     MATCH_WEIGHTS.taste * cosine(crew.tags, plan.taste) +
     MATCH_WEIGHTS.month * monthProximity(crew.month, plan.travel_month) +

@@ -25,7 +25,7 @@ import { requireTripMember } from '../../plan/access';
 import { defineCommand } from '../_framework/define-command';
 import { backIdea, poiForTrip } from '../ideas';
 import { startIdeaPlacementCommand } from '../ideas/start-idea-placement';
-import { postCrewLine } from './store';
+import { one, postCrewLine } from './store';
 
 async function publishedProjection(
   tx: pg.PoolClient,
@@ -71,6 +71,7 @@ export const saveSharedPlanCommand = defineCommand({
   v: 1,
   schema: sharedPlanIdPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     await asSystemRole(tx, () => publishedProjection(tx, payload.shared_plan_id));
   },
@@ -86,6 +87,7 @@ export const unsaveSharedPlanCommand = defineCommand({
   v: 1,
   schema: sharedPlanIdPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: () => Promise.resolve(),
   handle: (tx, payload, ctx) =>
     asSystemRole(tx, async () => {
@@ -104,7 +106,7 @@ async function crewOf(tx: pg.PoolClient, tripId: string): Promise<string> {
   const { rows } = await tx.query<{ crew_id: string }>('SELECT crew_id FROM trips WHERE id = $1', [
     tripId,
   ]);
-  return rows[0]!.crew_id;
+  return one(rows).crew_id;
 }
 
 async function startPlacing(
@@ -135,6 +137,7 @@ export const copySharedPlanCommand = defineCommand({
   v: 1,
   schema: copySharedPlanPayloadSchema,
   offline: false,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     const access = await requireTripMember(tx, payload.trip_id);
     if (!access.organiser) throw new DomainError('FORBIDDEN', { reason: 'not_organiser' });
@@ -203,6 +206,7 @@ export const suggestSharedPlanCommand = defineCommand({
   v: 1,
   schema: suggestSharedPlanPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     await requireTripMember(tx, payload.trip_id);
   },

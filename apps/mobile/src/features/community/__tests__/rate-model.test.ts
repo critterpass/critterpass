@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import type { RatingCard } from '@cp/domain';
 
 import { rejectedTips, resumeIndex, verdictFor, withAnswers } from '../rate/rate-model';

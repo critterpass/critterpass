@@ -17,6 +17,7 @@ import type pg from 'pg';
 import { asSystemRole } from '../../admin/command';
 import { requireTripMember } from '../../plan/access';
 import { defineCommand } from '../_framework/define-command';
+import { one } from './store';
 
 export const RATING_TIP_CONTENT_KIND = 'rating_tip';
 const COMPLIANCE_CHECK_QUEUE = 'compliance.check';
@@ -39,6 +40,7 @@ export const ratePlacesCommand = defineCommand({
   v: 1,
   schema: ratePlacesPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload, ctx) => {
     await requireTripMember(tx, payload.trip_id);
     const { rows } = await tx.query(
@@ -69,7 +71,7 @@ export const ratePlacesCommand = defineCommand({
            RETURNING id, tip_status, (tip_status = 'pending') AS screen`,
           [payload.trip_id, verdict.poi_id, ctx.uid, verdict.verdict, tip],
         );
-        const row = rows[0]!;
+        const row = one(rows);
         // A removed or changed tip takes the published one off the place at once.
         if (tip === null || row.screen) await retirePublishedTip(tx, row.id);
         if (tip === null) continue;

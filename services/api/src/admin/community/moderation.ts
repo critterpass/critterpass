@@ -9,7 +9,7 @@
 import { DomainError } from '@cp/domain';
 import type pg from 'pg';
 
-import { sharedPlanById, unpublish } from '../../commands/community/store';
+import { one, sharedPlanById, unpublish } from '../../commands/community/store';
 import { registerModerationKind } from '../moderation-intake';
 
 export const SHARED_PLAN_MODERATION_KIND = 'shared_plan';
@@ -36,7 +36,7 @@ export async function publishRatingTip(tx: pg.PoolClient, ratingId: string): Pro
     );
     await tx.query('UPDATE ratings SET place_tip_id = $2 WHERE id = $1', [
       ratingId,
-      inserted[0]!.id,
+      one(inserted).id,
     ]);
   }
   await tx.query("UPDATE ratings SET tip_status = 'approved' WHERE id = $1", [ratingId]);

@@ -28,7 +28,7 @@ export async function publishRatingTip(tx: pg.PoolClient, ratingId: string): Pro
     );
     await tx.query('UPDATE ratings SET place_tip_id = $2 WHERE id = $1', [
       ratingId,
-      inserted[0]!.id,
+      inserted[0]?.id,
     ]);
   } else {
     await tx.query("UPDATE place_tips SET moderation_status = 'approved' WHERE id = $1", [

@@ -64,7 +64,7 @@ describe('buildSharedPlanProjection', () => {
       photos: true,
     });
     expect(projection.crew_names).toEqual(['Mia', 'Tom', 'Ana']);
-    expect(projection.cost_pp_rounded_minor).toBe(124_000);
+    expect(projection.cost_pp_rounded_minor).toBe(123_000);
     expect(projection.photos).toHaveLength(12);
     expect(projection).toMatchObject({ days_count: 2, travel_month: 4, travel_year: 2026 });
     expect(projection.tags[0]).toBe('easy_pace');

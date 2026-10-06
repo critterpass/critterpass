@@ -16,7 +16,8 @@ beforeAll(async () => {
   await withSystem(harness.db.pool, async (tx) => {
     const { rows } = await tx.query<{ id: string }>(
       `INSERT INTO shared_plans (trip_id, destination_id, status)
-       SELECT id, destination_id, 'published' FROM trips WHERE id = $1 RETURNING id`,
+       SELECT id, (SELECT destination_id FROM pois WHERE name = 'Matrix Probe POI'), 'published'
+         FROM trips WHERE id = $1 RETURNING id`,
       [tripId],
     );
     await tx.query(

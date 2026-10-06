@@ -5,15 +5,12 @@
 import { useLingui } from '@lingui/react/macro';
 import { useRouter } from 'expo-router';
 
-import {
-  registerPlanShareSlot,
-  type PlanShareSlotProps,
-} from '@/features/plan/overview/share-slot';
+import { registerPlanShareSlot } from '@/features/plan';
 import { PillButton } from '@/ui/buttons/PillButton';
 
 import { communityRoutes } from './routes';
 
-function SharePill({ tripId }: PlanShareSlotProps) {
+function SharePill({ tripId }: { readonly tripId: string }) {
   const { t } = useLingui();
   const router = useRouter();
   return (

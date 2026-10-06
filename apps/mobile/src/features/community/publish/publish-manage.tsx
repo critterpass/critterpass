@@ -88,16 +88,16 @@ export function Compose({
 export function Published({
   tripId,
   data,
-  planId,
+  plan,
   onChanged,
 }: {
   tripId: string;
   data: TripSharedPlan;
-  planId: string;
+  plan: NonNullable<TripSharedPlan['plan']>;
   onChanged: () => void;
 }) {
   const { t } = useLingui();
-  const plan = data.plan!;
+  const planId = plan.id;
   const manage = canManage(data);
   const [toggles, setToggles] = useState(plan.toggles);
   const { send: update } = useCommand(updateSharedPlan);

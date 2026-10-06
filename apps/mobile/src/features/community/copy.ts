@@ -6,8 +6,8 @@
 import { isTasteTag, type SharedPlanCard } from '@cp/domain';
 import { plural, t } from '@lingui/core/macro';
 
-import { formatAmountShown } from '@/features/money/format';
-import { tagWords } from '@/features/onboarding/taste/tag-labels';
+import { displayPrice } from '@/data/money';
+import { tagWords } from '@/features/onboarding';
 
 export function tagLabel(tag: string): string {
   return isTasteTag(tag) ? tagWords(tag).short : tag;
@@ -73,7 +73,7 @@ export function costEach(
   locale: string,
 ) {
   if (card.cost_pp_rounded_minor === null || card.currency === null) return null;
-  const amount = formatAmountShown(BigInt(card.cost_pp_rounded_minor), card.currency, locale);
+  const amount = displayPrice(card.cost_pp_rounded_minor, card.currency, locale);
   return t({ id: 'community.cost.each', message: `${amount} each` });
 }
 

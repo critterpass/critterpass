@@ -19,6 +19,7 @@ import { defineCommand } from '../_framework/define-command';
 import { seatHolders, tripForSharing } from './skeleton';
 import {
   liveSharedPlanId,
+  one,
   postCrewLine,
   publishNow,
   sharedPlanById,
@@ -76,6 +77,7 @@ export const publishSharedPlanCommand = defineCommand({
   v: 1,
   schema: publishSharedPlanPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     await requireTripMember(tx, payload.trip_id);
   },
@@ -107,7 +109,7 @@ export const publishSharedPlanCommand = defineCommand({
           Math.max(1, uids.length),
         ],
       );
-      const id = rows[0]!.id;
+      const id = one(rows).id;
       await tx.query(
         `INSERT INTO shared_plan_consents (shared_plan_id, user_id, decision, decided_at)
          SELECT $1, uid, CASE WHEN uid = $2 THEN 'approved' ELSE 'pending' END,
@@ -131,6 +133,7 @@ export const respondPublishConsentCommand = defineCommand({
   v: 1,
   schema: respondPublishConsentPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload, ctx) => {
     await requireConsentRow(tx, payload.shared_plan_id, ctx.uid);
   },
@@ -176,6 +179,7 @@ export const withdrawPublishConsentCommand = defineCommand({
   v: 1,
   schema: sharedPlanIdPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload, ctx) => {
     await requireConsentRow(tx, payload.shared_plan_id, ctx.uid);
   },

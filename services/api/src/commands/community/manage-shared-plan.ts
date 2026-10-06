@@ -22,13 +22,21 @@ import {
 import { asSystemRole } from '../../admin/command';
 import { requireTripMember } from '../../plan/access';
 import { defineCommand } from '../_framework/define-command';
-import { liveSharedPlanId, materialise, requireManager, sharedPlanById, unpublish } from './store';
+import {
+  liveSharedPlanId,
+  materialise,
+  one,
+  requireManager,
+  sharedPlanById,
+  unpublish,
+} from './store';
 
 export const updateSharedPlanCommand = defineCommand({
   name: 'update_shared_plan',
   v: 1,
   schema: updateSharedPlanPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     const plan = await asSystemRole(tx, () => sharedPlanById(tx, payload.shared_plan_id));
     await requireTripMember(tx, plan.trip_id);
@@ -66,6 +74,7 @@ export const unpublishSharedPlanCommand = defineCommand({
   v: 1,
   schema: sharedPlanIdPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     const plan = await asSystemRole(tx, () => sharedPlanById(tx, payload.shared_plan_id));
     await requireTripMember(tx, plan.trip_id);
@@ -92,6 +101,7 @@ export function createPlanLinkCommand(linkEnv: LinkEnvironment) {
     v: 1,
     schema: createPlanLinkPayloadSchema,
     offline: false,
+    allowAnonymous: true,
     authorize: async (tx, payload) => {
       await requireTripMember(tx, payload.trip_id);
     },
@@ -105,7 +115,7 @@ export function createPlanLinkCommand(linkEnv: LinkEnvironment) {
                   (SELECT crew_id FROM trips WHERE id = $1) AS crew_id`,
           [payload.trip_id, sharedPlanId, hashToken(token), ctx.uid],
         );
-        const row = rows[0]!;
+        const row = one(rows);
         await appendDomainEvent(tx, {
           type: 'plan_link.created',
           aggregateKind: 'trip',
@@ -131,6 +141,7 @@ export const revokePlanLinkCommand = defineCommand({
   v: 1,
   schema: revokePlanLinkPayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: async (tx, payload) => {
     const { rows } = await tx.query<{ trip_id: string }>(
       'SELECT trip_id FROM plan_links WHERE id = $1',
@@ -146,7 +157,7 @@ export const revokePlanLinkCommand = defineCommand({
          RETURNING l.trip_id, t.crew_id`,
         [payload.link_id],
       );
-      const row = rows[0]!;
+      const row = one(rows);
       await appendDomainEvent(tx, {
         type: 'plan_link.revoked',
         aggregateKind: 'trip',

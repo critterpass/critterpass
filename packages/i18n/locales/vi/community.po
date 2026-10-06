@@ -182,10 +182,9 @@ msgstr "Cần có mạng để xem kế hoạch"
 msgid "community.rate.day"
 msgstr "Ngày {0}"
 
-#. placeholder {0}: note.best_day
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.detail.bestDay"
-msgstr "Chỉ ngày {0}"
+msgstr "Chỉ ngày {bestDay}"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.detail.dayByDay"

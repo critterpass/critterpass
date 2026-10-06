@@ -147,7 +147,9 @@ function Faces({
         </Stack>
       );
     case 'published':
-      return <Published tripId={tripId} data={data} planId={face.planId} onChanged={onChanged} />;
+      return data.plan === null ? null : (
+        <Published tripId={tripId} data={data} plan={data.plan} onChanged={onChanged} />
+      );
     case 'compose':
       return <Compose tripId={tripId} data={data} after={face.after} onChanged={onChanged} />;
   }

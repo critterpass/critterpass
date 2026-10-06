@@ -182,7 +182,6 @@ msgstr ""
 msgid "community.rate.day"
 msgstr ""
 
-#. placeholder {0}: note.best_day
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.detail.bestDay"
 msgstr ""

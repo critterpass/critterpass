@@ -169,7 +169,15 @@ registerTablePrivacy('ratings', { class: 'C2' });
 registerTablePrivacy('place_rating_stats', { class: 'C0' });
 registerTablePrivacy('plan_links', { class: 'C2', columns: { token_hash: 'C3' } });
 
-// A merged account keeps its ratings and copies; an existing rating of the same place wins.
+// A merged account keeps its consents, ratings and copies; an existing row for the same plan or
+// place wins.
+registerMergeRule({
+  table: 'shared_plan_consents',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['shared_plan_id'],
+  personal: true,
+});
 registerMergeRule({
   table: 'ratings',
   userColumn: 'user_id',

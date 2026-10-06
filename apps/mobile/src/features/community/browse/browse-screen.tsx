@@ -14,7 +14,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
-import { HeroPanel } from '@/ui/cards/HeroPanel';
 import { FilterChip } from '@/ui/chips/FilterChip';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';

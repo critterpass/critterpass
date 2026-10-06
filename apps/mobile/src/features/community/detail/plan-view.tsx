@@ -2,7 +2,7 @@
  * A published shared plan (3o-2) once read: the hero with ♡ SAVE, the chips and the guide's
  * overlap note, DAY BY DAY with "+", the crew's tips, and the sticky copy buttons.
  */
-import type { SharedPlanDetail, SharedPlanGuideNote } from '@cp/domain';
+import type { SharedPlanDetail, SharedPlanProjection } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -35,6 +35,7 @@ import {
   unsaveSharedPlan,
 } from '../commands';
 import { costEach, crewName, daysLabel, planTitle, ratingLabel, travelMonth } from '../copy';
+import { DRAFT_REVIEW_SCREEN, planReport, toastIds } from '../ids';
 import { noteLine } from './note-copy';
 
 const SHOWN_DAYS = 3;
@@ -62,10 +63,12 @@ const useStyles = makeStyles((th) => ({
 
 export function PlanView({
   detail,
+  projection,
   tripId,
   onChanged,
 }: {
   detail: SharedPlanDetail;
+  projection: SharedPlanProjection;
   tripId: string | null;
   onChanged: () => void;
 }) {
@@ -75,7 +78,6 @@ export function PlanView({
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const locale = useLocale();
-  const projection = detail.projection!;
   const card = detail.card;
   const [saved, setSaved] = useState(detail.saved);
   const [allDays, setAllDays] = useState(false);
@@ -88,6 +90,7 @@ export function PlanView({
   const { send: suggest } = useCommand(suggestSharedPlan);
   const { send: report } = useCommand(reportContent);
   const guide = guideSticker(null);
+  const bestDay = note?.best_day ?? null;
   const days = allDays ? projection.days : projection.days.slice(0, SHOWN_DAYS);
   const hidden = projection.days.length - days.length;
 
@@ -99,7 +102,7 @@ export function PlanView({
   const take = async (dayNos?: number[]) => {
     if (tripId === null) {
       toast.show({
-        id: `community-no-trip-${card.id}`,
+        id: toastIds.noTrip(card.id),
         title: t({
           id: 'community.detail.noTrip',
           message: 'Open this from one of your trips to copy it.',
@@ -114,7 +117,7 @@ export function PlanView({
     if (!organiser) {
       await suggest(payload);
       toast.show({
-        id: `community-suggest-${card.id}`,
+        id: toastIds.suggested(card.id),
         title: t({ id: 'community.detail.suggested', message: 'Sent to your organiser.' }),
       });
       return;
@@ -124,18 +127,18 @@ export function PlanView({
       const places = (result.result as { places?: number }).places ?? 0;
       const name = guide.name;
       toast.show({
-        id: `community-copied-${card.id}`,
+        id: toastIds.copied(card.id),
         title: t({
           id: 'community.detail.copied',
           message: `${name} is fitting ${places} places into your draft. Only you can see it.`,
         }),
       });
       onChanged();
-      const href = hrefFor('3c-9', { tripId });
+      const href = hrefFor(DRAFT_REVIEW_SCREEN, { tripId });
       if (href !== undefined) router.push(href);
     } else {
       toast.show({
-        id: `community-copy-failed-${card.id}`,
+        id: toastIds.copyFailed(card.id),
         title: t({
           id: 'community.detail.copyFailed',
           message: "That didn't go through. Try again in a moment.",
@@ -178,7 +181,7 @@ export function PlanView({
             </Row>
             {note === null ? null : (
               <Text variant="voice" testID="shared-plan-note">
-                {noteLine(note as SharedPlanGuideNote)}
+                {noteLine(note)}
               </Text>
             )}
             {card.travelled ? null : (
@@ -242,9 +245,9 @@ export function PlanView({
           <TextLink
             label={t({ id: 'community.detail.report', message: 'Report this plan' })}
             onPress={() => {
-              void report({ kind: 'shared_plan', id: card.id, reason: 'other' });
+              void report(planReport(card.id));
               toast.show({
-                id: `community-report-${card.id}`,
+                id: toastIds.reported(card.id),
                 title: t({
                   id: 'community.detail.reported',
                   message: 'Thanks. We will take a look.',
@@ -275,11 +278,11 @@ export function PlanView({
             testID="shared-plan-copy"
           />
         </View>
-        {note?.best_day == null ? null : (
+        {bestDay === null ? null : (
           <PillButton
             variant="secondary"
-            label={t({ id: 'community.detail.bestDay', message: `Day ${note.best_day} only` })}
-            onPress={() => void take([note.best_day!])}
+            label={t({ id: 'community.detail.bestDay', message: `Day ${bestDay} only` })}
+            onPress={() => void take([bestDay])}
             testID="shared-plan-best-day"
           />
         )}

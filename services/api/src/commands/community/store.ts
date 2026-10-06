@@ -16,6 +16,13 @@ import type pg from 'pg';
 
 import { loadPlanSkeleton, tripForSharing } from './skeleton';
 
+/** The single row a write returning one row gave back. */
+export function one<T>(rows: readonly T[]): T {
+  const row = rows[0];
+  if (row === undefined) throw new Error('expected a row');
+  return row;
+}
+
 export interface SharedPlanRow {
   readonly id: string;
   readonly trip_id: string;

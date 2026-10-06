@@ -7,7 +7,7 @@
 import type { RatingCard, RatingVerdict } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -53,11 +53,8 @@ export function RateTripScreen({ tripId }: { tripId: string }) {
   const { send } = useCommand(ratePlaces);
   const guide = guideSticker(null);
 
-  useEffect(() => {
-    if (data !== null && index === null) setIndex(resumeIndex(data.cards));
-  }, [data, index]);
-
-  const at = index ?? 0;
+  // Until she answers, the stack sits at the first place without a verdict.
+  const at = index ?? (data === null ? 0 : resumeIndex(data.cards));
   const current: RatingCard | undefined = cards[at];
   const answer = (verdict: RatingVerdict) => {
     if (current === undefined) return;

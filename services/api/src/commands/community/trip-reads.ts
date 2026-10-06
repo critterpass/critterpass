@@ -4,6 +4,7 @@
  * participant can rate.
  */
 import {
+  planSkeletonSchema,
   POI_CATEGORIES,
   sharedPlanTogglesSchema,
   type ConsentDecision,
@@ -75,7 +76,7 @@ export async function tripSharedPlan(
             rating_count: row.rating_count,
             published_at: row.published_at?.toISOString() ?? null,
           },
-    skeleton,
+    skeleton: skeleton === null ? null : planSkeletonSchema.parse(skeleton),
     links: links.map((link) => ({
       id: link.id,
       created_at: link.created_at.toISOString(),

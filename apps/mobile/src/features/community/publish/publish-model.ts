@@ -4,6 +4,7 @@
  * (someone asked and this person has not answered), waiting for the others, the published plan's
  * own page, or nothing to share yet (no plan).
  */
+/* eslint-disable lingui/no-unlocalized-strings -- state names, never copy. */
 import type { TripSharedPlan } from '@cp/domain';
 
 export type PublishFace =

@@ -7,7 +7,7 @@ import {
   crewTasteTags,
   matchScore,
   sharedPlanProjectionSchema,
-  type CrewTaste,
+  type ViewerTaste,
   type SharedPlanCard,
   type SharedPlanGuideNote,
   type SharedPlansPage,
@@ -72,7 +72,7 @@ export async function crewTaste(
   tx: pg.PoolClient,
   tripId: string,
   uid: string,
-): Promise<CrewTaste> {
+): Promise<ViewerTaste> {
   const { rows } = await tx.query<{ tags: string[] }>(
     `SELECT coalesce(tp.tags, '{}') AS tags
        FROM trip_participants p LEFT JOIN taste_profiles tp ON tp.user_id = p.user_id
@@ -90,7 +90,7 @@ export async function crewTaste(
   };
 }
 
-export async function soloTaste(tx: pg.PoolClient, uid: string): Promise<CrewTaste> {
+export async function soloTaste(tx: pg.PoolClient, uid: string): Promise<ViewerTaste> {
   const { rows } = await tx.query<{ tags: string[] }>(
     'SELECT tags FROM taste_profiles WHERE user_id = $1',
     [uid],
@@ -106,7 +106,7 @@ export async function soloTaste(tx: pg.PoolClient, uid: string): Promise<CrewTas
 export async function browseSharedPlans(
   tx: pg.PoolClient,
   query: SharedPlansQuery,
-  taste: CrewTaste | null,
+  taste: ViewerTaste | null,
 ): Promise<SharedPlansPage> {
   const tags = (query.tags ?? '').split(',').filter((tag) => tag !== '');
   const { rows } = await tx.query<PlanRow>(

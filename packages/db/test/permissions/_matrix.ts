@@ -2201,7 +2201,9 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: {
       ...tripRowProbe('shared_plans'),
       seed: `INSERT INTO shared_plans (trip_id, destination_id)
-             SELECT t.id, t.destination_id FROM trips t
+             SELECT t.id, coalesce(t.destination_id, (SELECT destination_id FROM pois
+                                                       WHERE name = 'Matrix Probe POI'))
+               FROM trips t
               WHERE t.id = $1 AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $1)`,
     },
     expectations: CREW_VISIBLE_READ,
@@ -2212,14 +2214,16 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       params: (f) => [f.actors.organiser, f.tripId],
       seed: `WITH plan AS (
                INSERT INTO shared_plans (trip_id, destination_id)
-               SELECT t.id, t.destination_id FROM trips t
-                WHERE t.id = $2 AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2)
+               SELECT t.id, coalesce(t.destination_id, (SELECT destination_id FROM pois
+                                                         WHERE name = 'Matrix Probe POI'))
+                 FROM trips t
+                WHERE t.id = $2::uuid AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2::uuid)
                RETURNING id
              ), target AS (
-               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2
+               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2::uuid
              )
              INSERT INTO shared_plan_consents (shared_plan_id, user_id)
-             SELECT id, $1 FROM target LIMIT 1
+             SELECT id, $1::uuid FROM target LIMIT 1
              ON CONFLICT (shared_plan_id, user_id) DO NOTHING`,
     },
     expectations: OWNER_READ,
@@ -2230,14 +2234,16 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       params: (f) => [f.actors.organiser, f.tripId],
       seed: `WITH plan AS (
                INSERT INTO shared_plans (trip_id, destination_id)
-               SELECT t.id, t.destination_id FROM trips t
-                WHERE t.id = $2 AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2)
+               SELECT t.id, coalesce(t.destination_id, (SELECT destination_id FROM pois
+                                                         WHERE name = 'Matrix Probe POI'))
+                 FROM trips t
+                WHERE t.id = $2::uuid AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2::uuid)
                RETURNING id
              ), target AS (
-               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2
+               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2::uuid
              )
              INSERT INTO shared_plan_copies (shared_plan_id, copied_by, trip_id)
-             SELECT id, $1, $2 FROM target
+             SELECT id, $1::uuid, $2::uuid FROM target
               WHERE NOT EXISTS (SELECT 1 FROM shared_plan_copies WHERE copied_by = $1)
               LIMIT 1`,
     },
@@ -2269,7 +2275,7 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: {
       ...tripRowProbe('plan_links'),
       seed: `INSERT INTO plan_links (trip_id, token_hash)
-             VALUES ($1, encode(sha256(convert_to($1::text, 'UTF8')), 'hex'))
+             VALUES ($1, repeat('b', 64))
              ON CONFLICT (token_hash) DO NOTHING`,
     },
     expectations: CREW_VISIBLE_READ,

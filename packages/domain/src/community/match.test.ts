@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { budgetFit, crewTasteTags, matchScore, monthProximity, type CrewTaste } from './match';
+import { budgetFit, crewTasteTags, matchScore, monthProximity, type ViewerTaste } from './match';
 
-const crew: CrewTaste = {
+const crew: ViewerTaste = {
   tags: crewTasteTags([['temples', 'markets'], ['temples'], ['street_food']]),
   crew_size: 3,
   month: 4,

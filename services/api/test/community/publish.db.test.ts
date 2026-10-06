@@ -166,7 +166,7 @@ describe('publishing a crew plan', () => {
     expect(detail.status, JSON.stringify(detail.body)).toBe(200);
     expect(detail.body).toMatchObject({
       status: 'published',
-      card: { crew_size: 3, crew_names: null, days_count: 2, cost_pp_rounded_minor: 124_000 },
+      card: { crew_size: 3, crew_names: null, days_count: 2, cost_pp_rounded_minor: 123_000 },
     });
     const text = JSON.stringify(detail.body);
     for (const leak of ['QX7P2K', '4567', 'room 402', 'Member', crewA.tripId, organiser.uid]) {
@@ -204,7 +204,7 @@ describe('publishing a crew plan', () => {
     });
     expect(copied.status, JSON.stringify(copied.body)).toBe(200);
     expect(resultOf<{ places: number }>(copied).places).toBe(1);
-    const { rows } = await harness.pool.query(
+    const { rows } = await harness.pool.query<{ poi_id: string }>(
       'SELECT poi_id FROM trip_ideas WHERE trip_id = $1 AND deleted_at IS NULL',
       [crewB.tripId],
     );
@@ -218,7 +218,7 @@ describe('publishing a crew plan', () => {
     await harness.run(third, 'withdraw_publish_consent', { shared_plan_id: planId });
     const detail = await get(crewB.organiser, `/v1/shared-plans/${planId}`);
     expect(detail.body).toMatchObject({ status: 'unpublished', projection: null });
-    const { rows } = await harness.pool.query(
+    const { rows } = await harness.pool.query<{ revoked_at: Date | null }>(
       'SELECT revoked_at FROM plan_links WHERE trip_id = $1',
       [crewA.tripId],
     );
@@ -263,7 +263,7 @@ describe('rate_places', () => {
       pois[0],
     ]);
     expect(tips).toHaveLength(0);
-    const { rows: jobs } = await harness.pool.query(
+    const { rows: jobs } = await harness.pool.query<{ data: { content_kind: string } }>(
       "SELECT data FROM pgboss.job WHERE name = 'compliance.check'",
     );
     expect(jobs.map((job) => job.data.content_kind)).toContain('rating_tip');

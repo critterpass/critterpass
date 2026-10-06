@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { buildSharedPlanProjection, type TripSharedPlan } from '@cp/domain';
 
 import { canManage, publishFace } from '../publish/publish-model';
