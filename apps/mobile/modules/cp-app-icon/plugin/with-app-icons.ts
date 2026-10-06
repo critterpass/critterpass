@@ -222,7 +222,9 @@ const withAppIcons: ConfigPlugin<AppIconsOptions | undefined> = (config, options
     const projectName = mod.modRequest.projectName;
     if (!projectName) throw new Error('with-app-icons: no iOS project name');
     const names = [...automaticAlternateIds(), ...forcedAlternateNames(forced)].join(' ');
-    for (const settings of appTargetBuildSettings(mod.modResults, projectName)) {
+    // The `xcode` package ships no types: read its project object through PbxProject.
+    const project: unknown = mod.modResults;
+    for (const settings of appTargetBuildSettings(project as PbxProject, projectName)) {
       settings['ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES'] = `"${names}"`;
       settings['ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS'] = 'NO';
     }

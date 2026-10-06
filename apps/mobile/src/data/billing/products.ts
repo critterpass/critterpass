@@ -4,7 +4,6 @@
  * payments. Store product ids default to the product keys (the StoreKit configuration file and
  * the RevenueCat products use them verbatim); a synced `products.store_ids` row overrides them.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- wire values, store codes and product ids, never copy. */
 import { PRODUCT_KEYS, type ProductKey, type StoreIds, type StorePlatform } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
