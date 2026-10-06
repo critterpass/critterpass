@@ -63,16 +63,28 @@ export interface BrowsePlace {
   readonly area: string | null;
   /** In the curated set, or a machine pick where nothing is curated. */
   readonly recommended: boolean;
+  /** The weekly schedule as stored (`{weekly, exceptions?}`), or null when unknown. */
+  readonly hours: unknown;
+  /** One of the editors' must-sees. */
+  readonly mustSee: boolean;
+  /** The pick job's order (1 first), or null when not picked. */
+  readonly pickRank: number | null;
+  /** The reviewed note's (or AI profile's) lines in the reader's language, or null. */
+  readonly whyGo: string | null;
+  readonly bestTime: string | null;
 }
 
-/** The api's most places per browse. */
-export const BROWSE_LIMIT = 50;
+/** The api's most places in a destination's browse (a map page). */
+export const BROWSE_LIMIT = 300;
 /** Destinations whose browse is kept for offline; past this the oldest is dropped. */
 const BROWSE_CACHE_MAX = 40;
 
 const text = (value: unknown): string | null => (typeof value === 'string' ? value : null);
 const finite = (value: unknown): number | null =>
   typeof value === 'number' && Number.isFinite(value) ? value : null;
+
+const line = (value: unknown): string | null =>
+  typeof value === 'string' && value.trim() !== '' ? value : null;
 
 function browsePlace(value: unknown): BrowsePlace[] {
   if (typeof value !== 'object' || value === null) return [];
@@ -93,6 +105,11 @@ function browsePlace(value: unknown): BrowsePlace[] {
       address: text(row['address']),
       area: text(row['area']),
       recommended: row['recommended'] === true,
+      hours: typeof row['hours'] === 'object' ? (row['hours'] ?? null) : null,
+      mustSee: row['mustSee'] === true,
+      pickRank: finite(row['pickRank']),
+      whyGo: line(row['whyGo']),
+      bestTime: line(row['bestTime']),
     },
   ];
 }
@@ -172,8 +189,9 @@ export function useDestinationPlaces(destinationId: string | null): ReadState<Br
 }
 
 /**
- * The phone's places, then the browse's places it does not hold: the phone's row is richer (hours,
- * the editors' notes), the browse adds what was never synced. Stays are never map places.
+ * The phone's places, then the browse's places it does not hold (with their hours, must-see and
+ * the note's lines), so what was never synced shows as fully as what was. Stays are never map
+ * places.
  */
 export function withBrowsed(
   held: readonly MapPoi[],
@@ -193,10 +211,10 @@ export function withBrowsed(
         category: place.category,
         lat: place.lat,
         lng: place.lng,
-        hours: null,
-        mustSee: false,
-        written: false,
-        bestTime: null,
+        hours: place.hours,
+        mustSee: place.mustSee,
+        written: place.whyGo !== null,
+        bestTime: place.bestTime,
       },
     ];
   });

@@ -13,7 +13,16 @@
       "priceLevel": null,
       "tags": ["temple"],
       "distanceM": null,
-      "openNow": null
+      "openNow": null,
+      "hours": {
+        "weekly": {
+          "mon": [["06:00", "21:30"]]
+        }
+      },
+      "mustSee": true,
+      "pickRank": null,
+      "whyGo": "The Lady Buddha looks over the whole bay.",
+      "bestTime": "Before 07:00"
     },
     {
       "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e22",
@@ -28,7 +37,12 @@
       "priceLevel": 1,
       "tags": [],
       "distanceM": null,
-      "openNow": null
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": null,
+      "whyGo": null,
+      "bestTime": null
     },
     {
       "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e33",
@@ -43,8 +57,18 @@
       "priceLevel": 3,
       "tags": [],
       "distanceM": null,
-      "openNow": null
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": 4,
+      "whyGo": "  ",
+      "bestTime": null
     },
-    { "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e44", "name": "", "lat": 16.0, "lng": 108.2 }
+    {
+      "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e44",
+      "name": "",
+      "lat": 16.0,
+      "lng": 108.2
+    }
   ]
 }

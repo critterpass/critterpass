@@ -2,7 +2,7 @@
  * What the list's rows and order read beyond the map's places: where each place stands in the
  * recommended order (the editors' must-sees, the rest of the curated set, then the machine picks by
  * rank; the order every reader shares) and the area its own address names. The phone's rows answer
- * first; a place only the api's browse holds ranks by its place in the browse when recommended.
+ * first; a place only the api's browse holds ranks by what the browse says of it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and address words, never copy. */
 import { useMemo } from 'react';
@@ -72,6 +72,16 @@ export interface FactsRow {
   readonly must_see: number | string | null;
 }
 
+/**
+ * A browse-only place in the same order as the phone's rows: must-sees first, then the recommended
+ * places the pick job did not rank (the curated set), then the picks by rank.
+ */
+export function browsedRank(place: BrowsePlace): number | null {
+  if (place.mustSee) return 0;
+  if (place.pickRank !== null) return PICK_BASE + place.pickRank;
+  return place.recommended ? CURATED_RANK : null;
+}
+
 /** The facts of the phone's rows, then of the browse's places the phone does not hold. */
 export function placeFacts(
   rows: readonly FactsRow[],
@@ -91,10 +101,10 @@ export function placeFacts(
       },
     ]),
   );
-  browsed.forEach((place, index) => {
+  browsed.forEach((place) => {
     if (facts.has(place.id)) return;
     facts.set(place.id, {
-      rank: place.recommended ? PICK_BASE + index : null,
+      rank: browsedRank(place),
       area: place.area ?? areaOf(place.address, destinationName),
     });
   });

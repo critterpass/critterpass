@@ -28,7 +28,7 @@ import { recordedReader } from '@/data/travel-data/test-support/recorded-reader'
 
 import { browsePath, readDestinationPlaces, withBrowsed, type BrowsePlace } from '../map-queries';
 import type { MapPoi } from '../map-model';
-import { placeFacts } from '../places/place-facts';
+import { browsedRank, placeFacts } from '../places/place-facts';
 import { countKinds, picksWithBrowsed } from '../queries';
 import { apiSubjects, readMissingPlaces } from '../saved-queries';
 import { centreOf } from '../search/use-addresses';
@@ -108,6 +108,18 @@ describe('the map', () => {
     expect(places[0]).toBe(heldTemple);
     expect(places[1]).toMatchObject({ name: 'Bánh Xèo Bà Dưỡng', mustSee: false, hours: null });
   });
+
+  it('shows a never-synced place with the hours, must-see and note lines the browse sends', async () => {
+    const [temple, banhXeo] = withBrowsed([], await browsed(), false);
+    expect(temple).toMatchObject({
+      id: TEMPLE,
+      hours: { weekly: { mon: [['06:00', '21:30']] } },
+      mustSee: true,
+      written: true,
+      bestTime: 'Before 07:00',
+    });
+    expect(banhXeo).toMatchObject({ hours: null, mustSee: false, written: false, bestTime: null });
+  });
 });
 
 describe('the list', () => {
@@ -119,7 +131,16 @@ describe('the list', () => {
     );
     expect(facts.get(TEMPLE)).toEqual({ rank: 0, area: null });
     expect(facts.get(BANH_XEO)).toEqual({ rank: null, area: 'Hải Châu' });
-    expect(facts.get(HOTEL)?.rank).toBe(12);
+    expect(facts.get(HOTEL)?.rank).toBe(14);
+  });
+
+  it('ranks browse-only places as the phone ranks its own: must-see, curated, then picks', async () => {
+    const [temple, banhXeo, hotel] = await browsed();
+    const rank = (place: BrowsePlace | undefined) =>
+      place === undefined ? -1 : browsedRank(place);
+    expect([rank(temple), rank(banhXeo), rank(hotel)]).toEqual([0, null, 14]);
+    if (banhXeo === undefined) throw new Error('expected the browse fixture');
+    expect(browsedRank({ ...banhXeo, recommended: true })).toBe(1);
   });
 });
 
