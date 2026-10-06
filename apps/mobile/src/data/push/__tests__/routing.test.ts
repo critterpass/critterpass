@@ -109,6 +109,11 @@ describe('routing a tap', () => {
     await expect(routeForTap(tap())).resolves.toBe('/');
   });
 
+  it('opens Home from a push whose link has no path', async () => {
+    await expect(routeForTap(tap({ deeplink: '/' }))).resolves.toBe('/');
+    await expect(routeForTap(tap({ deeplink: 'critterpass://' }))).resolves.toBe('/');
+  });
+
   it('opens the inbox when the push has no link or routing fails', async () => {
     await expect(routeForTap(tap({ deeplink: null }))).resolves.toBe(TAP_FALLBACK_ROUTE);
     await expect(routeForTap(tap(), () => Promise.reject(new Error('boom')))).resolves.toBe(

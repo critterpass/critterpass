@@ -18,14 +18,15 @@ export interface SavedNavigation {
   readonly state: object;
 }
 
-/** A launch URL that points at a screen (not just the app scheme or the dev client's own URL). */
-export function isDeepLinkLaunch(url: string | null): boolean {
+/**
+ * A launch from a link: any URL but the dev client's own (`exp…`). A link with a path opens that
+ * path (the link router owns it) and a bare link (`critterpass://`, no path) opens Home, so neither
+ * reopens the screens saved before.
+ */
+export function isLinkLaunch(url: string | null): boolean {
   if (!url) return false;
   try {
-    const parsed = new URL(url);
-    if (parsed.protocol.startsWith('exp')) return false;
-    const target = `${parsed.host}${parsed.pathname}`.replace(/^\/+|\/+$/g, '');
-    return target.length > 0;
+    return !new URL(url).protocol.startsWith('exp');
   } catch {
     return false;
   }
@@ -38,7 +39,7 @@ export function shouldRestore(
   launchUrl: string | null,
 ): saved is SavedNavigation {
   if (!saved || saved.build !== build) return false;
-  if (isDeepLinkLaunch(launchUrl)) return false;
+  if (isLinkLaunch(launchUrl)) return false;
   const age = now - saved.savedAt;
   return age >= 0 && age < RESTORE_WINDOW_MS;
 }
@@ -62,6 +63,22 @@ export function writeSavedNavigation(saved: SavedNavigation): void {
 
 export function clearSavedNavigation(): void {
   storage.remove(STORAGE_KEY);
+}
+
+let accountSwitched = false;
+
+/**
+ * The signed-in account is going (an account switch, a sign-out): the app opens on Home next,
+ * never on the screens of the account before. Nothing is saved again until the app restarts.
+ */
+export function forgetNavigationForAccountSwitch(): void {
+  accountSwitched = true;
+  clearSavedNavigation();
+}
+
+/** Test-only: a fresh process, where nothing has switched accounts yet. */
+export function resetAccountSwitchForTests(): void {
+  accountSwitched = false;
 }
 
 /**
@@ -176,8 +193,8 @@ export interface NavigationPersistenceOptions {
 /**
  * Saves the root navigation state on every change of a signed-in session and, once per cold
  * start, restores the saved one when it is fresh (< 30 min), from this build, the launch wasn't a
- * deep link (the link router owns those), the session's local database is open and the person is
- * still on the launch screen. `launchUrl` is `undefined` while still being read; restore waits for
+ * link (bare or not: the link router owns those), the session's local database is open and the person is
+ * still on the launch screen; an account switch saves nothing more. `launchUrl` is `undefined` while still being read; restore waits for
  * it.
  */
 export function useNavigationPersistence({
@@ -233,7 +250,7 @@ export function useNavigationPersistence({
     return navigationRef.addListener('state', () => {
       decide();
       // A signed-out or first-run session saves nothing: its screens are not a place to return to.
-      if (!decided.current || gate !== 'ready') return;
+      if (!decided.current || gate !== 'ready' || accountSwitched) return;
       const state = navigationRef.getRootState();
       if (state) writeSavedNavigation({ savedAt: now(), build, state });
     });

@@ -17,7 +17,13 @@ import {
   type PendingLink,
 } from './pending';
 import type { LinkResolverClient, PreviewResult } from './resolver-client';
-import { homeWithNotice, routeBeforeOnboarding, routeForTarget, type LinkFacts } from './route-map';
+import {
+  HOME_ROUTE,
+  homeWithNotice,
+  routeBeforeOnboarding,
+  routeForTarget,
+  type LinkFacts,
+} from './route-map';
 
 export interface LinkRouterDeps {
   /** Null until the signed-in data layer is ready; links still route, without a state check. */
@@ -54,6 +60,14 @@ export function resetLinkRouterForTests(): void {
 
 const OUR_URL =
   /^(?:https:\/\/(?:go\.)?(?:staging\.)?critterpass\.app\/|critterpass(?:-staging|-dev)?:)/i;
+
+/** A link of ours with no path (`critterpass://`, `https://critterpass.app/`): it opens Home. */
+const BARE_URL =
+  /^(?:https:\/\/(?:go\.)?(?:staging\.)?critterpass\.app|critterpass(?:-staging|-dev)?:)\/*(?:[?#].*)?$/i;
+
+export function isBareLink(url: string): boolean {
+  return BARE_URL.test(url.trim());
+}
 
 /** A link target from any URL form the app receives, or null when it is not a link of ours. */
 export function parseIncomingLink(url: string): LinkTarget | null {
@@ -130,6 +144,7 @@ export async function routeTarget(
 export async function routeIncomingUrl(url: string): Promise<string> {
   const target = parseIncomingLink(url);
   if (target !== null) return routeTarget(target);
+  if (isBareLink(url)) return HOME_ROUTE;
   return OUR_URL.test(url) ? homeWithNotice('link_unknown') : url;
 }
 

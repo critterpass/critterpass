@@ -76,7 +76,10 @@ import { DevToolsShake } from '@/lib/dev-tools/DevToolsShake';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import { bindTempleMute, configureAlwaysUpgrade, readLocationFlags } from '@/lib/location';
-import { useNavigationPersistence } from '@/lib/navigation/restore';
+import {
+  forgetNavigationForAccountSwitch,
+  useNavigationPersistence,
+} from '@/lib/navigation/restore';
 import {
   configurePermissions,
   sendMirrorThroughSession,
@@ -127,6 +130,8 @@ const analytics = createAnalyticsClient({
   onViolation: analyticsViolationBreadcrumb,
 });
 registerOnSignOut(() => analytics.reset());
+// A sign-out or account switch: the app opens on Home next, never on the last account's screens.
+registerOnSignOut(forgetNavigationForAccountSwitch);
 
 // Every OS permission goes through one primer-first orchestrator over the native module; results
 // are mirrored to the server (update_device_permissions) through the live session.

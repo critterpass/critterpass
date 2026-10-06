@@ -7,7 +7,7 @@ import { createDevSlots, type DevSlot } from '@/data/auth/dev-slots';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { clearPassDraft } from '@/features/onboarding';
 import { setOnboardingComplete } from '@/lib/links/pending';
-import { clearSavedNavigation } from '@/lib/navigation/restore';
+import { forgetNavigationForAccountSwitch } from '@/lib/navigation/restore';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -77,7 +77,7 @@ export default function DevAccountsScreen() {
       await slots.switchTo(target);
       // The restart starts at Home (not this screen), where a brand-new account's gate sends
       // it to onboarding.
-      clearSavedNavigation();
+      forgetNavigationForAccountSwitch();
       // A brand-new account onboards (name, guide, home) like a new phone; a kept one is past it.
       setOnboardingComplete(target !== null);
       if (target === null) clearPassDraft();
