@@ -3,8 +3,9 @@ import Foundation
 import WidgetKit
 
 // The trip widgets' buttons (api-contracts-async.md §4 `Widget Balances`, `Widget Today`): each
-// shows its tap at once on this phone (`WidgetTaps`) and queues its command in the shared outbox,
-// which the app drains with its session. The server holds the rules (one nudge per pair a day).
+// sends its command with the device action key, or queues it for the app (`SignedActionSender`),
+// and shows its tap on this phone (`WidgetTaps`).
+// The server holds the rules (one nudge per pair a day).
 
 /// NUDGE <NAME> on the Balances widget: a friendly reminder about what they owe.
 struct NudgeIntent: AppIntent {
@@ -29,8 +30,8 @@ struct NudgeIntent: AppIntent {
 
     func perform() async throws -> some IntentResult {
         let root = AppGroupContainer.url
-        try PendingActionsOutbox.append(.paymentNudge(targetUid: userId, tripId: tripId), root: root)
         try? WidgetTaps.record(key: WidgetTaps.nudge(userId), at: Date(), root: root)
+        try await SignedActionSender.deliver(.paymentNudge(targetUid: userId, tripId: tripId), root: root)
         WidgetCenter.shared.reloadTimelines(ofKind: "CPBalancesWidget")
         return .result()
     }
@@ -54,8 +55,8 @@ struct PackingCheckIntent: AppIntent {
 
     func perform() async throws -> some IntentResult {
         let root = AppGroupContainer.url
-        try PendingActionsOutbox.append(.packingCheck(itemId: itemId, checked: true), root: root)
         try? WidgetTaps.record(key: WidgetTaps.packing(itemId), at: Date(), root: root)
+        try await SignedActionSender.deliver(.packingCheck(itemId: itemId, checked: true), root: root)
         WidgetCenter.shared.reloadTimelines(ofKind: "CPTodayWidget")
         return .result()
     }

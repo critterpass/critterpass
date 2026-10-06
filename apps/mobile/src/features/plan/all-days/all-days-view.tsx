@@ -10,6 +10,7 @@ import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
+import type { GettingThereState } from '@/data/areas/use-getting-there';
 import type { DayItem } from '@/data/plan/plan-model';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -26,6 +27,7 @@ import type { TripMapModel } from '../trip-map/sheet-props';
 import type { TripDay } from '../trip-map/trip-days';
 import { useWayOut } from '../trip-map/use-ways-out';
 import { AllDaysCard } from './day-card';
+import { GettingThereSection } from './getting-there-section';
 import type { CardRect } from './use-cross-day-drag';
 import { GuideSticker } from '../trip-map/guide-sticker';
 
@@ -50,6 +52,9 @@ export interface AllDaysViewProps {
   readonly over: number | null;
   readonly dragging: boolean;
   readonly measureKey: number;
+  /** The ways from the reader's home city to the destination; absent when there is nothing to ask. */
+  readonly gettingThere?: GettingThereState | null;
+  readonly onRetryGettingThere?: () => void;
   readonly onBack: () => void;
   readonly onShare: () => void;
   readonly onOpenDay: (dayNo: number) => void;
@@ -59,6 +64,8 @@ export interface AllDaysViewProps {
   readonly onDrag: (x: number, y: number) => void;
   readonly onDrop: (x: number, y: number) => void;
 }
+
+const noop = () => undefined;
 
 /** Days with nothing planned that a saved idea fits well. */
 function ideaDays(model: TripMapModel): Set<number> {
@@ -125,6 +132,14 @@ export function AllDaysView(props: AllDaysViewProps) {
               ? {}
               : { action: { label: t({ id: 'plan.allDays.see', message: 'See' }), onPress: see } })}
             testID="all-days-check"
+          />
+        )}
+        {props.gettingThere == null ? null : (
+          <GettingThereSection
+            state={props.gettingThere}
+            place={place}
+            guide={model.guide.name}
+            onRetry={props.onRetryGettingThere ?? noop}
           />
         )}
         <View style={styles.grid}>

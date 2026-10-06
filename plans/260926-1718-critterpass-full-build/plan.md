@@ -11,7 +11,7 @@ critical_path_tasks: 253
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 29 of 59 phases done, 16 in progress in lanes, 12 open outside a lane, 2 not started; 445 of 594 tasks done (2026-10-06 11:25). See **Progress** below |
+| Status | in_progress: 36 of 59 phases done, 19 in progress, 4 not on main yet (open PRs); 504 of 594 tasks done (2026-10-06 22:30). See **Progress** below |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), the designed ops console (phases 58–59, added 2026-09-28), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
@@ -21,13 +21,12 @@ critical_path_tasks: 253
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
 | Design | `design/` read-only; renders in `docs/design-renders/screens/*.png` + `screens.json` |
 
-## Progress (updated 2026-10-06 11:25)
+## Progress (updated 2026-10-06 22:30)
 
-**445 of 594 tasks done (75%).** Statuses checked against `origin/main` on 6 Oct; the remaining work is listed in `plans/reports/full-build-review-261006-1125-remaining-report.md` (local).
-- **Phases done (29):** 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23, 27, 29, 30, 31, 32, 33, 34, 37, 41, 58. Device-only checks left in 2, 19 and 20 move to the live-test pass.
-- **In progress in a lane (16, 6 Oct):** 38, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 55, 56, 57, 59.
-- **Open outside a lane (12):** 6, 7, 21, 22, 24, 25, 26, 28, 35, 36, 39, 40. Mostly end-to-end flows; 28 and 35 also wait on partner approvals.
-- **Not started (2):** 53, 54.
+**504 of 594 tasks done (85%).** Every unticked task was checked against `origin/main` at 3dfe3e4652 on 6 Oct 22:30 (files, a targeted search and the delivering commit); what is left, in lane-sized batches, is in `plans/reports/critterpass-builder-261006-2229-plan-status-reconcile-report.md` (local).
+- **Phases done (36):** 1–5, 7–27, 29–34, 37, 41, 58, 59. Device-only checks left in 2, 19 and 20 move to the live-test pass.
+- **In progress on main (19):** 6, 28, 35, 36, 38, 39, 40, 43, 44, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55. What is left is native work, device flows, partner approvals and founder steps; little of it is new app or server code.
+- **Nothing on main yet (4):** 42 and 50 (in the open native batch PR #763, with the native halves of 44, 45, 46, 47, 48 and 49), 56 (open PR #770) and 57 (open PR #779).
 - **Superseded by the 6 Oct simplify plan** (`plans/261005-2100-simplify-sync-and-ai-content/`: AI place profiles, api reads, `trip_places`): phase 18's curated places batch and phase 30's 500-place pan budget.
 
 **Handover to the section 7 plan (4 Oct):** the founder's section 7 design (screens 7a-1 to 7i-2) replaces screens 3d-1 to 3d-4 and 3e-1 to 3e-3. Phases 29 and 30 close out as they stand; their 3d/3e screens and `apps/mobile/src/features/plan/{overview,day,timeline,review,views}` and `apps/mobile/src/features/explore/**` pass to [`plans/261003-2300-planning-places-v2`](../261003-2300-planning-places-v2/plan.md), which re-points each old screen id behind `planning.redesign` and retires the old screens in its last phase. Phase 37's timeline weather overlay is superseded by 7h-4 (Rain and crowds) and retired there after the founder approves the day plan on device.
@@ -164,11 +163,10 @@ critical_path_tasks: 253
 | Phase | Tasks | What's left |
 |---|---|---|
 | 6 Motion and feedback | 9/10 | cp-haptics Robolectric pin rides a native change |
-| 7 App shell and components | 17/18 | Android timeline tap (hitSlop past its block) |
 | 28 Drafting agent | 10/11 | Viator availability check (partner approval) |
-| 35 Suppliers, rides, ops desk | 9/14 | Viator, Agoda, GYG, Klook, Trip.com adapters (partner approvals); concierge card, approve action, vendor-message flow |
-| 36 Trip hub and day-of | 10/11 | Seeded end-to-end flows and their seed script |
-| 39 Crew live map | 5/6 | Moving-crewmate flows (runner orchestration, dev seed) |
+| 35 Suppliers, rides, ops desk | 10/14 | Viator, Agoda, GYG, Klook, Trip.com adapters (partner approvals) |
+| 36 Trip hub and day-of | 10/11 | readiness, conflict and alarm flows (the seed script and four flows are in) |
+| 39 Crew live map | 5/6 | flows written, never run on a device; `window-end` needs a dev action that ends the share |
 | 40 Critters | 10/11 | `copresence.yaml` (second member's dwell) |
 
 **6 Oct lanes:** 43, 44, 45, 47, 52, 55, 56, 57 and 59; 38 with 51; a native batch with 42, 44 T2, 45 T7, 46, 48, 49 and 50. Then 53 (store and social kit) and 54 (launch hardening), then live tests, UX checks and fixes.
@@ -229,7 +227,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 4 | [Critter art core](./phase-04-critter-art-core.md) | 8 | 1 | 2 | done |
 | 5 | [Sticker renderer, bake pipeline, share images](./phase-05-critter-renderer-asset-pipeline.md) | 10 | 2, 3, 4 | 3 | done |
 | 6 | [Motion, feedback bus, gestures](./phase-06-motion-feedback-gestures.md) | 10 | 3, 4 | 3 | in_progress (9/10) |
-| 7 | [App shell, components, a11y](./phase-07-app-shell-component-library.md) | 18 | 5, 6 | 4 | in_progress (17/18) |
+| 7 | [App shell, components, a11y](./phase-07-app-shell-component-library.md) | 18 | 5, 6 | 4 | done |
 | 8 | [Core schema, authz + RLS, domain events](./phase-08-core-schema-authz.md) | 9 | 1 | 2 | done |
 | 9 | [Auth, anonymous-first, anti-abuse](./phase-09-auth-anonymous-antiabuse.md) | 10 | 2, 8 | 3 | done |
 | 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | done |
@@ -257,29 +255,29 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 32 | [Guide chat, metering, phrase cards](./phase-32-guide-chat-metering.md) | 10 | 12, 13, 24, 29 | 16 | done |
 | 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | done |
 | 34 | [Bookings wallet, imports, flights](./phase-34-bookings-wallet-import.md) | 11 | 11, 13, 15, 33 | 15 | done |
-| 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34, 58 | 16 | in_progress (9/14) |
+| 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34, 58 | 16 | in_progress (10/14) |
 | 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | in_progress (10/11) |
 | 37 | [Disruptions](./phase-37-disruptions.md) | 11 | 15, 29, 35, 36 | 18 | done |
-| 38 | [Help hub & crew SOS](./phase-38-safety-help-sos.md) | 7 | 11, 14, 18, 20, 32, 34, 35, 39 | 17 | in progress (lane, 6 Oct) |
+| 38 | [Help hub & crew SOS](./phase-38-safety-help-sos.md) | 7 | 11, 14, 18, 20, 32, 34, 35, 39 | 17 | in_progress (6/7) |
 | 39 | [Crew live map](./phase-39-crew-live-map.md) | 6 | 12, 14, 20 | 7 | in_progress (5/6) |
 | 40 | [Critters: hatch, Critterdex, legendaries](./phase-40-critters-collect.md) | 11 | 5, 6, 9, 14, 15, 18, 20, 25, 31, 34 | 18 | in_progress (10/11) |
 | 41 | [Quests, XP, stickers](./phase-41-quests-stickers.md) | 7 | 13, 33, 40 | 19 | done |
-| 42 | [Voice, point-and-ask, phrases](./phase-42-voice-camera-phrases.md) | 9 | 32, 41 | 20 | in progress (lane, 6 Oct) |
-| 43 | [Recap, story, awards, stamps](./phase-43-recap-stamps-memory.md) | 9 | 26, 31, 33, 40 | 19 | in progress (lane, 6 Oct) |
-| 44 | [Album, postcards, print](./phase-44-album-postcards.md) | 9 | 10, 12, 13, 43 | 20 | in progress (lane, 6 Oct) |
-| 45 | [You: profile, settings, export, deletion](./phase-45-you-profile-settings.md) | 12 | 5, 12, 22, 33, 43, 47, 49 | 21 | in progress (lane, 6 Oct) |
-| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39, 58 | 15 | in progress (lane, 6 Oct) |
-| 47 | [Help centre, feedback, rating](./phase-47-help-feedback.md) | 8 | 17, 25, 43, 46, 58 | 20 | in progress (lane, 6 Oct) |
-| 48 | [Live Activities & Dynamic Island](./phase-48-live-activities.md) | 10 | 2, 5, 11, 34, 36, 39, 40 | 19 | in progress (lane, 6 Oct) |
-| 49 | [Actionable notifs, widgets](./phase-49-notification-surfaces-widgets.md) | 10 | 5, 11, 12, 26, 48 | 20 | in progress (lane, 6 Oct) |
-| 50 | [Android parity layer](./phase-50-android-parity.md) | 10 | 36, 48, 49 | 21 | in progress (lane, 6 Oct) |
-| 51 | [Web: site, invites, tips, legal, OG](./phase-51-web-site-links-og.md) | 11 | 3, 5, 9, 21, 23 | 10 | in progress (lane, 6 Oct) |
-| 52 | [Community plans](./phase-52-community.md) | 12 | 17, 28, 29, 30, 43, 44, 46, 51, 58 | 21 | in progress (lane, 6 Oct) |
-| 53 | [Store listing & social kit](./phase-53-store-social-assets.md) | 6 | 5, 40, 43, 45, 47, 49, 50, 51 | 22 | pending |
-| 54 | [Launch hardening & submission](./phase-54-launch-hardening.md) | 12 | 19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57 | 23 | pending |
-| 55 | [Find a driver: ask, capture, compare, pick, private tours](./phase-55-find-a-driver.md) | 13 | 13, 16, 29, 34, 35, 36, 58 | 18 | in progress (lane, 6 Oct) |
-| 56 | [Drivers our crews used: rating, invite, claim, directory](./phase-56-crews-drivers-directory.md) | 8 | 9, 17, 21, 43, 51, 52, 55, 58 | 22 | in progress (lane, 6 Oct) |
-| 57 | [Share the plan with your driver: page, PDF, quote back](./phase-57-share-plan-with-driver.md) | 7 | 21, 26, 29, 51, 52, 55 | 22 | in progress (lane, 6 Oct) |
+| 42 | [Voice, point-and-ask, phrases](./phase-42-voice-camera-phrases.md) | 9 | 32, 41 | 20 | pending (0/9; in the open native batch PR) |
+| 43 | [Recap, story, awards, stamps](./phase-43-recap-stamps-memory.md) | 9 | 26, 31, 33, 40 | 19 | in_progress (8/9, the last in part) |
+| 44 | [Album, postcards, print](./phase-44-album-postcards.md) | 9 | 10, 12, 13, 43 | 20 | in_progress (7/9) |
+| 45 | [You: profile, settings, export, deletion](./phase-45-you-profile-settings.md) | 12 | 5, 12, 22, 33, 43, 47, 49 | 21 | in_progress (8/12) |
+| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39, 58 | 15 | in_progress (6/13) |
+| 47 | [Help centre, feedback, rating](./phase-47-help-feedback.md) | 8 | 17, 25, 43, 46, 58 | 20 | in_progress (6/8) |
+| 48 | [Live Activities & Dynamic Island](./phase-48-live-activities.md) | 10 | 2, 5, 11, 34, 36, 39, 40 | 19 | in_progress (7/10) |
+| 49 | [Actionable notifs, widgets](./phase-49-notification-surfaces-widgets.md) | 10 | 5, 11, 12, 26, 48 | 20 | in_progress (7/10) |
+| 50 | [Android parity layer](./phase-50-android-parity.md) | 10 | 36, 48, 49 | 21 | pending (0/10; in the open native batch PR) |
+| 51 | [Web: site, invites, tips, legal, OG](./phase-51-web-site-links-og.md) | 11 | 3, 5, 9, 21, 23 | 10 | in_progress (7/11) |
+| 52 | [Community plans](./phase-52-community.md) | 12 | 17, 28, 29, 30, 43, 44, 46, 51, 58 | 21 | in_progress (11/12) |
+| 53 | [Store listing & social kit](./phase-53-store-social-assets.md) | 6 | 5, 40, 43, 45, 47, 49, 50, 51 | 22 | in_progress (1/6) |
+| 54 | [Launch hardening & submission](./phase-54-launch-hardening.md) | 12 | 19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57 | 23 | in_progress (1/12) |
+| 55 | [Find a driver: ask, capture, compare, pick, private tours](./phase-55-find-a-driver.md) | 13 | 13, 16, 29, 34, 35, 36, 58 | 18 | in_progress (9/13) |
+| 56 | [Drivers our crews used: rating, invite, claim, directory](./phase-56-crews-drivers-directory.md) | 8 | 9, 17, 21, 43, 51, 52, 55, 58 | 22 | pending (0/8; open PR) |
+| 57 | [Share the plan with your driver: page, PDF, quote back](./phase-57-share-plan-with-driver.md) | 7 | 21, 26, 29, 51, 52, 55 | 22 | pending (0/7; open PR) |
 | 58 | [Ops console data capture and early contracts](./phase-58-ops-console-early-contracts.md) | 7 | 11, 13, 17 | 7 | done |
 | 59 | [Ops console designed pass](./phase-59-ops-console-designed-pass.md) | 9 | 18, 19, 35, 44, 45, 46, 47, 52, 55, 56, 58 | 23 | done |
 

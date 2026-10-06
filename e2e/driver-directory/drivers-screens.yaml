@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# The crews' drivers screens reach their designed states from the developer tools: the directory
+# with its filter chips, a driver's detail, the empty area, the rate card with a verdict and tags,
+# the invite message with the Bahasa copy, and the crew's waiting timeline with NUDGE.
+- runFlow: ../screens/drivers-directory.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-invite'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-invite'
+- tapOn:
+    id: 'drivers-invite-bahasa'
+- extendedWaitUntil:
+    visible: '.*Halo Made.*'
+    timeout: 10000

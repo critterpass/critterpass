@@ -1,0 +1,63 @@
+{
+  "destination_id": "0192f000-0000-7000-8000-0000000da4a4",
+  "origin": { "key": "SGN", "city": "Ho Chi Minh City", "country": "VN" },
+  "status": "ready",
+  "ways": [
+    {
+      "mode": "flight",
+      "minutes": 85,
+      "cost_pp_minor": 1200000,
+      "cost_currency": "VND",
+      "note": "Dozens of flights a day; the airport is ten minutes from the centre.",
+      "sources": [
+        {
+          "url": "https://example.vn/ho-chi-minh-to-da-nang",
+          "title": "Ho Chi Minh City to Da Nang: every way to go",
+          "quote": "The flight from Ho Chi Minh City to Da Nang takes about 1 hour 25 minutes."
+        }
+      ]
+    },
+    {
+      "mode": "train",
+      "minutes": 1020,
+      "cost_pp_minor": 900000,
+      "cost_currency": "VND",
+      "note": null,
+      "sources": [
+        {
+          "url": "https://example.vn/ho-chi-minh-to-da-nang",
+          "title": "Ho Chi Minh City to Da Nang: every way to go",
+          "quote": "The Reunification Express reaches Da Nang in around 17 hours."
+        },
+        {
+          "url": "https://rail.example.com/saigon-danang",
+          "title": "",
+          "quote": "Saigon to Da Nang by sleeper train: 17 hours."
+        }
+      ]
+    },
+    {
+      "mode": "bus",
+      "minutes": 1140,
+      "cost_pp_minor": null,
+      "cost_currency": null,
+      "note": "Sleeper buses leave in the evening.",
+      "sources": [
+        {
+          "url": "https://example.vn/ho-chi-minh-to-da-nang",
+          "title": "Ho Chi Minh City to Da Nang: every way to go",
+          "quote": "A sleeper bus to Da Nang takes 19 hours."
+        }
+      ]
+    },
+    {
+      "mode": "hovercraft",
+      "minutes": 600,
+      "cost_pp_minor": null,
+      "cost_currency": null,
+      "note": null,
+      "sources": []
+    }
+  ],
+  "generated_at": "2026-10-05T08:12:00.000Z"
+}
