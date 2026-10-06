@@ -62,6 +62,8 @@ export const planDays = pgTable('plan_days', {
   date: date('date', { mode: 'string' }),
   theme: text('theme'),
   weatherRef: text('weather_ref'),
+  /** The area the day is spent in (a day trip); null = where its stop is. */
+  destinationId: uuid('destination_id'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   /** Translations of the guide-written text, per language (`@cp/domain` guide-text). */
