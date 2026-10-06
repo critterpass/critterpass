@@ -10,5 +10,5 @@ ALTER TABLE must_dos ADD CONSTRAINT must_dos_time_of_day_check CHECK (
                   'after_dark')
 );
 
--- The ops console reads every column of the row (the privacy map grants admin_reader the table).
-GRANT SELECT (time_of_day) ON must_dos TO admin_reader;
+-- No admin_reader grant: the ops console has never been granted must_dos, and this column does not
+-- change that.
