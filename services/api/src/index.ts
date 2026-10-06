@@ -1,4 +1,5 @@
 import { serve } from '@hono/node-server';
+import { subscribe } from 'node:diagnostics_channel';
 
 import packageJson from '../package.json' with { type: 'json' };
 
@@ -34,7 +35,12 @@ import { createClaimAttributionCommand } from './commands/attribution/claim-attr
 import { registerInvites } from './commands/invites';
 import { registerNudgeCommands } from './commands/nudges';
 import { createLinkProviderRegistry } from './links/registry';
-import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
+import {
+  meterVendorCalls,
+  redisCallSink,
+  seatTokenKeyringFromJson,
+  type LinkEnvironment,
+} from '@cp/domain';
 import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
 import { buildAdminConsole } from './admin/bootstrap';
 import { registerSupportGrantSource } from './admin/entitlement-grants';
@@ -54,6 +60,8 @@ const redis = createRedisClient(env.REDIS_URL, logger);
 redis
   .connect()
   .catch((error: unknown) => logger.warn({ err: error }, 'redis initial connect failed'));
+// Outbound vendor calls feed the console's Services screen (the worker's health collector).
+meterVendorCalls(subscribe, redisCallSink(redis));
 
 const routing =
   env.MAPBOX_TOKEN !== undefined

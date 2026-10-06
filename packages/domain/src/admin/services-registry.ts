@@ -6,6 +6,8 @@
  */
 import { z } from 'zod';
 
+import { SERVICES } from './service-list';
+
 export const SERVICE_GROUPS = [
   'ai',
   'messaging',
@@ -38,173 +40,13 @@ export interface ServiceEntry {
   readonly health: 'probe' | 'metrics' | 'none';
   /** The vendor has a usage or billing API the hourly poller reads. */
   readonly usage_api?: boolean;
+  /** Hosts our outbound calls reach; their counters feed a `metrics` service's state. */
+  readonly hosts?: readonly string[];
+  /** A `probe` service whose state is the worst of these services' states (hosting platforms). */
+  readonly derived_from?: readonly string[];
 }
 
-export const SERVICES: readonly ServiceEntry[] = [
-  {
-    key: 'deepseek',
-    name: 'DeepSeek',
-    group: 'ai',
-    purpose: 'Guide chat, drafts, profiles (fast and pro tiers)',
-    health: 'metrics',
-    switch_key: 'ai.tier.fast.enabled',
-  },
-  {
-    key: 'jev',
-    name: 'TypeSafe (Jev)',
-    group: 'ai',
-    purpose: 'Structured answers and decisions',
-    health: 'metrics',
-  },
-  {
-    key: 'gemini',
-    name: 'Gemini',
-    group: 'ai',
-    purpose: 'Fallback tier and link vision',
-    health: 'metrics',
-    switch_key: 'ai.tier.gemini.enabled',
-  },
-  {
-    key: 'tavily',
-    name: 'Tavily web search',
-    group: 'ai',
-    purpose: 'Web pages for place profiles and estimates',
-    health: 'metrics',
-  },
-  {
-    key: 'prelude',
-    name: 'Prelude',
-    group: 'messaging',
-    purpose: 'SMS sign-in codes',
-    health: 'metrics',
-    switch_key: 'otp.prelude.enabled',
-  },
-  {
-    key: 'whatsapp',
-    name: 'WhatsApp Business',
-    group: 'messaging',
-    purpose: 'Sign-in codes, vendor desk',
-    health: 'metrics',
-    switch_key: 'otp.whatsapp.enabled',
-  },
-  {
-    key: 'telegram',
-    name: 'Telegram',
-    group: 'messaging',
-    purpose: 'Sign-in codes',
-    health: 'metrics',
-    switch_key: 'otp.telegram.enabled',
-  },
-  {
-    key: 'apns',
-    name: 'APNs',
-    group: 'push',
-    purpose: 'Push, Live Activities, widgets',
-    health: 'metrics',
-    switch_key: 'widgets.push.enabled',
-  },
-  { key: 'fcm', name: 'FCM', group: 'push', purpose: 'Android push', health: 'metrics' },
-  {
-    key: 'revenuecat',
-    name: 'RevenueCat',
-    group: 'payments',
-    purpose: 'Purchases and store webhooks',
-    health: 'probe',
-    switch_key: 'billing.enabled',
-  },
-  {
-    key: 'mapbox',
-    name: 'Mapbox',
-    group: 'maps_travel',
-    purpose: 'Routes and ETAs',
-    health: 'metrics',
-  },
-  {
-    key: 'weatherapi',
-    name: 'WeatherAPI.com',
-    group: 'maps_travel',
-    purpose: 'Forecasts and marine',
-    health: 'metrics',
-  },
-  {
-    key: 'foursquare',
-    name: 'Foursquare Places',
-    group: 'maps_travel',
-    purpose: 'Place data and live hours',
-    health: 'metrics',
-  },
-  {
-    key: 'frankfurter',
-    name: 'Frankfurter',
-    group: 'maps_travel',
-    purpose: 'Currency rates',
-    health: 'metrics',
-  },
-  {
-    key: 'travelpayouts',
-    name: 'Travelpayouts',
-    group: 'maps_travel',
-    purpose: 'Fares and stay links',
-    health: 'metrics',
-  },
-  {
-    key: 'viator',
-    name: 'Viator',
-    group: 'suppliers',
-    purpose: 'Tours, booked in the app',
-    health: 'metrics',
-  },
-  {
-    key: 'grab',
-    name: 'Grab',
-    group: 'suppliers',
-    purpose: 'Ride price estimates',
-    health: 'metrics',
-  },
-  {
-    key: 'resend',
-    name: 'Resend',
-    group: 'mail_print',
-    purpose: 'Support replies, receipts',
-    health: 'probe',
-  },
-  {
-    key: 'postgrid',
-    name: 'PostGrid',
-    group: 'mail_print',
-    purpose: 'Printed postcards',
-    health: 'metrics',
-    switch_key: 'postcards.enabled',
-  },
-  {
-    key: 'railway',
-    name: 'Railway',
-    group: 'infrastructure',
-    purpose: 'api, worker, realtime, sync',
-    health: 'probe',
-  },
-  {
-    key: 'planetscale',
-    name: 'PlanetScale Postgres',
-    group: 'infrastructure',
-    purpose: 'Primary database',
-    health: 'probe',
-  },
-  {
-    key: 'cloudflare',
-    name: 'Cloudflare',
-    group: 'infrastructure',
-    purpose: 'Workers, R2 media, tiles',
-    health: 'probe',
-  },
-  {
-    key: 'observability',
-    name: 'Sentry · PostHog · Grafana · Langfuse',
-    group: 'infrastructure',
-    purpose: 'Errors, analytics, metrics, AI traces',
-    health: 'none',
-  },
-];
+export { SERVICES };
 
 export const SERVICE_STATES = ['ok', 'degraded', 'down', 'unknown'] as const;
 export const serviceStateSchema = z.enum(SERVICE_STATES);

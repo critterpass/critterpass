@@ -20,3 +20,4 @@ export * from './operators';
 export * from './service-keys';
 export * from './incidents';
 export * from './services-registry';
+export * from './service-health';

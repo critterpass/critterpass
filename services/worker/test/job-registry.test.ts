@@ -2,6 +2,7 @@ import { createKillSwitchReader } from '@cp/db';
 import { QUEUES, type QueueSpec } from '@cp/domain';
 import pg from 'pg';
 import type { JobWithMetadata, PgBoss } from 'pg-boss';
+import { createClient } from 'redis';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { runAttempt, scheduledJobData, type AnyJobDefinition } from '../src/boss';
@@ -53,6 +54,8 @@ beforeAll(async () => {
     metrics,
     renderer: createCopyRenderer(),
     pushProviders: createPushProviders(env),
+    // Never connected: no handler runs in this suite.
+    opsRedis: createClient({ url: env.REDIS_URL }),
   });
 });
 
