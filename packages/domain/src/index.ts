@@ -174,10 +174,13 @@ export {
   type UpsertPoiResult,
 } from './places/poi';
 export {
+  ASSIGN_PROVIDER_OP,
   CHANGE_SET_OP_KINDS,
   changeSetOpKindSchema,
   changeSetOpSchema,
   changeSetOpsSchema,
+  isAssignProviderOp,
+  planItemOps,
   type ChangeSetOp,
   type ChangeSetOpKind,
   type ChangeSetOps,

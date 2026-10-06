@@ -8,6 +8,7 @@
 import {
   changeSetOpsToEdits,
   DomainError,
+  planItemOps,
   type ChangeSetOp,
   type PlanState,
   type PlanStateItem,
@@ -50,7 +51,8 @@ export async function applyPersonally(
   const current = head.currentVersionId;
   if (current === null) throw new DomainError('STATE_INVALID', { reason: 'no_plan' });
   const state = await loadPlanState(tx, current);
-  const accepted = row.ops.filter((op) => op.accepted !== false);
+  // A driver is the crew's, never one member's: only plan item changes go into a personal plan.
+  const accepted = planItemOps(row.ops).filter((op) => op.accepted !== false);
   if (accepted.length === 0) throw new DomainError('STATE_INVALID', { reason: 'nothing_accepted' });
   if (row.base_version_id !== current) {
     const base = await loadPlanState(tx, row.base_version_id);
