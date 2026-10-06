@@ -1,7 +1,7 @@
 ---
 phase: 37
 title: Disruptions — flight delay, storm, weather replan, running late
-status: in_progress
+status: done
 depends_on: [15, 29, 35, 36]
 wave: 18
 features: [F-115, F-116, F-082, F-118]
@@ -27,6 +27,8 @@ owns:
   - e2e/trip/disruptions/**
 ---
 # Phase 37 — Disruptions: flight delay, storm, weather replan, running late
+
+> **Status, 6 Oct 2026:** every task is done. The live Viator SWAP check waits on Viator sandbox access (partner) and is tracked with phase 35.
 
 ## Context links
 

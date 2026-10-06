@@ -33,6 +33,8 @@ owns:
 ---
 # Phase 25 — Home, inbox, nudges, countdown, tips
 
+> **Status, 6 Oct 2026:** open: T9's iOS `first-run`, `first-run-vi` and `all-caught-up` runs.
+
 ## Context links
 
 | Source | Section |

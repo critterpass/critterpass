@@ -11,6 +11,8 @@ owns: [apps/mobile/src/motion/, tools/scripts/check-audio-assets.ts, apps/mobile
 ---
 # Phase 6 — Motion runtime, feedback bus, gesture kit
 
+> **Status, 6 Oct 2026:** open: T6's Robolectric `sdk=34` pin in `modules/cp-haptics/android`, which must ride a native change (the native batch). Everything else is done.
+
 ## Context links
 
 | Source | Section |

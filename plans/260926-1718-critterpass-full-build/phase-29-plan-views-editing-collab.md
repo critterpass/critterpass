@@ -1,7 +1,7 @@
 ---
 phase: 29
 title: Plan views, editing, change review, live collaboration
-status: in_progress
+status: done
 depends_on: [24, 26, 28]
 wave: 15
 features: [F-077, F-078, F-079, F-080, F-081, F-083, F-050]
@@ -28,6 +28,8 @@ owns:
   - e2e/plan/{overview,day-edit,timeline,review,overlay,views,collab}.yaml
 ---
 # Phase 29 — Plan views, editing, change review, live collaboration
+
+> **Status, 6 Oct 2026:** every task is done. The 3e-1 trip plan, 3e-2 day planning and 3e-3 review screens are replaced by the section 7 planning screens (`plans/261003-2300-planning-places-v2/`), and the earlier screens are removed (#724, #730).
 
 ## Context links
 

@@ -34,6 +34,8 @@ owns:
 ---
 # Phase 35 — Supplier layer, rides, vendor comms & concierge desk
 
+> **Status, 6 Oct 2026:** open: the Viator, Agoda, GetYourGuide, Klook and Trip.com adapters (T3, T6, T7, T7b) wait on partner approvals; T11 still needs the `ConciergeCard`, the approve notification action and `e2e/suppliers/vendor-message.yaml`. Desk offers stay behind `safety.ops_desk` while nobody staffs the desk.
+
 ## Context links
 | Source | Section |
 |---|---|
