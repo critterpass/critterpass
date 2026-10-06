@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   countdownLabel,
+  draftRows,
   estimateEach,
   guideKind,
   guideSticker,
@@ -70,5 +71,40 @@ describe('invite facts', () => {
     expect(countdownLabel('2026-09-27T13:00:00.000Z', now)).toBe('00:12:04');
     expect(countdownLabel('2026-09-27T12:00:00.000Z', now)).toBeNull();
     expect(countdownLabel(null, now)).toBeNull();
+  });
+});
+
+describe('draftRows', () => {
+  it('dates each day, falls back to the first stop as a title and cycles the tile tones', () => {
+    const rows = draftRows({
+      kind: 'proposal',
+      days_total: 8,
+      days: [
+        { day_no: 1, date: '2026-10-12', theme: 'Villa, pool, nothing else', stops: ['Canggu'] },
+        { day_no: 2, date: '2026-10-14', theme: null, stops: ['Mount Batur', 'Kintamani'] },
+        { day_no: 3, date: null, theme: null, stops: [] },
+      ],
+    });
+    expect(rows).toEqual([
+      {
+        key: 1,
+        dayOfMonth: '12',
+        weekday: 'Mon',
+        dayNo: 1,
+        title: 'Villa, pool, nothing else',
+        line: 'Canggu',
+        tone: 'green',
+      },
+      {
+        key: 2,
+        dayOfMonth: '14',
+        weekday: 'Wed',
+        dayNo: 2,
+        title: 'Mount Batur',
+        line: 'Kintamani',
+        tone: 'orange',
+      },
+      { key: 3, dayOfMonth: null, weekday: null, dayNo: 3, title: null, line: null, tone: 'blue' },
+    ]);
   });
 });

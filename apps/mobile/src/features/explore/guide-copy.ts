@@ -50,17 +50,26 @@ export interface HeroFacts {
   readonly best: readonly number[];
 }
 
+/** One fact on the hero; `nowrap` for a rate, which is short and must never be split or cut. */
+export interface HeroChip {
+  readonly text: string;
+  readonly nowrap: boolean;
+}
+
 /** "7h from SIN", "¥1,000 ≈ $6.70", "Best: Apr · Nov": only the facts that are known. */
-export function heroChips(locale: string, facts: HeroFacts): string[] {
-  const chips: string[] = [];
+export function heroChips(locale: string, facts: HeroFacts): HeroChip[] {
+  const chips: HeroChip[] = [];
+  const fact = (text: string) => {
+    chips.push({ text, nowrap: false });
+  };
   if (facts.flight !== null) {
     const { origin, hours, transfers } = facts.flight;
     if (hours !== null) {
-      chips.push(t({ id: 'explore.hero.hoursFrom', message: `${hours}h from ${origin}` }));
+      fact(t({ id: 'explore.hero.hoursFrom', message: `${hours}h from ${origin}` }));
     } else if (transfers === 0) {
-      chips.push(t({ id: 'explore.hero.directFrom', message: `Direct from ${origin}` }));
+      fact(t({ id: 'explore.hero.directFrom', message: `Direct from ${origin}` }));
     } else if (transfers !== null) {
-      chips.push(
+      fact(
         t({
           id: 'explore.hero.stopsFrom',
           message: plural(transfers, {
@@ -74,11 +83,11 @@ export function heroChips(locale: string, facts: HeroFacts): string[] {
   if (facts.fx !== null) {
     const from = moneyText(locale, facts.fx.from.amount_minor, facts.fx.from.currency);
     const to = moneyText(locale, facts.fx.to.amount_minor, facts.fx.to.currency);
-    chips.push(`${from} ≈ ${to}`);
+    chips.push({ text: `${from} ≈ ${to}`, nowrap: true });
   }
   if (facts.best.length > 0) {
     const months = facts.best.map((month) => monthName(locale, month)).join(' · ');
-    chips.push(t({ id: 'explore.hero.best', message: `Best: ${months}` }));
+    fact(t({ id: 'explore.hero.best', message: `Best: ${months}` }));
   }
   return chips;
 }

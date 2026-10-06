@@ -17,7 +17,7 @@ import { toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 
 import { restoreDraftVersionCommand } from '../data/commands';
-import { isBeingDrafted } from '../data/draft-stage';
+import { isBeingDrafted, isDraftRetired } from '../data/draft-stage';
 import { useDraftTrip } from '../data/draft-trip';
 import { roomiestDay } from '../data/fit-day';
 import { dayRange } from '../data/format';
@@ -41,16 +41,19 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   // The day she last opened: Change a day starts there, not on day 1.
   const [lastDay, setLastDay] = useState<number | null>(null);
   const drafting = trip !== undefined && trip !== null && isBeingDrafted(trip, draft.lastDraftJob);
+  const retired = trip !== undefined && trip !== null && isDraftRetired(trip);
 
   // Only while this is the screen on top: one underneath never navigates.
   const focused = useIsFocused();
   useEffect(() => {
-    if (drafting && focused) router.replace(draftRoutes.drafting(tripId));
-  }, [drafting, focused, tripId]);
+    if (!focused) return;
+    if (retired) router.replace(hrefFor('plan-hub', { tripId }) ?? '/');
+    else if (drafting) router.replace(draftRoutes.drafting(tripId));
+  }, [drafting, focused, retired, tripId]);
 
   const back = () =>
     router.canGoBack() ? router.back() : router.replace(draftRoutes.setup(tripId) ?? '/');
-  if (trip === undefined || trip === null || !draft.loaded || drafting) {
+  if (trip === undefined || trip === null || !draft.loaded || drafting || retired) {
     return (
       <DraftLoading
         trip={

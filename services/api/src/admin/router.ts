@@ -20,6 +20,7 @@ import { ADMIN_AUTH_BASE_PATH, type AdminAuth } from './auth';
 import { adminGuard, type AdminVariables } from './auth-guard';
 import { runAdminCommand } from './command';
 import { countsArea } from './counts';
+import { refuseDuringMaintenance } from './incidents';
 import { jobsArea, type JobsPanelDeps } from './jobs';
 import { webhookReplayArea } from './webhook-replay';
 import { deskQueueArea, workArea } from './work';
@@ -168,12 +169,14 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
     if ((envelope as { cmd?: unknown } | null)?.cmd !== c.req.param('cmd')) {
       throw new DomainError('VALIDATION', { reason: 'cmd_path_mismatch' });
     }
+    // The guard only accepts this scheme with a verified owner CLI token.
+    const via = c.req.header('authorization')?.startsWith('CP-Admin-CLI ') ? 'cli' : 'admin';
+    await refuseDuringMaintenance(deps.pool, c.var.admin.uid, c.req.param('cmd'), via);
     const outcome = await runAdminCommand(envelope, {
       pool: deps.pool,
       registry,
       admin: c.var.admin,
-      // The guard only accepts this scheme with a verified owner CLI token.
-      via: c.req.header('authorization')?.startsWith('CP-Admin-CLI ') ? 'cli' : 'admin',
+      via,
       ...(deps.now !== undefined ? { now: deps.now } : {}),
     });
     if (outcome.status === 'rejected') throw new DomainError(outcome.code, outcome.detail);

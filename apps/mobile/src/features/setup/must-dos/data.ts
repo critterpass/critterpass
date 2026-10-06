@@ -1,7 +1,9 @@
 /**
- * What the must-dos step reads locally: the trip's live must-dos (with their place's address), the
- * latest `set_must_dos` list this phone has queued for the trip (so an offline add shows at once),
- * and the trip's destination for the place search. All synced or local rows: works offline.
+ * What the must-dos step reads locally: the trip's live must-dos (with their place's address, from
+ * the trip's own place card: a must-do's place syncs with the trip), the latest `set_must_dos` list
+ * this phone has queued for the trip (so an offline add shows at once), and the trip's destination
+ * for the place search, which reads through the api (./places). All synced or local rows: works
+ * offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useLiveRows } from '../data/rows';

@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { hasDraftToReview, isBeingDrafted } from '../data/draft-stage';
+import { hasDraftToReview, isBeingDrafted, isDraftRetired } from '../data/draft-stage';
 
 const trip = (status: string, draftVersionId: string | null, isOrganiser = true) => ({
   status,
@@ -35,5 +35,19 @@ describe('a trip that has its days before any draft', () => {
     expect(isBeingDrafted(trip('drafting', 'days', false), running)).toBe(false);
     // A redraft of a day never sends her to the drafting screen.
     expect(isBeingDrafted(trip('redrafting', 'v1'), running)).toBe(false);
+  });
+});
+
+describe('a trip whose plan is locked in', () => {
+  it('retires the draft once the trip is confirmed or further along', () => {
+    for (const status of ['confirmed', 'pre_trip', 'in_trip', 'post_trip', 'archived']) {
+      expect(isDraftRetired({ status })).toBe(true);
+    }
+  });
+
+  it('keeps the draft while it is still being reviewed or sent', () => {
+    for (const status of ['drafting', 'draft_review', 'redrafting', 'proposed']) {
+      expect(isDraftRetired({ status })).toBe(false);
+    }
   });
 });

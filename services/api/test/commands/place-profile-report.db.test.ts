@@ -98,6 +98,46 @@ describe('report_content place_profile', () => {
     });
   });
 
+  it('shows ops the reported text, each fact with its page, and the sources', async () => {
+    const id = await place('Thien Mu Pagoda', 'ready');
+    await harness.pool.query(
+      `UPDATE place_profiles SET texts = $2, facts = $3, sources = $4, model = 'deepseek-chat'
+        WHERE poi_id = $1`,
+      [
+        id,
+        JSON.stringify({
+          en: {
+            why_go: 'A seven-storey tower over the Perfume River.',
+            best_time: 'Early morning.',
+            crowd: 'Busy at sunset.',
+            facts: ['Entry is free.'],
+          },
+        }),
+        JSON.stringify([
+          {
+            kind: 'entry',
+            source_url: 'https://example.org/pagoda',
+            quote: 'free',
+            second_source: 'none',
+          },
+        ]),
+        JSON.stringify([{ url: 'https://example.org/pagoda', title: 'Pagoda guide' }]),
+      ],
+    );
+    await report(await harness.signInUser(), id);
+    const response = await app.request('/v1/admin/moderation?kind=place_profile', {
+      headers: { cookie: ops },
+    });
+    const { items } = pageSchema.parse(await response.json());
+    const preview = items.find((entry) => entry.target_id === id)?.preview;
+    expect(preview?.type).toBe('text');
+    const text = preview?.type === 'text' ? preview.text : '';
+    expect(text).toContain('Why go: A seven-storey tower over the Perfume River.');
+    expect(text).toContain('- entry: Entry is free. [https://example.org/pagoda]');
+    expect(text).toContain('- Pagoda guide: https://example.org/pagoda');
+    expect(text).toContain('by deepseek-chat');
+  });
+
   it('refuses a second re-run within the hour, and allows one after it', async () => {
     const id = await place('Thiên Mụ Pagoda', 'ready');
     await report(await harness.signInUser(), id);

@@ -304,14 +304,9 @@ describe('the knob before the organiser touches it', () => {
     // Nothing priced yet: two $50 steps a day over the trip's eight days.
     const track = await screen.findByTestId('budget-track');
     expect(track.props.accessibilityValue).toEqual({ text: '$800' });
-    // The destination's cost index syncs: 2 nights at $40 + 3 days at $45 = $215 at the least,
-    // so the track runs $200 to $500 and the start is a third along it, not pinned to its end.
+    // The destination arrives and its cost index is read: 2 nights at $40 + 3 days at $45 = $215
+    // at the least, so the track runs $200 to $500 and the start is a third along it.
     await stack.db.execute("UPDATE trips SET destination_id = 'dest-1' WHERE id = ?", [TRIP_ID]);
-    await stack.db.execute(
-      `INSERT INTO destination_cost_indices (id, destination_id, stay_type, nightly_minor_low,
-         nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, reviewed_at)
-       VALUES ('ci-1', 'dest-1', 'hotel', 4000, 6000, 3000, 1500, 'USD', '2027-01-01')`,
-    );
     await waitFor(() =>
       expect(screen.getByTestId('budget-track').props.accessibilityValue).toEqual({
         text: '$300',

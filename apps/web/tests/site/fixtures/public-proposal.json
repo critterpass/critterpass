@@ -1,0 +1,19 @@
+{
+  "kind": "proposal",
+  "days_total": 8,
+  "days": [
+    {
+      "day_no": 1,
+      "date": "2026-10-12",
+      "theme": "Villa, pool, nothing else",
+      "stops": ["Canggu", "Echo Beach"]
+    },
+    {
+      "day_no": 3,
+      "date": "2026-10-14",
+      "theme": "Batur sunrise hike",
+      "stops": ["Mount Batur", "Kintamani"]
+    },
+    { "day_no": 5, "date": "2026-10-16", "theme": "Boat day to Penida", "stops": ["Nusa Penida"] }
+  ]
+}

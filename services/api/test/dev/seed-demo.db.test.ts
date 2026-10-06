@@ -176,6 +176,20 @@ describe('demo seed', { timeout: 120_000 }, () => {
     expect((await openInbox(caller.uid)).filter((item) => item.needs_you)).toEqual([]);
   });
 
+  it('plans one dinner at the demo place, however often it is seeded', async () => {
+    const first = await seed(caller);
+    await seed(caller);
+    const { rows } = await harness.pool.query<{ name: string; day_no: number }>(
+      `SELECT p.name, d.day_no FROM plan_items pi
+         JOIN trips t ON t.current_version_id = pi.version_id
+         JOIN plan_days d ON d.id = pi.day_id
+         JOIN pois p ON p.id = pi.poi_id
+        WHERE t.id = $1`,
+      [first.trip_id],
+    );
+    expect(rows).toEqual([{ name: 'Warung Demo Ubud', day_no: 1 }]);
+  });
+
   it("has Maya answer on a reseed when the caller's message is the newest", async () => {
     const writer = await harness.signInAnonymously();
     const world = await seed(writer);

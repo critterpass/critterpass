@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "id": "0199c1a0-0000-7000-8000-00000000f003",
+      "name": "Saihō-ji",
+      "nameLocal": "西芳寺",
+      "category": "temple_shrine",
+      "lat": 34.9917,
+      "lng": 135.6847,
+      "address": "56 Matsuo Jingatanicho, Nishikyo Ward, Kyoto",
+      "area": "Nishikyo Ward",
+      "recommended": true,
+      "priceLevel": null,
+      "tags": ["book_ahead"],
+      "distanceM": null,
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": 2,
+      "whyGo": "The moss garden, by reservation only.",
+      "bestTime": null
+    },
+    {
+      "id": "0199c1a0-0000-7000-8000-00000000f007",
+      "name": "Gio-ji",
+      "nameLocal": "祇王寺",
+      "category": "temple_shrine",
+      "lat": 35.0234,
+      "lng": 135.6703,
+      "address": "32 Sagatoriimoto Kozakacho, Ukyo Ward, Kyoto",
+      "area": "Ukyo Ward",
+      "recommended": false,
+      "priceLevel": null,
+      "tags": [],
+      "distanceM": null,
+      "openNow": true,
+      "hours": { "weekly": { "fr": [{ "start": "09:00", "end": "16:30" }] } },
+      "mustSee": false,
+      "pickRank": null,
+      "whyGo": null,
+      "bestTime": null
+    }
+  ]
+}

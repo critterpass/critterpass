@@ -1,0 +1,45 @@
+/* eslint-disable lingui/no-unlocalized-strings -- header names and URL paths, not UI copy. */
+/**
+ * Server-side reads of the api's public previews (`GET /v1/public/{kind}/{token}`): the draft behind
+ * a trip invite. Like the link preview, it passes the visitor's IP and user agent with the shared
+ * proxy secret so limits apply to the visitor, is never cached, and never holds a page up: a slow,
+ * failing or empty answer leaves the section out.
+ */
+import { publicProposalSchema, type LinkTarget, type PublicProposal } from '@cp/domain';
+
+export interface PublicPreviewRequest {
+  readonly apiBaseUrl: string;
+  readonly target: LinkTarget;
+  readonly visitorIp: string | null;
+  readonly visitorUserAgent: string | null;
+  readonly proxySecret: string | undefined;
+  readonly fetchImpl?: typeof fetch;
+  readonly timeoutMs?: number;
+}
+
+/** The proposal behind an invite link, or null when there is none to show. */
+export async function fetchPublicProposal(
+  request: PublicPreviewRequest,
+): Promise<PublicProposal | null> {
+  const { target } = request;
+  if (target.kind !== 'invite') return null;
+  const query = target.seat === undefined ? '' : `?seat=${encodeURIComponent(target.seat)}`;
+  const url = `${request.apiBaseUrl}/v1/public/proposal/${encodeURIComponent(target.code)}${query}`;
+  const headers = new Headers({ accept: 'application/json' });
+  if (request.proxySecret !== undefined && request.proxySecret !== '') {
+    headers.set('x-cp-web-proxy', request.proxySecret);
+    if (request.visitorIp !== null) headers.set('x-cp-visitor-ip', request.visitorIp);
+    if (request.visitorUserAgent !== null) headers.set('x-cp-visitor-ua', request.visitorUserAgent);
+  }
+  try {
+    const response = await (request.fetchImpl ?? fetch)(url, {
+      headers,
+      signal: AbortSignal.timeout(request.timeoutMs ?? 2000),
+    });
+    if (!response.ok) return null;
+    const parsed = publicProposalSchema.safeParse(await response.json());
+    return parsed.success && parsed.data.days.length > 0 ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}

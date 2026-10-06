@@ -72,6 +72,10 @@ const REDACTED: Readonly<Record<string, Copy>> = {
     id: 'notifications.lockscreen.disruption.needs_yes_body',
     message: 'Open the trip to decide.',
   },
+  'notifications.vendor.draft_ready_body': /*i18n*/ {
+    id: 'notifications.lockscreen.vendor.draft_ready_body',
+    message: 'A message to a place is ready for your yes.',
+  },
   'notifications.disruption.done_title': /*i18n*/ {
     id: 'notifications.lockscreen.disruption.done_title',
     message: 'Your plan changed',

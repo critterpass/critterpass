@@ -30,6 +30,8 @@ owns:
 ---
 # Phase 40 — Critters: hatch, Critterdex, encounters, legendaries
 
+> **Status, 6 Oct 2026:** open: T11's `copresence.yaml` (a second member's verified co-presence dwell). Quests are written as soon as a trip starts (#505).
+
 ## Context links
 
 | Source | Section |

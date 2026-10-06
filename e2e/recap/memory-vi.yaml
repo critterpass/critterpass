@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# The year-later memory's lab scenes in vi.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: subflows/memory-shots.yaml
+    env:
+      LANG: vi
