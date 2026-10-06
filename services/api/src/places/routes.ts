@@ -28,7 +28,7 @@ import { getPlaceLive, type FoursquareLiveConfig } from './live';
 import { registerLiveSearchRoutes } from './live-search-routes';
 import { getMapRegionManifest } from './map-regions';
 import { createWantedRegionsReader, WANTED_MAX } from './map-regions-wanted';
-import { searchPlaces, type PlaceSearchFilters } from './search';
+import { MAX_BROWSE_LIMIT, searchPlaces, type PlaceSearchFilters } from './search';
 
 export interface PlacesRouteDeps {
   readonly pool: pg.Pool;
@@ -79,8 +79,11 @@ const searchQuerySchema = z.object({
   category: z.string().optional(),
   destination_id: z.uuid().optional(),
   open_at: z.iso.datetime({ offset: true }).optional(),
-  limit: z.coerce.number().int().positive().max(50).optional(),
+  // Up to 300 for a destination's no-query browse (a map page); 50 for anything else.
+  limit: z.coerce.number().int().positive().max(MAX_BROWSE_LIMIT).optional(),
 });
+
+const TRIP_SEARCH_MAX_LIMIT = 50;
 
 function tripSearchDeps(deps: PlacesRouteDeps): TripSearchDeps {
   const valhallaUrl = 'valhallaUrl' in deps ? deps.valhallaUrl : process.env['VALHALLA_URL'];
@@ -136,7 +139,7 @@ export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRoute
             ...(query.destination_id === undefined ? {} : { destinationId: query.destination_id }),
             ...(near === undefined ? {} : { near }),
             ...(category === undefined ? {} : { category }),
-            limit: query.limit ?? 20,
+            limit: Math.min(query.limit ?? 20, TRIP_SEARCH_MAX_LIMIT),
             fit: trip.fit === '1',
             relax: trip.relax === '1',
             ...(trip.words === undefined || trip.words === '' ? {} : { words: trip.words }),
