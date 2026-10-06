@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# Opens one drivers lab scene (apps/mobile/src/app/(dev)/drivers-lab.tsx), waits for `${READY}`,
+# Opens one drivers lab scene (apps/mobile/src/app/(dev)/drivers-directory-lab.tsx), waits for `${READY}`,
 # takes `${SHOT}` and goes back to the list (Android back; iOS reopens the lab).
 - scrollUntilVisible:
     element:
