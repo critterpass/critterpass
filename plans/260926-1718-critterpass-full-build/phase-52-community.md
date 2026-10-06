@@ -1,7 +1,7 @@
 ---
 phase: 52
 title: "Community: crew plans, copy, rate, publish"
-status: pending
+status: in_progress
 depends_on: [17, 28, 29, 30, 43, 44, 46, 51, 58]
 wave: 21
 features: [F-149, F-150, F-151, F-152]
@@ -104,6 +104,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 
 ## Tasks
 ### T1 — Community schema, public projection view, permission tests
+- Status: done — 68d5f822bd
 - Goal: tables + authz.
 - Files: `packages/db/src/schema/community.ts`, `packages/db/migrations/<ts>_shared_plans_ratings.sql`, `packages/db/test/permissions/{shared-plans,shared-plan-copies,ratings}.test.ts`, `packages/domain/src/community/{schemas,toggles,match}.ts`.
 - Steps: 1. Tables + `plan_links` + public views. 2. RLS/grants; `guide_reader` sees only public view. 3. Publication entries. 4. Domain schemas + `readPublicPlan(token)` (revoked/unpublished → null).
@@ -111,6 +112,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: outsider reads only published projection; names-off projection contains no uid/display names; pending plan visible only to participants.
 
 ### T2 — Publish commands, consent flow, prepare job (scrub, blur, pick, tags)
+- Status: done — 6a6ac24af8 (published in the consenting transaction; regex scrub; only photos with no faces; no LLM scrub/title or face blur)
 - Goal: safe publishing pipeline.
 - Files: `services/api/src/commands/community/{publish-shared-plan,respond-publish-consent,withdraw-publish-consent,update-shared-plan,unpublish-shared-plan,create-plan-link,revoke-plan-link}.ts`, `services/worker/src/jobs/community/{prepare,blur,pick-photos,rematerialise}.ts`, `packages/ai/src/routes/community/{title-tags,pii-scrub}.ts`, `packages/ai/evals/community/{title-tags,pii-scrub}/*`, `services/api/test/community/publish.test.ts`, `services/worker/test/community/prepare.test.ts`.
 - Steps: 1. Consent requests (chat card + Inbox via P24/P25 APIs). 2. Prepare job steps with progress. 3. YuNet detection (onnxruntime-node, threshold 0.6) + sharp blur; fail-closed vs P44 `face_count`. 4. Projection materialisation; crew system message. 5. `withdraw_publish_consent` → unpublish; `community.rematerialise` on crew leave / `account.purge`.
@@ -118,6 +120,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: a note containing a booking ref and phone never appears in projection; a photo with an unconsented tagged face is excluded; a photo where the detector finds fewer faces than `face_count` is excluded; one decline blocks publish; withdrawal unpublishes; purging a named participant yields a projection without their name, tagged photos or tips (`services/worker/test/community/rematerialise.test.ts`).
 
 ### T3a — Publish sheet 3o-4 + consent card
+- Status: done — 06ac9039b1 (no envelope motion)
 - Goal: designed sheet and consent UI.
 - Files: `apps/mobile/src/app/community/publish/[tripId].tsx`, `apps/mobile/src/features/community/publish/*`, `apps/mobile/src/features/community/consent/*` (chat/Inbox consent card), tests, `e2e/community/publish-consent.yaml`.
 - Steps: 1. Live preview from local projection preview fn (same code as server). 2. Toggles + envelope motion. 3. Consent card UI. 4. Pending/declined/processing/offline states.
@@ -125,6 +128,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: preview text equals server projection for fixture trips; publish requires both devices' approval.
 
 ### T3b — Manage published plan
+- Status: done — 06ac9039b1
 - Goal: post-publish states.
 - Files: `apps/mobile/src/features/community/manage/*`, tests.
 - Steps: 1. Stats (copies, saves, rating). 2. Edit toggles → `update_shared_plan`; UNPUBLISH; link copy/revoke. 3. Withdraw-consent action for any participant. 4. "Planned, not travelled yet" label.
@@ -132,6 +136,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: unpublish, revoke and withdraw each reach the tombstone state from fixture data.
 
 ### T4 — Browse API with taste-match ranking
+- Status: done — 6a6ac24af8
 - Goal: ranked, filtered listing.
 - Files: `services/api/src/routes/shared-plans.ts`, `packages/domain/src/community/match.ts`, `packages/domain/src/community/match.test.ts`, `services/api/test/community/browse.test.ts`.
 - Steps: 1. Crew taste aggregation (context trip members; respects `hide_taste_tags` by using only visible tags). 2. Score fn (pure, tested). 3. SQL filter + keyset pagination + 5 min cache. 4. Guide's pick selection.
@@ -139,6 +144,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: fixture corpus ranks by match not copies; empty destination returns `[]` with total 0 (no fallback seeding).
 
 ### T5 — Crew plans screen 3o-1
+- Status: done — 49c347ac6f
 - Goal: browse UI.
 - Files: `apps/mobile/src/app/community/[destinationId]/index.tsx`, `apps/mobile/src/features/community/browse/*`, tests, `e2e/community/browse.yaml`.
 - Steps: 1. Filter chips + FLIP re-sort. 2. Hero pick + rows. 3. Empty/no-results/offline/report states. 4. Shared-element zoom to detail. 5. Register `3o-1` with P07 and 3d-1 entry count via P30 public API.
@@ -146,6 +152,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: motion-freeze screenshot matches `3o-1_Crew_plans.png` with a fixture published corpus created through the real publish command in test setup.
 
 ### T6 — Shared plan detail 3o-2 + guide overlap note + save
+- Status: done — e5a90a8a6f (note worded from server counts, no LLM)
 - Goal: evaluate a plan.
 - Files: `apps/mobile/src/app/community/plan/[sharedPlanId].tsx`, `apps/mobile/src/features/community/detail/*`, `packages/ai/src/routes/community/overlap-note.ts`, `packages/ai/evals/community/overlap-note/*`, `services/api/src/commands/community/save-shared-plan.ts`, tests.
 - Steps: 1. Detail layout + expander + tips. 2. Overlap computation in planner (pure) → Haiku wording with persona; cache key. 3. Save/unsave. 4. Unpublished tombstone. 5. 3d-1 "CREW PLANS" count via P30 destination guide slot.
@@ -153,6 +160,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: note numbers equal planner output in every eval case; saved plan appears in You saved list.
 
 ### T7a — Copy into draft: command + merge job + planner fns
+- Status: done — 6a6ac24af8 (places go to Ideas, then the placing job drafts the change; never a redraft)
 - Goal: fit-checked copy as a private ChangeSet (backend).
 - Files: `services/api/src/commands/community/{copy-shared-plan,suggest-shared-plan-to-organiser}.ts`, `services/worker/src/jobs/community/merge.ts`, `packages/planner/src/community/{map-items,merge,season-check}.ts`, `packages/planner/test/community/*.test.ts`, `services/worker/test/community/merge.test.ts`.
 - Steps: 1. Authz organiser; non-organiser suggestion path. 2. Redraft reservation rules (Q-41) using P46 redraft limit → `REDRAFT_LIMIT`. 3. Merge ops + constraint check via P16/P28 APIs. 4. ChangeSet (visibility organiser) + progress.
@@ -160,6 +168,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: copying into an empty trip consumes no redraft; replacing consumes one and releases on job failure; over limit returns `REDRAFT_LIMIT`; a closed-in-season place is flagged clash.
 
 ### T7b — Copy UI
+- Status: done — e5a90a8a6f
 - Goal: copy interactions on 3o-2.
 - Files: `apps/mobile/src/features/community/copy/*`, `e2e/community/copy-day.yaml`.
 - Steps: 1. "+" arc + "+1" float, toasts. 2. No-trip sheet, suggest-to-organiser card. 3. Conflict → P29 review; `REDRAFT_LIMIT` → P46 paywall entry `redraft_last`.
@@ -167,6 +176,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: Day-3 copy lands in 3c-9 with the toast; limit reached opens the P46 paywall.
 
 ### T8a — Ratings backend: command, tip moderation, aggregates
+- Status: done — 36741d43cb
 - Goal: ratings and anonymous tips (server).
 - Files: `services/api/src/commands/community/rate-places.ts`, `services/worker/src/jobs/community/{tip-moderate,aggregate}.ts`, `packages/ai/src/routes/community/tip-moderation.ts`, `packages/ai/evals/community/tip-moderation/*`, `services/worker/test/community/{tip-moderate,aggregate}.test.ts`.
 - Steps: 1. Batch command (idempotent op_ids). 2. Moderation via P13 `checkCompliance` (`public_text`; tip-specific cases added to `packages/ai/evals/compliance/`) → P30 `place_tips(source=community)` or P17 queue. 3. Nightly aggregates. 4. Inbox reminder registration.
@@ -174,6 +184,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: an approved tip lands in `place_tips` without author identity; a rejected tip returns `CONTENT_REJECTED`.
 
 ### T8b — Rate the trip 3o-3 UI
+- Status: done — e89e34dab9 (buttons and accessibility actions; no swipe gestures)
 - Goal: card stack.
 - Files: `apps/mobile/src/app/community/rate/[tripId].tsx`, `apps/mobile/src/features/community/rate/*`, tests, `e2e/community/rate-trip.yaml`.
 - Steps: 1. Card stack with gestures + a11y actions + resume. 2. Offline batch queue. 3. Gentle rejected state. 4. End card → 3o-4.
@@ -181,6 +192,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: an approved tip appears on the place detail for another crew; rejected tip shows the gentle state.
 
 ### T9 — Admin community module + report handling + e2e sweep
+- Status: blocked — moderation kinds and reporting built (6a6ac24af8); the admin console panel and the full-journey flows are not
 - Goal: moderation tooling and verification.
 - Files: `apps/admin/src/modules/community/*`, `services/api/src/admin/community/*`, `services/api/src/commands/community/report-shared-plan.ts`, `services/api/test/community/admin.test.ts`, `e2e/community/{full-journey,a11y}.yaml`.
 - Steps: 1. Kind handlers (tip, shared_plan) in P17 queue. 2. Unpublish with reason + author notification. 3. Full journey A publishes → B browses/copies → B rates, on iOS + Android.
