@@ -3,13 +3,14 @@
 import type {
   AssignProviderPayload,
   ConfirmProviderFieldsPayload,
+  CreateChangesetPayload,
   DismissPickupGapPayload,
   ShareProviderIntakePayload,
   ShortlistProviderPayload,
 } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
-import { defineClientCommand } from '@/data/commands/summaries';
+import { defineClientCommand, type ClientCommandSpec } from '@/data/commands/summaries';
 
 export const shareIntakeCommand = defineClientCommand<ShareProviderIntakePayload>({
   name: 'share_provider_intake',
@@ -31,6 +32,15 @@ export const assignCommand = defineClientCommand<AssignProviderPayload>({
   name: 'assign_provider',
   offline: false,
 });
+
+/**
+ * "Ask the crew first": the pick drafted as a change set. Sent straight to the server, as the
+ * sheet waits on its answer (a day may have gone to another driver).
+ */
+export const createPickChangesetOnline: ClientCommandSpec<CreateChangesetPayload> = {
+  name: 'create_changeset',
+  offline: false,
+};
 
 export const dismissGapCommand = defineClientCommand<DismissPickupGapPayload>({
   name: 'dismiss_pickup_gap',

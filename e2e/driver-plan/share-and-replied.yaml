@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# Sharing the plan with a driver on the plan views lab's Bali trip: the sheet before a link exists,
+# with a live link opened twice, revoking (confirmed once), and the driver's quote with two
+# suggested times and two tips on review changes.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: ../plan-before-draft/subflows/lab-shot.yaml
+    env:
+      SCENE: driver-share-new
+      SHOT: en-driver-share-new
+- runFlow:
+    file: ../plan-before-draft/subflows/lab-shot.yaml
+    env:
+      SCENE: driver-share-live
+      SHOT: en-driver-share-live
+- runFlow:
+    file: ../plan-before-draft/subflows/lab-shot.yaml
+    env:
+      SCENE: driver-share-revoke
+      SHOT: en-driver-share-revoke
+- runFlow:
+    file: ../plan-before-draft/subflows/lab-shot.yaml
+    env:
+      SCENE: driver-replied
+      SHOT: en-driver-replied

@@ -229,7 +229,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: early release never deletes; offline hold shows error not 3n-11; undo returns to Home with data intact.
 
 ### T11 — Cross-area e2e + a11y sweep
-- Status: blocked — lab-scene flows exist per screen; the full journey and a11y flows remain
+- Status: blocked — 2509b6d9bb. `e2e/you/full-journey.yaml` (new pass: rename → avatar → language → export → delete, erased at once) is green on Android through the rename and the avatar tabs (https://github.com/critterpass/critterpass/actions/runs/37521180584); its language, export and delete steps have not run on a device yet. `e2e/you/delete-restore.yaml` (saved pass: delete → closed 30 days → sign in → restore) and `sign-out-saved.yaml` stop at Developer tools › Start fresh: staging answers INTERNAL when erasing the test number's account, so the number is never freed. The a11y flow (font scale needs a runner action) and the icon step (no icon row on the profile) remain; lab-scene flows exist per screen
 - Goal: phase-level verification.
 - Files: `e2e/you/{full-journey,a11y}.yaml`, `apps/mobile/src/features/you/__tests__/a11y.test.tsx`.
 - Steps: 1. Journey: profile → edit → avatar → icon → language → export → delete → restore. 2. AX3 font scale, VoiceOver labels, Reduce Motion variants. 3. Android run.

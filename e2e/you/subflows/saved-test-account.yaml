@@ -1,0 +1,75 @@
+appId: app.critterpass.dev
+---
+# A brand-new person with a saved pass, on the staging test number:
+# 1. the number is freed, but only from an account these flows made (its crew is the marker
+#    "CP Test Sign-out"); any other holder stops the flow before anything is erased;
+# 2. a brand-new account onboards, starts the crew "CP Test Sign-out" and saves its pass with the
+#    number. Ends on the permissions primer that follows saving.
+# The caller erases the account again when done (guard-test-number.yaml, then start-fresh.yaml), so
+# the number is free for the next run. Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: ../../happy/subflows/fresh-install.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-sign-in'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-sign-in'
+- runFlow: phone-sign-in.yaml
+# The number had an account (Home), a closed one a run left behind (the restore page: restored
+# first, so the check below still sees whose it is) or now has a new one without a pass (the name
+# page).
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|onboarding-name-field|you-closed-restore'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'you-closed-restore'
+    commands:
+      - tapOn:
+          id: 'you-closed-keep'
+      - extendedWaitUntil:
+          visible:
+            id: 'home-screen'
+          timeout: 60000
+- runFlow: guard-test-number.yaml
+- runFlow: start-fresh.yaml
+
+# A brand-new person: a pass, a crew, then the pass saved with the phone number.
+- runFlow: ../../home/subflows/onboard.yaml
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'CP Test Sign-out'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://onboarding/save
+- extendedWaitUntil:
+    visible:
+      id: 'save-phone'
+    timeout: 15000
+- tapOn:
+    id: 'save-phone'
+- runFlow: phone-sign-in.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 30000

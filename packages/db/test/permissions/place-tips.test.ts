@@ -1,7 +1,7 @@
 /**
- * `place_tips`: an approved tip is open to every signed-in reader and synced on the explore stream
- * of its destination; a pending one is nobody's yet. The author is kept for moderation only:
- * app_user cannot select the column, the stream never carries it, and no client writes a tip.
+ * `place_tips`: an approved tip is open to every signed-in reader; a pending one is nobody's yet.
+ * Tips are never synced. The author is kept for moderation only: app_user cannot select the
+ * column, and no client writes a tip.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -40,9 +40,7 @@ describe('place_tips', () => {
       const uid = harness.fixture.actors[kind];
       expect(await visibleRows(harness, uid, 'SELECT id, text FROM place_tips'), kind).toBe(1);
       const synced = await harness.rows('explore', kind, { destination_id: destinationId });
-      const tips = synced.get('place_tips') ?? [];
-      expect(tips, kind).toHaveLength(1);
-      expect(Object.keys(tips[0] ?? {}), kind).not.toContain('author_id');
+      expect(synced.get('place_tips'), kind).toBeUndefined();
     }
   });
 

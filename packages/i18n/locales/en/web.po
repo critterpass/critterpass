@@ -11,6 +11,10 @@ msgstr ""
 msgid "web.home.chat4"
 msgstr "???"
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.rating"
+msgstr "{average} from {count, plural, one {# rating} other {# ratings}}"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.categoryPageTitle"
 msgstr "{category} tips · CritterPass"
@@ -27,6 +31,14 @@ msgstr "{count} IN LINE"
 msgid "web.comingSoon.joined.friendsJoined"
 msgstr "{count} OF 3 FRIENDS JOINED"
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.days"
+msgstr "{days, plural, one {# day} other {# days}}"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.headline"
+msgstr "{days, plural, one {# day} other {# days}} in {place}"
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.countdown"
 msgstr "{days}D {hours}H {minutes}M {seconds}S"
@@ -34,6 +46,14 @@ msgstr "{days}D {hours}H {minutes}M {seconds}S"
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.byline"
 msgstr "{guide}, {place}"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.draftTitle"
+msgstr "{guide}'s draft · {shown} of {total, plural, one {# day} other {# days}}"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.pageTitle"
+msgstr "{headline} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.minShort"
@@ -86,14 +106,6 @@ msgstr "© {year} CritterPass"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.estimateEach"
 msgstr "~{amount} each"
-
-#: ../../apps/web/src/components/site/copy/invite.ts
-msgid "web.invite.draftTitle"
-msgstr "{guide}'s draft · {shown} of {total, plural, one {# day} other {# days}}"
-
-#: ../../apps/web/src/components/site/copy/invite.ts
-msgid "web.invite.draftDay"
-msgstr "Day {n}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.askStatus"
@@ -154,6 +166,10 @@ msgstr "5 stamps · Collector cover"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.phoneTime"
 msgstr "9:41"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.pageDescription"
+msgstr "A crew's {days, plural, one {# day} other {# days}} in {place}, day by day. Copy it into your own trip on CritterPass."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLabel"
@@ -387,6 +403,10 @@ msgstr "Copied"
 msgid "web.comingSoon.joined.copied"
 msgstr "COPIED ✓"
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copies"
+msgstr "Copied by {count, plural, one {# crew} other {# crews}}"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.copyCode"
 msgstr "Copy"
@@ -394,6 +414,10 @@ msgstr "Copy"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
 msgstr "Copy"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copyCta"
+msgstr "Copy into my trip"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.copyLink"
@@ -410,6 +434,14 @@ msgstr "Crew"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.crewCaptain"
 msgstr "Crew captain"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.crewOf"
+msgstr "Crew of {size}"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.eyebrow"
+msgstr "Crew plan · {place}"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleTop"
@@ -466,6 +498,18 @@ msgstr "CRRRK!!"
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.current"
 msgstr "Current"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
+msgstr "Day {n}"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.draftDay"
+msgstr "Day {n}"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.daysTitle"
+msgstr "Day by day"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
@@ -891,6 +935,10 @@ msgstr "Made on the road"
 msgid "web.shell.navLabel"
 msgstr "Main"
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copyTitle"
+msgstr "Make it yours"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanMoving"
 msgstr "Maya is moving this"
@@ -951,6 +999,10 @@ msgstr "No place by that name. Try another spelling."
 msgid "web.home.insideMoneyTitle"
 msgstr "Nobody has to be the one who asks for money."
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.freeDay"
+msgstr "Nothing fixed"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
 msgstr "Nothing in this corner of the journal yet. Every other tip is one tap away."
@@ -978,6 +1030,10 @@ msgstr "One day-by-day plan the whole crew can move around."
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.note"
 msgstr "One email when we launch. Maybe two. Never spam."
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copyBody"
+msgstr "Open this plan in CritterPass to copy the whole thing, or just the days you like, into your own trip."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
@@ -1038,6 +1094,14 @@ msgstr "Plan together"
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planTitle"
 msgstr "PLAN TOGETHER"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.plannedBy"
+msgstr "Planned by {names}"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.planned"
+msgstr "Planned, not travelled yet"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
@@ -1158,6 +1222,10 @@ msgstr "Skip to content"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
 msgstr "so where r we going"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.solo"
+msgstr "Solo trip"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.label"
@@ -1378,6 +1446,10 @@ msgstr "Too many attempts. Try again in a few minutes."
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.splitTotal"
 msgstr "TOTAL"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.travelled"
+msgstr "Travelled"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"

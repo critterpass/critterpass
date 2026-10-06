@@ -55,6 +55,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   const guide = guideOf(data.guideSlug);
   const guideName = data.guideName ?? guideSticker(guide).name;
   const legendaryHref = useScreenHref('3l-9');
+  const rateHref = useScreenHref('3o-3', { tripId });
   const { model } = data;
   const recapId = data.recapId;
 
@@ -101,6 +102,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
         onWhereNext={() => router.navigate(whereNextHref(data.crewId))}
         onGotAway={legendaryHref === undefined ? undefined : () => router.push(legendaryHref)}
         onWatch={model.phase === 'ready' ? () => router.push(recapRoutes.story(tripId)) : undefined}
+        onRate={rateHref === undefined ? undefined : () => router.push(rateHref)}
       />
       {ended && recapId !== null ? <RecapEndSlot recapId={recapId} /> : null}
       {sharing ? (

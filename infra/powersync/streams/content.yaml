@@ -2,6 +2,7 @@
 # catalogue tables only ever hold rows of the published release (the publish job replaces them in
 # one transaction), so no release filter is needed here. Critter and form names are never synced:
 # they live in critter_names and reach a user through their own collection entry once found.
+# Help articles are read over HTTP (`/v1/help/library`), never synced.
 # `trip_destination` repeats places.yaml's CTE verbatim (a stream named in several files shares its
 # CTEs, which must be identical).
 
@@ -26,13 +27,3 @@ streams:
     queries:
       - SELECT * FROM spawn_rules WHERE destination_id IN trip_destination
       - SELECT * FROM facilities WHERE destination_id IN trip_destination
-
-  # Subscribed with {locale} while the help centre is open. Articles are public, so the
-  # client-chosen parameter alone is enough. The search vector and embedding stay server-side.
-  help:
-    accept_potentially_dangerous_queries: true
-    queries:
-      - |
-        SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
-        FROM help_articles
-        WHERE locale = subscription.parameter('locale')

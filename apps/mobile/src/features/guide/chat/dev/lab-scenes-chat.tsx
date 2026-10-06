@@ -35,6 +35,7 @@ export const LAB_PLAN: PlanCardModel = {
   state: 'draft',
   eachMinor: 2_200,
   currency: 'USD',
+  driverPicks: [],
   swaps: [
     {
       target: 'a',
@@ -243,5 +244,31 @@ export const CHAT_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   'chat-streamed-tool': () => <Replay question={PLACES_QUESTION} frames={PLACES_FRAMES} />,
   'chat-streamed-list': () => <Replay question={LIST_QUESTION} frames={LIST_FRAMES} />,
+  'chat-driver-pick': () => (
+    <LabSheet
+      messages={RAIN_SAVED}
+      proposal={{
+        ...LAB_PLAN,
+        eachMinor: 0,
+        swaps: [],
+        driverPicks: [
+          {
+            target: 'd',
+            name: 'Made',
+            days: [
+              { date: '2026-10-14', window_start: '08:00', window_end: '18:00', pickup: null },
+              { date: '2026-10-15', window_start: '09:00', window_end: '17:00', pickup: null },
+            ],
+            terms: {
+              price_minor: 70_000_000,
+              currency: 'IDR',
+              price_unit: 'day',
+              included_hours: 10,
+            },
+          },
+        ],
+      }}
+    />
+  ),
   'chat-sent': () => <LabSheet messages={RAIN_SAVED} proposal={{ ...LAB_PLAN, state: 'voting' }} />,
 };

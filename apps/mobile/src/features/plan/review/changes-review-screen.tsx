@@ -16,6 +16,7 @@ import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { undoPlanEditOnline } from '@/data/plan/commands';
 import type { UndoOutcome } from '@/data/plan/use-plan-editor';
+import { withDriverReply } from '@/features/drivers';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 
@@ -116,6 +117,8 @@ export function ChangesReviewScreen({
   const uid = plan.uid ?? '';
   const author = plan.members.find((m) => m.user_id === row?.author_id);
   const keeps = view.cards.some((card) => card.accepted);
+  // A driver is the whole crew's: only a plan item change can be kept to my own plan.
+  const mineOnly = view.cards.some((card) => card.accepted && card.driverPick === null);
   const changedDay =
     view.cards
       .filter((card) => card.accepted)
@@ -230,7 +233,10 @@ export function ChangesReviewScreen({
         onExplain: (ideaId) => setExplained((current) => new Set([...current, ideaId])),
         onOpen: (href) => router.push(href),
       })}
-      totals={<ChangesTotals numbers={view.numbers} drivingMin={extras.drivingDeltaMin} />}
+      totals={withDriverReply(
+        row,
+        <ChangesTotals numbers={view.numbers} drivingMin={extras.drivingDeltaMin} />,
+      )}
       send={
         editable
           ? {
@@ -251,7 +257,7 @@ export function ChangesReviewScreen({
           : null
       }
       personal={
-        view.state === 'draft' || view.state === 'voting'
+        mineOnly && (view.state === 'draft' || view.state === 'voting')
           ? {
               busy: busy === 'personal',
               onPress: () => void run('personal', actions.applyPersonal),

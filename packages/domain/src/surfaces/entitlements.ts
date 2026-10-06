@@ -39,8 +39,8 @@ export function buildEntitlementsSnapshot(
 ): EntitlementsSnapshot {
   // Sorted by parsed instant, not string order: two offsets (+08:00 vs +00:00) do not compare
   // correctly as plain text.
-  const soonestExpiry = input.boostedTrips
-    .toSorted((a, b) => Date.parse(a.endsAt) - Date.parse(b.endsAt))
+  const soonestExpiry = [...input.boostedTrips]
+    .sort((a, b) => Date.parse(a.endsAt) - Date.parse(b.endsAt))
     .at(0)?.endsAt;
 
   return entitlementsSnapshotSchema.parse({

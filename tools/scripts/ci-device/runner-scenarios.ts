@@ -11,10 +11,12 @@
  *   `geo fix` on Android).
  * - `/scenario?name=…&<args>`: starts a script that drives other people through the api of the
  *   build under test (`E2E_API_BASE_URL`): `trip-day` (../seed-trip-day.ts: five travellers join
- *   the crew behind `code`) and `live-map` (../live-map-sim/by-code.ts: crewmates join the crew behind
- *   `code` and keep walking on `trip`). It answers 202 at once; `/scenario-output?name=…` then
- *   answers 202 while the script sets up, 200 with its JSON line once it has, and 500 if it failed.
- *   A `live-map` sim keeps running (posting fixes) until the shard ends.
+ *   the crew behind `code`, and `up` of them say they are up for the day), `trip-pack`
+ *   (../seed-trip-pack.ts: one more traveller joins and adds the shared pack item `label`, or
+ *   removes it, per `action`) and `live-map` (../live-map-sim/by-code.ts: crewmates join the crew
+ *   behind `code` and keep walking on `trip`). It answers 202 at once; `/scenario-output?name=…`
+ *   then answers 202 while the script sets up, 200 with its JSON line once it has, and 500 if it
+ *   failed. A `live-map` sim keeps running (posting fixes) until the shard ends.
  */
 import { spawn, type ChildProcess } from 'node:child_process';
 import path from 'node:path';
@@ -38,7 +40,25 @@ function required(query: URLSearchParams, key: string): string {
 export const SCENARIOS: Readonly<Record<string, ScenarioScript>> = {
   'trip-day': {
     file: 'seed-trip-day.ts',
-    args: (query) => ['--code', required(query, 'code'), '--members', query.get('members') ?? '5'],
+    args: (query) => [
+      '--code',
+      required(query, 'code'),
+      '--members',
+      query.get('members') ?? '5',
+      '--up',
+      /^[0-5]$/.test(query.get('up') ?? '') ? (query.get('up') ?? '0') : '0',
+    ],
+  },
+  'trip-pack': {
+    file: 'seed-trip-pack.ts',
+    args: (query) => [
+      '--code',
+      required(query, 'code'),
+      '--action',
+      required(query, 'action'),
+      '--label',
+      required(query, 'label'),
+    ],
   },
   'live-map': {
     file: 'live-map-sim/by-code.ts',

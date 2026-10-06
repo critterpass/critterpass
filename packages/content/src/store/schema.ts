@@ -9,7 +9,8 @@ import { z } from 'zod';
 /** A price in copy, like `$3.99`, `3,99 €`, `S$4` or `99.000₫`. */
 const PRICE = /([$€£¥₫฿₩]\s?\d)|(\d[\d.,]*\s?(€|₫|฿|₩|USD|EUR|VND))/u;
 
-const copy = (max: number) =>
+/** Store-facing copy of at most `max` characters that states no price. */
+export const storeCopy = (max: number) =>
   z
     .string()
     .trim()
@@ -41,7 +42,7 @@ export const customProductPageSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/u),
   /** App Store Connect reference name (not shown to people). */
   referenceName: z.string().min(1).max(64),
-  promoText: copy(170),
+  promoText: storeCopy(170),
   /** Opens the app at this path when installed (iOS 18+ deep link per page). */
   deepLink: z.string().regex(/^https:\/\/critterpass\.app\//u),
   keywords: keywords.optional(),
@@ -62,9 +63,9 @@ export const inAppEventSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/u),
   referenceName: z.string().min(1).max(64),
   badge: z.enum(IN_APP_EVENT_BADGES),
-  name: copy(30),
-  shortDescription: copy(50),
-  longDescription: copy(120),
+  name: storeCopy(30),
+  shortDescription: storeCopy(50),
+  longDescription: storeCopy(120),
   deepLink: z.string().regex(/^https:\/\/critterpass\.app\//u),
   /** Who sees it: everyone, or people who have not installed the app yet. */
   audience: z.enum(['all', 'new']),
@@ -73,17 +74,17 @@ export const inAppEventSchema = z.object({
 export const listingSchema = z
   .object({
     appStore: z.object({
-      name: copy(30),
-      subtitle: copy(30),
+      name: storeCopy(30),
+      subtitle: storeCopy(30),
       keywords,
-      promoText: copy(170),
-      description: copy(4000),
-      releaseNotes: copy(4000),
+      promoText: storeCopy(170),
+      description: storeCopy(4000),
+      releaseNotes: storeCopy(4000),
     }),
     play: z.object({
-      title: copy(30),
-      shortDescription: copy(80),
-      fullDescription: copy(4000),
+      title: storeCopy(30),
+      shortDescription: storeCopy(80),
+      fullDescription: storeCopy(4000),
     }),
     customProductPages: z.array(customProductPageSchema).max(70),
     inAppEvents: z.array(inAppEventSchema).max(10),

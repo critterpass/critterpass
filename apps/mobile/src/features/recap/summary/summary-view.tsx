@@ -67,6 +67,8 @@ export interface SummaryViewProps {
   readonly onGotAway?: (() => void) | undefined;
   /** Plays the story again; absent while there is none to play. */
   readonly onWatch?: (() => void) | undefined;
+  /** Opens Rate the trip; undefined until that screen exists. */
+  readonly onRate?: (() => void) | undefined;
 }
 
 export function SummaryView(props: SummaryViewProps) {
@@ -177,6 +179,15 @@ export function SummaryView(props: SummaryViewProps) {
                 />
               </View>
             </View>
+            {props.onRate === undefined ? null : (
+              <View style={styles.watch}>
+                <TextLink
+                  label={t({ id: 'recap.summary.rate', message: 'Rate the trip' })}
+                  onPress={props.onRate}
+                  testID="recap-rate"
+                />
+              </View>
+            )}
             {props.onWatch === undefined ? null : (
               <View style={styles.watch}>
                 <TextLink

@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "id": "6f1c2d3e4a5b6c7d8e9f0a1b2c3d4e5f",
+      "timestamp": "2026-09-30T08:20:11.123Z",
+      "name": "guide.turn",
+      "userId": "0192a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+      "environment": "staging",
+      "tags": []
+    },
+    {
+      "id": "0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d",
+      "timestamp": "2026-10-01T11:02:45.004Z",
+      "name": "planning.draft",
+      "userId": "0192a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+      "environment": "staging",
+      "tags": []
+    }
+  ],
+  "meta": { "page": 1, "limit": 100, "totalItems": 2, "totalPages": 1 }
+}

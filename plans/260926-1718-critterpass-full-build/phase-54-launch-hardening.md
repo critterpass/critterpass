@@ -70,6 +70,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 ## Tasks
 
 ### T1 — Journey suites (iOS)
+- Status: blocked — not started: needs the device cloud choice (two real devices for crew journeys) and the nightly workflow; the staging release gate (`e2e/happy`, daily on Android) covers the single-device journeys meanwhile
 - Goal: full-journey Maestro on iOS devices.
 - Files: `e2e/journeys/ios/*.yaml`, `e2e/journeys/_shared/*.yaml`, `.github/workflows/nightly-journeys.yml`.
 - Steps: 1. Compose area flows into journeys listed above using two devices for crew flows. 2. Run on staging via EAS build + device cloud. 3. Nightly workflow with artefacts.
@@ -77,6 +78,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Done when: suite green once on staging devices; nightly workflow scheduled and producing artefacts. (3 consecutive nights = founder gate item.)
 
 ### T2 — Journey suites (Android)
+- Status: blocked — not started: "green once on Pixel + Samsung" needs the device cloud; CI has one Pixel 7 emulator image. Recap, community publish and co-presence journeys also wait for a post-trip seed and real locations
 - Goal: parity journeys.
 - Files: `e2e/journeys/android/*.yaml`.
 - Steps: as T1 on Pixel + Samsung (API 36/37).
@@ -89,7 +91,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Collect via Maestro + `adb`/`xctrace` exports, k6 for API. 2. Compare to budgets; fail on regression.
 - Tests: `pnpm tsx tools/scripts/perf/run.ts --ci`.
 - Done when: report generated and all budgets pass on reference devices.
-- Status: blocked — gate built (4ef26d64); device numbers need a step in the device workflow, staging api → db p50 reads 7.4 ms against 3 ms, and the command duration metric is missing in Grafana
+- Status: blocked — gate built (4ef26d64), invite landing JavaScript added and passing on gzip size (28026a09); device numbers need a step in the device workflow, staging api → db p50 reads 7.4 ms against 3 ms, and the command duration metric is missing in Grafana
 
 ### T4 — Accessibility audit + fixes list
 - Goal: a11y gate.
@@ -97,6 +99,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Automated label/target/contrast scan over journey screens. 2. Manual VoiceOver/TalkBack pass checklist. 3. File defects to owning area folders as fix tasks (each fixed in its own session).
 - Tests: `pnpm tsx tools/scripts/perf/a11y-scan.ts`.
 - Done when: zero automated violations; manual checklist signed.
+- Status: blocked — scanner and audit document built (57ff08c3), contrast passes; no device run saves view hierarchies yet, and the manual checklist is unsigned
 
 ### T5 — RLS backstop fuzz + authz regression
 - Goal: prove data isolation.
@@ -112,7 +115,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. gitleaks on history + CI, `pnpm audit`, OSV scan, container scan. 2. Scope doc for external reviewer (auth, action keys, JWT/JWKS, Centrifugo proxy, PowerSync, webhooks, media HMAC). 3. Track findings + fixes.
 - Tests: `bash tools/scripts/security/scan.sh`.
 - Done when: scans clean; external review findings closed or accepted by founder.
-- Status: blocked — scans and review package done (c584609b); external reviewer not engaged, findings 1 and 2 open
+- Status: blocked — scans and review package done (c584609b), static RLS, header and tracked-file checks added (8d33176d); external reviewer not engaged; findings 1, 3, 4 and 5 open (2 fixed)
 
 ### T7 — Privacy & compliance evidence
 - Goal: store and legal declarations.
@@ -120,6 +123,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Derive data types from data-model privacy classes + SDK inventory. 2. Verify `PrivacyInfo.xcprivacy` in app + every extension. 3. Deletion e2e: request → purge job → verify C3 rows gone, R2 objects deleted. 4. AI disclosure presence check on guide surfaces (Maestro assertions).
 - Tests: `pnpm tsx tools/scripts/security/privacy-manifest-check.ts`; `maestro test e2e/journeys/_shared/deletion.yaml`.
 - Done when: evidence docs complete; purge verification passes.
+- Status: blocked — evidence documents and the manifest check built (64f94374); open: app privacy manifest, web deletion page, in-app AI label, a purge observed on staging, deletion journey, store forms not filed
 
 ### T8 — Load tests
 - Goal: capacity proof.
@@ -159,6 +163,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. EAS build production + submit with review notes, demo account, entitlement/IAP review screenshots. 2. Play policy declarations from phase 50. 3. Phased release + halt criteria (crash-free <99.5%, P1 alert) wired to Sentry release health. 4. EAS Update channel policy.
 - Tests: `actionlint .github/workflows/release.yml`; `npx eas-cli build --profile production --platform all --non-interactive --dry-run` where supported.
 - Done when: production builds submitted to both stores (submission ids recorded); staged-rollout + halt config merged; halt procedure rehearsed on staging. Store approval and rollout start = founder gate items.
+- Status: blocked — workflow, health check and runbook built (2aeef5cb), never dispatched; rollout settings missing in eas.json and store.config.json (the workflow refuses to submit without them); builds, submission and the halt rehearsal are founder steps
 
 ## Phase acceptance criteria
 - [ ] Journeys green on iOS + Android and scheduled nightly (founder gate: 3 nights in a row)

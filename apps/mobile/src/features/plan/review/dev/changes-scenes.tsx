@@ -7,6 +7,7 @@
 import type { FitReason } from '@cp/domain';
 import type { ReactNode } from 'react';
 
+import type { DriverPick } from '@/features/drivers';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { dayTileColour } from '@/features/plan/overview/model/day-colour';
 
@@ -20,11 +21,13 @@ import {
   placedReason,
   tallyLine,
 } from '../changes-copy';
-import { calmSummary } from '../changes-state-copy';
+import { changeRows } from '../changes-rows';
+import { backPlainLabel, calmSummary } from '../changes-state-copy';
 import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { ChangesReviewView, type ChangeRow } from '../changes-review-view';
 import { ChangesTotals } from '../changes-totals';
 import type { LeftForYou } from '../data/use-review-extras';
+import type { ChangeCard } from '../model/review-model';
 import { noticeText, sendLabel } from '../review-copy';
 
 const noop = () => undefined;
@@ -184,7 +187,60 @@ function ChangesScene({
   );
 }
 
+/** The crew's driver pick under review: one row for the driver, his days and terms, as a vote. */
+function DriverPickScene() {
+  const locale = useLocale();
+  const pick: DriverPick = {
+    name: 'Made',
+    days: [
+      { date: '2026-10-14', window_start: '08:00', window_end: '18:00', pickup: 'Ubud' },
+      { date: '2026-10-15', window_start: '09:00', window_end: '17:00', pickup: 'Ubud' },
+    ],
+    terms: { price_minor: 70_000_000, currency: 'IDR', price_unit: 'day', included_hours: 10 },
+  };
+  const cards: ChangeCard[] = [
+    {
+      target: id(700),
+      op: 'assign_provider',
+      before: null,
+      after: null,
+      movesDay: false,
+      reason: 'driver_pick',
+      people: [],
+      accepted: true,
+      bookingImpact: false,
+      mustDo: false,
+      driverPick: pick,
+    },
+  ];
+  return (
+    <ChangesReviewView
+      state="ready"
+      backLabel={backPlainLabel()}
+      onBack={noop}
+      onlyYou={null}
+      title={changesHeadline('manual', 1)}
+      summary={calmSummary()}
+      rows={changeRows({
+        cards,
+        days: [{ dayNo: 3, date: '2026-10-14' }],
+        locale,
+        placedReasons: null,
+        stopName: () => null,
+      })}
+      onToggle={null}
+      needsYou={[]}
+      totals={null}
+      send={null}
+      personal={null}
+      vote={{ line: tallyLine(1, 3), canVote: true, onYes: noop, onNo: noop }}
+      notice={null}
+    />
+  );
+}
+
 export const CHANGES_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  'review-driver-pick': () => <DriverPickScene />,
   review: () => <ChangesScene />,
   'review-unticked': () => <ChangesScene unticked />,
   'review-explained': () => <ChangesScene explained />,

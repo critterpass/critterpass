@@ -2,12 +2,13 @@
  * From a link's public preview to the card drawn for it: the same words the landing page uses
  * (handoff-copy) and the same facts (invite-facts), so a card never says more than the page.
  */
-import type { LinkPreview, LinkTarget } from '@cp/domain';
+import type { LinkPreview, LinkTarget, PublicPlan } from '@cp/domain';
 import type { Node } from '@takumi-rs/helpers';
 
 import { estimateEach, guideKind, tripDates } from '../../components/previews/invite-facts';
 import { handoffCopy } from '../links/handoff-copy';
 import { inviteTemplate } from './templates/invite';
+import { planTemplate } from './templates/plan';
 import { referralTemplate } from './templates/referral';
 
 export interface DrawnCard {
@@ -23,6 +24,19 @@ export interface CardWords {
   readonly referralEyebrow: (name: string | null) => string;
   readonly referralBody: (name: string | null) => string;
   readonly estimateEach: (amount: string) => string;
+  /** The plan card's words, from the same facts as the plan page. */
+  readonly plan: (plan: PublicPlan) => {
+    readonly eyebrow: string;
+    readonly headline: string;
+    readonly chips: readonly string[];
+  };
+}
+
+/** A published crew plan's card: where, how long and the crew's size; never names or places. */
+export function planCard(plan: PublicPlan, words: CardWords): DrawnCard {
+  const { eyebrow, headline, chips } = words.plan(plan);
+  const content = { eyebrow, headline, chips: chips.slice(0, 3), guide: 'gecko' };
+  return { node: planTemplate(content), stickers: [content.guide], content };
 }
 
 export function linkCard(

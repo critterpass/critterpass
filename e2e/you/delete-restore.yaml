@@ -1,0 +1,86 @@
+appId: app.critterpass.dev
+---
+# A saved pass is deleted and brought back within its 30 days (subflows/saved-test-account.yaml,
+# the staging test number):
+# 1. Settings → Delete account → Continue → hold: the account is closed for 30 days;
+# 2. "Undo, keep my account" → sign in with the same number → Restore my account: Home is back
+#    with the crew;
+# 3. the account is erased again, leaving the number free.
+# Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: subflows/saved-test-account.yaml
+- runFlow: ../screens/sweep/subflows/home.yaml
+- tapOn:
+    id: 'home-header-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 30000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 30000
+
+# 1. Delete: closed for 30 days.
+- scrollUntilVisible:
+    element: 'Delete account'
+    direction: DOWN
+    timeout: 20000
+- tapOn: 'Delete account'
+- extendedWaitUntil:
+    visible:
+      id: 'you-delete-continue'
+    timeout: 30000
+- tapOn:
+    id: 'you-delete-continue'
+- extendedWaitUntil:
+    visible:
+      id: 'you-delete-hold'
+    timeout: 15000
+- longPressOn:
+    id: 'you-delete-hold'
+- extendedWaitUntil:
+    visible:
+      id: 'you-closed-closed'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: you-restore-closed
+
+# 2. Keep it after all: signed out everywhere, so sign in again, then restore.
+- tapOn:
+    id: 'you-closed-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number|onboarding-sign-in'
+    timeout: 90000
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-sign-in'
+    commands:
+      - tapOn:
+          id: 'onboarding-sign-in'
+- runFlow: subflows/phone-sign-in.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'you-closed-restore'
+    timeout: 90000
+- waitForAnimationToEnd
+- takeScreenshot: you-restore-offer
+- tapOn:
+    id: 'you-closed-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew-name'
+    timeout: 90000
+- extendedWaitUntil:
+    visible: '(?i).*cp test sign-out.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: you-restore-home-back
+
+# 3. Leave the test number free for the next run: still our own account, checked again.
+- runFlow: ../screens/sweep/subflows/home.yaml
+- runFlow: subflows/guard-test-number.yaml
+- runFlow: subflows/start-fresh.yaml

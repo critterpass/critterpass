@@ -1,0 +1,45 @@
+---
+/**
+ * The driver pages' document: no index, no app links, the language switch and the brand row. The
+ * link preview only ever says "Trip plan from {first name}".
+ */
+import Base from '../../layouts/Base.astro';
+import { driverPlanCopy as copy } from './copy';
+import type { Translate } from './i18n';
+import type { DriverPlanLocale } from '@cp/domain';
+import './driver-plan.css';
+
+export interface Props {
+  readonly t: Translate;
+  readonly locale: DriverPlanLocale;
+  readonly title: string;
+}
+
+const { t, locale, title } = Astro.props;
+const here = new URL(Astro.url);
+const hrefFor = (lang: DriverPlanLocale) => {
+  const next = new URL(here);
+  next.searchParams.set('lang', lang);
+  return `${next.pathname}${next.search}`;
+};
+---
+
+<Base title={title} description={title} canonicalPath={null} noindex lang={locale}>
+  <main class="dp-page">
+    <header class="dp-brand">
+      <img
+        class="dp-brand-critter"
+        src="/critters/gecko-common-idle-color-96pt@2x.webp"
+        alt=""
+        width="28"
+        height="28"
+      />
+      <span class="dp-brand-name">{t(copy.brand)}</span>
+      <nav class="dp-lang" aria-label={t(copy.language)}>
+        <a href={hrefFor('en')} aria-current={locale === 'en' ? 'true' : undefined}>EN</a>
+        <a href={hrefFor('id')} aria-current={locale === 'id' ? 'true' : undefined}>ID</a>
+      </nav>
+    </header>
+    <slot />
+  </main>
+</Base>

@@ -18,5 +18,5 @@ export interface Perk {
 
 /** Enabled perks only, in display order — a client never renders a disabled perk, ever. */
 export function enabledPerks(perks: readonly Perk[]): readonly Perk[] {
-  return perks.filter((perk) => perk.enabled).toSorted((a, b) => a.sort - b.sort);
+  return perks.filter((perk) => perk.enabled).sort((a, b) => a.sort - b.sort);
 }

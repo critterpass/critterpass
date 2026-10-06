@@ -1,0 +1,135 @@
+---
+/**
+ * The driver's reply (6j-2): price per day, what it includes, overtime, the car, new times per stop
+ * with a note per day, and tips. A plain form that works without script; the small script only
+ * adds the earlier/later buttons, which swap two stops' times (the day's slots stay).
+ */
+import { DRIVER_PLAN_MAX_TIPS, DRIVER_PLAN_TIP_MAX_CHARS, type DriverPlanLocale, type DriverPlanPage } from '@cp/domain';
+
+import { driverPlanCopy as copy } from './copy';
+import { formatDay, type Translate } from './i18n';
+
+export interface Props {
+  readonly t: Translate;
+  readonly locale: DriverPlanLocale;
+  readonly page: DriverPlanPage;
+  readonly backHref: string;
+  readonly error: string | null;
+}
+
+const { t, locale, page, backHref, error } = Astro.props;
+const { view } = page;
+const includes = [
+  ['petrol', copy.includePetrol],
+  ['parking', copy.includeParking],
+  ['tolls', copy.includeTolls],
+  ['entry_tickets', copy.includeTickets],
+] as const;
+---
+
+<a class="dp-back" href={backHref}>← {t(copy.back)}</a>
+<h1 class="dp-title">{t(copy.quoteTitle)}</h1>
+{error && <p class="dp-error" role="alert">{error}</p>}
+<form method="post" class="dp-form">
+  <section id="quote" class="dp-card">
+    <label class="dp-label" for="dp-price">{t(copy.pricePerDay)}</label>
+    <div class="dp-row">
+      <input id="dp-price" name="price" class="dp-input dp-input-big" inputmode="numeric" autocomplete="off" />
+      <span class="dp-sub">{t(copy.timesDays, { count: view.days.length })}</span>
+    </div>
+  </section>
+  <fieldset class="dp-fieldset">
+    <legend class="dp-label">{t(copy.included)}</legend>
+    {
+      includes.map(([value, label]) => (
+        <label class="dp-check">
+          <input type="checkbox" name="include" value={value} checked={value !== 'entry_tickets'} />
+          {t(label)}
+        </label>
+      ))
+    }
+  </fieldset>
+  <section class="dp-card dp-grid">
+    <label class="dp-label" for="dp-overtime">{t(copy.overtime)}</label>
+    <input id="dp-overtime" name="overtime" class="dp-input" inputmode="numeric" autocomplete="off" />
+    <label class="dp-label" for="dp-hours">{t(copy.hours)}</label>
+    <input id="dp-hours" name="hours" class="dp-input" inputmode="numeric" autocomplete="off" value="10" />
+    <label class="dp-label" for="dp-car">{t(copy.car)}</label>
+    <input id="dp-car" name="car" class="dp-input" maxlength="80" placeholder={t(copy.carHint)} />
+  </section>
+  <div id="changes">
+    {
+      view.days.map((day) => (
+        <section class="dp-suggest">
+          <h2 class="dp-label">{t(copy.suggestDay, { day: formatDay(locale, day.date, day.day_no) })}</h2>
+          <ol class="dp-card dp-stops" data-day={day.day_no}>
+            {day.stops
+              .filter((stop) => stop.time !== null)
+              .map((stop) => (
+                <li class="dp-move-row">
+                  <input
+                    type="time"
+                    class="dp-input dp-time-input"
+                    name={`time:${day.day_no}:${stop.ref}`}
+                    value={stop.time}
+                    aria-label={stop.name}
+                  />
+                  <input type="hidden" name={`was:${day.day_no}:${stop.ref}`} value={stop.time} />
+                  <span class="dp-stop-name">{stop.name}</span>
+                  <span class="dp-badge dp-moved" hidden>{t(copy.moved)}</span>
+                  <button type="button" class="dp-move" data-dir="-1" aria-label={t(copy.moveUp, { name: stop.name })}>↑</button>
+                  <button type="button" class="dp-move" data-dir="1" aria-label={t(copy.moveDown, { name: stop.name })}>↓</button>
+                </li>
+              ))}
+          </ol>
+          <textarea
+            class="dp-input"
+            name={`note:${day.day_no}`}
+            rows="2"
+            maxlength="280"
+            placeholder={t(copy.dayNote)}
+          />
+        </section>
+      ))
+    }
+  </div>
+  <section id="tips">
+    <h2 class="dp-label">{t(copy.tips)}</h2>
+    <textarea class="dp-input" name="tip" rows="3" maxlength={DRIVER_PLAN_TIP_MAX_CHARS} placeholder={t(copy.tipHint)} />
+    <details class="dp-more-tips">
+      <summary>{t(copy.anotherTip)}</summary>
+      {
+        Array.from({ length: DRIVER_PLAN_MAX_TIPS - 1 }, () => (
+          <textarea class="dp-input" name="tip" rows="3" maxlength={DRIVER_PLAN_TIP_MAX_CHARS} />
+        ))
+      }
+    </details>
+  </section>
+  <button type="submit" class="dp-btn dp-btn-primary">{t(copy.send)}</button>
+  <p class="dp-foot">{t(copy.sendFoot, { name: view.sharer_first_name })}</p>
+</form>
+
+<script>
+  // Earlier / later: swap this stop's time with its neighbour's and move the row, so the day keeps
+  // its slots; a changed time shows the MOVED badge.
+  for (const button of document.querySelectorAll<HTMLButtonElement>('.dp-move')) {
+    button.addEventListener('click', () => {
+      const row = button.closest('li');
+      const dir = Number(button.dataset['dir']);
+      const other = dir < 0 ? row?.previousElementSibling : row?.nextElementSibling;
+      if (!row || !(other instanceof HTMLLIElement)) return;
+      const a = row.querySelector<HTMLInputElement>('input[type=time]');
+      const b = other.querySelector<HTMLInputElement>('input[type=time]');
+      if (!a || !b) return;
+      [a.value, b.value] = [b.value, a.value];
+      if (dir < 0) other.before(row);
+      else other.after(row);
+      for (const li of [row, other]) {
+        const time = li.querySelector<HTMLInputElement>('input[type=time]');
+        const was = li.querySelector<HTMLInputElement>('input[type=hidden]');
+        const badge = li.querySelector<HTMLElement>('.dp-moved');
+        if (badge && time && was) badge.hidden = time.value === was.value;
+      }
+    });
+  }
+</script>

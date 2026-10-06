@@ -2,7 +2,12 @@
  * The change card names the change: one change by a person reads as a sentence with the place, the
  * day and the time; several changes, or the guide's own, keep the counted headline.
  */
-import { beforeAll, describe, expect, it } from '@jest/globals';
+// The drivers area's index also draws its cards (Skia, the device database), which do not exist
+// under Jest: these tests read its change card model, the real one, straight from its module.
+jest.mock('@/features/drivers', () =>
+  jest.requireActual<object>('../../../drivers/pick/pick-card'),
+);
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 
 import { changeTitle } from '../chat-card-title';
@@ -19,6 +24,7 @@ const card = (over: Partial<ChangeCard>): ChangeCard => ({
   accepted: true,
   bookingImpact: false,
   mustDo: false,
+  driverPick: null,
   ...over,
 });
 const dayLabel = (dayNo: number) => (dayNo === 3 ? 'Wed' : null);
@@ -52,5 +58,22 @@ describe('the change card’s title', () => {
       'Minh wants to add Bà Nà Hills, Wed 07:00',
     );
     expect(by([card({})], false, null)).toBe('1 change to the plan');
+  });
+
+  it('names the driver the crew is asked to pick', () => {
+    const pick = card({
+      op: 'assign_provider',
+      after: null,
+      reason: 'driver_pick',
+      driverPick: {
+        name: 'Made',
+        days: [{ date: '2026-10-14', window_start: null, window_end: null, pickup: null }],
+        terms: null,
+      },
+    });
+    expect(by([pick])).toBe('Minh wants Made to drive');
+    expect(by([pick], true)).toBe('You want Made to drive');
+    // Among other changes it is one of the counted changes.
+    expect(by([pick, card({})])).toBe(by([card({}), card({ target: 's-2' })]));
   });
 });

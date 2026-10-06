@@ -2,13 +2,17 @@ appId: app.critterpass.dev
 ---
 # A trip to Đà Nẵng that is on today, built in the app by a brand-new traveller and joined by five
 # simulated travellers (crew-of-six.yaml), then its day-of screen from the hub's next row, on
-# today. ${SHOTS} prefixes the screenshots; ${CREW_NAME} names the crew.
+# today. ${SHOTS} prefixes the screenshots; ${CREW_NAME} names the crew; ${UP} is how many of the
+# simulated travellers say they are up (none when unset).
 - runFlow:
     file: ../../happy/subflows/trip-under-way.yaml
     env:
       SHOTS: ${SHOTS}
       CREW_NAME: ${CREW_NAME}
-- runFlow: crew-of-six.yaml
+- runFlow:
+    file: crew-of-six.yaml
+    env:
+      UP: ${UP}
 - runFlow: ../../happy/subflows/wait-for-trip-start.yaml
 - runFlow: to-hub.yaml
 - assertVisible:

@@ -185,6 +185,10 @@ msgstr "Done. It’s in everyone’s plan."
 msgid "plan.review.notice.approvedSolo"
 msgstr "Done. It’s in your plan."
 
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.driver"
+msgstr "Driver"
+
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
 msgid "plan.review.each"
 msgstr "each"
