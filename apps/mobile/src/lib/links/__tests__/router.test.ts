@@ -36,7 +36,7 @@ describe('routeIncomingUrl after onboarding', () => {
       '/onboarding/invite/ticket?code=BAX6XA&kind=invite&state=active',
     ],
     [`https://critterpass.app/plan/${TRIP}`, `/${TRIP}/plan`],
-    ['https://critterpass.app/p/abcdefghijklmnop', '/community/plan/abcdefghijklmnop'],
+    ['https://critterpass.app/p/abcdefghijklmnop', '/community/link/abcdefghijklmnop'],
     ['https://critterpass.app/g/lundi', '/explore/lundi'],
     ['https://critterpass.app/locals/bali', '/critters?place=bali'],
     ['https://critterpass.app/app/vote/123', '/vote/123'],

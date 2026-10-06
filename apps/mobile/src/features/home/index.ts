@@ -23,3 +23,4 @@ export type { InboxItem } from './inbox/inbox-data';
 export { useNudge, type NudgeOutcome } from './nudge/use-nudge';
 export { homeRoutes, HOME_ROUTES } from './routes';
 export { useWidgetSync } from './widget-gallery/use-widget-sync';
+export { useCrewDirectorySync } from './widget-gallery/use-crew-directory-sync';

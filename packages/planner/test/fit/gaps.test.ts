@@ -141,3 +141,35 @@ describe('gap ideas wait for opening time', () => {
     expect(idea).toMatchObject({ kind: 'single', poi_ids: [MARKET], minutes: 60 });
   });
 });
+
+describe('gap ideas on a trip of several areas', () => {
+  const candidate = (poiId: string, areaId: string): GapCandidate => ({
+    place: { ...place(poiId, POINTS.market, ['08:00', '22:00'], 60), areaId },
+    source: 'curated',
+    costEachMinor: null,
+    currency: null,
+    saverId: null,
+    votedBy: [],
+  });
+  const saturday = BALI.days[4]!;
+
+  it('come from the area the day is spent in, and from nowhere else', () => {
+    const day = { ...saturday, areaId: 'nusa-penida-area' };
+    const gap = dayGaps(BALI, day)[0]!;
+    const ideas = gapIdeas(BALI, gap, [
+      candidate(MARKET, 'ubud-area'),
+      candidate(COFFEE, 'nusa-penida-area'),
+    ]);
+    expect(ideas.flatMap((idea) => idea.poi_ids)).toEqual([COFFEE]);
+  });
+
+  it('on a day trip count the link from the stay, and never offer going back to it', () => {
+    const day = { ...saturday, areaId: 'nusa-penida-area', link: { minutes: 120 } };
+    const gap = dayGaps(BALI, day)[0]!;
+    const ideas = gapIdeas(BALI, gap, [candidate(COFFEE, 'nusa-penida-area')]);
+    expect(ideas.map((idea) => idea.kind)).not.toContain('stay');
+    expect(ideas[0]?.reasons[0]).toMatchObject({
+      params: { minutes: 120, from: 'stay', approx: true },
+    });
+  });
+});

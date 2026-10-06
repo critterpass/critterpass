@@ -336,6 +336,10 @@ msgstr "Đã nhắc {who}."
 msgid "trip.briefing.nudgedSome"
 msgstr "Đã nhắc."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.rateDetail"
+msgstr "Mỗi địa điểm một chạm, cho nhóm đi sau"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.draftPrivate"
 msgstr "Chỉ mình bạn thấy"
@@ -347,6 +351,10 @@ msgstr "Mở"
 #: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
 msgid "trip.menu.cancelBoost"
 msgstr "Các cuộc bình chọn đang mở sẽ đóng. Boost chuyển sang chuyến tiếp theo của bạn, hoặc được hoàn lại thành tín dụng."
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.sharePlanDetail"
+msgstr "Nhóm khác có thể sao chép. Bạn chọn những gì họ thấy"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.owed"
@@ -367,6 +375,10 @@ msgstr "Lịch trình"
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.planning"
 msgstr "đang lên lịch"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.rate"
+msgstr "Đánh giá chuyến đi"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.online"
@@ -399,6 +411,10 @@ msgstr "Thiết lập chuyến đi"
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.settingUp"
 msgstr "đang thiết lập"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.sharePlan"
+msgstr "Chia sẻ lịch trình"
 
 #: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
 msgid "trip.menu.leaveMoney"

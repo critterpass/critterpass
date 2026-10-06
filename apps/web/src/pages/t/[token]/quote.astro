@@ -1,0 +1,63 @@
+---
+/**
+ * The driver's reply form (`/t/{token}/quote`). A POST sends the reply through the api and shows
+ * the sent page; a switched-off link shows the switched-off page, whatever was posted.
+ */
+import { driverPlanCopy as copy } from '../../../components/driver-plan/copy';
+import { loadDriverPlan, sendDriverReply } from '../../../components/driver-plan/api';
+import { driverPlanLocale, driverPlanTranslator } from '../../../components/driver-plan/i18n';
+import { parseReplyForm } from '../../../components/driver-plan/reply-form';
+import QuoteForm from '../../../components/driver-plan/QuoteForm.astro';
+import Shell from '../../../components/driver-plan/Shell.astro';
+import SwitchedOff from '../../../components/driver-plan/SwitchedOff.astro';
+
+export const prerender = false;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+const token = Astro.params.token ?? '';
+const locale = driverPlanLocale(Astro.url, Astro.request.headers.get('accept-language'));
+const t = await driverPlanTranslator(locale);
+const lang = locale === 'en' ? '' : `?lang=${locale}`;
+const backHref = `/t/${encodeURIComponent(token)}${lang}`;
+
+let error: string | null = null;
+let sent: { replaced: boolean } | null = null;
+let off: { detail: import('@cp/domain').DriverPlanOffDetail; revoked: boolean } | null = null;
+if (Astro.request.method === 'POST') {
+  const parsed = parseReplyForm(await Astro.request.formData());
+  if (!parsed.ok) {
+    error = t(copy.errorInvalid);
+  } else {
+    const result = await sendDriverReply(Astro.request, Astro.url, token, parsed.reply);
+    if (result.status === 'sent') sent = { replaced: result.replaced };
+    else if (result.status === 'off') off = { detail: result.detail, revoked: result.revoked };
+    else if (result.status === 'voting') error = t(copy.errorVoting);
+    else if (result.status === 'rate_limited') error = t(copy.errorRate);
+    else if (result.status === 'invalid') error = t(copy.errorInvalid);
+    else error = t(copy.unavailable);
+  }
+}
+const loaded = sent === null && off === null ? await loadDriverPlan(Astro.request, Astro.url, token) : null;
+if (loaded?.status === 'off') off = { detail: loaded.detail, revoked: loaded.revoked };
+if (loaded?.status === 'not_found') Astro.response.status = 404;
+if (off !== null) Astro.response.status = 410;
+const page = loaded?.status === 'ok' && loaded.page.allow_quote ? loaded.page : null;
+---
+
+<Shell t={t} locale={locale} title={t(copy.quoteTitle)}>
+  {sent && (
+    <section class="dp-off">
+      <img class="dp-off-critter" src="/critters/gecko-common-idle-color-150pt@2x.webp" alt="" width="150" height="150" />
+      <h1 class="dp-title dp-center">{t(copy.sentTitle)}</h1>
+      <p class="dp-center">{t(copy.sentBody)}</p>
+      {sent.replaced && <p class="dp-center">{t(copy.replacedBody)}</p>}
+      <a class="dp-btn" href={backHref}>{t(copy.back)}</a>
+    </section>
+  )}
+  {off && <SwitchedOff t={t} locale={locale} detail={off.detail} revoked={off.revoked} />}
+  {page && <QuoteForm t={t} locale={locale} page={page} backHref={backHref} error={error} />}
+  {!sent && !off && !page && (
+    <SwitchedOff t={t} locale={locale} detail={null} revoked={false} message={loaded?.status === 'not_found' ? undefined : t(copy.unavailable)} />
+  )}
+</Shell>

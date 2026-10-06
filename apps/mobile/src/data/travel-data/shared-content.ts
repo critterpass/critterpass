@@ -1,6 +1,6 @@
 /**
  * Shared reference content read over the api (docs/api-contracts.md §5.5), never synced: the public
- * ideas board, a destination's reviewed season months and events and its cost indices, and a
+ * ideas board, the help centre's articles, a destination's reviewed season months and events and its cost indices, and a
  * place's weekly crowd curves. Each read goes through `useTravelRead`: the api's answer, kept as the
  * last good copy (MMKV, its own instance, the newest 400), else that copy, else `missing`.
  */
@@ -19,6 +19,19 @@ export interface BoardIdea {
 
 export interface IdeasBoard {
   readonly ideas: readonly BoardIdea[];
+}
+
+export interface HelpArticle {
+  readonly slug: string;
+  readonly locale: string;
+  readonly category: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly body_md: string;
+}
+
+export interface HelpLibrary {
+  readonly articles: readonly HelpArticle[];
 }
 
 export interface SeasonMonth {
@@ -109,6 +122,20 @@ export const ideasBoardSchema = wire<IdeasBoard>(
   { ideas: { id: 'string', title: 'string', status: 'string', votes_count: 'number' } },
 );
 
+export const helpLibrarySchema = wire<HelpLibrary>(
+  {},
+  {
+    articles: {
+      slug: 'string',
+      locale: 'string',
+      category: 'string',
+      title: 'string',
+      summary: 'string',
+      body_md: 'string',
+    },
+  },
+);
+
 export const destinationSeasonSchema = wire<DestinationSeason>(
   { destination_id: 'string' },
   {
@@ -175,6 +202,16 @@ export function useIdeasBoard(): ReadState<IdeasBoard> {
   return useTravelRead({
     path: '/v1/help/ideas',
     schema: ideasBoardSchema,
+    classify,
+    cache: sharedContentCache(),
+  });
+}
+
+/** Every help article in `locale` and in English, bodies included (`GET /v1/help/library`). */
+export function useHelpLibrary(locale: string): ReadState<HelpLibrary> {
+  return useTravelRead({
+    path: `/v1/help/library?locale=${encodeURIComponent(locale)}`,
+    schema: helpLibrarySchema,
     classify,
     cache: sharedContentCache(),
   });

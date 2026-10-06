@@ -2,7 +2,7 @@
  * The offline state for one trip, live: sync phase (no signal, slow to reconnect, back), the saved day
  * bundle for today, today's plan, the upload queue through the reconnect, and what was rejected.
  * Answers null while online with nothing to show; "Back online" stays a moment after the last
- * tick, then lifts.
+ * tick, then lifts, leaving only what was turned down until the traveller has read it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { toLocalWallTime } from '@cp/domain';
@@ -12,7 +12,7 @@ import { useEffect, useMemo, useReducer, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useQueuedCommands } from '@/data/status/use-queued-commands';
-import { dismissRejected, useRejectedCommands } from '@/data/status/use-rejected-commands';
+import { useRejectedCommands } from '@/data/status/use-rejected-commands';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion';
@@ -29,9 +29,19 @@ import {
 } from '../hub/data/queries';
 import { useLiveRows, useOwnerUid } from '../hub/data/live-rows';
 import { guideOr } from '../hub/guide';
-import { tripDayRoute } from '../hub/routes';
+import { tripDayRoute, tripOfflineRoute } from '../hub/routes';
 import { clockIn } from '../leave-by/model';
 import { dayEyebrow } from '../day-of/day-of-copy';
+import {
+  dismissOfflineConflict,
+  forgetSettledOfflineSends,
+  OFFLINE_SENDS_PARAMS,
+  OFFLINE_SENDS_SQL,
+  OFFLINE_SENDS_TABLES,
+  offlineConflicts,
+  offlineSurface,
+  rememberOfflineSends,
+} from './offline-conflicts';
 import { stillWorksLines } from './offline-copy';
 import type { OfflineViewProps } from './offline-view';
 import { cancelQueued, editQueuedMessage, queuedMessageBody, SEND_MESSAGE } from './queue-actions';
@@ -53,7 +63,25 @@ export function useOffline(
   const queued = useQueuedCommands();
   const queue = useMemo(() => travellerActions(queued), [queued]);
   const { items: rejected } = useRejectedCommands();
+  const offlineSends = useLiveRows<{ id: string }>(
+    OFFLINE_SENDS_SQL,
+    OFFLINE_SENDS_PARAMS,
+    OFFLINE_SENDS_TABLES,
+  ).rows;
+  const conflicts = useMemo(
+    () => offlineConflicts(rejected, offlineSends),
+    [rejected, offlineSends],
+  );
   const offline = sync.phase === 'offline';
+  // `queued`, not `queue`: a write the server acknowledged stays marked until its result is in.
+  useEffect(() => {
+    if (offline)
+      void rememberOfflineSends(
+        db,
+        travellerActions(queued).map((op) => op.opId),
+      );
+    else void forgetSettledOfflineSends(db);
+  }, [db, offline, queued]);
   const [state, step] = useReducer(
     (current: typeof INITIAL_RECONNECT, input: { offline: boolean; queue: typeof queue }) =>
       stepReconnect(current, input.offline, input.queue),
@@ -105,8 +133,9 @@ export function useOffline(
   ).rows[0];
   const day = saved === undefined ? null : (JSON.parse(saved.data) as SavedDay);
 
-  const quiet = lifted && state.phase !== 'offline' && state.phase !== 'reconnecting';
-  if (quiet && options.always !== true) return null;
+  const surface = offlineSurface({ phase: state.phase, lifted, conflicts: conflicts.length });
+  const quiet = surface !== 'full';
+  if (surface === 'none' && options.always !== true) return null;
   const started = items.filter(
     (item) => item.starts_at !== null && Date.parse(item.starts_at) <= now.getTime(),
   );
@@ -160,7 +189,9 @@ export function useOffline(
       tickIndex: item.tickIndex,
     })),
     // Only what this phone tried to send while it had no signal.
-    conflicts: rejected.filter((item) => state.items.some((line) => line.opId === item.opId)),
+    conflicts,
+    conflictsOnly: quiet && options.always !== true,
+    onOpenOffline: options.always === true ? null : () => router.push(tripOfflineRoute(tripId)),
     lastSynced,
     onOpenPlan: () => router.push(tripDayRoute(tripId, today)),
     onOpenSend: (opId) => {
@@ -170,7 +201,7 @@ export function useOffline(
         (body) => setOpen({ opId, body, since }),
       );
     },
-    onDismissConflict: (opId) => void dismissRejected(db, opId),
+    onDismissConflict: (opId) => void dismissOfflineConflict(db, opId),
     sheet:
       open === null ? null : (
         <QueuedItemSheet

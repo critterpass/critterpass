@@ -50,6 +50,8 @@ export const LA_EVENT_TARGETS: Readonly<Record<string, (payload: Payload) => LaT
   'sos.escalated': on('sos', 'sos_id'),
   'sos.responded': on('sos', 'sos_id'),
   'sos.resolved': on('sos', 'sos_id'),
+  'watch.escalated': on('storm', 'watch_item_id'),
+  'encounter.started': on('critter_nearby', 'encounter_id'),
 };
 
 /** Boost events re-run the trip's live meet-up activities (a lapsed boost ends them). */

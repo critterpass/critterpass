@@ -710,12 +710,6 @@ streams:
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
-  help:
-    accept_potentially_dangerous_queries: true
-    query: |-
-      SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
-      FROM help_articles
-      WHERE locale = subscription.parameter('locale')
   crew_people:
     auto_subscribe: true
     queries:
@@ -775,22 +769,6 @@ streams:
           SELECT currency FROM destinations
           WHERE id IN (SELECT destination_id FROM trips WHERE crew_id IN my_crews)
         )
-  explore:
-    accept_potentially_dangerous_queries: true
-    queries:
-      - |-
-        SELECT id, poi_id, destination_id, text, lang, moderation_status, created_at, updated_at
-        FROM place_tips
-        WHERE destination_id = subscription.parameter('destination_id')
-          AND moderation_status = 'approved'
-      - |-
-        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
-          timezone, last_live_check_at, created_at, updated_at
-        FROM place_cards AS pois
-        WHERE destination_id = subscription.parameter('destination_id')
-          AND (curation = 'editorial' OR pick_rank IS NOT NULL)
-          AND status != 'hidden'
   guide_chat:
     auto_subscribe: true
     queries:
@@ -802,6 +780,16 @@ streams:
         )
       - SELECT * FROM queued_guide_questions WHERE user_id = auth.user_id()
       - SELECT * FROM custom_phrase_cards WHERE user_id = auth.user_id()
+  explore:
+    accept_potentially_dangerous_queries: true
+    query: |-
+      SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
+        hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+        timezone, last_live_check_at, created_at, updated_at
+      FROM place_cards AS pois
+      WHERE destination_id = subscription.parameter('destination_id')
+        AND (curation = 'editorial' OR pick_rank IS NOT NULL)
+        AND status != 'hidden'
   crew_polls:
     auto_subscribe: true
     queries:

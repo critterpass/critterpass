@@ -90,4 +90,23 @@ describe('hub entry rows', () => {
     expect(recap).toHaveBeenCalledTimes(1);
     expect(entries('2026-10-05', post)).toEqual([]);
   });
+
+  it('offers rating the trip and sharing the plan after the trip, never before it is over', () => {
+    const rate = jest.fn();
+    const sharePlan = jest.fn();
+    const post = { header: { phase: 'post', homeSince: '2026-10-04' } } as const;
+    const rows = entries('2026-10-05', { ...post, recap: jest.fn(), rate, sharePlan });
+    expect(rows.map((entry) => entry.testID)).toEqual([
+      'trip-hub-recap',
+      'trip-hub-rate',
+      'trip-hub-share-plan',
+    ]);
+    rows[1]?.onPress();
+    rows[2]?.onPress();
+    expect(rate).toHaveBeenCalledTimes(1);
+    expect(sharePlan).toHaveBeenCalledTimes(1);
+    const during = entries('2026-10-02', { rate, sharePlan }).map((entry) => entry.testID);
+    expect(during).not.toContain('trip-hub-rate');
+    expect(during).not.toContain('trip-hub-share-plan');
+  });
 });

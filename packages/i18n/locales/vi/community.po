@@ -108,6 +108,7 @@ msgid "community.crew.size"
 msgstr "Nhóm {size} người"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.heading"
 msgstr "Kế hoạch của một nhóm"
 
@@ -206,11 +207,16 @@ msgstr "Bớt bộ lọc, thêm kế hoạch."
 msgid "community.rate.fine"
 msgstr "Tạm được"
 
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.back.home"
+msgstr "Trang chủ"
+
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.preview"
 msgstr "Các nhóm khác sẽ thấy thế này"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.missingLine"
 msgstr "Lần đầu mở cần có mạng."
 
@@ -418,7 +424,16 @@ msgstr "Chưa được. Thử lại sau giây lát."
 msgid "community.publish.chat"
 msgstr "Trò chuyện"
 
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.goneLine"
+msgstr "Nhóm đã gỡ lịch trình hoặc tắt liên kết này. Hãy nhờ người gửi cho bạn liên kết mới."
+
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.gone"
+msgstr "Lịch trình này không còn được chia sẻ"
+
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.missing"
 msgstr "Chưa mở được kế hoạch này"
 
@@ -431,6 +446,7 @@ msgid "community.filter.rating"
 msgstr "Được chấm cao"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.retry"

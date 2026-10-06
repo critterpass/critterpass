@@ -1,20 +1,52 @@
 ---
 import Handoff from '../../components/link-handoff/Handoff.astro';
+import { planAppPath } from '../../components/previews/plan-facts';
+import PlanLanding from '../../components/previews/PlanLanding.astro';
+import { env } from 'cloudflare:workers';
+import { fetchPublicPlan, type PublicPlanOutcome } from '../../lib/api/public-previews';
+import { PLAN_GONE_COPY } from '../../lib/links/handoff-copy';
+import { targetOf } from '../../lib/links/handoff-model';
 import { loadHandoff } from '../../lib/links/load-handoff';
+import { linkRequestContext, type LinksWebEnv } from '../../lib/links/web-env';
 
-// Link handoff page (docs/api-contracts.md §5.6): opens the app when installed, else the store.
+// A plan link (docs/api-contracts.md §5.6): the published crew plan it points at, with "Copy into
+// my trip" opening that plan in the app. A link that no longer shows a plan answers 404; when the
+// api cannot say, the plain handoff still opens the app.
 export const prerender = false;
 
-const loaded = await loadHandoff(Astro.request, Astro.url);
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+const webEnv = env as unknown as LinksWebEnv;
+const target = targetOf(Astro.url);
+const outcome: PublicPlanOutcome =
+  target?.kind === 'plan_share'
+    ? await fetchPublicPlan({
+        apiBaseUrl: linkRequestContext(Astro.url, webEnv).apiBaseUrl,
+        target,
+        visitorIp: Astro.request.headers.get('cf-connecting-ip'),
+        visitorUserAgent: Astro.request.headers.get('user-agent'),
+        proxySecret: webEnv.LINKS_WEB_PROXY_SECRET,
+      })
+    : { status: 'unavailable' };
+// A plan that is showing hands off to its own screen in the app, where it can be copied.
+const handoffUrl = new URL(Astro.url);
+if (outcome.status === 'found') handoffUrl.pathname = planAppPath(outcome.plan);
+const loaded = await loadHandoff(Astro.request, handoffUrl);
 if (loaded.kind === 'redirect') return Astro.redirect(loaded.location, 302);
-Astro.response.status = loaded.status;
+const gone = outcome.status === 'gone';
+Astro.response.status = gone ? 404 : loaded.status;
 ---
 
-<Handoff
-  model={loaded.model}
-  copy={loaded.copy}
-  expires={loaded.expires}
-  qrSvg={loaded.qrSvg}
-  appStoreHref={loaded.appStoreHref}
-  playStoreHref={loaded.playStoreHref}
-/>
+{
+  outcome.status === 'found' && target?.kind === 'plan_share' ? (
+    <PlanLanding plan={outcome.plan} token={target.token} loaded={loaded} />
+  ) : (
+    <Handoff
+      model={gone ? null : loaded.model}
+      copy={gone ? PLAN_GONE_COPY : loaded.copy}
+      expires={loaded.expires}
+      qrSvg={gone ? null : loaded.qrSvg}
+      appStoreHref={loaded.appStoreHref}
+      playStoreHref={loaded.playStoreHref}
+    />
+  )
+}

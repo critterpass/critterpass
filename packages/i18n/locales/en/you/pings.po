@@ -24,6 +24,10 @@ msgstr "About {budget} pings a day. Votes, plan changes and who paid what, as th
 msgid "you.pings.sample.chatty"
 msgstr "About {budget} pings a day. Votes, plans, money, crew news and a critter or two, as they happen."
 
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.addAll"
+msgstr "Add all"
+
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.always"
 msgstr "Always gets through"
@@ -66,9 +70,33 @@ msgstr "How much we ping"
 msgid "you.pings.settingsRowLine"
 msgstr "How much we ping, and when"
 
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.rsvpIn"
+msgstr "I'm in"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.join"
+msgstr "Join"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.later"
+msgstr "Later"
+
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.alwaysLine"
 msgstr "Leave-by alarms, SOS, flight changes and anything that costs money if you miss it."
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.react"
+msgstr "Love it"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.markRead"
+msgstr "Mark read"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.rsvpMaybe"
+msgstr "Maybe"
 
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
@@ -110,6 +138,22 @@ msgstr "Only when someone names you"
 msgid "you.pings.crittersLine"
 msgstr "Only when you’re already there"
 
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.open"
+msgstr "Open"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.vote1"
+msgstr "Option 1"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.vote2"
+msgstr "Option 2"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.vote3"
+msgstr "Option 3"
+
 #. placeholder {0}: prefs.roundupTime
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.overBudget"
@@ -141,6 +185,10 @@ msgstr "Pings wait until you’re up"
 msgid "you.pings.quiet"
 msgstr "Quiet hours"
 
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.reply"
+msgstr "Reply"
+
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
 msgid "you.pings.roundupSheet"
 msgstr "Roundup time"
@@ -152,3 +200,7 @@ msgstr "Settings"
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.moneyLine"
 msgstr "When someone pays or owes you"
+
+#: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
+msgid "you.pings.action.queued"
+msgstr "Your answer from a notification"

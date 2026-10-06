@@ -52,6 +52,10 @@ msgid "guide.limit.count"
 msgstr "{used}/{limit} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.driver"
+msgstr "Một tài xế"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.anItem"
 msgstr "Một mục trong lịch trình"
 

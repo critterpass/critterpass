@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# A fresh install in ${LANG} (en or vi), onboarded through the real api, with the staging demo
+# crew: four crewmates, a confirmed trip three weeks out and the crew's destination vote on its
+# board. Ends on Home. Needs an api with DEV_SEED_ENABLED on.
+- runFlow:
+    file: ../../screens/sweep/subflows/start.yaml
+    env:
+      LANG: ${LANG}
+- runFlow: ../../home/subflows/onboard.yaml
+- runFlow:
+    file: ../../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-vote

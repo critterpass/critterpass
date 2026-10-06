@@ -97,7 +97,12 @@ export function registerFixerRoutes(
     const body = await read(c.req.raw.headers, async (tx) => {
       const check = await loadCheckInput(tx, id, dayId, fixers);
       const day = dayOf(check, dayId);
-      const { candidates, names } = await tooFarCandidates(tx, check.trip.destinationId, day);
+      const { candidates, names } = await tooFarCandidates(
+        tx,
+        check.trip.destinationId,
+        day,
+        check.trip.id,
+      );
       const settled = await settle(
         roadsOf(check, fixers),
         (input) => {

@@ -12,6 +12,8 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "critters": () => import('../../locales/vi/critters').then((m) => m.messages),
   "driver-claim/web": () => import('../../locales/vi/driver-claim/web').then((m) => m.messages),
   "driver-directory/app": () => import('../../locales/vi/driver-directory/app').then((m) => m.messages),
+  "driver-plan": () => import('../../locales/vi/driver-plan').then((m) => m.messages),
+  "driver-plan-web": () => import('../../locales/vi/driver-plan-web').then((m) => m.messages),
   "drivers/app": () => import('../../locales/vi/drivers/app').then((m) => m.messages),
   "explore": () => import('../../locales/vi/explore').then((m) => m.messages),
   "explore/destination": () => import('../../locales/vi/explore/destination').then((m) => m.messages),

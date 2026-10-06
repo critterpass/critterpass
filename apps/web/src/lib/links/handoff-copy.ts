@@ -159,6 +159,14 @@ export const NOT_FOUND_COPY = plainCopy(
   'It may have a typo, or it has been replaced. Ask whoever sent it for their six-character code.',
 );
 
+/** A plan link that no longer shows a plan: revoked, or the crew took the plan down. */
+export const PLAN_GONE_COPY = plainCopy(
+  'Shared plan',
+  'This plan is no longer shared',
+  `Get ${BRAND}`,
+  'The crew took it down or switched this link off. Ask whoever sent it for a new one.',
+);
+
 /** "Expires in 3d 23h" style, or null when the code never expires or already has. */
 export function expiresIn(expiresAt: string | null, now: Date): string | null {
   if (expiresAt === null) return null;

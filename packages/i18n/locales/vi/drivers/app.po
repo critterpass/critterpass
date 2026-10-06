@@ -51,9 +51,21 @@ msgstr "{0}/giờ"
 msgid "drivers.check.priceHours"
 msgstr "{amount} · {hours} giờ"
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.daysFrom"
+msgstr "{count} ngày, từ {first}"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 msgid "drivers.check.missing"
 msgstr "Có {count} điều không có trong tin nhắn. Để mình viết câu hỏi nhé?"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.takenDays"
+msgstr "{days} vừa có tài xế khác nhận. Bỏ chọn ngày đó rồi thử lại."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.titlePlain"
+msgstr "{driver} lái xe"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.included"
@@ -67,14 +79,42 @@ msgstr "{item} tính riêng"
 msgid "drivers.compare.missing"
 msgstr "Thiếu {missing}"
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.title"
+msgstr "{name} muốn {driver} lái xe"
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedNumber"
 msgstr "Số điện thoại, xe và biển số của {name}"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.quote"
+msgstr "Báo giá của {name}"
 
 #. placeholder {0}: gap.km
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.dayOut"
 msgstr "{place} cách khoảng {0} km và ngày khá dài. Ứng dụng gọi xe hiếm khi chờ hay đón ở đó. Hầu hết các nhóm thuê tài xế cả ngày."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.car"
+msgstr "{price} mỗi xe"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.day"
+msgstr "{price} mỗi ngày"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.hours"
+msgstr "{price} cho {hours} giờ"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.group"
+msgstr "{price} cho cả nhóm"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.trip"
+msgstr "{price} cho cả chuyến"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.seats"
@@ -96,9 +136,21 @@ msgstr "✓Có"
 msgid "drivers.compare.day"
 msgstr "Mỗi ngày"
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.days"
+msgstr "Có một ngày bị chọn hai lần. Mỗi ngày chỉ chọn một lần."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.taken"
+msgstr "Một ngày vừa có tài xế khác nhận."
+
 #: ../../apps/mobile/src/features/drivers/shared/commands.ts
 msgid "drivers.queued.notNow"
 msgstr "Một ngày bạn chọn không cần tài xế"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.aDriver"
+msgstr "một tài xế"
 
 #: ../../apps/mobile/src/features/drivers/shared/commands.ts
 msgid "drivers.queued.shared"
@@ -139,6 +191,10 @@ msgstr "Hỏi {name}"
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.ask"
 msgstr "Hỏi giúp mình"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.ask"
+msgstr "Hỏi cả nhóm trước"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.tours"
@@ -217,6 +273,10 @@ msgstr "Không đọc được"
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.title"
 msgstr "Không đọc được"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.covers"
+msgstr "gồm {hours} giờ"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.cutOff"
@@ -315,7 +375,7 @@ msgstr "Mình không thấy tên, số điện thoại hay giá của tài xế.
 msgid "drivers.find.askBody"
 msgstr "Mình sẽ viết bài cho các nhóm ở {0}. Bạn tự đăng."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tellBody"
 msgstr "Mình sẽ viết kèm ngày và ghim điểm đón. Bạn tự gửi."
 
@@ -419,11 +479,11 @@ msgstr "Dán những gì tài xế viết, hoặc đường dẫn bài đăng c�
 msgid "drivers.compare.pick"
 msgstr "Chọn"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.label"
 msgstr "Chọn {name}"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.eyebrow"
 msgstr "Chọn {name}"
 
@@ -434,6 +494,10 @@ msgstr "Chọn chặng, rồi chọn nguồn tài xế. Có thể kết hợp nh
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.price"
 msgstr "Giá"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.noPrice"
+msgstr "Chưa nói giá"
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.klookLink"
@@ -467,8 +531,11 @@ msgstr "Ảnh màn hình"
 msgid "drivers.add.kindImage"
 msgstr "Ảnh màn hình"
 
-#. placeholder {0}: chosen.length
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.asked"
+msgstr "Đã gửi cho cả nhóm"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.set"
 msgstr "Đặt {name} cho {0} ngày"
 
@@ -511,7 +578,7 @@ msgstr "Ngôn ngữ"
 msgid "drivers.compare.supplierChecks"
 msgstr "Nhà cung cấp kiểm tra"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"
 msgstr "Đã đặt"
 
@@ -523,7 +590,7 @@ msgstr "Chạm phần tô sáng để đổi"
 msgid "drivers.check.intro"
 msgstr "Chạm từng dòng để xác nhận hoặc sửa. Chưa có gì đến nhóm cho tới khi bạn xác nhận."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tell"
 msgstr "Báo {name} qua WhatsApp"
 
@@ -535,17 +602,25 @@ msgstr "Chữ hoặc đường dẫn"
 msgid "drivers.add.failed"
 msgstr "Chưa gửi được. Thử lại sau giây lát."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
-msgid "drivers.pick.failed"
-msgstr "Chưa lưu được. Có thể một ngày vừa được đặt."
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.failed"
+msgstr "Chưa gửi được. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.error"
 msgstr "Chưa lưu được. Kiểm tra mạng rồi thử lại."
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.signal"
+msgstr "Cần có mạng. Thử lại khi bạn có mạng nhé."
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.pasteLabel"
 msgstr "Tin nhắn của tài xế"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.moved"
+msgstr "Kế hoạch vừa thay đổi. Xem lại các ngày rồi thử lại."
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.down"
@@ -558,6 +633,10 @@ msgstr "Lời của họ"
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.noApp"
 msgstr "Ở đây không có ứng dụng gọi xe, và ngày này các điểm cách nhau khá xa. Hầu hết các nhóm thuê tài xế cả ngày."
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.gone"
+msgstr "Tài xế này không còn trong danh sách chọn."
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedPickups"
@@ -611,7 +690,7 @@ msgstr "Số WhatsApp, kèm mã quốc gia"
 msgid "drivers.ask.after"
 msgstr "Khi có người trả lời, chia sẻ tin nhắn cho mình. Mình sẽ lấy thông tin ra."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.title"
 msgstr "Những chặng nào?"
 
@@ -619,6 +698,14 @@ msgstr "Những chặng nào?"
 msgid "drivers.leg.why.late"
 msgstr "Cả nhóm về muộn từ {place}, và ứng dụng gọi xe hiếm khi đón ở đó vào ban đêm. Thuê tài xế buổi tối là cách về an toàn."
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.titleMine"
+msgstr "Bạn muốn {driver} lái xe"
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.title"
 msgstr "Xe về của bạn"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.askedLine"
+msgstr "Đã tính phiếu đồng ý của bạn. {name} sẽ được chốt khi đủ người đồng ý."

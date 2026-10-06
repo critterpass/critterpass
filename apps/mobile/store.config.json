@@ -28,6 +28,27 @@
         "marketingUrl": "https://critterpass.app",
         "supportUrl": "https://critterpass.app/legal/support",
         "privacyPolicyUrl": "https://critterpass.app/legal/privacy"
+      },
+      "vi": {
+        "title": "CritterPass: Đi chơi cùng nhóm",
+        "subtitle": "Bình chọn, lên lịch, chia tiền",
+        "description": "Chuyến đi nào cũng bắt đầu trong nhóm chat. Phần lớn cũng kết thúc luôn ở đó. CritterPass cho cả nhóm một nơi để chọn điểm đến, lên lịch từng ngày, chia chi phí và giữ cho chuyến đi trôi chảy khi đã đặt chân tới nơi, cùng một hướng dẫn viên bản địa vốn là một con vật.\n\nVUỐT ĐỂ CHỌN\nMọi người cùng vuốt qua danh sách. Số phiếu cập nhật ngay và nơi thắng cuộc được chốt trong vài phút, không phải vài tuần.\n\nHỎI DÂN BẢN ĐỊA\nMỗi điểm đến có hướng dẫn viên riêng, với màu sắc và giọng nói riêng. Hướng dẫn viên phác thảo kế hoạch từng ngày cho cả nhóm và trả lời mọi câu hỏi bằng chữ, giọng nói hoặc camera. Thứ Năm mưa? Bạn ấy đề xuất đổi lịch.\n\nCÙNG LÊN KẾ HOẠCH\nMột kế hoạch mà cả nhóm cùng chỉnh được. Kéo một mục sang khung giờ khác, phần còn lại trong ngày tự dời để nhường chỗ, cho tất cả mọi người cùng lúc.\n\nCHIA TIỀN\nGhi một khoản chi hoặc quét hóa đơn, chia theo cách bạn muốn rồi thanh toán. Không ai phải giữ bảng tính, và không ai phải là người đi đòi tiền.\n\nMỌI ĐẶT CHỖ, KỂ CẢ KHI MẤT SÓNG\nChuyến bay, chỗ ở và vé nằm trong một chiếc ví dùng được khi ngoại tuyến, kèm lời nhắc khi đến giờ đi.\n\nKHÔNG MUA ĐƯỢC. PHẢI ĐI MỚI CÓ.\nKhi bạn đặt chân đến một nơi mới, bạn bản địa của nơi đó nở ra trên hộ chiếu của bạn. Ở lại lâu hơn, sẽ có thêm nhiều bạn nữa xuất hiện. Critter chỉ đến khi bạn có mặt ở đó.\n\nTẠO NHÓM, HOẶC THAM GIA\nCritterPass tải về và lên kế hoạch miễn phí. Tạo một nhóm, hoặc tham gia bằng mã mà bạn bè gửi cho bạn.\n\nPASS+ VÀ TRIP BOOST\nPass+ là gói đăng ký tùy chọn, theo tháng hoặc theo năm, thêm quyền lợi bên trên ứng dụng miễn phí. Trip Boost là giao dịch mua một lần cho một chuyến đi và cả nhóm trong chuyến đó. Giá được hiển thị trong ứng dụng và cửa hàng theo đơn vị tiền của bạn trước khi mua. Pass+ tự động gia hạn trừ khi bạn tắt ít nhất 24 giờ trước khi kết thúc kỳ hiện tại; quản lý hoặc hủy trong phần cài đặt tài khoản. Điều khoản: https://critterpass.app/legal/subscription-terms\n\nVỀ CÁC HƯỚNG DẪN VIÊN\nCác hướng dẫn viên là AI. Kế hoạch và câu trả lời do AI viết, và thông tin tìm thấy trên web đều kèm nguồn. Hãy kiểm tra những điều quan trọng, như giờ mở cửa hay quy định vào cửa, trước khi dựa vào đó.\n\nQuyền riêng tư: https://critterpass.app/legal/privacy\nĐiều khoản: https://critterpass.app/legal/terms",
+        "keywords": [
+          "du lịch",
+          "lịch trình",
+          "bạn bè",
+          "chi phí",
+          "hóa đơn",
+          "kỳ nghỉ",
+          "đặt chỗ",
+          "ai",
+          "critter"
+        ],
+        "releaseNotes": "CritterPass đã có mặt. Tạo một nhóm, cùng chọn điểm đến và gặp bạn bản địa đầu tiên của bạn.",
+        "promoText": "Chọn điểm đến, lên lịch từng ngày và chia chi phí cùng cả nhóm, có một bạn bản địa vốn là con vật dẫn đường.",
+        "marketingUrl": "https://critterpass.app",
+        "supportUrl": "https://critterpass.app/legal/support",
+        "privacyPolicyUrl": "https://critterpass.app/legal/privacy"
       }
     }
   }

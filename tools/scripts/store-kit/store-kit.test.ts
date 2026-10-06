@@ -18,8 +18,8 @@ describe('store kit', () => {
   });
 
   it('maps each listing language to the store locale codes', () => {
-    expect(Object.keys(easMetadata(listings, 2026).apple.info)).toEqual(['en-US']);
-    expect(playListings(listings).map((l) => l.language)).toEqual(['en-US']);
+    expect(Object.keys(easMetadata(listings, 2026).apple.info)).toEqual(['en-US', 'vi']);
+    expect(playListings(listings).map((l) => l.language)).toEqual(['en-US', 'vi']);
   });
 
   it('builds a Custom Product Page per listed page and an event per card', () => {
