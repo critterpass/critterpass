@@ -1,8 +1,9 @@
 /**
  * A place page's AI profile on a migrated Postgres with a real pg-boss producer: a place without
  * one queues one job (and only one while it waits), a ready profile answers in the reader's
- * language or in English while its translation is queued, and a place with a reviewed note never
- * gets a profile or a job.
+ * language or in English while its translation is queued, each fact saying whether a second
+ * source backs it, a place stopped at the worker's spent daily cap queues nothing until the cap
+ * resets, and a place with a reviewed note never gets a profile or a job.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -28,13 +29,13 @@ const TEXT = {
     why_go: 'The last emperor’s summer villa, its rooms and furniture intact.',
     best_time: 'Morning, before the tour groups',
     crowd: 'Busiest midday',
-    facts: ['Adult ticket 60.000 VND'],
+    facts: ['Adult ticket 60.000 VND', 'Shoulders covered inside'],
   },
   vi: {
     why_go: 'Biệt điện của vua Bảo Đại.',
     best_time: 'Buổi sáng',
     crowd: 'Đông nhất giữa trưa',
-    facts: ['Vé người lớn 60.000 VND'],
+    facts: ['Vé người lớn 60.000 VND', 'Che vai khi vào trong'],
   },
 };
 
@@ -117,6 +118,12 @@ describe('GET /v1/places/{id} profile', () => {
               quote: 'Người lớn: 60.000 đ/vé',
               second_source: 'agrees',
             },
+            {
+              kind: 'dress',
+              source_url: 'https://agotourist.com/x',
+              quote: 'Ăn mặc lịch sự',
+              second_source: 'n/a',
+            },
           ]),
           JSON.stringify([
             { key: `c/place-profiles/${id}/1.jpg`, source_page: 'https://example.vn/a' },
@@ -133,7 +140,18 @@ describe('GET /v1/places/{id} profile', () => {
       bestTimes: ['morning', 'afternoon'],
       visitMin: 75,
       facts: [
-        { kind: 'entry', text: 'Adult ticket 60.000 VND', sourceUrl: 'https://agotourist.com/x' },
+        {
+          kind: 'entry',
+          text: 'Adult ticket 60.000 VND',
+          sourceUrl: 'https://agotourist.com/x',
+          secondSource: 'agrees',
+        },
+        {
+          kind: 'dress',
+          text: 'Shoulders covered inside',
+          sourceUrl: 'https://agotourist.com/x',
+          secondSource: 'single',
+        },
       ],
       photos: [
         {
@@ -180,5 +198,27 @@ describe('GET /v1/places/{id} profile', () => {
     );
     expect(await read(english, id)).toBeNull();
     expect(await jobs('places.profile', id)).toEqual([]);
+  });
+
+  it('queues nothing for a place stopped at the spent cap until the cap resets', async () => {
+    const id = await place('Lang Biang Peak');
+    await withSystem(pool, (tx) =>
+      tx.query(
+        "INSERT INTO place_profiles (poi_id, status, error) VALUES ($1, 'failed', 'daily_cap')",
+        [id],
+      ),
+    );
+    expect(await read(english, id)).toBeNull();
+    expect(await read(french, id)).toBeNull();
+    expect(await jobs('places.profile', id)).toEqual([]);
+
+    await withSystem(pool, (tx) =>
+      tx.query(
+        "UPDATE place_profiles SET updated_at = now() - interval '1 day' WHERE poi_id = $1",
+        [id],
+      ),
+    );
+    expect(await read(english, id)).toEqual({ status: 'pending' });
+    expect(await jobs('places.profile', id)).toEqual([{ poi_id: id }]);
   });
 });

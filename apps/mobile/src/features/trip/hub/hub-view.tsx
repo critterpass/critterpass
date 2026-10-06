@@ -70,6 +70,10 @@ export interface HubViewProps {
   readonly onSwitch: (() => void) | null;
   /** Replaces the header while offline (3k-4). */
   readonly offlineCard?: ReactNode;
+  /** The trip's own menu at the very foot: delete, call off or leave, or the called-off note. */
+  readonly menu?: ReactNode;
+  /** The menu's confirm sheet, over the whole screen (outside the scroll view). */
+  readonly menuSheet?: ReactNode;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -172,6 +176,9 @@ export function HubView(props: HubViewProps) {
         <View style={{ marginTop: theme.space['16'] }}>
           <Ticker events={props.ticker} />
         </View>
+        {props.menu == null ? null : (
+          <View style={{ marginTop: theme.space['16'] }}>{props.menu}</View>
+        )}
       </Animated.ScrollView>
       {/* The header runs under the status bar; once it scrolls away, the bar gets its ink back. */}
       <Animated.View
@@ -188,6 +195,7 @@ export function HubView(props: HubViewProps) {
           },
         ]}
       />
+      {props.menuSheet}
     </Scaffold>
   );
 }

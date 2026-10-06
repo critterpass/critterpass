@@ -18,7 +18,9 @@ import {
 import { usualHours } from '../draft/open-data';
 import { instantAt, minuteOfDate } from '../draft/schedule-day';
 import {
+  dayTravel,
   DEFAULT_MEAL_WINDOWS,
+  inDayArea,
   thresholdsOf,
   travelOf,
   type FitContext,
@@ -63,7 +65,7 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
     place,
     spans,
     visitMin,
-    travel: travelOf(context),
+    travel: dayTravel(day, travelOf(context)),
     ...(onlyStart === undefined ? {} : { onlyStart }),
   };
   const crowd = crowdDay(place.crowds, day.date, day.crowdFactor);
@@ -78,7 +80,10 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
     thresholds,
     meals: context.meals ?? DEFAULT_MEAL_WINDOWS,
   };
-  const slot = pickSlot(candidates(search).map((candidate) => gradeCandidate(input, candidate)));
+  // A day spent in another area grades no, for the same reason as a day with no room.
+  const slot = inDayArea(day, place)
+    ? pickSlot(candidates(search).map((candidate) => gradeCandidate(input, candidate)))
+    : null;
   const lead: FitReason[] = guessed ? [{ code: 'hours_unknown', params: {} }] : [];
   const tail: FitReason[] = place.bestTime ? [{ code: 'editorial_best_time', params: {} }] : [];
   if (slot === null) {
@@ -88,7 +93,12 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
         day_no: day.dayNo,
         grade: 'no',
         slot: null,
-        reasons: [...noReasons(day, opensLongEnough(search)), ...lead].slice(0, MAX_REASONS),
+        reasons: [
+          ...(inDayArea(day, place)
+            ? noReasons(day, opensLongEnough(search))
+            : [{ code: 'no_window' as const, params: { day_no: day.dayNo } }]),
+          ...lead,
+        ].slice(0, MAX_REASONS),
       },
       slot: null,
       fullness: model.items.length,
@@ -204,9 +214,11 @@ export {
 export { gapIdeas, type GapCandidate } from './gap-ideas';
 export {
   assembleFitContext,
+  withDayAreas,
   type FitContextRows,
   type FitDayRow,
   type FitItemRow,
+  type FitTripAreas,
 } from './assemble';
 export {
   crowdWeeks,

@@ -17,6 +17,7 @@ import type {
 } from '@cp/domain';
 import type pg from 'pg';
 
+import { dayTripsCoverage, type DayTripChoice } from './day-trips';
 import { carryBaseRows, type HeldStop } from './held-stops';
 import type { DraftTripData } from './load';
 import { staysPpMinor, tripDates } from './plan-input';
@@ -32,6 +33,10 @@ export interface DraftToSave {
   readonly held?: readonly HeldStop[];
   /** Extra per-item flags (a supplier's own availability answer). */
   readonly slotAvailable: readonly string[];
+  /** The area each day is spent in, where it is not the trip's first city (./day-groups.ts). */
+  readonly dayAreas?: ReadonlyMap<number, string>;
+  /** What a first draft did with the destination's essential day trips (./day-trips.ts). */
+  readonly dayTrips?: DayTripChoice | null;
 }
 
 export function draftCoverage(save: DraftToSave): DraftCoverage {
@@ -107,6 +112,7 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
     })),
     // What the review screen says was left out, by the name the organiser reads.
     ...(leftOut.length === 0 ? {} : { essentials_left_out: leftOut }),
+    ...dayTripsCoverage(save.dayTrips ?? null),
   };
 }
 
@@ -132,12 +138,13 @@ export async function insertDays(
   tripId: string,
   versionId: string,
   itinerary: Itinerary,
+  dayAreas: ReadonlyMap<number, string> = new Map(),
 ): Promise<void> {
   for (const day of itinerary.days) {
     const { rows } = await tx.query<{ id: string }>(
-      `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme) VALUES ($1, $2, $3, $4, $5)
-       RETURNING id`,
-      [versionId, tripId, day.day_no, day.date, day.theme],
+      `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, destination_id)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+      [versionId, tripId, day.day_no, day.date, day.theme, dayAreas.get(day.day_no) ?? null],
     );
     const dayId = rows[0]?.id;
     for (const item of day.items) {
@@ -215,7 +222,7 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
   );
   const versionId = rows[0]?.id;
   if (versionId === undefined) throw new Error('draft version insert returned no id');
-  await insertDays(tx, save.trip.tripId, versionId, save.outcome.itinerary);
+  await insertDays(tx, save.trip.tripId, versionId, save.outcome.itinerary, save.dayAreas);
   if (trip.draft_version_id !== null && !untouched) {
     // Her stops keep everything the planner's items do not carry, and their places their names.
     await carryBaseRows(tx, trip.draft_version_id, versionId);

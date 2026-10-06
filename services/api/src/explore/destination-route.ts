@@ -2,7 +2,8 @@
  * `GET /v1/explore/destinations/{id}?trip_id&month&currency&origins` (docs/api-contracts-explore.md):
  * the destination guide in one read. The travel-data insights (month curve, events, FX chip and
  * per-origin fares, each labelled with when it was seen) re-priced for every crew member's home
- * airport when a trip is in context, the first-timer picks, and at most one labelled sponsored slot
+ * airport when a trip is in context, the first-timer picks (each with its profile photo where it
+ * has one, the first of them offered as the cover), and at most one labelled sponsored slot
  * where `sponsored(u,t)` holds. Partner content never appears here, so nothing cached holds it.
  */
 import { withUser } from '@cp/db';
@@ -28,7 +29,7 @@ import {
   type DestinationInsights,
 } from '../travel-data/destination-route';
 import { originsQuerySchema } from '../travel-data/fares-route';
-import { readPicks, type DestinationPick } from './picks';
+import { coverOf, readPicks, type DestinationCover, type DestinationPick } from './picks';
 import { pickSponsored, sponsoredEligible, type SponsoredPick } from './sponsored-slot';
 
 export interface CrewOrigin {
@@ -43,6 +44,11 @@ export interface ExploreDestination extends DestinationInsights {
   /** The viewer has no home airport: the app asks for one before re-pricing. */
   readonly home_airport_missing: boolean;
   readonly picks: readonly ListEntry<DestinationPick, SponsoredPick>[];
+  /**
+   * A pick's photo to show as the destination's cover where it has no curated media; null when
+   * no pick has one.
+   */
+  readonly cover: DestinationCover | null;
 }
 
 const querySchema = z.object({
@@ -116,6 +122,7 @@ export async function readExploreDestination(
     origins,
     home_airport_missing: own.rows[0]?.missing ?? true,
     picks: withSponsoredSlot(organic, slot, eligible),
+    cover: coverOf(organic),
   };
 }
 

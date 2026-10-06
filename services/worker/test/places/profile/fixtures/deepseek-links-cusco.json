@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek pro through its Anthropic-format API (route destination.brief) for Cusco, Peru from the pages our search found, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3953d9b7-5221-4771-8645-a2fc3414f670",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"decision\": \"write\",\n  \"links\": [\n    {\n      \"to\": \"Rainbow Mountain\",\n      \"to_local\": null,\n      \"kind\": \"day_trip\",\n      \"mode\": \"tour\",\n      \"day_length\": \"full\",\n      \"essential\": true,\n      \"minutes\": 180,\n      \"note\": {\n        \"en\": \"Tours leave early in the morning and involve a drive followed by a high-altitude hike.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://www.walkmyworld.com/posts/day-trips-from-cusco\",\n      \"quote\": \"Distance from Cusco: 3 hours\"\n    },\n    {\n      \"to\": \"Humantay Lake\",\n      \"to_local\": null,\n      \"kind\": \"day_trip\",\n      \"mode\": \"tour\",\n      \"day_length\": \"full\",\n      \"essential\": false,\n      \"minutes\": 195,\n      \"note\": {\n        \"en\": \"Tours depart early and include a steep hike to the lake.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://www.walkmyworld.com/posts/day-trips-from-cusco\",\n      \"quote\": \"Distance from Cusco: 3 hours 15 minutes\"\n    },\n    {\n      \"to\": \"Maras Salt Mines\",\n      \"to_local\": null,\n      \"kind\": \"day_trip\",\n      \"mode\": \"car\",\n      \"day_length\": \"half\",\n      \"essential\": false,\n      \"minutes\": 90,\n      \"note\": {\n        \"en\": \"Often combined with Moray Ruins and other Sacred Valley sites.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://www.walkmyworld.com/posts/day-trips-from-cusco\",\n      \"quote\": \"Distance from Cusco: 1.5 hours\"\n    },\n    {\n      \"to\": \"Pinkuylluna Incan Ruins\",\n      \"to_local\": null,\n      \"kind\": \"day_trip\",\n      \"mode\": \"car\",\n      \"day_length\": \"half\",\n      \"essential\": false,\n      \"minutes\": 105,\n      \"note\": {\n        \"en\": \"Located above Ollantaytambo; the drive from Cusco takes under two hours.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://www.walkmyworld.com/posts/day-trips-from-cusco\",\n      \"quote\": \"Distance from Cusco: 1 hour 45 mi\"\n    },\n    {\n      \"to\": \"Machu Picchu\",\n      \"to_local\": null,\n      \"kind\": \"day_trip\",\n      \"mode\": \"train\",\n      \"day_length\": \"full\",\n      \"essential\": true,\n      \"minutes\": 240,\n      \"note\": {\n        \"en\": \"Travel by train from Cusco or Ollantaytambo to Aguas Calientes, then take a bus up to the citadel.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://www.salkantaytrekking.com/blog/machu-picchu-the-easy-way\",\n      \"quote\": \"The train journey from Cusco to Machu Picchu takes no more than 4 hours\"\n    },\n    {\n      \"to\": \"Pisac\",\n      \"to_local\": null,\n      \"kind\": \"day_trip\",\n      \"mode\": \"car\",\n      \"day_length\": \"half\",\n      \"essential\": false,\n      \"minutes\": 35,\n      \"note\": {\n        \"en\": \"Drive over the hills into the Sacred Valley to reach the town and its Inca ruins.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://gallivantinglaura.com/best-day-trips-from-cusco-peru\",\n      \"quote\": \"Driving 30-40 minutes from Cusco, over the hills and into the Sacred Valley of the Incas, lies the town of Písac\"\n    },\n    {\n      \"to\": \"Ollantaytambo\",\n      \"to_local\": null,\n      \"kind\": \"day_trip\",\n      \"mode\": \"car\",\n      \"day_length\": \"full\",\n      \"essential\": false,\n      \"minutes\": 120,\n      \"note\": {\n        \"en\": \"Reached by private car or bus from Cusco; also the main station for trains to Machu Picchu.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://www.salkantaytrekking.com/blog/train-to-machu-picchu-complete-guide\",\n      \"quote\": \"To get to Ollantaytambo, you can take a private car or bus from Cusco, with tickets starting at 15 soles in Peruvian currency/approximately $4 USD.\"\n    },\n    {\n      \"to\": \"Aguas Calientes\",\n      \"to_local\": null,\n      \"kind\": \"onward\",\n      \"mode\": \"train\",\n      \"day_length\": null,\n      \"essential\": false,\n      \"minutes\": 240,\n      \"note\": {\n        \"en\": \"Train from Cusco or Ollantaytambo to the town below Machu Picchu.\"\n      },\n      \"cost\": null,\n      \"source_url\": \"https://www.salkantaytrekking.com/blog/machu-picchu-the-easy-way\",\n      \"quote\": \"The train journey from Cusco to Machu Picchu takes no more than 4 hours\"\n    }\n  ]\n}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 12859,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1194,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

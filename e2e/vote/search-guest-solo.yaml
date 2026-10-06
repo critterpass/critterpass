@@ -1,8 +1,7 @@
 appId: app.critterpass.dev
 ---
-# 3b-7 → 3b-8: search finds a country nobody guides (NO LIVE GUIDE YET, the guest guide's line),
-# a city opens the guest guide's page with the place facts, the locals as hints and what the guest
-# guide read up on; SAVE flaps to SAVED; SOLO TRIP confirms and starts a trip for one, and setup
+# 3b-7 → 3b-8: search finds a city and opens its page (the guest guide's page with NO LIVE GUIDE
+# YET where nobody guides it); SOLO TRIP confirms and starts a trip for one, and setup
 # opens once the server has made it. A refusal would show "That didn't go through" and keep the
 # confirm open, captured here when it happens.
 #
@@ -16,39 +15,72 @@ appId: app.critterpass.dev
     visible:
       id: 'place-search-field'
     timeout: 15000
-- inputText: 'morocc'
+- inputText: 'marrakech'
+# Every city on staging now has a guide of its own, so a search row opens the place's Explore page;
+# a place nobody guides (NO LIVE GUIDE YET) opens the guest guide's page instead. Both pages
+# save the place and offer SOLO TRIP.
 - extendedWaitUntil:
     visible:
-      id: 'place-search-unguided'
-    timeout: 10000
-- assertVisible: 'NO LIVE GUIDE YET'
-- waitForAnimationToEnd
-- takeScreenshot: 3b-7
-- extendedWaitUntil:
-    visible: 'Marrakech,.*'
-    timeout: 10000
-- tapOn: 'Marrakech,.*'
+      id: 'place-result-.*'
+    timeout: 15000
+- runFlow:
+    when:
+      visible:
+        id: 'place-search-unguided'
+    commands:
+      - assertVisible: 'NO LIVE GUIDE YET'
+      - waitForAnimationToEnd
+      - takeScreenshot: 3b-7
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
 - extendedWaitUntil:
     visible:
-      id: 'guest-brief'
+      id: 'guest-brief|explore-destination'
     timeout: 30000
-- assertVisible: 'GUEST GUIDE: TOKEK'
 - waitForAnimationToEnd
 - takeScreenshot: 3b-8
-- tapOn:
-    id: 'guest-save'
-- assertVisible: '♥ SAVED'
-- scrollUntilVisible:
-    element:
-      id: 'guest-solo'
-- tapOn:
-    id: 'guest-solo'
-- assertVisible:
-    id: 'solo-confirm'
-- waitForAnimationToEnd
-- takeScreenshot: 3b-8-solo-confirm
-- tapOn:
-    id: 'solo-start'
+- runFlow:
+    when:
+      visible:
+        id: 'guest-brief'
+    commands:
+      # The guide that reads up on a place no live guide covers names itself as the city's critter.
+      - assertVisible: '(GUEST|YOUR) GUIDE: .*'
+      - tapOn:
+          id: 'guest-save'
+      - assertVisible: '♥ SAVED'
+      - scrollUntilVisible:
+          element:
+            id: 'guest-solo'
+      - tapOn:
+          id: 'guest-solo'
+      - assertVisible:
+          id: 'solo-confirm'
+      - waitForAnimationToEnd
+      - takeScreenshot: 3b-8-solo-confirm
+      - tapOn:
+          id: 'solo-start'
+- runFlow:
+    when:
+      visible:
+        id: 'explore-destination'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'explore-solo'
+          direction: DOWN
+          timeout: 30000
+      - tapOn:
+          id: 'explore-solo'
+      - extendedWaitUntil:
+          visible:
+            id: 'explore-solo-confirm'
+          timeout: 10000
+      - waitForAnimationToEnd
+      - takeScreenshot: 3b-8-solo-confirm
+      - tapOn:
+          id: 'explore-solo-start'
 # Up to about 30 s for the trip to be made; a refusal toast on the way is captured.
 - repeat:
     times: 15

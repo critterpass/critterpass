@@ -339,6 +339,10 @@ msgstr "Chỉ gửi được liên kết http và https."
 msgid "chat.photo.open"
 msgstr "Mở ảnh"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.openSettings"
+msgstr "Mở cài đặt nhóm"
+
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.line"
 msgstr "Đội ngũ của chúng mình sẽ xem xét. Người gửi không biết ai đã báo cáo."

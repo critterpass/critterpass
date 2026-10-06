@@ -1,0 +1,17 @@
+{
+  "source": "SearXNG JSON answer shape (searxng/searxng 2026.10), one answer replayed for every search of Ho Chi Minh City to Đà Nẵng: the page the kept ways cite, found through our search on 2026-10-06 and saved as the excerpts around each quoted row.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Ho Chi Minh City to Đà Nẵng",
+      "results": [
+        {
+          "url": "https://www.baolau.com/en/s/ho-chi-minh/da-nang",
+          "title": "Ho Chi Minh to Da Nang  – Book your tickets – Baolau",
+          "content": "Ho Chi Minh to Da Nang  – Book your tickets – Baolau",
+          "engine": "bing"
+        }
+      ]
+    }
+  }
+}

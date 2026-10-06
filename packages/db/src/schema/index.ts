@@ -129,6 +129,7 @@ export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from 
 export { placeCards } from './place-cards';
 export { placeProfiles, placeSearchPace } from './place-profiles';
 export { destinationBriefs } from './destination-briefs';
+export { destinationHomeLinks, destinationLinkRuns } from './destination-travel';
 export * from './explore';
 export * from './planning';
 export { ballots, pitches, pollOptions, pollReveals, polls } from './polls';
@@ -234,3 +235,4 @@ export {
 } from './album';
 export { tripPlaces } from './trip-places';
 export { driverPlanReplies, driverPlanShares } from './plan-shares';
+export { pickupGapDismissals, providerAssignments, providerIntake, providerTerms } from './drivers';

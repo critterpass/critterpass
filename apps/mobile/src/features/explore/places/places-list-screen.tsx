@@ -13,6 +13,8 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 
 import { useSponsoredSlot } from '../data/use-sponsored-slot';
 import { guideFor } from '../format';
+import { useBrowsePhotos } from '../map-queries';
+import { withProfileTiles } from '../profile-photo';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { exploreRoutes } from '../routes';
 import type { ListKind } from '../sponsored-model';
@@ -103,10 +105,16 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
     if (href !== undefined) router.push(href);
   };
   const tiles = useInViewPlacePhotos();
+  // A place whose photos live in its AI profile shows the first of them, from the browse.
+  const profilePhotos = useBrowsePhotos(data.destinationId);
+  const photos = useMemo(
+    () => withProfileTiles(tiles.photos, profilePhotos),
+    [tiles.photos, profilePhotos],
+  );
 
   return (
     <PlacesListView
-      photos={tiles.photos}
+      photos={photos}
       onInView={tiles.show}
       inTrip={tripId !== null}
       places={swipe.places}

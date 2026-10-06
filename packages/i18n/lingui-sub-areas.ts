@@ -104,3 +104,13 @@ const driverPlanCatalogs = [
   },
 ];
 export const driverPlan = { catalogs: driverPlanCatalogs, webSources: driverPlanWebSources };
+/** Finding a driver keeps its own catalog (`drivers/app`): its feature folder and trip routes. */
+export const driversCatalog = (exclude: readonly string[]) => ({
+  name: 'drivers/app',
+  path: 'locales/{locale}/drivers/app',
+  include: [
+    `${repoRootPrefix}/apps/mobile/src/features/drivers/**`,
+    `${repoRootPrefix}/apps/mobile/src/app/(trip)/[[]tripId]/drivers/**`,
+  ],
+  exclude: [...exclude],
+});

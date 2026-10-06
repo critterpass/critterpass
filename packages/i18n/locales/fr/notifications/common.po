@@ -179,6 +179,10 @@ msgstr ""
 msgid "notifications.setup.ask.not_movable"
 msgstr ""
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_cancelled.body"
+msgstr ""
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.freed"
 msgstr ""
@@ -305,6 +309,10 @@ msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_cancelled.title"
 msgstr ""
 
 #: ../domain/src/critters/realtime.ts
