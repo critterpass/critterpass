@@ -7,9 +7,12 @@
       <key>NSExtensionAttributes</key>
       <dict>
         <key>UNNotificationExtensionCategory</key>
-        <string>cp.vote</string>
+        <array>
+          <string>cp.vote</string>
+          <string>cp.rsvp</string>
+        </array>
         <key>UNNotificationExtensionInitialContentSizeRatio</key>
-        <real>1</real>
+        <real>0.55</real>
       </dict>
       <key>NSExtensionPrincipalClass</key>
       <string>$(PRODUCT_MODULE_NAME).NotificationViewController</string>

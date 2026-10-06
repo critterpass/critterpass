@@ -12,6 +12,7 @@ struct VoteWidget: Widget {
         StaticConfiguration(kind: kind, provider: HomeSnapshotProvider()) { entry in
             VoteFamilyView(entry: entry)
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("The vote")
         .description("Your crew's vote. Tap a side to vote.")
         .supportedFamilies([.systemMedium, .accessoryCircular])
