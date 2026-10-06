@@ -1,17 +1,10 @@
-# Travel-data streams (docs/data-model-sync-and-privacy.md §4): reviewed editorial season curves and
-# events join the always-on catalogue; a trip's frozen price quotes sync with the trip; its
-# weather/marine snapshots, crowd patterns and hazard alerts ride in its offline pack.
-# `trip_destination` repeats places.yaml's CTE verbatim (a stream named in several files shares its
-# CTEs, which must be identical). Unreviewed season rows are never sent: their RLS hides them from
-# app_user and these filters mirror that.
+# Travel-data streams (docs/data-model-sync-and-privacy.md §4): a trip's frozen price quotes sync
+# with the trip; its weather snapshots and hazard alerts ride in its offline pack. Season months and
+# events and crowd curves are read over HTTP (`/v1/destinations/{id}/season`,
+# `/v1/places/{id}/crowd-forecasts`), never synced. `trip_destination` repeats places.yaml's CTE
+# verbatim (a stream named in several files shares its CTEs, which must be identical).
 
 streams:
-  catalog:
-    auto_subscribe: true
-    queries:
-      - SELECT * FROM season_months WHERE reviewed_at IS NOT NULL
-      - SELECT * FROM season_events WHERE reviewed_at IS NOT NULL
-
   # Destination-level quotes (trip_id null) are served over HTTP, never synced.
   trip:
     queries:
@@ -30,10 +23,3 @@ streams:
     queries:
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
-      # By the copied destination, never through the destination's POI ids: one parameter result
-      # per POI would pass PowerSync's per-connection limit and fail the whole sync request. An
-      # editorial curve syncs only once ops approved it, as its RLS shows it.
-      - |
-        SELECT * FROM crowd_forecasts
-        WHERE destination_id IN trip_destination
-          AND (source <> 'editorial' OR approved_at IS NOT NULL)

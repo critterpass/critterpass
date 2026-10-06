@@ -9,7 +9,6 @@ import {
   type DbTestContainer,
   type DbTestDatabase,
 } from '../helpers/pg-container';
-import { idsByTable, startStreamHarness } from '../helpers/stream-harness';
 
 let container: DbTestContainer;
 let db: DbTestDatabase;
@@ -65,29 +64,6 @@ describe('destination_cost_indices RLS: reviewed rows for everyone', () => {
       withSystem(db.pool, (tx) => tx.query(INSERT, [destinationId, 'hotel', 5, 4, null])),
     ).rejects.toThrow(/check constraint/i);
   });
-});
-
-describe('destination_cost_indices in the catalogue stream', () => {
-  it('syncs reviewed rows only', async () => {
-    const harness = await startStreamHarness();
-    try {
-      const { rows } = await withSystem(harness.db.pool, (tx) =>
-        tx.query<{ id: string }>(
-          "INSERT INTO destinations (slug, name) VALUES ('lisbon-costs', 'Lisbon') RETURNING id",
-        ),
-      );
-      const dest = rows[0]!.id;
-      await withSystem(harness.db.pool, async (tx) => {
-        await tx.query(INSERT, [dest, 'hotel', 8_000, 12_000, new Date()]);
-        await tx.query(INSERT, [dest, 'hostel', 2_000, 3_000, null]);
-      });
-      const synced = await harness.rows('catalog', 'outsider');
-      expect(synced.get('destination_cost_indices')?.map((r) => r['stay_type'])).toEqual(['hotel']);
-      expect(idsByTable(synced)['destination_cost_indices']).toHaveLength(1);
-    } finally {
-      await harness.stop();
-    }
-  }, 240_000);
 });
 
 describe('editorial cost index seed', () => {

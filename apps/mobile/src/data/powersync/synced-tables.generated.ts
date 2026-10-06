@@ -73,16 +73,12 @@ export const SYNCED_TABLE_COLUMNS = {
     'code name country rank:integer set_group:integer tz currency languages coverage guide_slug destination_id hero_critter_key month_hints release_id created_at updated_at',
   critters:
     'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
-  crowd_forecasts:
-    'poi_id destination_id dow:integer hourly source fetched_at approved_at crew_count:integer created_at updated_at',
   custom_phrase_cards:
     'user_id trip_id guide_id purpose language register address text romanisation gloss audio_key audio_status created_at updated_at',
   data_exports:
     'user_id status r2_key bytes:integer progress:integer error_code requested_at ready_at expires_at created_at updated_at',
   date_window_options:
     'trip_id position:integer kind start_date end_date free_count:integer member_count:integer missing_member_ids missed_must_do_ids ask_user_id ask_status price_delta_minor:integer currency season_score:integer reason is_pick:integer computed_at created_at updated_at',
-  destination_cost_indices:
-    'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
     'slug name country coverage colour currency best_months tz geofence critter_set_id critter_key drive_factor:real created_at updated_at',
   devices:
@@ -269,10 +265,6 @@ export const SYNCED_TABLE_COLUMNS = {
   saved_lists: 'user_id name position:integer created_at updated_at',
   scheduled_deliveries:
     'user_id kind target_ref send_at_local tz due_at payload status created_at updated_at',
-  season_events:
-    'destination_id key kind name starts_on ends_on confidence source source_url sourced_on forecast_updated_at reviewed_at created_at updated_at',
-  season_months:
-    'destination_id month:integer crowd_index:integer price_index:integer price_index_source highlight_tag colour_role source source_url sourced_on reviewed_at created_at updated_at',
   seat_waitlist_offers:
     'trip_id user_id invite_id offered_at expires_at status responded_at created_at updated_at',
   share_calcs:

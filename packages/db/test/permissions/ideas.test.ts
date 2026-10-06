@@ -37,15 +37,15 @@ describe('ideas', () => {
     }
   });
 
-  it('streams the board on help, and a pending idea only to its author on me', async () => {
+  it('streams a pending idea only to its author on me; the board is read over HTTP', async () => {
     for (const actor of STREAM_ACTORS) {
       const help = titles((await harness.rows('help', actor, { locale: 'en' })).get('ideas'));
-      expect(help, actor).toContain(MATRIX_PUBLIC_IDEA_TITLE);
-      expect(help, actor).not.toContain(MATRIX_PENDING_IDEA_TITLE);
+      expect(help, actor).toEqual([]);
       const mine = titles((await harness.rows('me', actor)).get('ideas'));
       expect(mine, actor).toEqual(actor === 'organiser' ? [MATRIX_PENDING_IDEA_TITLE] : []);
     }
-    const [row] = (await harness.rows('help', 'member', { locale: 'en' })).get('ideas') ?? [];
+    const [row] = (await harness.rows('me', 'organiser')).get('ideas') ?? [];
+    expect(row?.['title']).toBe(MATRIX_PENDING_IDEA_TITLE);
     expect(row?.['embedding']).toBeUndefined();
     expect(row?.['author_id']).toBeUndefined();
   });
