@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# Screenshots of voice mode (3j-2) and its states from the guide lab's scenes over fixed data.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/voice-scenes.yaml
+    env: { PREFIX: en }
