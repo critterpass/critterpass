@@ -312,6 +312,8 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     './plugins/with-location-permissions',
     // The leave-by alarm: AlarmKit usage string fallback and the CpAlarm pod's App Intents package.
     './plugins/with-alarmkit',
+    // Alternate home-screen icons (iOS alternate icons, Android launcher aliases) for cp-app-icon.
+    './modules/cp-app-icon/plugin/with-app-icons',
     // Last: copies the bake pipeline's generated critter art into the app + every extension target
     // (iOS) and Android res/ once every other plugin's prebuild output exists.
     './plugins/with-critter-art',

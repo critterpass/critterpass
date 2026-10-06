@@ -1,0 +1,9 @@
+{
+  "name": "cp-app-icon",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Switches the home-screen app icon: iOS alternate icons, Android launcher activity-aliases.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}
