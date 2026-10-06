@@ -87,17 +87,21 @@ const durationOf = (minutes: number | null) =>
 <p class="dp-names">{view.first_names.join(', ')}</p>
 {
   page.allow_quote && (
-    <div class="dp-actions">
-      <a class="dp-btn dp-btn-primary" href={`${quoteHref}#quote`}>
-        {t(copy.sendQuote)}
-      </a>
-      <a class="dp-btn" href={`${quoteHref}#changes`}>
-        {t(copy.suggestChanges)}
-      </a>
-      <a class="dp-btn" href={`${quoteHref}#tips`}>
-        {t(copy.addTip)}
-      </a>
-    </div>
+    <>
+      <div class="dp-sticky">
+        <a class="dp-btn dp-btn-primary" href={`${quoteHref}#quote`}>
+          {t(copy.sendQuote)}
+        </a>
+      </div>
+      <div class="dp-actions">
+        <a class="dp-btn" href={`${quoteHref}#changes`}>
+          {t(copy.suggestChanges)}
+        </a>
+        <a class="dp-btn" href={`${quoteHref}#tips`}>
+          {t(copy.addTip)}
+        </a>
+      </div>
+    </>
   )
 }
 <p class="dp-foot">{t(copy.footer, { date: formatDate(locale, page.expires_at) })}</p>

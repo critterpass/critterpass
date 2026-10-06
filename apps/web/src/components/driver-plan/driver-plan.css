@@ -14,6 +14,9 @@
 .dp-page * {
   box-sizing: border-box;
 }
+.dp-page [hidden] {
+  display: none;
+}
 .dp-brand {
   display: flex;
   align-items: center;
@@ -154,13 +157,17 @@
   color: var(--color-paper-muted);
   font-size: 15px;
 }
-.dp-actions {
+/* SEND A QUOTE stays in reach while the driver reads; the other two wait at the end. */
+.dp-sticky {
   position: sticky;
   bottom: 0;
+  padding: 10px 0;
+  background: var(--color-paper-base);
+}
+.dp-actions {
   display: grid;
   gap: 10px;
-  padding: 12px 0;
-  background: var(--color-paper-base);
+  padding-bottom: 12px;
 }
 .dp-btn {
   display: block;
@@ -243,7 +250,7 @@
 }
 .dp-move-row {
   display: grid;
-  grid-template-columns: 96px 1fr auto auto;
+  grid-template-columns: 118px 1fr auto auto;
   align-items: center;
   gap: 8px;
   padding: 8px 0;
