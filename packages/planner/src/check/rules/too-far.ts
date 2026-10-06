@@ -36,6 +36,8 @@ export function tooFarIssues(check: CheckDay): CheckIssueDraft[] {
   if (stay !== null && last !== undefined)
     legs.push({ from: last.stop, to: stay, departs: last.end });
   for (const leg of legs) {
+    // A day trip's way there and back is time, never driving.
+    if (day.link != null && (leg.from.key === 'stay' || leg.to.key === 'stay')) continue;
     const minutes = travel(leg.from, leg.to);
     if (minutes === null || minutes.mode !== 'drive') continue;
     drive += minutes.minutes;

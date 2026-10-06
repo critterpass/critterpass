@@ -1,7 +1,7 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
-import { exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
+import { driversCatalog, exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
 import { localeCodes, sourceLocale } from './src/locales';
 
 /**
@@ -272,6 +272,7 @@ export default defineConfig({
       include: chatSources,
       exclude: testFileExcludes,
     },
+    driversCatalog(testFileExcludes),
     {
       name: 'suppliers/app',
       path: 'locales/{locale}/suppliers/app',

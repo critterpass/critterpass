@@ -41,6 +41,8 @@ function statusLabel(status: string): string {
       return t({ id: 'trip.list.planning', message: 'planning' });
     case 'post_trip':
       return t({ id: 'trip.list.home', message: 'home again' });
+    case 'cancelled':
+      return t({ id: 'trip.list.calledOff', message: 'called off' });
     default:
       return t({ id: 'trip.list.booked', message: 'coming up' });
   }

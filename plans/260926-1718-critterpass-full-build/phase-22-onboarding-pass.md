@@ -1,7 +1,7 @@
 ---
 phase: 22
 title: Onboarding: passport, taste, home airport, avatar
-status: in_progress
+status: done
 depends_on: [5, 7, 9, 10, 18, 20, 21]
 wave: 8
 features: [F-038, F-039, F-040, F-041]
@@ -33,7 +33,7 @@ owns:
 ---
 # Phase 22 — Onboarding: passport, taste, home airport, avatar
 
-> **Status, 6 Oct 2026:** open: T10's `first-run-ios` rerun (the last run died in the runner's XCUITest driver, not on an app assertion). Everything else is done.
+> **Status, 6 Oct 2026:** done.
 
 ## Context links
 
@@ -199,7 +199,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Full flow both platforms. 2. Offline start → issue → reconnect → sync. 3. Returning user sign-in skips pass creation. 4. Crewmate sees pass/avatar via stream (API test with two users).
 - Tests: `maestro test e2e/onboarding`; `pnpm --filter @cp/api test -- onboarding/first-run`.
 - Done when: all flows green in CI; cold start to 3a-2 within the §9 budget.
-- Status: blocked — Android green: first-run-android, splash-name-photo, taste-home, returning-sign-in and save-phone (https://github.com/critterpass/critterpass/actions/runs/36587470467), screens-vi (https://github.com/critterpass/critterpass/actions/runs/36604998893), screens-en, taste-home and offline-first-launch-android on build 11 (https://github.com/critterpass/critterpass/actions/runs/36651330885). Offline first launch is Android-only now, because Maestro cannot cut the iOS simulator's network. iOS: splash-name-photo and real-photo-ios (https://github.com/critterpass/critterpass/actions/runs/36611430013) and screens-vi (https://github.com/critterpass/critterpass/actions/runs/36614887791) pass. first-run-ios needs a rerun: its last run (https://github.com/critterpass/critterpass/actions/runs/36655303671) died when the runner's XCUITest driver stopped answering on the name page, not on an app assertion. The API first-run test is green (9999bd57)
+- Status: done — first-run-ios passes on the iOS runner (https://github.com/critterpass/critterpass/actions/runs/37414960352); the Android flows and the API first-run test were already green
 
 ## Phase acceptance criteria
 

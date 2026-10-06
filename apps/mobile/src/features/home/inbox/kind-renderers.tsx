@@ -7,7 +7,7 @@
 import type { I18n, MessageDescriptor } from '@lingui/core';
 import { msg, plural } from '@lingui/core/macro';
 
-import { IDEAS_INBOX_KIND, INBOX_KIND, type InboxAction } from '@cp/domain';
+import { HELP_INBOX_KIND, IDEAS_INBOX_KIND, INBOX_KIND, type InboxAction } from '@cp/domain';
 
 import type { CardTone } from '@/ui/cards/tone';
 import type { DoodleName } from '@/ui/icons/generated';
@@ -192,6 +192,29 @@ export function registerHomeInboxRenderers(): void {
   });
 
   for (const [kind, renderer] of PLAN_CHANGE_RENDERERS) registerInboxRenderer(kind, renderer);
+
+  // The fix a traveller's report asked for is in their app.
+  registerInboxRenderer(HELP_INBOX_KIND.fixShipped, {
+    icon: 'spark',
+    line: (item, ctx) => {
+      const version = text(item.data['fixed_in_version']);
+      return version === ''
+        ? say(
+            ctx,
+            msg({
+              id: 'home.inbox.fixShipped',
+              message: 'We fixed what you reported. Thanks for telling us.',
+            }),
+          )
+        : say(
+            ctx,
+            msg({
+              id: 'home.inbox.fixShippedVersion',
+              message: `Fixed in ${version}: what you reported. Thanks for telling us.`,
+            }),
+          );
+    },
+  });
 
   registerInboxRenderer(INBOX_KIND.tipPriceDrop, {
     line: (item, ctx) => {

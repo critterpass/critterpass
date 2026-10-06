@@ -85,7 +85,13 @@ export const placeProfileWireSchema = z.discriminatedUnion('status', [
     visitMin: z.number().int().nullable(),
     dish: z.string().nullable(),
     facts: z.array(
-      z.object({ kind: z.enum(PLACE_FACT_KINDS), text: z.string(), sourceUrl: z.string() }),
+      z.object({
+        kind: z.enum(PLACE_FACT_KINDS),
+        text: z.string(),
+        sourceUrl: z.string(),
+        /** Confirmed by a second search, quoted from the place's own site, or one page only. */
+        secondSource: z.enum(['agrees', 'own_site', 'single']),
+      }),
     ),
     photos: z.array(z.object({ url: z.string(), sourcePage: z.string() })),
     sources: z.array(z.object({ url: z.string(), title: z.string() })),

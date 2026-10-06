@@ -7,7 +7,8 @@
  * Quality: open data carries junk (online-only sellers, home services, mislabelled pages). Sampled
  * in Hội An, Mexico City and London, Overture rows under 0.5 confidence are mostly that, so an
  * auto-curated row below `LOW_CONFIDENCE` that FSQ OS does not also list ranks after every other
- * match and is left out of a no-query browse (the region pack's subset reads that browse). Rows
+ * match and is left out of a no-query browse (the region pack's subset reads that browse). A
+ * destination's browse leads with the places we recommend, then the rest by quality. Rows
  * are never hidden from a name search or removed: trips and editorial reference POI ids. Among
  * the places named for the query, the ones we recommend (the curated set, or the machine picks
  * where nothing is curated) come first, then rows both sources list, then by confidence. Rows that
@@ -21,6 +22,7 @@ import type pg from 'pg';
 import { areaFromAddress } from '../planning/search/area';
 import { withBrowseDetails, type PlaceBrowseDetails } from './browse-details';
 import { onePerPlace } from './same-place';
+import { destinationCondition, destinationWords, foldWord } from './search-destination';
 
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
@@ -126,52 +128,6 @@ function isOpenAtInstant(row: PlaceSearchRow, instant: Date): boolean | null {
   const hours = knownHours(row.hours);
   if (tz === null || hours === null) return null;
   return openAt(hours, tz, instant);
-}
-
-/**
- * A destination covers its own rows and, where its place box overlaps another destination's, the
- * rows that destination owns inside the box: a source place is stored once, owned by the first
- * destination ingested. Without an overlap the filter stays a plain `destination_id` match, so a
- * metro's browse never pays for a spatial scan of its whole box.
- */
-async function destinationCondition(
-  tx: pg.PoolClient,
-  destinationId: string,
-  params: unknown[],
-): Promise<string> {
-  const { rows } = await tx.query<{ id: string }>(
-    `SELECT o.id FROM destinations d
-     JOIN destinations o ON o.id <> d.id AND ST_Intersects(o.place_bounds, d.place_bounds)
-     WHERE d.id = $1`,
-    [destinationId],
-  );
-  params.push(destinationId);
-  const destinationParam = params.length;
-  if (rows.length === 0) return `p.destination_id = $${destinationParam}`;
-  params.push(rows.map((row) => row.id));
-  const overlapParam = params.length;
-  return `(p.destination_id = $${destinationParam} OR (p.destination_id = ANY($${overlapParam}::uuid[])
-    AND ST_Intersects(p.location, (SELECT place_bounds FROM destinations WHERE id = $${destinationParam}))))`;
-}
-
-const foldWord = (word: string) =>
-  word.replace(/[đĐ]/gu, 'd').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
-
-/** The words of a destination's name, folded ("da", "lat"); none without a destination. */
-async function destinationWords(
-  tx: pg.PoolClient,
-  destinationId: string | undefined,
-): Promise<ReadonlySet<string>> {
-  if (destinationId === undefined) return new Set();
-  const { rows } = await tx.query<{ name: string }>('SELECT name FROM destinations WHERE id = $1', [
-    destinationId,
-  ]);
-  return new Set(
-    (rows[0]?.name ?? '')
-      .split(/[^\p{L}\p{N}]+/u)
-      .filter(Boolean)
-      .map(foldWord),
-  );
 }
 
 /**
@@ -283,18 +239,45 @@ async function queryPlaceRows(
   params.push(fetchLimit + Math.min(fetchLimit, SAME_PLACE_ROOM));
   const limitParam = params.length;
 
-  const { rows } = await tx.query<PlaceSearchRow>(
-    `SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.price_level, p.tags,
+  const read = async (where: readonly string[], order: string) => {
+    const { rows } = await tx.query<PlaceSearchRow>(
+      `SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.price_level, p.tags,
             p.hours, p.timezone, d.tz AS destination_tz, d.name AS destination_name,
             ${recommendedSql('p')} AS recommended, lc.is_open_now,
             ${distanceSelect}
      FROM pois p
      JOIN destinations d ON d.id = p.destination_id
      LEFT JOIN poi_live_checks lc ON lc.poi_id = p.id
-     WHERE ${conditions.join(' AND ')}
-     ORDER BY ${orderExpression}
+     WHERE ${where.join(' AND ')}
+     ORDER BY ${order}
      LIMIT $${limitParam}`,
-    params,
-  );
-  return onePerPlace(rows, rows[0]?.destination_name ?? '').slice(0, fetchLimit);
+      params,
+    );
+    return rows;
+  };
+  const rows = await read(conditions, orderExpression);
+  // A destination's browse leads with what we recommend. The curated set already leads it; the
+  // machine picks of a destination without one are read by rank (their own index) and put ahead
+  // of the other open data, which would otherwise fill the page with hotels and cafés first.
+  const browse = filters.destinationId !== undefined && !hasQuery && filters.near === undefined;
+  const picks = browse
+    ? await read([...conditions, 'p.pick_rank IS NOT NULL'], 'p.pick_rank, p.id')
+    : [];
+  const ordered = picksAfterCurated(rows, picks);
+  return onePerPlace(ordered, ordered[0]?.destination_name ?? '').slice(0, fetchLimit);
+}
+
+/** The curated rows of a browse, then the picks by rank, then the rest in the browse's order. */
+function picksAfterCurated(
+  rows: readonly PlaceSearchRow[],
+  picks: readonly PlaceSearchRow[],
+): readonly PlaceSearchRow[] {
+  if (picks.length === 0) return rows;
+  const picked = new Set(picks.map((row) => row.id));
+  const others = rows.filter((row) => !picked.has(row.id));
+  return [
+    ...others.filter((row) => row.recommended),
+    ...picks,
+    ...others.filter((row) => !row.recommended),
+  ];
 }

@@ -179,6 +179,10 @@ msgstr "{missing} vẫn chưa dậy."
 msgid "notifications.setup.ask.not_movable"
 msgstr "{name} không dời được {dates}. Chọn tuần hợp nhất nhé."
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_cancelled.body"
+msgstr "{name} đã hủy chuyến đi. Trò chuyện, tiền, đặt chỗ và ảnh vẫn còn để xem."
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.freed"
 msgstr "{name} đã sắp xếp được {dates}. Tuần này hợp với cả nhóm."
@@ -306,6 +310,10 @@ msgstr "{place} · đang trễ"
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_title"
 msgstr "{place} · hôm nay"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_cancelled.title"
+msgstr "{place} đã bị hủy"
 
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.body"

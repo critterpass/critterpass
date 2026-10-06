@@ -20,6 +20,8 @@ import {
   withAssumedTravelNotes,
   withHonestNotes,
   withNoteLine,
+  landsOn,
+  leavesOn,
 } from '@cp/planner';
 
 import { hopCap, insideVisit } from './areas';
@@ -148,7 +150,7 @@ function withRideAndMealNotes(
     say(Math.max(0, before.length - 1), words.noMeal[slot]);
   }
   // Hours before dinner that nothing we know nearby could fill are said to be free.
-  const full = dayIndex > 0 && dayIndex < input.frame.dates.length - 1;
+  const full = !landsOn(input.frame, dayIndex) && !leavesOn(input.frame, dayIndex);
   day.items.forEach((item, index) => {
     const next = day.items[index + 1];
     if (!full || next === undefined || at(next.starts_at) > DINNER_LAST_START_MIN) return;
