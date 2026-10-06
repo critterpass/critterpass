@@ -1,8 +1,9 @@
 /**
  * The crew area's public surface for other features: crew chat's card and "+" menu registries (a
  * feature that posts its own card type, a poll or an expense, renders it and adds its entry here),
- * the waitlist cards Home shows for its crew's trips, the crew map's slot for the lock-screen
- * Live Activity starter (the Live Activity area registers it), and the media api client (uploads
+ * the waitlist cards Home shows for its crew's trips, the crew map's slots for its boost offer (the
+ * monetisation area registers it) and the lock-screen Live Activity starter (the Live Activity
+ * area registers it), and the media api client (uploads
  * and signed read URLs) the album shares with chat.
  */
 export { registerChatCard, type ChatCardProps, type ChatCardRenderer } from './chat/cards/registry';
@@ -14,4 +15,4 @@ export type { ChatMessage } from './chat/data/rows';
 export { registerChatComposerHint } from './chat/slots';
 export { tidyGuideText } from './chat/components/guide-text';
 export { WaitlistCards } from './waitlist/WaitlistCards';
-export { registerLockScreenStarter } from './live-map/gate-slot';
+export { registerLiveMapPaywall, registerLockScreenStarter } from './live-map/gate-slot';

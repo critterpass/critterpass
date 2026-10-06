@@ -97,6 +97,10 @@ msgstr ""
 msgid "monetize.paywall.aMonth"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusPostcard"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.aYear"
 msgstr ""
@@ -328,6 +332,10 @@ msgstr ""
 msgid "monetize.plan.eyebrow.free"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.free"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.get"
 msgstr ""
@@ -504,6 +512,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.pass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.monthly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.yearly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.passPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts

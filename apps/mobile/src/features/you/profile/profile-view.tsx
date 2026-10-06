@@ -39,6 +39,8 @@ export interface ProfileViewProps {
   readonly onRetake?: () => void;
   /** GET PASS+ for a free pass: opens the plans screen. */
   readonly onGetPassPlus?: () => void;
+  /** The Pass+ chip of a Pass+ holder: opens Your plan. */
+  readonly onPlan?: () => void;
   /** The person's own photo link, when they wear a photo. */
   readonly photoUri?: string | null;
   /** Crewmates' faces, as `Avatar` props. */
@@ -141,7 +143,18 @@ export function ProfileView(props: ProfileViewProps) {
             {model.passPlus || guideName !== null || props.onGetPassPlus ? (
               <Row gap="8" wrap>
                 {model.passPlus ? (
-                  <StatusChip status="passPlus" testID="you-profile-pass-plus" />
+                  props.onPlan ? (
+                    <Pressable
+                      onPress={props.onPlan}
+                      accessibilityRole="button"
+                      hitSlop={theme.space['8']}
+                      testID="you-profile-plan"
+                    >
+                      <StatusChip status="passPlus" testID="you-profile-pass-plus" />
+                    </Pressable>
+                  ) : (
+                    <StatusChip status="passPlus" testID="you-profile-pass-plus" />
+                  )
                 ) : props.onGetPassPlus ? (
                   <Pressable
                     onPress={props.onGetPassPlus}
