@@ -1,7 +1,8 @@
 /**
  * The destination brief queues (docs/api-contracts-async.md §2.3): `places.destination_brief`
  * (one run per destination at a time; a ready brief queues the profiles of its places through
- * `places.profile_warm`) and `places.brief_translate` (one language of one brief). Model calls are
+ * `places.profile_warm`; the destination's links are its second step), `places.brief_translate`
+ * (one language of one brief) and `places.home_link` (one home city to one destination). Model calls are
  * system usage on no user's meter. They share the place profiles' search, gateway and Jev client,
  * so without SearXNG or a model key no queue is registered.
  */
@@ -17,6 +18,7 @@ import {
 } from '@cp/domain';
 
 import { defineJob, type AnyJobDefinition } from '../../boss';
+import { runDestinationLinks } from './brief-links';
 import { runDestinationBrief } from './brief-run';
 import { markBriefEnded, saveBriefTranslation } from './brief-store';
 import type { PlaceProfileDeps } from './run';
@@ -67,7 +69,16 @@ export function destinationBriefJobs(
               { singletonKey: placesProfileWarmKey(data.destination_id) },
             );
           }
-          return { ...report };
+          // The links are a second, separate write: a curated or reviewed city has them too.
+          const waits = report.outcome === 'skipped' && report.reason === 'daily_cap';
+          const links = waits
+            ? { outcome: 'skipped' as const, reason: 'daily_cap' }
+            : await runDestinationLinks(pool, briefDeps, {
+                destinationId: data.destination_id,
+                ...(data.force === undefined ? {} : { force: data.force }),
+                signal: job.signal,
+              });
+          return { ...report, links };
         } catch (error) {
           if (job.isFinalAttempt) {
             const message = error instanceof Error ? error.message.slice(0, 300) : 'failed';
