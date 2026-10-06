@@ -6,3 +6,461 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: zh-Hans\n"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.failed"
+msgstr "{failed, plural, other {# 张照片上传失败。}}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteLeft"
+msgstr "还剩 {left} 个字"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.eta"
+msgstr "{progress} · 预计 {arrives} 左右送达"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.skipped"
+msgstr "{skipped, plural, other {# 张照片已在相册里，已跳过。}}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.byline"
+msgstr "{uploader} · {time}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.uploading"
+msgstr "{uploading, plural, other {正在上传 # 张照片。}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.waiting"
+msgstr "{waiting, plural, other {# 张照片在等网络，连上后会自动上传。}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload"
+msgstr "+ 上传"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.picked"
+msgstr "★ 已精选"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pick"
+msgstr "☆ 精选"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meIn"
+msgstr "✓ 我在照片里"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.formerTraveller"
+msgstr "以前的旅伴"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.photo"
+msgstr "一张照片加入小队相册"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.pick"
+msgstr "一张照片加入精选"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.unpick"
+msgstr "一张照片移出精选"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.report"
+msgstr "已举报一张照片"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.pick"
+msgstr "精选，来自 {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.add"
+msgstr "添加照片"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.line"
+msgstr "添加旅行照片，整个小队都能看到。仅限照片，不含视频。永久免费。"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.all"
+msgstr "全部 · {total}"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.sent"
+msgstr "印刷中"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.back"
+msgstr "返回"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.best"
+msgstr "精选 · {picks}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.byPerson"
+msgstr "按人"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcardEdit"
+msgstr "明信片的修改"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.front"
+msgstr "选择照片"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.city"
+msgstr "城市"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.failed"
+msgstr "无法印刷。你这次旅行的寄送名额已恢复"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.deviceFailed"
+msgstr "无法获取照片，再试一次"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailFailed"
+msgstr "下单打印失败，再试一次"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.failed"
+msgstr "无法保存，请检查填写内容"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.saveFailed"
+msgstr "无法保存明信片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendFailed"
+msgstr "发送失败，再试一次"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.failed"
+msgstr "打包失败，再试一次"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.country"
+msgstr "国家代码（如 VN 或 GB）"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saveDenied"
+msgstr "CritterPass 需要添加到照片的权限。请在设置中开启。"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.number"
+msgstr "第 {day} 天"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.themed"
+msgstr "第 {day} 天 · {theme}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.delete"
+msgstr "删除"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.confirm"
+msgstr "删除"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.title"
+msgstr "删除这张照片？"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.close"
+msgstr "完成"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export"
+msgstr "全部下载"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line2"
+msgstr "单元、楼层（可选）"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.why"
+msgstr "用于接收小队寄的实体明信片。只有印刷商能看到；小队和向导永远看不到。"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.greetings"
+msgstr "问候来自"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.curating"
+msgstr "我正在看照片，精选很快就到。"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meOut"
+msgstr "我在照片里"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.me"
+msgstr "我在照片里"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.shipped"
+msgstr "邮寄中"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.line"
+msgstr "它会从整个小队的相册中移除，精选和标记也会一起删除。"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.eyebrow"
+msgstr "最后一张"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.mail"
+msgstr "给每个人寄一张真的"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.name"
+msgstr "卡片上的名字"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailOffline"
+msgstr "需要信号才能下单打印"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.offline"
+msgstr "需要信号才能保存地址"
+
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.offline"
+msgstr "需要信号才能打包相册"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.undated"
+msgstr "无日期"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhoto"
+msgstr "不用照片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhotos"
+msgstr "相册里还没有照片，所以正面用向导的颜色。"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.title"
+msgstr "还没有照片"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.nobody"
+msgstr "还没有人说自己在这张照片里。"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.people.empty"
+msgstr "还没有人被标记。长按照片，点按“我在照片里”。"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.hint"
+msgstr "打开照片。长按查看谁在照片里"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.queued"
+msgstr "已下单"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.photo"
+msgstr "照片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.photoCaption"
+msgstr "照片 · {uploader}"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.photo"
+msgstr "来自 {uploaderName} 的照片"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.title"
+msgstr "照片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.classic"
+msgstr "明信片"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.postal"
+msgstr "邮政编码"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.square"
+msgstr "海报"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.printed"
+msgstr "已印好"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.title"
+msgstr "实体明信片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.passPlusOnly"
+msgstr "实体明信片包含在 Pass+ 中"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.remove"
+msgstr "删除我的地址"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.report"
+msgstr "举报"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.save"
+msgstr "保存"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.save"
+msgstr "保存地址"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.saved"
+msgstr "已保存（{country}）。小队可以给你寄实体明信片，但永远看不到地址。重新填写表单即可修改。"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saved"
+msgstr "已存到照片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendOffline"
+msgstr "已保存。有信号时就会发送"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.album"
+msgstr "查看所有照片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.title"
+msgstr "寄回家"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.open"
+msgstr "寄回家"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.send"
+msgstr "发给小队"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentTo"
+msgstr "已发给 {names}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentBefore"
+msgstr "已发给小队。随时可以再发"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.share"
+msgstr "分享"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.segments"
+msgstr "显示"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.region"
+msgstr "州或省（可选）"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.story"
+msgstr "快拍 9:16"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line1"
+msgstr "街道和门牌号"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.delete"
+msgstr "正在从相册移除一张照片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.noteEmpty"
+msgstr "点按写留言…"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.reported"
+msgstr "谢谢。我们的团队会查看。"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoTitle"
+msgstr "正面"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteTitle"
+msgstr "留言"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.unsupported"
+msgstr "印刷商还不寄往他们的国家，所以他们会收到电子版"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.placeFallback"
+msgstr "这次旅行"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailUsed"
+msgstr "这次旅行已经寄过实体明信片了"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload.retry"
+msgstr "重试失败的照片"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteDone"
+msgstr "用这段留言"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoOption"
+msgstr "用这张照片"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.missing"
+msgstr "我们已请他们添加地址，添加后就会寄出"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.title"
+msgstr "谁在照片里"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.back"
+msgstr "写留言"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.tag"
+msgstr "你在一张照片里"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.untag"
+msgstr "你不在一张照片里"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.title"
+msgstr "你的地址"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcard"
+msgstr "你的明信片"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.ready"
+msgstr "你的压缩包可下载 7 天"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.asking"
+msgstr "正在打包相册…"

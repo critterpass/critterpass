@@ -6,3 +6,461 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.failed"
+msgstr "{failed, plural, one {# photo didn't upload.} other {# photos didn't upload.}}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteLeft"
+msgstr "{left} characters left"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.eta"
+msgstr "{progress} · arrives around {arrives}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.skipped"
+msgstr "{skipped, plural, one {# photo was already in the album, so we skipped it.} other {# photos were already in the album, so we skipped them.}}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.byline"
+msgstr "{uploader} · {time}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.uploading"
+msgstr "{uploading, plural, one {Uploading # photo.} other {Uploading # photos.}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.waiting"
+msgstr "{waiting, plural, one {# photo waits for a connection. It goes up on its own.} other {# photos wait for a connection. They go up on their own.}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload"
+msgstr "+ Upload"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.picked"
+msgstr "★ Picked"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pick"
+msgstr "☆ Pick"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meIn"
+msgstr "✓ I'm in this"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.formerTraveller"
+msgstr "A former traveller"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.photo"
+msgstr "A photo for the crew album"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.pick"
+msgstr "A photo into the picks"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.unpick"
+msgstr "A photo out of the picks"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.report"
+msgstr "A photo reported"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.pick"
+msgstr "A pick, from {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.add"
+msgstr "Add photos"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.line"
+msgstr "Add the trip's photos and the whole crew sees them. Photos only, no videos. Free, always."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.all"
+msgstr "All · {total}"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.sent"
+msgstr "At the printer"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.best"
+msgstr "Best · {picks}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.byPerson"
+msgstr "By person"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcardEdit"
+msgstr "Changes to your postcard"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.front"
+msgstr "Choose the photo"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.city"
+msgstr "City"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.failed"
+msgstr "Couldn't be printed. Your mailing for this trip is free again"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.deviceFailed"
+msgstr "Couldn't get the photo. Try again"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailFailed"
+msgstr "Couldn't order the prints. Try again"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.failed"
+msgstr "Couldn't save it. Check the fields"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.saveFailed"
+msgstr "Couldn't save the postcard"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendFailed"
+msgstr "Couldn't send it. Try again"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.failed"
+msgstr "Couldn't zip it. Try again"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.country"
+msgstr "Country code (like VN or GB)"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saveDenied"
+msgstr "CritterPass needs permission to add to Photos. Turn it on in Settings."
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.number"
+msgstr "Day {day}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.themed"
+msgstr "Day {day} · {theme}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.delete"
+msgstr "Delete"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.confirm"
+msgstr "Delete"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.title"
+msgstr "Delete this photo?"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.close"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export"
+msgstr "Download all"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line2"
+msgstr "Flat, floor (optional)"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.why"
+msgstr "For printed postcards from your crew. Only the printer sees it; your crew and the guide never do."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.greetings"
+msgstr "Greetings from"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.curating"
+msgstr "I'm going through the photos. My picks land here soon."
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meOut"
+msgstr "I'm in this"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.me"
+msgstr "I'm in this"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.shipped"
+msgstr "In the post"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.line"
+msgstr "It leaves the album for the whole crew, and its picks and tags go with it."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.eyebrow"
+msgstr "Last card"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.mail"
+msgstr "Mail a real one to each of you"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.name"
+msgstr "Name on the card"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailOffline"
+msgstr "Needs signal to order the prints"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.offline"
+msgstr "Needs signal to save your address"
+
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.offline"
+msgstr "Needs signal to zip the album"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.undated"
+msgstr "No date"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhoto"
+msgstr "No photo"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhotos"
+msgstr "No photos in the album yet, so the front is the guide's colour."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.title"
+msgstr "No photos yet"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.nobody"
+msgstr "Nobody's said they're in this one yet."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.people.empty"
+msgstr "Nobody's tagged yet. Hold a photo and tap “I'm in this”."
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.hint"
+msgstr "Opens the photo. Hold to see who's in it"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.queued"
+msgstr "Ordered"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.photo"
+msgstr "Photo"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.photoCaption"
+msgstr "photo · {uploader}"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.photo"
+msgstr "Photo from {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.title"
+msgstr "Photos"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.classic"
+msgstr "Postcard"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.postal"
+msgstr "Postcode"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.square"
+msgstr "Poster"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.printed"
+msgstr "Printed"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.title"
+msgstr "Printed postcards"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.passPlusOnly"
+msgstr "Printed postcards come with Pass+"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.remove"
+msgstr "Remove my address"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.report"
+msgstr "Report"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.save"
+msgstr "Save address"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.saved"
+msgstr "Saved ({country}). Your crew can mail you a printed postcard. They never see the address. Fill the form again to change it."
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saved"
+msgstr "Saved to Photos"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendOffline"
+msgstr "Saved. It sends when you have signal"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.album"
+msgstr "See all the photos"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.title"
+msgstr "Send it home"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.open"
+msgstr "Send it home"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.send"
+msgstr "Send to the crew"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentTo"
+msgstr "Sent to {names}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentBefore"
+msgstr "Sent to the crew. Send it again any time"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.segments"
+msgstr "Show"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.region"
+msgstr "State or province (optional)"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.story"
+msgstr "Story 9:16"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line1"
+msgstr "Street and number"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.delete"
+msgstr "Taking a photo out of the album"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.noteEmpty"
+msgstr "Tap to write a note…"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.reported"
+msgstr "Thanks. Our team will look at it."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoTitle"
+msgstr "The front"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteTitle"
+msgstr "The note"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.unsupported"
+msgstr "The printer doesn't post to their country yet, so they get the digital one"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.placeFallback"
+msgstr "the trip"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailUsed"
+msgstr "This trip already has its printed postcards"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload.retry"
+msgstr "Try the failed ones again"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteDone"
+msgstr "Use this note"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoOption"
+msgstr "Use this photo"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.missing"
+msgstr "We asked them to add an address. Theirs goes out once they do"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.title"
+msgstr "Who's in it"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.back"
+msgstr "Write the note"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.tag"
+msgstr "You're in a photo"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.untag"
+msgstr "You're not in a photo"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.title"
+msgstr "Your address"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcard"
+msgstr "Your postcard"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.ready"
+msgstr "Your zip is ready for 7 days"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.asking"
+msgstr "Zipping the album…"

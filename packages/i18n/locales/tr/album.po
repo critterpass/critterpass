@@ -6,3 +6,461 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.failed"
+msgstr "{failed, plural, one {# fotoğraf yüklenmedi.} other {# fotoğraf yüklenmedi.}}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteLeft"
+msgstr "{left} karakter kaldı"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.eta"
+msgstr "{progress} · yaklaşık {arrives} tarihinde ulaşır"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.skipped"
+msgstr "{skipped, plural, one {# fotoğraf zaten albümdeydi, atladık.} other {# fotoğraf zaten albümdeydi, atladık.}}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.byline"
+msgstr "{uploader} · {time}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.uploading"
+msgstr "{uploading, plural, one {# fotoğraf yükleniyor.} other {# fotoğraf yükleniyor.}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.waiting"
+msgstr "{waiting, plural, one {# fotoğraf bağlantı bekliyor. Kendiliğinden yüklenecek.} other {# fotoğraf bağlantı bekliyor. Kendiliğinden yüklenecek.}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload"
+msgstr "+ Yükle"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.picked"
+msgstr "★ Favori"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pick"
+msgstr "☆ Favori"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meIn"
+msgstr "✓ Bunda ben varım"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.formerTraveller"
+msgstr "Eski bir gezgin"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.photo"
+msgstr "Ekip albümü için bir fotoğraf"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.pick"
+msgstr "Favorilere bir fotoğraf"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.unpick"
+msgstr "Favorilerden bir fotoğraf"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.report"
+msgstr "Bir fotoğraf bildirildi"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.pick"
+msgstr "Bir favori, {uploaderName} çekti"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.add"
+msgstr "Fotoğraf ekle"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.line"
+msgstr "Gezinin fotoğraflarını ekle, tüm ekip görsün. Sadece fotoğraf, video yok. Her zaman ücretsiz."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.all"
+msgstr "Tümü · {total}"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.sent"
+msgstr "Matbaada"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.back"
+msgstr "Geri"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.best"
+msgstr "En iyiler · {picks}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.byPerson"
+msgstr "Kişiye göre"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcardEdit"
+msgstr "Kartpostalındaki değişiklikler"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.front"
+msgstr "Fotoğrafı seç"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.city"
+msgstr "Şehir"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.failed"
+msgstr "Basılamadı. Bu gezi için gönderim hakkın yeniden boş"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.deviceFailed"
+msgstr "Fotoğraf alınamadı. Tekrar dene"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailFailed"
+msgstr "Baskılar sipariş edilemedi. Tekrar dene"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.failed"
+msgstr "Kaydedilemedi. Alanları kontrol et"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.saveFailed"
+msgstr "Kartpostal kaydedilemedi"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendFailed"
+msgstr "Gönderilemedi. Tekrar dene"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.failed"
+msgstr "Sıkıştırılamadı. Tekrar dene"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.country"
+msgstr "Ülke kodu (VN veya GB gibi)"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saveDenied"
+msgstr "CritterPass'in Fotoğraflar'a ekleme iznine ihtiyacı var. Ayarlar'dan aç."
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.number"
+msgstr "{day}. gün"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.themed"
+msgstr "{day}. gün · {theme}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.delete"
+msgstr "Sil"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.confirm"
+msgstr "Sil"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.title"
+msgstr "Bu fotoğraf silinsin mi?"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.close"
+msgstr "Bitti"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export"
+msgstr "Tümünü indir"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line2"
+msgstr "Daire, kat (isteğe bağlı)"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.why"
+msgstr "Ekibinden gelecek basılı kartpostallar için. Yalnızca matbaa görür; ekibin ve rehber asla görmez."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.greetings"
+msgstr "Sevgiler,"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.curating"
+msgstr "Fotoğraflara bakıyorum. Favorilerim yakında burada."
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meOut"
+msgstr "Bunda ben varım"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.me"
+msgstr "Bunda ben varım"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.shipped"
+msgstr "Postada"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.line"
+msgstr "Tüm ekip için albümden çıkar, favorileri ve etiketleriyle birlikte."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.eyebrow"
+msgstr "Son kart"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.mail"
+msgstr "Her birinize gerçeğini postala"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.name"
+msgstr "Karttaki ad"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailOffline"
+msgstr "Baskıları sipariş etmek için çekim gerekiyor"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.offline"
+msgstr "Adresini kaydetmek için çekim gerekiyor"
+
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.offline"
+msgstr "Albümü sıkıştırmak için çekim gerekiyor"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.undated"
+msgstr "Tarih yok"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhoto"
+msgstr "Fotoğraf yok"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhotos"
+msgstr "Albümde henüz fotoğraf yok, bu yüzden ön yüz rehberin renginde."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.title"
+msgstr "Henüz fotoğraf yok"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.nobody"
+msgstr "Henüz kimse bunda olduğunu söylemedi."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.people.empty"
+msgstr "Henüz kimse etiketlenmedi. Bir fotoğrafa basılı tut ve “Bunda ben varım”a dokun."
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.hint"
+msgstr "Fotoğrafı açar. Kimlerin olduğunu görmek için basılı tut"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.queued"
+msgstr "Sipariş verildi"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.photo"
+msgstr "Fotoğraf"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.photoCaption"
+msgstr "fotoğraf · {uploader}"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.photo"
+msgstr "{uploaderName} çekti"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.title"
+msgstr "Fotoğraflar"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.classic"
+msgstr "Kartpostal"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.postal"
+msgstr "Posta kodu"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.square"
+msgstr "Poster"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.printed"
+msgstr "Basıldı"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.title"
+msgstr "Basılı kartpostallar"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.passPlusOnly"
+msgstr "Basılı kartpostallar Pass+ ile gelir"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.remove"
+msgstr "Adresimi kaldır"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.report"
+msgstr "Bildir"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.save"
+msgstr "Kaydet"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.save"
+msgstr "Adresi kaydet"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.saved"
+msgstr "Kaydedildi ({country}). Ekibin sana basılı kartpostal gönderebilir. Adresi asla görmezler. Değiştirmek için formu yeniden doldur."
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saved"
+msgstr "Fotoğraflar'a kaydedildi"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendOffline"
+msgstr "Kaydedildi. Çekim olunca gider"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.album"
+msgstr "Tüm fotoğrafları gör"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.title"
+msgstr "Eve gönder"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.open"
+msgstr "Eve gönder"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.send"
+msgstr "Ekibe gönder"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentTo"
+msgstr "{names} kişisine gönderildi"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentBefore"
+msgstr "Ekibe gönderildi. İstediğin zaman tekrar gönder"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.share"
+msgstr "Paylaş"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.segments"
+msgstr "Göster"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.region"
+msgstr "Eyalet veya il (isteğe bağlı)"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.story"
+msgstr "Story 9:16"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line1"
+msgstr "Sokak ve numara"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.delete"
+msgstr "Albümden bir fotoğraf çıkarılıyor"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.noteEmpty"
+msgstr "Not yazmak için dokun…"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.reported"
+msgstr "Teşekkürler. Ekibimiz bakacak."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoTitle"
+msgstr "Ön yüz"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteTitle"
+msgstr "Not"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.unsupported"
+msgstr "Matbaa henüz onların ülkesine göndermiyor, bu yüzden dijitalini alırlar"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.placeFallback"
+msgstr "gezi"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailUsed"
+msgstr "Bu gezinin basılı kartpostalları zaten var"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload.retry"
+msgstr "Başarısız olanları tekrar dene"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteDone"
+msgstr "Bu notu kullan"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoOption"
+msgstr "Bu fotoğrafı kullan"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.missing"
+msgstr "Adres eklemelerini istedik. Ekledikleri anda onlarınki çıkar"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.title"
+msgstr "Kimler var"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.back"
+msgstr "Notu yaz"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.tag"
+msgstr "Bir fotoğraftasın"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.untag"
+msgstr "Bir fotoğrafta değilsin"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.title"
+msgstr "Adresin"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcard"
+msgstr "Kartpostalın"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.ready"
+msgstr "Zip dosyan 7 gün hazır"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.asking"
+msgstr "Albüm sıkıştırılıyor…"

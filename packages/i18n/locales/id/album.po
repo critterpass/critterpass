@@ -6,3 +6,461 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.failed"
+msgstr "{failed, plural, other {# foto gagal diunggah.}}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteLeft"
+msgstr "Sisa {left} karakter"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.eta"
+msgstr "{progress} · tiba sekitar {arrives}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.skipped"
+msgstr "{skipped, plural, other {# foto sudah ada di album, jadi kami lewati.}}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.byline"
+msgstr "{uploader} · {time}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.uploading"
+msgstr "{uploading, plural, other {Mengunggah # foto.}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.waiting"
+msgstr "{waiting, plural, other {# foto menunggu koneksi. Akan terunggah sendiri.}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload"
+msgstr "+ Unggah"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.picked"
+msgstr "★ Favorit"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pick"
+msgstr "☆ Favorit"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meIn"
+msgstr "✓ Aku ada di sini"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.formerTraveller"
+msgstr "Mantan pelancong"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.photo"
+msgstr "Satu foto untuk album kru"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.pick"
+msgstr "Satu foto ke favorit"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.unpick"
+msgstr "Satu foto keluar dari favorit"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.report"
+msgstr "Satu foto dilaporkan"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.pick"
+msgstr "Favorit, dari {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.add"
+msgstr "Tambah foto"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.line"
+msgstr "Tambahkan foto perjalanan dan seluruh kru bisa melihatnya. Hanya foto, tanpa video. Selalu gratis."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.all"
+msgstr "Semua · {total}"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.sent"
+msgstr "Di percetakan"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.back"
+msgstr "Kembali"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.best"
+msgstr "Terbaik · {picks}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.byPerson"
+msgstr "Per orang"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcardEdit"
+msgstr "Perubahan pada kartu posmu"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.front"
+msgstr "Pilih foto"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.city"
+msgstr "Kota"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.failed"
+msgstr "Gagal dicetak. Jatah kirimmu untuk perjalanan ini kosong lagi"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.deviceFailed"
+msgstr "Foto tidak bisa diambil. Coba lagi"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailFailed"
+msgstr "Gagal memesan cetakan. Coba lagi"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.failed"
+msgstr "Gagal menyimpan. Cek isiannya"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.saveFailed"
+msgstr "Kartu pos tidak tersimpan"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendFailed"
+msgstr "Gagal mengirim. Coba lagi"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.failed"
+msgstr "Gagal mengompres. Coba lagi"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.country"
+msgstr "Kode negara (misalnya VN atau GB)"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saveDenied"
+msgstr "CritterPass perlu izin untuk menambah ke Foto. Nyalakan di Pengaturan."
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.number"
+msgstr "Hari {day}"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.themed"
+msgstr "Hari {day} · {theme}"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.delete"
+msgstr "Hapus"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.confirm"
+msgstr "Hapus"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.title"
+msgstr "Hapus foto ini?"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.close"
+msgstr "Selesai"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export"
+msgstr "Unduh semua"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line2"
+msgstr "Unit, lantai (opsional)"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.why"
+msgstr "Untuk kartu pos cetak dari krumu. Hanya percetakan yang melihatnya; kru dan pemandu tidak pernah."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.greetings"
+msgstr "Salam dari"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.curating"
+msgstr "Aku sedang memilah foto. Favoritku segera muncul di sini."
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meOut"
+msgstr "Aku ada di sini"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.me"
+msgstr "Aku ada di sini"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.shipped"
+msgstr "Dalam pengiriman pos"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.delete.line"
+msgstr "Foto keluar dari album untuk seluruh kru, beserta favorit dan tandanya."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.eyebrow"
+msgstr "Kartu terakhir"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.mail"
+msgstr "Kirim yang asli ke kalian masing-masing"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.name"
+msgstr "Nama di kartu"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailOffline"
+msgstr "Perlu sinyal untuk memesan cetakan"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.offline"
+msgstr "Perlu sinyal untuk menyimpan alamatmu"
+
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.offline"
+msgstr "Perlu sinyal untuk mengompres album"
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.undated"
+msgstr "Tanpa tanggal"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhoto"
+msgstr "Tanpa foto"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noPhotos"
+msgstr "Belum ada foto di album, jadi bagian depan pakai warna pemandu."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.empty.title"
+msgstr "Belum ada foto"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.nobody"
+msgstr "Belum ada yang bilang ada di foto ini."
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.people.empty"
+msgstr "Belum ada yang ditandai. Tahan sebuah foto dan ketuk “Aku ada di sini”."
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.hint"
+msgstr "Membuka foto. Tahan untuk melihat siapa saja di foto"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.queued"
+msgstr "Dipesan"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.photo"
+msgstr "Foto"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.photoCaption"
+msgstr "foto · {uploader}"
+
+#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
+msgid "album.tile.photo"
+msgstr "Foto dari {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.title"
+msgstr "Foto"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.classic"
+msgstr "Kartu pos"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.postal"
+msgstr "Kode pos"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.square"
+msgstr "Poster"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.status.printed"
+msgstr "Dicetak"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.title"
+msgstr "Kartu pos cetak"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.passPlusOnly"
+msgstr "Kartu pos cetak hadir dengan Pass+"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.remove"
+msgstr "Hapus alamatku"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.report"
+msgstr "Laporkan"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.save"
+msgstr "Simpan"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.save"
+msgstr "Simpan alamat"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.saved"
+msgstr "Tersimpan ({country}). Krumu bisa mengirim kartu pos cetak untukmu. Mereka tidak pernah melihat alamatnya. Isi formulir lagi untuk mengubahnya."
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.saved"
+msgstr "Tersimpan di Foto"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendOffline"
+msgstr "Tersimpan. Terkirim saat ada sinyal"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.album"
+msgstr "Lihat semua foto"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.title"
+msgstr "Kirim ke rumah"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
+msgid "album.postcard.open"
+msgstr "Kirim ke rumah"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.send"
+msgstr "Kirim ke kru"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentTo"
+msgstr "Terkirim ke {names}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentBefore"
+msgstr "Terkirim ke kru. Kirim lagi kapan saja"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.share"
+msgstr "Bagikan"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.segments"
+msgstr "Tampilkan"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.region"
+msgstr "Provinsi atau negara bagian (opsional)"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.format.story"
+msgstr "Story 9:16"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.line1"
+msgstr "Jalan dan nomor"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.delete"
+msgstr "Mengeluarkan foto dari album"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.noteEmpty"
+msgstr "Ketuk untuk menulis pesan…"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.reported"
+msgstr "Terima kasih. Tim kami akan memeriksanya."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoTitle"
+msgstr "Bagian depan"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteTitle"
+msgstr "Pesan"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.unsupported"
+msgstr "Percetakan belum mengirim ke negara mereka, jadi mereka dapat versi digital"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.placeFallback"
+msgstr "perjalanan"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailUsed"
+msgstr "Perjalanan ini sudah punya kartu pos cetaknya"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.upload.retry"
+msgstr "Coba lagi yang gagal"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.noteDone"
+msgstr "Pakai pesan ini"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+msgid "album.postcard.photoOption"
+msgstr "Pakai foto ini"
+
+#: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
+msgid "album.mail.missing"
+msgstr "Kami minta mereka menambahkan alamat. Kartunya dikirim begitu mereka melakukannya"
+
+#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+msgid "album.who.title"
+msgstr "Siapa saja di foto"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
+msgid "album.postcard.back"
+msgstr "Tulis pesan"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.tag"
+msgstr "Kamu ada di foto"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.untag"
+msgstr "Kamu tidak ada di foto"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.title"
+msgstr "Alamatmu"
+
+#: ../../apps/mobile/src/features/album/commands.ts
+msgid "album.queued.postcard"
+msgstr "Kartu posmu"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.ready"
+msgstr "Zip-mu siap selama 7 hari"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.export.asking"
+msgstr "Mengompres album…"
