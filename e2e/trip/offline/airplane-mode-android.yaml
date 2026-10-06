@@ -34,7 +34,6 @@ appId: app.critterpass.dev
     visible:
       text: 'RAINCOAT|Raincoat, just you'
     timeout: 10000
-- hideKeyboard
 # The hub's offline card lists what waits to send, and opens today's plan from the phone alone.
 - tapOn:
     id: 'tab-trips'

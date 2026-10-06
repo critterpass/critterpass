@@ -41,7 +41,16 @@ appId: app.critterpass.dev
     visible:
       id: 'when-cta|when-pick-week'
     timeout: 60000
-- launchApp
+# Out of the new trip's setup (its date sheet, then the setup screen) to the tabs.
+- repeat:
+    times: 4
+    while:
+      notVisible:
+        id: 'tab-trips'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 2000
 - runFlow: ../subflows/to-hub.yaml
 - assertVisible:
     id: 'trip-hub-header-in'

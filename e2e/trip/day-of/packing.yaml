@@ -32,7 +32,6 @@ appId: app.critterpass.dev
     visible:
       text: 'UMBRELLA|Umbrella, just you'
     timeout: 10000
-- hideKeyboard
 - tapOn:
     text: 'SUNSCREEN|Sunscreen, just you'
 - runFlow: ../../happy/subflows/sunscreen-packed.yaml

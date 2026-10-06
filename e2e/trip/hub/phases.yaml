@@ -2,8 +2,8 @@ appId: app.critterpass.dev
 ---
 # The trip hub before the trip: a brand-new traveller's trip to Đà Nẵng that starts tomorrow (built
 # in the app, e2e/happy/subflows/trip-under-way.yaml), joined by five simulated travellers through
-# the api. The hub's header counts down to the trip, and its ticker shows the crew arriving as
-# they join, without a reload.
+# the api. The hub's header counts down to the trip, and counts six going once they have joined,
+# without a reload.
 - runFlow:
     file: ../../happy/subflows/trip-under-way.yaml
     env:
@@ -18,9 +18,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: hub-pre-alone
 - runFlow: ../subflows/crew-of-six.yaml
-# The joins reach the hub through sync: the ticker names the newest arrival.
+# The joins reach the hub through sync: the header counts six going.
 - extendedWaitUntil:
-    visible: '(?i).*sim joined the crew.*'
+    visible: '(?i).*6 going.*'
     timeout: 60000
 - assertVisible:
     id: 'trip-hub-header-pre'
