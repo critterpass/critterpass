@@ -16,7 +16,7 @@ import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { undoPlanEditOnline } from '@/data/plan/commands';
 import type { UndoOutcome } from '@/data/plan/use-plan-editor';
-import { withDriverReply } from '@/features/drivers/replied/driver-reply';
+import { withDriverReply } from '@/features/drivers';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 

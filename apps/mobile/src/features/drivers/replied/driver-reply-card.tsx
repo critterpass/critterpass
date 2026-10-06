@@ -4,10 +4,10 @@
  * suggested times are the change set's own rows, voted one by one or all at once, and the totals
  * below them (each person's change, must-dos touched) come from the cost engine as for any change.
  */
+import { formatMoney, isKnownCurrency } from '@cp/cost-engine';
 import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { formatAmount } from '@/features/money/format';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -43,7 +43,13 @@ export function DriverReplyCard(props: DriverReplyCardProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { reply, locale } = props;
-  const money = (minor: number) => formatAmount(BigInt(minor), reply.currency ?? 'IDR', locale);
+  const currency = reply.currency ?? 'IDR';
+  const money = (minor: number) => {
+    const code = currency;
+    return isKnownCurrency(code)
+      ? formatMoney({ amountMinor: BigInt(minor), currency: code }, { locale, mode: 'local' })
+      : `${currency} ${String(minor / 100)}`;
+  };
   const total =
     reply.price_per_day_minor === null ? null : reply.price_per_day_minor * props.dayCount;
   const each = total === null ? null : Math.ceil(total / Math.max(props.crewSize, 1));

@@ -4,7 +4,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 
-import type { PlanShareSlotProps } from '@/features/plan/overview/share-slot';
+import type { PlanShareSlotProps } from '@/features/plan';
 import { PillButton } from '@/ui/buttons/PillButton';
 
 import { DriverShareSheet } from './share-sheet';

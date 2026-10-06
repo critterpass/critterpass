@@ -6,16 +6,21 @@
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
-import { dayTileColour } from '@/features/plan/overview/model/day-colour';
-import { changesHeadline, tallyLine } from '@/features/plan/review/changes-copy';
-import { ChangesReviewView } from '@/features/plan/review/changes-review-view';
-import { ChangesTotals } from '@/features/plan/review/changes-totals';
-import { TripMapScene } from '@/features/plan/trip-map/dev/plan-screens-scenes';
+import {
+  DriverReplyCard,
+  DriverShareSheetView,
+  dayLabel,
+  expiryChoices,
+  openedLine,
+  type DriverShareStatus,
+} from '@/features/drivers';
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import { DriverReplyCard } from '../../replied/driver-reply-card';
-import { DriverShareSheetView, type DriverShareStatus } from '../share-sheet-view';
-import { dayLabel, expiryChoices, openedLine } from '../share-text';
+import { changesHeadline, tallyLine } from '../../review/changes-copy';
+import { ChangesReviewView } from '../../review/changes-review-view';
+import { ChangesTotals } from '../../review/changes-totals';
+import { TripMapScene } from '../../trip-map/dev/plan-screens-scenes';
+import { dayTileColour } from '../model/day-colour';
 
 const noop = () => undefined;
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
