@@ -245,6 +245,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
     ['checked_by', keep(CREW)],
   ),
   ...rules('public.providers', ['added_by', keep(CREW)]),
+  ...rules('public.driver_plan_shares', ['created_by', keep(CREW)]),
   ...rules('public.ride_quotes', ['user_id', keep(CREW)]),
   ...rules('public.rides', ['logged_by', keep(CREW)]),
   ...rules('public.seat_waitlist_offers', ['user_id', keep(CREW)]),

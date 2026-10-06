@@ -233,3 +233,4 @@ export {
   postcards,
 } from './album';
 export { tripPlaces } from './trip-places';
+export { driverPlanReplies, driverPlanShares } from './plan-shares';

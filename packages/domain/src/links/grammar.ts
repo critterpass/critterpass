@@ -79,6 +79,7 @@ export const APP_LINK_EXCLUDED_PATHS: readonly string[] = [
   '/legal*',
   '/help*',
   '/account*',
+  '/t/*',
 ];
 
 const SHARE_TOKEN_PATTERN = /^[A-Za-z0-9_-]{16,64}$/;
