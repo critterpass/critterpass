@@ -31,7 +31,7 @@ export async function warmPlaces(
        ) top
        WHERE NOT coalesce(top.editorial ? 'why_go', false)
          AND top.category NOT IN ('transit', 'health')
-         AND NOT EXISTS (SELECT 1 FROM place_profiles pp WHERE pp.poi_id = top.id)`,
+         AND NOT EXISTS (SELECT 1 FROM place_profiles pp WHERE pp.poi_id = top.id AND pp.basis = 'web')`,
       [destinationId, limit],
     );
     return rows.map((row) => row.id);
