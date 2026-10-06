@@ -13,6 +13,8 @@ import { currentAppPath, type AttributionVia, type LinkState, type LinkTarget } 
 export const HOME_ROUTE = '/';
 export const INVITE_TICKET_ROUTE = '/onboarding/invite/ticket';
 export const CODE_ENTRY_ROUTE = '/onboarding/invite/code';
+/** The PASS tab: the critter collection, set by set. */
+export const PASS_TAB_ROUTE = '/pass';
 
 /** Toast keys Home shows once for a link it could not follow. */
 export type LinkNotice = 'link_unknown' | 'link_already_member' | 'link_unavailable';
@@ -66,7 +68,8 @@ export function routeForTarget(target: LinkTarget, facts: LinkFacts): string {
     case 'guide':
       return href(`/explore/${target.slug}`, {});
     case 'locals':
-      return href('/critters', { place: target.slug });
+      // A place's locals are its set in the collection, which the PASS tab lists by place.
+      return PASS_TAB_ROUTE;
     case 'app':
       // Pushes and inbox rows sent earlier name the trip hub and its day by their former paths.
       return currentAppPath(`/${target.path}`);
