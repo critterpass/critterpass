@@ -4,7 +4,7 @@ internal import AppIntents
 import Foundation
 
 /// SNOOZE on the leave-by Live Activity once it is time to go (api-contracts-async.md §4,
-/// `LA LeaveBy` row): queues `snooze_leave_by`, and the server decides whether this snooze is the
+/// `LA LeaveBy` row): sends `snooze_leave_by` (or queues it for the app), and the server decides whether this snooze is the
 /// one that knocks on the crew. A `LiveActivityIntent`, so it runs in the app's process and lives
 /// in `_shared` like `ImUpIntent`.
 struct SnoozeIntent: LiveActivityIntent {
@@ -23,7 +23,9 @@ struct SnoozeIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        try PendingActionsOutbox.append(.snooze(leaveById: leaveById), root: AppGroupContainer.url)
+        let result = await SignedActionSender.send(
+            .snooze(leaveById: leaveById), surface: .liveActivityIntent, root: AppGroupContainer.url)
+        if result == .failed { throw PendingActionsOutboxError.noAppGroupContainer }
         return .result()
     }
 }

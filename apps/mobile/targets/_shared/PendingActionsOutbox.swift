@@ -116,6 +116,16 @@ struct PendingAction: Hashable, Sendable {
         )
     }
 
+    /// I'M IN or MAYBE on a trip proposal's notification: `set_rsvp{proposal_id, status}`.
+    static func rsvp(
+        proposalId: String, status: String, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "set_rsvp", via: .notifAction, scope: "rsvp", clientTs: now,
+            payload: ["proposal_id": .text(proposalId), "status": .text(status)]
+        )
+    }
+
     /// DONE or NUDGE on a Today widget item: `act_briefing_item{item_id, action}`.
     static func briefing(
         itemId: String, action: String, opId: String = PendingAction.uuidV7(), now: Date = Date()

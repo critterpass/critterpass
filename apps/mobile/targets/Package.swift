@@ -45,8 +45,11 @@ let package = Package(
     .target(
       name: "PendingActionsCore",
       path: "_shared",
-      exclude: ["ActionKey", "PushPayload"],
-      sources: ["PendingActionsOutbox.swift"]
+      exclude: ["PushPayload"],
+      sources: [
+        "PendingActionsOutbox.swift", "Intents/SignedActionSender.swift",
+        "ActionKey/SignedRequest.swift", "ActionKey/ActionKeyStore.swift",
+      ]
     ),
     .testTarget(
       name: "PendingActionsTests",
