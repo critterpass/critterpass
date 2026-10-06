@@ -3,16 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Routing tile boxes from destinations, Geofabrik region picking and the Valhalla tile build plan",
+  "description": "Routing tile boxes from the api, Geofabrik region picking and the Valhalla tile build plan",
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "boxes": "tsx src/boxes-from-db.ts",
     "tiles": "tsx src/cli.ts"
   },
   "dependencies": {
-    "@cp/db": "workspace:*",
     "@cp/suppliers": "workspace:*",
     "zod": "catalog:"
   },

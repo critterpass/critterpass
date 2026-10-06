@@ -1,26 +1,30 @@
 name: routing tiles
 
-# Builds Valhalla 3.8.3 routing tiles for every box in tools/routing-tiles/boxes.json (each
-# destination's place box widened by 30 km), on this runner instead of any laptop: download each
+# Builds Valhalla 3.8.3 routing tiles for every box the api lists (`GET /v1/routing/boxes`: live
+# destinations and those with a trip in planning, pre or in, each place box widened by 30 km; the
+# repository variable MAP_REGIONS_API_URL is the api's base address), on this runner instead of
+# any laptop: download each
 # Geofabrik extract once, cut the boxes with osmium, merge them into one PBF (Valhalla must never be
 # fed several extracts), build tiles in the public valhalla-scripted image, boot the serving image
-# on them and route one drive inside every box. Weekly and on demand it publishes the gzip tile tar
-# and manifest.json on the `routing-tiles` prerelease, which the private `valhalla` Railway service
-# reads at boot (ROUTING_TILES_MANIFEST_URL). Pull requests that touch the pipeline run a dry run
-# on two boxes and publish nothing.
+# on them and route one drive inside every box. It publishes the gzip tile tar and manifest.json on
+# the `routing-tiles` prerelease, which the private `valhalla` Railway service reads at boot
+# (ROUTING_TILES_MANIFEST_URL): on demand, weekly, and on any day the api's boxes differ from the
+# published build's (a new trip's destination gets routing by the next morning, with no commit).
+# Pull requests that touch the pipeline run a dry run on a fixed pair of boxes (Đà Lạt and
+# Iceland) and publish nothing.
 
 on:
   workflow_dispatch:
     inputs:
       only:
-        description: comma-separated destination slugs (empty = every box)
+        description: comma-separated destination slugs (empty = every box the api lists)
         default: ''
       publish:
         description: publish the tiles to the routing-tiles release
         type: boolean
         default: true
   schedule:
-    - cron: '0 19 * * 1' # Tuesday 02:00 in Vietnam
+    - cron: '0 19 * * *' # 02:00 in Vietnam; builds on Tuesdays, and other days when the boxes changed
   pull_request:
     paths:
       - tools/routing-tiles/**
@@ -37,7 +41,7 @@ permissions:
 env:
   VALHALLA_IMAGE: ghcr.io/valhalla/valhalla-scripted:3.8.3
   RELEASE_TAG: routing-tiles
-  ONLY: ${{ github.event_name == 'pull_request' && 'da-nang,bali' || inputs.only || '' }}
+  ONLY: ${{ inputs.only || '' }}
   PUBLISH: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.publish) }}
 
 jobs:
@@ -55,15 +59,35 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile --filter @cp/routing-tiles...
-      - name: Install osmium
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq osmium-tool
       - name: Plan
+        env:
+          API_URL: ${{ vars.MAP_REGIONS_API_URL }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "WORK=$RUNNER_TEMP/routing" >> "$GITHUB_ENV"
           mkdir -p "$RUNNER_TEMP/routing/boxes" "$RUNNER_TEMP/routing/valhalla"
           echo "TILES_BUILD=$(date -u +%Y%m%dT%H%M%SZ)" >> "$GITHUB_ENV"
-          pnpm --filter @cp/routing-tiles tiles plan --out "$RUNNER_TEMP/routing/plan.json" --only "$ONLY"
+          if [ "$GITHUB_EVENT_NAME" = pull_request ]; then
+            source=(--boxes "$GITHUB_WORKSPACE/tools/routing-tiles/test/fixtures/dry-run-boxes.json")
+          elif [ -n "$API_URL" ]; then
+            source=(--api "$API_URL")
+          else
+            echo "the MAP_REGIONS_API_URL repository variable is not set" >&2; exit 1
+          fi
+          pnpm --filter @cp/routing-tiles tiles plan "${source[@]}" --out "$RUNNER_TEMP/routing/plan.json" --only "$ONLY" | tee -a "$GITHUB_STEP_SUMMARY"
+          build=true
+          # The daily check builds on Tuesdays (Monday 19:00 UTC) and otherwise only for new boxes.
+          if [ "$GITHUB_EVENT_NAME" = schedule ] && [ "$(date -u +%u)" != 1 ]; then
+            gh release download "$RELEASE_TAG" -p manifest.json -D "$RUNNER_TEMP/published" 2> /dev/null || true
+            build=$(pnpm --silent --filter @cp/routing-tiles tiles changed --plan "$RUNNER_TEMP/routing/plan.json" --manifest "$RUNNER_TEMP/published/manifest.json" | tail -1)
+            [ "$build" = true ] || echo "boxes unchanged since the published build: nothing to do" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "BUILD=$build" >> "$GITHUB_ENV"
+      - name: Install osmium
+        if: env.BUILD == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq osmium-tool
       - name: Cut the boxes from each extract
+        if: env.BUILD == 'true'
         run: |
           echo '{}' > "$WORK/osm.json"
           for region in $(jq -r '.regions[].region' "$WORK/plan.json"); do
@@ -82,6 +106,7 @@ jobs:
           rm -rf "$WORK/boxes"
           echo "merged PBF: $(du -h "$WORK/valhalla/merged.osm.pbf" | cut -f1)" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Build the tiles
+        if: env.BUILD == 'true'
         run: |
           docker pull -q "$VALHALLA_IMAGE"
           started=$(date +%s)
@@ -102,6 +127,7 @@ jobs:
           size=$(stat -c %s "$WORK/tiles.tar.gz")
           if [ "$size" -ge 2000000000 ]; then echo "tile archive is over the 2 GB release asset limit" >&2; exit 1; fi
       - name: Boot the serving image on the new tiles and route in every box
+        if: env.BUILD == 'true'
         run: |
           mkdir -p "$WORK/site" "$WORK/context/tools/routing-tiles" "$WORK/context/infra/railway"
           cp "$WORK/tiles.tar.gz" "$WORK/site/tiles.tar.gz"
@@ -120,7 +146,7 @@ jobs:
           echo "serving memory: $(docker stats --no-stream --format '{{.MemUsage}}' valhalla-serve)" | tee -a "$GITHUB_STEP_SUMMARY"
           pnpm --filter @cp/routing-tiles tiles smoke --url http://127.0.0.1:8002 --plan "$WORK/plan.json" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Publish
-        if: env.PUBLISH == 'true'
+        if: env.PUBLISH == 'true' && env.BUILD == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

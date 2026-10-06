@@ -1677,9 +1677,6 @@ importers:
 
   tools/routing-tiles:
     dependencies:
-      '@cp/db':
-        specifier: workspace:*
-        version: link:../../packages/db
       '@cp/suppliers':
         specifier: workspace:*
         version: link:../../packages/suppliers

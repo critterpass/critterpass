@@ -1,12 +1,16 @@
 /**
- * The committed box list and the build plan made from it: every destination that needs routing
- * has a box and a Geofabrik extract, boxes widen by 30 km, and each extract is downloaded once.
+ * The box lists and the build plan made from them: boxes widen by 30 km, each extract is
+ * downloaded once, a box with no known extract is left out and reported, the api's answer is
+ * checked before use, and a build starts only when the boxes changed.
  */
 import { describe, expect, it } from 'vitest';
 
-import { bufferBbox, readBoxes, type BoxesFile } from '../src/boxes';
+import { join } from 'node:path';
+
+import { bufferBbox, fetchBoxes, readBoxes, readBoxesFile, type BoxesFile } from '../src/boxes';
 import { createManifest } from '../src/manifest';
-import { buildPlan, slugsWithoutRegion } from '../src/plan';
+import { boxesChanged, buildPlan } from '../src/plan';
+import { regionFor } from '../src/regions';
 
 const committed = readBoxes();
 
@@ -22,15 +26,6 @@ function file(...slugs: string[]): BoxesFile {
     })),
   };
 }
-
-describe('committed boxes', () => {
-  it('cover the live destinations the planning legs need, each with an extract', () => {
-    const slugs = committed.boxes.map((box) => box.slug);
-    expect(slugs).toEqual(expect.arrayContaining(['bali', 'da-nang', 'kyoto', 'vn-hoi-an']));
-    expect(new Set(slugs).size).toBe(slugs.length);
-    expect(slugsWithoutRegion(committed)).toEqual([]);
-  });
-});
 
 describe('bufferBbox', () => {
   it('widens every side by 30 km, more degrees of longitude away from the equator', () => {
@@ -73,10 +68,73 @@ describe('buildPlan', () => {
     expect(() => buildPlan(committed, { only: ['atlantis'] })).toThrow('no box for atlantis');
   });
 
-  it('fails instead of dropping a box with no extract', () => {
-    expect(() => buildPlan(file('da-nang', 'xx-new-town'))).toThrow(
+  it('leaves out and reports a box with no extract, refusing it when asked for by name', () => {
+    const plan = buildPlan(file('da-nang', 'xx-new-town'));
+    expect(plan.slugs).toEqual(['da-nang']);
+    expect(plan.withoutRegion).toEqual(['xx-new-town']);
+    expect(() => buildPlan(file('da-nang', 'xx-new-town'), { only: ['xx-new-town'] })).toThrow(
       'no Geofabrik region for xx-new-town',
     );
+  });
+
+  it("plans the pull request's dry run for Đà Lạt and Iceland", () => {
+    const plan = buildPlan(readBoxesFile(join(import.meta.dirname, 'fixtures/dry-run-boxes.json')));
+    expect(
+      plan.regions.map((region) => [region.region, region.boxes.map((box) => box.slug)]),
+    ).toEqual([
+      ['asia/vietnam', ['vn-da-lat']],
+      ['europe/iceland', ['iceland']],
+    ]);
+  });
+});
+
+describe('regionFor', () => {
+  it("takes a named destination's extract, else its country's single extract", () => {
+    expect(regionFor('kyoto')).toBe('asia/japan/kansai');
+    expect(regionFor('vn-con-dao')).toBe('asia/vietnam');
+    expect(regionFor('pe-lima')).toBe('south-america/peru');
+    // Japan and Indonesia are split: a new city there needs its region named.
+    expect(regionFor('jp-sapporo')).toBeUndefined();
+    expect(regionFor('atlantis')).toBeUndefined();
+  });
+});
+
+describe('fetchBoxes', () => {
+  const answer = {
+    generatedAt: '2026-10-06',
+    boxes: [{ slug: 'vn-da-lat', reason: 'live', bbox: [108.3632, 11.8675, 108.5119, 12.013] }],
+  };
+
+  it("reads the api's routing boxes", async () => {
+    const asked: string[] = [];
+    const fetcher = ((url: string) => {
+      asked.push(url);
+      return Promise.resolve(Response.json(answer));
+    }) as typeof fetch;
+    const boxes = await fetchBoxes('https://api.example.test/', fetcher);
+    expect(asked).toEqual(['https://api.example.test/v1/routing/boxes']);
+    expect(boxes.boxes.map((box) => box.slug)).toEqual(['vn-da-lat']);
+  });
+
+  it('refuses an error status or a malformed box', async () => {
+    const status = (() => Promise.resolve(new Response('nope', { status: 503 }))) as typeof fetch;
+    await expect(fetchBoxes('https://api.example.test', status)).rejects.toThrow('503');
+    const malformed = { ...answer, boxes: [{ ...answer.boxes[0], bbox: [1, 1, 1, 1] }] };
+    const empty = (() => Promise.resolve(Response.json(malformed))) as typeof fetch;
+    await expect(fetchBoxes('https://api.example.test', empty)).rejects.toThrow();
+  });
+});
+
+describe('boxesChanged', () => {
+  const plan = buildPlan(file('da-nang', 'bali'));
+  const built = plan.regions.flatMap((region) => region.boxes);
+
+  it('is false for the same boxes in any order, true for a new, gone or moved box', () => {
+    expect(boxesChanged(plan, [...built].reverse())).toBe(false);
+    expect(boxesChanged(plan, built.slice(1))).toBe(true);
+    expect(boxesChanged(plan, [...built, { slug: 'kyoto', bbox: [1, 2, 3, 4] }])).toBe(true);
+    const [first, ...rest] = built;
+    expect(boxesChanged(plan, [{ ...first!, bbox: [0, 0, 1, 1] }, ...rest])).toBe(true);
   });
 });
 
