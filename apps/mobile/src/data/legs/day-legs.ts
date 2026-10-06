@@ -10,6 +10,7 @@ import {
   estimateStraightLineEta,
   PLAN_LEG_SHAPE_PRECISION,
   STAY_LEG_KEY,
+  type AreaLinkMode,
   type LegMode,
   type LegSource,
   type LngLat,
@@ -40,10 +41,12 @@ export interface StoredLeg {
 export interface DayLeg {
   readonly from: string;
   readonly to: string;
-  readonly mode: LegMode;
+  /** How the leg is travelled; a day trip's way there and back carries its link's mode. */
+  readonly mode: LegMode | AreaLinkMode;
   readonly minutes: number;
   readonly meters: number;
-  readonly source: LegSource;
+  /** `link`: the time comes from the link between two areas, never from the road graph. */
+  readonly source: LegSource | 'link';
   /** Shown as "about": a straight-line estimate, or a router leg with no live traffic. */
   readonly approx: boolean;
   /** The road the leg follows, `[lng, lat]`, or null where the map draws it straight. */
@@ -62,8 +65,19 @@ export function legPath(shape: string | null | undefined): LngLat[] | null {
   return points.length < 2 ? null : points;
 }
 
-const MODES: readonly LegMode[] = ['walk', 'drive', 'ride', 'driver'];
-const SOURCES: readonly LegSource[] = ['valhalla', 'straight_line'];
+const MODES: readonly DayLeg['mode'][] = [
+  'walk',
+  'drive',
+  'ride',
+  'driver',
+  'train',
+  'bus',
+  'car',
+  'boat',
+  'flight',
+  'tour',
+];
+const SOURCES: readonly DayLeg['source'][] = ['valhalla', 'straight_line', 'link'];
 
 function fromStored(leg: StoredLeg): DayLeg | null {
   const mode = MODES.find((candidate) => candidate === leg.mode);
@@ -76,7 +90,8 @@ function fromStored(leg: StoredLeg): DayLeg | null {
     minutes: leg.minutes,
     meters: leg.meters,
     source,
-    approx: leg.approx === true || leg.approx === 1,
+    // A link's time is door to door and always an estimate.
+    approx: source === 'link' || leg.approx === true || leg.approx === 1,
     path: legPath(leg.shape),
   };
 }

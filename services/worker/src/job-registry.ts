@@ -45,12 +45,14 @@ import { destinationBriefJobs } from './places/profile/brief-jobs';
 import { placeProfileDeps, placeProfileJobs } from './places/profile/jobs';
 import { tripPlacesRefreshJob } from './jobs/places/trip-refresh';
 import { planningJobs } from './jobs/planning';
+import { communityJobs } from './jobs/community';
 import { pollBoardAdvanceJob, pollCloseJob, pollRemindJob } from './jobs/polls';
 import { pushSendJob } from './jobs/push/send';
 import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
 import { setupJobs } from './jobs/setup';
 import { tipsJobs } from './jobs/tips';
+import { driverDirectoryJobs } from './jobs/driver-directory';
 import type { createLogger } from './obs/logger';
 import type { MetricsRecorder } from './obs/metrics';
 import { defaultBundleId, type CopyRenderer, type PushProviders } from './push';
@@ -113,6 +115,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     pollBoardAdvanceJob(),
     pollRemindJob(),
     ...tipsJobs(env, assertRouteOn, llmObservability),
+    ...driverDirectoryJobs(),
     ...pitchJobs(env, assertRouteOn, llmObservability),
     ...setupJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     placesPickJob(placePicks),
@@ -125,6 +128,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...billingJobs(processEnv, logger, deps.metrics),
     ...planJobs(),
     ...planningJobs(deps),
+    ...communityJobs(),
     ...guideJobs({ ...processEnv, ...env }, pool, assertRouteOn, llmObservability),
     ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches, processEnv),
     ...(await import('./jobs/trip-day')).tripDayJobs(processEnv, aiSwitches, llmObservability),
@@ -152,6 +156,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
       { ...processEnv, ...env },
       { assertRouteOn, telemetry: llmObservability },
     ),
+    ...(await import('./jobs/postcards')).postcardJobs(processEnv),
     ...(await import('./jobs/recap')).recapJobs(
       { ...processEnv, ...env },
       {

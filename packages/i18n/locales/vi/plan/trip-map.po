@@ -249,6 +249,10 @@ msgstr "Ngày {n}/{of}"
 msgid "plan.tripMap.dayChip"
 msgstr "Ngày {n}, {name}"
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.dayChipArea"
+msgstr "Ngày {n}, {name}, ở {area}"
+
 #: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
 msgid "plan.tripMap.draftIt"
 msgstr "Lên nháp"

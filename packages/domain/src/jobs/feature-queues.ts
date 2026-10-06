@@ -21,12 +21,17 @@ import { QUEST_QUEUE_DESCRIPTIONS, questQueueSpecs } from '../quests/queues';
 import { TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS, tripLifecycleQueueSpecs } from '../trips/lifecycle';
 import { LA_QUEUE_DESCRIPTIONS, laQueueSpecs } from '../surfaces/la-queues';
 import { SAFETY_QUEUE_DESCRIPTIONS, safetyQueueSpecs } from '../safety/queues';
+import {
+  DRIVER_DIRECTORY_QUEUE_DESCRIPTIONS,
+  driverDirectoryQueueSpecs,
+} from '../driver-directory/queues';
 import { WIDGET_QUEUE_DESCRIPTIONS, widgetQueueSpecs } from '../surfaces/widget-refresh';
 import { RECAP_QUEUE_DESCRIPTIONS, recapQueueSpecs } from '../recap/queues';
 import { ALBUM_QUEUE_DESCRIPTIONS, albumQueueSpecs } from '../album/queues';
 import { PLACES_QUEUE_DESCRIPTIONS, placesQueueSpecs } from '../places/queues';
 import { PLAN_QUEUE_DESCRIPTIONS, planQueueSpecs } from '../plan/queues';
 import { PLANNING_QUEUE_DESCRIPTIONS, planningQueueSpecs } from '../planning/queues';
+import { COMMUNITY_QUEUE_DESCRIPTIONS, communityQueueSpecs } from '../community/queues';
 import {
   HOURS_RESEARCH_QUEUE_DESCRIPTIONS,
   hoursResearchQueueSpecs,
@@ -52,6 +57,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...tripLifecycleQueueSpecs(defaults),
     ...laQueueSpecs(defaults),
     ...safetyQueueSpecs(defaults),
+    ...driverDirectoryQueueSpecs(defaults),
     ...widgetQueueSpecs(defaults),
     ...recapQueueSpecs(defaults),
     ...albumQueueSpecs(defaults),
@@ -59,6 +65,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...hoursResearchQueueSpecs(defaults),
     ...planQueueSpecs(defaults),
     ...planningQueueSpecs(defaults),
+    ...communityQueueSpecs(defaults),
   } as const;
 }
 
@@ -81,6 +88,7 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS,
   ...LA_QUEUE_DESCRIPTIONS,
   ...SAFETY_QUEUE_DESCRIPTIONS,
+  ...DRIVER_DIRECTORY_QUEUE_DESCRIPTIONS,
   ...WIDGET_QUEUE_DESCRIPTIONS,
   ...RECAP_QUEUE_DESCRIPTIONS,
   ...ALBUM_QUEUE_DESCRIPTIONS,
@@ -88,4 +96,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...HOURS_RESEARCH_QUEUE_DESCRIPTIONS,
   ...PLAN_QUEUE_DESCRIPTIONS,
   ...PLANNING_QUEUE_DESCRIPTIONS,
+  ...COMMUNITY_QUEUE_DESCRIPTIONS,
 } as const;

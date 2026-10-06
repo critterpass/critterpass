@@ -1,7 +1,7 @@
 ---
 phase: 7
 title: App shell, navigation, component library, a11y
-status: in_progress
+status: done
 depends_on: [5, 6]
 wave: 4
 features: [F-004, F-027]

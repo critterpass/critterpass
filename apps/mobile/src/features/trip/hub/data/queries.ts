@@ -36,6 +36,11 @@ export interface TripRow {
   readonly role: string | null;
 }
 
+/** The days of a version spent away from the trip's own destination: its day trips. */
+export const DAY_TRIPS_SQL = `SELECT count(*) AS n FROM plan_days
+  WHERE version_id = ?1 AND destination_id IS NOT NULL AND destination_id <> ?2`;
+export const DAY_TRIPS_TABLES = ['plan_days'];
+
 /** How many trips the switcher lists for me (every one not archived or cancelled). */
 export const MY_TRIP_COUNT_SQL = `SELECT count(*) AS n FROM trips t
   WHERE t.status NOT IN ('archived', 'cancelled')

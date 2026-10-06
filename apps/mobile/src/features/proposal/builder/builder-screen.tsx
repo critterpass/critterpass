@@ -146,6 +146,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         guide={trip.guide}
         destination={trip.destination}
         dates={tripDates(locale, trip.startDate, trip.endDate)}
+        solo={trip.isSolo}
         offline={offline}
         locking={lockAlone.pending}
         onBack={back}

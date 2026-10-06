@@ -11,6 +11,8 @@ export const ALBUM_QUEUES = {
   processPhoto: 'album.process_photo',
   export: 'album.export',
   curate: 'ai.curate_album',
+  postcardFulfil: 'postcard.fulfil',
+  postcardStatus: 'postcard.status',
 } as const;
 
 export const ALBUM_QUEUE_SPECS = {
@@ -35,6 +37,20 @@ export const ALBUM_QUEUE_SPECS = {
     expireInSeconds: 30 * 60,
     deadLetter: true,
   },
+  'postcard.fulfil': {
+    policy: 'exclusive',
+    retryLimit: 4,
+    retryDelay: 120,
+    retryBackoff: true,
+    expireInSeconds: 15 * 60,
+    deadLetter: true,
+  },
+  'postcard.status': {
+    policy: 'stately',
+    retryLimit: 3,
+    retryDelay: 60,
+    expireInSeconds: 5 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function albumQueueSpecs(
@@ -54,6 +70,10 @@ export const ALBUM_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof ALBUM_QUEUE_
   'album.export': "Zips a trip album's originals for one traveller to download for 7 days",
   'ai.curate_album':
     "Picks the album's best 24 (everyone in three where they can be) and words the guide's note",
+  'postcard.fulfil':
+    'Prints a Pass+ postcard and orders one mailed to each crewmate with a saved address',
+  'postcard.status':
+    "Re-reads a printed mailing's orders from the printer and records how far they got",
 };
 
 export const albumProcessPhotoJobSchema = z.object({ photo_id: z.uuid() });
@@ -61,6 +81,12 @@ export type AlbumProcessPhotoJob = z.infer<typeof albumProcessPhotoJobSchema>;
 
 export const albumExportJobSchema = z.object({ export_id: z.uuid() });
 export type AlbumExportJob = z.infer<typeof albumExportJobSchema>;
+
+export const postcardFulfilJobSchema = z.object({ mailing_id: z.uuid() });
+export type PostcardFulfilJob = z.infer<typeof postcardFulfilJobSchema>;
+
+export const postcardStatusJobSchema = z.object({ mailing_id: z.uuid() });
+export type PostcardStatusJob = z.infer<typeof postcardStatusJobSchema>;
 
 export const albumCurateJobSchema = z.object({ trip_id: z.uuid() });
 export type AlbumCurateJob = z.infer<typeof albumCurateJobSchema>;

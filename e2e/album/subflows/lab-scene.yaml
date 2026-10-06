@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# From the album lab list: opens ${SCENE}, waits for ${ROOT}, takes ${SHOT}, and goes back.
+- scrollUntilVisible:
+    element:
+      id: 'album-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'album-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: ${ROOT}
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow: back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'album-lab-${SCENE}'
+    timeout: 10000
+    optional: true

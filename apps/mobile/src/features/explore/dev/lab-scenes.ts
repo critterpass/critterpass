@@ -5,6 +5,7 @@
 import type { ReactNode } from 'react';
 
 import { DESTINATION_SCENES } from './destination-scenes';
+import { LIGHTBOX_SCENES } from './lightbox-scenes';
 import { PLACE_DETAIL_SCENES } from '../place-detail/dev/place-detail-scenes';
 import { PLACES_SCENES } from '../places/dev/places-scenes';
 import { SPLIT_SCENES } from '../split/dev/split-scenes';
@@ -13,6 +14,7 @@ import { SWIPE_SCENES } from './swipe-scenes';
 import { TRIP_EXPLORE_SCENES } from '../trip-explore/dev/trip-explore-scenes';
 
 export const EXPLORE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  ...LIGHTBOX_SCENES,
   ...DESTINATION_SCENES,
   ...PLACE_DETAIL_SCENES,
   ...SPLIT_SCENES,

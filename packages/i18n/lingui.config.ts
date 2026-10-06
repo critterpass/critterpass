@@ -1,7 +1,12 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
-import { driversCatalog, exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
+import {
+  driverAndSiteCatalogs,
+  driversCatalog,
+  exploreSubAreas,
+  planningCatalogs,
+} from './lingui-sub-areas';
 import { localeCodes, sourceLocale } from './src/locales';
 
 /**
@@ -227,6 +232,8 @@ export default defineConfig({
         `${repoRootPrefix}/apps/mobile/src/features/${area}/**`,
         // The plan's shared reader, editor and commands word the outbox and stop names.
         ...(area === 'plan' ? [`${repoRootPrefix}/apps/mobile/src/data/plan/**`] : []),
+        // A trip's areas word the travel line the plan and Explore both show.
+        ...(area === 'explore' ? [`${repoRootPrefix}/apps/mobile/src/data/areas/**`] : []),
         ...(area === 'go' ? [goButtonSource] : []),
       ],
       exclude:
@@ -272,6 +279,7 @@ export default defineConfig({
       include: chatSources,
       exclude: testFileExcludes,
     },
+    ...driverAndSiteCatalogs(testFileExcludes),
     driversCatalog(testFileExcludes),
     {
       name: 'suppliers/app',
@@ -321,12 +329,6 @@ export default defineConfig({
       include: [...include],
       exclude: testFileExcludes,
     })),
-    {
-      name: 'web',
-      path: 'locales/{locale}/web',
-      include: [`${repoRootPrefix}/apps/web/src/**`],
-      exclude: testFileExcludes,
-    },
     {
       name: 'server',
       path: 'locales/{locale}/server',

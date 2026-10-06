@@ -2276,6 +2276,167 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  // A driver's confirmed listing and its stats: any signed-in caller reads a listed one; only the
+  // api writes. The crew's own invites, answers and tips are the crew's to read.
+  driver_listings: {
+    selectProbe: {
+      sql: "SELECT 1 FROM driver_listings WHERE display_name = 'Matrix Probe Driver'",
+      params: () => [],
+      seed: `INSERT INTO driver_listings
+               (display_name, phone_e164_enc, phone_hash, consent_version, consent_at, key_hash)
+             VALUES ('Matrix Probe Driver', 'enc', 'matrix-probe-phone', 'v1', now(),
+                     'matrix-probe-key')
+             ON CONFLICT (phone_hash) DO NOTHING`,
+    },
+    expectations: READ_ONLY_ALL,
+  },
+  driver_listing_stats: {
+    selectProbe: {
+      sql: `SELECT 1 FROM driver_listing_stats s JOIN driver_listings l ON l.id = s.listing_id
+             WHERE l.display_name = 'Matrix Probe Driver'`,
+      params: () => [],
+      seed: `WITH l AS (
+               INSERT INTO driver_listings
+                 (display_name, phone_e164_enc, phone_hash, consent_version, consent_at, key_hash)
+               VALUES ('Matrix Probe Driver', 'enc', 'matrix-probe-phone', 'v1', now(),
+                       'matrix-probe-key')
+               ON CONFLICT (phone_hash) DO UPDATE SET display_name = EXCLUDED.display_name
+               RETURNING id
+             )
+             INSERT INTO driver_listing_stats (listing_id) SELECT id FROM l
+             ON CONFLICT (listing_id) DO NOTHING`,
+    },
+    expectations: READ_ONLY_ALL,
+  },
+  driver_invites: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_invites WHERE trip_id = $1 AND inviter_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_invites
+               (provider_id, trip_id, crew_id, inviter_id, token_hash, phone_hash, expires_at)
+             SELECT p.id, t.id, t.crew_id, $2, 'matrix-probe-token', 'matrix-probe-phone',
+                    now() + interval '30 days'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (token_hash) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_ratings: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_ratings WHERE trip_id = $1 AND user_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_ratings (provider_id, trip_id, crew_id, user_id, verdict)
+             SELECT p.id, t.id, t.crew_id, $2, 'loved'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (provider_id, trip_id, user_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_tips: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_tips WHERE trip_id = $1 AND $2::uuid IS NOT NULL',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_tips
+               (provider_id, trip_id, crew_id, author_id, text, crew_size, month)
+             SELECT p.id, t.id, t.crew_id, $2, 'Ask for the upper car park.', 4, '2026-08-01'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (provider_id, trip_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_listing_flags: {
+    selectProbe: { sql: 'SELECT 1 FROM driver_listing_flags', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  // A plan waiting for consent: its crew sees it, nobody else (published plans: shared-plans.test).
+  shared_plans: {
+    selectProbe: {
+      // The trip column is never granted to app_user: the probe reads by status instead.
+      sql: "SELECT 1 FROM shared_plans WHERE status = 'pending_consent' AND $1::uuid IS NOT NULL",
+      params: (f) => [f.tripId],
+      seed: `INSERT INTO shared_plans (trip_id, destination_id)
+             SELECT t.id, coalesce(t.destination_id, (SELECT destination_id FROM pois
+                                                       WHERE name = 'Matrix Probe POI'))
+               FROM trips t
+              WHERE t.id = $1 AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $1)`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  shared_plan_consents: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM shared_plan_consents WHERE user_id = $1 AND $2::uuid IS NOT NULL',
+      params: (f) => [f.actors.organiser, f.tripId],
+      seed: `WITH plan AS (
+               INSERT INTO shared_plans (trip_id, destination_id)
+               SELECT t.id, coalesce(t.destination_id, (SELECT destination_id FROM pois
+                                                         WHERE name = 'Matrix Probe POI'))
+                 FROM trips t
+                WHERE t.id = $2::uuid AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2::uuid)
+               RETURNING id
+             ), target AS (
+               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2::uuid
+             )
+             INSERT INTO shared_plan_consents (shared_plan_id, user_id)
+             SELECT id, $1::uuid FROM target LIMIT 1
+             ON CONFLICT (shared_plan_id, user_id) DO NOTHING`,
+    },
+    expectations: OWNER_READ,
+  },
+  shared_plan_copies: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM shared_plan_copies WHERE copied_by = $1 AND trip_id = $2',
+      params: (f) => [f.actors.organiser, f.tripId],
+      seed: `WITH plan AS (
+               INSERT INTO shared_plans (trip_id, destination_id)
+               SELECT t.id, coalesce(t.destination_id, (SELECT destination_id FROM pois
+                                                         WHERE name = 'Matrix Probe POI'))
+                 FROM trips t
+                WHERE t.id = $2::uuid AND NOT EXISTS (SELECT 1 FROM shared_plans WHERE trip_id = $2::uuid)
+               RETURNING id
+             ), target AS (
+               SELECT id FROM plan UNION ALL SELECT id FROM shared_plans WHERE trip_id = $2::uuid
+             )
+             INSERT INTO shared_plan_copies (shared_plan_id, copied_by, trip_id)
+             SELECT id, $1::uuid, $2::uuid FROM target
+              WHERE NOT EXISTS (SELECT 1 FROM shared_plan_copies WHERE copied_by = $1)
+              LIMIT 1`,
+    },
+    expectations: OWNER_READ,
+  },
+  ratings: {
+    selectProbe: {
+      ...ownRowProbe('ratings'),
+      seed: `INSERT INTO ratings (trip_id, poi_id, user_id, verdict)
+             SELECT p.trip_id, poi.id, $1, 'loved'
+               FROM trip_participants p, pois poi
+              WHERE p.user_id = $1 AND poi.name = 'Matrix Probe POI'
+             ON CONFLICT (trip_id, poi_id, user_id) DO NOTHING`,
+    },
+    expectations: OWNER_READ,
+  },
+  place_rating_stats: {
+    selectProbe: {
+      sql: `SELECT 1 FROM place_rating_stats s JOIN pois p ON p.id = s.poi_id
+             WHERE p.name = 'Matrix Probe POI'`,
+      params: () => [],
+      seed: `INSERT INTO place_rating_stats (poi_id, loved)
+             SELECT id, 1 FROM pois WHERE name = 'Matrix Probe POI'
+             ON CONFLICT (poi_id) DO NOTHING`,
+    },
+    expectations: READ_ONLY_ALL,
+  },
+  plan_links: {
+    selectProbe: {
+      ...tripRowProbe('plan_links'),
+      seed: `INSERT INTO plan_links (trip_id, token_hash)
+             VALUES ($1, repeat('b', 64))
+             ON CONFLICT (token_hash) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
 };
 
 /**

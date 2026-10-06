@@ -1,0 +1,284 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 15:35+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.consent"
+msgstr "By saying yes you agree that CritterPass shows these details, your WhatsApp number and the ratings of crews who rode with you to travellers using the app. You can pause or remove it here at any time."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.car"
+msgstr "Car"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.change"
+msgstr "Change my details"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.intro"
+msgstr "Check the details below. Nothing is shown to anyone until you say yes, and you can remove it anytime from this page."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedBody"
+msgstr "Crews cannot find you while it is paused. Your ratings stay."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedBody"
+msgstr "Crews planning {area} can find you and message you on WhatsApp. Come back to this link to change anything."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.driver"
+msgstr "Driver"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.fairPrice"
+msgstr "Fair price"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.goodEnglish"
+msgstr "Good English"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.greatPhotos"
+msgstr "Great photos"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.hello"
+msgstr "Hi {name}. A crew of {size} wants to recommend you."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pauseHint"
+msgstr "Hide it while you're fully booked"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.turnOff"
+msgstr "Hide ratings"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.dayTrips"
+msgstr "I do day trips"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.expiredBody"
+msgstr "Invites work for 30 days. Nothing was listed. Ask the crew for a new one."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.invalidBody"
+msgstr "It may have been cancelled or replaced. Ask the crew for a new one."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.keep"
+msgstr "Keep my listing"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.knewTheSpots"
+msgstr "Knew the spots"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.languages"
+msgstr "Languages"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listMe"
+msgstr "List me"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedBadge"
+msgstr "Listed"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.newCar"
+msgstr "New car"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.declined"
+msgstr "No problem"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.noThanks"
+msgstr "No thanks"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removedBody"
+msgstr "Nothing about you is shown on CritterPass any more."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.ratingsOff"
+msgstr "Off"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.ratingsOn"
+msgstr "On · {loved} of {rated} loved it"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.onTime"
+msgstr "On time"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.open"
+msgstr "Open my listing"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.patient"
+msgstr "Patient"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pause"
+msgstr "Pause my listing"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedBadge"
+msgstr "Paused"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeAsk"
+msgstr "Remove for good?"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.remove"
+msgstr "Remove my listing"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeBody"
+msgstr "Removes your listing and ratings from CritterPass right away. Crews who already have your number keep it in their own trip."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.safeDriver"
+msgstr "Safe driver"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.save"
+msgstr "Save"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.saved"
+msgstr "Saved."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.seats"
+msgstr "Seats"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.sendCode"
+msgstr "Send me a code on WhatsApp"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.areasHint"
+msgstr "Separate places with commas"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.resume"
+msgstr "Show my listing again"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.turnOn"
+msgstr "Show ratings"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.showRatings"
+msgstr "Show ratings and tags"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.failed"
+msgstr "Something went wrong. Try again."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.codeExpired"
+msgstr "That code has expired. Send a new one."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.wrongCode"
+msgstr "That code isn't right. Try again."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.code"
+msgstr "The code"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.invalid"
+msgstr "This link doesn't work"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.expired"
+msgstr "This link switched off"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.bookmark"
+msgstr "This page has a new private link each time you change something. Bookmark it."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.usedBody"
+msgstr "To change your listing, we can send a code to your WhatsApp and open it again."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tooMany"
+msgstr "Too many tries. Wait a few minutes."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.verified"
+msgstr "Verified"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.declinedBody"
+msgstr "We deleted the invite. Nothing about you is shown on CritterPass."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.codeSent"
+msgstr "We sent a 6-digit code to {phone} on WhatsApp."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.preview"
+msgstr "What crews will see"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.price"
+msgstr "What you tell crews about price"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.whatsapp"
+msgstr "WhatsApp"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.areas"
+msgstr "Where you drive"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.yes"
+msgstr "Yes, list me"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeYes"
+msgstr "Yes, remove it"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.used"
+msgstr "You already used this link"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedTitle"
+msgstr "You're listed, {name}"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pageTitle"
+msgstr "Your CritterPass listing"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removed"
+msgstr "Your listing is gone"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedTitle"
+msgstr "Your listing is paused, {name}"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.name"
+msgstr "Your name"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.priceHint"
+msgstr "Your words, for example \"Rp 900k a day, fuel and parking included\""

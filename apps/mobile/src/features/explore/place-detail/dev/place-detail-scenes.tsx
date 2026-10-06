@@ -13,6 +13,7 @@ import { useState, type ReactNode } from 'react';
 
 import { BEACH_FOURSQUARE } from '../../dev/lab-place-media';
 import { guideFor } from '../../format';
+import { heroCreditOf } from '../../place-lightbox';
 import { liveFacts, type PlaceLive } from '../../place-live';
 import { LAB_PICK_MEDIA } from '../../trip-explore/dev/lab-pick-media';
 import { readPlaceDetail } from '../context';
@@ -214,6 +215,7 @@ function Scene({
       guide={guide}
       photo={photo}
       heroUrl={facts.heroUrl}
+      heroCredit={heroCreditOf(facts, [])}
       saved={saved}
       offline={false}
       onBack={() => undefined}

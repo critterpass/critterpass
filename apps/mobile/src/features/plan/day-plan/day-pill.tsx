@@ -6,7 +6,7 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { dateLine } from '../trip-map/format';
+import { dateLine, withArea } from '../trip-map/format';
 import type { TripDay } from '../trip-map/trip-days';
 
 const useStyles = makeStyles((t) => ({
@@ -38,7 +38,8 @@ export function DayPill({
     day.date === null
       ? t({ id: 'plan.dayPlan.dayTitle', message: `Day ${n}` })
       : dateLine(locale, day.date);
-  const label = day.theme === null ? date : `${date} · ${day.theme}`;
+  const named = withArea(date, day);
+  const label = day.theme === null ? named : `${named} · ${day.theme}`;
   return (
     <PressScale
       style={{ flex: 1 }}

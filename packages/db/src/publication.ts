@@ -99,10 +99,18 @@ import * as schema from './schema';
  * how one destination leads to another is shared content phones read through the api.
  * `destination_briefs` (packages/db/src/schema/destination-briefs.ts) is RLS "R" but read over
  * HTTP only: Explore's picks and the recommended order read a destination's brief on the server.
+ *
+ * The community tables (packages/db/src/schema/community.ts) are shared content and their owners'
+ * own rows, read over HTTP with a cache: a crew plan, its consents, copies, ratings, place rating
+ * counts and plan links never sync.
+ *
  * `season_months`, `season_events`, `destination_cost_indices` (packages/db/src/schema/travel-data.ts,
  * cost.ts) and `crowd_forecasts` are RLS "R" but read over HTTP only (`/v1/destinations/{id}/season`,
  * `/v1/destinations/{id}/cost-indices`, `/v1/places/{id}/crowd-forecasts`): shared reference
  * content a phone asks for when it shows it, kept as its last good copy, never replicated.
+ * `driver_listings`, `driver_listing_stats`, `driver_invites`, `driver_ratings`, `driver_tips` and
+ * `driver_listing_flags` (packages/db/src/schema/driver-directory.ts) are read over HTTP only: the
+ * directory and the crew's own drivers are fetched when a screen shows them, never synced.
  * `destination_home_links` (packages/db/src/schema/destination-travel.ts) is RLS "R" but read
  * over HTTP only (`GET /v1/destinations/{id}/getting-there`); `destination_link_runs` (same file)
  * is "S": the worker's record of a destination's links run.
@@ -122,6 +130,12 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'destination_link_runs',
   'destination_links',
   'device_activities',
+  'driver_invites',
+  'driver_listing_flags',
+  'driver_listing_stats',
+  'driver_listings',
+  'driver_ratings',
+  'driver_tips',
   'critter_names',
   'crowd_forecasts',
   'destination_cost_indices',
@@ -145,6 +159,8 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'persona_packs',
   'place_profiles',
   'place_qna_summaries',
+  'place_rating_stats',
+  'plan_links',
   'place_search_pace',
   'poi_embeddings',
   'poi_foursquare_ids',
@@ -155,9 +171,13 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'provider_intake',
   'proposal_followups',
   'push_tokens',
+  'ratings',
   'scheduled_events',
   'season_events',
   'season_months',
+  'shared_plan_consents',
+  'shared_plan_copies',
+  'shared_plans',
   'sponsored_event_counts',
   'sponsored_placements',
   'swipe_votes',

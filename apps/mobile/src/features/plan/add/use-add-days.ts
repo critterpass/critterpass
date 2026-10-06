@@ -5,6 +5,8 @@
 import type { DayFit } from '@cp/domain';
 import { useMemo } from 'react';
 
+import { dayAreaOf } from '@/data/areas/trip-areas-model';
+import { useTripAreas } from '@/data/areas/use-trip-areas';
 import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { dayName } from '@/features/plan/day/format';
@@ -24,9 +26,17 @@ export function useAddDays(plan: TripPlan, locale: string) {
       ),
     [plan.dayRows],
   );
+  const areas = useTripAreas(plan.trip?.id ?? null, plan.dayRows);
+  /** The area a day trip is spent in; null on a day in the trip's own city. */
+  const areaOf = (dayNo: number): string | null => {
+    const area = dayAreaOf(areas, dayNo);
+    return area?.dayTrip === true ? (area.areaName ?? '') : null;
+  };
   const labelOf = (dayNo: number): string => {
     const date = days.find((entry) => entry.dayNo === dayNo)?.date;
-    return date === undefined ? String(dayNo) : dayName(locale, date).toUpperCase();
+    const name = date === undefined ? String(dayNo) : dayName(locale, date).toUpperCase();
+    const area = areaOf(dayNo);
+    return area === null || area === '' ? name : `${name} · ${area.toUpperCase()}`;
   };
   const chips = (grades: ReadonlyMap<number, DayFit['grade']>): DayChip[] =>
     days.map((entry) => ({
@@ -35,6 +45,7 @@ export function useAddDays(plan: TripPlan, locale: string) {
       dateLabel: dayOfMonth(entry.date),
       color: dayTileColour(entry.dayNo),
       fit: grades.get(entry.dayNo),
+      ...(areaOf(entry.dayNo) === null ? {} : { mark: true }),
       accessibilityLabel: labelOf(entry.dayNo),
     }));
   const monthOf = (date: string): string =>
@@ -43,5 +54,5 @@ export function useAddDays(plan: TripPlan, locale: string) {
       // eslint-disable-next-line lingui/no-unlocalized-strings
       new Date(`${date}T12:00:00Z`),
     );
-  return { days, labelOf, chips, monthOf };
+  return { days, labelOf, chips, monthOf, areas };
 }

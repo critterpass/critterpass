@@ -135,6 +135,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Start path: foreground → local request; background → worker sends APNs push-to-start on `encounter.dwell_started` (POI id + distance band only) using the stored push-to-start token; missing token/permission → time-sensitive notification. 2. Ring/blur stage from server-confirmed dwell fraction (10 steps); drain on leave. 3. End on catch with found art / on expiry.
 - Tests: `xcodebuild test -scheme CPWidgets -only-testing:CritterSnapshots`; `pnpm --filter @cp/mobile test -- critter-nearby`; `pnpm --filter @cp/worker test -- la/critter-start` (background dwell → push-to-start payload; no token → time-sensitive notification; payload contains no coordinates).
 - Done when: simulated dwell sequence produces 10 ring states and drains without reset; backgrounded dwell start goes via push-to-start, never local `Activity.request`.
+- Status: partly done — 8a48ec237d (the lock-screen view and the in-app start, ring and end, with `critter-nearby` tests). Not built: the worker's push-to-start when a dwell begins with the app in the background
 
 ### T8 — Crew-live LA + lock-screen offer (5a-2, 5a-6)
 - Status: done — 8a48ec237, 7e32959f9, e021880d5 (intents send directly with the device key). No Maestro flow
@@ -143,6 +144,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Lane with ETA buckets + straggler row. 2. Intents with server Boost check. 3. 5a-6 sheet with mini live preview (RN rendering of the same content state), Boost CTA (route to phase-46 purchase), quiet option.
 - Tests: `pnpm --filter @cp/mobile test -- lock-screen-offer`; Maestro `e2e/trip/live-activities/crew-live.yaml`.
 - Done when: unboosted trip shows offer, boosted trip starts MeetUp on all member devices; boost end ends the LA with final state.
+- Status: done — 81f85bac75 (worker), 8a48ec237d (meet-up view and its four intents), 7e32959f98 (5a-6 sheet). Not written: Maestro `crew-live.yaml`
 
 ### T9 — Vote, Storm, SOS, Ride LAs
 - Status: partial — 8a48ec237 (views and intents); the worker's storm and ride jobs are missing
@@ -151,6 +153,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Triggers per kind; concurrency demotion to notifications. 2. SOS p10 to recipients, local for sender. 3. Snapshots all states.
 - Tests: `pnpm --filter @cp/worker test -- la`; `xcodebuild test -scheme CPWidgets`.
 - Done when: SOS pre-empts a running LeaveBy on a device at the 2-activity cap; ballot intent returns tallies and shows the stamp.
+- Status: partly done — 8a48ec237d (Vote, Storm, SOS and Ride views, the ballot and coming intents, the worker's vote and SOS loaders). Not built: worker loaders that start the Storm and Ride activities
 
 ### T10 — Alarm countdown presentation + E2E pass
 - Status: partial — fdbd3fa1d, 8a48ec237 (AlarmKit presentation); no e2e suite
@@ -159,6 +162,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. `AlarmAttributes<CPAlarmMetadata>` countdown/paused/alert views with guide tint and I'M UP secondary (metadata from phase 36). 2. Maestro suite covering every kind start → update → end on iOS 26 simulator with push via `xcrun simctl push`.
 - Tests: `maestro test e2e/trip/live-activities/`.
 - Done when: suite green; no payload >4 KB logged (worker metric assertion).
+- Status: partly done — fdbd3fa1dc, 8a48ec237d (the alarm countdown view, `Alarm/LeaveByAlarmCountdown.swift`). Not written: the `alarm` and `all-kinds` Maestro flows
 
 ## Phase acceptance criteria
 - [ ] All 9 activity kinds render snapshot-matched states (light, dark, tinted) in `CPWidgets` tests
