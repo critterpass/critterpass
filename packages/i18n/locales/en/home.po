@@ -181,6 +181,10 @@ msgstr "Earlier"
 msgid "home.explore.title"
 msgstr "Explore"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.fixShippedVersion"
+msgstr "Fixed in {version}: what you reported. Thanks for telling us."
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.guides"
 msgstr "Guides"
@@ -480,6 +484,10 @@ msgstr "Undo: {line}"
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.undone"
 msgstr "Undone. The plan is back how it was."
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.fixShipped"
+msgstr "We fixed what you reported. Thanks for telling us."
 
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.welcomeAnon"
