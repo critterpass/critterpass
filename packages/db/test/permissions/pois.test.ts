@@ -234,15 +234,12 @@ describe('pois RLS: catalogue (class C0, read-all)', () => {
     expect(outside.rows[0]?.covers).toBe(false);
   });
 
-  it('is a member of the powersync publication (trip_pack + explore, docs/data-model.md §3.13)', async () => {
-    expect(computePublicationAllowList()).toContain('pois');
+  it('stays out of the powersync publication: phones get recommended places from place_cards', async () => {
+    expect(computePublicationAllowList()).not.toContain('pois');
+    expect(computePublicationAllowList()).toContain('place_cards');
     const { rows } = await db.pool.query(
       "SELECT 1 FROM pg_publication_tables WHERE pubname = 'powersync' AND tablename = 'pois'",
     );
-    expect(rows).toHaveLength(1);
-    const granted = await db.pool.query(
-      "SELECT 1 FROM information_schema.role_table_grants WHERE grantee = 'powersync_repl' AND table_name = 'pois' AND privilege_type = 'SELECT'",
-    );
-    expect(granted.rows).toHaveLength(1);
+    expect(rows).toHaveLength(0);
   });
 });

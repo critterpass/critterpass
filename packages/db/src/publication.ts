@@ -86,6 +86,10 @@ import * as schema from './schema';
  * `climate_normals` (packages/db/src/schema/planning.ts) is RLS "R" but served over HTTP only: the
  * usual rain by hour for every cell of every destination is reference data the fit routes read,
  * not something a phone keeps. (`route_cache` in the same file is C4, so it never qualifies.)
+ * `pois` (packages/db/src/schema/places.ts) is RLS "R" but holds the whole open-data catalogue:
+ * replication keeps a copy of every row of a published table, so phones receive the recommended
+ * places through `place_cards` (the trigger-kept card per recommended place) and search the rest
+ * over HTTP.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -123,6 +127,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'poi_foursquare_photos',
   'poi_hours_proposals',
   'poi_live_checks',
+  'pois',
   'proposal_followups',
   'push_tokens',
   'scheduled_events',

@@ -22,8 +22,8 @@ bypasses RLS, so a stream's WHERE clause is the only thing that keeps a row off 
 | `crew_people` | auto | active co-members | `users` |
 | `trip` | client, `{trip_id}` | trip of an active crew | `trip_places` (crew rows, sent as `pois`), `trips`, `trip_participants`, crew-visible `itinerary_versions` and `change_sets`, `plan_days`/`plan_items` of the live crew versions and the one each replaced, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
 | `trip_draft` | client, `{trip_id}` | organiser seat + active crew | `trip_places` (organiser rows, sent as `pois`), organiser-visible `itinerary_versions`/`plan_days` (every draft), `plan_items`/`change_sets` of drafts not superseded |
-| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (recommended: editorial or machine-picked, not hidden, not merged), `map_regions` |
-| `explore` | client, `{destination_id}` | public | `pois` (recommended: editorial or machine-picked, not hidden, not merged) |
+| `trip_pack` | client, `{trip_id}` | destination of a member trip | `place_cards` (recommended places, sent as `pois`), `map_regions` |
+| `explore` | client, `{destination_id}` | public | `place_cards` (recommended places, sent as `pois`) |
 | `catalog` | auto | none | `guides`, `destinations`, `client_config`, `products`, `perks` |
 | `fx` | auto | USD plus home, settlement and trip (own or destination) currencies | `fx_snapshots` |
 
@@ -94,6 +94,17 @@ to `trip_draft`'s. On the phone, `powersync-sqlite-core`'s `sync_local` keeps th
 two trips stays while either trip holds it. That only works while every bucket sends the same
 content for an id: the cards carry exactly the columns of the recommended `pois` queries, copied
 from the `pois` row, and nothing trip-specific (`roles`, `visibility` stay server-side).
+
+## Recommended places
+
+PowerSync keeps a current copy of every row of each table a stream reads, whatever the stream's
+WHERE says, and copies it again for each new sync config. Streaming `FROM pois` therefore stored the
+whole open-data catalogue (ten million rows on staging) to send about eleven thousand, and filled
+the bucket storage. `trip_pack` and `explore` read `place_cards AS pois` instead: one card per
+recommended place (editorial or picked, not hidden, not merged), kept by the `pois` trigger
+`app.sync_place_card`. `pois` is out of the publication, and the phone schema generator keeps the
+phone's `pois` table because streams still fill it by alias. A stream must never read a large
+table directly; give it a small trigger-kept or job-kept table, as here and in `trip_places`.
 
 ## Local
 

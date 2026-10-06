@@ -3,10 +3,13 @@
 # thousands of rows, which search reaches over HTTP, so the phone carries the few hundred
 # recommended POIs (editorial, or the machine picks of a destination without a curated set: the
 # shared definition in packages/db/src/places/recommended.ts; never hidden or merged ones); the
-# places the subscribed trip uses arrive on the trip streams from `trip_places`. `pick_rank` goes
-# along so the phone can order picks. Columns are listed so the search vector and PostGIS shapes stay server-side (lat/lng carry the
-# position). A CTE cannot reference another CTE, so trip_destination repeats core.yaml's `my_crews`
-# membership filter inline.
+# places the subscribed trip uses arrive on the trip streams from `trip_places`. The recommended
+# places come from `place_cards`, a trigger-kept card per recommended place sent as `pois`: PowerSync
+# stores every row of a table a stream reads, so no stream reads `pois` itself (ten million rows).
+# The card table holds no merged place, so the merge filter lives in its trigger. `pick_rank` goes
+# along so the phone can order picks. Columns are listed so the search vector and PostGIS shapes stay
+# server-side (lat/lng carry the position). A CTE cannot reference another CTE, so trip_destination
+# repeats core.yaml's `my_crews` membership filter inline.
 
 streams:
   # Subscribed with {trip_id} alongside `trip` while the trip is upcoming or live.
@@ -22,11 +25,10 @@ streams:
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
           hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
           timezone, last_live_check_at, created_at, updated_at
-        FROM pois
+        FROM place_cards AS pois
         WHERE destination_id IN trip_destination
           AND (curation = 'editorial' OR pick_rank IS NOT NULL)
           AND status != 'hidden'
-          AND merged_into_id IS NULL
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
 
   # The places the trip uses (stops of plan versions not superseded, live ideas, must-dos, swipe
@@ -72,8 +74,7 @@ streams:
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
           hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
           timezone, last_live_check_at, created_at, updated_at
-        FROM pois
+        FROM place_cards AS pois
         WHERE destination_id = subscription.parameter('destination_id')
           AND (curation = 'editorial' OR pick_rank IS NOT NULL)
           AND status != 'hidden'
-          AND merged_into_id IS NULL

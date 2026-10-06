@@ -719,6 +719,12 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // RLS "R", trigger-written from recommended `pois` rows (the fixture's place is not one): the
+  // probe proves the app_user grant; place-cards.test.ts proves the rows and the trigger.
+  place_cards: {
+    selectProbe: { sql: 'SELECT count(*) FROM place_cards', params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
   map_regions: {
     selectProbe: { sql: 'SELECT 1 FROM map_regions LIMIT 1', params: () => [] },
     expectations: {

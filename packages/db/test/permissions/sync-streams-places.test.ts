@@ -168,15 +168,15 @@ describe('trip_pack and the trip streams', () => {
   const TRIP_STREAMS = ['trip_pack', 'trip', 'trip_draft'] as const;
 
   /**
-   * Distinct place ids on the phone: `trip_pack` sends the recommended `pois`, the trip streams the
-   * trip's own `trip_places` cards (as `pois`, keyed by the place id), and a place sent twice is one
-   * row on the phone.
+   * Distinct place ids on the phone: `trip_pack` sends the recommended `place_cards`, the trip
+   * streams the trip's own `trip_places` cards (both as `pois`, keyed by the place id), and a place
+   * sent twice is one row on the phone.
    */
   const poiIds = async (actor: 'member' | 'organiser'): Promise<string[]> => {
     const ids: string[] = [];
     for (const stream of TRIP_STREAMS) {
       const byTable = idsByTable(await harness.rows(stream, actor, params()));
-      ids.push(...(byTable['pois'] ?? []), ...(byTable['trip_places'] ?? []));
+      ids.push(...(byTable['place_cards'] ?? []), ...(byTable['trip_places'] ?? []));
     }
     return [...new Set(ids)].sort();
   };
@@ -221,12 +221,13 @@ describe('trip_pack and the trip streams', () => {
   );
 
   it("sends the trip's places with no lookup per place: the pack holds only recommended places", async () => {
-    const pack = idsByTable(await harness.rows('trip_pack', 'organiser', params()))['pois'] ?? [];
+    const pack =
+      idsByTable(await harness.rows('trip_pack', 'organiser', params()))['place_cards'] ?? [];
     expect([...new Set(pack)].sort()).toEqual([activePoiId, closedPoiId, pickedPoiId].sort());
   });
 
   it('sends a trip card with exactly the columns of a recommended place, so both land in one row', async () => {
-    const pack = (await harness.rows('trip_pack', 'member', params())).get('pois') ?? [];
+    const pack = (await harness.rows('trip_pack', 'member', params())).get('place_cards') ?? [];
     const cards = (await harness.rows('trip', 'member', params())).get('trip_places') ?? [];
     const card = cards.find((row) => row['id'] === activePoiId);
     const place = pack.find((row) => row['id'] === activePoiId);
@@ -238,13 +239,13 @@ describe('trip_pack and the trip streams', () => {
   it('keeps search vectors, PostGIS shapes and provider ids server-side', async () => {
     const rows = await harness.rows('trip_pack', 'member', params());
     const cards = await harness.rows('trip', 'member', params());
-    for (const row of [...(rows.get('pois') ?? []), ...(cards.get('trip_places') ?? [])]) {
+    for (const row of [...(rows.get('place_cards') ?? []), ...(cards.get('trip_places') ?? [])]) {
       for (const column of SERVER_ONLY_POI_COLUMNS) expect(row).not.toHaveProperty(column);
     }
   });
 
   it('sends the pick rank so the phone can order a destination without a curated set', async () => {
-    const rows = (await harness.rows('trip_pack', 'member', params())).get('pois') ?? [];
+    const rows = (await harness.rows('trip_pack', 'member', params())).get('place_cards') ?? [];
     const rank = (id: string) => rows.find((row) => row['id'] === id)?.['pick_rank'];
     expect(rank(pickedPoiId)).toBe(1);
     expect(rank(activePoiId)).toBeNull();
@@ -257,8 +258,12 @@ describe('explore stream', () => {
     "syncs any destination's visible recommended POIs (editorial or picked) to %s",
     async (actor) => {
       const rows = await harness.rows('explore', actor, { destination_id: destinationId });
-      expect(idsByTable(rows)['pois']).toEqual([activePoiId, closedPoiId, pickedPoiId].sort());
-      expect(rows.get('pois')?.find((row) => row['id'] === pickedPoiId)?.['pick_rank']).toBe(1);
+      expect(idsByTable(rows)['place_cards']).toEqual(
+        [activePoiId, closedPoiId, pickedPoiId].sort(),
+      );
+      expect(rows.get('place_cards')?.find((row) => row['id'] === pickedPoiId)?.['pick_rank']).toBe(
+        1,
+      );
     },
   );
 
@@ -266,8 +271,8 @@ describe('explore stream', () => {
     const ids = idsByTable(
       await harness.rows('explore', 'member', { destination_id: otherDestinationId }),
     );
-    expect(ids['pois']).toHaveLength(1);
-    expect(ids['pois']).not.toContain(activePoiId);
+    expect(ids['place_cards']).toHaveLength(1);
+    expect(ids['place_cards']).not.toContain(activePoiId);
   });
 
   it('syncs nothing without a destination_id', async () => {
