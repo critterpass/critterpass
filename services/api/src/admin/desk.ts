@@ -20,6 +20,7 @@ import type pg from 'pg';
 
 import { loadDeskTasks } from './desk-reads';
 import { withAdminReader } from './reads';
+import { lastSave } from './last-save';
 import { defineAdminArea, defineAdminCommand, defineAdminRead } from './registry';
 
 export interface ApprovalRecord {
@@ -215,7 +216,10 @@ export function deskArea(pool: pg.Pool) {
           const task = rows[0];
           if (task === undefined) throw new DomainError('NOT_FOUND');
           if (task.version !== payload.version) {
-            throw new DomainError('VERSION_CONFLICT', { current_version: task.version });
+            throw new DomainError('VERSION_CONFLICT', {
+              current_version: task.version,
+              ...(await lastSave(tx, { targetId: payload.id })),
+            });
           }
           const status = payload.status ?? task.status;
           if (status !== task.status && !canMoveConciergeTask(task.status, status)) {

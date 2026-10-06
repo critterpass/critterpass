@@ -29,6 +29,7 @@ type Selection = { kind: 'existing'; id: string } | { kind: 'new' } | null;
 interface Conflict {
   changes: readonly FieldChange[];
   draft: Record<string, unknown>;
+  cause: unknown;
 }
 
 function Editor({
@@ -87,7 +88,7 @@ function Editor({
           ?.current;
         // Re-apply only the fields this operator changed, on top of whatever the server has now.
         const draft = Object.fromEntries(mine.map((change) => [change.field, change.after]));
-        setConflict({ changes: diffValues(server ?? {}, values), draft });
+        setConflict({ changes: diffValues(server ?? {}, values), draft, cause: caught });
       } else setError(caught);
     } finally {
       setBusy(false);
@@ -98,6 +99,7 @@ function Editor({
     return (
       <ConflictState
         changes={conflict.changes}
+        cause={conflict.cause}
         onReload={() => {
           setDraft(conflict.draft);
           setConflict(null);

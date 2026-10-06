@@ -71,7 +71,7 @@ describe('set_feature_flag', () => {
     });
   });
 
-  it('rejects a stale version with the current value', async () => {
+  it('rejects a stale version with the current value, who saved it and when', async () => {
     const response = await app.command(ops, 'set_feature_flag', {
       key: 'guide.free_daily_limit',
       value: 40,
@@ -82,8 +82,13 @@ describe('set_feature_flag', () => {
     const body = (await response.json()) as { error: { code: string; detail: unknown } };
     expect(body.error).toMatchObject({
       code: 'VERSION_CONFLICT',
-      detail: { current_version: 2, current: { value: 25 } },
+      detail: {
+        current_version: 2,
+        current: { value: 25 },
+        updated_by: 'ops@critterpass.test',
+      },
     });
+    expect((body.error.detail as { updated_at: string }).updated_at).toMatch(/^\d{4}-\d{2}-\d{2}T/);
   });
 
   it('keeps a cohort-scoped value out of client_config', async () => {
