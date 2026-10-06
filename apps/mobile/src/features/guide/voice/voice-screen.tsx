@@ -1,13 +1,12 @@
 /**
  * Voice mode on the device: the speech module listens and plays, the question goes out as a voice
  * turn on the guide's thread, and speaking over the reply interrupts it where the phone cancels
- * its own echo. "Mute replies" is remembered on the phone.
+ * its own echo. The changes the guide offers can go to the crew as a vote.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- storage keys, api paths and wire codes, never copy. */
 import { router } from 'expo-router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
-import { createMMKV } from 'react-native-mmkv';
 
 import { generateUuidV7 } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
@@ -21,7 +20,7 @@ import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
-import { guideAvatarId, useModeLine } from '../chat/components/guide-header';
+import { guideAvatarId } from '../chat/components/guide-header';
 import { GuideStreamError } from '../chat/data/guide-frames';
 import { streamGuide } from '../chat/data/guide-stream';
 import { useGuideContext } from '../chat/data/use-guide-context';
@@ -32,6 +31,7 @@ import {
   type VoiceListening,
   type VoicePorts,
 } from './voice-controller';
+import { useVoiceProposals } from './use-voice-proposals';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
 import { VoiceView } from './voice-view';
 
@@ -65,9 +65,6 @@ export interface SttToken {
   readonly expires_at: string;
 }
 
-const store = createMMKV({ id: 'guide-voice' });
-const MUTED_KEY = 'replies-muted';
-
 async function sttToken(): Promise<SttToken> {
   const response = await fetch(`${resolveApiBaseUrl()}/v1/stt/token`, {
     method: 'POST',
@@ -95,12 +92,8 @@ function OpenVoiceScreen({ tripId, speech }: VoiceScreenProps) {
   const mode = trip !== null && trip.crewSize > 1 ? 'group' : 'private';
   const thread = useGuideThread(mode, trip?.tripId ?? null, context.uid);
   const sync = useSyncStatus();
-  const modeLine = useModeLine(mode, trip);
   const level = useSharedValue(0);
-  const [state, setState] = useState<VoiceState>(() => ({
-    ...VOICE_IDLE,
-    muted: store.getBoolean(MUTED_KEY) ?? false,
-  }));
+  const [state, setState] = useState<VoiceState>(VOICE_IDLE);
   // The ports read the latest thread, trip and connection without rebuilding the controller.
   const live = useRef({
     threadId: thread.threadId,
@@ -161,14 +154,9 @@ function OpenVoiceScreen({ tripId, speech }: VoiceScreenProps) {
       endOfReply: (turn) => bargeIn?.streamEnded(turn),
       cancelPlayback: () => speech?.cancelPlayback(),
       outputVolume: () => speech?.outputVolume() ?? 0,
-      setMuted: (muted) => {
-        store.set(MUTED_KEY, muted);
-        speech?.setMuted(muted);
-      },
+      setMuted: (muted) => speech?.setMuted(muted),
     };
-    const voice = createVoiceController(ports, setState, {
-      muted: store.getBoolean(MUTED_KEY) ?? false,
-    });
+    const voice = createVoiceController(ports, setState);
     controller.current = voice;
     speech?.setMuted(voice.state.muted);
     const bargeIn = speech?.bargeIn((by) => voice.interrupted(by)) ?? null;
@@ -190,22 +178,24 @@ function OpenVoiceScreen({ tripId, speech }: VoiceScreenProps) {
     };
   }, [speech, locale, level]);
 
+  const offered = useVoiceProposals(trip?.tripId ?? null, state.proposals, mode === 'group');
   const sticker = guideSticker(guideAvatarId(context.guideSlug));
   return (
     <VoiceView
       guideName={context.guideName}
-      modeLine={modeLine}
+      shared={mode === 'group'}
       sticker={<Sticker kind={sticker.kind} name={sticker.name} size={96} />}
       state={state}
       level={level}
-      interruptBySpeech={speech?.echoCancellation ?? false}
+      swaps={offered.swaps}
+      costs={offered.costs}
+      group={offered.group}
       onTalk={() => void controller.current?.talk()}
       onSend={() => void controller.current?.send()}
       onInterrupt={() => {
         controller.current?.interrupted('tap');
         void controller.current?.talk();
       }}
-      onMuted={(muted) => controller.current?.setMuted(muted)}
       onType={() => router.back()}
       onOpenSettings={() => void openPermissionSettings('microphone')}
     />

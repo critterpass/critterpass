@@ -1,38 +1,43 @@
 /**
- * Voice mode (3j-2): the guide's sticker in breathing rings with a waveform from the microphone,
- * what was heard, and the reply as text alongside the audio. One button talks, sends and
- * interrupts; "Mute replies" keeps the reply to text. Each way the turn can stop short (no
- * microphone, nothing heard, offline, the day's questions spent, a reply that failed) has its own
- * line and a way on.
+ * Voice mode (3j-2): who is answering and what it is doing now along the top, the guide's sticker
+ * in breathing rings over a waveform from the microphone, then what was heard and the reply as
+ * text alongside the audio, with the changes the guide offers as cards. The footer sends those to
+ * the group and holds the microphone, the one control that talks, sends and interrupts. Each way
+ * a turn can stop short (no microphone, nothing heard, offline, the day's questions spent, a reply
+ * that failed) has its own line where the reply would be.
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
 
 import { upper } from '@cp/i18n';
 
-import { Scaffold, Stack, Text, makeStyles, useTheme } from '@/ui';
-import { PillButton } from '@/ui/buttons/PillButton';
+import { Row, Scaffold, Stack, Text, makeStyles, useTheme } from '@/ui';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { VoiceOrb, type VoiceOrbState } from '@/ui/camera/VoiceOrb';
-import { Toggle } from '@/ui/inputs/Toggle';
 import { PermissionCard } from '@/ui/states/PermissionCard';
 
+import { VoiceFooter, type VoiceGroupSend } from './voice-footer';
+import { VoiceStage } from './voice-stage';
+import { VoiceSwapCard, type VoiceSwap } from './voice-swap-card';
 import type { VoiceIssue, VoiceState } from './voice-turn';
 
 export interface VoiceViewProps {
   readonly guideName: string;
-  readonly modeLine: string;
+  /** The crew sees this conversation (group mode); otherwise it is the asker's own. */
+  readonly shared: boolean;
   readonly sticker: ReactNode;
   readonly state: VoiceState;
   readonly level: SharedValue<number>;
-  /** Speaking over the reply interrupts it; otherwise only the button does. */
-  readonly interruptBySpeech: boolean;
+  /** The changes the guide offered in this turn. */
+  readonly swaps: readonly VoiceSwap[];
+  /** What each share moves by for change sets with several changes ("+$22"). */
+  readonly costs: readonly string[];
+  /** Null when there is nothing to send to the group. */
+  readonly group: VoiceGroupSend | null;
   readonly onTalk: () => void;
   readonly onSend: () => void;
   readonly onInterrupt: () => void;
-  readonly onMuted: (muted: boolean) => void;
   /** Back to the guide sheet, to type instead. */
   readonly onType: () => void;
   readonly onOpenSettings?: () => void;
@@ -41,12 +46,18 @@ export interface VoiceViewProps {
 const useStyles = makeStyles((t) => ({
   body: {
     flexGrow: 1,
-    padding: t.size.gutter,
-    paddingTop: t.space['32'],
+    paddingHorizontal: t.size.gutter,
+    paddingTop: t.space['12'],
+    paddingBottom: t.space['24'],
     gap: t.space['24'],
-    justifyContent: 'space-between',
   },
-  reply: { textAlign: 'center' },
+  stage: { paddingTop: t.space['32'] },
+  dot: {
+    width: t.space['8'],
+    height: t.space['8'],
+    borderRadius: t.space['4'],
+    backgroundColor: t.color.pink,
+  },
 }));
 
 function useIssueLine(issue: VoiceIssue | null, guideName: string): string | null {
@@ -94,15 +105,13 @@ export function VoiceView(props: VoiceViewProps) {
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const issue = useIssueLine(state.issue, props.guideName);
-  const orb: VoiceOrbState =
-    state.phase === 'listening' ? 'listening' : state.phase === 'thinking' ? 'thinking' : 'idle';
-  const stateLabel = {
+  const status = {
     idle: t({ id: 'guide.voice.state.idle', message: 'Tap to talk' }),
     listening: t({ id: 'guide.voice.state.listening', message: 'Listening' }),
     thinking: t({ id: 'guide.voice.state.thinking', message: 'Thinking' }),
     speaking: t({ id: 'guide.voice.state.speaking', message: 'Answering' }),
   }[state.phase];
-  const button = {
+  const mic = {
     idle: {
       label: t({ id: 'guide.voice.talk', message: 'Talk' }),
       onPress: props.onTalk,
@@ -124,31 +133,49 @@ export function VoiceView(props: VoiceViewProps) {
       id: 'interrupt',
     },
   }[state.phase];
+  const cannotTalk = state.issue === 'mic_denied' || state.issue === 'no_speech_module';
   const readOnly =
     state.reply !== '' && !state.spoken && state.phase === 'idle' && state.issue === null;
+  const who = `${props.guideName} · ${
+    props.shared
+      ? t({ id: 'guide.voice.groupMode', message: 'Group mode' })
+      : t({ id: 'guide.voice.justMe', message: 'Just me' })
+  }`;
 
   return (
     <Scaffold edges={['top', 'bottom']} testID="guide-voice">
       <ScrollView contentContainerStyle={styles.body}>
-        <Stack gap="4" align="center">
-          <Text variant="eyebrow">{upper(props.guideName, i18n.locale)}</Text>
-          <Text variant="caption" color={theme.semantic.text.secondary}>
-            {props.modeLine}
-          </Text>
-        </Stack>
-        <Stack gap="16" align="center">
-          <VoiceOrb
-            level={props.level}
+        <Row gap="12" align="center" justify="space-between">
+          <Text variant="eyebrow">{upper(who, i18n.locale)}</Text>
+          <Row gap="6" align="center" testID={`guide-voice-status-${state.phase}`}>
+            <View style={styles.dot} />
+            <Text
+              variant="label"
+              color={theme.color.pink}
+              accessibilityRole="text"
+              accessibilityLiveRegion="polite"
+            >
+              {status}
+            </Text>
+          </Row>
+        </Row>
+        <View style={styles.stage}>
+          <VoiceStage
             sticker={props.sticker}
-            state={orb}
-            stateLabel={stateLabel}
-            {...(state.heard === '' ? {} : { transcript: state.heard })}
-            testID={`guide-voice-orb-${state.phase}`}
+            level={props.level}
+            listening={state.phase === 'listening'}
           />
+        </View>
+        <Stack gap="12">
+          {state.heard === '' ? null : (
+            <Text variant="inputOtp" accessibilityLiveRegion="polite" testID="guide-voice-heard">
+              {`"${state.heard}"`}
+            </Text>
+          )}
           {state.reply === '' ? null : (
             <Text
               variant="voice"
-              style={styles.reply}
+              color={theme.color.yellow}
               accessibilityLiveRegion="polite"
               testID="guide-voice-reply"
             >
@@ -161,22 +188,24 @@ export function VoiceView(props: VoiceViewProps) {
               color={theme.semantic.text.secondary}
               testID="guide-voice-text-only"
             >
-              {state.muted
-                ? t({
-                    id: 'guide.voice.textOnlyMuted',
-                    message: 'Replies are muted, so this one is text only.',
-                  })
-                : t({
-                    id: 'guide.voice.textOnly',
-                    message: "This reply couldn't be spoken, so it's text only.",
-                  })}
+              {t({
+                id: 'guide.voice.textOnly',
+                message: "This reply couldn't be spoken, so it's text only.",
+              })}
             </Text>
           ) : null}
           {issue === null ? null : (
-            <Text variant="bodySm" style={styles.reply} testID={`guide-voice-issue-${state.issue}`}>
+            <Text variant="bodyLg" testID={`guide-voice-issue-${state.issue}`}>
               {issue}
             </Text>
           )}
+          {state.issue === 'no_speech_module' ? (
+            <TextLink
+              label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
+              onPress={props.onType}
+              testID="guide-voice-type"
+            />
+          ) : null}
           {state.issue === 'mic_denied' ? (
             <PermissionCard
               title={t({ id: 'guide.voice.micDeniedTitle', message: 'The microphone is off' })}
@@ -193,34 +222,32 @@ export function VoiceView(props: VoiceViewProps) {
             />
           ) : null}
         </Stack>
-        <Stack gap="16">
-          {state.issue === 'mic_denied' || state.issue === 'no_speech_module' ? null : (
-            <PillButton
-              block
-              label={button.label}
-              onPress={button.onPress}
-              disabled={state.phase === 'thinking'}
-              testID={`guide-voice-${button.id}`}
-            />
-          )}
-          {state.phase === 'speaking' && props.interruptBySpeech ? (
-            <Text variant="caption" color={theme.semantic.text.secondary} style={styles.reply}>
-              {t({ id: 'guide.voice.bargeHint', message: 'Or just start talking.' })}
-            </Text>
-          ) : null}
-          <Toggle
-            value={state.muted}
-            onValueChange={props.onMuted}
-            label={t({ id: 'guide.voice.mute', message: 'Mute replies' })}
-            testID="guide-voice-mute"
-          />
-          <TextLink
-            label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
-            onPress={props.onType}
-            testID="guide-voice-type"
-          />
-        </Stack>
+        {props.swaps.length === 0 ? null : (
+          <Stack gap="8">
+            {props.swaps.map((swap, index) => (
+              <VoiceSwapCard key={swap.id} swap={swap} index={index} />
+            ))}
+            {props.costs.map((cost, index) => (
+              <Text key={index} variant="bodySm" color={theme.semantic.text.secondary}>
+                {t({ id: 'guide.plan.cost', message: `${cost} each` })}
+              </Text>
+            ))}
+          </Stack>
+        )}
       </ScrollView>
+      <VoiceFooter
+        group={props.group}
+        mic={
+          cannotTalk
+            ? null
+            : {
+                label: mic.label,
+                onPress: mic.onPress,
+                disabled: state.phase === 'thinking',
+                testID: `guide-voice-${mic.id}`,
+              }
+        }
+      />
     </Scaffold>
   );
 }

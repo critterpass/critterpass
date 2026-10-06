@@ -2,7 +2,7 @@
  * A voice conversation over fake device ports: the reply plays in order and the turn ends when
  * playback drains; muting asks for a text-only reply; a denied microphone never listens; talking
  * over the reply stops its audio at once, keeps its text and listens again; offline, the question
- * heard is kept for later.
+ * heard is kept for later; the plan changes proposed in a turn stay until the next question.
  */
 import { describe, expect, it } from '@jest/globals';
 
@@ -145,6 +145,26 @@ describe('voice controller', () => {
     h.controller.interrupted('tap');
     expect(h.calls).toContain('cancel');
     expect(h.controller.state.phase).toBe('idle');
+  });
+
+  it('collects the plan changes the guide proposes, and drops them on the next question', async () => {
+    const h = harness();
+    await h.controller.talk();
+    void h.controller.send();
+    await h.flush();
+    h.frame('proposal', { changeset_id: 'cs-1' });
+    h.frame('proposal', { changeset_id: 'cs-2' });
+    h.frame('proposal', { changeset_id: 'cs-1' });
+    h.frame('proposal', {});
+    expect(h.controller.state.proposals).toEqual(['cs-1', 'cs-2']);
+    h.finish();
+    await h.flush();
+    expect(h.controller.state).toMatchObject({ phase: 'idle', proposals: ['cs-1', 'cs-2'] });
+    await h.controller.talk();
+    expect(h.controller.state.proposals).toEqual(['cs-1', 'cs-2']);
+    void h.controller.send();
+    await h.flush();
+    expect(h.controller.state.proposals).toEqual([]);
   });
 
   it('keeps the question for later when offline, and says so', async () => {

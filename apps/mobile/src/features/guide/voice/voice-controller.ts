@@ -143,6 +143,9 @@ export function createVoiceController(
             if (mine !== turn) return;
             if (frame.type === 'token' && typeof frame.data['text'] === 'string') {
               emit({ type: 'token', text: frame.data['text'] });
+            } else if (frame.type === 'proposal') {
+              const id = frame.data['changeset_id'];
+              if (typeof id === 'string') emit({ type: 'proposal', changesetId: id });
             } else if (frame.type === 'audio' && audible === mine) {
               const { seq, b64, url } = frame.data;
               if (typeof seq !== 'number') return;

@@ -24,6 +24,8 @@ export interface VoiceState {
   readonly reply: string;
   /** Audio arrived for this reply; false after `done` means it is read, not heard. */
   readonly spoken: boolean;
+  /** Change sets the guide proposed in this turn, in the order they arrived. */
+  readonly proposals: readonly string[];
   readonly issue: VoiceIssue | null;
   readonly muted: boolean;
 }
@@ -33,6 +35,7 @@ export const VOICE_IDLE: VoiceState = {
   heard: '',
   reply: '',
   spoken: false,
+  proposals: [],
   issue: null,
   muted: false,
 };
@@ -42,6 +45,7 @@ export type VoiceEvent =
   | { readonly type: 'partial'; readonly text: string }
   | { readonly type: 'asked'; readonly text: string }
   | { readonly type: 'token'; readonly text: string }
+  | { readonly type: 'proposal'; readonly changesetId: string }
   | { readonly type: 'audio' }
   | { readonly type: 'settled' }
   | { readonly type: 'interrupted' }
@@ -55,9 +59,20 @@ export function voiceReducer(state: VoiceState, event: VoiceEvent): VoiceState {
     case 'partial':
       return state.phase === 'listening' ? { ...state, heard: event.text } : state;
     case 'asked':
-      return { ...state, phase: 'thinking', heard: event.text, reply: '', spoken: false };
+      return {
+        ...state,
+        phase: 'thinking',
+        heard: event.text,
+        reply: '',
+        spoken: false,
+        proposals: [],
+      };
     case 'token':
       return { ...state, reply: state.reply + event.text };
+    case 'proposal':
+      return state.proposals.includes(event.changesetId)
+        ? state
+        : { ...state, proposals: [...state.proposals, event.changesetId] };
     case 'audio':
       return state.phase === 'thinking' || state.phase === 'speaking'
         ? { ...state, phase: 'speaking', spoken: true }
@@ -76,8 +91,8 @@ export function voiceReducer(state: VoiceState, event: VoiceEvent): VoiceState {
 }
 
 /**
- * Whether the reply is played. The voice session ignores the ring/silent switch, so muting is the
- * screen's own toggle; media volume at zero is treated the same way.
+ * Whether the reply is played. The voice session ignores the ring/silent switch, so a muted
+ * session and media volume at zero both leave the reply as text.
  */
 export function repliesAloud(muted: boolean, outputVolume: number): boolean {
   return !muted && outputVolume > 0;

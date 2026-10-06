@@ -1,8 +1,16 @@
 appId: app.critterpass.dev
 ---
-# Voice mode (3j-2): waiting, listening, thinking, answering, a muted reply as text, and each way a
-# turn stops short (microphone off, nothing heard, offline, questions spent, the reply failed),
-# prefixed `${PREFIX}`.
+# Voice mode (3j-2): waiting, listening, thinking, answering, the changes the guide offers (to send
+# to the group, and once sent), a reply that could not be spoken, and each way a turn stops short
+# (microphone off, nothing heard, offline, questions spent, the reply failed), prefixed `${PREFIX}`.
+# The scenes run in the lab list's order: each is found by scrolling down.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: voice-swaps, READY: guide-voice-send-group, SHOT: '${PREFIX}-3j-2-swaps' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: voice-swaps-sent, READY: guide-voice-sent-group, SHOT: '${PREFIX}-3j-2-swaps-sent' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: voice-idle, READY: guide-voice-talk, SHOT: '${PREFIX}-3j-2-idle' }
@@ -11,14 +19,14 @@ appId: app.critterpass.dev
     env: { SCENE: voice-listening, READY: guide-voice-send, SHOT: '${PREFIX}-3j-2-listening' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: voice-thinking, READY: guide-voice-orb-thinking, SHOT: '${PREFIX}-3j-2-thinking' }
+    env:
+      { SCENE: voice-thinking, READY: guide-voice-status-thinking, SHOT: '${PREFIX}-3j-2-thinking' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: voice-speaking, READY: guide-voice-interrupt, SHOT: '${PREFIX}-3j-2-answering' }
 - runFlow:
     file: scene.yaml
-    env:
-      { SCENE: voice-muted-reply, READY: guide-voice-text-only, SHOT: '${PREFIX}-3j-2-muted-reply' }
+    env: { SCENE: voice-text-only, READY: guide-voice-text-only, SHOT: '${PREFIX}-3j-2-text-only' }
 - runFlow:
     file: scene.yaml
     env:

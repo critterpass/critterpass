@@ -29,6 +29,7 @@ msgid "guide.meter.count"
 msgstr "{0}/{1} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.plan.cost"
 msgstr "{cost} mỗi người"
 
@@ -163,6 +164,10 @@ msgstr "Gluten"
 msgid "guide.header.groupTab"
 msgstr "Cả nhóm"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.groupMode"
+msgstr "Cả nhóm"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.group"
 msgstr "Chế độ nhóm · cả {count} người đều xem được"
@@ -232,6 +237,10 @@ msgstr "Giờ mình đang bận quá. Chờ một phút rồi hỏi lại nhé."
 msgid "guide.plan.applied"
 msgstr "Đã vào lịch trình"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.justMe"
+msgstr "Riêng tôi"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.meTab"
 msgstr "Riêng tôi"
@@ -276,10 +285,6 @@ msgstr "Vừa"
 msgid "guide.dietary.spiceMild"
 msgstr "Ít cay"
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.mute"
-msgstr "Tắt tiếng trả lời"
-
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.noCost"
 msgstr "Mỗi người trả không đổi"
@@ -311,10 +316,6 @@ msgstr "Mở Trợ giúp"
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 msgid "guide.phrase.showHint"
 msgstr "Mở câu nói toàn màn hình để đưa người khác xem"
-
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.bargeHint"
-msgstr "Hoặc cứ nói luôn."
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.bodyTrip"
@@ -356,10 +357,6 @@ msgstr "Đánh giá câu trả lời của hướng dẫn viên"
 msgid "guide.phrase.deviceVoice"
 msgstr "Đọc bằng giọng của điện thoại"
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.textOnlyMuted"
-msgstr "Bạn đang tắt tiếng trả lời nên câu này chỉ có chữ."
-
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.resets"
 msgstr "Làm mới {clock}"
@@ -375,6 +372,14 @@ msgstr "Lưu"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.saved"
 msgstr "Đã lưu. Hướng dẫn viên sẽ lên kế hoạch theo đó."
+
+#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
+msgid "guide.voice.sendToGroup"
+msgstr "Gửi cả nhóm"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
+msgid "guide.voice.sentToGroup"
+msgstr "Đã gửi vào nhóm chat để bình chọn"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.sent"

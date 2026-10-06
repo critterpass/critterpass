@@ -29,6 +29,7 @@ msgid "guide.meter.count"
 msgstr "{0} of {1} today"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.plan.cost"
 msgstr "{cost} each"
 
@@ -163,6 +164,10 @@ msgstr "Gluten"
 msgid "guide.header.groupTab"
 msgstr "Group"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.groupMode"
+msgstr "Group mode"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.group"
 msgstr "Group mode · all {count} can see this"
@@ -232,6 +237,10 @@ msgstr "I'm swamped right now. Give me a minute and ask again."
 msgid "guide.plan.applied"
 msgstr "In the plan"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.justMe"
+msgstr "Just me"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.meTab"
 msgstr "Just me"
@@ -276,10 +285,6 @@ msgstr "Medium"
 msgid "guide.dietary.spiceMild"
 msgstr "Mild"
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.mute"
-msgstr "Mute replies"
-
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.noCost"
 msgstr "No change to what each pays"
@@ -311,10 +316,6 @@ msgstr "Open Help"
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 msgid "guide.phrase.showHint"
 msgstr "Opens the phrase full screen to show"
-
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.bargeHint"
-msgstr "Or just start talking."
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.bodyTrip"
@@ -356,10 +357,6 @@ msgstr "Rating a guide answer"
 msgid "guide.phrase.deviceVoice"
 msgstr "Read in your phone's voice"
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.textOnlyMuted"
-msgstr "Replies are muted, so this one is text only."
-
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.resets"
 msgstr "Resets {clock}"
@@ -375,6 +372,14 @@ msgstr "Save"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.saved"
 msgstr "Saved. The guide plans around it."
+
+#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
+msgid "guide.voice.sendToGroup"
+msgstr "Send to the group"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
+msgid "guide.voice.sentToGroup"
+msgstr "Sent to the crew chat as a vote"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.sent"
