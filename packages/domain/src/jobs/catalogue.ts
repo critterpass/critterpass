@@ -265,6 +265,8 @@ export const QUEUES = {
   // delivered at its target's engagement hour, the morning tip scan (and a rerun per crew when a
   // fare drops), and the countdown target recomputed when its inputs change.
   'inbox.fanout': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
+  'feedback.forward': spec({ policy: 'exclusive', deadLetter: true }),
+  'feedback.fix_shipped': spec({ policy: 'exclusive', deadLetter: true }),
   'nudge.dispatch': spec({ policy: 'exclusive', deadLetter: true }),
   'tips.generate': spec({
     policy: 'exclusive',
@@ -338,6 +340,8 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'ops.service_health': 'Writes a health snapshot for every monitored service',
   'ops.vendor_usage': 'Reads quota and billed spend from vendors with a usage API',
   'inbox.fanout': "Files a domain event's inbox items and settles the ones it answers",
+  'feedback.forward': 'Triages a feedback ticket and files it in the issue tracker',
+  'feedback.fix_shipped': 'Tells a reporter the fix they asked for is in their app',
   'nudge.dispatch': "Delivers a nudge at its target's engagement hour",
   'tips.generate': "Finds data-backed tips for crews' Home strip",
   'countdown.recompute': "Recomputes trip participants' countdown targets",

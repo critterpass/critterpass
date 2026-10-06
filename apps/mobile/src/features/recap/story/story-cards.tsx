@@ -2,7 +2,7 @@
  * The recap story's cards in play order, each with its length, its narration (the guide's words
  * in the reader's language, else a line built from the card's numbers) and its recorded voice. A
  * card with nothing behind it is left out: no critters found, no route, no expenses, nothing got
- * away. The postcard (the eighth card) joins once its card exists.
+ * away. The postcard closes the story.
  */
 import type { RecapCard } from '@cp/domain';
 import { format, type DistanceUnit } from '@cp/i18n';
@@ -16,6 +16,7 @@ import { AwardsCard } from '../cards/awards-card';
 import { CoverCard } from '../cards/cover-card';
 import { CrittersCard } from '../cards/critters-card';
 import { GotAwayCard } from '../cards/got-away-card';
+import { PostcardCard } from '../cards/postcard-card';
 import {
   receiptFooter,
   receiptNote,
@@ -289,5 +290,16 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
       null,
     );
   }
+
+  add(
+    'postcard',
+    <PostcardCard
+      tripId={data.tripId}
+      guide={guide}
+      place={place}
+      note={copy.postcard?.line ?? null}
+    />,
+    null,
+  );
   return cards;
 }

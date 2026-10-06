@@ -52,6 +52,7 @@ import { registerQuests } from './commands/quests';
 import { registerTripLifecycle } from './commands/trips/lifecycle';
 import { registerRecap } from './commands/recap';
 import { registerAlbum } from './commands/album';
+import { registerPostcards } from './commands/postcards';
 import { registerLiveActivities } from './commands/live-activities';
 import { guardClosedAccounts } from './account/closed-guard';
 import { registerAccount } from './account/register';
@@ -100,6 +101,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerTripLifecycle(doors);
   registerRecap(doors);
   registerAlbum(doors);
+  registerPostcards(app, doors, keyring);
   registerLiveActivities(doors);
   registerSafety(app, doors, env, keyring);
   registerDriverDirectory(

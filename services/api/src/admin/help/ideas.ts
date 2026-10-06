@@ -3,6 +3,7 @@
  * status, most voted first, with the count per status; `set_idea_status` publishes or declines a
  * suggested idea, moves a published one (planned, building, shipped with its version) and writes
  * the team note. A published idea is on everyone's board at once: the app reads `ideas` by status.
+ * The area also carries the feedback tickets (./feedback.ts), and its badge counts both.
  */
 import {
   DomainError,
@@ -16,6 +17,7 @@ import type pg from 'pg';
 
 import { withAdminReader } from '../reads';
 import { defineAdminArea, defineAdminCommand, defineAdminRead } from '../registry';
+import { feedbackCommands, feedbackReads } from './feedback';
 
 interface IdeaRow {
   id: string;
@@ -38,13 +40,16 @@ export function ideasArea(pool: pg.Pool) {
     count: {
       area: 'feedback',
       run: async (tx) => {
+        // What waits for support: suggested ideas to review and tickets nobody has answered.
         const { rows } = await tx.query<{ n: number }>(
-          "SELECT count(*)::int AS n FROM ideas WHERE status = 'pending_review'",
+          `SELECT (SELECT count(*) FROM ideas WHERE status = 'pending_review')::int
+                + (SELECT count(*) FROM feedback_tickets WHERE status = 'new')::int AS n`,
         );
         return { count: rows[0]?.n ?? 0, tone: 'plain' };
       },
     },
     reads: [
+      ...feedbackReads(pool),
       defineAdminRead({
         path: '/ideas',
         area: 'feedback',
@@ -78,6 +83,7 @@ export function ideasArea(pool: pg.Pool) {
       }),
     ],
     commands: [
+      ...feedbackCommands(),
       defineAdminCommand({
         name: 'set_idea_status',
         schema: setIdeaStatusPayloadSchema,

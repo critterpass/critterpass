@@ -24,6 +24,7 @@ import { useReadsLocalNames } from '@/data/places/use-shown-names';
 
 import { useLiveRows } from './data/live-rows';
 import type { MapPoi } from './map-model';
+import { readProfilePhoto, type ProfilePhoto } from './profile-photo';
 
 const POIS_SQL = `SELECT id, name, name_local, category, lat, lng, hours, editorial FROM pois
   WHERE destination_id = ? AND lat IS NOT NULL AND lng IS NOT NULL
@@ -72,6 +73,8 @@ export interface BrowsePlace {
   /** The reviewed note's (or AI profile's) lines in the reader's language, or null. */
   readonly whyGo: string | null;
   readonly bestTime: string | null;
+  /** The AI profile's first photo, for a place with no asset of its own; null without one. */
+  readonly photo: ProfilePhoto | null;
 }
 
 /** The api's most places in a destination's browse (a map page). */
@@ -110,6 +113,7 @@ function browsePlace(value: unknown): BrowsePlace[] {
       pickRank: finite(row['pickRank']),
       whyGo: line(row['whyGo']),
       bestTime: line(row['bestTime']),
+      photo: readProfilePhoto(row['photo']),
     },
   ];
 }
@@ -186,6 +190,23 @@ export function useDestinationPlaces(destinationId: string | null): ReadState<Br
   }, [reader, destinationId]);
   if (destinationId === null) return { status: 'missing', reason: 'no_data' };
   return answer?.id === destinationId ? answer.state : { status: 'loading' };
+}
+
+const NO_PHOTOS: ReadonlyMap<string, ProfilePhoto> = new Map();
+
+/** The profile photos the browse carries, by place id. */
+export function browsePhotos(browsed: readonly BrowsePlace[]): ReadonlyMap<string, ProfilePhoto> {
+  const photos = new Map<string, ProfilePhoto>();
+  for (const place of browsed) {
+    if (place.photo !== null) photos.set(place.id, place.photo);
+  }
+  return photos;
+}
+
+/** A destination's profile photos by place id, from its browse (or the browse's saved copy). */
+export function useBrowsePhotos(destinationId: string | null): ReadonlyMap<string, ProfilePhoto> {
+  const browsed = dataOf(useDestinationPlaces(destinationId))?.results;
+  return useMemo(() => (browsed === undefined ? NO_PHOTOS : browsePhotos(browsed)), [browsed]);
 }
 
 /**

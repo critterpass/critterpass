@@ -255,6 +255,7 @@ describe('GET /v1/places/search without plain-words filters', () => {
           'pickRank',
           'whyGo',
           'bestTime',
+          'photo',
         ].sort(),
       );
     }

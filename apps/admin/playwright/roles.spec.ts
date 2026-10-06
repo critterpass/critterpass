@@ -55,6 +55,8 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   revoke_session: () => ({ uid: nobody(), session_id: nobody(), reason: 'matrix' }),
   revoke_all_sessions: () => ({ uid: nobody(), reason: 'matrix' }),
   set_idea_status: () => ({ idea_id: nobody(), status: 'open' }),
+  set_feedback_status: () => ({ ticket_id: nobody(), status: 'replied' }),
+  merge_feedback_into_idea: () => ({ ticket_id: nobody(), idea_id: nobody() }),
   ban_user: () => ({ uid: nobody(), reason: 'matrix', until: null }),
   unban_user: () => ({ uid: nobody(), reason: 'matrix' }),
   revoke_device_key: () => ({ uid: nobody(), device_id: nobody(), reason: 'matrix' }),

@@ -20,12 +20,18 @@ export function landsAt(time: string): string {
   return t({ id: 'trip.hub.lands', message: `Lands ${time}` });
 }
 
-export function planTile(days: number, votes: number) {
+/** "5 days", and "5 days · 1 day trip" once the plan has one. */
+export function planTile(days: number, votes: number, dayTrips = 0) {
+  const count = t({
+    id: 'trip.hub.tile.days',
+    message: plural(days, { one: '# day', other: '# days' }),
+  });
+  const trips = t({
+    id: 'trip.hub.tile.dayTrips',
+    message: plural(dayTrips, { one: '# day trip', other: '# day trips' }),
+  });
   return {
-    value: t({
-      id: 'trip.hub.tile.days',
-      message: plural(days, { one: '# day', other: '# days' }),
-    }),
+    value: dayTrips > 0 ? `${count} · ${trips}` : count,
     caption:
       votes === 0
         ? t({ id: 'trip.hub.tile.noVotes', message: 'Nothing to vote on' })

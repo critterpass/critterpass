@@ -9,11 +9,27 @@ import { z } from 'zod';
 
 import { PLAN_LEGS_DEBOUNCE_SECONDS, PLANNING_QUEUES } from './queues';
 
-export const LEG_MODES = ['walk', 'drive', 'ride', 'driver'] as const;
+/**
+ * Walk, drive, ride and driver are routed between a day's stops; train, bus, car, boat, flight and
+ * tour are a day trip's way there and back, taken from the trip's link (source `link`), never from
+ * the road graph.
+ */
+export const LEG_MODES = [
+  'walk',
+  'drive',
+  'ride',
+  'driver',
+  'train',
+  'bus',
+  'car',
+  'boat',
+  'flight',
+  'tour',
+] as const;
 export const legModeSchema = z.enum(LEG_MODES);
 export type LegMode = z.infer<typeof legModeSchema>;
 
-export const LEG_SOURCES = ['valhalla', 'straight_line'] as const;
+export const LEG_SOURCES = ['valhalla', 'straight_line', 'link'] as const;
 export const legSourceSchema = z.enum(LEG_SOURCES);
 export type LegSource = z.infer<typeof legSourceSchema>;
 

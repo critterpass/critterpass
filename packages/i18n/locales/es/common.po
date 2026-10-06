@@ -15,6 +15,18 @@ msgstr ""
 msgid "home.countdown.today"
 msgstr ""
 
+#. placeholder {0}: counter.position
+#. placeholder {1}: counter.total
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.counter"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: counter.position
+#. placeholder {1}: counter.total
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.counterLabel"
+msgstr "{0} de {1}"
+
 #: ../../apps/mobile/src/ui/states/PendingSync.tsx
 msgid "common.pending.sending"
 msgstr ""
@@ -619,6 +631,14 @@ msgstr ""
 msgid "motion.motionLab.demoToastAction"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/media/lightbox/use-lightbox.tsx
+msgid "common.lightbox.open"
+msgstr "Abrir foto"
+
+#: ../../apps/mobile/src/ui/media/lightbox/use-lightbox.tsx
+msgid "common.lightbox.openOf"
+msgstr "Abrir foto {position} de {total}"
+
 #: ../../apps/mobile/src/ui/states/PermissionCard.tsx
 msgid "common.permission.openSettings"
 msgstr ""
@@ -650,6 +670,10 @@ msgstr ""
 #: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
 msgid "common.monetize.pausedMonths"
 msgstr ""
+
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.photo"
+msgstr "Foto"
 
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorBackBody"
@@ -896,6 +920,10 @@ msgstr ""
 #: ../../apps/mobile/src/ui/vote/IdeaVoteBox.tsx
 msgid "common.vote.upvote"
 msgstr ""
+
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.video"
+msgstr "Vídeo"
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.volcano"

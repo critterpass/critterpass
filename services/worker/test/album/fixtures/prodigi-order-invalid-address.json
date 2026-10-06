@@ -1,0 +1,13 @@
+{
+  "outcome": "ValidationFailed",
+  "failures": {
+    "recipient.address.postalOrZipCode": [
+      {
+        "code": "InvalidValue",
+        "providedValue": "",
+        "description": "A postal code is required for this country"
+      }
+    ]
+  },
+  "traceParent": "00-0000-0000-00"
+}

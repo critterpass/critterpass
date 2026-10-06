@@ -6,6 +6,7 @@
  */
 import { useMemo } from 'react';
 
+import { useTripAreas } from '@/data/areas/use-trip-areas';
 import { usePlanCheck, type PlanCheckView } from '@/data/checks/use-plan-check';
 import { useTripIdeas, type TripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useLiveRows } from '@/data/plan/live-rows';
@@ -22,7 +23,8 @@ import { todayIn } from '../overview/data/use-plan-data';
 import type { CuratedPlace } from './map-places';
 import { usePersonalLayer } from './personal-layer';
 import { draftStageOf } from './draft-stage';
-import { buildTripDays, type TripDay } from './trip-days';
+import { useChosenDay } from './chosen-day';
+import { buildTripDays, dayAreaMarks, mapAreaOf, type TripDay } from './trip-days';
 
 export { categoryChips, litPlaces, mapPlaces, NO_FILTER, type MapFilter } from './map-places';
 
@@ -35,6 +37,8 @@ export interface TripMapData {
   readonly reviews: readonly PendingReview[];
   readonly curated: readonly CuratedPlace[];
   readonly regionUri: string | null;
+  /** The slug of the area the map shows: the chosen day's area, else the trip's destination. */
+  readonly mapSlug: string | null;
   /** Nothing in the plan and nothing saved, or no plan I can see: the ways to start (7i-1). */
   readonly empty: boolean;
   readonly guide: { readonly id: GuideId; readonly name: string };
@@ -81,6 +85,9 @@ export function useTripDays(plan: TripPlan): {
   const check = usePlanCheck(tripId, plan.mode === 'draft' ? plan.versionId : null);
   // "Just me" lies over the crew's plan only: a draft is nobody's but its author's.
   const personal = usePersonalLayer(plan.mode === 'group' ? tripId : null, plan.uid, plan.state);
+  // The plan's own days, so an optimistic reorder moves a day's area with its stops.
+  const tripAreas = useTripAreas(tripId, plan.state.days);
+  const areas = useMemo(() => dayAreaMarks(tripAreas), [tripAreas]);
   const days = useMemo(
     () =>
       buildTripDays({
@@ -92,8 +99,9 @@ export function useTripDays(plan: TripPlan): {
         polls: polls.rows,
         issues: [...check.fixes, ...check.know],
         personal,
+        areas,
       }),
-    [plan, polls.rows, check.fixes, check.know, personal],
+    [plan, polls.rows, check.fixes, check.know, personal, areas],
   );
   return { days, check, polls: polls.rows };
 }
@@ -105,13 +113,19 @@ export function useTripMapData(tripId: string): TripMapData {
   const { days, check } = useTripDays(plan);
   const ideas = useTripIdeas(tripId);
   const pending = usePendingReviews(tripId);
-  const destinationId = plan.trip?.destination_id ?? null;
+  // The map shows the places and the detailed tiles of the area the chosen day is spent in.
+  const [chosen] = useChosenDay(tripId);
+  const mapArea = mapAreaOf(
+    { id: plan.trip?.destination_id ?? null, slug: plan.trip?.destination_slug ?? null },
+    days.find((day) => day.dayNo === chosen) ?? null,
+  );
+  const destinationId = mapArea.id;
   const curated = useLiveRows<CuratedPlace>(
     DESTINATION_PLACES_SQL,
     destinationId === null ? null : [destinationId],
     PLACES_TABLES,
   );
-  const pack = useRegionPack(destinationId ?? '', plan.trip?.destination_slug ?? '');
+  const pack = useRegionPack(destinationId ?? '', mapArea.slug ?? '');
   const planned = plan.state.items.length;
   const inTrip = plan.trip?.phase === 'in';
   const tz = plan.trip?.tz ?? null;
@@ -124,6 +138,7 @@ export function useTripMapData(tripId: string): TripMapData {
       check,
       reviews: pending.reviews,
       curated: curated.rows,
+      mapSlug: mapArea.slug,
       regionUri: pack.status === 'downloaded' ? pack.localPmtilesUri : null,
       // Nothing planned and nothing saved, or no plan this person can see yet (a member before
       // the plan is shared, whatever they have saved): the sheet says how things start.
@@ -134,6 +149,18 @@ export function useTripMapData(tripId: string): TripMapData {
       today: inTrip ? todayIn(tz) : null,
       readOnly: isReadOnly(plan),
     }),
-    [plan, days, ideas, check, pending.reviews, curated.rows, pack, planned, inTrip, tz],
+    [
+      plan,
+      days,
+      ideas,
+      check,
+      pending.reviews,
+      curated.rows,
+      mapArea.slug,
+      pack,
+      planned,
+      inTrip,
+      tz,
+    ],
   );
 }

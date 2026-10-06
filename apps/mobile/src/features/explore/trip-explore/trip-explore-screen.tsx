@@ -10,6 +10,7 @@ import type { Href } from 'expo-router';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 
+import { useTripAreas } from '@/data/areas/use-trip-areas';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
@@ -23,7 +24,10 @@ import { guideFor, poiSubject } from '../format';
 import { guideTagline } from '../guide-copy';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { usePlannedPlaces } from '../map-queries';
+import { coverMedia, pickPhoto } from '../profile-photo';
 import { categoryIcon } from '../category';
+import { dayTripsSection } from '../day-trips/day-trips-model';
+import { dayTripLinks } from '../day-trips/links';
 import { groupLabel } from '../places/places-copy';
 import { CATEGORY_GROUPS, categoryGroupOf } from '../places/places-model';
 import { useDestinationRow, useLocalPicks, usePlaceKindCounts } from '../queries';
@@ -64,7 +68,8 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
   const name = row?.name ?? data?.destination.name ?? '';
   const slug = row?.slug ?? data?.destination.slug ?? null;
   const guide = guideFor(trip?.guide_slug ?? row?.guide_slug);
-  const photo = heroAt(useDestinationMedia(slug).items);
+  // The curated cover; a destination without one shows a pick's photo, credited.
+  const photo = heroAt(useDestinationMedia(slug).items) ?? coverMedia(data?.cover);
   const sync = useSyncStatus();
   const online = sync.phase !== 'offline';
 
@@ -111,6 +116,13 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
       }),
     [kindRows, locale, tripId],
   );
+  // The day trips of the stop the next free day is in; none leaves the page as it was.
+  const areas = useTripAreas(tripId);
+  const dayTrips = useMemo(
+    () => dayTripsSection(areas, gap?.gap.day_no ?? 1),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the copy follows the locale.
+    [areas, gap?.gap.day_no, locale],
+  );
   const solo = next.loaded && next.people <= 1;
   const paid = organic.find((pick) => pick.sponsored !== null)?.sponsored ?? null;
   const sponsoredEvents = useSponsoredEvents(paid?.placementId ?? null, 'picks');
@@ -127,7 +139,11 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
     id: pick.poiId,
     name: pick.name,
     category: pick.category,
-    photo: pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poiId))) ?? null,
+    photo: pickPhoto(
+      pick.poiId,
+      pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poiId))),
+      data?.pick_photos[pick.poiId],
+    ),
     sponsored:
       pick.sponsored === null
         ? undefined
@@ -207,6 +223,15 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
         router.push(placeHref(pick.id));
       }}
       onSavePick={(pick) => savePick({ id: pick.id, name: pick.name })}
+      dayTrips={
+        dayTrips === null
+          ? undefined
+          : {
+              city: dayTrips.city === '' ? name : dayTrips.city,
+              cards: dayTrips.cards,
+              onOpen: (card) => router.push(dayTripLinks.area(tripId, card.id)),
+            }
+      }
       kinds={kinds}
       swipe={
         solo ? undefined : { ...swipe, onPress: () => router.push(exploreRoutes.swipe(tripId)) }

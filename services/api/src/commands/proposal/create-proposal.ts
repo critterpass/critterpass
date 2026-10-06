@@ -49,7 +49,11 @@ export async function replyByFacts(tx: pg.PoolClient, tripId: string): Promise<R
   };
 }
 
-/** Active crew members other than the sender who have not left the trip. */
+/**
+ * Active crew members other than the sender who have not left the trip. A solo trip lives in the
+ * traveller's crew without being the crew's trip: only someone who has since taken a seat on it
+ * counts, so with the traveller alone there is nobody to ask.
+ */
 export async function proposalRecipients(
   tx: pg.PoolClient,
   tripId: string,
@@ -60,6 +64,7 @@ export async function proposalRecipients(
        JOIN crew_members cm ON cm.crew_id = t.crew_id AND cm.status = 'active'
        LEFT JOIN trip_participants tp ON tp.trip_id = t.id AND tp.user_id = cm.user_id
       WHERE t.id = $1 AND cm.user_id <> $2 AND coalesce(tp.rsvp, 'unopened') <> 'out'
+        AND (NOT t.is_solo OR tp.user_id IS NOT NULL)
       ORDER BY cm.user_id`,
     [tripId, sender],
   );

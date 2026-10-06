@@ -13,6 +13,7 @@ import {
   datesOf,
   knownPlaceFor,
   minuteOfDate,
+  MOVES_ON_AT_MIN,
   resolveWishes,
   straightLineMatrix,
   type Chronotype,
@@ -37,6 +38,39 @@ export interface PlanInputOptions {
   readonly notOffered?: ReadonlySet<string>;
   /** Minutes the routing service already gave between the places (./road-minutes). */
   readonly routed?: RoutedPairs;
+  /** The days of one day group (./day-groups.ts), planned on their own; absent = every day. */
+  readonly days?: GroupDays;
+}
+
+/** The part of a trip one day group plans: its dates, when the crew is there, its budget share. */
+export interface GroupDays {
+  readonly dates: readonly string[];
+  readonly edges: Pick<TripFrame, 'arrivalMin' | 'departureMin'> &
+    Pick<TripFrame, 'arrivalDay' | 'leavingDay' | 'reach'>;
+  /** The group's share of the trip's days, and so of the budget left for them. */
+  readonly share: number;
+}
+
+const shareOf = (days: GroupDays | undefined, minor: number): number =>
+  days === undefined ? minor : Math.round(days.share * minor);
+
+/**
+ * When the crew is at a later stop on its first day: when its shared train or flight of that day
+ * lands, else nine o'clock plus the link's minutes from the stop before, else unknown (the planner
+ * then assumes the same midday landing as a trip with no flight).
+ */
+export function arrivalAtStop(
+  trip: Pick<DraftTripData, 'tz' | 'transport'>,
+  date: string,
+  onwardMinutes: number | null,
+): number | null {
+  const landings = trip.transport.flatMap((leg) => {
+    if (leg.endsAt === null) return [];
+    const minute = minuteOfDate(new Date(leg.endsAt), date, trip.tz);
+    return minute >= 0 && minute < 24 * 60 ? [minute] : [];
+  });
+  if (landings.length > 0) return Math.max(...landings);
+  return onwardMinutes === null ? null : MOVES_ON_AT_MIN + onwardMinutes;
 }
 
 export function tripDates(trip: Pick<DraftTripData, 'startDate' | 'endDate'>): string[] {
@@ -132,15 +166,18 @@ export function buildPlanInput(
   const frame: TripFrame = {
     tz: trip.tz,
     currency: trip.currency,
-    dates: tripDates(trip),
+    dates: options.days?.dates ?? tripDates(trip),
     members: trip.members.map((m) => m.uid),
     chronotypes,
     diets: trip.diets,
-    ...transportTimes(trip),
+    ...(options.days?.edges ?? transportTimes(trip)),
     budgetPpMinor:
       trip.budget === null
         ? null
-        : Math.max(0, trip.budget.targetMinor - trip.budget.flightsMinor - staysPpMinor(trip)),
+        : shareOf(
+            options.days,
+            Math.max(0, trip.budget.targetMinor - trip.budget.flightsMinor - staysPpMinor(trip)),
+          ),
     mustDos: trip.mustDos.map((m) => ({
       id: m.id,
       ownerId: m.ownerId,

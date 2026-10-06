@@ -49,6 +49,8 @@ appId: app.critterpass.dev
     id: 'island-toast-pill'
 # Android folds the alert (sticker, title, subtitle) into one node whose text joins both lines.
 - assertVisible: 'Pass issued.*'
+# The pill rests below the status bar, and below the Dynamic Island on phones that have one.
+- takeScreenshot: island-toast-below-safe-area
 - tapOn:
     id: 'island-toast-dismiss'
 - assertNotVisible:

@@ -7,6 +7,38 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.moves"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.placesComing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.drafting"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.hoursMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.leg"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.tagline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listNew"
 msgstr ""
@@ -19,20 +51,144 @@ msgstr ""
 msgid "explore.queued.swipe"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.boat"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.bus"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.car"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.train"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.tour"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/day-picker-sheet.tsx
+msgid "explore.dayTrips.confirmNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.askAnyone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.moved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.boat"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.bus"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.changeDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeBack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listDelete"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.back"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.flight"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.fullDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.halfDay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.health"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.currency"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.timeZone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDayLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDateLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.noPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -59,8 +215,20 @@ msgstr ""
 msgid "explore.solo.refusedBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pickDay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeConfirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/commands.ts
@@ -83,6 +251,10 @@ msgstr ""
 msgid "explore.category.stay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
 msgstr ""
@@ -91,8 +263,68 @@ msgstr ""
 msgid "explore.solo.refused"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.notADayTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.movesNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.planChanged"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.otherTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.estimate"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.tour"
+msgstr ""
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.train"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.transit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.places"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pickerTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.firstDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.lastDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/commands.ts

@@ -175,7 +175,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const draftHref = useScreenHref('3c-9', { tripId });
   const planBeforeSend = planTileBeforeSend(turn, draftHref);
   const net = me === null ? null : viewerNet(rows.ledger, me, trip?.local_currency ?? null);
-  const plan = planBeforeSend ?? planTile(rows.days, rows.openVotes.length);
+  const plan = planBeforeSend ?? planTile(rows.days, rows.openVotes.length, rows.dayTrips);
   const saved = bookingsTile(rows.bookings, bookingsOffline);
   const money = moneyTile(
     net === null ? null : wholeMoney(locale, net.amountMinor, net.currency),

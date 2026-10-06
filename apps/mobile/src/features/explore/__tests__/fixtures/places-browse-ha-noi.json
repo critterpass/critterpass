@@ -1,0 +1,127 @@
+{
+  "results": [
+    {
+      "id": "01a10bbd-57a2-79e8-a27a-65474a5e1716",
+      "name": "Hoan Kiem Lake",
+      "nameLocal": null,
+      "category": "nature",
+      "lat": 21.030855178833008,
+      "lng": 105.8526840209961,
+      "address": "Đinh Tiên Hoàng",
+      "area": "Đinh Tiên Hoàng",
+      "recommended": true,
+      "priceLevel": null,
+      "tags": [],
+      "distanceM": null,
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": 1,
+      "whyGo": "Walk the lakeside promenade in the heart of Hanoi, cross the red Huc Bridge to Ngoc Son Temple and watch the city go by.",
+      "bestTime": "Weekend evenings after 7:00 pm, when the walking streets fill up",
+      "photo": {
+        "url": "https://media.staging.critterpass.app/c/place-profiles/01a10bbd-57a2-79e8-a27a-65474a5e1716/1.jpg",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Ho_hoan_kiem_toa_nha_vnpt.jpg"
+      }
+    },
+    {
+      "id": "01a10bb7-5851-76be-a070-91d243e625c9",
+      "name": "Đền Ngọc Sơn",
+      "nameLocal": "Đền Ngọc Sơn",
+      "category": "temple_shrine",
+      "lat": 21.030550644131214,
+      "lng": 105.85245820970522,
+      "address": "Đảo Ngọc",
+      "area": "Đảo Ngọc",
+      "recommended": true,
+      "priceLevel": null,
+      "tags": [],
+      "distanceM": null,
+      "openNow": null,
+      "hours": {
+        "weekly": {
+          "mo": [
+            {
+              "start": "07:00",
+              "end": "18:00"
+            }
+          ],
+          "tu": [
+            {
+              "start": "07:00",
+              "end": "18:00"
+            }
+          ],
+          "we": [
+            {
+              "start": "07:00",
+              "end": "18:00"
+            }
+          ],
+          "th": [
+            {
+              "start": "07:00",
+              "end": "18:00"
+            }
+          ],
+          "fr": [
+            {
+              "start": "07:00",
+              "end": "18:00"
+            }
+          ]
+        }
+      },
+      "mustSee": false,
+      "pickRank": 2,
+      "whyGo": "Walk the red Huc Bridge onto Jade Island to see the temple, the Pen Tower and the giant turtle specimen kept inside.",
+      "bestTime": "Morning, when the lake is calm and the bridge is quieter",
+      "photo": {
+        "url": "https://media.staging.critterpass.app/c/place-profiles/01a10bb7-5851-76be-a070-91d243e625c9/1.jpg",
+        "sourcePage": "https://andole.vn/van-khan-den-ngoc-son-huong-dan-chi-tiet-va-y-nghia-tam-linh.-n150446.html"
+      }
+    },
+    {
+      "id": "01a10bb7-586e-704f-97c8-6b838fd18ebf",
+      "name": "Hồ Tây (West Lake)",
+      "nameLocal": null,
+      "category": "nature",
+      "lat": 21.05166185354783,
+      "lng": 105.82151412963867,
+      "address": "Hồ Tây",
+      "area": "Hồ Tây",
+      "recommended": true,
+      "priceLevel": null,
+      "tags": [],
+      "distanceM": null,
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": 11,
+      "whyGo": "Cycle or stroll the 17km path around Hanoi's largest lake, stopping for cafes, pagodas and lotus views.",
+      "bestTime": "Sunset, around 5-6 PM; early morning is quieter",
+      "photo": null
+    },
+    {
+      "id": "01a10bb7-5864-7e66-80b0-cb853279e15c",
+      "name": "Pullman Hanoi",
+      "nameLocal": null,
+      "category": "stay",
+      "lat": 21.029920220058624,
+      "lng": 105.82884669369855,
+      "address": "40 Cat Linh Str, Entrance 61 Giang Vo Str.",
+      "area": null,
+      "recommended": false,
+      "priceLevel": null,
+      "tags": [],
+      "distanceM": null,
+      "openNow": null,
+      "hours": null,
+      "mustSee": false,
+      "pickRank": null,
+      "whyGo": null,
+      "bestTime": null,
+      "photo": null
+    }
+  ]
+}

@@ -4,10 +4,12 @@
  * time of day read only from must-dos a member typed, never from the name of a place picked from
  * search, and a must-do planned at the recommended row of its spot.
  */
-import { dayWindow, type DraftPoi } from '@cp/planner';
+import { ARRIVAL_BUFFER_MIN, dayWindow, type DraftPoi } from '@cp/planner';
 import { describe, expect, it } from 'vitest';
 
 import type { DraftTripData } from '../../../../src/jobs/ai/draft/load';
+import type { GroupPlan } from '../../../../src/jobs/ai/draft/day-groups';
+import { groupDays } from '../../../../src/jobs/ai/draft/group-inputs';
 import { buildPlanInput, transportTimes } from '../../../../src/jobs/ai/draft/plan-input';
 
 const id = (n: number) => `0199c000-0000-7000-8000-${String(n).padStart(12, '0')}`;
@@ -59,10 +61,10 @@ const TRIP: DraftTripData = {
   transport: [],
 };
 
+const OPTIONS = { jobId: id(400), skeletonRoute: 'draft.skeleton', closures: [] } as const;
+
 const input = buildPlanInput(TRIP, PLACES, {
-  jobId: id(400),
-  skeletonRoute: 'draft.skeleton',
-  closures: [],
+  ...OPTIONS,
   wished: { places: new Map([[id(303), id(3)]]), offered: [], options: new Map() },
 });
 
@@ -129,5 +131,44 @@ describe('the plan input the draft job builds', () => {
     );
     expect(swapped.frame.mustDos.map((m) => m.poiId)).toEqual([villa.id]);
     expect(swapped.pools.mustDos.map((slot) => slot.poiId)).toEqual([villa.id]);
+  });
+});
+
+describe('arriving at a later stop', () => {
+  // Two nights in Đà Nẵng, then two in Huế: days one and two, then days three to five.
+  const trip: DraftTripData = { ...TRIP, endDate: '2026-10-06' };
+  const first: GroupPlan = {
+    destinationId: id(102),
+    destination: 'Đà Nẵng, Vietnam',
+    guideSlug: null,
+    dayNos: [1, 2],
+    stop: 1,
+    dayTrip: null,
+    onwardMinutes: null,
+    leaves: false,
+  };
+  const later = { ...first, destinationId: id(103), dayNos: [3, 4, 5], stop: 2, leaves: true };
+  const frameOf = (on: DraftTripData, group: GroupPlan) =>
+    buildPlanInput(on, PLACES, { ...OPTIONS, days: groupDays(on, group) }).frame;
+
+  it('opens the first day there when the link from the stop before gets the crew in', () => {
+    const frame = frameOf(trip, { ...later, onwardMinutes: 150 });
+    // Off at nine, in by half past eleven, and the usual time to settle in.
+    expect(dayWindow(frame, 0).startMin).toBe(11 * 60 + 30 + ARRIVAL_BUFFER_MIN);
+    expect(dayWindow(frame, 2).endMin).toBe(15 * 60);
+  });
+
+  it('opens it when the booked train lands', () => {
+    const booked = {
+      ...trip,
+      transport: [{ startsAt: '2026-10-04T03:00:00Z', endsAt: '2026-10-04T07:10:00Z' }],
+    };
+    const frame = frameOf(booked, { ...later, onwardMinutes: 150 });
+    expect(dayWindow(frame, 0).startMin).toBe(15 * 60 + 45);
+  });
+
+  it('assumes a midday arrival with no link, and keeps the city it leaves for a full last day', () => {
+    expect(dayWindow(frameOf(trip, later), 0).startMin).toBe(14 * 60);
+    expect(dayWindow(frameOf(trip, first), 1).endMin).toBe(22 * 60);
   });
 });

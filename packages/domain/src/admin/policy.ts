@@ -66,6 +66,8 @@ export const ADMIN_COMMAND_ROLES: Readonly<Record<string, readonly AdminRole[]>>
   hold_driver_ratings: ['ops'],
   take_down_driver_listing: ['ops'],
   clear_driver_flag: ['ops'],
+  set_feedback_status: ['support'],
+  merge_feedback_into_idea: ['support'],
   grant_entitlement: ['support'],
   revoke_entitlement: ['support'],
   revoke_session: ['support'],
