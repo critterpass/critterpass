@@ -17,6 +17,7 @@ export const PLACES_QUEUES = {
   ingest: 'places.ingest',
   mapRegionRegister: 'places.map_region_register',
   pick: 'places.pick',
+  tripRefresh: 'places.trip_refresh',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -51,6 +52,14 @@ export const PLACES_QUEUE_SPECS = {
     retryDelay: 60,
     expireInSeconds: 10 * 60,
   },
+  // Keyed by trip: one refresh of its places at a time, and one more waiting behind it.
+  'places.trip_refresh': {
+    policy: 'stately',
+    retryLimit: 3,
+    retryDelay: 10,
+    expireInSeconds: 5 * 60,
+    keepCompletedSeconds: 24 * 60 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function placesQueueSpecs(
@@ -70,6 +79,7 @@ export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEU
     'places.ingest': "Plans a destination's open-data place tiles, or every destination's monthly",
     'places.map_region_register': 'Registers region map packs that appeared on the tiles bucket',
     'places.pick': 'Picks the places to suggest in a destination without a curated set',
+    'places.trip_refresh': "Brings a trip's synced place cards in line with the places it uses",
   };
 
 export const foursquareMatchJobSchema = z.object({

@@ -8,21 +8,12 @@
  */
 import { z } from 'zod';
 
-import { DEFAULT_QUEUE_SPEC, type QueueSpec } from '../jobs/catalogue';
+import { PLACES_QUEUES } from './queues';
 
-export const TRIP_PLACES_REFRESH_QUEUE = 'places.trip_refresh';
+export const TRIP_PLACES_REFRESH_QUEUE = PLACES_QUEUES.tripRefresh;
 
 /** Seconds a refresh waits, so the edits of one burst land in one run. */
 export const TRIP_PLACES_REFRESH_DELAY_S = 2;
-
-export const TRIP_PLACES_REFRESH_SPEC: QueueSpec = {
-  ...DEFAULT_QUEUE_SPEC,
-  policy: 'stately',
-  retryLimit: 3,
-  retryDelay: 10,
-  expireInSeconds: 5 * 60,
-  keepCompletedSeconds: 24 * 60 * 60,
-};
 
 /** Events after which a trip may use a different set of places. */
 export const TRIP_PLACE_EVENTS = [

@@ -7,7 +7,6 @@
 import { onEventAppended, sendInTx, withSystem } from '@cp/db';
 import {
   TRIP_PLACES_REFRESH_QUEUE,
-  TRIP_PLACES_REFRESH_SPEC,
   tripPlacesRefreshFor,
   tripPlacesRefreshJobSchema,
 } from '@cp/domain';
@@ -33,7 +32,6 @@ export function tripPlacesRefreshJob(): AnyJobDefinition {
   }
   return defineJob({
     queue: TRIP_PLACES_REFRESH_QUEUE,
-    spec: TRIP_PLACES_REFRESH_SPEC,
     schema: tripPlacesRefreshJobSchema,
     singletonKey: (data) => data.trip_id,
     async handler(data, { pool }) {
