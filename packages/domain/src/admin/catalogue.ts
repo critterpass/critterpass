@@ -94,6 +94,8 @@ export const partnerAdapterSchema = z.object({
   enabled: z.boolean(),
   copy_mode: partnerCopyModeSchema,
   approved_at: z.string().nullable(),
+  /** When the partner certified our booking flow; booking copy needs it. */
+  certified_at: z.string().nullable(),
   notes: z.string().nullable(),
   version: z.number().int(),
   updated_at: z.string(),
@@ -109,6 +111,8 @@ export const setPartnerAdapterPayloadSchema = z
     copy_mode: partnerCopyModeSchema,
     notes: z.string().max(2000).nullable(),
     version: z.number().int().min(1),
+    /** true stamps `certified_at` (kept if already set), false clears it; omitted leaves it. */
+    certified: z.boolean().optional(),
   })
   .strict();
 export type SetPartnerAdapterPayload = z.infer<typeof setPartnerAdapterPayloadSchema>;

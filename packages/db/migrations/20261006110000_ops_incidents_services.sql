@@ -78,3 +78,14 @@ CREATE POLICY vendor_spend_daily_admin_reader ON ops.vendor_spend_daily FOR SELE
   TO admin_reader USING (true);
 GRANT SELECT, INSERT, UPDATE, DELETE ON ops.vendor_spend_daily TO app_system;
 GRANT SELECT ON ops.vendor_spend_daily TO admin_reader;
+
+-- ---------------------------------------------------------------------------------------------
+-- ops.partner_adapters.certified_at: when the partner certified our in-app booking flow. Booking
+-- copy (`copy_mode = 'booking'`) is refused until it is set; `approved_at` stays the first enable.
+-- Adapters already on booking copy were switched on after certification: they keep it, stamped
+-- with their approval time.
+ALTER TABLE ops.partner_adapters ADD COLUMN certified_at timestamptz;
+UPDATE ops.partner_adapters SET certified_at = coalesce(approved_at, updated_at)
+  WHERE copy_mode = 'booking';
+ALTER TABLE ops.partner_adapters ADD CONSTRAINT partner_adapters_booking_certified
+  CHECK (copy_mode <> 'booking' OR certified_at IS NOT NULL);
