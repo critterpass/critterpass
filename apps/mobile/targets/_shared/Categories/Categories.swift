@@ -217,6 +217,13 @@ enum CPNotificationCategories {
                 destructive: false, textInput: false,
                 command: nil, scope: nil),
         ]),
+        CPNotificationCategorySpec(id: "cp.vendor", poster: false, actions: [
+            CPNotificationActionSpec(
+                id: "approve", title: "Send",
+                foreground: true, authenticationRequired: false,
+                destructive: false, textInput: false,
+                command: nil, scope: nil),
+        ]),
         CPNotificationCategorySpec(id: "cp.generic", poster: false, actions: [
             CPNotificationActionSpec(
                 id: "OPEN", title: "Open",

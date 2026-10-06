@@ -208,6 +208,7 @@ export const NOTIFICATION_CATEGORY_SPECS: readonly NotificationCategorySpec[] = 
       foreground({ id: 'not_movable', title: "Can't move it" }),
     ],
   },
+  { id: 'cp.vendor', poster: false, actions: [foreground({ id: 'approve', title: 'Send' })] },
   { id: 'cp.generic', poster: false, actions: [open] },
 ];
 
