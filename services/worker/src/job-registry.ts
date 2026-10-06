@@ -43,6 +43,7 @@ import { destinationBriefJobs } from './places/profile/brief-jobs';
 import { placeProfileDeps, placeProfileJobs } from './places/profile/jobs';
 import { tripPlacesRefreshJob } from './jobs/places/trip-refresh';
 import { planningJobs } from './jobs/planning';
+import { communityJobs } from './jobs/community';
 import { pollBoardAdvanceJob, pollCloseJob, pollRemindJob } from './jobs/polls';
 import { pushSendJob } from './jobs/push/send';
 import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
@@ -119,6 +120,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...billingJobs(processEnv, logger, deps.metrics),
     ...planJobs(),
     ...planningJobs(deps),
+    ...communityJobs(),
     ...guideJobs({ ...processEnv, ...env }, pool, assertRouteOn, llmObservability),
     ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches, processEnv),
     ...(await import('./jobs/trip-day')).tripDayJobs(processEnv, aiSwitches, llmObservability),
