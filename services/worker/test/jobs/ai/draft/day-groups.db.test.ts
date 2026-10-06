@@ -6,13 +6,15 @@
  */
 import { randomUUID } from 'node:crypto';
 
-import { withSystem } from '@cp/db';
-import type { Itinerary } from '@cp/domain';
+import { startAgentJob } from '@cp/ai';
+import { sendInTx, withSystem } from '@cp/db';
+import { DRAFT_QUEUES, DRAFT_STEP_IDS, type Itinerary } from '@cp/domain';
 import { dayWindow } from '@cp/planner';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { AgentStepContext } from '../../../../src/ai/job-runner';
 import { firstDraftAsk, planDayGroups, savedAreas } from '../../../../src/jobs/ai/draft/day-groups';
+import { eachGroup, groupProgress } from '../../../../src/jobs/ai/draft/group-progress';
 import { load } from '../../../../src/jobs/ai/draft/job-context';
 import { loadDraftTrip } from '../../../../src/jobs/ai/draft/load';
 import {
@@ -271,5 +273,42 @@ describe('a first draft of a trip with an essential day trip', () => {
     expect(city.scoped.base.days.map((day) => day.date)).toEqual(
       [1, 2, 4].map((dayNo) => base.days[dayNo - 1]?.date),
     );
+  });
+});
+
+describe('a step of a grouped draft that stopped mid-way', () => {
+  it('finds the groups it finished on the job row and asks only for the other', async () => {
+    const job = await withSystem(harness.pool, (tx) =>
+      startAgentJob(tx, (queue, data, options) => sendInTx(tx, queue, data, options), {
+        kind: 'draft',
+        queue: DRAFT_QUEUES.draft,
+        userId: organiser,
+        tripId,
+        input: { trip_id: tripId, draft_seq: 9 },
+        stepIds: DRAFT_STEP_IDS,
+      }),
+    );
+    const progress = groupProgress(harness.pool, job.id, 'days');
+    const asked: number[] = [];
+    const run = (failing: boolean) => (index: number) => {
+      asked.push(index);
+      return index === 0 && failing
+        ? Promise.reject(new Error('the guide did not answer'))
+        : Promise.resolve({ itinerary: { days: [index] } });
+    };
+    await expect(eachGroup(2, progress, run(true))).rejects.toThrow('the guide did not answer');
+    // Another step's kept groups are its own.
+    const outline = groupProgress(harness.pool, job.id, 'skeleton');
+    expect((await outline.read()).size).toBe(0);
+    asked.length = 0;
+    expect(await eachGroup(2, progress, run(false))).toEqual([
+      { itinerary: { days: [0] } },
+      { itinerary: { days: [1] } },
+    ]);
+    expect(asked).toEqual([0]);
+    // A job that is over keeps nothing more.
+    await harness.pool.query("UPDATE agent_jobs SET status = 'cancelled' WHERE id = $1", [job.id]);
+    await outline.keep(0, { late: true });
+    expect((await outline.read()).size).toBe(0);
   });
 });
