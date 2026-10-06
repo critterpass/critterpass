@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Rate the trip (3o-3) without a trip to rate.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-rate-trip'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-rate-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'rate-trip'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3o-3-rate-trip

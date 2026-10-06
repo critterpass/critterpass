@@ -242,4 +242,11 @@ export {
   driverRatings,
   driverTips,
 } from './driver-directory';
+  placeRatingStats,
+  planLinks,
+  ratings,
+  sharedPlanConsents,
+  sharedPlanCopies,
+  sharedPlans,
+} from './community';
 export { pickupGapDismissals, providerAssignments, providerIntake, providerTerms } from './drivers';

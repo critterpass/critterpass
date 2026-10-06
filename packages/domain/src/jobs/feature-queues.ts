@@ -31,6 +31,7 @@ import { ALBUM_QUEUE_DESCRIPTIONS, albumQueueSpecs } from '../album/queues';
 import { PLACES_QUEUE_DESCRIPTIONS, placesQueueSpecs } from '../places/queues';
 import { PLAN_QUEUE_DESCRIPTIONS, planQueueSpecs } from '../plan/queues';
 import { PLANNING_QUEUE_DESCRIPTIONS, planningQueueSpecs } from '../planning/queues';
+import { COMMUNITY_QUEUE_DESCRIPTIONS, communityQueueSpecs } from '../community/queues';
 import {
   HOURS_RESEARCH_QUEUE_DESCRIPTIONS,
   hoursResearchQueueSpecs,
@@ -64,6 +65,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...hoursResearchQueueSpecs(defaults),
     ...planQueueSpecs(defaults),
     ...planningQueueSpecs(defaults),
+    ...communityQueueSpecs(defaults),
   } as const;
 }
 
@@ -94,4 +96,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...HOURS_RESEARCH_QUEUE_DESCRIPTIONS,
   ...PLAN_QUEUE_DESCRIPTIONS,
   ...PLANNING_QUEUE_DESCRIPTIONS,
+  ...COMMUNITY_QUEUE_DESCRIPTIONS,
 } as const;

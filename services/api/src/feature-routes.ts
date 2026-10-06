@@ -40,6 +40,7 @@ import { registerBilling } from './billing/register';
 import { registerGuideRoutes } from './routes/guide';
 import { registerHelpArticleRoutes } from './routes/help-articles';
 import { registerSharedContentRoutes } from './routes/shared-content';
+import { registerCommunity } from './routes/shared-plans';
 import { registerSupplierRoutes } from './suppliers/register';
 import { registerDriverRoutesFromEnv } from './routes/drivers';
 import { registerTripDay } from './commands/trip-day';
@@ -112,6 +113,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerHelpArticleRoutes(app, doors);
   registerSharedContentRoutes(app, doors);
+  registerCommunity(app, doors, env);
   registerTravelDataRoutes(app, doors);
   if (env.MEDIA_PUBLIC_BASE_URL) {
     registerEditorialMediaRoute(app, { ...doors, publicBaseUrl: env.MEDIA_PUBLIC_BASE_URL });
