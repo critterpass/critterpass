@@ -129,9 +129,10 @@ export async function resolveMustDo(
 
 /**
  * Decides every typed must-do of a trip that has no place yet, and stores what was decided on its
- * row (`poi_id` when a place was picked, `time_of_day`). The search runs first, the decisions
- * outside any transaction, and a row edited meanwhile (its title changed, or a place set) is left
- * for the check its edit queued. A decision that cannot be had leaves that row as it was.
+ * row: `poi_id` when a place was picked (it is then no longer freeform) and `time_of_day`. The
+ * search runs first, the decisions outside any transaction, and a row edited meanwhile (its title
+ * changed, or a place set) is left for the check its edit queued. A decision that cannot be had
+ * leaves that row as it was.
  */
 export async function resolveTypedMustDos(
   pool: pg.Pool,
@@ -182,7 +183,7 @@ export async function resolveTypedMustDos(
   await withSystem(pool, async (tx) => {
     for (const { id, title, r } of decided) {
       const { rowCount } = await tx.query(
-        `UPDATE must_dos SET poi_id = $3, time_of_day = $4
+        `UPDATE must_dos SET poi_id = $3, freeform = ($3::uuid IS NULL), time_of_day = $4
           WHERE id = $1 AND title = $2 AND poi_id IS NULL AND deleted_at IS NULL`,
         [id, title, r.poiId, r.timeOfDay],
       );
