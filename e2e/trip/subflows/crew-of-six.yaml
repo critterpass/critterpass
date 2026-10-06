@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 # ${output.crewCode}, which puts them on the trip. With ${UP} set, that many of them then say they
 # are up for the day's leave-by, as their own phones would. Waits until the script says it is done.
 # Runner: /scenario starts it, /scenario-output answers 200 once it is done.
-- evalScript: "${output.seedStarted = http.post('http://127.0.0.1:7788/scenario?name=trip-day&code=' + output.crewCode + '&up=' + (UP || '0'), { body: '{}' }).status}"
+- evalScript: "${output.seedStarted = http.post('http://127.0.0.1:7788/scenario?name=trip-day&code=' + output.crewCode + '&up=' + (typeof UP === 'undefined' ? '0' : UP), { body: '{}' }).status}"
 - assertTrue: ${output.seedStarted == 202}
 - evalScript: ${output.seeded = 202}
 - repeat:
