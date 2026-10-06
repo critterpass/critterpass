@@ -4,7 +4,9 @@
  * A place is "recommended" when our editors curated it (`curation = 'editorial'`) or the
  * `places.pick` job picked it for a destination without a curated set (`pick_rank`). Drafting,
  * suggestions, the fixers and the phone's offline pack all read that one set, in one order: the
- * editors' must-sees, then the rest of the curated set, then the picks by rank.
+ * destination brief's essentials by rank (`destination_briefs`, the curated cities' must-sees or
+ * the places a brief run found on the web), then the editors' must-sees, then the rest of the
+ * curated set, then the picks by rank.
  *
  * The open-data quality score lives here too: search ranks with it and the pick job fills with it.
  * Fragments take the table alias (`p` by default); a `null` alias means bare column names (views
@@ -45,10 +47,19 @@ export function recommendedSql(alias: string | null = 'p'): string {
   return `(${c('curation')} = 'editorial' OR ${c('pick_rank')} IS NOT NULL)`;
 }
 
-/** `ORDER BY` terms: the editors' must-sees, then the curated set, then the picks by rank. */
+/** A place's rank among its destination's ready brief essentials, or null. */
+export function briefRankSql(alias: string | null = 'p'): string {
+  const c = (name: string) => column(alias, name);
+  return `app.brief_essential_rank(${c('destination_id')}, ${c('id')})`;
+}
+
+/**
+ * `ORDER BY` terms: the brief's essentials by rank, the editors' must-sees, then the curated set,
+ * then the picks by rank.
+ */
 export function recommendedOrderSql(alias: string | null = 'p'): string {
   const c = (name: string) => column(alias, name);
-  return `(${c('curation')} = 'editorial' AND (${c('editorial')}->>'must_see')::boolean IS TRUE) DESC, (${c('curation')} = 'editorial') DESC, ${c('pick_rank')} ASC NULLS LAST`;
+  return `${briefRankSql(alias)} ASC NULLS LAST, (${c('curation')} = 'editorial' AND (${c('editorial')}->>'must_see')::boolean IS TRUE) DESC, (${c('curation')} = 'editorial') DESC, ${c('pick_rank')} ASC NULLS LAST`;
 }
 
 /**
