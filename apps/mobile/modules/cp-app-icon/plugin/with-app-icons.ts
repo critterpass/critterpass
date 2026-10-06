@@ -167,6 +167,46 @@ export function applyIconAliases(manifest: Manifest): Manifest {
   return manifest;
 }
 
+/** The parts of the `xcode` package's project object this plugin reads. */
+export interface PbxProject {
+  pbxNativeTargetSection(): Record<
+    string,
+    { name?: string; buildConfigurationList?: string } | string
+  >;
+  pbxXCConfigurationList(): Record<string, { buildConfigurations?: { value: string }[] } | string>;
+  pbxXCBuildConfigurationSection(): Record<
+    string,
+    { buildSettings?: Record<string, string> } | string
+  >;
+}
+
+/**
+ * The build settings of the app target's configurations only: an extension's catalog (the App
+ * Clip's) has none of these icons.
+ */
+export function appTargetBuildSettings(
+  project: PbxProject,
+  projectName: string,
+): Record<string, string>[] {
+  const unquote = (value: string | undefined) => value?.replace(/^"(.*)"$/u, '$1');
+  const target = Object.values(project.pbxNativeTargetSection()).find(
+    (entry) => typeof entry === 'object' && unquote(entry.name) === projectName,
+  );
+  if (typeof target !== 'object' || !target.buildConfigurationList) {
+    throw new Error(`with-app-icons: no ${projectName} target`);
+  }
+  const list = project.pbxXCConfigurationList()[target.buildConfigurationList];
+  const ids =
+    typeof list === 'object' ? (list.buildConfigurations ?? []).map((ref) => ref.value) : [];
+  const section = project.pbxXCBuildConfigurationSection();
+  return ids.flatMap((id) => {
+    const configuration = section[id];
+    return typeof configuration === 'object' && configuration.buildSettings
+      ? [configuration.buildSettings]
+      : [];
+  });
+}
+
 const withAppIcons: ConfigPlugin<AppIconsOptions | undefined> = (config, options) => {
   const forced = options?.forcedAppearances ?? [];
   config = withDangerousMod(config, [
@@ -178,27 +218,22 @@ const withAppIcons: ConfigPlugin<AppIconsOptions | undefined> = (config, options
     },
   ]);
   config = withXcodeProject(config, (mod) => {
-    const project = mod.modResults;
     const projectName = mod.modRequest.projectName;
     if (!projectName) throw new Error('with-app-icons: no iOS project name');
     for (const id of automaticAlternateIds()) {
       IOSConfig.XcodeUtils.addResourceFileToGroup({
         filepath: `${projectName}/${id}.icon`,
         groupName: projectName,
-        project,
+        // The `xcode` package ships no types; Expo's helpers take its project object as is.
+        project: mod.modResults as never,
         isBuildFile: true,
       });
     }
     const names = [...automaticAlternateIds(), ...forcedAlternateNames(forced)].join(' ');
-    // The app target only: an extension's catalog (the App Clip's) has none of these icons.
-    const [, target] = IOSConfig.Target.findNativeTargetByName(project, projectName);
-    const configurations = IOSConfig.XcodeUtils.getBuildConfigurationsForListId(
-      project,
-      target.buildConfigurationList,
-    );
-    for (const [, configuration] of configurations) {
-      const settings = configuration.buildSettings as Record<string, string> | undefined;
-      if (!settings) continue;
+    for (const settings of appTargetBuildSettings(
+      mod.modResults as unknown as PbxProject,
+      projectName,
+    )) {
       settings['ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES'] = `"${names}"`;
       settings['ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS'] = 'NO';
     }

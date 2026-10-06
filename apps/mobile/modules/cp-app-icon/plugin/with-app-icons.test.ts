@@ -7,9 +7,10 @@ import { AndroidConfig } from 'expo/config-plugins';
 
 import { APP_ICON_BASE_IDS } from '@cp/domain';
 
-import { nativeIconName } from '../index';
+import { nativeIconName } from '../../../src/lib/app-icon';
 import {
   APP_ICON_IDS,
+  appTargetBuildSettings,
   applyIconAliases,
   automaticAlternateIds,
   forcedAlternateNames,
@@ -40,7 +41,7 @@ function manifest(): AndroidConfig.Manifest.AndroidManifest {
         },
       ],
     },
-  } as AndroidConfig.Manifest.AndroidManifest;
+  } as unknown as AndroidConfig.Manifest.AndroidManifest;
 }
 
 type Alias = { $: Record<string, string> };
@@ -80,5 +81,26 @@ describe('with-app-icons', () => {
       'activity-alias': Alias[];
     };
     expect(application['activity-alias']).toHaveLength(APP_ICON_IDS.length);
+  });
+
+  it('sets the alternate icon names on the app target only, never on an extension', () => {
+    const app = { PRODUCT_NAME: 'CritterPass' };
+    const clip = { PRODUCT_NAME: 'Clip' };
+    const project = {
+      pbxNativeTargetSection: () => ({
+        A: { name: '"CritterPass"', buildConfigurationList: 'L1' },
+        A_comment: 'CritterPass',
+        B: { name: 'AppClip', buildConfigurationList: 'L2' },
+      }),
+      pbxXCConfigurationList: () => ({
+        L1: { buildConfigurations: [{ value: 'C1' }] },
+        L2: { buildConfigurations: [{ value: 'C2' }] },
+      }),
+      pbxXCBuildConfigurationSection: () => ({
+        C1: { buildSettings: app },
+        C2: { buildSettings: clip },
+      }),
+    };
+    expect(appTargetBuildSettings(project, 'CritterPass')).toEqual([app]);
   });
 });

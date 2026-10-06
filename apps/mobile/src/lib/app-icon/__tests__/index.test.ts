@@ -1,4 +1,4 @@
-jest.mock('../src/CpAppIconModule', () => ({
+jest.mock('../../../../modules/cp-app-icon/src/CpAppIconModule', () => ({
   nativeCpAppIconModule: {
     isSupported: jest.fn(),
     getCurrent: jest.fn(),
@@ -16,7 +16,7 @@ import {
   nativeIconName,
   setAppIcon,
 } from '../index';
-import { nativeCpAppIconModule } from '../src/CpAppIconModule';
+import { nativeCpAppIconModule } from '../../../../modules/cp-app-icon/src/CpAppIconModule';
 
 /** The OS icon switch is the boundary: it cannot run under Jest. */
 const native = nativeCpAppIconModule as unknown as {

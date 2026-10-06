@@ -1,11 +1,10 @@
-import type { EventSubscription } from 'expo-modules-core';
+import type { EventSubscription } from 'expo';
 
 import { nativeCpMediaUploadModule } from './src/CpMediaUploadModule';
 import type {
   EnqueueUploadRequest,
   PreparedPhoto,
   UploadEvents,
-  UploadPartRequest,
   UploadSnapshot,
 } from './src/types';
 
