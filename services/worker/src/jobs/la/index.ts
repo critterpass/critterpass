@@ -20,10 +20,14 @@ import type { WorkerEnv } from '../../env';
 import type { CopyRenderer, PushProviders } from '../../push';
 import { createApnsChannelManager, type ApnsChannelManager } from '../../push/la-channels';
 import { laChannelsJob } from './channels';
+import { critterLoader } from './critter';
+import { registerCritterNearbyNotification } from './critter-fallback';
 import { flightLoader } from './flight';
 import { leaveByLoader } from './leave-by';
 import { meetUpLoader } from './meet-up';
+import { rideLoader } from './ride';
 import { sosLoader } from './sos';
+import { stormLoader } from './storm';
 import { voteLoader } from './vote';
 import { laLifecycleJob } from './lifecycle';
 import { laOrchestrateJob, type LaDeps } from './orchestrate';
@@ -38,6 +42,9 @@ export const LA_LOADERS: LaLoaders = {
   flight: flightLoader,
   vote: voteLoader,
   sos: sosLoader,
+  storm: stormLoader,
+  ride: rideLoader,
+  critter_nearby: critterLoader,
 };
 
 /** Queues `la.orchestrate` for the object an event this process appended moves (same tx). */
@@ -94,6 +101,7 @@ export function laJobs(deps: LaJobsDeps): AnyJobDefinition[] {
     hooked = true;
     onEventAppended(laEventHook);
   }
+  registerCritterNearbyNotification();
   const channels = channelManagerFrom(deps.env);
   const transports = {
     ...(deps.pushProviders.apns === undefined ? {} : { apns: deps.pushProviders.apns }),

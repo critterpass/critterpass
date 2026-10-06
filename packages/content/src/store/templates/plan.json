@@ -1,0 +1,20 @@
+{
+  "id": "plan",
+  "order": 3,
+  "background": "#ff9a4d",
+  "ink": "#17142a",
+  "accent": {
+    "kind": "gecko",
+    "seed": 7
+  },
+  "caption": {
+    "en": {
+      "headline": "EVERY DAY PLANNED. DRAG TO CHANGE IT.",
+      "sub": "One plan the whole crew can move around."
+    },
+    "vi": {
+      "headline": "NGÀY NÀO CŨNG CÓ KẾ HOẠCH. KÉO ĐỂ ĐỔI.",
+      "sub": "Một kế hoạch cả nhóm cùng chỉnh được."
+    }
+  }
+}

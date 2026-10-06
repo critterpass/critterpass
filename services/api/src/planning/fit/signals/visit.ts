@@ -8,6 +8,7 @@ import { isOutdoorCategory, type FitPlace } from '@cp/planner';
 import type pg from 'pg';
 
 import { asSystemRole } from '../../../admin/command';
+import { placeAreaSql } from '../area-places';
 import { readCrowdWeeks } from './crowds';
 
 export interface PlaceRow {
@@ -71,15 +72,9 @@ async function readPlaceAreas(
   // Place boxes are not the traveller's to read; the caller already checked the trip.
   const { rows } = await asSystemRole(tx, () =>
     tx.query<{ id: string; area_id: string | null }>(
-      `WITH areas AS (SELECT id FROM app.trip_area_ids($1, true) AS id)
-     SELECT p.id, (
-              SELECT d.id FROM areas a JOIN destinations d ON d.id = a.id
-               WHERE ST_Intersects(p.location, d.place_bounds) OR p.destination_id = d.id
-               ORDER BY ST_Intersects(p.location, d.place_bounds) DESC NULLS LAST,
-                        ST_Area(d.place_bounds) NULLS LAST, d.id
-               LIMIT 1) AS area_id
-       FROM pois p
-      WHERE p.id = ANY($2::uuid[]) AND (SELECT count(*) FROM areas) > 1`,
+      `SELECT p.id, ${placeAreaSql('p', '$1')} AS area_id
+         FROM pois p
+        WHERE p.id = ANY($2::uuid[]) AND (SELECT count(*) FROM app.trip_area_ids($1, true)) > 1`,
       [tripId, ids],
     ),
   );

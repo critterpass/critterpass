@@ -1,0 +1,20 @@
+{
+  "id": "critters",
+  "order": 2,
+  "background": "#ff5fa8",
+  "ink": "#17142a",
+  "accent": {
+    "kind": "gecko",
+    "seed": 7
+  },
+  "caption": {
+    "en": {
+      "headline": "LAND SOMEWHERE NEW. MEET A LOCAL.",
+      "sub": "Every place has its own critter. The only way to get it is to go."
+    },
+    "vi": {
+      "headline": "ĐẾN NƠI MỚI. GẶP BẠN BẢN ĐỊA.",
+      "sub": "Mỗi nơi có một critter riêng. Muốn có thì phải đến tận nơi."
+    }
+  }
+}

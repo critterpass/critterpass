@@ -1,6 +1,7 @@
 /**
  * What didn't go through once back online (3k-4 conflicts): each rejected write with the reason in
  * words ("Your vote: Nusa Penida · The vote closed while you were offline"), and OK to clear it.
+ * On the trip hub it outlives the offline card and leads to the offline page.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -14,12 +15,17 @@ import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
+import { conflictReason } from './conflict-reason';
+
 export function ConflictsList({
   items,
   onDismiss,
+  onOpen = null,
 }: {
   readonly items: readonly RejectedCommand[];
   readonly onDismiss: (opId: string) => void;
+  /** The way to the offline page, where the list is shown beside what was sent. */
+  readonly onOpen?: (() => void) | null;
 }) {
   const theme = useTheme();
   const locale = useLocale();
@@ -32,7 +38,7 @@ export function ConflictsList({
           {upper(t({ id: 'trip.offline.conflictsTitle', message: "Didn't go through" }), locale)}
         </Text>
         {items.map((item) => {
-          const reason = i18n._({ id: item.messageKey, message: item.code });
+          const reason = i18n._(conflictReason(item.code));
           return (
             <Row key={item.opId} gap="12" align="center">
               <Stack gap="2" flex={1}>
@@ -49,6 +55,13 @@ export function ConflictsList({
             </Row>
           );
         })}
+        {onOpen === null ? null : (
+          <TextLink
+            label={t({ id: 'trip.offline.conflictsOpen', message: 'See what was saved and sent' })}
+            onPress={onOpen}
+            testID="trip-offline-conflicts-open"
+          />
+        )}
       </Stack>
     </Card>
   );

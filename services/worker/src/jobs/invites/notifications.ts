@@ -102,6 +102,8 @@ export function registerInviteNotifications(): void {
         sender: { kind: 'member', id: inviterId ?? 'critterpass', name: inviter },
         crewId: event.crewId,
         deepLink: '/crew',
+        // LATER on the push sets this invite aside without opening the app.
+        ctx: { invite_id: payloadId(event, 'invite_id') },
         needsYou: true,
       };
     },

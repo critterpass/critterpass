@@ -79,6 +79,8 @@ export function useDriverDays(tripId: string) {
     days,
     guide,
     uid: plan.uid,
+    /** The crew's current plan version, which a change to it is drafted on; null before one. */
+    baseVersion: plan.trip?.current_version_id ?? null,
     area: trip?.area ?? '',
     people: Math.max(1, Number(trip?.people ?? 1)),
     currency: trip?.local_currency ?? null,

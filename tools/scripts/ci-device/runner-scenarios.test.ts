@@ -106,13 +106,15 @@ describe('runner scenarios', () => {
     expect(handleAction('/scenario-output?name=trip-day', ctx).status).toBe(404);
     expect(handleAction('/scenario?name=trip-day&code=K7M2QX', ctx).status).toBe(202);
     const started = spawned[0];
-    expect(started?.args.slice(-6)).toEqual([
+    expect(started?.args.slice(-8)).toEqual([
       '--api',
       'https://api.example',
       '--code',
       'K7M2QX',
       '--members',
       '5',
+      '--up',
+      '0',
     ]);
     expect(handleAction('/scenario-output?name=trip-day', ctx).status).toBe(202);
     started?.child.stdout.write('joining\n{"crew_code":"K7M2QX","members":[]}\n');

@@ -30,6 +30,15 @@ describe('admin policy', () => {
     expect(canRunAdminCommand(['content'], 'upsert_catalogue_item').ok).toBe(true);
   });
 
+  it('keeps an early account purge with the owner and crew-plan takedowns with ops', () => {
+    expect(canRunAdminCommand(['support'], 'force_purge_account').ok).toBe(false);
+    expect(canRunAdminCommand(['ops'], 'force_purge_account').ok).toBe(false);
+    expect(canRunAdminCommand(['owner'], 'force_purge_account').ok).toBe(true);
+    expect(canRunAdminCommand(['support'], 'admin_unpublish_shared_plan').ok).toBe(false);
+    expect(canRunAdminCommand(['content'], 'admin_unpublish_shared_plan').ok).toBe(false);
+    expect(canRunAdminCommand(['ops'], 'admin_unpublish_shared_plan').ok).toBe(true);
+  });
+
   it('lets owner do everything, including commands no table lists', () => {
     expect(canRunAdminCommand(['owner'], 'ban_user').ok).toBe(true);
     expect(canRunAdminCommand(['owner'], 'future_command').ok).toBe(true);

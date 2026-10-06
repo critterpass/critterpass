@@ -1,0 +1,60 @@
+appId: app.critterpass.dev
+---
+# Who is up, on a trip day with a crew of six: three simulated travellers say they are up from
+# their own sessions (tools/scripts/seed-trip-day.ts `--up 3`, real `set_readiness` commands), and
+# the day-of screen counts them without a reload. The traveller's own I'M UP then adds one, and
+# the count is still there after a relaunch.
+#
+# I'M UP is offered only until the crew has left (before the leave-by, in its window, or overdue),
+# so on a run after that the flow checks the crew's count alone.
+- runFlow:
+    file: ../subflows/today-with-crew.yaml
+    env:
+      SHOTS: readiness
+      CREW_NAME: 'Up Crew'
+      UP: '3'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-readiness'
+    timeout: 30000
+# The three reach this phone through sync.
+- extendedWaitUntil:
+    visible: '(?i).*3 of 6 are up.*'
+    timeout: 90000
+- waitForAnimationToEnd
+- takeScreenshot: day-of-readiness-crew
+- evalScript: ${output.expected = '3 of 6'}
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-im-up'
+    commands:
+      - tapOn:
+          id: 'trip-day-im-up'
+      - extendedWaitUntil:
+          visible: '(?i).*4 of 6 are up.*'
+          timeout: 30000
+      - assertNotVisible:
+          id: 'trip-day-im-up'
+      - evalScript: ${output.expected = '4 of 6'}
+      - waitForAnimationToEnd
+      - takeScreenshot: day-of-readiness-me-up
+# Relaunched, the count comes back from what the phone holds and the server kept.
+- launchApp
+- runFlow: ../subflows/to-hub.yaml
+- tapOn:
+    id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- extendedWaitUntil:
+    visible: ${'(?i).*' + output.expected + ' are up.*'}
+    timeout: 60000

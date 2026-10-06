@@ -7,6 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- wire values and keys, never copy. */
 import { decideAutonomy, type ChangeSetOp } from '@cp/domain';
 
+import type { DriverPick } from '@/features/drivers';
+
 import { localTime, type PlanItem } from '../../overview/model/plan-model';
 
 export interface ChangeSide {
@@ -27,6 +29,8 @@ export interface ChangeCard {
   readonly accepted: boolean;
   readonly bookingImpact: boolean;
   readonly mustDo: boolean;
+  /** The crew's pick of a driver (`assign_provider`): no plan item changes, so no sides. */
+  readonly driverPick: DriverPick | null;
 }
 
 function side(
@@ -63,12 +67,17 @@ export function buildChangeCards(
   baseItems: readonly PlanItem[],
   poiNames: ReadonlyMap<string, string>,
   tz: string | null,
+  /** Reads the crew's driver pick off an op; null for a plan item change. */
+  pickOf: (op: ChangeSetOp) => DriverPick | null = () => null,
 ): ChangeCard[] {
   const byId = new Map(baseItems.map((item) => [item.stableId, item]));
   return ops.map((op) => {
+    const driverPick = pickOf(op);
     const item = byId.get(op.target);
-    const before = op.op === 'add' ? null : side(op.before, item, poiNames, tz);
-    const merged = op.op === 'remove' ? null : side(op.after ?? null, item, poiNames, tz);
+    const before =
+      op.op === 'add' || driverPick !== null ? null : side(op.before, item, poiNames, tz);
+    const merged =
+      op.op === 'remove' || driverPick !== null ? null : side(op.after ?? null, item, poiNames, tz);
     // `after` carries only what changes: the rest reads from the item as it was.
     const after =
       merged === null
@@ -94,6 +103,7 @@ export function buildChangeCards(
       accepted: op.accepted !== false,
       bookingImpact: op.booking_impact,
       mustDo: (item?.mustDoId ?? null) !== null || (op.after?.must_do_id ?? null) !== null,
+      driverPick,
     };
   });
 }

@@ -189,7 +189,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: switching to 日本語 re-renders current and back-stack screens without navigation reset; LOCAL/HOME/BOTH changes a Balances price on the Wallet tab.
 
 ### T7 — Alternate app icons 3n-5 + `cp-app-icon` + unlock job
-- Status: blocked — needs a native build; left to the native batch
+- Status: partly done — e47525c789 (the picker in Settings over the five bundled icons: PASSPORT, FACE and the earned TEMPLE, SARDI, PON; device switch, earned gating from `app_icon_unlocks`, account record). Left: the unlock job with its NEW badge grant, the STAMP style with its Pass+ paywall entry and lapse revert (STAMP and STICKER are not bundled), and a device check of the switch itself
 - Goal: icon picker with free/Pass+/earned gating on both platforms.
 - Files: `apps/mobile/modules/cp-app-icon/{ios/*.swift,android/src/**/*.kt,index.ts,expo-module.config.json,plugin/*}`, `apps/mobile/src/app/you/app-icon.tsx`, `apps/mobile/src/features/you/app-icon/*`, `services/worker/src/jobs/icons/unlock.ts`, `services/worker/test/account/icons-unlock.test.ts`, `e2e/you/app-icon.yaml`.
 - Steps: 1. Config plugin registers alternate icons (iOS asset names from P05 bake; Android activity-aliases + monochrome). 2. Module API `getCurrent/set/isSupported`. 3. Screen with appearance segmented + previews + motion. 4. Gating + paywall entry (explicit). 5. Unlock job + NEW badge. 6. Lapse revert on foreground.
@@ -229,7 +229,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: early release never deletes; offline hold shows error not 3n-11; undo returns to Home with data intact.
 
 ### T11 — Cross-area e2e + a11y sweep
-- Status: blocked — lab-scene flows exist per screen; the full journey and a11y flows remain
+- Status: blocked — 2509b6d9bb. `e2e/you/full-journey.yaml` (new pass: rename → avatar → language → export → delete, erased at once) is green on Android through the rename and the avatar tabs (https://github.com/critterpass/critterpass/actions/runs/37521180584); its language, export and delete steps have not run on a device yet. `e2e/you/delete-restore.yaml` (saved pass: delete → closed 30 days → sign in → restore) and `sign-out-saved.yaml` stop at Developer tools › Start fresh: staging answers INTERNAL when erasing the test number's account, so the number is never freed. The a11y flow (font scale needs a runner action) and the icon step (no icon row on the profile) remain; lab-scene flows exist per screen
 - Goal: phase-level verification.
 - Files: `e2e/you/{full-journey,a11y}.yaml`, `apps/mobile/src/features/you/__tests__/a11y.test.tsx`.
 - Steps: 1. Journey: profile → edit → avatar → icon → language → export → delete → restore. 2. AX3 font scale, VoiceOver labels, Reduce Motion variants. 3. Android run.

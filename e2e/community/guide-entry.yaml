@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# Crew plans (3o-1) from where a traveller finds them: a fresh account taps a guide on Home, and
+# the destination guide's CREW PLANS link, beside the guide's picks, opens the plans other crews
+# shared for that destination (on a fresh stack, the honest empty state). No Developer tools.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: ../home/subflows/onboard.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'home-guide-pon'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'home-guide-pon'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'explore-crew-plans'
+    direction: DOWN
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-3d-1-crew-plans-entry
+- tapOn:
+    id: 'explore-crew-plans'
+- extendedWaitUntil:
+    visible:
+      id: 'crew-plans'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3o-1-crew-plans-from-guide

@@ -5,3 +5,4 @@ export * from './purge-policy';
 export * from './queues';
 export * from './export';
 export * from './templates';
+export * from './admin';

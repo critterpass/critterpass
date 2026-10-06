@@ -70,6 +70,8 @@ export interface HubViewProps {
   readonly onSwitch: (() => void) | null;
   /** Replaces the header while offline (3k-4). */
   readonly offlineCard?: ReactNode;
+  /** Back online: what didn't go through, above the rows until it has been read. */
+  readonly offlineConflicts?: ReactNode;
   /** The trip's own menu at the very foot: delete, call off or leave, or the called-off note. */
   readonly menu?: ReactNode;
   /** The menu's confirm sheet, over the whole screen (outside the scroll view). */
@@ -156,6 +158,7 @@ export function HubView(props: HubViewProps) {
             </Row>
           )}
           {props.offlineCard}
+          {props.offlineConflicts}
           {props.offlineCard !== undefined
             ? null
             : props.entries.map((entry) => <NextRow key={entry.testID} next={entry} />)}

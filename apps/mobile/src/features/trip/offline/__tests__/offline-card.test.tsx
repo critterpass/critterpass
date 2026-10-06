@@ -3,7 +3,9 @@
  * traveller did, in the catalogs' words; the app's own bookkeeping never shows, and with nothing
  * else waiting the section is gone. Through a reconnect, once every line has ticked, "Back
  * online" holds a moment and the card lifts, even while the acknowledged ops are still leaving
- * the queue (their results sync down a little later, one at a time).
+ * the queue (their results sync down a little later, one at a time). A write the server turned
+ * down stays listed after the card has lifted, on the hub and on the offline page, until the
+ * traveller has read it.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -27,7 +29,7 @@ import type { ReactNode } from 'react';
 import type { AddExpensePayload } from '@cp/domain';
 
 import { defineClientCommand } from '@/data/commands/summaries';
-import { markCommandsDone } from '@/data/powersync/queue-store';
+import { markCommandsDone, recordRejection } from '@/data/powersync/queue-store';
 import {
   openTestLocalFirst,
   type TestLocalFirst,
@@ -79,16 +81,20 @@ afterEach(async () => {
   stack = null;
 });
 
-async function renderCard() {
-  const opened = await openTestLocalFirst({ holdUploads: true });
-  stack = opened;
+function wrapperFor(opened: TestLocalFirst) {
   const { wrapper: LocalFirst } = opened;
-  i18n.loadAndActivate({ locale: 'en', messages: {} });
-  const wrapper = ({ children }: { children: ReactNode }) => (
+  return ({ children }: { children: ReactNode }) => (
     <I18nProvider i18n={i18n}>
       <LocalFirst>{children}</LocalFirst>
     </I18nProvider>
   );
+}
+
+async function renderCard() {
+  const opened = await openTestLocalFirst({ holdUploads: true });
+  stack = opened;
+  i18n.loadAndActivate({ locale: 'en', messages: {} });
+  const wrapper = wrapperFor(opened);
   const { result } = await renderHook(() => useOffline(TRIP), { wrapper });
   await act(() => opened.network.set(false));
   await waitFor(() => expect(result.current?.card.chip).toBe('offline'));
@@ -142,5 +148,58 @@ describe('the offline card through a reconnect', () => {
     await act(() => db.execute('DELETE FROM commands WHERE id = ?', [opIds[0] ?? '']));
 
     await waitFor(() => expect(result.current).toBeNull(), { timeout: 4000 });
+  });
+
+  it('keeps a turned-down write listed after the card lifts, until it is read', async () => {
+    const { result, opened } = await renderCard();
+    const { db, network, value } = opened;
+    const kept = (await value.commands.send(addExpenseCommand, expense(1, 'Dinner'))).opId;
+    const refused = (await value.commands.send(addExpenseCommand, expense(2, 'Grab'))).opId;
+    await waitFor(() => expect(result.current?.sends).toHaveLength(2));
+    await waitFor(async () =>
+      expect(
+        await db.getAll("SELECT id FROM local_private WHERE kind = 'offline_send'"),
+      ).toHaveLength(2),
+    );
+
+    // Back online: one goes through, the server turns the other down.
+    await act(() => network.set(true));
+    await act(() =>
+      db.writeTransaction(async (tx) => {
+        await tx.execute('DELETE FROM commands WHERE id = ?', [kept]);
+        await recordRejection(tx, {
+          opId: refused,
+          code: 'CONFLICT',
+          detail: null,
+          rejectedAt: '2026-10-15T03:10:00.000Z',
+        });
+      }),
+    );
+    await waitFor(() => expect(result.current?.card.chip).toBe('back'));
+    expect(result.current?.conflictsOnly).toBe(false);
+
+    // The card lifts; the rejection stays on the hub with the way to the offline page.
+    await waitFor(() => expect(result.current?.conflictsOnly).toBe(true), { timeout: 4000 });
+    expect(result.current?.conflicts.map((item) => item.opId)).toEqual([refused]);
+    expect(result.current?.onOpenOffline).not.toBeNull();
+
+    // The offline page, opened later, lists it too; what went through is forgotten.
+    const page = await renderHook(() => useOffline(TRIP, { always: true }), {
+      wrapper: wrapperFor(opened),
+    });
+    await waitFor(() =>
+      expect(page.result.current?.conflicts.map((item) => item.opId)).toEqual([refused]),
+    );
+    expect(await db.getAll("SELECT id FROM local_private WHERE kind = 'offline_send'")).toEqual([
+      { id: refused },
+    ]);
+
+    // OK clears it everywhere, and the hub has nothing left to show.
+    await act(() => {
+      page.result.current?.onDismissConflict(refused);
+    });
+    await waitFor(() => expect(result.current).toBeNull());
+    expect(page.result.current?.conflicts).toEqual([]);
+    expect(await db.getAll('SELECT id FROM local_private')).toEqual([]);
   });
 });

@@ -5,9 +5,10 @@
 import type { AppLocale } from '@cp/domain';
 
 import en from './listing/en.json' with { type: 'json' };
+import vi from './listing/vi.json' with { type: 'json' };
 import { listingSchema, type Listing } from './schema';
 
-const RAW: Partial<Record<AppLocale, unknown>> = { en };
+const RAW: Partial<Record<AppLocale, unknown>> = { en, vi };
 
 /** Parses every listing; throws with the locale and the field when copy breaks a store limit. */
 export function storeListings(): Partial<Record<AppLocale, Listing>> {
@@ -24,3 +25,4 @@ export function storeListings(): Partial<Record<AppLocale, Listing>> {
 }
 
 export * from './schema';
+export * from './templates';

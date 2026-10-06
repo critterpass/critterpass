@@ -112,6 +112,10 @@ msgstr "A person on the ops desk calls the clinic with you and tells them you ma
 msgid "safety.action.addPolicy"
 msgstr "Add"
 
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.allow"
+msgstr "Allow"
+
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.respond"
 msgstr "Answering an SOS"
@@ -278,6 +282,10 @@ msgstr "If your passport is gone, call {name} on {phone}."
 msgid "safety.step.embassy"
 msgstr "If your passport is gone, contact {name}."
 
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.dnd"
+msgstr "In Do Not Disturb a crewmate’s SOS stays silent. Let it ring through."
+
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepInsurance"
 msgstr "Insurance details wait for a yes"
@@ -355,6 +363,14 @@ msgstr "Nobody else is in your crew yet. Call {general} now."
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepSentNobody"
 msgstr "Nobody else is on this trip to alert"
+
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.notifications"
+msgstr "Notifications are off, so a crewmate’s SOS cannot reach you."
+
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.fullScreen"
+msgstr "On a locked phone an SOS shows as a small banner. Let it take the full screen."
 
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"

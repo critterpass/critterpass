@@ -117,8 +117,6 @@ export const SYNCED_TABLE_COLUMNS = {
     'slug name colour persona_pack_version voice_id local_words critter_key accent created_at updated_at',
   hazard_alerts:
     'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
-  help_articles:
-    'slug locale category title summary body_md embedding fts release_id created_at updated_at',
   help_session_messages: 'help_session_id trip_id sender_id body at created_at',
   help_sessions:
     'trip_id user_id kind status preset body place_label summary summary_source responder_ids responses steps share_id alerted_count:integer escalated_at false_alarm:integer clinic_requested_at opened_at resolved_at resolved_by created_at updated_at',
@@ -196,7 +194,6 @@ export const SYNCED_TABLE_COLUMNS = {
     'destination_id name name_local category lat:real lng:real address hours hours_verified_at price_level:integer editorial tags status curation pick_rank:integer visit_radius_m:integer timezone last_live_check_at created_at updated_at',
   place_hides: 'user_id poi_id created_at',
   place_stances: 'trip_id poi_id user_id stance note created_at updated_at',
-  place_tips: 'poi_id destination_id author_id text lang moderation_status created_at updated_at',
   plan_check_issues:
     'trip_id version_id kind severity day_id stable_ids params fix rank:integer fingerprint created_at updated_at',
   plan_checks:

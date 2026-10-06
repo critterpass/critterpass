@@ -9,8 +9,8 @@ they use against the live api.
 `readEditorialMedia` (`GET /v1/media?subjects=destination:da-nang`) after the Đà Nẵng media batch
 was published and ingested.
 
-`ideas-board*.json`, `season-*.json`, `cost-indices-*.json` and `crowd-forecasts-shrine.json` follow
-the shared content routes' answers field for field (`services/api/src/routes/{help-ideas,
+`ideas-board*.json`, `help-library-*.json`, `season-*.json`, `cost-indices-*.json` and `crowd-forecasts-shrine.json` follow
+the shared content routes' answers field for field (`services/api/src/routes/{help-ideas,help-library,
 destination-season,destination-cost-indices,place-crowd-forecasts}.ts`, whose bodies
 `services/api/test/routes/shared-content.db.test.ts` checks against real Postgres); the destination
 ids match the app tests' seeded trips.

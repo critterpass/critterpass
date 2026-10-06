@@ -25,6 +25,10 @@ export function feedbackHref(input: {
   readonly mode: FeedbackMode;
   readonly article?: string;
   readonly context?: string;
+  /** A screenshot to start the note with (a file URI), from a shake. */
+  readonly shot?: string;
+  /** The report was opened by shaking the phone. */
+  readonly shake?: boolean;
 }): Href {
   // Suggesting a feature starts on the board, where a look-alike can take the vote instead.
   if (input.mode === 'idea') return HELP_ROUTES.ideas;
@@ -34,6 +38,8 @@ export function feedbackHref(input: {
       mode: input.mode,
       ...(input.article === undefined ? {} : { article: input.article }),
       ...(input.context === undefined ? {} : { context: input.context }),
+      ...(input.shot === undefined ? {} : { shot: input.shot }),
+      ...(input.shake === true ? { shake: '1' } : {}),
     },
   };
 }

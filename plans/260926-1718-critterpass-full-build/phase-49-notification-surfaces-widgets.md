@@ -137,7 +137,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Status: done — 8a48ec237d
 
 ### T7 — Categories + actionable notifications (all §3.4)
-- Status: partial — c4bfd3696, b72015e0b, 8ca6730f5 (one category table generating the iOS categories). Nothing calls the registration yet, and the money, chat, disruption, invite, import, briefing and memory actions have no background handler
+- Status: partial — c4bfd3696, b72015e0b, 8ca6730f5 (one category table generating the iOS categories), 5357f153b1 (the registration is mounted in the session; chat reply and mark read, invite later, found-booking add all and the memory reaction run their commands in the app; a background button no longer navigates), 225a345550 (invite and found-booking pushes carry their ids). Not done: the money, disruption and briefing buttons are routed in the app but their categories are not registered, because their buttons differ from push to push (needs a per-push category in the notification service extension and on Android, and the disruption and briefing pushes must carry `disruption_id` + the row's `action_id` and `item_id`); no `e2e/notifications/actions` flows beyond `ping-settings`
 - Goal: every category's background actions work locked.
 - Files: `packages/domain/src/surfaces/notification-categories.ts`, `apps/mobile/targets/_shared/Categories/Categories.swift`, `apps/mobile/src/data/push/categories.ts` (edit of phase-11 folder: registration call only), `e2e/notifications/actions/*.yaml`.
 - Steps: 1. Canonical category table; generated registration. 2. Action handler in NSE-shared code → `/v1/actions`. 3. Re-post with collapse id and result text.
@@ -146,7 +146,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Status: partly done — categories are registered per feature (leave-by, SOS, help, change set, vendor); the shared category registry, `Categories.swift` and the action flows beyond `ping-settings` are not built
 
 ### T8 — Vote poster content extension
-- Status: done — 6af21f314 (RSVP buttons need `ctx.proposal_id` in the push, which the worker does not send yet)
+- Status: done — 6af21f314, 225a345550 (the proposal and reply-by pushes carry `ctx.proposal_id`, so the RSVP poster's buttons answer; a seat-opened push has no proposal and keeps OPEN only)
 - Goal: 5b-2 poster + stamp.
 - Files: `apps/mobile/targets/notification-content/{NotificationViewController.swift,VotePosterView.swift,RsvpPosterView.swift,Info.plist}`.
 - Steps: 1. SwiftUI poster with critter frames + VS pulse. 2. Actions update poster in place (`.doNotDismiss`), stamp on success, closed state. 3. RSVP poster reuse.
@@ -163,7 +163,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: saving budget 3 routes the 4th BUDGET item of a day to roundup (router test with new prefs).
 
 ### T10 — Widget gallery + App Shortcuts/Controls
-- Status: partial — 7ffc6d88a (App Shortcuts and controls). The gallery screen is not built; the crew shortcut only opens the crew
+- Status: partial — 7ffc6d88a (App Shortcuts and controls), 38523bb6eb (the app writes `snapshot/crews.json`, which Siri's crew list and the notification extension read, and the crew shortcut's link makes that crew active and opens Home on it). The gallery screen (5c-5) and `e2e/widgets/gallery.yaml` are not built
 - Goal: 5c-5 and Siri/Control surfaces.
 - Files: `apps/mobile/src/app/you/widgets.tsx`, `apps/mobile/src/features/home/widget-gallery/**`, `apps/mobile/targets/widgets/Intents/AppShortcuts/*.swift`, `e2e/widgets/gallery.yaml`.
 - Steps: 1. Live previews from snapshot (RN components mirroring widget layouts). 2. Tier pills from perks; locked → offer. 3. iOS how-to sheet animation. 4. App Shortcuts + Controls.

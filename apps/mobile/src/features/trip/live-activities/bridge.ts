@@ -13,7 +13,7 @@ import { AppState } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
 import { encounterEngine } from '@/features/critters';
-import { useWidgetSync } from '@/features/home';
+import { useCrewDirectorySync, useWidgetSync } from '@/features/home';
 import type * as CrewArea from '@/features/crew';
 
 import { defineClientCommand } from '../../../data/commands/summaries';
@@ -68,6 +68,8 @@ export function useLiveActivityRegistration(
 ): void {
   // The home and lock screen widgets refresh with the same session (snapshot and placed widgets).
   useWidgetSync();
+  // So do the crews Siri's "Switch crew" lists and the notification extension names.
+  useCrewDirectorySync();
   useEffect(() => {
     if (port === null) return undefined;
     return startCritterNearbyActivity({ source: encounters(), port });

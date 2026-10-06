@@ -168,6 +168,38 @@ export const assignProviderPayloadSchema = z
   .strict();
 export type AssignProviderPayload = z.infer<typeof assignProviderPayloadSchema>;
 
+/** The terms a driver is taken on, as the ride-back card shows them (`provider_assignments.agreed`). */
+export const agreedTermsSchema = z
+  .object({
+    price_minor: moneyMinorSchema.nullable(),
+    currency: currencyCodeSchema.nullable(),
+    price_unit: priceUnitSchema.nullable(),
+    included_hours: z.number().positive().max(24).nullable(),
+    includes: includesSchema,
+    overtime_minor: moneyMinorSchema.nullable(),
+  })
+  .strict();
+export type AgreedTerms = z.infer<typeof agreedTermsSchema>;
+
+/**
+ * What an `assign_provider` change carries when the crew votes on the pick: the days, each once,
+ * and the terms voted on (a driver's quote). Without `terms` the driver's shortlisted terms are
+ * the ones agreed.
+ */
+export const providerAssignmentSchema = z
+  .object({
+    days: z
+      .array(assignedDaySchema)
+      .min(1)
+      .max(31)
+      .refine((days) => new Set(days.map((day) => day.date)).size === days.length, {
+        message: 'a day is listed twice',
+      }),
+    terms: agreedTermsSchema.optional(),
+  })
+  .strict();
+export type ProviderAssignment = z.infer<typeof providerAssignmentSchema>;
+
 /** `dismiss_pickup_gap` (offline): NOT NOW on a day's driver card, for the caller only. */
 export const dismissPickupGapPayloadSchema = z
   .object({ trip_id: z.uuid(), date: z.iso.date() })

@@ -1,7 +1,8 @@
 /**
  * The offline state (3k-4) from props: the night card, STILL WORKS, SENDS WHEN YOU'RE BACK, what
  * didn't go through, OPEN TODAY'S PLAN and when this phone last synced. The hub shows it in place
- * of its header while offline; `/hub/{trip}/offline` shows it on its own.
+ * of its header while offline, and afterwards keeps only what didn't go through (with the way
+ * to the rest) until each line has been read; `/hub/{trip}/offline` shows it all on its own.
  */
 import type { RejectedCommand } from '@/data/status/use-rejected-commands';
 import { useLingui } from '@lingui/react/macro';
@@ -22,6 +23,10 @@ export interface OfflineViewProps {
   readonly stillWorks: readonly StillWorksLine[];
   readonly sends: readonly SendsLine[];
   readonly conflicts: readonly RejectedCommand[];
+  /** Back online and lifted: only the conflicts are left to show. */
+  readonly conflictsOnly?: boolean;
+  /** Opens the offline page; null on that page. */
+  readonly onOpenOffline?: (() => void) | null;
   /** "Last synced 03:02"; null before the first sync. */
   readonly lastSynced: string | null;
   readonly onOpenPlan: (() => void) | null;
@@ -34,6 +39,14 @@ export function OfflineView(props: OfflineViewProps) {
   const theme = useTheme();
   const { t } = useLingui();
   const { lastSynced } = props;
+  const conflicts = (
+    <ConflictsList
+      items={props.conflicts}
+      onDismiss={props.onDismissConflict}
+      onOpen={props.conflictsOnly === true ? (props.onOpenOffline ?? null) : null}
+    />
+  );
+  if (props.conflictsOnly === true) return conflicts;
   return (
     <Stack gap="12" testID="trip-offline">
       <OfflineCard {...props.card} />
@@ -44,7 +57,7 @@ export function OfflineView(props: OfflineViewProps) {
       ) : null}
       {props.stillWorks.length === 0 ? null : <StillWorksList lines={props.stillWorks} />}
       <SendsList lines={props.sends} onOpen={props.onOpenSend} />
-      <ConflictsList items={props.conflicts} onDismiss={props.onDismissConflict} />
+      {conflicts}
       {props.onOpenPlan === null ? null : (
         <PillButton
           label={t({ id: 'trip.offline.openPlan', message: "Open today's plan" })}

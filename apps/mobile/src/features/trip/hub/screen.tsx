@@ -81,7 +81,9 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const today = toLocalWallTime(new Date(minute * 60_000), tz).date;
   const rows = useHubRows(tripId, me, today, minuteIso);
   const offline = useOffline(tripId);
-  const offlineCard = offline === null ? null : <OfflineView {...offline} />;
+  const offlineNode = offline === null ? null : <OfflineView {...offline} />;
+  const unread = offline?.conflictsOnly === true;
+  const offlineCard = unread ? null : offlineNode;
   const savedToday = useLiveRows<{ data: string }>(
     'SELECT data FROM local_private WHERE kind = ? AND id = ?',
     [BUNDLE_KIND, savedDayId(tripId, today)],
@@ -91,6 +93,8 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const registered = useRegisteredHubTiles();
   const swipeHref = useScreenHref('7g-2', { tripId });
   const recapHref = useScreenHref('3m-1', { tripId });
+  const rateHref = useScreenHref('3o-3', { tripId });
+  const sharePlanHref = useScreenHref('3o-4', { tripId });
   const exploreHref = useScreenHref('7g-1', { tripId });
   const myTrips = useLiveRows<{ n: number }>(
     MY_TRIP_COUNT_SQL,
@@ -151,6 +155,8 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     tz,
     locale,
     recap: go(recapHref),
+    rate: go(rateHref),
+    sharePlan: go(sharePlanHref),
   });
 
   const start = trip?.start_date ?? null;
@@ -164,7 +170,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       tripTz: tz,
       ownTz: tzGuess,
     }),
-    offline: offline !== null,
+    offline: offlineCard !== null,
     briefed: header.phase === 'pre' || header.phase === 'travel' || header.phase === 'in',
     startDate: start,
     endDate: trip?.end_date ?? null,
@@ -279,6 +285,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       )}
       onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}
+      {...(unread ? { offlineConflicts: offlineNode } : {})}
       menu={menu.foot}
       menuSheet={menu.sheet}
     />

@@ -131,6 +131,40 @@ describe('account purge', () => {
     }
   });
 
+  it('erases an install that still holds what its previous account left on it', async () => {
+    const { db, f, uid } = await seeded();
+    try {
+      // The member used this phone first; the organiser then registered on it.
+      const handedOver = crypto.randomUUID();
+      await db.pool.query(
+        `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+         VALUES ($1, $2, 'android', '1.0.0', 'en', 'Asia/Singapore')`,
+        [handedOver, uid],
+      );
+      await db.pool.query(
+        `INSERT INTO device_action_keys
+           (key_id, device_id, user_id, secret_enc, scopes, expires_at, revoked_at)
+         VALUES ($1, $2, $3, 'left-behind', ARRAY['ballot'], now() + interval '30 days', now())`,
+        [crypto.randomUUID(), handedOver, f.actors.member],
+      );
+      await db.pool.query(
+        `INSERT INTO alarms (user_id, device_id, leave_by_id, trip_id, fire_at, state)
+         SELECT $1, $2, id, trip_id, '2026-10-14T19:00:00Z', 'scheduled'
+           FROM leave_bys WHERE trip_id = $3 LIMIT 1`,
+        [f.actors.member, handedOver, f.tripId],
+      );
+      expect(await count(db, 'FROM alarms WHERE device_id = $1', [handedOver])).toBe(1);
+
+      const purged = await withSystem(db.pool, (tx) => purgeAccount(tx, uid));
+      expect(purged).not.toBeNull();
+      expect(await count(db, 'FROM devices WHERE user_id = $1', [uid])).toBe(0);
+      expect(await count(db, 'FROM device_action_keys WHERE device_id = $1', [handedOver])).toBe(0);
+      expect(await count(db, 'FROM alarms WHERE device_id = $1', [handedOver])).toBe(0);
+    } finally {
+      await db.drop();
+    }
+  });
+
   it('erases the person, keeps the crew whole, and is safe to run again', async () => {
     const { db, f, uid } = await seeded();
     try {

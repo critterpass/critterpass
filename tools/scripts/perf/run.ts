@@ -5,7 +5,8 @@
  * Grafana when `GRAFANA_URL`, `GRAFANA_TOKEN` and `GRAFANA_PROM_DATASOURCE_UID` are set.
  *
  *   pnpm tsx tools/scripts/perf/run.ts --ci [--android-launch am-start.txt | --adb app.critterpass.staging]
- *     [--ios-launch launch-ms.txt] [--gfxinfo gfxinfo.txt] [--ipa app.ipa] [--env staging] [--out perf.json] [--strict]
+ *     [--ios-launch launch-ms.txt] [--gfxinfo gfxinfo.txt] [--ipa app.ipa] [--web-url <invite page>]
+ *     [--env staging] [--out perf.json] [--strict]
  *
  * A metric without input is reported as skipped; `--strict` fails on skipped metrics too.
  */
@@ -17,6 +18,7 @@ import { QUERIES, queryGrafana } from './api-p95';
 import { fileMb } from './bundle';
 import { measureAndroid, median, parseAmStart, parseMsLines } from './cold-start';
 import { parseGfxinfo } from './frames';
+import { measureWebJs } from './web-js';
 
 export interface Budgets {
   readonly coldStartMs: { readonly android: number; readonly ios: number };
@@ -24,6 +26,7 @@ export interface Budgets {
   readonly iosDownloadMb: number;
   readonly commandP95Ms: number;
   readonly dbP50Ms: number;
+  readonly webInviteJsKb: number;
 }
 
 export interface Measurement {
@@ -70,6 +73,7 @@ async function main(): Promise<void> {
       'ios-launch': { type: 'string' },
       gfxinfo: { type: 'string' },
       ipa: { type: 'string' },
+      'web-url': { type: 'string' },
       env: { type: 'string', default: 'staging' },
       window: { type: 'string', default: '24h' },
       out: { type: 'string' },
@@ -83,6 +87,7 @@ async function main(): Promise<void> {
   const iosLaunch = read(values['ios-launch']);
   const gfx = read(values.gfxinfo);
   const frames = gfx ? parseGfxinfo(gfx) : undefined;
+  const webJs = values['web-url'] ? await measureWebJs(values['web-url']) : undefined;
 
   const { GRAFANA_URL, GRAFANA_TOKEN, GRAFANA_PROM_DATASOURCE_UID } = process.env;
   const grafana =
@@ -120,6 +125,13 @@ async function main(): Promise<void> {
       budget: budgets.iosDownloadMb,
       kind: 'max',
       unit: 'MB',
+    },
+    {
+      metric: `invite landing JS, gzip${webJs ? ` (${webJs.rawKb} KB raw, ${webJs.files} files)` : ''}`,
+      value: webJs?.gzipKb,
+      budget: budgets.webInviteJsKb,
+      kind: 'max',
+      unit: 'KB',
     },
     {
       metric: `command p95 (${values.env}, ${values.window})`,

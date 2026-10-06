@@ -1,0 +1,66 @@
+appId: app.critterpass.dev
+---
+# Shake to report from the help lab, in English, without the shake itself: the scene takes the
+# masked screenshot a shake would (the amount marked private is covered) and opens the problem
+# report with it attached; then the same on a private screen, which is covered whole.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-help-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-help-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'help-lab-live'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'help-lab-shake-report'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'help-lab-shake-report'
+- extendedWaitUntil:
+    visible:
+      id: 'help-shake-here'
+    timeout: 15000
+- takeScreenshot: en-shake-lab
+- tapOn:
+    id: 'help-shake-here'
+- extendedWaitUntil:
+    visible:
+      id: 'feedback-topic-bug'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-shake-report-attached
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'help-lab-shake-report'
+    timeout: 10000
+- tapOn:
+    id: 'help-lab-shake-report'
+- extendedWaitUntil:
+    visible:
+      id: 'help-shake-private'
+    timeout: 15000
+- tapOn:
+    id: 'help-shake-private'
+- extendedWaitUntil:
+    visible:
+      id: 'feedback-topic-bug'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-shake-report-private-screen

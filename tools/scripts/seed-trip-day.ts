@@ -6,12 +6,17 @@
  * the hub, the readiness row and the packing list show a crew of six.
  *
  *   pnpm tsx tools/scripts/seed-trip-day.ts --api https://api-staging-de92.up.railway.app \
- *       --code K7M2QX [--members 5]
+ *       --code K7M2QX [--members 5] [--up 3]
  *
- * Prints one JSON line: `{"crew_code": …, "members": [{"uid": …, "name": …}]}`.
+ * `--up` has that many of them say they are up for the day's leave-by (`set_readiness`, as their
+ * own phones would), once the leave-by has reached them through sync.
+ *
+ * Prints one JSON line: `{"crew_code": …, "members": [{"uid": …, "name": …}], "up": [uid, …]}`.
  */
 import { randomBytes, randomUUID } from 'node:crypto';
 import { parseArgs } from 'node:util';
+
+import { readSyncedRows, waitForSyncedRow, type SyncedRow } from './seed-sync-rows';
 
 /**
  * A UUIDv7 (RFC 9562): the shard runner starts this script without the workspace installed, so it
@@ -111,6 +116,58 @@ export async function joinTraveller(
 export interface SeededTripDay {
   readonly crew_code: string;
   readonly members: readonly { readonly uid: string; readonly name: string }[];
+  /** Who said they are up, in join order. */
+  readonly up: readonly string[];
+}
+
+/** The leave-by the day-of screen shows `now`: today's in its own zone, else the next, else the last. */
+export function leaveByFor(rows: readonly SyncedRow[], now: Date): SyncedRow | undefined {
+  const sorted = [...rows].sort((a, b) =>
+    String(a['leave_at']).localeCompare(String(b['leave_at'])),
+  );
+  const today = sorted.find(
+    (row) =>
+      row['local_date'] ===
+      new Intl.DateTimeFormat('en-CA', { timeZone: String(row['tz']) }).format(now),
+  );
+  const next = sorted.find((row) => new Date(String(row['leave_at'])).getTime() >= now.getTime());
+  return today ?? next ?? sorted.at(-1);
+}
+
+/**
+ * The first `count` travellers say they are up for the day's leave-by on the trip their crew code
+ * joined; the first of them reads the trip and its leave-by from sync.
+ */
+export async function wakeTravellers(
+  api: ApiClient,
+  travellers: readonly ApiSession[],
+  count: number,
+): Promise<string[]> {
+  const reader = travellers[0];
+  if (count < 1 || reader === undefined) return [];
+  const trip = await waitForSyncedRow(
+    () => readSyncedRows(api, reader, 'trips'),
+    (rows) => rows.find((row) => row['status'] === 'in_trip') ?? rows[0],
+    'the trip',
+  );
+  const leaveBy = await waitForSyncedRow(
+    () =>
+      readSyncedRows(api, reader, 'leave_bys', {
+        subscriptions: [{ stream: 'trip', parameters: { trip_id: trip.id } }],
+      }),
+    (rows) => leaveByFor(rows, new Date()),
+    'the leave-by',
+  );
+  const up: string[] = [];
+  for (const traveller of travellers.slice(0, count)) {
+    await sendCommand(api, traveller, 'set_readiness', {
+      leave_by_id: leaveBy.id,
+      state: 'up',
+      source: 'app',
+    });
+    up.push(traveller.uid);
+  }
+  return up;
 }
 
 /** Joins `count` simulated travellers to the crew behind `code`, one after another. */
@@ -118,16 +175,18 @@ export async function seedTripDay(
   api: ApiClient,
   code: string,
   count = SIM_TRAVELLERS.length,
+  upCount = 0,
 ): Promise<SeededTripDay> {
   if (count < 1 || count > SIM_TRAVELLERS.length) {
     throw new Error(`--members: 1 to ${String(SIM_TRAVELLERS.length)}`);
   }
-  const members: { uid: string; name: string }[] = [];
+  if (upCount < 0 || upCount > count) throw new Error(`--up: 0 to ${String(count)}`);
+  const joined: (ApiSession & { readonly name: string })[] = [];
   for (const name of SIM_TRAVELLERS.slice(0, count)) {
-    const joined = await joinTraveller(api, name, code);
-    members.push({ uid: joined.uid, name: joined.name });
+    joined.push(await joinTraveller(api, name, code));
   }
-  return { crew_code: code, members };
+  const up = await wakeTravellers(api, joined, upCount);
+  return { crew_code: code, members: joined.map(({ uid, name }) => ({ uid, name })), up };
 }
 
 async function main(): Promise<void> {
@@ -137,13 +196,21 @@ async function main(): Promise<void> {
       api: { type: 'string' },
       code: { type: 'string' },
       members: { type: 'string', default: String(SIM_TRAVELLERS.length) },
+      up: { type: 'string', default: '0' },
     },
   });
   if (values.api === undefined || values.code === undefined) {
-    throw new Error('usage: seed-trip-day.ts --api <url> --code <crew code> [--members 5]');
+    throw new Error(
+      'usage: seed-trip-day.ts --api <url> --code <crew code> [--members 5] [--up 0]',
+    );
   }
   const api: ApiClient = { baseUrl: values.api.replace(/\/$/, ''), fetch };
-  const seeded = await seedTripDay(api, values.code.toUpperCase(), Number(values.members));
+  const seeded = await seedTripDay(
+    api,
+    values.code.toUpperCase(),
+    Number(values.members),
+    Number(values.up),
+  );
   process.stdout.write(`${JSON.stringify(seeded)}\n`);
 }
 
