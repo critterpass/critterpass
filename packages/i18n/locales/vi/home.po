@@ -405,6 +405,18 @@ msgstr "Xem ngay"
 msgid "home.inbox.refused"
 msgstr "Chưa gửi được"
 
+#: ../../apps/mobile/src/features/home/link-notice.tsx
+msgid "home.linkNotice.unknown"
+msgstr "Không mở được liên kết đó"
+
+#: ../../apps/mobile/src/features/home/link-notice.tsx
+msgid "home.linkNotice.alreadyMember"
+msgstr "Liên kết đó dành cho người mới. Bạn đã có pass rồi"
+
+#: ../../apps/mobile/src/features/home/link-notice.tsx
+msgid "home.linkNotice.unavailable"
+msgstr "Liên kết đó không còn dùng được nữa"
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.over"
 msgstr "Chuyến đi đó đã kết thúc"

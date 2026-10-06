@@ -1,34 +1,82 @@
 appId: app.critterpass.dev
 ---
-# Installed app: every link kind lands on its screen (apps/mobile/src/lib/links/route-map.ts).
-#
-# Needs before it can pass:
-# 1. The target screens, each exposing a root `testID` of `screen-<route>`:
-#    `screen-onboarding-invite-ticket` (3a-10), `screen-home`, `screen-trip-plan`,
-#    `screen-explore-destination`, `screen-critters`, `screen-community-plan`.
-# 2. An onboarded, signed-in app state (the router holds links until onboarding completes); run
-#    after the onboarding flow or on a build with the pass already issued.
-# 3. For the Universal Link step: the web Worker deployed to staging.critterpass.app with the
-#    development app in its AASA (apps/web/src/pages/.well-known), and the api's links routes live.
-- launchApp
-- openLink: critterpass-dev://i/BAX6XA
-- assertVisible:
-    id: screen-onboarding-invite-ticket
-- openLink: critterpass-dev://plan/0199a1c2-7b3e-7c10-9a55-3f1f6e2d4b03
-- assertVisible:
-    id: screen-trip-plan
-- openLink: critterpass-dev://g/lundi
-- assertVisible:
-    id: screen-explore-destination
-- openLink: critterpass-dev://locals/bali
-- assertVisible:
-    id: screen-critters
-- openLink: critterpass-dev://p/abcdefghijklmnop
-- assertVisible:
-    id: screen-community-plan
-- openLink: critterpass-dev://i/not-a-code
-- assertVisible:
-    id: screen-home
-- openLink: https://staging.critterpass.app/i/BAX6XA
-- assertVisible:
-    id: screen-onboarding-invite-ticket
+# Installed app, signed in: a link of each kind lands on its screen
+# (apps/mobile/src/lib/links/route-map.ts). A brand-new account with nothing seeded:
+# 1. a plan link (`/p/{token}`) opens the plan link page (`/community/link/{token}`), which asks
+#    the server for the plan; this token was never shared, so the page says so;
+# 2. a guide link (`/g/{slug}`) opens that destination in Explore;
+# 3. a locals link (`/locals/{place}`) opens the critter collection on the PASS tab;
+# 4. an invite link whose code no crew has, and one that is not a code at all, both open Home,
+#    and the one that is not a code says the link could not be opened.
+# A plan link that is still shared opens the shared plan itself: e2e/community/shared-plan.yaml
+# covers that page. The web handoff for a phone without the app is deferred-android.yaml.
+- runFlow: ../happy/subflows/fresh-account.yaml
+
+# 1. A plan link.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://p/abcdefghijklmnop
+- extendedWaitUntil:
+    visible:
+      id: 'plan-link-gone'
+    timeout: 30000
+- assertVisible: 'This plan is no longer shared'
+- waitForAnimationToEnd
+- takeScreenshot: link-plan-not-shared
+
+# 2. A guide link.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://g/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: link-guide-destination
+
+# 3. A locals link.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://locals/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex|critters-dex-loading'
+    timeout: 30000
+- assertNotVisible: '(?i).*(not found|unmatched route).*'
+- waitForAnimationToEnd
+- takeScreenshot: link-locals-collection
+
+# 4. Invite links that lead nowhere open Home.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://i/BAX6XA
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://g/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://i/not-a-code
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+# Home says why the link ended up here.
+- extendedWaitUntil:
+    visible: '(?i).*that link couldn.t be opened.*'
+    timeout: 10000
+- takeScreenshot: link-unknown-opens-home
