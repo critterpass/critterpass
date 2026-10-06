@@ -142,6 +142,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
       { ...processEnv, ...env },
       { assertRouteOn, telemetry: llmObservability },
     ),
+    ...(await import('./jobs/postcards')).postcardJobs(processEnv),
     ...(await import('./jobs/recap')).recapJobs(
       { ...processEnv, ...env },
       {
