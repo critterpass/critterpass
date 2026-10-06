@@ -59,6 +59,7 @@ import '@/features/bookings/supplier/register';
 import '@/features/you/routes';
 import '@/features/help/routes';
 import '@/features/recap/routes';
+import '@/features/drivers/share/register';
 // After every feature register above: planning registrations win for the ids they re-point.
 import '@/features/planning-register';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
