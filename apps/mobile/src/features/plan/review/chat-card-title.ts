@@ -56,5 +56,8 @@ export function changeTitle(input: ChangeTitleInput): string {
       return input.mine
         ? t({ id: 'plan.card.title.swapMine', message: `You want to swap in ${where}` })
         : t({ id: 'plan.card.title.swap', message: `${name} wants to swap in ${where}` });
+    // A driver pick names no place: it keeps the counted headline.
+    case 'assign_provider':
+      return reviewTitle(input.trigger, input.cards.length);
   }
 }

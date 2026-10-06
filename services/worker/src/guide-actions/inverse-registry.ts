@@ -37,7 +37,9 @@ function invertOp(op: ChangeSetOp): ChangeSetOp | null {
       return { ...shared, op: op.op, before: op.after, after: op.before };
     case 'add':
       return { ...shared, op: 'remove', before: op.after ?? null, after: null };
+    // A driver pick is the crew's own change; no guide action carries one.
     case 'remove':
+    case 'assign_provider':
       return null;
   }
 }
