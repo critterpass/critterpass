@@ -75,7 +75,7 @@ appId: app.critterpass.dev
 - runFlow: ../screens/sweep/subflows/back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'help-lab-live'
+      id: 'help-lab-feedback-empty'
     timeout: 10000
 - runFlow:
     file: subflows/lab-scene.yaml
