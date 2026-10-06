@@ -1,0 +1,177 @@
+appId: app.critterpass.dev
+---
+# A fresh account's crew settings and trip menu, with no demo seed. She starts a crew, opens its
+# settings from the crew chat header (tap the crew's name) and from her crew's card on the crews
+# sheet, then pitches Da Nang, locks it in alone and finds "Delete trip" at the foot of the trip
+# hub with its confirm sheet. Confirming deletes the trip once the api serves `delete_trip`; until
+# then the sheet closes with the "didn't go through" toast, so the last frame asserts nothing.
+- runFlow: ../happy/subflows/fresh-account.yaml
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Weekend lot'
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+
+# Crew settings from the chat header.
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-crew-settings'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: crew-3g-1-chat-header
+- tapOn:
+    id: 'chat-crew-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'crew-settings'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: crew-settings-from-chat-header
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-crew-name'
+    times: 4
+    commands:
+      - back
+      - waitForAnimationToEnd
+
+# Crew settings from the crews sheet.
+- tapOn:
+    id: 'home-header-crew-name'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: crew-3g-3-card-settings-link
+- tapOn: 'Crew settings'
+- extendedWaitUntil:
+    visible:
+      id: 'crew-settings'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: crew-settings-from-crews-sheet
+- repeat:
+    while:
+      notVisible:
+        id: 'home-pitch'
+    times: 4
+    commands:
+      - back
+      - waitForAnimationToEnd
+
+# A trip of one, locked in: still in setup with nobody else on it.
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-card'
+    timeout: 90000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
+    timeout: 90000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd
+
+# The trip hub's foot: Delete trip, and what it says before anything happens.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-menu-delete'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: trip-3k-1-hub-foot-delete-trip
+- tapOn:
+    id: 'trip-menu-delete'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-menu-confirm-delete'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: trip-delete-confirm-sheet
+- tapOn:
+    text: 'Delete trip'
+    index: 1
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: trip-after-delete-confirm
