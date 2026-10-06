@@ -41,6 +41,7 @@ import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 import { createServerAnalytics } from './obs/analytics';
 import { startApiObservability } from './obs';
+import { createMetricsRecorder } from './obs/metrics';
 import { createRequestPool } from './db-pool';
 import { createRedisClient } from './redis-client';
 
@@ -135,6 +136,7 @@ const authModule = createAuthModule({
   fixedCodes: fixedCodeNumbersFromEnv(env, (warning) => logger.warn(warning)),
   onFixedCode: (use) => logger.warn(use, 'fixed-code phone number used for sign-in'),
   onOtpChannelFailure: (failure) => logger.warn(failure, 'otp channel send failed'),
+  metrics: createMetricsRecorder({ strict: env.APP_ENV === 'local' }),
   rateLimit: { customRules: buildAuthRateLimitCustomRules(env) },
   attestation: buildAttestationConfigFromEnv(env),
   onAttestationFailure: (error, context) => {

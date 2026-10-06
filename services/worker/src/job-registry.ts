@@ -211,6 +211,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
       ...deps.pushProviders,
       renderer,
       defaultBundleId: defaultBundleId(env.APP_ENV),
+      metrics: deps.metrics,
     }),
     roundupBuild,
     roundupScanJob(roundupBuild),
