@@ -1,0 +1,19 @@
+{
+  "captures": {
+    "ios": {
+      "workflowPlatform": "ios",
+      "statusBar": "simctl status_bar override (9:41, full battery), set by the device shard"
+    },
+    "android": {
+      "workflowPlatform": "android",
+      "statusBar": "emulator default; SystemUI demo mode is not set by the device shard yet"
+    }
+  },
+  "targets": [
+    { "id": "iphone-6.9", "store": "app-store", "capture": "ios", "width": 1290, "height": 2796 },
+    { "id": "iphone-6.3", "store": "app-store", "capture": "ios", "width": 1206, "height": 2622 },
+    { "id": "phone", "store": "play", "capture": "android", "width": 1080, "height": 1920 },
+    { "id": "tablet-7", "store": "play", "capture": "android", "width": 1242, "height": 2208 },
+    { "id": "tablet-10", "store": "play", "capture": "android", "width": 1440, "height": 2560 }
+  ]
+}
