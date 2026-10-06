@@ -116,7 +116,6 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
   const online = sync.phase !== 'offline';
   const liveTripId = context.trip?.tripId ?? null;
   const send = record.send;
-  const askAgain = consent.askAgain;
   useEffect(() => {
     live.current = { online, tripId: liveTripId, send };
   }, [online, liveTripId, send]);
@@ -132,9 +131,9 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
         speech === null
           ? null
           : (lang, onPartial) =>
-              speech.listen(lang, () => withVoiceConsent(sttToken, askAgain), onPartial),
+              speech.listen(lang, () => withVoiceConsent(sttToken, consent), onPartial),
       online: () => live.current.online,
-      grade: (phrase, heard) => withVoiceConsent(() => gradeOnServer(phrase, heard), askAgain),
+      grade: (phrase, heard) => withVoiceConsent(() => gradeOnServer(phrase, heard), consent),
       record: (entry) => {
         if (entry.outcome === 'ok') {
           setJustLearned((ids) =>
@@ -151,7 +150,7 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
       controller.current = null;
       speech?.endSession();
     };
-  }, [speech, askAgain]);
+  }, [speech, consent]);
 
   const phrases = useMemo<PracticePhrase[]>(
     () =>
@@ -207,8 +206,12 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
       state={state}
       checking={checking}
       consent={
-        checking && consent.status === 'needed'
-          ? { onAgree: consent.agree, onNotNow: () => setChecking(false) }
+        checking && consent.status !== 'granted' && consent.status !== 'loading'
+          ? {
+              onAgree: consent.agree,
+              onNotNow: () => setChecking(false),
+              pending: consent.status === 'needed' ? null : consent.status,
+            }
           : null
       }
       onChecking={setChecking}

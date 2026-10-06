@@ -31,7 +31,12 @@ export interface PracticeViewProps {
   /** The pronunciation check is on. */
   readonly checking: boolean;
   /** The check was turned on without the voice consent: the question shows under the switch. */
-  readonly consent: { readonly onAgree: () => void; readonly onNotNow: () => void } | null;
+  readonly consent: {
+    readonly onAgree: () => void;
+    readonly onNotNow: () => void;
+    /** The yes is on its way to the server, or waiting for a connection to go. */
+    readonly pending?: 'sending' | 'needs_connection' | null;
+  } | null;
   readonly onChecking: (on: boolean) => void;
   readonly onPick: (id: string) => void;
   readonly onListen: () => void;
@@ -222,10 +227,20 @@ export function PracticeView(props: PracticeViewProps) {
                       'To check a phrase, what you say can be sent to a speech service to be written down. Only the words are compared with the card.',
                   })}
                 </Text>
+                {props.consent.pending !== 'needs_connection' ? null : (
+                  <Text variant="bodySm" testID="guide-practice-consent-offline">
+                    {t({
+                      id: 'guide.voice.consentNeedsConnection',
+                      message:
+                        'Voice needs a connection. It turns on as soon as you are back online.',
+                    })}
+                  </Text>
+                )}
                 <Row gap="8">
                   <PillButton
                     size="sm"
                     label={t({ id: 'guide.voice.consentYes', message: 'Turn on voice' })}
+                    loading={props.consent.pending != null}
                     onPress={props.consent.onAgree}
                     testID="guide-practice-consent-yes"
                   />

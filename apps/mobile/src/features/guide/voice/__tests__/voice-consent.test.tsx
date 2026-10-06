@@ -20,12 +20,14 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { markCommandsDone } from '@/data/powersync/queue-store';
 
 import {
   refusalOf,
   useVoiceConsent,
   voiceConsentGranted,
   withVoiceConsent,
+  type VoiceConsentGuard,
 } from '../voice-consent';
 import { renderScreen } from '../test-support/screen-harness';
 import { VoiceGate } from '../voice-consent-view';
@@ -34,6 +36,8 @@ configure({ asyncUtilTimeout: 5000 });
 
 const stacks: TestLocalFirst[] = [];
 afterEach(async () => {
+  answers = [];
+  requests.mockClear();
   for (const stack of stacks.splice(0)) {
     await stack.close().catch(() => undefined);
     removeDir(stack.dir);
@@ -60,18 +64,42 @@ const consentRefusal = () =>
     { status: 403 },
   );
 
+/** What the api answers the next voice requests with, in order; then it gives the token. */
+let answers: (() => Response)[] = [];
+const requests = jest.fn();
+const token = () => Response.json({ token: 'dg', scheme: 'bearer', expires_at: '2026-10-07' });
+
 const mounted = jest.fn();
-function VoiceMode({ onConsentRequired }: { readonly onConsentRequired: () => void }) {
+function VoiceMode({ consent }: { readonly consent: VoiceConsentGuard }) {
   mounted();
-  // A voice request the server refuses, as the speech token or a spoken turn would be.
+  // A voice request, as the speech token or a spoken turn would be; the retry does not wait.
   const request = () =>
-    void withVoiceConsent(async () => {
-      throw await refusalOf(consentRefusal(), 'stt token');
-    }, onConsentRequired).catch(() => undefined);
+    void withVoiceConsent(
+      async () => {
+        requests();
+        const response = (answers.shift() ?? token)();
+        if (!response.ok) throw await refusalOf(response, 'stt token');
+      },
+      consent,
+      () => Promise.resolve(),
+    ).catch(() => undefined);
   return (
     <Pressable testID="voice-request" onPress={request}>
       <Text testID="voice-mode">voice</Text>
     </Pressable>
+  );
+}
+
+/** The server took this phone's queued yes, as the upload queue records it. */
+async function serverTakesTheYes(stack: TestLocalFirst): Promise<void> {
+  const rows = await stack.db.getAll<{ id: string }>(
+    "SELECT id FROM commands WHERE cmd = 'set_consent'",
+  );
+  await stack.db.writeTransaction((tx) =>
+    markCommandsDone(
+      tx,
+      rows.map((row) => row.id),
+    ),
   );
 }
 
@@ -93,7 +121,7 @@ function GatedVoice({ onType }: { readonly onType: () => void }) {
       onAgree={consent.agree}
       onType={onType}
     >
-      <VoiceMode onConsentRequired={consent.askAgain} />
+      <VoiceMode consent={consent} />
     </VoiceGate>
   );
 }
@@ -126,7 +154,7 @@ describe('standing consent', () => {
 });
 
 describe('voice mode behind its consent', () => {
-  it('asks first, mounts nothing of voice mode, and a yes opens it and queues the consent', async () => {
+  it('asks first, and a yes opens voice only once the server has it: no second question', async () => {
     mounted.mockClear();
     const stack = await open();
     const onType = jest.fn();
@@ -140,7 +168,6 @@ describe('voice mode behind its consent', () => {
     expect(await queued(stack)).toEqual([]);
 
     await fireEvent.press(screen.getByTestId('guide-voice-consent-yes'));
-    await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
     await waitFor(async () =>
       expect(await queued(stack)).toEqual([
         {
@@ -149,6 +176,66 @@ describe('voice mode behind its consent', () => {
         },
       ]),
     );
+    // Sent, not yet taken: nothing of voice mode runs, so nothing can be refused.
+    expect(screen.queryByTestId('voice-mode')).toBeNull();
+    expect(screen.queryByTestId('guide-voice-consent-offline')).toBeNull();
+    expect(mounted).not.toHaveBeenCalled();
+
+    await serverTakesTheYes(stack);
+    await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('voice-request'));
+    await waitFor(() => expect(requests).toHaveBeenCalledTimes(1));
+    expect(screen.getByTestId('voice-mode')).toBeTruthy();
+    expect(screen.queryByTestId('guide-voice-consent')).toBeNull();
+  });
+
+  it('a refusal right after the yes is the yes still landing: one more try, no second question', async () => {
+    const stack = await open();
+    await show(stack);
+    await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('guide-voice-consent-yes'));
+    await waitFor(async () => expect(await queued(stack)).toHaveLength(1));
+    await serverTakesTheYes(stack);
+    await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
+
+    answers = [consentRefusal];
+    await fireEvent.press(screen.getByTestId('voice-request'));
+    await waitFor(() => expect(requests).toHaveBeenCalledTimes(2));
+    expect(screen.getByTestId('voice-mode')).toBeTruthy();
+    expect(screen.queryByTestId('guide-voice-consent')).toBeNull();
+  });
+
+  it('asks again when the server still refuses after that one more try', async () => {
+    const stack = await open();
+    await show(stack);
+    await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('guide-voice-consent-yes'));
+    await waitFor(async () => expect(await queued(stack)).toHaveLength(1));
+    await serverTakesTheYes(stack);
+    await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
+
+    answers = [consentRefusal, consentRefusal];
+    await fireEvent.press(screen.getByTestId('voice-request'));
+    await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
+    expect(requests).toHaveBeenCalledTimes(2);
+  });
+
+  it('says voice needs a connection when the yes is given offline, and opens once it is sent', async () => {
+    mounted.mockClear();
+    const stack = await open();
+    stack.network.set(false);
+    await show(stack);
+    await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('guide-voice-consent-yes'));
+    await waitFor(() => expect(screen.getByTestId('guide-voice-consent-offline')).toBeTruthy());
+    await waitFor(async () => expect(await queued(stack)).toHaveLength(1));
+    expect(mounted).not.toHaveBeenCalled();
+
+    stack.network.set(true);
+    await waitFor(() => expect(screen.queryByTestId('guide-voice-consent-offline')).toBeNull());
+    expect(screen.queryByTestId('voice-mode')).toBeNull();
+    await serverTakesTheYes(stack);
+    await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
   });
 
   it('opens straight away when the consent stands, and asks again once it is withdrawn', async () => {
@@ -178,7 +265,7 @@ describe('voice mode behind its consent', () => {
     await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
   });
 
-  it('asks again when the server refuses for want of the consent, and a yes reopens voice', async () => {
+  it('asks when the server refuses someone who gave no yes on this phone just now', async () => {
     const stack = await open();
     await stack.db.execute(
       "INSERT INTO consents (id, user_id, purpose, granted_at) VALUES ('c3', ?, 'ai_voice', '2026-10-01T06:00:00Z')",
@@ -187,21 +274,22 @@ describe('voice mode behind its consent', () => {
     await show(stack);
     await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
 
+    answers = [consentRefusal];
     await fireEvent.press(screen.getByTestId('voice-request'));
     await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
     expect(screen.queryByTestId('voice-mode')).toBeNull();
+    // Refused outright: nothing was tried a second time.
+    expect(requests).toHaveBeenCalledTimes(1);
 
     await fireEvent.press(screen.getByTestId('guide-voice-consent-yes'));
+    await waitFor(async () => expect(await queued(stack)).toHaveLength(1));
+    await serverTakesTheYes(stack);
     await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
-    await waitFor(async () =>
-      expect((await queued(stack)).map((entry) => entry.payload)).toEqual([
-        { purpose: 'ai_voice', granted: true, copy_version: 'voice-2026-10' },
-      ]),
-    );
   });
 
   it('leaves any other refusal to the caller', async () => {
     const askAgain = jest.fn();
+    const guard = { askAgain, grantedJustNow: () => true };
     const unavailable = Response.json(
       { error: { code: 'SUPPLIER_UNAVAILABLE', message: 'Try again later', retryable: true } },
       { status: 503 },
@@ -209,7 +297,7 @@ describe('voice mode behind its consent', () => {
     await expect(
       withVoiceConsent(async () => {
         throw await refusalOf(unavailable, 'stt token');
-      }, askAgain),
+      }, guard),
     ).rejects.toMatchObject({ code: 'SUPPLIER_UNAVAILABLE' });
     expect(askAgain).not.toHaveBeenCalled();
   });
