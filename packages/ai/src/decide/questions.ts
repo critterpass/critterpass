@@ -181,3 +181,88 @@ export function answersSchema<Q extends QuestionMap>(questions: Q): z.ZodType<An
   );
   return z.strictObject(shape) as unknown as z.ZodType<Answers<Q>>;
 }
+
+/**
+ * What a redraft note asks of the day, one yes/no per closed label in a single call: a note can
+ * ask two things at once ("sleep in, then something relaxed"). A note that says none of them is
+ * "other": the guide still reads it as written.
+ */
+export const REDRAFT_NOTE_ASKS = [
+  'slower',
+  'faster',
+  'later_start',
+  'earlier_start',
+  'indoor',
+  'cheaper',
+  'swap_stop',
+  'less_walking',
+] as const;
+export type RedraftNoteAsk = (typeof REDRAFT_NOTE_ASKS)[number];
+
+const REDRAFT_NOTE_ASK_TEXT: Readonly<Record<RedraftNoteAsk, string>> = {
+  slower:
+    'Does the note ask for a slower, calmer or more relaxed pace, or fewer stops? It may ask other things too.',
+  faster:
+    'Does the note ask for more stops in total or a fuller, busier day? Asking for more of one kind of place is not this.',
+  later_start:
+    'Does the note ask to start the day later, sleep in or have a late morning? A slower pace alone is not this.',
+  earlier_start: 'Does the note ask to start the day earlier?',
+  indoor: 'Does the note mention rain or bad weather, or ask for places indoors?',
+  cheaper: 'Does the note ask for a cheaper day, lower prices or free places?',
+  swap_stop: 'Does the note ask to swap, replace or drop a particular stop?',
+  less_walking:
+    'Does the note ask for less walking or fewer walks between stops ("bớt đi bộ", "ít đi bộ")? It may ask other things too.',
+};
+
+const REDRAFT_NOTE_STATE =
+  'The state is a note a traveller wrote when asking for one day of a trip plan to be redone. It may be in any language; Vietnamese is often typed without its accents ("cham hon" is "chậm hơn", "slower"). Answer yes only when the note itself asks for this.';
+
+export function redraftNoteQuestions(): Readonly<Record<RedraftNoteAsk, NoulQuestion>> {
+  return Object.fromEntries(
+    REDRAFT_NOTE_ASKS.map((ask) => [
+      ask,
+      noul(`${REDRAFT_NOTE_STATE} ${REDRAFT_NOTE_ASK_TEXT[ask]}`),
+    ]),
+  ) as Record<RedraftNoteAsk, NoulQuestion>;
+}
+
+/** The times of day a must-do can be held to: a place profile's own labels, or none. */
+export const MUST_DO_TIMES = [
+  'early_morning',
+  'morning',
+  'midday',
+  'afternoon',
+  'sunset',
+  'evening',
+  'after_dark',
+  'any',
+] as const;
+export type MustDoTime = (typeof MUST_DO_TIMES)[number];
+
+/** Which of our search's candidates (named `a`..`e` in the state) a typed must-do means, or none. */
+export function mustDoPlaceQuestion(candidateKeys: readonly string[]): ChoiceQuestion {
+  return choice(
+    'The state has a must-do a traveller typed for a trip and the places our search found for it. Which candidate is the place the must-do means? Answer none when it names no particular place, or a place not among the candidates.',
+    {
+      ...Object.fromEntries(candidateKeys.map((key) => [key, `candidate ${key}`])),
+      none: 'none of the candidates',
+    },
+  );
+}
+
+/** The time of day a typed must-do asks for, or `any`. */
+export function mustDoTimeQuestion(): ChoiceQuestion<MustDoTime> {
+  return choice(
+    'When in the day does the must-do ask to be done? Answer any unless its words name a time of day (sunrise, a night market, dinner, after dark).',
+    {
+      early_morning: 'sunrise or early morning, before about 7:00',
+      morning: 'the morning',
+      midday: 'around noon or lunch',
+      afternoon: 'the afternoon',
+      sunset: 'sunset',
+      evening: 'the evening or dinner',
+      after_dark: 'at night, after dark',
+      any: 'no time of day named',
+    },
+  );
+}

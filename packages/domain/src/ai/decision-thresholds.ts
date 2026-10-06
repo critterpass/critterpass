@@ -79,6 +79,18 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.5, no: 0.5, minConfidence: 0.5 },
     fast: TWIN_BAND,
   },
+  // A typed must-do's place among our search's candidates, and its time of day: an unsure place
+  // keeps it a wish (the guide answers it in the draft), an unsure time leaves it untimed.
+  'must_do.resolve': {
+    jev: { yes: 0.5, no: 0.5, minConfidence: 0.6 },
+    fast: TWIN_BAND,
+  },
+  // What a redraft note asks for, one yes/no per closed label: a label counts at `yes`, and a
+  // note that says none of them is still read by the guide as written.
+  'redraft.note_intent': {
+    jev: { yes: 0.7, no: 0.3, minConfidence: 0.3 },
+    fast: TWIN_BAND,
+  },
 };
 
 export function decisionBand(route: DecisionRoute, answeredBy: DecisionAnswerer): DecisionBand {

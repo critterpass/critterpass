@@ -237,6 +237,8 @@ export const mustDos = pgTable('must_dos', {
   externalDeadline: day('external_deadline'),
   externalUrl: text('external_url'),
   fitCheckedAt: at('fit_checked_at'),
+  /** One of `PLACE_BEST_TIMES`, read once from a typed title by `ai.fit_check`; null when none. */
+  timeOfDay: text('time_of_day'),
   deletedAt: at('deleted_at'),
   version: integer('version').notNull().default(1),
   ...stamps(),

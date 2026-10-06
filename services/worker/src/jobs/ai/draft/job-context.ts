@@ -13,7 +13,7 @@ import {
 } from '@cp/ai';
 import { emitEvent, withSystem } from '@cp/db';
 import type { DraftStepId, DraftStepLabel } from '@cp/domain';
-import { destinationPhrases, resolveWishes } from '@cp/planner';
+import { destinationPhrases } from '@cp/planner';
 import type pg from 'pg';
 import { z } from 'zod';
 
@@ -27,7 +27,7 @@ import {
   type HeldStop,
 } from './held-stops';
 import { loadDraftTrip, type DraftTripData } from './load';
-import { loadDraftPlaces, loadWishCandidates } from './load-places';
+import { loadDraftPlaces } from './load-places';
 import { buildPlanInput } from './plan-input';
 import type { PrefetchResult } from './prefetch';
 import { savedWishAnswers } from './redraft-store';
@@ -87,22 +87,9 @@ export async function load(
   if (tripId === null || userId === null) throw new Error('draft job without a trip or organiser');
   const trip = await loadDraftTrip(ctx.pool, tripId, userId);
   if (trip === null) throw new Error('trip_not_ready');
-  // Hand-typed must-dos are matched to places first, so the place a wish names is always on the
-  // guide's list. The match is for this draft only; the must-do row keeps its text.
+  // A typed must-do's place and time were decided when it was set (`ai.fit_check`): one still
+  // without a place is a wish the guide answers in the outline.
   const ignoreNames = destinationPhrases(trip.destination);
-  const wishes = trip.mustDos.filter((m) => m.poiId === null);
-  const wished = resolveWishes(
-    wishes.map((m) => ({ id: m.id, text: m.title })),
-    wishes.length === 0
-      ? []
-      : await loadWishCandidates(
-          ctx.pool,
-          trip.destinationId,
-          wishes.map((m) => m.title),
-          ignoreNames,
-        ),
-    ignoreNames,
-  );
   const base = redraftBaseSchema.safeParse(ctx.input);
   const there = await alreadyThere(
     ctx.pool,
@@ -123,8 +110,6 @@ export async function load(
   );
   const places = await loadDraftPlaces(ctx.pool, trip.destinationId, [
     ...mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
-    ...wished.places.values(),
-    ...wished.offered,
     ...there.ideaPlaces,
     ...heldPlaceIds(there.held),
   ]);
@@ -132,7 +117,6 @@ export async function load(
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
     closures,
-    wished,
     ignoreNames,
     prefer: there.ideaPlaces,
     notOffered: taken,

@@ -85,7 +85,7 @@ export function setupJobs(env: SetupJobsEnv, deps: SetupJobsDeps): AnyJobDefinit
     availabilityAskTimeoutJob(),
     calendarSyncJob(calendarSyncConfigFromEnv(deps.source ?? process.env)),
     calendarStaleNudgeJob(),
-    fitCheckJob(note),
+    fitCheckJob(note, decisions),
     lotteryRemindJob(),
   ];
 }

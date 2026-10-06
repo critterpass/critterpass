@@ -7,7 +7,8 @@
  * unknown verdict included, so the app can tell "no verdict" from "still checking". Catalogue tags mark what books out (`book_ahead:<days>`) or runs a lottery (`lottery`).
  * Only then does the guide write the one-line note (fast tier `must_do.fit_line`, template when
  * switched off), from the place, the verdict and public facts alone. Changed rows reach the crew as
- * `must_do.row`. System AI: unmetered.
+ * `must_do.row`. System AI: unmetered. First, a typed must-do without a place is decided once
+ * (./must-do-place.ts): the place it means, if our search has it, and its time of day.
  */
 import type { FitNoteInput, FitNoteReason, FitNoteResult } from '@cp/ai';
 import { appendDomainEvent, outbox, withSystem } from '@cp/db';
@@ -18,6 +19,7 @@ import { z } from 'zod';
 
 import { defineJob, type JobDefinition } from '../../boss';
 import { setupFacts } from '../setup/facts';
+import { resolveTypedMustDos, type MustDoDecisions } from './must-do-place';
 
 export const fitCheckSchema = z.object({ trip_id: z.uuid() });
 export type FitCheckJob = z.infer<typeof fitCheckSchema>;
@@ -124,7 +126,9 @@ export async function checkTripFits(
   pool: pg.Pool,
   tripId: string,
   write: FitNoteWriter,
+  decisions?: MustDoDecisions,
 ): Promise<{ checked: number; changed: number }> {
+  if (decisions !== undefined) await resolveTypedMustDos(pool, tripId, decisions);
   const loaded = await withSystem(pool, async (tx) => {
     const trip = await tx.query<{ start_date: string | null; end_date: string | null }>(
       'SELECT start_date::text AS start_date, end_date::text AS end_date FROM trips WHERE id = $1',
@@ -214,11 +218,16 @@ export async function checkTripFits(
   return { checked: loaded.rows.length, changed: updates.length };
 }
 
-export function fitCheckJob(write: FitNoteWriter): JobDefinition<FitCheckJob> {
+export function fitCheckJob(
+  write: FitNoteWriter,
+  decisions?: MustDoDecisions,
+): JobDefinition<FitCheckJob> {
   return defineJob({
     queue: SETUP_QUEUES.fitCheck,
     schema: fitCheckSchema,
     singletonKey: (data) => data.trip_id,
-    handler: async (data, ctx) => ({ ...(await checkTripFits(ctx.pool, data.trip_id, write)) }),
+    handler: async (data, ctx) => ({
+      ...(await checkTripFits(ctx.pool, data.trip_id, write, decisions)),
+    }),
   });
 }

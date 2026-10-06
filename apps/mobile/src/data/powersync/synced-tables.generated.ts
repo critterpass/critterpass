@@ -163,7 +163,7 @@ export const SYNCED_TABLE_COLUMNS = {
   messages:
     'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',
   must_dos:
-    'trip_id owner_id title poi_id freeform:integer priority:integer co_owner_ids fit_status fit_note target_day:integer external_action external_deadline external_url fit_checked_at deleted_at version:integer created_at updated_at',
+    'trip_id owner_id title poi_id freeform:integer priority:integer co_owner_ids fit_status fit_note target_day:integer external_action external_deadline external_url fit_checked_at time_of_day deleted_at version:integer created_at updated_at',
   notification_prefs:
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
   notifications:

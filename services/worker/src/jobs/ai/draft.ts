@@ -56,6 +56,7 @@ import {
 import { stayRows, type SlotCheck, noSlotCheck } from './draft/suppliers';
 import { checkStage, keptWithJob } from './draft/validate-repair';
 import { redraftJob } from './redraft';
+import { redraftNoteDecisions } from './redraft-note';
 
 export interface DraftJobDeps {
   /** The model for one job's calls; absent without a DeepSeek key (the job then fails cleanly). */
@@ -249,6 +250,7 @@ export interface DraftJobsEnv {
   readonly ANTHROPIC_API_KEY?: string | undefined;
   readonly ANTHROPIC_BASE_URL?: string | undefined;
   readonly TAVILY_API_KEY?: string | undefined;
+  readonly TYPESAFE_API_KEY?: string | undefined;
 }
 
 export interface DraftJobsDeps {
@@ -277,6 +279,7 @@ export function draftJobs(env: DraftJobsEnv, deps: DraftJobsDeps): AnyJobDefinit
           assertRouteOn: deps.assertRouteOn,
         });
   const model = gateway === undefined ? undefined : gatewayDraftModel(gateway);
+  const decisions = redraftNoteDecisions(env.TYPESAFE_API_KEY, gateway, deps);
   const closures =
     deps.closures ??
     (gateway === undefined || env.TAVILY_API_KEY === undefined
@@ -288,6 +291,6 @@ export function draftJobs(env: DraftJobsEnv, deps: DraftJobsDeps): AnyJobDefinit
       placePicks: deps.placePicks,
       ...(closures === undefined ? {} : { closures }),
     }),
-    redraftJob({ model }),
+    redraftJob({ model, decisions }),
   ];
 }

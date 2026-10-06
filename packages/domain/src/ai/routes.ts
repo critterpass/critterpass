@@ -91,6 +91,8 @@ export const AI_ROUTES = [
   'vendor.reply_intent',
   'rsvp.reply_intent',
   'place.labels',
+  'must_do.resolve',
+  'redraft.note_intent',
 ] as const;
 export const aiRouteSchema = z.enum(AI_ROUTES);
 export type AiRoute = z.infer<typeof aiRouteSchema>;
@@ -106,6 +108,8 @@ export const DECISION_ROUTES = [
   'vendor.reply_intent',
   'rsvp.reply_intent',
   'place.labels',
+  'must_do.resolve',
+  'redraft.note_intent',
 ] as const satisfies readonly AiRoute[];
 export type DecisionRoute = (typeof DECISION_ROUTES)[number];
 

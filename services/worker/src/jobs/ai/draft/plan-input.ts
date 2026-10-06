@@ -14,7 +14,6 @@ import {
   knownPlaceFor,
   minuteOfDate,
   straightLineMatrix,
-  timeWords,
   type Chronotype,
   type DraftPoi,
   type ResolvedWishes,
@@ -126,10 +125,8 @@ export function buildPlanInput(
       ownerId: m.ownerId,
       poiId: m.poiId === null ? (options.wished?.places.get(m.id) ?? null) : knownRow(m.poiId),
       title: m.title,
-      // The member's own words for when ("at sunrise"), read only from a must-do they typed: a
-      // place picked from search has its name as its title ("Morning Glory"), which says nothing
-      // about when. The guide may add a time for a typed one.
-      when: m.poiId === null ? timeWords(m.title) : null,
+      // Decided once when the must-do was set (`must_dos.time_of_day`); never read from words.
+      when: m.when ?? null,
     })),
     closures: options.closures,
   };

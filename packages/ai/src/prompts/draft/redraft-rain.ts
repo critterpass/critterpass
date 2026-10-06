@@ -1,7 +1,6 @@
 /**
  * A redraft asked for because of rain. The organiser says it in her note ("trời hay mưa, cho mình
- * chỗ trong nhà", with or without its marks; "it will rain, something indoors"); the note is a
- * preference, read here only for that one fact. The guide is told which stops are in the open air and to swap them for places
+ * chỗ trong nhà", "it will rain, something indoors"), read once as the `indoor` label. The guide is told which stops are in the open air and to swap them for places
  * under a roof; a stop it leaves outdoors while an indoor place it was offered fits is swapped by
  * the planner; and one that stays outdoors because nothing indoors is near says so on its note.
  */
@@ -16,26 +15,10 @@ import { validate } from './validate';
 
 const OUTDOOR: ReadonlySet<string> = new Set(['nature', 'beach']);
 const OUTDOOR_TAGS: ReadonlySet<string> = new Set(['hiking', 'viewpoint', 'beach']);
-const RAIN =
-  /\b(rain(y|ing|s)?|storm(y|s)?|wet weather|indoors?|under a roof)\b|mưa|trong nhà|bão/iu;
-/**
- * The same typed without Vietnamese marks, as many phones do ("troi hay mua, cho minh cho trong
- * nha"). "mua" alone is "to buy", so it counts only beside a word about the weather.
- */
-const RAIN_UNMARKED =
-  /\b(troi|hay|bi|neu|co|dang|sap|du bao|khi|tranh|tru|mac|gap|ngay)\s+mua\b|\bmua\s+(to|lon|nho|gio|bao|phun|dam|rao|suot|ca ngay|nhieu|hoai|roi)\b|\btrong nha\b|\bco mai che\b/u;
 
-const unmarked = (text: string) =>
-  text
-    .normalize('NFD')
-    .replace(/\p{M}+/gu, '')
-    .replace(/[đĐ]/gu, 'd')
-    .toLowerCase();
-
-/** Whether the organiser's note asks for a day out of the rain. */
-export function wantsIndoors(input: Pick<RedraftPlanInput, 'note'>): boolean {
-  if (input.note === null) return false;
-  return RAIN.test(input.note.normalize('NFC')) || RAIN_UNMARKED.test(unmarked(input.note));
+/** Whether the organiser's note asks for a day out of the rain (its labels: ./redraft-asks.ts). */
+export function wantsIndoors(input: Pick<RedraftPlanInput, 'asks'>): boolean {
+  return input.asks?.includes('indoor') === true;
 }
 
 /** Whether a stop at `poi` is spent in the open air. */

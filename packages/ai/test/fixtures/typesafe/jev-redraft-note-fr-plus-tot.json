@@ -1,0 +1,48 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (route redraft.note_intent), 2026-10-06. Note: On aimerait commencer plus tôt le matin",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "slower": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "faster": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "later_start": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "earlier_start": {
+          "type": "noul",
+          "noul": 0.96
+        },
+        "indoor": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "cheaper": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "swap_stop": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "less_walking": {
+          "type": "noul",
+          "noul": 0.03
+        }
+      },
+      "usage": {
+        "input_tokens": 994,
+        "output_tokens": 143
+      }
+    }
+  }
+}

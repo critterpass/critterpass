@@ -1,0 +1,48 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (route redraft.note_intent), 2026-10-06. Note: Swap the museum for something else",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "earlier_start": {
+          "type": "noul",
+          "noul": 0.05
+        },
+        "indoor": {
+          "type": "noul",
+          "noul": 0.13
+        },
+        "cheaper": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "swap_stop": {
+          "type": "noul",
+          "noul": 0.95
+        },
+        "less_walking": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "slower": {
+          "type": "noul",
+          "noul": 0.14
+        },
+        "faster": {
+          "type": "noul",
+          "noul": 0.1
+        },
+        "later_start": {
+          "type": "noul",
+          "noul": 0.1
+        }
+      },
+      "usage": {
+        "input_tokens": 992,
+        "output_tokens": 143
+      }
+    }
+  }
+}

@@ -49,6 +49,7 @@ const TRIP: DraftTripData = {
     { id: id(301), ownerId: id(201), poiId: id(1), title: 'Morning Glory Mother’s Kitchen' },
     { id: id(302), ownerId: id(201), poiId: id(2), title: 'Nhà hàng Bình Minh' },
     { id: id(303), ownerId: id(201), poiId: null, title: 'Marble Mountains at sunrise' },
+    { id: id(304), ownerId: id(201), poiId: null, title: 'Chợ đêm Sơn Trà', when: 'night' },
   ],
   diets: [],
   dietsBy: [],
@@ -66,9 +67,9 @@ const input = buildPlanInput(TRIP, PLACES, {
 });
 
 describe('the plan input the draft job builds', () => {
-  it('reads a time of day from a typed must-do, never from a picked place’s name', () => {
+  it('takes a must-do’s time of day from its stored decision, never from its words', () => {
     const when = Object.fromEntries(input.frame.mustDos.map((m) => [m.id, m.when ?? null]));
-    expect(when).toEqual({ [id(301)]: null, [id(302)]: null, [id(303)]: 'sunrise' });
+    expect(when).toEqual({ [id(301)]: null, [id(302)]: null, [id(303)]: null, [id(304)]: 'night' });
   });
 
   it('carries no flight times without a booking: the first day starts at two, the last ends at three', () => {

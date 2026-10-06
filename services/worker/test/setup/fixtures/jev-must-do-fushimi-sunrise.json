@@ -1,0 +1,39 @@
+{
+  "source": "Live recording from TypeSafe Jev (route must_do.resolve), 2026-10-06. Must-do: Fushimi Inari at sunrise",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "time": {
+          "type": "choice",
+          "choice": "early_morning",
+          "confidence": 0.98,
+          "probabilities": {
+            "evening": 0,
+            "any": 0.01,
+            "morning": 0,
+            "after_dark": 0,
+            "sunset": 0,
+            "afternoon": 0,
+            "midday": 0,
+            "early_morning": 0.99
+          }
+        },
+        "place": {
+          "type": "choice",
+          "choice": "a",
+          "confidence": 0.99,
+          "probabilities": {
+            "none": 0,
+            "a": 1
+          }
+        }
+      },
+      "usage": {
+        "input_tokens": 617,
+        "output_tokens": 114
+      }
+    }
+  }
+}

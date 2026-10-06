@@ -7,10 +7,22 @@
  */
 import { withGuideReader, withSystem } from '@cp/db';
 import { budgetEstimates, type BudgetEstimateSource } from '@cp/cost-engine';
-import { TASTE_TAGS } from '@cp/domain';
+import { TASTE_TAGS, type PlaceBestTime } from '@cp/domain';
+import type { WishTime } from '@cp/planner';
 import type pg from 'pg';
 
 export { loadDraftPlaces } from './load-places';
+
+/** A must-do's time of day as the planner holds it (midday has no window of its own). */
+const MUST_DO_WHEN: Readonly<Record<PlaceBestTime, WishTime>> = {
+  early_morning: 'sunrise',
+  morning: 'morning',
+  midday: 'any',
+  afternoon: 'afternoon',
+  sunset: 'evening',
+  evening: 'evening',
+  after_dark: 'night',
+};
 
 export interface DraftTripData {
   readonly tripId: string;
@@ -33,6 +45,8 @@ export interface DraftTripData {
     readonly ownerId: string;
     readonly poiId: string | null;
     readonly title: string;
+    /** From `must_dos.time_of_day`, decided when the must-do was set; null = no time. */
+    readonly when?: WishTime | null;
   }[];
   readonly diets: readonly string[];
   /** Who each diet is for (first names), for the progress line. */
@@ -141,8 +155,9 @@ export async function loadDraftTrip(
       owner_id: string;
       poi_id: string | null;
       title: string;
+      time_of_day: PlaceBestTime | null;
     }>(
-      `SELECT id, owner_id, poi_id, title FROM must_dos
+      `SELECT id, owner_id, poi_id, title, time_of_day FROM must_dos
         WHERE trip_id = $1 AND deleted_at IS NULL ORDER BY created_at, id`,
       [tripId],
     );
@@ -220,6 +235,7 @@ export async function loadDraftTrip(
       ownerId: m.owner_id,
       poiId: m.poi_id,
       title: m.title,
+      when: m.time_of_day === null ? null : MUST_DO_WHEN[m.time_of_day],
     })),
     diets: [
       ...new Set(rest.flags.flatMap((row) => row.flags).filter((flag) => DIETS.has(flag))),

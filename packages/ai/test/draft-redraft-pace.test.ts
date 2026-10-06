@@ -1,7 +1,8 @@
 /**
- * What a redraft does with the pace she asked for, in a chip or in her own words: a slower day
- * never holds more stops (and its essentials stay), a late start opens the day late, and a title
- * promising a late morning is not kept on a day that starts early.
+ * What a redraft does with the pace she asked for, in a chip or in her note (its labels, read
+ * once by a typed decision): a slower day never holds more stops (and its essentials stay), a late
+ * start opens the day late, and a title promising a late morning is not kept on a day that starts
+ * early. Each label drives exactly its own effect; the others are left to the guide.
  */
 import type { Itinerary, RedraftReasonKey } from '@cp/domain';
 import { dayWindow } from '@cp/planner';
@@ -11,13 +12,15 @@ import { withBaseDay } from '../evals/draft/base-day';
 import { baselineItinerary } from '../evals/draft/baseline';
 import { CREWS, planInput } from '../evals/draft/cases';
 import { keepEssentials, noNewClosures } from '../src/prompts/draft/redraft-essentials';
-import { noteReasons } from '../src/prompts/draft/redraft-asks';
+import type { RedraftNoteAsk } from '../src/decide/questions';
+import { noteReasons, wantsLessWalking } from '../src/prompts/draft/redraft-asks';
 import {
   plannedRedraft,
   redraftSkeletonDay,
   type RedraftPlanInput,
 } from '../src/prompts/draft/redraft-input';
 import { lateTitleEarlyDay, slowerDay, slowerLimits } from '../src/prompts/draft/redraft-pace';
+import { wantsIndoors } from '../src/prompts/draft/redraft-rain';
 
 const crew = CREWS.find((c) => c.id === 'dalat-curated-1');
 if (crew === undefined) throw new Error('no dalat-curated-1 crew');
@@ -30,8 +33,16 @@ const base = withBaseDay(input, baselineItinerary(input), 1, [
   MEAL,
 ]);
 const day1 = base.days[0] as Itinerary['days'][number];
-const asked = (reasons: RedraftReasonKey[], note: string | null): RedraftPlanInput =>
-  plannedRedraft({ ...input, base, dayNo: 1, reasons, note, chat: [] });
+const asked = (reasons: RedraftReasonKey[], asks: RedraftNoteAsk[] = []): RedraftPlanInput =>
+  plannedRedraft({
+    ...input,
+    base,
+    dayNo: 1,
+    reasons,
+    note: asks.length === 0 ? null : 'a note',
+    asks,
+    chat: [],
+  });
 const named = (name: string) => {
   const poi = [...input.pois.values()].find((p) => p.name === name);
   if (poi === undefined) throw new Error(`no place ${name}`);
@@ -40,21 +51,33 @@ const named = (name: string) => {
 const lake = named('Xuân Hương Lake');
 
 describe('the pace of a redrafted day', { timeout: 60_000 }, () => {
-  it('reads a slower day and a late start in her words, with or without marks', () => {
-    expect(noteReasons('cham hon, it di bo')).toEqual(['slower']);
-    expect(noteReasons('chậm hơn, ít đi bộ')).toEqual(['slower']);
-    expect(noteReasons('a slow afternoon at the beach')).toEqual(['slower']);
-    expect(noteReasons('ngay cuoi cho minh ngu nuong, di muon mot chut')).toEqual(['later_start']);
-    expect(noteReasons('Let us sleep in, then something relaxed')).toEqual([
-      'slower',
-      'later_start',
-    ]);
-    expect(noteReasons('more temples please')).toEqual([]);
-    expect(noteReasons(null)).toEqual([]);
+  it('turns the slower and later-start labels into their chips, and no other label', () => {
+    expect(noteReasons(['slower'])).toEqual(['slower']);
+    expect(noteReasons(['later_start'])).toEqual(['later_start']);
+    expect(noteReasons(['later_start', 'slower'])).toEqual(['slower', 'later_start']);
+    expect(
+      noteReasons(['faster', 'earlier_start', 'cheaper', 'swap_stop', 'indoor', 'less_walking']),
+    ).toEqual([]);
+    expect(noteReasons([])).toEqual([]);
+    expect(noteReasons(undefined)).toEqual([]);
+  });
+
+  it('asks for a roof only on the indoor label and less walking only on its own', () => {
+    expect(wantsIndoors({ asks: ['indoor'] })).toBe(true);
+    expect(wantsIndoors({ asks: ['slower', 'less_walking'] })).toBe(false);
+    expect(wantsLessWalking({ asks: ['less_walking'] })).toBe(true);
+    expect(wantsLessWalking({ asks: ['slower', 'indoor'] })).toBe(false);
+    expect(wantsLessWalking({})).toBe(false);
+  });
+
+  it('adds a chip the note asked for once, beside the same chip', () => {
+    expect(asked(['slower'], ['slower']).reasons).toEqual(['slower']);
+    expect(asked(['cheaper'], ['slower']).reasons).toEqual(['cheaper', 'slower']);
+    expect(asked([], ['faster']).reasons).toEqual([]);
   });
 
   it('opens a day she asked to start late at half past ten or later', () => {
-    const late = asked([], 'ngu nuong, di muon mot chut');
+    const late = asked([], ['later_start']);
     expect(late.reasons).toContain('later_start');
     expect(dayWindow(late.frame, 0).startMin).toBeGreaterThanOrEqual(10 * 60);
   });
@@ -68,7 +91,7 @@ describe('the pace of a redrafted day', { timeout: 60_000 }, () => {
       'Ga Trại Mát',
       MEAL,
     ]);
-    const slower = asked([], 'cham hon, it di bo');
+    const slower = asked([], ['slower']);
     const paced = slowerDay(slower, redraftSkeletonDay(slower), day1, fuller);
     const day = paced.days[0] as Itinerary['days'][number];
     const limits = slowerLimits(day1);
@@ -81,7 +104,7 @@ describe('the pace of a redrafted day', { timeout: 60_000 }, () => {
   });
 
   it('puts back an essential a slower day dropped instead of taking it off the trip', () => {
-    const slower = asked(['slower'], null);
+    const slower = asked(['slower']);
     const withoutLake: Itinerary = {
       ...base,
       days: base.days.map((d) =>
@@ -129,7 +152,7 @@ describe('the pace of a redrafted day', { timeout: 60_000 }, () => {
             },
       ),
     };
-    const redraft = asked(['slower'], null);
+    const redraft = asked(['slower']);
     expect(noNewClosures(redraft, plan, plan, 2)).toBe(true);
     expect(noNewClosures(redraft, plan, late, 2)).toBe(false);
   });

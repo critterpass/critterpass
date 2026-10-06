@@ -1,6 +1,5 @@
 /**
- * What the planner reads in the organiser's own words and the guide's lines: rain and less
- * walking in Vietnamese typed without its marks, the guide's chat hedge kept out of the plan, a
+ * What the planner reads in the guide's lines: the guide's chat hedge kept out of the plan, a
  * title held to what the day really has, and an evening for a crew that likes the night.
  */
 import type { Itinerary } from '@cp/domain';
@@ -13,8 +12,6 @@ import { claimsTransport, titleFits } from '../src/prompts/draft/day-titles';
 import { scheduleChoices } from '../src/prompts/draft/day';
 import { isForEvening, wantsEvenings } from '../src/prompts/draft/evenings';
 import { withoutHedge } from '../src/prompts/draft/hedge';
-import { wantsLessWalking } from '../src/prompts/draft/redraft-asks';
-import { wantsIndoors } from '../src/prompts/draft/redraft-rain';
 
 const crew = CREWS.find((c) => c.id === 'dalat-curated-1');
 if (crew === undefined) throw new Error('no dalat-curated-1 crew');
@@ -47,22 +44,6 @@ const dayWith = (dayNo: number, starts: readonly string[], theme: string) => {
   };
   return { ...scheduleChoices(input, outline, choices, `words-${dayNo}`), theme };
 };
-
-describe('the organiser note', () => {
-  it('asks for a roof in Vietnamese with or without its marks, and not when she means to buy', () => {
-    expect(wantsIndoors({ note: 'Hom do troi hay mua, cho minh cho trong nha' })).toBe(true);
-    expect(wantsIndoors({ note: 'trời hay mưa, cho mình chỗ trong nhà' })).toBe(true);
-    expect(wantsIndoors({ note: 'neu mua to thi doi ke hoach' })).toBe(true);
-    expect(wantsIndoors({ note: 'muon mua dac san o cho' })).toBe(false);
-  });
-
-  it('asks for less walking in Vietnamese with or without its marks, and in English', () => {
-    expect(wantsLessWalking({ note: 'thêm một quán cà phê view đẹp, bớt đi bộ' })).toBe(true);
-    expect(wantsLessWalking({ note: 'them quan ca phe, bot di bo' })).toBe(true);
-    expect(wantsLessWalking({ note: 'Add a cafe with a view, less walking' })).toBe(true);
-    expect(wantsLessWalking({ note: 'đi bộ quanh hồ thật lâu' })).toBe(false);
-  });
-});
 
 describe("the guide's hedge", () => {
   it('stays in the chat: a plan line loses it and starts with a capital again', () => {

@@ -1,0 +1,48 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (route redraft.note_intent), 2026-10-06. Note: Let us sleep in, then something relaxed",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "slower": {
+          "type": "noul",
+          "noul": 0.91
+        },
+        "faster": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "later_start": {
+          "type": "noul",
+          "noul": 0.94
+        },
+        "earlier_start": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "indoor": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "cheaper": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "swap_stop": {
+          "type": "noul",
+          "noul": 0.21
+        },
+        "less_walking": {
+          "type": "noul",
+          "noul": 0.23
+        }
+      },
+      "usage": {
+        "input_tokens": 994,
+        "output_tokens": 143
+      }
+    }
+  }
+}
