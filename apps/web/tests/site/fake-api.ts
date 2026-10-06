@@ -18,6 +18,7 @@ import {
   publicProposalSchema,
 } from '@cp/domain';
 
+import { handleDriverPlan } from '../driver-plan/fake-driver-plans';
 import { handleDriverClaim, isDriverClaimPath } from '../driver-claim/fake-claim-api';
 
 function fixture(path: string): unknown {
@@ -62,6 +63,7 @@ function json(response: ServerResponse, status: number, body: unknown): void {
 }
 
 createServer((request, response) => {
+  if (handleDriverPlan(request, response)) return undefined;
   const url = new URL(request.url ?? '/', 'http://fake-api');
   if (isDriverClaimPath(url)) {
     void handleDriverClaim(request, response, url);

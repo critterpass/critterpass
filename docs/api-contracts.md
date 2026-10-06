@@ -115,6 +115,7 @@ Client contract: optimistic write to local SQLite; on `cmd_results.status = reje
 | `VOTE_CLOSED` | 409 | no | ballot after close → show result |
 | `NOT_ELIGIBLE` | 403 | no | not a voter / recipient / participant |
 | `INVITE_EXPIRED` / `INVITE_REVOKED` | 410 | no | 3a-13 states |
+| `SHARE_EXPIRED` / `SHARE_REVOKED` (doc delta) | 410 | no | a driver plan link (`/t/{token}`) past its expiry or revoked; `detail = {sharer_first_name, off_at, reply_at}` → switched-off page (6j-3) |
 | `CODE_INVALID` / `CODE_REDEEMED` / `CODE_EXPIRED` | 422/409/410 | no | gift/offer/join codes |
 | `OWNED_BY_OTHER_ACCOUNT` | 409 | no | restore found purchase on another uid |
 | `K_ANON_UNAVAILABLE` | 409 | no | budget band hidden (crew <4) |

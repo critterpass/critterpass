@@ -1,0 +1,236 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 16:49+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: id\n"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.adults"
+msgstr "{count, plural, other {# dewasa}}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offRevoked"
+msgstr "{name} berhenti membagikan rencana ini pada {date}. Minta tautan baru lewat WhatsApp."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.title"
+msgstr "{people, plural, other {# orang}}, {days, plural, other {# hari}} bersama Anda"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.anotherTip"
+msgstr "+ Tips lain"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.timesDays"
+msgstr "× {count, plural, other {# hari}}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.duration"
+msgstr "Sekitar {hours, plural, other {# jam}}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.durationMin"
+msgstr "Sekitar {minutes} menit"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.addTip"
+msgstr "Tambah tips"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.yourTerms"
+msgstr "Disepakati: {price} per hari"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.tipHint"
+msgstr "Bawa sarung untuk Uluwatu, atau sewa di gerbang."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.car"
+msgstr "Mobil"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.errorInvalid"
+msgstr "Periksa formulir: isi harga, perubahan, atau tips. Tips tidak boleh berisi tautan."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.notFoundBody"
+msgstr "Periksa tautannya, atau minta tautan baru ke rombongan."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.brand"
+msgstr "CritterPass"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.entryTickets"
+msgstr "Tiket masuk"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.hours"
+msgstr "Jam termasuk per hari"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.included"
+msgstr "Termasuk dalam harga"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.language"
+msgstr "Bahasa"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.moveUp"
+msgstr "Majukan {name}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.moveDown"
+msgstr "Mundurkan {name}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.moved"
+msgstr "Dipindah"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.mustDo"
+msgstr "Wajib"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.mustDos"
+msgstr "Wajib dikunjungi"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.footer"
+msgstr "Tidak perlu login. Tautan ini berlaku sampai {date}."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.openPickup"
+msgstr "Buka titik jemput di Maps"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.openWhatsApp"
+msgstr "Buka WhatsApp"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.overtime"
+msgstr "Lembur, per jam"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.parking"
+msgstr "Parkir"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.petrol"
+msgstr "Bensin"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.pickup"
+msgstr "Jemput · {name}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.pricePerDay"
+msgstr "Harga per hari"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sendQuote"
+msgstr "Kirim penawaran"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.send"
+msgstr "Kirim ke rombongan"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sentTitle"
+msgstr "Terkirim ke rombongan"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.stay"
+msgstr "Menginap: {area}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.suggestDay"
+msgstr "Usulkan perubahan · {day}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.suggestChanges"
+msgstr "Usulkan perubahan"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sentBody"
+msgstr "Rombongan memutuskan bersama di aplikasi mereka. Sebelum mereka mulai memilih, kiriman baru akan menggantikan balasan ini."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.errorVoting"
+msgstr "Rombongan sudah mulai memilih balasan terakhir Anda, jadi belum bisa diganti."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.updated"
+msgstr "Rombongan memperbarui rencana ini pada {date}."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.unavailable"
+msgstr "Rencana belum bisa dimuat. Coba lagi sebentar lagi."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sendFoot"
+msgstr "Mereka memutuskan bersama di aplikasi. {name} akan membalas lewat WhatsApp."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offExpired"
+msgstr "Tautan ini berakhir pada {date}. Minta tautan baru ke {name} lewat WhatsApp."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offTitle"
+msgstr "Tautan ini dinonaktifkan"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.ticketsBought"
+msgstr "Tiket sudah dibeli"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.tips"
+msgstr "Tips untuk rombongan"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.tolls"
+msgstr "Tol"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.errorRate"
+msgstr "Terlalu banyak kiriman dari tautan ini. Coba lagi satu jam lagi."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.carHint"
+msgstr "Toyota Avanza, 6 kursi"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.back"
+msgstr "Rencana perjalanan"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.eyebrow"
+msgstr "Rencana perjalanan dari {name}"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.notFoundTitle"
+msgstr "Rencana ini tidak ditemukan"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.dayNote"
+msgstr "Kenapa? Beri tahu rombongan (opsional)"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.replacedBody"
+msgstr "Balasan baru Anda menggantikan yang sebelumnya."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.quoteTitle"
+msgstr "Penawaran Anda"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offQuote"
+msgstr "Penawaran Anda tanggal {date} masih di tangan rombongan."
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.replyWaiting"
+msgstr "Balasan Anda tanggal {date} sudah di tangan rombongan."
