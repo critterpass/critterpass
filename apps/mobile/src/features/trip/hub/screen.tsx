@@ -81,7 +81,9 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const today = toLocalWallTime(new Date(minute * 60_000), tz).date;
   const rows = useHubRows(tripId, me, today, minuteIso);
   const offline = useOffline(tripId);
-  const offlineCard = offline === null ? null : <OfflineView {...offline} />;
+  const offlineNode = offline === null ? null : <OfflineView {...offline} />;
+  const unread = offline?.conflictsOnly === true;
+  const offlineCard = unread ? null : offlineNode;
   const savedToday = useLiveRows<{ data: string }>(
     'SELECT data FROM local_private WHERE kind = ? AND id = ?',
     [BUNDLE_KIND, savedDayId(tripId, today)],
@@ -164,7 +166,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       tripTz: tz,
       ownTz: tzGuess,
     }),
-    offline: offline !== null,
+    offline: offlineCard !== null,
     briefed: header.phase === 'pre' || header.phase === 'travel' || header.phase === 'in',
     startDate: start,
     endDate: trip?.end_date ?? null,
@@ -279,6 +281,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       )}
       onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}
+      {...(unread ? { offlineConflicts: offlineNode } : {})}
       menu={menu.foot}
       menuSheet={menu.sheet}
     />

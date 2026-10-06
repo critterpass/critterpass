@@ -150,6 +150,10 @@ msgstr "Saved trips"
 msgid "trip.offline.savedToast"
 msgstr "Saved. Today works with no signal."
 
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictsOpen"
+msgstr "See what was saved and sent"
+
 #: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
 msgid "trip.offline.saveEdit"
 msgstr "Send this instead"

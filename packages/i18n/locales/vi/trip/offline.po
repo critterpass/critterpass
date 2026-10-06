@@ -150,6 +150,10 @@ msgstr "Chuyến đã lưu"
 msgid "trip.offline.savedToast"
 msgstr "Đã lưu. Hôm nay vẫn dùng được khi mất sóng."
 
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictsOpen"
+msgstr "Xem những gì đã lưu và đã gửi"
+
 #: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
 msgid "trip.offline.saveEdit"
 msgstr "Gửi bản này thay thế"

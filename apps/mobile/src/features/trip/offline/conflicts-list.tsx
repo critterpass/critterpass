@@ -1,6 +1,7 @@
 /**
  * What didn't go through once back online (3k-4 conflicts): each rejected write with the reason in
  * words ("Your vote: Nusa Penida · The vote closed while you were offline"), and OK to clear it.
+ * On the trip hub it outlives the offline card and leads to the offline page.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -17,9 +18,12 @@ import { useTheme } from '@/ui/theme';
 export function ConflictsList({
   items,
   onDismiss,
+  onOpen = null,
 }: {
   readonly items: readonly RejectedCommand[];
   readonly onDismiss: (opId: string) => void;
+  /** The way to the offline page, where the list is shown beside what was sent. */
+  readonly onOpen?: (() => void) | null;
 }) {
   const theme = useTheme();
   const locale = useLocale();
@@ -49,6 +53,13 @@ export function ConflictsList({
             </Row>
           );
         })}
+        {onOpen === null ? null : (
+          <TextLink
+            label={t({ id: 'trip.offline.conflictsOpen', message: 'See what was saved and sent' })}
+            onPress={onOpen}
+            testID="trip-offline-conflicts-open"
+          />
+        )}
       </Stack>
     </Card>
   );
