@@ -22,13 +22,10 @@ const METRICS = {
 const show = (viewer: ReactElement) =>
   renderUi(<SafeAreaProvider initialMetrics={METRICS}>{viewer}</SafeAreaProvider>);
 
-const scrollTo = (page: number, width: number) =>
-  fireEvent.scroll(screen.getByTestId('lightbox-pager'), {
-    nativeEvent: {
-      contentOffset: { x: page * width, y: 0 },
-      contentSize: { width: width * ITEMS.length, height: 800 },
-      layoutMeasurement: { width, height: 800 },
-    },
+/** The counter's own action, which turns the page the way a sideways drag does. */
+const turn = (actionName: 'increment' | 'decrement') =>
+  fireEvent(screen.getByTestId('lightbox-position'), 'accessibilityAction', {
+    nativeEvent: { actionName },
   });
 
 describe('the full-screen viewer', () => {
@@ -41,13 +38,18 @@ describe('the full-screen viewer', () => {
 
   it('follows the pager: the counter, the caption and the credit are the page on screen', async () => {
     await show(<Lightbox items={ITEMS} initialIndex={0} onClose={() => {}} />);
-    await scrollTo(1, 750);
+    await turn('increment');
     expect(screen.getByTestId('lightbox-counter')).toHaveTextContent('2 / 3');
     expect(screen.getByTestId('lightbox-caption')).toHaveTextContent('Dragon Bridge at night');
     expect(screen.queryByTestId('lightbox-credit')).toBeNull();
-    await scrollTo(2, 750);
+    await turn('increment');
     expect(screen.getByTestId('lightbox-counter')).toHaveTextContent('3 / 3');
     expect(screen.getByTestId('lightbox-credit')).toHaveTextContent('Foursquare');
+    // The last page is the end of the set, and the way back works.
+    await turn('increment');
+    expect(screen.getByTestId('lightbox-counter')).toHaveTextContent('3 / 3');
+    await turn('decrement');
+    expect(screen.getByTestId('lightbox-counter')).toHaveTextContent('2 / 3');
   });
 
   it('shows no counter for a single item and closes from ✕', async () => {

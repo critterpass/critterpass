@@ -30,12 +30,6 @@ export function indexOfKey(items: readonly LightboxItem[], key: string): number 
   return index === -1 ? 0 : index;
 }
 
-/** The page a horizontal offset rests on. */
-export function pageAt(offsetX: number, pageWidth: number, count: number): number {
-  if (pageWidth <= 0) return 0;
-  return clampIndex(offsetX / pageWidth, count);
-}
-
 /** "3 / 12": the position counted from one. Nothing for a set of one. */
 export function counterOf(
   index: number,

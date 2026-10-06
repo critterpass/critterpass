@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # The full-screen media viewer, from the Explore lab: opened on a lab strip's first photo (counter,
-# caption and credit), paged to the second, zoomed with a double-tap and closed with Android back;
+# caption and credit), paged to the second and dragged down to close; reopened on the third, paged
+# back, zoomed with a double-tap and closed with ✕;
 # then from a place page with Foursquare's live facts, on the hero photo and on the photo strip,
 # each keeping its "Foursquare" credit.
 - runFlow: subflows/lab-en.yaml
@@ -39,22 +40,37 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: en-lightbox-lab-second
+# Dragged down, the viewer goes away.
+- swipe:
+    start: 50%, 35%
+    end: 50%, 85%
+    duration: 400
+- extendedWaitUntil:
+    notVisible:
+      id: 'lab-lightbox-counter'
+    timeout: 10000
+- assertVisible:
+    id: 'lab-lightbox-thumb-0'
+# Opened on the third photo, paged back, zoomed with a double-tap, closed with ✕.
+- tapOn:
+    id: 'lab-lightbox-thumb-2'
+- extendedWaitUntil:
+    visible: '3 / 4'
+    timeout: 15000
+- swipe:
+    start: 15%, 50%
+    end: 85%, 50%
+    duration: 400
+- extendedWaitUntil:
+    visible: '2 / 4'
+    timeout: 10000
 - doubleTapOn:
     point: 50%, 50%
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: en-lightbox-lab-zoomed
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          id: 'lab-lightbox-close'
+- tapOn:
+    id: 'lab-lightbox-close'
 - extendedWaitUntil:
     notVisible:
       id: 'lab-lightbox-counter'

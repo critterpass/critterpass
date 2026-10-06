@@ -8,7 +8,6 @@ import {
   indexOfKey,
   linesOf,
   mediaViewItem,
-  pageAt,
   panLimit,
   siteCredit,
   type LightboxItem,
@@ -48,13 +47,6 @@ describe('the set and the position in it', () => {
     const items = [item('a'), item('b'), item('c')];
     expect(indexOfKey(items, 'c')).toBe(2);
     expect(indexOfKey(items, 'gone')).toBe(0);
-  });
-
-  it('reads the page from where the pager rests', () => {
-    expect(pageAt(0, 390, 4)).toBe(0);
-    expect(pageAt(780, 390, 4)).toBe(2);
-    expect(pageAt(5000, 390, 4)).toBe(3);
-    expect(pageAt(100, 0, 4)).toBe(0);
   });
 
   it('counts from one and says nothing for a single item', () => {

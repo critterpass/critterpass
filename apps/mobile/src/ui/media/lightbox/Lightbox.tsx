@@ -1,20 +1,17 @@
 /**
  * The full-screen viewer for the photos and videos of one set, over everything: swipe between the
- * items, pinch or double-tap to zoom, drag down (or ✕, or Android back) to put it away. The counter
+ * items (or step with the counter's accessibility actions), pinch or double-tap to zoom, drag down (or ✕, or Android back) to put it away. The counter
  * sits at the top; an item's caption and credit sit at the bottom, and a credit is always shown.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import {
   ActivityIndicator,
-  FlatList,
   Image,
   Modal,
   StyleSheet,
   useWindowDimensions,
   View,
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
 } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -28,7 +25,7 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { CloseButton } from '../../sheet/CloseButton';
 import { Text } from '../../text/Text';
 import { makeStyles, useTheme } from '../../theme';
-import { clampIndex, counterOf, linesOf, pageAt, type LightboxItem } from './lightbox-model';
+import { clampIndex, counterOf, linesOf, type LightboxItem } from './lightbox-model';
 import { LightboxVideo } from './lightbox-video';
 import { ZoomPage } from './zoom-page';
 
@@ -45,6 +42,13 @@ const DISMISS_DISTANCE = 120;
 const DISMISS_VELOCITY = 900;
 /** How far a finger travels before a drag is taken as down (not a tap, not a page turn). */
 const DRAG_SLOP = 14;
+/** A sideways drag past this share of the screen, or a flick this fast, turns the page. */
+const TURN_SHARE = 0.2;
+const TURN_VELOCITY = 500;
+/** How far the first and last page give past their edge. */
+const EDGE_GIVE = 48;
+/** The band above the caption a video's own scrub bar sits in. */
+const SCRUB_STRIP = 96;
 /** The backdrop thins to this as the viewer is dragged away. */
 const BACKDROP_FLOOR = 0.4;
 /** The row of the counter and ✕ under the status bar. */
@@ -77,6 +81,8 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['4'],
     backgroundColor: t.semantic.bg.base,
   },
+  clip: { overflow: 'hidden' },
+  row: { flex: 1, flexDirection: 'row' },
   waiting: { alignItems: 'center', justifyContent: 'center' },
 }));
 
@@ -93,36 +99,66 @@ export function Lightbox({ items, initialIndex = 0, onClose, testID = 'lightbox'
   const dismissY = useSharedValue(0);
 
   const settleMs = reduced ? 0 : tokens.motion.duration.fast;
-  // One finger down an unzoomed page; sideways it fails and the pager takes the drag.
-  const dismiss = Gesture.Pan()
+  const count = items.length;
+  const rowX = useSharedValue(-clampIndex(initialIndex, count) * width);
+  const startRowX = useSharedValue(0);
+  /** 0 until the drag picks its way: 1 sideways (turning the page), 2 down (putting it away). */
+  const axis = useSharedValue(0);
+
+  const goTo = (next: number) => {
+    const to = clampIndex(next, count);
+    rowX.value = withTiming(-to * width, { duration: settleMs });
+    if (to !== index) setIndex(to);
+  };
+
+  // One drag for the whole viewer, so paging never depends on a native scroll view sharing touches
+  // with the pages' own gestures: sideways turns the page, down puts the viewer away. It is one
+  // finger and only on an unzoomed page; a second finger hands over to the page's pinch. Over a
+  // video the strip with the player's scrub bar is left to the player.
+  const overVideo = items[index]?.kind === 'video';
+  const pan = Gesture.Pan()
     .enabled(!zoomed)
     .maxPointers(1)
+    .activeOffsetX([-DRAG_SLOP, DRAG_SLOP])
     .activeOffsetY(DRAG_SLOP)
-    .failOffsetX([-DRAG_SLOP, DRAG_SLOP])
-    .withTestId('lightbox-dismiss')
+    .failOffsetY(-DRAG_SLOP)
+    .hitSlop(overVideo ? { bottom: -(Math.max(footHeight, insets.bottom) + SCRUB_STRIP) } : 0)
+    .withTestId('lightbox-pan')
+    .onStart((event) => {
+      'worklet';
+      startRowX.value = rowX.value;
+      axis.value = Math.abs(event.translationX) >= Math.abs(event.translationY) ? 1 : 2;
+    })
     .onUpdate((event) => {
       'worklet';
-      dismissY.value = Math.max(0, event.translationY);
+      if (axis.value === 1) {
+        const least = -(count - 1) * width - EDGE_GIVE;
+        rowX.value = Math.min(Math.max(startRowX.value + event.translationX, least), EDGE_GIVE);
+      } else {
+        dismissY.value = Math.max(0, event.translationY);
+      }
     })
     .onEnd((event) => {
       'worklet';
+      if (axis.value === 1) {
+        const far = Math.abs(event.translationX) > width * TURN_SHARE;
+        const fast = Math.abs(event.velocityX) > TURN_VELOCITY;
+        const step = far || fast ? (event.translationX < 0 ? 1 : -1) : 0;
+        scheduleOnRN(goTo, index + step);
+        return;
+      }
       if (event.translationY > DISMISS_DISTANCE || event.velocityY > DISMISS_VELOCITY) {
         scheduleOnRN(onClose);
         return;
       }
       dismissY.value = withTiming(0, { duration: settleMs });
     });
-  const dragged = useAnimatedStyle(() => ({ transform: [{ translateY: dismissY.value }] }));
+  const dragged = useAnimatedStyle(() => ({
+    transform: [{ translateX: rowX.value }, { translateY: dismissY.value }],
+  }));
   const backdrop = useAnimatedStyle(() => ({
     opacity: Math.max(BACKDROP_FLOOR, 1 - dismissY.value / (DISMISS_DISTANCE * 3)),
   }));
-
-  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const next = pageAt(event.nativeEvent.contentOffset.x, width, items.length);
-    if (next === index) return;
-    setIndex(next);
-    setZoomed(false);
-  };
 
   const current = items[clampIndex(index, items.length)];
   const counter = counterOf(index, items.length);
@@ -130,18 +166,25 @@ export function Lightbox({ items, initialIndex = 0, onClose, testID = 'lightbox'
   const photoLabel = t({ id: 'common.lightbox.photo', message: 'Photo' });
   const videoLabel = t({ id: 'common.lightbox.video', message: 'Video' });
 
-  const page = ({ item, index: at }: { readonly item: LightboxItem; readonly index: number }) => {
+  const page = (item: LightboxItem, at: number) => {
     const active = at === index;
+    // Only the page on screen and its neighbours are drawn; the rest keep their place in the row.
+    if (Math.abs(at - index) > 1) return <View key={item.key} style={{ width, height }} />;
     const label = linesOf(item).caption ?? (item.kind === 'video' ? videoLabel : photoLabel);
     if (item.uri === null) {
       return (
-        <View style={[styles.waiting, { width, height }]} testID={`${testID}-waiting-${at}`}>
+        <View
+          key={item.key}
+          style={[styles.waiting, { width, height }]}
+          testID={`${testID}-waiting-${at}`}
+        >
           <ActivityIndicator color={theme.semantic.text.secondary} />
         </View>
       );
     }
     return (
       <ZoomPage
+        key={item.key}
         width={width}
         height={height}
         zoomable={item.kind === 'image'}
@@ -191,26 +234,12 @@ export function Lightbox({ items, initialIndex = 0, onClose, testID = 'lightbox'
       <GestureHandlerRootView style={styles.root}>
         <View style={styles.root} accessibilityViewIsModal testID={testID}>
           <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop, backdrop]} />
-          <GestureDetector gesture={dismiss}>
-            <Animated.View style={[styles.root, dragged]}>
-              <FlatList
-                data={items}
-                keyExtractor={(item) => item.key}
-                renderItem={page}
-                extraData={`${index}-${zoomed}-${footHeight}`}
-                horizontal
-                pagingEnabled
-                scrollEnabled={!zoomed && items.length > 1}
-                showsHorizontalScrollIndicator={false}
-                initialScrollIndex={clampIndex(initialIndex, items.length)}
-                getItemLayout={(_, at) => ({ length: width, offset: width * at, index: at })}
-                initialNumToRender={1}
-                windowSize={3}
-                onScroll={onScroll}
-                scrollEventThrottle={16}
-                testID={`${testID}-pager`}
-              />
-            </Animated.View>
+          <GestureDetector gesture={pan}>
+            <View style={[styles.root, styles.clip]} testID={`${testID}-pager`}>
+              <Animated.View style={[styles.row, { width: width * count }, dragged]}>
+                {items.map(page)}
+              </Animated.View>
+            </View>
           </GestureDetector>
           <View
             style={[styles.top, { top: insets.top + theme.space['8'] }]}
@@ -221,7 +250,13 @@ export function Lightbox({ items, initialIndex = 0, onClose, testID = 'lightbox'
             ) : (
               <View
                 style={styles.plate}
+                testID={`${testID}-position`}
                 accessible
+                accessibilityRole="adjustable"
+                accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+                onAccessibilityAction={(event) =>
+                  goTo(index + (event.nativeEvent.actionName === 'increment' ? 1 : -1))
+                }
                 accessibilityLabel={t({
                   id: 'common.lightbox.counterLabel',
                   message: `${counter.position} of ${counter.total}`,
