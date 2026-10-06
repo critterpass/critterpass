@@ -38,6 +38,7 @@ import { registerWidgetSnapshotRoute } from './routes/widgets-snapshot';
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerBilling } from './billing/register';
 import { registerGuideRoutes } from './routes/guide';
+import { registerVoiceRoutesFromEnv } from './routes/voice';
 import { registerHelpArticleRoutes } from './routes/help-articles';
 import { registerSharedContentRoutes } from './routes/shared-content';
 import { registerCommunity } from './routes/shared-plans';
@@ -155,6 +156,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   }
   registerMediaRoutesFromEnv(app, doors, env);
   registerAccount(app, { doors, auth: deps.auth, env, keyring });
+  registerVoiceRoutesFromEnv(app, doors, process.env);
 }
 
 function registerMediaRoutesFromEnv(
