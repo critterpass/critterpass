@@ -10,6 +10,7 @@ import type { Href } from 'expo-router';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 
+import { useTripAreas } from '@/data/areas/use-trip-areas';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
@@ -24,6 +25,8 @@ import { guideTagline } from '../guide-copy';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { usePlannedPlaces } from '../map-queries';
 import { categoryIcon } from '../category';
+import { dayTripsSection } from '../day-trips/day-trips-model';
+import { dayTripLinks } from '../day-trips/links';
 import { groupLabel } from '../places/places-copy';
 import { CATEGORY_GROUPS, categoryGroupOf } from '../places/places-model';
 import { useDestinationRow, useLocalPicks, usePlaceKindCounts } from '../queries';
@@ -110,6 +113,13 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
         };
       }),
     [kindRows, locale, tripId],
+  );
+  // The day trips of the stop the next free day is in; none leaves the page as it was.
+  const areas = useTripAreas(tripId);
+  const dayTrips = useMemo(
+    () => dayTripsSection(areas, gap?.gap.day_no ?? 1),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the copy follows the locale.
+    [areas, gap?.gap.day_no, locale],
   );
   const solo = next.loaded && next.people <= 1;
   const paid = organic.find((pick) => pick.sponsored !== null)?.sponsored ?? null;
@@ -207,6 +217,15 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
         router.push(placeHref(pick.id));
       }}
       onSavePick={(pick) => savePick({ id: pick.id, name: pick.name })}
+      dayTrips={
+        dayTrips === null
+          ? undefined
+          : {
+              city: dayTrips.city === '' ? name : dayTrips.city,
+              cards: dayTrips.cards,
+              onOpen: (card) => router.push(dayTripLinks.area(tripId, card.id)),
+            }
+      }
       kinds={kinds}
       swipe={
         solo ? undefined : { ...swipe, onPress: () => router.push(exploreRoutes.swipe(tripId)) }
