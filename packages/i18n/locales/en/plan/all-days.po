@@ -11,6 +11,18 @@ msgstr ""
 msgid "plan.allDays.titleDays"
 msgstr "{count} days"
 
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.none"
+msgstr "{guide} found no way from {home} to {place} with a source to back it, so none is shown."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.loading"
+msgstr "{guide} is looking up the ways to get there. The first look takes about a minute."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.slow"
+msgstr "{guide} is still looking. This is taking longer than usual."
+
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideasWaiting"
 msgstr "{ideas, plural, one {# saved place isn’t in a day yet} other {# saved places aren’t in a day yet}}"
@@ -18,6 +30,14 @@ msgstr "{ideas, plural, one {# saved place isn’t in a day yet} other {# saved 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.title"
 msgstr "{place}, {count} days"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.cost"
+msgstr "about {amount} each, one way"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.noHome"
+msgstr "Add your home airport to your profile to see the ways to get there."
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.back"
@@ -31,6 +51,22 @@ msgstr "Checked against opening hours, drives and bookings."
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.dayTitle"
 msgstr "Day {n}"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.estimateDated"
+msgstr "Estimates from the web, written {written}. Check before you book."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.estimate"
+msgstr "Estimates from the web. Check before you book."
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.titlePlain"
+msgstr "Getting there"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.title"
+msgstr "Getting there from {city}"
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideas"
@@ -92,6 +128,22 @@ msgstr "Share"
 msgid "plan.allDays.preview.suggest"
 msgstr "Suggest it to the crew"
 
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.failed"
+msgstr "The ways to get there didn’t load."
+
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.backTrip"
 msgstr "Trip"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.sources"
+msgstr "Written from"
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.offline"
+msgstr "You’re offline. The ways to get there load once you’re back online."
