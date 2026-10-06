@@ -146,7 +146,9 @@ export async function inviteView(
   inviteId: string,
 ): Promise<DriverClaimView> {
   await tx.query(
-    `UPDATE driver_invites SET status = 'opened', opened_at = now() WHERE id = $1 AND status = 'sent'`,
+    // Only an invite nobody has opened yet moves to opened.
+    `UPDATE driver_invites SET status = 'opened', opened_at = now()
+      WHERE id = $1 AND opened_at IS NULL AND status NOT IN ('opened', 'claimed', 'declined', 'cancelled', 'expired')`,
     [inviteId],
   );
   const context = await inviteContext(tx, inviteId);

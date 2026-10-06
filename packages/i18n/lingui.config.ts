@@ -1,7 +1,7 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
-import { exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
+import { driverAndSiteCatalogs, exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
 import { localeCodes, sourceLocale } from './src/locales';
 
 /**
@@ -131,14 +131,6 @@ const tripSubAreas = {
     `${repoRootPrefix}/apps/mobile/src/app/(trip)/hub/**`,
   ],
 } as const;
-
-// Drivers our crews used: the directory, the rate card, the invite and the crew's own drivers.
-const driverDirectorySources = [
-  `${repoRootPrefix}/apps/mobile/src/features/drivers/{directory,rating,invite,ours}/**`,
-];
-
-// The driver's own claim page on the web (English and Bahasa Indonesia).
-const driverClaimSources = [`${repoRootPrefix}/apps/web/src/components/driver-claim/**`];
 
 // Supplier cards, the booking sheet, vendor messages and Getting around keep their own catalog
 // inside the bookings area (`suppliers/app`), so the supplier lane and the wallet never edit the
@@ -280,12 +272,7 @@ export default defineConfig({
       include: chatSources,
       exclude: testFileExcludes,
     },
-    {
-      name: 'driver-directory/app',
-      path: 'locales/{locale}/driver-directory/app',
-      include: driverDirectorySources,
-      exclude: testFileExcludes,
-    },
+    ...driverAndSiteCatalogs(testFileExcludes),
     {
       name: 'suppliers/app',
       path: 'locales/{locale}/suppliers/app',
@@ -334,18 +321,6 @@ export default defineConfig({
       include: [...include],
       exclude: testFileExcludes,
     })),
-    {
-      name: 'web',
-      path: 'locales/{locale}/web',
-      include: [`${repoRootPrefix}/apps/web/src/**`],
-      exclude: [...testFileExcludes, ...driverClaimSources],
-    },
-    {
-      name: 'driver-claim/web',
-      path: 'locales/{locale}/driver-claim/web',
-      include: driverClaimSources,
-      exclude: testFileExcludes,
-    },
     {
       name: 'server',
       path: 'locales/{locale}/server',

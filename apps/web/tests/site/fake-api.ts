@@ -11,7 +11,7 @@ import { createServer, type ServerResponse } from 'node:http';
 
 import { linkPreviewSchema, linkSettingsSchema, publicProposalSchema } from '@cp/domain';
 
-import { handleDriverClaim } from '../driver-claim/fake-claim-api';
+import { handleDriverClaim, isDriverClaimPath } from '../driver-claim/fake-claim-api';
 
 function fixture(path: string): unknown {
   return JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
@@ -47,9 +47,12 @@ function json(response: ServerResponse, status: number, body: unknown): void {
   response.end(JSON.stringify(body));
 }
 
-createServer(async (request, response) => {
+createServer((request, response) => {
   const url = new URL(request.url ?? '/', 'http://fake-api');
-  if (await handleDriverClaim(request, response, url)) return;
+  if (isDriverClaimPath(url)) {
+    void handleDriverClaim(request, response, url);
+    return;
+  }
   if (url.pathname === '/v1/links/settings') return json(response, 200, SETTINGS);
   // Test control: revoke a code, as the organiser would from the app.
   const revoke = /^\/__revoke\/([^/]+)$/.exec(url.pathname);

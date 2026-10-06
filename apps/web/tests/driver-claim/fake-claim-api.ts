@@ -57,6 +57,12 @@ async function body(request: IncomingMessage): Promise<Record<string, unknown>> 
 
 const error = (code: string) => ({ error: { code, message: code, retryable: false } });
 
+export function isDriverClaimPath(url: URL): boolean {
+  return (
+    url.pathname === '/__driver-claim/reset' || url.pathname.startsWith('/v1/public/driver-claims/')
+  );
+}
+
 /** Answers a driver-claim route, or returns false for the caller's own routes. */
 export async function handleDriverClaim(
   request: IncomingMessage,
