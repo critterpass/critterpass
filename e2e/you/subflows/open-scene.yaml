@@ -17,8 +17,15 @@ appId: app.critterpass.dev
     id: 'dev-nav-you-lab'
 - extendedWaitUntil:
     visible:
-      id: 'you-lab-${SCENE}'
+      id: 'you-lab-3n-1-profile'
     timeout: 15000
+# The list is longer than the screen: a scene further down is scrolled to, clear of the edges.
+- scrollUntilVisible:
+    element:
+      id: 'you-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
 - tapOn:
     id: 'you-lab-${SCENE}'
 - extendedWaitUntil:

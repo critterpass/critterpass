@@ -106,6 +106,10 @@ msgstr "{next} takes over organising {name}."
 msgid "you.profile.crew.today"
 msgstr "{place} today"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.counts"
+msgstr "{styleCount, plural, one {# style · {earnedUnlocked} earned} other {# styles · {earnedUnlocked} earned}}"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.found"
 msgstr "{tier} · found {when}"
@@ -385,7 +389,7 @@ msgstr "During trips"
 msgid "you.sound.musicLine"
 msgstr "Each guide has a theme. It changes when you land."
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.earned"
 msgstr "Earned"
 
@@ -438,7 +442,7 @@ msgstr "EXIT · SORTIE"
 msgid "you.delete.keeps.expenses"
 msgstr "Expenses you added, so Balances still add up"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.face"
 msgstr "Face"
 
@@ -462,7 +466,7 @@ msgstr "Formats"
 msgid "you.settings.mailboxForward"
 msgstr "Forward confirmations to your crew’s address"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.free"
 msgstr "Free"
 
@@ -586,7 +590,7 @@ msgstr "How the crew sees it"
 msgid "you.profile.howYouTravel"
 msgstr "How you travel"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.inUse"
 msgstr "In use"
 
@@ -699,7 +703,7 @@ msgstr "Local"
 msgid "you.settings.location"
 msgstr "Location"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.locked"
 msgstr "Locked"
 
@@ -753,7 +757,7 @@ msgstr "Needs a connection. Try again in a moment."
 msgid "you.settings.budgetMaxLine"
 msgstr "Never shown to anyone, guides included"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.new"
 msgstr "New"
 
@@ -835,6 +839,10 @@ msgstr "Pan flute and charango"
 msgid "you.profile.backPass"
 msgstr "Pass"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.passPlus"
+msgstr "Pass+"
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.billedPlay"
 msgstr "Pass+ is billed by Google Play. Deleting doesn’t cancel it, so cancel it there too."
@@ -847,7 +855,7 @@ msgstr "Pass+ is billed by the App Store. Deleting doesn’t cancel it, so cance
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
 msgstr "Passport"
 
@@ -904,7 +912,7 @@ msgstr "Plans, photos and chat as a zip"
 msgid "you.sound.playMusic"
 msgstr "Play music"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.pon"
 msgstr "Pon"
 
@@ -977,6 +985,10 @@ msgid "you.profile.retake"
 msgstr "Retake"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.styleNote"
+msgstr "Same as the store icons"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.sardi"
 msgstr "Sardi"
 
@@ -1178,7 +1190,7 @@ msgstr "Taps on stamps, holds and votes"
 msgid "you.settings.ideaLine"
 msgstr "Tell us what you’d add"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.temple"
 msgstr "Temple"
 

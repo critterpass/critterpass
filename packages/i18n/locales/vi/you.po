@@ -106,6 +106,10 @@ msgstr "{next} sẽ tiếp quản việc tổ chức {name}."
 msgid "you.profile.crew.today"
 msgstr "{place} hôm nay"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.counts"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.found"
 msgstr "{tier} · tìm thấy {when}"
@@ -385,7 +389,7 @@ msgstr "Trong chuyến đi"
 msgid "you.sound.musicLine"
 msgstr "Mỗi hướng dẫn viên có một giai điệu. Nhạc đổi khi bạn hạ cánh."
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.earned"
 msgstr ""
 
@@ -438,7 +442,7 @@ msgstr "EXIT · SORTIE"
 msgid "you.delete.keeps.expenses"
 msgstr "Các khoản chi bạn đã thêm, để Số dư vẫn khớp"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.face"
 msgstr ""
 
@@ -462,7 +466,7 @@ msgstr "Định dạng"
 msgid "you.settings.mailboxForward"
 msgstr "Chuyển tiếp xác nhận đến địa chỉ của hội"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.free"
 msgstr ""
 
@@ -586,7 +590,7 @@ msgstr "Cả hội sẽ thấy thế này"
 msgid "you.profile.howYouTravel"
 msgstr "Phong cách đi của bạn"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.inUse"
 msgstr ""
 
@@ -699,7 +703,7 @@ msgstr "Địa phương"
 msgid "you.settings.location"
 msgstr "Vị trí"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.locked"
 msgstr ""
 
@@ -753,7 +757,7 @@ msgstr "Cần kết nối mạng. Thử lại sau giây lát."
 msgid "you.settings.budgetMaxLine"
 msgstr "Không bao giờ hiện cho ai, kể cả hướng dẫn viên"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.new"
 msgstr ""
 
@@ -835,6 +839,10 @@ msgstr "Sáo pan và charango"
 msgid "you.profile.backPass"
 msgstr "Pass"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.passPlus"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.billedPlay"
 msgstr "Pass+ được tính tiền qua Google Play. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
@@ -847,7 +855,7 @@ msgstr "Pass+ được tính tiền qua App Store. Xoá tài khoản không hu�
 msgid "you.delete.passPlus"
 msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
 msgstr ""
 
@@ -904,7 +912,7 @@ msgstr "Kế hoạch, ảnh và trò chuyện trong một tệp zip"
 msgid "you.sound.playMusic"
 msgstr "Phát nhạc"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.pon"
 msgstr ""
 
@@ -977,6 +985,10 @@ msgid "you.profile.retake"
 msgstr "Làm lại"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.styleNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.sardi"
 msgstr ""
 
@@ -1178,7 +1190,7 @@ msgstr "Khi chạm con dấu, giữ nút và bình chọn"
 msgid "you.settings.ideaLine"
 msgstr "Bạn muốn thêm gì, hãy cho chúng tôi biết"
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.temple"
 msgstr ""
 
