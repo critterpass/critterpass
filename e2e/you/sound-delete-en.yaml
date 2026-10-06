@@ -7,13 +7,19 @@ appId: app.critterpass.dev
     file: ../screens/sweep/subflows/start.yaml
     env:
       LANG: en
+# The lab list opens on its first scene; the rest are scrolled to from there.
 - runFlow:
     file: subflows/open-scene.yaml
     env:
+      SCENE: '3n-1-profile'
+      ROOT: 'you-profile'
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
       SCENE: '3n-7-sound'
       ROOT: 'you-sound'
-- takeScreenshot: en-3n-7-sound
-- runFlow: ../screens/sweep/subflows/back.yaml
+      SHOT: en-3n-7-sound
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
