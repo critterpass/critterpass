@@ -161,7 +161,14 @@ export {
   weatherSnapshots,
 } from './travel-data';
 export { stickers } from './stickers';
-export { destinations, guides, tripParticipants, trips } from './trips';
+export {
+  destinationLinks,
+  destinations,
+  guides,
+  tripParticipants,
+  trips,
+  tripStops,
+} from './trips';
 export {
   accountDeletions,
   deviceActionKeys,

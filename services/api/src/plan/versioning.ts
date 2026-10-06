@@ -21,6 +21,7 @@ import {
   type PlanOpsHint,
   type PlanPush,
   type PlanState,
+  type PlanStateDay,
   type PlanStateItem,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -90,11 +91,23 @@ function toStateItem(row: ItemRow): PlanStateItem {
   };
 }
 
+interface DayRow {
+  readonly day_no: number;
+  readonly date: string | null;
+  readonly theme: string | null;
+  readonly destination_id: string | null;
+}
+
+/** A day of the pure state; a day with no area of its own carries no area key, as before. */
+export function toStateDay({ destination_id, ...day }: DayRow): PlanStateDay {
+  return destination_id === null ? day : { ...day, destination_id };
+}
+
 /** A version's days and items as the pure plan state (read as the system: callers checked access). */
 export async function loadPlanState(tx: pg.PoolClient, versionId: string): Promise<PlanState> {
   return asSystemRole(tx, async () => {
-    const days = await tx.query<{ day_no: number; date: string | null; theme: string | null }>(
-      `SELECT day_no, to_char(date, 'YYYY-MM-DD') AS date, theme FROM plan_days
+    const days = await tx.query<DayRow>(
+      `SELECT day_no, to_char(date, 'YYYY-MM-DD') AS date, theme, destination_id FROM plan_days
         WHERE version_id = $1 ORDER BY day_no`,
       [versionId],
     );
@@ -108,7 +121,7 @@ export async function loadPlanState(tx: pg.PoolClient, versionId: string): Promi
         ORDER BY d.day_no, i.starts_at NULLS LAST, i.stable_id`,
       [versionId],
     );
-    return { days: days.rows, items: items.rows.map(toStateItem) };
+    return { days: days.rows.map(toStateDay), items: items.rows.map(toStateItem) };
   });
 }
 
@@ -190,11 +203,14 @@ export interface VersionRows {
 export async function writeVersionRows(tx: pg.PoolClient, rows: VersionRows): Promise<void> {
   await tx.query(
     // A day's translations follow its theme (a reorder moves themes between day numbers).
-    `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n)
+    `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n,
+       destination_id)
      SELECT $1, $2, d.day_no, d.date::date, d.theme, old.weather_ref,
             (SELECT t.i18n FROM plan_days t
-              WHERE t.version_id = $4 AND t.theme = d.theme AND t.i18n IS NOT NULL LIMIT 1)
-       FROM jsonb_to_recordset($3::jsonb) AS d(day_no int, date text, theme text)
+              WHERE t.version_id = $4 AND t.theme = d.theme AND t.i18n IS NOT NULL LIMIT 1),
+            d.destination_id
+       FROM jsonb_to_recordset($3::jsonb) AS d(day_no int, date text, theme text,
+              destination_id uuid)
        LEFT JOIN plan_days old ON old.version_id = $4 AND old.day_no = d.day_no`,
     [rows.versionId, rows.tripId, JSON.stringify(rows.next.days), rows.baseVersionId],
   );

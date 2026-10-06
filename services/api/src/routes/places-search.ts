@@ -94,7 +94,8 @@ export async function searchDestinations(
          FROM destinations d
          LEFT JOIN critter_sets s ON s.id = d.critter_set_id
          CROSS JOIN q
-        WHERE d.critter_set_id IS NULL OR s.id IS NOT NULL),
+        -- A day-trip area is reached from its city, never picked as a place to go.
+        WHERE (d.critter_set_id IS NULL OR s.id IS NOT NULL) AND d.coverage <> 'area'),
      matched AS (SELECT *, max(score) OVER () AS best FROM scored WHERE score >= $2)
      SELECT id, name, country, code, coverage, guide, city_guide, set_id FROM matched
       WHERE score >= best * $4

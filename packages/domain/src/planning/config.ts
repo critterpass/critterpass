@@ -50,6 +50,7 @@ export const PLANNING_CONFIG_DEFAULTS = {
   'fair_use.link_import_per_day': 30,
   'fair_use.place_compromise_per_day': 20,
   'imports.platforms': ['tiktok', 'youtube', 'instagram', 'apple_maps', 'google_maps'],
+  'trip.areas': false,
 } as const satisfies Record<string, unknown>;
 export type PlanningConfigKey = keyof typeof PLANNING_CONFIG_DEFAULTS;
 
@@ -136,5 +137,12 @@ export const PLANNING_CONFIG_KEYS: Readonly<Record<PlanningConfigKey, ConfigKeyD
     isPublic: true,
     critical: false,
     description: 'Link platforms Add from a link reads; others ask for a screenshot',
+  },
+  'trip.areas': {
+    group: 'limits',
+    schema: z.boolean(),
+    isPublic: true,
+    critical: true,
+    description: 'Day trips to linked areas and trips with several stops',
   },
 };

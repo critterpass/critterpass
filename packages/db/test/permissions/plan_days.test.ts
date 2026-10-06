@@ -119,4 +119,31 @@ describe("plan_days RLS: follows the version's visibility", () => {
     ]);
     expect(rows).toHaveLength(0);
   });
+
+  it("shows a day's area with its day: a crew day to a member, a draft day to its organisers", async () => {
+    const areaId = await withSystem(db.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO destinations (slug, name, coverage)
+         VALUES ('plan-days-area', 'Machu Picchu', 'area') RETURNING id`,
+      );
+      const id = rows[0]!.id;
+      await tx.query(
+        'UPDATE plan_days SET destination_id = $1 WHERE version_id = ANY($2::uuid[]) AND day_no = 1',
+        [id, [fixture.versionId, draftVersionId]],
+      );
+      return id;
+    });
+    const areas = (uid: string, versionId: string) =>
+      withUser(db.pool, uid, anonymousActor().device, async (tx) => {
+        const { rows } = await tx.query<{ destination_id: string | null }>(
+          'SELECT destination_id FROM plan_days WHERE version_id = $1 AND day_no = 1',
+          [versionId],
+        );
+        return rows.map((row) => row.destination_id);
+      });
+    expect(await areas(fixture.memberId, fixture.versionId)).toEqual([areaId]);
+    expect(await areas(fixture.memberId, draftVersionId)).toEqual([]);
+    expect(await areas(fixture.organiserId, draftVersionId)).toEqual([areaId]);
+    expect(await areas(fixture.outsiderId, fixture.versionId)).toEqual([]);
+  });
 });

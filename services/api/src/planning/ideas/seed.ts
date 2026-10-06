@@ -1,7 +1,7 @@
 /**
  * Queues `ideas.seed` from the api's own transactions (the worker registers the same hook for the
- * events it appends): a trip that just got its destination takes in what its crew already saved
- * there, and a member who joins brings their saves into the crew's active trips.
+ * events it appends): a trip that just got its destination, or a new stop or day-trip area, takes
+ * in what its crew already saved there, and a member who joins brings their saves into the crew's active trips.
  */
 import { sendInTx } from '@cp/db';
 import { PLANNING_QUEUES, type IdeasSeedJob } from '@cp/domain';
@@ -9,7 +9,11 @@ import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 
-const SEED_EVENTS: ReadonlySet<string> = new Set(['trip.destination_set', 'crew.member_joined']);
+const SEED_EVENTS: ReadonlySet<string> = new Set([
+  'trip.destination_set',
+  'trip.areas_changed',
+  'crew.member_joined',
+]);
 
 export async function ideasSeedEventHook(
   tx: pg.PoolClient,
@@ -22,7 +26,8 @@ export async function ideasSeedEventHook(
               CASE WHEN e.type = 'crew.member_joined' THEN (e.payload->>'user_id')::uuid END AS user_id
          FROM app.domain_event_for_routing($1) e
          JOIN trips t ON t.destination_id IS NOT NULL AND t.phase IN ('planning', 'pre', 'in')
-          AND ((e.type = 'trip.destination_set' AND t.id = (e.payload->>'trip_id')::uuid)
+          AND ((e.type IN ('trip.destination_set', 'trip.areas_changed')
+                AND t.id = (e.payload->>'trip_id')::uuid)
             OR (e.type = 'crew.member_joined' AND t.crew_id = (e.payload->>'crew_id')::uuid))
         ORDER BY t.id`,
       [event.id],

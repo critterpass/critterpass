@@ -205,6 +205,58 @@ describe('planning config', () => {
     }
     expect(configKey('planning.redesign')?.isPublic).toBe(true);
   });
+
+  it('ships day trips and several stops switched off, public, beside the retired switch', () => {
+    expect(PLANNING_CONFIG_DEFAULTS['trip.areas']).toBe(false);
+    expect(configKey('trip.areas')).toMatchObject({ isPublic: true, critical: true });
+    expect(PLANNING_CONFIG_DEFAULTS['planning.redesign']).toBe(true);
+    expect(configKey('planning.redesign')).toMatchObject({ isPublic: true, critical: true });
+    expect(configKey('planning.redesign')?.schema.safeParse(false).success).toBe(false);
+  });
+});
+
+describe('trip areas commands', () => {
+  const trip_id = id();
+  const base_version = id();
+
+  it('parses a day area, its clearing and a route of stops', () => {
+    const area = { trip_id, base_version, day_no: 3, destination_id: id() };
+    expect(PLANNING_COMMANDS.set_day_area.payload.parse(area)).toEqual(area);
+    expect(
+      PLANNING_COMMANDS.clear_day_area.payload.safeParse({ trip_id, base_version, day_no: 3 })
+        .success,
+    ).toBe(true);
+    const route = { trip_id, stops: [{ destination_id: id(), nights: 2 }] };
+    expect(PLANNING_COMMANDS.set_trip_stops.payload.parse(route)).toEqual(route);
+    expect(PLANNING_COMMANDS.set_trip_stops.payload.parse({ trip_id, stops: [] }).stops).toEqual(
+      [],
+    );
+  });
+
+  it('refuses a day before the first, a stop of no nights and a seventh stop', () => {
+    expect(
+      PLANNING_COMMANDS.set_day_area.payload.safeParse({
+        trip_id,
+        base_version,
+        day_no: 0,
+        destination_id: id(),
+      }).success,
+    ).toBe(false);
+    const stop = (nights: number) => ({ destination_id: id(), nights });
+    const parse = (stops: unknown[]) =>
+      PLANNING_COMMANDS.set_trip_stops.payload.safeParse({ trip_id, stops }).success;
+    expect(parse([stop(0)])).toBe(false);
+    expect(parse(Array.from({ length: 7 }, () => stop(1)))).toBe(false);
+    expect(parse(Array.from({ length: 6 }, () => stop(1)))).toBe(true);
+  });
+
+  it('answers the version and, when stops left the day, where they went', () => {
+    const version_id = id();
+    const result = PLANNING_COMMANDS.set_day_area.result;
+    expect(result.parse({ version_id })).toEqual({ version_id });
+    const moved = { version_id, moved_stops: [{ stable_id: id(), to: 'ideas' }] };
+    expect(result.parse(moved)).toEqual(moved);
+  });
 });
 
 describe('search parse result', () => {

@@ -228,4 +228,44 @@ describe('app.apply_change_set', () => {
     );
     expect(tripAfter.rows[0]).toMatchObject({ current_version_id: firstResult });
   });
+
+  it("keeps a day's area on the version the change set makes", async () => {
+    const fx = await buildPlanFixture(db.pool);
+    const areaId = await withSystem(db.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO destinations (slug, name, coverage)
+         VALUES ('acs-area-' || substr(md5(random()::text), 1, 8), 'Area', 'area') RETURNING id`,
+      );
+      await tx.query('UPDATE plan_days SET destination_id = $1 WHERE id = $2', [
+        rows[0]!.id,
+        fx.dayIds[1],
+      ]);
+      return rows[0]!.id;
+    });
+    const changeSetId = await insertChangeSet(db.pool, {
+      tripId: fx.tripId,
+      baseVersionId: fx.versionId,
+      authorId: fx.memberId,
+      ops: [
+        {
+          op: 'retime',
+          target: fx.items[0].stableId,
+          after: { starts_at: '2027-02-01T10:00:00+07:00' },
+          reason: 'later',
+          affected_user_ids: [],
+          booking_impact: false,
+        },
+      ],
+    });
+    await approve(fx, changeSetId);
+    const newVersionId = await apply(fx, changeSetId);
+    const { rows } = await db.pool.query<{ day_no: number; destination_id: string | null }>(
+      'SELECT day_no, destination_id FROM plan_days WHERE version_id = $1 ORDER BY day_no',
+      [newVersionId],
+    );
+    expect(rows).toEqual([
+      { day_no: 1, destination_id: null },
+      { day_no: 2, destination_id: areaId },
+    ]);
+  });
 });

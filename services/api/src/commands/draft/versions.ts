@@ -40,8 +40,10 @@ export async function copyVersion(
   const id = rows[0]?.id;
   if (id === undefined) throw new Error(`no version ${source} to copy`);
   await tx.query(
-    `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n)
-     SELECT $2, trip_id, day_no, date, theme, weather_ref, i18n FROM plan_days WHERE version_id = $1`,
+    `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n,
+       destination_id)
+     SELECT $2, trip_id, day_no, date, theme, weather_ref, i18n, destination_id
+       FROM plan_days WHERE version_id = $1`,
     [source, id],
   );
   await tx.query(

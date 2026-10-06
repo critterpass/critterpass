@@ -40,6 +40,8 @@ streams:
       - SELECT * FROM crews WHERE id IN my_crews
       - SELECT * FROM crew_members WHERE crew_id IN my_crews
       - SELECT * FROM trips WHERE crew_id IN my_crews
+      # A trip's route (several cities), beside the trip: a few rows per trip, crew-scoped.
+      - SELECT * FROM trip_stops WHERE crew_id IN my_crews
 
   # Co-members' profiles (app.shares_crew): both sides of the shared crew must be active.
   crew_people:

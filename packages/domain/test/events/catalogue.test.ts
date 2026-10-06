@@ -610,6 +610,7 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     member_id: IDEA.user_id,
     status: 'declined',
   },
+  'trip.areas_changed': { trip_id: IDEA.trip_id },
   'briefing.built': {
     trip_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),

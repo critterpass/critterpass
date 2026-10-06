@@ -121,7 +121,8 @@ export async function reshapeDraftDays(
     await writeBookedPlanItems(tx, head.tripId, fresh);
     return [];
   }
-  const themes = new Map(state.days.map((day) => [day.day_no, day.theme]));
+  // A day keeps its theme and its area on its day number, as a stop does.
+  const before = new Map(state.days.map((day) => [day.day_no, day]));
   const moved: MovedStop[] = [];
   const kept: PlanStateItem[] = [];
   for (const item of stops) {
@@ -145,11 +146,16 @@ export async function reshapeDraftDays(
     moved.push({ stable_id: item.stable_id, to: 'ideas' });
   }
   const next: PlanState = {
-    days: Array.from({ length }, (_, index) => ({
-      day_no: index + 1,
-      date: addDays(start, index),
-      theme: themes.get(index + 1) ?? null,
-    })),
+    days: Array.from({ length }, (_, index) => {
+      const day = before.get(index + 1);
+      const area = day?.destination_id;
+      return {
+        day_no: index + 1,
+        date: addDays(start, index),
+        theme: day?.theme ?? null,
+        ...(area == null ? {} : { destination_id: area }),
+      };
+    }),
     items: await onNewDates(tx, base, start, input.tz, kept),
   };
   const versionId = await writeDraftVersion(tx, {

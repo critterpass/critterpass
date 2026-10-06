@@ -7,8 +7,13 @@ import type { PlanState, PlanStateItem } from '@cp/domain';
 import type pg from 'pg';
 
 export async function loadPlanState(tx: pg.PoolClient, versionId: string): Promise<PlanState> {
-  const days = await tx.query<{ day_no: number; date: string | null; theme: string | null }>(
-    `SELECT day_no, to_char(date, 'YYYY-MM-DD') AS date, theme FROM plan_days
+  const days = await tx.query<{
+    day_no: number;
+    date: string | null;
+    theme: string | null;
+    destination_id: string | null;
+  }>(
+    `SELECT day_no, to_char(date, 'YYYY-MM-DD') AS date, theme, destination_id FROM plan_days
       WHERE version_id = $1 ORDER BY day_no`,
     [versionId],
   );
@@ -27,5 +32,11 @@ export async function loadPlanState(tx: pg.PoolClient, versionId: string): Promi
       WHERE i.version_id = $1`,
     [versionId],
   );
-  return { days: days.rows, items: items.rows.map((row) => row.item) };
+  return {
+    // A day with no area of its own carries no area key, so states read before areas compare equal.
+    days: days.rows.map(({ destination_id, ...day }) =>
+      destination_id === null ? day : { ...day, destination_id },
+    ),
+    items: items.rows.map((row) => row.item),
+  };
 }

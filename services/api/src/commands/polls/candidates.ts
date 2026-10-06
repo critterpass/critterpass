@@ -18,7 +18,8 @@ export interface Place {
 
 export async function resolvePlace(tx: pg.PoolClient, placeId: string): Promise<Place> {
   const { rows } = await tx.query<Place>(
-    'SELECT id, slug, name, coverage FROM destinations WHERE id = $1',
+    // A day-trip area is never a place to pitch, vote on or start a trip in.
+    "SELECT id, slug, name, coverage FROM destinations WHERE id = $1 AND coverage <> 'area'",
     [placeId],
   );
   const place = rows[0];

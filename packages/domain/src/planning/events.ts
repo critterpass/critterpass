@@ -17,6 +17,7 @@ export const PLANNING_EVENT_TYPES = [
   'ideas.placed',
   'check.member_asked',
   'check.member_ask_answered',
+  'trip.areas_changed',
 ] as const;
 export type PlanningEventType = (typeof PLANNING_EVENT_TYPES)[number];
 
@@ -49,4 +50,6 @@ export const PLANNING_EVENT_PAYLOADS = {
     member_id: z.uuid(),
     status: z.enum(['accepted', 'declined']),
   }),
+  /** A day's area or the trip's stops changed: the ideas seed and the areas' ingest follow. */
+  'trip.areas_changed': z.object({ trip_id: z.uuid() }),
 } as const satisfies Record<PlanningEventType, z.ZodType>;

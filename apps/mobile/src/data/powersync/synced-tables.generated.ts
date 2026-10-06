@@ -204,7 +204,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id version_id kind severity day_id stable_ids params fix rank:integer fingerprint created_at updated_at',
   plan_checks:
     'trip_id version_id status checked_at fix_count:integer know_count:integer runs_on runs_today:integer quiet created_at updated_at',
-  plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at i18n',
+  plan_days:
+    'version_id trip_id day_no:integer date theme weather_ref destination_id created_at updated_at i18n',
   plan_items:
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id custom_place provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason i18n',
   plan_legs:
@@ -312,6 +313,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id poi_id visibility roles destination_id name name_local category lat:real lng:real address hours hours_verified_at price_level:integer editorial tags status curation pick_rank:integer visit_radius_m:integer timezone last_live_check_at poi_created_at poi_updated_at created_at updated_at',
   trip_share_totals:
     'trip_id user_id total_minor:integer currency calc_version is_missing:integer created_at updated_at',
+  trip_stops:
+    'trip_id crew_id position:integer destination_id nights:integer created_at updated_at',
   trips:
     'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
   usage_counters:

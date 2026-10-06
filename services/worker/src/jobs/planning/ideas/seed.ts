@@ -1,6 +1,6 @@
 /**
  * `ideas.seed` (docs/api-contracts-planning.md, jobs): a trip's Ideas take in what its crew already
- * saved inside the destination and the swipe matches not yet on the plan, each with every member
+ * saved inside any of its areas (its destination, its stops, its days' areas) and the swipe matches not yet on the plan, each with every member
  * who saved or matched it as a backer. Runs when the trip gets its destination, when a member
  * joins (their saves only) and once as a backfill. A place someone removed from Ideas is not
  * brought back by a whole-trip seed.
@@ -18,18 +18,23 @@ export function ideasSeedKey(job: IdeasSeedJob): string {
 
 const SEED_SQL = `
 WITH trip AS (
-  SELECT t.id, t.crew_id, t.current_version_id, d.id AS destination_id, d.place_bounds
-    FROM trips t JOIN destinations d ON d.id = t.destination_id
-   WHERE t.id = $1 AND t.phase IN ('planning', 'pre', 'in')),
+  SELECT t.id, t.crew_id, t.current_version_id
+    FROM trips t
+   WHERE t.id = $1 AND t.destination_id IS NOT NULL AND t.phase IN ('planning', 'pre', 'in')),
+areas AS (
+  SELECT d.id AS destination_id, d.place_bounds
+    FROM trip CROSS JOIN LATERAL app.trip_area_ids(trip.id, true) AS area(id)
+    JOIN destinations d ON d.id = area.id),
 saves AS (
-  SELECT p.id AS poi_id, s.user_id, 'save'::text AS source, s.created_at
+  SELECT DISTINCT ON (p.id, s.user_id) p.id AS poi_id, s.user_id, 'save'::text AS source,
+         s.created_at
     FROM trip
     JOIN crew_members m ON m.crew_id = trip.crew_id AND m.status = 'active'
     JOIN saved_items s ON s.user_id = m.user_id AND s.kind = 'poi'
     JOIN pois p ON p.id = s.ref_id AND p.status = 'active'
-   WHERE ($2::uuid IS NULL OR s.user_id = $2)
-     AND (p.destination_id = trip.destination_id
-          OR (trip.place_bounds IS NOT NULL AND ST_Intersects(p.location, trip.place_bounds)))),
+    JOIN areas a ON p.destination_id = a.destination_id
+                 OR (a.place_bounds IS NOT NULL AND ST_Intersects(p.location, a.place_bounds))
+   WHERE ($2::uuid IS NULL OR s.user_id = $2)),
 matches AS (
   SELECT sm.poi_id, u.user_id, 'swipe'::text AS source, sm.created_at
     FROM trip

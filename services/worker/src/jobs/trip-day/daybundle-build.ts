@@ -7,7 +7,7 @@
  */
 import { createHash } from 'node:crypto';
 
-import { scheduledJobDataSchema, withSystem } from '@cp/db';
+import { dayArea, scheduledJobDataSchema, withSystem } from '@cp/db';
 import {
   canonicalJson,
   dayBundleJobSchema,
@@ -54,6 +54,22 @@ async function attachments(
   }));
 }
 
+/** The area the plan's day on `localDate` is spent in; null when no day of the plan falls on it. */
+async function dayAreaOn(
+  tx: pg.PoolClient,
+  tripId: string,
+  versionId: string | null,
+  localDate: string,
+): Promise<string | null> {
+  if (versionId === null) return null;
+  const { rows } = await tx.query<{ id: string }>(
+    'SELECT id FROM plan_days WHERE version_id = $1 AND date = $2::date',
+    [versionId, localDate],
+  );
+  const dayId = rows[0]?.id;
+  return dayId === undefined ? null : ((await dayArea(tx, tripId, dayId))?.areaId ?? null);
+}
+
 async function phraseAudio(tx: pg.PoolClient, country: string | null): Promise<BundleAsset[]> {
   const language = phraseLanguageFor(country);
   if (language === null) return [];
@@ -88,6 +104,8 @@ export async function dayManifest(
   if (trip === undefined || trip.tz === null) return null;
   const from = localSchedule({ date: localDate, time: '00:00', tz: trip.tz });
   const to = new Date(from.getTime() + 86_400_000);
+  // The map and forecast are the day's area's: a day trip carries its area's pack, or none.
+  const area = (await dayAreaOn(tx, tripId, trip.version_id, localDate)) ?? trip.destination_id;
   const region = await tx.query<{
     id: string;
     pmtiles_key: string;
@@ -96,7 +114,7 @@ export async function dayManifest(
   }>(
     `SELECT id, pmtiles_key, version, bytes::text FROM map_regions WHERE destination_id = $1
       ORDER BY updated_at DESC LIMIT 1`,
-    [trip.destination_id],
+    [area],
   );
   const map = region.rows[0];
   const fx = await tx.query<{ base: string; quote: string; rate: string; as_of: string }>(
@@ -115,7 +133,7 @@ export async function dayManifest(
   const forecasts = await tx.query<BundleManifest['forecasts'][number]>(
     `SELECT point_key, elevation_m, hourly FROM weather_snapshots
       WHERE destination_id = $1 AND date = $2::date ORDER BY point_key`,
-    [trip.destination_id, localDate],
+    [area, localDate],
   );
   const assets = [
     ...(await attachments(tx, tripId, from, to)),

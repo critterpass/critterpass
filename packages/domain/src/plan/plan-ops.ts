@@ -100,6 +100,11 @@ export interface PlanStateDay {
   /** Local calendar date (`YYYY-MM-DD`); null while the trip's dates are open. */
   readonly date: string | null;
   readonly theme: string | null;
+  /**
+   * The area the day is spent in (a day trip's destination); absent = where its stop is. It
+   * belongs to what the day holds, so a reorder moves it with the day's theme and stops.
+   */
+  readonly destination_id?: string | null | undefined;
 }
 
 export type PlanStateItem = Omit<PlanItemSnapshot, 'lane'> & {
@@ -222,7 +227,10 @@ function reorder(state: PlanState, order: readonly number[]): PlanState {
   return {
     days: days.map((slot, index) => {
       const source = byNo.get(order[index] ?? slot.day_no) ?? slot;
-      return { ...slot, theme: source.theme };
+      const { destination_id: _ownArea, ...rest } = slot;
+      return source.destination_id == null
+        ? { ...rest, theme: source.theme }
+        : { ...rest, theme: source.theme, destination_id: source.destination_id };
     }),
     items: state.items.map((item) => {
       const slot = target.get(item.day_no);

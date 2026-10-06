@@ -635,6 +635,7 @@ streams:
       - SELECT * FROM crews WHERE id IN my_crews
       - SELECT * FROM crew_members WHERE crew_id IN my_crews
       - SELECT * FROM trips WHERE crew_id IN my_crews
+      - SELECT * FROM trip_stops WHERE crew_id IN my_crews
       - SELECT * FROM crew_contact_cards WHERE crew_id IN my_crews
       - |-
         SELECT * FROM crews

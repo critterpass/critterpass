@@ -18,7 +18,7 @@
  */
 import type pg from 'pg';
 
-import { withUser } from '../../src/tx';
+import { withSystem, withUser } from '../../src/tx';
 import type { ActorKind, PermissionFixture } from '../helpers/fixtures';
 
 export interface TableOpExpectation {
@@ -30,6 +30,11 @@ export interface TableOpExpectation {
 export interface SelectProbe {
   readonly sql: string;
   readonly params: (fixture: PermissionFixture) => readonly unknown[];
+  /**
+   * Written as the system before the probe, for a table the shared fixture has no row in. It must
+   * be idempotent: every actor's probe runs it.
+   */
+  readonly seed?: string;
 }
 
 export interface TableMatrixEntry {
@@ -2157,6 +2162,40 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: { sql: 'SELECT 1 FROM climate_normals', params: () => [] },
     expectations: READ_ONLY_ALL,
   },
+  // Links are about places: every signed-in caller reads them, the brief's writer writes them.
+  destination_links: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM destination_links WHERE key = $1',
+      params: () => ['matrix-probe>matrix-probe-area:day_trip'],
+      seed: `WITH area AS (
+               INSERT INTO destinations (slug, name, coverage)
+               VALUES ('matrix-probe-area', 'Matrix Probe Area', 'area')
+               ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name
+               RETURNING id
+             )
+             INSERT INTO destination_links
+               (key, from_destination_id, to_destination_id, kind, minutes, mode, day_length,
+                origin)
+             SELECT 'matrix-probe>matrix-probe-area:day_trip', p.destination_id, area.id,
+                    'day_trip', 90, 'bus', 'full', 'editorial'
+               FROM pois p, area
+              WHERE p.name = 'Matrix Probe POI'
+             ON CONFLICT (key) DO NOTHING`,
+    },
+    expectations: READ_ONLY_ALL,
+  },
+  // The trip's route: its members read it as they read the trip, only the system writes it.
+  trip_stops: {
+    selectProbe: {
+      ...tripRowProbe('trip_stops'),
+      seed: `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+             SELECT t.id, t.crew_id, 1, p.destination_id, 2
+               FROM trips t, pois p
+              WHERE t.id = $1 AND p.name = 'Matrix Probe POI'
+             ON CONFLICT (trip_id, position) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
 };
 
 /**
@@ -2172,6 +2211,11 @@ export async function probeSelect(
   probe: SelectProbe,
   fixture: PermissionFixture,
 ): Promise<boolean> {
+  const { seed } = probe;
+  if (seed !== undefined) {
+    const seedParams = seed.includes('$1') ? [...probe.params(fixture)] : [];
+    await withSystem(pool, (tx) => tx.query(seed, seedParams));
+  }
   try {
     const result = await withUser(pool, uid, device, (tx) =>
       tx.query(probe.sql, [...probe.params(fixture)]),

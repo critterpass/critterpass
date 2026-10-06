@@ -6,6 +6,7 @@
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
 import {
+  bigint,
   boolean,
   customType,
   date,
@@ -135,7 +136,70 @@ export const tripParticipants = pgTable('trip_participants', {
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
 
+/**
+ * How to get from one destination to another, one direction per row: a `day_trip` to an area the
+ * crew comes back from the same day, or an `onward` leg to a trip's next city. Written by the
+ * destination brief as a cited estimate (`sources`), or by an editor. Read through the api.
+ */
+export const destinationLinks = pgTable('destination_links', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  /** `<from slug>><to slug>:<kind>`. */
+  key: text('key').notNull().unique(),
+  fromDestinationId: uuid('from_destination_id')
+    .notNull()
+    .references(() => destinations.id),
+  toDestinationId: uuid('to_destination_id')
+    .notNull()
+    .references(() => destinations.id),
+  kind: text('kind').notNull(),
+  /** Door to door, one way. */
+  minutes: integer('minutes').notNull(),
+  mode: text('mode').notNull(),
+  /** `half` or `full`; set exactly for day trips. */
+  dayLength: text('day_length'),
+  /** A first visit includes this day trip; day trips only. */
+  essential: boolean('essential'),
+  costPpMinor: bigint('cost_pp_minor', { mode: 'number' }),
+  costCurrency: text('cost_currency'),
+  note: text('note'),
+  i18n: jsonb('i18n'),
+  position: integer('position').notNull().default(0),
+  origin: text('origin').notNull().default('ai'),
+  sources: jsonb('sources').notNull().default([]),
+  /** The content release of an editorial row; empty for a written one. */
+  releaseId: uuid('release_id'),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+/**
+ * The cities of a trip in order with their nights. Row 1 is the trip's own destination; a trip
+ * with no rows has one stop. `crew_id` is the trip's, so the crew stream needs no lookup.
+ */
+export const tripStops = pgTable('trip_stops', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  tripId: uuid('trip_id')
+    .notNull()
+    .references(() => trips.id),
+  crewId: uuid('crew_id')
+    .notNull()
+    .references(() => crews.id),
+  position: integer('position').notNull(),
+  destinationId: uuid('destination_id')
+    .notNull()
+    .references(() => destinations.id),
+  nights: integer('nights').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
 registerTablePrivacy('destinations', { class: 'C0' });
+registerTablePrivacy('destination_links', { class: 'C0' });
+registerTablePrivacy('trip_stops', { class: 'C1' });
 registerTablePrivacy('guides', { class: 'C0' });
 registerTablePrivacy('trips', { class: 'C1' });
 registerTablePrivacy('trip_participants', { class: 'C1', columns: { chosen_options: 'C2' } });

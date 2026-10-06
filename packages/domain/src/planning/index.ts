@@ -1,3 +1,4 @@
+export * from './areas';
 export * from './checks';
 export * from './commands';
 export * from './config';
