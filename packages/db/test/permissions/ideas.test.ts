@@ -1,5 +1,5 @@
 /**
- * `ideas` (C0, RLS R): the published board is for everyone, through RLS and the help stream; an
+ * `ideas` (C0, RLS R): the published board is for everyone, through RLS and over HTTP; an
  * idea waiting for review is seen by its author alone, on me. Nobody but the server writes, and
  * the embedding and the author never leave the server.
  */
@@ -39,8 +39,6 @@ describe('ideas', () => {
 
   it('streams a pending idea only to its author on me; the board is read over HTTP', async () => {
     for (const actor of STREAM_ACTORS) {
-      const help = titles((await harness.rows('help', actor, { locale: 'en' })).get('ideas'));
-      expect(help, actor).toEqual([]);
       const mine = titles((await harness.rows('me', actor)).get('ideas'));
       expect(mine, actor).toEqual(actor === 'organiser' ? [MATRIX_PENDING_IDEA_TITLE] : []);
     }
