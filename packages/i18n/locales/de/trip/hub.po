@@ -28,6 +28,10 @@ msgstr ""
 msgid "trip.hub.tile.days"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.dayTrips"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.learningGuide"
 msgstr ""

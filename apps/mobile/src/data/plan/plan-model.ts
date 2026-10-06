@@ -122,6 +122,8 @@ export function toPlanState(
     day_no: day.day_no,
     date: day.date,
     theme: day.theme,
+    // A day's area belongs to what the day holds: a reorder moves it with the day's stops.
+    ...(day.destination_id == null ? {} : { destination_id: day.destination_id }),
   }));
   return { days: planDays, items: items.map(toStateItem) };
 }

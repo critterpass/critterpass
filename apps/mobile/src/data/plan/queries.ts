@@ -60,7 +60,7 @@ export interface MemberRow {
   readonly display_name: string | null;
 }
 
-export const DAYS_SQL = `SELECT id, day_no, date, theme, i18n FROM plan_days
+export const DAYS_SQL = `SELECT id, day_no, date, theme, i18n, destination_id FROM plan_days
   WHERE version_id = ? ORDER BY day_no`;
 export const DAYS_TABLES = ['plan_days'];
 
@@ -71,6 +71,8 @@ export interface PlanDayRow {
   readonly theme: string | null;
   /** The guide's text in other languages (JSON text); read through `guideText`. */
   readonly i18n?: string | null;
+  /** The area the day is spent in (a day trip's); empty where its stop is. */
+  readonly destination_id?: string | null;
 }
 
 /** A version's items with their place (named and placed) and live booking's title. */

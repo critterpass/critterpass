@@ -28,6 +28,10 @@ msgstr "{crew} người trong nhóm"
 msgid "trip.hub.tile.days"
 msgstr "{days, plural, other {# ngày}}"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.dayTrips"
+msgstr "{dayTrips, plural, other {# chuyến đi trong ngày}}"
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.learningGuide"
 msgstr "{guideName} vẫn đang tìm hiểu · gợi ý chưa kiểm tra"
