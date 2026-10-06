@@ -5,6 +5,8 @@
  */
 import { z } from 'zod';
 
+import { MAX_TRIP_STOPS } from '../planning/areas';
+
 export const ROOM_CHIPS = [
   'early_bird',
   'night_owl',
@@ -24,6 +26,9 @@ export const ROOM_TRAIT_LABELS = [
 /** Rooms a stay type is split into: doubles, and a single when the crew is odd. */
 export const ROOM_DOUBLE_CAPACITY = 2;
 
+/** The most stays one trip is split into: two a stop (a mix of stay types) on the longest route. */
+export const MAX_TRIP_STAYS = MAX_TRIP_STOPS * 2;
+
 const key = z.string().regex(/^[a-z0-9_-]{1,40}$/u, 'short key');
 
 export const setStayChoicePayloadSchema = z.strictObject({
@@ -34,7 +39,7 @@ export const setStayChoicePayloadSchema = z.strictObject({
   stays: z
     .array(z.strictObject({ stay_type: key, nights: z.int().min(1).max(30) }))
     .min(1)
-    .max(4)
+    .max(MAX_TRIP_STAYS)
     .optional(),
 });
 export type SetStayChoicePayload = z.infer<typeof setStayChoicePayloadSchema>;

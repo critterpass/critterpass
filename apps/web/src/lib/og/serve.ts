@@ -2,21 +2,24 @@
 /**
  * `/og/{kind}/{id}.png`. Private kinds (invite, referral) are keyed by the link's code only: the
  * code is checked against the api on every request, so a switched-off or expired code answers 404
- * and its cached card is deleted, and an internal id (not a code) never resolves. Public kinds
+ * and its cached card is deleted, and an internal id (not a code) never resolves. A plan card is
+ * keyed by its plan link's token and checked the same way: a revoked link or a plan taken down
+ * answers 404 and loses its cached card. Public kinds
  * (tip) are keyed by their public slug. Every card is drawn once per content digest and kept in R2;
  * any failure falls back to the site card.
  */
 import { parseLinkPath, type LinkTarget } from '@cp/domain';
 
+import { fetchPublicPlan } from '../api/public-previews';
 import { fetchLinkPreview } from '../links/resolver-fetch';
 import { contentDigest, ogCacheKey, readCached, writeCached, type OgBucket } from './cache';
-import { linkCard, type CardWords, type DrawnCard } from './cards';
+import { linkCard, planCard, type CardWords, type DrawnCard } from './cards';
 import { renderCard, type AssetLoader } from './render';
 
 /** Bump when a template's drawing changes, so every cached card is redrawn. */
 export const OG_TEMPLATE_VERSION = '1';
 
-export const PRIVATE_OG_KINDS = ['invite', 'referral'] as const;
+export const PRIVATE_OG_KINDS = ['invite', 'referral', 'plan'] as const;
 export const PUBLIC_OG_KINDS = ['tip'] as const;
 
 export interface OgEnv {
@@ -87,6 +90,25 @@ async function drawCached(
   return png(bytes, cacheControl, 'miss');
 }
 
+async function servePlan(input: OgRequest): Promise<Response> {
+  const target = parseLinkPath(`/p/${input.id}`);
+  if (target?.kind !== 'plan_share' || target.token !== input.id) return notFound();
+  const key = await cacheKey(input.env, 'plan', input.id);
+  const outcome = await fetchPublicPlan({
+    apiBaseUrl: input.apiBaseUrl,
+    target,
+    visitorIp: input.request.headers.get('cf-connecting-ip'),
+    visitorUserAgent: input.request.headers.get('user-agent'),
+    proxySecret: input.proxySecret,
+  });
+  if (outcome.status === 'unavailable') return fallback(input.loadAsset);
+  if (outcome.status === 'gone') {
+    if (key !== null) await input.env.OG_CACHE?.delete(key);
+    return notFound();
+  }
+  return drawCached(input, key, planCard(outcome.plan, input.words), NO_STORE);
+}
+
 export async function serveOg(input: OgRequest): Promise<Response> {
   const { kind, id } = input;
   try {
@@ -96,6 +118,7 @@ export async function serveOg(input: OgRequest): Promise<Response> {
       return await drawCached(input, await cacheKey(input.env, kind, id), card, PUBLIC_CACHE);
     }
     if (!(PRIVATE_OG_KINDS as readonly string[]).includes(kind)) return notFound();
+    if (kind === 'plan') return await servePlan(input);
     const target = linkTarget(kind, id);
     if (target === null) return notFound();
     const key = await cacheKey(input.env, kind, id);

@@ -1,0 +1,76 @@
+{
+  "view": {
+    "sharer_first_name": "Winston",
+    "party_size": 6,
+    "first_names": ["Winston", "Maya", "Alex", "Jordan", "Rin", "Dev"],
+    "stay_area": "Jalan Raya Sayan, Ubud",
+    "must_dos": ["Jatiluwih rice terraces", "Kecak dance at Uluwatu"],
+    "days": [
+      {
+        "day_no": 3,
+        "date": "2026-10-14",
+        "stops": [
+          {
+            "ref": "00000000-0000-4000-8000-000000000001",
+            "time": "06:30",
+            "name": "Villa Kayu Manis",
+            "name_local": null,
+            "address": "Jalan Raya Sayan, Ubud",
+            "duration_min": 30,
+            "must_do": false,
+            "booked": false,
+            "pickup": true,
+            "maps_url": "https://www.google.com/maps/search/?api=1&query=-8.500000,115.250000"
+          },
+          {
+            "ref": "00000000-0000-4000-8000-000000000002",
+            "time": "07:30",
+            "name": "Jatiluwih rice terraces",
+            "name_local": "Sawah Jatiluwih",
+            "address": null,
+            "duration_min": 180,
+            "must_do": true,
+            "booked": false,
+            "pickup": false,
+            "maps_url": "https://www.google.com/maps/search/?api=1&query=-8.370000,115.130000"
+          },
+          {
+            "ref": "00000000-0000-4000-8000-000000000003",
+            "time": "14:00",
+            "name": "Karsa Spa, Ubud",
+            "name_local": null,
+            "address": null,
+            "duration_min": 120,
+            "must_do": false,
+            "booked": false,
+            "pickup": false,
+            "maps_url": null
+          }
+        ]
+      },
+      {
+        "day_no": 7,
+        "date": "2026-10-18",
+        "stops": [
+          {
+            "ref": "00000000-0000-4000-8000-000000000004",
+            "time": "18:00",
+            "name": "Kecak dance",
+            "name_local": null,
+            "address": null,
+            "duration_min": 60,
+            "must_do": true,
+            "booked": true,
+            "pickup": false,
+            "maps_url": null
+          }
+        ]
+      }
+    ],
+    "terms": null
+  },
+  "allow_quote": true,
+  "expires_at": "2026-11-01T03:00:00.000Z",
+  "updated_at": null,
+  "open_reply_at": null
+}

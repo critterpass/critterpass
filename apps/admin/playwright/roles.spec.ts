@@ -54,6 +54,8 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   revoke_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', reason: 'matrix' }),
   revoke_session: () => ({ uid: nobody(), session_id: nobody(), reason: 'matrix' }),
   revoke_all_sessions: () => ({ uid: nobody(), reason: 'matrix' }),
+  force_purge_account: () => ({ uid: nobody(), reason: 'matrix' }),
+  admin_unpublish_shared_plan: () => ({ id: nobody(), reason: 'matrix' }),
   set_idea_status: () => ({ idea_id: nobody(), status: 'open' }),
   set_feedback_status: () => ({ ticket_id: nobody(), status: 'replied' }),
   merge_feedback_into_idea: () => ({ ticket_id: nobody(), idea_id: nobody() }),

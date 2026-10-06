@@ -15,6 +15,7 @@ import {
 import type { DraftDay } from '@cp/domain';
 import type pg from 'pg';
 
+import { eachGroup, groupProgress } from './group-progress';
 import type { Outline } from './skeleton';
 import { publishDayTitle } from './steps';
 
@@ -41,12 +42,14 @@ export async function daysStage(
   if (groups.length < 2 || outlines === undefined) {
     return draftDays(model, input, skeleton, onDay);
   }
-  const drafted = await Promise.all(
-    groups.map((group, index) => {
-      const own = outlines[index];
-      if (own === undefined) throw new Error('draft: a day group has no outline');
-      return draftGroupDays(model, group, groupPrefix(groups, index), own, onDay);
-    }),
-  );
+  const progress = groupProgress(pool, jobId, 'days');
+  const drafted = await eachGroup(groups.length, progress, (index) => {
+    const group = groups[index];
+    const own = outlines[index];
+    if (group === undefined || own === undefined) {
+      throw new Error('draft: a day group has no outline');
+    }
+    return draftGroupDays(model, group, groupPrefix(groups, index), own, onDay);
+  });
   return { ...joinDrafted(groups, drafted), groups: drafted };
 }

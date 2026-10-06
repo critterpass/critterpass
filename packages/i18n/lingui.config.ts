@@ -3,6 +3,7 @@ import { formatter } from '@lingui/format-po';
 
 import {
   driverAndSiteCatalogs,
+  driverPlan,
   driversCatalog,
   exploreSubAreas,
   planningCatalogs,
@@ -329,6 +330,7 @@ export default defineConfig({
       include: [...include],
       exclude: testFileExcludes,
     })),
+    ...driverPlan.catalogs.map((catalog) => ({ ...catalog, exclude: testFileExcludes })),
     {
       name: 'server',
       path: 'locales/{locale}/server',

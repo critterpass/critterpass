@@ -252,6 +252,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
     ['checked_by', keep(CREW)],
   ),
   ...rules('public.providers', ['added_by', keep(CREW)]),
+  ...rules('public.driver_plan_shares', ['created_by', keep(CREW)]),
   // A driver's listing keeps the crew's combined answer, never who gave it.
   ...rules('public.driver_ratings', ['user_id', del]),
   ...rules('public.driver_tips', ['author_id', nul]),

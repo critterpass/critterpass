@@ -1,0 +1,42 @@
+---
+/**
+ * The driver's plan page (`/t/{token}`): read without logging in, never a Universal Link, never
+ * indexed or cached, so a revoked or expired link shows the switched-off page on the next request.
+ */
+import { driverPlanCopy as copy } from '../../../components/driver-plan/copy';
+import { loadDriverPlan } from '../../../components/driver-plan/api';
+import { driverPlanLocale, driverPlanTranslator } from '../../../components/driver-plan/i18n';
+import PlanView from '../../../components/driver-plan/PlanView.astro';
+import Shell from '../../../components/driver-plan/Shell.astro';
+import SwitchedOff from '../../../components/driver-plan/SwitchedOff.astro';
+
+export const prerender = false;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+const token = Astro.params.token ?? '';
+const locale = driverPlanLocale(Astro.url, Astro.request.headers.get('accept-language'));
+const t = await driverPlanTranslator(locale);
+const loaded = await loadDriverPlan(Astro.request, Astro.url, token);
+if (loaded.status === 'not_found') Astro.response.status = 404;
+if (loaded.status === 'off') Astro.response.status = 410;
+if (loaded.status === 'unavailable') Astro.response.status = 503;
+const lang = locale === 'en' ? '' : `?lang=${locale}`;
+const title =
+  loaded.status === 'ok'
+    ? t(copy.eyebrow, { name: loaded.page.view.sharer_first_name })
+    : t(copy.offTitle);
+---
+
+<Shell t={t} locale={locale} title={title}>
+  {loaded.status === 'ok' && (
+    <PlanView t={t} locale={locale} page={loaded.page} quoteHref={`/t/${encodeURIComponent(token)}/quote${lang}`} />
+  )}
+  {loaded.status === 'off' && (
+    <SwitchedOff t={t} locale={locale} detail={loaded.detail} revoked={loaded.revoked} />
+  )}
+  {loaded.status === 'not_found' && <SwitchedOff t={t} locale={locale} detail={null} revoked={false} />}
+  {loaded.status === 'unavailable' && (
+    <SwitchedOff t={t} locale={locale} detail={null} revoked={false} message={t(copy.unavailable)} />
+  )}
+</Shell>

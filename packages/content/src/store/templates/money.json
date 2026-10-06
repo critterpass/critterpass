@@ -1,0 +1,20 @@
+{
+  "id": "money",
+  "order": 5,
+  "background": "#54d6a4",
+  "ink": "#17142a",
+  "accent": {
+    "kind": "gecko",
+    "seed": 7
+  },
+  "caption": {
+    "en": {
+      "headline": "NOBODY HAS TO BE THE ONE WHO ASKS FOR MONEY.",
+      "sub": "Log an expense, split it, settle up."
+    },
+    "vi": {
+      "headline": "KHÔNG AI PHẢI LÀ NGƯỜI ĐI ĐÒI TIỀN.",
+      "sub": "Ghi khoản chi, chia ra, rồi thanh toán."
+    }
+  }
+}
