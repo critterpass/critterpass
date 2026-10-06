@@ -4,6 +4,7 @@
  * what went wrong with the last try, SET, and on a crew trip "Ask the crew first".
  */
 import { upper } from '@cp/i18n';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
@@ -20,6 +21,8 @@ import { makeStyles, useTheme } from '@/ui/theme';
 const useStyles = makeStyles((t) => ({
   // The sheet's own gutter, as its title has: the days, the toggle and both buttons sit inside it.
   body: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['24'] },
+  // The eyebrow sits over the title, and both keep clear of the sheet's ✕ in its corner.
+  head: { paddingEnd: t.space['32'] + t.space['8'] },
   group: {
     backgroundColor: t.semantic.bg.raised,
     borderRadius: t.radius.lg,
@@ -75,14 +78,18 @@ export function PickDaysView(props: PickDaysViewProps) {
   const none = chosen === 0 || props.busy !== null;
   return (
     <Sheet
-      title={upper(t({ id: 'drivers.pick.title', message: 'Which legs?' }), locale)}
       accessibilityLabel={t({ id: 'drivers.pick.label', message: `Pick ${name}` })}
       testID="drivers-pick"
     >
       <Stack gap="14" style={styles.body}>
-        <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-          {upper(t({ id: 'drivers.pick.eyebrow', message: `Pick ${name}` }), locale)}
-        </Text>
+        <Stack gap="4" style={styles.head}>
+          <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+            {upper(t({ id: 'drivers.pick.eyebrow', message: `Pick ${name}` }), locale)}
+          </Text>
+          <Text variant="h1" accessibilityRole="header">
+            {upper(t({ id: 'drivers.pick.title', message: 'Which legs?' }), locale)}
+          </Text>
+        </Stack>
         <View style={styles.group}>
           <Stack gap="12">
             {props.days.map((day) => (
@@ -177,7 +184,13 @@ export function PickDaysView(props: PickDaysViewProps) {
         )}
         {props.onSet === null ? null : (
           <PillButton
-            label={t({ id: 'drivers.pick.set', message: `Set ${name} on ${props.chosen} days` })}
+            label={t({
+              id: 'drivers.pick.set',
+              message: plural(chosen, {
+                one: `Set ${name} on # day`,
+                other: `Set ${name} on # days`,
+              }),
+            })}
             tone="yellow"
             block
             disabled={none}
