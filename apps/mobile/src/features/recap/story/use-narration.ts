@@ -4,29 +4,13 @@
  * music ducks under it, paused with the story and stopped when the card changes. With voice off,
  * or no recording, the card's narration shows as text only.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- api paths, never copy. */
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 import { useEffect, useRef } from 'react';
 
-import { sessionHeaders } from '@/data/app-session/auth-client';
-import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { acquirePlaybackSession } from '@/motion/feedback';
 import { music } from '@/motion/music';
 
-async function readUrl(mediaKey: string): Promise<string | null> {
-  try {
-    const response = await fetch(`${resolveApiBaseUrl()}/v1/media/read-urls`, {
-      method: 'POST',
-      headers: { ...(await sessionHeaders()), 'content-type': 'application/json' },
-      body: JSON.stringify({ media_keys: [mediaKey] }),
-    });
-    if (!response.ok) return null;
-    const body = (await response.json()) as { urls?: { media_key: string; url: string }[] };
-    return body.urls?.find((entry) => entry.media_key === mediaKey)?.url ?? null;
-  } catch {
-    return null;
-  }
-}
+import { readMediaUrl } from '../data/read-url';
 
 export function useNarration(mediaKey: string | null, voiceOn: boolean, paused: boolean): void {
   const player = useRef<AudioPlayer | null>(null);
@@ -36,7 +20,7 @@ export function useNarration(mediaKey: string | null, voiceOn: boolean, paused: 
     let live = true;
     let restore: (() => void) | null = null;
     let release: (() => void) | null = null;
-    void readUrl(mediaKey).then((url) => {
+    void readMediaUrl(mediaKey).then((url) => {
       if (!live || url === null) return;
       const audio = createAudioPlayer(url);
       player.current = audio;

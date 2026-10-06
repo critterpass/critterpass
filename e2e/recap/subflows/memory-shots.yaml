@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Every year-later memory scene (apps/mobile/src/features/recap/dev/memory-scenes.tsx): the crew's
+# reactions, the first to open it, a traveller who left the crew, a recap no longer on the phone,
+# and the reaction sheet. ${LANG} prefixes the screenshots so compare mode pairs each with the
+# 3m-10 render.
+- runFlow: open-lab.yaml
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-10-memory', ROOT: 'memory-screen', SHOT: '${LANG}-3m-10-memory' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-10-first', ROOT: 'memory-screen', SHOT: '${LANG}-3m-10-first' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-10-left-crew', ROOT: 'memory-screen', SHOT: '${LANG}-3m-10-left-crew' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-10-no-recap', ROOT: 'memory-screen', SHOT: '${LANG}-3m-10-no-recap' }
+- runFlow:
+    file: sheet-scene.yaml
+    env:
+      SCENE: '3m-10-react'
+      ROOT: 'memory-react-sheet'
+      SHOT: '${LANG}-3m-10-react'
+      CLOSE: 'memory-react-sheet-close'

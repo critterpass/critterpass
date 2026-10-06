@@ -64,6 +64,14 @@ msgstr "{days, plural, one {In # day} other {In # days}}"
 msgid "recap.summary.owed.early"
 msgstr "{days, plural, one {settled # day early} other {settled # days early}}"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.crew"
+msgstr "{days} days, {travellers} of you."
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.solo"
+msgstr "{days} days, just you."
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.meals.caption"
 msgstr "{each} each, all in"
@@ -103,6 +111,10 @@ msgstr "{meals, plural, one {# meal} other {# meals}}"
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.food"
 msgstr "{meals, plural, one {Food · # meal} other {Food · # meals}}"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.reactedMany"
+msgstr "{name} and others: {label}"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.route.driver"
@@ -144,6 +156,10 @@ msgstr "{place} is stamped"
 msgid "recap.summary.title"
 msgstr "{place},\n"
 "the recap"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.title"
+msgstr "{place}, a year on"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitle"
@@ -205,6 +221,10 @@ msgstr "{value, plural, one {{name}, # ride sorted} other {{name}, # rides sorte
 msgid "recap.mvp.votes"
 msgstr "{votes} votes"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.reactChip"
+msgstr "+ React"
+
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.gotAway.unnamed"
 msgstr "A golden one"
@@ -220,6 +240,10 @@ msgstr "A rare one got away."
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.remind"
 msgstr "A reminder for the one that got away"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.titleNoPlace"
+msgstr "A year on"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.about"
@@ -253,9 +277,21 @@ msgstr "Building the recap again"
 msgid "recap.receipt.cheapest"
 msgstr "Cheapest day"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.close"
+msgstr "Close"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.failed"
 msgstr "Couldn't ask for it again"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.reunionFailed"
+msgstr "Couldn't pitch the reunion"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.reactFailed"
+msgstr "Couldn't send that reaction"
 
 #: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
 msgid "recap.signature.failed"
@@ -276,6 +312,10 @@ msgstr "D{day} · {each} each"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.chava"
 msgstr "đàn bầu lo-fi"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.bestDay"
+msgstr "Day {dayNo} of {days}. The day you all still talk about."
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.route.day"
@@ -393,6 +433,10 @@ msgstr "Money, wrapped"
 msgid "recap.mvp.winner"
 msgstr "MVP · {votes} votes"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.reunionOffline"
+msgstr "Needs signal to pitch it"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.offline"
 msgstr "Needs signal to try again"
@@ -421,6 +465,11 @@ msgstr "Once, and it signs every stamp you share with the crew, in your colour."
 msgid "recap.mvp.open"
 msgstr "One tap. You can change it until everyone has voted."
 
+#: ../../apps/mobile/src/features/recap/dev/memory-scenes.tsx
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.eyebrow"
+msgstr "One year ago today"
+
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.other"
 msgstr "Other"
@@ -437,6 +486,14 @@ msgstr "Paid"
 msgid "recap.story.theme.paco"
 msgstr "pan flute and charango"
 
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.reunion"
+msgstr "Pitching a reunion to the crew"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.reunion"
+msgstr "Plan a reunion"
+
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.planned"
 msgstr "Planned"
@@ -449,6 +506,14 @@ msgstr "Play the story again"
 msgid "recap.receipt.priciest"
 msgstr "Priciest"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.react"
+msgstr "React"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+msgid "recap.memory.reactTitle"
+msgstr "React to the memory"
+
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.remind"
 msgstr "Remind me"
@@ -456,6 +521,14 @@ msgstr "Remind me"
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.remindIn"
 msgstr "Remind me in {month}"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+msgid "recap.memory.lineLabel"
+msgstr "Say something"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+msgid "recap.memory.send"
+msgstr "Send"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -468,6 +541,10 @@ msgstr "settled on the last day"
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.share"
 msgstr "Share recap"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
+msgid "recap.memory.share"
+msgstr "Share the memory"
 
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.sign"
@@ -625,6 +702,10 @@ msgstr "Transit"
 msgid "recap.summary.failed.retry"
 msgstr "Try again"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.line.sunrise"
+msgstr "Up and out at {time} for {name}."
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.updated.other"
 msgstr "Updated with late additions"
@@ -649,6 +730,10 @@ msgstr "Watched the recap"
 msgid "recap.summary.whereNext"
 msgstr "Where next? →"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.you"
+msgstr "You"
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.you"
 msgstr "You"
@@ -668,6 +753,10 @@ msgstr "your driver"
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.mvp"
 msgstr "Your MVP vote"
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.react"
+msgstr "Your reaction to the memory"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.yourShare"
