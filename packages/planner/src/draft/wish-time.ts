@@ -9,6 +9,7 @@
  */
 import { ceilGrid, floorGrid, spansOn } from './day-minutes';
 import { nameTokens } from './place-names';
+import { placeTimes, timeOfDayWindow } from './time-of-day';
 import { isTyped } from './typed-facts';
 import type { DraftPoi } from './types';
 
@@ -113,7 +114,7 @@ export function heldWindow(
   date: string,
   when: WishTime | null | undefined,
 ): StartWindow | null {
-  const wished = showtime(poi, when) ?? timeWindow(when);
+  const wished = showtime(poi, when) ?? lateOf(poi, date, when);
   if (wished === null || poi.hours === null || poi.hoursGuessed === true) return wished;
   const visit = ceilGrid(timedDuration(poi, when));
   let nearest: { readonly at: number; readonly away: number } | null = null;
@@ -129,6 +130,26 @@ export function heldWindow(
     if (nearest === null || away < nearest.away) nearest = { at, away };
   }
   return nearest === null ? null : { fromMin: nearest.at, toMin: nearest.at };
+}
+
+/**
+ * An evening or night wish at a place that is itself for the sunset, the evening or after dark
+ * starts no earlier than the place's own time that day (the fire show on the bridge waits for the
+ * dark, not just for five o'clock). When the place's time begins after the wish's window closes,
+ * the stop starts when the place's time does: later than wished, never earlier.
+ */
+function lateOf(
+  poi: DraftPoi,
+  date: string,
+  when: WishTime | null | undefined,
+): StartWindow | null {
+  const wished = timeWindow(when);
+  if (wished === null || (when !== 'evening' && when !== 'night')) return wished;
+  const late = placeTimes(poi).find((time) => time !== 'morning');
+  if (late === undefined) return wished;
+  const own = timeOfDayWindow(late, poi, date);
+  const fromMin = Math.max(wished.fromMin, own.fromMin);
+  return { fromMin, toMin: Math.max(fromMin, Math.min(wished.toMin, own.toMin)) };
 }
 
 /**
