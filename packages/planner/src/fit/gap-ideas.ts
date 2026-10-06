@@ -8,7 +8,15 @@ import { openSpans, visitMinutes, type FitReason, type GapIdea } from '@cp/domai
 
 import { ceilGrid } from '../draft/day-minutes';
 import { usualHours } from '../draft/open-data';
-import { thresholdsOf, travelOf, type FitContext, type FitPlace, type FitStop } from './context';
+import {
+  dayTravel,
+  inDayArea,
+  thresholdsOf,
+  travelOf,
+  type FitContext,
+  type FitPlace,
+  type FitStop,
+} from './context';
 import { clockOf } from './day-model';
 import type { DayGap } from './gaps';
 import { rainCheck } from './reasons';
@@ -161,10 +169,14 @@ function bestPair(
 }
 
 export function gapIdeas(
-  context: FitContext,
+  given: FitContext,
   entry: DayGap,
-  pool: readonly GapCandidate[],
+  all: readonly GapCandidate[],
 ): GapIdea[] {
+  // The day's own area: only its places, and on a day trip the link's travel from the stay.
+  const day = entry.model.day;
+  const context: FitContext = { ...given, travel: dayTravel(day, travelOf(given)) };
+  const pool = all.filter((candidate) => inDayArea(day, candidate.place));
   const ideas = pool.filter((candidate) => candidate.source === 'idea');
   const curated = pool.filter((candidate) => candidate.source === 'curated');
   const byTravel = (a: Visit, b: Visit) => a.travelIn - b.travelIn || a.start - b.start;
@@ -180,9 +192,10 @@ export function gapIdeas(
   if (pair !== null) {
     options.push(toIdea('pair', pair, (pair[1]?.end ?? 0) - (pair[0]?.start ?? 0)));
   }
-  const stay = entry.model.day.stay;
+  const stay = day.stay;
   const from = startStop(entry);
-  if (stay !== null && from !== null && from.key !== 'stay') {
+  // Going back to the stay fills a window in its own area, never the middle of a day trip.
+  if (stay !== null && from !== null && from.key !== 'stay' && day.link == null) {
     const leg = travelOf(context)(from, { key: 'stay', ...stay });
     options.push({
       kind: 'stay',

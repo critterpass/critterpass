@@ -85,6 +85,25 @@ export const planningCatalogs = {
   fit: [`${mobileRoot}/data/fit/**`],
 } as const;
 
+// Sharing the plan with a driver: the no-login page speaks English and Indonesian on its own
+// catalog (kept out of `web`), and the app's share sheet and reply card have theirs.
+const driverPlanWebSources = [
+  `${repoRootPrefix}/apps/web/src/components/driver-plan/**`,
+  `${repoRootPrefix}/apps/web/src/pages/t/**`,
+];
+const driverPlanCatalogs = [
+  {
+    name: 'driver-plan-web',
+    path: 'locales/{locale}/driver-plan-web',
+    include: driverPlanWebSources,
+  },
+  {
+    name: 'driver-plan',
+    path: 'locales/{locale}/driver-plan',
+    include: [`${repoRootPrefix}/apps/mobile/src/features/drivers/{share,replied}/**`],
+  },
+];
+export const driverPlan = { catalogs: driverPlanCatalogs, webSources: driverPlanWebSources };
 // Drivers our crews used: the app's directory, rate card, invite and the crew's own drivers
 // (`driver-directory/app`), and the driver's own claim page on the web in English and Bahasa
 // Indonesia (`driver-claim/web`), which the site's own `web` catalog leaves out.
@@ -110,7 +129,7 @@ export function driverAndSiteCatalogs(exclude: string[]) {
       name: 'web',
       path: 'locales/{locale}/web',
       include: [`${repoRootPrefix}/apps/web/src/**`],
-      exclude: [...exclude, ...claimSources],
+      exclude: [...exclude, ...claimSources, ...driverPlanWebSources],
     },
   ];
 }

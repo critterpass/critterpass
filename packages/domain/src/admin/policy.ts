@@ -94,6 +94,8 @@ export const ADMIN_COMMAND_ROLES: Readonly<Record<string, readonly AdminRole[]>>
   update_incident: ['ops'],
   resolve_incident: ['ops'],
   set_vendor_cost: ['owner'],
+  force_purge_account: ['owner'],
+  admin_unpublish_shared_plan: ['ops'],
 };
 
 function holdsAny(roles: readonly AdminRole[], allowed: readonly AdminRole[]): boolean {

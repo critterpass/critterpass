@@ -16,6 +16,7 @@ import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { undoPlanEditOnline } from '@/data/plan/commands';
 import type { UndoOutcome } from '@/data/plan/use-plan-editor';
+import { withDriverReply } from '@/features/drivers';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 
@@ -232,7 +233,10 @@ export function ChangesReviewScreen({
         onExplain: (ideaId) => setExplained((current) => new Set([...current, ideaId])),
         onOpen: (href) => router.push(href),
       })}
-      totals={<ChangesTotals numbers={view.numbers} drivingMin={extras.drivingDeltaMin} />}
+      totals={withDriverReply(
+        row,
+        <ChangesTotals numbers={view.numbers} drivingMin={extras.drivingDeltaMin} />,
+      )}
       send={
         editable
           ? {

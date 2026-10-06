@@ -183,14 +183,17 @@ function profileFacts(row: PoiRow): ProfileFacts | null {
 /**
  * Places a hand-typed must-do might name: rows of the destination whose name shares a word with
  * the text, curated rows and open-data rows read apart (most words in common first) so neither
- * crowds the other out. The planner decides which, if any, the text really names.
+ * crowds the other out. The planner decides which, if any, the text really names. With `borrow`
+ * (a later stop or a day-trip area), also rows another destination owns inside this one's box.
  */
 export async function loadWishCandidates(
   pool: pg.Pool,
   destinationId: string,
   wishes: readonly string[],
   ignore: readonly (readonly string[])[],
+  options: { readonly borrow?: boolean } = {},
 ): Promise<DraftPoi[]> {
+  const mine = options.borrow === true ? BORROWED_SQL : 'p.destination_id = $1';
   const skip = new Set(ignore.flat());
   const found = new Map<string, DraftPoi>();
   const typed = wishes.length > 0 && (await typedPlacesOn(pool));
@@ -211,14 +214,14 @@ export async function loadWishCandidates(
         `SELECT * FROM (
            (SELECT ${PLACE_COLUMNS}
               FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
-             WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
+             WHERE ${mine} AND p.status = 'active' AND p.merged_into_id IS NULL
                AND p.curation = 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')
                AND p.fts @@ to_tsquery('simple', $2)
              ORDER BY ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id LIMIT $3)
            UNION ALL
            (SELECT ${PLACE_COLUMNS}
               FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
-             WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
+             WHERE ${mine} AND p.status = 'active' AND p.merged_into_id IS NULL
                AND p.curation <> 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')
                AND p.fts @@ to_tsquery('simple', $2)
              ORDER BY ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id LIMIT $3)

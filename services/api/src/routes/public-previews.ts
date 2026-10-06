@@ -6,14 +6,21 @@
  *
  * - `proposal`: the draft behind a trip invite; `{token}` is the trip's join code, `?seat=` a
  *   personal invite's seat token. A code or seat that is not live answers 404.
+ * - `plan`: a published crew plan; `{token}` is an unlisted plan link's token. A revoked link, or
+ *   one whose plan is not published (waiting on consent, declined, taken down), answers 404.
  */
+import { createHash } from 'node:crypto';
+
 import {
   DomainError,
   isSeatTokenShape,
   normalizeJoinCode,
+  parseLinkPath,
   PUBLIC_PREVIEW_KINDS,
   PUBLIC_PROPOSAL_DAYS,
+  publicPlanSchema,
   publicProposalSchema,
+  type PublicPlan,
   type PublicProposal,
 } from '@cp/domain';
 import { createRoute, z, type OpenAPIHono } from '@hono/zod-openapi';
@@ -35,8 +42,10 @@ export interface PublicPreviewRouteDeps extends CommandDoorDeps {
 
 /** The link a public read is scoped to; every other setting stays unset. */
 interface PublicScope {
-  readonly code: string | null;
-  readonly seatHash: string | null;
+  readonly code?: string | null;
+  readonly seatHash?: string | null;
+  /** sha-256 hex of a plan link's token. */
+  readonly planHash?: string | null;
 }
 
 const STATEMENT_TIMEOUT_MS = 5_000;
@@ -55,8 +64,9 @@ async function asPublicReader<T>(
       await client.query(`SET LOCAL statement_timeout = ${STATEMENT_TIMEOUT_MS}`);
       await client.query('SET LOCAL ROLE public_reader');
       await client.query(
-        "SELECT set_config('app.public_code', $1, true), set_config('app.public_seat', $2, true)",
-        [scope.code ?? '', scope.seatHash ?? ''],
+        `SELECT set_config('app.public_code', $1, true), set_config('app.public_seat', $2, true),
+                set_config('app.public_plan', $3, true)`,
+        [scope.code ?? '', scope.seatHash ?? '', scope.planHash ?? ''],
       );
       const result = await fn(client);
       await client.query('COMMIT');
@@ -84,7 +94,7 @@ export async function readPublicProposal(
   pool: pg.Pool,
   scope: PublicScope,
 ): Promise<PublicProposal | null> {
-  if (scope.code === null && scope.seatHash === null) return null;
+  if ((scope.code ?? null) === null && (scope.seatHash ?? null) === null) return null;
   const rows = await asPublicReader(pool, scope, async (tx) => {
     const { rows: days } = await tx.query<ProposalDayRow>(
       `SELECT day_no, date, theme, days_total, stops
@@ -107,6 +117,22 @@ export async function readPublicProposal(
   });
 }
 
+/** The published plan behind a live plan link, or null when the link shows none. */
+export async function readPublicPlan(pool: pg.Pool, token: string): Promise<PublicPlan | null> {
+  if (parseLinkPath(`/p/${token}`)?.kind !== 'plan_share') return null;
+  const planHash = createHash('sha256').update(token).digest('hex');
+  const rows = await asPublicReader(pool, { planHash }, async (tx) => {
+    const { rows: plans } = await tx.query<Record<string, unknown>>(
+      `SELECT shared_plan_id, title, destination_name, days_count, travel_month, travel_year,
+              crew_size, crew_names, travelled, tags, days, rating_avg, rating_count, copies_count
+         FROM public.shared_plan_public LIMIT 1`,
+    );
+    return plans;
+  });
+  const row = rows[0];
+  return row === undefined ? null : publicPlanSchema.parse({ kind: 'plan', ...row });
+}
+
 const route = createRoute({
   method: 'get',
   path: '/v1/public/{kind}/{token}',
@@ -122,7 +148,9 @@ const route = createRoute({
   responses: {
     200: {
       description: 'Preview',
-      content: { 'application/json': { schema: publicProposalSchema } },
+      content: {
+        'application/json': { schema: z.union([publicProposalSchema, publicPlanSchema]) },
+      },
     },
     404: {
       description: 'NOT_FOUND: unknown, switched-off or expired link, or nothing to show',
@@ -144,13 +172,18 @@ export function registerPublicPreviewRoutes(
     async (c) => {
       const visitor = visitorOf(c, deps);
       await enforce(deps.redis, `rl:public:preview:ip:${visitor.ip}`, PREVIEW_PER_IP_RULE);
-      const { token } = c.req.valid('param');
+      const { kind, token } = c.req.valid('param');
+      c.header('cache-control', 'private, no-store');
+      if (kind === 'plan') {
+        const plan = await readPublicPlan(deps.pool, token);
+        if (plan === null) throw new DomainError('NOT_FOUND');
+        return c.json(plan, 200);
+      }
       const { seat } = c.req.valid('query');
       const seatHash = seat !== undefined && isSeatTokenShape(seat) ? seatTokenHash(seat) : null;
       const code = seatHash === null ? normalizeJoinCode(token) : null;
       const proposal = await readPublicProposal(deps.pool, { code, seatHash });
       if (proposal === null) throw new DomainError('NOT_FOUND');
-      c.header('cache-control', 'private, no-store');
       return c.json(proposal, 200);
     },
     validationHook,
