@@ -151,7 +151,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: eval covers peanut/veg clash on 10 fixture menus; unknown ids rejected; no flags without consent; every displayed price equals the code-parsed OCR value (unit tests on 10 fixture menus); model output with numbers is stripped.
 
 ### T8 — Point-and-ask screen (3j-3)
-- Status: blocked — not started: the camera feed has no still-capture path for the live OCR loop (`createLiveOcr` needs `capture()`), which is native-side work
+- Status: not started — the screen needs a camera view that hands stills to the live OCR loop (`createLiveOcr` takes a `capture()`); the app's only camera view (the encounter feed) does not expose one
 - Goal: stickers, shake-pink clash, caution, follow-ups.
 - Files: `apps/mobile/src/features/guide/camera/**`, `apps/mobile/src/app/(modal)/guide/camera.tsx`, `packages/i18n/locales/en/guide/camera.po`
 - Steps: 1. Sticker overlay aligned to boxes. 2. Clash animation. 3. Caution + allergy phrase card. 4. ORDER FOR 6 card, SPLIT THE BILL prefill, follow-up turns.
