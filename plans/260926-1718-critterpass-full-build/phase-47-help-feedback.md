@@ -142,7 +142,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: XCTest/JUnit for detector; `pnpm --filter @cp/mobile test -- help/shake`.
 - Done when: snapshot of a Balances screen shows masked amounts; capture on wallet/chat/pass/map routes is masked by default with no wrapper present (test per route group); shaking inside a text field does not open the report on iOS.
 
-- Status: blocked — needs `react-native-view-shot` (a native dependency and an EAS build); the JS shake recogniser already exists in `lib/dev-tools/shake.ts`
+- Status: partly done — 6924a892c2 (shake → masked screenshot → problem report, mounted at the root; private route groups covered whole, `PrivateContent` covers marked parts, text-field guard and Settings switch in JS, on the existing JS recogniser instead of a native `cp-shake`). Left: wrapping amounts, messages and document details in `PrivateContent` in the money, chat and passport components; on variants with Developer tools the shake still opens those
 ### T4 — Send feedback 3p-2, sent 3p-3, offline outbox
 - Goal: designed feedback flow.
 - Files: `apps/mobile/src/app/help/{feedback,feedback-sent}.tsx`, `apps/mobile/src/features/help/feedback/*`, tests, `e2e/help/feedback-offline.yaml`.
@@ -174,7 +174,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: `pnpm --filter @cp/domain test -- rating-arbiter`; `pnpm --filter @cp/mobile test -- help/rating`.
 - Done when: properties hold (never after paywall same session, never in-trip, ≤1/120 d, one interstitial per recap end); RTL test on P43 story end shows 4c-2 for an FTF-ending trip and no store review in that session.
 
-- Status: blocked — the arbiter and its properties are done (557c6f86a3); the recap-end mount and the store review call need `expo-store-review`, a native dependency and an EAS build
+- Status: done — 557c6f86a3, 08e04cd90a (the recap-end mount asks the store through `expo-store-review` and records every decision; the free-trip ending card and the rate-the-trip toast take priority once those screens exist and pass their flags to the arbiter; `ratingSession.notePaywall()` is there for the paywall to call)
 ### T8 — Admin help module + e2e sweep
 - Goal: support tooling and phase verification.
 - Files: `apps/admin/src/modules/help/*`, `services/api/src/admin/help/*`, `services/api/test/help/admin.test.ts`, `e2e/help/{full-journey,a11y}.yaml`.

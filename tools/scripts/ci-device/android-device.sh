@@ -4,7 +4,7 @@
 #
 #   tools/scripts/ci-device/android-device.sh <patched.apk> <out dir> "<flow.yaml …>"
 #
-# Env: APPEARANCE (light|dark), RECORD_VIDEO, TSX_VERSION, and whatever the flows read (JS_COMMIT, OTP_TEST_CODE).
+# Env: APPEARANCE (light|dark), RECORD_VIDEO, SAVE_HIERARCHY, TSX_VERSION, and whatever the flows read (JS_COMMIT, OTP_TEST_CODE).
 set -euo pipefail
 
 apk=$1

@@ -6,6 +6,7 @@
  */
 import type { HelpProblem } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -39,6 +40,8 @@ export interface HelpViewProps {
   readonly onShowPhrase: () => void;
   readonly onSos: (() => void) | null;
   readonly onInsurance: () => void;
+  /** Under SOS: what would keep a crewmate's SOS quiet on this phone (Android). */
+  readonly sosAccess?: ReactNode;
 }
 
 const PROBLEM_ICONS = {
@@ -170,6 +173,7 @@ export function HelpView(props: HelpViewProps) {
               testID="help-sos"
             />
           )}
+          {props.onSos === null ? null : props.sosAccess}
           <Stack gap="6">
             {insurer === null ? (
               <TextLink

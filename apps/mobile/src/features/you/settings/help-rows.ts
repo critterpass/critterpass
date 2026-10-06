@@ -10,9 +10,14 @@ import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import type { SettingsHandlers, SettingsValues } from './settings-sections';
 
 export function helpRows(
-  values: Pick<SettingsValues, 'storeName' | 'ideasToVote'>,
-  handlers: Pick<SettingsHandlers, 'onRate' | 'onFeedback' | 'onIdea' | 'onHelpCentre'>,
-): Readonly<Record<'rate' | 'feedback' | 'idea' | 'help-centre', SettingsRow | null>> {
+  values: Pick<SettingsValues, 'storeName' | 'ideasToVote' | 'shakeToReport'>,
+  handlers: Pick<
+    SettingsHandlers,
+    'onRate' | 'onFeedback' | 'onIdea' | 'onHelpCentre' | 'onShakeToReport'
+  >,
+): Readonly<
+  Record<'rate' | 'feedback' | 'shake-to-report' | 'idea' | 'help-centre', SettingsRow | null>
+> {
   const ideas = values.ideasToVote;
   return {
     rate:
@@ -37,6 +42,20 @@ export function helpRows(
       value: '',
       onPress: handlers.onFeedback,
     },
+    'shake-to-report':
+      typeof values.shakeToReport === 'boolean' && handlers.onShakeToReport !== undefined
+        ? {
+            key: 'shake-to-report',
+            kind: 'toggle',
+            title: t({ id: 'you.settings.shakeToReport', message: 'Shake to report' }),
+            subtitle: t({
+              id: 'you.settings.shakeToReportLine',
+              message: 'Shake any screen to report a problem with a screenshot',
+            }),
+            value: values.shakeToReport,
+            onChange: handlers.onShakeToReport,
+          }
+        : null,
     idea: {
       key: 'idea',
       kind: 'value',

@@ -38,6 +38,8 @@ export function FeedbackScreen() {
     article?: string;
     context?: string;
     trip?: string;
+    shot?: string;
+    shake?: string;
   }>();
   const mode = modeOf(params.mode);
   const articleSlug = typeof params.article === 'string' ? params.article : null;
@@ -45,14 +47,22 @@ export function FeedbackScreen() {
   const { db } = useLocalFirst();
   const submit = useCommand(submitFeedbackCommand);
   const { articles } = useHelpArticles();
-  const [draft, setDraft] = useState(() => initialDraft(mode));
+  const [draft, setDraft] = useState(() =>
+    initialDraft(mode, typeof params.shot === 'string' ? params.shot : null),
+  );
   const [tooBig, setTooBig] = useState(false);
   const [sending, setSending] = useState(false);
   const device = useMemo(() => deviceInfoNow(locale), [locale]);
   const articleTitle =
     articleSlug === null ? null : (articles.find((a) => a.slug === articleSlug)?.title ?? null);
   const source: FeedbackSource =
-    articleSlug !== null ? 'article' : params.context === 'settings' ? 'settings' : 'help';
+    params.shake === '1'
+      ? 'shake'
+      : articleSlug !== null
+        ? 'article'
+        : params.context === 'settings'
+          ? 'settings'
+          : 'help';
 
   const send = async () => {
     if (!canSend(draft) || sending) return;

@@ -1,10 +1,11 @@
 /**
  * The album screen's view of uploads: what is going up from this device for the trip, "+ UPLOAD"
- * (the system picker, then the queue), retrying failed ones, and sending waiting ones again as soon
- * as the phone is back online.
+ * (the system picker, then the queue), retrying failed ones, and picking waiting ones up again as
+ * soon as the phone is back online or the app is back in front.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { AppState } from 'react-native';
 
 import { useOnline } from '@/data/places/server-name-search';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
@@ -42,6 +43,18 @@ export function useAlbumUpload(tripId: string): AlbumUploadView {
     // Only a change in connectivity resumes; `known` is read at that moment.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [online, queue]);
+
+  // Back in front: transfers the system finished while the app was away are completed now.
+  const latest = useRef(known);
+  useEffect(() => {
+    latest.current = known;
+  }, [known]);
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') queue.resume(latest.current);
+    });
+    return () => subscription.remove();
+  }, [queue]);
 
   const pick = useCallback(() => {
     setPickFailed(false);

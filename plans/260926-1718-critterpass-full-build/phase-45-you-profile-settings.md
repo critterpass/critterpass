@@ -189,7 +189,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: switching to 日本語 re-renders current and back-stack screens without navigation reset; LOCAL/HOME/BOTH changes a Balances price on the Wallet tab.
 
 ### T7 — Alternate app icons 3n-5 + `cp-app-icon` + unlock job
-- Status: blocked — needs a native build; left to the native batch
+- Status: partly done — e47525c789 (the picker in Settings over the five bundled icons: PASSPORT, FACE and the earned TEMPLE, SARDI, PON; device switch, earned gating from `app_icon_unlocks`, account record). Left: the unlock job with its NEW badge grant, the STAMP style with its Pass+ paywall entry and lapse revert (STAMP and STICKER are not bundled), and a device check of the switch itself
 - Goal: icon picker with free/Pass+/earned gating on both platforms.
 - Files: `apps/mobile/modules/cp-app-icon/{ios/*.swift,android/src/**/*.kt,index.ts,expo-module.config.json,plugin/*}`, `apps/mobile/src/app/you/app-icon.tsx`, `apps/mobile/src/features/you/app-icon/*`, `services/worker/src/jobs/icons/unlock.ts`, `services/worker/test/account/icons-unlock.test.ts`, `e2e/you/app-icon.yaml`.
 - Steps: 1. Config plugin registers alternate icons (iOS asset names from P05 bake; Android activity-aliases + monochrome). 2. Module API `getCurrent/set/isSupported`. 3. Screen with appearance segmented + previews + motion. 4. Gating + paywall entry (explicit). 5. Unlock job + NEW badge. 6. Lapse revert on foreground.

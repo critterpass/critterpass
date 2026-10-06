@@ -31,6 +31,8 @@ export interface PitchState {
   readonly alternatives: readonly PitchAlternative[];
   readonly pitchId: string | null;
   readonly cached: boolean;
+  /** Whether a model wrote the pitch; the server says so when the stream ends (null until then). */
+  readonly aiGenerated: boolean | null;
 }
 
 export const EMPTY_PITCH: PitchState = {
@@ -43,7 +45,17 @@ export const EMPTY_PITCH: PitchState = {
   alternatives: [],
   pitchId: null,
   cached: false,
+  aiGenerated: null,
 };
+
+/**
+ * Whether the pitch card says its words are AI-written: as soon as words show, unless the server
+ * has said this pitch was put together without a model.
+ */
+export function pitchShowsAiLabel(state: PitchState): boolean {
+  const words = state.headline !== null || state.reasons.length > 0 || state.quote !== null;
+  return words && state.aiGenerated !== false;
+}
 
 /** Folds one frame into the pitch. Unknown frames change nothing. */
 const str = (d: Record<string, unknown>, key: string, fallback: string): string => {
@@ -81,6 +93,7 @@ export function applyPitchFrame(state: PitchState, frame: SseFrame): PitchState 
         phase: 'done',
         pitchId: typeof d['pitch_id'] === 'string' ? d['pitch_id'] : null,
         cached: d['cached'] === true,
+        aiGenerated: typeof d['ai_generated'] === 'boolean' ? d['ai_generated'] : null,
       };
     case 'error':
       return { ...state, phase: 'error' };
