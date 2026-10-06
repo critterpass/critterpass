@@ -1,8 +1,7 @@
 /**
- * Place photos for the lab's Explore-in-a-trip picks, as `GET /v1/media` returns them: Tirta
- * Empul's and Tegallalang's own Commons photos (CC BY 4.0, so their credits show), served from
- * Commons' thumbnail host, and the lab's stock beach standing in for Campuhan Ridge as a generic
- * one (labelled not this place).
+ * Place photos for the lab's Explore-in-a-trip picks, as `GET /v1/media` returns them: each pick's
+ * own Commons photo (CC BY, so its credit shows), served from Commons' thumbnail host. The picks
+ * are landmarks and nature, which never get a generic stock photo, so none of them carries one.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { MediaAsset } from '@cp/domain';
@@ -10,7 +9,16 @@ import type { MediaAsset } from '@cp/domain';
 import { BEACH_GENERIC } from '../../dev/lab-place-media';
 
 const THUMBS = 'https://thumb.wikimedia.org/wikipedia/commons/thumb';
-const BY_4 = 'https://creativecommons.org/licenses/by/4.0';
+const BY_4 = {
+  name: 'CC BY 4.0',
+  id: 'cc-by-4.0',
+  url: 'https://creativecommons.org/licenses/by/4.0',
+};
+const BY_2 = {
+  name: 'CC BY 2.0',
+  id: 'cc-by-2.0',
+  url: 'https://creativecommons.org/licenses/by/2.0',
+};
 
 function commons(input: {
   readonly n: number;
@@ -20,7 +28,9 @@ function commons(input: {
   readonly author: string;
   readonly width: number;
   readonly height: number;
+  readonly licence?: typeof BY_4;
 }): MediaAsset {
+  const licence = input.licence ?? BY_4;
   return {
     id: `01a0f4a2-0000-7000-8000-00000000b${String(input.n).padStart(3, '0')}`,
     kind: 'photo',
@@ -37,13 +47,13 @@ function commons(input: {
       h: Math.round((w * input.height) / input.width),
     })),
     videos: [],
-    credit: `${input.author} · CC BY 4.0 · Wikimedia Commons`,
+    credit: `${input.author} · ${licence.name} · Wikimedia Commons`,
     attribution_required: true,
     author: input.author,
     source: 'wikimedia',
     source_url: `https://commons.wikimedia.org/wiki/File:${input.file}`,
-    licence: 'cc-by-4.0',
-    licence_url: BY_4,
+    licence: licence.id,
+    licence_url: licence.url,
   };
 }
 
@@ -57,7 +67,16 @@ export const LAB_PICK_MEDIA: Readonly<Record<string, MediaAsset>> = {
     width: 5712,
     height: 4284,
   }),
-  campuhan: { ...BEACH_GENERIC, subjects: ['poi:campuhan'] },
+  campuhan: commons({
+    n: 3,
+    poi: 'campuhan',
+    path: '3/35',
+    file: 'Campuhan_Ridge_Walk%2C_Ubud%2C_Bali_%2815003625958%29.jpg',
+    author: 'Fabio Achilli',
+    width: 4608,
+    height: 3456,
+    licence: BY_2,
+  }),
   tegallalang: commons({
     n: 2,
     poi: 'tegallalang',
