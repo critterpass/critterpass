@@ -8,5 +8,5 @@ export const accountModule = defineAdminModule({
   label: 'Account deletions',
   order: 61,
   routes: [{ path: 'deletions', component: DeletionsPage }],
-  userPanels: [{ id: 'deletion', label: 'Account deletion', component: DeletionPanel }],
+  userPanels: [{ id: 'deletion', label: 'Deletion', component: DeletionPanel }],
 });

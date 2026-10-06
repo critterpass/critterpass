@@ -16,7 +16,7 @@ async function openClosedAccount(page: Page, role: 'owner' | 'support') {
 
 test('support sees where a deletion stands but cannot end the grace window', async ({ page }) => {
   await openClosedAccount(page, 'support');
-  const deletion = page.getByRole('region', { name: 'Account deletion' });
+  const deletion = page.getByRole('region', { name: 'Deletion' });
   await expect(deletion.locator('[aria-current="step"]')).toHaveText('Restore 30 d');
   await expect(deletion).toContainText('can be restored until');
   await expect(deletion).toContainText('No data export asked for.');
@@ -27,7 +27,7 @@ test('an owner ends the grace window with a reason, and the audit log keeps it',
   page,
 }) => {
   await openClosedAccount(page, 'owner');
-  const deletion = page.getByRole('region', { name: 'Account deletion' });
+  const deletion = page.getByRole('region', { name: 'Deletion' });
   await deletion.getByRole('button', { name: 'Purge now' }).click();
   const dialog = page.getByRole('dialog', { name: 'Purge this account now' });
   await expect(dialog).toContainText('cannot be restored');
@@ -46,6 +46,6 @@ test('a traveller who never asked to delete shows no deletion', async ({ page })
   await page.getByRole('button', { name: 'Find user' }).click();
   await page.getByRole('link', { name: 'Mai Tran' }).click();
   await expect(
-    page.getByRole('region', { name: 'Account deletion' }).locator('[aria-current="step"]'),
+    page.getByRole('region', { name: 'Deletion' }).locator('[aria-current="step"]'),
   ).toHaveText('None');
 });
