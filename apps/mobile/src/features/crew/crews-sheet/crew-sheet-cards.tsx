@@ -2,7 +2,8 @@
  * The crews sheet's cards (3g-3): a crew card with its members and "N NEW" on top, the name, the
  * trip line, then a divider and the last message; and the START A CREW card with its + circle.
  * The active crew is ringed in the selection yellow and its NEW pill is pink; the others keep a
- * decorative ring and a muted pill, so both read clearly on the raised sheet.
+ * decorative ring and a muted pill, so both read clearly on the raised sheet. A quiet "Crew
+ * settings" link closes each crew card.
  */
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useState, type ReactNode } from 'react';
@@ -17,6 +18,7 @@ import { useMemberFaces } from '@/features/you';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Card } from '@/ui/cards/Card';
 import { Icon } from '@/ui/icons/Icon';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
@@ -164,6 +166,8 @@ export interface CrewSheetCardProps {
   readonly members: readonly { readonly userId?: string; readonly name: string }[];
   readonly active: boolean;
   readonly onPress: () => void;
+  /** Opens this crew's settings: a quiet link at the card's foot, apart from the card's tap. */
+  readonly onSettings: () => void;
 }
 
 export function CrewSheetCard({
@@ -173,6 +177,7 @@ export function CrewSheetCard({
   members,
   active,
   onPress,
+  onSettings,
 }: CrewSheetCardProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -210,6 +215,11 @@ export function CrewSheetCard({
         {line}
       </Text>
       {last === null ? null : <Preview last={last} />}
+      <TextLink
+        label={t({ id: 'crew.sheet.settings', message: 'Crew settings' })}
+        onPress={onSettings}
+        testID={`crew-card-settings-${crewId}`}
+      />
     </Card>
   );
 }

@@ -161,6 +161,19 @@ export const ESSENTIAL_GAP_REASONS = [
 ] as const;
 export type EssentialGapReason = (typeof ESSENTIAL_GAP_REASONS)[number];
 
+/**
+ * Why a first draft gave an essential day trip no day: the trip is too short for it, every middle
+ * day already holds the crew's own stops or bookings, the trip already has as many day trips as
+ * its length allows, or the area has no places to plan from yet.
+ */
+export const DAY_TRIP_GAP_REASONS = [
+  'trip_too_short',
+  'no_free_day',
+  'no_room',
+  'no_places',
+] as const;
+export type DayTripGapReason = (typeof DAY_TRIP_GAP_REASONS)[number];
+
 export const draftCoverageSchema = z.object({
   must_dos: z.object({
     total: z.number().int().nonnegative(),
@@ -189,6 +202,16 @@ export const draftCoverageSchema = z.object({
     .array(
       z.object({ poi_id: uuid, name: z.string().min(1), reason: z.enum(ESSENTIAL_GAP_REASONS) }),
     )
+    .optional(),
+  /**
+   * The destination's essential day trips a first draft gave a day to, and those it left out with
+   * why. Absent when the destination has none to offer (every trip with `trip.areas` off).
+   */
+  day_trips: z
+    .object({
+      placed: z.array(z.object({ destination_id: uuid, day_no: z.number().int().positive() })),
+      left_out: z.array(z.object({ destination_id: uuid, reason: z.enum(DAY_TRIP_GAP_REASONS) })),
+    })
     .optional(),
 });
 export type DraftCoverage = z.infer<typeof draftCoverageSchema>;

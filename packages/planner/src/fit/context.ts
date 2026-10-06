@@ -26,6 +26,8 @@ export interface FitLeg {
   readonly mode: 'walk' | 'drive';
   /** A straight-line estimate: copy says "about". */
   readonly approx: boolean;
+  /** A day trip's way there and back (a train, a bus, a tour): time, never driving. */
+  readonly link?: boolean;
 }
 
 /** Minutes from one stop to another; `null` = unknown (not checked). */
@@ -70,6 +72,10 @@ export interface FitDay {
   readonly rain: FitRain | null;
   /** The month's crowd factor (1 = an average month). */
   readonly crowdFactor: number;
+  /** The destination the day is spent in; absent = not known (every place may go on it). */
+  readonly areaId?: string | null;
+  /** A day trip's way there and back: travel between the stay and its stops, each way. */
+  readonly link?: { readonly minutes: number } | null;
 }
 
 export interface MealWindow {
@@ -148,6 +154,11 @@ export interface FitPlace {
   readonly bestTimeText?: string | null;
   /** Its own item when the place is already in the plan: never counted as busy. */
   readonly stableId?: string | null;
+  /**
+   * The trip's destination the place lies in (a day-trip area claims what lies inside its box);
+   * absent = not known, and the place may go on any day.
+   */
+  readonly areaId?: string | null;
 }
 
 const OUTDOOR_CATEGORIES: ReadonlySet<string> = new Set([
@@ -181,6 +192,21 @@ export function travelOf(context: FitContext): FitTravel {
 }
 
 export const legKey = (from: string, to: string): string => `${from}>${to}`;
+
+/** On a day trip, travel between the stay and a stop is the link's, never a guess between areas. */
+export function dayTravel(day: Pick<FitDay, 'link'>, travel: FitTravel): FitTravel {
+  const link = day.link;
+  if (link == null) return travel;
+  return (from, to) =>
+    from.key === 'stay' || to.key === 'stay'
+      ? { minutes: link.minutes, mode: 'drive', approx: true, link: true }
+      : travel(from, to);
+}
+
+/** Whether a place may go on a day at all: a place goes only on days spent in its own area. */
+export function inDayArea(day: Pick<FitDay, 'areaId'>, place: Pick<FitPlace, 'areaId'>): boolean {
+  return day.areaId == null || place.areaId == null || day.areaId === place.areaId;
+}
 
 /**
  * Known minutes first (stored legs, routed insertions), either direction, then `fallback` (the

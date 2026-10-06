@@ -3,6 +3,7 @@
  * and not stops back in town (./outings), a stop inside a long visit is part of that visit, and a
  * visit of half a day or a whole one has that time to itself (./long-visits).
  */
+import { landsOn, leavesOn } from './day-window';
 import { insideFaults, longVisitFaults } from './long-visits';
 import { farAfterDayOut, offTheOuting } from './outings';
 import type { DraftPoi } from './types';
@@ -18,7 +19,6 @@ export function dayShapeViolations(
   days: readonly TimedDay[],
 ): DraftViolation[] {
   const dateIndex = new Map(input.frame.dates.map((date, index) => [date, index]));
-  const lastIndex = input.frame.dates.length - 1;
   const home = input.homeId ?? null;
   const rideOf = (poi: DraftPoi) => (home === null ? 0 : (input.travel(home, poi.id) ?? 0));
   const outings = input.outings ?? [];
@@ -32,7 +32,7 @@ export function dayShapeViolations(
   });
   return days.flatMap((day) => {
     const index = dateIndex.get(day.date) ?? day.dayNo - 1;
-    const edge = index === 0 || index === lastIndex;
+    const edge = landsOn(input.frame, index) || leavesOn(input.frame, index);
     return [
       ...offTheOuting(day, outings, input.travel, input.hopCapMin, home).map((stop) =>
         at('OFF_THE_OUTING', day.dayNo, stop),

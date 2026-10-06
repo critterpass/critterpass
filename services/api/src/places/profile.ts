@@ -4,7 +4,8 @@
  * with no profile yet gets one `places.profile` job (one per place at a time; at most
  * `PROFILE_REQUESTS_PER_HOUR` new places per reader an hour) and answers `pending`; the app reads
  * again. A reviewed note always wins: such a place never gets a profile. A declined or failed run
- * answers `null`, as does a reader past the hourly limit.
+ * answers `null`, as does a reader past the hourly limit. A run the worker skipped at its spent
+ * daily cap answers `null` and queues nothing until the cap resets at midnight UTC.
  */
 import { sendInTx } from '@cp/db';
 import {
@@ -53,9 +54,22 @@ interface ProfileRow {
   readonly photos: unknown;
   readonly sources: unknown;
   readonly generated_at: Date | null;
+  /** The worker skipped the run at an earlier day's spent cap: queue it again. */
+  readonly cap_reset: boolean;
 }
 
-const factsSchema = z.array(z.object({ kind: z.enum(PLACE_FACT_KINDS), source_url: z.string() }));
+const factsSchema = z.array(
+  z.object({
+    kind: z.enum(PLACE_FACT_KINDS),
+    source_url: z.string(),
+    second_source: z.string().optional(),
+  }),
+);
+
+/** A fact the page or a second search confirmed, else one that rests on its own page. */
+export function secondSourceOf(stored: string | undefined): 'agrees' | 'own_site' | 'single' {
+  return stored === 'agrees' || stored === 'own_site' ? stored : 'single';
+}
 const photosSchema = z.array(z.object({ key: z.string(), source_page: z.string() }));
 const sourcesSchema = z.array(z.object({ url: z.string(), title: z.string() }));
 
@@ -135,7 +149,14 @@ function readyWire(row: ProfileRow, locale: string, mediaBaseUrl: string | undef
         const line = text.facts[i];
         return line === undefined || line === ''
           ? []
-          : [{ kind: fact.kind, text: line, sourceUrl: fact.source_url }];
+          : [
+              {
+                kind: fact.kind,
+                text: line,
+                sourceUrl: fact.source_url,
+                secondSource: secondSourceOf(fact.second_source),
+              },
+            ];
       }),
       photos:
         base === undefined || !photos.success
@@ -156,12 +177,15 @@ export async function readPlaceProfile(
   if (place.reviewed || PROFILE_SKIPPED_CATEGORIES.has(place.category as PoiCategory)) return null;
   const { rows } = await tx.query<ProfileRow>(
     `SELECT status, texts, meal_role, best_times, visit_min, dish, facts, photos, sources,
-            generated_at
+            generated_at,
+            status = 'failed' AND error = 'daily_cap'
+              AND updated_at < date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'
+              AS cap_reset
        FROM place_profiles WHERE poi_id = $1`,
     [place.id],
   );
   const row = rows[0];
-  if (row === undefined) {
+  if (row === undefined || row.cap_reset) {
     if (!(await allowed(options.redis, 'place_profile', options.uid, PROFILE_REQUESTS_PER_HOUR))) {
       return null;
     }

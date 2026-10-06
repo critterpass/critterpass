@@ -51,6 +51,36 @@ describe('search on a day of the trip', () => {
     expect(nearestRows(rows, null)).toEqual(rows);
   });
 
+  it('keeps a must-see sight above a nearer hotel named after it, plain places nearest first', () => {
+    const here = { lat: 16.0, lng: 108.26 };
+    const rows = [
+      {
+        name: 'Marble Mountains',
+        source: 'server',
+        category: 'sight',
+        recommended: true,
+        lat: 16.0035,
+        lng: 108.2635,
+      },
+      {
+        name: 'The Marble Mountain Hotel',
+        source: 'server',
+        category: 'stay',
+        recommended: true,
+        lat: 16.0001,
+        lng: 108.2601,
+      },
+      { name: 'Far café', source: 'server', category: 'food', lat: 16.05, lng: 108.25 },
+      { name: 'Near café', source: 'server', category: 'food', lat: 16.001, lng: 108.261 },
+    ];
+    expect(nearestRows(rows, here).map((row) => row.name)).toEqual([
+      'Marble Mountains',
+      'The Marble Mountain Hotel',
+      'Near café',
+      'Far café',
+    ]);
+  });
+
   it('names the day the search was opened for when the place fits it', () => {
     const fit = {
       poi_id: null,

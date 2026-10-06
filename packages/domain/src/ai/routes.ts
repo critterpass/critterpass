@@ -44,6 +44,7 @@ export const AI_ROUTES = [
   'content.factory',
   'receipt.parse',
   'menu.parse',
+  'provider.extract',
   'email.parse_fallback',
   'guest.guide',
   // Explore: the crew's Q&A line on a place page and the guide's notes on swipe cards.

@@ -339,6 +339,10 @@ msgstr ""
 msgid "chat.photo.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.openSettings"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.line"
 msgstr ""

@@ -13,6 +13,7 @@ import {
 } from '@cp/domain';
 import {
   assembleFitContext,
+  withDayAreas,
   crowdWeeks,
   DEFAULT_FIT_THRESHOLDS,
   forecastByDate,
@@ -31,7 +32,7 @@ import {
   type FitPoint,
   type FitRain,
 } from '@cp/planner';
-import { tripStay } from '@cp/db';
+import { tripAreas, tripStay } from '@cp/db';
 import type pg from 'pg';
 
 export interface CheckTrip {
@@ -197,6 +198,11 @@ export async function loadCheck(
             [versionId],
           )
         ).rows;
+  // The area each day is spent in: a day trip's hours, places and travel are its own.
+  const areaDays =
+    versionId === null
+      ? days
+      : withDayAreas(days, await tripAreas(tx, trip.id, versionId, { withGuides: false }));
   const items =
     versionId === null
       ? []
@@ -226,8 +232,10 @@ export async function loadCheck(
             minutes: number;
             mode: string;
             approx: boolean;
+            source: string;
           }>(
-            'SELECT from_key, to_key, minutes, mode, approx FROM plan_legs WHERE version_id = $1',
+            `SELECT from_key, to_key, minutes, mode, approx, source FROM plan_legs
+              WHERE version_id = $1`,
             [versionId],
           )
         ).rows;
@@ -240,7 +248,13 @@ export async function loadCheck(
   const stored = new Map<string, FitLeg>(
     legs.map((leg) => [
       legKey(leg.from_key, leg.to_key),
-      { minutes: leg.minutes, mode: leg.mode === 'walk' ? 'walk' : 'drive', approx: leg.approx },
+      {
+        minutes: leg.minutes,
+        mode: leg.mode === 'walk' ? 'walk' : 'drive',
+        approx: leg.approx,
+        // A day trip's way there and back is time, never driving.
+        ...(leg.source === 'link' ? { link: true } : {}),
+      },
     ]),
   );
   const factors =
@@ -257,7 +271,7 @@ export async function loadCheck(
     tz: trip.tz,
     participants: await participants(tx, trip),
     driveFactor: trip.driveFactor,
-    days,
+    days: areaDays,
     items,
     stays,
     rain: trip.destinationId === null ? new Map() : await rainByDate(tx, trip, dates, now),

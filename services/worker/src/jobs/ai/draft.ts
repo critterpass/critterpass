@@ -16,9 +16,7 @@ import {
   type Gateway,
   type Telemetry,
   type DraftModel,
-  type DraftedDays,
   type RepairOutcome,
-  type SkeletonPlan,
   type UsageContext,
 } from '@cp/ai';
 import { withSystem } from '@cp/db';
@@ -30,9 +28,11 @@ import type { AnyJobDefinition } from '../../boss';
 import type { PlacePickDeps } from '../../places/pick/run';
 import { webClosureCheck } from './draft/closures';
 import { registerDraftPushes } from './draft/pushes';
-import { daysStage } from './draft/fan-out';
+import { firstDraftAsk, planDayGroups, savedAreas } from './draft/day-groups';
+import { daysStage, type Drafted } from './draft/fan-out';
 import {
   giveBack,
+  groupsPlanOf,
   hint,
   load,
   modelFor,
@@ -42,7 +42,7 @@ import {
 import { persistDraft, type DraftToSave } from './draft/persist';
 import { draftSummary, ensurePlacePicks } from './draft/place-picks';
 import { noClosureCheck, prefetch, type ClosureCheck } from './draft/prefetch';
-import { outlineStage } from './draft/skeleton';
+import { outlineStage, type Outline } from './draft/skeleton';
 import {
   balanceLabel,
   draftChannel,
@@ -83,18 +83,19 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 2,
         run: async (ctx) => {
           await hint(ctx, 'read_profiles', 'running');
-          const { trip } = await load(ctx);
+          const { trip, held } = await load(ctx);
+          const groups = await planDayGroups(ctx.pool, firstDraftAsk(trip, held));
           // A destination without a curated set is drafted from its picks: make them first.
-          await ensurePlacePicks(
-            ctx.pool,
-            deps.placePicks,
+          for (const id of new Set([
             trip.destinationId,
-            ctx.logger,
-            ctx.boss,
-          );
+            ...groups.groups.map((g) => g.destinationId),
+          ])) {
+            await ensurePlacePicks(ctx.pool, deps.placePicks, id, ctx.logger, ctx.boss);
+          }
           const label = readProfilesLabel(trip);
           await hint(ctx, 'read_profiles', 'done', label);
-          return { label, crew_id: trip.crewId, members: trip.members.length };
+          const planned = groups.groups.length > 0 || groups.dayTrips !== null ? { groups } : {};
+          return { label, crew_id: trip.crewId, members: trip.members.length, ...planned };
         },
         compensate: (_result, ctx) => giveBack(ctx.pool, ctx.agentJob),
       },
@@ -122,13 +123,14 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 2,
         run: async (ctx) => {
           await hint(ctx, 'skeleton', 'running');
-          const { trip, input } = await load(ctx, prefetched(ctx));
+          const { trip, input, groups } = await load(ctx, prefetched(ctx));
           const skeleton = await outlineStage(
             ctx.pool,
             modelFor(deps.model, ctx),
             input,
             trip,
             ctx.agentJob.id,
+            groups,
           );
           const label = staysLabel(trip, skeleton);
           await hint(ctx, 'skeleton', 'done', label);
@@ -140,8 +142,8 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 2,
         run: async (ctx) => {
           await hint(ctx, 'days', 'running');
-          const { trip, input } = await load(ctx, prefetched(ctx));
-          const skeleton = (ctx.results.skeleton as { skeleton: SkeletonPlan }).skeleton;
+          const { trip, input, groups } = await load(ctx, prefetched(ctx));
+          const skeleton = (ctx.results.skeleton as { skeleton: Outline }).skeleton;
           const drafted = await daysStage(
             ctx.pool,
             modelFor(deps.model, ctx),
@@ -149,6 +151,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             skeleton,
             trip,
             ctx.agentJob.id,
+            groups,
           );
           const label = balanceLabel(trip);
           await hint(ctx, 'days', 'done', label);
@@ -160,15 +163,15 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 2,
         run: async (ctx) => {
           await hint(ctx, 'validate', 'running');
-          const { trip, input, held } = await load(ctx, prefetched(ctx));
-          const skeleton = (ctx.results.skeleton as { skeleton: SkeletonPlan }).skeleton;
-          const drafted = ctx.results.days as DraftedDays;
+          const { trip, input, held, groups } = await load(ctx, prefetched(ctx));
+          const skeleton = (ctx.results.skeleton as { skeleton: Outline }).skeleton;
           const outcome = await checkStage(
             modelFor(deps.model, ctx),
             input,
             skeleton,
-            drafted.itinerary,
+            ctx.results.days as Drafted,
             held,
+            groups,
           );
           const label = foodLabel(trip);
           await hint(ctx, 'validate', 'done', label);
@@ -194,6 +197,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             stays: stayRows(trip),
             closures: prefetched(ctx),
             slotAvailable: await slots(trip, checked.itinerary, input),
+            ...savedAreas(groupsPlanOf(ctx)),
           };
           const themes = checked.itinerary.days.map((d) => d.theme);
           const summary = await draftSummary(modelFor(deps.model, ctx), save, themes, ctx.logger);

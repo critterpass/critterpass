@@ -6,7 +6,8 @@
  * own kind says whether it is the stay: a visit to a place the catalogue files as a stay (a famous
  * villa) is a stop like any other, and only an item without a kind goes by its place.
  */
-import { tripStay } from '@cp/db';
+import { tripAreas, tripStay } from '@cp/db';
+import { legModeSchema } from '@cp/domain';
 import type pg from 'pg';
 
 import type { DayStop, LegPoint, PlannedDay } from './pairs';
@@ -26,6 +27,27 @@ interface DayRow {
   readonly id: string;
   readonly version_id: string;
   readonly date: string | null;
+  readonly destination_id: string | null;
+}
+
+/** The day trips of one version: each day spent away from its stop's city, with its link. */
+async function awayDays(
+  tx: pg.PoolClient,
+  tripId: string,
+  versionId: string,
+): Promise<Map<string, NonNullable<PlannedDay['away']>>> {
+  const areas = await tripAreas(tx, tripId, versionId, { withGuides: false });
+  const away = new Map<string, NonNullable<PlannedDay['away']>>();
+  for (const day of areas?.days ?? []) {
+    const stop = areas?.stops.find((s) => s.position === day.stopPosition);
+    if (stop === undefined || day.areaId === stop.destinationId) continue;
+    const mode = legModeSchema.safeParse(day.link?.mode);
+    away.set(day.dayId, {
+      link:
+        day.link === null || !mode.success ? null : { minutes: day.link.minutes, mode: mode.data },
+    });
+  }
+  return away;
 }
 
 interface StopRow {
@@ -57,7 +79,7 @@ export async function loadTripLegsInput(
   );
   const versionIds = versions.map((version) => version.id);
   const { rows: days } = await tx.query<DayRow>(
-    `SELECT id, version_id, to_char(date, 'YYYY-MM-DD') AS date FROM plan_days
+    `SELECT id, version_id, to_char(date, 'YYYY-MM-DD') AS date, destination_id FROM plan_days
       WHERE version_id = ANY($1::uuid[]) ORDER BY version_id, day_no`,
     [versionIds],
   );
@@ -93,11 +115,18 @@ export async function loadTripLegsInput(
   const result: { versionId: string; days: PlannedDay[] }[] = [];
   for (const versionId of versionIds) {
     const planned: PlannedDay[] = [];
-    for (const day of days.filter((row) => row.version_id === versionId)) {
+    const own = days.filter((row) => row.version_id === versionId);
+    // Only a version with a day given an area can hold a day trip.
+    const away = own.some((day) => day.destination_id !== null)
+      ? await awayDays(tx, tripId, versionId)
+      : new Map<string, NonNullable<PlannedDay['away']>>();
+    for (const day of own) {
+      const trip = away.get(day.id);
       planned.push({
         dayId: day.id,
         stay: await stayOn(versionId, day.date),
         stops: stopsByDay.get(day.id) ?? [],
+        ...(trip === undefined ? {} : { away: trip }),
       });
     }
     result.push({ versionId, days: planned });

@@ -5,7 +5,7 @@
  * music. An essential first, then a must-see, then the nearest. One evening per place.
  */
 import type { Itinerary } from '@cp/domain';
-import { DINNER, minuteOfDate, placeTime, withinReach, type DraftPoi } from '@cp/planner';
+import { DINNER, leavesOn, minuteOfDate, placeTime, withinReach, type DraftPoi } from '@cp/planner';
 
 import { homeOf, hopCap, spanOf } from './areas';
 
@@ -40,10 +40,11 @@ export function fillEvenings(
   if (!wantsEvenings(input)) return { itinerary: start, added: 0 };
   let itinerary = start;
   let added = 0;
-  const lastDay = input.frame.dates.length;
   for (const outline of outlines) {
     const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
-    if (day === undefined || day.items.length === 0 || outline.dayNo === lastDay) continue;
+    if (day === undefined || day.items.length === 0 || leavesOn(input.frame, outline.dayNo - 1)) {
+      continue;
+    }
     const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
     const dined = day.items.some(
       (item) => item.kind === 'meal' && at(item.starts_at) >= DINNER.startMin - 30,

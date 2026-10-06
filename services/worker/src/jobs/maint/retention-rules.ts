@@ -77,3 +77,13 @@ registerRetentionRule({
   ttlDays: 30,
   where: "status <> 'pending'",
 });
+
+// A shared driver message carries a third party's number: gone 30 days after it was read (the
+// driver's confirmed card lives on in `providers`).
+registerRetentionRule({
+  kind: 'direct',
+  table: 'provider_intake',
+  column: 'parsed_at',
+  ttlDays: 30,
+  where: "status IN ('parsed', 'failed', 'used')",
+});
