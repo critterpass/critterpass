@@ -1,12 +1,14 @@
 /* eslint-disable lingui/no-unlocalized-strings -- hostname/URL plumbing, not JSX/UI copy. */
+import type { APIContext, MiddlewareNext } from 'astro';
 import { defineMiddleware } from 'astro:middleware';
 import { env } from 'cloudflare:workers';
 
 import { siteMode } from './components/site/site-mode';
 import { isComingSoonPath } from './lib/coming-soon-surface';
 import { SITE_LOCALE_CODES } from './lib/locale';
+import { withSecurityHeaders } from './lib/security-headers';
 
-export const onRequest = defineMiddleware((context, next) => {
+function respond(context: APIContext, next: MiddlewareNext): Response | Promise<Response> {
   const { url } = context;
   // `www.critterpass.app` -> the apex, preserving path/query (founder decision: go live on the apex).
   if (url.hostname === 'www.critterpass.app') {
@@ -27,4 +29,10 @@ export const onRequest = defineMiddleware((context, next) => {
     return new Response(null, { status: 404 });
   }
   return next();
-});
+}
+
+// Every response the Worker sends carries the security headers (prerendered files get theirs
+// from public/_headers).
+export const onRequest = defineMiddleware(async (context, next) =>
+  withSecurityHeaders(await respond(context, next)),
+);
