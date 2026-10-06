@@ -4,7 +4,7 @@
  * hands back for one place (`include_context`), so the chips and reasons follow every tap without a
  * round trip and agree with the server's answer for the same choice.
  */
-import type { PlaceFit } from '@cp/domain';
+import { AREA_LINK_MODES, type PlaceFit } from '@cp/domain';
 import {
   fitPlace,
   layeredTravel,
@@ -46,11 +46,14 @@ export type WireFitContext = Omit<FitContext, 'travel' | 'days'> & {
 export function fitContextFromWire(wire: WireFitContext): FitContext {
   const known = new Map<string, FitLeg>();
   for (const leg of wire.legs) {
-    if (leg.mode !== 'walk' && leg.mode !== 'drive') continue;
+    // A link between two areas (a day trip's train or boat) is known travel too: its minutes
+    // count as time not walked, and it is always an estimate.
+    const link = (AREA_LINK_MODES as readonly string[]).includes(leg.mode);
+    if (leg.mode !== 'walk' && leg.mode !== 'drive' && !link) continue;
     known.set(legKey(leg.from, leg.to), {
       minutes: leg.minutes,
-      mode: leg.mode,
-      approx: leg.approx,
+      mode: leg.mode === 'walk' ? 'walk' : 'drive',
+      approx: link || leg.approx,
     });
   }
   const walkMaxM = wire.thresholds?.walkMaxM ?? DEFAULT_FIT_THRESHOLDS.walkMaxM;
