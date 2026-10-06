@@ -1,7 +1,8 @@
 /**
  * `la.lifecycle` (every minute): the clock's side of Live Activities.
  * - Starts that are due: leave-bys three hours out, flights in their window, meet-ups of boosted
- *   (or requested) trips half an hour out, polls closing within a day.
+ *   (or requested) trips half an hour out, polls closing within a day, storm watches from the
+ *   evening before their day, and a Grab fare someone just checked.
  * - Every live object re-runs, so time-driven frames move on (soon, leave time, orange boarding,
  *   landed, late) and planned ends happen; an unchanged frame sends nothing.
  * - The 8-hour restart: ActivityKit ends an activity after eight hours active, so a little before
@@ -29,6 +30,7 @@ import { z } from 'zod';
 import { defineJob, type AnyJobDefinition } from '../../boss/define-job';
 import { deliverAll, type LaTransports } from './deliver';
 import { endSends, type LaActivityRow } from './rows';
+import { LA_STORM_KINDS, LA_STORM_LEAD_MS } from './storm';
 
 export const LA_RETENTION_MS = 7 * 86_400_000;
 
@@ -58,9 +60,31 @@ async function dueObjects(tx: pg.PoolClient, now: Date): Promise<Due[]> {
      UNION ALL
      SELECT 'vote', id FROM polls
       WHERE status = 'open' AND closes_at BETWEEN $1 AND $1::timestamptz + make_interval(secs => $5 / 1000.0)
+     UNION ALL
+     SELECT 'storm', w.id FROM watch_items w JOIN trips t ON t.id = w.trip_id
+      WHERE w.status IN ('watching', 'plan_b') AND w.resolved_at IS NULL
+        AND w.kind = ANY($6::text[])
+        AND $1::timestamptz >= (w.day::timestamp AT TIME ZONE coalesce(t.tz, 'UTC'))
+                               - make_interval(secs => $7 / 1000.0)
+        AND $1::timestamptz < ((w.day + 1)::timestamp AT TIME ZONE coalesce(t.tz, 'UTC'))
+     UNION ALL
+     SELECT 'ride', q.id FROM ride_quotes q
+      WHERE q.provider = 'grab'
+        AND q.fetched_at > $1::timestamptz - make_interval(secs => $8 / 1000.0)
+        AND NOT EXISTS (SELECT 1 FROM la_object_states o
+                         WHERE o.kind = 'ride' AND o.ref_id = q.id)
      UNION
      SELECT kind, ref_id FROM la_object_states WHERE phase = 'live'`,
-    [now, LA_LEAVE_BY_LEAD_MS, LA_MEET_UP_LEAD_MS, LA_MEET_UP_TAIL_MS, LA_VOTE_LEAD_MS],
+    [
+      now,
+      LA_LEAVE_BY_LEAD_MS,
+      LA_MEET_UP_LEAD_MS,
+      LA_MEET_UP_TAIL_MS,
+      LA_VOTE_LEAD_MS,
+      LA_STORM_KINDS,
+      LA_STORM_LEAD_MS,
+      LA_RIDE_TTL_MS,
+    ],
   );
   return rows;
 }

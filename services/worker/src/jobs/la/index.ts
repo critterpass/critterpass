@@ -25,7 +25,9 @@ import { registerCritterNearbyNotification } from './critter-fallback';
 import { flightLoader } from './flight';
 import { leaveByLoader } from './leave-by';
 import { meetUpLoader } from './meet-up';
+import { rideLoader } from './ride';
 import { sosLoader } from './sos';
+import { stormLoader } from './storm';
 import { voteLoader } from './vote';
 import { laLifecycleJob } from './lifecycle';
 import { laOrchestrateJob, type LaDeps } from './orchestrate';
@@ -40,6 +42,8 @@ export const LA_LOADERS: LaLoaders = {
   flight: flightLoader,
   vote: voteLoader,
   sos: sosLoader,
+  storm: stormLoader,
+  ride: rideLoader,
   critter_nearby: critterLoader,
 };
 
