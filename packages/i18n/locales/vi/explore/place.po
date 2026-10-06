@@ -105,6 +105,10 @@ msgstr "Bỏ một nơi khỏi Ý tưởng"
 msgid "explore.detail.queued.idea"
 msgstr "Một nơi đã lưu vào Ý tưởng"
 
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.profile.queued.report"
+msgstr "Đã báo lỗi ở phần tóm tắt một địa điểm"
+
 #. placeholder {0}: place.name
 #: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
 msgid "explore.detail.similarAdd"
@@ -337,6 +341,10 @@ msgstr "Đã xóa khỏi Ý tưởng của cả nhóm"
 msgid "explore.detail.unsavedIdea"
 msgstr "Đã bỏ khỏi mục đã lưu của bạn"
 
+#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
+msgid "explore.profile.report"
+msgstr "Báo lỗi"
+
 #: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.place.retry"
 msgstr "Thử lại"
@@ -392,6 +400,14 @@ msgstr "Đề xuất {weekday} · {time}"
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.takes"
 msgstr "Mất"
+
+#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
+msgid "explore.profile.reported"
+msgstr "Cảm ơn bạn. Chúng tôi sẽ kiểm tra và viết lại phần tóm tắt này."
+
+#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
+msgid "explore.profile.reportFailed"
+msgstr "Chưa gửi được. Thử lại sau nhé."
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.noPlan"

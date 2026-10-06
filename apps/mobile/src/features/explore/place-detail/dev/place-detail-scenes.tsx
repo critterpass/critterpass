@@ -3,7 +3,8 @@
  * member, already in the plan, split in the crew, with no trip, and hours not known; and a Đà Nẵng
  * beach with no photo of its own, filled in by Foursquare's live facts, or with the Foursquare
  * photo kept from an earlier open (Foursquare's credit on the hero). ♡ and the button work on
- * the page; nothing is sent.
+ * the page; nothing is sent, except "Report a problem" under the AI summary scene, which queues a
+ * real report of a lab place id the server refuses.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { PlaceMediaAsset } from '@cp/domain';
@@ -25,6 +26,8 @@ import {
   splitCountLabel,
 } from '../model';
 import { PlaceDetailView } from '../place-detail-view';
+import { PlaceProfileSection } from '../place-profile';
+import { LAB_PLACE_PROFILE } from './lab-place-profile';
 
 const SAT = '0192f000-0000-7000-8000-0000000000d6';
 const THU = '0192f000-0000-7000-8000-0000000000d4';
@@ -178,7 +181,10 @@ function Scene({
   photo = null,
   place = TIRTA_EMPUL,
   live = null,
+  profile = false,
 }: {
+  /** The place's AI summary above the rest of the page, with "Report a problem". */
+  readonly profile?: boolean;
   readonly patch?: Record<string, unknown>;
   readonly place?: ScenePlace;
   /** Foursquare's live facts for the place, as the page reads them. */
@@ -249,15 +255,20 @@ function Scene({
       }
       crew={trip ? { keen: SAVERS, qna: context?.qna?.text ?? null, savers: true } : null}
       further={
-        <PlaceFurther
-          guide={guide}
-          context={context}
-          tip={context?.tip ?? place.tip}
-          live={facts.details}
-          offers={null}
-          onPlace={() => undefined}
-          addPlace={() => '/explore'}
-        />
+        <>
+          {profile ? (
+            <PlaceProfileSection placeId={WIRE.poi_id} profile={LAB_PLACE_PROFILE} />
+          ) : null}
+          <PlaceFurther
+            guide={guide}
+            context={context}
+            tip={context?.tip ?? place.tip}
+            live={facts.details}
+            offers={null}
+            onPlace={() => undefined}
+            addPlace={() => '/explore'}
+          />
+        </>
       }
       cta={{
         label: trip
@@ -293,6 +304,7 @@ export const PLACE_DETAIL_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   'place-detail-no-trip': () => <Scene trip={false} />,
+  'place-detail-ai-profile': () => <Scene trip={false} profile />,
   'place-detail-live': () => <Scene trip={false} live={MY_KHE_LIVE} place={MY_KHE} />,
   'place-detail-foursquare-photo': () => (
     <Scene trip={false} photo={BEACH_FOURSQUARE} place={MY_KHE} />

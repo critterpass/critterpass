@@ -32,6 +32,11 @@ export const REPORT_REASONS = [
 export const reportReasonSchema = z.enum(REPORT_REASONS);
 export type ReportReason = z.infer<typeof reportReasonSchema>;
 
+/** `report_content` also takes `inaccurate`: wrong or out-of-date facts in AI-written content. */
+export const REPORT_CONTENT_REASONS = [...REPORT_REASONS, 'inaccurate'] as const;
+export const reportContentReasonSchema = z.enum(REPORT_CONTENT_REASONS);
+export type ReportContentReason = z.infer<typeof reportContentReasonSchema>;
+
 /** Who filed a report: a user through `report_content`, or the input compliance check's review band. */
 export const MODERATION_REPORT_SOURCES = ['user', 'compliance'] as const;
 export const moderationReportSourceSchema = z.enum(MODERATION_REPORT_SOURCES);
@@ -46,7 +51,7 @@ export const moderationSubjectKindSchema = z
 export const reportContentPayloadSchema = z.object({
   kind: moderationSubjectKindSchema,
   id: z.uuid(),
-  reason: reportReasonSchema,
+  reason: reportContentReasonSchema,
   /** The reporter's optional note; contact details and links are cut out before it is stored. */
   note: z.string().trim().min(1).max(280).nullish(),
 });

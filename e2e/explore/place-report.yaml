@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# An AI place summary's "Report a problem" (7e-1), from the Explore lab: the place page with its AI
+# summary, facts and sources, then the link tapped and the thanks in its place. The lab's place id
+# is not a real place, so the queued report is refused later; the page's state is what is checked.
+- runFlow: subflows/lab-en.yaml
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-place-detail-ai-profile'
+    direction: DOWN
+    timeout: 60000
+- tapOn:
+    id: 'explore-lab-place-detail-ai-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail-cta'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'place-detail-profile-text'
+    direction: DOWN
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7e-1-ai-summary
+- scrollUntilVisible:
+    element:
+      id: 'place-detail-profile-report'
+    direction: DOWN
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7e-1-ai-summary-report
+- tapOn:
+    id: 'place-detail-profile-report'
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail-profile-reported'
+    timeout: 10000
+- assertNotVisible:
+    id: 'place-detail-profile-report'
+- takeScreenshot: en-7e-1-ai-summary-reported

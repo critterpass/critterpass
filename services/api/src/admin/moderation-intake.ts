@@ -38,6 +38,11 @@ export interface ModerationKindHandler {
   readonly apply?: (tx: pg.PoolClient, id: string, verdict: 'hide' | 'remove') => Promise<void>;
   /** Releases a subject held for review (e.g. a pending avatar) when approved, as app_system. */
   readonly approve?: (tx: pg.PoolClient, id: string) => Promise<void>;
+  /**
+   * Runs as app_system when a user's report is accepted, before it is filed (so the filings it
+   * reads are the earlier ones): e.g. an AI place profile is written again from fresh pages.
+   */
+  readonly reported?: (tx: pg.PoolClient, id: string) => Promise<void>;
 }
 
 const kinds = new Map<string, ModerationKindHandler>();
