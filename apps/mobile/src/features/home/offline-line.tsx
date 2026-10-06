@@ -8,7 +8,7 @@ import { toLocalWallTime, type HomeTripInput } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
-import { BUNDLE_KIND, savedDayId, type SavedDay } from '@/features/trip/bundle/bundle-manager';
+import { SAVED_DAYS_SQL, savedDaysParams, type SavedDay } from '@/data/trip-day/saved-days';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
 import { Text } from '@/ui/text/Text';
@@ -23,7 +23,6 @@ const MISSING_PLACES_SQL = `SELECT count(DISTINCT i.poi_id) AS n
   LEFT JOIN pois p ON p.id = i.poi_id
   WHERE i.trip_id = ? AND i.poi_id IS NOT NULL AND p.id IS NULL`;
 const MISSING_PLACES_TABLES = ['plan_items', 'trips', 'pois'];
-const SAVED_DAYS_SQL = 'SELECT data FROM local_private WHERE kind = ? AND id LIKE ?';
 const SAVED_DAYS_TABLES = ['local_private'];
 
 const useStyles = makeStyles(() => ({ text: { flexShrink: 1 } }));
@@ -82,7 +81,7 @@ export function OfflineLineRow({
   const places = useLiveRows<{ n: number }>(MISSING_PLACES_SQL, [trip.id], MISSING_PLACES_TABLES);
   const saved = useLiveRows<{ data: string }>(
     SAVED_DAYS_SQL,
-    [BUNDLE_KIND, `${savedDayId(trip.id, '')}%`],
+    savedDaysParams(trip.id),
     SAVED_DAYS_TABLES,
   );
   if (!places.loaded || !saved.loaded) return null;

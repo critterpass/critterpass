@@ -10,7 +10,7 @@
 import type { BundleAssetKind } from '@cp/domain';
 
 import { END_GRACE_DAYS, OFFLINE_LEAD_DAYS } from '@/data/powersync/offline-trip-holds';
-import type { SavedDay } from '@/features/trip/bundle/bundle-manager';
+import type { SavedDay } from '@/data/trip-day/saved-days';
 
 export type OfflineWhat = 'places' | 'today' | 'tickets' | 'phrases' | 'map';
 
