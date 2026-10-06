@@ -31,6 +31,14 @@ enum SignedActionSender {
         }
     }
 
+    /// For an intent: sends (or queues) on the surface the action was queued from, and throws only
+    /// when it could do neither.
+    static func deliver(_ action: PendingAction, root: URL?) async throws {
+        if await send(action, surface: action.via.surface, root: root) == .failed {
+            throw PendingActionsOutboxError.noAppGroupContainer
+        }
+    }
+
     /// Success, or a refusal about the command itself. A key or session the server will not take
     /// (401, 403) and server trouble (5xx) leave the action for the app's own session.
     static func isFinal(_ statusCode: Int) -> Bool {
@@ -83,5 +91,17 @@ enum ActionEndpoints {
               let file = try? JSONDecoder().decode(File.self, from: data), file.schema == 1
         else { return nil }
         return URL(string: file.apiBaseUrl)
+    }
+}
+
+extension PendingAction.Via {
+    /// The envelope's `actor.via` for a signed request.
+    var surface: ActionSurface {
+        switch self {
+        case .widget: return .widget
+        case .notifAction: return .notificationAction
+        case .laIntent: return .liveActivityIntent
+        case .appIntent: return .appIntent
+        }
     }
 }

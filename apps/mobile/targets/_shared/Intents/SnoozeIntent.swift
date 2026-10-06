@@ -23,9 +23,7 @@ struct SnoozeIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        let result = await SignedActionSender.send(
-            .snooze(leaveById: leaveById), surface: .liveActivityIntent, root: AppGroupContainer.url)
-        if result == .failed { throw PendingActionsOutboxError.noAppGroupContainer }
+        try await SignedActionSender.deliver(.snooze(leaveById: leaveById), root: AppGroupContainer.url)
         return .result()
     }
 }

@@ -41,9 +41,7 @@ struct ImUpIntent: LiveActivityIntent {
                 await activity.update(ActivityContent(state: state, staleDate: content.staleDate))
             }
         }
-        let result = await SignedActionSender.send(
-            .imUp(leaveById: leaveById), surface: .liveActivityIntent, root: root)
-        if result == .failed { throw PendingActionsOutboxError.noAppGroupContainer }
+        try await SignedActionSender.deliver(.imUp(leaveById: leaveById), root: root)
         return .result()
     }
 
