@@ -13,7 +13,7 @@ jest.mock(
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { configure, fireEvent, screen, waitFor } from '@testing-library/react-native';
-import { Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
 import {
   openTestLocalFirst,
@@ -21,7 +21,12 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { useVoiceConsent, voiceConsentGranted } from '../voice-consent';
+import {
+  refusalOf,
+  useVoiceConsent,
+  voiceConsentGranted,
+  withVoiceConsent,
+} from '../voice-consent';
 import { renderScreen } from '../test-support/screen-harness';
 import { VoiceGate } from '../voice-consent-view';
 
@@ -41,10 +46,33 @@ async function open(): Promise<TestLocalFirst> {
   return stack;
 }
 
+/** The api's answer to a voice request from someone it holds no standing voice consent for. */
+const consentRefusal = () =>
+  Response.json(
+    {
+      error: {
+        code: 'CONSENT_REQUIRED',
+        message: 'This needs a consent you have not given',
+        retryable: false,
+        detail: { purpose: 'ai_voice' },
+      },
+    },
+    { status: 403 },
+  );
+
 const mounted = jest.fn();
-function VoiceMode() {
+function VoiceMode({ onConsentRequired }: { readonly onConsentRequired: () => void }) {
   mounted();
-  return <Text testID="voice-mode">voice</Text>;
+  // A voice request the server refuses, as the speech token or a spoken turn would be.
+  const request = () =>
+    void withVoiceConsent(async () => {
+      throw await refusalOf(consentRefusal(), 'stt token');
+    }, onConsentRequired).catch(() => undefined);
+  return (
+    <Pressable testID="voice-request" onPress={request}>
+      <Text testID="voice-mode">voice</Text>
+    </Pressable>
+  );
 }
 
 function Gated({ onType }: { readonly onType: () => void }) {
@@ -65,7 +93,7 @@ function GatedVoice({ onType }: { readonly onType: () => void }) {
       onAgree={consent.agree}
       onType={onType}
     >
-      <VoiceMode />
+      <VoiceMode onConsentRequired={consent.askAgain} />
     </VoiceGate>
   );
 }
@@ -148,5 +176,41 @@ describe('voice mode behind its consent', () => {
     );
     await show(stack);
     await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
+  });
+
+  it('asks again when the server refuses for want of the consent, and a yes reopens voice', async () => {
+    const stack = await open();
+    await stack.db.execute(
+      "INSERT INTO consents (id, user_id, purpose, granted_at) VALUES ('c3', ?, 'ai_voice', '2026-10-01T06:00:00Z')",
+      [stack.uid],
+    );
+    await show(stack);
+    await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
+
+    await fireEvent.press(screen.getByTestId('voice-request'));
+    await waitFor(() => expect(screen.getByTestId('guide-voice-consent')).toBeTruthy());
+    expect(screen.queryByTestId('voice-mode')).toBeNull();
+
+    await fireEvent.press(screen.getByTestId('guide-voice-consent-yes'));
+    await waitFor(() => expect(screen.getByTestId('voice-mode')).toBeTruthy());
+    await waitFor(async () =>
+      expect((await queued(stack)).map((entry) => entry.payload)).toEqual([
+        { purpose: 'ai_voice', granted: true, copy_version: 'voice-2026-10' },
+      ]),
+    );
+  });
+
+  it('leaves any other refusal to the caller', async () => {
+    const askAgain = jest.fn();
+    const unavailable = Response.json(
+      { error: { code: 'SUPPLIER_UNAVAILABLE', message: 'Try again later', retryable: true } },
+      { status: 503 },
+    );
+    await expect(
+      withVoiceConsent(async () => {
+        throw await refusalOf(unavailable, 'stt token');
+      }, askAgain),
+    ).rejects.toMatchObject({ code: 'SUPPLIER_UNAVAILABLE' });
+    expect(askAgain).not.toHaveBeenCalled();
   });
 });

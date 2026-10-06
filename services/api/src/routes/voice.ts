@@ -2,7 +2,8 @@
  * The voice, camera and phrase practice routes and their boot wiring: `POST /v1/stt/token`
  * (./stt-token.ts), `POST /v1/camera/menu` (./camera.ts) and `POST /v1/guide/phrase-feedback`,
  * which grades what the device heard against a phrase card and, on a mismatch, adds one short tip
- * from the guide. Practice is never metered.
+ * from the guide. Practice is never metered. What the device heard is the traveller's speech as
+ * text and goes to the model, so the tip needs their voice consent (`CONSENT_REQUIRED` otherwise).
  */
 import { createGateway, phraseFeedback, recordUsage, type Gateway } from '@cp/ai';
 import { withSystem } from '@cp/db';
@@ -17,6 +18,7 @@ import {
   requireCommandSession,
   type SessionResolver,
 } from '../commands/_framework/session';
+import { requireVoiceConsent } from '../lib/voice-consent';
 import { createKillSwitches } from '../ops/kill-switches';
 import { registerCameraRoutes } from './camera';
 import { registerSttTokenRoutesFromEnv } from './stt-token';
@@ -51,6 +53,7 @@ export function registerPhraseFeedbackRoute(
       });
     }
     const body = parsed.data;
+    await requireVoiceConsent(deps.pool, uid);
     // A live curated card, or the caller's own custom card once its text is written.
     const { rows } = await withSystem(deps.pool, (tx) =>
       tx.query<PhraseRow>(

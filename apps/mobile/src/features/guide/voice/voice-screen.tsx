@@ -32,7 +32,7 @@ import {
   type VoicePorts,
 } from './voice-controller';
 import { useVoiceProposals } from './use-voice-proposals';
-import { useVoiceConsent } from './voice-consent';
+import { refusalOf, useVoiceConsent, withVoiceConsent } from './voice-consent';
 import { VoiceGate } from './voice-consent-view';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
 import { VoiceView } from './voice-view';
@@ -72,7 +72,7 @@ export async function sttToken(): Promise<SttToken> {
     method: 'POST',
     headers: await sessionHeaders(),
   });
-  if (!response.ok) throw new Error(`stt token answered ${response.status}`);
+  if (!response.ok) throw await refusalOf(response, 'stt token');
   return (await response.json()) as SttToken;
 }
 
@@ -102,12 +102,17 @@ function ConsentedVoiceScreen(props: VoiceScreenProps) {
       onAgree={consent.agree}
       onType={() => router.back()}
     >
-      <OpenVoiceScreen {...props} />
+      <OpenVoiceScreen {...props} onConsentRequired={consent.askAgain} />
     </VoiceGate>
   );
 }
 
-function OpenVoiceScreen({ tripId, speech, talkOnOpen = false }: VoiceScreenProps) {
+function OpenVoiceScreen({
+  tripId,
+  speech,
+  talkOnOpen = false,
+  onConsentRequired,
+}: VoiceScreenProps & { readonly onConsentRequired: () => void }) {
   const { i18n } = useLingui();
   const context = useGuideContext(tripId);
   const trip = context.trip;
@@ -139,8 +144,14 @@ function OpenVoiceScreen({ tripId, speech, talkOnOpen = false }: VoiceScreenProp
         const outcome = await requestWithPrimer('microphone', 'voice').catch(() => null);
         return outcome?.result === 'granted' || outcome?.result === 'partial';
       },
-      listen: speech === null ? null : (onPartial) => speech.listen(locale, sttToken, onPartial),
+      // The speech service's token is refused without the consent: the question is asked again.
+      listen:
+        speech === null
+          ? null
+          : (onPartial) =>
+              speech.listen(locale, () => withVoiceConsent(sttToken, onConsentRequired), onPartial),
       online: () => live.current.online,
+      consentRequired: onConsentRequired,
       ask: async (text, options, onFrame, signal) => {
         let threadId = live.current.threadId;
         for (let attempt = 0; ; attempt += 1) {
@@ -203,7 +214,7 @@ function OpenVoiceScreen({ tripId, speech, talkOnOpen = false }: VoiceScreenProp
       controller.current = null;
       speech?.endSession();
     };
-  }, [speech, locale, level, talkOnOpen]);
+  }, [speech, locale, level, talkOnOpen, onConsentRequired]);
 
   const offered = useVoiceProposals(trip?.tripId ?? null, state.proposals, mode === 'group');
   const sticker = guideSticker(guideAvatarId(context.guideSlug));

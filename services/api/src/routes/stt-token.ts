@@ -3,10 +3,12 @@
  * app's live transcription, used on Android and for iOS locales without an on-device model. The
  * account key never leaves the server; the app opens Deepgram's websocket with a 60-second token
  * from Deepgram's token grant, which only authorises streaming. Rate-limited per user, since
- * each token is a fresh grant.
+ * each token is a fresh grant. The token sends the traveller's speech to Deepgram, so it is only
+ * given while their voice consent stands (`CONSENT_REQUIRED` otherwise).
  */
 import { DomainError } from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
+import type pg from 'pg';
 
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { AppEnv } from '../app';
@@ -15,6 +17,7 @@ import {
   requireCommandSession,
   type SessionResolver,
 } from '../commands/_framework/session';
+import { requireVoiceConsent } from '../lib/voice-consent';
 
 /** What the app's Deepgram client opens the socket with (`Sec-WebSocket-Protocol: bearer, …`). */
 export interface SttToken {
@@ -68,6 +71,7 @@ export function deepgramTokenMinter(
 }
 
 export interface SttTokenRouteDeps {
+  readonly pool: pg.Pool;
   readonly sessions: SessionResolver;
   readonly redis: RateLimitRedisClient;
   /** Null when Deepgram is not configured: the app keeps on-device recognition only. */
@@ -78,6 +82,7 @@ export function registerSttTokenRoutes(app: OpenAPIHono<AppEnv>, deps: SttTokenR
   app.post('/v1/stt/token', async (c) => {
     const { uid } = await requireCommandSession(deps.sessions, c.req.raw.headers);
     await enforceUidRateLimit(deps.redis, 'stt_token', uid, STT_TOKEN_PER_UID_RULE);
+    await requireVoiceConsent(deps.pool, uid);
     if (deps.mint === null) throw unavailable('not_configured');
     c.header('Cache-Control', 'private, no-store');
     return c.json(await deps.mint());

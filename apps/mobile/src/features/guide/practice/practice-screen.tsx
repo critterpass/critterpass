@@ -19,7 +19,7 @@ import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { useLiveQuery } from '../chat/data/live-rows';
 import { useGuideContext } from '../chat/data/use-guide-context';
 import { PhraseCard } from '../phrases/phrase-card';
-import { useVoiceConsent } from '../voice/voice-consent';
+import { refusalOf, useVoiceConsent, withVoiceConsent } from '../voice/voice-consent';
 import { sttToken, type VoiceSpeech } from '../voice/voice-screen';
 import {
   createPracticeController,
@@ -72,7 +72,7 @@ async function gradeOnServer(phrase: PracticePhrase, heard: string): Promise<Pra
       recognised: heard.slice(0, 300),
     }),
   });
-  if (!response.ok) throw new Error(`phrase feedback answered ${response.status}`);
+  if (!response.ok) throw await refusalOf(response, 'phrase feedback');
   const body = (await response.json()) as Partial<PracticeGrade>;
   if (body.outcome !== 'ok' && body.outcome !== 'retry') throw new Error('phrase feedback shape');
   return {
@@ -116,6 +116,7 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
   const online = sync.phase !== 'offline';
   const liveTripId = context.trip?.tripId ?? null;
   const send = record.send;
+  const askAgain = consent.askAgain;
   useEffect(() => {
     live.current = { online, tripId: liveTripId, send };
   }, [online, liveTripId, send]);
@@ -126,10 +127,14 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
         const outcome = await requestWithPrimer('microphone', 'voice').catch(() => null);
         return outcome?.result === 'granted' || outcome?.result === 'partial';
       },
+      // Refused for want of the voice consent: the consent step shows again.
       listen:
-        speech === null ? null : (lang, onPartial) => speech.listen(lang, sttToken, onPartial),
+        speech === null
+          ? null
+          : (lang, onPartial) =>
+              speech.listen(lang, () => withVoiceConsent(sttToken, askAgain), onPartial),
       online: () => live.current.online,
-      grade: gradeOnServer,
+      grade: (phrase, heard) => withVoiceConsent(() => gradeOnServer(phrase, heard), askAgain),
       record: (entry) => {
         if (entry.outcome === 'ok') {
           setJustLearned((ids) =>
@@ -146,7 +151,7 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
       controller.current = null;
       speech?.endSession();
     };
-  }, [speech]);
+  }, [speech, askAgain]);
 
   const phrases = useMemo<PracticePhrase[]>(
     () =>
