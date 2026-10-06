@@ -144,6 +144,7 @@ const AREA_PATHS: Readonly<Partial<Record<AdminArea, { path: string; label: stri
   moderation: { path: '/moderation', label: 'Moderation' },
   desk: { path: '/desk', label: 'Concierge desk' },
   support: { path: '/support', label: 'Support' },
+  feedback: { path: '/ideas', label: 'Feedback & ideas' },
   billing: { path: '/billing', label: 'Billing' },
   catalogue: { path: '/catalogue', label: 'Catalogue' },
   content: { path: '/content', label: 'Content batches' },

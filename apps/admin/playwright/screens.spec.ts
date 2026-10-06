@@ -22,6 +22,7 @@ const PAGES = [
   { name: 'moderation', path: '/moderation' },
   { name: 'desk', path: '/desk' },
   { name: 'support', path: '/support' },
+  { name: 'ideas', path: '/ideas' },
   { name: 'billing', path: '/billing' },
   { name: 'catalogue', path: '/catalogue' },
   { name: 'content', path: '/content' },
