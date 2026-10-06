@@ -18,7 +18,12 @@ export function viewPoints(
   model: Pick<TripMapModel, 'days' | 'ideas' | 'center'>,
   day: TripDay | null,
 ): Coord[] {
-  const days = day === null ? model.days : [day];
+  // The whole trip frames the first stop's days: a day trip (or a later city) drawn with them
+  // would show neither, and is reached by choosing its day.
+  const days =
+    day === null
+      ? model.days.filter((entry) => entry.area === undefined && entry.laterStop === undefined)
+      : [day];
   const stops = days.flatMap((entry) =>
     entry.stops.flatMap((stop) =>
       stop.place === null ? [] : [[stop.place.lng, stop.place.lat] as const],
@@ -28,6 +33,8 @@ export function viewPoints(
   const points: Coord[] = stay === null ? stops : [...stops, [stay.lng, stay.lat]];
   // A day frames every one of its stops: an edge pill is for after she pans, not the first view.
   if (stops.length > 0) return points;
+  // An empty day trip frames its own area, never the saved places of the base city.
+  if (day?.area !== undefined) return model.center === null ? [] : [model.center];
   const saved = model.ideas.map((idea) => [idea.lng, idea.lat] as const);
   if (saved.length > 0) return saved;
   return model.center === null ? [] : [model.center];
