@@ -16,6 +16,7 @@ import { generateQuestsJob, type QuestWriter } from './generate';
 import { registerQuestPushes } from './pushes';
 import { questSweepJob } from './sweep';
 import { BUILTIN_QUEST_MATCHERS } from './templates/builtin';
+import { registerPhrasePracticeTemplate } from './templates/phrase-practice';
 import { consumedQuestEvents, registerBuiltinQuestTemplates } from './templates/registry';
 
 export interface QuestJobsEnv {
@@ -56,6 +57,7 @@ export function registerQuestRuntime(): void {
   if (registered) return;
   registered = true;
   registerBuiltinQuestTemplates(BUILTIN_QUEST_MATCHERS);
+  registerPhrasePracticeTemplate();
   registerXpRewardHandler();
   registerQuestPushes();
   onEventAppended(questEventHook);

@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.micDeniedBody"
+msgstr "{0} can't hear you without the microphone. Turn it on in Settings, or type your question."
+
 #. placeholder {0}: props.passHolder.name
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.hintLabel"
@@ -24,6 +29,7 @@ msgid "guide.meter.count"
 msgstr "{0} of {1} today"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.plan.cost"
 msgstr "{cost} each"
 
@@ -64,6 +70,10 @@ msgstr "AI guide · answers can be wrong, check what matters"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.allergies"
 msgstr "Allergies"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.state.speaking"
+msgstr "Answering"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.askAtMidnight"
@@ -121,6 +131,10 @@ msgstr "Dairy"
 msgid "guide.dietary.diet"
 msgstr "Diet"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.done"
+msgstr "Done talking"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.eggs"
 msgstr "Eggs"
@@ -157,6 +171,10 @@ msgstr "Gluten"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.groupTab"
 msgstr "Group"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.groupMode"
+msgstr "Group mode"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.group"
@@ -199,6 +217,10 @@ msgstr "I can't answer that one. It didn't pass our safety check."
 msgid "guide.error.cannotCheck"
 msgstr "I couldn't check that just now, so I won't guess."
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.heardNothing"
+msgstr "I didn't catch that. Somewhere quieter helps, or hold the phone closer."
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.unavailable"
 msgstr "I lost my train of thought. That one didn’t count."
@@ -223,6 +245,10 @@ msgstr "I'm swamped right now. Give me a minute and ask again."
 msgid "guide.plan.applied"
 msgstr "In the plan"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.justMe"
+msgstr "Just me"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.meTab"
 msgstr "Just me"
@@ -242,6 +268,14 @@ msgstr "Just me · only you can see this"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietKosher"
 msgstr "Kosher"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.state.listening"
+msgstr "Listening"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.listenFailed"
+msgstr "Listening didn't start. Try again, or type your question."
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.body"
@@ -347,6 +381,14 @@ msgstr "Save"
 msgid "guide.dietary.saved"
 msgstr "Saved. The guide plans around it."
 
+#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
+msgid "guide.voice.sendToGroup"
+msgstr "Send to the group"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
+msgid "guide.voice.sentToGroup"
+msgstr "Sent to the crew chat as a vote"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.sent"
 msgstr "Sent to the crew chat as a vote"
@@ -403,6 +445,10 @@ msgstr "Steps, long walks, hearing, anything the guide should plan around"
 msgid "guide.chat.filler"
 msgstr "Still checking, one moment…"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.interrupt"
+msgstr "Stop and talk"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.confirmBody"
 msgstr "Take one of the slots? Nothing is booked or paid yet."
@@ -410,6 +456,14 @@ msgstr "Take one of the slots? Nothing is booked or paid yet."
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.removed"
 msgstr "Taken out of the plan"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.talk"
+msgstr "Talk"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.state.idle"
+msgstr "Tap to talk"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.problem"
@@ -439,9 +493,21 @@ msgstr "That's my thirtieth answer today, and the free ones are used up. I'll be
 msgid "guide.error.refused"
 msgstr "That's not something I can help with. Ask me about the trip instead?"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.quota"
+msgstr "That's today's questions used up. {guideName} is back after midnight; the chat shows your options."
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.replyFailed"
+msgstr "The answer didn't come through, and it wasn't counted. Ask again."
+
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 msgid "guide.phrase.unavailable"
 msgstr "The audio isn't on this phone yet. Tap the card to show it instead."
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.micDeniedTitle"
+msgstr "The microphone is off"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.shareCaption"
@@ -450,6 +516,10 @@ msgstr "They see \"vegetarian\" or \"no peanuts\", never your notes or your avoi
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.consentBody"
 msgstr "They see only your diet and \"no\" flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted."
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.state.thinking"
+msgstr "Thinking"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.closed"
@@ -463,6 +533,10 @@ msgstr "This offer has closed."
 msgid "guide.offer.expired"
 msgstr "This one has gone"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.textOnly"
+msgstr "This reply couldn't be spoken, so it's text only."
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.menu"
 msgstr "Translate a menu"
@@ -475,6 +549,10 @@ msgstr "Tree nuts"
 msgid "guide.error.retry"
 msgstr "Try again"
 
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.typeInstead"
+msgstr "Type instead"
+
 #: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
 msgid "guide.meter.unlimited"
 msgstr "Unlimited {guideName}"
@@ -486,6 +564,10 @@ msgstr "Vegan"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietVegetarian"
 msgstr "Vegetarian"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.noModule"
+msgstr "Voice is not available in this version of the app. Type your question instead."
 
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.waiting"
@@ -536,6 +618,10 @@ msgstr "You found this unhelpful"
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.mine"
 msgstr "You're in · {0} of {1} taken"
+
+#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+msgid "guide.voice.offlineQueued"
+msgstr "You're offline. {guideName} has your question and answers in the chat when you're back online."
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx

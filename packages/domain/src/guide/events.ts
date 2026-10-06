@@ -12,6 +12,7 @@ export const GUIDE_EVENT_TYPES = [
   'guide.offer_posted',
   'phrase.requested',
   'phrase.ready',
+  'phrase.practised',
 ] as const;
 export type GuideEventType = (typeof GUIDE_EVENT_TYPES)[number];
 
@@ -48,5 +49,12 @@ export const GUIDE_EVENT_PAYLOADS = {
     card_id: z.uuid(),
     user_id: z.uuid(),
     audio_status: z.enum(['ready', 'device', 'failed']),
+  }),
+  // A phrase said well enough to count; the quest evaluator reads it.
+  'phrase.practised': z.object({
+    phrase_id: z.uuid(),
+    trip_id: z.uuid(),
+    user_id: z.uuid(),
+    language: z.string(),
   }),
 } as const satisfies Record<GuideEventType, z.ZodType>;
