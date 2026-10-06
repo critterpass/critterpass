@@ -22,9 +22,9 @@ export const CONSENT_DECISIONS = ['pending', 'approved', 'declined', 'withdrawn'
 export const consentDecisionSchema = z.enum(CONSENT_DECISIONS);
 export type ConsentDecision = z.infer<typeof consentDecisionSchema>;
 
-export const RATING_VERDICTS = ['loved', 'fine', 'skip'] as const;
-export const ratingVerdictSchema = z.enum(RATING_VERDICTS);
-export type RatingVerdict = z.infer<typeof ratingVerdictSchema>;
+export const PLACE_VERDICTS = ['loved', 'fine', 'skip'] as const;
+export const placeVerdictSchema = z.enum(PLACE_VERDICTS);
+export type PlaceVerdict = z.infer<typeof placeVerdictSchema>;
 
 export const TIP_STATUSES = ['none', 'pending', 'approved', 'review', 'rejected'] as const;
 export const tipStatusSchema = z.enum(TIP_STATUSES);
@@ -89,7 +89,7 @@ export const ratePlacesPayloadSchema = z.strictObject({
     .array(
       z.strictObject({
         poi_id: z.uuid(),
-        verdict: ratingVerdictSchema,
+        verdict: placeVerdictSchema,
         tip: z.string().trim().min(1).max(TIP_MAX_CHARS).optional(),
       }),
     )
@@ -219,7 +219,7 @@ export const ratingCardSchema = z.object({
   name: z.string(),
   category: z.enum(POI_CATEGORIES),
   day_no: z.number().int().nullable(),
-  verdict: ratingVerdictSchema.nullable(),
+  verdict: placeVerdictSchema.nullable(),
   tip: z.string().nullable(),
   tip_status: tipStatusSchema,
 });

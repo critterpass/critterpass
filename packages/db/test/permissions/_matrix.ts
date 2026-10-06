@@ -2199,7 +2199,9 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   // A plan waiting for consent: its crew sees it, nobody else (published plans: shared-plans.test).
   shared_plans: {
     selectProbe: {
-      ...tripRowProbe('shared_plans'),
+      // The trip column is never granted to app_user: the probe reads by status instead.
+      sql: "SELECT 1 FROM shared_plans WHERE status = 'pending_consent' AND $1::uuid IS NOT NULL",
+      params: (f) => [f.tripId],
       seed: `INSERT INTO shared_plans (trip_id, destination_id)
              SELECT t.id, coalesce(t.destination_id, (SELECT destination_id FROM pois
                                                        WHERE name = 'Matrix Probe POI'))

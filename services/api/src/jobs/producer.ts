@@ -100,6 +100,9 @@ export const PRODUCER_QUEUES: readonly string[] = [
   TRIP_PLACES_REFRESH_QUEUE,
   PLANNING_QUEUES.legs,
   PLANNING_QUEUES.check,
+  // Copying a crew plan starts the placing job; a rated place's tip waits for its screening.
+  PLANNING_QUEUES.placeIdeas,
+  'compliance.check',
 ];
 
 /**

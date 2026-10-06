@@ -4,7 +4,7 @@
  * included) and the stack resumes where it was left. A tip moderation turned down says so gently;
  * the end card offers SHARE THE PLAN TOO.
  */
-import type { RatingCard, RatingVerdict } from '@cp/domain';
+import type { RatingCard, PlaceVerdict } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
@@ -56,7 +56,7 @@ export function RateTripScreen({ tripId }: { tripId: string }) {
   // Until she answers, the stack sits at the first place without a verdict.
   const at = index ?? (data === null ? 0 : resumeIndex(data.cards));
   const current: RatingCard | undefined = cards[at];
-  const answer = (verdict: RatingVerdict) => {
+  const answer = (verdict: PlaceVerdict) => {
     if (current === undefined) return;
     const item = verdictFor(current, verdict, tip);
     setAnswers((previous) => new Map(previous).set(current.poi_id, item));
@@ -149,7 +149,7 @@ export function RateTripScreen({ tripId }: { tripId: string }) {
                 { name: 'skip', label: t({ id: 'community.rate.skip', message: 'Skip it' }) },
               ]}
               onAccessibilityAction={(event) =>
-                answer(event.nativeEvent.actionName as RatingVerdict)
+                answer(event.nativeEvent.actionName as PlaceVerdict)
               }
             >
               <View style={styles.choice}>

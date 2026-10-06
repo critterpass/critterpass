@@ -3,7 +3,7 @@
  * verdict), what each card shows after an answer, and the verdict a swipe or button sends. Pure,
  * so the stack and its tests agree.
  */
-import type { RatingCard, RatingVerdict } from '@cp/domain';
+import type { RatingCard, PlaceVerdict } from '@cp/domain';
 
 import type { RateVerdict } from '../commands';
 
@@ -16,7 +16,7 @@ export function resumeIndex(cards: readonly RatingCard[]): number {
 }
 
 /** The command item for one answer; a blank tip is no tip, a long one is cut to the limit. */
-export function verdictFor(card: RatingCard, verdict: RatingVerdict, tip: string): RateVerdict {
+export function verdictFor(card: RatingCard, verdict: PlaceVerdict, tip: string): RateVerdict {
   const text = tip.trim().slice(0, TIP_LIMIT);
   return text === ''
     ? { poi_id: card.poi_id, verdict }
