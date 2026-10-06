@@ -1,0 +1,186 @@
+appId: app.critterpass.dev
+---
+# A trip stopped half way through the earlier set-up, opened with the new planning screens on. A
+# fresh account turns the planning redesign off on this phone, locks a four-day Đà Lạt trip's
+# dates and budget and leaves before any draft; Home and the hub are shot as the earlier flow
+# shows them (`old-b-…`). The phone then follows the shared config (on): Home, the hub, PLAN, and
+# whatever the app offers next are shot (`new-b-…`), following the offered step towards a draft.
+- runFlow:
+    file: old-flow-subflows/old-flow-trip.yaml
+    env:
+      SHOTS: old-b-00-setup
+      START_OFFSET_DAYS: 17
+      STOP_AFTER_BUDGET: 'yes'
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: old-b-01-home
+- tapOn:
+    id: 'tab-trips'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: old-b-02-hub
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: old-b-03-hub-lower
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: UP
+    timeout: 15000
+    centerElement: true
+    optional: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 10000
+- takeScreenshot: old-b-04-plan
+- runFlow:
+    file: old-flow-subflows/planning-redesign.yaml
+    env:
+      MODE: 'follow'
+      SHOT: new-b-00-redesign-follows-config
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: new-b-01-home
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: new-b-02-home-lower
+- tapOn:
+    id: 'tab-trips'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: new-b-03-hub
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: new-b-04-hub-lower
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: UP
+    timeout: 15000
+    centerElement: true
+    optional: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- takeScreenshot: new-b-05-plan-at-once
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 12000
+- takeScreenshot: new-b-06-plan-settled
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: new-b-07-plan-pulled-up
+# Back on the hub: the step it offers next (the planning call to action, else its "next" row).
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'tab-trips'
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-planning-cta|trip-hub-next'
+    direction: UP
+    timeout: 10000
+    optional: true
+- takeScreenshot: new-b-08-hub-next-step
+- tapOn:
+    id: 'trip-hub-planning-cta|trip-hub-next'
+    optional: true
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 8000
+- takeScreenshot: new-b-09-next-step-opened
+# If that is the set-up, carry it through to a draft: rooms, a must-do, DRAFT MY TRIP.
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
+      - extendedWaitUntil:
+          visible:
+            id: 'must-dos-add|must-dos-draft'
+          timeout: 30000
+          optional: true
+      - takeScreenshot: new-b-10-must-dos
+- runFlow:
+    when:
+      visible:
+        id: 'must-dos-draft'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'must-dos-draft'
+          timeout: 10000
+      - tapOn:
+          id: 'must-dos-draft'
+      - extendedWaitUntil:
+          visible:
+            id: 'drafting-screen'
+          timeout: 30000
+          optional: true
+      - takeScreenshot: new-b-11-drafting
+      - extendedWaitUntil:
+          visible:
+            id: 'draft-review'
+          timeout: 600000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: new-b-12-draft-review
+      - scroll
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: new-b-13-draft-review-lower
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: new-b-14-home-at-the-end

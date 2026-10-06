@@ -1,0 +1,274 @@
+appId: app.critterpass.dev
+---
+# The old-flow trip under way, with the day-of hub's taps timed. A fresh account with the planning
+# redesign off on this phone drafts and locks a four-day Đà Lạt trip that starts today, then follows
+# the shared config (on). From Home: TRIPS and PLAN timed (old-flow-subflows/timed-tap.yaml), the
+# day-of edits on day 1 (the day's map, a stop's sheet, a time change, a place added), the taps
+# timed again, every other day's plan, and the taps timed a third time. Frames `day-of-…`.
+- runFlow:
+    file: old-flow-subflows/old-flow-trip.yaml
+    env:
+      SHOTS: day-of-00-setup
+      START_OFFSET_DAYS: 0
+- runFlow:
+    file: old-flow-subflows/planning-redesign.yaml
+    env:
+      MODE: 'follow'
+      SHOT: day-of-00-redesign-follows-config
+- runFlow:
+    file: old-flow-subflows/timed-tap.yaml
+    env:
+      SHOT: day-of-01-trips-tap
+      TAP: 'tab-trips'
+      UNTIL: 'trip-hub-tile-plan|trip-hub-tiles|trip-hub-today'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+    optional: true
+- runFlow:
+    file: old-flow-subflows/timed-tap.yaml
+    env:
+      SHOT: day-of-02-plan-tap
+      TAP: 'trip-hub-tile-plan'
+      UNTIL: 'trip-map-peek|trip-map'
+# Day 1 (today): its plan, its map, a stop's sheet, a time change, a place added.
+- tapOn:
+    id: 'trip-map-peek-open-day-pill|trip-map-open-day-pill|trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 5000
+- takeScreenshot: day-of-03-day-1-plan
+- tapOn:
+    id: 'day-plan-mini-map'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-map'
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 8000
+- takeScreenshot: day-of-04-day-1-map
+- runFlow:
+    when:
+      visible:
+        id: 'day-map'
+    commands:
+      - tapOn:
+          id: 'day-map-back'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+- scrollUntilVisible:
+    element:
+      id: 'stop-2'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'stop-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet|plan-item-save'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: day-of-05-stop-sheet
+- repeat:
+    times: 2
+    commands:
+      - tapOn:
+          id: 'plan-time-start-later'
+          optional: true
+- takeScreenshot: day-of-06-time-half-an-hour-later
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message|plan-item-confirm'
+    timeout: 10000
+    optional: true
+- takeScreenshot: day-of-07-time-saved
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - tapOn: '(?i)change it anyway'
+      - extendedWaitUntil:
+          visible:
+            id: 'island-toast-message'
+          timeout: 10000
+          optional: true
+      - takeScreenshot: day-of-07b-time-saved-after-confirm
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-sheet'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 6000
+- takeScreenshot: day-of-08-day-1-after-the-time-change
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-add'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'search-field'
+    optional: true
+- inputText: 'coffee'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- tapOn:
+    id: 'search-row-add-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-why'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: day-of-09-add-sheet
+- tapOn:
+    id: 'plan-add-confirm'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: day-of-10-added
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-plan'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 6000
+- takeScreenshot: day-of-11-day-1-after-the-add
+# Back to the hub the way run 3 went (system back until the tab bar), the taps timed again.
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    file: old-flow-subflows/timed-tap.yaml
+    env:
+      SHOT: day-of-12-trips-tap-again
+      TAP: 'tab-trips'
+      UNTIL: 'trip-hub-tile-plan|trip-hub-tiles|trip-hub-today'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+    optional: true
+- runFlow:
+    file: old-flow-subflows/timed-tap.yaml
+    env:
+      SHOT: day-of-13-plan-tap-again
+      TAP: 'trip-hub-tile-plan'
+      UNTIL: 'trip-map-peek|trip-map'
+# Every other day's plan, as run 3 walked them before the slow taps, then the taps a third time.
+- evalScript: ${output.dayNo = 1}
+- repeat:
+    times: 3
+    commands:
+      - evalScript: ${output.dayNo = output.dayNo + 1}
+      - runFlow: plan-views-subflows/back-to-trip-map.yaml
+      - tapOn:
+          id: ${'trip-map-day-chips-' + output.dayNo}
+          optional: true
+      - tapOn:
+          id: 'trip-map-peek-open-day-pill|trip-map-open-day-pill|trip-map-open-day'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'day-plan'
+          timeout: 20000
+          optional: true
+      - runFlow:
+          file: subflows/settle.yaml
+          env:
+            WAIT: 5000
+      - takeScreenshot: ${'day-of-14-day-' + output.dayNo + '-plan'}
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    file: old-flow-subflows/timed-tap.yaml
+    env:
+      SHOT: day-of-15-trips-tap-third
+      TAP: 'tab-trips'
+      UNTIL: 'trip-hub-tile-plan|trip-hub-tiles|trip-hub-today'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+    optional: true
+- runFlow:
+    file: old-flow-subflows/timed-tap.yaml
+    env:
+      SHOT: day-of-16-plan-tap-third
+      TAP: 'trip-hub-tile-plan'
+      UNTIL: 'trip-map-peek|trip-map'
