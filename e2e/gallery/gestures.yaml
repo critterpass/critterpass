@@ -88,24 +88,17 @@ appId: app.critterpass.dev
     text: 'Opened Ubud centre'
 - takeScreenshot: gesture-day-row-drag-reorders
 
-# Timeline block: the one-hour lunch is drawn 36 pt tall; a tap 2 pt above it, inside its
-# enlarged touch area, selects it for the stepper, and a drag from the block moves it later.
+# Timeline block: the one-hour lunch is drawn 36 pt tall inside a touch area that grows to the
+# minimum target (44 pt on iOS, 48 dp on Android). A tap at the touch area's top edge, a few
+# points above the drawn block, selects it for the stepper, and a drag from the block moves it
+# later. The tap is placed relative to the block so it holds on any screen size.
 - runFlow:
     file: ../screens/subflows/open-gallery-component.yaml
     env:
       COMPONENT: 'DayTimeline'
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          point: 148, 387
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - tapOn:
-          point: 390, 996
+- tapOn:
+    id: 'timeline-block-lunch'
+    point: '50%,3%'
 - extendedWaitUntil:
     visible: 'Lunch · Biah Biah · 11:30.AM'
     timeout: 5000

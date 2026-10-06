@@ -23,6 +23,8 @@ owns:
 ---
 # Phase 24 — Crew chat
 
+> **Status, 6 Oct 2026:** open: T8's `send-receive` and `report` flows and the iOS runs. The muted-sender filter is in (`use-messages.ts`), so `report` needs a rerun, not a fix.
+
 ## Context links
 
 | Source | Section |

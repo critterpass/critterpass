@@ -16,6 +16,7 @@ import { SentView } from '../feedback/SentView';
 import { HubView } from '../hub/HubView';
 import { ReaderView } from '../reader/ReaderView';
 import type { FeedbackMode } from '../routes';
+import { IDEA_SCENES } from './idea-scenes';
 
 const noop = () => undefined;
 
@@ -164,6 +165,7 @@ export const HELP_SCENES: Readonly<Record<string, () => ReactNode>> = {
       onDone={noop}
     />
   ),
+  ...IDEA_SCENES,
 };
 
 export const HELP_SCENE_NAMES: readonly string[] = Object.keys(HELP_SCENES);

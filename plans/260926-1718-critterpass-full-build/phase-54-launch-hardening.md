@@ -1,7 +1,7 @@
 ---
 phase: 54
 title: Launch hardening & store submission
-status: pending
+status: in progress
 depends_on: [19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57]
 wave: 23
 features: []
@@ -89,6 +89,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Collect via Maestro + `adb`/`xctrace` exports, k6 for API. 2. Compare to budgets; fail on regression.
 - Tests: `pnpm tsx tools/scripts/perf/run.ts --ci`.
 - Done when: report generated and all budgets pass on reference devices.
+- Status: blocked — gate built (4ef26d64); device numbers need a step in the device workflow, staging api → db p50 reads 7.4 ms against 3 ms, and the command duration metric is missing in Grafana
 
 ### T4 — Accessibility audit + fixes list
 - Goal: a11y gate.
@@ -103,6 +104,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Generate random crews/trips/users; for every published + private table, attempt cross-user select/insert/update/delete as `app_user`, `guide_reader`, `powersync_repl`, `public_reader` (phase 51: public views only, no base tables). 2. Assert policy matrix from data-model.
 - Tests: `pnpm --filter @cp/db test -- fuzz`.
 - Done when: 10k iterations, zero unexpected access.
+- Status: done — 2ea102c3 (three insert-policy gaps found and recorded: docs/compliance/security-review.md finding 2)
 
 ### T6 — Security scans + external review package
 - Goal: security gate.
@@ -110,6 +112,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. gitleaks on history + CI, `pnpm audit`, OSV scan, container scan. 2. Scope doc for external reviewer (auth, action keys, JWT/JWKS, Centrifugo proxy, PowerSync, webhooks, media HMAC). 3. Track findings + fixes.
 - Tests: `bash tools/scripts/security/scan.sh`.
 - Done when: scans clean; external review findings closed or accepted by founder.
+- Status: blocked — scans and review package done (c584609b); external reviewer not engaged, findings 1 and 2 open
 
 ### T7 — Privacy & compliance evidence
 - Goal: store and legal declarations.
@@ -124,6 +127,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. k6 websocket for Centrifugo. 2. Push fan-out against APNs sandbox/FCM validate-only. 3. PowerSync sync + upload under a PlanetScale failover. 4. AI job burst with cost accounting.
 - Tests: `k6 run tools/scripts/load/centrifugo.k6.js`; `pnpm tsx tools/scripts/load/powersync.ts --staging`.
 - Done when: SLO targets met; results recorded in `docs/runbooks/capacity.md`.
+- Status: blocked — harness built (1a3b3855); runs need an agreed staging window and a k6 host; results go in docs/runbooks/capacity.md
 
 ### T9 — AI cost guardrails + kill switches: launch verification
 - Goal: prove the guard and switches built early in phase 58 T5 hold at launch scale.
@@ -131,6 +135,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Set production caps (`ai.cap.*`, `spend.month_budget_usd`) with the founder. 2. Drill: flip each kill switch on staging and confirm the app fallback. 3. Load test at a cap edge (T1 harness).
 - Tests: `pnpm --filter @cp/api test -- kill-switches`; `pnpm --filter @cp/worker test -- ai-cost-guard`.
 - Done when: exceeding a cap pauses/queues or disables within one cron tick and alerts under load; every switch has a verified fallback; no code path changes a model tier without an audited admin toggle.
+- Status: blocked — kill-switch and cost-guard suites green on CI runners; production caps and the staging switch drill need the founder
 
 ### T10 — Backups, restore drill, failover drill
 - Goal: recoverability.
@@ -138,6 +143,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Restore latest R2 pg_dump into scratch Postgres 18; row-count + checksum compare. 2. PlanetScale failover; verify api, worker, PowerSync slot, Centrifugo recovery.
 - Tests: `pnpm tsx tools/scripts/drills/restore.ts --verify`; `pnpm tsx tools/scripts/drills/failover.ts --staging`.
 - Done when: restore RTO and failover recovery recorded within targets.
+- Status: blocked — drill scripts and runbooks built (aa5cc466); neither drill has run (no Docker on the build Mac; staging has no replicas)
 
 ### T11 — Alerting, runbooks, scaling
 - Goal: on-call ready.
@@ -145,6 +151,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Alert rules + SGT routing + uptime monitor config. 2. One runbook per P1 alert. 3. Replica scaling thresholds.
 - Tests: `pnpm tsx tools/scripts/drills/fire-test-alerts.ts --staging`.
 - Done when: each P1 test alert pages in-hours and queues out-of-hours.
+- Status: blocked — rules, runbooks and routing drill built (9286c436); applying them to Grafana and firing the drill (emails on-call) is left to the controller
 
 ### T12 — Store submission + staged rollout
 - Goal: launch.

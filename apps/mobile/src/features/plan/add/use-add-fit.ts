@@ -1,9 +1,10 @@
 /**
  * What Add to plan (7f-1) knows about the place: the server's fit for every day with the context it
  * worked in (`POST …/fit`, `include_context`), so picking a day or a time re-fits on the phone, and
- * the place's own facts the phone re-fits with (our hours, how long a visit takes, the crowd week,
- * the crew's stances), read from synced rows. Offline, the last answer this run of the app got
- * stays; without one, the sheet still adds, with no dots and no reasons.
+ * the place's own facts the phone re-fits with (our hours, how long a visit takes, the crew's
+ * stances) read from synced rows, and its crowd week (an api read, the last good copy offline).
+ * Offline, the last answer this run of the app got stays; without one, the sheet still adds, with
+ * no dots and no reasons.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, SQL and wire values, never copy. */
 import { knownHours, placeFitSchema, visitMinutes, type PlaceFit } from '@cp/domain';
@@ -15,6 +16,8 @@ import type { WireFitContext } from '@/data/fit/local-fit';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { parseIds } from '@/data/plan/plan-model';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
+import { dataOf } from '@/data/travel-data/freshness';
+import { useCrowdForecasts } from '@/data/travel-data/shared-content';
 
 import type { NearbyAdd } from './add-model';
 
@@ -95,8 +98,6 @@ const PLACE_SQL = `SELECT p.id, p.name, p.category, p.lat, p.lng, p.hours, p.tag
     json_extract(p.editorial, '$.best_time') IS NOT NULL AS best_time,
     json_extract(p.editorial, '$.best_time') AS best_time_text
   FROM pois p WHERE p.id = ?`;
-const CROWDS_SQL = `SELECT poi_id, dow, hourly, source, approved_at FROM crowd_forecasts
-  WHERE poi_id = ?`;
 const STANCES_SQL = `SELECT stance, count(*) AS n FROM place_stances
   WHERE trip_id = ? AND poi_id = ? GROUP BY stance`;
 
@@ -140,13 +141,7 @@ export function useFitPlace(
   copy: PlaceCopy | null,
 ): FitPlace | null {
   const place = useLiveRows<PlaceRow>(PLACE_SQL, poiId === null ? null : [poiId], ['pois']);
-  const crowds = useLiveRows<{
-    poi_id: string;
-    dow: number;
-    hourly: string;
-    source: string;
-    approved_at: string | null;
-  }>(CROWDS_SQL, poiId === null ? null : [poiId], ['crowd_forecasts']);
+  const crowds = dataOf(useCrowdForecasts(poiId));
   const stances = useLiveRows<{ stance: string; n: number }>(
     STANCES_SQL,
     poiId === null ? null : [tripId, poiId],
@@ -156,13 +151,10 @@ export function useFitPlace(
     const row = place.rows[0];
     const spot = row ?? copy;
     if (spot === null || spot === undefined) return null;
-    const curves: CrowdCurveRow[] = crowds.rows.flatMap((curve) => {
-      try {
-        return [{ ...curve, hourly: JSON.parse(curve.hourly) as number[] }];
-      } catch {
-        return [];
-      }
-    });
+    const curves: CrowdCurveRow[] = (crowds?.curves ?? []).map((curve) => ({
+      ...curve,
+      poi_id: crowds?.poi_id ?? '',
+    }));
     const want = stances.rows.find((s) => s.stance === 'want')?.n ?? 0;
     const ratherNot = stances.rows.find((s) => s.stance === 'rather_not')?.n ?? 0;
     return {
@@ -180,7 +172,7 @@ export function useFitPlace(
       tags: parseIds(row?.tags ?? null),
       bestTimeText: typeof row?.best_time_text === 'string' ? row.best_time_text : null,
     };
-  }, [copy, crowds.rows, place.rows, poiId, stances.rows]);
+  }, [copy, crowds, place.rows, poiId, stances.rows]);
 }
 
 export interface NearbyPlace {

@@ -1,0 +1,42 @@
+# P1 rules added for launch: push delivery, purchases and AI spend. Same routing as p1.yaml (page
+# 07:00–23:00 SGT, queue overnight); each rule links its runbook in docs/runbooks/alerts/.
+group: p1-launch
+interval: 1m
+rules:
+  - uid: cp-p1-push-failures
+    title: Push failures over 20 %
+    severity: P1
+    runbook: push-failures
+    for: 15m
+    expr: >-
+      sum(rate(cp_push_total{outcome=~"failed|rejected"}[15m])) / clamp_min(sum(rate(cp_push_total[15m])), 0.001)
+    op: gt
+    threshold: 0.2
+    summary: More than a fifth of push sends fail; alarms, SOS and leave-by nudges may not arrive.
+  - uid: cp-p1-payments-webhook-lag
+    title: Purchases applied late
+    severity: P1
+    runbook: payments
+    for: 15m
+    expr: histogram_quantile(0.95, sum by (le) (rate(cp_billing_webhook_lag_ms_milliseconds_bucket[15m])))
+    op: gt
+    threshold: 300000
+    summary: RevenueCat events take over 5 minutes (p95) to unlock what people paid for.
+  - uid: cp-p1-payments-refused
+    title: Purchase events refused
+    severity: P1
+    runbook: payments
+    for: 10m
+    expr: sum(increase(cp_billing_apply_total{outcome=~"refused|owned_by_other_account"}[30m]))
+    op: gt
+    threshold: 5
+    summary: Several RevenueCat events in 30 minutes could not be applied to an account.
+  - uid: cp-p1-ai-spend-spike
+    title: AI spend spike
+    severity: P1
+    runbook: ai-spend
+    for: 5m
+    expr: sum(increase(cp_llm_cost_micros_total[1h])) / 1e6
+    op: gt
+    threshold: 15
+    summary: Model spend over the last hour is above 15 USD; the cost guard pauses tiers at their daily caps.

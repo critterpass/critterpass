@@ -7,7 +7,7 @@ import path from 'node:path';
 
 import { expect, test, type Page } from '@playwright/test';
 
-import { nav, signInAs } from './session';
+import { signInAs } from './session';
 
 const shotsDir = process.env['ADMIN_SHOTS_DIR'];
 const WIDTHS = [
@@ -28,7 +28,8 @@ for (const size of WIDTHS) {
     await expect(page.getByRole('link', { name: /Season items to review/ })).not.toContainText('…');
     await shot(page, 'home-content', size.name);
 
-    await nav(page).getByRole('link', { name: 'Season review' }).click();
+    // Phone width hides the side nav behind MORE; open the page directly.
+    await page.goto('/season');
     const curves = page.getByRole('region', { name: 'Month curves' });
     await expect(curves.getByRole('article').first()).toBeVisible();
     await shot(page, 'season-pending', size.name, false);

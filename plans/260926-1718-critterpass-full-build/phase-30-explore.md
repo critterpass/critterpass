@@ -1,7 +1,7 @@
 ---
 phase: 30
 title: Explore: destination guides, place detail, map, swipe
-status: in_progress
+status: done
 depends_on: [14, 15, 16, 26, 29, 35]
 wave: 17
 features: [F-063, F-064, F-065, F-066, F-067, F-068]
@@ -25,6 +25,8 @@ owns:
   - infra/powersync/streams/explore.yaml
 ---
 # Phase 30 — Explore: destination guides, place detail, map, swipe
+
+> **Status, 6 Oct 2026:** every task is done. The destination guide, swipe together, place detail and map (3d-1 … 3d-4) are replaced by the section 7 screens (#616, #620, #628), and places now read through the api (#732, #742) under the 6 Oct simplify plan, which supersedes the 500-place pan budget.
 
 ## Context links
 

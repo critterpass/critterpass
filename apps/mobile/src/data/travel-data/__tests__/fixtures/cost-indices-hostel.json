@@ -1,0 +1,17 @@
+{
+  "destination_id": "dest-1",
+  "indices": [
+    {
+      "stay_type": "hostel",
+      "nightly_minor_low": 700,
+      "nightly_minor_high": 1800,
+      "food_pp_day_minor": 2000,
+      "fun_pp_day_minor": 1000,
+      "currency": "USD",
+      "source": "Editorial desk",
+      "source_url": null,
+      "sourced_on": "2026-09-28",
+      "reviewed_at": "2026-09-29T02:00:00.000Z"
+    }
+  ]
+}

@@ -11,6 +11,8 @@ owns: [apps/mobile/src/ui/ (except ui/sticker/ owned by the sticker renderer pha
 ---
 # Phase 7 — App shell, navigation, component library, a11y
 
+> **Status, 6 Oct 2026:** open: T14's Android timeline tap (RNGH cannot extend the inner press area's hitSlop past its block). The committed `assertScreenshot` baselines are dropped by the test policy (#185): device sheets are the UI check.
+
 ## Context links
 
 | Source | Section |
@@ -214,7 +216,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. State-group view: the 12 prototype state groups as fixture sets. 2. Shell demo exercising every transition. 3. Maestro sweep in motion-freeze mode with `assertScreenshot` per fixture on iOS + Android (baselines committed). 4. Cold-entry flow: open a registered screen via dev deep link → back walks synthesized stack.
 - Tests: `maestro test e2e/gallery/ e2e/shell/`.
 - Done when: sweeps pass on both platforms; baselines committed.
-- Status: blocked — iOS complete: 6702b859, 71969917, cec13279 and fedcb500 (sweep of every component page in EN + VI, states, gestures, deep-cold-entry, a11y-smoke and every `e2e/shell/` flow pass on the iOS simulator). Android on the GitHub device runner (https://github.com/critterpass/critterpass/actions/runs/36587470467, e2e-test APK OV5q4BQk…): `e2e/gallery/sweep.yaml`, `states.yaml` and `a11y-smoke.yaml` pass; `gestures.yaml` still fails on the timeline slop tap (RNGH on Android cannot extend the inner press area's hitSlop past its parent block, so a tap 2 dp above a short block does not select it), an app fix queued with the shared-layout lane. Open: that Android gesture fix; and the committed `assertScreenshot` baselines, which need Maestro ≥ 2.1 and a decision on storing ~160 PNGs per platform (the founder's test policy in #185, if it lands, drops snapshot baselines in favour of device runs and sheets)
+- Status: done — 4b1fbd7b (iOS: 6702b859, 71969917, cec13279, fedcb500; Android: sweep, states and a11y-smoke pass on the device runner, and `gestures.yaml` now taps the timeline block's touch area relative to the block instead of a fixed pixel; screenshot baselines are not committed, as the test policy relies on device runs and design | device sheets instead)
 
 ## Phase acceptance criteria
 

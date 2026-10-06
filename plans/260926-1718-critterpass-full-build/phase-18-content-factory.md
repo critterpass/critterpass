@@ -1,7 +1,7 @@
 ---
 phase: 18
 title: Content factory: critter forms, personas, places, phrases
-status: in_progress
+status: done
 depends_on: [4, 5, 13, 14, 17]
 wave: 7
 features: [F-009]
@@ -18,6 +18,8 @@ owns:
   - apps/admin/src/modules/content/**
 ---
 # Phase 18 — Content factory: critter forms, personas, places, phrases
+
+> **Status, 6 Oct 2026:** every task is done. The curated places batch that waited on the Foursquare OS Places / Overture licences is superseded by the 6 Oct simplify plan (AI place profiles and destination briefs on demand, #727, #735; the 8 reviewed cities stay as the benchmark). No new correction batches or place sources.
 
 ## Context links
 

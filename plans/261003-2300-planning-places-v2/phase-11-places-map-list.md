@@ -1,7 +1,7 @@
 ---
 phase: 11
 title: Places map and list
-status: in review
+status: done
 depends_on: [1, 3, 4, 5]
 wave: 3
 screens: [7c-1, 7c-2, 7c-3]
@@ -88,21 +88,21 @@ Reuse / extend / new: reuse the explore map's tile logic, carousel, filter chips
 - Steps: 1. Candidate set (curated, destination, minus saved/hidden/placed). 2. Coarse fit pass, routing for the top 20, cache. 3. Cursor pagination.
 - Tests: `pnpm test:remote @cp/api -- planning/hub` (hidden places excluded for the caller only; outsider `NOT_FOUND`; cache invalidates on a new plan version)
 - Done when: 64 Bali suggestions return in ≤ 2 pages with fit lines, p95 < 600 ms per page on staging.
-- Status: todo
+- Status: done — 93f2d6ad2 (#616)
 
 ### T2 — Places map (7c-1) and place picked (7c-2)
 - Files: `apps/mobile/src/features/explore/places/{places-map-screen,places-carousel,use-places-in-view,label-sync}.ts(x)`, `apps/mobile/src/app/(trip)/[tripId]/places/index.tsx`, `packages/i18n/locales/{en,vi}/explore/places.*`
 - Steps: 1. Data hook (curated + ideas + stops − hidden), counts. 2. Kit layers with zoom tiers and fade. 3. Label + carousel nearest-first sync; + → 7f-1; card → 7e-1. 4. Region pack card outside a trip.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/places/use-places-in-view` (filters, counts, hidden excluded, nearest-first order)
 - Done when: on device 86 Bali places render with no labels until a tap; the filter fades without moving markers.
-- Status: todo
+- Status: done — 93f2d6ad2 (#616)
 
 ### T3 — Places list (7c-3) with swipe actions and sort
 - Files: `apps/mobile/src/features/explore/places/{places-list-screen,place-groups,swipe-row,sort-menu}.ts(x)`, `apps/mobile/src/app/(trip)/[tripId]/places/list.tsx`
 - Steps: 1. Groups from ideas, plan and the suggest route. 2. Swipe right/left with thresholds and undo. 3. Sort menu. 4. MAP keeps filters; results mode params from 7d-2.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/places/swipe-row` (thresholds, undo restores, offline queues)
 - Done when: swiping a suggestion right moves it to the saved group on a second device.
-- Status: todo
+- Status: done — 93f2d6ad2 (#616)
 
 ### T4 — The old Explore map onto the new canvas
 - Goal: one map for places inside and outside a trip.
@@ -110,13 +110,13 @@ Reuse / extend / new: reuse the explore map's tile logic, carousel, filter chips
 - Steps: 1. Non-trip variant of the places map (no fit, no plan chip). 2. Keep offline pack offer and airplane-mode search. 3. `3d-4` function route.
 - Tests: `gh workflow run device.yml … -f flows="e2e/explore/map-offline.yaml"` (renamed shots `7c-1-offline-*`)
 - Done when: the non-trip map works offline with a downloaded region.
-- Status: todo
+- Status: done — 93f2d6ad2 (#616)
 
 ### T5 — Device flows and undesigned states
 - Files: `e2e/explore/{places-map,places-list,map,map-vi,map-offline}.yaml`, `e2e/explore/subflows/map-scenes.yaml`, `docs/undesigned-states.md`
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/explore/places-map.yaml,e2e/explore/places-list.yaml" -f mode=compare -f pr=<n> -f shards=1`
 - Done when: sheets reviewed; `ui-reviewed` applied.
-- Status: todo
+- Status: done — 93f2d6ad2 (#616)
 
 ## Device flows
 

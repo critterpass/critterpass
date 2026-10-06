@@ -1,0 +1,39 @@
+{
+  "$comment": "Replica thresholds for production; applied by hand in Railway (docs/runbooks/railway-scaling.md). Region asia-southeast1-eqsg3a.",
+  "services": {
+    "api": {
+      "min": 2,
+      "max": 4,
+      "scaleUp": {
+        "cpuPercent": 70,
+        "commandP95Ms": 300,
+        "eventLoopLagMs": 100,
+        "sustainedMinutes": 15
+      },
+      "scaleDown": { "cpuPercent": 25, "sustainedMinutes": 60 },
+      "directDbConnectionsPerReplica": 1
+    },
+    "worker": {
+      "min": 1,
+      "max": 3,
+      "scaleUp": { "queueDepth": 500, "oldestJobSeconds": 120, "sustainedMinutes": 15 },
+      "scaleDown": { "queueDepth": 20, "sustainedMinutes": 60 },
+      "directDbConnectionsPerReplica": 4
+    },
+    "powersync-api": {
+      "min": 1,
+      "max": 4,
+      "scaleUp": { "cpuPercent": 70, "connectionsPerReplica": 2000, "sustainedMinutes": 15 },
+      "scaleDown": { "cpuPercent": 25, "sustainedMinutes": 60 },
+      "directDbConnectionsPerReplica": 0
+    },
+    "centrifugo": {
+      "min": 1,
+      "max": 3,
+      "scaleUp": { "cpuPercent": 70, "connectionsPerReplica": 5000, "sustainedMinutes": 15 },
+      "scaleDown": { "cpuPercent": 25, "sustainedMinutes": 60 },
+      "directDbConnectionsPerReplica": 0
+    },
+    "powersync-repl": { "min": 1, "max": 1, "directDbConnectionsPerReplica": 2 }
+  }
+}

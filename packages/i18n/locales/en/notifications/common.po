@@ -417,6 +417,10 @@ msgstr "{up} of {total} up so far."
 msgid "notifications.la.leave_by_be_there_go_body"
 msgstr "{up} of {total} up."
 
+#: ../domain/src/vendor-comms/templates.ts
+msgid "notifications.vendor.draft_ready_body"
+msgstr "{vendor}: “{text}”"
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.done.body"
 msgstr "+{xp} XP for the crew."
@@ -428,6 +432,10 @@ msgstr "A booking can be cancelled for free until {deadline}. After that the boo
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.title"
 msgstr "A legendary is out soon"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.vendor.draft_ready_body"
+msgstr "A message to a place is ready for your yes."
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.needs_yes_title"
@@ -492,6 +500,10 @@ msgstr "Departs {time}. Your flight is on the lock screen."
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_diverted"
 msgstr "Diverted. I’ll keep you posted."
+
+#: ../domain/src/vendor-comms/templates.ts
+msgid "notifications.vendor.draft_ready_title"
+msgstr "Draft ready — send?"
 
 #: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.trip_confirmed.auto_body"

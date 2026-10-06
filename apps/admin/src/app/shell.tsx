@@ -3,53 +3,35 @@
  * sign-out, the offline banner, and the routed page. Signed-out visitors are sent to /sign-in.
  */
 import { canOpenAdminArea } from '@cp/domain';
-import { Link, Navigate, Outlet } from '@tanstack/react-router';
-import type { ComponentType } from 'react';
+import { Navigate, Outlet, useRouterState } from '@tanstack/react-router';
+import { useState, type ComponentType } from 'react';
 
-import { visibleModules, type AdminModule } from '../kit/registry';
+import type { AdminModule } from '../kit/registry';
 import { ErrorState, ForbiddenState, LoadingState, OfflineBanner } from '../kit/states';
+import { Toaster } from '../kit/toast';
 import { isApiError } from '../lib/api';
+import { IncidentBanners } from '../modules/incidents/banners';
 import { useMe, useOperator, useSignOut } from '../lib/session';
-import { ADMIN_MODULES } from './modules';
+import { Nav } from './nav';
+import { PhoneTabs } from '../phone/phone-tabs';
+import { RefusedPass } from './sign-in';
 
-function Nav() {
-  const me = useOperator();
-  const signOut = useSignOut();
-  const modules = visibleModules(ADMIN_MODULES, me.roles);
-  return (
-    <nav className="shell-nav" aria-label="Console">
-      <div className="brand">
-        <span className="brand-dot" aria-hidden="true" />
-        CritterPass Ops
-      </div>
-      <Link to="/" className="nav-link" activeOptions={{ exact: true }}>
-        Home
-      </Link>
-      {modules.map((module) => {
-        const first = module.routes[0];
-        return first === undefined ? null : (
-          <Link key={module.id} to={`/${first.path}`} className="nav-link">
-            {module.label}
-          </Link>
-        );
-      })}
-      <div className="nav-foot">
-        <span>
-          {me.email}
-          <br />
-          <span className="mono">{me.roles.join(' · ')}</span>
-        </span>
-        <button type="button" className="btn btn-ghost" onClick={() => void signOut()}>
-          Sign out
-        </button>
-      </div>
-    </nav>
-  );
+/** The guard's refusal for a signed-in Google account that may not use the console. */
+function refusalReason(error: unknown): 'not_listed' | 'no_role' | null {
+  if (!isApiError(error, 'FORBIDDEN')) return null;
+  const reason = (error.detail as { reason?: unknown } | undefined)?.reason;
+  if (reason === 'not_allow_listed') return 'not_listed';
+  if (reason === 'no_role') return 'no_role';
+  return null;
 }
 
 export function Shell() {
   const me = useMe();
   const signOut = useSignOut();
+  // The MORE sheet stays open only on the page it was opened from: navigating closes it.
+  const path = useRouterState({ select: (state) => state.location.pathname });
+  const [moreOn, setMoreOn] = useState<string | null>(null);
+  const moreOpen = moreOn === path;
   if (me.isPending) {
     return (
       <div className="shell-main">
@@ -59,6 +41,10 @@ export function Shell() {
   }
   if (me.isError) {
     if (isApiError(me.error, 'AUTH_REQUIRED')) return <Navigate to="/sign-in" />;
+    const reason = refusalReason(me.error);
+    if (reason !== null) {
+      return <RefusedPass kind={reason} email={null} onSignOut={() => void signOut()} />;
+    }
     return (
       <div className="sign-in">
         <div className="card sign-in-card">
@@ -73,11 +59,14 @@ export function Shell() {
   return (
     <>
       <OfflineBanner />
-      <div className="shell">
+      <Toaster />
+      <div className="shell" data-more={moreOpen}>
         <Nav />
         <main className="shell-main">
+          <IncidentBanners />
           <Outlet />
         </main>
+        <PhoneTabs moreOpen={moreOpen} onMore={() => setMoreOn(moreOpen ? null : path)} />
       </div>
     </>
   );
@@ -87,16 +76,20 @@ export function Shell() {
 export function moduleGate(module: AdminModule, Page: ComponentType): () => React.JSX.Element {
   return function ModulePage() {
     const me = useOperator();
-    if (!canOpenAdminArea(me.roles, module.area).ok) return <ForbiddenState />;
+    if (!canOpenAdminArea(me.roles, module.area).ok) {
+      return <ForbiddenState area={module.area} label={module.label} />;
+    }
     return <Page />;
   };
 }
 
 export function PageHeader({
+  eyebrow,
   title,
   subtitle,
   actions,
 }: {
+  eyebrow?: string;
   title: string;
   subtitle?: string;
   actions?: React.ReactNode;
@@ -104,6 +97,7 @@ export function PageHeader({
   return (
     <header className="page-header">
       <div>
+        {eyebrow !== undefined && <div className="page-eyebrow">{eyebrow}</div>}
         <h1 className="page-title">{title}</h1>
         {subtitle !== undefined && <p className="page-sub">{subtitle}</p>}
       </div>

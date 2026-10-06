@@ -417,6 +417,10 @@ msgstr ""
 msgid "notifications.la.leave_by_be_there_go_body"
 msgstr ""
 
+#: ../domain/src/vendor-comms/templates.ts
+msgid "notifications.vendor.draft_ready_body"
+msgstr ""
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.done.body"
 msgstr ""
@@ -427,6 +431,10 @@ msgstr ""
 
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.title"
+msgstr ""
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.vendor.draft_ready_body"
 msgstr ""
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
@@ -491,6 +499,10 @@ msgstr ""
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_diverted"
+msgstr ""
+
+#: ../domain/src/vendor-comms/templates.ts
+msgid "notifications.vendor.draft_ready_title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/trip-news.ts

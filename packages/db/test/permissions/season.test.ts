@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../../src/tx';
-import { idsByTable, startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
+import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
 let destinationId: string;
@@ -104,17 +104,4 @@ describe('season_months / season_events RLS: reviewed catalogue rows only', () =
       ).rejects.toThrow(/check constraint/i);
     }
   });
-});
-
-describe('catalog stream: reviewed season rows', () => {
-  it.each(['outsider', 'member', 'anonymous'] as const)(
-    'syncs reviewed season rows (and no drafts) to %s',
-    async (actor) => {
-      const ids = idsByTable(await harness.rows('catalog', actor));
-      expect(ids['season_months']).toContain(reviewedMonthId);
-      expect(ids['season_months']).not.toContain(draftMonthId);
-      expect(ids['season_events']).toContain(reviewedEventId);
-      expect(ids['season_events']).not.toContain(draftEventId);
-    },
-  );
 });

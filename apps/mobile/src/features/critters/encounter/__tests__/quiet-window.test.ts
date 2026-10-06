@@ -3,7 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import { nextQuietWindow, zoneOffsetMin } from '../encounter-model';
 
 const hourly = (quietHour: number) =>
-  JSON.stringify(Array.from({ length: 24 }, (_, h) => (h === quietHour ? 5 : 60)));
+  Array.from({ length: 24 }, (_, h) => (h === quietHour ? 5 : 60));
 const source = 'besttime';
 
 describe('next quiet window', () => {

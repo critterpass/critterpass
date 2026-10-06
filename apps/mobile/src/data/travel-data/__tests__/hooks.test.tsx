@@ -1,6 +1,6 @@
 /**
- * The hooks end to end: fares from the api then from the last good copy once offline; weather and
- * crowds straight from the synced trip pack (encrypted local database) without asking the api;
+ * The hooks end to end: fares and crowds from the api then from the last good copy once offline;
+ * weather straight from the synced trip pack (encrypted local database) without asking the api;
  * and the api's `missing` answer when nothing covers the place.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
@@ -160,34 +160,20 @@ describe('useWeather', () => {
 });
 
 describe('useCrowds', () => {
-  it('reads the month level from the synced catalogue for a place in the trip pack', async () => {
-    const stack = await openTestLocalFirst({ holdUploads: true });
-    stacks.push(stack);
-    await stack.db.execute(
-      `INSERT INTO pois (id, destination_id, name, category, lat, lng, hours)
-       VALUES (?, ?, 'Tirta Empul', 'temple_shrine', -8.415, 115.315, ?)`,
-      [POI, DEST, JSON.stringify({ weekly: { mo: [{ start: '08:00', end: '18:00' }] } })],
-    );
-    await stack.db.execute(
-      `INSERT INTO season_months (id, destination_id, month, crowd_index, colour_role,
-         highlight_tag, source, sourced_on, reviewed_at)
-       VALUES (?, ?, 7, 100, 'peak', 'JUL PEAK', 'BPS Bali arrivals', '2026-09-28', ?)`,
-      ['0192f000-0000-7000-8000-00000000c001', DEST, '2026-09-28T00:00:00.000Z'],
-    );
-    const reader = recordedReader({});
-    const { result } = await renderHook(() => useCrowds({ poiId: POI, date: '2027-07-05' }), {
-      wrapper: withReader(reader, stack.wrapper),
+  it('reads the month level from the api, then its last good copy once offline', async () => {
+    const reader = recordedReader({ '/v1/places/': [200, 'crowds-month-only'] });
+    const input = { poiId: POI, date: '2027-04-05' };
+    const first = await renderHook(() => useCrowds(input), { wrapper: withReader(reader) });
+    await waitFor(() => expect(first.result.current.status).toBe('ok'));
+    expect(first.result.current).toMatchObject({
+      source: 'network',
+      data: { hourly: null, month: { month: 4, colour_role: 'peak' } },
     });
-    await waitFor(() => expect(result.current.status).toBe('ok'));
-    expect(result.current).toMatchObject({
-      source: 'synced',
-      data: {
-        hourly: null,
-        best_window: null,
-        month: { month: 7, crowd_index: 100, colour_role: 'peak', highlight_tag: 'JUL PEAK' },
-        curve_source: 'BPS Bali arrivals',
-      },
-    });
-    expect(reader.paths).toEqual([]);
+    await first.unmount();
+
+    reader.online = false;
+    const second = await renderHook(() => useCrowds(input), { wrapper: withReader(reader) });
+    await waitFor(() => expect(second.result.current.status).toBe('stale'));
+    expect(second.result.current).toMatchObject({ source: 'cache', reason: 'offline' });
   });
 });

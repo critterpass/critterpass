@@ -30,6 +30,7 @@ import { registerMediaRoutes } from './routes/media';
 import { registerMoneyRoutes, registerReceiptRoutesFromEnv } from './money/routes';
 import { registerBookings } from './bookings/register';
 import { registerLinkRoutes } from './routes/links';
+import { registerPublicPreviewRoutes } from './routes/public-previews';
 import { registerActionKeyRoutes } from './routes/action-keys';
 import { registerActionsRoute } from './routes/actions';
 import { registerNotificationRoutes } from './routes/notifications';
@@ -123,6 +124,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
     webProxySecret: env.LINKS_WEB_PROXY_SECRET,
     analytics: deps.analytics,
   });
+  registerPublicPreviewRoutes(app, { ...doors, webProxySecret: env.LINKS_WEB_PROXY_SECRET });
   registerWidgetSnapshotRoute(app, { ...doors, ...(keyring ? { keyring } : {}) });
   // Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
   // envelope-encrypted, so every route here needs the field-encryption keyring.

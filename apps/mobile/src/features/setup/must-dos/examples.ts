@@ -1,14 +1,16 @@
 /**
- * Must-dos to tap when the list is empty: a few of the guide's places at the destination, the
- * essentials a first visit is built around first, then its must-sees, then its best-ranked picks,
- * from the trip's place pack on the phone. Something to eat comes first when the
- * guide has one (a dish is the must-do most people name), then the top sights, each under the
- * name the reader's language uses where the place has one.
+ * Must-dos to tap when the list is empty: a few of the guide's places at the destination, its
+ * must-sees first, then its best-ranked picks, from the api's browse of the destination (its last
+ * good copy offline). Something to eat comes first when the guide has one (a dish is the must-do
+ * most people name), then the top sights, each under the name the reader sees places by there.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- SQL and category keys, never copy. */
-import { toCountryCode } from '@cp/domain';
+import { useEffect, useMemo, useState } from 'react';
 
-import { useLiveRows } from '../data/rows';
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
+import { dataOf } from '@/data/travel-data/freshness';
+
+import type { SetupServices } from '../data/services';
+import { readBrowse, readerOf, type CandidatePlace } from './places';
 
 export interface ExamplePlaceRow {
   readonly id: string;
@@ -27,13 +29,34 @@ const FOOD = new Set(['food']);
 /** Never a must-do on their own: where she sleeps, how she gets there, a pharmacy. */
 const NOT_A_MUST_DO = new Set(['stay', 'transit', 'health']);
 
-const EXAMPLES_SQL = `SELECT p.id, p.name, p.name_local, p.category, d.country FROM pois p
-  JOIN destinations d ON d.id = p.destination_id
-  WHERE p.destination_id = ? AND p.status = 'active' AND p.merged_into_id IS NULL
-    AND (p.curation = 'editorial' OR p.pick_rank IS NOT NULL)
-  ORDER BY coalesce(json_extract(p.editorial, '$.essential'), 0) DESC,
-    coalesce(json_extract(p.editorial, '$.must_see'), 0) DESC,
-    p.pick_rank IS NULL, p.pick_rank, p.name LIMIT 24`;
+/** How many of the browse's best places the examples are chosen from. */
+const CHOSEN_FROM = 24;
+
+/**
+ * The browse's guide places best first: must-sees, then picks by rank, then the rest of the
+ * curated set in the api's order. Open-data places nobody chose are never offered.
+ */
+export function guidePlaces(places: readonly CandidatePlace[]): ExamplePlaceRow[] {
+  const chosen = places.filter(
+    (place) => place.mustSee || place.recommended || place.pickRank !== null,
+  );
+  const order = (place: CandidatePlace) => (place.mustSee ? 0 : place.pickRank === null ? 2 : 1);
+  return chosen
+    .map((place, index) => ({ place, index }))
+    .sort(
+      (a, b) =>
+        order(a.place) - order(b.place) ||
+        (a.place.pickRank ?? 0) - (b.place.pickRank ?? 0) ||
+        a.index - b.index,
+    )
+    .slice(0, CHOSEN_FROM)
+    .map(({ place }) => ({
+      id: place.id,
+      name: place.name,
+      name_local: place.nameLocal,
+      category: place.category,
+    }));
+}
 
 /** `rows` best first. `localNames`: the reader reads the place's own language. */
 export function examplePlaces(
@@ -60,20 +83,29 @@ export function examplePlaces(
   }));
 }
 
-/**
- * The examples for the trip's destination. A place's own-language name is used only for a reader
- * of that language (a Vietnamese reader in Vietnam), never a Japanese name for her in Kyoto.
- */
+/** The examples for the trip's destination, under the names the reader sees places by there. */
 export function useExamplePlaces(
+  services: SetupServices,
   destinationId: string | null,
-  locale: string,
 ): readonly ExamplePlace[] {
-  const { rows } = useLiveRows<ExamplePlaceRow & { readonly country: string | null }>(
-    EXAMPLES_SQL,
-    destinationId === null ? null : [destinationId],
-    ['pois', 'destinations'],
+  const readsLocal = useReadsLocalNames(destinationId);
+  const [answer, setAnswer] = useState<{
+    readonly id: string;
+    readonly places: readonly CandidatePlace[];
+  } | null>(null);
+  useEffect(() => {
+    if (destinationId === null) return undefined;
+    let live = true;
+    void readBrowse(readerOf(services), destinationId).then((state) => {
+      if (live) setAnswer({ id: destinationId, places: dataOf(state)?.results ?? [] });
+    });
+    return () => {
+      live = false;
+    };
+  }, [services, destinationId]);
+  const places = answer !== null && answer.id === destinationId ? answer.places : null;
+  return useMemo(
+    () => (places === null ? [] : examplePlaces(guidePlaces(places), readsLocal)),
+    [places, readsLocal],
   );
-  const reads = locale.toLowerCase().startsWith('vi') ? 'VN' : null;
-  const localNames = reads !== null && toCountryCode(rows[0]?.country ?? null) === reads;
-  return examplePlaces(rows, localNames);
 }

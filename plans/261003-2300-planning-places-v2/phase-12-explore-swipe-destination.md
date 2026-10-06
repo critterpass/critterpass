@@ -1,7 +1,7 @@
 ---
 phase: 12
 title: Explore in a trip, swipe together and the destination guide
-status: in-review
+status: done
 depends_on: [1, 4, 5, 7]
 wave: 4
 screens: [7g-1, 7g-2, 7g-3]

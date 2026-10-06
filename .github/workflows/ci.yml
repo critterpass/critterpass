@@ -631,7 +631,18 @@ jobs:
         timeout-minutes: 5
         run: pnpm --filter @cp/admin exec playwright install --with-deps --only-shell chromium
       - name: Console suite
+        # The screens spec captures every page at desktop and phone width for the PR's review.
+        env:
+          ADMIN_SHOTS_DIR: ${{ github.workspace }}/apps/admin/screens-out
         run: pnpm --filter @cp/admin e2e
+      - name: Upload console screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: admin-console-screens
+          path: apps/admin/screens-out/
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Upload traces
         if: failure()
         uses: actions/upload-artifact@v7
