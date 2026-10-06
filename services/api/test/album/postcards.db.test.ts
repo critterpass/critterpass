@@ -91,7 +91,7 @@ beforeAll(async () => {
     [anna.uid],
   );
   const [trip] = await q<{ id: string }>(
-    `INSERT INTO trips (crew_id, status, tz) VALUES ($1, 'active', 'Asia/Ho_Chi_Minh') RETURNING id`,
+    `INSERT INTO trips (crew_id, status, tz) VALUES ($1, 'voting', 'Asia/Ho_Chi_Minh') RETURNING id`,
     [crew!.id],
   );
   tripId = trip!.id;

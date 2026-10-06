@@ -132,7 +132,7 @@ beforeAll(async () => {
     [payer],
   );
   const [trip] = await q<{ id: string }>(
-    "INSERT INTO trips (crew_id, status) VALUES ($1, 'active') RETURNING id",
+    "INSERT INTO trips (crew_id, status) VALUES ($1, 'voting') RETURNING id",
     [crew!.id],
   );
   tripId = trip!.id;
