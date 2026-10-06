@@ -1,0 +1,24 @@
+# Driver streams (docs/data-model-sync-and-privacy.md §4). A trip's candidate drivers' terms and the
+# days a driver is set on ride the trip stream to every active member of its crew, so the ride-back
+# card works offline; a member's own NOT NOW on a day rides trip_me to that member alone. Shared
+# driver messages (provider_intake) are never published: they are read through the api.
+
+streams:
+  trip_me:
+    queries:
+      - |
+        SELECT * FROM pickup_gap_dismissals
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND user_id = auth.user_id()
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
+
+  trip:
+    queries:
+      - |
+        SELECT *, provider_id AS id FROM provider_terms
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
+      - |
+        SELECT * FROM provider_assignments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
