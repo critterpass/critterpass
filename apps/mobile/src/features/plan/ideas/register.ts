@@ -1,6 +1,6 @@
 /**
  * Ideas joins the screen registry as `7f-2` and Tokek placing them as `7h-6` (`tripId`, `jobId`).
- * Only section 7 screens link to them, and they show only with `planning.redesign` on.
+ * Only section 7 screens link to them.
  */
 import { registerScreens, type ScreenParams } from '@/lib/navigation/screen-registry';
 

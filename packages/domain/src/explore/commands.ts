@@ -39,11 +39,11 @@ export interface SwipeVoteResult {
     readonly change_set_id: string | null;
     readonly day_no: number | null;
     /**
-     * `applied` never happens here: a match waits for the organiser as a suggestion. With the
-     * planning redesign on, a new match goes to the trip's Ideas instead (`idea`).
+     * `applied` never happens here. A new match goes to the trip's Ideas (`idea`); an earlier match
+     * made as a suggestion still reports `suggested` or `unslotted`.
      */
     readonly status: 'suggested' | 'unslotted' | 'idea';
-    /** The trip idea the match went to; only present with the planning redesign on. */
+    /** The trip idea the match went to; present when the status is `idea`. */
     readonly idea_id?: string | null;
   } | null;
 }
