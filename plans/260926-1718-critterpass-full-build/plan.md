@@ -286,7 +286,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 56 | [Drivers our crews used: rating, invite, claim, directory](./phase-56-crews-drivers-directory.md) | 8 | 9, 17, 21, 43, 51, 52, 55, 58 | 22 | in progress (lane, 6 Oct) |
 | 57 | [Share the plan with your driver: page, PDF, quote back](./phase-57-share-plan-with-driver.md) | 7 | 21, 26, 29, 51, 52, 55 | 22 | in progress (lane, 6 Oct) |
 | 58 | [Ops console data capture and early contracts](./phase-58-ops-console-early-contracts.md) | 7 | 11, 13, 17 | 7 | done |
-| 59 | [Ops console designed pass](./phase-59-ops-console-designed-pass.md) | 9 | 18, 19, 35, 44, 45, 46, 47, 52, 55, 56, 58 | 23 | in progress (lane, 6 Oct) |
+| 59 | [Ops console designed pass](./phase-59-ops-console-designed-pass.md) | 9 | 18, 19, 35, 44, 45, 46, 47, 52, 55, 56, 58 | 23 | done |
 
 **Ops console designs (added 2026-09-28):** the 21 `Ops - *` screens are imported into `design/` with page renders in `docs/design-renders/pages/Ops-*.png`; mapping in the three `researcher-260928-0214-ops-designs-*` reports. Phase 58 runs early as a low-priority filler lane (history that must be captured from day one + registries later panels plug into); panel-owning phases 18, 35, 45, 46, 47, 52, 55 and 56 build their panels to the renders (see each file's "Ops console design" section); phase 59 restyles the rest after the app phases.
 
