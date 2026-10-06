@@ -7,6 +7,38 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.moves"
+msgstr "{count, plural, one {# stop goes back to Ideas} other {# stops go back to Ideas}}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.placesComing"
+msgstr "{guide} is still gathering the places here. You can add the day now and fill it once they land."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.drafting"
+msgstr "{guide} is writing the plan. Add the day trip once the draft is in."
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.hours"
+msgstr "{hours} h"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.hoursMinutes"
+msgstr "{hours} h {rest}"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.minutes"
+msgstr "{mins} min"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.leg"
+msgstr "{mode} · about {length}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.tagline"
+msgstr "A day out from {city}, back by night."
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listNew"
 msgstr "A new list"
@@ -19,21 +51,145 @@ msgstr "A saved place"
 msgid "explore.queued.swipe"
 msgstr "A swipe"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.cost"
+msgstr "about {amount} each"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.boat"
+msgstr "about {length} by boat each way"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.bus"
+msgstr "about {length} by bus each way"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.car"
+msgstr "about {length} by car each way"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.flight"
+msgstr "about {length} by plane each way"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.train"
+msgstr "about {length} by train each way"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.tour"
+msgstr "about {length} on a tour each way"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.add"
+msgstr "Add as a day trip"
+
+#: ../../apps/mobile/src/features/explore/day-trips/day-picker-sheet.tsx
+msgid "explore.dayTrips.confirmNone"
+msgstr "Add the day trip"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.confirm"
+msgstr "Add to day {dayNo}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.ask"
+msgstr "Ask {organiser} to add it"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.askAnyone"
+msgstr "Ask the organiser to add it"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.moved"
+msgstr "Back in Ideas: {names}"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
 msgstr "Beach"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.boat"
+msgstr "Boat"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.bus"
+msgstr "Bus"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.car"
+msgstr "Car"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.changeDay"
+msgstr "Change day"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDay"
+msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeBack"
+msgstr "Day {dayNo} goes back to {city}."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.added"
+msgstr "Day {dayNo} is at {area}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removed"
+msgstr "Day {dayNo} is back in {city}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.title"
+msgstr "Day trips from {city}"
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listDelete"
 msgstr "Deleting a list"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.back"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.flight"
+msgstr "Flight"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr "Food"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.fullDay"
+msgstr "Full day"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.halfDay"
+msgstr "Half day"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.health"
 msgstr "Health"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.currency"
+msgstr "It uses another currency, which a day trip can't cross yet."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.timeZone"
+msgstr "It's in another time zone, which a day trip can't cross yet."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDayLine"
+msgstr "It's on day {dayNo} of the plan."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDateLine"
+msgstr "It's on day {dayNo}, {date}."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.noPlan"
+msgstr "Lock the dates first: a day trip takes one of the plan’s days."
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
@@ -59,9 +215,21 @@ msgstr "Nightlife"
 msgid "explore.solo.refusedBody"
 msgstr "No trip was started. Try again."
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pickDay"
+msgstr "Pick a day"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
 msgstr "Place"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.remove"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeConfirm"
+msgstr "Remove the day trip"
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.unsave"
@@ -83,6 +251,10 @@ msgstr "Starting a swipe session"
 msgid "explore.category.stay"
 msgstr "Stay"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeTitle"
+msgstr "Take {area} off the plan?"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
 msgstr "Temple"
@@ -91,9 +263,69 @@ msgstr "Temple"
 msgid "explore.solo.refused"
 msgstr "That didn't go through"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.other"
+msgstr "That didn't go through. Try again in a moment."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.notADayTrip"
+msgstr "That place isn't a day trip from here any more."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.movesNone"
+msgstr "The day is free: nothing moves."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.planChanged"
+msgstr "The plan changed while you were choosing. Have another look and try again."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.booked"
+msgstr "This day holds a booking. It stays on the day."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.otherTrip"
+msgstr "This day is already at {area}."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.closed"
+msgstr "This trip is over, so its plan no longer changes."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.estimate"
+msgstr "Times and prices are estimates."
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.tour"
+msgstr "Tour"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.train"
+msgstr "Train"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.transit"
 msgstr "Transit"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.places"
+msgstr "What's at {area}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pickerTitle"
+msgstr "Which day for {area}?"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.firstDay"
+msgstr "You arrive this day: a day trip leaves little of it."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.lastDay"
+msgstr "You leave this day: a day trip leaves little of it."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.offline"
+msgstr "You're offline. Adding a day trip needs a connection."
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.trip"

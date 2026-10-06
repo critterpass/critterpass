@@ -77,6 +77,10 @@ msgstr "Đồng bộ lần cuối {lastSynced}"
 msgid "trip.offline.kind.maps"
 msgstr "bản đồ"
 
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.mapsOf"
+msgstr "bản đồ {names}"
+
 #: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
 msgid "trip.offline.editLabel"
 msgstr "Tin nhắn"

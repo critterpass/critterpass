@@ -28,6 +28,10 @@ msgstr "{crew} in the crew"
 msgid "trip.hub.tile.days"
 msgstr "{days, plural, one {# day} other {# days}}"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.dayTrips"
+msgstr "{dayTrips, plural, one {# day trip} other {# day trips}}"
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.learningGuide"
 msgstr "{guideName} is still learning · picks unchecked"

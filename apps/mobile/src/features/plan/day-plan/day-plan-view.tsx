@@ -26,7 +26,9 @@ import { tokens } from '@cp/design-tokens';
 
 import { freeGaps } from '../trip-map/day-gaps';
 import type { DayRoute } from '../trip-map/day-route';
-import { dateLine, dayOfTrip, stopsLine } from '../trip-map/format';
+import { travelLine } from '@/data/areas/travel-line';
+
+import { dateLine, dayOfTrip, stopsLine, withArea } from '../trip-map/format';
 import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { dayProgress, nextGoStop, todayOf, usePlanClock } from '../trip-map/next-stop';
 import { dayChips } from '../trip-map/sheet-copy';
@@ -37,7 +39,7 @@ import { AddBar } from './add-bar';
 import { MiniMap } from './mini-map';
 import type { BackTarget } from './back-to-trip';
 import { backLabel } from './back-label';
-import { StopTimeline, type TimelineDrag } from './stop-timeline';
+import { StopTimeline, TravelEdge, type TimelineDrag } from './stop-timeline';
 
 /** A day's title wraps until it is whole (the guide writes up to a short sentence). */
 const TITLE_LINES = 6;
@@ -111,6 +113,8 @@ export function DayPlanView(props: DayPlanViewProps) {
     [locale, day, route, model.members, model.me, model.tz, progress, hereSince],
   );
   const titles = new Map(day.stops.map((stop) => [stop.stableId, stop.title]));
+  // A day trip opens and ends with how to get there; a day whose link is gone shows no line.
+  const travel = day.area?.link == null ? undefined : travelLine(day.area.link);
   const n = day.dayNo;
   // Pinching out zooms out to all days.
   const allDays = props.onAllDays;
@@ -173,7 +177,7 @@ export function DayPlanView(props: DayPlanViewProps) {
             <View style={styles.dateCol}>
               {day.date === null ? null : (
                 <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-                  {dateLine(locale, day.date)}
+                  {withArea(dateLine(locale, day.date), day)}
                 </Text>
               )}
               <Text variant="caption" color={theme.semantic.text.secondary}>
@@ -209,14 +213,23 @@ export function DayPlanView(props: DayPlanViewProps) {
             onOpen={props.onOpenMap}
           />
           {rows.length === 0 && (day.mine ?? []).length === 0 ? (
-            <Text variant="body" color={theme.semantic.text.secondary}>
-              {t({ id: 'plan.dayPlan.empty', message: 'Nothing planned yet. Add the first stop.' })}
-            </Text>
+            <>
+              {travel === undefined ? null : (
+                <TravelEdge line={travel} testID="day-plan-travel-out" />
+              )}
+              <Text variant="body" color={theme.semantic.text.secondary}>
+                {t({
+                  id: 'plan.dayPlan.empty',
+                  message: 'Nothing planned yet. Add the first stop.',
+                })}
+              </Text>
+            </>
           ) : (
             <StopTimeline
               rows={rows}
               stay={stayRows(locale, day, route)}
               mine={mineRows(locale, day)}
+              travel={travel}
               drag={props.drag}
               context={{
                 tripId: model.tripId,

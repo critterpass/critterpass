@@ -9,7 +9,7 @@ import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { PixelRatio, Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -18,6 +18,9 @@ import { bezierEasing, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
+import { savedMediaUri } from '@/lib/media/media-files';
+import { mediaViewItem } from '@/ui/media/lightbox/lightbox-model';
+import { useLightbox } from '@/ui/media/lightbox/use-lightbox';
 import { MediaLayer } from '@/ui/media/MediaLayer';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -128,6 +131,12 @@ export function DestHero(props: DestHeroProps) {
   const { t, i18n } = useLingui();
   const { guide } = props;
   const seated = (props.guideArt ?? 'seated') === 'seated';
+  // A tap on the cover (anywhere but its buttons) opens the photo or loop itself, in its own
+  // colours, with its credit.
+  const pixels = useWindowDimensions().width * PixelRatio.get();
+  const { photo } = props;
+  const cover = photo ? mediaViewItem(photo, pixels, (url) => savedMediaUri(photo.id, url)) : null;
+  const lightbox = useLightbox(cover === null ? [] : [cover], 'explore-hero-lightbox');
   // The guide sits in the hero's bottom corner: what is under the name is kept at least as tall as
   // the sticker's reach, so the name always sits above it, never under it.
   const reach = seated
@@ -138,7 +147,11 @@ export function DestHero(props: DestHeroProps) {
     ? t({ id: 'explore.hero.guestGuide', message: `Guest guide: ${guide.name}` })
     : t({ id: 'explore.hero.yourGuide', message: `Your guide: ${guide.name}` });
   return (
-    <View
+    <Pressable
+      // Not one control to a screen reader: the name, the lines and the buttons stay its own stops.
+      accessible={false}
+      disabled={cover === null}
+      onPress={() => lightbox.open(cover?.key ?? '')}
       style={[
         styles.hero,
         { backgroundColor: guide.colour, paddingTop: insets.top + theme.space['8'] },
@@ -187,6 +200,7 @@ export function DestHero(props: DestHeroProps) {
           )}
         </View>
       </SurfaceToneProvider>
-    </View>
+      {lightbox.viewer}
+    </Pressable>
   );
 }

@@ -7,6 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useMemo, useState } from 'react';
 
+import { useTripAreasOn } from '@/data/areas/use-trip-areas';
 import { useChannel } from '@/data/realtime/use-channel';
 import { useSaidStops } from '@/data/plan/said-stops';
 
@@ -26,6 +27,8 @@ import type { LedgerRow } from '../hub-model';
 import { useLiveRows } from './live-rows';
 import { firstNotDone } from './next-done';
 import {
+  DAY_TRIPS_SQL,
+  DAY_TRIPS_TABLES,
   GOING_SQL,
   GOING_TABLES,
   MEMBERS_SQL,
@@ -85,6 +88,8 @@ export interface HubRows {
   readonly members: readonly MemberRow[];
   readonly going: number;
   readonly days: number;
+  /** Days of the plan spent in a linked area; 0 while day trips are switched off. */
+  readonly dayTrips: number;
   readonly openVotes: readonly OpenVote[];
   readonly bookings: number;
   readonly ledger: readonly LedgerRow[];
@@ -130,6 +135,15 @@ export function useHubRows(
   const days = useLiveRows<{ n: number }>(DAYS_SQL, version === null ? null : [version], [
     'plan_days',
   ]);
+  // Day trips count only while the switch is on: off, the tile reads as it always has.
+  const areasOn = useTripAreasOn();
+  const dayTrips = useLiveRows<{ n: number }>(
+    DAY_TRIPS_SQL,
+    !areasOn || version === null || row?.destination_id == null
+      ? null
+      : [version, row.destination_id],
+    DAY_TRIPS_TABLES,
+  );
   const votes = useLiveRows<OpenVote>(VOTES_SQL, [tripId], ['polls']);
   const bookings = useLiveRows<{ n: number }>(BOOKINGS_SQL, [tripId], ['bookings']);
   const ledger = useLiveRows<LedgerRow>(LEDGER_SQL, [tripId], ['ledger_entries']);
@@ -186,6 +200,7 @@ export function useHubRows(
       members: members.rows,
       going: going.rows.length,
       days: days.rows[0]?.n ?? 0,
+      dayTrips: areasOn ? (dayTrips.rows[0]?.n ?? 0) : 0,
       openVotes: votes.rows,
       bookings: bookings.rows[0]?.n ?? 0,
       ledger: ledger.rows,
@@ -204,6 +219,8 @@ export function useHubRows(
       members.rows,
       going.rows,
       days.rows,
+      areasOn,
+      dayTrips.rows,
       votes.rows,
       bookings.rows,
       ledger.rows,

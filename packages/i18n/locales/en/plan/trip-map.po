@@ -249,6 +249,10 @@ msgstr "Day {n} of {of}"
 msgid "plan.tripMap.dayChip"
 msgstr "Day {n}, {name}"
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.dayChipArea"
+msgstr "Day {n}, {name}, at {area}"
+
 #: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
 msgid "plan.tripMap.draftIt"
 msgstr "Draft it"

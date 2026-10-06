@@ -44,6 +44,7 @@ export interface PlaceDetailViewProps {
   readonly guide: GuideFacts;
   readonly photo: PlaceMediaAsset | null;
   readonly heroUrl: string | null;
+  readonly heroCredit?: string | undefined;
   readonly saved: boolean;
   readonly offline: boolean;
   readonly onBack: () => void;
@@ -187,6 +188,7 @@ export function PlaceDetailView(props: PlaceDetailViewProps) {
           <PlacePhoto
             photo={props.photo}
             heroUrl={props.heroUrl}
+            heroCredit={props.heroCredit}
             category={props.category}
             accent={props.guide.colour}
             // Above the sheet's overlap; this page's chips are in the sheet, not on the photo.

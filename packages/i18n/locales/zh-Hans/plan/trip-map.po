@@ -249,6 +249,10 @@ msgstr ""
 msgid "plan.tripMap.dayChip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.dayChipArea"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
 msgid "plan.tripMap.draftIt"
 msgstr ""

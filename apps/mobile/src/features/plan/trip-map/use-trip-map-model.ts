@@ -89,7 +89,8 @@ export function tripMapModel(
   return {
     tripId: trip?.id ?? '',
     destination: trip?.destination_name ?? null,
-    destinationSlug: trip?.destination_slug ?? null,
+    // The slug the map's tiles go by: the chosen day's area on a day trip.
+    destinationSlug: data.mapSlug ?? trip?.destination_slug ?? null,
     crewName: around?.crew_name ?? null,
     tz: trip?.tz ?? 'UTC',
     startDate: trip?.start_date ?? null,

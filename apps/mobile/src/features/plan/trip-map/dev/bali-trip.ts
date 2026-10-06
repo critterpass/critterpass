@@ -13,7 +13,7 @@ import { instantOnDay, type ItemDisplay } from '@/data/plan/plan-model';
 
 import { baliPlaces } from '../../../../ui/map/planning/dev/bali-fixture';
 import type { TripMapModel } from '../sheet-props';
-import { buildTripDays } from '../trip-days';
+import { buildTripDays, type TripDayArea } from '../trip-days';
 import { LAB_LEG_PATHS } from './bali-leg-shapes';
 import { LAB_CREW, SEEDS, type Seed } from './bali-seeds';
 
@@ -160,8 +160,34 @@ function idea(index: number, backers: readonly string[]): TripIdeaView {
   };
 }
 
-export function labTripModel(overrides: Partial<TripMapModel> = {}): TripMapModel {
+/** The boat day as a day trip: Nusa Penida, about 1 h 30 by boat each way from the stay's city. */
+const BOAT_DAY = 5;
+const PENIDA: TripDayArea = {
+  id: uuid(8800),
+  name: 'Nusa Penida',
+  link: {
+    id: uuid(8801),
+    kind: 'day_trip',
+    fromId: uuid(8802),
+    toId: uuid(8800),
+    toName: 'Nusa Penida',
+    toSlug: 'nusa-penida',
+    minutes: 90,
+    mode: 'boat',
+    dayLength: 'full',
+    essential: true,
+    cost: null,
+    note: null,
+    sources: [],
+  },
+};
+
+export function labTripModel(
+  overrides: Partial<TripMapModel> = {},
+  options: { readonly dayTrip?: boolean } = {},
+): TripMapModel {
   const days = buildTripDays({
+    ...(options.dayTrip === true ? { areas: new Map([[BOAT_DAY, { area: PENIDA }]]) } : {}),
     state: STATE,
     display: DISPLAY,
     dayRows: STATE.days.map((day) => ({ id: dayId(day.day_no), day_no: day.day_no })),
@@ -258,4 +284,12 @@ export function labEmptyDaysModel(): TripMapModel {
 /** A member with places saved, before the organiser has shared any plan. */
 export function labNoPlanYetModel(): TripMapModel {
   return { ...labEmptyModel(), organiser: false, ideas: labTripModel().ideas.slice(0, 3) };
+}
+
+/**
+ * The trip with its boat day spent in a linked area (a day trip): the day carries the area's name,
+ * its travel line and no stay, and the map on that day is the area's (no pack on this phone).
+ */
+export function labDayTripModel(): TripMapModel {
+  return labTripModel({}, { dayTrip: true });
 }
