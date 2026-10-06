@@ -164,7 +164,7 @@ appId: app.critterpass.dev
     id: 'trip-menu-delete'
 - extendedWaitUntil:
     visible:
-      id: 'trip-menu-confirm-delete'
+      id: 'trip-menu-sheet'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: trip-delete-confirm-sheet

@@ -72,6 +72,8 @@ export interface HubViewProps {
   readonly offlineCard?: ReactNode;
   /** The trip's own menu at the very foot: delete, call off or leave, or the called-off note. */
   readonly menu?: ReactNode;
+  /** The menu's confirm sheet, over the whole screen (outside the scroll view). */
+  readonly menuSheet?: ReactNode;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -174,7 +176,7 @@ export function HubView(props: HubViewProps) {
         <View style={{ marginTop: theme.space['16'] }}>
           <Ticker events={props.ticker} />
         </View>
-        {props.menu === undefined ? null : (
+        {props.menu == null ? null : (
           <View style={{ marginTop: theme.space['16'] }}>{props.menu}</View>
         )}
       </Animated.ScrollView>
@@ -193,6 +195,7 @@ export function HubView(props: HubViewProps) {
           },
         ]}
       />
+      {props.menuSheet}
     </Scaffold>
   );
 }

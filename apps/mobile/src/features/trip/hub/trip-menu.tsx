@@ -6,7 +6,7 @@
 import { tripRemovals, type TripRemoval } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useContext, useState } from 'react';
+import { useContext, useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -32,6 +32,8 @@ const failedToastId = (tripId: string) => `trip-menu-failed-${tripId}`;
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['16'] },
 }));
+
+const NOTHING = { foot: null, sheet: null } as const;
 
 interface RemovalCopy {
   readonly link: string;
@@ -100,17 +102,21 @@ function failedToast(tripId: string, code: string | null): void {
   });
 }
 
-export function TripMenu({
-  tripId,
-  status,
-  role,
-  me,
-}: {
+export interface TripMenuProps {
   readonly tripId: string;
   readonly status: string;
   readonly role: string | null;
   readonly me: string | null;
-}) {
+}
+
+/**
+ * The menu in two pieces: `foot` scrolls with the hub, `sheet` fills the screen and so belongs
+ * outside the scroll view. Either is null when there is nothing to show.
+ */
+export function useTripMenu({ tripId, status, role, me }: TripMenuProps): {
+  readonly foot: ReactNode;
+  readonly sheet: ReactNode;
+} {
   const styles = useStyles();
   const theme = useTheme();
   const commands = useContext(LocalFirstContext)?.commands ?? null;
@@ -122,7 +128,7 @@ export function TripMenu({
     OTHERS_TABLES,
   );
   if (status === 'cancelled') {
-    return (
+    const note = (
       <View style={styles.body}>
         <Card tone="sunken" testID="trip-cancelled-note">
           <Text variant="bodySm" color={theme.semantic.text.secondary}>
@@ -134,14 +140,15 @@ export function TripMenu({
         </Card>
       </View>
     );
+    return { foot: note, sheet: null };
   }
-  if (role === null || commands === null || !others.loaded) return null;
+  if (role === null || commands === null || !others.loaded) return NOTHING;
   const [removal] = tripRemovals({
     status,
     organiser: role === 'organiser',
     othersOnTrip: others.rows[0]?.n ?? 0,
   });
-  if (removal === undefined) return null;
+  if (removal === undefined) return NOTHING;
   const copy = copyFor(removal);
   const confirm = () => {
     if (busy) return;
@@ -159,28 +166,40 @@ export function TripMenu({
       if (removal !== 'cancel') router.navigate(TRIPS_TAB);
     });
   };
+  return {
+    foot: (
+      <View style={styles.body}>
+        <TextLink label={copy.link} onPress={() => setOpen(true)} testID={`trip-menu-${removal}`} />
+      </View>
+    ),
+    sheet: open ? (
+      <Sheet
+        detents={['fit']}
+        onDismiss={() => setOpen(false)}
+        accessibilityLabel={copy.title}
+        testID="trip-menu-sheet"
+      >
+        <View style={styles.body}>
+          <ConfirmSheet
+            title={copy.title}
+            consequences={copy.lines}
+            confirmLabel={copy.confirm}
+            onConfirm={confirm}
+            onCancel={() => setOpen(false)}
+          />
+        </View>
+      </Sheet>
+    ) : null,
+  };
+}
+
+/** Both pieces together, for a screen with no scroll view between them. */
+export function TripMenu(props: TripMenuProps) {
+  const menu = useTripMenu(props);
   return (
-    <View style={styles.body}>
-      <TextLink label={copy.link} onPress={() => setOpen(true)} testID={`trip-menu-${removal}`} />
-      {open ? (
-        <Sheet
-          detents={['fit']}
-          onDismiss={() => setOpen(false)}
-          accessibilityLabel={copy.title}
-          testID="trip-menu-sheet"
-        >
-          <View style={styles.body}>
-            <ConfirmSheet
-              title={copy.title}
-              consequences={copy.lines}
-              confirmLabel={copy.confirm}
-              onConfirm={confirm}
-              onCancel={() => setOpen(false)}
-              testID={`trip-menu-confirm-${removal}`}
-            />
-          </View>
-        </Sheet>
-      ) : null}
-    </View>
+    <>
+      {menu.foot}
+      {menu.sheet}
+    </>
   );
 }
