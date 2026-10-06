@@ -506,6 +506,10 @@ msgstr "Xem lại câu chuyện"
 msgid "recap.receipt.priciest"
 msgstr "Đắt nhất"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.rate"
+msgstr "Đánh giá chuyến đi"
+
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.react"
 msgstr "Thả cảm xúc"
@@ -730,12 +734,12 @@ msgstr "Đã xem tổng kết"
 msgid "recap.summary.whereNext"
 msgstr "Đi đâu tiếp? →"
 
-#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
-msgid "recap.memory.you"
-msgstr "Bạn"
-
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.you"
+msgstr "Bạn"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.you"
 msgstr "Bạn"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx

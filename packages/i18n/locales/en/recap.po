@@ -506,6 +506,10 @@ msgstr "Play the story again"
 msgid "recap.receipt.priciest"
 msgstr "Priciest"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.rate"
+msgstr "Rate the trip"
+
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.react"
 msgstr "React"
@@ -730,12 +734,12 @@ msgstr "Watched the recap"
 msgid "recap.summary.whereNext"
 msgstr "Where next? →"
 
-#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
-msgid "recap.memory.you"
-msgstr "You"
-
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.you"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
+msgid "recap.memory.you"
 msgstr "You"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx

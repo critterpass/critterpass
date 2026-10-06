@@ -93,6 +93,8 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const registered = useRegisteredHubTiles();
   const swipeHref = useScreenHref('7g-2', { tripId });
   const recapHref = useScreenHref('3m-1', { tripId });
+  const rateHref = useScreenHref('3o-3', { tripId });
+  const sharePlanHref = useScreenHref('3o-4', { tripId });
   const exploreHref = useScreenHref('7g-1', { tripId });
   const myTrips = useLiveRows<{ n: number }>(
     MY_TRIP_COUNT_SQL,
@@ -153,6 +155,8 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     tz,
     locale,
     recap: go(recapHref),
+    rate: go(rateHref),
+    sharePlan: go(sharePlanHref),
   });
 
   const start = trip?.start_date ?? null;
