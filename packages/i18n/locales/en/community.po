@@ -108,6 +108,7 @@ msgid "community.crew.size"
 msgstr "A crew of {size}"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.heading"
 msgstr "A crew plan"
 
@@ -206,11 +207,16 @@ msgstr "Fewer filters, more plans."
 msgid "community.rate.fine"
 msgstr "Fine"
 
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.back.home"
+msgstr "Home"
+
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.preview"
 msgstr "How other crews will see it"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.missingLine"
 msgstr "It needs a signal the first time."
 
@@ -418,7 +424,16 @@ msgstr "That didn't go through. Try again in a moment."
 msgid "community.publish.chat"
 msgstr "The chat"
 
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.goneLine"
+msgstr "The crew took it down or switched this link off. Ask whoever sent it for a new one."
+
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.gone"
+msgstr "This plan is no longer shared"
+
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.missing"
 msgstr "This plan is out of reach"
 
@@ -431,6 +446,7 @@ msgid "community.filter.rating"
 msgstr "Top rated"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.retry"

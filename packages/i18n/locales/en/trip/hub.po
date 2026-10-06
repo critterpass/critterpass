@@ -336,6 +336,10 @@ msgstr "Nudged {who}."
 msgid "trip.briefing.nudgedSome"
 msgstr "Nudged."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.rateDetail"
+msgstr "One tap a place, for the next crew"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.draftPrivate"
 msgstr "Only you see it"
@@ -347,6 +351,10 @@ msgstr "Open"
 #: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
 msgid "trip.menu.cancelBoost"
 msgstr "Open votes close. A boost moves to your next trip, or comes back as a credit."
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.sharePlanDetail"
+msgstr "Other crews can copy it. You choose what they see"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.owed"
@@ -367,6 +375,10 @@ msgstr "Plan"
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.planning"
 msgstr "planning"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.rate"
+msgstr "Rate the trip"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.online"
@@ -399,6 +411,10 @@ msgstr "Set up the trip"
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.settingUp"
 msgstr "setting up"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.sharePlan"
+msgstr "Share the plan"
 
 #: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
 msgid "trip.menu.leaveMoney"

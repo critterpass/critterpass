@@ -3,8 +3,9 @@ appId: app.critterpass.dev
 # A write made with no signal that the server turns down once the phone is back: a crewmate adds
 # "Torch" to the crew's shared pack list (a simulated traveller, through the api), the phone loses
 # its network and ticks it, and meanwhile another crewmate takes Torch off the list. Back online
-# the tick has nothing to land on, so the trip hub lists it under "Didn't go through" until OK
-# clears it. Android only: the runner cuts the emulator's network (/network).
+# the tick has nothing to land on, so the trip hub lists it under "Didn't go through", also after
+# the offline card has lifted, until OK clears it on the offline page. Android only: the runner
+# cuts the emulator's network (/network).
 - runFlow:
     file: ../subflows/today-with-crew.yaml
     env:
@@ -68,7 +69,29 @@ appId: app.critterpass.dev
 - assertVisible: "(?i).*didn't go through.*"
 - waitForAnimationToEnd
 - takeScreenshot: conflict-did-not-go-through
-# It stays until the traveller has read it.
+# The offline card lifts once everything has been sent; what was turned down stays on the hub, and
+# leads to the offline page, until the traveller has read it.
+- extendedWaitUntil:
+    notVisible:
+      id: 'trip-offline-card'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'trip-offline-conflicts-open'
+    direction: DOWN
+    timeout: 10000
+- assertVisible: "(?i).*didn't go through.*"
+- waitForAnimationToEnd
+- takeScreenshot: conflict-stays-after-reconnect
+- tapOn:
+    id: 'trip-offline-conflicts-open'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-offline-page'
+    timeout: 10000
+- assertVisible: "(?i).*didn't go through.*"
+- waitForAnimationToEnd
+- takeScreenshot: conflict-on-offline-page
 - tapOn:
     id: 'trip-offline-conflict-.*'
 - extendedWaitUntil:
