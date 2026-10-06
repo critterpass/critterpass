@@ -1,12 +1,14 @@
 /**
  * The proposal rows as synced: the trip's current proposal (organisers see it while it is being
  * built; the crew once it is sent), each recipient's version (the organiser sees all, a member
- * only their own), the crew hype and the public reactions. A proposal opened from a link or a
- * push before its trip is on the phone resolves its trip by holding the streams of the trips that
- * may carry it.
+ * only their own), the crew hype and the public reactions. A proposal opened from a push or a
+ * link before it is on the phone holds the one trip that carries it, read from the notice that
+ * announced it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import type { ProposalFormat, ProposalStatus, ProposalVersionStatus } from '@cp/domain';
+import type { AbstractPowerSyncDatabase } from '@powersync/common';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
@@ -110,6 +112,13 @@ const REACTIONS_SQL = `SELECT user_id, kind, created_at FROM proposal_reactions
 /** Trips that may carry a proposal the phone has not synced yet. */
 const OPEN_TRIPS_SQL = `SELECT id FROM trips
   WHERE status IN ('draft_review', 'redrafting', 'proposed', 'confirmed')`;
+/**
+ * The trip of the newest notice linking the proposal: the push's own inbox row, which carries the
+ * same trip id as the push payload and syncs with the caller's own data.
+ */
+const NOTICE_TRIP_SQL = `SELECT trip_id FROM notifications
+  WHERE trip_id IS NOT NULL AND (deep_link = ? OR deep_link LIKE ?)
+  ORDER BY created_at DESC LIMIT 1`;
 
 export function toProposal(row: ProposalRow): Proposal {
   return {
@@ -212,20 +221,69 @@ export function useReactions(proposalId: string): readonly PublicReaction[] {
   return rows.map((r) => ({ userId: r.user_id, kind: r.kind, at: r.created_at }));
 }
 
+/** The trips to hold until the proposal arrives: its notice's trip, else every open trip. */
+export async function proposalTripsToHold(
+  db: AbstractPowerSyncDatabase,
+  proposalId: string | null,
+): Promise<string[]> {
+  if (proposalId !== null) {
+    const link = `/proposal/${proposalId}`;
+    const notice = await db.getOptional<{ trip_id: string }>(NOTICE_TRIP_SQL, [link, `${link}/%`]);
+    if (notice !== null) return [notice.trip_id];
+  }
+  const open = await db.getAll<{ id: string }>(OPEN_TRIPS_SQL);
+  return open.map((row) => row.id);
+}
+
 /**
- * Holds the streams of every open trip while the proposal is not on the phone yet (a push or a
- * link opened first), so its row arrives; releases them once it has.
+ * Holds the trip a not-yet-synced proposal belongs to, following the notices and trips as they
+ * sync (a notice arriving narrows the hold to its one trip); returns the stop function.
+ */
+export function holdProposalTrip(
+  db: AbstractPowerSyncDatabase,
+  proposalId: string | null,
+): () => void {
+  const controller = new AbortController();
+  const held = new Map<string, () => void>();
+  const run = async () => {
+    const wanted = new Set(await proposalTripsToHold(db, proposalId));
+    if (controller.signal.aborted) return;
+    for (const [tripId, release] of held) {
+      if (wanted.has(tripId)) continue;
+      held.delete(tripId);
+      release();
+    }
+    for (const tripId of wanted) {
+      if (!held.has(tripId)) held.set(tripId, holdTripStreams(db, tripId));
+    }
+  };
+  const check = () => {
+    run().catch(() => undefined);
+  };
+  check();
+  db.onChange(
+    { onChange: check },
+    { tables: ['notifications', 'trips'], throttleMs: 200, signal: controller.signal },
+  );
+  return () => {
+    controller.abort();
+    for (const release of held.values()) release();
+    held.clear();
+  };
+}
+
+/**
+ * While the proposal is not on the phone yet (a push or a link opened first), holds the trip that
+ * carries it so its row arrives; releases it once it has. Every proposal screen sits under
+ * `/proposal/[id]`, so the id comes from the route.
  */
 export function useFindProposalTrip(proposal: Proposal | null | undefined): void {
   const { db } = useLocalFirst();
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  const proposalId = typeof id === 'string' && id !== '' ? id : null;
   const missing = proposal === null;
-  const { rows } = useLiveRows<{ id: string }>(OPEN_TRIPS_SQL, missing ? [] : null, ['trips']);
-  const key = missing ? rows.map((r) => r.id).join(',') : '';
   useEffect(() => {
-    if (key === '') return undefined;
-    const releases = key.split(',').map((tripId) => holdTripStreams(db, tripId));
-    return () => {
-      for (const release of releases) release();
-    };
-  }, [db, key]);
+    if (!missing) return undefined;
+    return holdProposalTrip(db, proposalId);
+  }, [db, missing, proposalId]);
 }

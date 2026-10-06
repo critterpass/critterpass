@@ -39,7 +39,8 @@ function useLabDay(model: TripMapModel) {
 /** 10:00 on the trip's third day (Wed 14 Oct, Bali): the day shown is today and GO appears. */
 const ON_DAY_3 = new Date('2026-10-14T02:00:00Z');
 
-function TripMapScene({
+/** The Bali Six's trip map at a snap (the backdrop of the lab's export sheet too). */
+export function TripMapScene({
   snap,
   empty = false,
   today = false,
@@ -84,7 +85,8 @@ function TripMapScene({
   );
 }
 
-function DayPlanScene({
+/** The Bali Six's third day in the day plan (the backdrop of the lab's stop sheets too). */
+export function DayPlanScene({
   today = false,
   before,
 }: {

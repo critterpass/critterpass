@@ -1,15 +1,14 @@
 /**
  * A personal change that clashes with the crew plan (the crew removed or moved the item under
- * it): keep mine, or go with the crew's.
+ * it): keep mine, or go with the crew's. It leads the stop's sheet.
  */
+import type { OverlayClash } from '@cp/planner';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
-
-import type { Clash } from './model/personal-plan';
 
 const useStyles = makeStyles((th) => ({
   card: {
@@ -25,16 +24,18 @@ const useStyles = makeStyles((th) => ({
 
 export function ClashCard({
   clash,
+  label,
   onKeep,
   onDrop,
 }: {
-  readonly clash: Clash;
+  readonly clash: OverlayClash;
+  /** The stop's name. */
+  readonly label: string;
   readonly onKeep: () => void;
   readonly onDrop: () => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
-  const label = clash.label;
   return (
     <View style={styles.card} testID={`plan-clash-${clash.stableId}`}>
       <Text variant="title">
@@ -69,29 +70,6 @@ export function ClashCard({
           testID={`plan-clash-drop-${clash.stableId}`}
         />
       </View>
-    </View>
-  );
-}
-
-/** Every clash of my plan, under the day list. */
-export function ClashList({
-  clashes,
-  onResolve,
-}: {
-  readonly clashes: readonly Clash[];
-  readonly onResolve: (clash: Clash, keep: boolean) => void;
-}) {
-  if (clashes.length === 0) return null;
-  return (
-    <View style={{ gap: 10 }} testID="plan-clashes">
-      {clashes.map((clash) => (
-        <ClashCard
-          key={`${clash.personalOpsId}:${clash.stableId}`}
-          clash={clash}
-          onKeep={() => onResolve(clash, true)}
-          onDrop={() => onResolve(clash, false)}
-        />
-      ))}
     </View>
   );
 }

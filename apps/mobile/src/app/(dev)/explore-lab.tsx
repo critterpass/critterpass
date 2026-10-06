@@ -9,7 +9,7 @@ import { ListCard } from '@/ui/cards/ListCard';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-/** Explore screens (3d-1…3d-4, 3b-8 and their states) over fixtures, for review and shots. */
+/** Explore screens (the guide 7g-3, the place page 7e, the places map 7c, 3b-8 and their states) over fixtures, for review and shots. */
 export default function BookingsLab() {
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 64 }}>

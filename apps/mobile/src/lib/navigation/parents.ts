@@ -2,15 +2,7 @@
 // Do not edit: run `pnpm tsx tools/design-renders/extract-parents.ts` after the design changes.
 
 /** Screens the design no longer draws but the app still registers: the parent they last had. */
-const LEGACY_PARENTS: Readonly<Record<string, string>> = {
-  '3d-1': '3b-1',
-  '3d-2': '3e-1',
-  '3d-3': '3d-1',
-  '3d-4': '3d-3',
-  '3e-1': '3k-1',
-  '3e-2': '3e-1',
-  '3e-3': '3e-2',
-};
+const LEGACY_PARENTS: Readonly<Record<string, string>> = {};
 
 /** Design screen id → the screen its back button returns to when opened cold. */
 export const PARENTS: Readonly<Record<string, string>> = {

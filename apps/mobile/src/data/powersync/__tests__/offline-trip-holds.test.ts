@@ -6,7 +6,7 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { waitFor } from '@testing-library/react-native';
 
-import { startOfflineTripHolds } from '../offline-trip-holds';
+import { localToday, startOfflineTripHolds } from '../offline-trip-holds';
 import { openTestLocalFirst, type TestLocalFirst } from '../test-support/local-first-fixture';
 import { removeDir } from '../test-support/open-node-database';
 import { TRIP_STREAMS } from '../use-trip-streams';
@@ -17,12 +17,16 @@ jest.mock(
     jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
 );
 
+/** The holds read the date they are given, never the real clock. */
 const TODAY = '2026-10-05';
+/** A shared CI runner can take seconds to see a write. */
+const SETTLE = { timeout: 10_000 };
 const LIVE = '0199a6f0-0000-7000-8000-00000000e001';
 const TOMORROW = '0199a6f0-0000-7000-8000-00000000e002';
 const LATER = '0199a6f0-0000-7000-8000-00000000e003';
 const ENDED = '0199a6f0-0000-7000-8000-00000000e004';
 const VOTING = '0199a6f0-0000-7000-8000-00000000e005';
+const YESTERDAY = '0199a6f0-0000-7000-8000-00000000e006';
 const CREW = '0199a6f0-0000-7000-8000-00000000c001';
 
 let stack: TestLocalFirst | null = null;
@@ -72,10 +76,24 @@ describe('offline trip holds', () => {
     await insertTrip(db, TOMORROW, 'confirmed', '2026-10-06', '2026-10-09');
     await insertTrip(db, LATER, 'confirmed', '2026-10-20', '2026-10-24');
     await insertTrip(db, ENDED, 'in_trip', '2026-09-20', '2026-09-24');
+    // Ended yesterday: still held for its last evening on another clock.
+    await insertTrip(db, YESTERDAY, 'in_trip', '2026-10-01', '2026-10-04');
     await insertTrip(db, VOTING, 'voting', '2026-10-05', '2026-10-08');
     stop = startOfflineTripHolds(db, () => TODAY);
-    await waitFor(() => expect(subscribed(db)).toEqual(streamsOf(LIVE, TOMORROW)));
+    await waitFor(
+      () => expect(subscribed(db)).toEqual(streamsOf(LIVE, TOMORROW, YESTERDAY)),
+      SETTLE,
+    );
     await db.execute('UPDATE trips SET start_date = ? WHERE id = ?', ['2026-10-07', LATER]);
-    await waitFor(() => expect(subscribed(db)).toEqual(streamsOf(LIVE, TOMORROW, LATER)));
+    await waitFor(
+      () => expect(subscribed(db)).toEqual(streamsOf(LIVE, TOMORROW, YESTERDAY, LATER)),
+      SETTLE,
+    );
+  });
+
+  it("reads the phone's calendar date, not the UTC one", () => {
+    // 23:30 on 5 October in the phone's zone, whatever UTC says.
+    expect(localToday(new Date(2026, 9, 5, 23, 30))).toBe('2026-10-05');
+    expect(localToday(new Date(2026, 0, 1, 0, 5))).toBe('2026-01-01');
   });
 });

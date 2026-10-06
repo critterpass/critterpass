@@ -9,14 +9,15 @@ import type { Href } from 'expo-router';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
-import { dayTileColour, weekdayOf } from '../overview/day-card';
+import { weekdayOf } from '../day/format';
+import { dayTileColour } from '../overview/model/day-colour';
 import { changeReason, leftLine, needsMoveExplainer, placedReason, wasLine } from './changes-copy';
 import type { ChangeRow, NeedsYouRow } from './changes-review-view';
 import type { LeftForYou } from './data/use-review-extras';
 import type { ChangeCard } from './model/review-model';
 
-const SPLIT_IDS = ['7e-3', '7e-1', '3d-3'] as const;
-const PLACE_IDS = ['7e-1', '3d-3'] as const;
+const SPLIT_IDS = ['7e-3', '7e-1'] as const;
+const PLACE_IDS = ['7e-1'] as const;
 const IDEAS_ID = '7f-2';
 
 export function changeRows(input: {

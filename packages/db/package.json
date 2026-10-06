@@ -26,6 +26,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@powersync/service-sync-rules": "catalog:",
     "@testcontainers/postgresql": "catalog:",
     "@testcontainers/redis": "catalog:",
     "@types/pg": "catalog:",

@@ -7,12 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#. placeholder {0}: props.vote.yes
-#. placeholder {1}: props.vote.needed
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.tally"
-msgstr "{0} of {1} yeses"
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.collision.travel"
 msgstr "{a} leaves about {minutes} min too little to get to or from {b}."
@@ -21,16 +15,7 @@ msgstr "{a} leaves about {minutes} min too little to get to or from {b}."
 msgid "plan.review.collision.overlap"
 msgstr "{a} would run into {b}. Untick it, or move one of them on the day first."
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.memberDays"
-msgstr "{author} suggested changes to {days}."
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.member"
-msgstr "{author} suggested these."
-
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
 msgid "plan.review.bookingsMoved"
 msgstr "{bookingsMoved, plural, one {booking moved} other {bookings moved}}"
 
@@ -86,18 +71,6 @@ msgstr "{guideName} never moves a stop for an idea. Move {stop} on the day plan,
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.left.explainPlain"
 msgstr "{guideName} never moves a stop for an idea. Move one on the day plan, then add it."
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.guideDays"
-msgstr "{guideName} rearranged {days}."
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.guide"
-msgstr "{guideName} rearranged a few things."
-
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
-msgid "plan.review.mustDosTouched"
-msgstr "{mustDosTouched, plural, one {must-do touched} other {must-dos touched}}"
 
 #: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.title.add"
@@ -156,7 +129,6 @@ msgid "plan.review.why.after"
 msgstr "after {afterName}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.personal"
 msgstr "Apply to my plan only"
 
@@ -204,18 +176,6 @@ msgstr "closes in {hours} h"
 msgid "plan.review.closesMinutes"
 msgstr "closes in {mins} min"
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.backDay"
-msgstr "Day {first}"
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.backDays"
-msgstr "Day {first}–{last}"
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.delay"
-msgstr "Delay"
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.approved"
@@ -225,26 +185,13 @@ msgstr "Done. It’s in everyone’s plan."
 msgid "plan.review.notice.approvedSolo"
 msgstr "Done. It’s in your plan."
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.dropout"
-msgstr "Dropout"
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.dropped"
-msgstr "Dropped"
-
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
 msgid "plan.review.each"
 msgstr "each"
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.calm"
 msgstr "Everything lands in a gap. Nothing booked and nobody’s must-do moved."
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.chat"
-msgstr "From the chat"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.backIdeas"
@@ -257,14 +204,6 @@ msgstr "in a free gap"
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
 msgid "plan.review.money.thousand"
 msgstr "K"
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.toggleHint"
-msgstr "Keeps or drops this change"
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.kept"
-msgstr "Kept"
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.state.rejected"
@@ -298,14 +237,6 @@ msgstr "moved to when it’s open"
 msgid "plan.review.needsYou"
 msgstr "NEEDS YOU"
 
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.added"
-msgstr "New"
-
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
-msgid "plan.review.noCost"
-msgstr "No cost change"
-
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.left.noDay"
 msgstr "No day takes it yet"
@@ -315,7 +246,6 @@ msgid "plan.card.state.draft"
 msgstr "Not sent"
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.no"
 msgstr "Not this"
 
@@ -326,10 +256,6 @@ msgstr "Not this"
 #: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
 msgid "plan.push.reject"
 msgstr "Not this"
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.noMustDo"
-msgstr "Nothing anyone marked as a must-do was touched."
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.calmFixes"
@@ -342,10 +268,6 @@ msgstr "on the free day"
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.onTheWay"
 msgstr "on the way"
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.mustDo"
-msgstr "One of them touches a must-do."
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.left.needsMove"
@@ -363,10 +285,6 @@ msgstr "ONLY YOU SEE THIS"
 msgid "plan.card.state.stale"
 msgstr "Out of date"
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.backPlan"
-msgstr "Plan"
-
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.eyebrow"
 msgstr "Plan change"
@@ -383,29 +301,13 @@ msgstr "Plan check"
 msgid "plan.review.sendSelf"
 msgstr "Put it in my plan"
 
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.applyNow"
-msgstr "Put it in now"
-
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.putInNow"
 msgstr "PUT IT IN THE PLAN NOW"
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.weather"
-msgstr "Rain forecast"
-
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.state.expired"
 msgstr "Ran out"
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.redraft"
-msgstr "Redraft"
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.removed"
-msgstr "Removed"
 
 #: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
 msgid "plan.review.see"
@@ -430,10 +332,6 @@ msgstr "Sent to the crew"
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.touches"
 msgstr "Some of this moves a booking or a must-do. Look before you send."
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.swap"
-msgstr "Swap"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.failed"
@@ -468,17 +366,8 @@ msgid "plan.review.notice.expired"
 msgstr "The vote ran out, so the plan stays as it was."
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.missing"
 msgstr "This change isn’t on your phone yet. It shows up once it syncs."
-
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.warn.booking"
-msgstr "This moves a booking, so the organiser confirms it with the supplier."
-
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.warn.mustDo"
-msgstr "This touches someone’s must-do. Check it with them before it goes in."
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
 msgid "plan.edit.undo"
@@ -497,7 +386,6 @@ msgid "plan.review.why.dry"
 msgstr "while it’s dry"
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.yes"
 msgstr "Yes"
 
@@ -509,17 +397,9 @@ msgstr "Yes"
 msgid "plan.review.youSaidNo"
 msgstr "You said not this"
 
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.votedNo"
-msgstr "You said not this."
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.youSaidYes"
 msgstr "You said yes"
-
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.votedYes"
-msgstr "You said yes."
 
 #: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.title.addMine"

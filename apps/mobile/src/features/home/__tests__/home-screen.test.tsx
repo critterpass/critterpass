@@ -75,7 +75,7 @@ beforeAll(() => {
   // its first frame, so every snapshot sees the same pose however long the screen took to settle.
   motionFreeze.value = true;
   registerScreens({
-    '3d-1': (params) => `/place/${params['placeId'] ?? ''}`,
+    '7g-3': (params) => `/place/${params['placeId'] ?? ''}`,
     '3b-7': '/place-search',
     '3k-1': (params) => `/trip/${params['tripId'] ?? ''}`,
   });

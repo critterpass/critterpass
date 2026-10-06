@@ -1,9 +1,8 @@
 /**
  * The trip map, the day plan and all days join the navigation registry (imported by the planning
- * register, after every earlier feature). The plan overview (3e-1) and the day view (3e-2) keep
- * their registrations: their paths (`/{tripId}/plan`, `/{tripId}/day/{n}`) are the routes that
- * read `planning.redesign` when they open, so a hub tile, an inbox row, a push or a proposal link
- * lands on the section 7 screen with the switch on and on the earlier one with it off.
+ * register). `plan-hub` has no design render: it is what the trip's PLAN opens (`/{tripId}/plan`,
+ * the trip map or a day plan as `plan.hub` says), which hub tiles, inbox rows and proposal links
+ * open by name.
  */
 import { registerScreens, type ScreenParams } from '@/lib/navigation/screen-registry';
 
@@ -15,6 +14,7 @@ const optionalDay = (params: ScreenParams) =>
   params['day'] === undefined ? undefined : day(params);
 
 registerScreens({
+  'plan-hub': (params) => tripPlanRoutes.hub(trip(params)),
   '7a-1': (params) => tripPlanRoutes.map(trip(params), { day: optionalDay(params) }),
   '7a-2': (params) => tripPlanRoutes.map(trip(params), { day: optionalDay(params), sheet: 'half' }),
   '7a-3': (params) => tripPlanRoutes.map(trip(params), { sheet: 'full' }),

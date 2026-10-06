@@ -13,7 +13,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
-import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 
@@ -49,8 +48,7 @@ function useTicker(everyMs: number | null): Date {
 export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
-  const { redesign } = usePlanningSwitch();
-  const session = useSwipeSession(tripId, sessionId, { saveYes: redesign });
+  const session = useSwipeSession(tripId, sessionId);
   const readsLocal = useReadsLocalNames(session.row?.destination_id);
   const crew = useTripCrew(tripId);
   const planned = usePlannedPlaces(tripId);
@@ -69,8 +67,8 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const guide = guideFor(row?.guide_slug);
   const nameOf = (poiId: string) => places.get(poiId)?.name ?? '';
   const outcomes = useMemo(
-    () => new Map<string, MatchOutcome>(matches.map((m) => [m.id, matchOutcome(m, redesign)])),
-    [matches, redesign],
+    () => new Map<string, MatchOutcome>(matches.map((m) => [m.id, matchOutcome(m)])),
+    [matches],
   );
   const votersOf = (userIds: readonly string[]) =>
     crew
@@ -157,7 +155,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
             kind: 'summary',
             ended: ended && !state.finished,
             yesCount: Object.values(swiped).filter((verdict) => verdict === 'yes').length,
-            savedToIdeas: redesign,
+            savedToIdeas: true,
             matches: matches.map((entry) => ({
               id: entry.id,
               name: nameOf(entry.poiId),

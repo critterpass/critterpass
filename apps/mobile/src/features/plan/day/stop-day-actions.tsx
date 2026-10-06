@@ -1,8 +1,8 @@
 /**
  * What a stop of today offers first, at the top of its sheet (design in code; logged in
  * docs/undesigned-states.md): GO, "I'm here" then "Done", "Running late?" with 15, 30 and 45
- * minutes, and "Skip it, just me"; once she is there well before the start, "Start from now?". Nothing is shown for a stop of another day or one with no time,
- * or with the planning screens off: there the sheet is the planning sheet it always was.
+ * minutes, and "Skip it, just me"; once she is there well before the start, "Start from now?".
+ * Nothing is shown for a stop of another day or one with no time.
  */
 import { toLocalWallTime } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
@@ -14,7 +14,6 @@ import { minutesOnDay, type DayItem } from '@/data/plan/plan-model';
 import type { DaySlot } from '@/data/plan/plan-ops';
 import { goHref } from '@/features/go';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { GoButton } from '@/ui/buttons/GoButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -70,9 +69,8 @@ export function StopDayActions({
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const { redesign } = usePlanningSwitch();
   const { checkIn, state, advance } = useStopCheckIn(tripId, item.stableId, item.poiId);
-  if (!redesign || !isStopOfToday(item, date, tz, new Date())) return null;
+  if (!isStopOfToday(item, date, tz, new Date())) return null;
   const at = (iso: string) => clock(locale, minutesOnDay(iso, tz, date ?? ''));
   const since =
     checkIn === null

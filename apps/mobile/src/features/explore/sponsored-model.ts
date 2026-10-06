@@ -7,9 +7,6 @@ import { shownName, type PicksEntryWire } from '@cp/domain';
 
 export type ListKind = 'picks' | 'map_carousel' | 'search';
 
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
-export const MAP_CAROUSEL: ListKind = 'map_carousel';
-
 /** How many picks a row shows, and under how many of the server's the phone's own top it up. */
 export const PICKS_SHOWN = 8;
 const PICKS_TOP_UP_UNDER = 4;

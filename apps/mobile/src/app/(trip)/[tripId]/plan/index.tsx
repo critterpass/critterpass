@@ -10,8 +10,7 @@ import { nativeCpCalendarModule } from '../../../../../modules/cp-calendar/src/C
 const writer = calendarWriter(nativeCpCalendarModule);
 
 /**
- * What the trip's PLAN opens (`/{tripId}/plan`): the trip map or a day plan, as `plan.hub` says,
- * with `planning.redesign` on; the earlier overview (3e-1) with it off.
+ * What the trip's PLAN opens (`/{tripId}/plan`): the trip map or a day plan, as `plan.hub` says.
  */
 export default function PlanRoute() {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();

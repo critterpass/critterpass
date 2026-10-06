@@ -151,8 +151,6 @@ appId: app.critterpass.dev
     visible:
       id: 'dev-tools-entry'
     timeout: 30000
-# The new planning screens, for this phone only.
-- runFlow: ../../_shared/planning-redesign-on.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-first-run'

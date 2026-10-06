@@ -70,7 +70,7 @@ export function turnHref(
     case 'review':
       return changeSetId === null
         ? undefined
-        : hrefFor('3e-3', { tripId, changesetId: changeSetId });
+        : hrefFor('7h-7', { tripId, changesetId: changeSetId });
     case 'setup':
       return hrefFor(SETUP_SCREEN[setupFirst ?? 'when'], { tripId });
     case 'drafting':

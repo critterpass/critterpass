@@ -1,8 +1,7 @@
 /**
  * The plan's section 7 routes under the trip (`/{tripId}/...`): the trip map with its sheet at a
  * snap (7a-1 peek, 7a-2 half, 7a-3 full; 7i-1 when nothing is saved), a day plan (7b-1), its map
- * open (7b-2) and all days (7b-3). The day plan shares the day's path with the earlier day view
- * (3e-2); the route picks one by `planning.redesign`.
+ * open (7b-2) and all days (7b-3).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and params, never copy. */
 import type { Href } from 'expo-router';
@@ -16,7 +15,7 @@ export interface TripMapParams {
 }
 
 export const tripPlanRoutes = {
-  /** What PLAN opens: the hub (`plan.hub`), or the earlier overview with the switch off. */
+  /** What PLAN opens: the trip map or a day plan, as `plan.hub` says. */
   hub: (tripId: string): Href => ({ pathname: '/[tripId]/plan', params: { tripId } }),
   map: (tripId: string, params: TripMapParams = {}): Href => ({
     pathname: '/[tripId]/plan/map',

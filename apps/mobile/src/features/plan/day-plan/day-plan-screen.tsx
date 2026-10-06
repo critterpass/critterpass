@@ -12,13 +12,12 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { estimateLeg } from '@/data/legs/day-legs';
-import { addOp, type DaySlot } from '@/data/plan/plan-ops';
+import type { DaySlot } from '@/data/plan/plan-ops';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { usePlanPresence } from '../collab/use-presence';
-import { AddItemSheet } from '../day/add-item-sheet';
 import { ItemSheetHost } from '../day/item-sheet-host';
 import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
@@ -26,7 +25,7 @@ import { useChosenDay, useOpenOnDate } from '../trip-map/chosen-day';
 import { useDayRoute } from '../trip-map/day-route';
 import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
-import { useRainWindow } from '../timeline/use-rain-window';
+import { useRainWindow } from './use-rain-window';
 import { clock } from '../day/format';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useBackToTrip } from './back-to-trip';
@@ -60,7 +59,6 @@ export function DayPlanScreen({
   const backToTrip = back.onBack;
   // Day-of for today (when to leave, who is up), once that screen has joined the registry.
   const dayOf = hrefFor('3k-2', { tripId });
-  const [adding, setAdding] = useState(false);
   const [sharing, setSharing] = useState(false);
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(plan.versionId, day);
@@ -153,7 +151,9 @@ export function DayPlanScreen({
         }}
         onOpenMap={() => router.push(tripPlanRoutes.dayMap(tripId, dayNo))}
         onOpenStop={setOpenId}
-        onAdd={() => (search === undefined ? setAdding(true) : router.push(search))}
+        onAdd={() => {
+          if (search !== undefined) router.push(search);
+        }}
       />
       {open === null ? null : (
         <ItemSheetHost
@@ -167,25 +167,6 @@ export function DayPlanScreen({
           onClose={() => setOpenId(null)}
         />
       )}
-      {adding && day.date !== null ? (
-        <AddItemSheet
-          destinationId={plan.trip?.destination_id ?? null}
-          tripId={plan.trip?.id ?? null}
-          date={day.date}
-          items={day.items}
-          tz={model.tz}
-          members={plan.members.map((member) => member.uid)}
-          canApply={plan.canApply}
-          warningText={() => ''}
-          onClose={() => setAdding(false)}
-          onAdd={(draft) => {
-            setAdding(false);
-            void editor
-              .submit([addOp(slot, { ...draft, tz: model.tz }, draft.stableId)])
-              .then(announceEdit);
-          }}
-        />
-      ) : null}
       {sharing ? (
         <ShareSheet plan={plan} days={model.days} onClose={() => setSharing(false)} />
       ) : null}
