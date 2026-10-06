@@ -4,6 +4,14 @@ appId: app.critterpass.dev
 # to the group, and once sent), a reply that could not be spoken, and each way a turn stops short
 # (microphone off, nothing heard, offline, questions spent, the reply failed), prefixed `${PREFIX}`.
 # The scenes run in the lab list's order: each is found by scrolling down.
+# The voice scenes sit some fifty rows down the lab's list: reaching the first one takes longer than
+# the scroll a scene allows itself, so the list is brought there first.
+- scrollUntilVisible:
+    element:
+      id: 'guide-lab-voice-swaps'
+    direction: DOWN
+    timeout: 90000
+    centerElement: true
 - runFlow:
     file: scene.yaml
     env: { SCENE: voice-swaps, READY: guide-voice-send-group, SHOT: '${PREFIX}-3j-2-swaps' }
