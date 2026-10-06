@@ -1,0 +1,223 @@
+appId: app.critterpass.dev
+---
+# One person's way through their profile and account, on a brand-new pass with nothing seeded:
+# 1. profile → Edit profile: a new name, saved, shows on the pass;
+# 2. Change avatar: the critter and initials tabs open, and back leaves the avatar as it was;
+# 3. Settings → Language and currency: the app turns Vietnamese in place, then English again;
+# 4. Download my data: the export is asked for and the row says it is on its way;
+# 5. Delete account → hold: the pass was never saved, so the account is erased at once, and
+#    Close leaves the phone on the welcome screen as a new person.
+# Deleting a saved pass and restoring it within its 30 days is delete-restore.yaml. The app icon
+# picker is not part of either: the profile has no icon row yet.
+- runFlow: ../happy/subflows/fresh-account.yaml
+# Home shows its header ("HEY {NAME} ›") once the account has a crew: start one, nothing else.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Journey Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+
+# 1. A new name.
+- runFlow: ../screens/sweep/subflows/home.yaml
+- tapOn:
+    id: 'home-header-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-edit'
+    timeout: 30000
+- tapOn:
+    id: 'you-profile-edit'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-name'
+    timeout: 20000
+- tapOn:
+    id: 'you-edit-name'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-name-field'
+    timeout: 15000
+- tapOn:
+    id: 'you-edit-name-field'
+- eraseText: 40
+- inputText: 'Renamed'
+- tapOn:
+    id: 'you-edit-name-done'
+- extendedWaitUntil:
+    visible: '(?i).*renamed.*'
+    timeout: 15000
+- tapOn:
+    id: 'you-edit-save'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 30000
+- extendedWaitUntil:
+    visible: '(?i).*renamed.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: you-journey-renamed
+
+# 2. The avatar.
+- tapOn:
+    id: 'you-profile-edit'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-change-avatar'
+    timeout: 20000
+- tapOn:
+    id: 'you-edit-change-avatar'
+- extendedWaitUntil:
+    visible:
+      id: 'you-avatar-tabs'
+    timeout: 20000
+- tapOn: '(?i)critter'
+- extendedWaitUntil:
+    visible:
+      id: 'you-avatar-guide.*'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: you-journey-avatar-critter
+- tapOn: '(?i)initials'
+- extendedWaitUntil:
+    visible:
+      id: 'you-avatar-initials'
+    timeout: 15000
+# Nothing was picked, so Done stays off: back to the form as it was.
+- tapOn:
+    id: 'you-avatar-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit'
+    timeout: 20000
+- tapOn:
+    id: 'you-edit-back'
+- runFlow:
+    when:
+      visible:
+        id: 'you-edit-discard'
+    commands:
+      - tapOn:
+          id: 'you-edit-discard'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+
+# 3. The language, switched in place.
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 30000
+- scrollUntilVisible:
+    element: 'Language and currency'
+    direction: DOWN
+    timeout: 20000
+- tapOn: 'Language and currency'
+- extendedWaitUntil:
+    visible:
+      id: 'you-language-title'
+    timeout: 20000
+- runFlow:
+    when:
+      notVisible:
+        id: 'you-language-vi'
+    commands:
+      - tapOn:
+          id: 'you-language-more'
+- scrollUntilVisible:
+    element:
+      id: 'you-language-vi'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'you-language-vi'
+- extendedWaitUntil:
+    notVisible: 'Language and currency'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: you-journey-language-vi
+- scrollUntilVisible:
+    element:
+      id: 'you-language-en'
+    direction: UP
+    timeout: 15000
+- tapOn:
+    id: 'you-language-en'
+- extendedWaitUntil:
+    visible: 'Language and currency'
+    timeout: 20000
+- tapOn:
+    id: 'you-language-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 20000
+
+# 4. The export is asked for.
+- scrollUntilVisible:
+    element: 'Download my data'
+    direction: DOWN
+    timeout: 20000
+- tapOn: 'Download my data'
+- extendedWaitUntil:
+    visible: '.*(Getting it ready|Ready to download).*'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: you-journey-export-asked
+
+# 5. Delete: an unsaved pass has nothing to sign back into, so it is erased right away.
+- scrollUntilVisible:
+    element: 'Delete account'
+    direction: DOWN
+    timeout: 20000
+- tapOn: 'Delete account'
+- extendedWaitUntil:
+    visible:
+      id: 'you-delete'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'you-delete-continue'
+    commands:
+      - tapOn:
+          id: 'you-delete-continue'
+- extendedWaitUntil:
+    visible:
+      id: 'you-delete-hold'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: you-journey-delete-hold
+- longPressOn:
+    id: 'you-delete-hold'
+- extendedWaitUntil:
+    visible:
+      id: 'you-closed-erased'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: you-journey-erased
+- tapOn:
+    id: 'you-closed-close'
+# The phone is cleared and the app restarts as a new person.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 90000
