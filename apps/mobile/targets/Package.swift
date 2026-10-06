@@ -34,6 +34,24 @@ let package = Package(
       swiftSettings: testSettings
     ),
     .target(
+      name: "NotificationContentCore",
+      path: ".",
+      exclude: [
+        "widgets", "notification-service", "app-clip", "notification-content/Tests",
+        "notification-content/CritterArt.xcassets",
+      ],
+      sources: [
+        "_shared/Categories/Categories.swift",
+        "notification-content/PosterModel.swift",
+      ]
+    ),
+    .testTarget(
+      name: "NotificationContentTests",
+      dependencies: ["NotificationContentCore"],
+      path: "notification-content/Tests",
+      swiftSettings: testSettings
+    ),
+    .target(
       name: "AppClipCore",
       path: "app-clip",
       exclude: [
