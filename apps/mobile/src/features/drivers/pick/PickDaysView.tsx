@@ -52,11 +52,14 @@ export interface PickDaysViewProps {
     readonly disabled: boolean;
     readonly onChange: (next: boolean) => void;
   };
+  /** The driver's quote the crew votes on, in words; null for a pick on his shortlisted terms. */
+  readonly quote?: string | null;
   readonly overtime: string | null;
   readonly error: string | null;
   readonly chosen: number;
   readonly busy: 'set' | 'ask' | null;
-  readonly onSet: () => void;
+  /** Sets him at once; null when his quote has to go to the crew first. */
+  readonly onSet: (() => void) | null;
   /** Puts the pick to the crew as a vote; null on a trip of one. */
   readonly onAsk: (() => void) | null;
 }
@@ -143,6 +146,18 @@ export function PickDaysView(props: PickDaysViewProps) {
             />
           </Row>
         </View>
+        {props.quote ? (
+          <View style={styles.group} testID="drivers-pick-quote">
+            <Stack gap="2">
+              <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+                {upper(t({ id: 'drivers.pick.quote', message: `${name}'s quote` }), locale)}
+              </Text>
+              <Text variant="body" singleLine={false}>
+                {props.quote}
+              </Text>
+            </Stack>
+          </View>
+        ) : null}
         {props.overtime === null ? null : (
           <Text
             variant="bodySm"
@@ -158,19 +173,23 @@ export function PickDaysView(props: PickDaysViewProps) {
             {props.error}
           </Text>
         )}
-        <PillButton
-          label={t({ id: 'drivers.pick.set', message: `Set ${name} on ${chosen} days` })}
-          tone="yellow"
-          block
-          disabled={none}
-          loading={props.busy === 'set'}
-          onPress={props.onSet}
-          testID="drivers-pick-set"
-        />
+        {props.onSet === null ? null : (
+          <PillButton
+            label={t({ id: 'drivers.pick.set', message: `Set ${name} on ${chosen} days` })}
+            tone="yellow"
+            block
+            disabled={none}
+            loading={props.busy === 'set'}
+            onPress={props.onSet}
+            testID="drivers-pick-set"
+          />
+        )}
         {props.onAsk === null ? null : (
           <PillButton
             label={t({ id: 'drivers.pick.ask', message: 'Ask the crew first' })}
-            variant="secondary"
+            {...(props.onSet === null
+              ? { tone: 'yellow' as const }
+              : { variant: 'secondary' as const })}
             block
             disabled={none}
             loading={props.busy === 'ask'}

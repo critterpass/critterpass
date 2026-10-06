@@ -3,7 +3,8 @@
  * once; on a crew trip "Ask the crew first" puts the same pick to the crew as a vote (a change
  * set that sets him on the days when it passes). "Tell {name} on WhatsApp" opens the days and
  * pickup pins in the traveller's WhatsApp after SET. A day longer than the hours his price covers
- * shows the overtime warning; a refused pick says why.
+ * shows the overtime warning; a refused pick says why. Opened from a driver's reply, the pick
+ * carries his quote as the terms the crew votes on.
  */
 import { generateUuidV7, mapsPin } from '@cp/domain';
 import { assignProviderPayload, pickDays } from '@cp/planner';
@@ -17,6 +18,7 @@ import { sendChangesetOnline } from '@/data/plan/commands';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 
+import { useDriverShares } from '../share/data';
 import { driverCardOf } from '../shared/api';
 import { assignCommand, createPickChangesetOnline } from '../shared/commands';
 import { dayLabel, hoursFigure } from '../shared/format';
@@ -24,13 +26,25 @@ import { driversRoute, splitDays } from '../shared/routes';
 import { useDriverDays } from '../shared/use-driver-days';
 import { useAssignments, useDrivers } from '../shared/use-drivers';
 import { tellMessage, whatsappAsk } from '../shared/whatsapp-copy';
-import { crewPickChangeset, crewPickOp, pickErrorOf, type PickError } from './crew-pick';
-import { pickErrorText } from './pick-card';
+import {
+  crewPickChangeset,
+  crewPickOp,
+  pickErrorOf,
+  quoteTerms,
+  type PickError,
+} from './crew-pick';
+import { pickErrorText, pickTermsLine } from './pick-card';
 import { PickDaysView } from './PickDaysView';
 
 const ASKED_TOAST = 'drivers-pick-asked';
 
-export function PickDaysSheet(props: { tripId: string; providerId: string; days?: string }) {
+export function PickDaysSheet(props: {
+  tripId: string;
+  providerId: string;
+  days?: string;
+  /** The driver's reply whose quote this pick is voted on (`/drivers/pick?quote`). */
+  quote?: string;
+}) {
   const locale = useLocale();
   const { t } = useLingui();
   const plan = useDriverDays(props.tripId);
@@ -44,6 +58,13 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
       ? (state.data?.drivers ?? []).find((d) => d.id === props.providerId)
       : undefined;
   const card = driver === undefined ? null : driverCardOf(driver);
+  const shares = useDriverShares(props.quote === undefined ? null : props.tripId);
+  const reply =
+    props.quote === undefined
+      ? null
+      : (shares.last?.replies.find((r) => r.id === props.quote) ?? null);
+  const terms = reply === null ? null : quoteTerms(reply);
+  const quoted = shares.last?.shares.find((s) => s.id === reply?.share_id)?.driver_name;
   const [picked, setPicked] = useState<ReadonlySet<string>>(() => new Set(splitDays(props.days)));
   const [tell, setTell] = useState(true);
   const [error, setError] = useState<PickError | null>(null);
@@ -59,7 +80,8 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
     props.providerId,
     card?.included_hours ?? null,
   );
-  const name = driver?.name ?? '';
+  const name = driver?.name ?? quoted ?? '';
+  const solo = plan.people <= 1;
   const chosen = days.filter((day) => picked.has(day.date) && !day.taken);
   const long = chosen.find((day) => day.overHours);
   const set = async () => {
@@ -93,14 +115,14 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
   };
   /** Drafts the pick as a change set and sends it: the crew votes, and my yes goes with it. */
   const ask = async () => {
-    const op = crewPickOp(props.providerId, days, picked);
+    const op = crewPickOp(props.providerId, days, picked, terms ?? undefined);
     if (op === null) return;
     if (plan.baseVersion === null) {
       // eslint-disable-next-line lingui/no-unlocalized-strings -- an error kind, never copy.
       setError({ kind: 'plan_moved' });
       return;
     }
-    setBusy('ask');
+    setBusy(solo ? 'set' : 'ask');
     setError(null);
     const changesetId = generateUuidV7();
     const drafted = pickErrorOf(
@@ -120,14 +142,16 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
       return;
     }
     toast.dismiss();
-    toast.show({
-      id: ASKED_TOAST,
-      title: t({ id: 'drivers.pick.asked', message: 'Sent to the crew' }),
-      subtitle: t({
-        id: 'drivers.pick.askedLine',
-        message: `Your yes is counted. ${name} is set once enough of them say yes.`,
-      }),
-    });
+    // On a trip of one the pick is in at once: there is nobody to wait for.
+    if (!solo)
+      toast.show({
+        id: ASKED_TOAST,
+        title: t({ id: 'drivers.pick.asked', message: 'Sent to the crew' }),
+        subtitle: t({
+          id: 'drivers.pick.askedLine',
+          message: `Your yes is counted. ${name} is set once enough of them say yes.`,
+        }),
+      });
     router.dismissTo(driversRoute(props.tripId));
   };
   return (
@@ -175,11 +199,13 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
               message: `${dayLabel(long.date, locale)} is ${hoursFigure(long.hours)} hours. ${name}'s price covers ${hoursFigure(card.included_hours)}.`,
             })
       }
+      quote={terms === null ? null : pickTermsLine(terms, locale)}
       error={error === null ? null : pickErrorText(error, locale)}
       chosen={chosen.length}
       busy={busy}
-      onSet={() => void set()}
-      onAsk={plan.people > 1 ? () => void ask() : null}
+      // A quote is agreed through the change set, which a trip of one applies at once.
+      onSet={terms === null ? () => void set() : solo ? () => void ask() : null}
+      onAsk={solo ? null : () => void ask()}
     />
   );
 }

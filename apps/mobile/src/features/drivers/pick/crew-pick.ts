@@ -1,11 +1,13 @@
 /**
  * The crew's pick of a driver as a change set: the op "Ask the crew first" drafts (the driver on
- * the picked days, with the terms voted on when there is a quote), and what a refused pick means
+ * the picked days, with the terms voted on when there is a quote), a driver's quote as those
+ * terms, and what a refused pick means
  * (the driver is gone, a day is listed twice, a day went to another driver, the plan moved on).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values and error codes, never copy. */
 import {
   ASSIGN_PROVIDER_OP,
+  agreedTermsSchema,
   type AgreedTerms,
   type ChangeSetOp,
   type CreateChangesetPayload,
@@ -42,6 +44,41 @@ export function crewPickOp(
     affected_user_ids: [],
     booking_impact: false,
   };
+}
+
+/** A driver's quote as his link's reply carries it. */
+export interface DriverQuote {
+  readonly price_per_day_minor: number | null;
+  readonly currency: string | null;
+  readonly includes: readonly string[];
+  readonly overtime_per_hour_minor: number | null;
+  readonly included_hours: number | null;
+}
+
+/**
+ * The quote as the terms the crew votes on: his price a day, the hours it covers, overtime an
+ * hour, and what he said it includes (what he did not tick stays unknown, never a no). Null when
+ * he gave no price.
+ */
+export function quoteTerms(quote: DriverQuote): AgreedTerms | null {
+  if (quote.price_per_day_minor === null || quote.price_per_day_minor < 0) return null;
+  const said = new Set(quote.includes);
+  const included = (key: string) => (said.has(key) ? 'yes' : 'unknown');
+  const hours = quote.included_hours;
+  const terms = agreedTermsSchema.safeParse({
+    price_minor: quote.price_per_day_minor,
+    currency: quote.currency,
+    price_unit: 'day',
+    included_hours: hours !== null && hours > 0 && hours <= 24 ? hours : null,
+    includes: {
+      fuel: included('petrol'),
+      parking: included('parking'),
+      tolls: included('tolls'),
+      entry: included('entry_tickets'),
+    },
+    overtime_minor: quote.overtime_per_hour_minor,
+  });
+  return terms.success ? terms.data : null;
 }
 
 export function crewPickChangeset(input: {

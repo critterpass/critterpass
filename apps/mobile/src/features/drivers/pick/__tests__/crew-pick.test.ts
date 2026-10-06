@@ -8,7 +8,7 @@ import { changeSetOpSchema, createChangesetPayloadSchema, type AgreedTerms } fro
 import { pickDays } from '@cp/planner';
 import { i18n } from '@lingui/core';
 
-import { crewPickChangeset, crewPickOp, pickErrorOf } from '../crew-pick';
+import { crewPickChangeset, crewPickOp, pickErrorOf, quoteTerms } from '../crew-pick';
 import {
   driverPickDetail,
   driverPickOf,
@@ -85,6 +85,30 @@ describe('asking the crew to pick a driver', () => {
     const op = crewPickOp(MADE, days, new Set(['2026-10-14']), quote);
     expect(op?.assignment?.terms).toEqual(quote);
     expect(changeSetOpSchema.safeParse(op).success).toBe(true);
+  });
+
+  it('turns a driver’s quote into the terms voted on, never guessing what he left unsaid', () => {
+    const reply = {
+      price_per_day_minor: 80_000_000,
+      currency: 'IDR',
+      includes: ['petrol', 'parking'],
+      overtime_per_hour_minor: 10_000_000,
+      included_hours: 10,
+    };
+    const terms = quoteTerms(reply);
+    expect(terms).toEqual({
+      price_minor: 80_000_000,
+      currency: 'IDR',
+      price_unit: 'day',
+      included_hours: 10,
+      includes: { fuel: 'yes', parking: 'yes', tolls: 'unknown', entry: 'unknown' },
+      overtime_minor: 10_000_000,
+    });
+    const op = crewPickOp(MADE, days, new Set(['2026-10-14']), terms!);
+    expect(changeSetOpSchema.safeParse(op).success).toBe(true);
+    expect(quoteTerms({ ...reply, included_hours: 0 })?.included_hours).toBeNull();
+    // A reply with tips but no price is no quote.
+    expect(quoteTerms({ ...reply, price_per_day_minor: null })).toBeNull();
   });
 
   it('drafts nothing when no free day is picked', () => {
