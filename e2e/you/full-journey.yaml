@@ -1,18 +1,36 @@
 appId: app.critterpass.dev
 ---
-# One person's whole way through their profile and account, on a saved pass with nothing seeded
-# (subflows/saved-test-account.yaml, the staging test number):
+# One person's way through their profile and account, on a brand-new pass with nothing seeded:
 # 1. profile → Edit profile: a new name, saved, shows on the pass;
 # 2. Change avatar: the critter tab offers the guides, initials is picked again, Done;
 # 3. Settings → Language and currency: the app turns Vietnamese in place, then English again;
 # 4. Download my data: the export is asked for and the row says it is on its way;
-# 5. Delete account → Continue → hold: the account is closed for 30 days;
-# 6. "Undo, keep my account" → sign in with the same number → Restore my account: Home is back
-#    with the crew and the new name;
-# 7. the account is erased again, leaving the number free.
-# The app icon picker is not part of it: the profile has no icon row yet.
-# Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
-- runFlow: subflows/saved-test-account.yaml
+# 5. Delete account → hold: the pass was never saved, so the account is erased at once, and
+#    Close leaves the phone on the welcome screen as a new person.
+# Deleting a saved pass and restoring it within its 30 days is delete-restore.yaml. The app icon
+# picker is not part of either: the profile has no icon row yet.
+- runFlow: ../happy/subflows/fresh-account.yaml
+# Home shows its header ("HEY {NAME} ›") once the account has a crew: start one, nothing else.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Journey Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
 
 # 1. A new name.
 - runFlow: ../screens/sweep/subflows/home.yaml
@@ -37,11 +55,11 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'you-edit-name-field'
 - eraseText: 40
-- inputText: 'Journey'
+- inputText: 'Renamed'
 - tapOn:
     id: 'you-edit-name-done'
 - extendedWaitUntil:
-    visible: '(?i).*journey.*'
+    visible: '(?i).*renamed.*'
     timeout: 15000
 - tapOn:
     id: 'you-edit-save'
@@ -50,7 +68,7 @@ appId: app.critterpass.dev
       id: 'you-profile-name'
     timeout: 30000
 - extendedWaitUntil:
-    visible: '(?i).*journey.*'
+    visible: '(?i).*renamed.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: you-journey-renamed
@@ -164,7 +182,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: you-journey-export-asked
 
-# 5. Delete: closed for 30 days.
+# 5. Delete: an unsaved pass has nothing to sign back into, so it is erased right away.
 - scrollUntilVisible:
     element: 'Delete account'
     direction: DOWN
@@ -172,64 +190,33 @@ appId: app.critterpass.dev
 - tapOn: 'Delete account'
 - extendedWaitUntil:
     visible:
-      id: 'you-delete-continue'
+      id: 'you-delete'
     timeout: 30000
-- tapOn:
-    id: 'you-delete-continue'
+- runFlow:
+    when:
+      visible:
+        id: 'you-delete-continue'
+    commands:
+      - tapOn:
+          id: 'you-delete-continue'
 - extendedWaitUntil:
     visible:
       id: 'you-delete-hold'
     timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: you-journey-delete-hold
 - longPressOn:
     id: 'you-delete-hold'
 - extendedWaitUntil:
     visible:
-      id: 'you-closed-closed'
+      id: 'you-closed-erased'
     timeout: 60000
 - waitForAnimationToEnd
-- takeScreenshot: you-journey-closed
-
-# 6. Keep it after all: signed out everywhere, so sign in again, then restore.
+- takeScreenshot: you-journey-erased
 - tapOn:
-    id: 'you-closed-keep'
+    id: 'you-closed-close'
+# The phone is cleared and the app restarts as a new person.
 - extendedWaitUntil:
     visible:
-      id: 'phone-number|onboarding-sign-in'
+      id: 'onboarding-open'
     timeout: 90000
-- runFlow:
-    when:
-      visible:
-        id: 'onboarding-sign-in'
-    commands:
-      - tapOn:
-          id: 'onboarding-sign-in'
-- runFlow: subflows/phone-sign-in.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'you-closed-restore'
-    timeout: 90000
-- waitForAnimationToEnd
-- takeScreenshot: you-journey-restore
-- tapOn:
-    id: 'you-closed-keep'
-- extendedWaitUntil:
-    visible:
-      id: 'home-header-crew-name'
-    timeout: 90000
-- extendedWaitUntil:
-    visible: '(?i).*cp test sign-out.*'
-    timeout: 30000
-- tapOn:
-    id: 'home-header-profile'
-- extendedWaitUntil:
-    visible:
-      id: 'you-profile-name'
-    timeout: 30000
-- assertVisible: '(?i).*journey.*'
-- waitForAnimationToEnd
-- takeScreenshot: you-journey-restored
-
-# 7. Leave the test number free for the next run: still our own account, checked again.
-- runFlow: ../screens/sweep/subflows/home.yaml
-- runFlow: subflows/guard-test-number.yaml
-- runFlow: subflows/start-fresh.yaml
