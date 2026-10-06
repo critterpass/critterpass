@@ -122,7 +122,7 @@ export function WorkPage() {
             </div>
           )}
           {SECTIONS.map((section) => {
-            const items = (mine.data[section.id] as WorkItem[]).filter(
+            const items = mine.data[section.id].filter(
               (item) => queue === null || item.queue === queue,
             );
             if (items.length === 0) return null;
