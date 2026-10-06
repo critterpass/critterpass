@@ -1,0 +1,141 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 16:49+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.lastKnown"
+msgstr " · last known"
+
+#. placeholder {0}: props.dayCount
+#. placeholder {1}: money(total)
+#. placeholder {2}: money(total)
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.total"
+msgstr "{0, plural, one {{1} for the day} other {{2} for # days}}"
+
+#. placeholder {0}: tips.length
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.tips"
+msgstr "{0, plural, one {# tip, pinned to the days · no vote} other {# tips, pinned to the days · no vote}}"
+
+#. placeholder {0}: money(reply.price_per_day_minor)
+#. placeholder {1}: money(each)
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.perDay"
+msgstr "{0} a day · {1} each"
+
+#: ../../apps/mobile/src/features/drivers/share/share-text.ts
+msgid "drivers.share.opened"
+msgstr "{count, plural, one {Opened once · last at {time}} =2 {Opened twice · last at {time}} other {Opened # times · last at {time}}}"
+
+#: ../../apps/mobile/src/features/drivers/share/share-text.ts
+msgid "drivers.share.expiresIn"
+msgstr "{left, plural, one {In # day · {date}} other {In # days · {date}}}"
+
+#: ../../apps/mobile/src/features/drivers/share/share-slot.tsx
+msgid "drivers.share.entry"
+msgstr "A driver or guide"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.body"
+msgstr "A page with the days you pick. No login. First names only, no budgets, no chat."
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.private"
+msgstr "Budgets, chat, last names"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.copy"
+msgstr "Copy"
+
+#: ../../apps/mobile/src/features/drivers/share/share-text.ts
+msgid "drivers.share.dayNo"
+msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.days"
+msgstr "Days"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.nameLabel"
+msgstr "Driver or guide’s first name"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+msgid "drivers.share.message"
+msgstr "Here are the days we need you, with times and pickups: {url}"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.quote"
+msgstr "Let {name} send a quote"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.quoteAnyone"
+msgstr "Let them send a quote"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.copied"
+msgstr "Link copied."
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.expires"
+msgstr "Link expires"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.create"
+msgstr "Make the link"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.needsSignal"
+msgstr "Making the link needs signal. Try again once you’re back online."
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.notOpened"
+msgstr "Not opened yet"
+
+#. placeholder {0}: money(reply.overtime_per_hour_minor)
+#. placeholder {1}: reply.included_hours
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.overtime"
+msgstr "Overtime {0} an hour after {1} hours"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.noDays"
+msgstr "Pick at least one day"
+
+#. placeholder {0}: props.driverName
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.quote"
+msgstr "Quote from {0}"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.revoke"
+msgstr "Revoke link"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.whatsapp"
+msgstr "Send on WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.title"
+msgstr "Share with {name}"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.titleAnyone"
+msgstr "Share with your driver"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.revokeConfirm"
+msgstr "Tap again to revoke"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.revoked"
+msgstr "The link is off. The page shows it at once."
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.quoteHint"
+msgstr "They can also suggest changes and tips"

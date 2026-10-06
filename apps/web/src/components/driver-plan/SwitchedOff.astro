@@ -1,0 +1,48 @@
+---
+/** A revoked or expired link (6j-3): the sharer's first name and when, nothing else of the trip. */
+import type { DriverPlanLocale, DriverPlanOffDetail } from '@cp/domain';
+
+import { driverPlanCopy as copy } from './copy';
+import { formatDate, type Translate } from './i18n';
+
+export interface Props {
+  readonly t: Translate;
+  readonly locale: DriverPlanLocale;
+  /** Null when the link is unknown. */
+  readonly detail: DriverPlanOffDetail | null;
+  readonly revoked: boolean;
+  readonly message?: string | undefined;
+}
+
+const { t, locale, detail, revoked, message } = Astro.props;
+const date = detail ? formatDate(locale, detail.off_at) : '';
+const body =
+  message ??
+  (detail === null
+    ? t(copy.notFoundBody)
+    : t(revoked ? copy.offRevoked : copy.offExpired, { name: detail.sharer_first_name, date }));
+---
+
+<section class="dp-off">
+  <img
+    class="dp-off-critter"
+    src="/critters/gecko-common-idle-color-150pt@2x.webp"
+    alt=""
+    width="150"
+    height="150"
+  />
+  <h1 class="dp-title dp-center">{detail === null && !message ? t(copy.notFoundTitle) : t(copy.offTitle)}</h1>
+  <p class="dp-center">{body}</p>
+  {
+    detail?.reply_at && (
+      <p class="dp-card">{t(copy.offQuote, { date: formatDate(locale, detail.reply_at) })}</p>
+    )
+  }
+  {
+    detail && (
+      <a class="dp-btn dp-btn-primary" href="https://wa.me/" rel="noopener noreferrer">
+        {t(copy.openWhatsApp)}
+      </a>
+    )
+  }
+</section>
