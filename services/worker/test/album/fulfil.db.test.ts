@@ -77,6 +77,11 @@ async function q<T>(sql: string, params: readonly unknown[] = []): Promise<T[]> 
   return withSystem(harness.pool, async (tx) => (await tx.query(sql, [...params])).rows as T[]);
 }
 
+/** `domain_events` is read as the pool's own role (the app's roles cannot select it). */
+async function events<T>(sql: string, params: unknown[] = []): Promise<T[]> {
+  return (await harness.pool.query(sql, params)).rows as T[];
+}
+
 async function user(name: string): Promise<string> {
   const id = randomUUID();
   await q("INSERT INTO users (id, status, display_name) VALUES ($1, 'registered', $2)", [id, name]);
@@ -186,11 +191,11 @@ describe('postcard.fulfil', { timeout: 120_000 }, () => {
     const { vendor } = printer([{ status: 400, body: fixture('prodigi-order-invalid-address') }]);
     await fulfilMailing(harness.pool, deps(vendor), id, false);
     expect((await state(id)).status).toBe('failed');
-    const events = await q<{ payload: { status: string } }>(
+    const updates = await events<{ payload: { status: string } }>(
       "SELECT payload FROM domain_events WHERE type = 'postcard.mailing_updated' AND aggregate_id = $1",
       [postcardId],
     );
-    expect(events.map((event) => event.payload.status)).toContain('failed');
+    expect(updates.map((event) => event.payload.status)).toContain('failed');
   });
 
   it('retries while the printer is down, and fails the waiting orders on the last attempt', async () => {

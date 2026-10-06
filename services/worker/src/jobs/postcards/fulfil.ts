@@ -41,7 +41,6 @@ export type FulfilOutcome =
 interface CardRow {
   readonly note: string;
   readonly photo_key: string | null;
-  readonly trip_name: string | null;
   readonly place: string | null;
   readonly guide: string | null;
   readonly sender: string | null;
@@ -49,7 +48,7 @@ interface CardRow {
 
 async function loadCard(tx: pg.PoolClient, postcardId: string): Promise<CardRow | undefined> {
   const { rows } = await tx.query<CardRow>(
-    `SELECT p.note, coalesce(ph.display_key, ph.media_key) AS photo_key, t.name AS trip_name,
+    `SELECT p.note, coalesce(ph.display_key, ph.media_key) AS photo_key,
             coalesce(d.name, c.name) AS place, g.slug AS guide, u.display_name AS sender
        FROM postcards p
        JOIN trips t ON t.id = p.trip_id
@@ -104,7 +103,7 @@ export async function fulfilMailing(
   const assets = await deps.render({
     tripId: mailing.trip_id,
     postcardId: mailing.postcard_id,
-    tripName: card.trip_name ?? card.place ?? '',
+    tripName: card.place ?? '',
     place: card.place ?? '',
     note: card.note,
     senderName: card.sender ?? '',

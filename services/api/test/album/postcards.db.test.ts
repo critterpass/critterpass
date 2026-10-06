@@ -39,6 +39,11 @@ async function q<T>(sql: string, params: unknown[] = []): Promise<T[]> {
   return withSystem(harness.pool, async (tx) => (await tx.query(sql, params)).rows as T[]);
 }
 
+/** `domain_events` is read as the pool's own role (the app's roles cannot select it). */
+async function events<T>(sql: string, params: unknown[] = []): Promise<T[]> {
+  return (await harness.pool.query(sql, params)).rows as T[];
+}
+
 async function jobs(name: string): Promise<unknown[]> {
   const { rows } = await harness.pool.query<{ data: unknown }>(
     'SELECT data FROM pgboss.job WHERE name = $1 ORDER BY created_on',
@@ -153,7 +158,7 @@ describe('create, edit and send', () => {
     expect((await send([outsider.uid])).status).toBe(422);
     const sent = await send([ben.uid, cleo.uid]);
     expect(sent.body).toMatchObject({ result: { sent_to: [ben.uid, cleo.uid] } });
-    const [event] = await q<{ id: string; payload: { to_uids: string[] } }>(
+    const [event] = await events<{ id: string; payload: { to_uids: string[] } }>(
       "SELECT id, payload FROM domain_events WHERE type = 'postcard.sent' AND trip_id = $1",
       [tripId],
     );
@@ -222,7 +227,7 @@ describe('mail_postcard', () => {
     expect(result.missing_address_ids).toEqual([anna.uid]);
     expect(result.unsupported_ids).toEqual([cleo.uid]);
     expect(await jobs('postcard.fulfil')).toEqual([{ mailing_id: result.mailing_id }]);
-    const [requested] = await q<{ payload: { user_ids: string[] } }>(
+    const [requested] = await events<{ payload: { user_ids: string[] } }>(
       "SELECT payload FROM domain_events WHERE type = 'postcard.address_requested'",
     );
     expect(requested?.payload.user_ids).toEqual([anna.uid]);
