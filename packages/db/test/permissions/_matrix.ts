@@ -695,6 +695,30 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // How to reach a destination from a home city (class R, keyed by the two places).
+  destination_home_links: {
+    selectProbe: { sql: 'SELECT count(*) FROM destination_home_links', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // The worker's record of a destination's links run (server-only, class S).
+  destination_link_runs: {
+    selectProbe: { sql: 'SELECT 1 FROM destination_link_runs LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   // The shared pace of the worker's place searches (server-only, class S).
   place_search_pace: {
     selectProbe: { sql: 'SELECT 1 FROM place_search_pace LIMIT 1', params: () => [] },

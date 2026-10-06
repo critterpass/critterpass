@@ -101,6 +101,9 @@ import * as schema from './schema';
  * cost.ts) and `crowd_forecasts` are RLS "R" but read over HTTP only (`/v1/destinations/{id}/season`,
  * `/v1/destinations/{id}/cost-indices`, `/v1/places/{id}/crowd-forecasts`): shared reference
  * content a phone asks for when it shows it, kept as its last good copy, never replicated.
+ * `destination_home_links` (packages/db/src/schema/destination-travel.ts) is RLS "R" but read
+ * over HTTP only (`GET /v1/destinations/{id}/getting-there`); `destination_link_runs` (same file)
+ * is "S": the worker's record of a destination's links run.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -113,6 +116,8 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'codes',
   'content_releases',
   'destination_briefs',
+  'destination_home_links',
+  'destination_link_runs',
   'destination_links',
   'device_activities',
   'critter_names',
