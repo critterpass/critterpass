@@ -55,6 +55,7 @@ import { registerLiveActivities } from './commands/live-activities';
 import { guardClosedAccounts } from './account/closed-guard';
 import { registerAccount } from './account/register';
 import { registerSafety } from './commands/safety';
+import { registerDriverPlanShares } from './commands/driver-plan-shares';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -124,6 +125,13 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   });
   registerPublicPreviewRoutes(app, { ...doors, webProxySecret: env.LINKS_WEB_PROXY_SECRET });
   registerWidgetSnapshotRoute(app, { ...doors, ...(keyring ? { keyring } : {}) });
+  registerDriverPlanShares({
+    app,
+    doors,
+    keyring,
+    appEnv: env.APP_ENV,
+    webProxySecret: env.LINKS_WEB_PROXY_SECRET,
+  });
   // Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
   // envelope-encrypted, so every route here needs the field-encryption keyring.
   if (keyring) {
