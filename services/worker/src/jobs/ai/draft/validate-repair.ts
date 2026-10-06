@@ -5,23 +5,51 @@
  * organiser placed by hand are then put back where she placed them (./held-stops.ts).
  */
 import {
+  groupPrefix,
+  joinRepairs,
+  repairGroup,
   validateAndRepair,
+  type DayGroup,
   type DraftModel,
   type DraftPlanInput,
   type RepairOutcome,
-  type SkeletonPlan,
 } from '@cp/ai';
-import type { Itinerary } from '@cp/domain';
+
+import type { Drafted } from './fan-out';
 import { holdStops, type HeldStop } from './held-stops';
+import type { Outline } from './skeleton';
+
+/** Each day group checked and repaired on its own places and hours, then joined. */
+function repairGroups(
+  model: DraftModel,
+  groups: readonly DayGroup[],
+  skeleton: Outline,
+  drafted: Drafted,
+): Promise<RepairOutcome> {
+  return Promise.all(
+    groups.map((group, index) => {
+      const outline = skeleton.groups?.[index];
+      const days = drafted.groups?.[index];
+      if (outline === undefined || days === undefined) {
+        throw new Error('draft: a day group has no outline or days');
+      }
+      return repairGroup(model, group, groupPrefix(groups, index), outline, days);
+    }),
+  ).then((outcomes) => joinRepairs(groups, outcomes));
+}
 
 export async function checkStage(
   model: DraftModel,
   input: DraftPlanInput,
-  skeleton: SkeletonPlan,
-  drafted: Itinerary,
+  skeleton: Outline,
+  drafted: Drafted,
   held: readonly HeldStop[] = [],
+  groups: readonly DayGroup[] = [],
 ): Promise<RepairOutcome> {
-  const outcome = await validateAndRepair(model, input, skeleton, drafted);
+  const outcome =
+    groups.length < 2
+      ? await validateAndRepair(model, input, skeleton, drafted.itinerary)
+      : await repairGroups(model, groups, skeleton, drafted);
   // The planner was given her stops and planned around them. Putting them back here, exactly as
   // she placed them, is the guarantee that holds whatever happened above.
   return { ...outcome, itinerary: holdStops(outcome.itinerary, held, input.travel).itinerary };
