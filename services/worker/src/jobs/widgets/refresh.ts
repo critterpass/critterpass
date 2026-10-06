@@ -14,6 +14,7 @@ import { WIDGET_QUEUES, widgetRefreshPriority, type AppBundleId } from '@cp/doma
 import type pg from 'pg';
 
 import type { ApnsProvider, FcmProvider } from '../../push';
+import { widgetRefreshFcmData } from '../../push/fcm-surfaces';
 import type { PushResult } from '../../push/providers';
 import { decideWidgetPush, type WidgetPushDecision } from './debounce';
 
@@ -183,7 +184,7 @@ async function transmit(
   if (deps.fcm === undefined || target.fcm_token === null) return null;
   return deps.fcm.send({
     token: target.fcm_token,
-    data: { type: 'widget.refresh' },
+    data: widgetRefreshFcmData(),
     priority: priority ? 'high' : 'normal',
     ttlSeconds: PUSH_TTL_SECONDS,
     collapseKey: 'widget.refresh',

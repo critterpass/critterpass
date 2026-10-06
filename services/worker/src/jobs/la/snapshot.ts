@@ -33,6 +33,19 @@ export interface LaSnapshot {
    * their own activity on the phone, so the server only keeps it updated.
    */
   readonly startAudience?: readonly string[];
+  /**
+   * Users who started the object themselves (set the alarm, added the flight, started the
+   * meet-up, sent the SOS): on Android only they and `optedIn` get a Live Update, everyone else a
+   * notification with the same content (Play allows Live Updates only for what the user began).
+   */
+  readonly initiators?: readonly string[];
+  /** Users who opted into someone else's object (tapped ON MY WAY on a meet-up). */
+  readonly optedIn?: readonly string[];
+  /**
+   * Users the server may start it for on Android; absent = `startAudience`. An SOS sender's
+   * Android phone does not start its own, so the server does.
+   */
+  readonly androidStartAudience?: readonly string[];
   /** The static attributes for a push-to-start (rendered in the device's language). */
   readonly attributes: (locale: string) => Promise<Record<string, unknown>>;
   /** The shared ContentState at content version `seq`. */

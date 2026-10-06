@@ -106,6 +106,7 @@ export const critterLoader: LaLoader = async ({ tx, refId, now, redact }) => {
     live: state === 'dwelling' || state === 'draining',
     audience: [row.user_id],
     startAudience: waiting || row.shown_by_app ? [] : [row.user_id],
+    initiators: [row.user_id],
     attributes: () => Promise.resolve(buildCritterLaAttributes(input)),
     state: (seq) => buildCritterLaState(input, seq),
     startAlert:

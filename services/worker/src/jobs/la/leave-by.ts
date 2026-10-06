@@ -37,6 +37,8 @@ interface LeaveByRow {
   leg_kind: string | null;
   category: string | null;
   dep_airport: string | null;
+  /** Members with their own alarm set for this leave-by. */
+  alarm_user_ids: string[];
 }
 
 /** An ended leave-by's last frame stays this long ("done", or the crew still walking). */
@@ -53,7 +55,9 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render, redact =
             CASE WHEN cardinality(l.participant_ids) > 0 THEN l.participant_ids
                  ELSE ARRAY(SELECT user_id FROM trip_participants
                              WHERE trip_id = l.trip_id AND holds_seat ORDER BY created_at, user_id)
-            END AS participant_ids
+            END AS participant_ids,
+            ARRAY(SELECT DISTINCT a.user_id FROM alarms a
+                   WHERE a.leave_by_id = l.id AND a.state <> 'cancelled') AS alarm_user_ids
        FROM leave_bys l LEFT JOIN plan_items i ON i.id = l.plan_item_id WHERE l.id = $1`,
     [refId],
   );
@@ -117,6 +121,7 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render, redact =
       now.getTime() >= leave - LA_LEAVE_BY_LEAD_MS &&
       now.getTime() < trailEnds.getTime(),
     audience: row.participant_ids,
+    initiators: row.alarm_user_ids,
     attributes: async (locale) =>
       buildLeaveByLaAttributes(
         input({
