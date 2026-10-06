@@ -1,17 +1,14 @@
 /**
- * The typed places replay: every golden crew drafted twice from its recorded DeepSeek replies,
- * once from the editors' text (`planner.typed_places` off) and once from typed facts (on, labels
- * from golden/typed-places.json), and the drafts compared per city on what a traveller notices:
- * meals inside the meal stretches, days with a lunch and a dinner, evening places after sunset, whole-day places alone on their
- * day, must-sees placed, and no place twice. A stop is judged by its place as the editors wrote it,
- * whichever way the draft read it.
+ * The typed places replay: every golden crew drafted twice, once from the editors' text
+ * (`planner.typed_places` off, replies recorded for key-off input in fixtures/) and once from typed
+ * facts (on, labels from golden/typed-places.json, replies recorded for key-on input in
+ * fixtures-typed/ by ./typed-record.ts), and the drafts compared per city on what a traveller
+ * notices: meals inside the meal stretches, days with a lunch and a dinner, evening places after
+ * sunset, whole-day places alone on their day, must-sees placed, and no place twice. A stop is
+ * judged by its place as the editors wrote it, whichever way the draft read it.
  *
- *   pnpm --filter @cp/ai exec tsx evals/draft/typed-replay.ts
+ *   pnpm --filter @cp/ai exec tsx evals/draft/typed-replay.ts [--off-dir <dir>] [--on-dir <dir>]
  */
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import type { Itinerary } from '@cp/domain';
 import {
   collapseSamePlaces,
@@ -25,30 +22,14 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
-import { createGateway } from '../../src/client';
-import type { DraftModel } from '../../src/prompts/draft/context';
 import { runDraftPlan } from '../../src/prompts/draft/pipeline';
-import { jsonResponse } from '../lib/transports';
 import { CREWS, planInput, type CrewCase } from './cases';
+import { caseModel, FIXTURES, TYPED_FIXTURES } from './recorded-model';
 
-const FIXTURES = fileURLToPath(new URL('./fixtures/', import.meta.url));
-
-function replayModel(caseId: string): DraftModel {
-  const recorded = JSON.parse(readFileSync(resolve(FIXTURES, `${caseId}.json`), 'utf8')) as {
-    calls: Record<string, { status: number; body: unknown }>;
-  };
-  return {
-    call: (route, input, key) =>
-      createGateway({
-        apiKey: 'replay',
-        maxAttempts: 1,
-        fetch: () => {
-          const call = recorded.calls[key];
-          if (call === undefined) throw new Error(`${caseId}: no recorded call ${key}`);
-          return Promise.resolve(jsonResponse(call.body, call.status));
-        },
-      }).callModel(route, input),
-  };
+/** Where each side's recordings are read: `--off-dir` and `--on-dir` override them. */
+function dirOf(flag: string, fallback: string): string {
+  const at = process.argv.indexOf(flag);
+  return (at === -1 ? undefined : process.argv[at + 1]) ?? fallback;
 }
 
 /** Passing and graded counts of each measure (must-sees: places held, of those the city has). */
@@ -129,7 +110,9 @@ async function draft(crew: CrewCase, typed: boolean, tally: Tally): Promise<void
   tally.cases += 1;
   const judge = planInput(crew).pois;
   try {
-    const result = await runDraftPlan(replayModel(crew.id), planInput(crew, undefined, typed));
+    const dir = typed ? dirOf('--on-dir', TYPED_FIXTURES) : dirOf('--off-dir', FIXTURES);
+    const { model } = caseModel(crew.id, { mode: 'replay' }, dir);
+    const result = await runDraftPlan(model, planInput(crew, undefined, typed));
     tally.clean += result.final.ok ? 1 : 0;
     grade(tally, result.itinerary, judge);
   } catch (error) {

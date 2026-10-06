@@ -1,0 +1,125 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "b4ac6613-375e-40b1-b32d-f8a8b698699c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Area C\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Riverside arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p15\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Bà Nà Hills day trip\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p17\", \"p18\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Marble Mountains sunrise\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p5\", \"p8\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p1\",\n      \"day_no\": 3,\n      \"when\": \"sunrise\",\n      \"weekdays\": []\n    },\n    {\n      \"wish_id\": \"w2\",\n      \"poi_id\": \"p19\",\n      \"day_no\": 2,\n      \"when\": \"full_day\",\n      \"weekdays\": []\n    },\n    {\n      \"wish_id\": \"w3\",\n      \"poi_id\": \"p3\",\n      \"day_no\": 1,\n      \"when\": \"evening\",\n      \"weekdays\": [\"sa\", \"su\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 26,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3584,
+          "output_tokens": 333,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "a9f79fef-2f04-400f-9263-e47248df7d6d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Dive into the market lanes for a first taste of Đà Nẵng street snacks and a proper photo hunt.\"},{\"poi_id\":\"p21\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Grab a bowl of mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) here, the kind that makes you say ngon quá (so tasty).\"},{\"poi_id\":\"p15\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Ride the big wheel for a slow spin over the river and a skyline shot worth keeping.\"},{\"poi_id\":\"p27\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Sip egg coffee as the sky turns gold over the Dragon Bridge, a proper sunset perch.\"},{\"poi_id\":\"p28\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Wander the night street for grilled bites and a lively end to your first evening by the river.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 753,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 235,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "8ff1741f-9792-4041-bc45-f6fc64a14af8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Climb the stone steps early, the caves stay cool and the views stretch all the way to the sea.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Ride the cable car up into the clouds, then wander the gardens and the old French village.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple corner up here, incense drifting and a giant Buddha watching over the hills.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the golden bridge held by stone hands, camera ready for the valley below.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The dragon bridge glows after sunset, and the riverfront lights up for a slow evening stroll.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 3,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 291,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "b36ee6de-25d5-4c3c-b3f9-11dd579958ed",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb up through the marble, past carved shrines, and let the pagoda's quiet settle over you. The view back toward the sea is worth every step.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stone dancers and old gods wait inside, cool and patient. Give the Chăm carvings a long look, they have stories in every hand gesture.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, warm water, and a horizon that never sits still. Walk far enough and the city noise just melts away.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Duck into the covered aisles for dried squid, coffee beans, and a little friendly bargaining. The crew can taste-test the snacks, I would.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 124,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 274,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "f51a9180-72a4-44a1-95ef-e3613bb2d07d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: Pagodas, a museum, then My Khe"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 239,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 13,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

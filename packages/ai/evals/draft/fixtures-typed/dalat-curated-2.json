@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "991aeef8-0db3-4b14-bf51-5ec31487080a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Khu vực A, trung tâm Đà Lạt\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chiều chậm rãi quanh hồ\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p131\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Langbiang và đêm phố\",\n      \"area\": \"B rồi về A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p355\", \"p20\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Thác, chùa và hoa\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p90\", \"p8\", \"p286\", \"p165\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Sáng nhẹ trước khi về\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p136\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p191\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 124,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 4864,
+          "output_tokens": 326,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "982e5418-a2cb-4af9-be11-720f67151143",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Nhà thờ Con Gà sáng chủ nhật yên lắm, đứng ngoài ngắm tháp chuông rồi hít một hơi khí núi cho tỉnh người.\"},{\"poi_id\":\"p270\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tô phở bò nóng, nước dùng đậm, ngồi ghế nhỏ nhìn phố núi chậm rãi trôi.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 271,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 138,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "00dd3251-cac9-430b-9d39-778bac69ce19",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hồ Xuân Hương chiều lặng gió, đi một vòng chậm rãi ngắm mặt nước và hàng thông soi bóng.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quảng trường Lâm Viên lúc hoàng hôn, ngồi ngắm người Đà Lạt dạo quanh và hít thở khí trời se lạnh.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Góc Hà Thành ấm cúng, gọi món ăn kèm rau thơm và ngồi thật lâu cho bữa tối đúng chất nhàn nhã.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mây Lang Thang về đêm, một ly cà phê nóng trên cao nhìn phố núi lên đèn.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 592,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 317,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "6129d84e-afbf-4fa2-af12-cd08d3250e1c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p355\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lên đỉnh Langbiang hít gió núi, săn mây và ngắm cả một vùng Đà Lạt thu nhỏ dưới chân.\"\n    },\n    {\n      \"poi_id\": \"p187\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô hủ tíu nóng, nước dùng trong veo, ăn kèm rau tươi kiểu người Đà Lạt.\"\n    },\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thung lũng tình yêu đi dạo thong thả, chụp ảnh với vườn hoa và hồ nước lặng.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh III nhìn đồ vật cũ kể chuyện vua Bảo Đại, vườn thông phía sau mát rượi.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Góc nhỏ trong hẻm nghệ sĩ, ngồi xuống ăn bữa tối ấm cúng giữa tranh và đèn vàng.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm nhộn nhịp, đi lòng vòng ngửi mùi bắp nướng, sữa đậu nành và đồ ăn vặt.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 749,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 463,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "0b04d8bd-7a7d-483e-a17a-208cc6e3f9a1",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thác đổ trắng xóa giữa rừng thông, đi bộ xuống hơi mệt nhưng đáng từng bước chân.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chùa khảm sành sứ rực rỡ, cứ ngỡ lạc vào một câu chuyện cổ tích đầy màu.\"\n    },\n    {\n      \"poi_id\": \"p80\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô bánh canh cua nóng hổi, ngọt lừ từ thịt cua tươi, ăn xong muốn ngủ một giấc ngay tại chỗ.\"\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Vườn hoa đủ loài khoe sắc, đi chậm rãi hít hà hương đất và hương hoa Đà Lạt.\"\n    },\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Bánh căn nhỏ xinh, nước chấm đậm đà, ngồi vỉa hè nghe chảo dầu xèo xèo vui tai.\"\n    },\n    {\n      \"poi_id\": \"p222\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ốc tươi rói, đủ loại sốt đậm vị, ngồi lai rai tới khuya cũng chẳng ai giục.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 791,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 478,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "186db496-41aa-4b89-b3e0-96bb25f8ab26",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "4: Thung lũng Tình Yêu, sáng nhẹ trước khi về"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 166,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 21,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

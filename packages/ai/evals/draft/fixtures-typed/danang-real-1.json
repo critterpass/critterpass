@@ -1,0 +1,125 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "05f299f8-1955-43f1-9f6a-b8c370b085b8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Area A, near the river and beach\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River sunset and easy arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p59\", \"p61\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sơn Trà wild morning, beach afternoon\",\n      \"area\": \"Area E and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p65\", \"p57\", \"p36\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Local life and a slow goodbye\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p79\", \"p34\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p42\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 107,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3584,
+          "output_tokens": 249,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "5317e4bd-30c7-4184-a784-62438bba75d3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p79\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the galleries and let the lacquer and silk tell you what the city dreams about.\"\n    },\n    {\n      \"poi_id\": \"p34\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet corner to breathe, watch incense curl, and let the temple cats judge your posture.\"\n    },\n    {\n      \"poi_id\": \"p112\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Little crispy shrimp-and-pork bites, hot from the pan. Ngon quá (so tasty) is the only review you need.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 484,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 185,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "5fb43892-877f-4ae2-8839-efb67ec03a66",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon carp statue catches the river light perfectly as the sun drops. Stand back and watch the sky do its thing.\"\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wide open square by the water, easy on the legs after a travel day. Locals stroll, kids run, the river breeze does the rest.\"\n    },\n    {\n      \"poi_id\": \"p75\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh bèo by the little stall, soft and savoury. A quick taste-test, for the crew, of course.\"\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ốc Cười means smiling snails, and you will be too. Grab a table, point at what looks good, and say ngon quá (so tasty) when it hits.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 587,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 277,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "72fea774-3126-4017-a7ff-dd4bb0950003",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The turmeric noodles here wake you up better than any alarm, with pork, shrimp and that sesame cracker on top.\"\n    },\n    {\n      \"poi_id\": \"p65\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"My backyard! Red socks on, eyes on the sea. Look for my cousins in the canopy and keep snacks to yourself.\"\n    },\n    {\n      \"poi_id\": \"p84\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl of fish cake noodles, the kind locals slurp happily while the city buzzes around them.\"\n    },\n    {\n      \"poi_id\": \"p57\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, easy water, and a view of the bay that makes you forget you have legs.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Green grass by the sea, perfect for a slow wander and watching the light change on the water.\"\n    },\n    {\n      \"poi_id\": \"p38\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fresh seafood done the local way, simple and full of flavour. Say ngon quá (so tasty) to the cook.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 579,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 363,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "4718be2a-7ba2-4234-8ebf-12f873eecbfd",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Sơn Trà morning, seafood evening"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 140,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 10,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

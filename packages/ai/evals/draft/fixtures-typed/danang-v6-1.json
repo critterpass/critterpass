@@ -1,0 +1,125 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "48d65ac7-068e-43a4-926d-e3705f4183d9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Area C\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River lights and market hello\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p101\", \"p258\", \"p251\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Hội An day trip\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p211\", \"p16\", \"p208\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Marble Mountains morning\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p193\", \"p194\", \"p59\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p95\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 103,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 4480,
+          "output_tokens": 242,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "5e12ddb4-de12-4af4-940d-1002b7a8dbcf",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p193\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the stone steps early, find the cave shrines and that view over the sea. My cousins watch from the trees.\"\n    },\n    {\n      \"poi_id\": \"p98\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl of fish cake noodles, hot broth, herbs on top. Say cảm ơn (thank you) to the cook.\"\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old sandstone dancers and gods, carved long before the beach bars arrived. Cool, quiet, full of stories.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 11,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 195,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "85ee5b01-99c7-4e3c-9486-8b49a688c4ea",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p101\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dive into chợ Hàn (Hàn market, the central market by the river) for a proper hello to the city — dried squid, silk, and the best people-watching in town.\"\n    },\n    {\n      \"poi_id\": \"p283\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"My Khe stretches out soft and wide — perfect for a slow walk while the light turns gold over the water.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grab a peppery beef roll, fresh herbs, and a cold drink — street food the way locals actually eat it. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p258\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wait until the bridge breathes fire and water — the dragon puts on a proper show once the sky goes dark.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 537,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 276,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "9c3d5898-93e9-44c3-8511-16ae06c78de8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p95\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Turmeric noodles with pork, shrimp and a sesame cracker — the bowl that starts a Hội An day right.\"\n    },\n    {\n      \"poi_id\": \"p208\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the old wooden bridge and listen to it creak like it's telling stories.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cool, quiet rooms full of silk, boats and old maps of the port.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crispy turmeric pancakes rolled with herbs — ngon quá (so tasty), trust me.\"\n    },\n    {\n      \"poi_id\": \"p211\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Yellow walls, lanterns and slow river light — the old town at its most golden.\"\n    },\n    {\n      \"poi_id\": \"p225\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Shredded chicken rice with herbs and that peppery broth on the side.\"\n    },\n    {\n      \"poi_id\": \"p230\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns, silk and old stories staged under the stars — Hội An after the sun goes.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 91,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 393,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "63bdc141-e967-4502-9d1d-170db0590f96",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "1: Museum first, beach after, river lights"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 242,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 10,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "5714cf8f-6ab7-4bd0-b679-302da156526d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Imperial Kyoto and Gion evening\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p10\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Eastern temples and a bamboo grove\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p1\", \"p5\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 125,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 147,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "eeb12494-ec30-4d01-9d63-e8bf57d3060c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Fox gates and stone stairs, best before the crowds find their tripods.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Slurp the dashi like you mean it, then ask for extra negi.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The stage hangs over the maples like a dare; look down once, then enjoy the view.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 436,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 122,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "27bb2b70-af9c-4d1a-b98e-cdec0f4d23a8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Old capitals leave receipts. The swords and scrolls here are the fine print.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Work the lanes slowly. Grilled things on sticks, pickles, and a crowd that knows its lunch.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wooden facades, lanterns, and the occasional maiko moving like a rumour.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Narrow lane, warm lights, and enough yakitori smoke to make you believe in dinner.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 523,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 232,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

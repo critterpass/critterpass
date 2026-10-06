@@ -9,18 +9,11 @@
  * through the real gateway; live runs call DeepSeek and, with EVAL_RECORD=1, store them.
  * EVAL_CASES (comma-separated case ids) narrows a run to those cases, e.g. to record one.
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-import { createGateway } from '../../src/client';
-import type { DraftModel, DraftPlanInput } from '../../src/prompts/draft/context';
+import type { DraftPlanInput } from '../../src/prompts/draft/context';
 import { runDraftPlan } from '../../src/prompts/draft/pipeline';
 import { runRedraft } from '../../src/prompts/draft/redraft';
 import { longVisitsOf, templateSummary, writeDraftSummary } from '../../src/prompts/draft/summary';
-import type { EvalMode } from '../lib/provider';
 import type { CaseReport, SuiteReport } from '../lib/runner';
-import { jsonResponse } from '../lib/transports';
 import {
   gradeDayFinish,
   gradeFullDays,
@@ -36,6 +29,7 @@ import { gradeDraftLanguage, gradeEssentials, gradeLanguage } from './asserts/la
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
 import { gradePlaces, gradePlanRules, gradeRedraftRules } from './asserts/plan-rules-asserts';
 import { baselineItinerary } from './baseline';
+import { caseModel, type RecordingOptions } from './recorded-model';
 import { withBaseDay } from './base-day';
 import { pooled } from './pool';
 import {
@@ -52,78 +46,9 @@ import {
 export const DRAFT_SUITE = 'draft';
 export const FIRST_PASS_MIN = 0.9;
 
-const FIXTURES = fileURLToPath(new URL('./fixtures/', import.meta.url));
-
-export interface DraftSuiteOptions {
-  readonly mode: EvalMode;
-  readonly apiKey?: string;
-  readonly baseURL?: string;
-  readonly record?: boolean;
+export interface DraftSuiteOptions extends RecordingOptions {
   /** Cases run at once in live mode. */
   readonly concurrency?: number;
-}
-
-interface Recorded {
-  readonly source: string;
-  readonly calls: Record<string, { readonly status: number; readonly body: unknown }>;
-}
-
-function withoutThinking(body: unknown): unknown {
-  if (typeof body !== 'object' || body === null || !('content' in body)) return body;
-  const content = body.content;
-  if (!Array.isArray(content)) return body;
-  return {
-    ...body,
-    content: content.filter(
-      (block: { type?: string }) => block.type !== 'thinking' && block.type !== 'redacted_thinking',
-    ),
-  };
-}
-
-/** One model per case: every call is served or recorded under its key. */
-function caseModel(
-  caseId: string,
-  options: DraftSuiteOptions,
-): { model: DraftModel; save: () => void } {
-  const file = resolve(FIXTURES, `${caseId}.json`);
-  const recorded: Recorded =
-    options.mode === 'replay'
-      ? (JSON.parse(readFileSync(file, 'utf8')) as Recorded)
-      : {
-          source: `Live recording from DeepSeek through its Anthropic-format API, ${new Date().toISOString().slice(0, 10)}.`,
-          calls: {},
-        };
-  const transport = (key: string): typeof fetch =>
-    options.mode === 'replay'
-      ? () => {
-          const call = recorded.calls[key];
-          if (call === undefined) throw new Error(`${caseId}: no recorded call ${key}`);
-          return Promise.resolve(jsonResponse(call.body, call.status));
-        }
-      : async (url, init) => {
-          const response = await fetch(url, init);
-          if (options.record === true) {
-            const body = (await response.clone().json()) as unknown;
-            recorded.calls[key] = { status: response.status, body: withoutThinking(body) };
-          }
-          return response;
-        };
-  const model: DraftModel = {
-    call: (route, input, key) =>
-      createGateway({
-        apiKey: options.apiKey ?? 'replay',
-        ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
-        fetch: transport(key),
-        maxAttempts: options.mode === 'replay' ? 1 : 3,
-        timeoutMs: 180_000,
-      }).callModel(route, input),
-  };
-  const save = () => {
-    if (options.mode !== 'live' || options.record !== true) return;
-    mkdirSync(FIXTURES, { recursive: true });
-    writeFileSync(file, `${JSON.stringify(recorded, null, 1)}\n`);
-  };
-  return { model, save };
 }
 
 function report(description: string, failures: readonly string[], output: string): CaseReport {
