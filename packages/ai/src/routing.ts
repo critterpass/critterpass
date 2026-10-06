@@ -286,6 +286,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   // DeepSeek's own web search (its server tool) as the second source for fees, hours and closures.
   'place.profile_check': pro('R', 800, 'low', { thinking: 'disabled', temperature: 0 }),
   'place.profile_translate': fast(null, 2048, { output: 'structured', temperature: 0.2 }),
+  // A destination's brief from the pages code fetched (system usage): pro, structured, no thinking.
+  'destination.brief': pro(null, 6000, 'low', PROFILE_CALL),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

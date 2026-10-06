@@ -87,15 +87,27 @@ export function plainWords(destination: string, country: string | null): Set<str
   return new Set([...name, name.join(''), ...nameTokens(country ?? '')]);
 }
 
-/** The best row for one named place among `candidates`, or null when none is that place. */
-export function matchNamedPlace(
+/** A candidate row with its name score (1 for the same words, less for one held in the other). */
+export interface ScoredCandidate {
+  readonly row: PickCandidate;
+  readonly score: number;
+}
+
+/** The score at which two names are the same words. */
+export const SAME_NAME_SCORE = SAME_NAME;
+
+/**
+ * Every row among `candidates` that may be the named place, best first: name score, then the row
+ * stored as exactly that kind, the same kind of place, inside the named area, the quality score.
+ */
+export function rankNamedPlace(
   lead: NamedPlace,
   candidates: readonly PickCandidate[],
   plain: ReadonlySet<string>,
-): PickCandidate | null {
+): ScoredCandidate[] {
   const wanted = aliasesOf([lead.name, lead.localName], plain);
   const area = lead.area === null ? [] : nameTokens(lead.area).filter((t) => !plain.has(t));
-  let best: { readonly row: PickCandidate; readonly key: readonly number[] } | null = null;
+  const scored: { readonly row: PickCandidate; readonly key: readonly number[] }[] = [];
   for (const row of candidates) {
     let score = 0;
     for (const a of wanted) {
@@ -114,10 +126,20 @@ export function matchNamedPlace(
       Number(inArea),
       row.quality,
     ];
-    const order = best === null ? 1 : compare(key, best.key) || (row.id < best.row.id ? 1 : -1);
-    if (order > 0) best = { row, key };
+    scored.push({ row, key });
   }
-  return best?.row ?? null;
+  return scored
+    .sort((a, b) => compare(b.key, a.key) || (a.row.id < b.row.id ? -1 : 1))
+    .map(({ row, key }) => ({ row, score: key[0] ?? 0 }));
+}
+
+/** The best row for one named place among `candidates`, or null when none is that place. */
+export function matchNamedPlace(
+  lead: NamedPlace,
+  candidates: readonly PickCandidate[],
+  plain: ReadonlySet<string>,
+): PickCandidate | null {
+  return rankNamedPlace(lead, candidates, plain)[0]?.row ?? null;
 }
 
 function compare(a: readonly number[], b: readonly number[]): number {

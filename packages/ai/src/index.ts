@@ -263,6 +263,7 @@ export * from './routes/sos';
 export * from './routes/hours-research';
 export * from './routes/facts-research';
 export * from './routes/place-profile';
+export * from './routes/destination-brief';
 export * from './routes/search-parse';
 export * from './routes/link-extract';
 export * from './routes/places';

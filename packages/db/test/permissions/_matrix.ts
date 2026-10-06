@@ -675,6 +675,19 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Destination briefs (class R, read through Explore on the server; the count probe answers one
+  // row whenever the table is readable).
+  destination_briefs: {
+    selectProbe: { sql: 'SELECT count(*) FROM destination_briefs', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // The shared pace of the worker's place searches (server-only, class S).
   place_search_pace: {
     selectProbe: { sql: 'SELECT 1 FROM place_search_pace LIMIT 1', params: () => [] },

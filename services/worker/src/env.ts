@@ -128,6 +128,8 @@ export const workerEnvSchema = z.object({
   PLACES_PROFILE_MODEL: z.preprocess(emptyAsUndefined, z.enum(['fast', 'pro']).default('fast')),
   /** Spend on place profiles per UTC day (USD) before new runs wait for tomorrow. */
   PLACES_PROFILE_DAILY_CAP_USD: z.preprocess(emptyAsUndefined, z.coerce.number().min(0).default(5)),
+  /** Spend on destination briefs per UTC day (USD) before new runs wait for tomorrow. */
+  PLACES_BRIEF_DAILY_CAP_USD: z.preprocess(emptyAsUndefined, z.coerce.number().min(0).default(3)),
   /** PhotoDNA Cloud Service key: known-image hash matching for photo avatars once ops switches
    *  `moderation.hash_match` on; unset = photos wait for ops review. */
   PHOTODNA_API_KEY: optionalString,

@@ -11,7 +11,12 @@
  * plans; a sparse one gets its picks when its ingest finishes (the worker queues them).
  */
 import { pickCoverage, sendInTx, type AppendedDomainEvent } from '@cp/db';
-import { PLACES_QUEUES, placesPickKey, placesProfileWarmKey } from '@cp/domain';
+import {
+  PLACES_QUEUES,
+  placesDestinationBriefKey,
+  placesPickKey,
+  placesProfileWarmKey,
+} from '@cp/domain';
 import type pg from 'pg';
 
 /** The worker's per-destination ingest queue (services/worker/src/jobs/places). */
@@ -47,11 +52,16 @@ export async function queueIngestWhenSparse(
   return true;
 }
 
-/** The place profile queues the api sends to (services/worker/src/places/profile/jobs.ts). */
+/**
+ * The place profile and destination brief queues the api sends to
+ * (services/worker/src/places/profile/jobs.ts and brief-jobs.ts).
+ */
 export const PLACES_PROFILE_QUEUES = [
   PLACES_QUEUES.profile,
   PLACES_QUEUES.profileTranslate,
   PLACES_QUEUES.profileWarm,
+  PLACES_QUEUES.destinationBrief,
+  PLACES_QUEUES.briefTranslate,
 ] as const;
 
 /** A sparse destination's warm-up waits this long, so its places have been ingested first. */
@@ -75,6 +85,35 @@ export async function queueProfileWarm(
       ...(sparse ? { startAfter: WARM_AFTER_INGEST_SECONDS } : {}),
     },
   );
+}
+
+/**
+ * Queues the destination's brief when it has no ready one (the worker passes over a curated
+ * destination); a sparse destination's waits for its ingest like the warm-up. One run per
+ * destination at a time; runs in the caller's transaction.
+ */
+export async function queueBriefWhenMissing(
+  tx: pg.PoolClient,
+  destinationId: string,
+  sparse: boolean,
+): Promise<boolean> {
+  const { rows } = await tx.query<{ ready: boolean }>(
+    `SELECT EXISTS (SELECT 1 FROM destination_briefs b
+                     WHERE b.destination_id = $1 AND b.status = 'ready'
+                       AND (b.origin = 'editorial' OR b.expires_at > now())) AS ready`,
+    [destinationId],
+  );
+  if (rows[0]?.ready === true) return false;
+  await sendInTx(
+    tx,
+    PLACES_QUEUES.destinationBrief,
+    { destination_id: destinationId },
+    {
+      singletonKey: placesDestinationBriefKey(destinationId),
+      ...(sparse ? { startAfter: WARM_AFTER_INGEST_SECONDS } : {}),
+    },
+  );
+  return true;
 }
 
 /** The worker's per-destination pick queue (services/worker/src/jobs/places/pick.ts). */
@@ -128,8 +167,8 @@ async function destinationsOf(tx: pg.PoolClient, event: AppendedDomainEvent): Pr
 }
 
 /**
- * `onEventAppended` hook: a pitch or a trip naming a destination checks that place's coverage and
- * warms the profiles of its top places.
+ * `onEventAppended` hook: a pitch or a trip naming a destination checks that place's coverage,
+ * queues its brief when it has none and warms the profiles of its top places.
  */
 export async function onDemandIngestHook(
   tx: pg.PoolClient,
@@ -138,6 +177,7 @@ export async function onDemandIngestHook(
   for (const destinationId of await destinationsOf(tx, event)) {
     const sparse = await queueIngestWhenSparse(tx, destinationId);
     if (!sparse) await queuePickWhenNeeded(tx, destinationId);
+    await queueBriefWhenMissing(tx, destinationId, sparse);
     await queueProfileWarm(tx, destinationId, sparse);
   }
 }
