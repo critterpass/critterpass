@@ -4,41 +4,18 @@ import UIKit
 import UserNotifications
 import UserNotificationsUI
 
-/// Hello-world Notification Content extension for the `cp.vote` category
-/// (api-contracts-async.md §3.4): an animated poster with vote actions, reachable with the
-/// device locked and the app killed. Real poster art/tallies land in the surface phase; this
-/// scaffold proves the target builds, signs, hosts SwiftUI, and can sign a `/v1/actions` call.
-final class NotificationViewController: UIViewController, UNNotificationContentExtension {
-    private var pollQuestion: String = ""
-    private var optionLabels: [String] = []
+/// The Notification Content extension for `cp.vote` and `cp.rsvp` (docs/api-contracts-async.md
+/// §3.4): long-press opens the poster, with one button per vote option ("Vote Kyoto", up to three)
+/// or I'M IN / MAYBE, then OPEN. A button answers here, signed with the device action key, so it
+/// works with the phone locked and the app closed; the poster stays open and takes the stamp, and
+/// the notification is re-posted under the same identifier with the answer as its line.
+final class NotificationViewController: UIViewController, @preconcurrency UNNotificationContentExtension {
+    private let state = PosterState()
+    private var request: UNNotificationRequest?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        embedPosterView()
-    }
-
-    func didReceive(_ notification: UNNotification) {
-        let userInfo = notification.request.content.userInfo
-        let cp = userInfo["cp"] as? [String: Any]
-        let ctx = cp?["ctx"] as? [String: Any]
-        pollQuestion = notification.request.content.body
-        optionLabels = (ctx?["options"] as? [[String: Any]])?.compactMap { $0["label"] as? String } ?? []
-        embedPosterView()
-    }
-
-    func didReceive(
-        _ response: UNNotificationResponse,
-        completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void
-    ) {
-        Task {
-            await castBallot(actionIdentifier: response.actionIdentifier, userInfo: response.notification.request.content.userInfo)
-            completion(.doNotDismiss)
-        }
-    }
-
-    private func embedPosterView() {
-        children.forEach { $0.willMove(toParent: nil); $0.view.removeFromSuperview(); $0.removeFromParent() }
-        let hosting = UIHostingController(rootView: VotePosterView(question: pollQuestion, options: optionLabels))
+        let hosting = UIHostingController(rootView: PosterRoot(state: state))
         addChild(hosting)
         hosting.view.frame = view.bounds
         hosting.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -46,74 +23,78 @@ final class NotificationViewController: UIViewController, UNNotificationContentE
         hosting.didMove(toParent: self)
     }
 
-    private func castBallot(actionIdentifier: String, userInfo: [AnyHashable: Any]) async {
-        guard
-            actionIdentifier.hasPrefix("VOTE_"),
-            let cp = userInfo["cp"] as? [String: Any],
-            let ctx = cp["ctx"] as? [String: Any],
-            let pollId = ctx["poll_id"] as? String,
-            let key = try? KeychainActionKeyStore.read(),
-            let apiBaseUrl = EndpointsConfig.readApiBaseUrl()
+    func didReceive(_ notification: UNNotification) {
+        request = notification.request
+        let content = notification.request.content
+        let poster = PosterContent(
+            category: content.categoryIdentifier, title: content.title, body: content.body,
+            userInfo: content.userInfo)
+        state.content = poster
+        if let stamped = poster?.stamped { state.stamp = .answered(stamped) }
+        applyActions(answered: false)
+    }
+
+    func didReceive(
+        _ response: UNNotificationResponse,
+        completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void
+    ) {
+        guard let poster = state.content, poster.stamped == nil,
+              let answer = poster.answer(for: response.actionIdentifier)
         else {
+            completion(.dismissAndForwardAction)
             return
         }
-        let optionIndex = Int(actionIdentifier.dropFirst("VOTE_".count)).map { $0 - 1 } ?? 0
-        let options = (ctx["options"] as? [[String: Any]]) ?? []
-        guard optionIndex >= 0, optionIndex < options.count, let optionId = options[optionIndex]["id"] as? String else {
-            return
-        }
-
-        guard let request = try? ActionsClient.buildRequest(
-            path: "/v1/actions",
-            command: "cast_ballot",
-            scope: "ballot",
-            payload: ["poll_id": pollId, "option_id": optionId],
-            key: key,
-            apiBaseUrl: apiBaseUrl
-        ) else {
-            return
-        }
-        _ = try? await URLSession.shared.data(for: request)
-    }
-}
-
-private struct VotePosterView: View {
-    let question: String
-    let options: [String]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(question)
-                .font(.headline)
-            ForEach(Array(options.enumerated()), id: \.offset) { _, label in
-                Text(label)
-                    .font(.subheadline)
-            }
-        }
-        .padding()
-    }
-}
-
-/// Reads `config/endpoints.json` (api-contracts-async.md §6) so the spike never hardcodes a host.
-private enum EndpointsConfig {
-    private struct Payload: Codable {
-        let schema: Int
-        let apiBaseUrl: String
-
-        enum CodingKeys: String, CodingKey {
-            case schema
-            case apiBaseUrl = "api_base_url"
+        state.stamp = .sending(answer.value)
+        applyActions(answered: true)
+        Task {
+            let result = await PosterSender.send(answer)
+            show(result, answer: answer, poster: poster)
+            completion(.doNotDismiss)
         }
     }
 
-    static func readApiBaseUrl() -> URL? {
-        guard
-            let containerUrl = AppGroupContainer.url,
-            let data = try? Data(contentsOf: containerUrl.appendingPathComponent("config/endpoints.json")),
-            let payload = try? SnapshotDecoder.decode(Payload.self, from: data, supportedSchemas: 1...1)
-        else {
-            return nil
+    private func show(_ result: PosterSender.Result, answer: PosterAnswer, poster: PosterContent) {
+        switch result {
+        case .answered(.accepted(let tallies, let closed, let winner)):
+            state.tallies = tallies
+            state.stamp = closed ? .closed(winner: winner) : .answered(answer.value)
+            repost(poster.stampLine(answer: answer, outcome: .accepted(
+                tallies: tallies, closed: closed, winner: winner)), stamp: answer.value)
+        case .answered(.closed(let tallies, let winner)):
+            state.tallies = tallies
+            state.stamp = .closed(winner: winner)
+            repost(poster.stampLine(answer: answer, outcome: .closed(tallies: tallies, winner: winner)),
+                   stamp: answer.value)
+        case .queued:
+            state.stamp = .queued(answer.value)
+            repost(poster.stampLine(answer: answer, outcome: nil), stamp: answer.value)
+        case .answered(.refused), .failed:
+            state.stamp = .refused
         }
-        return URL(string: payload.apiBaseUrl)
+    }
+
+    /// The buttons follow the poster: the options while it takes an answer, OPEN after.
+    private func applyActions(answered: Bool) {
+        guard let poster = state.content else { return }
+        extensionContext?.notificationActions = poster.actions(answered: answered).map { action in
+            UNNotificationAction(
+                identifier: action.id, title: action.title,
+                options: action.foreground ? [.foreground] : [])
+        }
+    }
+
+    /// Replaces the delivered notification (same identifier: the push's collapse id) with the
+    /// answer as its line, quietly, so the lock screen shows what happened.
+    private func repost(_ line: String, stamp: String) {
+        guard let request,
+              let content = request.content.mutableCopy() as? UNMutableNotificationContent
+        else { return }
+        content.body = line
+        content.sound = nil
+        content.interruptionLevel = .passive
+        content.userInfo[PosterContent.stampKey] = stamp
+        UNUserNotificationCenter.current().add(
+            UNNotificationRequest(identifier: request.identifier, content: content, trigger: nil)
+        ) { _ in }
     }
 }

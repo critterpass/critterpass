@@ -1,0 +1,10 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpMediaUploadModule"],
+    "appDelegateSubscribers": ["MediaUploadAppDelegateSubscriber"]
+  },
+  "android": {
+    "modules": ["app.critterpass.mediaupload.CpMediaUploadModule"]
+  }
+}

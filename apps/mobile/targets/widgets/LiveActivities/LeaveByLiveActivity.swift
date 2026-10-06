@@ -6,10 +6,14 @@ import WidgetKit
 /// countdown to it, the trail from where the crew sleeps to the first stop with the guide's
 /// critter at its place on it, one pip per member that fills when they are up, and I'M UP.
 /// Frames change only by push (never animated in between); numbers and pips transition on update.
+/// The member's own pip reads "sending" between an I'M UP tap and the server's frame showing it.
 struct LeaveByLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: LeaveByActivityAttributes.self) { context in
-            LeaveByLockScreen(attributes: context.attributes, state: context.state)
+            LeaveByLockScreen(
+                attributes: context.attributes, state: context.state,
+                sendingPip: LeaveByPips.sending(activityId: context.activityID, state: context.state)
+            )
                 .activityBackgroundTint(LAPalette.card)
                 .activitySystemActionForegroundColor(LAPalette.paper)
         } dynamicIsland: { context in
@@ -21,6 +25,7 @@ struct LeaveByLiveActivityWidget: Widget {
 struct LeaveByLockScreen: View {
     let attributes: LeaveByActivityAttributes
     let state: LeaveByActivityAttributes.ContentState
+    var sendingPip: Int?
 
     var body: some View {
         let guide = LAGuide(slug: attributes.guide)
@@ -34,7 +39,7 @@ struct LeaveByLockScreen: View {
             }
             LeaveByTrail(legs: attributes.legs, state: state, guide: guide)
             HStack(spacing: 10) {
-                LeaveByPips(state: state)
+                LeaveByPips(state: state, sendingPip: sendingPip)
                 Spacer(minLength: 4)
                 LeaveByImUpButton(leaveById: attributes.leaveById, state: state.state)
             }
@@ -180,18 +185,34 @@ struct LeaveByTrail: View {
     }
 }
 
-/// One pip per member (who is up is shared crew state), then "4 OF 6 UP".
+/// One pip per member (who is up is shared crew state), then "4 OF 6 UP". The member's own pip,
+/// while an I'M UP tap is on its way, is an outline in the fill colour.
 struct LeaveByPips: View {
     let state: LeaveByActivityAttributes.ContentState
+    var sendingPip: Int?
+
+    /// The pip an I'M UP tap on this phone left marked as sending, if the frame still calls for it.
+    static func sending(activityId: String, state: LeaveByActivityAttributes.ContentState) -> Int? {
+        LeaveBySendingMark.read(activityId: activityId, root: AppGroupContainer.url)?.sendingPip(
+            hashes: state.pips.map(\.uidHash), ups: state.pips.map(\.up), seq: state.seq, now: .now)
+    }
 
     var body: some View {
         HStack(spacing: 8) {
             HStack(spacing: 4) {
-                ForEach(Array(state.pips.enumerated()), id: \.offset) { _, pip in
-                    Capsule()
-                        .fill(pip.up ? LAPalette.green : LAPalette.chip)
-                        .frame(minWidth: 4, maxWidth: state.pips.count > 8 ? 12 : 24)
-                        .frame(height: 6)
+                ForEach(Array(state.pips.enumerated()), id: \.offset) { index, pip in
+                    Group {
+                        if index == sendingPip {
+                            Capsule()
+                                .strokeBorder(LAPalette.green, lineWidth: 1.5)
+                                .accessibilityLabel(Text("Sending"))
+                        } else {
+                            Capsule()
+                                .fill(pip.up ? LAPalette.green : LAPalette.chip)
+                        }
+                    }
+                    .frame(minWidth: 4, maxWidth: state.pips.count > 8 ? 12 : 24)
+                    .frame(height: 6)
                 }
             }
             Text("\(state.upCount) OF \(state.total) UP")
@@ -209,6 +230,8 @@ struct LeaveByPips: View {
 struct LeaveByImUpButton: View {
     let leaveById: String
     let state: LALeaveByState
+    /// Fills its half of the expanded Dynamic Island (5a-5) instead of hugging its label.
+    var wide = false
 
     var body: some View {
         if state != .done {
@@ -218,7 +241,8 @@ struct LeaveByImUpButton: View {
                     .tracking(0.8)
                     .foregroundStyle(LAPalette.night)
                     .padding(.horizontal, 16)
-                    .padding(.vertical, 6)
+                    .padding(.vertical, wide ? 10 : 6)
+                    .frame(maxWidth: wide ? .infinity : nil)
                     .background(LAPalette.yellow, in: Capsule())
             }
             .buttonStyle(.plain)

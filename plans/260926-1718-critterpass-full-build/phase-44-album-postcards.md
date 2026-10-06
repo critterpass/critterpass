@@ -117,6 +117,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Status: done — 08737ba6d
 
 ### T2 — Native background upload module
+- Status: done — c7baff870 (Swift host tests prove the GPS strip and the resume bookkeeping; no device run)
 - Goal: `cp-media-upload` iOS + Android.
 - Files: `apps/mobile/modules/cp-media-upload/{expo-module.config.json,index.ts,ios/CpMediaUploadModule.swift,ios/BackgroundSession.swift,android/src/main/java/app/critterpass/mediaupload/{CpMediaUploadModule,UploadWorker}.kt}`
 - Steps: 1. Enqueue (file, presign/multipart plan) → background transfer. 2. Resume parts after app kill. 3. Events to JS (progress, done, failed). 4. EXIF GPS strip before enqueue.

@@ -11,6 +11,7 @@ struct CritterdexWidget: Widget {
             CritterdexFamilyView(entry: entry)
                 .widgetURL(LADeepLink.url(route: "pass"))
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Critterdex")
         .description("How many critters you have found.")
         .supportedFamilies([.systemSmall, .accessoryRectangular])
@@ -28,10 +29,12 @@ struct HomeSnapshotProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<HomeWidgetEntry>) -> Void) {
-        let entry = HomeWidgetEntry.now()
-        // Look again after the snapshot would count as stale, so the "Updated" line appears.
-        let later = entry.file.map { $0.generatedAt.addingTimeInterval(WidgetSnapshotFile.staleAfter + 60) }
-        completion(Timeline(entries: [entry], policy: later.map { .after($0) } ?? .never))
+        WidgetSnapshotFetcher.afterRefresh(completion) { (completion: @escaping (Timeline<HomeWidgetEntry>) -> Void) in
+            let entry = HomeWidgetEntry.now()
+            // Look again after the snapshot would count as stale, so the "Updated" line appears.
+            let later = entry.file.map { $0.generatedAt.addingTimeInterval(WidgetSnapshotFile.staleAfter + 60) }
+            completion(Timeline(entries: [entry], policy: later.map { .after($0) } ?? .never))
+        }
     }
 }
 

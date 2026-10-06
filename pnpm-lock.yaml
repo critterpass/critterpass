@@ -772,6 +772,9 @@ importers:
       expo-sqlite:
         specifier: 58.0.6
         version: 58.0.6(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
+      expo-store-review:
+        specifier: 58.0.0
+        version: 58.0.0(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))
       expo-system-ui:
         specifier: 58.0.3
         version: 58.0.3(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(supports-color@7.2.0)
@@ -808,6 +811,9 @@ importers:
       react-native-nitro-modules:
         specifier: 'catalog:'
         version: 0.37.1(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
+      react-native-purchases:
+        specifier: 10.11.0
+        version: 10.11.0(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
       react-native-reanimated:
         specifier: 4.7.0
         version: 4.7.0(react-native-worklets@0.13.0(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
@@ -817,6 +823,9 @@ importers:
       react-native-screens:
         specifier: 4.28.0
         version: 4.28.0(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
+      react-native-view-shot:
+        specifier: 6.1.0
+        version: 6.1.0(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
       react-native-vision-camera:
         specifier: 'catalog:'
         version: 5.2.3(4dd488b198a9d8e27d9150a3af0c7fe8)
@@ -4956,6 +4965,15 @@ packages:
     peerDependencies:
       '@redis/client': ^6.2.1
 
+  '@revenuecat/purchases-js-hybrid-mappings@19.5.0':
+    resolution: {integrity: sha512-a71RIF17FLcwZXKtzgLBeRTHs8P5ITd+Ty6M4srP7mKKbywr6uAGvAK08HFZCDUkIM492blP1NGtgVJG5NEI0g==}
+
+  '@revenuecat/purchases-js@1.67.1':
+    resolution: {integrity: sha512-PPr9VcVVqN2KVNGuA0X4xq4e60GtY8xBEUtQVKOGpKAjrPGRPv9JasuSj1pd0UG+dEQyBBAyNCgi7HizKhTswQ==}
+
+  '@revenuecat/purchases-typescript-internal@19.5.0':
+    resolution: {integrity: sha512-I8yKtK9jYBwhtwBrxRm9TdZiH4TnjLDnq77TSV8ZfSqm6R8ND7wP5A+rFWNumMSlrvn7cKyPRvOXbSSs76MTRg==}
+
   '@rolldown/binding-android-arm-eabi@1.2.11':
     resolution: {integrity: sha512-A5kXfGKvKWWZE0TtPrfsvT+q4Y5d1QG8gGUzpYjGydM+fARM9MuX90PrXYXe0XbsDVgyxxNzHo6giCj90bsFNw==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -7871,6 +7889,12 @@ packages:
       react: '*'
       react-native: '*'
 
+  expo-store-review@58.0.0:
+    resolution: {integrity: sha512-MEYxPdNoqTDf2wwq7mcw1mS2FH8MhqT+k5zk5qvD+UlNI6hwmtnLxlvzjoxRCT88auF3axt41Dn7vZwpB32Mrw==}
+    peerDependencies:
+      expo: '*'
+      react-native: '*'
+
   expo-structured-headers@58.0.0:
     resolution: {integrity: sha512-XjxD/stb3a7b6Art1xpiAiq5hmB9kH2wKdCj2vmGRej/iKj2QAy0ykqCTaeOMiFATHJTiKw4eB6h8e5ZHSRbGw==}
 
@@ -9986,6 +10010,16 @@ packages:
       react: '*'
       react-native: '*'
 
+  react-native-purchases@10.11.0:
+    resolution: {integrity: sha512-SbBYL+kcd9XMg+EN1Ub+wdb4oTH57+hBqB+BqWG1DoOSsYK5+KBUDagtZTOxefIvAyQpU4rWQeJsilAtG6mGZg==}
+    peerDependencies:
+      react: '>= 16.6.3'
+      react-native: '>= 0.73.0'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native-web:
+        optional: true
+
   react-native-reanimated@4.7.0:
     resolution: {integrity: sha512-8TyTrPisqz7WzmbhCz8F60Uw7NI2QeYWrY5Hk58/kurCA5L5KuHmhyQjxeq5k2YalpXUAKbdkn/mAMZWm/fU0g==}
     peerDependencies:
@@ -10016,6 +10050,19 @@ packages:
 
   react-native-skia-apple-tvos@152.0.0:
     resolution: {integrity: sha512-+UnXke4Yz9Jmy3uTcDbYFrVG/+CZMqYbaTV3f52wovaMzf8wWy+iZampZr6dW6rOWLWrsUFiq7yMImg6UGbiFg==}
+
+  react-native-view-shot@6.1.0:
+    resolution: {integrity: sha512-pTmD2zu2IaOwPLVh9dw8rsrAt2LZCChephAL4t+liY4d2WuJWhYhwGNjuTTpg49HL/x2yvCjm8NprZLj+FsN1A==}
+    engines: {node: '>=20.19.4', npm: '>=10'}
+    peerDependencies:
+      html2canvas-pro: ^2.0.0
+      react: '>=18.0.0'
+      react-native: '>=0.80.0'
+    peerDependenciesMeta:
+      html2canvas-pro:
+        optional: true
+      react-native:
+        optional: true
 
   react-native-vision-camera@5.2.3:
     resolution: {integrity: sha512-OHjgM8BPzxppTqbF1FEltj+fxvisj4xdghM7ypoT1p6cOe28HByhOJP1c7LkBiUiZuotbsdbQwGdJ8nU7ZvPzA==}
@@ -16168,6 +16215,14 @@ snapshots:
     dependencies:
       '@redis/client': 6.2.1(@opentelemetry/api@1.9.1)
 
+  '@revenuecat/purchases-js-hybrid-mappings@19.5.0':
+    dependencies:
+      '@revenuecat/purchases-js': 1.67.1
+
+  '@revenuecat/purchases-js@1.67.1': {}
+
+  '@revenuecat/purchases-typescript-internal@19.5.0': {}
+
   '@rolldown/binding-android-arm-eabi@1.2.11':
     optional: true
 
@@ -19401,6 +19456,11 @@ snapshots:
       react: 19.3.0
       react-native: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)
 
+  expo-store-review@58.0.0(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)):
+    dependencies:
+      expo: 58.0.0-preview.7(@babel/core@7.29.7(supports-color@7.2.0))(@expo/dom-webview@58.0.1)(@expo/metro-runtime@58.0.8)(expo-router@58.0.9)(react-dom@19.3.0(react@19.3.0))(react-native-worklets@0.13.0(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0)(typescript@6.0.3)
+      react-native: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)
+
   expo-structured-headers@58.0.0: {}
 
   expo-system-ui@58.0.3(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(supports-color@7.2.0):
@@ -22174,6 +22234,13 @@ snapshots:
       react: 19.3.0
       react-native: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)
 
+  react-native-purchases@10.11.0(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0):
+    dependencies:
+      '@revenuecat/purchases-js-hybrid-mappings': 19.5.0
+      '@revenuecat/purchases-typescript-internal': 19.5.0
+      react: 19.3.0
+      react-native: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)
+
   react-native-reanimated@4.7.0(react-native-worklets@0.13.0(@babel/core@7.29.7(supports-color@10.2.2))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@10.2.2))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.0)(supports-color@10.2.2))(react@19.3.0)(supports-color@10.2.2))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@10.2.2))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.0)(supports-color@10.2.2))(react@19.3.0):
     dependencies:
       react: 19.3.0
@@ -22210,6 +22277,12 @@ snapshots:
   react-native-skia-apple-macos@152.0.0: {}
 
   react-native-skia-apple-tvos@152.0.0: {}
+
+  react-native-view-shot@6.1.0(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0):
+    dependencies:
+      react: 19.3.0
+    optionalDependencies:
+      react-native: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)
 
   react-native-vision-camera@5.2.3(4dd488b198a9d8e27d9150a3af0c7fe8):
     dependencies:
