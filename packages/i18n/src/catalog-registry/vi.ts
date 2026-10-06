@@ -10,6 +10,8 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "crew": () => import('../../locales/vi/crew').then((m) => m.messages),
   "crew/live-map": () => import('../../locales/vi/crew/live-map').then((m) => m.messages),
   "critters": () => import('../../locales/vi/critters').then((m) => m.messages),
+  "driver-plan": () => import('../../locales/vi/driver-plan').then((m) => m.messages),
+  "driver-plan-web": () => import('../../locales/vi/driver-plan-web').then((m) => m.messages),
   "explore": () => import('../../locales/vi/explore').then((m) => m.messages),
   "explore/destination": () => import('../../locales/vi/explore/destination').then((m) => m.messages),
   "explore/home": () => import('../../locales/vi/explore/home').then((m) => m.messages),

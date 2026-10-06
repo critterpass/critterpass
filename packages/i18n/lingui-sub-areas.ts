@@ -84,3 +84,23 @@ export const planningCatalogs = {
   ],
   fit: [`${mobileRoot}/data/fit/**`],
 } as const;
+
+// Sharing the plan with a driver: the no-login page speaks English and Indonesian on its own
+// catalog (kept out of `web`), and the app's share sheet and reply card have theirs.
+const driverPlanWebSources = [
+  `${repoRootPrefix}/apps/web/src/components/driver-plan/**`,
+  `${repoRootPrefix}/apps/web/src/pages/t/**`,
+];
+const driverPlanCatalogs = [
+  {
+    name: 'driver-plan-web',
+    path: 'locales/{locale}/driver-plan-web',
+    include: driverPlanWebSources,
+  },
+  {
+    name: 'driver-plan',
+    path: 'locales/{locale}/driver-plan',
+    include: [`${repoRootPrefix}/apps/mobile/src/features/drivers/{share,replied}/**`],
+  },
+];
+export const driverPlan = { catalogs: driverPlanCatalogs, webSources: driverPlanWebSources };

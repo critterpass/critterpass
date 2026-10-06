@@ -65,7 +65,7 @@ const serveComingSoon = [
 
 export default defineConfig({
   testDir: '..',
-  testMatch: ['links/*.e2e.ts', 'site/*.e2e.ts'],
+  testMatch: ['links/*.e2e.ts', 'site/*.e2e.ts', 'driver-plan/*.e2e.ts'],
   workers: 1,
   reporter: 'list',
   timeout: 60_000,

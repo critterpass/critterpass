@@ -141,10 +141,10 @@ describe('driver plan shares', () => {
     expect((await reply(token, { tips: [{ text: 'See www.spam.example.com' }] })).status).toBe(422);
     expect((await reply(token, {})).status).toBe(422);
 
-    const first = (await (await reply(token, suggestion('08:00'))).json()) as {
-      change_set_id: string;
-      replaced: boolean;
-    };
+    const sent = await reply(token, suggestion('08:00'));
+    const sentText = await sent.text();
+    expect(sent.status, `${sentText} ${harness.logs.slice(-3).join(' ')}`).toBe(200);
+    const first = JSON.parse(sentText) as { change_set_id: string; replaced: boolean };
     expect(first.replaced).toBe(false);
     const second = (await (await reply(token, suggestion('07:00'))).json()) as {
       change_set_id: string;

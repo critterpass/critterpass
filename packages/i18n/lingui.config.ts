@@ -1,7 +1,7 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
-import { exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
+import { driverPlan, exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
 import { localeCodes, sourceLocale } from './src/locales';
 
 /**
@@ -320,11 +320,12 @@ export default defineConfig({
       include: [...include],
       exclude: testFileExcludes,
     })),
+    ...driverPlan.catalogs.map((catalog) => ({ ...catalog, exclude: testFileExcludes })),
     {
       name: 'web',
       path: 'locales/{locale}/web',
       include: [`${repoRootPrefix}/apps/web/src/**`],
-      exclude: testFileExcludes,
+      exclude: [...testFileExcludes, ...driverPlan.webSources],
     },
     {
       name: 'server',
