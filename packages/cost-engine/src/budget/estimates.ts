@@ -9,6 +9,16 @@ import { assertCurrencyCode, type CurrencyCode } from '../money/currencies';
 import { type Money } from '../money/money';
 import { convertWith, type FxContext } from '../shares/fx';
 import { budgetBreakdown, feasibleLow, type Breakdown, type CostIndex } from './breakdown';
+import { stopDays, type StopEstimate } from './stops';
+
+interface IndexRow {
+  readonly stay_type: string;
+  readonly nightly_low_minor: number;
+  readonly nightly_high_minor: number;
+  readonly food_pp_day_minor: number;
+  readonly fun_pp_day_minor: number;
+  readonly currency: string;
+}
 
 /** `app.setup_budget_inputs` as JSON. */
 export interface BudgetEstimateSource {
@@ -22,13 +32,14 @@ export interface BudgetEstimateSource {
     readonly currency: string;
     readonly days: readonly { readonly depart_on: string; readonly price_minor: number }[];
   }[];
-  readonly indices: readonly {
-    readonly stay_type: string;
-    readonly nightly_low_minor: number;
-    readonly nightly_high_minor: number;
-    readonly food_pp_day_minor: number;
-    readonly fun_pp_day_minor: number;
-    readonly currency: string;
+  /** The trip's destination's reviewed index rows. */
+  readonly indices: readonly IndexRow[];
+  /** Only for a trip with several stops: each stop's nights and its own reviewed index rows. */
+  readonly stops?: readonly {
+    readonly position: number;
+    readonly destination_id: string;
+    readonly nights: number;
+    readonly indices: readonly IndexRow[];
   }[];
   readonly fx: readonly {
     readonly id: string;
@@ -46,7 +57,10 @@ export interface BudgetEstimates {
   readonly days: number;
   /** Each member's flight in the crew currency; `null` when unknown. */
   readonly flights: ReadonlyMap<string, Money | null>;
+  /** The trip's destination's index. */
   readonly index: CostIndex | null;
+  /** Each stop with its nights, days and index, on a trip with several stops. */
+  readonly stops?: readonly StopEstimate[];
   readonly fx: FxContext | undefined;
 }
 
@@ -77,6 +91,62 @@ export function fxContextOf(source: BudgetEstimateSource): FxContext | undefined
   };
 }
 
+/** A destination's index rows in the crew's currency; `null` when any part is missing. */
+function costIndexOf(
+  rows: readonly IndexRow[],
+  days: number,
+  currency: CurrencyCode,
+  fx: FxContext | undefined,
+): CostIndex | null {
+  const stays = rows.flatMap((row) => {
+    const low = tryConvert(
+      { amountMinor: BigInt(row.nightly_low_minor), currency: assertCurrencyCode(row.currency) },
+      currency,
+      fx,
+    );
+    const high = tryConvert(
+      { amountMinor: BigInt(row.nightly_high_minor), currency: assertCurrencyCode(row.currency) },
+      currency,
+      fx,
+    );
+    return low === null || high === null
+      ? []
+      : [
+          {
+            type: row.stay_type,
+            nightlyLowMinor: low.amountMinor,
+            nightlyHighMinor: high.amountMinor,
+          },
+        ];
+  });
+  const first = rows[0];
+  const food =
+    first === undefined
+      ? null
+      : tryConvert(
+          {
+            amountMinor: BigInt(first.food_pp_day_minor),
+            currency: assertCurrencyCode(first.currency),
+          },
+          currency,
+          fx,
+        );
+  const fun =
+    first === undefined
+      ? null
+      : tryConvert(
+          {
+            amountMinor: BigInt(first.fun_pp_day_minor),
+            currency: assertCurrencyCode(first.currency),
+          },
+          currency,
+          fx,
+        );
+  return stays.length === 0 || food === null || fun === null || days === 0
+    ? null
+    : { currency, stays, foodPpDayMinor: food.amountMinor, funPpDayMinor: fun.amountMinor };
+}
+
 export function budgetEstimates(source: BudgetEstimateSource): BudgetEstimates {
   const currency = assertCurrencyCode(source.currency);
   const fx = fxContextOf(source);
@@ -104,55 +174,17 @@ export function budgetEstimates(source: BudgetEstimateSource): BudgetEstimates {
           ),
     );
   }
-  const stays = source.indices.flatMap((row) => {
-    const low = tryConvert(
-      { amountMinor: BigInt(row.nightly_low_minor), currency: assertCurrencyCode(row.currency) },
-      currency,
-      fx,
-    );
-    const high = tryConvert(
-      { amountMinor: BigInt(row.nightly_high_minor), currency: assertCurrencyCode(row.currency) },
-      currency,
-      fx,
-    );
-    return low === null || high === null
-      ? []
-      : [
-          {
-            type: row.stay_type,
-            nightlyLowMinor: low.amountMinor,
-            nightlyHighMinor: high.amountMinor,
-          },
-        ];
-  });
-  const first = source.indices[0];
-  const food =
-    first === undefined
-      ? null
-      : tryConvert(
-          {
-            amountMinor: BigInt(first.food_pp_day_minor),
-            currency: assertCurrencyCode(first.currency),
-          },
-          currency,
-          fx,
-        );
-  const fun =
-    first === undefined
-      ? null
-      : tryConvert(
-          {
-            amountMinor: BigInt(first.fun_pp_day_minor),
-            currency: assertCurrencyCode(first.currency),
-          },
-          currency,
-          fx,
-        );
-  const index: CostIndex | null =
-    stays.length === 0 || food === null || fun === null || days === 0
-      ? null
-      : { currency, stays, foodPpDayMinor: food.amountMinor, funPpDayMinor: fun.amountMinor };
-  return { currency, nights, days, flights, index, fx };
+  const index = costIndexOf(source.indices, days, currency, fx);
+  if (source.stops === undefined) return { currency, nights, days, flights, index, fx };
+  const daysOf = stopDays(source.stops.map((stop) => stop.nights));
+  const stops = source.stops.map((stop, at) => ({
+    position: stop.position,
+    destinationId: stop.destination_id,
+    nights: stop.nights,
+    days: daysOf[at] ?? stop.nights,
+    index: costIndexOf(stop.indices, daysOf[at] ?? stop.nights, currency, fx),
+  }));
+  return { currency, nights, days, flights, index, stops, fx };
 }
 
 /** The cheapest flight any member has (the crew's floor), or `null` when nobody is priced. */
@@ -174,6 +206,7 @@ export function crewFeasibleLow(estimates: BudgetEstimates): Money | null {
     nights: estimates.nights,
     days: estimates.days,
     index: estimates.index,
+    ...(estimates.stops === undefined ? {} : { stops: estimates.stops }),
   });
 }
 
@@ -185,5 +218,6 @@ export function planBreakdown(target: Money, estimates: BudgetEstimates): Breakd
     nights: estimates.nights,
     days: estimates.days,
     index: estimates.index,
+    ...(estimates.stops === undefined ? {} : { stops: estimates.stops }),
   });
 }
