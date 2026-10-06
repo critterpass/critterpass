@@ -1,6 +1,6 @@
 /**
  * Travel estimates written from cited web pages (migration
- * 20261006120000_destination_link_runs_and_home_links.sql, the applied source of truth for
+ * 20261006180000_destination_link_runs_and_home_links.sql, the applied source of truth for
  * constraints, RLS and grants). `destination_link_runs` is RLS "S": the worker's record of when it
  * looked for a destination's links. `destination_home_links` is RLS "R": any signed-in reader may
  * read how to reach a destination from a home city through the api; only the worker writes it.
