@@ -156,7 +156,6 @@ let replay: ParameterReplay;
 let replayBeforeHistory: ParameterReplay;
 type Caller = Awaited<ReturnType<typeof seedCaller>>;
 const callers = new Map<ShapeName, Caller>();
-let destinationId: string;
 /** In the fixture trip's crew and in thirty more; `single` is in the fixture trip's crew alone. */
 let busy: string;
 let single: string;
@@ -164,7 +163,7 @@ let single: string;
 beforeAll(async () => {
   harness = await startStreamHarness();
   const { fixture, db } = harness;
-  destinationId = await withSystem(db.pool, async (tx) => {
+  await withSystem(db.pool, async (tx) => {
     const outsider = fixture.actors.outsider;
     const crew = await tx.query<{ id: string }>(
       "INSERT INTO crews (name, created_by) VALUES ('Elsewhere', $1) RETURNING id",
@@ -285,16 +284,8 @@ describe('sync connection cost', { timeout: 120_000 }, () => {
     expect(after.results - before.results).toBe(HISTORY_GROWTH);
   });
 
-  it("syncs a destination's crowd forecasts by the destination the trigger copies", async () => {
-    const rows = await harness.rows('trip_pack', 'member', { trip_id: harness.fixture.tripId });
-    const forecasts = rows.get('crowd_forecasts') ?? [];
-    expect(forecasts).toHaveLength(CANDIDATES);
-    expect(new Set(forecasts.map((row) => row['destination_id']))).toEqual(
-      new Set([destinationId]),
-    );
-    const outsider = await harness.rows('trip_pack', 'outsider', {
-      trip_id: harness.fixture.tripId,
-    });
-    expect(outsider.get('crowd_forecasts') ?? []).toEqual([]);
+  it('sends no crowd forecasts: phones read them over HTTP, per place', async () => {
+    const member = await harness.rows('trip_pack', 'member', { trip_id: harness.fixture.tripId });
+    expect(member.get('crowd_forecasts')).toBeUndefined();
   });
 });

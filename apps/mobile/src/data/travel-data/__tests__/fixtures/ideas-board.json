@@ -1,0 +1,74 @@
+{
+  "ideas": [
+    {
+      "id": "0192f000-0000-7000-8000-000000000001",
+      "title": "Split a bill by shares",
+      "description": null,
+      "locale": "en",
+      "status": "shipped",
+      "team_note": null,
+      "fixed_in_version": "1.4.0",
+      "merged_into_id": null,
+      "votes_count": 41,
+      "status_changed_at": "2026-10-02T03:00:00.000Z",
+      "created_at": "2026-09-20T03:00:00.000Z",
+      "updated_at": "2026-10-02T03:00:00.000Z"
+    },
+    {
+      "id": "0192f000-0000-7000-8000-000000000002",
+      "title": "Offline maps for every trip day",
+      "description": null,
+      "locale": "en",
+      "status": "building",
+      "team_note": null,
+      "fixed_in_version": null,
+      "merged_into_id": null,
+      "votes_count": 33,
+      "status_changed_at": "2026-10-02T03:00:00.000Z",
+      "created_at": "2026-09-20T03:00:00.000Z",
+      "updated_at": "2026-10-02T03:00:00.000Z"
+    },
+    {
+      "id": "0192f000-0000-7000-8000-000000000003",
+      "title": "Dark mode",
+      "description": null,
+      "locale": "en",
+      "status": "planned",
+      "team_note": null,
+      "fixed_in_version": null,
+      "merged_into_id": null,
+      "votes_count": 20,
+      "status_changed_at": "2026-10-02T03:00:00.000Z",
+      "created_at": "2026-09-20T03:00:00.000Z",
+      "updated_at": "2026-10-02T03:00:00.000Z"
+    },
+    {
+      "id": "0192f000-0000-7000-8000-000000000004",
+      "title": "Share a plan as a PDF",
+      "description": null,
+      "locale": "en",
+      "status": "open",
+      "team_note": null,
+      "fixed_in_version": null,
+      "merged_into_id": null,
+      "votes_count": 9,
+      "status_changed_at": "2026-10-02T03:00:00.000Z",
+      "created_at": "2026-09-20T03:00:00.000Z",
+      "updated_at": "2026-10-02T03:00:00.000Z"
+    },
+    {
+      "id": "0192f000-0000-7000-8000-000000000005",
+      "title": "Pay in crypto",
+      "description": null,
+      "locale": "en",
+      "status": "declined",
+      "team_note": null,
+      "fixed_in_version": null,
+      "merged_into_id": null,
+      "votes_count": 2,
+      "status_changed_at": "2026-10-02T03:00:00.000Z",
+      "created_at": "2026-09-20T03:00:00.000Z",
+      "updated_at": "2026-10-02T03:00:00.000Z"
+    }
+  ]
+}

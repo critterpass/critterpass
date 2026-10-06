@@ -1,16 +1,23 @@
 /**
- * Facts the hub reads from the phone: how many ideas are open to votes, and how support answered
- * this traveller's last ticket (email or Inbox).
+ * Facts the hub reads: how many ideas on the public board (an api read, the last good copy offline)
+ * are open to votes, and how support answered this traveller's last ticket (email or Inbox).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
+import { dataOf } from '@/data/travel-data/freshness';
+import { useIdeasBoard, type BoardIdea } from '@/data/travel-data/shared-content';
+
 import { useLiveRows } from './live-rows';
 
-const IDEAS_SQL = "SELECT count(*) AS n FROM ideas WHERE status IN ('open', 'planned', 'building')";
+const VOTABLE = new Set(['open', 'planned', 'building']);
 const CHANNEL_SQL = 'SELECT reply_channel FROM feedback_tickets ORDER BY created_at DESC LIMIT 1';
 
+/** How many board ideas still take votes; null while unknown (loading, or offline with no copy). */
+export function ideasToVote(ideas: readonly BoardIdea[] | undefined): number | null {
+  return ideas === undefined ? null : ideas.filter((idea) => VOTABLE.has(idea.status)).length;
+}
+
 export function useIdeasToVote(): number | null {
-  const { rows, loaded } = useLiveRows<{ n: number }>(IDEAS_SQL, [], ['ideas']);
-  return loaded ? (rows[0]?.n ?? 0) : null;
+  return ideasToVote(dataOf(useIdeasBoard())?.ideas);
 }
 
 export function useReplyChannel(): 'email' | 'inbox' | null {

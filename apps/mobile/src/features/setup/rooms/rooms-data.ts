@@ -1,10 +1,14 @@
 /**
- * What the rooms step reads from the local database: the plan and who sleeps where (synced), the
- * destination's stay types for picking one, this person's own room wishes (the `me` stream), and
- * this phone's queued room commands, which show at once on top of the synced rows. Also the
- * latest refused move, so a version conflict can be explained and re-applied.
+ * What the rooms step reads: the plan and who sleeps where (synced), the destination's stay types
+ * for picking one (its cost indices, an api read with the last good copy offline), this person's
+ * own room wishes (the `me` stream), and this phone's queued room commands, which show at once on
+ * top of the synced rows. Also the latest refused move, so a version conflict can be explained and
+ * re-applied.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and command names, never copy. */
+import { dataOf } from '@/data/travel-data/freshness';
+import { useCostIndices } from '@/data/travel-data/shared-content';
+
 import { useLiveRows } from '../data/rows';
 import type { RoomChipKey } from './copy';
 import {
@@ -25,9 +29,7 @@ const PENDING_SQL = `SELECT cmd, envelope FROM commands
     AND json_extract(envelope, '$.payload.trip_id') = ?
   ORDER BY seq`;
 const PREFS_SQL = 'SELECT chips FROM room_prefs WHERE trip_id = ? AND user_id = ?';
-const STAYS_SQL = `SELECT c.stay_type, c.nightly_minor_low, c.nightly_minor_high, c.currency
-  FROM destination_cost_indices c JOIN trips t ON t.destination_id = c.destination_id
-  WHERE t.id = ? AND c.reviewed_at IS NOT NULL ORDER BY c.nightly_minor_low, c.stay_type`;
+const DEST_SQL = 'SELECT destination_id FROM trips WHERE id = ?';
 const REJECTED_SQL = `SELECT id, rejected_at FROM rejected_commands
   WHERE cmd = 'set_room_assignment' AND code = 'VERSION_CONFLICT'
   ORDER BY rejected_at DESC LIMIT 1`;
@@ -38,6 +40,8 @@ export interface StayRateRow {
   readonly nightly_minor_high: number;
   readonly currency: string;
 }
+
+const NO_STAYS: readonly StayRateRow[] = [];
 
 export interface RoomsData {
   readonly loaded: boolean;
@@ -79,11 +83,8 @@ export function useRoomsData(tripId: string, me: string): RoomsData {
   const assignments = useLiveRows<AssignmentRow>(ASSIGN_SQL, [tripId], ['room_assignments']);
   const pending = useLiveRows<PendingRow>(PENDING_SQL, [tripId], ['commands']);
   const prefs = useLiveRows<{ chips: string | null }>(PREFS_SQL, [tripId, me], ['room_prefs']);
-  const stays = useLiveRows<StayRateRow>(
-    STAYS_SQL,
-    [tripId],
-    ['destination_cost_indices', 'trips'],
-  );
+  const trip = useLiveRows<{ destination_id: string | null }>(DEST_SQL, [tripId], ['trips']);
+  const costs = useCostIndices(trip.rows[0]?.destination_id ?? null);
   const rejected = useLiveRows<{ id: string; rejected_at: string }>(
     REJECTED_SQL,
     [],
@@ -99,9 +100,9 @@ export function useRoomsData(tripId: string, me: string): RoomsData {
     .at(-1);
   const conflict = rejected.rows[0];
   return {
-    loaded: plan.loaded && assignments.loaded && stays.loaded,
+    loaded: plan.loaded && assignments.loaded && trip.loaded && costs.status !== 'loading',
     plan: buildPlan(plan.rows[0], assignments.rows, moves),
-    stays: stays.rows,
+    stays: dataOf(costs)?.indices ?? NO_STAYS,
     myChips: queuedPrefs?.chips ?? parseChips(prefs.rows[0]?.chips),
     swapQueued: pending.rows.some((row) => row.cmd === 'request_room_swap'),
     conflict: conflict === undefined ? null : { id: conflict.id, at: conflict.rejected_at },

@@ -9,6 +9,8 @@ import { format } from '@cp/i18n';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
+import { dataOf } from '@/data/travel-data/freshness';
+import { useCrowdForecasts } from '@/data/travel-data/shared-content';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { impact, toast } from '@/motion';
@@ -32,14 +34,11 @@ import {
   whenLabel,
 } from './encounter-copy';
 import {
-  FORECAST_SQL,
-  FORECAST_TABLES,
   nextQuietWindow,
   SPAWN_FORM_SQL,
   SPAWN_FORM_TABLES,
   spawnArt,
   zoneOffsetMin,
-  type ForecastRow,
   type SpawnFormRow,
 } from './encounter-model';
 import { EncounterView } from './encounter-view';
@@ -60,11 +59,7 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
     uid === null || candidate === null ? null : [uid, candidate.rule.form_id],
     SPAWN_FORM_TABLES,
   ).rows[0];
-  const forecastRows = useLiveRows<ForecastRow>(
-    FORECAST_SQL,
-    candidate?.spot.poiId == null ? null : [candidate.spot.poiId],
-    FORECAST_TABLES,
-  ).rows;
+  const forecastRows = dataOf(useCrowdForecasts(candidate?.spot.poiId ?? null))?.curves ?? [];
   const crew = useCrewSightings(candidate?.rule.critter_id ?? '');
   const [now] = useState(() => Date.now());
   const back = () => (router.canGoBack() ? router.back() : router.replace(passRoute()));

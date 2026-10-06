@@ -674,11 +674,8 @@ streams:
       - SELECT * FROM guides
       - SELECT * FROM destinations WHERE coverage <> 'area'
       - SELECT *, key AS id FROM client_config
-      - SELECT * FROM destination_cost_indices WHERE reviewed_at IS NOT NULL
       - SELECT *, key AS id FROM products
       - SELECT *, key AS id FROM perks
-      - SELECT * FROM season_months WHERE reviewed_at IS NOT NULL
-      - SELECT * FROM season_events WHERE reviewed_at IS NOT NULL
   trip_pack:
     with:
       trip_destination: |-
@@ -700,21 +697,12 @@ streams:
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
-      - |-
-        SELECT * FROM crowd_forecasts
-        WHERE destination_id IN trip_destination
-          AND (source <> 'editorial' OR approved_at IS NOT NULL)
   help:
     accept_potentially_dangerous_queries: true
-    queries:
-      - |-
-        SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
-        FROM help_articles
-        WHERE locale = subscription.parameter('locale')
-      - |-
-        SELECT id, title, description, locale, status, team_note, fixed_in_version, merged_into_id,
-          votes_count, status_changed_at, created_at, updated_at
-        FROM ideas WHERE status <> 'pending_review'
+    query: |-
+      SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
+      FROM help_articles
+      WHERE locale = subscription.parameter('locale')
   crew_people:
     auto_subscribe: true
     queries:

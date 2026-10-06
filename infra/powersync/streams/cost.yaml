@@ -1,13 +1,9 @@
 # Cost streams (docs/data-model.md §3.4): a trip's cost components and every member's total sync
 # with the trip; a member's own share calc (their lines and personal option deltas) syncs to that
-# member only. Reviewed editorial cost indices join the always-on catalogue.
+# member only. Reviewed editorial cost indices are read over HTTP
+# (`/v1/destinations/{id}/cost-indices`), never synced.
 
 streams:
-  catalog:
-    auto_subscribe: true
-    queries:
-      - SELECT * FROM destination_cost_indices WHERE reviewed_at IS NOT NULL
-
   trip:
     queries:
       - |
