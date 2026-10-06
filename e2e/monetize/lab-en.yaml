@@ -1,0 +1,197 @@
+appId: app.critterpass.dev
+---
+# Every monetization lab scene (apps/mobile/src/features/monetize/dev/lab-scenes.tsx) in en, from
+# the splash of a fresh install: the paywall and its purchase states (4e-1), what is in each plan
+# (4e-2), the welcome (4e-3), Your plan and its states (4d-1), before you go (4d-2), the payment
+# page (4d-3), the boost sheet (4b-3) and the stamp (4b-5). The lab scenes are pure views over
+# fixed rows; no store is involved.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-monetize-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-monetize-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'monetize-lab-4e-1-paywall'
+    timeout: 15000
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-1-paywall'
+      READY: 'paywall'
+      SHOT: en-4e-1-paywall
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-1-not-available'
+      READY: 'paywall'
+      SHOT: en-4e-1-not-available
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-1-pending'
+      READY: 'paywall'
+      SHOT: en-4e-1-pending
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-1-paid-unconfirmed'
+      READY: 'paywall'
+      SHOT: en-4e-1-paid-unconfirmed
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-1-subscribed'
+      READY: 'paywall'
+      SHOT: en-4e-1-subscribed
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-2-compare'
+      READY: 'compare'
+      SHOT: en-4e-2-compare
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-2-not-available'
+      READY: 'compare'
+      SHOT: en-4e-2-not-available
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-3-welcome'
+      READY: 'welcome'
+      SHOT: en-4e-3-welcome
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4e-3-confirming'
+      READY: 'welcome'
+      SHOT: en-4e-3-confirming
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-yearly'
+      READY: 'plan'
+      SHOT: en-4d-1-yearly
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-free'
+      READY: 'plan'
+      SHOT: en-4d-1-free
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-free-no-store'
+      READY: 'plan'
+      SHOT: en-4d-1-free-no-store
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-ending'
+      READY: 'plan'
+      SHOT: en-4d-1-ending
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-grace'
+      READY: 'plan'
+      SHOT: en-4d-1-grace
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-gift'
+      READY: 'plan'
+      SHOT: en-4d-1-gift
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-other-store'
+      READY: 'plan'
+      SHOT: en-4d-1-other-store
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-2-monthly'
+      READY: 'plan-cancel-page'
+      SHOT: en-4d-2-monthly
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-2-yearly'
+      READY: 'plan-cancel-page'
+      SHOT: en-4d-2-yearly
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-3-grace'
+      READY: 'billing-issue'
+      SHOT: en-4d-3-grace
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-3-off'
+      READY: 'billing-issue'
+      SHOT: en-4d-3-off
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-3-recovered'
+      READY: 'billing-issue'
+      SHOT: en-4d-3-recovered
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-3-boost'
+      READY: 'boost'
+      SHOT: en-4b-3-boost
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-3-cover'
+      READY: 'boost'
+      SHOT: en-4b-3-cover
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-3-locked'
+      READY: 'boost'
+      SHOT: en-4b-3-locked
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-3-already-boosted'
+      READY: 'boost'
+      SHOT: en-4b-3-already-boosted
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-3-not-available'
+      READY: 'boost'
+      SHOT: en-4b-3-not-available
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-5-stamped'
+      READY: 'stamped'
+      SHOT: en-4b-5-stamped
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-5-finishing'
+      READY: 'stamped'
+      SHOT: en-4b-5-finishing

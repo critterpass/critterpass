@@ -26,6 +26,8 @@ export interface PlanRadioRowsProps {
   readonly onChange: (id: string) => void;
   /** Group label ("Boost Kyoto"). */
   readonly label: string;
+  /** Colour of the chosen row's outline and radio. @default the primary action yellow */
+  readonly accent?: string;
   readonly testID?: string;
 }
 
@@ -47,15 +49,24 @@ const useStyles = makeStyles((th) => ({
   inner: { width: th.space['10'], height: th.space['10'], borderRadius: th.space['6'] },
 }));
 
-/** Plan choices as radio rows with a price each; the chosen row gets the yellow outline. */
-export function PlanRadioRows({ options, value, onChange, label, testID }: PlanRadioRowsProps) {
+/** Plan choices as radio rows with a price each; the chosen row gets the accent outline. */
+export function PlanRadioRows({
+  options,
+  value,
+  onChange,
+  label,
+  accent: chosen,
+  testID,
+}: PlanRadioRowsProps) {
   const styles = useStyles();
   const theme = useTheme();
   return (
     <Stack gap="10" testID={testID} accessibilityRole="radiogroup" accessibilityLabel={label}>
       {options.map((option) => {
         const checked = option.id === value;
-        const accent = checked ? theme.semantic.action.primary : theme.semantic.border.control;
+        const accent = checked
+          ? (chosen ?? theme.semantic.action.primary)
+          : theme.semantic.border.control;
         return (
           <PressScale
             key={option.id}

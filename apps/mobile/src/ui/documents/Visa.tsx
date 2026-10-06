@@ -48,6 +48,7 @@ const useStyles = makeStyles((t) => ({
   },
   boost: {
     alignSelf: 'flex-start',
+    flexShrink: 1,
     borderRadius: t.radius.sm,
     borderWidth: 3,
     padding: t.space['4'],
@@ -111,7 +112,7 @@ export function Visa({
           <Text variant="label" color={ink}>
             {eyebrow}
           </Text>
-          <Text variant="h2" color={ink}>
+          <Text variant="h2" color={ink} numberOfLines={1} adjustsFontSizeToFit>
             {title}
           </Text>
           <Text variant="bodySm" color={ink}>
@@ -131,7 +132,7 @@ export function Visa({
     >
       <SurfaceToneProvider value="accent">
         <Row justify="space-between" align="flex-start">
-          <Stack gap="2">
+          <Stack gap="2" flex={1}>
             <Text variant="monoData">{eyebrow}</Text>
             <Text variant="h1">{title}</Text>
           </Stack>
@@ -160,7 +161,7 @@ export function Visa({
         </View>
         {mrz ? (
           <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            <Text variant="monoData" numberOfLines={1}>
+            <Text variant="monoData" numberOfLines={1} ellipsizeMode="clip">
               {mrz}
             </Text>
           </View>
