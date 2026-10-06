@@ -72,6 +72,7 @@ let package = Package(
         "Snapshot/WidgetSnapshot.swift", "Snapshot/WidgetSnapshotReader.swift",
         "Snapshot/HomeWidgetModels.swift", "Snapshot/PendingVote.swift",
         "Snapshot/TripWidgetModels.swift", "Snapshot/WidgetTaps.swift",
+        "Snapshot/WidgetSnapshotRefresh.swift",
       ]
     ),
     .testTarget(
