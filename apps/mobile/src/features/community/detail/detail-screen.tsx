@@ -41,6 +41,13 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
           <Text variant="displayHero" accessibilityRole="header">
             {t({ id: 'community.detail.heading', message: 'A crew plan' })}
           </Text>
+          <Text variant="body">
+            {t({
+              id: 'community.browse.intro',
+              message:
+                'Real trips, shared by the crews who took them. Copy a whole one, or just the good days.',
+            })}
+          </Text>
           {state.status === 'loading' ? (
             <Skeleton preset="card" repeat={2} />
           ) : (
@@ -69,6 +76,13 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
           <BackEyebrow label={t({ id: 'community.back.plans', message: 'Crew plans' })} />
           <Text variant="displayHero" accessibilityRole="header">
             {t({ id: 'community.detail.heading', message: 'A crew plan' })}
+          </Text>
+          <Text variant="body">
+            {t({
+              id: 'community.browse.intro',
+              message:
+                'Real trips, shared by the crews who took them. Copy a whole one, or just the good days.',
+            })}
           </Text>
           <EmptyState
             guide="tokek"
