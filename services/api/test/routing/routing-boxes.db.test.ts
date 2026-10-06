@@ -39,12 +39,14 @@ async function destination(
   return rows[0]?.id ?? '';
 }
 
-async function trip(destinationId: string, status: string): Promise<void> {
-  await pool.query(
-    `INSERT INTO trips (crew_id, status, destination_id, created_at)
-     VALUES ($1, $2, $3, now())`,
-    [crewId, status, destinationId],
+/** A trip being set up, or one cancelled straight after (a trip's first status is always set-up). */
+async function trip(destinationId: string, status: 'setup' | 'cancelled'): Promise<void> {
+  const { rows } = await pool.query<{ id: string }>(
+    `INSERT INTO trips (crew_id, status, destination_id) VALUES ($1, 'setup', $2) RETURNING id`,
+    [crewId, destinationId],
   );
+  if (status === 'cancelled')
+    await pool.query("UPDATE trips SET status = 'cancelled' WHERE id = $1", [rows[0]?.id]);
 }
 
 beforeAll(async () => {
@@ -79,11 +81,11 @@ beforeAll(async () => {
      VALUES ($1, 'Plaza', 'other', -12.05, -77.03)`,
     [lima],
   );
-  // A guest destination whose only trip is over: not needed.
+  // A guest destination whose only trip was cancelled: not needed.
   const over = await destination('pt-porto', 'guest', { placeBounds: box(-8.7, 41.1, -8.5, 41.2) });
-  await trip(over, 'post_trip');
-  // A guest destination with a trip in it but nothing that says where it is.
-  await trip(await destination('nowhere', 'guest'), 'in_trip');
+  await trip(over, 'cancelled');
+  // A guest destination with a trip being planned but nothing that says where it is.
+  await trip(await destination('nowhere', 'guest'), 'setup');
   // A guest destination nobody plans for.
   await destination('mx-tulum', 'guest', { placeBounds: box(-87.5, 20.1, -87.4, 20.3) });
 }, 180_000);
