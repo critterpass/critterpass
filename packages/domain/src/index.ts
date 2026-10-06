@@ -271,6 +271,7 @@ export * from './itinerary';
 export * from './money';
 export * from './payout';
 export * from './bookings';
+export * from './drivers';
 export * from './suppliers';
 export * from './billing';
 export * from './paywall';

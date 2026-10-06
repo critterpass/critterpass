@@ -1,7 +1,7 @@
 /**
  * Quest pushes: the day's quests in the evening roundup (`quests_ready`, once per trip day), and a
  * finished quest's reward to everyone it counted for (`settled_reward`, the catalogue's crew reward
- * key), both in the trip guide's voice. The push lands on the quests screen, which reveals the
+ * key), both in the voice of the guide of the quests' day. The push lands on the quests screen, which reveals the
  * reward at the shared moment (or shows it already granted to a late opener).
  */
 import { QUEST_PUSH } from '@cp/domain';
@@ -9,17 +9,17 @@ import type pg from 'pg';
 
 import { registerNotification, type NotificationSender } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, str } from '../setup/facts';
+import { dayGuide } from './day-context';
 
-async function tripGuide(tx: pg.PoolClient, tripId: string | null): Promise<NotificationSender> {
+/** The guide of the quests' day; the trip's own when the day is not known. */
+async function questGuide(
+  tx: pg.PoolClient,
+  tripId: string | null,
+  localDate: string | null | undefined,
+): Promise<NotificationSender> {
   if (tripId === null) return DEFAULT_SETUP_GUIDE;
-  const { rows } = await tx.query<{ slug: string; name: string }>(
-    'SELECT g.slug, g.name FROM trips t JOIN guides g ON g.id = t.guide_id WHERE t.id = $1',
-    [tripId],
-  );
-  const guide = rows[0];
-  return guide === undefined
-    ? DEFAULT_SETUP_GUIDE
-    : { kind: 'guide', id: guide.slug, name: guide.name };
+  const guide = await dayGuide(tx, tripId, localDate ?? null);
+  return guide === null ? DEFAULT_SETUP_GUIDE : { kind: 'guide', id: guide.slug, name: guide.name };
 }
 
 let registered = false;
@@ -48,7 +48,7 @@ export function registerQuestPushes(): void {
         title: QUEST_PUSH.readyTitle,
         body: QUEST_PUSH.readyBody,
         vars: { count: Array.isArray(ids) ? ids.length : 0, place: rows[0]?.name ?? 'today' },
-        sender: await tripGuide(tx, event.tripId),
+        sender: await questGuide(tx, event.tripId, str(event, 'local_date')),
         crewId: event.crewId,
         tripId: event.tripId,
         deepLink: `/quests/${event.tripId ?? ''}`,
@@ -68,16 +68,17 @@ export function registerQuestPushes(): void {
     },
     async compose(tx, event) {
       const questId = str(event, 'quest_id');
-      const { rows } = await tx.query<{ title: string }>('SELECT title FROM quests WHERE id = $1', [
-        questId,
-      ]);
+      const { rows } = await tx.query<{ title: string; local_date: string }>(
+        'SELECT title, local_date::text AS local_date FROM quests WHERE id = $1',
+        [questId],
+      );
       const title = rows[0]?.title;
       if (title === undefined) return null;
       return {
         title: QUEST_PUSH.doneTitle,
         body: QUEST_PUSH.doneBody,
         vars: { title, xp: Number(event.payload['xp'] ?? 0) },
-        sender: await tripGuide(tx, event.tripId),
+        sender: await questGuide(tx, event.tripId, rows[0]?.local_date),
         crewId: event.crewId,
         tripId: event.tripId,
         deepLink: `/quests/${event.tripId ?? ''}`,

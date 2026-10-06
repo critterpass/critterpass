@@ -4,12 +4,13 @@
  * own clock (so the words fit the hour), the destination and dates, their own
  * public taste tags and first names for the no-names check. Their must-dos, their own share and the
  * savings the cost engine priced for them come from code. Never another member's budget, private
- * reason or passive signal.
+ * reason or passive signal. A trip with several stops adds its route (each city, its nights and the
+ * way in from the one before) and the city of each stop's day; a one-stop trip adds nothing.
  */
-import type { PersonaId, VersionContext, VersionItem } from '@cp/ai';
+import type { PersonaId, VersionContext, VersionItem, VersionRouteStop } from '@cp/ai';
 import { personaIdSchema } from '@cp/ai';
 import { assertCurrencyCode, formatMoney, money } from '@cp/cost-engine';
-import { readLatestRates, withGuideReader, withSystem } from '@cp/db';
+import { readLatestRates, tripAreas, withGuideReader, withSystem } from '@cp/db';
 import { costStateFromRows, skipOptions, type CostComponentRow } from '@cp/planner';
 import type pg from 'pg';
 
@@ -89,6 +90,58 @@ async function costFacts(tx: pg.PoolClient, target: VersionTarget) {
   };
 }
 
+interface TripRoute {
+  readonly stops: VersionRouteStop[];
+  /** The city or day-trip area each day of the plan is spent in. */
+  readonly cityOfDay: ReadonlyMap<number, string>;
+}
+
+/**
+ * The route of a trip with several stops over the plan being sent, read as the system (the plan is
+ * still the organiser's draft): the way into a stop is the crew's booked train or flight on its
+ * first day, else the onward link's mode and minutes. Null for a one-stop trip.
+ */
+async function loadRoute(tx: pg.PoolClient, target: VersionTarget): Promise<TripRoute | null> {
+  const areas = await tripAreas(tx, target.trip_id, target.plan_version_id ?? undefined, {
+    withGuides: false,
+  });
+  if (areas === null || areas.stops.length < 2) return null;
+  const { rows: names } = await tx.query<{ id: string; name: string }>(
+    'SELECT id, name FROM destinations WHERE id = ANY($1::uuid[])',
+    [areas.areaIds],
+  );
+  const nameOf = new Map(names.map((row) => [row.id, row.name]));
+  const { rows: booked } = await tx.query<{ day_no: number; category: string }>(
+    `SELECT DISTINCT ON (d.day_no) d.day_no, i.category
+       FROM plan_items i JOIN plan_days d ON d.id = i.day_id
+      WHERE i.version_id = $1 AND i.trip_id = $2 AND i.booking_id IS NOT NULL
+        AND i.category IN ('train', 'flight')
+      ORDER BY d.day_no, i.starts_at NULLS LAST, i.stable_id`,
+    [target.plan_version_id, target.trip_id],
+  );
+  const bookedOn = new Map(booked.map((row) => [row.day_no, row.category]));
+  const stops = areas.stops.map((stop, index): VersionRouteStop => {
+    const ride = bookedOn.get(stop.firstDay);
+    const link = stop.onwardLink;
+    return {
+      city: nameOf.get(stop.destinationId) ?? '',
+      nights: stop.nights,
+      travel:
+        index === 0
+          ? null
+          : ride !== undefined
+            ? { mode: ride, booked: true }
+            : link === null
+              ? null
+              : { mode: link.mode, minutes: link.minutes },
+    };
+  });
+  return {
+    stops,
+    cityOfDay: new Map(areas.days.map((day) => [day.dayNo, nameOf.get(day.areaId) ?? ''])),
+  };
+}
+
 export async function loadVersionContext(
   pool: pg.Pool,
   target: VersionTarget,
@@ -144,18 +197,23 @@ export async function loadVersionContext(
       items: items.rows,
       cost: await costFacts(tx, target),
       locale: language.rows[0]?.locale ?? 'en',
+      route: await loadRoute(tx, target),
     };
   });
   const me = read.crew.find((member) => member.user_id === target.recipient_id);
   const guide = personaIdSchema.safeParse(read.trip?.guide_slug);
-  const items: VersionItem[] = own.items.map((item) => ({
-    id: item.stable_id,
-    title: item.poi_name ?? item.category ?? 'Plan item',
-    day: item.day_no,
-    category: item.category,
-    must_do: item.must_do_id !== null && own.mustDos.has(item.must_do_id),
-    time: item.local_time,
-  }));
+  const items: VersionItem[] = own.items.map((item) => {
+    const city = item.day_no === null ? undefined : own.route?.cityOfDay.get(item.day_no);
+    return {
+      id: item.stable_id,
+      title: item.poi_name ?? item.category ?? 'Plan item',
+      day: item.day_no,
+      category: item.category,
+      must_do: item.must_do_id !== null && own.mustDos.has(item.must_do_id),
+      time: item.local_time,
+      ...(city === undefined || city === '' ? {} : { city }),
+    };
+  });
   const { cost, locale } = own;
   const share = target.show_cost ? cost.share : null;
   const savings = target.show_cost ? cost.savings : [];
@@ -169,6 +227,7 @@ export async function loadVersionContext(
         : null,
     tasteTags: me?.taste_tags ?? [],
     items,
+    ...(own.route === null ? {} : { route: own.route.stops }),
     share: share === null ? null : label(share, cost.currency, locale),
     savings: savings.map((s) => ({
       id: s.id,

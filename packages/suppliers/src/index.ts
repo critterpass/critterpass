@@ -116,3 +116,4 @@ export {
 } from './mapbox/geocode';
 export * from './valhalla';
 export * from './social';
+export * from './private-transport';

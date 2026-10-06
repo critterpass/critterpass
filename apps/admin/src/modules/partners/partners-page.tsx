@@ -30,7 +30,7 @@ function AdapterEditor({ adapter }: { adapter: PartnerAdapter }) {
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
-  const [conflict, setConflict] = useState(false);
+  const [conflict, setConflict] = useState<unknown>(null);
   const next = {
     enabled,
     copy_mode: copyMode,
@@ -61,7 +61,7 @@ function AdapterEditor({ adapter }: { adapter: PartnerAdapter }) {
       );
       await client.invalidateQueries({ queryKey: ['partners'] });
     } catch (caught) {
-      if (isApiError(caught, 'VERSION_CONFLICT')) setConflict(true);
+      if (isApiError(caught, 'VERSION_CONFLICT')) setConflict(caught);
       else setError(caught);
     } finally {
       setBusy(false);
@@ -69,11 +69,15 @@ function AdapterEditor({ adapter }: { adapter: PartnerAdapter }) {
     }
   };
 
-  if (conflict) {
+  if (conflict !== null) {
     return (
       <ConflictState
         changes={changes}
-        onReload={() => void client.invalidateQueries({ queryKey: ['partners'] })}
+        cause={conflict}
+        onReload={() => {
+          setConflict(null);
+          void client.invalidateQueries({ queryKey: ['partners'] });
+        }}
       />
     );
   }

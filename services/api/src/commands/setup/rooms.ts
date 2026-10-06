@@ -1,7 +1,7 @@
 /**
  * Rooms (docs/api-contracts.md §4.5; 3c-6). The organiser picks the stay (or a mix of stays for
- * the locked nights); the plan is priced per room from the destination's cost index in the crew
- * currency (doubles, and a single for an odd crew), and the guide's proposal seats couples
+ * the locked nights); the plan is priced per room from the cost index of the stop each stay lies
+ * in, in the crew currency (doubles, and a single for an odd crew), and the guide's proposal seats couples
  * together and groups light sleepers, early risers and night owls. Moving people is checked
  * against the plan's version (a concurrent edit is rejected with the current version to rebase on)
  * and each room's capacity. Every change queues the trip's cost recompute, which prices rooms into
@@ -23,6 +23,7 @@ import type pg from 'pg';
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
 import { loadBudgetEstimates } from './budget-shared';
+import { priceStays } from './stay-stops';
 import { moveStep } from './lock-trip-dates';
 import {
   daysBetween,
@@ -108,28 +109,18 @@ export const setStayChoiceCommand = defineCommand({
       throw new DomainError('STATE_INVALID', { reason: 'dates_not_locked' });
     }
     const nights = daysBetween(trip.start_date, trip.end_date);
-    const stays = payload.stays ?? [{ stay_type: payload.stay_option_id, nights }];
-    if (stays.reduce((sum, stay) => sum + stay.nights, 0) !== nights) {
-      throw new DomainError('VALIDATION', { reason: 'stay_nights', nights });
-    }
     const estimates = await loadBudgetEstimates(tx, trip.id);
+    const stays = priceStays(estimates, payload, nights);
     const members = await setupMemberIds(tx, trip.id);
     const layout = roomLayout(members.length);
     const rooms: PlanRoomWire[] = stays.flatMap((stay, index) => {
-      const rate = estimates.index?.stays.find((s) => s.type === stay.stay_type);
-      if (rate === undefined) {
-        throw new DomainError('STATE_INVALID', {
-          reason: 'stay_unavailable',
-          stay: stay.stay_type,
-        });
-      }
       return layout.map((room, i) => ({
         stay_key: `stay-${index + 1}`,
         stay_type: stay.stay_type,
         stay_nights: stay.nights,
         key: room.key,
         capacity: room.capacity,
-        nightly_minor: Number(rate.nightlyHighMinor) * room.capacity,
+        nightly_minor: Number(stay.nightlyHighMinor) * room.capacity,
         label: `Room ${i + 1}`,
       }));
     });

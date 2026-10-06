@@ -3,7 +3,9 @@
  * each, before the crew has a plan. The first stop is the trip's own destination; each next one is
  * a city an onward link leads to from the one before, in the trip's time zone and currency; the
  * nights add up to the trip's. An empty list, or the destination alone, is a one-stop trip again
- * (no rows). The budget, the room plan and the must-do fits go stale as a dates change makes them.
+ * (no rows). The budget, the room plan and the must-do fits go stale as a dates change makes them,
+ * and a draft she already has is written again with every day seated in its stop: the stops of a
+ * day whose city changed go back to Ideas when their place is outside it.
  * Online only; organiser only; behind `trip.areas`.
  */
 import { emitEvent } from '@cp/db';
@@ -12,8 +14,16 @@ import { DomainError, setTripStopsPayloadSchema, type SetTripStopsResult } from 
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../../commands/_framework/define-command';
 import { markStale } from '../../commands/setup/lock-trip-dates';
-import { loadSetupTrip, requireOrganiser } from '../../commands/setup/shared';
-import { assertSameZoneAndMoney, loadPlaceRules, requireTripAreas } from './day-area-change';
+import { loadSetupTrip, queueBudgetRecompute, requireOrganiser } from '../../commands/setup/shared';
+import { seatDays } from '../../plan/draft-days';
+import { loadStopRows, lockTripDraft, writeStopRows } from '../../plan/draft-versioning';
+import { loadPlanState } from '../../plan/versioning';
+import {
+  assertSameZoneAndMoney,
+  loadPlaceRules,
+  requireTripAreas,
+  writeDraftEdit,
+} from './day-area-change';
 
 const GUIDE_WORKING = new Set(['drafting', 'redrafting']);
 
@@ -56,44 +66,45 @@ export const setTripStopsCommand = defineCommand({
       if (!oneStop)
         await assertRoute(tx, trip.id, stops, daysBetween(trip.start_date, trip.end_date));
 
-      const { rows: before } = await tx.query<{ destination_id: string; nights: number }>(
-        'SELECT destination_id, nights FROM trip_stops WHERE trip_id = $1 ORDER BY position',
-        [trip.id],
-      );
-      await tx.query('DELETE FROM trip_stops WHERE trip_id = $1', [trip.id]);
-      const kept = oneStop ? [] : stops;
-      if (kept.length > 0) {
-        await tx.query(
-          `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
-           SELECT $1, $2, s.position, s.destination_id, s.nights
-             FROM unnest($3::uuid[], $4::int[]) WITH ORDINALITY AS s(destination_id, nights, position)`,
-          [
-            trip.id,
-            trip.crew_id,
-            kept.map((stop) => stop.destination_id),
-            kept.map((stop) => stop.nights),
-          ],
-        );
+      const before = await loadStopRows(tx, trip.id);
+      const kept = await writeStopRows(tx, trip, oneStop ? [] : stops);
+      const after = kept.map(({ destination_id, nights }) => ({ destination_id, nights }));
+      const result: SetTripStopsResult = { trip_id: trip.id, stops: kept };
+      if (JSON.stringify(before) === JSON.stringify(after)) return result;
+      await markStale(tx, trip.id, ['budget', 'rooms', 'fits']);
+      await queueBudgetRecompute(tx, trip.id, true);
+      await emitEvent(tx, {
+        type: 'trip.areas_changed',
+        aggregateKind: 'trip',
+        aggregateId: trip.id,
+        actorKind: 'user',
+        actorId: ctx.uid,
+        crewId: trip.crew_id,
+        tripId: trip.id,
+        payload: { trip_id: trip.id },
+      });
+      // Her draft follows the route: every day seated in its stop, as a new draft.
+      const head = await lockTripDraft(tx, trip.id);
+      const base = head.draftVersionId;
+      if (base === null || trip.destination_id === null) return result;
+      const state = await loadPlanState(tx, base);
+      const { next, moved } = await seatDays(tx, {
+        tripId: trip.id,
+        crewId: trip.crew_id,
+        uid: ctx.uid,
+        destinationId: trip.destination_id,
+        state,
+        before,
+        after,
+      });
+      if (moved.length === 0 && JSON.stringify(next.days) === JSON.stringify(state.days)) {
+        return { ...result, version_id: base };
       }
-      const changed =
-        JSON.stringify(before) !==
-        JSON.stringify(kept.map(({ destination_id, nights }) => ({ destination_id, nights })));
-      if (changed) {
-        await markStale(tx, trip.id, ['budget', 'rooms', 'fits']);
-        await emitEvent(tx, {
-          type: 'trip.areas_changed',
-          aggregateKind: 'trip',
-          aggregateId: trip.id,
-          actorKind: 'user',
-          actorId: ctx.uid,
-          crewId: trip.crew_id,
-          tripId: trip.id,
-          payload: { trip_id: trip.id },
-        });
-      }
+      const versionId = await writeDraftEdit(tx, head, base, next, ctx.uid);
       return {
-        trip_id: trip.id,
-        stops: kept.map((stop, index) => ({ position: index + 1, ...stop })),
+        ...result,
+        version_id: versionId,
+        ...(moved.length === 0 ? {} : { moved_stops: moved }),
       };
     });
   },

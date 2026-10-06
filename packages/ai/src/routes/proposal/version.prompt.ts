@@ -68,6 +68,20 @@ export const READER_LANGUAGE_RULES = [
   '- In any language: never say a room or a stay is held, reserved or booked.',
 ].join('\n');
 
+/**
+ * Added for a trip with several stops: the data then carries the route and each stop's city. A
+ * one-stop trip's prompt and data are unchanged.
+ */
+export const ROUTE_RULES = [
+  '- `route` lists the cities of this trip in order, with the nights in each and how the crew',
+  '  gets from one to the next. Each plan item says which `city` its day is spent in.',
+  '- Tell the trip as it moves from city to city. Never place a stop in another city than its',
+  '  own, and name no city that is not in the data.',
+  '- Travel between cities only as `route` gives it: by its `mode`, and as already theirs when',
+  '  `booked` is true. Its `nights` and `minutes` tell you how long a stay or a ride is (an',
+  '  estimate unless booked): write neither as a number.',
+].join('\n');
+
 /** The reply-language line of the user turn, or nothing for an English reader. */
 export function replyLanguage(locale: string | undefined): string {
   return locale === undefined || locale === 'en'
@@ -93,6 +107,7 @@ function describe(context: VersionContext): string {
     for: context.recipientFirstName,
     destination: context.destination,
     dates: context.dates,
+    ...(context.route === undefined ? {} : { route: context.route }),
     taste_tags: context.tasteTags,
     asked_for_something: context.tasteTags.length > 0 || context.items.some((i) => i.must_do),
     share: context.share,
@@ -105,16 +120,22 @@ function describe(context: VersionContext): string {
       part_of_day: partOfDay(item.time),
       category: item.category,
       their_must_do: item.must_do,
+      ...(item.city === undefined ? {} : { city: item.city }),
     })),
   });
 }
 
 export function buildVersionRequest(context: VersionContext): GatewayInput {
   const language = replyLanguage(context.locale);
+  const task = [
+    TASK,
+    ...(context.route === undefined ? [] : [ROUTE_RULES]),
+    ...(language === '' ? [] : [READER_LANGUAGE_RULES]),
+  ].join('\n');
   return {
     system: [
       { type: 'text', text: renderPersonaBlock(resolvePersonaPack(context.guide)) },
-      { type: 'text', text: language === '' ? TASK : `${TASK}\n${READER_LANGUAGE_RULES}` },
+      { type: 'text', text: task },
     ],
     messages: [
       userTurnWithData(`Write ${context.recipientFirstName}'s version.${language}`, [

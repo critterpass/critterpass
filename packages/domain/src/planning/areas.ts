@@ -59,6 +59,62 @@ export function stopDayRanges(
   return ranges;
 }
 
+/** A stop of a trip: its city and the nights spent there. */
+export interface StopCity extends StopNights {
+  readonly destinationId: string;
+}
+
+/**
+ * The area a day carries once the trip's stops are `stops` (never empty: a one-stop trip is its
+ * destination alone). The day keeps its own area when that is a day trip from the stop the day is
+ * now in; otherwise it takes its stop's city, which the first stop's days leave unset (null).
+ */
+export function seatDayArea(
+  stops: readonly StopCity[],
+  dayNo: number,
+  area: string | null,
+  isDayTrip: (fromCity: string, toArea: string) => boolean,
+): string | null {
+  const index = stopIndexOfDay(stops, dayNo);
+  const stop = stops[index];
+  if (stop === undefined) return area;
+  if (area !== null && area !== stop.destinationId && isDayTrip(stop.destinationId, area)) {
+    return area;
+  }
+  return index === 0 ? null : stop.destinationId;
+}
+
+/**
+ * The stops of a trip whose dates changed to `nights` nights: the last stop takes the difference,
+ * a stop left with no night is dropped from the end, and a trip left with one stop has none (it is
+ * a one-stop trip again).
+ */
+export function refitStops<T extends StopNights>(stops: readonly T[], nights: number): T[] {
+  const fitted = stops.map((stop) => ({ ...stop }));
+  let spare = nights - fitted.reduce((sum, stop) => sum + stop.nights, 0);
+  for (let index = fitted.length - 1; index >= 0 && spare !== 0; index -= 1) {
+    const stop = fitted[index];
+    if (stop === undefined) break;
+    const next = Math.max(0, stop.nights + spare);
+    spare -= next - stop.nights;
+    fitted[index] = { ...stop, nights: next };
+  }
+  const kept = fitted.filter((stop) => stop.nights > 0);
+  return kept.length > 1 ? kept : [];
+}
+
+/** The first day a reorder would carry into another stop's run of nights, if any. */
+export function dayCarriedAcrossStops(
+  stops: readonly StopNights[],
+  moves: readonly { readonly from: number; readonly to: number }[],
+): number | null {
+  if (stops.length < 2) return null;
+  const crossing = moves.find(
+    (move) => stopIndexOfDay(stops, move.from) !== stopIndexOfDay(stops, move.to),
+  );
+  return crossing?.from ?? null;
+}
+
 const planEditBase = z.strictObject({
   trip_id: z.uuid(),
   /** The version the edit was made against: the trip's crew plan, else the organiser's draft. */
@@ -93,10 +149,17 @@ export const setTripStopsPayloadSchema = z.strictObject({
   stops: z.array(tripStopInputSchema).max(MAX_TRIP_STOPS),
 });
 export type SetTripStopsPayload = z.infer<typeof setTripStopsPayloadSchema>;
+export const tripStopRowSchema = z.object({
+  position: z.number().int().min(1),
+  destination_id: z.uuid(),
+  nights: z.number(),
+});
+export type TripStopRow = z.infer<typeof tripStopRowSchema>;
 export const setTripStopsResultSchema = z.object({
   trip_id: z.uuid(),
-  stops: z.array(
-    z.object({ position: z.number().int().min(1), destination_id: z.uuid(), nights: z.number() }),
-  ),
+  stops: z.array(tripStopRowSchema),
+  /** Set when the trip has a draft: the draft with every day seated in its stop. */
+  version_id: z.uuid().optional(),
+  moved_stops: z.array(movedStopSchema).optional(),
 });
 export type SetTripStopsResult = z.infer<typeof setTripStopsResultSchema>;

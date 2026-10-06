@@ -5,7 +5,7 @@
  * claims race, the trip never holds more than its cap (6, or 16 while boosted), the rest queue at
  * gap-free waitlist positions, and a crew never passes its 16-member ceiling.
  */
-import { randomUUID } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 
 import { allocateSeat, decideCrewJoin, type ExistingParticipation } from '@cp/domain';
 import pg from 'pg';
@@ -36,9 +36,15 @@ afterAll(async () => {
   await container.stop();
 });
 
+const CODE_ALPHABET = '23456789ABCDEFGHJKMNPQRSTVWXYZ';
+
 type Outcome = 'seated' | 'waitlisted' | 'crew_full';
 
-async function claim(uid: string, crewId: string, tripId: string | null): Promise<Outcome> {
+async function claim(
+  uid: string,
+  { crewId, code }: Scenario,
+  tripId: string | null,
+): Promise<Outcome> {
   return withUser(racePool, uid, randomUUID(), async (tx) => {
     const { rows: lock } = await tx.query<{ active_members: number; member_ceiling: number }>(
       'SELECT * FROM app.lock_crew_membership($1)',
@@ -52,7 +58,7 @@ async function claim(uid: string, crewId: string, tripId: string | null): Promis
       maxActiveCrews: 10,
     });
     if (decision.kind !== 'join') return 'crew_full';
-    await tx.query('INSERT INTO crew_members (crew_id, user_id) VALUES ($1, $2)', [crewId, uid]);
+    await tx.query('SELECT app.join_crew($1, $2, NULL, NULL)', [crewId, code]);
     if (tripId === null) return 'seated';
 
     const { rows } = await tx.query<{
@@ -91,6 +97,8 @@ interface Scenario {
   readonly crewId: string;
   readonly tripId: string;
   readonly joiners: readonly string[];
+  /** The crew's live join code: what every joiner presents. */
+  readonly code: string;
 }
 
 async function scenario(options: {
@@ -120,7 +128,15 @@ async function scenario(options: {
     }
     const joiners: string[] = [];
     for (let i = 0; i < options.joiners; i += 1) joiners.push(await insertUser(tx));
-    return { crewId, tripId, joiners };
+    const code = Array.from(randomBytes(6), (b) => CODE_ALPHABET[b % CODE_ALPHABET.length]).join(
+      '',
+    );
+    await tx.query(
+      `INSERT INTO join_codes (code, target_kind, target_id, crew_id, created_by)
+       VALUES ($1, 'crew', $2, $2, $3)`,
+      [code, crewId, owner],
+    );
+    return { crewId, tripId, joiners, code };
   });
 }
 
@@ -140,7 +156,7 @@ const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
 describe('seat claims under concurrency', { timeout: 120_000 }, () => {
   it('seats exactly the 2 free seats of a 6-seat trip and waitlists the other 48', async () => {
     const s = await scenario({ seated: 4, joiners: 50, boosted: false, ceiling: 100 });
-    const outcomes = await Promise.all(s.joiners.map((uid) => claim(uid, s.crewId, s.tripId)));
+    const outcomes = await Promise.all(s.joiners.map((uid) => claim(uid, s, s.tripId)));
     expect(outcomes.filter((o) => o === 'seated')).toHaveLength(2);
     expect(outcomes.filter((o) => o === 'waitlisted')).toHaveLength(48);
     const after = await seats(s.tripId);
@@ -150,7 +166,7 @@ describe('seat claims under concurrency', { timeout: 120_000 }, () => {
 
   it('seats up to 16 while boosted and queues the rest', async () => {
     const s = await scenario({ seated: 12, joiners: 30, boosted: true, ceiling: 100 });
-    const outcomes = await Promise.all(s.joiners.map((uid) => claim(uid, s.crewId, s.tripId)));
+    const outcomes = await Promise.all(s.joiners.map((uid) => claim(uid, s, s.tripId)));
     expect(outcomes.filter((o) => o === 'seated')).toHaveLength(4);
     const after = await seats(s.tripId);
     expect(after.held).toBe(16);
@@ -159,7 +175,7 @@ describe('seat claims under concurrency', { timeout: 120_000 }, () => {
 
   it('never lets a crew pass its 16-member ceiling', async () => {
     const s = await scenario({ seated: 4, joiners: 20, boosted: false, ceiling: 16 });
-    const outcomes = await Promise.all(s.joiners.map((uid) => claim(uid, s.crewId, null)));
+    const outcomes = await Promise.all(s.joiners.map((uid) => claim(uid, s, null)));
     expect(outcomes.filter((o) => o === 'seated')).toHaveLength(12);
     expect(outcomes.filter((o) => o === 'crew_full')).toHaveLength(8);
     const { rows } = await db.pool.query<{ n: number }>(

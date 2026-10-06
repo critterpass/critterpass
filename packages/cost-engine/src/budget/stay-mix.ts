@@ -13,6 +13,8 @@ export interface StayRate {
 export interface StayMixPart {
   readonly type: string;
   readonly nights: number;
+  /** The stop (its position) the nights are spent at, on a trip with several stops. */
+  readonly stop?: number;
 }
 
 export interface StayMix {
@@ -28,13 +30,9 @@ interface Candidate {
   readonly costMinor: bigint;
 }
 
-export function chooseStayMix(
-  rates: readonly StayRate[],
-  nights: number,
-  allowanceMinor: bigint,
-): StayMix | null {
-  if (rates.length === 0 || nights <= 0) return null;
-  const sorted = [...rates].sort((a, b) =>
+/** Cheapest first; equal rates go to the type key that sorts first. */
+export function sortStayRates(rates: readonly StayRate[]): StayRate[] {
+  return [...rates].sort((a, b) =>
     a.nightlyPpMinor === b.nightlyPpMinor
       ? a.type < b.type
         ? -1
@@ -43,6 +41,15 @@ export function chooseStayMix(
         ? -1
         : 1,
   );
+}
+
+export function chooseStayMix(
+  rates: readonly StayRate[],
+  nights: number,
+  allowanceMinor: bigint,
+): StayMix | null {
+  if (rates.length === 0 || nights <= 0) return null;
+  const sorted = sortStayRates(rates);
   const cheapest = sorted[0] as StayRate;
   const allCheapest: Candidate = {
     upgrade: null,

@@ -101,6 +101,49 @@ async function placesOf(
   return new Map(rows.map((row) => [row.poiId ?? '', row]));
 }
 
+export interface Editor {
+  readonly tripId: string;
+  readonly crewId: string;
+  readonly uid: string;
+}
+
+/**
+ * Sends back to Ideas every stop on a day whose area changed (`newAreaOf` answers its new area)
+ * when its place lies outside that area. A stop on a dropped pin and a booked stop stay.
+ */
+export async function outsideToIdeas(
+  tx: pg.PoolClient,
+  who: Editor,
+  items: readonly PlanStateItem[],
+  newAreaOf: (dayNo: number) => string | undefined,
+): Promise<{ moved: MovedStop[]; leaving: Set<string> }> {
+  const onChanged = items.filter((item) => newAreaOf(item.day_no) !== undefined);
+  const places = await placesOf(tx, onChanged);
+  const moved: MovedStop[] = [];
+  const leaving = new Set<string>();
+  for (const item of onChanged) {
+    const place = item.poi_id == null ? undefined : places.get(item.poi_id);
+    if (
+      item.booking_id != null ||
+      place === undefined ||
+      place.destinationId === newAreaOf(item.day_no)
+    ) {
+      continue;
+    }
+    const { destinationId: _area, ...idea } = place;
+    await backIdea(tx, {
+      tripId: who.tripId,
+      crewId: who.crewId,
+      uid: who.uid,
+      place: idea,
+      source: 'save',
+    });
+    leaving.add(item.stable_id);
+    moved.push({ stable_id: item.stable_id, to: 'ideas' });
+  }
+  return { moved, leaving };
+}
+
 /** Runs the change under the trip lock, as the system; the caller checked the organiser. */
 export async function changeDayArea(
   tx: pg.PoolClient,
@@ -135,31 +178,18 @@ export async function changeDayArea(
     if (newArea === day.areaId) return { version_id: base };
 
     const state = await loadPlanState(tx, base);
-    const onDay = state.items.filter((item) => item.day_no === change.dayNo);
-    const places = await placesOf(tx, onDay);
-    const moved: MovedStop[] = [];
-    const leaving = new Set<string>();
-    for (const item of onDay) {
-      const place = item.poi_id == null ? undefined : places.get(item.poi_id);
-      if (item.booking_id != null || place === undefined || place.destinationId === newArea) {
-        continue;
-      }
-      const { destinationId: _area, ...idea } = place;
-      await backIdea(tx, {
-        tripId: change.tripId,
-        crewId: head.crewId,
-        uid: change.uid,
-        place: idea,
-        source: 'save',
-      });
-      leaving.add(item.stable_id);
-      moved.push({ stable_id: item.stable_id, to: 'ideas' });
-    }
+    const who = { tripId: change.tripId, crewId: head.crewId, uid: change.uid };
+    const { moved, leaving } = await outsideToIdeas(tx, who, state.items, (dayNo) =>
+      dayNo === change.dayNo ? newArea : undefined,
+    );
+    // A later stop's day carries its city when it is not out on a day trip.
+    const atStop = stop !== undefined && stop.position > 1 ? stopCity : null;
+    const seated = change.areaId ?? atStop;
     const next: PlanState = {
       days: state.days.map((row) => {
         if (row.day_no !== change.dayNo) return row;
         const { destination_id: _old, ...rest } = row;
-        return change.areaId === null ? rest : { ...rest, destination_id: change.areaId };
+        return seated === null ? rest : { ...rest, destination_id: seated };
       }),
       items: state.items.filter((item) => !leaving.has(item.stable_id)),
     };
@@ -190,7 +220,8 @@ export async function changeDayArea(
   });
 }
 
-async function writeDraftEdit(
+/** Writes a hand edit of the draft, with its numbers refreshed and the plan jobs told. */
+export async function writeDraftEdit(
   tx: pg.PoolClient,
   head: Awaited<ReturnType<typeof lockTripDraft>>,
   base: string,

@@ -101,6 +101,7 @@ function services(over: Partial<AccountServices> = {}): AccountServices & {
   return {
     readAccount: () =>
       Promise.resolve({ kind: 'ok', state: { status: 'registered', deletion: null } }),
+    readPreflight: () => Promise.resolve(null),
     passSaved: () => Promise.resolve(true),
     ...over,
     clearPhone: jest.fn<AccountServices['clearPhone']>(() =>
@@ -204,6 +205,7 @@ describe('delete account', () => {
         online={over.online ?? true}
         busy={false}
         passPlus={false}
+        preflight={null}
         reason={null}
         problem={null}
         onContinue={jest.fn()}

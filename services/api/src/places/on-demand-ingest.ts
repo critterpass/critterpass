@@ -62,6 +62,7 @@ export const PLACES_PROFILE_QUEUES = [
   PLACES_QUEUES.profileWarm,
   PLACES_QUEUES.destinationBrief,
   PLACES_QUEUES.briefTranslate,
+  PLACES_QUEUES.homeLink,
 ] as const;
 
 /** A sparse destination's warm-up waits this long, so its places have been ingested first. */

@@ -1,7 +1,7 @@
 ---
 phase: 25
 title: Home, inbox, nudges, countdown, tips
-status: in_progress
+status: done
 depends_on: [11, 13, 15, 23, 24]
 wave: 11
 features: [F-053, F-054, F-055, F-056, F-057]
@@ -33,7 +33,7 @@ owns:
 ---
 # Phase 25 — Home, inbox, nudges, countdown, tips
 
-> **Status, 6 Oct 2026:** open: T9's iOS `first-run`, `first-run-vi` and `all-caught-up` runs.
+> **Status, 6 Oct 2026:** done.
 
 ## Context links
 
@@ -198,7 +198,7 @@ Vote slot contract: `packages/domain/src/home/home-state.ts` exposes `HomeState.
 - Steps: 1. Seed via `packages/db` seed scripts (real commands, not fixtures in app). 2. Flows incl. offline Home.
 - Tests: `maestro test e2e/home`
 - Done when: green on iOS and Android.
-- Status: blocked — Android green on the e2e-test build 11 APK: first-run, first-run-vi, everyday-countdown and inbox-actions (https://github.com/critterpass/critterpass/actions/runs/36651330885), all-caught-up (https://github.com/critterpass/critterpass/actions/runs/36654124089) and nudge (https://github.com/critterpass/critterpass/actions/runs/36655282364), all seeded through the staging demo seed. iOS: inbox-actions, everyday-countdown and nudge passed (https://github.com/critterpass/critterpass/actions/runs/36622347680); first-run, first-run-vi and all-caught-up still need an iOS run after the Home polish in #170 and the Android step fixes here (macOS runners are scarce, so these wait for a free slot)
+- Status: done — iOS first-run, first-run-vi and all-caught-up pass (https://github.com/critterpass/critterpass/actions/runs/37414960352); every flow was already green on Android
 
 ## Phase acceptance criteria
 

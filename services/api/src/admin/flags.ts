@@ -27,6 +27,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { withAdminReader } from './reads';
+import { lastSave } from './last-save';
 import { defineAdminArea, defineAdminCommand, defineAdminRead } from './registry';
 
 interface ConfigRow {
@@ -202,6 +203,11 @@ export function flagsArea(pool: pg.Pool) {
             throw new DomainError('VERSION_CONFLICT', {
               current_version: current?.version ?? 0,
               current: { value: current?.value ?? null, audience: current?.audience ?? null },
+              ...(await lastSave(tx, {
+                action: 'set_feature_flag',
+                field: 'key',
+                value: payload.key,
+              })),
             });
           }
           const version = await writeConfigKey(tx, {

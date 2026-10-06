@@ -6,17 +6,29 @@
  * the new dates. A stop on a day the shorter trip no longer has goes back to Ideas when it is a
  * place of ours, and otherwise moves to the last day; the caller is told which stops moved and
  * where. Booked stops follow their bookings, not this rule.
+ *
+ * On a trip with several stops the stops are refitted to the new nights first, and every day is
+ * then seated in its stop: it takes its stop's city, or keeps a day trip that still leaves from it.
  */
 import { dropReplacedDraft, writeBookedPlanItems } from '@cp/db';
-import type { MovedStop, PlanState, PlanStateItem } from '@cp/domain';
+import {
+  seatDayArea,
+  stopIndexOfDay,
+  type MovedStop,
+  type PlanState,
+  type PlanStateItem,
+  type StopCity,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import { backIdea, type IdeaPlace } from '../commands/ideas';
+import { outsideToIdeas, type Editor } from '../planning/areas/day-area-change';
 import {
   createEmptyDraft,
   draftChanged,
   writeDraftVersion,
   type DraftHead,
+  type StopRow,
 } from './draft-versioning';
 import { loadPlanState } from './versioning';
 
@@ -91,12 +103,68 @@ async function onNewDates(
   });
 }
 
+export interface SeatDays extends Editor {
+  /** The trip's own destination: the one stop of a trip with no stop rows. */
+  readonly destinationId: string;
+  readonly state: PlanState;
+  readonly before: readonly StopRow[];
+  readonly after: readonly StopRow[];
+}
+
+/**
+ * Seats every day of a plan in the trip's stops as they now are: a day keeps a day trip that
+ * still leaves from its stop and otherwise takes its stop's city, and the stops of a day whose
+ * city changed go back to Ideas when their place is outside it. Runs as the system.
+ */
+export async function seatDays(
+  tx: pg.PoolClient,
+  input: SeatDays,
+): Promise<{ next: PlanState; moved: MovedStop[] }> {
+  const asStops = (rows: readonly StopRow[]): StopCity[] =>
+    rows.length > 0
+      ? rows.map((row) => ({ destinationId: row.destination_id, nights: row.nights }))
+      : [{ destinationId: input.destinationId, nights: 1 }];
+  const before = asStops(input.before);
+  const after = asStops(input.after);
+  const cityOf = (stops: readonly StopCity[], dayNo: number, area: string | null): string =>
+    area ?? stops[stopIndexOfDay(stops, dayNo)]?.destinationId ?? input.destinationId;
+  const { rows: links } = await tx.query<{ from_id: string; to_id: string }>(
+    `SELECT from_destination_id AS from_id, to_destination_id AS to_id FROM destination_links
+      WHERE kind = 'day_trip' AND from_destination_id = ANY($1::uuid[])
+        AND to_destination_id = ANY($2::uuid[])`,
+    [
+      after.map((stop) => stop.destinationId),
+      input.state.days.flatMap((day) => (day.destination_id == null ? [] : [day.destination_id])),
+    ],
+  );
+  const dayTrips = new Set(links.map((link) => `${link.from_id}>${link.to_id}`));
+  const changed = new Map<number, string>();
+  const days = input.state.days.map((day) => {
+    const { destination_id: old, ...rest } = day;
+    const seated = seatDayArea(after, day.day_no, old ?? null, (from, to) =>
+      dayTrips.has(`${from}>${to}`),
+    );
+    const city = cityOf(after, day.day_no, seated);
+    if (city !== cityOf(before, day.day_no, old ?? null)) changed.set(day.day_no, city);
+    return seated === null ? rest : { ...rest, destination_id: seated };
+  });
+  const { moved, leaving } = await outsideToIdeas(tx, input, input.state.items, (dayNo) =>
+    changed.get(dayNo),
+  );
+  return {
+    next: { days, items: input.state.items.filter((item) => !leaving.has(item.stable_id)) },
+    moved,
+  };
+}
+
 export interface ReshapeInput {
   readonly head: DraftHead;
   readonly start: string;
   readonly end: string;
   readonly tz: string;
   readonly actorId: string;
+  /** The trip's stops before and after the dates changed, when it had any; its own destination. */
+  readonly seat?: Pick<SeatDays, 'before' | 'after' | 'destinationId'>;
 }
 
 /**
@@ -145,7 +213,7 @@ export async function reshapeDraftDays(
     });
     moved.push({ stable_id: item.stable_id, to: 'ideas' });
   }
-  const next: PlanState = {
+  const onDates: PlanState = {
     days: Array.from({ length }, (_, index) => {
       const day = before.get(index + 1);
       const area = day?.destination_id;
@@ -158,6 +226,18 @@ export async function reshapeDraftDays(
     }),
     items: await onNewDates(tx, base, start, input.tz, kept),
   };
+  const seated =
+    input.seat === undefined
+      ? { next: onDates, moved: [] }
+      : await seatDays(tx, {
+          tripId: head.tripId,
+          crewId: head.crewId,
+          uid: input.actorId,
+          state: onDates,
+          ...input.seat,
+        });
+  const { next } = seated;
+  moved.push(...seated.moved);
   const versionId = await writeDraftVersion(tx, {
     head,
     baseVersionId: base,

@@ -5,6 +5,12 @@
  * Better Auth flow ("uid unchanged after verify") is auth/otp.db.test.ts.
  */
 import { DomainError } from '@cp/domain';
+import {
+  AggregationTemporality,
+  InMemoryMetricExporter,
+  MeterProvider,
+  PeriodicExportingMetricReader,
+} from '@opentelemetry/sdk-metrics';
 import { describe, expect, it, vi } from 'vitest';
 
 import {
@@ -19,6 +25,7 @@ import {
   type OtpChannelFailure,
   type OtpDeliveryTracker,
 } from '../../src/auth/otp/router';
+import { createMetricsRecorder } from '../../src/obs/metrics';
 
 describe('countryOtpPolicy', () => {
   it.each([
@@ -89,6 +96,45 @@ describe('createOtpRouter', () => {
     });
     expect(whatsappSend).toHaveBeenCalledTimes(1);
     expect(smsSend).toHaveBeenCalledWith({ phoneE164: '+6591234567', code: '123456' });
+  });
+
+  it('counts an SMS the provider accepted by destination country, and no chat-app send', async () => {
+    const exporter = new InMemoryMetricExporter(AggregationTemporality.CUMULATIVE);
+    const reader = new PeriodicExportingMetricReader({ exporter, exportIntervalMillis: 60_000 });
+    const meter = new MeterProvider({ readers: [reader] }).getMeter('test');
+    const metrics = createMetricsRecorder({ meter, strict: true });
+    const ok = () => vi.fn<OtpChannelAdapter['send']>().mockResolvedValue({});
+    const failing = () =>
+      vi.fn<OtpChannelAdapter['send']>().mockRejectedValue(new Error('provider down'));
+    const send = (adapters: Partial<Record<OtpChannel, OtpChannelAdapter>>, phoneE164: string) =>
+      createOtpRouter({ adapters, tracker: noopTracker(), switches: allOn, metrics }).sendOTP({
+        phoneE164,
+        code: '123456',
+        uid: undefined,
+        verificationId: undefined,
+      });
+
+    await send({ whatsapp: { send: ok() }, prelude: { send: ok() } }, '+6591234567');
+    await send({ whatsapp: { send: failing() }, prelude: { send: ok() } }, '+6591234567');
+    await send({ prelude: { send: ok() } }, '+6591234567');
+    await send({ prelude: { send: ok() } }, '+84901234567');
+    await expect(send({ prelude: { send: failing() } }, '+84901234567')).rejects.toThrow();
+
+    await reader.forceFlush();
+    const points = exporter
+      .getMetrics()
+      .flatMap((resource) => resource.scopeMetrics.flatMap((scope) => scope.metrics))
+      .filter((metric) => metric.descriptor.name === 'cp_sms_sent_total')
+      .flatMap((metric) =>
+        metric.dataPoints.map((point) => ({ ...point.attributes, value: point.value })),
+      );
+    expect(points).toHaveLength(2);
+    expect(points).toEqual(
+      expect.arrayContaining([
+        { provider: 'prelude', country: 'sg', value: 2 },
+        { provider: 'prelude', country: 'vn', value: 1 },
+      ]),
+    );
   });
 
   it('throws VALIDATION with country_unsupported for an unparseable number', async () => {

@@ -190,6 +190,30 @@ describe('apply_draft_ops', () => {
     expect(rows[0]?.days).toBe(3);
   });
 
+  it("reorders days inside one stop and never carries a day into another stop's nights", async () => {
+    await harness.redis.flushAll();
+    // One night then one night: day 1 is the first stop's, days 2 and 3 the second's.
+    await harness.pool.query(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       SELECT t.id, t.crew_id, n, t.destination_id, 1 FROM trips t, generate_series(1, 2) AS n
+        WHERE t.id = $1`,
+      [crew.tripId],
+    );
+    try {
+      const base = (await trip()).draft;
+      const reorder = (order: number[], from = base) =>
+        edit(crew.organiser, from, [{ op: 'reorder_days', new: { order } }]);
+      expect(errorOf(await reorder([2, 1, 3]))).toMatchObject({
+        code: 'STATE_INVALID',
+        detail: { reason: 'stop_day_fixed', day_no: 2 },
+      });
+      expect((await trip()).draft).toBe(base);
+      expect((await reorder([1, 3, 2])).status).toBe(200);
+    } finally {
+      await harness.pool.query('DELETE FROM trip_stops WHERE trip_id = $1', [crew.tripId]);
+    }
+  });
+
   it('keeps a draft the guide made when she edits it, and waits while the guide drafts', async () => {
     await harness.redis.flushAll();
     const guideDraft = (await trip()).draft;

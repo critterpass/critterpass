@@ -24,7 +24,7 @@ import type pg from 'pg';
 import { asSystemRole } from '../../admin/command';
 import { recomputeTrip } from '../../entitlements';
 import { ensureDraftDays, reshapeDraftDays } from '../../plan/draft-days';
-import { lockTripDraft } from '../../plan/draft-versioning';
+import { lockTripDraft, refitTripStops } from '../../plan/draft-versioning';
 import { defineCommand } from '../_framework/define-command';
 import {
   daysBetween,
@@ -196,7 +196,15 @@ export const lockTripDatesCommand = defineCommand({
       const next: TripSetupStep =
         stepIndex(trip.setup_step) <= stepIndex('when') ? 'budget' : trip.setup_step;
       await moveStep(tx, trip, next, ctx.uid);
-      const result = { trip_id: trip.id, start: payload.start, end: payload.end, step: next };
+      // A trip with several stops keeps them inside its new nights.
+      const fit = moved ? await refitTripStops(tx, trip, length - 1) : undefined;
+      const result = {
+        trip_id: trip.id,
+        start: payload.start,
+        end: payload.end,
+        step: next,
+        ...(fit?.changed === true ? { stops: fit.after } : {}),
+      };
       // The trip's days: a plan she already built follows the dates; a trip with none gets its
       // empty plan.
       const head = await lockTripDraft(tx, trip.id);
@@ -211,6 +219,15 @@ export const lockTripDatesCommand = defineCommand({
         end: payload.end,
         tz: trip.tz ?? 'UTC',
         actorId: ctx.uid,
+        ...(fit === undefined || fit.before.length === 0 || trip.destination_id === null
+          ? {}
+          : {
+              seat: {
+                before: fit.before,
+                after: fit.after,
+                destinationId: trip.destination_id,
+              },
+            }),
       });
       return movedStops.length === 0 ? result : { ...result, moved_stops: movedStops };
     });

@@ -14,6 +14,7 @@ import { costReviewArea } from './cost-review';
 import { deskArea } from './desk';
 import { vendorDeskArea } from './vendor-desk/routes';
 import { flagsArea } from './flags';
+import { ideasArea } from './help/ideas';
 import { homeArea } from './home';
 import { incidentsArea } from './incidents';
 import { moderationArea } from './moderation';
@@ -51,5 +52,6 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     incidentsArea(deps.pool),
     homeArea(deps.pool),
     servicesArea(deps.pool),
+    ideasArea(deps.pool),
   ];
 }

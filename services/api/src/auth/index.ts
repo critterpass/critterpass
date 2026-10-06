@@ -41,6 +41,7 @@ import { betterAuth } from 'better-auth';
 
 import type { AttestationConfig, AttestationDeps } from '../abuse/attestation';
 import { defaultPumpingConfig, type PumpingConfig } from '../abuse/pumping';
+import type { MetricsRecorder } from '../obs/metrics';
 import { createKillSwitches } from '../ops/kill-switches';
 import { wrapHandlerWithMergeIntercept } from './merge/intercept';
 import type { AppleProviderConfig } from './social/apple';
@@ -75,6 +76,8 @@ export interface AuthModuleDeps {
   readonly onFixedCode?: ((use: { kind: FixedCodeKind; number: string }) => void) | undefined;
   /** Every OTP channel send that failed, with the provider's reason (no phone number). */
   readonly onOtpChannelFailure?: ((failure: OtpChannelFailure) => void) | undefined;
+  /** Counts the SMS the OTP router sends (`cp_sms_sent_total`). */
+  readonly metrics?: Pick<MetricsRecorder, 'record'> | undefined;
   readonly jwksRotationIntervalSeconds?: number | undefined;
   readonly rateLimit?: AuthConfigDeps['rateLimit'];
   readonly attestation: AttestationConfig;
@@ -148,6 +151,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     tracker: createRedisOtpDeliveryTracker(deps.redis),
     switches,
     onChannelFailure: deps.onOtpChannelFailure,
+    metrics: deps.metrics,
   });
 
   const { hook: verificationCreateAfter, consumePendingVerificationId } =

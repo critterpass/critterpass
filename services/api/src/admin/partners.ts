@@ -16,6 +16,7 @@ import type pg from 'pg';
 
 import { writeConfigKey } from './flags';
 import { withAdminReader } from './reads';
+import { lastSave } from './last-save';
 import { defineAdminArea, defineAdminCommand, defineAdminRead } from './registry';
 
 interface AdapterRow {
@@ -88,7 +89,14 @@ export function partnersArea(pool: pg.Pool) {
           const current = rows[0];
           if (current === undefined) throw new DomainError('NOT_FOUND');
           if (current.version !== payload.version) {
-            throw new DomainError('VERSION_CONFLICT', { current_version: current.version });
+            throw new DomainError('VERSION_CONFLICT', {
+              current_version: current.version,
+              ...(await lastSave(tx, {
+                action: 'set_partner_adapter',
+                field: 'partner',
+                value: payload.partner,
+              })),
+            });
           }
           const certified =
             payload.certified === undefined ? current.certified_at !== null : payload.certified;
