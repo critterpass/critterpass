@@ -231,7 +231,7 @@ export function PracticeView(props: PracticeViewProps) {
                   />
                   <PillButton
                     size="sm"
-                    variant="secondary"
+                    tone="ink"
                     label={t({ id: 'guide.dietary.notNow', message: 'Not now' })}
                     onPress={props.consent.onNotNow}
                     testID="guide-practice-consent-no"

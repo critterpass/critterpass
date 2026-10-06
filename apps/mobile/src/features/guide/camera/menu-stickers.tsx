@@ -4,7 +4,7 @@
  * with someone's flags shakes once as it lands and is pink.
  */
 import { useEffect, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -24,7 +24,11 @@ const SHAKE_DEGREES = 3;
 const SHAKE_STEP_MS = 50;
 
 const useStyles = makeStyles((t) => ({
-  frame: { width: '100%', overflow: 'hidden', borderRadius: t.radius.sm },
+  frame: { width: '100%' },
+  // Room under the menu for the crew chips of its last dish, which hang below its edge.
+  hanging: { marginBottom: t.space['32'] * 2 },
+  // Only the still is cut to the menu's corners: stickers and chips may reach past its edges.
+  still: { borderRadius: t.radius.sm, overflow: 'hidden' },
   sticker: {
     position: 'absolute',
     alignSelf: 'flex-start',
@@ -130,10 +134,14 @@ export interface MenuStickersProps {
 
 export function MenuStickers({ still, children, stickers }: MenuStickersProps) {
   const styles = useStyles();
+  const flagged = stickers.some((sticker) => sticker.flags.length > 0);
   const ratio = still.height > 0 ? still.width / still.height : 0.75;
   return (
-    <View style={[styles.frame, { aspectRatio: ratio }]} testID="guide-menu-still">
-      {children}
+    <View
+      style={[styles.frame, flagged ? styles.hanging : null, { aspectRatio: ratio }]}
+      testID="guide-menu-still"
+    >
+      <View style={[StyleSheet.absoluteFill, styles.still]}>{children}</View>
       {stickers.map((sticker) => (
         <Sticker key={sticker.id} sticker={sticker} />
       ))}
