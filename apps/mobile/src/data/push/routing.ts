@@ -62,11 +62,8 @@ export interface NotificationLike {
   };
 }
 
-/**
- * The `cp` block of a notification: iOS keeps the whole APNs payload in `trigger.payload`, Android
- * the FCM data in `trigger.remoteMessage.data`; a local notification carries it in `content.data`.
- */
-export function tapFromNotification(notification: NotificationLike): PushTap | null {
+/** Every place a notification may carry its `cp` block, most specific first (see below). */
+export function cpBlocks(notification: NotificationLike): unknown[] {
   const trigger = notification.request.trigger;
   const candidates: unknown[] = [];
   if (isRecord(trigger)) {
@@ -77,7 +74,15 @@ export function tapFromNotification(notification: NotificationLike): PushTap | n
   }
   const data = notification.request.content.data;
   if (isRecord(data)) candidates.push(data['cp']);
-  for (const candidate of candidates) {
+  return candidates;
+}
+
+/**
+ * The `cp` block of a notification: iOS keeps the whole APNs payload in `trigger.payload`, Android
+ * the FCM data in `trigger.remoteMessage.data`; a local notification carries it in `content.data`.
+ */
+export function tapFromNotification(notification: NotificationLike): PushTap | null {
+  for (const candidate of cpBlocks(notification)) {
     const tap = tapFromCp(candidate);
     if (tap !== null) return tap;
   }

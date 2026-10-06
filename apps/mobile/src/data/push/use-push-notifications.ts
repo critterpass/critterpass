@@ -10,9 +10,15 @@ import { router, usePathname } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
 import { activeConversationOf, foregroundBehavior, shouldPresentInForeground } from './foreground';
+import { isBackgroundAction } from './notification-actions';
 import { createTapRouter, tapFromNotification, type PushTap } from './routing';
 
 const tapRouter = createTapRouter({ navigate: (href) => router.push(href) });
+
+/** Opens a push's link, once per notification (a background button with nothing to send uses it). */
+export function openPushTap(tap: PushTap | null): void {
+  void tapRouter.handle(tap);
+}
 
 /** The Android messaging service's bridge, as modules/cp-notifications exports it. */
 export interface NotificationTapBridge {
@@ -30,7 +36,8 @@ function takeInitialTaps(cpNotifications: NotificationTapBridge | null): PushTap
   const android = cpNotifications?.takeInitialTap() ?? null;
   if (android !== null) taps.push(android);
   const response = Notifications.getLastNotificationResponse();
-  if (response !== null) {
+  // A background button that woke the app is left for its handler (and is not a tap to follow).
+  if (response !== null && !isBackgroundAction(response)) {
     Notifications.clearLastNotificationResponse();
     const tap = tapFromNotification(response.notification);
     if (tap !== null) taps.push(tap);
@@ -58,6 +65,8 @@ export function usePushNotifications(cpNotifications: NotificationTapBridge | nu
     });
     for (const tap of takeInitialTaps(cpNotifications)) void tapRouter.handle(tap);
     const responses = Notifications.addNotificationResponseReceivedListener((response) => {
+      // A button that runs without opening the app never navigates.
+      if (isBackgroundAction(response)) return;
       void tapRouter.handle(tapFromNotification(response.notification));
     });
     const androidTaps = cpNotifications?.addTapListener((tap) => void tapRouter.handle(tap));
