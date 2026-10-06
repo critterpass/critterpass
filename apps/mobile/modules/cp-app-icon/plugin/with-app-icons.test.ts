@@ -58,12 +58,19 @@ describe('with-app-icons', () => {
       'golden',
       'bali-six',
     ]);
-    expect(automaticAlternateIds()).not.toContain('passport');
+    expect(automaticAlternateIds()).toEqual(['face', 'temple', 'sardi', 'pon']);
+    expect(automaticAlternateIds(['passport', 'golden'])).toEqual(['golden']);
   });
 
   it('names forced appearances the way the module asks for them', () => {
-    expect(forcedAlternateNames(['dark'])).toContain('home-set-dark');
-    expect(automaticAlternateIds()).toContain('bali-six');
+    expect(forcedAlternateNames(['dark'])).toEqual([
+      'passport-dark',
+      'face-dark',
+      'temple-dark',
+      'sardi-dark',
+      'pon-dark',
+    ]);
+    expect(automaticAlternateIds(['bali-six'])).toEqual(['bali-six']);
   });
 
   it('moves the launcher entry onto one enabled alias per icon and keeps deep links', () => {
@@ -89,7 +96,7 @@ describe('with-app-icons', () => {
     const application = twice.manifest.application?.[0] as unknown as {
       'activity-alias': Alias[];
     };
-    expect(application['activity-alias']).toHaveLength(APP_ICON_IDS.length);
+    expect(application['activity-alias']).toHaveLength(automaticAlternateIds().length + 1);
   });
 
   it('sets the alternate icon names on the app target only, never on an extension', () => {

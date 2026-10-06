@@ -10,7 +10,8 @@
  * - Android: one `activity-alias` of MainActivity per icon, the default one enabled; the launcher
  *   entry moves from MainActivity to that alias, so switching never leaves the app without one.
  *
- * PASSPORT in the automatic appearance is the primary icon and gets no alternate. Self-contained
+ * PASSPORT in the automatic appearance is the primary icon and gets no alternate. Four alternates
+ * are bundled by default (`DEFAULT_ALTERNATE_IDS`); the `alternates` option brings others back. Self-contained
  * on purpose: Expo loads config plugins with Node's plain TypeScript stripping, which cannot
  * resolve relative extensionless imports or workspace packages.
  */
@@ -42,7 +43,16 @@ export const APP_ICON_IDS = [
 export const PRIMARY_ICON_ID = 'passport';
 export type ForcedAppearance = 'light' | 'dark' | 'tinted';
 
+/**
+ * The alternates bundled unless `alternates` says otherwise: four, because each one adds about
+ * 6 MB of compiled asset catalog on iOS. Any other catalogue id comes back by listing it.
+ */
+export const DEFAULT_ALTERNATE_IDS: readonly AppIconId[] = ['face', 'pon', 'sardi', 'temple'];
+export type AppIconId = (typeof APP_ICON_IDS)[number];
+
 export interface AppIconsOptions {
+  /** Catalogue ids to bundle besides the primary icon. */
+  readonly alternates?: readonly AppIconId[];
   readonly forcedAppearances?: readonly ForcedAppearance[];
 }
 
@@ -50,13 +60,25 @@ const GENERATED = ['generated', 'critter-art', 'app-icons'];
 const ALIAS_PREFIX = '.CpIcon_';
 
 /** The icons bundled as automatic-appearance alternates. */
-export function automaticAlternateIds(): string[] {
-  return APP_ICON_IDS.filter((id) => id !== PRIMARY_ICON_ID);
+export function automaticAlternateIds(
+  alternates: readonly AppIconId[] = DEFAULT_ALTERNATE_IDS,
+): string[] {
+  return APP_ICON_IDS.filter((id) => id !== PRIMARY_ICON_ID && alternates.includes(id));
 }
 
 /** Native names of the forced-appearance alternates (`passport-dark`). */
-export function forcedAlternateNames(appearances: readonly ForcedAppearance[]): string[] {
-  return APP_ICON_IDS.flatMap((id) => appearances.map((appearance) => `${id}-${appearance}`));
+export function forcedAlternateNames(
+  appearances: readonly ForcedAppearance[],
+  alternates: readonly AppIconId[] = DEFAULT_ALTERNATE_IDS,
+): string[] {
+  return bundledIds(alternates).flatMap((id) =>
+    appearances.map((appearance) => `${id}-${appearance}`),
+  );
+}
+
+/** The primary icon and the bundled alternates. */
+function bundledIds(alternates: readonly AppIconId[]): string[] {
+  return [PRIMARY_ICON_ID, ...automaticAlternateIds(alternates)];
 }
 
 /** The bake writes `any`, `dark` and `tinted` images; a forced LIGHT is the `any` image. */
@@ -72,16 +94,21 @@ export function forcedIconSetContents(filename: string): string {
   return `${JSON.stringify(contents, null, 2)}\n`;
 }
 
-function writeIosIcons(projectRoot: string, appDir: string, forced: readonly ForcedAppearance[]) {
+function writeIosIcons(
+  projectRoot: string,
+  appDir: string,
+  alternates: readonly AppIconId[],
+  forced: readonly ForcedAppearance[],
+) {
   const generated = join(projectRoot, ...GENERATED, 'ios');
   const catalog = join(appDir, 'Images.xcassets');
-  for (const id of automaticAlternateIds()) {
+  for (const id of automaticAlternateIds(alternates)) {
     const source = join(generated, `${id}.appiconset`);
     if (!existsSync(source))
       throw new Error(`with-app-icons: ${id}.appiconset is not in ${generated}`);
     cpSync(source, join(catalog, `${id}.appiconset`), { recursive: true, force: true });
   }
-  for (const id of APP_ICON_IDS) {
+  for (const id of bundledIds(alternates)) {
     for (const appearance of forced) {
       const file = forcedImageFile(id, appearance);
       const set = join(catalog, `${id}-${appearance}.appiconset`);
@@ -136,7 +163,10 @@ function isLauncherFilter(filter: IntentFilter): boolean {
 }
 
 /** One alias per icon, the default (primary) one enabled; the launcher entry moves onto them. */
-export function applyIconAliases(manifest: Manifest): Manifest {
+export function applyIconAliases(
+  manifest: Manifest,
+  alternates: readonly AppIconId[] = DEFAULT_ALTERNATE_IDS,
+): Manifest {
   const activity: Activity = AndroidConfig.Manifest.getMainActivityOrThrow(manifest);
   const application = AndroidConfig.Manifest.getMainApplicationOrThrow(manifest);
   const target = activity.$['android:name'];
@@ -156,7 +186,7 @@ export function applyIconAliases(manifest: Manifest): Manifest {
   });
   const aliases = [
     alias('default', '@mipmap/ic_launcher', true),
-    ...automaticAlternateIds().map((id) =>
+    ...automaticAlternateIds(alternates).map((id) =>
       alias(resourceSlug(id), `@mipmap/ic_launcher_${resourceSlug(id)}`, false),
     ),
   ];
@@ -210,18 +240,22 @@ export function appTargetBuildSettings(
 
 const withAppIcons: ConfigPlugin<AppIconsOptions | undefined> = (config, options) => {
   const forced = options?.forcedAppearances ?? [];
+  const alternates = options?.alternates ?? DEFAULT_ALTERNATE_IDS;
   config = withDangerousMod(config, [
     'ios',
     (mod) => {
       const appDir = IOSConfig.Paths.getSourceRoot(mod.modRequest.projectRoot);
-      writeIosIcons(mod.modRequest.projectRoot, appDir, forced);
+      writeIosIcons(mod.modRequest.projectRoot, appDir, alternates, forced);
       return mod;
     },
   ]);
   config = withXcodeProject(config, (mod) => {
     const projectName = mod.modRequest.projectName;
     if (!projectName) throw new Error('with-app-icons: no iOS project name');
-    const names = [...automaticAlternateIds(), ...forcedAlternateNames(forced)].join(' ');
+    const names = [
+      ...automaticAlternateIds(alternates),
+      ...forcedAlternateNames(forced, alternates),
+    ].join(' ');
     // The `xcode` package ships no types: read its project object through PbxProject.
     const project: unknown = mod.modResults;
     for (const settings of appTargetBuildSettings(project as PbxProject, projectName)) {
@@ -239,7 +273,7 @@ const withAppIcons: ConfigPlugin<AppIconsOptions | undefined> = (config, options
     },
   ]);
   return withAndroidManifest(config, (mod) => {
-    mod.modResults = applyIconAliases(mod.modResults);
+    mod.modResults = applyIconAliases(mod.modResults, alternates);
     return mod;
   });
 };
