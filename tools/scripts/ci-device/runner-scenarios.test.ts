@@ -23,7 +23,7 @@ function setup(platform: 'ios' | 'android', env: NodeJS.ProcessEnv = {}) {
     calls.push({ command, args });
     return { status: 0, output: '' };
   };
-  const ctx = {
+  const ctx: ActionContext = {
     platform,
     device: platform === 'ios' ? 'SIM-UDID' : 'emulator-5554',
     root: '/repo',
@@ -34,8 +34,8 @@ function setup(platform: 'ios' | 'android', env: NodeJS.ProcessEnv = {}) {
       const child = new FakeChild();
       spawned.push({ args, child });
       return child;
-    }) as unknown as ActionContext['spawn'],
-  } satisfies ActionContext;
+    }) as unknown as NonNullable<ActionContext['spawn']>,
+  };
   return { ctx, calls, spawned };
 }
 

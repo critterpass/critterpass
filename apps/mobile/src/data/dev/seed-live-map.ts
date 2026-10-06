@@ -4,6 +4,8 @@
  * trip that are on) and waits until both trips have synced. The device run hands the answer to its
  * runner, which brings simulated crewmates in with the crew code (e2e/crew/live-map/).
  */
+/* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: a route path, SQL and
+   developer-facing errors, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
 export interface SeedLiveMapDeps {
