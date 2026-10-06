@@ -35,6 +35,8 @@ owns:
 ---
 # Phase 26 — Poll engine & destination vote
 
+> **Status, 6 Oct 2026:** open: T11's `pitch-to-board` and `search-guest-solo` reruns (place pages now read through the api, #732) and the iOS runs.
+
 ## Context links
 
 | Source | Section |

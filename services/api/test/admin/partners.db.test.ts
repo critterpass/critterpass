@@ -38,7 +38,24 @@ describe('set_partner_adapter', () => {
       await (await app.request('/v1/admin/partners', { headers: { cookie: ops } })).json(),
     ).items;
     const klook = list.find((item) => item.partner === 'klook_activity');
-    expect(klook).toMatchObject({ enabled: false, copy_mode: 'link', approved_at: null });
+    expect(klook).toMatchObject({
+      enabled: false,
+      copy_mode: 'link',
+      approved_at: null,
+      certified_at: null,
+    });
+
+    const uncertified = await app.command(ops, 'set_partner_adapter', {
+      partner: 'klook_activity',
+      enabled: true,
+      copy_mode: 'booking',
+      notes: 'Not certified yet',
+      version: klook?.version ?? 0,
+    });
+    expect(uncertified.status).toBe(409);
+    expect(await uncertified.json()).toMatchObject({
+      error: { detail: { reason: 'booking_copy_requires_certification' } },
+    });
 
     const response = await app.command(ops, 'set_partner_adapter', {
       partner: 'klook_activity',
@@ -46,6 +63,7 @@ describe('set_partner_adapter', () => {
       copy_mode: 'booking',
       notes: 'Certified 27 Sep',
       version: klook?.version ?? 0,
+      certified: true,
     });
     expect(response.status).toBe(200);
 
@@ -53,10 +71,15 @@ describe('set_partner_adapter', () => {
       'supplier.klook_activity.copy_mode': 'booking',
       'supplier.klook_activity.enabled': true,
     });
-    const { rows } = await harness.pool.query<{ approved_at: Date | null; notes: string }>(
-      "SELECT approved_at, notes FROM ops.partner_adapters WHERE partner = 'klook_activity'",
+    const { rows } = await harness.pool.query<{
+      approved_at: Date | null;
+      certified_at: Date | null;
+      notes: string;
+    }>(
+      "SELECT approved_at, certified_at, notes FROM ops.partner_adapters WHERE partner = 'klook_activity'",
     );
     expect(rows[0]?.approved_at).toBeInstanceOf(Date);
+    expect(rows[0]?.certified_at).toBeInstanceOf(Date);
     const audit = await harness.pool.query(
       "SELECT target_kind, reason FROM ops.admin_audit WHERE action = 'set_partner_adapter'",
     );

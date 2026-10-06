@@ -3,33 +3,19 @@
  * mints it for whoever can see the stamp) → the stroke JSON, kept in memory for the session since
  * a stroke never changes under its key.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- api paths and headers, never copy. */
 import { useEffect, useState } from 'react';
 
-import { sessionHeaders } from '@/data/app-session/auth-client';
-import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
-
+import { readMediaUrl } from '../data/read-url';
 import { decodeStroke, type SignatureStroke } from './stroke';
 
 export type StrokeFetch = (mediaKey: string) => Promise<SignatureStroke | null>;
 
 const strokes = new Map<string, Promise<SignatureStroke | null>>();
 
-async function readUrl(mediaKey: string): Promise<string | null> {
-  const response = await fetch(`${resolveApiBaseUrl()}/v1/media/read-urls`, {
-    method: 'POST',
-    headers: { ...(await sessionHeaders()), 'content-type': 'application/json' },
-    body: JSON.stringify({ media_keys: [mediaKey] }),
-  });
-  if (!response.ok) return null;
-  const body = (await response.json()) as { urls?: { media_key: string; url: string }[] };
-  return body.urls?.find((entry) => entry.media_key === mediaKey)?.url ?? null;
-}
-
 export const fetchStroke: StrokeFetch = (mediaKey) => {
   const cached = strokes.get(mediaKey);
   if (cached !== undefined) return cached;
-  const loading = readUrl(mediaKey)
+  const loading = readMediaUrl(mediaKey)
     .then(async (url) => {
       if (url === null) return null;
       const response = await fetch(url);

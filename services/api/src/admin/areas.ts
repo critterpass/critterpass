@@ -14,11 +14,14 @@ import { costReviewArea } from './cost-review';
 import { deskArea } from './desk';
 import { vendorDeskArea } from './vendor-desk/routes';
 import { flagsArea } from './flags';
+import { homeArea } from './home';
+import { incidentsArea } from './incidents';
 import { moderationArea } from './moderation';
 import type { MediaUrlSigner } from './moderation-intake';
 import { operatorsArea, type OperatorStore } from './operators';
 import { partnersArea } from './partners';
 import { seasonReviewArea } from './season-review';
+import { servicesArea } from './services';
 import { supportArea } from './support';
 import type { AdminAreaDefinition } from './registry';
 
@@ -45,5 +48,8 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     billingArea(deps.pool),
     auditArea(deps.pool),
     operatorsArea(deps),
+    incidentsArea(deps.pool),
+    homeArea(deps.pool),
+    servicesArea(deps.pool),
   ];
 }

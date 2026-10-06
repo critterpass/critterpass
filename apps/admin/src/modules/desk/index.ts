@@ -7,7 +7,7 @@ import { DeskPage } from './desk-page';
 export const deskModule = defineAdminModule({
   id: 'desk',
   area: 'desk',
-  label: 'Ops desk',
+  label: 'Concierge desk',
   order: 70,
   routes: [{ path: 'desk', component: DeskPage }],
   homeCounters: [

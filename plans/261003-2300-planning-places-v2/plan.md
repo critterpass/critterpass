@@ -1,7 +1,7 @@
 ---
 title: "Planning and places, section 7"
 description: "Rebuild the plan and places flows to the founder's section 7 design (30 screens replacing 3d and 3e) on a shared fit engine, stored legs and a background plan check."
-status: in progress
+status: done
 priority: P1
 effort: 95 tasks
 branch: main
@@ -28,15 +28,15 @@ critical_path_tasks: 35
 
 | | |
 |---|---|
-| Merged | Phases 1–10: the foundation (ids, data and contracts, stored legs on our own Valhalla, the fit engine and plan check job, the UI kit, the AI routes), then Add to plan, Ideas and the review (#613, #622), place detail and the crew split (#620), search, plain words and links (#618), and the trip map and day plan (#617). Phase 15's server half: every routed leg stores its road shape (#619; 3,399 legs backfilled on staging) |
-| In review | Phase 11, places map and list (#616); phase 15's app half, routes drawn along the roads (#631); phase 16, GO (#624) |
-| Being built | Phase 12 (Explore in a trip, swipe together, the destination guide) and phase 13 (the plan check and its fixers) |
+| Merged | Phases 1–13, 15 and 16: the foundation (ids, data and contracts, stored legs on our own Valhalla, the fit engine and plan check job, the UI kit, the AI routes), Add to plan, Ideas and the review (#613, #622), place detail and the crew split (#620), search, plain words and links (#618), the trip map and day plan (#617), the places map and list (#616), Explore in a trip, swipe together and the destination guide (#628), the plan check and its fixers (#630), routes along the roads (#619, #631) and GO (#624, #633) |
+| In review | Nothing (6 Oct) |
+| Being built | Nothing. Follow-on work runs under `plans/261005-1210-remove-old-planning-flow/`, `plans/261005-1145-trip-areas-day-trips-and-stops/` and `plans/261005-2100-simplify-sync-and-ai-content/` |
 | Superseded | Phase 14 (retire the replaced screens): superseded by `plans/261005-1210-remove-old-planning-flow/`, which removed the earlier screens (#724), the server's reads of the switch and the docs |
 | Added by the founder on 4 Oct | Phase 15, plan routes drawn along the roads (07:38). Phase 16, GO: a route preview from where you are, then directions in Google or Apple Maps and a Grab ride (09:29, option 1). Outside this plan: the dates picker (`plans/261004-1030-dates-picker-polish/`, merged as #625) |
 | Fixed along the way | Phones now get every place a trip references, whatever its curation (#626). A trip's plan lookups no longer grow with its edit history (#629). The Android device runs draw map text (`-gpu swangle_indirect`, in #617). The iOS 26 keyboard strip no longer trips the screen check (#623) |
 | Switches | The switch is gone: the section 7 screens are the only plan and places screens. `planning.redesign` stays in the config pinned on, for installed builds that still read it |
 | Decided since the plan | All nine founder decisions as recommended (4 Oct 00:32). Crowd curves approved (4 Oct 09:24). No trip hold (4 Oct 01:15) |
-| Estimate | Everything through phase 16 ready for the founder's device pass on Mon 5 Oct in the evening, give or take half a day. Then the switch goes on for everyone, phase 14 removes the old screens, and the full-build plan resumes |
+| Estimate | Done 6 Oct: every phase merged except 14, which `plans/261005-1210-remove-old-planning-flow/` replaced (#724, #730). The full-build plan has resumed |
 
 Follow-ups queued, not in a phase yet:
 - A trigger that rejects change sets on organiser-only versions, so the trip stream can drop its last per-edit lookup.
@@ -59,12 +59,12 @@ Follow-ups queued, not in a phase yet:
 | 8 | [Place detail and crew can't agree](./phase-08-place-detail-crew-split.md) | 7e-1, 7e-2, 7e-3 | 9 | 1, 3, 4, 5, 6 | 3 | done (#620) |
 | 9 | [Search, plain words, add from a link, and offline search](./phase-09-search-links-offline.md) | 7d-1…7d-4, 7i-2 | 10 | 1, 3, 4, 5, 6 | 3 | done (#618) |
 | 10 | [Trip map, day plan, all days and the empty trip](./phase-10-trip-map-day-plan.md) | 7a-1…7a-3, 7b-1…7b-3, 7i-1 | 9 | 1, 3, 4, 5 | 3 | done (#617) |
-| 11 | [Places map and list](./phase-11-places-map-list.md) | 7c-1…7c-3 | 5 | 1, 3, 4, 5 | 3 | in review (#616) |
-| 12 | [Explore in a trip, swipe together and the destination guide](./phase-12-explore-swipe-destination.md) | 7g-1…7g-3 | 4 | 1, 4, 5, 7 | 4 | in progress |
-| 13 | [Plan check and its fixers](./phase-13-plan-check-fixers.md) | 7h-1…7h-5 | 8 | 1, 3, 4, 5, 7 | 4 | in review (#630) |
+| 11 | [Places map and list](./phase-11-places-map-list.md) | 7c-1…7c-3 | 5 | 1, 3, 4, 5 | 3 | done (#616) |
+| 12 | [Explore in a trip, swipe together and the destination guide](./phase-12-explore-swipe-destination.md) | 7g-1…7g-3 | 4 | 1, 4, 5, 7 | 4 | done (#628) |
+| 13 | [Plan check and its fixers](./phase-13-plan-check-fixers.md) | 7h-1…7h-5 | 8 | 1, 3, 4, 5, 7 | 4 | done (#630) |
 | 14 | [Retire the replaced screens and finish the migration](./phase-14-retire-replaced-screens.md) | – | 6 | 1–13 | 5 | superseded by `plans/261005-1210-remove-old-planning-flow/` |
-| 15 | [Plan routes drawn along the roads](./phase-15-road-routes.md) | route lines of 7a-1…7a-3, 7b-1, 7b-3 and the old MAP tab | 3 | 3, 5, 10 | 3 | done |
-| 16 | [GO: the route from here, then directions in the maps app](./phase-16-navigate.md) | GO on 7e-1, 7b-1, 7a-2, day-of and the leave-by push | 4 | 3, 15 | 3 | in progress |
+| 15 | [Plan routes drawn along the roads](./phase-15-road-routes.md) | route lines of 7a-1…7a-3, 7b-1, 7b-3 and the old MAP tab | 3 | 3, 5, 10 | 3 | done (#631) |
+| 16 | [GO: the route from here, then directions in the maps app](./phase-16-navigate.md) | GO on 7e-1, 7b-1, 7a-2, day-of and the leave-by push | 4 | 3, 15 | 3 | done (#624, #633) |
 
 Merged and split where the code says so: "states and offline" is not a phase of its own: 7i-2 lives with search (its fallback is the search code) and 7i-1 with the trip map (it is the map's empty state); the three new model calls are one wave-2 phase so two wave-3 phases never edit the AI routing table; the fit engine and the plan check job share one phase because the job is the engine run over the whole trip; a data phase and a UI kit phase land first so wave 3 runs five lanes without touching migrations, streams, the generated mobile schema or each other's components.
 

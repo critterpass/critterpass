@@ -170,3 +170,58 @@ export async function ensureUndoableGuideAction(
   const pickup = await ensurePickup(tx, world, uid);
   return (await reusableAction(tx, world.tripId, now)) ?? moveOnce(tx, world, uid, pickup, now);
 }
+
+/** The demo dinner place: clearly fake, so no message from a test ever reaches a real business. */
+export const DEMO_PLACE = {
+  name: 'Warung Demo Ubud',
+  category: 'food',
+  lat: -8.5069,
+  lng: 115.2625,
+  marker: 'dinner',
+} as const;
+const DINNER_TIME = '19:30';
+
+/**
+ * A planned dinner at the demo place on the trip's first day, so live checks have a place on the
+ * plan to message. Added once to the current plan (also on worlds seeded before it existed).
+ */
+export async function ensureDemoDinner(
+  tx: pg.PoolClient,
+  world: DemoWorld,
+  uid: string,
+): Promise<{ readonly poiId: string }> {
+  const place = await tx.query<{ id: string }>(
+    `SELECT id FROM pois WHERE destination_id = $1 AND source_ids ->> 'demo' = $2 LIMIT 1`,
+    [world.destinationId, DEMO_PLACE.marker],
+  );
+  const poiId =
+    place.rows[0]?.id ??
+    (
+      await one<{ id: string }>(
+        tx,
+        `INSERT INTO pois (destination_id, name, category, lat, lng, address, source_ids)
+         VALUES ($1, $2, $3, $4, $5, 'Ubud, Bali', jsonb_build_object('demo', $6::text))
+         RETURNING id`,
+        [
+          world.destinationId,
+          DEMO_PLACE.name,
+          DEMO_PLACE.category,
+          DEMO_PLACE.lat,
+          DEMO_PLACE.lng,
+          DEMO_PLACE.marker,
+        ],
+      )
+    ).id;
+  await tx.query(
+    `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, tz, category,
+       attendee_ids, poi_id, notes)
+     SELECT d.version_id, d.id, t.id, $2, (t.start_date + $3::time) AT TIME ZONE t.tz, t.tz, 'food',
+            ARRAY[$4::uuid], $5, 'Dinner'
+       FROM trips t JOIN plan_days d ON d.version_id = t.current_version_id AND d.day_no = 1
+      WHERE t.id = $1
+        AND NOT EXISTS (SELECT 1 FROM plan_items pi
+                         WHERE pi.version_id = t.current_version_id AND pi.poi_id = $5)`,
+    [world.tripId, randomUUID(), DINNER_TIME, uid, poiId],
+  );
+  return { poiId };
+}

@@ -78,7 +78,7 @@ export function registerRecapPushes(): void {
         vars: { place },
         sender,
         tripId: event.tripId,
-        deepLink: `/memory/${memoryId ?? ''}`,
+        deepLink: `/memory/${memoryId ?? ''}?trip=${event.tripId ?? ''}`,
         ctx: { memory_id: memoryId },
       };
     },

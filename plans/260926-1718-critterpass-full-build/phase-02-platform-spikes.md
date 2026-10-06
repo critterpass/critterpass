@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: Platform go/no-go spikes
-status: in_progress
+status: done
 depends_on: [1]
 wave: 2
 features: []
@@ -19,6 +19,8 @@ owns:
   - docs/system-architecture.md §11 (results column only)
 ---
 # Phase 2 — Platform go/no-go spikes
+
+> **Status, 6 Oct 2026:** every task is done. The Android and Apple/Google sign-in rows of the founder device tables and the Instruments runs move to the founder device checklist of the live-test pass; they gate nothing in code.
 
 ## Context links
 | Source | Section |

@@ -11,7 +11,6 @@ import { DataTable } from '../../kit/table';
 import { getJson } from '../../lib/api';
 import { useOperator } from '../../lib/session';
 import { FilterBar, toQuery, type AuditFilters } from './filters';
-import { OperatorsPanel } from './operators-panel';
 import { TargetLink } from './target-link';
 
 function download(filename: string, csv: string) {
@@ -99,7 +98,6 @@ export function AuditPage() {
           },
         ]}
       />
-      {owner && <OperatorsPanel />}
     </div>
   );
 }

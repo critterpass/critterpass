@@ -479,8 +479,16 @@ msgstr ""
 msgid "suppliers.transfer.operator"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.eyebrow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.concierge.clinic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.calling"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
@@ -535,6 +543,7 @@ msgstr ""
 msgid "suppliers.offers.seen"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/notification-actions.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
 msgid "suppliers.vendor.send"
@@ -555,6 +564,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.sentWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.share"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
@@ -595,6 +608,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.offlineNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.pickedUp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
@@ -716,4 +737,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
 msgid "suppliers.journey.there"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.insuranceShared"
 msgstr ""

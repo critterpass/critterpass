@@ -22,6 +22,7 @@ import type { AnyJobDefinition, JobLogger } from '../../boss';
 import { registerRetentionRule } from '../maint/retention-rules';
 import { affiliateConversionsJob } from './affiliate-conversions';
 import { holdExpiryJob } from './hold-expiry';
+import { registerVendorNotifications } from './notify';
 import { vendorReplyParseJob } from './vendor-reply-parse';
 import { createSettleDoor, viatorPollJob } from './viator-poll';
 
@@ -36,6 +37,7 @@ let wired = false;
 function wireSuppliers(): void {
   if (wired) return;
   wired = true;
+  registerVendorNotifications();
   registerRetentionRule({
     kind: 'direct',
     table: 'affiliate_clicks',

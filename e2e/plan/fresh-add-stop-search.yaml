@@ -1,9 +1,11 @@
 appId: app.critterpass.dev
 env:
-  # An open-data record only the server holds: "Japanese Bridge", a pin with no photo, next to the
-  # curated Japanese Covered Bridge in Hội An (which the guide may already have drafted in).
+  # An open-data record only the server holds: "Japaness Bridge" (its source spells it so), a pin
+  # with no photo next to the curated Japanese Covered Bridge in Hội An (which the guide may
+  # already have drafted in). The pattern also takes the name spelled right, should the record be
+  # corrected. It also matches the typed query, so the search steps look for it inside a row.
   PLACE_QUERY: 'japanese bridge'
-  PLACE_TEXT: '(?i)japanese bridge'
+  PLACE_TEXT: '(?i)japanes[es] bridge'
 ---
 # Searching a real place to add to a fresh trip's day, on staging: a brand-new account locks in a
 # Đà Nẵng trip for today (../happy/subflows/trip-under-way.yaml), opens day 1's day plan and adds
@@ -108,12 +110,14 @@ env:
 - inputText: ${PLACE_QUERY}
 - extendedWaitUntil:
     visible:
-      text: ${PLACE_TEXT}
+      id: 'search-row-[0-9]+'
     timeout: 30000
 - hideKeyboard
 - scrollUntilVisible:
     element:
-      text: ${PLACE_TEXT}
+      id: 'search-row-[0-9]+'
+      containsDescendants:
+        - text: ${PLACE_TEXT}
     direction: DOWN
     timeout: 30000
 - takeScreenshot: en-fresh-add-search-server-row

@@ -1,0 +1,46 @@
+appId: app.critterpass.dev
+---
+# The idea board from the help lab (apps/mobile/src/features/help/dev/idea-scenes.tsx), in English:
+# the board (3p-4) on TOP, NEW (with the traveller's idea under review) and SHIPPED, out of votes,
+# and Suggest an idea (3p-5) with one look-alike, two, and none. Screenshots are named
+# <lang>-<design id or state> for compare mode.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-help-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-help-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'help-lab-live'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: 3p-4-board, ROOT: help-ideas-votes-left, SHOT: en-3p-4-board }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: board-new, ROOT: help-idea-mine, SHOT: en-3p-4-new }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: board-shipped, ROOT: help-idea-maps, SHOT: en-3p-4-shipped }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: board-no-votes, ROOT: help-ideas-votes-left, SHOT: en-3p-4-no-votes }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: 3p-5-suggest, ROOT: help-suggest-matches, SHOT: en-3p-5-suggest }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: suggest-many, ROOT: help-suggest-vote-receipts, SHOT: en-3p-5-many }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: suggest-no-match, ROOT: help-suggest-post, SHOT: en-3p-5-no-match }

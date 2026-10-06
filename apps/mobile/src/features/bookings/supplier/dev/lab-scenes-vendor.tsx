@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 
 import { Stack } from '@/ui/layout/Stack';
 
+import { ConciergeCard } from '../ConciergeCard';
 import { useSupplierCopy } from '../copy';
 import { VendorDraftCard, type DraftOutcome } from '../VendorDraftCard';
 import { LabSheet, type LabSheetKind } from './lab-sheet';
@@ -130,10 +131,25 @@ function ListEmptyScene() {
   return sheet(<VendorThreadsEmpty guide={{ id: 'tokek', name: 'Tokek' }} />, 'messages');
 }
 
+function ConciergeScene() {
+  const opens = { at: '07:00', tz: 'SGT' };
+  return sheet(
+    <Stack gap="12" testID="concierge-cards">
+      <ConciergeCard state="clinic_share" dueBy="16:52" opens={opens} onShareInsurance={noop} />
+      <ConciergeCard state="clinic_shared" dueBy="16:52" opens={opens} />
+      <ConciergeCard state="clinic" dueBy="16:52" opens={opens} />
+      <ConciergeCard state="picked_up" dueBy="10:40" opens={opens} />
+      <ConciergeCard state="closed" dueBy="07:30" opens={opens} />
+    </Stack>,
+    'messages',
+  );
+}
+
 export const VENDOR_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'vendor-draft': () => <DraftScene outcome="editing" />,
   'vendor-draft-approved': () => <DraftScene outcome="approved" />,
   'vendor-draft-self-send': () => <DraftScene outcome="self_send" />,
   'vendor-threads': () => <ThreadsScene />,
   'vendor-threads-empty': () => <ListEmptyScene />,
+  'concierge-cards': () => <ConciergeScene />,
 };
