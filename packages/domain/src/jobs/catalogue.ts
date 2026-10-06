@@ -339,7 +339,6 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'ops.ai_cost_guard': 'Checks AI spend against its caps; pauses a tier over its cap',
   'ops.service_health': 'Writes a health snapshot for every monitored service',
   'ops.vendor_usage': 'Reads quota and billed spend from vendors with a usage API',
-  'compliance.check': 'Screens text created offline',
   'inbox.fanout': "Files a domain event's inbox items and settles the ones it answers",
   'feedback.forward': 'Triages a feedback ticket and files it in the issue tracker',
   'feedback.fix_shipped': 'Tells a reporter the fix they asked for is in their app',

@@ -1,0 +1,284 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 15:35+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.consent"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.car"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.change"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.intro"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.driver"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.fairPrice"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.goodEnglish"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.greatPhotos"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.hello"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pauseHint"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.turnOff"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.dayTrips"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.expiredBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.invalidBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.keep"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.knewTheSpots"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.languages"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listMe"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedBadge"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.newCar"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.declined"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.noThanks"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removedBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.ratingsOff"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.ratingsOn"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.onTime"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.open"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.patient"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pause"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedBadge"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeAsk"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.remove"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.safeDriver"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.save"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.saved"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.seats"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.sendCode"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.areasHint"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.resume"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.turnOn"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.showRatings"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.failed"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.codeExpired"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.wrongCode"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.code"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.invalid"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.expired"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.bookmark"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.usedBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tooMany"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.verified"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.declinedBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.codeSent"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.preview"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.price"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.whatsapp"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.areas"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.yes"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeYes"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.used"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removed"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.name"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.priceHint"
+msgstr ""
