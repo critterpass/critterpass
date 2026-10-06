@@ -98,6 +98,8 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         testId: 'dev-nav-share-plan',
         href: '/community/publish/00000000-0000-7000-8000-000000000000',
         label: 'Share the plan, no trip (3o-4)',
+      },
+      {
         testId: 'dev-nav-album-lab',
         href: '/(dev)/album-lab',
         label: 'Album and postcards (3m-2, 3m-9 scenes)',
