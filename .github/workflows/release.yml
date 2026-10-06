@@ -1,0 +1,318 @@
+name: release
+
+# Production release steps, started by hand only and one at a time. Nothing here runs on push or on
+# a schedule, and every run must be confirmed by typing the phrase below. See
+# docs/runbooks/release.md for the order, the staged rollout and how to halt.
+#
+#   gh workflow run release.yml -f action=preflight -f ref=main -f confirm="release production"
+#
+# Actions:
+#   preflight  read-only: the ref is on main with green CI, and the staged-rollout config is in place
+#   build      start the production EAS builds (billed by EAS)
+#   submit     hand one finished build per platform to App Store Connect and Google Play
+#   update     publish the ref's JS to the production channel for a share of devices
+#   health     read the release's crash-free rate from Sentry and fail below the halt line
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Release step
+        required: true
+        type: choice
+        options: [preflight, build, submit, update, health]
+      ref:
+        description: Commit on main to release (main or a sha)
+        required: true
+        default: main
+      platform:
+        description: Platform (build, submit, update)
+        required: true
+        type: choice
+        default: all
+        options: [all, ios, android]
+      ios_build_id:
+        description: EAS build id of the production iOS build (submit)
+        required: false
+        default: ''
+      android_build_id:
+        description: EAS build id of the production Android build (submit)
+        required: false
+        default: ''
+      rollout_percent:
+        description: Share of devices that receive the update, 1 to 100 (update)
+        required: false
+        default: '10'
+      message:
+        description: Update message (update)
+        required: false
+        default: ''
+      sentry_release:
+        description: Sentry release, for example app.critterpass@1.0.0+12 (health)
+        required: false
+        default: ''
+      confirm:
+        description: Type "release production" to run
+        required: true
+
+# One release step at a time; a second dispatch waits.
+concurrency:
+  group: release-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+  checks: read
+
+env:
+  EAS_CLI: eas-cli@24.8.0
+  EAS_BUILDS_URL: https://expo.dev/accounts/critterpass/projects/critterpass/builds
+  # Play starts at 1% (then 5, 20, 50, 100 by hand in the Console); a wider first step is refused.
+  PLAY_FIRST_ROLLOUT_MAX: '0.01'
+
+jobs:
+  confirm:
+    name: confirm
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check the confirmation phrase
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          if [ "$CONFIRM" != "release production" ]; then
+            echo "::error::not confirmed: the confirm input must be exactly: release production"
+            exit 1
+          fi
+
+  release:
+    name: ${{ inputs.action }} ${{ inputs.platform }} at ${{ inputs.ref }}
+    needs: confirm
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    # Add required reviewers to this environment in the repository settings: the run then waits
+    # for the founder's approval before any step below starts.
+    environment: production
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+
+      - name: The ref is on main and its CI is green
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          git fetch --quiet origin main
+          if ! git merge-base --is-ancestor "$sha" origin/main; then
+            echo "::error::$sha is not on main: production releases are cut from main only"
+            exit 1
+          fi
+          conclusion=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$sha" \
+            --json conclusion --jq '.[0].conclusion // "none"')
+          if [ "$conclusion" != success ]; then
+            echo "::error::CI on $sha is \"$conclusion\", not success"
+            exit 1
+          fi
+          echo "### Release \`${{ inputs.action }}\` at \`${sha:0:12}\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: The staged-rollout config is in place
+        if: inputs.action == 'preflight' || inputs.action == 'submit'
+        env:
+          PLATFORM: ${{ inputs.platform }}
+        working-directory: apps/mobile
+        run: |
+          set -uo pipefail
+          failed=0
+          if [ "$PLATFORM" != android ]; then
+            # App Store: the version is released in phases over seven days, after manual release.
+            phased=$(jq -r '.apple.release.phasedRelease // false' store.config.json)
+            if [ "$phased" != true ]; then
+              echo "::error file=apps/mobile/store.config.json::apple.release.phasedRelease is not true: the App Store version would go to everyone at once"
+              failed=1
+            fi
+          fi
+          if [ "$PLATFORM" != ios ]; then
+            # Play: a draft, or a staged release that starts no wider than 1%.
+            status=$(jq -r '.submit.production.android.releaseStatus // "completed"' eas.json)
+            rollout=$(jq -r '.submit.production.android.rollout // 1' eas.json)
+            track=$(jq -r '.submit.production.android.track // "internal"' eas.json)
+            ok=$(jq -n --arg s "$status" --argjson r "$rollout" --argjson max "$PLAY_FIRST_ROLLOUT_MAX" \
+              '$s == "draft" or ($s == "inProgress" and $r <= $max)')
+            if [ "$track" = production ] && [ "$ok" != true ]; then
+              echo "::error file=apps/mobile/eas.json::submit.production.android is \"$status\" at rollout $rollout: it must be a draft or inProgress at $PLAY_FIRST_ROLLOUT_MAX or less, or the Play release goes to everyone at once"
+              failed=1
+            fi
+          fi
+          [ "$failed" = 0 ] && echo "Staged-rollout config: ok ($PLATFORM)." >> "$GITHUB_STEP_SUMMARY"
+          exit "$failed"
+
+      - uses: pnpm/action-setup@v6
+        if: inputs.action != 'preflight'
+      # The Node version EAS builds the app with.
+      - uses: actions/setup-node@v7
+        if: inputs.action != 'preflight'
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+        if: inputs.action != 'preflight'
+
+      - name: Start the production builds
+        if: inputs.action == 'build'
+        working-directory: apps/mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          # Android's runtime version hashes the Firebase config's contents (see native-build.yml);
+          # production has its own Firebase project.
+          GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION }}
+          PLATFORM: ${{ inputs.platform }}
+        run: |
+          set -uo pipefail
+          [ -n "$EXPO_TOKEN" ] || { echo "::error::EXPO_TOKEN secret is missing"; exit 1; }
+          if [ "$PLATFORM" != ios ]; then
+            if [ -z "$GOOGLE_SERVICES_JSON_CONTENT" ]; then
+              echo "::error::the GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION secret is missing: an Android production build started here would carry a runtime version no production update can match"
+              exit 1
+            fi
+            printf '%s' "$GOOGLE_SERVICES_JSON_CONTENT" > "$RUNNER_TEMP/google-services.json"
+            export GOOGLE_SERVICES_JSON=$RUNNER_TEMP/google-services.json
+          fi
+          out=$(npx --yes "$EAS_CLI" build --profile production --platform "$PLATFORM" \
+            --non-interactive --no-wait --json 2> "$RUNNER_TEMP/eas-build.log")
+          status=$?
+          rm -f "$RUNNER_TEMP/google-services.json"
+          echo "::group::eas build"; cat "$RUNNER_TEMP/eas-build.log"; echo "$out"; echo "::endgroup::"
+          builds=$(echo "$out" | jq -r '(if type == "array" then .[] else . end) | "\(.platform) \(.id)"' 2>/dev/null)
+          if [ "$status" != 0 ] || [ -z "$builds" ]; then
+            echo "::error::eas build did not start (exit $status); see the eas build log group"
+            exit 1
+          fi
+          {
+            echo "| Platform | Build id | Page |"
+            echo "| --- | --- | --- |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          while read -r platform id; do
+            echo "| $platform | \`$id\` | $EAS_BUILDS_URL/$id |" >> "$GITHUB_STEP_SUMMARY"
+          done <<< "$builds"
+
+      - name: Submit the builds to the stores
+        if: inputs.action == 'submit'
+        working-directory: apps/mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          ASC_API_KEY_P8: ${{ secrets.EXPO_ASC_API_KEY_P8 }}
+          EXPO_ASC_KEY_ID: ${{ secrets.EXPO_ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.EXPO_ASC_ISSUER_ID }}
+          GOOGLE_PLAY_SUBMIT_JSON: ${{ secrets.GOOGLE_PLAY_SUBMIT_JSON }}
+          PLATFORM: ${{ inputs.platform }}
+          IOS_BUILD: ${{ inputs.ios_build_id }}
+          ANDROID_BUILD: ${{ inputs.android_build_id }}
+        run: |
+          set -uo pipefail
+          [ -n "$EXPO_TOKEN" ] || { echo "::error::EXPO_TOKEN secret is missing"; exit 1; }
+          failed=0
+          trap 'rm -f "$RUNNER_TEMP/asc-api-key.p8" ../../certs/google-play-submit.json' EXIT
+
+          submit() { # <platform> <build id>
+            local platform=$1 id=$2 profile
+            if [ -z "$id" ]; then
+              echo "::error::no $platform build id given"
+              failed=1
+              return
+            fi
+            # Only a finished store build of the production profile may be submitted.
+            profile=$(npx --yes "$EAS_CLI" build:view "$id" --json 2>/dev/null |
+              jq -r '"\(.buildProfile) \(.status) \(.distribution)"')
+            if [ "$profile" != "production FINISHED STORE" ]; then
+              echo "::error::$platform build $id is \"$profile\", not a finished production store build"
+              failed=1
+              return
+            fi
+            if npx --yes "$EAS_CLI" submit --profile production --platform "$platform" --id "$id" \
+              --non-interactive --no-wait; then
+              echo "- $platform: build \`$id\` submitted ($EAS_BUILDS_URL/$id)" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::error::eas submit failed for $platform build $id"
+              failed=1
+            fi
+          }
+
+          if [ "$PLATFORM" != android ]; then
+            if [ -z "$ASC_API_KEY_P8" ] || [ -z "$EXPO_ASC_KEY_ID" ] || [ -z "$EXPO_ASC_ISSUER_ID" ]; then
+              echo "::error::the App Store Connect API key secrets are missing"
+              failed=1
+            else
+              printf '%s' "$ASC_API_KEY_P8" > "$RUNNER_TEMP/asc-api-key.p8"
+              export EXPO_ASC_API_KEY_PATH=$RUNNER_TEMP/asc-api-key.p8
+              export EXPO_APPLE_TEAM_ID=YFND2EEW8S EXPO_APPLE_TEAM_TYPE=INDIVIDUAL
+              submit ios "$IOS_BUILD"
+            fi
+          fi
+          if [ "$PLATFORM" != ios ]; then
+            if [ -z "$GOOGLE_PLAY_SUBMIT_JSON" ]; then
+              echo "::error::the GOOGLE_PLAY_SUBMIT_JSON secret is missing"
+              failed=1
+            else
+              # eas.json reads the service account key from the git-ignored certs folder.
+              mkdir -p ../../certs
+              printf '%s' "$GOOGLE_PLAY_SUBMIT_JSON" > ../../certs/google-play-submit.json
+              submit android "$ANDROID_BUILD"
+            fi
+          fi
+          exit "$failed"
+
+      - name: Publish the update to a share of production devices
+        if: inputs.action == 'update'
+        working-directory: apps/mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION }}
+          PLATFORM: ${{ inputs.platform }}
+          PERCENT: ${{ inputs.rollout_percent }}
+          MESSAGE: ${{ inputs.message }}
+        run: |
+          set -euo pipefail
+          [ -n "$EXPO_TOKEN" ] || { echo "::error::EXPO_TOKEN secret is missing"; exit 1; }
+          case "$PERCENT" in
+            ''|*[!0-9]*) echo "::error::rollout_percent must be a whole number"; exit 1 ;;
+          esac
+          if [ "$PERCENT" -lt 1 ] || [ "$PERCENT" -gt 100 ]; then
+            echo "::error::rollout_percent must be between 1 and 100"
+            exit 1
+          fi
+          [ -n "$MESSAGE" ] || { echo "::error::an update needs a message"; exit 1; }
+          if [ "$PLATFORM" != ios ]; then
+            [ -n "$GOOGLE_SERVICES_JSON_CONTENT" ] || {
+              echo "::error::the GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION secret is missing"; exit 1; }
+            printf '%s' "$GOOGLE_SERVICES_JSON_CONTENT" > "$RUNNER_TEMP/google-services.json"
+            export GOOGLE_SERVICES_JSON=$RUNNER_TEMP/google-services.json
+          fi
+          trap 'rm -f "$RUNNER_TEMP/google-services.json"' EXIT
+          npx --yes "$EAS_CLI" update --channel production --environment production \
+            --platform "$PLATFORM" --rollout-percentage "$PERCENT" --message "$MESSAGE" \
+            --non-interactive
+          echo "Update published to $PERCENT% of production ($PLATFORM): $MESSAGE" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Read release health from Sentry
+        if: inputs.action == 'health'
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ inputs.sentry_release }}
+        run: |
+          set -uo pipefail
+          [ -n "$SENTRY_AUTH_TOKEN" ] || { echo "::error::SENTRY_AUTH_TOKEN secret is missing"; exit 1; }
+          [ -n "$SENTRY_RELEASE" ] || { echo "::error::sentry_release is required"; exit 1; }
+          line=$(pnpm --silent tsx tools/scripts/perf/release-health.ts --release "$SENTRY_RELEASE")
+          code=$?
+          echo "$line"
+          echo "$line" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$code" = 1 ]; then
+            echo "::error::crash-free rate is below the halt line: halt the rollout (docs/runbooks/release.md)"
+            exit 1
+          fi
+          if [ "$code" = 2 ]; then
+            echo "::warning::not enough sessions to judge: do not widen the rollout yet"
+            exit 0
+          fi
+          exit "$code"

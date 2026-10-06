@@ -39,6 +39,32 @@ describe('registerNotificationCategories', () => {
     ]);
   });
 
+  it('gives the chat reply a text field and keeps mark-read a plain background button', async () => {
+    const written = new Map<string, NotificationAction[]>();
+    await registerNotificationCategories(
+      (_category, action) => action.title,
+      (id, actions) => {
+        written.set(id, actions);
+        return Promise.resolve();
+      },
+    );
+    expect(written.get('cp.chat')).toEqual([
+      {
+        identifier: 'REPLY',
+        buttonTitle: 'Reply',
+        textInput: { submitButtonTitle: 'Reply', placeholder: '' },
+        options: background,
+      },
+      { identifier: 'READ', buttonTitle: 'Mark read', options: background },
+    ]);
+  });
+
+  it('does not register the categories whose buttons differ from push to push', () => {
+    for (const varying of ['cp.money', 'cp.disruption', 'cp.briefing']) {
+      expect(APP_REGISTERED_CATEGORIES).not.toContain(varying);
+    }
+  });
+
   it('leaves the categories a feature answers to that feature', () => {
     for (const owned of ['cp.changeset', 'cp.leaveby', 'cp.sos', 'cp.help', 'cp.setup_ask']) {
       expect(APP_REGISTERED_CATEGORIES).not.toContain(owned);
