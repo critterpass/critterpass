@@ -2,11 +2,14 @@ appId: app.critterpass.dev
 ---
 # Opens one guide lab scene (apps/mobile/src/app/(dev)/guide-lab.tsx), waits for `${READY}`, takes
 # `${SHOT}` and goes back to the list (Android back; iOS drags back from the edge or reopens the lab).
+# The row is centred before the tap: a row whose top edge alone peeks above the bottom of the screen
+# counts as visible, and a tap on that sliver lands in the system gesture area and opens nothing.
 - scrollUntilVisible:
     element:
       id: 'guide-lab-${SCENE}'
     direction: DOWN
     timeout: 20000
+    centerElement: true
 - tapOn:
     id: 'guide-lab-${SCENE}'
 - extendedWaitUntil:

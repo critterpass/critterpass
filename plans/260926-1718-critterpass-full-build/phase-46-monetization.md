@@ -218,6 +218,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Done when: machine tests cover every transition incl. pending → later success via listener; StoreKit config purchase on simulator reaches `done` against local api.
 
 ### T6 — Paywall 4e-1, comparison 4e-2, welcome 4e-3
+- Status: partial — d062b7144 (4e-1, 4e-2, 4e-3 screens, purchase states, disclosures, server-driven perk lists, impressions recorded, Jest tests, lab scenes and `e2e/monetize/lab-en.yaml`). Missing: the root layout import of `features/monetize/routes` (screens are not registered until it lands), entry points calling the paywall through the governor pre-check, the odometer and visa motion polish, `perks` rows seeded on the server, and the purchase flow run against a store (no products or SDK keys yet)
 - Goal: final paywall set with disclosures and motion.
 - Files: `apps/mobile/src/app/(modal)/paywall/{index,compare,welcome}.tsx`, `apps/mobile/src/features/monetize/paywall/*`, `apps/mobile/src/features/monetize/compare/*`, `apps/mobile/src/features/monetize/welcome/*`, `packages/i18n/locales/en/monetize/`, `apps/mobile/src/features/monetize/paywall/__tests__/*.test.tsx`, `e2e/monetize/paywall-purchase.yaml`.
 - Steps: 1. Visa page composition with P05 stickers + motion presets (P06). 2. Toggle + odometer; perk copy from `perks`. 3. Disclosure block + Terms/Privacy links. 4. Undesigned states list above. 5. 4e-2 grid a11y as rows. 6. 4e-3 celebration + route to 3n-5. 7. Register screens `4e-1/2/3` with P07 `registerScreens`.
@@ -225,6 +226,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Done when: render matches `4e-1_Paywall.png`, `4e-2_What_s_in_each.png`, `4e-3_Welcome_to_Pass_.png` in motion-freeze screenshots; a disabled perk disappears from all three without a release; Reduce Motion path passes.
 
 ### T7 — Boost sheet 4b-3, checkout bridge 4b-4, stamped 4b-5, seat-cap sheet 4f-1
+- Status: partial — 3b9183ebb (4b-3 sheet with intent lock, cover or split preview, purchase and release; 4b-5 stamp from the synced boost row; Jest tests; lab scenes). Missing: SeatCapSheet and its registry entry, `BoostOfferButton` mounted in the redraft sheets, TELL THE CREW (needs the crew boost card), avatars per share row, the failed-split banner, and a sandbox purchase
 - Goal: buy a Boost for a trip, cover or split.
 - Files: `apps/mobile/src/app/(modal)/boost/{[tripId],stamped}.tsx`, `apps/mobile/src/features/monetize/boost/*`, `apps/mobile/src/features/monetize/seat-cap/SeatCapSheet.tsx`, `apps/mobile/src/features/monetize/index.ts` (exports `BoostOfferButton`, `SeatCapSheet`, `openBoost`), tests `__tests__/*.test.tsx`, `e2e/monetize/boost-split.yaml`.
 - Steps: 1. Options + WHO PAYS + split preview (P16). 2. Intent create/lock UI + locked-by-other state. 3. Purchase via T5 machine; verifying beat into stamp. 4. 4b-5 avatars tied to synced share rows. 5. TELL THE CREW → `post_message{type:boost_card}` (P24). 6. SeatCapSheet with N+1 preview and waitlist path; register it in P23's seat-limit presenter registry. 7. Mount `BoostOfferButton` in P28's last-redraft interstitial + REDRAFT_LIMIT state. 8. Every missing state listed in F-162.
@@ -232,6 +234,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Done when: sandbox Boost with split creates IOUs visible in P33 Balances on a second device; locked intent shows the other member's name; 4f-1 "Keep it at six" waitlists via P23 command; P23 registry contract test resolves `SeatCapSheet` as presenter; P28 4f-3 BOOST opens 4b-3 with the redraft trip.
 
 ### T8 — Crew boost card 4c-1, BOOSTED pill, guide reaction, N-34
+- Status: not started
 - Goal: the crew sees and settles the boost.
 - Files: `apps/mobile/src/features/monetize/boost-card/*` (registered into P24 registry), `packages/ai/src/routes/boost-reaction/*`, `packages/ai/evals/boost-reaction/*`, `services/worker/src/jobs/billing/boost-reaction.ts`, `services/worker/src/jobs/billing/notify-registrations.ts` (N-33, N-34, N-37, N-44 via P11 `registerNotification`), tests, `e2e/monetize/boost-card-settle.yaml`.
 - Steps: 1. Card states (buyer, member unsettled/settled, cover-it, all settled, revoked/moved, late joiner). 2. Live settled row from `payments` + `crew_money:` hint. 3. THANKS → `thank_boost` + buyer notification. 4. Reaction job (Haiku, template fallback) posting as guide via P24 system path. 5. Notification registrations.
@@ -239,6 +242,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Done when: settling on device B slides B's avatar into SETTLED on device A without refresh; eval suite passes; N-34 sender is the buyer avatar.
 
 ### T9 — Live map teaser 4f-2 and free-trip-ending 4c-2
+- Status: not started
 - Goal: governed, truthful contextual offers.
 - Files: `apps/mobile/src/features/monetize/map-teaser/*` (exported `LiveMapGate` used by P39 map route), `apps/mobile/src/features/monetize/ftf-ending/*` (exports `FtfEndingCard` for P47's recap-end arbiter), `apps/mobile/src/app/(modal)/paywall/ftf-ending.tsx`, `services/worker/src/jobs/billing/ftf-ending-notify.ts`, tests, `e2e/monetize/map-teaser.yaml`.
 - Steps: 1. Synthetic replay generator from plan stops (deterministic seed) on P14 map components with greyscale scrim. 2. Map-opens stat, per-trip dismissal, post-dismissal chip. 3. Help/SOS bypass (C45). 4. 4c-2 split-flap + chips + CTAs + states; push scheduling at end − 3 d local.
@@ -246,6 +250,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Done when: teaser never renders any stored coordinate (test asserts replay derives only from plan stops); open inside a Help session shows the free map; N-33 respects governor and budget.
 
 ### T10 — Plan management 4d-1, cancel/pause 4d-2, billing issue 4d-3
+- Status: partial — edc7b7750 (4d-1 every state, 4d-2 pause or cancel through the store, 4d-3 with re-check on return, billing banner component, Jest tests, lab scenes). Missing: `set_pause_intent` and `pause.remind` (the subscriber sync overwrites `resume_at`, and the queue and event catalogues need new entries outside this lane), change plan inside the app (the store port has no Play product-change call, so it opens the store), the banner mounted on Home and the profile, the Settings plan chip, and the settled count on boost rows
 - Goal: honest subscription management on both stores.
 - Files: `apps/mobile/src/app/you/plan/{index,cancel,billing-issue}.tsx`, `apps/mobile/src/features/monetize/plan/*`, `services/api/src/commands/billing/set-pause-intent.ts`, `services/worker/src/jobs/billing/pause-remind.ts`, tests, `e2e/monetize/plan-manage.yaml`.
 - Steps: 1. 4d-1 all states from F-167. 2. Store handoffs (`showManageSubscriptions`, Play subscription centre URL with sku). 3. Pause emulation (iOS) / Play pause deep link; `set_pause_intent`; reminder job. 4. Billing-issue banner component exported for Home/You; 4d-3 recovery polling on foreground. 5. Change plan flows.
@@ -253,6 +258,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Done when: fixture BILLING_ISSUE shows 4d-3 with correct grace date and Pass+ still on; pause intent schedules N-37 at resume − 7 d; yearly subscribers never see pause.
 
 ### T11 — Codes & gifting 4d-4, gift purchase, Offer Codes, renewal extension
+- Status: not started — the code secret, preview route and gift link target sit outside this lane; restore is already inline on the paywall and plan page
 - Goal: redeem gifts/promos compliantly; restore.
 - Files: `apps/mobile/src/app/you/plan/{redeem,gift}.tsx`, `apps/mobile/src/features/monetize/{codes,gift}/*`, `services/api/src/commands/billing/{redeem-code,create-gift}.ts`, `services/api/src/billing/{code-hash,extend-renewal,play-defer}.ts`, `services/api/src/routes/codes-preview.ts`, tests, `e2e/monetize/redeem-restore.yaml`.
 - Steps: 1. Code generation (HMAC `code_hash`, prefix), preview endpoint + rate limit. 2. `redeem_code` branches: `code_grant` now (non-subscriber) / `code_grant` stacked after store period end (subscriber); extend-renewal + Play defer exposed only via T12 admin support action with reason + audit. 3. Gift purchase flow (design in code) → share link (P21 target `gift`). 4. Boxes UI + envelope flip + Offer Code sheet / Play redeem link. 5. Restore summary.

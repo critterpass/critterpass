@@ -4,6 +4,7 @@ import { cancelQueuedQuestionCommand } from './cancel-queued-question';
 import { claimGuideOfferCommand } from './claim-guide-offer';
 import { queueGuideQuestionCommand } from './queue-guide-question';
 import { rateGuideAnswerCommand } from './rate-guide-answer';
+import { recordPhrasePracticeCommand } from './record-phrase-practice';
 import { requestPhraseCardCommand } from './request-phrase-card';
 
 export function registerGuideCommands(registry: CommandRegistry): void {
@@ -12,4 +13,5 @@ export function registerGuideCommands(registry: CommandRegistry): void {
   registry.register(rateGuideAnswerCommand);
   registry.register(requestPhraseCardCommand);
   registry.register(claimGuideOfferCommand);
+  registry.register(recordPhrasePracticeCommand);
 }
