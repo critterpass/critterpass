@@ -11,6 +11,10 @@ msgstr ""
 msgid "web.home.chat4"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.rating"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.categoryPageTitle"
 msgstr ""
@@ -27,12 +31,28 @@ msgstr "{count}명 대기 중"
 msgid "web.comingSoon.joined.friendsJoined"
 msgstr "친구 3명 중 {count}명 등록"
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.days"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.headline"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.countdown"
 msgstr "{days}일 {hours}시간 {minutes}분 {seconds}초"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.byline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.draftTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.pageTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
@@ -85,14 +105,6 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.estimateEach"
-msgstr ""
-
-#: ../../apps/web/src/components/site/copy/invite.ts
-msgid "web.invite.draftTitle"
-msgstr ""
-
-#: ../../apps/web/src/components/site/copy/invite.ts
-msgid "web.invite.draftDay"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -153,6 +165,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.phoneTime"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.pageDescription"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -387,12 +403,20 @@ msgstr ""
 msgid "web.comingSoon.joined.copied"
 msgstr "복사됨 ✓"
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copies"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.copyCode"
 msgstr "복사"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copyCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
@@ -409,6 +433,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.crewCaptain"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.crewOf"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.eyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -465,6 +497,18 @@ msgstr "빠지직!!"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.current"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.draftDay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.daysTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -891,6 +935,10 @@ msgstr ""
 msgid "web.shell.navLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copyTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanMoving"
 msgstr ""
@@ -951,6 +999,10 @@ msgstr "그런 이름의 장소가 없어요. 다른 철자로 검색해 보세�
 msgid "web.home.insideMoneyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.freeDay"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
 msgstr ""
@@ -978,6 +1030,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.note"
 msgstr "출시할 때 메일 한 통. 많아야 두 통. 스팸은 절대 없어요."
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.copyBody"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
@@ -1038,6 +1094,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planTitle"
 msgstr "함께 짜는 일정"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.plannedBy"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.planned"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
@@ -1157,6 +1221,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.solo"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -1378,6 +1446,10 @@ msgstr "시도가 너무 많았어요. 몇 분 뒤에 다시 해 주세요."
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.splitTotal"
 msgstr "합계"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.travelled"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"

@@ -1,0 +1,44 @@
+{
+  "kind": "plan",
+  "shared_plan_id": "0190a6f1-7aaa-7bbb-8ccc-123456789abc",
+  "title": null,
+  "destination_name": "Kyoto",
+  "days_count": 4,
+  "travel_month": 4,
+  "travel_year": 2026,
+  "crew_size": 3,
+  "crew_names": ["Maya", "Arjun", "Jess"],
+  "travelled": true,
+  "tags": ["easy_pace", "temples"],
+  "days": [
+    {
+      "day_no": 1,
+      "theme": "Temples before the crowds",
+      "places": [
+        { "name": "Fushimi Inari", "category": "temple_shrine" },
+        { "name": "Nishiki Market", "category": "market" },
+        { "name": "Gion", "category": "other" }
+      ]
+    },
+    {
+      "day_no": 2,
+      "theme": null,
+      "places": [
+        { "name": "Arashiyama Bamboo Grove", "category": "nature" },
+        { "name": "Tenryu-ji", "category": "temple_shrine" }
+      ]
+    },
+    {
+      "day_no": 3,
+      "theme": "Nara day trip",
+      "places": [
+        { "name": "Todai-ji", "category": "temple_shrine" },
+        { "name": "Nara Park", "category": "nature" }
+      ]
+    },
+    { "day_no": 4, "theme": null, "places": [] }
+  ],
+  "rating_avg": 4.5,
+  "rating_count": 2,
+  "copies_count": 7
+}

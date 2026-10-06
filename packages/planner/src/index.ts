@@ -10,3 +10,4 @@ export * from './dropout/index';
 export * from './fit/index';
 export * from './check/index';
 export * from './placement/index';
+export * from './driver-view/index';

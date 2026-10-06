@@ -1,9 +1,8 @@
 /**
  * The change set lifecycle's shared steps (docs/data-model-sync-and-privacy.md §3.6): load and lock
- * a change set, move it along its state machine, read its approval tally, and apply an approved one
- * to the group plan through the same version commit as a direct edit. A change set whose base moved
- * on is rebased when nothing it touches changed in between, and marked stale otherwise; a stale set
- * never applies. Writes run as `app_system` after the command's own checks.
+ * a change set, advance its state, read its tally, and apply an approved one to the group plan (a
+ * direct edit's version commit, plus the driver the crew picked). A set whose base moved on is
+ * rebased when nothing it touches changed since, else marked stale. Writes run as `app_system`.
  */
 import { appendDomainEvent, loadPollState, outbox, type PollState } from '@cp/db';
 import {
@@ -21,6 +20,7 @@ import type pg from 'pg';
 import { asSystemRole } from '../admin/command';
 import { closeForEveryone } from '../commands/polls/shared';
 import { yesNeeded } from './decider-policy';
+import { applyProviderAssignments } from './provider-assignment';
 import {
   commitPlanVersion,
   loadPlanState,
@@ -255,6 +255,7 @@ export async function applyToGroup(
     ops: null,
     changeSetId: row.id,
   });
+  await applyProviderAssignments(tx, row.id);
   await asSystemRole(tx, () =>
     tx.query("UPDATE change_sets SET status = 'applied', result_version_id = $2 WHERE id = $1", [
       row.id,

@@ -1,7 +1,7 @@
 ---
 phase: 57
 title: Share the plan with your driver: page, PDF, quote back
-status: pending
+status: in_progress
 depends_on: [21, 26, 29, 51, 52, 55]
 wave: 22
 features: [F-196]
@@ -73,24 +73,31 @@ Quote sent confirmation page; quote replaced; share with no days selected; PDF g
 ## Tasks
 ### T1 — Schema, projection, permission + leak tests
 - Done when: the projection test fails if any excluded field appears; RLS + public_reader grants are tested.
+- Status: done — c426738268
 
 ### T2 — Share sheet tab (6i-1)
 - Done when: create/copy/WhatsApp/PDF/revoke work; open count updates live.
+- Status: done — e5e637d12c (create, copy, WhatsApp, revoke, live open count; the PDF button waits on T4)
 
 ### T3 — Web page + switched-off page (6j-1, 6j-3)
 - Done when: EN/ID pass; 360 px visual check; revoke flips the page on the next request (no edge cache on token pages).
+- Status: done — 0f0144663e
 
 ### T4 — PDF render
 - Done when: the PDF matches the page content; it is removed on revoke; the size is ≤ 1 MB.
+- Status: blocked — not started in this pass (worker PDF render, cache per share version, delete on revoke/expiry)
 
 ### T5 — Quote + suggestions form (6j-2)
 - Done when: validation, rate limit and replace semantics are tested; the reply creates the ChangeSet + tips.
+- Status: done — 66c08adf6a (reorder/retime become the ChangeSet; the quote terms item waits on the `assign_provider` op of phase 55)
 
 ### T6 — Made replied (6k-1) in review changes
 - Done when: per-item votes, per-person delta and the must-do check are shown; at threshold the provider terms are set on both days and the WhatsApp confirm is offered.
+- Status: blocked — the quote as a voted terms item, terms set on the days and the WhatsApp confirm need `assign_provider` (phase 55); the quote, tips and voted time changes show on review changes — e5e637d12c
 
 ### T7 — E2E, web tests, screenshots
 - Done when: share → web quote → crew vote runs end to end (mobile flow + Playwright); screenshots are in the report.
+- Status: blocked — partial: Playwright suite (5b963000bc), api suite and lab-scene device flow are in; a live share → web quote → crew vote Maestro flow is not
 
 ## Phase acceptance criteria
 - [ ] Budgets, chat, votes, last names never reach the page, PDF or OG image (tests)

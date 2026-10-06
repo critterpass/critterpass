@@ -2,6 +2,10 @@
  * `GET /v1/public/proposal/{token}` against the real stack: a live trip code or open seat answers
  * the sent draft's first days, uncached; a code switched off after a first view answers 404 on the
  * next request, as does any code that never pointed at a trip.
+ *
+ * `GET /v1/public/plan/{token}`: a live link to a published crew plan answers the plan's days and
+ * places and nothing the crew did not publish; a link to a plan still waiting on consent, a
+ * revoked link and an unknown token answer 404, as does the same link once the plan is taken down.
  */
 import { createHash } from 'node:crypto';
 
@@ -13,7 +17,15 @@ import { startCommandDoors, type CommandDoorsHarness } from '../routes/command-d
 // A seat token in its real shape (44 url-safe characters, then the key id).
 const SEAT = `${'s'.repeat(44)}k1`;
 
+// Plan link tokens in their real shape (24 url-safe characters); only their hashes are stored.
+const PLAN_TOKEN = 'p'.repeat(24);
+const PENDING_TOKEN = 'q'.repeat(24);
+const REVOKED_TOKEN = 'r'.repeat(24);
+const POI_ID = '0190a6f1-7aaa-7bbb-8ccc-123456789abc';
+const hash = (token: string) => createHash('sha256').update(token).digest('hex');
+
 let harness: CommandDoorsHarness;
+let publishedPlan = '';
 
 beforeAll(async () => {
   harness = await startCommandDoors(
@@ -68,7 +80,70 @@ beforeAll(async () => {
   await harness.pool.query(
     `INSERT INTO invites (crew_id, trip_id, inviter_id, kind, seat_token_hash, status, expires_at)
      VALUES ($1, $2, $3, 'personal', $4, 'pending', now() + interval '14 days')`,
-    [crew, trip, organiser, createHash('sha256').update(SEAT).digest('hex')],
+    [crew, trip, organiser, hash(SEAT)],
+  );
+
+  const destination = await one(
+    "INSERT INTO destinations (slug, name) VALUES ('public-kyoto', 'Kyoto') RETURNING id",
+  );
+  // What `materialise` stores for a crew that turned names on: the public copy, with fields the
+  // web never shows (cost, photo keys, tips, place ids).
+  const projection = {
+    v: 1,
+    destination_id: destination,
+    destination_name: 'Kyoto',
+    days_count: 2,
+    travel_month: 4,
+    travel_year: 2026,
+    crew_size: 3,
+    crew_names: ['Maya', 'Arjun', 'Jess'],
+    cost_pp_rounded_minor: 124000,
+    currency: 'USD',
+    travelled: true,
+    tags: ['easy_pace', 'temples'],
+    days: [
+      {
+        day_no: 1,
+        theme: 'Temples before the crowds',
+        places: [
+          { poi_id: POI_ID, name: 'Fushimi Inari', category: 'temple_shrine' },
+          { poi_id: POI_ID, name: 'Nishiki Market', category: 'market' },
+        ],
+      },
+      { day_no: 2, theme: null, places: [] },
+    ],
+    photos: ['trips/secret/photo-1.jpg'],
+    tips: [{ poi_id: POI_ID, text: 'Go at dawn.' }],
+  };
+  publishedPlan = await one(
+    `INSERT INTO shared_plans (trip_id, destination_id, requested_by, status, title, days_count,
+       travel_month, travel_year, crew_size, cost_pp_rounded_minor, currency, tags, projection,
+       travelled, rating_avg, rating_count, copies_count, published_at)
+     VALUES ($1, $2, $3, 'published', 'Kyoto, slowly', 2, 4, 2026, 3, 124000, 'USD',
+       '{easy_pace,temples}', $4, true, 4.5, 2, 7, now()) RETURNING id`,
+    [trip, destination, organiser, JSON.stringify(projection)],
+  );
+  const otherTrip = await one(
+    "INSERT INTO trips (crew_id, status) VALUES ($1, 'voting') RETURNING id",
+    [crew],
+  );
+  const pendingPlan = await one(
+    `INSERT INTO shared_plans (trip_id, destination_id, requested_by, projection)
+     VALUES ($1, $2, $3, $4) RETURNING id`,
+    [otherTrip, destination, organiser, JSON.stringify(projection)],
+  );
+  await harness.pool.query(
+    `INSERT INTO plan_links (trip_id, shared_plan_id, token_hash, revoked_at)
+     VALUES ($1, $2, $3, NULL), ($4, $5, $6, NULL), ($1, $2, $7, now())`,
+    [
+      trip,
+      publishedPlan,
+      hash(PLAN_TOKEN),
+      otherTrip,
+      pendingPlan,
+      hash(PENDING_TOKEN),
+      hash(REVOKED_TOKEN),
+    ],
   );
 }, 240_000);
 
@@ -113,5 +188,61 @@ describe('GET /v1/public/proposal/{token}', () => {
 
   it('rejects a kind it does not serve', async () => {
     expect((await get('/v1/public/payroll/BXP6XA')).status).not.toBe(200);
+  });
+});
+
+describe('GET /v1/public/plan/{token}', () => {
+  it("answers a published plan's days and places for a live link, uncached", async () => {
+    const response = await get(`/v1/public/plan/${PLAN_TOKEN}`);
+    expect(response.status).toBe(200);
+    expect(response.headers.get('cache-control')).toBe('private, no-store');
+    expect(await response.json()).toEqual({
+      kind: 'plan',
+      shared_plan_id: publishedPlan,
+      title: 'Kyoto, slowly',
+      destination_name: 'Kyoto',
+      days_count: 2,
+      travel_month: 4,
+      travel_year: 2026,
+      crew_size: 3,
+      crew_names: ['Maya', 'Arjun', 'Jess'],
+      travelled: true,
+      tags: ['easy_pace', 'temples'],
+      days: [
+        {
+          day_no: 1,
+          theme: 'Temples before the crowds',
+          places: [
+            { name: 'Fushimi Inari', category: 'temple_shrine' },
+            { name: 'Nishiki Market', category: 'market' },
+          ],
+        },
+        { day_no: 2, theme: null, places: [] },
+      ],
+      rating_avg: 4.5,
+      rating_count: 2,
+      copies_count: 7,
+    });
+  });
+
+  it('never carries costs, photos, tips or place ids', async () => {
+    const body = await (await get(`/v1/public/plan/${PLAN_TOKEN}`)).text();
+    for (const secret of ['cost', 'currency', 'photo', 'tips', 'Go at dawn', 'poi_id', 'trip_id']) {
+      expect(body).not.toContain(secret);
+    }
+  });
+
+  it('answers 404 for a plan waiting on consent, a revoked link, an unknown and a malformed token', async () => {
+    for (const token of [PENDING_TOKEN, REVOKED_TOKEN, 'z'.repeat(24), 'short', publishedPlan]) {
+      expect((await get(`/v1/public/plan/${token}`)).status).toBe(404);
+    }
+  });
+
+  it('answers 404 once the plan is taken down', async () => {
+    await harness.pool.query(
+      "UPDATE shared_plans SET status = 'unpublished', projection = '{}' WHERE id = $1",
+      [publishedPlan],
+    );
+    expect((await get(`/v1/public/plan/${PLAN_TOKEN}`)).status).toBe(404);
   });
 });

@@ -1,0 +1,107 @@
+---
+/** The plan for the driver (6j-1): who, when, where they stay, must-dos and each shared day. */
+import type { DriverPlanLocale, DriverPlanPage } from '@cp/domain';
+
+import { driverPlanCopy as copy } from './copy';
+import { formatDate, formatDay, formatRupiah, type Translate } from './i18n';
+
+export interface Props {
+  readonly t: Translate;
+  readonly locale: DriverPlanLocale;
+  readonly page: DriverPlanPage;
+  readonly quoteHref: string;
+}
+
+const { t, locale, page, quoteHref } = Astro.props;
+const { view } = page;
+const days = view.days.map((day) => formatDay(locale, day.date, day.day_no));
+const durationOf = (minutes: number | null) =>
+  minutes === null
+    ? null
+    : minutes >= 90
+      ? t(copy.duration, { hours: Math.round(minutes / 60) })
+      : t(copy.durationMin, { minutes });
+---
+
+<p class="dp-eyebrow">{t(copy.eyebrow, { name: view.sharer_first_name })}</p>
+<h1 class="dp-title">{t(copy.title, { people: view.party_size, days: view.days.length })}</h1>
+<ul class="dp-chips">
+  <li>{t(copy.adults, { count: view.party_size })}</li>
+  <li>{days.join(' + ')}</li>
+  {view.stay_area && <li>{t(copy.stay, { area: view.stay_area })}</li>}
+</ul>
+{
+  view.terms && (
+    <p class="dp-note">
+      {t(copy.yourTerms, {
+        price: formatRupiah(locale, view.terms.price_per_day_minor, view.terms.currency),
+      })}
+    </p>
+  )
+}
+{
+  view.must_dos.length > 0 && (
+    <section class="dp-mustdos">
+      <h2>{t(copy.mustDos)}</h2>
+      <p>{view.must_dos.join(' · ')}</p>
+    </section>
+  )
+}
+{page.updated_at && <p class="dp-note">{t(copy.updated, { date: formatDate(locale, page.updated_at) })}</p>}
+{
+  page.open_reply_at && (
+    <p class="dp-note">{t(copy.replyWaiting, { date: formatDate(locale, page.open_reply_at) })}</p>
+  )
+}
+{
+  view.days.map((day, i) => (
+    <section class="dp-day">
+      <h2 class="dp-day-head">{days[i]}</h2>
+      <ol class="dp-stops">
+        {day.stops.map((stop) => (
+          <li class="dp-stop">
+            <span class="dp-time">{stop.time ?? '·'}</span>
+            <div class="dp-stop-body">
+              <p class="dp-stop-name">
+                {stop.pickup ? t(copy.pickup, { name: stop.name }) : stop.name}
+                {stop.name_local && <span class="dp-local"> ({stop.name_local})</span>}
+              </p>
+              {stop.address && <p class="dp-sub">{stop.address}</p>}
+              {stop.booked && <p class="dp-sub">{t(copy.ticketsBought)}</p>}
+              {!stop.pickup && durationOf(stop.duration_min) && (
+                <p class="dp-sub">{durationOf(stop.duration_min)}</p>
+              )}
+              {stop.pickup && stop.maps_url && (
+                <a class="dp-maps" href={stop.maps_url} rel="noopener noreferrer" target="_blank">
+                  {t(copy.openPickup)}
+                </a>
+              )}
+              {stop.must_do && <span class="dp-badge">{t(copy.mustDo)}</span>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))
+}
+<p class="dp-names">{view.first_names.join(', ')}</p>
+{
+  page.allow_quote && (
+    <>
+      <div class="dp-sticky">
+        <a class="dp-btn dp-btn-primary" href={`${quoteHref}#quote`}>
+          {t(copy.sendQuote)}
+        </a>
+      </div>
+      <div class="dp-actions">
+        <a class="dp-btn" href={`${quoteHref}#changes`}>
+          {t(copy.suggestChanges)}
+        </a>
+        <a class="dp-btn" href={`${quoteHref}#tips`}>
+          {t(copy.addTip)}
+        </a>
+      </div>
+    </>
+  )
+}
+<p class="dp-foot">{t(copy.footer, { date: formatDate(locale, page.expires_at) })}</p>

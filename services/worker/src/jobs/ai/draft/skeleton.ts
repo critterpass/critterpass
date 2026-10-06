@@ -16,6 +16,7 @@ import {
 import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
+import { eachGroup, groupProgress, type GroupProgress } from './group-progress';
 import { publishDayTitle } from './steps';
 
 export const SKELETON_TIER_KEY = 'ai.draft.skeleton_model';
@@ -37,11 +38,14 @@ async function outline(
   model: DraftModel,
   input: DraftPlanInput,
   groups: readonly DayGroup[],
+  progress: GroupProgress | undefined,
 ): Promise<Outline> {
   if (groups.length < 2) return runSkeleton(model, input);
-  const outlines = await Promise.all(
-    groups.map((group, index) => outlineGroup(model, group, groupPrefix(groups, index))),
-  );
+  const outlines = await eachGroup(groups.length, progress, (index) => {
+    const group = groups[index];
+    if (group === undefined) throw new Error('draft: no such day group');
+    return outlineGroup(model, group, groupPrefix(groups, index));
+  });
   return { ...joinOutlines(groups, outlines), groups: outlines };
 }
 
@@ -53,7 +57,7 @@ export async function outlineStage(
   jobId: string,
   groups: readonly DayGroup[] = [],
 ): Promise<Outline> {
-  const skeleton = await outline(model, input, groups);
+  const skeleton = await outline(model, input, groups, groupProgress(pool, jobId, 'skeleton'));
   await Promise.all(
     skeleton.days.map((day) =>
       publishDayTitle(pool, trip.tripId, {
