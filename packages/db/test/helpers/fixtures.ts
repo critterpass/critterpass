@@ -498,6 +498,8 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       member,
     });
 
+    // The places the trip now uses (its stops and ideas), as the refresh job writes them.
+    await tx.query('SELECT app.refresh_trip_places($1)', [tripId]);
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });
     await recordCmdResult(tx, { opId, uid: member, cmd: 'matrix_probe', status: 'applied' });
