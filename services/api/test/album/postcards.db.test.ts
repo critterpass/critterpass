@@ -13,7 +13,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerPostcardCommands } from '../../src/commands/postcards';
 import { registerMailingAddressRoute } from '../../src/commands/postcards/address-route';
-import { startJobProducer } from '../../src/jobs/producer';
+import { routeNotificationsFromApiEvents, startJobProducer } from '../../src/jobs/producer';
 import { createKillSwitches } from '../../src/ops/kill-switches';
 import { registerPrintWebhook } from '../../src/routes/webhooks/print';
 import { runCommand } from '../location/location-fixture';
@@ -85,6 +85,7 @@ beforeAll(async () => {
     harness.pool as unknown as { options: { connectionString: string } }
   ).options;
   producer = await startJobProducer({ connectionString, logger: { error: () => undefined } });
+  routeNotificationsFromApiEvents();
   [anna, ben, cleo, outsider] = await Promise.all([
     harness.signInAnonymously(),
     harness.signInAnonymously(),
