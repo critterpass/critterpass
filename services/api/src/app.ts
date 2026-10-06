@@ -18,6 +18,7 @@ import { straightLineRoutingProvider } from './routing/eta';
 import type { RoutingProvider } from './routing/provider';
 import { registerRoutingRoutes } from './routing/routes';
 import { registerHealthRoutes, type ReadinessCheck } from './routes/health';
+import { registerRoutingBoxesRoute } from './routes/routing-boxes';
 
 export interface AppDeps {
   service: string;
@@ -150,6 +151,7 @@ export function createApp(deps: AppDeps) {
         });
       }
     }
+    registerRoutingBoxesRoute(app, { pool });
     registerPlacesRoutes(app, {
       pool,
       routeEtaProvider: routing,

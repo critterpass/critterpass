@@ -1,8 +1,9 @@
 /**
  * Routing tile boxes: one per destination the planning legs need (live guides and every
- * destination with an active trip), committed as `boxes.json` and read by the tile build. The
- * stored box is the destination's own extent; the build widens it by 30 km so day trips out of
- * town (Ubud → Tanah Lot, Đà Nẵng → Hội An) stay on the graph.
+ * destination with an active trip), read by the tile build from the api (`GET /v1/routing/boxes`,
+ * services/api/src/routes/routing-boxes.ts). The stored box is the destination's own extent; the
+ * build widens it by 30 km so day trips out of town (Ubud → Tanah Lot, Đà Nẵng → Hội An) stay on
+ * the graph.
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -42,8 +43,25 @@ const KM_PER_DEGREE_LAT = 111.32;
 
 export const BOXES_PATH = join(import.meta.dirname, '..', 'boxes.json');
 
+/** The last committed box list: the content factory's places kind is now its only consumer. */
 export function readBoxes(path: string = BOXES_PATH): BoxesFile {
+  return readBoxesFile(path);
+}
+
+/** A box list saved as JSON (the workflow's pull-request dry run reads a fixed one). */
+export function readBoxesFile(path: string): BoxesFile {
   return boxesFileSchema.parse(JSON.parse(readFileSync(path, 'utf8')));
+}
+
+/** The boxes the api says the planning legs need now. */
+export async function fetchBoxes(
+  apiBaseUrl: string,
+  fetcher: typeof fetch = fetch,
+): Promise<BoxesFile> {
+  const url = `${apiBaseUrl.replace(/\/+$/, '')}/v1/routing/boxes`;
+  const response = await fetcher(url, { headers: { accept: 'application/json' } });
+  if (!response.ok) throw new Error(`routing boxes: the api answered ${String(response.status)}`);
+  return boxesFileSchema.parse(await response.json());
 }
 
 /** Widens a box by `km` on every side (longitude degrees shrink with latitude). */

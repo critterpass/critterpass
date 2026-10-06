@@ -1,18 +1,21 @@
 /**
  * The tile workflow's steps that need logic (`.github/workflows/routing-tiles.yml`):
  *
- *   plan     --out plan.json [--only da-nang,bali]   extracts to download, boxes to cut
+ *   plan     --api <api base url> | --boxes <file>  --out plan.json [--only da-nang,bali]
+ *            extracts to download, boxes to cut (the api's `GET /v1/routing/boxes`, or a saved list)
+ *   changed  --plan plan.json --manifest manifest.json   prints true when the plan's boxes differ
+ *            from the published build's (or the file is missing: nothing is published yet)
  *   smoke    --url http://localhost:8002 --plan plan.json   one routed drive inside every box
  *   manifest --plan plan.json --osm osm.json --tiles <file.tar.gz> --url <asset url> --out m.json
  */
 import { createHash } from 'node:crypto';
-import { readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 
 import { createValhallaClient, type ValhallaPoint } from '@cp/suppliers';
 
-import { innerPoints, readBoxes } from './boxes';
-import { createManifest } from './manifest';
-import { buildPlan, type TilePlan } from './plan';
+import { fetchBoxes, innerPoints, readBoxesFile } from './boxes';
+import { createManifest, manifestSchema } from './manifest';
+import { boxesChanged, buildPlan, type TilePlan } from './plan';
 
 function flag(argv: readonly string[], name: string): string | undefined {
   const index = argv.indexOf(`--${name}`);
@@ -27,13 +30,32 @@ function required(argv: readonly string[], name: string): string {
 
 const readPlan = (path: string) => JSON.parse(readFileSync(path, 'utf8')) as TilePlan;
 
-function plan(argv: readonly string[]): void {
+async function plan(argv: readonly string[]): Promise<void> {
   const only = (flag(argv, 'only') ?? '').split(',').map((slug) => slug.trim());
-  const result = buildPlan(readBoxes(), { only });
+  const file = flag(argv, 'boxes');
+  const boxes =
+    file !== undefined && file.length > 0
+      ? readBoxesFile(file)
+      : await fetchBoxes(required(argv, 'api'));
+  const result = buildPlan(boxes, { only });
   writeFileSync(required(argv, 'out'), `${JSON.stringify(result, null, 2)}\n`);
   for (const region of result.regions) {
     console.log(`${region.region}: ${region.boxes.map((box) => box.slug).join(', ')}`);
   }
+  if (result.withoutRegion.length > 0) {
+    console.log(`left out, no Geofabrik extract known: ${result.withoutRegion.join(', ')}`);
+  }
+}
+
+function changed(argv: readonly string[]): void {
+  const planned = readPlan(required(argv, 'plan'));
+  const path = required(argv, 'manifest');
+  if (!existsSync(path)) {
+    console.log('true');
+    return;
+  }
+  const published = manifestSchema.parse(JSON.parse(readFileSync(path, 'utf8')));
+  console.log(String(boxesChanged(planned, published.boxes)));
 }
 
 /**
@@ -96,9 +118,12 @@ async function main(): Promise<void> {
   const argv = process.argv.slice(2).filter((arg) => arg !== '--');
   const [command] = argv;
   if (command === 'plan') return plan(argv);
+  if (command === 'changed') return changed(argv);
   if (command === 'smoke') return smoke(argv);
   if (command === 'manifest') return manifest(argv);
-  throw new Error(`unknown command ${command ?? '(none)'}; expected plan, smoke or manifest`);
+  throw new Error(
+    `unknown command ${command ?? '(none)'}; expected plan, changed, smoke or manifest`,
+  );
 }
 
 await main();

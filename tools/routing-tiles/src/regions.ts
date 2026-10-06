@@ -1,8 +1,9 @@
 /**
  * The Geofabrik extract each box is cut from: the smallest regional extract that holds the whole
  * buffered box (Geofabrik has no Vietnam, Mexico or Thailand subregions; Indonesia and Japan are
- * split). Hand-kept beside `boxes.json`: a destination added there needs its region here, and the
- * `regions` test fails until it has one. The tile workflow checks every URL before downloading.
+ * split). A destination named here gets its own extract; any other `<country>-<city>` slug of a
+ * country Geofabrik serves as one extract gets that country's (`COUNTRY_REGION`), so a new city
+ * there needs no edit. Anything else is reported by the plan and left out of the build.
  */
 export const GEOFABRIK_BASE_URL = 'https://download.geofabrik.de';
 
@@ -38,6 +39,33 @@ export const REGION_BY_SLUG: Readonly<Record<string, string>> = {
   'mx-oaxaca': 'north-america/mexico',
   'mx-tulum': 'north-america/mexico',
 };
+
+/** Countries Geofabrik serves as one extract, by the ISO code a destination slug starts with. */
+export const COUNTRY_REGION: Readonly<Record<string, string>> = {
+  vn: 'asia/vietnam',
+  th: 'asia/thailand',
+  kh: 'asia/cambodia',
+  la: 'asia/laos',
+  my: 'asia/malaysia-singapore-brunei',
+  sg: 'asia/malaysia-singapore-brunei',
+  ph: 'asia/philippines',
+  is: 'europe/iceland',
+  pt: 'europe/portugal',
+  ma: 'africa/morocco',
+  pe: 'south-america/peru',
+  mx: 'north-america/mexico',
+};
+
+/** The extract a destination's box is cut from, or undefined when none is known. */
+export function regionFor(
+  slug: string,
+  regions: Readonly<Record<string, string>> = REGION_BY_SLUG,
+): string | undefined {
+  const named = regions[slug];
+  if (named !== undefined) return named;
+  const country = /^([a-z]{2})-/.exec(slug)?.[1];
+  return country === undefined ? undefined : COUNTRY_REGION[country];
+}
 
 export function regionUrl(region: string): string {
   return `${GEOFABRIK_BASE_URL}/${region}-latest.osm.pbf`;

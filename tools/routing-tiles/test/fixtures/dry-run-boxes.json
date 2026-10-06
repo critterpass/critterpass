@@ -1,0 +1,7 @@
+{
+  "generatedAt": "2026-10-06",
+  "boxes": [
+    { "slug": "iceland", "reason": "live", "bbox": [-22.8, 63.7, -19.5, 64.85] },
+    { "slug": "vn-da-lat", "reason": "live", "bbox": [108.3632, 11.8675, 108.5119, 12.013] }
+  ]
+}

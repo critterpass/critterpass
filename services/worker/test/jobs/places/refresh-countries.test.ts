@@ -3,9 +3,9 @@ import { describe, expect, it } from 'vitest';
 import { refreshCountries } from '../../../src/jobs/places';
 
 describe('the monthly places refresh scope', () => {
-  it('covers every destination when no country is set', () => {
-    expect(refreshCountries({})).toBeNull();
-    expect(refreshCountries({ PLACES_REFRESH_COUNTRIES: ' , ' })).toBeNull();
+  it('adds no country when none is set', () => {
+    expect(refreshCountries({})).toEqual([]);
+    expect(refreshCountries({ PLACES_REFRESH_COUNTRIES: ' , ' })).toEqual([]);
   });
 
   it('reads ISO country codes, trimmed, upper-cased and once each', () => {
@@ -15,6 +15,6 @@ describe('the monthly places refresh scope', () => {
 
   it('ignores anything that is not a two-letter code', () => {
     expect(refreshCountries({ PLACES_REFRESH_COUNTRIES: 'Vietnam,VN' })).toEqual(['VN']);
-    expect(refreshCountries({ PLACES_REFRESH_COUNTRIES: 'Vietnam' })).toBeNull();
+    expect(refreshCountries({ PLACES_REFRESH_COUNTRIES: 'Vietnam' })).toEqual([]);
   });
 });
