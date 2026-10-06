@@ -248,7 +248,8 @@ describe('ai.fit_check on a trip of two stops', () => {
       const open = [{ start: '09:00', end: '17:00' }];
       const id = await poi(name, { weekly: Object.fromEntries(days.map((day) => [day, open])) });
       await world.q('UPDATE pois SET destination_id = $2 WHERE id = $1', [id, osaka?.id]);
-      return mustDo(world.members[0] as string, name, id);
+      // An extra must-do of hers: each member has one first choice already.
+      return mustDo(world.members[0] as string, name, id, 1);
     };
     const saturday = await inOsaka('Osaka Castle', ['sa', 'su']);
     const midweek = await inOsaka('Midweek Market', ['tu', 'we']);
