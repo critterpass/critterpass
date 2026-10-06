@@ -4,11 +4,14 @@
  * succeed on their own merits: unknown ids, stale versions). Nav links follow the same policy.
  */
 import {
+  ADMIN_AREAS,
   ADMIN_COMMAND_ROLES,
   ADMIN_CONSOLE_DEVICE,
   ADMIN_ROLES,
+  canOpenAdminArea,
   canRunAdminCommand,
   generateUuidV7,
+  type AdminArea,
 } from '@cp/domain';
 import { expect, test, type Page } from '@playwright/test';
 
@@ -71,6 +74,16 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   review_ftf_grant: () => ({ grant_id: nobody(), decision: 'allow', reason: 'matrix' }),
   grant_trip_boost: () => ({ trip_id: nobody(), days: 1, reason: 'matrix' }),
   extend_store_renewal: () => ({ uid: nobody(), days: 1, reason: 'matrix' }),
+  // Empty text and an unknown service fail validation, so an allowed call posts or books nothing.
+  post_incident: () => ({ kind: 'incident', text: '' }),
+  update_incident: () => ({ id: nobody(), text: 'matrix' }),
+  resolve_incident: () => ({ id: nobody() }),
+  set_vendor_cost: () => ({
+    service: 'matrix_probe',
+    month: '2026-10',
+    amount_minor: 0,
+    currency: 'USD',
+  }),
 };
 
 async function send(page: Page, cmd: string): Promise<number> {
@@ -124,3 +137,44 @@ test('support cannot change flags and content cannot ban, in the UI too', async 
   expect(await send(page, 'ban_user')).toBe(403);
   expect(await send(page, 'moderate_item')).toBe(403);
 });
+
+/** Nav links and typed-in URLs follow the area policy for every area × role. */
+const AREA_PATHS: Readonly<Partial<Record<AdminArea, { path: string; label: string }>>> = {
+  work: { path: '/work', label: 'My work' },
+  moderation: { path: '/moderation', label: 'Moderation' },
+  desk: { path: '/desk', label: 'Concierge desk' },
+  support: { path: '/support', label: 'Support' },
+  billing: { path: '/billing', label: 'Billing' },
+  catalogue: { path: '/catalogue', label: 'Catalogue' },
+  content: { path: '/content', label: 'Content batches' },
+  flags: { path: '/flags', label: 'Flags & config' },
+  partners: { path: '/partners', label: 'Partners' },
+  services: { path: '/services', label: 'Services & spend' },
+  jobs: { path: '/jobs', label: 'Jobs & DLQ' },
+  audit: { path: '/audit', label: 'Audit log' },
+  operators: { path: '/operators', label: 'Operators' },
+};
+
+for (const role of ADMIN_ROLES) {
+  test(`${role}: every area is in the nav and opens, or is absent and forbidden`, async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+    await signInAs(page, role);
+    for (const area of ADMIN_AREAS) {
+      const target = AREA_PATHS[area];
+      if (target === undefined) continue;
+      const allowed = canOpenAdminArea([role], area).ok;
+      await expect(
+        nav(page).getByRole('link', { name: target.label, exact: false }),
+        `${role} ${area} nav`,
+      ).toHaveCount(allowed ? 1 : 0);
+      await page.goto(target.path);
+      if (allowed) {
+        await expect(page.getByText('Not for your role'), `${role} ${area}`).toHaveCount(0);
+      } else {
+        await expect(page.getByText('Not for your role'), `${role} ${area}`).toBeVisible();
+      }
+    }
+  });
+}

@@ -30,6 +30,8 @@ owns:
 ---
 # Phase 36 — Trip hub, briefing, day-of, leave-by & alarm, offline
 
+> **Status, 6 Oct 2026:** open: T11, the seeded end-to-end flows (hub phases and switcher, readiness, packing, alarms, airplane mode, conflict); only lab and fresh-user flows exist in `e2e/trip/`.
+
 ## Context links
 
 | Source | Section |
@@ -209,6 +211,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. Seed Bali trip with early day, 6 members (5 simulated via API). 2. Maestro flows incl. airplane mode toggle, reconnect, alarm fire on Android emulator with time shift, iOS alarm scheduled (list API assertion). 3. Crew readiness propagation assertion via second client.
 - Tests: `maestro test e2e/trip/`
 - Done when: all flows green in CI on iOS 26 simulator + Android API 36 emulator.
+- Status: todo — `e2e/trip/` holds lab, fresh-user and cold-start flows; the seeded phases, switcher, readiness, packing, alarm, airplane-mode and conflict flows and `tools/scripts/seed-trip-day.ts` are not written
 
 ## Phase acceptance criteria
 - [ ] Hub renders all 5 phases; trip switcher when > 1 active trip; countdown follows C14

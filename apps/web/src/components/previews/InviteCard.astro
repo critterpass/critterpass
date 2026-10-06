@@ -2,22 +2,26 @@
 /**
  * The yellow ticket of Site-Invite: who invited you and where, the crew already in (first names as
  * member-colour initials, never photos), and the trip's dates, per-person estimate and crew as
- * chips. Closed invites (expired, switched off, full) keep the ticket and say why.
+ * chips, then the first days of the draft the organiser sent. Closed invites (expired, switched
+ * off, full) keep the ticket and say why.
  */
 import type { HandoffCopy } from '../../lib/links/handoff-copy';
-import type { LinkPreview } from '@cp/domain';
+import type { LinkPreview, PublicProposal } from '@cp/domain';
 
 import { inviteCopy as copy } from '../site/copy/invite';
 import { siteTranslator } from '../site/i18n';
 import Sticker from '../site/Sticker.astro';
 import { estimateEach, guideKind, memberStubs, tripDates } from './invite-facts';
+import ProposalPreview from './ProposalPreview.astro';
 
 export interface Props {
   readonly copy: HandoffCopy;
   readonly preview: LinkPreview | null;
+  /** The draft behind a live trip invite, when the organiser has sent one. */
+  readonly proposal?: PublicProposal | null;
 }
 
-const { copy: words, preview } = Astro.props;
+const { copy: words, preview, proposal = null } = Astro.props;
 const t = await siteTranslator();
 const closed = preview !== null && preview.state !== 'active';
 const members = memberStubs(preview);
@@ -71,4 +75,5 @@ const chipList = chips.length > 0 ? chips : words.chips;
       </ul>
     )
   }
+  {!closed && proposal !== null && <ProposalPreview proposal={proposal} guideSlug={preview?.guide_slug} />}
 </section>

@@ -120,15 +120,18 @@ describe('hazard_alerts RLS: catalogue (class C0, read-all, system-written)', ()
   });
 });
 
-describe("trip_pack stream: the trip destination's weather, crowds and hazards", () => {
+describe("trip_pack stream: the trip destination's weather and hazards, never its crowds", () => {
   const params = (): Record<string, string> => ({ trip_id: harness.fixture.tripId });
 
-  it.each(['member', 'organiser'] as const)('syncs them to %s', async (actor) => {
-    const ids = idsByTable(await harness.rows('trip_pack', actor, params()));
-    expect(ids['hazard_alerts']).toEqual([batur]);
-    expect(ids['weather_snapshots']).toEqual([snapshot]);
-    expect(ids['crowd_forecasts']).toEqual([crowd]);
-  });
+  it.each(['member', 'organiser'] as const)(
+    'syncs weather and hazards to %s; crowd curves are read over HTTP',
+    async (actor) => {
+      const ids = idsByTable(await harness.rows('trip_pack', actor, params()));
+      expect(ids['hazard_alerts']).toEqual([batur]);
+      expect(ids['weather_snapshots']).toEqual([snapshot]);
+      expect(ids['crowd_forecasts'] ?? []).not.toContain(crowd);
+    },
+  );
 
   it.each(['outsider', 'exMember', 'anonymous'] as const)(
     'syncs zero rows to %s',

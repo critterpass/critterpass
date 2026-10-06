@@ -17,6 +17,11 @@ export interface InfoPillProps {
   readonly accessibilityLabel?: string;
   /** Text too long for the row ends in an ellipsis on one line instead of wrapping (free text). */
   readonly oneLine?: boolean;
+  /**
+   * A short fact the design sets on one line that is never cut: the pill widens to the text instead
+   * of wrapping it (a glyph from a fallback font, ₫ or ≈, can draw wider than it was measured).
+   */
+  readonly nowrap?: boolean;
   readonly testID?: string;
 }
 
@@ -40,6 +45,7 @@ export function InfoPill({
   variant = 'solid',
   accessibilityLabel,
   oneLine = false,
+  nowrap = false,
   testID,
 }: InfoPillProps) {
   const styles = useStyles();
@@ -72,6 +78,7 @@ export function InfoPill({
           variant="label"
           color={fg}
           {...(oneLine ? { numberOfLines: 1, style: { flexShrink: 1 } } : {})}
+          keepOneLine={nowrap && !oneLine}
         >
           {children}
         </Text>

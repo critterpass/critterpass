@@ -1,0 +1,50 @@
+appId: app.critterpass.dev
+---
+# A message to a place on a real account: the staging demo crew's Bali trip has dinner at
+# Warung Demo Ubud on day one. The traveller sees the exact text, sends it, and the app says
+# truthfully where it stands: approved for the desk to send, or (while the desk's WhatsApp
+# number is off) ready to send from their own WhatsApp. The trip's messages then list the thread
+# with the same text, never as sent before the desk sends it.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- extendedWaitUntil:
+    visible:
+      text: 'Live message to Warung Demo Ubud'
+    timeout: 60000
+- tapOn:
+    id: 'supplier-lab-live-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'vendor-draft-text'
+    timeout: 15000
+- takeScreenshot: vendor-message-draft
+- tapOn:
+    id: 'vendor-draft-send'
+- extendedWaitUntil:
+    visible:
+      id: 'vendor-draft-(approved|self-send)'
+    timeout: 30000
+- assertNotVisible:
+    id: 'vendor-draft-error'
+- takeScreenshot: vendor-message-sent
+- tapOn: 'Done'
+- extendedWaitUntil:
+    visible:
+      id: 'supplier-lab-live-messages'
+    timeout: 15000
+- tapOn:
+    id: 'supplier-lab-live-messages'
+- extendedWaitUntil:
+    visible:
+      id: 'vendor-threads'
+    timeout: 30000
+- assertVisible: 'Warung Demo Ubud'
+- assertVisible: '.*are you open tomorrow evening for 6 people.*'
+- assertVisible: '(Approved · the desk sends it|Draft ready.*)'
+- assertNotVisible: '(?i)sent \d.*waiting'
+- takeScreenshot: vendor-message-thread

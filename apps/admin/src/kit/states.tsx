@@ -1,10 +1,12 @@
 /**
- * The console's shared states (none designed; built from tokens, see docs/undesigned-states.md):
- * loading skeleton, empty ("Nothing waiting"), error with retry and request id, stale-version
- * conflict, forbidden, and the offline banner.
+ * The console's shared states, to the Ops-States design: loading skeleton, empty with a sticker,
+ * error mapped from the HTTP status to a plain cause plus the request id, stale save naming who
+ * saved and when, forbidden naming the area and its roles, and the offline banner.
  */
+import { ADMIN_AREA_ROLES, type AdminArea } from '@cp/domain';
 import { useSyncExternalStore, type ReactNode } from 'react';
 
+import tanuki from '../assets/stickers/tanuki.webp';
 import { isApiError } from '../lib/api';
 import type { FieldChange } from './diff';
 import { DiffView } from './diff-view';
@@ -28,6 +30,7 @@ export function EmptyState({
 }) {
   return (
     <div className="state" role="status">
+      <img className="state-sticker" src={tanuki} alt="" width={72} height={72} />
       <div className="state-title">{title}</div>
       {children}
     </div>
@@ -44,6 +47,26 @@ const CODE_COPY: Readonly<Record<string, string>> = {
   VALIDATION: 'Some values are not valid.',
 };
 
+/** A plain cause when the api's code is not one an operator can act on. */
+function statusCause(status: number): string | null {
+  if (status === 0) return 'The console cannot reach the api. Check your connection.';
+  if (status === 401) return 'Your session ended. Sign in again.';
+  if (status === 429) return 'Too many requests. Wait a moment and try again.';
+  if (status >= 500)
+    return 'The api failed on its side. Try again; if it repeats, share the request id.';
+  return null;
+}
+
+/** The copy for an api error: maintenance, then the code, then the HTTP status, then the message. */
+export function errorCopy(error: unknown): string {
+  if (!isApiError(error)) return error instanceof Error ? error.message : 'Something went wrong.';
+  const reason = (error.detail as { reason?: unknown } | undefined)?.reason;
+  if (error.code === 'STATE_INVALID' && reason === 'maintenance') {
+    return 'The console is read-only during maintenance. Nothing was changed.';
+  }
+  return CODE_COPY[error.code] ?? statusCause(error.status) ?? error.message;
+}
+
 export function ErrorState({
   error,
   onRetry,
@@ -55,11 +78,7 @@ export function ErrorState({
 }) {
   if (isApiError(error, 'FORBIDDEN')) return <ForbiddenState />;
   const requestId = isApiError(error) ? error.requestId : null;
-  const message = isApiError(error)
-    ? (CODE_COPY[error.code] ?? error.message)
-    : error instanceof Error
-      ? error.message
-      : 'Something went wrong.';
+  const message = errorCopy(error);
   return (
     <div className="state" role="alert">
       <div className="state-title">{title}</div>
@@ -74,10 +93,16 @@ export function ErrorState({
   );
 }
 
-export function ForbiddenState() {
+export function ForbiddenState({ area, label }: { area?: AdminArea; label?: string }) {
+  const roles = area === undefined ? null : ['owner', ...ADMIN_AREA_ROLES[area]];
   return (
     <div className="state" role="alert">
       <div className="state-title">Not for your role</div>
+      {roles !== null && (
+        <div>
+          {label ?? area} is open to {[...new Set(roles)].join(', ')}.
+        </div>
+      )}
       <div>Ask an owner if you need access to this area.</div>
     </div>
   );
@@ -86,13 +111,22 @@ export function ForbiddenState() {
 export function ConflictState({
   changes,
   onReload,
+  savedBy,
+  savedAt,
 }: {
   changes: readonly FieldChange[];
   onReload: () => void;
+  savedBy?: string | null;
+  savedAt?: string | null;
 }) {
   return (
     <div className="card stack" role="alert">
-      <div className="state-title">Someone else saved first</div>
+      <div className="state-title">
+        {savedBy ? `${savedBy} saved first` : 'Someone else saved first'}
+        {savedAt
+          ? ` at ${new Date(savedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`
+          : ''}
+      </div>
       <div className="muted">
         Your edit was not saved. The server copy differs from yours in these fields:
       </div>

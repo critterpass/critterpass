@@ -1,0 +1,34 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "copyright": "2026 CritterPass",
+    "categories": ["TRAVEL", "SOCIAL_NETWORKING"],
+    "info": {
+      "en-US": {
+        "title": "CritterPass: Group Trips",
+        "subtitle": "Plan, vote and split together",
+        "description": "Every trip starts in the group chat. Most of them end there too. CritterPass gives your crew one place to pick where to go, plan the days, share the costs and keep the trip moving once you land, with a local guide who happens to be an animal.\n\nSWIPE TO PICK\nEveryone swipes through the shortlist. The tally fills live and the winner is settled in minutes, not weeks.\n\nASK THE LOCAL\nEvery destination has its own guide, with its own colour and voice. The guide drafts a day-by-day plan for the whole crew and answers anything by text, voice or camera. Rain on Thursday? It proposes a swap.\n\nPLAN TOGETHER\nOne plan the whole crew can move around. Drag anything to a new slot and the rest of the day shifts to make room, for everyone at once.\n\nSPLIT IT\nLog an expense or scan the receipt, split it however you like, and settle up. Nobody keeps a spreadsheet, and nobody has to be the one who asks for money.\n\nEVERY BOOKING, EVEN WITH NO SIGNAL\nFlights, stays and tickets sit in one wallet that works offline, with a nudge when it is time to leave.\n\nYOU CAN'T BUY THEM. YOU HAVE TO GO.\nWhen you land somewhere new, that place's local hatches onto your pass. Stay a while and more of them turn up. Critters only come from being there.\n\nSTART A CREW, OR JOIN ONE\nCritterPass is free to download and plan with. Start a crew, or join one with the code a friend sent you.\n\nPASS+ AND TRIP BOOST\nPass+ is an optional subscription, monthly or yearly, that adds extra perks on top of the free app. Trip Boost is a one-off purchase for a single trip and the whole crew on it. Prices are shown in the app and the store in your currency before you buy. Pass+ renews automatically unless you turn it off at least 24 hours before the end of the current period; manage or cancel it in your account settings. Terms: https://critterpass.app/legal/subscription-terms\n\nABOUT THE GUIDES\nThe guides are AI. Their plans and answers are written by AI, and facts they found on the web carry their source. Check anything important, like opening hours or entry rules, before you rely on it.\n\nPrivacy: https://critterpass.app/legal/privacy\nTerms: https://critterpass.app/legal/terms",
+        "keywords": [
+          "itinerary",
+          "friends",
+          "travel",
+          "planner",
+          "expenses",
+          "bill",
+          "holiday",
+          "vacation",
+          "guide",
+          "ai",
+          "bookings",
+          "offline",
+          "critters"
+        ],
+        "releaseNotes": "CritterPass is here. Start a crew, pick a place together and meet your first local.",
+        "promoText": "Pick the place, plan the days and split the costs with your crew, guided by a local who happens to be an animal.",
+        "marketingUrl": "https://critterpass.app",
+        "supportUrl": "https://critterpass.app/legal/support",
+        "privacyPolicyUrl": "https://critterpass.app/legal/privacy"
+      }
+    }
+  }
+}

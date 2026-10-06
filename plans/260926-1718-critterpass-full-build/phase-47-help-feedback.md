@@ -142,6 +142,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: XCTest/JUnit for detector; `pnpm --filter @cp/mobile test -- help/shake`.
 - Done when: snapshot of a Balances screen shows masked amounts; capture on wallet/chat/pass/map routes is masked by default with no wrapper present (test per route group); shaking inside a text field does not open the report on iOS.
 
+- Status: blocked — needs `react-native-view-shot` (a native dependency and an EAS build); the JS shake recogniser already exists in `lib/dev-tools/shake.ts`
 ### T4 — Send feedback 3p-2, sent 3p-3, offline outbox
 - Goal: designed feedback flow.
 - Files: `apps/mobile/src/app/help/{feedback,feedback-sent}.tsx`, `apps/mobile/src/features/help/feedback/*`, tests, `e2e/help/feedback-offline.yaml`.
@@ -157,6 +158,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: `pnpm --filter @cp/worker test -- help`; `pnpm --filter @cp/api test -- webhooks/tracker`; `pnpm --filter @cp/ai eval feedback-triage`.
 - Done when: recorded Linear webhook fixture produces an Inbox card only for devices on ≥ fixed version; eval passes.
 
+- Status: pending — not started (Linear workspace, API key and webhook secret also missing)
 ### T6 — Idea board 3p-4, detail, suggest sheet 3p-5 with duplicate detection
 - Goal: vote and suggest with semantic de-dupe.
 - Files: `services/api/src/routes/ideas.ts`, `services/worker/src/jobs/help/idea-embed.ts`, `apps/mobile/src/app/help/ideas/{index,[id],suggest}.tsx`, `apps/mobile/src/features/help/ideas/*`, tests, `e2e/help/ideas.yaml`.
@@ -164,6 +166,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: `pnpm --filter @cp/api test -- ideas`; `pnpm --filter @cp/mobile test -- help/ideas`; `maestro test e2e/help/ideas.yaml`.
 - Done when: typing "shared packing list" surfaces "Packing lists per crew" within 300 ms p95 on the local stack; faces never include non-crewmates (test).
 
+- Status: done — 6d7ae0562b, 3dd2463f58 (board, votes, crewmates, suggest with look-alikes over the api; look-alikes use trigram on titles until an embedding vendor is chosen, so there is no `idea.embed` job; the idea detail page and the shipped confetti are not built)
 ### T7 — Rating prompt arbiter + recap hook + settings rows
 - Goal: compliant rating requests.
 - Files: `packages/domain/src/help/rating-arbiter.ts`, `packages/domain/src/help/rating-arbiter.test.ts`, `apps/mobile/src/features/help/rating/{use-rating-prompt,RecapEndArbiter}.tsx` (fills P43's `RecapEndSlot`; renders P46 `FtfEndingCard` (4c-2) > P52 3o-3 toast (slot registration, absent until P52) > store review), `apps/mobile/src/features/help/settings-rows.tsx` (Rate, Send feedback, Suggest, Help centre rows for P45 registry), tests.
@@ -171,6 +174,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: `pnpm --filter @cp/domain test -- rating-arbiter`; `pnpm --filter @cp/mobile test -- help/rating`.
 - Done when: properties hold (never after paywall same session, never in-trip, ≤1/120 d, one interstitial per recap end); RTL test on P43 story end shows 4c-2 for an FTF-ending trip and no store review in that session.
 
+- Status: blocked — the arbiter and its properties are done (557c6f86a3); the recap-end mount and the store review call need `expo-store-review`, a native dependency and an EAS build
 ### T8 — Admin help module + e2e sweep
 - Goal: support tooling and phase verification.
 - Files: `apps/admin/src/modules/help/*`, `services/api/src/admin/help/*`, `services/api/test/help/admin.test.ts`, `e2e/help/{full-journey,a11y}.yaml`.
@@ -178,6 +182,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: `pnpm --filter @cp/api test -- help/admin`; `maestro test e2e/help/`.
 - Done when: merge keeps total unique voters and never double-counts a user; all `e2e/help` flows green.
 
+- Status: pending — not started
 ## Phase acceptance criteria
 - [ ] Permission tests for 4 tables pass; pending ideas and embeddings not exposed
 - [ ] Help search works online (hybrid) and offline (local FTS); reader deep links resolve

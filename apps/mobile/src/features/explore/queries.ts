@@ -1,8 +1,9 @@
 /**
  * Explore's local reads: the destination and its guide from the synced catalogue, the month curve
- * (so WHEN TO GO draws offline), the viewer's home airport and currency, their crews, whether a
- * place is saved (a queued save or unsave shows at once) and how a queued command settled. Picks
- * and kind counts add the api's browse (`useDestinationPlaces`), so unsynced places count too.
+ * (an api read whose last good copy draws WHEN TO GO offline), the viewer's home airport and
+ * currency, their crews, whether a place is saved (a queued save or unsave shows at once) and how
+ * a queued command settled. Picks and kind counts add the api's browse (`useDestinationPlaces`),
+ * so unsynced places count too.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { shownName } from '@cp/domain';
@@ -12,6 +13,7 @@ import { dataOf } from '@/data/travel-data/freshness';
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { useDestinationSeason } from '@/data/travel-data/shared-content';
 
 import { PICK_KIND_ORDER } from './category';
 import { useLiveRows } from './data/live-rows';
@@ -156,16 +158,11 @@ export interface SeasonMonthRow {
   readonly colour_role: string;
 }
 
-const SEASON_SQL = `SELECT month, crowd_index, highlight_tag, colour_role FROM season_months
-  WHERE destination_id = ? ORDER BY month`;
-const SEASON_TABLES = ['season_months'];
+const NO_MONTHS: readonly SeasonMonthRow[] = [];
 
+/** A destination's reviewed season months (an api read, the last good copy offline). */
 export function useSeasonMonths(destinationId: string | null): readonly SeasonMonthRow[] {
-  return useLiveRows<SeasonMonthRow>(
-    SEASON_SQL,
-    destinationId === null ? null : [destinationId],
-    SEASON_TABLES,
-  ).rows;
+  return dataOf(useDestinationSeason(destinationId))?.months ?? NO_MONTHS;
 }
 
 const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';

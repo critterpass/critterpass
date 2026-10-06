@@ -20,7 +20,9 @@ export async function signInAs(page: Page, role: 'owner' | 'ops' | 'content' | '
     test.info().setTimeout(test.info().timeout + waitMs);
     await page.waitForTimeout(waitMs);
   }
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Hi,');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    /^Good (morning|afternoon|evening), /,
+  );
 }
 
 export function nav(page: Page) {

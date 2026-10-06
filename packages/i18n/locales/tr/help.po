@@ -7,277 +7,429 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
 
+#. placeholder {0}: props.votesLeft
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.votesLeft"
+msgstr "{0, plural, one {# oy kaldı} other {# oy kaldı}}"
+
+#. placeholder {0}: match.count
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMeta"
+msgstr "{0, plural, one {# oy} other {# oy}}"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, one {{first} ve # kişi daha} other {{first} ve # kişi daha}}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.suggest"
+msgstr "+ Fikir öner"
+
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerEmail"
-msgstr ""
+msgstr "Bir insan iki gün içinde e-postayla yanıtlar."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footerInbox"
-msgstr ""
+msgstr "Bir insan iki gün içinde Gelen Kutunda yanıtlar."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.footer"
-msgstr ""
+msgstr "Bir insan iki gün içinde yanıtlar."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.unvote"
+msgstr "Geri çekilen bir oy"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.about"
-msgstr ""
+msgstr "Hakkında"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.addPhoto"
-msgstr ""
+msgstr "Resim ekle"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.askHuman"
-msgstr ""
+msgstr "Bir insana sor"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.askHuman"
-msgstr ""
+msgstr "Bir insana sor"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.done"
-msgstr ""
+msgstr "Ayarlara dön"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.bug"
-msgstr ""
+msgstr "Hata"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.building"
+msgstr "Yapılıyor"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.critters"
-msgstr ""
+msgstr "Critters"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.declined"
+msgstr "Reddedildi"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.device"
-msgstr ""
+msgstr "Cihaz bilgisi"
 
 #. placeholder {0}: props.articleTitle
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.fromArticle"
-msgstr ""
+msgstr "“{0}” makalesinden"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.good"
-msgstr ""
+msgstr "İyi"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.grr"
-msgstr ""
+msgstr "Grr"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.guideChat"
-msgstr ""
+msgstr "Rehber sohbeti"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
+msgstr "Yardım"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
-msgstr ""
+msgstr "Yardım"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.back"
-msgstr ""
+msgstr "Yardım"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.title"
-msgstr ""
+msgstr "Yardım ve geri bildirim"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
-msgstr ""
+msgstr "Yardım merkezi"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
-msgstr ""
+msgstr "Nasıl gidiyor?"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.hq"
-msgstr ""
+msgstr "Merkez · Posta"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.titleLabel"
+msgstr "Birkaç kelimeyle"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.includeDevice"
-msgstr ""
+msgstr "Cihaz bilgisini ekle"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingBody"
-msgstr ""
+msgstr "Bir dahaki sefere çevrimiçi olduğunda yardım merkeziyle birlikte gelir."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.open"
+msgstr "İnceleniyor"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.love"
-msgstr ""
+msgstr "Bayıldım"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.meh"
-msgstr ""
+msgstr "Eh işte"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.merged"
+msgstr "Birleştirildi"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.postAnyway"
+msgstr "Benimki farklı, yine de paylaş"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.money"
-msgstr ""
+msgstr "Para"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.new"
+msgstr "Yeni"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.eyebrow"
+msgstr "Yeni fikir"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.no"
-msgstr ""
+msgstr "Hayır"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.none"
+msgstr "Henüz fikir yok. İlki seninki olabilir."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.noResults"
-msgstr ""
+msgstr "Yardım merkezinde bununla eşleşen bir şey henüz yok."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.noneShipped"
+msgstr "Buradan henüz yayınlanan bir şey yok."
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
-msgstr ""
+msgstr "Fena değil"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.reportShake"
-msgstr ""
+msgstr "Ya da herhangi bir ekranda telefonu salla"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
-msgstr ""
+msgstr "Diğer"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.pinned"
-msgstr ""
+msgstr "Panoya iğnelendi"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.title"
-msgstr ""
+msgstr "Panoya iğnelendi"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.queued"
-msgstr ""
+msgstr "Panoya iğnelendi. Tekrar çevrimiçi olduğunda paylaşılır ve bir insan o zaman okur."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.ideas.planned"
+msgstr "Planlandı"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.planning"
-msgstr ""
+msgstr "Planlama"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.post"
-msgstr ""
+msgstr "Gönderi · Courrier"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.post"
+msgstr "Paylaş"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.posted"
+msgstr "YENİ altında paylaşıldı. İlerlerse Tokek sana haber verir."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rate"
-msgstr ""
+msgstr "Uygulamayı puanla"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.received"
-msgstr ""
+msgstr "Alındı"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.search"
-msgstr ""
+msgstr "İadeler, çevrimdışı haritalar, masraf bölüşme…"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.removePhoto"
-msgstr ""
+msgstr "Bu resmi kaldır"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.report"
-msgstr ""
+msgstr "Sorun bildir"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleProblem"
-msgstr ""
+msgstr "Sorun bildir"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedback"
-msgstr ""
+msgstr "Geri bildirim gönder"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.title"
-msgstr ""
+msgstr "Geri bildirim gönder"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.send"
-msgstr ""
+msgstr "Gönder"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.back"
-msgstr ""
+msgstr "Ayarlar"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shipped"
+msgstr "Yayınlandı"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.shippedTab"
+msgstr "Yayınlananlar"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.english"
-msgstr ""
+msgstr "Şimdilik İngilizce gösteriliyor"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.english"
-msgstr ""
+msgstr "Şimdilik İngilizce gösteriliyor"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.guideLine"
-msgstr ""
+msgstr "Bir şey mi bozuldu ya da bir şey mi eksik? Bana söyle. Doğrudan insanlara iletirim."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchMany"
+msgstr "Bunlardan birine benziyor. Oy ver, daha çabuk gelsin."
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.matchOne"
+msgstr "Buna benziyor. Oy ver, daha çabuk gelsin."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.stuck"
-msgstr ""
+msgstr "Hâlâ takıldın mı?"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggest"
-msgstr ""
+msgstr "Özellik öner"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.titleIdea"
-msgstr ""
+msgstr "Özellik öner"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.title"
+msgstr "Fikir öner"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.rateCaption"
-msgstr ""
+msgstr "On saniye sürer"
 
 #. placeholder {0}: props.name
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanks"
-msgstr ""
+msgstr "Teşekkürler {0}. Bunların hepsini bir insan okuyor. Daha fazla bilgi gerekirse sorarız, düzelince Tokek sana haber verir."
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.thanksNoName"
-msgstr ""
+msgstr "Teşekkürler. Bunların hepsini bir insan okuyor. Daha fazla bilgi gerekirse sorarız, düzelince Tokek sana haber verir."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.thanks"
-msgstr ""
+msgstr "Teşekkürler. Bu, yazıyı düzeltmemize yardımcı olur."
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.tooBig"
-msgstr ""
+msgstr "Bu resim gönderilemeyecek kadar büyük. Bunun yerine ekran görüntüsü dene."
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.offline"
+msgstr "Pano, tekrar çevrimiçi olduğunda açılır."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
-msgstr ""
+msgstr "Bu makale henüz burada değil"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.toHumans"
-msgstr ""
+msgstr "İnsanlara"
+
+#. placeholder {0}: row.teamNote
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.teamNote"
+msgstr "Tokek: {0}"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.top"
+msgstr "En çok"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.underReview"
+msgstr "İnceleniyor"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.vote"
+msgstr "Oy ver ▲"
 
 #. placeholder {0}: props.ideasToVote
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.suggestCaption"
-msgstr ""
+msgstr "{0} fikre oy ver"
+
+#. placeholder {0}: idea.title
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.votedFor"
+msgstr "{0} için oy verdin. Toplam {count} oldu."
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.helpful"
-msgstr ""
+msgstr "Bu işe yaradı mı?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderProblem"
-msgstr ""
+msgstr "Ne oldu, sen ne bekliyordun?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholderIdea"
-msgstr ""
+msgstr "CritterPass sırada ne yapmalı?"
+
+#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+msgid "help.suggest.descriptionLabel"
+msgstr "Ne yapardı? İsteğe bağlı"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.feedbackCaption"
-msgstr ""
+msgstr "Neyi seviyorsun, neyi sevmiyorsun"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.placeholder"
-msgstr ""
+msgstr "Neyi seviyorsun, neyi sevmiyorsun…"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.title"
+msgstr "Sırada ne var?"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.tabs"
+msgstr "Hangi fikirler"
 
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.yes"
-msgstr ""
+msgstr "Evet"
+
+#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+msgid "help.ideas.outOfVotes"
+msgstr "Bu ayki {IDEA_VOTE_BUDGET} oyunu kullandın. Taşımak için birini geri çek."
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.idea"
+msgstr "Pano için fikrin"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
-msgstr ""
+msgstr "Notun"
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
-msgstr ""
+msgstr "İnsanlara notun"
+
+#: ../../apps/mobile/src/features/help/ideas/commands.ts
+msgid "help.queued.vote"
+msgstr "Bir fikre oyun"

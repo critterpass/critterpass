@@ -1,7 +1,7 @@
 ---
 phase: 20
 title: Permission orchestrator, location engine, POI visits
-status: in_progress
+status: done
 depends_on: [2, 7, 10, 11, 14]
 wave: 6
 features: [F-022, F-023, F-189]
@@ -32,6 +32,8 @@ owns:
   - e2e/location/
 ---
 # Phase 20 — Permission orchestrator, location engine, POI visits
+
+> **Status, 6 Oct 2026:** every task is done. The on-device battery measurement (< 3 %/h during an encounter) moves to the founder device checklist.
 
 ## Context links
 

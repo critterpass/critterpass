@@ -291,3 +291,4 @@ export * from './safety';
 export * from './account';
 export * from './recap';
 export * from './album';
+export * from './public';

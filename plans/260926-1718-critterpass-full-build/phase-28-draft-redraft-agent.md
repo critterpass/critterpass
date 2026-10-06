@@ -27,6 +27,8 @@ owns:
 ---
 # Phase 28 — Drafting agent, private draft review, redraft diff
 
+> **Status, 6 Oct 2026:** open: T9's Viator half (the availability contract test needs Viator sandbox access, a partner approval). The drafting agent itself is done and now reads typed place facts behind `planner.typed_places` (#736).
+
 ## Context links
 
 | Source | Section |

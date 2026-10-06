@@ -10,13 +10,18 @@ import { contentModule } from '../modules/content';
 import { costsModule } from '../modules/costs';
 import { deskModule } from '../modules/desk';
 import { flagsModule } from '../modules/flags';
+import { jobsModule } from '../modules/jobs';
 import { moderationModule } from '../modules/moderation';
+import { operatorsModule } from '../modules/operators';
 import { partnersModule } from '../modules/partners';
 import { seasonModule } from '../modules/season';
+import { servicesModule } from '../modules/services';
 import { supportModule } from '../modules/support';
 import { vendorDeskModule } from '../modules/vendor-desk';
+import { workModule } from '../modules/work';
 
 export const ADMIN_MODULES: readonly AdminModule[] = [
+  workModule,
   moderationModule,
   catalogueModule,
   seasonModule,
@@ -24,9 +29,12 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
   contentModule,
   flagsModule,
   partnersModule,
+  servicesModule,
+  jobsModule,
   supportModule,
   deskModule,
   vendorDeskModule,
   billingModule,
   auditModule,
+  operatorsModule,
 ];

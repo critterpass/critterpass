@@ -26,6 +26,8 @@ owns:
 ---
 # Phase 39 — Crew live map
 
+> **Status, 6 Oct 2026:** open: T6, the moving-crewmate flows (runner orchestration for `tools/scripts/live-map-sim/sim.ts` and a Developer tools seed for the boosted and unboosted trips).
+
 ## Context links
 
 | Source | Section |

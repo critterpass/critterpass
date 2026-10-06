@@ -1,7 +1,7 @@
 ---
 phase: 31
 title: Proposal, personalised versions, RSVP, dropout re-split
-status: in_progress
+status: done
 depends_on: [11, 16, 28, 29, 34, 35, 46]
 wave: 17
 features: [F-084, F-085, F-086, F-087, F-088, F-089, F-090, F-091]
@@ -26,6 +26,8 @@ owns:
   - e2e/proposal/**
 ---
 # Phase 31 — Proposal, personalised versions, RSVP, dropout re-split
+
+> **Status, 6 Oct 2026:** every task is done; `fresh-dropout` passed end to end on staging.
 
 ## Context links
 

@@ -13,6 +13,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
+import { TravelDataReaderProvider } from '@/data/travel-data/client';
+import { recordedReader } from '@/data/travel-data/test-support/recorded-reader';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { SetupServicesProvider, type ApiRead, type SetupServices } from '../../data/services';
@@ -108,6 +110,9 @@ export async function seedBudget(
   );
 }
 
+/** The api's cost index read: a hotel at $40–60 a night, $30 food and $15 fun a day. */
+const COST_INDICES = recordedReader({ '/v1/destinations/': [200, 'cost-indices-hotel'] });
+
 export function renderBudget(
   stack: TestLocalFirst,
   services: SetupServices,
@@ -121,11 +126,13 @@ export function renderBudget(
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
-            <SetupServicesProvider services={services}>
-              <ScreenJoltProvider>
-                <BudgetStep trip={trip} shell={sceneFrame(trip, 'budget')} />
-              </ScreenJoltProvider>
-            </SetupServicesProvider>
+            <TravelDataReaderProvider value={COST_INDICES}>
+              <SetupServicesProvider services={services}>
+                <ScreenJoltProvider>
+                  <BudgetStep trip={trip} shell={sceneFrame(trip, 'budget')} />
+                </ScreenJoltProvider>
+              </SetupServicesProvider>
+            </TravelDataReaderProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>

@@ -87,6 +87,14 @@ msgstr ""
 msgid "web.invite.estimateEach"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.draftTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.draftDay"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.askStatus"
 msgstr "✓ RENCANA DIPERBARUI UNTUK 6 ORANG"

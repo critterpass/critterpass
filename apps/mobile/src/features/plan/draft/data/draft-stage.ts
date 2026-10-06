@@ -30,3 +30,22 @@ export function isBeingDrafted(
   const live = lastDraftJob?.status === 'queued' || lastDraftJob?.status === 'running';
   return trip.isOrganiser && live && !hasDraftToReview(trip);
 }
+
+/** Statuses a trip has once its plan is locked in. */
+/* eslint-disable lingui/no-unlocalized-strings -- trip statuses, never copy. */
+const LOCKED_IN: ReadonlySet<string> = new Set([
+  'confirmed',
+  'pre_trip',
+  'in_trip',
+  'post_trip',
+  'archived',
+]);
+/* eslint-enable lingui/no-unlocalized-strings */
+
+/**
+ * The plan is locked in, so the private draft is retired and the crew's plan is what to show. The
+ * lock's rows can sync after she has already opened the draft, so the review follows the status.
+ */
+export function isDraftRetired(trip: { readonly status: string }): boolean {
+  return LOCKED_IN.has(trip.status);
+}
