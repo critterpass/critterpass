@@ -19,7 +19,8 @@ let boss: PgBoss;
 let support: string;
 let owner: string;
 
-const PRIVATE_REASON = 'LEAVING-REASON-STAYS-PRIVATE';
+// One of the reasons the app offers; the console never shows which one a traveller picked.
+const PRIVATE_REASON = 'too_many_pings';
 
 beforeAll(async () => {
   harness = await startAdminHarness();
