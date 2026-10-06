@@ -229,3 +229,36 @@ describe('must-do reminders and prompts', () => {
     expect(push?.deepLink).toBe(`/trip/${world.tripId}/setup/must-dos/add`);
   });
 });
+
+describe('ai.fit_check on a trip of two stops', () => {
+  it('checks a must-do in the second city on the days spent there', async () => {
+    // Four nights in Kyoto (Mon–Thu), then Osaka from Fri 9 April to the last day.
+    const [osaka] = await world.q<{ id: string }>(
+      `INSERT INTO destinations (slug, name, coverage, tz)
+       VALUES ('osaka-second-stop', 'Osaka', 'guest', 'Asia/Tokyo') RETURNING id`,
+    );
+    await world.q(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       SELECT id, crew_id, s.position, s.destination_id, s.nights
+         FROM trips, (VALUES (1, destination_id, 4), (2, $2::uuid, 3)) AS s(position, destination_id, nights)
+        WHERE id = $1`,
+      [world.tripId, osaka?.id],
+    );
+    const inOsaka = async (name: string, days: readonly string[]) => {
+      const open = [{ start: '09:00', end: '17:00' }];
+      const id = await poi(name, { weekly: Object.fromEntries(days.map((day) => [day, open])) });
+      await world.q('UPDATE pois SET destination_id = $2 WHERE id = $1', [id, osaka?.id]);
+      return mustDo(world.members[0] as string, name, id);
+    };
+    const saturday = await inOsaka('Osaka Castle', ['sa', 'su']);
+    const midweek = await inOsaka('Midweek Market', ['tu', 'we']);
+    await checkTripFits(world.harness.pool, world.tripId, (input) =>
+      Promise.resolve(templateFitNote(input)),
+    );
+    expect((await state(saturday))?.fit_status).toBe('fits');
+    // Open on the trip's Tuesday and Wednesday, but the crew is still in Kyoto then.
+    expect((await state(midweek))?.fit_status).toBe('clash');
+    // A Kyoto place is still checked on every date of the trip.
+    expect((await state(ids.inari!))?.fit_status).toBe('fits');
+  });
+});

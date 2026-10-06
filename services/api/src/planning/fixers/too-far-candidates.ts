@@ -8,6 +8,8 @@ import { knownHours } from '@cp/domain';
 import type { FitDay, TooFarCandidate } from '@cp/planner';
 import type pg from 'pg';
 
+import { areaScope, placesOfSql, readingArea } from '../fit/area-places';
+
 const PER_POINT = 10;
 
 export interface CandidateRow {
@@ -23,6 +25,7 @@ export async function tooFarCandidates(
   tx: pg.PoolClient,
   destinationId: string | null,
   day: FitDay,
+  tripId?: string,
 ): Promise<{ candidates: TooFarCandidate[]; names: Map<string, string> }> {
   const categories = [
     ...new Set(
@@ -35,27 +38,36 @@ export async function tooFarCandidates(
     ...(day.stay === null ? [] : [day.stay]),
     ...day.items.flatMap((item) => (item.point === null ? [] : [item.point])),
   ];
-  if (destinationId === null || categories.length === 0 || points.length === 0) {
+  if (
+    (destinationId === null && day.areaId == null) ||
+    categories.length === 0 ||
+    points.length === 0
+  ) {
     return { candidates: [], names: new Map() };
   }
-  const { rows } = await tx.query<CandidateRow>(
-    `SELECT DISTINCT ON (p.id) p.id, p.name, p.category, p.lat, p.lng, p.hours
+  // A day spent in an area of its own (a day trip, a later stop) swaps within that area.
+  const scope = areaScope(tripId, day.areaId);
+  const { rows } = await readingArea(tx, scope, () =>
+    tx.query<CandidateRow>(
+      `SELECT DISTINCT ON (p.id) p.id, p.name, p.category, p.lat, p.lng, p.hours
        FROM unnest($2::float8[], $3::float8[]) AS pt(lat, lng)
        CROSS JOIN LATERAL (
          SELECT c.id, c.name, c.category, c.lat, c.lng, c.hours FROM pois c
-          WHERE c.destination_id = $1 AND c.status = 'active' AND ${recommendedSql('c')}
+          WHERE ${placesOfSql('c', { destination: '$1', trip: '$6' }, scope)} AND c.status = 'active' AND ${recommendedSql('c')}
             AND c.merged_into_id IS NULL AND c.category = ANY($4::text[])
             AND NOT EXISTS (SELECT 1 FROM place_hides h WHERE h.poi_id = c.id AND h.user_id = app.uid())
           ORDER BY power(c.lat - pt.lat, 2) + power((c.lng - pt.lng) * cos(radians(pt.lat)), 2)
           LIMIT $5) p
       ORDER BY p.id`,
-    [
-      destinationId,
-      points.map((point) => point.lat),
-      points.map((point) => point.lng),
-      categories,
-      PER_POINT,
-    ],
+      [
+        scope?.areaId ?? destinationId,
+        points.map((point) => point.lat),
+        points.map((point) => point.lng),
+        categories,
+        PER_POINT,
+        ...(scope === null ? [] : [scope.tripId]),
+      ],
+    ),
   );
   return {
     candidates: rows.map((row) => ({
