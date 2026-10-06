@@ -795,6 +795,10 @@ msgstr ""
 msgid "common.signature.hint"
 msgstr ""
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.AUTH_REQUIRED"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
 msgid "common.signature.typeName"
 msgstr ""
@@ -819,8 +823,28 @@ msgstr ""
 msgid "motion.motionLab.slowmo"
 msgstr ""
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.VERSION_CONFLICT"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.BOOST_INTENT_LOCKED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.VALIDATION"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.INTERNAL"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.unknown"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
@@ -865,12 +889,116 @@ msgstr ""
 msgid "common.icon.sunny"
 msgstr ""
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.STATE_INVALID"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CONTENT_REJECTED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CODE_REDEEMED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CODE_EXPIRED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CODE_INVALID"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.IDEMPOTENCY_MISMATCH"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.LOCATION_IMPLAUSIBLE"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.UPSTREAM_TIMEOUT"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.PAYLOAD_TOO_LARGE"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SUPPLIER_UNAVAILABLE"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SUPPLIER_REJECTED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.HOLD_EXPIRED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.PLAN_VERSION_CONFLICT"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.K_ANON_UNAVAILABLE"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ACCOUNT_CLOSED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.OWNED_BY_OTHER_ACCOUNT"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SEAT_LIMIT"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.defaultDestinationName"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.INVITE_EXPIRED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.INVITE_REVOKED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.NOT_ELIGIBLE"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ACTION_KEY_SCOPE"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SHARE_EXPIRED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SHARE_REVOKED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ENTITLEMENT_REQUIRED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.APPROVAL_REQUIRED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.HOLD_NOT_PROVIDED"
 msgstr ""
 
 #: ../../apps/mobile/src/app/+not-found.tsx
@@ -879,6 +1007,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.body"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.MERGE_REQUIRED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.VOTE_CLOSED"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/inputs/Keypad.tsx
@@ -891,6 +1027,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
 msgid "common.data.today"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.RATE_LIMITED"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
@@ -962,6 +1102,18 @@ msgstr ""
 msgid "common.plan.wasHere"
 msgstr ""
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ATTESTATION_FAILED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.NOT_FOUND"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CONSENT_REQUIRED"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
 msgid "common.vote.yes"
 msgstr ""
@@ -971,8 +1123,32 @@ msgstr ""
 msgid "common.vote.yesTo"
 msgstr ""
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.FORBIDDEN"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.NUDGE_TOO_SOON"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SESSION_REVOKED"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.notInDestination"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.WAITLISTED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.QUOTA_EXHAUSTED"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.REDRAFT_LIMIT"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/DexHeader.tsx
@@ -981,6 +1157,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/map/YouDot.tsx
 msgid "map.youDot.accessibilityLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.PAYMENT_PENDING"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/MonthStrip.tsx

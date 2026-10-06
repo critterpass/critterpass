@@ -4,10 +4,11 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is SQL, never copy. */
-import { errorMessageKey, type ErrorCode } from '@cp/domain';
 import type { MessageDescriptor } from '@lingui/core';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 import { useCallback } from 'react';
+
+import { errorMessage } from '@/lib/errors/error-messages';
 
 import { summaryOrName } from '../commands/summaries';
 import { useLocalFirst } from '../powersync/local-first-context';
@@ -17,7 +18,7 @@ export interface RejectedCommand {
   readonly opId: string;
   readonly cmd: string;
   readonly code: string;
-  /** i18n key for the code's copy (`errors.<code>`). */
+  /** i18n key for the code's copy (`errors.<code>`); a code this build does not know gets the general line's key. */
   readonly messageKey: string;
   readonly detail: unknown;
   readonly summary: MessageDescriptor;
@@ -51,7 +52,7 @@ function toRejected(row: Row): RejectedCommand {
     opId: row.id,
     cmd: row.cmd,
     code: row.code,
-    messageKey: errorMessageKey(row.code as ErrorCode),
+    messageKey: errorMessage(row.code).id,
     detail: parse(row.detail),
     summary: summaryOrName(row.cmd, row.summary),
     rejectedAt: row.rejected_at,
