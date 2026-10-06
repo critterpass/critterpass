@@ -265,6 +265,18 @@ msgstr ""
 msgid "home.firstRun.elsewhereBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpacePhrases"
+msgstr "Geen ruimte op de telefoon voor zinnenkaarten"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceMap"
+msgstr "Geen ruimte op de telefoon voor de kaart"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceTickets"
+msgstr "Geen ruimte op de telefoon voor tickets"
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr ""
@@ -308,6 +320,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.ready"
+msgstr "Klaar voor offline"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"
@@ -356,6 +372,26 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.startCrew"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.phrases"
+msgstr "Zinnenkaarten worden nog gedownload"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.map"
+msgstr "De kaart wordt nog gedownload"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.places"
+msgstr "De plekken van de reis worden nog gedownload"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.tickets"
+msgstr "Tickets worden nog gedownload"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.today"
+msgstr "De bestanden van vandaag worden nog gedownload"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"

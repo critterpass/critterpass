@@ -11,9 +11,21 @@
 import { BUNDLE_ASSET_PRIORITY, type BundleAssetKind } from '@cp/domain';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
+import {
+  BUNDLE_KIND,
+  SAVED_DAYS_SQL,
+  savedDayId,
+  savedDaysParams,
+  type SavedAsset,
+  type SavedDay,
+  type SavedDayPlace,
+  type SavedDayRate,
+} from '@/data/trip-day/saved-days';
+
 import type { TripDayServices } from './services';
 
-export const BUNDLE_KIND = 'trip_day_bundle';
+export { BUNDLE_KIND, savedDayId, type SavedAsset, type SavedDay };
+
 /** Below this much free space the map is left out (tickets and phrases still come). */
 export const MAP_MIN_FREE_BYTES = 200 * 1024 * 1024;
 
@@ -31,37 +43,8 @@ export interface WireDay {
   readonly version: number;
   readonly built_at: string;
   readonly assets: readonly WireAsset[];
-  readonly places: readonly { readonly poi_id: string; readonly name: string }[];
-  readonly fx: readonly { base: string; quote: string; rate: string; as_of: string }[];
-}
-
-export interface SavedAsset {
-  readonly kind: BundleAssetKind;
-  readonly key: string;
-  readonly label: string;
-  readonly uri: string;
-  readonly savedAt: string;
-}
-
-export interface SavedDay {
-  readonly tripId: string;
-  readonly localDate: string;
-  readonly version: number;
-  readonly builtAt: string;
-  readonly assets: readonly SavedAsset[];
-  /** Named in the manifest but not on the phone (no signal, no space, no URL). */
-  readonly missing: readonly {
-    readonly kind: BundleAssetKind;
-    readonly label: string;
-    readonly reason: 'space' | 'failed';
-  }[];
-  readonly places: WireDay['places'];
-  readonly fx: WireDay['fx'];
-  readonly savedAt: string;
-}
-
-export function savedDayId(tripId: string, localDate: string): string {
-  return `${BUNDLE_KIND}:${tripId}:${localDate}`;
+  readonly places: readonly SavedDayPlace[];
+  readonly fx: readonly SavedDayRate[];
 }
 
 function daysOf(body: unknown): WireDay[] {
@@ -79,10 +62,7 @@ export async function readSavedDays(
   db: AbstractPowerSyncDatabase,
   tripId: string,
 ): Promise<SavedDay[]> {
-  const rows = await db.getAll<{ data: string }>(
-    'SELECT data FROM local_private WHERE kind = ? AND id LIKE ?',
-    [BUNDLE_KIND, `${BUNDLE_KIND}:${tripId}:%`],
-  );
+  const rows = await db.getAll<{ data: string }>(SAVED_DAYS_SQL, savedDaysParams(tripId));
   return rows.map((row) => JSON.parse(row.data) as SavedDay);
 }
 

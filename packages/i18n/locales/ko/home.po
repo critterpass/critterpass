@@ -265,6 +265,18 @@ msgstr ""
 msgid "home.firstRun.elsewhereBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpacePhrases"
+msgstr "휴대폰에 표현 카드를 저장할 공간이 없어요"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceMap"
+msgstr "휴대폰에 지도를 저장할 공간이 없어요"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceTickets"
+msgstr "휴대폰에 티켓을 저장할 공간이 없어요"
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr ""
@@ -308,6 +320,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.ready"
+msgstr "오프라인 준비 완료"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"
@@ -356,6 +372,26 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.startCrew"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.phrases"
+msgstr "표현 카드를 아직 내려받는 중"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.map"
+msgstr "지도를 아직 내려받는 중"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.places"
+msgstr "여행 장소를 아직 내려받는 중"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.tickets"
+msgstr "티켓을 아직 내려받는 중"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.today"
+msgstr "오늘 파일을 아직 내려받는 중"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"

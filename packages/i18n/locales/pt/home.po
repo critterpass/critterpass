@@ -265,6 +265,18 @@ msgstr ""
 msgid "home.firstRun.elsewhereBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpacePhrases"
+msgstr "Sem espaço no telemóvel para as frases"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceMap"
+msgstr "Sem espaço no telemóvel para o mapa"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceTickets"
+msgstr "Sem espaço no telemóvel para os bilhetes"
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr ""
@@ -308,6 +320,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.ready"
+msgstr "Pronto offline"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"
@@ -356,6 +372,26 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.startCrew"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.phrases"
+msgstr "Ainda a transferir as frases"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.map"
+msgstr "Ainda a transferir o mapa"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.places"
+msgstr "Ainda a transferir os lugares da viagem"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.tickets"
+msgstr "Ainda a transferir os bilhetes"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.today"
+msgstr "Ainda a transferir os ficheiros de hoje"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"

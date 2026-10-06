@@ -265,6 +265,18 @@ msgstr ""
 msgid "home.firstRun.elsewhereBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpacePhrases"
+msgstr "フレーズカードを保存する空きがありません"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceMap"
+msgstr "地図を保存する空きがありません"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceTickets"
+msgstr "チケットを保存する空きがありません"
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr ""
@@ -308,6 +320,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.ready"
+msgstr "オフラインで使えます"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"
@@ -356,6 +372,26 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.startCrew"
 msgstr ""
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.phrases"
+msgstr "フレーズカードをダウンロード中"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.map"
+msgstr "地図をダウンロード中"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.places"
+msgstr "旅の場所をダウンロード中"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.tickets"
+msgstr "チケットをダウンロード中"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.today"
+msgstr "今日のファイルをダウンロード中"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"

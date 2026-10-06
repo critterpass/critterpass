@@ -38,6 +38,7 @@ import { useAppBadge } from './inbox/use-app-badge';
 import { JoinTripCard, useOpenTrip } from './join-trip-card';
 import { useRecordAppOpen } from './nudge/use-record-app-open';
 import { NextUpCard } from './next-up-card';
+import { OfflineLineRow } from './offline-line';
 import { HOME_ROUTES } from './routes';
 import { homeVoteSlot } from './slots';
 import { TipStrip } from './tip-strip';
@@ -117,6 +118,12 @@ function CrewHome({ view }: { readonly view: HomeView }) {
   // crew's next thing, so the card doesn't repeat it as "Your next trip".
   const votingIsNextUp =
     home.nextTrip?.destinationId === null && home.vote !== null && homeVoteSlot() !== null;
+  const shownTrip =
+    home.mode === 'in_trip'
+      ? home.activeTrip
+      : (home.mode === 'everyday' || home.mode === 'final_vote') && !votingIsNextUp
+        ? home.nextTrip
+        : null;
   const showTip =
     tip !== null &&
     (home.mode === 'everyday' || home.mode === 'no_trip' || home.mode === 'post_trip');
@@ -139,6 +146,7 @@ function CrewHome({ view }: { readonly view: HomeView }) {
       !votingIsNextUp ? (
         <NextUpCard trip={home.nextTrip} />
       ) : null}
+      {shownTrip === null ? null : <OfflineLineRow trip={shownTrip} now={new Date()} />}
       {home.mode === 'post_trip' && home.recentTrip !== null ? (
         <PostTripCard trip={home.recentTrip} />
       ) : null}

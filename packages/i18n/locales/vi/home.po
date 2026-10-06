@@ -265,6 +265,18 @@ msgstr "Tiếp theo: {time} · {name}"
 msgid "home.firstRun.elsewhereBody"
 msgstr "Nơi đó chưa có hướng dẫn viên. Tokek sẽ đi cùng bạn cho tới khi có."
 
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpacePhrases"
+msgstr "Điện thoại không đủ chỗ cho thẻ câu nói"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceMap"
+msgstr "Điện thoại không đủ chỗ cho bản đồ"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.noSpaceTickets"
+msgstr "Điện thoại không đủ chỗ cho vé"
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr "Nhóm chưa gửi gì."
@@ -308,6 +320,10 @@ msgstr "kế hoạch đã xong {progress} phần trăm"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr "Kế hoạch {progress}%"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.ready"
+msgstr "Sẵn sàng ngoại tuyến"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"
@@ -356,6 +372,26 @@ msgstr "Có tin mới cho bạn"
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.startCrew"
 msgstr "Lập nhóm"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.phrases"
+msgstr "Vẫn đang tải thẻ câu nói"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.map"
+msgstr "Vẫn đang tải bản đồ"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.places"
+msgstr "Vẫn đang tải các địa điểm của chuyến đi"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.tickets"
+msgstr "Vẫn đang tải vé"
+
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.today"
+msgstr "Vẫn đang tải tệp cho hôm nay"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"

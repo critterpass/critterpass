@@ -1,7 +1,7 @@
 /**
  * Day bundles against a migrated Postgres: Batur day's manifest names the crew's pickup document,
- * Indonesian phrase audio, the Bali map region, the rupiah rate with its date, the day's place and
- * its forecast; the version bumps only when the content hash changes; and the nightly timers are
+ * Indonesian phrase audio, the Bali map region, the rupiah rate with its date, the day's places
+ * (labelled from the trip's `trip_places` cards) and its forecast; the version bumps only when the content hash changes; and the nightly timers are
  * armed at 20:00 the evening before each remaining day (a day whose evening passed is queued now).
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -17,7 +17,7 @@ interface Manifest {
   assets: { kind: string; key: string; label: string }[];
   map_region_ref: { key: string } | null;
   fx: { base: string; quote: string; as_of: string }[];
-  places: { name: string }[];
+  places: { poi_id: string; name: string; address: string | null; lat: number; lng: number }[];
   forecasts: { point_key: string }[];
 }
 
@@ -102,6 +102,48 @@ describe('daybundle.build', () => {
       changed: true,
     });
     expect((await bundle()).manifest.forecasts.map((f) => f.point_key)).toEqual(['summit:batur']);
+  });
+
+  it("labels every stop of the day from the trip's own place cards, even before their refresh", async () => {
+    const [temple] = await world.q<{ id: string }>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, address)
+       VALUES ($1, 'Pura Ulun Danu Batur', 'temple_shrine', -8.2563, 115.3388, 'Kintamani') RETURNING id`,
+      [world.destinationId],
+    );
+    const [trek] = await world.q<{ version_id: string; day_id: string }>(
+      `SELECT i.version_id, i.day_id FROM plan_items i JOIN pois p ON p.id = i.poi_id
+        WHERE i.trip_id = $1 AND p.name = 'Mount Batur'`,
+      [world.tripId],
+    );
+    // Added like a plan change: the stop exists, its trip card does not yet.
+    await world.q(
+      `INSERT INTO plan_items (version_id, day_id, trip_id, poi_id, starts_at, tz, category, status)
+       VALUES ($1, $2, $3, $4, '2026-10-15T02:00:00Z', $5, 'activity', 'confirmed')`,
+      [trek!.version_id, trek!.day_id, world.tripId, temple!.id, TRIP_TZ],
+    );
+    expect(await buildDayBundle(world.harness.pool, world.tripId, '2026-10-15')).toEqual({
+      version: 3,
+      changed: true,
+    });
+    const { manifest } = await bundle();
+    const stops = await world.q<{ poi_id: string; name: string }>(
+      `SELECT DISTINCT p.id AS poi_id, p.name FROM plan_items i JOIN pois p ON p.id = i.poi_id
+        WHERE i.trip_id = $1 AND i.starts_at >= '2026-10-14T16:00:00Z'
+          AND i.starts_at < '2026-10-15T16:00:00Z' ORDER BY p.id`,
+      [world.tripId],
+    );
+    expect(stops.map((stop) => stop.name)).toEqual(['Mount Batur', 'Pura Ulun Danu Batur']);
+    expect(manifest.places.map(({ poi_id, name }) => ({ poi_id, name }))).toEqual(stops);
+    expect(manifest.places[1]).toEqual(
+      expect.objectContaining({ address: 'Kintamani', lat: -8.2563, lng: 115.3388 }),
+    );
+    const cards = await world.q<{ poi_id: string; roles: string[] }>(
+      "SELECT poi_id, roles FROM trip_places WHERE trip_id = $1 AND visibility = 'crew'",
+      [world.tripId],
+    );
+    for (const stop of stops) {
+      expect(cards).toContainEqual({ poi_id: stop.poi_id, roles: ['stop'] });
+    }
   });
 });
 
