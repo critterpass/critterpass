@@ -8,7 +8,7 @@
  *   `geo fix` on Android).
  * - `/scenario?name=…&<args>`: starts a script that drives other people through the api of the
  *   build under test (`E2E_API_BASE_URL`): `trip-day` (../seed-trip-day.ts: five travellers join
- *   the crew behind `code`) and `live-map` (../live-map-sim/sim.ts: crewmates join the crew behind
+ *   the crew behind `code`) and `live-map` (../live-map-sim/by-code.ts: crewmates join the crew behind
  *   `code` and keep walking on `trip`). It answers 202 at once; `/scenario-output?name=…` then
  *   answers 202 while the script sets up, 200 with its JSON line once it has, and 500 if it failed.
  *   A `live-map` sim keeps running (posting fixes) until the shard ends.
@@ -38,7 +38,7 @@ export const SCENARIOS: Readonly<Record<string, ScenarioScript>> = {
     args: (query) => ['--code', required(query, 'code'), '--members', query.get('members') ?? '5'],
   },
   'live-map': {
-    file: 'live-map-sim/sim.ts',
+    file: 'live-map-sim/by-code.ts',
     args: (query) => [
       '--code',
       required(query, 'code'),

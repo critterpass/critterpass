@@ -10,10 +10,21 @@
  *
  * Prints one JSON line: `{"crew_code": …, "members": [{"uid": …, "name": …}]}`.
  */
-import { randomUUID } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 import { parseArgs } from 'node:util';
 
-import { generateUuidV7 } from '@cp/domain';
+/**
+ * A UUIDv7 (RFC 9562): the shard runner starts this script without the workspace installed, so it
+ * cannot import the domain package's generator.
+ */
+export function uuidV7(now = Date.now()): string {
+  const bytes = randomBytes(16);
+  bytes.writeUIntBE(now, 0, 6);
+  bytes[6] = 0x70 | ((bytes[6] ?? 0) & 0x0f);
+  bytes[8] = 0x80 | ((bytes[8] ?? 0) & 0x3f);
+  const hex = bytes.toString('hex');
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
 
 export interface ApiSession {
   readonly uid: string;
@@ -59,7 +70,7 @@ export async function sendCommand(
     method: 'POST',
     headers: { 'content-type': 'application/json', cookie: who.cookie },
     body: JSON.stringify({
-      op_id: generateUuidV7(),
+      op_id: uuidV7(),
       cmd,
       v: 1,
       actor: { uid: who.uid, via: 'app' },
@@ -84,7 +95,7 @@ export async function joinTraveller(
   code: string,
 ): Promise<ApiSession & { readonly name: string }> {
   const session = await signInAnonymously(api);
-  const passId = generateUuidV7();
+  const passId = uuidV7();
   await sendCommand(api, session, 'start_pass', { pass_id: passId });
   await sendCommand(api, session, 'issue_pass', {
     pass_id: passId,

@@ -20,8 +20,6 @@ appId: app.critterpass.dev
     visible:
       id: 'paste-link-offer'
     timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: links-deferred-paste-offer
 # UIPasteControl names itself "Paste".
 - tapOn: 'Paste'
 - extendedWaitUntil:

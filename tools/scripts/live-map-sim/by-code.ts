@@ -1,3 +1,5 @@
+import { parseArgs } from 'node:util';
+
 import { joinTraveller, sendCommand, type ApiClient } from '../seed-trip-day';
 import { ride, type Rider } from './ride';
 import { crewMembers } from './routes';
@@ -61,4 +63,36 @@ export async function driveByCode(args: {
   );
   await sleep(args.minutes * 60_000);
   await stop();
+}
+
+const isMainModule = import.meta.url === `file://${process.argv[1] ?? ''}`;
+if (isMainModule) {
+  const { values } = parseArgs({
+    args: process.argv.slice(2).filter((arg) => arg !== '--'),
+    options: {
+      api: { type: 'string' },
+      code: { type: 'string' },
+      trip: { type: 'string' },
+      poi: { type: 'string' },
+      speed: { type: 'string', default: '4' },
+      minutes: { type: 'string', default: '10' },
+    },
+  });
+  if (!values.api || !values.code || !values.trip || !values.poi) {
+    log(
+      'usage: by-code.ts --api <url> --code <c> --trip <id> --poi <id> [--speed n] [--minutes n]',
+    );
+    process.exit(2);
+  }
+  driveByCode({
+    api: values.api,
+    code: values.code,
+    trip: values.trip,
+    poi: values.poi,
+    speed: Number(values.speed),
+    minutes: Number(values.minutes),
+  }).catch((error: unknown) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
 }
