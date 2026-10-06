@@ -5,7 +5,22 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { distanceM, type LocationActivity } from '@cp/domain';
+import type { LocationActivity } from '@cp/domain';
+
+// The runner's device shards run this without the workspace installed: no runtime imports from
+// workspace packages here.
+const EARTH_RADIUS_M = 6_371_000;
+
+/** Great-circle distance in metres. */
+function distanceM(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
+  const rad = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * rad;
+  const dLng = (b.lng - a.lng) * rad;
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLng / 2) ** 2;
+  return 2 * EARTH_RADIUS_M * Math.asin(Math.sqrt(h));
+}
 
 export interface TrackPoint {
   readonly lat: number;

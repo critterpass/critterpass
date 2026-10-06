@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# A friend installs from an invite link on iOS (TestFlight or the App Store carry no referrer): the
+# link they tapped is still on the pasteboard, so the first launch offers the system paste control
+# over the splash (the pasteboard is read only on that tap, with no paste alert). One tap opens
+# that crew's invite (via: paste).
+# The organiser (a new account) starts a crew and keeps its live code; the runner puts the crew's
+# link on the simulator's pasteboard, and the app is reinstalled fresh.
+- runFlow:
+    file: ../happy/subflows/crew-with-code.yaml
+    env:
+      CREW: 'Paste Crew'
+# Runner: the invite link on the simulator's pasteboard (xcrun simctl pbcopy).
+- evalScript: "${output.pasted = http.post('http://127.0.0.1:7788/pasteboard', { body: 'https://staging.critterpass.app/i/' + output.crewCode }).status}"
+- assertTrue: ${output.pasted == 200}
+- clearKeychain
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'paste-link-offer'
+    timeout: 30000
+# UIPasteControl names itself "Paste".
+- tapOn: 'Paste'
+- extendedWaitUntil:
+    visible:
+      id: 'screen-onboarding-invite-ticket'
+    timeout: 30000
+- assertVisible: '(?i).*Paste Crew.*'
+- waitForAnimationToEnd
+- takeScreenshot: links-deferred-paste-ticket

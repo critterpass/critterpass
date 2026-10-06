@@ -4,6 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { ScrollView } from 'react-native';
 
 import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
+import { seedLiveMap, type SeededLiveMap } from '@/data/dev/seed-live-map';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { DEV_SECTIONS } from '@/lib/dev-tools/dev-screens';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
@@ -125,6 +126,70 @@ function SeedStatus({ state }: { readonly state: SeedState }) {
   }
 }
 
+/**
+ * Staging only: the crew live map scenario (a new crew with a boosted and an unboosted trip that
+ * are on). Once both trips have synced it shows the crew code and the ids the device run hands to
+ * its runner, on one line: `<code> <trip> <unboosted trip> <meet-up place>`, and opens either
+ * trip's map.
+ */
+function SeedLiveMap() {
+  const [state, setState] = useState<
+    | { readonly kind: 'idle' | 'seeding' }
+    | { readonly kind: 'done'; readonly seeded: SeededLiveMap }
+    | { readonly kind: 'failed'; readonly message: string }
+  >({ kind: 'idle' });
+  const seed = async () => {
+    setState({ kind: 'seeding' });
+    try {
+      const { sessionHeaders, startDeviceAppSession } =
+        await import('@/data/app-session/device-session');
+      const session = await startDeviceAppSession();
+      const seeded = await seedLiveMap({
+        baseUrl: resolveApiBaseUrl(),
+        sessionHeaders,
+        db: session.localFirst.db,
+      });
+      setState({ kind: 'done', seeded });
+    } catch (error) {
+      setState({ kind: 'failed', message: error instanceof Error ? error.message : String(error) });
+    }
+  };
+  return (
+    <Stack gap="8">
+      <ListCard
+        testID="dev-seed-live-map"
+        title="Seed crew live map"
+        chevron={false}
+        {...(state.kind === 'seeding' ? {} : { onPress: () => void seed() })}
+      />
+      {state.kind === 'done' ? (
+        <>
+          <Text
+            singleLine={false}
+            testID={state.seeded.synced ? 'dev-seed-live-map-done' : 'dev-seed-live-map-unsynced'}
+          >
+            {`${state.seeded.code} ${state.seeded.tripId} ${state.seeded.unboostedTripId} ${state.seeded.poiId}`}
+          </Text>
+          <ListCard
+            testID="dev-seed-live-map-open"
+            title="Open the boosted trip's map"
+            onPress={() => router.push(`/map/${state.seeded.tripId}`)}
+          />
+          <ListCard
+            testID="dev-seed-live-map-open-gate"
+            title="Open the unboosted trip's map"
+            onPress={() => router.push(`/map/${state.seeded.unboostedTripId}`)}
+          />
+        </>
+      ) : state.kind === 'failed' ? (
+        <Text singleLine={false} testID="dev-seed-live-map-failed">
+          {state.message}
+        </Text>
+      ) : null}
+    </Stack>
+  );
+}
+
 function Section({ title, children }: { readonly title: string; readonly children: ReactNode }) {
   return (
     <Stack gap="8">
@@ -157,6 +222,7 @@ export default function DevToolsIndexScreen() {
         </Stack>
         <Section title="Demo data">
           <SeedDemoData />
+          <SeedLiveMap />
         </Section>
         {DEV_SECTIONS.map((section) => (
           <Section key={section.title} title={section.title}>

@@ -1,0 +1,23 @@
+{
+  "source": "SearXNG JSON answer shape (searxng/searxng 2026.10), one answer replayed for every search of Cusco, Peru: the pages the kept entries cite, found through our search on 2026-10-06 and saved as the excerpt around each quoted sentence.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Cusco, Peru",
+      "results": [
+        {
+          "url": "https://www.salkantaytrekking.com/blog/machu-picchu-the-easy-way",
+          "title": "Machu Picchu: The easy way | Peru travel guide",
+          "content": "Machu Picchu: The easy way | Peru travel guide",
+          "engine": "bing"
+        },
+        {
+          "url": "https://gallivantinglaura.com/best-day-trips-from-cusco-peru",
+          "title": "The Best Day Trips & Tours from Cusco, Peru - Gallivanting Laura",
+          "content": "The Best Day Trips & Tours from Cusco, Peru - Gallivanting Laura",
+          "engine": "bing"
+        }
+      ]
+    }
+  }
+}

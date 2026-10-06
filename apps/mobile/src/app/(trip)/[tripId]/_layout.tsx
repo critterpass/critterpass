@@ -33,6 +33,9 @@ export default function TripIdLayout() {
       {/* Fill a gap rises as a sheet over the trip map. */}
       {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
       <Stack.Screen name="check/gap" options={modalGroupOptions()} />
+      {/* Picking a driver's days rises as a sheet over the comparison. */}
+      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
+      <Stack.Screen name="drivers/pick" options={modalGroupOptions()} />
     </Stack>
   );
 }

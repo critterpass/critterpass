@@ -90,6 +90,11 @@ export const MMKV_STORES: readonly MmkvStore[] = [
     why: 'what this phone swiped in a group swipe session',
   },
   {
+    id: 'cp-drivers',
+    cleared: true,
+    why: "the trip's shortlisted drivers and their numbers, kept for the offline ride-back card",
+  },
+  {
     id: 'cp-updates',
     cleared: false,
     why: 'the update the app last restarted itself for: forgetting it could restart for a failing update again',
