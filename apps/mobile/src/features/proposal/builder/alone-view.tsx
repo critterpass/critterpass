@@ -2,7 +2,8 @@
  * The builder with nobody to send the plan to (a crew of one, or friends who haven't joined yet):
  * there is no pitch to make yet, so inviting friends is the main action (she came here to send
  * the plan to them) and locking the plan in alone is the second. Friends who join after a lock
- * land on this plan.
+ * land on this plan. A solo trip chose to go alone: locking in leads and nothing presses an invite,
+ * which stays as the quiet second action for a traveller who later wants company.
  */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
@@ -15,6 +16,8 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+
+import { lockTitle } from '../labels';
 
 const useStyles = makeStyles((th) => ({
   header: {
@@ -31,6 +34,8 @@ export interface AloneViewProps {
   readonly destination: string;
   /** "Oct 2–4", or empty before the dates are set. */
   readonly dates: string;
+  /** A trip started for one: lock in first, inviting second. */
+  readonly solo?: boolean;
   readonly offline: boolean;
   readonly locking: boolean;
   readonly onBack: () => void;
@@ -43,6 +48,26 @@ export function AloneView(props: AloneViewProps) {
   const theme = useTheme();
   const info = guideSticker(props.guide);
   const destination = props.destination;
+  const solo = props.solo === true;
+  // The leading action carries the sheen: locking in on a solo trip, inviting otherwise.
+  const invite = (
+    <PillButton
+      {...(solo ? { variant: 'secondary' as const } : { sheen: true })}
+      label={t({ id: 'proposal.alone.inviteFriends', message: 'Invite friends' })}
+      onPress={props.onInvite}
+      testID="build-invite"
+    />
+  );
+  const lock = (
+    <PillButton
+      {...(solo ? { sheen: true } : { variant: 'secondary' as const })}
+      label={t({ id: 'proposal.alone.lockAlone', message: 'Lock it in alone' })}
+      onPress={props.onLock}
+      loading={props.locking}
+      disabled={props.offline}
+      testID="build-lock-alone"
+    />
+  );
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-alone">
       <View style={styles.header}>
@@ -55,20 +80,28 @@ export function AloneView(props: AloneViewProps) {
       <View style={styles.body}>
         <Sticker kind={info.kind} name={info.name} size={96} />
         <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'proposal.alone.inviteTitle', message: 'Invite your friends first' })}
+          {solo
+            ? lockTitle(true)
+            : t({ id: 'proposal.alone.inviteTitle', message: 'Invite your friends first' })}
         </Text>
-        <Text variant="body" color={theme.semantic.text.secondary}>
-          {props.dates === ''
-            ? t({
-                id: 'proposal.alone.inviteBody',
-                message: `It’s just you on ${destination} for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined.`,
-              })
-            : t({
-                id: 'proposal.alone.inviteBodyDates',
-                message: `It’s just you on ${destination}, ${props.dates}, for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined.`,
-              })}
-        </Text>
-        <Text variant="bodySm" color={theme.semantic.text.secondary} singleLine={false}>
+        {solo ? null : (
+          <Text variant="body" color={theme.semantic.text.secondary}>
+            {props.dates === ''
+              ? t({
+                  id: 'proposal.alone.inviteBody',
+                  message: `It’s just you on ${destination} for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined.`,
+                })
+              : t({
+                  id: 'proposal.alone.inviteBodyDates',
+                  message: `It’s just you on ${destination}, ${props.dates}, for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined.`,
+                })}
+          </Text>
+        )}
+        <Text
+          variant={solo ? 'body' : 'bodySm'}
+          color={theme.semantic.text.secondary}
+          singleLine={false}
+        >
           {t({
             id: 'proposal.alone.soloNote',
             message:
@@ -78,20 +111,8 @@ export function AloneView(props: AloneViewProps) {
         {props.offline ? <OfflinePill /> : null}
       </View>
       <View style={styles.footer}>
-        <PillButton
-          label={t({ id: 'proposal.alone.inviteFriends', message: 'Invite friends' })}
-          onPress={props.onInvite}
-          sheen
-          testID="build-invite"
-        />
-        <PillButton
-          variant="secondary"
-          label={t({ id: 'proposal.alone.lockAlone', message: 'Lock it in alone' })}
-          onPress={props.onLock}
-          loading={props.locking}
-          disabled={props.offline}
-          testID="build-lock-alone"
-        />
+        {solo ? lock : invite}
+        {solo ? invite : lock}
       </View>
     </Scaffold>
   );
