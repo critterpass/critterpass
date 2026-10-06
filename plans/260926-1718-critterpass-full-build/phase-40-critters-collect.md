@@ -225,7 +225,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Simulator/emulator GPX injection per flow. 2. Seeded content fixture (P18 test release). 3. Sync e2e: offline befriend → upload → verified.
 - Tests: `maestro test e2e/critters`; `pnpm --filter @cp/api test -- critters/e2e-sync`
 - Done when: all flows pass on iOS 26 simulator and Android API 36 emulator.
-- Status: blocked — copresence.yaml needs a second member's verified co-presence dwell (dev seed or second device); server and card are covered by copresence.db.test and Jest. Encounter dwell and wander flows on a real Đà Nẵng trip, the slipped-away note and the worker e2e-sync are in (fb506fabc, 0cba9f96a, dcd91ef8d)
+- Status: blocked — copresence.yaml cannot pass on an emulator: co-presence needs every member's own verified dwell, and the verifier revokes a find made with a simulated location (the device's always is). It needs real phones, or a staging-only seed that writes verified dwells. Server and card are covered by copresence.db.test and Jest. Encounter dwell and wander flows on a real Đà Nẵng trip, the slipped-away note and the worker e2e-sync are in (fb506fabc, 0cba9f96a, dcd91ef8d)
 
 ## Phase acceptance criteria
 - [ ] Every §3.4 encounter transition covered by domain tests; grace/drain constants come from server config

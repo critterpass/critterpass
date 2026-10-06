@@ -70,6 +70,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 ## Tasks
 
 ### T1 — Journey suites (iOS)
+- Status: blocked — not started: needs the device cloud choice (two real devices for crew journeys) and the nightly workflow; the staging release gate (`e2e/happy`, daily on Android) covers the single-device journeys meanwhile
 - Goal: full-journey Maestro on iOS devices.
 - Files: `e2e/journeys/ios/*.yaml`, `e2e/journeys/_shared/*.yaml`, `.github/workflows/nightly-journeys.yml`.
 - Steps: 1. Compose area flows into journeys listed above using two devices for crew flows. 2. Run on staging via EAS build + device cloud. 3. Nightly workflow with artefacts.
@@ -77,6 +78,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Done when: suite green once on staging devices; nightly workflow scheduled and producing artefacts. (3 consecutive nights = founder gate item.)
 
 ### T2 — Journey suites (Android)
+- Status: blocked — not started: "green once on Pixel + Samsung" needs the device cloud; CI has one Pixel 7 emulator image. Recap, community publish and co-presence journeys also wait for a post-trip seed and real locations
 - Goal: parity journeys.
 - Files: `e2e/journeys/android/*.yaml`.
 - Steps: as T1 on Pixel + Samsung (API 36/37).
