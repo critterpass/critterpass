@@ -14,6 +14,8 @@ import {
   placesBriefTranslateKey,
   placesDestinationBriefJobSchema,
   placesDestinationBriefKey,
+  placesHomeLinkJobSchema,
+  placesHomeLinkKey,
   placesProfileWarmKey,
 } from '@cp/domain';
 
@@ -21,6 +23,7 @@ import { defineJob, type AnyJobDefinition } from '../../boss';
 import { runDestinationLinks } from './brief-links';
 import { runDestinationBrief } from './brief-run';
 import { markBriefEnded, saveBriefTranslation } from './brief-store';
+import { endHomeLink, runHomeLink } from './home-link';
 import type { PlaceProfileDeps } from './run';
 
 /** The lines of a brief to translate: `e<i>` per essential, `f<i>` per eatery, from English. */
@@ -88,6 +91,41 @@ export function destinationBriefJobs(
               model: null,
               costMicros: 0,
             }).catch(() => undefined);
+          }
+          throw error;
+        }
+      },
+    }),
+    defineJob({
+      queue: PLACES_QUEUES.homeLink,
+      schema: placesHomeLinkJobSchema,
+      singletonKey: (data) => placesHomeLinkKey(data.destination_id, data.origin),
+      concurrency: 2,
+      async handler(data, { pool, job }) {
+        const input = { destinationId: data.destination_id, origin: data.origin };
+        try {
+          const report = await runHomeLink(pool, briefDeps, {
+            ...input,
+            ...(data.force === undefined ? {} : { force: data.force }),
+            signal: job.signal,
+          });
+          return { ...report };
+        } catch (error) {
+          if (job.isFinalAttempt) {
+            const message = error instanceof Error ? error.message.slice(0, 300) : 'failed';
+            await endHomeLink(
+              pool,
+              input,
+              {
+                status: 'failed',
+                ways: [],
+                dropped: [],
+                error: message,
+                model: null,
+                costMicros: 0,
+              },
+              new Date(),
+            ).catch(() => undefined);
           }
           throw error;
         }

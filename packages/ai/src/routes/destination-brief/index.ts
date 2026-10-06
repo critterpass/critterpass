@@ -4,6 +4,7 @@
  * the ways to reach it from a home city, and the brief's `why` lines in a reader's language. The
  * worker runs the searches, matches the names to our rows and stores the result.
  */
+export * from './home-link';
 export * from './links';
 export * from './prompt';
 export * from './translate';
