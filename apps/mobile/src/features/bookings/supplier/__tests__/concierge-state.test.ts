@@ -4,7 +4,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { conciergeState } from '../ConciergeCard';
+import { conciergeState } from '../concierge-state';
 
 const policy = (consented: boolean) => ({ on_file: true, consented });
 
