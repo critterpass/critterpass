@@ -6,7 +6,12 @@
 import { randomUUID } from 'node:crypto';
 
 import { withSystem } from '@cp/db';
-import { generateUuidV7, MOCK_FLAG_ACCESSORY, MOCK_FLAG_SIMULATED } from '@cp/domain';
+import {
+  generateUuidV7,
+  MOCK_FLAG_ACCESSORY,
+  MOCK_FLAG_SIMULATED,
+  VOICE_CONSENT_COPY_VERSION,
+} from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerDeviceCommands } from '../../src/commands/device';
@@ -65,6 +70,29 @@ describe('set_consent', () => {
     expect(rows).toEqual([
       { purpose: 'analytics', granted: true, revoked: true, copy: 'analytics-2026-09' },
       { purpose: 'marketing', granted: false, revoked: true, copy: null },
+    ]);
+  });
+
+  it("records the voice consent on the caller's own row, and withdraws it", async () => {
+    const voice = () =>
+      query<{ user_id: string; standing: boolean; copy: string | null }>(
+        `SELECT user_id, granted_at IS NOT NULL AND revoked_at IS NULL AS standing,
+                copy_version AS copy
+         FROM consents WHERE purpose = 'ai_voice'`,
+      );
+    const grant = await runCommand(harness, fx.traveller, 'set_consent', {
+      purpose: 'ai_voice',
+      granted: true,
+      copy_version: VOICE_CONSENT_COPY_VERSION,
+    });
+    expect(grant.status).toBe(200);
+    // One row, the caller's: nobody else is taken to have agreed.
+    expect(await voice()).toEqual([
+      { user_id: fx.traveller.uid, standing: true, copy: VOICE_CONSENT_COPY_VERSION },
+    ]);
+    await runCommand(harness, fx.traveller, 'set_consent', { purpose: 'ai_voice', granted: false });
+    expect(await voice()).toEqual([
+      { user_id: fx.traveller.uid, standing: false, copy: VOICE_CONSENT_COPY_VERSION },
     ]);
   });
 

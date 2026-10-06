@@ -2,10 +2,11 @@
  * Guide lab scenes for voice mode (3j-2): listening with a live transcript, thinking, the reply
  * spoken, the reply with the changes it offers (to send to the group, and once sent), a reply
  * that could not be spoken, and each way a turn stops short (microphone off, nothing heard,
- * offline, questions spent, the reply failed, no speech module in this build).
+ * offline, questions spent, the reply failed, no speech module in this build), and the consent
+ * step that comes before the first use (its yes opens voice mode, as on the device).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 
 import { guideSticker } from '@/ui/avatar/guides';
@@ -14,6 +15,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import type { VoiceGroupSend } from '../voice-footer';
 import type { VoiceSwap } from '../voice-swap-card';
 import { VOICE_IDLE, type VoiceState } from '../voice-turn';
+import { VoiceGate } from '../voice-consent-view';
 import { VoiceView } from '../voice-view';
 
 const noop = () => undefined;
@@ -68,6 +70,22 @@ function Scene({
   );
 }
 
+function ConsentScene() {
+  const [granted, setGranted] = useState(false);
+  const sticker = guideSticker('tokek');
+  return (
+    <VoiceGate
+      status={granted ? 'granted' : 'needed'}
+      guideName="Tokek"
+      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={96} />}
+      onAgree={() => setGranted(true)}
+      onType={noop}
+    >
+      <Scene state={{}} />
+    </VoiceGate>
+  );
+}
+
 export const VOICE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'voice-swaps': () => (
     <Scene
@@ -98,4 +116,5 @@ export const VOICE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'voice-quota': () => <Scene state={{ heard: HEARD, issue: 'quota' }} />,
   'voice-reply-failed': () => <Scene state={{ heard: HEARD, issue: 'reply_failed' }} />,
   'voice-no-module': () => <Scene state={{ issue: 'no_speech_module' }} />,
+  'voice-consent': () => <ConsentScene />,
 };

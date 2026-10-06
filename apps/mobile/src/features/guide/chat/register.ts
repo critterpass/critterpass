@@ -1,6 +1,7 @@
 /**
  * The guide area's registrations into other areas, imported once by the root layout: the guide
- * sheet (3j-1) in the navigation registry (the guide button opens it), the guide's offer card in
+ * sheet (3j-1) and voice mode (3j-2) in the navigation registry (the guide button opens the
+ * sheet, its microphone opens voice mode), the guide's offer card in
  * crew chat, the guide's live line above the crew chat composer, and the device's phrase audio.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
@@ -21,6 +22,23 @@ import { deviceGuideServices } from './data/guide-stream';
 export const guideRoutes = {
   /** Food and access needs (from the guide sheet's "+", trip setup and You settings). */
   dietary: (): Href => '/guide/dietary',
+  /** Phrase practice, for a language and optionally the phrase to start on. */
+  practice: (params: { tripId?: string; lang?: string; text?: string } = {}): Href => ({
+    pathname: '/guide/practice',
+    params: {
+      ...(params.tripId === undefined ? {} : { tripId: params.tripId }),
+      ...(params.lang === undefined ? {} : { lang: params.lang }),
+      ...(params.text === undefined ? {} : { text: params.text }),
+    },
+  }),
+  /** Voice mode; `talk` opens it already listening (the microphone was held). */
+  voice: (params: { tripId?: string; talk?: boolean } = {}): Href => ({
+    pathname: '/guide/voice',
+    params: {
+      ...(params.tripId === undefined ? {} : { tripId: params.tripId }),
+      ...(params.talk === true ? { talk: '1' } : {}),
+    },
+  }),
   sheet: (
     params: { threadId?: string; tripId?: string; mode?: string; q?: string } = {},
   ): Href => ({
@@ -42,6 +60,18 @@ registerScreens({
       ...(params['mode'] === undefined ? {} : { mode: params['mode'] }),
       // A question to start from (search's ASK): it waits in the composer, not sent.
       ...(params['q'] === undefined ? {} : { q: params['q'] }),
+    }),
+  // Not a design screen: phrase cards and the phrase quest open practice by this key.
+  'guide-practice': (params) =>
+    guideRoutes.practice({
+      ...(params['tripId'] === undefined ? {} : { tripId: params['tripId'] }),
+      ...(params['lang'] === undefined ? {} : { lang: params['lang'] }),
+      ...(params['text'] === undefined ? {} : { text: params['text'] }),
+    }),
+  '3j-2': (params) =>
+    guideRoutes.voice({
+      ...(params['tripId'] === undefined ? {} : { tripId: params['tripId'] }),
+      talk: params['talk'] === '1',
     }),
 });
 

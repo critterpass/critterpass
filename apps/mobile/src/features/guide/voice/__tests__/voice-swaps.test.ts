@@ -23,6 +23,7 @@ const model = (over: Partial<PlanCardModel>): PlanCardModel => ({
   eachMinor: 1800,
   currency: 'USD',
   swaps: [swap('Cooking class', 'Indoors')],
+  driverPicks: [],
   ...over,
 });
 
