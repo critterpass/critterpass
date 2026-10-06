@@ -181,11 +181,15 @@ export async function loadFitContext(
             [versionId],
           )
         ).rows;
-  // The area each day is spent in: a day trip's hours, places and travel are its own.
+  // The area each day is spent in: a day trip's hours, places and travel are its own. Read as the
+  // system, as every reader of a trip's areas is (the caller already checked the trip).
   const areaDays =
     versionId === null
       ? days
-      : withDayAreas(days, await tripAreas(tx, trip.id, versionId, { withGuides: false }));
+      : withDayAreas(
+          days,
+          await asSystemRole(tx, () => tripAreas(tx, trip.id, versionId, { withGuides: false })),
+        );
   const items =
     versionId === null
       ? []
