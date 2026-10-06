@@ -12,6 +12,8 @@ export interface ConfirmDialogProps {
   tone?: 'default' | 'danger';
   requireText?: string;
   busy?: boolean;
+  /** Holds the confirm until the dialog's own form is valid. */
+  blocked?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -30,7 +32,8 @@ export function ConfirmDialog(props: ConfirmDialogProps) {
     if (!props.open && dialog.open) dialog.close();
   }, [props.open]);
 
-  const blocked = props.requireText !== undefined && typed !== props.requireText;
+  const blocked =
+    props.blocked === true || (props.requireText !== undefined && typed !== props.requireText);
   return (
     <dialog
       ref={ref}
