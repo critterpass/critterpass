@@ -38,7 +38,9 @@ test('a concurrent edit shows the server diff and re-applies on the latest', asy
 
   await page.getByLabel('Voice id').fill('voice-ajo-e2e');
   await page.getByRole('button', { name: 'Save' }).click();
-  await expect(page.getByText('Someone else saved first')).toBeVisible();
+  await expect(
+    page.getByText(/content@critterpass\.test saved first at \d{2}:\d{2}/),
+  ).toBeVisible();
   await expect(page.getByLabel('Changes')).toContainText('Ajo the Axolotl');
 
   await page.getByRole('button', { name: 'Load the latest and re-apply' }).click();

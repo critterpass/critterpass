@@ -121,7 +121,6 @@ export function QueueView<Item>({ queue }: { queue: QueueDefinition<Item> }) {
               type="button"
               role="tab"
               aria-selected={candidate === status}
-              aria-label={candidate.replaceAll('_', ' ')}
               className={candidate === status ? 'btn btn-primary' : 'btn btn-ghost'}
               onClick={() => {
                 setStatus(candidate);

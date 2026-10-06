@@ -50,6 +50,8 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   grant_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', until: soon(), reason: 'matrix' }),
   revoke_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', reason: 'matrix' }),
   revoke_session: () => ({ uid: nobody(), session_id: nobody(), reason: 'matrix' }),
+  revoke_all_sessions: () => ({ uid: nobody(), reason: 'matrix' }),
+  set_idea_status: () => ({ idea_id: nobody(), status: 'open' }),
   ban_user: () => ({ uid: nobody(), reason: 'matrix', until: null }),
   unban_user: () => ({ uid: nobody(), reason: 'matrix' }),
   revoke_device_key: () => ({ uid: nobody(), device_id: nobody(), reason: 'matrix' }),
