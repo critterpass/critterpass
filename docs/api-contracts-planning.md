@@ -119,6 +119,8 @@ How the plan check runs:
 | Key | Default | Public | Meaning |
 |---|---|---|---|
 | `planning.redesign` | true | yes | retired: the section 7 screens are the only plan and places screens. Pinned on (the schema refuses `false`, `VALIDATION`) and never deleted, because installed builds that still have the switch read a missing key as off; the server no longer reads it |
+| `planning.redesign` | false | yes | the section 7 screens; off keeps the earlier plan and places screens |
+| `planner.typed_places` (doc delta) | false (no row = off) | no | drafts plan each place from its typed facts: the ready `place_profiles` row's `best_times`, `visit_min`, `meal_role`, `dish`, else its kind's (any time of day, the kind's visit length, food by its tags); the editors' `time_needed_min` wins over both and `editorial.essential` gives the essential rank. Off, the planner reads the editors' `best_time` and `why_go` text. Listings of one place are still merged by name either way |
 | `plan.hub` | `map` | yes | what PLAN opens: the trip map (`map`) or the day plan (`day`) |
 | `plan.check.max_runs_per_trip_day` | 96 | no | plan check runs per trip per day |
 | `plan.check.thresholds` | `{too_far_day_min: 180, too_far_leg_min: 90, rain_pct: 50, normal_rain_pct: 40, busy_level: 70, pace_stops_per_9h: 6}` | no | when a day is too far, rainy, busy or packed |
