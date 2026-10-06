@@ -69,6 +69,9 @@ export const feedbackTickets = pgTable('feedback_tickets', {
   status: text('status').notNull().default('new'),
   replyChannel: text('reply_channel').notNull(),
   replyDueAt: at('reply_due_at').notNull(),
+  triageKind: text('triage_kind'),
+  triageArea: text('triage_area'),
+  triagedAt: at('triaged_at'),
   severity: text('severity'),
   triageSummary: text('triage_summary'),
   duplicateOf: uuid('duplicate_of').references((): AnyPgColumn => feedbackTickets.id, {
@@ -77,6 +80,7 @@ export const feedbackTickets = pgTable('feedback_tickets', {
   duplicateScore: real('duplicate_score'),
   trackerIssueId: text('tracker_issue_id'),
   fixedInVersion: text('fixed_in_version'),
+  fixNotifiedAt: at('fix_notified_at'),
   ideaId: uuid('idea_id').references(() => ideas.id),
   appVersion: text('app_version').notNull(),
   sentAt: at('sent_at').notNull(),
@@ -107,7 +111,12 @@ export const ratingPrompts = pgTable('rating_prompts', {
   createdAt: createdAt(),
 });
 
-registerTablePrivacy('feedback_tickets', { class: 'C2' });
+// The console reads tickets to triage them; what the device said about itself and the attachments
+// stay out of its reach.
+registerTablePrivacy('feedback_tickets', {
+  class: 'C2',
+  columns: { device_info: 'C3', media_ids: 'C3' },
+});
 registerTablePrivacy('ideas', { class: 'C0' });
 registerTablePrivacy('idea_votes', { class: 'C2' });
 registerTablePrivacy('rating_prompts', { class: 'C2' });
