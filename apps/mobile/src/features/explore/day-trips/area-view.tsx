@@ -114,8 +114,12 @@ export function AreaView(props: AreaViewProps) {
               <PicksRow picks={props.picks} onOpen={props.onOpenPick} accent={guide.colour} />
             </View>
           ) : props.placesComing ? (
-            <View style={styles.inset} testID="day-trip-places-coming">
-              <Text variant="body" color={theme.semantic.text.secondary}>
+            <View style={styles.inset}>
+              <Text
+                variant="body"
+                color={theme.semantic.text.secondary}
+                testID="day-trip-places-coming"
+              >
                 {copy.placesComing(guide.name)}
               </Text>
             </View>

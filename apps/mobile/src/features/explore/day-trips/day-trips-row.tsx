@@ -8,7 +8,8 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { Row } from '@/ui/layout/Row';
-import { PlaceCard } from '@/ui/planning/place-card';
+import { PressScale } from '@/ui/press/PressScale';
+import { PlaceThumb } from '@/ui/planning/place-thumb';
 import { PlanningTag } from '@/ui/planning/planning-tag';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -25,10 +26,21 @@ export interface DayTripsRowProps {
   readonly accent: string;
 }
 
+const THUMB = 72;
+
 const useStyles = makeStyles((t) => ({
   section: { gap: t.space['10'], paddingHorizontal: t.size.gutter },
-  card: { gap: t.space['6'] },
-  tags: { paddingStart: t.space['4'] },
+  card: {
+    flexDirection: 'row',
+    gap: t.space['12'],
+    padding: t.space['12'],
+    borderRadius: t.radius.lg,
+    backgroundColor: t.semantic.bg.base,
+    borderWidth: 2,
+    borderColor: t.semantic.bg.raised,
+  },
+  body: { flex: 1, minWidth: 0, gap: t.space['4'] },
+  tags: { flexWrap: 'wrap', marginTop: t.space['4'] },
 }));
 
 export function DayTripsRow({ city, cards, onOpen, accent }: DayTripsRowProps) {
@@ -41,31 +53,46 @@ export function DayTripsRow({ city, cards, onOpen, accent }: DayTripsRowProps) {
       <Text variant="eyebrow" numberOfLines={2} singleLine={false}>
         {upper(copy.sectionTitle(city), locale)}
       </Text>
-      {cards.map((card, index) => (
-        <View key={card.id} style={styles.card}>
-          <PlaceCard
-            title={card.name}
-            description={card.travel}
-            icon={categoryIcon('sight')}
+      {cards.map((card, index) => {
+        const length = card.length === null ? null : copy.lengthTag(card.length);
+        const onDay = card.dayNo === null ? null : copy.onDayTag(card.dayNo);
+        return (
+          <PressScale
+            key={card.id}
             onPress={() => onOpen(card)}
+            accessibilityRole="button"
+            accessibilityLabel={[card.name, card.travel, length, onDay]
+              .filter((part) => part !== null)
+              .join(', ')}
             testID={`explore-day-trip-${String(index)}`}
-          />
-          {card.length === null && card.dayNo === null ? null : (
-            <Row gap="6" style={styles.tags}>
-              {card.length === null ? null : (
-                <PlanningTag label={upper(copy.lengthTag(card.length), locale)} />
-              )}
-              {card.dayNo === null ? null : (
-                <PlanningTag
-                  label={upper(copy.onDayTag(card.dayNo), locale)}
-                  color={accent ?? theme.semantic.action.primary}
-                  testID={`explore-day-trip-on-day-${String(index)}`}
-                />
-              )}
-            </Row>
-          )}
-        </View>
-      ))}
+          >
+            {/* The place card's own frame, with the tags inside it under the travel line. */}
+            <View style={styles.card}>
+              <PlaceThumb icon={categoryIcon('sight')} size={THUMB} />
+              <View style={styles.body}>
+                <Text variant="h3" numberOfLines={2}>
+                  {card.name}
+                </Text>
+                <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                  {card.travel}
+                </Text>
+                {length === null && onDay === null ? null : (
+                  <Row gap="6" style={styles.tags}>
+                    {length === null ? null : <PlanningTag label={upper(length, locale)} />}
+                    {onDay === null ? null : (
+                      <PlanningTag
+                        label={upper(onDay, locale)}
+                        color={accent}
+                        testID={`explore-day-trip-on-day-${String(index)}`}
+                      />
+                    )}
+                  </Row>
+                )}
+              </View>
+            </View>
+          </PressScale>
+        );
+      })}
     </View>
   );
 }
