@@ -1,0 +1,111 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- Permissions are declared by plugins/with-android-surfaces.ts (the app manifest); the
+       components below reach the app through the Gradle manifest merger. -->
+  <application>
+    <!-- Background notification and Live Update buttons: queue the command, the worker sends it. -->
+    <receiver
+      android:name="app.critterpass.surfaces.actions.NotificationActionReceiver"
+      android:exported="false" />
+
+    <!-- cp-app-group's reloadWidgets() broadcast after the app wrote a new snapshot. -->
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.ReloadWidgetsReceiver"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="app.critterpass.appgroup.RELOAD_WIDGETS" />
+      </intent-filter>
+    </receiver>
+
+    <!-- Home-screen widgets (Countdown and Critterdex also offer the lock-screen hub where the
+         system has one). -->
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.CountdownWidgetReceiver"
+      android:exported="false"
+      android:label="@string/cp_widget_countdown">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/cp_countdown_widget_info" />
+    </receiver>
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.VoteWidgetReceiver"
+      android:exported="false"
+      android:label="@string/cp_widget_vote">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/cp_vote_widget_info" />
+    </receiver>
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.TodayWidgetReceiver"
+      android:exported="false"
+      android:label="@string/cp_widget_today">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/cp_today_widget_info" />
+    </receiver>
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.BalancesWidgetReceiver"
+      android:exported="false"
+      android:label="@string/cp_widget_balances">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/cp_balances_widget_info" />
+    </receiver>
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.CritterdexWidgetReceiver"
+      android:exported="false"
+      android:label="@string/cp_widget_critterdex">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/cp_critterdex_widget_info" />
+    </receiver>
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.CrewWidgetReceiver"
+      android:exported="false"
+      android:label="@string/cp_widget_crew">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/cp_crew_widget_info" />
+    </receiver>
+    <receiver
+      android:name="app.critterpass.surfaces.widgets.NextFlightWidgetReceiver"
+      android:exported="false"
+      android:label="@string/cp_widget_next_flight">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/cp_next_flight_widget_info" />
+    </receiver>
+
+    <!-- The sleepy clock: a screen saver, which Android only runs while charging or docked. -->
+    <service
+      android:name="app.critterpass.surfaces.hub.SleepyClockDream"
+      android:exported="true"
+      android:label="@string/cp_dream_label"
+      android:permission="android.permission.BIND_DREAM_SERVICE">
+      <intent-filter>
+        <action android:name="android.service.dreams.DreamService" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+    </service>
+  </application>
+</manifest>
