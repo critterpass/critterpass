@@ -13,6 +13,7 @@ import {
   datesOf,
   knownPlaceFor,
   minuteOfDate,
+  resolveWishes,
   straightLineMatrix,
   type Chronotype,
   type DraftPoi,
@@ -27,7 +28,7 @@ export interface PlanInputOptions {
   readonly jobId: string;
   readonly skeletonRoute: DraftPlanInput['skeletonRoute'];
   readonly closures: readonly ClosureRecord[];
-  /** Places the hand-typed must-dos name (see the planner's `resolveWishes`). */
+  /** What the guide is offered for the typed must-dos still without a place (`wishOffer`). */
   readonly wished?: ResolvedWishes;
   readonly ignoreNames?: readonly (readonly string[])[];
   /** Places the crew saved to Ideas: offered to the guide ahead of the rest. */
@@ -88,6 +89,26 @@ export function transportTimes(
 export function guideOf(trip: DraftTripData): PersonaId {
   const parsed = personaIdSchema.safeParse(trip.guideSlug);
   return parsed.success ? parsed.data : 'guest';
+}
+
+/**
+ * What the guide is offered for the typed must-dos still without a place: the places their words
+ * name, or, for a dish ("Mì Quảng for breakfast"), the curated eateries known for it. The words
+ * only build the offer and never place a wish: a place is decided once when the must-do is set
+ * (`ai.fit_check`), and a wish that is still open (that check found none, or has not run yet
+ * because she typed it just before asking for the draft) is placed by the guide's answer.
+ */
+export function wishOffer(
+  wishes: readonly { readonly id: string; readonly text: string }[],
+  candidates: readonly DraftPoi[],
+  ignore: readonly (readonly string[])[],
+): ResolvedWishes {
+  const found = resolveWishes(wishes, candidates, ignore);
+  return {
+    places: new Map(),
+    offered: [...new Set([...found.places.values(), ...found.offered])],
+    options: found.options,
+  };
 }
 
 export function buildPlanInput(
