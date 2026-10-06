@@ -7,17 +7,10 @@ import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-han
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
-import { HEADER_CLEARANCE_PT, hasDynamicIsland, IslandToast, LEAVE_MS } from '../IslandToast';
+import { IslandToast, LEAVE_MS } from '../IslandToast';
 import type { ToastTextProps } from '../IslandToast';
+import { HEADER_CLEARANCE_PT, hasDynamicIsland, ISLAND_GAP_PT, toastPlacement } from '../placement';
 import { toastQueue, useToastQueue } from '../queue';
-
-/** The iOS status bar's native module, which `StatusBar` drives; React Native ships it untyped. */
-interface StatusBarManager {
-  setHidden: (hidden: boolean, animation: string) => void;
-}
-const statusBarManager = jest.requireActual<{ default: StatusBarManager }>(
-  'react-native/Libraries/Components/StatusBar/NativeStatusBarManagerIOS',
-).default;
 
 const bannerMetrics: Metrics = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -132,6 +125,46 @@ describe('hasDynamicIsland', () => {
   });
 });
 
+describe('toastPlacement', () => {
+  afterEach(() => {
+    Object.defineProperty(Platform, 'OS', { value: 'ios', configurable: true });
+  });
+
+  const sides = { left: 0, right: 0 };
+
+  it('rests just below the island and never starts above the safe-area edge', () => {
+    Object.defineProperty(Platform, 'OS', { value: 'ios', configurable: true });
+    for (const top of [59, 62]) {
+      const placement = toastPlacement({ top, ...sides });
+      expect(placement.top).toBe(top + ISLAND_GAP_PT);
+      expect(placement.top - placement.travel).toBe(top);
+    }
+  });
+
+  it('drops below the header controls on a notch phone, starting at the safe-area edge', () => {
+    Object.defineProperty(Platform, 'OS', { value: 'ios', configurable: true });
+    const placement = toastPlacement({ top: 47, ...sides });
+    expect(placement.top).toBe(47 + HEADER_CLEARANCE_PT);
+    expect(placement.top - placement.travel).toBe(47);
+  });
+
+  it('clears the Android status bar and a tall cutout, whatever the inset', () => {
+    Object.defineProperty(Platform, 'OS', { value: 'android', configurable: true });
+    for (const top of [0, 24, 59, 96]) {
+      const placement = toastPlacement({ top, ...sides });
+      expect(placement.top).toBe(top + HEADER_CLEARANCE_PT);
+      expect(placement.top - placement.travel).toBe(top);
+    }
+  });
+
+  it('keeps clear of side cutouts', () => {
+    const flat = toastPlacement({ top: 47, ...sides });
+    const cut = toastPlacement({ top: 47, left: 44, right: 21 });
+    expect(cut.left - flat.left).toBe(44);
+    expect(cut.right - flat.right).toBe(21);
+  });
+});
+
 describe('IslandToast', () => {
   it('keeps Open and Dismiss beside the alert, so a folded Android alert node leaves them reachable', async () => {
     await act(() => {
@@ -193,49 +226,22 @@ describe('IslandToast', () => {
     await waitFor(() => expect(announceSpy).toHaveBeenCalledWith('Pass issued. Tap to view'));
   });
 
-  it('renders without crashing under Dynamic Island safe-area metrics', async () => {
+  it.each([
+    ['a Dynamic Island phone', islandMetrics],
+    ['a phone without an island', bannerMetrics],
+  ])('sits where the placement says on %s', async (_name, metrics) => {
     await act(() => {
       toastQueue.show({ id: 'a', title: 'Pass issued' });
     });
-    const { toJSON } = await renderToast(islandMetrics);
-    await waitFor(() => expect(toJSON()).toBeTruthy());
-  });
-
-  /** What the native status bar was last told: the component stack flushes on the next tick. */
-  async function lastHidden() {
-    await act(() => {
-      jest.advanceTimersByTime(1);
-    });
-    const calls = jest.mocked(statusBarManager.setHidden).mock.calls;
-    return calls.at(-1);
-  }
-
-  it('hides the status bar under a Dynamic Island toast and brings it back on dismiss', async () => {
-    jest.spyOn(statusBarManager, 'setHidden');
-    await act(() => {
-      toastQueue.show({ id: 'a', title: 'Pass issued' });
-    });
-    await renderToast(islandMetrics);
-
-    expect(await lastHidden()).toEqual([true, 'fade']);
-    await act(() => {
-      toastQueue.dismiss();
-    });
-    expect(await lastHidden()).toEqual([false, 'fade']);
-  });
-
-  it('drops in below the status bar and leaves it shown on a phone without an island', async () => {
-    jest.spyOn(statusBarManager, 'setHidden');
-    await act(() => {
-      toastQueue.show({ id: 'a', title: 'Pass issued' });
-    });
-    const screen = await renderToast(bannerMetrics);
+    const screen = await renderToast(metrics);
 
     const pill = await waitFor(() => screen.getByTestId('island-toast-pill'));
-    expect(await lastHidden()).toBeUndefined();
     const host = StyleSheet.flatten(pill.parent?.props.style as StyleProp<ViewStyle>);
-    // Below the row of header controls, never on one.
-    expect(host?.top).toBe(bannerMetrics.insets.top + HEADER_CLEARANCE_PT);
+    const placement = toastPlacement(metrics.insets);
+    expect(host?.top).toBe(placement.top);
+    expect(host?.top).toBeGreaterThan(metrics.insets.top);
+    expect(host?.left).toBe(placement.left);
+    expect(host?.right).toBe(placement.right);
   });
 
   it('the dismiss action clears the current toast', async () => {
