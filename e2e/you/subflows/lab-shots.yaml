@@ -84,6 +84,12 @@ appId: app.critterpass.dev
 - runFlow:
     file: lab-scene.yaml
     env:
+      SCENE: '3n-7-sound'
+      ROOT: 'you-sound'
+      SHOT: ${LANG}-3n-7-sound
+- runFlow:
+    file: lab-scene.yaml
+    env:
       SCENE: '3n-8-language'
       ROOT: 'you-language'
       SHOT: ${LANG}-3n-8-language
