@@ -479,9 +479,17 @@ msgstr "Mở thẻ toàn màn hình để đưa tài xế xem"
 msgid "suppliers.transfer.operator"
 msgstr "Nhà xe trên voucher: {operator}"
 
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.eyebrow"
+msgstr "Bàn hỗ trợ"
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.concierge.clinic"
 msgstr "Bàn hỗ trợ đang gọi phòng khám cùng bạn — chia sẻ thông tin bảo hiểm nhé?"
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.calling"
+msgstr "Bàn hỗ trợ đang gọi phòng khám cùng bạn."
 
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.pay"
@@ -535,6 +543,7 @@ msgstr "Xe cho các điểm trong lịch trình sẽ hiện ở đây."
 msgid "suppliers.offers.seen"
 msgstr "xem lúc {time} trên Viator"
 
+#: ../../apps/mobile/src/features/bookings/supplier/notification-actions.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
 msgid "suppliers.vendor.send"
@@ -556,6 +565,10 @@ msgstr "Cần có sóng để gửi. Nội dung của bạn vẫn còn đây."
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.sentWaiting"
 msgstr "Đã gửi {time}, đang chờ"
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.share"
+msgstr "Chia sẻ thông tin bảo hiểm"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.noAppsDetail"
@@ -596,6 +609,14 @@ msgstr "Có vẻ đây không phải số tiền"
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.offlineNone"
 msgstr "Thẻ bên dưới dùng được khi không có mạng: đưa cho tài xế nào cũng được."
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.closed"
+msgstr "Bàn hỗ trợ trả lời từ {opensAt} ({tz})."
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.pickedUp"
+msgstr "Bàn hỗ trợ đã nhận. Sẽ có người xử lý trước {due}."
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
@@ -717,3 +738,7 @@ msgstr "Vì sao có ước tính này"
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
 msgid "suppliers.journey.there"
 msgstr "Chắc bạn sắp đến nơi · ước tính"
+
+#: ../../apps/mobile/src/features/bookings/supplier/ConciergeCard.tsx
+msgid "suppliers.concierge.insuranceShared"
+msgstr "Thông tin bảo hiểm của bạn được gửi kèm cuộc gọi."
