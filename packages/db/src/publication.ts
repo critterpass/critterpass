@@ -108,6 +108,9 @@ import * as schema from './schema';
  * cost.ts) and `crowd_forecasts` are RLS "R" but read over HTTP only (`/v1/destinations/{id}/season`,
  * `/v1/destinations/{id}/cost-indices`, `/v1/places/{id}/crowd-forecasts`): shared reference
  * content a phone asks for when it shows it, kept as its last good copy, never replicated.
+ * `help_articles` (packages/db/src/schema/content.ts) is the same: the help centre reads
+ * `/v1/help/library` and keeps the last good copy. `place_tips` (packages/db/src/schema/explore.ts)
+ * is RLS "R" but no phone reads tips from its own database, so they are not replicated either.
  * `driver_listings`, `driver_listing_stats`, `driver_invites`, `driver_ratings`, `driver_tips` and
  * `driver_listing_flags` (packages/db/src/schema/driver-directory.ts) are read over HTTP only: the
  * directory and the crew's own drivers are fetched when a screen shows them, never synced.
@@ -152,6 +155,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'fsq_os_export_chunks',
   'fsq_os_export_rows',
   'fsq_os_export_runs',
+  'help_articles',
   'install_attributions',
   'journey_checks',
   'la_object_states',
@@ -167,6 +171,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'place_rating_stats',
   'plan_links',
   'place_search_pace',
+  'place_tips',
   'poi_embeddings',
   'poi_foursquare_ids',
   'poi_foursquare_photos',

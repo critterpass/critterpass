@@ -123,12 +123,6 @@ describe('catalog stream', () => {
     );
     expect(published.rows).toEqual([]);
   });
-
-  it('serves help articles per locale', async () => {
-    const rows = await harness.rows('help', 'anonymous', { locale: 'en' });
-    expect(rows.get('help_articles')?.map((row) => row['slug'])).toContain('matrix-probe');
-    expect(Object.keys(rows.get('help_articles')?.[0] ?? {})).not.toContain('embedding');
-  });
 });
 
 describe('guide_reader', () => {

@@ -117,6 +117,8 @@ export function ChangesReviewScreen({
   const uid = plan.uid ?? '';
   const author = plan.members.find((m) => m.user_id === row?.author_id);
   const keeps = view.cards.some((card) => card.accepted);
+  // A driver is the whole crew's: only a plan item change can be kept to my own plan.
+  const mineOnly = view.cards.some((card) => card.accepted && card.driverPick === null);
   const changedDay =
     view.cards
       .filter((card) => card.accepted)
@@ -255,7 +257,7 @@ export function ChangesReviewScreen({
           : null
       }
       personal={
-        view.state === 'draft' || view.state === 'voting'
+        mineOnly && (view.state === 'draft' || view.state === 'voting')
           ? {
               busy: busy === 'personal',
               onPress: () => void run('personal', actions.applyPersonal),

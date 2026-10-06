@@ -10,6 +10,7 @@ import Animated from 'react-native-reanimated';
 
 import { upper } from '@cp/i18n';
 
+import { driverPickDetail } from '@/features/drivers';
 import { patterns } from '@/motion';
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -128,7 +129,20 @@ export function PlanCardView({
             <SwapRow swap={swap} index={index} />
           </Stack>
         ))}
-        {model.swaps.length > 0 ? <View style={styles.divider} /> : null}
+        {model.driverPicks.map((pick, index) => (
+          <Stack key={pick.target} gap="12">
+            {index === 0 && model.swaps.length === 0 ? null : <View style={styles.divider} />}
+            <Stack gap="4" testID={`guide-plan-driver-${index}`}>
+              <Text variant="title">
+                {`→ ${upper(pick.name === '' ? t({ id: 'guide.plan.driver', message: 'A driver' }) : pick.name, i18n.locale)}`}
+              </Text>
+              <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                {driverPickDetail(pick, i18n.locale)}
+              </Text>
+            </Stack>
+          </Stack>
+        ))}
+        {model.swaps.length + model.driverPicks.length > 0 ? <View style={styles.divider} /> : null}
         <Row justify="space-between" align="center">
           <Text variant="bodySm" color={theme.semantic.text.secondary}>
             {cost === null

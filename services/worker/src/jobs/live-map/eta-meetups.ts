@@ -59,20 +59,25 @@ export function modeFor(activity: LocationActivity): TravelMode {
   return 'pedestrian';
 }
 
+/**
+ * The closest active place within the status radius. It must be answered by the spatial index on
+ * `pois.location`: a latitude/longitude box has no index and reads the whole catalogue, which
+ * outlasts the statement timeout and fails the recount.
+ */
+export const NEAREST_POI_SQL = `
+  SELECT name FROM pois
+   WHERE status = 'active'
+     AND ST_DWithin(location, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, $3)
+   ORDER BY location <-> ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography
+   LIMIT 1`;
+
 async function nearestPoiName(tx: pg.PoolClient, at: RoutePoint): Promise<string | null> {
-  // ~0.001° ≈ 110 m: a cheap box first, then the exact distance.
-  const { rows } = await tx.query<{ name: string; lat: number; lng: number }>(
-    `SELECT name, lat, lng FROM pois
-      WHERE status = 'active' AND lat BETWEEN $1 - 0.001 AND $1 + 0.001
-        AND lng BETWEEN $2 - 0.001 AND $2 + 0.001`,
-    [at.lat, at.lng],
-  );
-  let best: { name: string; d: number } | null = null;
-  for (const row of rows) {
-    const d = distanceM(at, row);
-    if (d <= STATUS_POI_RADIUS_M && (best === null || d < best.d)) best = { name: row.name, d };
-  }
-  return best?.name ?? null;
+  const { rows } = await tx.query<{ name: string }>(NEAREST_POI_SQL, [
+    at.lng,
+    at.lat,
+    STATUS_POI_RADIUS_M,
+  ]);
+  return rows[0]?.name ?? null;
 }
 
 export interface RecountResult {

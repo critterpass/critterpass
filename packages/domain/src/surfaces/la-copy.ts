@@ -93,4 +93,36 @@ export const LA_COPY = {
     id: 'notifications.sos.plain',
     message: '{sender} sent an SOS to the crew.',
   },
+  // Free text the watch list already wrote (its title and what to do), passed through as is.
+  stormStartTitle: /*i18n*/ { id: 'notifications.la.storm_start_title', message: '{headline}' },
+  stormStartBody: /*i18n*/ { id: 'notifications.la.storm_start_body', message: '{action}' },
+  // What the storm activity says when someone it reaches hides details on the lock screen.
+  stormPlainHeadline: /*i18n*/ {
+    id: 'notifications.la.storm_plain_headline',
+    message: 'Weather on watch',
+  },
+  stormPlainAction: /*i18n*/ {
+    id: 'notifications.la.storm_plain_action',
+    message: 'Open CritterPass to see the plan.',
+  },
+  rideStartTitle: /*i18n*/ {
+    id: 'notifications.la.ride_start_title',
+    message: '{service} · {route}',
+  },
+  rideStartBody: /*i18n*/ {
+    id: 'notifications.la.ride_start_body',
+    message: 'About {eta} min away. The fare is on your lock screen.',
+  },
+  critterStartTitle: /*i18n*/ {
+    id: 'notifications.la.critter_start_title',
+    message: 'Someone is hiding nearby',
+  },
+  critterStartBody: /*i18n*/ {
+    id: 'notifications.la.critter_start_body',
+    message: 'Stay at {place} a little longer to meet them.',
+  },
+  critterStartBodyPlain: /*i18n*/ {
+    id: 'notifications.la.critter_start_body_plain',
+    message: 'Stay where you are a little longer to meet them.',
+  },
 } as const satisfies Record<string, LaCopy>;
