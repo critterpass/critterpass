@@ -49,7 +49,7 @@ Sources: master synthesis §0.2 (C1–C48), §1.3, §3, §8, §10.1, §10.4; cus
 | `app_user` | no (assumed via `SET LOCAL ROLE`) | `api` request context, `/sync/upload` | SELECT/INSERT/UPDATE on user-data tables per table below; RLS **FORCED**; no BYPASSRLS; no access to `auth`, `ops`, `pgboss` |
 | `app_system` | yes (pooled) | `worker`, webhook handlers, cron | explicit grants per table; cross-user writes through SECURITY DEFINER fns; owns `pgboss` |
 | `guide_reader` | no (SET LOCAL ROLE inside AI context builder) | LLM context assembly | SELECT on `llm.*` views only; zero C3/C4, zero supplier content |
-| `public_reader` | no (SET LOCAL ROLE inside the public preview route) | Web previews of shared links | SELECT on `public.public_link_trip` and `public.proposal_public` only (security-barrier views scoped by `app.public_code` / `app.public_seat`); no base table, no `app.*` function |
+| `public_reader` | no (SET LOCAL ROLE inside the public preview route) | Web previews of shared links | SELECT on `public.public_link_trip`, `public.proposal_public` and `public.shared_plan_public` only (security-barrier views scoped by `app.public_code` / `app.public_seat` / `app.public_plan`, the sha-256 of a plan link's token); no base table, no `app.*` function |
 | `powersync_repl` | yes (direct, not PgBouncer) | PowerSync replication | REPLICATION; SELECT on published tables only |
 | `auth` | yes | Better Auth adapter | owns `auth` schema |
 | `admin_reader` | yes | `apps/admin` reads via `api` admin routes | SELECT on `ops.*` + non-C3 `public`; writes only via admin commands |

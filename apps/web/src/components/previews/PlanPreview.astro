@@ -1,0 +1,67 @@
+---
+/**
+ * The ticket of a published crew plan: where and how long, who planned it (first names, only when
+ * the crew published them), then every day as its theme and places. Only what the public plan
+ * projection carries: no costs, photos, notes or people beyond those names.
+ */
+import type { PublicPlan } from '@cp/domain';
+
+import { planCopy as copy } from '../site/copy/plan';
+import { siteTranslator } from '../site/i18n';
+import Sticker from '../site/Sticker.astro';
+import { planDayRows, type PlanWords } from './plan-facts';
+
+export interface Props {
+  readonly plan: PublicPlan;
+  readonly words: PlanWords;
+}
+
+const { plan, words } = Astro.props;
+const t = await siteTranslator();
+const rows = planDayRows(plan);
+---
+
+<section class="pv-ticket site-halftone" aria-labelledby="pv-headline" data-testid="plan-ticket">
+  <Sticker kind="gecko" size={150} class="pv-ticket__guide" />
+  <p class="site-eyebrow pv-ticket__eyebrow">{words.eyebrow}</p>
+  <h1 id="pv-headline" class="site-display pv-ticket__headline">{words.headline}</h1>
+  {
+    words.byline && (
+      <p class="pv-ticket__body" data-testid="plan-byline">
+        {words.byline}
+      </p>
+    )
+  }
+  <ul class="pv-chips">
+    {words.chips.map((chip) => <li class="pv-chip">{chip}</li>)}
+  </ul>
+  {
+    words.proof.length > 0 && (
+      <p class="pv-plan__proof" data-testid="plan-proof">
+        {words.proof.join(' · ')}
+      </p>
+    )
+  }
+  {
+    rows.length > 0 && (
+      <section class="pv-draft" aria-labelledby="pv-plan-days" data-testid="plan-days">
+        <h2 id="pv-plan-days" class="site-eyebrow pv-draft__title">
+          {t(copy.daysTitle)}
+        </h2>
+        <ol class="pv-draft__days">
+          {rows.map((row) => (
+            <li class="pv-draft__day">
+              <span class={`pv-draft__tile pv-draft__tile--${row.tone}`} aria-hidden="true">
+                <span class="pv-draft__tile-day">{t(copy.day, { n: row.dayNo })}</span>
+              </span>
+              <span class="pv-draft__text">
+                <span class="site-display pv-draft__name">{row.title ?? t(copy.freeDay)}</span>
+                {row.line && <span class="pv-draft__line">{row.line}</span>}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
+</section>
