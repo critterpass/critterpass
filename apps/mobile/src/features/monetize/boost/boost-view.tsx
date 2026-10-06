@@ -173,11 +173,15 @@ export function BoostView(props: BoostViewProps) {
               options={options}
               value={model.option}
               onChange={(id) => props.onOption(id === 'year' ? 'year' : 'trip')}
+              accent={theme.color.pink}
               testID="boost-options"
             />
           ) : null}
           {model.canSplit ? (
             <Stack gap="10">
+              <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+                {t({ id: 'monetize.boost.whoPaysEyebrow', message: 'WHO PAYS' })}
+              </Text>
               <Segmented
                 label={t({ id: 'monetize.boost.whoPays', message: 'Who pays' })}
                 value={model.whoPays}

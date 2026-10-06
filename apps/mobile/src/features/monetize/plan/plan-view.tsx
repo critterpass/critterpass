@@ -8,7 +8,6 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { Card } from '@/ui/cards/Card';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Row } from '@/ui/layout/Row';
@@ -23,6 +22,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { RestoreState } from '../data/use-billing';
 import { useRestoreLine } from '../paywall/purchase-copy';
+import { PinkLink } from './pink-link';
 import { usePlanDate, usePlanLine } from './plan-copy';
 import type { BoostLine, PlanModel } from './plan-model';
 
@@ -287,7 +287,7 @@ export function PlanView(props: PlanViewProps) {
           </Text>
         )}
         {plan?.canCancel && plan.manageHere ? (
-          <TextLink
+          <PinkLink
             label={t({ id: 'monetize.plan.cancel', message: 'Cancel Pass+' })}
             onPress={props.onCancel}
             testID="plan-cancel"

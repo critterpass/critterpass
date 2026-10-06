@@ -450,6 +450,10 @@ msgstr ""
 msgid "monetize.plan.line.paymentFailed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.onTag"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boost.on"
 msgstr ""
@@ -815,6 +819,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.whoPays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.whoPaysEyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts

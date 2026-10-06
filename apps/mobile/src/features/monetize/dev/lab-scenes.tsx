@@ -5,10 +5,12 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture names, places and ids, never shipped copy. */
 import type { ReactNode } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import type { ProductOffer, ProductsState, PurchaseState } from '@/data/billing';
+import { Grabber } from '@/ui/sheet/Grabber';
 import { Scaffold } from '@/ui/surface/Scaffold';
+import { useTheme } from '@/ui/theme';
 
 import { boostModel, type BoostInput } from '../boost/boost-model';
 import { BoostView } from '../boost/boost-view';
@@ -63,6 +65,32 @@ function Dark({ children }: { readonly children: ReactNode }) {
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']}>
       {children}
+    </Scaffold>
+  );
+}
+
+/**
+ * A sheet that fits its content, over a stand-in for the trip it opens on: the boost sheet is as
+ * tall as what it has to say, so its short states are seen where they appear.
+ */
+function SheetFrame({ children }: { readonly children: ReactNode }) {
+  const theme = useTheme();
+  return (
+    <Scaffold variant="dark" edges={[]}>
+      <View style={{ flex: 1, backgroundColor: theme.color.rust.darkened }}>
+        <View style={{ flex: 1, minHeight: 96 }} />
+        <View
+          style={{
+            flexShrink: 1,
+            backgroundColor: theme.semantic.bg.base,
+            borderTopStartRadius: theme.radius.xl,
+            borderTopEndRadius: theme.radius.xl,
+          }}
+        >
+          <Grabber />
+          {children}
+        </View>
+      </View>
     </Scaffold>
   );
 }
@@ -148,8 +176,11 @@ function Boost(over: Partial<BoostInput>) {
     ...over,
   });
   return (
-    <Dark>
-      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
+    <SheetFrame>
+      <ScrollView
+        style={{ flexGrow: 0 }}
+        contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+      >
         <BoostView
           model={model}
           destination="Kyoto"
@@ -166,7 +197,7 @@ function Boost(over: Partial<BoostInput>) {
           onPrivacy={noop}
         />
       </ScrollView>
-    </Dark>
+    </SheetFrame>
   );
 }
 

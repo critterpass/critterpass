@@ -6,7 +6,7 @@
 import type { StorePlatform } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -31,12 +31,10 @@ export interface PaywallViewProps {
   readonly model: PaywallModel;
   readonly holder: string;
   readonly store: StorePlatform | null;
-  /** Switched-on perks, from the server. */
   readonly passPerks: readonly PerkLine[];
   readonly boostPerks: readonly PerkLine[];
   /** The crew's first trip free, only while its grant is live. */
   readonly firstTripFree: { readonly crew: string; readonly until: string } | null;
-  /** A trip a boost could go on; without one the boost link is hidden. */
   readonly boostTrip: { readonly name: string } | null;
   readonly restore: RestoreState;
   readonly onPeriod: (period: BillingPeriod) => void;
@@ -51,13 +49,19 @@ export interface PaywallViewProps {
 }
 
 const useStyles = makeStyles((t) => ({
+  root: { flex: 1 },
   content: {
     padding: t.size.gutter,
     paddingTop: t.space['32'] + t.space['24'],
-    paddingBottom: t.space['32'],
+    paddingBottom: t.space['16'],
     gap: t.space['16'],
   },
-  centre: { textAlign: 'center' },
+  // The plan choice and the button stay on screen; the page scrolls above them.
+  footer: {
+    paddingHorizontal: t.size.gutter,
+    paddingTop: t.space['8'],
+    paddingBottom: t.space['16'],
+  },
 }));
 
 export function PaywallView(props: PaywallViewProps) {
@@ -111,94 +115,119 @@ export function PaywallView(props: PaywallViewProps) {
         });
 
   return (
-    <ScrollView contentContainerStyle={styles.content} testID="paywall">
-      <VisaPaywall
-        chrome={t({ id: 'monetize.paywall.chrome', message: 'VISAS · VISAS · VISAS' })}
-        page={t({ id: 'monetize.paywall.page', message: 'PAGE 07' })}
-        headline={t({ id: 'monetize.paywall.headline', message: 'Go further than free' })}
-        visa={
-          <Visa
-            kind="passPlus"
-            eyebrow={t({
-              id: 'monetize.paywall.visaEyebrow',
-              message: 'Visa · For you · Pour vous',
-            })}
-            title={t({ id: 'monetize.paywall.passPlus', message: 'Pass+' })}
-            {...(offer === null ? {} : { price: offer.priceString, period: periodLine })}
-            photo={<Sticker kind="gecko" name="Tokek" size={52} />}
-            fields={[
-              {
-                key: 'holder',
-                label: t({ id: 'monetize.paywall.holder', message: 'Holder' }),
-                value: holder,
-              },
-              {
-                key: 'entries',
-                label: t({ id: 'monetize.paywall.entries', message: 'Entries' }),
-                value: t({ id: 'monetize.paywall.unlimited', message: 'Unlimited' }),
-              },
-              {
-                key: 'valid',
-                label: t({ id: 'monetize.paywall.valid', message: 'Valid' }),
-                value:
-                  model.period === 'monthly'
-                    ? t({ id: 'monetize.paywall.validMonth', message: '1 month' })
-                    : t({ id: 'monetize.paywall.validYear', message: '12 months' }),
-              },
-              {
-                key: 'works',
-                label: t({ id: 'monetize.paywall.worksIn', message: 'Works in' }),
-                value: t({ id: 'monetize.paywall.everyCrew', message: 'Every crew' }),
-              },
-            ]}
-            perk={perk}
-            mrz={mrzLine(['V', 'CPPASS', 'PLUS', holder])}
-            accessibilityLabel={visaLabel}
-            testID="paywall-visa"
+    <View style={styles.root} testID="paywall">
+      <ScrollView style={styles.root} contentContainerStyle={styles.content}>
+        <VisaPaywall
+          chrome={t({ id: 'monetize.paywall.chrome', message: 'VISAS · VISAS · VISAS' })}
+          page={t({ id: 'monetize.paywall.page', message: 'PAGE 07' })}
+          headline={t({ id: 'monetize.paywall.headline', message: 'Go further\nthan free' })}
+          visa={
+            <Visa
+              kind="passPlus"
+              eyebrow={t({
+                id: 'monetize.paywall.visaEyebrow',
+                message: 'Visa · For you · Pour vous',
+              })}
+              title={t({ id: 'monetize.paywall.passPlus', message: 'Pass+' })}
+              {...(offer === null ? {} : { price: offer.priceString, period: periodLine })}
+              photo={<Sticker kind="gecko" name="Tokek" size={52} />}
+              fields={[
+                {
+                  key: 'holder',
+                  label: t({ id: 'monetize.paywall.holder', message: 'Holder' }),
+                  value: holder,
+                },
+                {
+                  key: 'entries',
+                  label: t({ id: 'monetize.paywall.entries', message: 'Entries' }),
+                  value: t({ id: 'monetize.paywall.unlimited', message: 'Unlimited' }),
+                },
+                {
+                  key: 'valid',
+                  label: t({ id: 'monetize.paywall.valid', message: 'Valid' }),
+                  value:
+                    model.period === 'monthly'
+                      ? t({ id: 'monetize.paywall.validMonth', message: '1 month' })
+                      : t({ id: 'monetize.paywall.validYear', message: '12 months' }),
+                },
+                {
+                  key: 'works',
+                  label: t({ id: 'monetize.paywall.worksIn', message: 'Works in' }),
+                  value: t({ id: 'monetize.paywall.everyCrew', message: 'Every crew' }),
+                },
+              ]}
+              perk={perk}
+              mrz={mrzLine(['V', 'CPPASS', 'PLUS', holder])}
+              accessibilityLabel={visaLabel}
+              testID="paywall-visa"
+            />
+          }
+          stamps={
+            <>
+              {boost && props.boostPerks.length > 0 ? (
+                <Visa
+                  kind="boost"
+                  eyebrow={t({
+                    id: 'monetize.paywall.boostEyebrow',
+                    message: 'Entry · For the crew',
+                  })}
+                  title={t({
+                    id: 'monetize.paywall.boostTitle',
+                    message: `Trip boost · ${boost.priceString}`,
+                  })}
+                  perk={boostPerk}
+                  accessibilityLabel={t({
+                    id: 'monetize.paywall.boostLabel',
+                    message: `Trip boost, ${boost.priceString} for the crew`,
+                  })}
+                  testID="paywall-boost-stamp"
+                />
+              ) : null}
+              {props.firstTripFree ? (
+                <Stamp
+                  title={upper(
+                    t({ id: 'monetize.paywall.firstTripFree', message: 'First trip free' }),
+                    locale,
+                  )}
+                  top={upper(props.firstTripFree.crew, locale)}
+                  bottom={upper(props.firstTripFree.until, locale)}
+                  ink={theme.color.blue}
+                  size={96}
+                  slam
+                  testID="paywall-first-trip-free"
+                />
+              ) : null}
+            </>
+          }
+          note={t({ id: 'monetize.paywall.note', message: 'Critters are never for sale.' })}
+          mrz={[mrzLine(['P', 'CRITTERPASS', holder]), mrzLine(['CP', 'PASS', 'PLUS'])]}
+          testID="paywall-page"
+        />
+        {phase === 'subscribed' ? null : (
+          <Disclosure
+            kind="subscription"
+            price={offer?.priceString}
+            period={model.period}
+            store={props.store}
+            onTerms={props.onTerms}
+            onPrivacy={props.onPrivacy}
+            onRestore={props.onRestore}
+            testID="paywall-disclosure"
           />
-        }
-        stamps={
-          <>
-            {boost && props.boostPerks.length > 0 ? (
-              <Visa
-                kind="boost"
-                eyebrow={t({
-                  id: 'monetize.paywall.boostEyebrow',
-                  message: 'Entry · For the crew',
-                })}
-                title={t({
-                  id: 'monetize.paywall.boostTitle',
-                  message: `Trip boost · ${boost.priceString}`,
-                })}
-                perk={boostPerk}
-                accessibilityLabel={t({
-                  id: 'monetize.paywall.boostLabel',
-                  message: `Trip boost, ${boost.priceString} for the crew`,
-                })}
-                testID="paywall-boost-stamp"
-              />
-            ) : null}
-            {props.firstTripFree ? (
-              <Stamp
-                title={upper(
-                  t({ id: 'monetize.paywall.firstTripFree', message: 'First trip free' }),
-                  locale,
-                )}
-                top={upper(props.firstTripFree.crew, locale)}
-                bottom={upper(props.firstTripFree.until, locale)}
-                ink={theme.color.blue}
-                size={112}
-                slam
-                testID="paywall-first-trip-free"
-              />
-            ) : null}
-          </>
-        }
-        note={t({ id: 'monetize.paywall.note', message: 'Critters are never for sale.' })}
-        mrz={[mrzLine(['P', 'CRITTERPASS', holder]), mrzLine(['CP', 'PASS', 'PLUS'])]}
-        testID="paywall-page"
-      />
-      <Stack gap="12">
+        )}
+        {restored === null ? null : (
+          <Text
+            variant="bodySm"
+            color={theme.semantic.text.secondary}
+            style={{ textAlign: 'center' }}
+            accessibilityLiveRegion="polite"
+            testID="paywall-restore-line"
+          >
+            {restored}
+          </Text>
+        )}
+      </ScrollView>
+      <Stack gap="12" style={styles.footer}>
         {options.length > 1 && phase !== 'subscribed' ? (
           <BillingToggle
             options={options}
@@ -240,7 +269,7 @@ export function PaywallView(props: PaywallViewProps) {
                 ? theme.semantic.state.warning
                 : theme.semantic.text.secondary
             }
-            style={styles.centre}
+            style={{ textAlign: 'center' }}
             accessibilityLiveRegion="polite"
             testID={`paywall-phase-${phase}`}
           >
@@ -265,30 +294,7 @@ export function PaywallView(props: PaywallViewProps) {
             testID="paywall-compare"
           />
         </Row>
-        {phase === 'subscribed' ? null : (
-          <Disclosure
-            kind="subscription"
-            price={offer?.priceString}
-            period={model.period}
-            store={props.store}
-            onTerms={props.onTerms}
-            onPrivacy={props.onPrivacy}
-            onRestore={props.onRestore}
-            testID="paywall-disclosure"
-          />
-        )}
-        {restored === null ? null : (
-          <Text
-            variant="bodySm"
-            color={theme.semantic.text.secondary}
-            style={styles.centre}
-            accessibilityLiveRegion="polite"
-            testID="paywall-restore-line"
-          >
-            {restored}
-          </Text>
-        )}
       </Stack>
-    </ScrollView>
+    </View>
   );
 }

@@ -57,6 +57,52 @@ export function BillingIssueView(props: BillingIssueViewProps) {
   const until = planDate(plan.date);
   const running = props.boosts.filter((boost) => boost.on);
 
+  // What is on right now: Pass+ and the boosts a failed renewal never touches.
+  const card = (
+    <View style={styles.card}>
+      <Row style={styles.row} align="center" justify="space-between">
+        <Text variant="rowTitle" style={styles.grow}>
+          {plan.kind === 'grace'
+            ? t({ id: 'monetize.issue.staysOn', message: 'Pass+ stays on until' })
+            : t({ id: 'monetize.issue.passPlus', message: 'Pass+' })}
+        </Text>
+        <Text
+          variant="rowTitle"
+          color={recovered ? theme.semantic.state.success : theme.color.orange}
+          testID="billing-issue-until"
+        >
+          {recovered
+            ? t({ id: 'monetize.issue.onTag', message: 'On' })
+            : plan.kind === 'grace'
+              ? (until ?? '')
+              : t({ id: 'monetize.issue.offTag', message: 'Off' })}
+        </Text>
+      </Row>
+      {running.map((boost) => (
+        <View key={boost.id}>
+          <View style={styles.divider} />
+          <Row style={styles.row} align="center">
+            <Stack gap="4" style={styles.grow}>
+              <Text variant="rowTitle">
+                {t({
+                  id: 'monetize.issue.boost',
+                  message: `${boost.destination} boost`,
+                })}
+              </Text>
+              <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                {t({
+                  id: 'monetize.issue.boostLine',
+                  message: 'Already paid, not affected',
+                })}
+              </Text>
+            </Stack>
+            <Icon name="check" size={20} color={theme.semantic.state.success} decorative />
+          </Row>
+        </View>
+      ))}
+    </View>
+  );
+
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="billing-issue">
       <ScrollView contentContainerStyle={styles.content}>
@@ -84,6 +130,7 @@ export function BillingIssueView(props: BillingIssueViewProps) {
                     message: 'There is no payment waiting on you.',
                   })}
             </Text>
+            {plan.passPlus ? card : null}
           </Stack>
         ) : (
           <>
@@ -107,42 +154,7 @@ export function BillingIssueView(props: BillingIssueViewProps) {
                       'Your Pass+ renewal wasn’t paid, so Pass+ is off for now. It comes back as soon as the payment goes through.',
                   })}
             </Text>
-            <View style={styles.card}>
-              <Row style={styles.row} align="center" justify="space-between">
-                <Text variant="rowTitle" style={styles.grow}>
-                  {plan.kind === 'grace'
-                    ? t({ id: 'monetize.issue.staysOn', message: 'Pass+ stays on until' })
-                    : t({ id: 'monetize.issue.passPlus', message: 'Pass+' })}
-                </Text>
-                <Text variant="rowTitle" color={theme.color.orange} testID="billing-issue-until">
-                  {plan.kind === 'grace'
-                    ? (until ?? '')
-                    : t({ id: 'monetize.issue.offTag', message: 'Off' })}
-                </Text>
-              </Row>
-              {running.map((boost) => (
-                <View key={boost.id}>
-                  <View style={styles.divider} />
-                  <Row style={styles.row} align="center">
-                    <Stack gap="4" style={styles.grow}>
-                      <Text variant="rowTitle">
-                        {t({
-                          id: 'monetize.issue.boost',
-                          message: `${boost.destination} boost`,
-                        })}
-                      </Text>
-                      <Text variant="bodySm" color={theme.semantic.text.secondary}>
-                        {t({
-                          id: 'monetize.issue.boostLine',
-                          message: 'Already paid, not affected',
-                        })}
-                      </Text>
-                    </Stack>
-                    <Icon name="check" size={20} color={theme.semantic.state.success} decorative />
-                  </Row>
-                </View>
-              ))}
-            </View>
+            {card}
             {props.canFixHere ? null : (
               <Text
                 variant="bodySm"

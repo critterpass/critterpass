@@ -450,6 +450,10 @@ msgstr "Off"
 msgid "monetize.plan.line.paymentFailed"
 msgstr "Off until the payment goes through"
 
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.onTag"
+msgstr "On"
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boost.on"
 msgstr "ON"
@@ -816,6 +820,10 @@ msgstr "What’s in each ›"
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.whoPays"
 msgstr "Who pays"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.whoPaysEyebrow"
+msgstr "WHO PAYS"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.cancelled"

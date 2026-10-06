@@ -9,7 +9,6 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { Stack } from '@/ui/layout/Stack';
 import { PauseBars, type PauseMonth } from '@/ui/monetize/PauseBars';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -18,6 +17,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { PerkLine } from '../perks/perk-copy';
+import { PinkLink } from './pink-link';
 import { usePlanDate } from './plan-copy';
 import type { PlanModel } from './plan-model';
 
@@ -170,7 +170,8 @@ export function CancelView(props: CancelViewProps) {
             block
             testID="plan-cancel-keep"
           />
-          <TextLink
+          <PinkLink
+            align="centre"
             label={t({ id: 'monetize.cancel.anyway', message: 'Cancel anyway' })}
             onPress={props.onCancel}
             testID="plan-cancel-anyway"
