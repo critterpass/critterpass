@@ -10,9 +10,11 @@ import {
   clearSavedNavigation,
   decideRestore,
   focusedPath,
-  isDeepLinkLaunch,
+  forgetNavigationForAccountSwitch,
+  isLinkLaunch,
   leftLaunchScreen,
   readSavedNavigation,
+  resetAccountSwitchForTests,
   RESTORE_WINDOW_MS,
   setSessionReady,
   shouldRestore,
@@ -115,6 +117,7 @@ beforeEach(() => {
   setSessionReady(true);
   gate.set({ status: 'ready' });
   clearSavedNavigation();
+  resetAccountSwitchForTests();
   unregister = registerScreens({
     '3b-2': '/',
     '3c-3': '/when',
@@ -180,6 +183,35 @@ describe('navigation restore', () => {
     launchUrl = 'critterpass://p/kyoto';
     const second = await renderApp();
     expect(second.getPathname()).toBe('/');
+  });
+
+  it('opens Home for a bare app link, not the saved screens', async () => {
+    const first = await renderApp();
+    await navigate(() => openWithBackStack('3c-9'));
+    await act(() => first.unmount());
+
+    launchUrl = 'critterpass://';
+    const second = await renderApp();
+    expect(second.getPathname()).toBe('/');
+    expect(screen.getByText('home')).toBeTruthy();
+  });
+
+  it('opens Home after an account switch, not the screens of the account before', async () => {
+    const first = await renderApp();
+    await navigate(() => openWithBackStack('3c-9'));
+    forgetNavigationForAccountSwitch();
+    expect(readSavedNavigation()).toBeUndefined();
+    // The switch restarts the app; a move before the restart is not saved either.
+    await navigate(() => router.push('/when'));
+    expect(readSavedNavigation()).toBeUndefined();
+    await act(() => first.unmount());
+
+    resetAccountSwitchForTests();
+    const second = await renderApp();
+    expect(second.getPathname()).toBe('/');
+    // The new session saves its screens again.
+    await navigate(() => router.push('/budget'));
+    expect(readSavedNavigation()?.build).toBe(BUILD);
   });
 
   it('waits for the session database to open, then restores', async () => {
@@ -333,13 +365,13 @@ describe('restore rules', () => {
     ).toBe(true);
   });
 
-  it('tells deep links from plain launches', () => {
-    expect(isDeepLinkLaunch(null)).toBe(false);
-    expect(isDeepLinkLaunch('critterpass://')).toBe(false);
-    expect(isDeepLinkLaunch('critterpass://p/kyoto')).toBe(true);
-    expect(isDeepLinkLaunch('https://critterpass.app/i/ABCD')).toBe(true);
-    expect(isDeepLinkLaunch('exp+critterpass://expo-development-client/?url=x')).toBe(false);
-    expect(isDeepLinkLaunch('not a url')).toBe(false);
+  it('tells link launches, bare or with a path, from plain launches', () => {
+    expect(isLinkLaunch(null)).toBe(false);
+    expect(isLinkLaunch('critterpass://')).toBe(true);
+    expect(isLinkLaunch('critterpass://p/kyoto')).toBe(true);
+    expect(isLinkLaunch('https://critterpass.app/i/ABCD')).toBe(true);
+    expect(isLinkLaunch('exp+critterpass://expo-development-client/?url=x')).toBe(false);
+    expect(isLinkLaunch('not a url')).toBe(false);
   });
 
   it('ignores corrupted saved state', () => {

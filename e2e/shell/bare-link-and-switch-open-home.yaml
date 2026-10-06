@@ -1,0 +1,78 @@
+appId: app.critterpass.dev
+---
+# An account switch and a bare app link (no path) both open Home, never the tab the person was on.
+# Two brand-new accounts on one phone: the second leaves Home for PASS, switches back to the first,
+# and the restart lands on Home. Then the first leaves Home for PASS, the app is stopped, and a
+# bare link starts it again on Home (a plain launch within half an hour would reopen PASS).
+- runFlow: ../home/subflows/fresh-install.yaml
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-new'
+- runFlow: ../home/subflows/onboard.yaml
+
+# The second account goes to PASS, then switches back to the first one.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-pass'
+    timeout: 30000
+- tapOn:
+    id: 'tab-pass'
+- waitForAnimationToEnd:
+    timeout: 5000
+- runFlow: ../home/subflows/open-dev-tools.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-accounts'
+    timeout: 15000
+    speed: 20
+    centerElement: true
+- tapOn:
+    id: 'dev-nav-accounts'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-accounts-switch-0'
+    timeout: 20000
+- tapOn:
+    id: 'dev-accounts-switch-0'
+# The switch restarts the app. Should it stay closed, a plain launch starts it: nothing of the
+# account before is saved, so that opens Home too.
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 60000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-join-code'
+    commands:
+      - launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: account-switch-opens-home
+
+# The first account goes to PASS; a bare link after a stop opens Home.
+- tapOn:
+    id: 'tab-pass'
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertNotVisible:
+    id: 'home-join-code'
+- stopApp
+- openLink: critterpass-dev://
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: bare-link-opens-home
