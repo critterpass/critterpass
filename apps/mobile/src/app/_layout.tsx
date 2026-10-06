@@ -60,6 +60,7 @@ import '@/features/you/routes';
 import '@/features/help/routes';
 import '@/features/recap/routes';
 import '@/features/drivers/share/register';
+import '@/features/drivers/ours/routes';
 import '@/features/community/register';
 import '@/features/album/routes';
 // After every feature register above: planning registrations win for the ids they re-point.

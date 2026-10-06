@@ -104,6 +104,35 @@ const driverPlanCatalogs = [
   },
 ];
 export const driverPlan = { catalogs: driverPlanCatalogs, webSources: driverPlanWebSources };
+// Drivers our crews used: the app's directory, rate card, invite and the crew's own drivers
+// (`driver-directory/app`), and the driver's own claim page on the web in English and Bahasa
+// Indonesia (`driver-claim/web`), which the site's own `web` catalog leaves out.
+const driverAppSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/drivers/{directory,rating,invite,ours}/**`,
+];
+const claimSources = [`${repoRootPrefix}/apps/web/src/components/driver-claim/**`];
+export function driverAndSiteCatalogs(exclude: string[]) {
+  return [
+    {
+      name: 'driver-directory/app',
+      path: 'locales/{locale}/driver-directory/app',
+      include: driverAppSources,
+      exclude,
+    },
+    {
+      name: 'driver-claim/web',
+      path: 'locales/{locale}/driver-claim/web',
+      include: claimSources,
+      exclude,
+    },
+    {
+      name: 'web',
+      path: 'locales/{locale}/web',
+      include: [`${repoRootPrefix}/apps/web/src/**`],
+      exclude: [...exclude, ...claimSources, ...driverPlanWebSources],
+    },
+  ];
+}
 /** Finding a driver keeps its own catalog (`drivers/app`): its feature folder and trip routes. */
 export const driversCatalog = (exclude: readonly string[]) => ({
   name: 'drivers/app',

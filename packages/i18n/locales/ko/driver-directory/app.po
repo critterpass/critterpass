@@ -1,0 +1,396 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 15:35+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ko\n"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.opened"
+msgstr "{driverName}님이 링크를 열었어요 · {openedOn}"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.lovedValue"
+msgstr "{rated}팀 중 {loved}팀"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.loved"
+msgstr "{voters}명 중 {lovedCount}명이 좋아함"
+
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.car"
+msgstr "{model}, {seats}인승"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.intro"
+msgstr "결정은 {name}님이 해요. 본인 휴대폰에서 확인하기 전까지는 아무것도 공개되지 않고, 언제든 내릴 수 있어요."
+
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.seats"
+msgstr "{seats}인승"
+
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.trips"
+msgstr "운행 {trips}회"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.sevenPlus"
+msgstr "7인승 이상"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.tipBy"
+msgstr "{crewSize}명 크루 · {tipMonth}"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.noPhone"
+msgstr "먼저 여행에 기사님 WhatsApp 번호를 추가해 주세요. 아니면 이미 등록되어 있어요."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.bahasa"
+msgstr "인도네시아어도 추가"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.shortlist"
+msgstr "후보에 추가"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.shortlist"
+msgstr "여행에 기사 추가 중"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.saved"
+msgstr "저장했어요"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.cancel"
+msgstr "초대 취소"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.cancel"
+msgstr "초대 취소 중"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.rerate"
+msgstr "답 바꾸기"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.shortlistFailed"
+msgstr "추가하지 못했어요. 다시 시도해 주세요."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.failed"
+msgstr "링크를 만들지 못했어요. 다시 시도해 주세요."
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.failed"
+msgstr "답을 저장하지 못했어요. 다시 시도해 주세요."
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.loved"
+msgstr "크루들이 좋아함"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.back"
+msgstr "크루들의 기사"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.day"
+msgstr "{day}일차"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.dayTrips"
+msgstr "당일 여행"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.role"
+msgstr "기사"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.directory"
+msgstr "다른 크루가 좋아한 기사"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.title"
+msgstr "크루들이 이용한 기사"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.intro"
+msgstr "이 크루가 이용한 기사예요. 확인하지 않은 기사는 여러분 {crew}명에게만 보여요."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.fairPrice"
+msgstr "합리적인 가격"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.back"
+msgstr "기사 찾기"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.fine"
+msgstr "괜찮음"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.back"
+msgstr "이동"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.goodEnglish"
+msgstr "영어 잘함"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.greatPhotos"
+msgstr "사진 잘 찍음"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.firstLine"
+msgstr "안녕하세요 {first}님, CritterPass에서 찾았어요. 저희 그룹 운전해 주실 수 있나요?"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.noChase"
+msgstr "제가 재촉하지는 않을게요. 한 번 알려 주는 걸로 충분해요."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.title"
+msgstr "{name}님을 등록에 초대"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.invite"
+msgstr "{name}님을 등록에 초대"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.cancelled"
+msgstr "초대를 취소했어요. 아무것도 등록되지 않았어요."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.sent"
+msgstr "WhatsApp으로 초대 보냄 · {sentOn}"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.invite"
+msgstr "등록에 초대"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.invite"
+msgstr "기사 초대 중"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.knewTheSpots"
+msgstr "명소를 잘 앎"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.listed"
+msgstr "등록됨"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.since"
+msgstr "등록일"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.loved"
+msgstr "최고"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.making"
+msgstr "링크 만드는 중…"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.message"
+msgstr "WhatsApp으로 메시지"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.messageLabel"
+msgstr "기사님께 보낼 메시지"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.offline"
+msgstr "링크를 만들려면 연결이 필요해요."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.newCar"
+msgstr "새 차"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyLineNone"
+msgstr "여기서 등록을 원한 기사를 데려온 크루가 아직 없어요."
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyLine"
+msgstr "여기서 등록을 원한 기사를 데려온 크루가 아직 없어요. {widenTo}에는 기사가 있어요."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.empty"
+msgstr "이 여행에는 아직 기사가 없어요."
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.empty"
+msgstr "{area} 주변에는 아직 아무도 없어요"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyAny"
+msgstr "아직 등록된 사람이 없어요"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.notAgain"
+msgstr "다시는 안 탐"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.notClaimed"
+msgstr "미확인"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.nudge"
+msgstr "알림 보내기"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.nudge"
+msgstr "기사에게 알림"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+msgid "drivers.directory.stale"
+msgstr "오프라인. {time} 기준 목록이에요."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.onTime"
+msgstr "시간 엄수"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.shortlisted"
+msgstr "여행에 추가됨"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.tip"
+msgstr "다음 크루를 위한 팁"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.tip"
+msgstr "크루가 남긴 팁"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.intro"
+msgstr "등록을 원한 기사만 있어요. 평가는 함께 다닌 크루가 남겨요."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.open"
+msgstr "WhatsApp에서 열기"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.title"
+msgstr "우리 기사"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.back"
+msgstr "우리 기사"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.line"
+msgstr "팀이 검토해요. 누가 신고했는지는 아무도 몰라요."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.patient"
+msgstr "인내심"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.paused"
+msgstr "일시 중지"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.rate"
+msgstr "평가하기"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.title"
+msgstr "기사 평가"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.notEligible"
+msgstr "평가는 여행이 끝난 뒤, 전화번호를 인증한 멤버가 할 수 있어요."
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.confirm"
+msgstr "신고"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.report"
+msgstr "이 등록 신고"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.reportTip"
+msgstr "이 팁 신고"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.title"
+msgstr "신고할까요?"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.own"
+msgstr "직접 관리하는 등록"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.safeDriver"
+msgstr "안전 운전"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.save"
+msgstr "답 저장"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.widen"
+msgstr "{widenTo}도 보기"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.reported"
+msgstr "고마워요. 확인할게요."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.expired"
+msgstr "링크가 꺼졌어요. 아무것도 등록되지 않았어요."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.expires"
+msgstr "링크는 {expiresOn}까지 유효해요. 그 후에는 꺼지고 아무것도 등록되지 않아요."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.until"
+msgstr "링크는 {untilOn}까지 유효해요. 그 후에는 꺼지고 아무것도 등록되지 않아요."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.message"
+msgstr "메시지 · 보내는 건 나"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.unavailable"
+msgstr "지금은 이 등록을 볼 수 없어요. 일시 중지했을 수 있어요."
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.trips"
+msgstr "크루와 함께한 운행"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.waiting"
+msgstr "확인을 기다리는 중"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.priceNote"
+msgstr "본인이 크루에게 알려 준 내용이에요. CritterPass 가격이 아니에요."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.nudgeUsed"
+msgstr "이미 한 번 알렸어요."
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.rate"
+msgstr "기사에 대한 내 답"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.intro"
+msgstr "크루의 평가와 태그는 {name}님이 등록되어 있으면 등록에 표시돼요. 내 정보는 표시되지 않아요."
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.report"
+msgstr "내 신고"

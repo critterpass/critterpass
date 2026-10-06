@@ -236,6 +236,14 @@ export {
 export { tripPlaces } from './trip-places';
 export { driverPlanReplies, driverPlanShares } from './plan-shares';
 export {
+  driverInvites,
+  driverListingFlags,
+  driverListings,
+  driverListingStats,
+  driverRatings,
+  driverTips,
+} from './driver-directory';
+export {
   placeRatingStats,
   planLinks,
   ratings,

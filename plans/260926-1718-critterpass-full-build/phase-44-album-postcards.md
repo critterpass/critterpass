@@ -1,7 +1,7 @@
 ---
 phase: 44
 title: Shared album, curation, postcards, printed mail
-status: in-progress
+status: in_progress
 depends_on: [10, 12, 13, 43]
 wave: 20
 features: [F-135, F-136, F-137, F-138]

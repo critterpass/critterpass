@@ -295,3 +295,4 @@ export * from './recap';
 export * from './album';
 export * from './public';
 export * from './driver-plan-shares';
+export * from './driver-directory';

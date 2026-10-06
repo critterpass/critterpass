@@ -1,7 +1,7 @@
 ---
 phase: 47
 title: "Help centre, feedback, idea board, rating prompt"
-status: pending
+status: in_progress
 depends_on: [17, 25, 43, 46, 58]
 wave: 20
 features: [F-153, F-154, F-155, F-156]

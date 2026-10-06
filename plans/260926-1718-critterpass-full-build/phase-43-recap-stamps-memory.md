@@ -1,7 +1,7 @@
 ---
 phase: 43
 title: Recap pipeline, story, awards, stamps, anniversary
-status: in-progress
+status: in_progress
 depends_on: [26, 31, 33, 40]
 wave: 19
 features: [F-131, F-132, F-133, F-134, F-139]
