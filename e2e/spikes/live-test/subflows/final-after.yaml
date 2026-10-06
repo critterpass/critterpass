@@ -1,0 +1,83 @@
+appId: app.critterpass.dev
+---
+# After the redrafts: earlier drafts, back to Home with the plan still private, the inbox and the
+# guide chat. The visit-memory offer is answered NOT NOW wherever it rises. Frames ${P}-90…92c.
+- scrollUntilVisible:
+    element:
+      id: 'draft-history-open'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'draft-history-open'
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-90-earlier-drafts
+- runFlow:
+    when:
+      visible:
+        id: 'draft-history'
+    commands:
+      - swipe:
+          direction: UP
+          duration: 600
+      - waitForAnimationToEnd
+      - takeScreenshot: ${P}-90b-earlier-drafts-scrolled
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'draft-back'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- runFlow:
+    file: final-visit-offer.yaml
+    env:
+      SHOT: ${P}-91a-visit-offer
+- takeScreenshot: ${P}-91-back-from-draft
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-home'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 20000
+- runFlow:
+    file: final-visit-offer.yaml
+    env:
+      SHOT: ${P}-92a-visit-offer
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${P}-92-home-with-private-draft
+- tapOn:
+    id: 'home-header-inbox'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${P}-92b-inbox
+- repeat:
+    while:
+      notVisible:
+        id: 'home-screen'
+    times: 3
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'guide-fab'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${P}-92c-guide-chat

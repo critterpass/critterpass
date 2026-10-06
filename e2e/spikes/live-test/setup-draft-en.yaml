@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# A first-time traveller's walk on staging, read in Vietnamese from the splash: onboarding, Đà Lạt
+# A first-time traveller's walk on staging, read in English from the splash: onboarding, Đà Lạt
 # found from first-run Home and pitched with no crew (the crew is started on the page), locked in,
 # the trip set up two weeks out for four days, the wait left and come back to, the guide's draft
 # read day by day, then CHANGE A DAY three times (keep, put back, the last free one), and a second
@@ -15,7 +15,7 @@ appId: app.critterpass.dev
 - runFlow:
     file: ../../home/subflows/pick-gallery-locale.yaml
     env:
-      LOCALE: vi
+      LOCALE: en
 - runFlow: ../../onboarding/subflows/back.yaml
 - waitForAnimationToEnd
 - runFlow: ../../onboarding/subflows/back.yaml
@@ -24,7 +24,7 @@ appId: app.critterpass.dev
       id: 'onboarding-open'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-01-splash
+- takeScreenshot: setup-draft-en-01-splash
 
 # Onboarding, as far as she must go.
 - repeat:
@@ -47,11 +47,11 @@ appId: app.critterpass.dev
             id: 'onboarding-name-field'
           timeout: 10000
           optional: true
-- takeScreenshot: setup-draft-02-name
+- takeScreenshot: setup-draft-en-02-name
 - tapOn:
     id: 'onboarding-name-field'
 - inputText: 'Linh'
-- takeScreenshot: setup-draft-03-name-typed
+- takeScreenshot: setup-draft-en-03-name-typed
 - hideKeyboard
 - tapOn:
     id: 'onboarding-name-next'
@@ -60,7 +60,7 @@ appId: app.critterpass.dev
       id: 'onboarding-photo'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-04-photo
+- takeScreenshot: setup-draft-en-04-photo
 - tapOn:
     id: 'onboarding-photo-guides-ajo'
 - tapOn:
@@ -82,7 +82,7 @@ appId: app.critterpass.dev
       id: 'taste-card-left'
     timeout: 20000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-05-taste
+- takeScreenshot: setup-draft-en-05-taste
 - repeat:
     while:
       notVisible:
@@ -92,11 +92,11 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'taste-card-right'
       - waitForAnimationToEnd
-- takeScreenshot: setup-draft-06-taste-done
+- takeScreenshot: setup-draft-en-06-taste-done
 - tapOn:
     id: 'taste-done'
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-07-home-airport
+- takeScreenshot: setup-draft-en-07-home-airport
 - runFlow:
     when:
       visible:
@@ -117,7 +117,7 @@ appId: app.critterpass.dev
             id: 'home-row-SGN'
           timeout: 20000
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-08-home-airport-search
+      - takeScreenshot: setup-draft-en-08-home-airport-search
       - tapOn:
           id: 'home-row-SGN'
 - extendedWaitUntil:
@@ -125,7 +125,7 @@ appId: app.critterpass.dev
       id: 'home-row-.*'
       selected: true
     timeout: 10000
-- takeScreenshot: setup-draft-09-home-airport-picked
+- takeScreenshot: setup-draft-en-09-home-airport-picked
 - tapOn:
     id: 'onboarding-home-next'
 - extendedWaitUntil:
@@ -133,30 +133,32 @@ appId: app.critterpass.dev
       id: 'onboarding-issued-save'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-10-pass-issued
+- takeScreenshot: setup-draft-en-10-pass-issued
 - tapOn:
     id: 'onboarding-issued-save'
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-11-save-sheet
+- takeScreenshot: setup-draft-en-11-save-sheet
 - back
 - extendedWaitUntil:
     visible:
       id: 'permissions-primer-later'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-12-permissions
+- takeScreenshot: setup-draft-en-12-permissions
 - tapOn:
     id: 'permissions-primer-later'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
     timeout: 30000
+# The new planning screens, for this phone only.
+- runFlow: ../../_shared/planning-redesign-on.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-first-run'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-13-home-first-run
+- takeScreenshot: setup-draft-en-13-home-first-run
 # Going with friends: the way to start a crew sits beside joining one. She reads it and comes back.
 - tapOn:
     id: 'home-start-crew'
@@ -165,7 +167,7 @@ appId: app.critterpass.dev
       id: 'start-crew-name'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-13b-start-a-crew-from-home
+- takeScreenshot: setup-draft-en-13b-start-a-crew-from-home
 - repeat:
     while:
       notVisible:
@@ -183,12 +185,12 @@ appId: app.critterpass.dev
     timeout: 15000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-14-home-lower
+- takeScreenshot: setup-draft-en-14-home-lower
 - tapOn:
     id: 'tab-trips'
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-15-trips-tab-no-trip
+- takeScreenshot: setup-draft-en-15-trips-tab-no-trip
 - tapOn:
     id: 'tab-home'
     optional: true
@@ -205,7 +207,7 @@ appId: app.critterpass.dev
       id: 'place-search-field'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-16-place-search
+- takeScreenshot: setup-draft-en-16-place-search
 - inputText: 'Da Lat'
 - extendedWaitUntil:
     visible:
@@ -213,7 +215,7 @@ appId: app.critterpass.dev
     timeout: 20000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-17-place-search-typed
+- takeScreenshot: setup-draft-en-17-place-search-typed
 # With no result for the name as she writes it, she tries it without the marks.
 - runFlow:
     when:
@@ -227,7 +229,7 @@ appId: app.critterpass.dev
             id: 'place-result-.*'
           timeout: 20000
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-17b-place-search-plain
+      - takeScreenshot: setup-draft-en-17b-place-search-plain
 - tapOn:
     id: 'place-result-.*'
     index: 0
@@ -237,7 +239,7 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: setup-draft-18-destination-page
+- takeScreenshot: setup-draft-en-18-destination-page
 - scrollUntilVisible:
     element:
       id: 'explore-pitch|guest-pitch'
@@ -245,7 +247,7 @@ appId: app.critterpass.dev
     timeout: 30000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-19-destination-actions
+- takeScreenshot: setup-draft-en-19-destination-actions
 - tapOn:
     id: 'explore-pitch|guest-pitch'
 # With no crew the page starts one: a name already filled in, one button.
@@ -260,13 +262,13 @@ appId: app.critterpass.dev
     timeout: 10000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-20-pitch-starts-a-crew
+- takeScreenshot: setup-draft-en-20-pitch-starts-a-crew
 - evalScript: ${output.t0 = Date.now()}
 - tapOn:
     id: 'explore-pitch-no-crew-start|crew-picker-none-start'
 - waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: setup-draft-21-crew-being-made
+- takeScreenshot: setup-draft-en-21-crew-being-made
 # The crew syncs and the pitch opens by itself.
 - extendedWaitUntil:
     visible:
@@ -274,7 +276,7 @@ appId: app.critterpass.dev
     timeout: 90000
 - evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-30-pitch-card-after-${output.secs}s
+- takeScreenshot: setup-draft-en-30-pitch-card-after-${output.secs}s
 - scrollUntilVisible:
     element:
       id: 'pitch-add'
@@ -286,7 +288,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - waitForAnimationToEnd:
     timeout: 4000
-- takeScreenshot: setup-draft-30b-after-add-to-the-vote
+- takeScreenshot: setup-draft-en-30b-after-add-to-the-vote
 # Home the way she would get there: back, until Home shows.
 - repeat:
     while:
@@ -301,14 +303,14 @@ appId: app.critterpass.dev
       id: 'destination-board'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-31-home-board
+- takeScreenshot: setup-draft-en-31-home-board
 - scrollUntilVisible:
     element:
       id: 'board-lock-in'
     timeout: 30000
     centerElement: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-32-board-lock-in
+- takeScreenshot: setup-draft-en-32-board-lock-in
 - tapOn:
     id: 'board-lock-in'
 - extendedWaitUntil:
@@ -316,7 +318,7 @@ appId: app.critterpass.dev
       id: 'reveal-set-up'
     timeout: 60000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-34-reveal
+- takeScreenshot: setup-draft-en-34-reveal
 - tapOn:
     id: 'reveal-set-up'
 - extendedWaitUntil:
@@ -325,7 +327,7 @@ appId: app.critterpass.dev
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: setup-draft-35-when
+- takeScreenshot: setup-draft-en-35-when
 
 # When: two weeks from today (Vietnam time), four days.
 - evalScript: ${var day = function (n) { return new Date(Date.now() + 7 * 3600000 + n * 86400000).toISOString().slice(0, 10); }; output.first = day(14); output.last = day(17); output.mid = day(15)}
@@ -334,7 +336,7 @@ appId: app.critterpass.dev
       id: 'when-pick-week'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-36-when-lower
+- takeScreenshot: setup-draft-en-36-when-lower
 - tapOn:
     id: 'when-pick-week'
 - extendedWaitUntil:
@@ -342,12 +344,12 @@ appId: app.critterpass.dev
       id: 'picker-grid'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-37-picker-open
+- takeScreenshot: setup-draft-en-37-picker-open
 # How many days: four.
 - tapOn:
     id: 'picker-length-4'
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-37b-picker-four-days-asked
+- takeScreenshot: setup-draft-en-37b-picker-four-days-asked
 # The suggested window, when the sheet offers one.
 - runFlow:
     when:
@@ -357,7 +359,7 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'picker-best-0'
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-38-picker-suggested-window
+      - takeScreenshot: setup-draft-en-38-picker-suggested-window
       - tapOn:
           id: 'picker-clear'
           optional: true
@@ -374,14 +376,14 @@ appId: app.critterpass.dev
     id: ${'heat-pick-' + output.mid}
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-39-picker-day-held
+- takeScreenshot: setup-draft-en-39-picker-day-held
 - tapOn:
     id: 'picker-clear'
     optional: true
 - tapOn:
     id: ${'heat-pick-' + output.first}
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-40-picker-first-day
+- takeScreenshot: setup-draft-en-40-picker-first-day
 - tapOn:
     id: ${'heat-pick-' + output.last}
 - extendedWaitUntil:
@@ -389,7 +391,7 @@ appId: app.critterpass.dev
       id: 'picker-lock'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-41-picker-four-days
+- takeScreenshot: setup-draft-en-41-picker-four-days
 - scrollUntilVisible:
     element:
       id: 'picker-lock'
@@ -412,14 +414,14 @@ appId: app.critterpass.dev
     optional: true
 - evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-42-budget-after-${output.secs}s
+- takeScreenshot: setup-draft-en-42-budget-after-${output.secs}s
 - swipe:
     from:
       id: 'budget-track'
     direction: RIGHT
     duration: 900
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-43-budget-dragged-up
+- takeScreenshot: setup-draft-en-43-budget-dragged-up
 # The amount she has in mind, typed.
 - scrollUntilVisible:
     element:
@@ -431,7 +433,7 @@ appId: app.critterpass.dev
 - inputText: '5000000'
 - hideKeyboard
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-43b-budget-typed
+- takeScreenshot: setup-draft-en-43b-budget-typed
 - scrollUntilVisible:
     element:
       id: 'budget-lock'
@@ -439,7 +441,7 @@ appId: app.critterpass.dev
     timeout: 10000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-44-budget-lower
+- takeScreenshot: setup-draft-en-44-budget-lower
 - tapOn:
     id: 'budget-lock'
 
@@ -455,7 +457,7 @@ appId: app.critterpass.dev
         id: 'setup-rooms-lock'
     commands:
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-45-rooms
+      - takeScreenshot: setup-draft-en-45-rooms
       - tapOn:
           id: 'setup-rooms-lock'
 
@@ -465,7 +467,7 @@ appId: app.critterpass.dev
       id: 'must-dos-add'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-47-must-dos-empty
+- takeScreenshot: setup-draft-en-47-must-dos-empty
 - tapOn:
     id: 'must-dos-add'
 - extendedWaitUntil:
@@ -473,17 +475,17 @@ appId: app.critterpass.dev
       id: 'add-must-do-field'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-48-add-must-do
+- takeScreenshot: setup-draft-en-48-add-must-do
 - tapOn:
     id: 'add-must-do-field'
-- inputText: 'An banh can buoi sang'
+- inputText: 'Banh can for breakfast'
 - extendedWaitUntil:
     visible:
       id: 'add-must-do-place-.*|add-must-do-none'
     timeout: 20000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-49-must-do-own-words
+- takeScreenshot: setup-draft-en-49-must-do-own-words
 - tapOn:
     id: 'add-must-do-keep'
 - extendedWaitUntil:
@@ -492,7 +494,7 @@ appId: app.critterpass.dev
     timeout: 15000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-50-must-dos-one
+- takeScreenshot: setup-draft-en-50-must-dos-one
 - tapOn:
     id: 'must-dos-add'
     optional: true
@@ -511,13 +513,13 @@ appId: app.critterpass.dev
     timeout: 20000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-51-must-do-search
+- takeScreenshot: setup-draft-en-51-must-do-search
 - tapOn:
     id: 'add-must-do-place-.*'
     index: 0
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-52-must-do-picked
+- takeScreenshot: setup-draft-en-52-must-do-picked
 # A place with no match is kept as typed, so the second must-do is on the list either way.
 - runFlow:
     when:
@@ -531,7 +533,7 @@ appId: app.critterpass.dev
       id: 'must-dos-draft'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-53-must-dos-two
+- takeScreenshot: setup-draft-en-53-must-dos-two
 - evalScript: ${output.draftT0 = Date.now()}
 - tapOn:
     id: 'must-dos-draft'
@@ -541,13 +543,13 @@ appId: app.critterpass.dev
     visible:
       id: 'drafting-screen'
     timeout: 30000
-- takeScreenshot: setup-draft-54-drafting-start
+- takeScreenshot: setup-draft-en-54-drafting-start
 - extendedWaitUntil:
     visible:
       id: 'drafting-leave|draft-review'
     timeout: 20000
     optional: true
-- takeScreenshot: setup-draft-55-drafting-20s
+- takeScreenshot: setup-draft-en-55-drafting-20s
 # She leaves the wait: Must-dos keeps one button, which follows the draft.
 - runFlow:
     when:
@@ -561,14 +563,14 @@ appId: app.critterpass.dev
             id: 'must-dos-drafting|must-dos-see-draft'
           timeout: 20000
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-56-left-the-wait-must-dos
+      - takeScreenshot: setup-draft-en-56-left-the-wait-must-dos
       - extendedWaitUntil:
           visible:
             id: 'must-dos-see-draft'
           timeout: 600000
       - evalScript: ${output.secs = Math.round((Date.now() - output.draftT0) / 1000)}
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-57-must-dos-draft-ready-at-${output.secs}s
+      - takeScreenshot: setup-draft-en-57-must-dos-draft-ready-at-${output.secs}s
       - tapOn:
           id: 'must-dos-see-draft'
 - extendedWaitUntil:
@@ -577,24 +579,24 @@ appId: app.critterpass.dev
     timeout: 600000
 - evalScript: ${output.secs = Math.round((Date.now() - output.draftT0) / 1000)}
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-59-draft-review-after-${output.secs}s
+- takeScreenshot: setup-draft-en-59-draft-review-after-${output.secs}s
 
 # The draft, read to the end.
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-60-draft-review-scrolled-1
+- takeScreenshot: setup-draft-en-60-draft-review-scrolled-1
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-61-draft-review-scrolled-2
+- takeScreenshot: setup-draft-en-61-draft-review-scrolled-2
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-62-draft-review-end
+- takeScreenshot: setup-draft-en-62-draft-review-end
 # Every day opened and read; a stop opened on each.
 - evalScript: ${output.day = 0}
 - repeat:
@@ -618,22 +620,22 @@ appId: app.critterpass.dev
           optional: true
       - waitForAnimationToEnd:
           timeout: 6000
-      - takeScreenshot: setup-draft-63-day-${output.day}-a-opened
+      - takeScreenshot: setup-draft-en-63-day-${output.day}-a-opened
       - swipe:
           direction: UP
           duration: 600
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-63-day-${output.day}-b-scrolled
+      - takeScreenshot: setup-draft-en-63-day-${output.day}-b-scrolled
       - swipe:
           direction: UP
           duration: 600
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-63-day-${output.day}-c-scrolled
+      - takeScreenshot: setup-draft-en-63-day-${output.day}-c-scrolled
       - swipe:
           direction: UP
           duration: 600
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-63-day-${output.day}-d-end
+      - takeScreenshot: setup-draft-en-63-day-${output.day}-d-end
       - runFlow:
           when:
             notVisible:
@@ -645,7 +647,7 @@ appId: app.critterpass.dev
                 optional: true
             - waitForAnimationToEnd:
                 timeout: 5000
-            - takeScreenshot: setup-draft-63-day-${output.day}-e-stop-tapped
+            - takeScreenshot: setup-draft-en-63-day-${output.day}-e-stop-tapped
       - repeat:
           while:
             notVisible:
@@ -654,7 +656,7 @@ appId: app.critterpass.dev
           commands:
             - back
             - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-63-day-${output.day}-f-back-on-draft
+      - takeScreenshot: setup-draft-en-63-day-${output.day}-f-back-on-draft
 
 # CHANGE A DAY, the first time: day 2, slower, plus her own words. KEEP IT.
 - scrollUntilVisible:
@@ -668,11 +670,11 @@ appId: app.critterpass.dev
       id: 'change-day-2'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-64-change-day-sheet
+- takeScreenshot: setup-draft-en-64-change-day-sheet
 - tapOn:
     id: 'change-day-2'
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-65-change-day-2-picked
+- takeScreenshot: setup-draft-en-65-change-day-2-picked
 - tapOn:
     id: 'redraft-reason-slower'
 - scrollUntilVisible:
@@ -682,12 +684,12 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'change-day-note'
-- inputText: 'Them mot quan ca phe view dep, bot di bo'
+- inputText: 'Add a cafe with a view, less walking'
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-66-change-day-own-words
+- takeScreenshot: setup-draft-en-66-change-day-own-words
 - hideKeyboard
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-67-change-day-ready
+- takeScreenshot: setup-draft-en-67-change-day-ready
 - evalScript: ${output.t0 = Date.now()}
 - tapOn:
     id: 'change-day-submit'
@@ -695,35 +697,35 @@ appId: app.critterpass.dev
     visible:
       id: 'redraft-thinking|redraft-diff|redraft-outcome|last-redraft-use'
     timeout: 30000
-- takeScreenshot: setup-draft-68-redraft-thinking
+- takeScreenshot: setup-draft-en-68-redraft-thinking
 - extendedWaitUntil:
     visible:
       id: 'redraft-diff|redraft-outcome'
     timeout: 60000
     optional: true
-- takeScreenshot: setup-draft-69-redraft-thinking-60s
+- takeScreenshot: setup-draft-en-69-redraft-thinking-60s
 - extendedWaitUntil:
     visible:
       id: 'redraft-diff|redraft-outcome'
     timeout: 600000
 - evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-70-redraft-diff-after-${output.secs}s
+- takeScreenshot: setup-draft-en-70-redraft-diff-after-${output.secs}s
 - tapOn:
     id: 'redraft-change-toggle-0'
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-71-redraft-change-opened
+- takeScreenshot: setup-draft-en-71-redraft-change-opened
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-72-redraft-diff-scrolled
+- takeScreenshot: setup-draft-en-72-redraft-diff-scrolled
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-73-redraft-diff-end
+- takeScreenshot: setup-draft-en-73-redraft-diff-end
 # Leaving that change out would put two stops at the same time: the keep waits and says why, and
 # she ticks it again.
 - runFlow:
@@ -740,7 +742,7 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'redraft-change-toggle-0'
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-73b-change-ticked-again
+      - takeScreenshot: setup-draft-en-73b-change-ticked-again
 - tapOn:
     id: 'redraft-keep'
     optional: true
@@ -752,7 +754,7 @@ appId: app.critterpass.dev
       id: 'draft-review'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-74-draft-after-keep
+- takeScreenshot: setup-draft-en-74-draft-after-keep
 - scrollUntilVisible:
     element:
       id: 'draft-day-2'
@@ -764,17 +766,17 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: setup-draft-75-day-2-after-keep-a
+- takeScreenshot: setup-draft-en-75-day-2-after-keep-a
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-75-day-2-after-keep-b
+- takeScreenshot: setup-draft-en-75-day-2-after-keep-b
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-75-day-2-after-keep-c
+- takeScreenshot: setup-draft-en-75-day-2-after-keep-c
 - repeat:
     while:
       notVisible:
@@ -791,7 +793,7 @@ appId: app.critterpass.dev
       id: 'draft-change-day'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-76-draft-footer-one-used
+- takeScreenshot: setup-draft-en-76-draft-footer-one-used
 - tapOn:
     id: 'draft-change-day'
 - extendedWaitUntil:
@@ -807,15 +809,15 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'change-day-note'
-- inputText: 'Hom do troi hay mua, cho minh cho trong nha'
+- inputText: 'It often rains that day, keep us indoors'
 - hideKeyboard
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-77-change-day-words-only
+- takeScreenshot: setup-draft-en-77-change-day-words-only
 - tapOn:
     id: 'change-day-submit'
 - waitForAnimationToEnd:
     timeout: 4000
-- takeScreenshot: setup-draft-78-words-only-submitted
+- takeScreenshot: setup-draft-en-78-words-only-submitted
 # REDRAFT stays off without a reason chip: she picks one.
 - runFlow:
     when:
@@ -825,7 +827,7 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'redraft-reason-more_food'
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-79-change-day-reason-added
+      - takeScreenshot: setup-draft-en-79-change-day-reason-added
       - tapOn:
           id: 'change-day-submit'
 - evalScript: ${output.t0 = Date.now()}
@@ -833,7 +835,7 @@ appId: app.critterpass.dev
     visible:
       id: 'redraft-thinking|redraft-diff|redraft-outcome|last-redraft-use'
     timeout: 30000
-- takeScreenshot: setup-draft-80-second-redraft-thinking
+- takeScreenshot: setup-draft-en-80-second-redraft-thinking
 - runFlow:
     when:
       visible:
@@ -848,7 +850,7 @@ appId: app.critterpass.dev
     commands:
       - back
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-81-left-while-thinking
+      - takeScreenshot: setup-draft-en-81-left-while-thinking
       - scrollUntilVisible:
           element:
             id: 'draft-open-redraft-go'
@@ -856,7 +858,7 @@ appId: app.critterpass.dev
           timeout: 10000
           optional: true
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-82-draft-banner-redrafting
+      - takeScreenshot: setup-draft-en-82-draft-banner-redrafting
       - tapOn:
           id: 'draft-open-redraft-go'
           optional: true
@@ -866,12 +868,12 @@ appId: app.critterpass.dev
     timeout: 600000
 - evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-83-second-diff-after-${output.secs}s
+- takeScreenshot: setup-draft-en-83-second-diff-after-${output.secs}s
 - swipe:
     direction: UP
     duration: 600
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-84-second-diff-scrolled
+- takeScreenshot: setup-draft-en-84-second-diff-scrolled
 - scrollUntilVisible:
     element:
       id: 'redraft-put-back'
@@ -889,7 +891,7 @@ appId: app.critterpass.dev
       id: 'draft-review'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-85-draft-after-put-back
+- takeScreenshot: setup-draft-en-85-draft-after-put-back
 
 # The third time: the last free redraft asks first. She reads it and closes it.
 - scrollUntilVisible:
@@ -897,7 +899,7 @@ appId: app.critterpass.dev
       id: 'draft-change-day'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-86-draft-footer-two-used
+- takeScreenshot: setup-draft-en-86-draft-footer-two-used
 - tapOn:
     id: 'draft-change-day'
 - extendedWaitUntil:
@@ -909,7 +911,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'redraft-reason-surprise_me'
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-87-change-day-1-surprise
+- takeScreenshot: setup-draft-en-87-change-day-1-surprise
 - tapOn:
     id: 'change-day-submit'
 # With one free redraft left the app asks first; with more left (a day put back gives its redraft
@@ -919,7 +921,7 @@ appId: app.critterpass.dev
       id: 'last-redraft-use|redraft-diff|redraft-outcome'
     timeout: 600000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-88-third-ask
+- takeScreenshot: setup-draft-en-88-third-ask
 - runFlow:
     when:
       visible:
@@ -934,7 +936,7 @@ appId: app.critterpass.dev
           timeout: 8000
           optional: true
       - waitForAnimationToEnd
-      - takeScreenshot: setup-draft-89-back-on-the-sheet
+      - takeScreenshot: setup-draft-en-89-back-on-the-sheet
       - tapOn:
           id: 'change-day-close'
 - runFlow:
@@ -977,10 +979,10 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'change-day-note'
 - eraseText: 60
-- inputText: 'Them gio nghi trua'
+- inputText: 'Add a midday rest'
 - hideKeyboard
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-89a-sheet-with-her-words
+- takeScreenshot: setup-draft-en-89a-sheet-with-her-words
 - tapOn:
     id: 'change-day-close'
 - extendedWaitUntil:
@@ -989,7 +991,7 @@ appId: app.critterpass.dev
     timeout: 8000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-89b-draft-after-closing-the-sheet
+- takeScreenshot: setup-draft-en-89b-draft-after-closing-the-sheet
 - tapOn:
     id: 'draft-change-day'
 - extendedWaitUntil:
@@ -997,7 +999,7 @@ appId: app.critterpass.dev
       id: 'change-day-submit'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-89c-sheet-reopened-with-her-words
+- takeScreenshot: setup-draft-en-89c-sheet-reopened-with-her-words
 - tapOn:
     id: 'change-day-close'
 - extendedWaitUntil:
@@ -1017,7 +1019,7 @@ appId: app.critterpass.dev
     id: 'draft-history-open'
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-90-earlier-drafts
+- takeScreenshot: setup-draft-en-90-earlier-drafts
 - runFlow:
     when:
       visible:
@@ -1030,7 +1032,7 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: setup-draft-91-back-from-draft
+- takeScreenshot: setup-draft-en-91-back-from-draft
 - repeat:
     while:
       notVisible:
@@ -1041,7 +1043,7 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: setup-draft-92-home-with-private-draft
+- takeScreenshot: setup-draft-en-92-home-with-private-draft
 
 # Who the guide is outside the plan: the inbox, then the guide chat from the tab button.
 - tapOn:
@@ -1049,7 +1051,7 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: setup-draft-92b-inbox
+- takeScreenshot: setup-draft-en-92b-inbox
 - repeat:
     while:
       notVisible:
@@ -1068,7 +1070,7 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: setup-draft-92c-guide-chat
+- takeScreenshot: setup-draft-en-92c-guide-chat
 - repeat:
     while:
       notVisible:
@@ -1089,7 +1091,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'start-crew-name'
-- inputText: 'Hoi ban than'
+- inputText: 'Best friends'
 - hideKeyboard
 - tapOn:
     id: 'start-crew-create'
@@ -1098,11 +1100,11 @@ appId: app.critterpass.dev
       id: 'start-crew-done'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-93-crew-created
+- takeScreenshot: setup-draft-en-93-crew-created
 - extendedWaitUntil:
     visible:
       id: 'start-crew-code'
     timeout: 60000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-94-crew-code-and-share
+- takeScreenshot: setup-draft-en-94-crew-code-and-share

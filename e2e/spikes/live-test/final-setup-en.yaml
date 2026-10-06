@@ -1,0 +1,78 @@
+appId: app.critterpass.dev
+---
+# A crew trip to Đà Nẵng read in English on staging: onboarding, Đà Nẵng pitched (the page starts
+# the crew), locked in, three days on the window the dates sheet offers, one of the guide's
+# must-do examples and one in her words, the draft read day by day, then a redraft a traveller
+# would ask for (kept) and a second one put back, so earlier drafts show a declined version.
+# Frames final-en-<nn>.
+- runFlow:
+    file: subflows/final-onboard.yaml
+    env:
+      P: final-en
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 30000
+- runFlow:
+    file: subflows/final-setup.yaml
+    env:
+      P: final-en
+      QUERY: 'da nang'
+      DAYS: 3
+      PICK_DATE: ''
+      LAST_DATE: ''
+      BUDGET: '8000000'
+- tapOn:
+    id: 'must-dos-example-0'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: final-en-48-must-dos-example-added
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Seafood dinner by the beach'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-keep'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: final-en-49-must-do-own-words
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: final-en-50-must-dos-two
+- runFlow:
+    file: subflows/final-draft.yaml
+    env:
+      P: final-en
+      DAYS: 3
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-en-70-beach-afternoon
+      DAY: 2
+      NOTE: 'Too much rushing around. Give us a slow afternoon at the beach'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-en-80-surprise-put-back
+      DAY: 1
+      NOTE: 'Surprise me'
+      KEEP: 'no'
+- runFlow:
+    file: subflows/final-after.yaml
+    env:
+      P: final-en

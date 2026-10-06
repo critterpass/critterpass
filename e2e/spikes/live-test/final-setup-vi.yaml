@@ -1,0 +1,93 @@
+appId: app.critterpass.dev
+---
+# The founder's own trip, read in Vietnamese on staging: onboarding in the phone's English, the app
+# switched to Tiếng Việt in its own Language setting (reported to the server), Đà Lạt for one,
+# Thu 22 to Sun 25 Oct 2026, one of the guide's must-do examples and one in her words, the draft
+# read day by day, then three redrafts in her words: rain, slower with less walking, a late start
+# on the last day (the last free one asks first). Android's driver cannot type Vietnamese marks
+# ("Unicode not supported"), so she writes without them. Frames final-vi-<nn>.
+- runFlow:
+    file: subflows/final-onboard.yaml
+    env:
+      P: final-vi
+- runFlow:
+    file: subflows/final-app-language.yaml
+    env:
+      P: final-vi
+      LANG_ID: vi
+- runFlow:
+    file: subflows/final-setup.yaml
+    env:
+      P: final-vi
+      QUERY: 'Da Lat'
+      DAYS: 4
+      PICK_DATE: '2026-10-22'
+      LAST_DATE: '2026-10-25'
+      BUDGET: '5000000'
+
+# Must-dos: one of the guide's examples (they show only while the list is empty), then one in her
+# own words.
+- tapOn:
+    id: 'must-dos-example-0'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: final-vi-48-must-dos-example-added
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'An banh can buoi sang'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: final-vi-49-must-do-own-words
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: final-vi-50-must-dos-two
+
+- runFlow:
+    file: subflows/final-draft.yaml
+    env:
+      P: final-vi
+      DAYS: 4
+
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-vi-70-rain
+      DAY: 3
+      NOTE: 'troi hay mua, cho minh cho trong nha'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-vi-80-slower
+      DAY: 2
+      NOTE: 'cham hon, it di bo'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-vi-85-late-start
+      DAY: 4
+      NOTE: 'ngay cuoi cho minh ngu nuong, di muon mot chut'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-after.yaml
+    env:
+      P: final-vi
