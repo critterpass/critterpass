@@ -13,8 +13,8 @@ import { useMemo, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTyping } from '@/data/realtime/use-typing';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { useLocale } from '@/lib/i18n/use-locale';
 
+import { useSetupServices } from '../data/services';
 import { setMustDosCommand, setSetupStepCommand, trackLotteryCommand } from '../data/commands';
 import { setupRoutes } from '../routes';
 import type { StepProps } from '../shell/frame';
@@ -31,7 +31,7 @@ export function MustDosStep({ trip, shell }: StepProps) {
   const setStep = useCommand(setSetupStepCommand);
   const trackLottery = useCommand(trackLotteryCommand);
   const [drafting, setDrafting] = useState(false);
-  const examples = useExamplePlaces(data.destinationId, useLocale());
+  const examples = useExamplePlaces(useSetupServices(), data.destinationId);
   const model = useMemo(
     () => buildMustDos(data.rows, data.queued, trip.members, trip.me, typing),
     [data.rows, data.queued, trip.members, trip.me, typing],
