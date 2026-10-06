@@ -16,12 +16,16 @@ interface NativeAppGroup {
 
 interface NativeWidgets {
   installed(): Promise<PlacedWidget[]>;
+  /** Missing on binaries built before widget push. */
+  pushToken?: () => string | null;
 }
 
 export interface WidgetPorts {
   readonly sink: WidgetSnapshotSink;
   /** Null in a build without the WidgetKit module. */
   readonly installed: (() => Promise<readonly PlacedWidget[]>) | null;
+  /** The widget extension's push token; null in a build without widget push. */
+  readonly pushToken: (() => string | null) | null;
 }
 
 let ports: WidgetPorts | null | undefined;
@@ -39,6 +43,7 @@ export function installedWidgetPorts(): WidgetPorts | null {
             reloadWidgets: () => appGroup.reloadWidgets(),
           },
           installed: widgets === null ? null : () => widgets.installed(),
+          pushToken: widgets?.pushToken === undefined ? null : () => widgets.pushToken?.() ?? null,
         };
   return ports;
 }

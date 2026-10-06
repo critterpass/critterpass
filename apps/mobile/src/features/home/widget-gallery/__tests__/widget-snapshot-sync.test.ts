@@ -20,9 +20,13 @@ const fixture = (): Record<string, unknown> =>
     readFileSync(path.join(MOBILE, 'targets/_shared/Snapshot/Tests/Fixtures/widgets.json'), 'utf8'),
   ) as Record<string, unknown>;
 
-function phone(installed: { kind: string; family: string }[] | null = null) {
+function phone(
+  installed: { kind: string; family: string }[] | null = null,
+  pushToken: (() => string | null) | null = null,
+) {
   const files = new Map<string, unknown>();
   const synced: SyncInstalledWidgetsPayload[] = [];
+  const tokens: string[] = [];
   let reloads = 0;
   // The App Group writer's own contract is tested in cp-app-group; here it only records.
   let last = '';
@@ -42,11 +46,23 @@ function phone(installed: { kind: string; family: string }[] | null = null) {
       writer,
       installed: installed === null ? null : () => Promise.resolve(installed),
       syncInstalled: (payload) => (synced.push(payload), Promise.resolve()),
+      pushToken,
+      registerToken: (token) => (tokens.push(token), Promise.resolve()),
     });
-  return { files, synced, reloads: () => reloads, run };
+  return { files, synced, tokens, reloads: () => reloads, run };
 }
 
 describe('widget snapshot sync', () => {
+  it("registers the widget extension's push token once WidgetKit has issued one", async () => {
+    let token: string | null = null;
+    const p = phone(null, () => token);
+    await p.run({ kind: 'unavailable' });
+    expect(p.tokens).toEqual([]);
+    token = '0aff007b';
+    await p.run({ kind: 'unavailable' });
+    expect(p.tokens).toEqual(['0aff007b']);
+  });
+
   it('writes the snapshot and the entitlements file, then reloads the widgets once', async () => {
     const p = phone();
     expect(await p.run({ kind: 'ok', body: fixture() })).toBe('written');
