@@ -1,5 +1,5 @@
 // Generated from packages/domain `NOTIFICATION_CATEGORY_SPECS` by
-// packages/domain/src/surfaces/notification-categories-swift.ts. Do not edit by hand.
+// packages/domain/scripts/gen-categories-swift.ts. Do not edit by hand.
 
 import Foundation
 
