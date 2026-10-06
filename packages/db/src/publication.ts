@@ -111,6 +111,9 @@ import * as schema from './schema';
  * `help_articles` (packages/db/src/schema/content.ts) is the same: the help centre reads
  * `/v1/help/library` and keeps the last good copy. `place_tips` (packages/db/src/schema/explore.ts)
  * is RLS "R" but no phone reads tips from its own database, so they are not replicated either.
+ * `driver_listings`, `driver_listing_stats`, `driver_invites`, `driver_ratings`, `driver_tips` and
+ * `driver_listing_flags` (packages/db/src/schema/driver-directory.ts) are read over HTTP only: the
+ * directory and the crew's own drivers are fetched when a screen shows them, never synced.
  * `destination_home_links` (packages/db/src/schema/destination-travel.ts) is RLS "R" but read
  * over HTTP only (`GET /v1/destinations/{id}/getting-there`); `destination_link_runs` (same file)
  * is "S": the worker's record of a destination's links run.
@@ -130,6 +133,12 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'destination_link_runs',
   'destination_links',
   'device_activities',
+  'driver_invites',
+  'driver_listing_flags',
+  'driver_listing_stats',
+  'driver_listings',
+  'driver_ratings',
+  'driver_tips',
   'critter_names',
   'crowd_forecasts',
   'destination_cost_indices',

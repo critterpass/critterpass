@@ -1,7 +1,7 @@
 ---
 phase: 53
 title: Store listing & social kit
-status: in progress
+status: in_progress
 depends_on: [5, 40, 43, 45, 47, 49, 50, 51]
 wave: 22
 early_block:

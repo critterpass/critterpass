@@ -11,6 +11,7 @@ struct SleepyClockWidget: Widget {
             SleepyClockView()
                 .containerBackground(for: .widget) { LAPalette.card }
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Sleepy clock")
         .description("A bedside clock for the night before an early start.")
         .supportedFamilies([.systemSmall])

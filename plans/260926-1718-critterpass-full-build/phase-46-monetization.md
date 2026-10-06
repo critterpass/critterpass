@@ -210,6 +210,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Status: done — 21a99341 (server; usePaywall/PaywallGate ship with the app lane)
 
 ### T5 — Mobile billing client: RevenueCat, products, purchase state machine, restore
+- Status: done — e8b9d24e0 (react-native-purchases, store port, products, purchase machine, restore, listener). No StoreKit configuration file: `ios/` is generated. No RevenueCat keys exist yet, so billing reads as unavailable
 - Goal: reliable purchase UX primitives on iOS + Android.
 - Files: `apps/mobile/src/data/billing/{revenuecat,products,purchase-machine,restore,listener,index}.ts`, `apps/mobile/src/data/billing/__tests__/purchase-machine.test.ts`, `apps/mobile/ios/Critterpass.storekit`, `apps/mobile/.env.example` (RC public keys section only).
 - Steps: 1. Configure `react-native-purchases` at launch with uid; `logIn` on uid change. 2. `useProducts()` (localised price, period, per-month, savings %). 3. XState-style machine: idle → purchasing → pending | cancelled | failed | verifying → done | background (timeout 5 s) with `fulfil_purchase{client_sync}` + wait on `entitlement.changed`. 4. Restore with other-account mapping. 5. StoreKit config file mirrors products for local testing.

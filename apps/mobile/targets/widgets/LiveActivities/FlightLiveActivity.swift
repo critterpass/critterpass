@@ -91,15 +91,7 @@ struct FlightLockScreen: View {
                     .foregroundStyle(LAPalette.paper)
             }
             if let pickup = state.pickup, state.phase == .landed || state.phase == .pickup {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(pickup.name)
-                        .font(.system(size: 15, weight: .heavy))
-                        .foregroundStyle(tint)
-                    Text(pickup.line)
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(LAPalette.paper)
-                        .lineLimit(2)
-                }
+                FlightPickupLine(pickup: pickup, tint: tint)
             } else if state.grabCta, state.phase == .landed || state.phase == .pickup {
                 FlightRideHint(tint: tint)
             } else {
@@ -210,6 +202,36 @@ struct FlightRideHint: View {
                 .font(.system(size: 15, weight: .heavy))
                 .foregroundStyle(tint)
                 .lineLimit(2)
+        }
+    }
+}
+
+/// After landing (5a-3): the guide holding the pickup's sign, with who is waiting and where.
+struct FlightPickupLine: View {
+    let pickup: LAFlightPickup
+    let tint: Color
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 10) {
+            LAGuide(slug: "").art(cheer: true)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 36, height: 36)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("AFTER LANDING")
+                    .font(.laLabel)
+                    .tracking(0.8)
+                    .foregroundStyle(LAPalette.muted)
+                Text(pickup.name)
+                    .font(.system(size: 15, weight: .heavy))
+                    .foregroundStyle(tint)
+                    .lineLimit(1)
+                Text(pickup.line)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(LAPalette.paper)
+                    .lineLimit(2)
+            }
         }
     }
 }

@@ -3,7 +3,8 @@
  * (`GET /v1/widgets/snapshot`), checks it against the domain's contract, hands it to the App Group
  * writer (which writes it whole and reloads the widgets only when it changed), and tells the
  * server which widgets are placed on this phone (`sync_installed_widgets`), so it pushes
- * refreshes only to phones that show something.
+ * refreshes only to phones that show something, and the widget extension's push token
+ * (`register_widget_token`), which the extension leaves in the App Group having no session itself.
  */
 import {
   widgetSnapshotSchema,
@@ -25,6 +26,9 @@ export interface WidgetSyncDeps {
   /** The widgets placed on this phone (cp-widgets), or null without the module. */
   readonly installed: (() => Promise<readonly PlacedWidget[]>) | null;
   readonly syncInstalled: (payload: SyncInstalledWidgetsPayload) => Promise<unknown>;
+  /** The widget extension's push token, null until WidgetKit issued one or without the module. */
+  readonly pushToken: (() => string | null) | null;
+  readonly registerToken: (token: string) => Promise<unknown>;
 }
 
 export type WidgetSyncResult = 'written' | 'unchanged' | 'invalid' | 'unavailable';
@@ -43,5 +47,7 @@ export async function syncWidgets(deps: WidgetSyncDeps): Promise<WidgetSyncResul
       await deps.syncInstalled(installedWidgetsPayload(placed)).catch(() => undefined);
     }
   }
+  const token = deps.pushToken?.() ?? null;
+  if (token !== null) await deps.registerToken(token).catch(() => undefined);
   return result;
 }

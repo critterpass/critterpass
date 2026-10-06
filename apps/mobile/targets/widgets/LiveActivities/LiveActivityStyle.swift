@@ -61,6 +61,11 @@ struct LAGuide {
     func art(cheer cheering: Bool) -> Image {
         Image(cheering ? cheer : idle)
     }
+
+    /// The guide's name as the app writes it (the slug is its lower-case id).
+    static func displayName(slug: String) -> String {
+        slug.isEmpty ? "Tokek" : slug.prefix(1).uppercased() + slug.dropFirst()
+    }
 }
 
 /// A horizontal line through the middle of its frame (stroke it dashed for a route or a trail).

@@ -13,6 +13,7 @@ struct CrewWidget: Widget {
                 .containerBackground(for: .widget) { LAPalette.card }
                 .widgetURL(LADeepLink.url(route: entry.file?.snapshot.trip.map { "trips/\($0.id)" } ?? "trips"))
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Crew, live")
         .description("Everyone on the way to the meet-up.")
         .supportedFamilies([.systemSmall, .systemMedium])
