@@ -196,6 +196,53 @@ describe('lock_in_plan', () => {
     expect(state!.status).toBe('proposed');
   });
 
+  it('locks a solo trip in a crew with friends without asking them, until one takes a seat', async () => {
+    const traveller = await harness.signInAnonymously();
+    const crewmate = await harness.signInAnonymously();
+    const trip = await seedTrip(traveller, []);
+    await q('UPDATE trips SET is_solo = true, seat_cap = 1 WHERE id = $1', [trip.tripId]);
+    await q("INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')", [
+      trip.crewId,
+      crewmate.uid,
+    ]);
+    // Nobody to send it to: a proposal built for it holds no version for the crewmate.
+    await run(traveller, 'create_proposal', { trip_id: trip.tripId, config: {} });
+    const versions = await q<{ n: number }>(
+      'SELECT count(*)::int AS n FROM proposal_versions WHERE trip_id = $1',
+      [trip.tripId],
+    );
+    expect(versions[0]!.n).toBe(0);
+
+    // A crewmate who takes a seat on it is someone to ask: the trip for one became a trip for two.
+    await q('INSERT INTO trip_participants (trip_id, user_id) VALUES ($1, $2)', [
+      trip.tripId,
+      crewmate.uid,
+    ]);
+    const withFriend = await run(traveller, 'lock_in_plan', { trip_id: trip.tripId });
+    expect(withFriend.body.error).toMatchObject({
+      code: 'STATE_INVALID',
+      detail: { reason: 'has_recipients' },
+    });
+    await q('DELETE FROM trip_participants WHERE trip_id = $1 AND user_id = $2', [
+      trip.tripId,
+      crewmate.uid,
+    ]);
+
+    const locked = await run(traveller, 'lock_in_plan', { trip_id: trip.tripId });
+    expect(locked.status).toBe(200);
+    expect(locked.body.result).toMatchObject({ trip_status: 'confirmed' });
+    const asked = await q<{ n: number }>(
+      `SELECT count(*)::int AS n FROM messages WHERE trip_id = $1 AND type = 'proposal'`,
+      [trip.tripId],
+    );
+    expect(asked[0]!.n).toBe(0);
+    const seats = await q<{ user_id: string; rsvp: string }>(
+      'SELECT user_id, rsvp FROM trip_participants WHERE trip_id = $1',
+      [trip.tripId],
+    );
+    expect(seats).toEqual([{ user_id: traveller.uid, rsvp: 'in' }]);
+  });
+
   it('is organiser-only', async () => {
     const organiser = await harness.signInAnonymously();
     const friend = await harness.signInAnonymously();
