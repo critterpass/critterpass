@@ -3,7 +3,7 @@
  * without the guide's words, the guide still writing, failed, a late re-run, a traveller who
  * dropped out, a solo trip, a trip with no photos, expenses or kilometres, and offline. The page's
  * model is built from fixture rows by the screen's own builder; SHARE RECAP draws the real share
- * card, every other handler is a no-op.
+ * card, every other handler is a no-op. The year-later memory's scenes (3m-10) follow.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
@@ -12,6 +12,7 @@ import { readAward, readRecap, type RecapRow } from '../data/recap-rows';
 import { buildSummaryModel, type SummaryInput } from '../summary/summary-model';
 import { RecapShareSheet } from '../summary/share-sheet';
 import { SummaryView } from '../summary/summary-view';
+import { MEMORY_SCENES } from './memory-scenes';
 import { STORY_SCENES } from './story-scenes';
 import { awardRows, CARDS, FORM_ROWS, MAYA, ME, RECEIPT, recapRow, STATS } from './recap-fixtures';
 
@@ -115,6 +116,7 @@ export const RECAP_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   '3m-1-offline': () => <Scene offline />,
+  ...MEMORY_SCENES,
 };
 
 export const RECAP_SCENE_NAMES: readonly string[] = Object.keys(RECAP_SCENES);

@@ -29,7 +29,7 @@ import { SummaryView } from './summary-view';
 
 const UNIT_SQL = 'SELECT distance_unit FROM user_settings WHERE user_id = ?';
 
-function guideOf(slug: string | null): GuideId {
+export function guideOf(slug: string | null): GuideId {
   return slug !== null && isGuideStickerId(slug) ? slug : 'tokek';
 }
 
