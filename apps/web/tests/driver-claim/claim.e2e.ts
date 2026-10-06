@@ -53,7 +53,11 @@ test('lists him only with the WhatsApp code, then pauses and removes', async ({ 
 
 test('no thanks deletes the invite', async ({ page }) => {
   await page.goto(INVITE);
-  await page.getByRole('button', { name: /no thanks/i }).click();
+  const [posted] = await Promise.all([
+    page.waitForResponse((response) => response.request().method() === 'POST'),
+    page.getByRole('button', { name: /no thanks/i }).click(),
+  ]);
+  expect(posted.status(), await posted.text()).toBe(200);
   await expect(page.locator('h1')).toContainText('No problem');
 });
 
