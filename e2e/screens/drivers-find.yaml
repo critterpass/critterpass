@@ -1,0 +1,70 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the driver screens on the staging demo crew's Bali trip, named by design id:
+# 6a-2 find, 6b-1 ask, 6c-1 add, 6c-3 couldn't read, 6d-1 compare, 6f-1 private tours.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-drivers-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-drivers-lab'
+- tapOn:
+    id: 'drivers-lab-index'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-find'
+    timeout: 30000
+- takeScreenshot: en-6a-2-find-a-driver
+- back
+- tapOn:
+    id: 'drivers-lab-ask'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-ask'
+    timeout: 15000
+- takeScreenshot: en-6b-1-ask-for-me
+- back
+- tapOn:
+    id: 'drivers-lab-add'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-add'
+    timeout: 15000
+- takeScreenshot: en-6c-1-add-a-driver
+- back
+- tapOn:
+    id: 'drivers-lab-check'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-unread'
+    timeout: 15000
+- takeScreenshot: en-6c-3-couldnt-read
+- back
+- tapOn:
+    id: 'drivers-lab-compare'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-compare.*'
+    timeout: 30000
+- takeScreenshot: en-6d-1-compare
+- back
+- tapOn:
+    id: 'drivers-lab-tours'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-tours'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-tours-(link-klook|down)'
+    timeout: 30000
+- takeScreenshot: en-6f-1-private-tours

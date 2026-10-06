@@ -58,11 +58,21 @@ export async function loadBriefTarget(
   });
 }
 
+/** Today's spend (UTC) on briefs, link runs and home links: one cap covers the three. */
 export async function briefSpentTodayMicros(pool: pg.Pool, now: Date): Promise<number> {
   return withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{ micros: string }>(
-      `SELECT coalesce(sum(cost_micros), 0)::text AS micros FROM destination_briefs
-        WHERE requested_at >= date_trunc('day', $1::timestamptz AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'`,
+      `WITH day AS (
+         SELECT date_trunc('day', $1::timestamptz AT TIME ZONE 'UTC') AT TIME ZONE 'UTC' AS start
+       )
+       SELECT (
+         (SELECT coalesce(sum(cost_micros), 0) FROM destination_briefs, day
+           WHERE requested_at >= day.start)
+         + (SELECT coalesce(sum(cost_micros), 0) FROM destination_link_runs, day
+             WHERE requested_at >= day.start)
+         + (SELECT coalesce(sum(cost_micros), 0) FROM destination_home_links, day
+             WHERE requested_at >= day.start)
+       )::text AS micros`,
       [now],
     );
     return Number(rows[0]?.micros ?? 0);

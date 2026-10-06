@@ -24,6 +24,7 @@ import {
   type SessionResolver,
 } from '../commands/_framework/session';
 import { demoScenarioSchema, resetDemoInbox } from './demo-inbox';
+import { registerLiveMapSeed } from './demo-live-map';
 import { ensureDemoDinner, ensureUndoableGuideAction } from './demo-plan';
 import { ensureDemoVote } from './demo-vote';
 import { ensureDemoWorld } from './demo-world';
@@ -93,6 +94,7 @@ export function registerDevRoutes(app: OpenAPIHono<AppEnv>, deps: DevRouteDeps):
     deps.logger.info({ scenario, created: result.created }, 'demo world seeded');
     return c.json(result);
   });
+  registerLiveMapSeed(app, deps);
 }
 
 /** Mounts the seed route only outside production and only when the flag is on. */

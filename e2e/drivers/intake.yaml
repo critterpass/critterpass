@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# Add a driver on a real account: a pasted WhatsApp message is shared to the trip and read into a
+# card whose lines all start unconfirmed; CONFIRM stays locked until each line is checked. Needs
+# the driver commands on the api the build talks to (staging).
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-drivers-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-drivers-lab'
+- tapOn:
+    id: 'drivers-lab-add'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-add'
+    timeout: 30000
+- takeScreenshot: en-6c-1-add-a-driver
+- tapOn:
+    id: 'drivers-add-text'
+- inputText: 'Hi, Made here, driver in Ubud 12 yrs. Avanza 6 pax. Full day 10 hrs Rp 650k incl petrol + parking. English OK. WA +62 812 0000 0101'
+- hideKeyboard
+- tapOn:
+    id: 'drivers-add-read'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-(check|unread)'
+    timeout: 60000
+- takeScreenshot: en-6c-2-check-the-card
+- runFlow:
+    when:
+      visible:
+        id: 'drivers-check'
+    commands:
+      - assertVisible:
+          text: '(?i)confirm \d+ more'

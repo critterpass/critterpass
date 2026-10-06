@@ -165,11 +165,6 @@ critical_path_tasks: 253
 |---|---|---|
 | 6 Motion and feedback | 9/10 | cp-haptics Robolectric pin rides a native change |
 | 7 App shell and components | 17/18 | Android timeline tap (hitSlop past its block) |
-| 21 Links and deep links | 8/9 | iOS paste and in-app-browser flows, QA runbook, funnel test |
-| 22 Onboarding | 10/11 | `first-run-ios` rerun |
-| 24 Crew chat | 7/8 | `send-receive` and `report` reruns, iOS runs |
-| 25 Home, inbox, nudges | 8/9 | iOS `first-run`, `first-run-vi`, `all-caught-up` |
-| 26 Polls and destination vote | 11/12 | `pitch-to-board`, `search-guest-solo` reruns, iOS runs |
 | 28 Drafting agent | 10/11 | Viator availability check (partner approval) |
 | 35 Suppliers, rides, ops desk | 9/14 | Viator, Agoda, GYG, Klook, Trip.com adapters (partner approvals); concierge card, approve action, vendor-message flow |
 | 36 Trip hub and day-of | 10/11 | Seeded end-to-end flows and their seed script |
@@ -248,12 +243,12 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 18 | [Content factory](./phase-18-content-factory.md) | 13 | 4, 5, 13, 14, 17 | 7 | done |
 | 19 | [Analytics, experiments, observability](./phase-19-analytics-observability.md) | 10 | 1, 7, 8, 10, 11, 17 | 6 | done |
 | 20 | [Permissions, location, POI visits](./phase-20-permissions-location-visits.md) | 11 | 2, 7, 10, 11, 14 | 6 | done |
-| 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | in_progress (8/9) |
-| 22 | [Onboarding: passport, taste, avatar](./phase-22-onboarding-pass.md) | 11 | 5, 7, 9, 10, 18, 20, 21 | 8 | in_progress (10/11) |
+| 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | done |
+| 22 | [Onboarding: passport, taste, avatar](./phase-22-onboarding-pass.md) | 11 | 5, 7, 9, 10, 18, 20, 21 | 8 | done |
 | 23 | [Invites, crews, referral, seat cap](./phase-23-invites-crews-growth.md) | 10 | 12, 21, 22 | 9 | done |
-| 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | in_progress (7/8) |
-| 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | in_progress (8/9) |
-| 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | in_progress (11/12) |
+| 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | done |
+| 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | done |
+| 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | done |
 | 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | done |
 | 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 11 | 13, 16, 18, 27 | 14 | in_progress (10/11) |
 | 29 | [Plan views, editing, collab](./phase-29-plan-views-editing-collab.md) | 12 | 24, 26, 28 | 15 | done |
