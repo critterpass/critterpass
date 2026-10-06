@@ -174,10 +174,8 @@ describe('a trip with a second stop', () => {
 describe('a first draft of a trip with an essential day trip', () => {
   beforeAll(async () => {
     await harness.pool.query('DELETE FROM trip_stops WHERE trip_id = $1', [tripId]);
-    await harness.pool.query(
-      `UPDATE trips SET status = 'drafting', draft_version_id = NULL WHERE id = $1`,
-      [tripId],
-    );
+    // The draft saved above gave days 3 and 4 to Nara: this first draft starts from none.
+    await harness.pool.query('UPDATE trips SET draft_version_id = NULL WHERE id = $1', [tripId]);
     await harness.pool.query(
       `INSERT INTO destination_links (key, from_destination_id, to_destination_id, kind, minutes,
          mode, day_length, essential, origin)

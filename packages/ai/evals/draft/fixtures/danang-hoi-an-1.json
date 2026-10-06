@@ -1,0 +1,149 @@
+{
+ "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+ "calls": {
+  "skeleton": {
+   "status": 200,
+   "body": {
+    "id": "69255467-1fc8-4ae8-b7f0-4b7893b2be17",
+    "type": "message",
+    "role": "assistant",
+    "model": "deepseek-v4-pro",
+    "content": [
+     {
+      "type": "text",
+      "text": "{\n  \"stay_area\": \"Area B, near the river and My Khe Beach\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River lights and market bites\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p14\", \"p4\", \"p3\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Bà Nà Hills day trip\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p19\", \"p17\", \"p18\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Marble Mountains and coast\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p15\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
+     }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+     "input_tokens": 1231,
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 1792,
+     "output_tokens": 210,
+     "service_tier": "standard"
+    }
+   }
+  },
+  "g2:day-1": {
+   "status": 200,
+   "body": {
+    "id": "e0fcb458-7e4e-4ccb-a000-19e04e54bbb9",
+    "type": "message",
+    "role": "assistant",
+    "model": "deepseek-v4-pro",
+    "content": [
+     {
+      "type": "text",
+      "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old bridge has a little temple perched right on top, and the carvings have watched the river longer than any of us.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Incense coils hang like slow red clocks, and the Fujian carvers clearly never did anything halfway.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A merchant house that floods every few years, so the good furniture rides on pulleys and the family just shrugs.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Slippery fish, piles of herbs, ladies who can haggle in three languages before you blink.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Shredded chicken, turmeric rice, herbs, and a broth on the side. Simple, and somehow exactly right.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns stacked like candy, silk glowing in the dark, and the river full of little floating wishes.\"\n    }\n  ]\n}\n```"
+     }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+     "input_tokens": 595,
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 1536,
+     "output_tokens": 363,
+     "service_tier": "standard"
+    }
+   }
+  },
+  "day-2": {
+   "status": 200,
+   "body": {
+    "id": "0bdd7d54-1a60-4605-8639-115ddac7142e",
+    "type": "message",
+    "role": "assistant",
+    "model": "deepseek-v4-pro",
+    "content": [
+     {
+      "type": "text",
+      "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ride the cable up and let the mountain air do the talking. Half a day vanishes up here, so wander slow.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Giant stone hands lift the bridge into the mist. Bring the camera and a head for heights.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet pagoda tucked in the green. Light incense and let the view settle the mind.\"\n    }\n  ]\n}\n```"
+     }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+     "input_tokens": 319,
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 1536,
+     "output_tokens": 183,
+     "service_tier": "standard"
+    }
+   }
+  },
+  "day-3": {
+   "status": 200,
+   "body": {
+    "id": "17bfc3fc-ac55-4dd4-838d-0717309b7aa0",
+    "type": "message",
+    "role": "assistant",
+    "model": "deepseek-v4-pro",
+    "content": [
+     {
+      "type": "text",
+      "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the stone steps early, before the heat, and find the cave shrines tucked into the rock.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old sandstone dancers and gods, carved long before the city grew up around them.\"\n    },\n    {\n      \"poi_id\": \"p26\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A coconut coffee break between the museum and the river, just enough to reset the legs.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ride the big wheel as the light softens and the city spreads out below.\"\n    }\n  ]\n}\n```"
+     }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+     "input_tokens": 449,
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 1536,
+     "output_tokens": 227,
+     "service_tier": "standard"
+    }
+   }
+  },
+  "day-1": {
+   "status": 200,
+   "body": {
+    "id": "f6915c0a-3945-435d-9e5a-fc557fd6a2ef",
+    "type": "message",
+    "role": "assistant",
+    "model": "deepseek-v4-pro",
+    "content": [
+     {
+      "type": "text",
+      "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dive into the noisy heart of Con Market: herbs, fish sauce, and a snack you didn’t know you needed.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl of mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) to wake up the crew after the market.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Step inside the pink cathedral for a cool, quiet half hour and a photo that looks like a postcard.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crispy bánh xèo, fresh herbs, roll it up and let the fish sauce do the talking. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wait for the dragon to breathe fire over the river. Best free show in town, and I’ve seen it from the trees.\"\n    }\n  ]\n}\n```"
+     }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+     "input_tokens": 778,
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 1536,
+     "output_tokens": 329,
+     "service_tier": "standard"
+    }
+   }
+  },
+  "titles": {
+   "status": 200,
+   "body": {
+    "id": "eea00633-a352-4354-b3f3-d7787f057beb",
+    "type": "message",
+    "role": "assistant",
+    "model": "deepseek-flash",
+    "content": [
+     {
+      "type": "text",
+      "text": "2: Bà Nà Hills, the whole day\n2: A morning on Hải Vân Pass\n2: Madame Lân, a proper lunch\n2: The Golden Bridge in the afternoon\n2: A temple on Bà Nà\n2: Bún chả cá to finish the evening"
+     }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+     "input_tokens": 248,
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 896,
+     "output_tokens": 63,
+     "service_tier": "standard"
+    }
+   }
+  }
+ }
+}
