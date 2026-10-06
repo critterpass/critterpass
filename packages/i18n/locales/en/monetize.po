@@ -6,3 +6,870 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.no"
+msgstr "–"
+
+#. placeholder {0}: boost.destination
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.boost"
+msgstr "{0} boost"
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.onYou"
+msgstr "{destination} is boosted"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.ended"
+msgstr "{kind} · ended {until}"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.onUntil"
+msgstr "{kind} · on until {until}"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.lockedBy"
+msgstr "{lockedBy} is boosting this now"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.monthly"
+msgstr "{price} a month. Renews automatically every month until you cancel. Manage or cancel any time in {where}."
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.yearly"
+msgstr "{price} a year. Renews automatically every year until you cancel. Manage or cancel any time in {where}."
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.unlimited"
+msgstr "∞"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.guide.boost"
+msgstr "∞ on trip"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.yes"
+msgstr "✓"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.validMonth"
+msgstr "1 month"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.validYear"
+msgstr "12 months"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.seats.boost"
+msgstr "16"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.redrafts.free"
+msgstr "3 a trip"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.guide.free"
+msgstr "30 a day"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.seats.free"
+msgstr "6"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.once"
+msgstr "A boost is one trip, paid once. It doesn’t renew."
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.endedLine"
+msgstr "A boost only runs during a trip, so there is nothing to buy here."
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.icons.free"
+msgstr "A few"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.gift"
+msgstr "A GIFT"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.aMonth"
+msgstr "A month"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.aYear"
+msgstr "A year"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.aYearPerMonth"
+msgstr "A year · {perMonth}/mo"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.splitLineEach"
+msgstr "About {each} each goes into Balances, like any shared expense. Settle it with the rest of the trip."
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.admitted"
+msgstr "Admitted"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.after"
+msgstr "AFTER THE TRIP"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.icons.pass"
+msgstr "All"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.recovered"
+msgstr "All sorted"
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.waiting"
+msgstr "Almost there"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.boostLine"
+msgstr "Already paid, not affected"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.allYearLine"
+msgstr "Any trip {crew} plan for a year, plus Pass+ for you. Renews yearly."
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.inAppStore"
+msgstr "App Store"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.title"
+msgstr "Before you go"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.between"
+msgstr "BETWEEN TRIPS?"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.managePlay"
+msgstr "Billed by Google Play. Manage it there."
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.manageAppStore"
+msgstr "Billed by the App Store. Manage it on your iPhone."
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.mailbox"
+msgstr "Bookings from email"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusMailboxImport"
+msgstr "Bookings pulled from your email"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.boost"
+msgstr "Boost"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.buy"
+msgstr "Boost"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.title"
+msgstr "Boost {destination}"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.boostInstead"
+msgstr "Boost a trip instead"
+
+#. placeholder {0}: offer.priceString
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.buyFor"
+msgstr "Boost for {0}"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-screen.tsx
+msgid "monetize.boost.sheet"
+msgstr "Boost this trip"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.done"
+msgstr "Boosted"
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.stamp"
+msgstr "Boosted"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boosts"
+msgstr "BOOSTS"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.anyway"
+msgstr "Cancel anyway"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.cancel"
+msgstr "Cancel Pass+"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.change"
+msgstr "Change plan"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.checkAgain"
+msgstr "Check again"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.busy"
+msgstr "Checking your purchases…"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.checking"
+msgstr "Checking…"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.seats"
+msgstr "Crew size"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.year"
+msgstr "Crew yearly boost"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostSeats"
+msgstr "Crews of 16"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.note"
+msgstr "Critters are never for sale."
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.endedTag"
+msgstr "ENDED"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.ends"
+msgstr "Ends {date}"
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.chrome"
+msgstr "ENTRIES · ENTRÉES"
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.entry"
+msgstr "Entry"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.boostEyebrow"
+msgstr "Entry · For the crew"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.everyCrew"
+msgstr "Every crew"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusIconStyles"
+msgstr "Every icon style and avatar"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.allYear"
+msgstr "Every trip, all year"
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.splitLine"
+msgstr "Everyone’s share is in Balances, to settle with the rest of the trip."
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.finishing"
+msgstr "Finishing up"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.ftf"
+msgstr "First trip free"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.firstTripFree"
+msgstr "First trip free"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.fixPayment"
+msgstr "Fix the payment"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.passPlus"
+msgstr "Found Pass+. It’s back on."
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.free"
+msgstr "Free"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.free"
+msgstr "FREE"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.get"
+msgstr "Get Pass+"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.resubscribe"
+msgstr "Get Pass+ again"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.loading"
+msgstr "Getting prices from the store…"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.headline"
+msgstr "Go further than free"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.inPlay"
+msgstr "Google Play"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.play"
+msgstr "Google Play"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pausePlay"
+msgstr "Google Play can pause Pass+ for up to three months: no charges while it’s paused, and it starts again by itself."
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.guide"
+msgstr "Guide chat, voice, camera"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.holder"
+msgstr "Holder"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.cover"
+msgstr "I’ll cover it"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.icons"
+msgstr "Icon styles, avatars"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.staysUntil"
+msgstr "If you cancel, Pass+ stays on until {until}. Boosts are separate and stay on for the whole crew."
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.stays"
+msgstr "If you cancel, Pass+ stays on until the end of what you’ve paid for. Boosts are separate and stay on for the whole crew."
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.splitLine"
+msgstr "It splits {count} ways and each share goes into Balances, like any shared expense."
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.coverLine"
+msgstr "It’s on for the whole crew, on you."
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.doneLine"
+msgstr "It’s on for the whole crew."
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.keep"
+msgstr "Keep Pass+"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.liveMap"
+msgstr "Live crew map"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.manage"
+msgstr "Manage"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.line.monthly"
+msgstr "Monthly"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.monthly"
+msgstr "Monthly"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.monthly"
+msgstr "MONTHLY"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.monthlyRenews"
+msgstr "Monthly · renews {date}"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusNoSponsored"
+msgstr "No sponsored picks"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostNoSponsored"
+msgstr "No sponsored picks on the trip"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.none"
+msgstr "None"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.none"
+msgstr "Nothing to fix"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.nothing"
+msgstr "Nothing to restore on this store account."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.offTag"
+msgstr "Off"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.paymentFailed"
+msgstr "Off until the payment goes through"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.on"
+msgstr "ON"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.thisTripLine"
+msgstr "On until a week after you land"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.thisTripUntil"
+msgstr "On until a week after you land, {until}"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.lockedLine"
+msgstr "Only one of you can pay at a time. Check back in a few minutes."
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.page"
+msgstr "PAGE 07"
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.page"
+msgstr "PAGE 08"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.verifying"
+msgstr "Paid. Finishing up…"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.background"
+msgstr "Paid. We’re finishing in the background and it turns on by itself."
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.pass"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.expired"
+msgstr "Pass+ has ended"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.granted"
+msgstr "Pass+ is on"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.renews"
+msgstr "Pass+ renews automatically until you cancel. Manage or cancel any time in {where}."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.staysOn"
+msgstr "Pass+ stays on until"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.grantedUntil"
+msgstr "Pass+ until {date}"
+
+#. placeholder {0}: offer.priceString
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.visaLabelPriced"
+msgstr "Pass+ visa, {0}, holder {holder}"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.visaLabel"
+msgstr "Pass+ visa, holder {holder}"
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.visaLabel"
+msgstr "Pass+ visa, holder {name}"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseInPlay"
+msgstr "Pause in Google Play"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseTitle"
+msgstr "Pause instead"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseTitleTrip"
+msgstr "Pause until {trip} instead"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.paused"
+msgstr "Paused"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.pausedUntil"
+msgstr "Paused until {date}"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.payment"
+msgstr "Payment method"
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.pickIcon"
+msgstr "Pick a new icon"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusReadOut"
+msgstr "Pings and the evening roundup read out loud"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.privacy"
+msgstr "Privacy"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.noStore"
+msgstr "Purchases aren’t available yet, so there is nothing to buy or restore here."
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.unavailable"
+msgstr "Purchases aren’t available yet. Nothing can be charged from here."
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.redrafts"
+msgstr "Redrafts from the guide"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.restore"
+msgstr "Restore"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.restore"
+msgstr "Restore purchases"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.see"
+msgstr "See Pass+"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.sponsored.free"
+msgstr "Shown"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.locked"
+msgstr "Someone is boosting this now"
+
+#. placeholder {0}: props.seated.length
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.split"
+msgstr "Split {0} ways"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.sponsored"
+msgstr "Sponsored picks"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.terms"
+msgstr "Terms"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.appStore"
+msgstr "the App Store"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseAppStore"
+msgstr "The App Store has no pause. Turn off auto-renew there instead: no more charges, and you turn Pass+ back on from Your plan before you fly."
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.crewIn"
+msgstr "The crew’s in"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.free"
+msgstr "The free plan"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.grace"
+msgstr "The last payment didn’t go through"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.graceUntil"
+msgstr "The last payment didn’t go through · on until {date}"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostLiveMap"
+msgstr "The live crew map"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusNextFlight"
+msgstr "The next flight widget"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.title"
+msgstr "The payment didn’t go through"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.recoveredLine"
+msgstr "The payment went through and Pass+ is on."
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.empty"
+msgstr "The plan details aren’t on this phone yet. Open this again when you’re online."
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.afterLine"
+msgstr "The plan, album, recap and map trail stay forever. Unlimited redrafts and the live map pause until the next boost. Nobody gets removed from the crew."
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.failed"
+msgstr "The store didn’t take the payment. Nothing was charged."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.noneLine"
+msgstr "There is no payment waiting on you."
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.otherAccount"
+msgstr "These purchases belong to another CritterPass account. Sign in to that account to use them."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.fixPlay"
+msgstr "This plan is billed by Google Play. Update the payment there."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.fixAppStore"
+msgstr "This plan is billed by the App Store. Update the payment on your iPhone."
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.thisTrip"
+msgstr "This trip"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.boosted"
+msgstr "This trip is already boosted"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.ended"
+msgstr "This trip is over"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.trip"
+msgstr "Trip Boost"
+
+#. placeholder {0}: boost.priceString
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.boostTitle"
+msgstr "Trip boost · {0}"
+
+#. placeholder {0}: boost.priceString
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.boostLabel"
+msgstr "Trip boost, {0} for the crew"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.cancelled"
+msgstr "Trip cancelled? The boost moves to your next one."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.tryAgain"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseInAppStore"
+msgstr "Turn off auto-renew"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.turnBackOn"
+msgstr "Turn Pass+ back on"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusGuideUnlimited"
+msgstr "Unlimited guide chat, voice and camera"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostGuideUnlimited"
+msgstr "Unlimited guide for the whole crew on this trip"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostRedrafts"
+msgstr "Unlimited redrafts"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.boostedLine"
+msgstr "Unlimited redrafts, the live map and crews of 16 are on for everyone."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.update"
+msgstr "Update payment"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.valid"
+msgstr "Valid"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.visaEyebrow"
+msgstr "Visa · For you · Pour vous"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.chrome"
+msgstr "VISAS · VISAS · VISAS"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.freeLine"
+msgstr "Voting, planning, splitting money, offline maps and every critter are free."
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.note"
+msgstr "Voting, splitting money, offline maps and every critter stay free for everyone."
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.pending"
+msgstr "Waiting for approval. We’ll finish this when it clears; you can close this page."
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.failed"
+msgstr "We couldn’t check your purchases. Try again."
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.refused"
+msgstr "We couldn’t start the purchase. Nothing was charged; try again."
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.waitingLine"
+msgstr "We’re still confirming Pass+ with the store. It turns on by itself; nothing more to pay."
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.lose"
+msgstr "WHAT YOU’D LOSE"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.title"
+msgstr "What’s in each"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.compare"
+msgstr "What’s in each ›"
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.whoPays"
+msgstr "Who pays"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.cancelled"
+msgstr "Won’t renew"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.worksIn"
+msgstr "Works in"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.line.yearly"
+msgstr "Yearly"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.yearly"
+msgstr "Yearly"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.yearly"
+msgstr "YEARLY"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.yearlyRenews"
+msgstr "Yearly · renews {date}"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.havePass"
+msgstr "You have Pass+"
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.yourPlan"
+msgstr "You have Pass+ · Your plan"
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.title"
+msgstr "You’re in"
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.titleNamed"
+msgstr "You’re in, {name}"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.offline"
+msgstr "You’re offline. Connect to buy."
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.verifyFailed"
+msgstr "You’ve paid, but we couldn’t confirm it yet. There is nothing more to pay."
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.finishingLine"
+msgstr "You’ve paid. The boost turns on by itself in a moment; there is nothing more to do."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-banner.tsx
+msgid "monetize.issue.banner"
+msgstr "Your Pass+ payment needs a look"
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.off"
+msgstr "Your Pass+ renewal wasn’t paid, so Pass+ is off for now. It comes back as soon as the payment goes through."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.grace"
+msgstr "Your Pass+ renewal wasn’t paid. Everything stays on while you sort it with the store."
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.back"
+msgstr "Your plan"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.title"
+msgstr "Your plan"
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.found"
+msgstr "Your purchases are back."
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.yearly"
+msgstr "Your year is already paid, so there is nothing to pause. Cancelling only stops the next renewal."
