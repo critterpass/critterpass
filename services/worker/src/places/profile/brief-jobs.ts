@@ -58,7 +58,6 @@ export function destinationBriefJobs(
             destinationId: data.destination_id,
             ...(data.force === undefined ? {} : { force: data.force }),
             signal: job.signal,
-            jobId: job.id,
           });
           if (report.outcome === 'ready') {
             // The brief's places now lead the destination's picks: warm their profiles first.
@@ -88,7 +87,7 @@ export function destinationBriefJobs(
       schema: placesBriefTranslateJobSchema,
       singletonKey: (data) => placesBriefTranslateKey(data.destination_id, data.locale),
       concurrency: 2,
-      async handler(data, { pool, job }) {
+      async handler(data, { pool }) {
         const lines = await withSystem(pool, async (tx) => {
           const { rows } = await tx.query<{
             essentials: { why?: Record<string, string> }[];
@@ -102,9 +101,7 @@ export function destinationBriefJobs(
           return row === undefined ? [] : briefLines(row.essentials, row.eateries, data.locale);
         });
         if (lines.length === 0) return { skipped: 'nothing_to_translate' };
-        const translated = await translateBriefLines(deps.gateway, lines, data.locale, {
-          jobId: job.id,
-        });
+        const translated = await translateBriefLines(deps.gateway, lines, data.locale, {});
         const saved = await saveBriefTranslation(
           pool,
           data.destination_id,

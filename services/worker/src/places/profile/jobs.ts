@@ -123,7 +123,6 @@ export function placeProfileJobs(deps: PlaceProfileDeps | null): AnyJobDefinitio
             poiId: data.poi_id,
             ...(data.force === undefined ? {} : { force: data.force }),
             signal: job.signal,
-            jobId: job.id,
           });
           return { ...report };
         } catch (error) {
@@ -145,7 +144,7 @@ export function placeProfileJobs(deps: PlaceProfileDeps | null): AnyJobDefinitio
       schema: placesProfileTranslateJobSchema,
       singletonKey: (data) => placesProfileTranslateKey(data.poi_id, data.locale),
       concurrency: 4,
-      async handler(data, { pool, job }) {
+      async handler(data, { pool }) {
         const source = await withSystem(pool, async (tx) => {
           const { rows } = await tx.query<{ text: unknown }>(
             `SELECT texts->'en' AS text FROM place_profiles
@@ -155,9 +154,7 @@ export function placeProfileJobs(deps: PlaceProfileDeps | null): AnyJobDefinitio
           return rows[0] === undefined ? null : placeProfileTextSchema.safeParse(rows[0].text);
         });
         if (source === null || !source.success) return { skipped: 'no_source' };
-        const translated = await translatePlaceProfile(deps.gateway, source.data, data.locale, {
-          jobId: job.id,
-        });
+        const translated = await translatePlaceProfile(deps.gateway, source.data, data.locale, {});
         const saved = await saveProfileTranslation(
           pool,
           data.poi_id,
