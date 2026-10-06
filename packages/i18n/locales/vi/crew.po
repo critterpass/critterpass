@@ -166,6 +166,10 @@ msgstr "Đổi tên nhóm"
 msgid "crew.queued.notify"
 msgstr "Cài đặt thông báo của nhóm"
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.settings"
+msgstr "Cài đặt nhóm"
+
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.art"
 msgstr "Nhãn dán của nhóm"

@@ -10,7 +10,7 @@ import { currencyExponent, currencySymbol, isKnownCurrency } from '@cp/cost-engi
 import { format } from '@cp/i18n';
 
 import type { DayLeg } from '@/data/legs/day-legs';
-import { travelLegLabel, travelModeWord } from '@/data/areas/travel-line';
+import { travelLegLabel } from '@/data/areas/travel-line';
 
 import type { DayTag, TripDay } from './trip-days';
 
@@ -34,14 +34,18 @@ export function modeLabel(mode: DayLeg['mode']): string {
     case 'driver':
       return t({ id: 'plan.tripMap.leg.driver', message: 'Driver' });
     case 'drive':
-      return t({ id: 'plan.tripMap.leg.car', message: 'Car' });
-    case 'train':
-    case 'bus':
     case 'car':
-    case 'boat':
+      return t({ id: 'plan.tripMap.leg.car', message: 'Car' });
     case 'flight':
+      return t({ id: 'plan.tripMap.leg.flight', message: 'Flight' });
+    case 'train':
+      return t({ id: 'plan.tripMap.leg.train', message: 'Train' });
+    case 'bus':
+      return t({ id: 'plan.tripMap.leg.bus', message: 'Bus' });
+    case 'boat':
+      return t({ id: 'plan.tripMap.leg.boat', message: 'Boat' });
     case 'tour':
-      return travelModeWord(mode);
+      return t({ id: 'plan.tripMap.leg.tour', message: 'Tour' });
   }
 }
 

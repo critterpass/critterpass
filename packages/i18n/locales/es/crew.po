@@ -166,6 +166,10 @@ msgstr ""
 msgid "crew.queued.notify"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.settings"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.art"
 msgstr ""

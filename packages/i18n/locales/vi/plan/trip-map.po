@@ -179,8 +179,16 @@ msgid "plan.tripMap.cat.beaches"
 msgstr "Biển"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.boat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.booked"
 msgstr "Đã đặt"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.bus"
+msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.car"
@@ -268,6 +276,10 @@ msgstr "Xa"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.fill"
 msgstr "Lấp chỗ trống"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.flight"
+msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.food"
@@ -495,6 +507,14 @@ msgstr "TikTok, bài đăng, ảnh chụp màn hình"
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.tooFar"
 msgstr "Quá xa"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.tour"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.train"
+msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.vote"

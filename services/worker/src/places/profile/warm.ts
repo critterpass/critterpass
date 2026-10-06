@@ -31,7 +31,12 @@ export async function warmPlaces(
        ) top
        WHERE NOT coalesce(top.editorial ? 'why_go', false)
          AND top.category NOT IN ('transit', 'health')
-         AND NOT EXISTS (SELECT 1 FROM place_profiles pp WHERE pp.poi_id = top.id AND pp.basis = 'web')`,
+         AND NOT EXISTS (
+           SELECT 1 FROM place_profiles pp
+            WHERE pp.poi_id = top.id AND pp.basis = 'web'
+              -- A run stopped at an earlier day's spent cap is queued again.
+              AND NOT (pp.status = 'failed' AND pp.error = 'daily_cap'
+                       AND pp.updated_at < date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'))`,
       [destinationId, limit],
     );
     return rows.map((row) => row.id);

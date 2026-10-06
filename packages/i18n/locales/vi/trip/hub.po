@@ -140,6 +140,26 @@ msgstr "Đang được viết"
 msgid "trip.hub.tile.bookings"
 msgstr "Đặt chỗ"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelTitle"
+msgstr "Hủy chuyến đi này?"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancel"
+msgstr "Hủy chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelConfirm"
+msgstr "Hủy chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.calledOff"
+msgstr "đã hủy"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.cancelledGroup"
+msgstr "Đã hủy"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.planComing"
 msgstr "Sắp có"
@@ -155,6 +175,18 @@ msgstr "N"
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.dayOf"
 msgstr "Ngày {dayNo}/{days}"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteTitle"
+msgstr "Xóa chuyến đi này?"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.delete"
+msgstr "Xóa chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteConfirm"
+msgstr "Xóa chuyến đi"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.done"
@@ -175,6 +207,10 @@ msgstr "Khởi hành sớm"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.settled"
 msgstr "Hòa"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelTold"
+msgstr "Mọi người trong chuyến đều được báo."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.swipeDetailIdeas"
@@ -220,6 +256,18 @@ msgstr "Hạ cánh {time}"
 msgid "trip.hub.leaveByToday"
 msgstr "Xuất phát lúc"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveTitle"
+msgstr "Rời chuyến đi này?"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leave"
+msgstr "Rời chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveConfirm"
+msgstr "Rời chuyến đi"
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.leavingIn"
 msgstr "Khởi hành sau"
@@ -243,6 +291,10 @@ msgstr "Tiếp theo"
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.emptyTitle"
 msgstr "Chưa có chuyến nào"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteGone"
+msgstr "Chưa có ai khác tham gia nên chuyến sẽ mất hẳn: ngày đi, ý tưởng và bản nháp nếu có."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.notYet"
@@ -291,6 +343,10 @@ msgstr "Chỉ mình bạn thấy"
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.open"
 msgstr "Mở"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelBoost"
+msgstr "Các cuộc bình chọn đang mở sẽ đóng. Boost chuyển sang chuyến tiếp theo của bạn, hoặc được hoàn lại thành tín dụng."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.owed"
@@ -344,6 +400,10 @@ msgstr "Thiết lập chuyến đi"
 msgid "trip.list.settingUp"
 msgstr "đang thiết lập"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveMoney"
+msgstr "Chi phí chung được chia lại, không tính bạn."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.someone"
 msgstr "Ai đó"
@@ -365,6 +425,14 @@ msgstr "Đổi chuyến"
 msgid "trip.hub.takeOff"
 msgstr "Cất cánh sau"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.failed"
+msgstr "Chưa được. Thử lại khi có sóng nhé."
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelKept"
+msgstr "Trò chuyện, tiền, đặt chỗ và ảnh vẫn còn để xem."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
 msgstr "Đã chọn được điểm đến"
@@ -384,6 +452,10 @@ msgstr "Lịch trình đã gửi cho cả nhóm"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.planning"
 msgstr "Kế hoạch vẫn đang được soạn"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.stateChanged"
+msgstr "Chuyến đi đã thay đổi từ lúc bạn mở. Xem lại nhé."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.inTrip"
@@ -408,6 +480,10 @@ msgstr "Chuyến đi đã bị hủy"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.voting"
 msgstr "Đang mở bình chọn"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelledNote"
+msgstr "Chuyến đi này đã bị hủy. Trò chuyện, tiền, đặt chỗ và ảnh vẫn còn ở đây."
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.today"
@@ -454,6 +530,10 @@ msgstr "bạn nợ"
 msgid "trip.briefing.queued"
 msgstr "Bản tin của bạn"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteCrew"
+msgstr "Nhóm của bạn và cuộc trò chuyện vẫn còn."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.yourDraft"
 msgstr "Bản nháp của bạn đã xong"
@@ -461,6 +541,10 @@ msgstr "Bản nháp của bạn đã xong"
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr "Chuyến bay của bạn"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveSeat"
+msgstr "Chỗ của bạn sẽ dành cho người đang chờ tiếp theo."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.recapDetail"

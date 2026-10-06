@@ -7,6 +7,7 @@ import { knownHours } from '@cp/domain';
 import { isOutdoorCategory, type FitPlace } from '@cp/planner';
 import type pg from 'pg';
 
+import { asSystemRole } from '../../../admin/command';
 import { readCrowdWeeks } from './crowds';
 
 export interface PlaceRow {
@@ -57,6 +58,34 @@ async function readStances(tx: pg.PoolClient, tripId: string, poiIds: readonly s
 }
 
 /** Fit places for `poiIds` in a trip, with its plan's own items for places already in it. */
+/**
+ * On a trip of several areas, the one each place lies in: of the trip's areas whose place box holds
+ * it (or that own it), the smallest, so a day-trip area claims what lies inside its city's box too.
+ * A trip of one destination gets none, and every place may go on every day.
+ */
+async function readPlaceAreas(
+  tx: pg.PoolClient,
+  tripId: string,
+  ids: readonly string[],
+): Promise<Map<string, string>> {
+  // Place boxes are not the traveller's to read; the caller already checked the trip.
+  const { rows } = await asSystemRole(tx, () =>
+    tx.query<{ id: string; area_id: string | null }>(
+      `WITH areas AS (SELECT id FROM app.trip_area_ids($1, true) AS id)
+     SELECT p.id, (
+              SELECT d.id FROM areas a JOIN destinations d ON d.id = a.id
+               WHERE ST_Intersects(p.location, d.place_bounds) OR p.destination_id = d.id
+               ORDER BY ST_Intersects(p.location, d.place_bounds) DESC NULLS LAST,
+                        ST_Area(d.place_bounds) NULLS LAST, d.id
+               LIMIT 1) AS area_id
+       FROM pois p
+      WHERE p.id = ANY($2::uuid[]) AND (SELECT count(*) FROM areas) > 1`,
+      [tripId, ids],
+    ),
+  );
+  return new Map(rows.flatMap((row) => (row.area_id === null ? [] : [[row.id, row.area_id]])));
+}
+
 export async function readFitPlaces(
   tx: pg.PoolClient,
   tripId: string,
@@ -65,9 +94,10 @@ export async function readFitPlaces(
 ): Promise<FitPlaceFacts[]> {
   const rows = await readPlaceRows(tx, poiIds);
   const ids = rows.map((row) => row.id);
-  const [crowds, stances] = await Promise.all([
+  const [crowds, stances, areas] = await Promise.all([
     readCrowdWeeks(tx, ids),
     readStances(tx, tripId, ids),
+    readPlaceAreas(tx, tripId, ids),
   ]);
   return rows.map((row) => ({
     row,
@@ -85,6 +115,7 @@ export async function readFitPlaces(
       tags: row.tags,
       bestTimeText: row.best_time_text,
       stableId: inPlan.get(row.id) ?? null,
+      areaId: areas.get(row.id) ?? null,
     },
   }));
 }

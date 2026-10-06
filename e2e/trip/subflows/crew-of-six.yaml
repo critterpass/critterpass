@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# Fills the device's trip with five simulated travellers (tools/scripts/seed-trip-day.ts, started
+# by the shard's runner): each signs up through the api and joins with the crew code in
+# ${output.crewCode}, which puts them on the trip. Waits until the script says they all joined.
+# Runner: /scenario starts it, /scenario-output answers 200 once it is done.
+- evalScript: "${output.seedStarted = http.post('http://127.0.0.1:7788/scenario?name=trip-day&code=' + output.crewCode, { body: '{}' }).status}"
+- assertTrue: ${output.seedStarted == 202}
+- evalScript: ${output.seeded = 202}
+- repeat:
+    times: 40
+    while:
+      true: ${output.seeded == 202}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'runner-scenario-never-shown'
+          timeout: 3000
+          optional: true
+      - evalScript: "${output.seeded = http.get('http://127.0.0.1:7788/scenario-output?name=trip-day').status}"
+- assertTrue: ${output.seeded == 200}

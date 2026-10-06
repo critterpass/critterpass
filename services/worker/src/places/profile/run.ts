@@ -3,8 +3,10 @@
  * the top two pages, and the photos start together; only the write waits for the pages. The
  * checked text is saved (and readable) as soon as the write is done; the second source runs only
  * when the write proposed a fee, hours or a closure for a kind that has them, and the photos land
- * last. A reviewed note always wins: such a place, a skipped kind, an existing profile (unless
- * forced) or a spent daily cap ends the run before anything is called.
+ * last: they are downloaded only once the profile is accepted, so a declined run stores none. A
+ * reviewed note always wins: such a place, a skipped kind, an existing profile (unless forced) or a
+ * spent daily cap ends the run before anything is called; a spent cap is marked on the place so
+ * its readers queue nothing more until the cap resets at midnight UTC.
  */
 import {
   buildPlaceProfileRequest,
@@ -32,11 +34,11 @@ import {
 import type pg from 'pg';
 
 import type { AvatarMediaStore } from '../../jobs/avatar/media-store';
-import { findPhotos, gatherPages, profilePlace } from './evidence';
-import type { StoredPhoto } from './photos';
-import type { PlaceSearch } from './search';
+import { findPhotoHits, gatherPages, keepPhotos, profilePlace } from './evidence';
+import type { ImageHit, PlaceSearch } from './search';
 import {
   loadProfileTarget,
+  markCapped,
   markRunEnded,
   markRunStarted,
   saveProfileFacts,
@@ -108,6 +110,7 @@ export async function runPlaceProfile(
     target === null ? 0 : await spentTodayMicros(pool, now()),
     deps.dailyCapMicros,
   );
+  if (skip === 'daily_cap' && target !== null) await markCapped(pool, target.id, now());
   if (skip !== null || target === null) return { outcome: 'skipped', reason: skip ?? 'missing' };
 
   await markRunStarted(pool, target.id, now());
@@ -129,7 +132,7 @@ export async function runPlaceProfile(
     },
     usage,
   ).catch(() => null);
-  const photosP = findPhotos(target, deps, signal).catch(() => [] as StoredPhoto[]);
+  const hitsP = findPhotoHits(target, deps, signal).catch(() => [] as ImageHit[]);
 
   const pages = await gatherPages(target, deps, signal);
   const searchSeconds = seconds(started);
@@ -214,7 +217,7 @@ export async function runPlaceProfile(
     });
   }
 
-  const photos = await photosP;
+  const photos = await keepPhotos(target.id, await hitsP, deps, signal).catch(() => []);
   await saveProfilePhotos(pool, target.id, photos, { photos_s: seconds(started) });
   return {
     outcome: 'ready',

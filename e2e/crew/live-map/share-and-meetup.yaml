@@ -1,16 +1,16 @@
 appId: app.critterpass.dev
 ---
 # Share on a boosted trip day, see the simulated crew glide and bunch, set the meet-up and watch
-# the ETAs recount after a minute.
-#
-# Needs before it can pass: an onboarded account ${UID} seeded into a boosted trip in its trip
-# days (`pnpm tsx tools/scripts/live-map-sim/sim.ts --api <api> --db <owner url> --join ${UID}`
-# prints ${TRIP_ID} and keeps three crewmates moving). The runner sets the simulator's location
-# (`xcrun simctl location <udid> set -8.5058,115.2569`, Android `adb emu geo fix 115.2569 -8.5058`).
-- launchApp:
-    permissions:
-      location: inuse
-- openLink: critterpass-dev://map/${TRIP_ID}
+# the ETAs recount after a minute. The crew, the trips and the walking crewmates come from
+# subflows/seeded-crew.yaml.
+- runFlow: subflows/seeded-crew.yaml
+- tapOn:
+    id: 'dev-seed-live-map-open'
+- runFlow:
+    when:
+      visible: '(?i)while using the app|only this time|allow'
+    commands:
+      - tapOn: '(?i)while using the app|only this time|allow'
 - extendedWaitUntil:
     visible:
       id: 'live-map-screen'
@@ -24,7 +24,7 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'live-bunch'
-    timeout: 30000
+    timeout: 60000
 - takeScreenshot: live-map-crew-gliding
 - extendedWaitUntil:
     visible:

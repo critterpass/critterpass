@@ -32,6 +32,7 @@ import { exploreEntry, hubEntries, swipeEntry } from './hub-next';
 import { hubPlanning, planTileBeforeSend, planVoteEntry } from './hub-turn';
 import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
+import { useTripMenu } from './trip-menu';
 
 /** Today's saved day has every file it names (the BOOKINGS tile says "all offline"). */
 function todayComplete(data: string): boolean {
@@ -104,6 +105,13 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   );
   const onAct = useBriefingActions(names);
   const trip = rows.trip;
+  // No role until the trip row is in: the menu offers nothing while it loads.
+  const menu = useTripMenu({
+    tripId,
+    status: trip?.status ?? '',
+    role: trip?.role ?? null,
+    me,
+  });
   const mediaLowData = useMediaLowData();
   const heroMedia = useDestinationMedia(trip?.destination_slug ?? null, {
     prefetch: !mediaLowData,
@@ -271,6 +279,8 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       )}
       onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}
+      menu={menu.foot}
+      menuSheet={menu.sheet}
     />
   );
 }

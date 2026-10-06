@@ -10,6 +10,17 @@ const PAGE_CHARS = 7_000;
 const MIN_PAGE_CHARS = 300;
 const MAX_HTML_BYTES = 3 * 1024 * 1024;
 
+const ENTITIES: Readonly<Record<string, string>> = {
+  ndash: '–',
+  mdash: '—',
+  lsquo: '‘',
+  rsquo: '’',
+  ldquo: '“',
+  rdquo: '”',
+  hellip: '…',
+  frac12: '½',
+};
+
 const fold = (text: string) =>
   text.normalize('NFKD').replace(/\p{M}/gu, '').replace(/đ/giu, 'd').toLowerCase();
 
@@ -36,6 +47,10 @@ export function htmlText(html: string): { title: string; text: string } {
     .replace(/&amp;/gu, '&')
     .replace(/&quot;/gu, '"')
     .replace(/&#39;|&apos;/gu, "'")
+    .replace(/&(ndash|mdash|lsquo|rsquo|ldquo|rdquo|hellip|frac12);/gu, (_, name: string) =>
+      String(ENTITIES[name]),
+    )
+    .replace(/&#x([0-9a-f]{1,6});/giu, (_, n: string) => String.fromCodePoint(parseInt(n, 16)))
     .replace(/&#(\d+);/gu, (_, n: string) => String.fromCodePoint(Number(n)));
   return { title, text };
 }

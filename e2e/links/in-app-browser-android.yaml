@@ -1,0 +1,52 @@
+appId: app.critterpass.dev
+---
+# A link that opened in a browser instead of the app (what Instagram's or Facebook's in-app browser
+# does with every link): the handoff page shows the live crew invite with its code and the join
+# button, and the code it shows joins that crew from the app's splash. The Instagram escape sheet
+# itself is checked in the web suite (an in-app browser's user agent) and on real phones
+# (docs/runbooks/deep-link-qa.md).
+- runFlow:
+    file: ../happy/subflows/crew-with-code.yaml
+    env:
+      CREW: 'Browser Crew'
+- openLink:
+    link: https://staging.critterpass.app/i/${output.crewCode}
+    browser: true
+# Chrome's first run on a fresh emulator: skip sign-in, accept, no sync, no notifications.
+- runFlow:
+    when:
+      visible: '(?i)use without an account|accept & continue|no thanks'
+    commands:
+      - runFlow:
+          when:
+            visible: '(?i)use without an account'
+          commands:
+            - tapOn: '(?i)use without an account'
+      - runFlow:
+          when:
+            visible: '(?i)accept & continue'
+          commands:
+            - tapOn: '(?i)accept & continue'
+      - runFlow:
+          when:
+            visible: '(?i)no thanks'
+          commands:
+            - tapOn: '(?i)no thanks'
+- runFlow:
+    when:
+      visible: '(?i)don.t allow'
+    commands:
+      - tapOn: '(?i)don.t allow'
+- extendedWaitUntil:
+    visible: '(?i).*you.re invited.*'
+    timeout: 60000
+- assertVisible: '(?i).*join browser crew.*'
+- assertVisible: '(?i).*your invite code.*'
+- waitForAnimationToEnd
+- takeScreenshot: links-browser-handoff
+# Back in the app: a friend on a new phone types the code the page showed.
+- launchApp
+- runFlow:
+    file: ../happy/subflows/join-by-code.yaml
+    env:
+      PREFIX: en

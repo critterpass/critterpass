@@ -1,5 +1,6 @@
 /**
- * The trip switcher from props: one row per trip, or a way back to Home when there is none.
+ * The trip switcher from props: one row per trip (called-off trips grouped under "Cancelled"), or
+ * a way back to Home when there is none.
  */
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
@@ -72,6 +73,8 @@ export function TripListView({ state, trips, onOpen, onHome }: TripListViewProps
       </Scaffold>
     );
   }
+  const live = trips.filter((trip) => trip.status !== 'cancelled');
+  const cancelled = trips.filter((trip) => trip.status === 'cancelled');
   return (
     <Scaffold variant="dark" edges={['top']} testID="trip-list">
       <ScrollView
@@ -84,7 +87,21 @@ export function TripListView({ state, trips, onOpen, onHome }: TripListViewProps
           <Text variant="h1" accessibilityRole="header">
             {t({ id: 'trip.list.title', message: 'Your trips' })}
           </Text>
-          {trips.map((trip) => (
+          {live.map((trip) => (
+            <TripRow key={trip.id} trip={trip} onPress={() => onOpen(trip.id)} />
+          ))}
+          {cancelled.length === 0 ? null : (
+            <Text
+              variant="eyebrow"
+              color={theme.semantic.text.secondary}
+              accessibilityRole="header"
+              style={{ marginTop: theme.space['12'] }}
+              testID="trip-list-cancelled"
+            >
+              {t({ id: 'trip.list.cancelledGroup', message: 'Cancelled' })}
+            </Text>
+          )}
+          {cancelled.map((trip) => (
             <TripRow key={trip.id} trip={trip} onPress={() => onOpen(trip.id)} />
           ))}
         </Stack>

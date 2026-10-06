@@ -1,0 +1,99 @@
+appId: app.critterpass.dev
+---
+# A trip day with no signal: the trip (a crew of six, on today) keeps working from what the phone
+# holds. With Wi-Fi and data off the day-of screen says it is offline, an item added to the pack
+# list waits on the phone, and the hub's offline card opens today's plan with its stops (the trip's
+# places travel with the trip as cards, so nothing is fetched). Back online, the queued item goes through and is still
+# there after a relaunch. Android only: the runner cuts the emulator's network (/network).
+- runFlow:
+    file: ../subflows/today-with-crew.yaml
+    env:
+      SHOTS: offline
+      CREW_NAME: 'Offline Crew'
+# Runner: Wi-Fi and data off.
+- evalScript: "${output.cut = http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}"
+- assertTrue: ${output.cut == 200}
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-offline'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: offline-day-of
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-pack-add'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'trip-day-pack-add'
+- tapOn:
+    id: 'trip-day-pack-input'
+- inputText: 'Raincoat'
+- pressKey: Enter
+- extendedWaitUntil:
+    visible:
+      text: 'RAINCOAT|Raincoat, just you'
+    timeout: 10000
+# The hub's offline card lists what waits to send, and opens today's plan from the phone alone.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-offline-card'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-offline-send-.*'
+    direction: DOWN
+    timeout: 10000
+- assertVisible: '.*Raincoat.*'
+- waitForAnimationToEnd
+- takeScreenshot: offline-hub-sends
+- scrollUntilVisible:
+    element:
+      id: 'trip-offline-open-plan'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'trip-offline-open-plan'
+# Today's plan is the day-of screen: its stops come from the phone, under the NO SIGNAL pill.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-offline'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-item-.*'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: offline-day-plan
+# Runner: back online.
+- evalScript: "${output.restored = http.post('http://127.0.0.1:7788/network?state=on', { body: '{}' }).status}"
+- assertTrue: ${output.restored == 200}
+- extendedWaitUntil:
+    notVisible:
+      id: 'trip-offline-send-.*'
+    timeout: 90000
+- waitForAnimationToEnd
+- takeScreenshot: offline-back
+- launchApp
+- runFlow: ../subflows/to-hub.yaml
+- tapOn:
+    id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- scrollUntilVisible:
+    element:
+      text: 'RAINCOAT|Raincoat, just you'
+    direction: DOWN
+    timeout: 20000

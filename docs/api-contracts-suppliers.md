@@ -21,6 +21,11 @@ Status: contract for suppliers (P35) and bookings (P34). Stack: Hono + Zod opena
 | `request_concierge` | `{task_id, trip_id, kind: clinic\|vendor\|other, text}` (human hand-off; one task per `task_id`) | participant | – | `concierge.requested` | A | 35 |
 | `log_ride` (doc delta) | `{ride_id, trip_id, leg_ref, provider, amount_minor?, currency?, attendee_ids?, expense_id?, quote_id?}` → `rides` + optional split expense (`source=ride`) | participant | – | `ride.logged` | A, O | 35 |
 | `set_entry_reminder` (doc delta) | `{trip_id, must_do_id, closes_at, results_at?, url}` → a reminder per participant a day before close and at results (`setup.lottery_remind` timers); never enters anyone | participant | – | `lottery.reminders_set` | A, O | 35 |
+| `share_provider_intake` (doc delta) | `{intake_id, trip_id, kind: text\|link\|image\|contact, text}` (offline; an image is shared as the phone's reading of it) | member | – | – | A | 55 |
+| `confirm_provider_fields` (doc delta) | `{provider_id, trip_id, intake_id?, card, confirmed[]}`: every line with a value must be confirmed (`VALIDATION unconfirmed {fields}`), then `providers` (kind driver, number sealed) + `provider_terms` | member | – | – | A | 55 |
+| `shortlist_provider` (doc delta) | `{provider_id, trip_id, supplier: klook\|viator, product_id, price_minor, currency, price_unit: car\|group, included_hours, seats}`: product id and shown price only | member | – | – | A | 55 |
+| `assign_provider` (doc delta) | `{trip_id, provider_id, days[{date, window_start, window_end, pickup}]}` → `provider_assignments` with the agreed terms; a day set on another driver answers `STATE_INVALID day_taken {dates}` | member | – | – | A | 55 |
+| `dismiss_pickup_gap` (doc delta) | `{trip_id, date}` (offline): NOT NOW for the caller only | member | – | – | A | 55 |
 
 Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no ride commands, no live driver. `request_vendor_message` answers `channel: self_send` with a `wa.me` share link while the desk's WhatsApp Business number (`whatsapp_business` partner switch) is off. Travellers read their threads at `GET /v1/trips/{trip_id}/vendor-threads`; WhatsApp replies for the desk number arrive at `/webhooks/whatsapp/vendor` (its own Meta app).
 
@@ -54,6 +59,12 @@ Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no rid
 - **Tariff data:** the `ride_tariffs` content kind. It is built by the content factory (`pnpm content ride_tariffs run`) from hand-researched records, and reviewed and approved in the console like every batch. The api reads the live release (`reviewed: true`), or else the newest batch still in review (`reviewed: false`).
 
 ## Routes (supplier order flow and attribution)
+
+### Drivers (doc delta)
+
+- `GET /v1/drivers?trip_id=`: the trip's shared driver messages (never synced: they carry a third party's number) and the shortlist with each driver's number opened for the crew.
+- `POST /v1/drivers/intake/{id}/read` → `{intake_id, status: parsed|failed, parsed: {card, spans, unreadable, cut_off}}` (route `provider.extract`; a field whose quoted words are not in the message is dropped, and a phone number only survives when its digits are there).
+- `GET /v1/drivers/private-tours?trip_id&days` → `{area, people, cards[], supplier_down, links[{partner, api, target}]}`: Viator cards verbatim when its switch is on and a destination ref is given, never stored; otherwise link rows that open through `record_supplier_click`.
 
 ### Affiliate attribution bridge
 

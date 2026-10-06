@@ -21,6 +21,7 @@ import {
   type SessionResolver,
 } from '../commands/_framework/session';
 import { registerIdeaRoutes } from './ideas';
+import { registerTrackerWebhook, trackerWebhookConfig } from './webhooks/tracker';
 
 /** Turns a search into one embedding; none is configured until an embedding vendor is chosen. */
 export interface QueryEmbedder {
@@ -137,9 +138,15 @@ export async function searchHelpArticles(
   return { articles: rows, locale, fallback: locale !== input.locale };
 }
 
-/** The help centre's reads: article search, and the idea board's crewmates and look-alikes. */
+/**
+ * The help centre's reads (article search, the idea board's crewmates and look-alikes) and the
+ * feedback tracker's webhook.
+ */
 export function registerHelpArticleRoutes(app: OpenAPIHono<AppEnv>, deps: HelpArticleDeps): void {
   registerIdeaRoutes(app, deps);
+  // The feedback tracker's webhook exists only when its repository and signing secret are set.
+  const tracker = trackerWebhookConfig(process.env);
+  if (tracker !== undefined) registerTrackerWebhook(app, { pool: deps.pool, ...tracker });
   app.get('/v1/help/articles', async (c) => {
     const { uid } = await requireCommandSession(deps.sessions, c.req.raw.headers);
     await enforceUidRateLimit(deps.redis, 'help_search', uid, SEARCHES_PER_UID_RULE);

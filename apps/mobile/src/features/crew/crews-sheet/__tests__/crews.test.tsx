@@ -183,6 +183,16 @@ describe('3g-3 your crews', () => {
     expect(screen.getByText('Dev invited you')).toBeTruthy();
   });
 
+  it("opens a crew's settings from its card without switching crews", async () => {
+    stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
+    await seed(stack.db);
+    await renderCrew(<CrewsSheet />);
+    await fireEvent.press(await screen.findByTestId(`crew-card-settings-${UNI}`));
+    expect(router.push).toHaveBeenCalledWith(`/crew/${UNI}/settings`);
+    expect(router.back).not.toHaveBeenCalled();
+    expect(await queuedPayload('set_active_crew')).toBeUndefined();
+  });
+
   it('switches the active crew through the offline queue and closes', async () => {
     stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
     await seed(stack.db);

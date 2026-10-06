@@ -14,6 +14,8 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 import { RegionPackCardView } from '../components/region-pack-card';
 import { useOfflinePack } from '../data/use-offline-pack';
 import { guideFor } from '../format';
+import { useBrowsePhotos } from '../map-queries';
+import { withProfileTiles } from '../profile-photo';
 import type { PlacesFilter } from './places-model';
 import { PlacesMapView } from './places-map-view';
 import { addToPlanHref, placeHref, searchHref, useCanAddToPlan } from './places-nav';
@@ -68,7 +70,10 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
   const today = useMemo(() => toLocalWallTime(new Date(), data.tz ?? 'UTC').date, [data.tz]);
   const poiOf = (id: string) => places.find((entry) => entry.id === id)?.poiId ?? id;
   const downloaded = pack.status === 'downloaded' || pack.status === 'checking';
-  const photos = usePlaceTilePhotos(asked);
+  const assets = usePlaceTilePhotos(asked);
+  // A place whose photos live in its AI profile shows the first of them, from the browse.
+  const profilePhotos = useBrowsePhotos(data.destinationId);
+  const photos = useMemo(() => withProfileTiles(assets, profilePhotos), [assets, profilePhotos]);
   return (
     <PlacesMapView
       inTrip={tripId !== null}

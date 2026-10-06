@@ -179,8 +179,16 @@ msgid "plan.tripMap.cat.beaches"
 msgstr "Beaches"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.boat"
+msgstr "Boat"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.booked"
 msgstr "Booked"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.bus"
+msgstr "Bus"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.car"
@@ -268,6 +276,10 @@ msgstr "Far"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.fill"
 msgstr "Fill it"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.flight"
+msgstr "Flight"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.food"
@@ -495,6 +507,14 @@ msgstr "TikToks, posts, screenshots"
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.tooFar"
 msgstr "Too far"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.tour"
+msgstr "Tour"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.train"
+msgstr "Train"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.vote"

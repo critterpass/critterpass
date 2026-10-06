@@ -8,6 +8,7 @@ import { FEEDBACK_CATEGORIES, FEEDBACK_MOODS, FEEDBACK_SOURCES } from './schemas
 
 export const HELP_EVENT_TYPES = [
   'feedback.submitted',
+  'feedback.fix_shipped',
   'idea.submitted',
   'idea.voted',
   'idea.unvoted',
@@ -26,6 +27,12 @@ export const HELP_EVENT_PAYLOADS = {
     category: z.enum(FEEDBACK_CATEGORIES).nullable(),
     source: z.enum(FEEDBACK_SOURCES),
     attachments: z.number().int(),
+  }),
+  'feedback.fix_shipped': z.object({
+    ticket_id: z.uuid(),
+    ticket_no: z.number().int(),
+    user_id: z.uuid(),
+    fixed_in_version: z.string().nullable(),
   }),
   'idea.submitted': z.object({ idea_id: z.uuid(), author_id: z.uuid(), locale: z.string() }),
   'idea.voted': vote,

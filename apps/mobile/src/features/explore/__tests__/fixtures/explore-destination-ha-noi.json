@@ -1,0 +1,92 @@
+{
+  "destination": {
+    "id": "01a0ed04-5222-738d-a7ad-238d31bc69cb",
+    "slug": "vn-ha-noi",
+    "name": "Hà Nội",
+    "currency": "VND",
+    "tz": "Asia/Ho_Chi_Minh"
+  },
+  "month": "2026-11",
+  "curve": null,
+  "best_months": [],
+  "highlights": [],
+  "events": [],
+  "fares": [],
+  "fx": null,
+  "trip_id": null,
+  "origins": [],
+  "home_airport_missing": false,
+  "picks": [
+    {
+      "kind": "organic",
+      "item": {
+        "poi_id": "01a10bbd-57a2-79e8-a27a-65474a5e1716",
+        "name": "Hoan Kiem Lake",
+        "name_local": null,
+        "category": "nature",
+        "tags": [],
+        "must_see": false,
+        "taste_matches": 0,
+        "photo": {
+          "url": "https://media.staging.critterpass.app/c/place-profiles/01a10bbd-57a2-79e8-a27a-65474a5e1716/1.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Ho_hoan_kiem_toa_nha_vnpt.jpg"
+        },
+        "why_go": null
+      }
+    },
+    {
+      "kind": "organic",
+      "item": {
+        "poi_id": "01a10bb7-5851-76be-a070-91d243e625c9",
+        "name": "Đền Ngọc Sơn",
+        "name_local": "Đền Ngọc Sơn",
+        "category": "temple_shrine",
+        "tags": [],
+        "must_see": false,
+        "taste_matches": 0,
+        "photo": {
+          "url": "https://media.staging.critterpass.app/c/place-profiles/01a10bb7-5851-76be-a070-91d243e625c9/1.jpg",
+          "source_page": "https://andole.vn/van-khan-den-ngoc-son-huong-dan-chi-tiet-va-y-nghia-tam-linh.-n150446.html"
+        },
+        "why_go": null
+      }
+    },
+    {
+      "kind": "organic",
+      "item": {
+        "poi_id": "01a10bb7-5cd7-74b9-b7f8-dad3566678ee",
+        "name": "Turtle Tower (Tháp Rùa)",
+        "name_local": null,
+        "category": "temple_shrine",
+        "tags": [],
+        "must_see": false,
+        "taste_matches": 0,
+        "photo": {
+          "url": "https://media.staging.critterpass.app/c/place-profiles/01a10bb7-5cd7-74b9-b7f8-dad3566678ee/1.jpg",
+          "source_page": "https://www.alamy.com/turtle-tower-tortoise-tower-thp-ra-hon-kim-lake-sword-lake-hanoi-h-ni-vietnam-asia-image508330110.html"
+        },
+        "why_go": null
+      }
+    },
+    {
+      "kind": "organic",
+      "item": {
+        "poi_id": "01a10bb7-5858-7fe8-a9b4-b6eb7226dc71",
+        "name": "Chùa Một Cột (One Pillar Pagoda)",
+        "name_local": null,
+        "category": "temple_shrine",
+        "tags": [],
+        "must_see": false,
+        "taste_matches": 0,
+        "photo": null,
+        "why_go": null
+      }
+    }
+  ],
+  "cover": {
+    "url": "https://media.staging.critterpass.app/c/place-profiles/01a10bbd-57a2-79e8-a27a-65474a5e1716/1.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Ho_hoan_kiem_toa_nha_vnpt.jpg",
+    "poi_id": "01a10bbd-57a2-79e8-a27a-65474a5e1716",
+    "name": "Hoan Kiem Lake"
+  }
+}

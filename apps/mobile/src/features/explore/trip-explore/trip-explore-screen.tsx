@@ -24,6 +24,7 @@ import { guideFor, poiSubject } from '../format';
 import { guideTagline } from '../guide-copy';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { usePlannedPlaces } from '../map-queries';
+import { coverMedia, pickPhoto } from '../profile-photo';
 import { categoryIcon } from '../category';
 import { dayTripsSection } from '../day-trips/day-trips-model';
 import { dayTripLinks } from '../day-trips/links';
@@ -67,7 +68,8 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
   const name = row?.name ?? data?.destination.name ?? '';
   const slug = row?.slug ?? data?.destination.slug ?? null;
   const guide = guideFor(trip?.guide_slug ?? row?.guide_slug);
-  const photo = heroAt(useDestinationMedia(slug).items);
+  // The curated cover; a destination without one shows a pick's photo, credited.
+  const photo = heroAt(useDestinationMedia(slug).items) ?? coverMedia(data?.cover);
   const sync = useSyncStatus();
   const online = sync.phase !== 'offline';
 
@@ -137,7 +139,11 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
     id: pick.poiId,
     name: pick.name,
     category: pick.category,
-    photo: pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poiId))) ?? null,
+    photo: pickPhoto(
+      pick.poiId,
+      pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poiId))),
+      data?.pick_photos[pick.poiId],
+    ),
     sponsored:
       pick.sponsored === null
         ? undefined

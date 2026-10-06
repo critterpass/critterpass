@@ -24,6 +24,7 @@ export const PLACES_QUEUES = {
   tripRefresh: 'places.trip_refresh',
   destinationBrief: 'places.destination_brief',
   briefTranslate: 'places.brief_translate',
+  homeLink: 'places.home_link',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -101,6 +102,13 @@ export const PLACES_QUEUE_SPECS = {
     retryDelay: 30,
     expireInSeconds: 2 * 60,
   },
+  // Keyed by home city and destination: one run at a time per pair of places.
+  'places.home_link': {
+    policy: 'stately',
+    retryLimit: 1,
+    retryDelay: 120,
+    expireInSeconds: 5 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function placesQueueSpecs(
@@ -127,6 +135,8 @@ export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEU
     'places.destination_brief':
       "Writes a destination's essentials, eateries and stay prices from web pages, with sources",
     'places.brief_translate': "Translates a destination brief's lines into a reader's language",
+    'places.home_link':
+      'Writes the ways to reach a destination from a home city, with cited time and cost estimates',
   };
 
 export const foursquareMatchJobSchema = z.object({
@@ -213,4 +223,18 @@ export type PlacesBriefTranslateJob = z.infer<typeof placesBriefTranslateJobSche
 
 export function placesBriefTranslateKey(destinationId: string, locale: string): string {
   return `brief-translate:${destinationId}:${locale}`;
+}
+
+export const placesHomeLinkJobSchema = z.object({
+  destination_id: z.uuid(),
+  /** The IATA code of a home airport or metro group: a place, never a person. */
+  origin: z.string().regex(/^[A-Z]{3}$/u),
+  /** Write again even when a ready link exists (an operator's re-run). */
+  force: z.boolean().optional(),
+});
+export type PlacesHomeLinkJob = z.infer<typeof placesHomeLinkJobSchema>;
+
+/** The `places.home_link` singleton key: one run per pair of places at a time. */
+export function placesHomeLinkKey(destinationId: string, origin: string): string {
+  return `home-link:${destinationId}:${origin}`;
 }
