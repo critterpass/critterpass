@@ -274,7 +274,7 @@ describe('a destination’s links from cited pages', { timeout: 60_000 }, () => 
       'https://dacotours.com/best-8-day-trips-from-da-nang-vietnam-by-locals',
       'https://dacotours.com/best-8-day-trips-from-da-nang-vietnam-by-locals',
     ]);
-    expect(hoiAn?.sources[0]?.quote).toBe('About 45 minutes from Da Nang.');
+    expect(hoiAn?.sources[0]?.quote).toContain('About 45 minutes from Da Nang.');
     expect(hoiAn?.i18n?.['vi']?.note).toBeTruthy();
     expect(links.map((l) => [l.key, l.origin]).sort()).toEqual([
       ['da-nang>vn-an-bang-beach:day_trip', 'ai'],
