@@ -130,11 +130,7 @@ export const ALBUM_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3m-2-all': () => <Album initialSegment="all" />,
   '3m-2-people': () => <Album initialSegment="people" />,
   '3m-2-curating': () => (
-    <Album
-      curationNote={null}
-      photos={photos().map((p) => ({ ...p, isPick: false }))}
-      initialSegment="best"
-    />
+    <Album curationNote={null} photos={photos().map((p) => ({ ...p, isPick: false }))} />
   ),
   '3m-2-uploading': () => <Album uploads={{ uploading: 12, waiting: 0, failed: 0, skipped: 0 }} />,
   '3m-2-waiting': () => <Album uploads={{ uploading: 0, waiting: 3, failed: 0, skipped: 0 }} />,

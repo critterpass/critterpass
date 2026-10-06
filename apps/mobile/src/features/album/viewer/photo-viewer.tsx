@@ -42,9 +42,10 @@ export interface PhotoViewerProps {
 function Page({ photo, width, height }: { photo: AlbumPhoto; width: number; height: number }) {
   const url = useAlbumReadUrl(photo.displayKey ?? photo.thumbKey);
   const { t } = useLingui();
+  const theme = useTheme();
   return (
     <ScrollView
-      style={{ width, height }}
+      style={{ width, height, backgroundColor: theme.semantic.bg.raised }}
       maximumZoomScale={3}
       minimumZoomScale={1}
       centerContent

@@ -162,7 +162,7 @@ export function AlbumView(props: AlbumViewProps) {
           />
         ) : (
           <>
-            {segment === 'best' ? (
+            {segment === 'best' || props.curationNote === null ? (
               <GuideLine
                 guide={props.guide}
                 name={props.guideName}
