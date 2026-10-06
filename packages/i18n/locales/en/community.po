@@ -107,6 +107,10 @@ msgstr "9+ days"
 msgid "community.crew.size"
 msgstr "A crew of {size}"
 
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.detail.heading"
+msgstr "A crew plan"
+
 #: ../../apps/mobile/src/features/community/commands.ts
 msgid "community.queued.copy"
 msgstr "A crew plan copied"
@@ -290,6 +294,10 @@ msgstr "One tip for the next crew"
 msgid "community.detail.noTrip"
 msgstr "Open this from one of your trips to copy it."
 
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.offlineLine"
+msgstr "Open this from your trip when you are back online."
+
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 msgid "community.browse.offlineLine"
 msgstr "Open this once online and it stays here for later."
@@ -331,6 +339,10 @@ msgstr "Publish to crew plans"
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.title"
 msgstr "Rate the trip"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.offline"
+msgstr "Rating needs a signal"
 
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.linkCopied"
@@ -419,6 +431,7 @@ msgstr "Top rated"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.retry"
 msgstr "Try again"
 

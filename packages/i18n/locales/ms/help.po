@@ -17,11 +17,6 @@ msgstr "{0, plural, other {# undi lagi}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# undi}}"
 
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, other {{first} dan # lagi}}"
-
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ Cadangkan idea"
@@ -433,3 +428,8 @@ msgstr "Nota anda kepada manusia"
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Undi anda pada sesuatu idea"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, other {{first} dan # lagi}}"

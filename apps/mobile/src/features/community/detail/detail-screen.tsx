@@ -12,13 +12,14 @@ import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
+import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
 import { dataOf, useSharedPlan } from '../api';
 import { PlanView } from './plan-view';
 
 const useStyles = makeStyles((th) => ({
-  content: { paddingHorizontal: th.size.gutter, gap: th.space['16'] },
+  content: { paddingHorizontal: th.size.gutter, paddingTop: th.space['12'], gap: th.space['16'] },
 }));
 
 export interface SharedPlanScreenProps {
@@ -37,6 +38,9 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
       <Scaffold testID="shared-plan">
         <View style={styles.content}>
           <BackEyebrow label={t({ id: 'community.back.plans', message: 'Crew plans' })} />
+          <Text variant="displayHero" accessibilityRole="header">
+            {t({ id: 'community.detail.heading', message: 'A crew plan' })}
+          </Text>
           {state.status === 'loading' ? (
             <Skeleton preset="card" repeat={2} />
           ) : (
@@ -63,6 +67,9 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
       <Scaffold testID="shared-plan-tombstone">
         <View style={styles.content}>
           <BackEyebrow label={t({ id: 'community.back.plans', message: 'Crew plans' })} />
+          <Text variant="displayHero" accessibilityRole="header">
+            {t({ id: 'community.detail.heading', message: 'A crew plan' })}
+          </Text>
           <EmptyState
             guide="tokek"
             guideName={guide.name}

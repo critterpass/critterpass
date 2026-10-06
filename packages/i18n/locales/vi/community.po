@@ -107,6 +107,10 @@ msgstr "Từ 9 ngày"
 msgid "community.crew.size"
 msgstr "Nhóm {size} người"
 
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+msgid "community.detail.heading"
+msgstr "Kế hoạch của một nhóm"
+
 #: ../../apps/mobile/src/features/community/commands.ts
 msgid "community.queued.copy"
 msgstr "Đã sao chép một kế hoạch"
@@ -290,6 +294,10 @@ msgstr "Một mẹo cho nhóm sau"
 msgid "community.detail.noTrip"
 msgstr "Mở từ một chuyến đi của bạn để chép kế hoạch này."
 
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.offlineLine"
+msgstr "Mở lại từ chuyến đi khi bạn có mạng."
+
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 msgid "community.browse.offlineLine"
 msgstr "Mở một lần khi có mạng, sau đó sẽ xem lại được."
@@ -331,6 +339,10 @@ msgstr "Chia sẻ cho các nhóm"
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.title"
 msgstr "Chấm điểm chuyến đi"
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.offline"
+msgstr "Cần có mạng để chấm điểm"
 
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.linkCopied"
@@ -419,6 +431,7 @@ msgstr "Được chấm cao"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.retry"
 msgstr "Thử lại"
 

@@ -44,7 +44,7 @@ export function RateTripScreen({ tripId }: { tripId: string }) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { state } = useRatingCards(tripId);
+  const { state, reload } = useRatingCards(tripId);
   const data = dataOf(state);
   const [answers, setAnswers] = useState<ReadonlyMap<string, RateVerdict>>(new Map());
   const cards = useMemo(() => withAnswers(data?.cards ?? [], answers), [data, answers]);
@@ -94,6 +94,19 @@ export function RateTripScreen({ tripId }: { tripId: string }) {
           })}
         </Text>
         {state.status === 'loading' ? <Skeleton preset="card" /> : null}
+        {state.status === 'missing' ? (
+          <EmptyState
+            guide="tokek"
+            guideName={guide.name}
+            title={t({ id: 'community.rate.offline', message: 'Rating needs a signal' })}
+            line={t({
+              id: 'community.rate.offlineLine',
+              message: 'Open this from your trip when you are back online.',
+            })}
+            action={{ label: t({ id: 'community.retry', message: 'Try again' }), onPress: reload }}
+            testID="rate-missing"
+          />
+        ) : null}
         {data !== null && cards.length === 0 ? (
           <EmptyState
             guide="tokek"

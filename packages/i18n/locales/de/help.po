@@ -17,11 +17,6 @@ msgstr "{0, plural, one {# Stimme übrig} other {# Stimmen übrig}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# Stimme} other {# Stimmen}}"
 
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, one {{first} und # weiterer auch} other {{first} und # weitere auch}}"
-
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ Idee vorschlagen"
@@ -433,3 +428,8 @@ msgstr "Deine Notiz an die Menschen"
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Deine Stimme für eine Idee"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, one {{first} und # weiterer auch} other {{first} und # weitere auch}}"

@@ -17,11 +17,6 @@ msgstr "{0, plural, other {还剩 # 票}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# 票}}"
 
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, other {{first} 和另外 # 人也这么想}}"
-
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ 提个点子"
@@ -433,3 +428,8 @@ msgstr "你给团队的留言"
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "你给某个点子的投票"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, other {{first} 和另外 # 人也这么想}}"

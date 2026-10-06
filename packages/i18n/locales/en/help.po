@@ -17,11 +17,6 @@ msgstr "{0, plural, one {# vote left} other {# votes left}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# vote} other {# votes}}"
 
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ Suggest an idea"
@@ -433,3 +428,8 @@ msgstr "Your note to the humans"
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Your vote on an idea"
+
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
