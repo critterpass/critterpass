@@ -27,8 +27,15 @@ appId: app.critterpass.dev
     id: 'you-profile-settings'
 - extendedWaitUntil:
     visible:
-      id: 'you-settings-account'
+      id: 'you-settings'
     timeout: 30000
+# Account is the last group, below the fold, and is drawn once the server has answered for it.
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-account'
+    direction: DOWN
+    centerElement: true
+    timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: en-3n-6-account-rows
 - tapOn: 'Sign out'
@@ -54,6 +61,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'onboarding-sign-in'
 - runFlow: subflows/phone-sign-in.yaml
+# Signed in, the app opens on Home (never on a link the app was opened with before).
 - extendedWaitUntil:
     visible:
       id: 'home-header-crew-name'

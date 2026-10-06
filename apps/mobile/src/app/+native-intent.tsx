@@ -7,12 +7,13 @@ import { routeIncomingUrl } from '@/lib/links/router';
  */
 export async function redirectSystemPath({
   path,
+  initial,
 }: {
   path: string;
   initial: boolean;
 }): Promise<string> {
   try {
-    return await routeIncomingUrl(path);
+    return await routeIncomingUrl(path, initial);
   } catch {
     return '/';
   }

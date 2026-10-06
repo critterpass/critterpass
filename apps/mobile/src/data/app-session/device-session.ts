@@ -18,6 +18,7 @@ import { createMMKV } from 'react-native-mmkv';
 
 import { SERVER_FLAGS_PATH } from '../../lib/analytics/server-flags';
 import { activeLocale, onLocaleChanged } from '../../lib/i18n/set-locale';
+import { markInAppRestart } from '../../lib/links/launch-replay';
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
 import type { FixUpload } from '../../lib/location';
 import { startAppLocaleReport } from '../app-locale/report-app-locale';
@@ -109,6 +110,7 @@ export const deviceLinkClaims = {
 
 /** Restarts the JS so the app boots on the session now in storage. */
 function restartApp(): void {
+  markInAppRestart();
   if (__DEV__) {
     DevSettings.reload();
     return;
