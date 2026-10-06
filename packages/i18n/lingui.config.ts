@@ -1,8 +1,7 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
-import { driverPlan, exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
-import { driversCatalog, exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
+import { driverPlan, driversCatalog, exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
 import { localeCodes, sourceLocale } from './src/locales';
 
 /**
