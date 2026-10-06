@@ -161,7 +161,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | Queue | Schedule (tz) | Handler | Phase |
 |---|---|---|---|
 | `sched.enqueue_due` | `* * * * *` | move due `scheduled_events` into queues | 11 |
-| `eta.meetups` | every 60 s per active meetup (self-rescheduling) | Valhalla ETAs → `trip_locations`, LA broadcast p5 (p10 on arrive/late/all <5 min) | 39 |
+| `eta.meetups` | every 60 s per active meetup (self-rescheduling) | Valhalla ETAs → `trip_locations`, LA broadcast p5 (p10 on arrive/late/all <5 min). The place in a member's status is read through the spatial index on `pois.location` (never a lat/lng box: the catalogue is too large to scan inside the statement timeout) | 39 |
 | `eta.running_late` | `* * * * *` | doc delta: upkeep only. The phone drives the checks (`POST /v1/trips/{id}/journey-check`, which detects ETA ≥ start + 10 min twice in a row → N-27); this job marks journeys whose checks stopped for 3 min as stale, resolves a running-late disruption whose item is over, and deletes checks older than a day ([api-contracts-disruptions.md](./api-contracts-disruptions.md)) | 37 |
 | `weather.watch` | `0 */3 * * *` (hourly within 48 h; 15 min marine/volcano alerts) | forecast watcher → `trip_watch`, `ai.replan` | 37 |
 | `fx.refresh` | `15 * * * *` | Frankfurter snapshot | 12 (snapshot fn); cron registered in 15 |
