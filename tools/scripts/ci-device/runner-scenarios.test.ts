@@ -52,6 +52,31 @@ describe('runner scenarios', () => {
     expect(handleAction('/pasteboard', ios.ctx, '').status).toBe(400);
   });
 
+  it('wipes the app and starts it with the referrer as a launch extra', () => {
+    const android = setup('android');
+    const resolved: Run = (command, args) => {
+      android.calls.push({ command, args });
+      return {
+        status: 0,
+        output: args.includes('resolve-activity') ? 'priority=0\napp/.Main' : '',
+      };
+    };
+    const ctx = { ...android.ctx, run: resolved };
+    expect(handleAction("/fresh-launch?referrer=cp_link%3D%2Fi%2FK7M'2QX", ctx).status).toBe(200);
+    expect(android.calls[0]?.args).toEqual([
+      '-s',
+      'emulator-5554',
+      'shell',
+      'pm',
+      'clear',
+      'app.critterpass.dev',
+    ]);
+    expect(android.calls[2]?.args.at(-1)).toBe(
+      "am start -W -n app/.Main -a android.intent.action.MAIN -c android.intent.category.LAUNCHER --es cp_install_referrer 'cp_link=/i/K7M'\\''2QX'",
+    );
+    expect(handleAction('/fresh-launch?referrer=x', setup('ios').ctx).status).toBe(501);
+  });
+
   it('moves the device: lat,lng for simctl, lng lat for the emulator console', () => {
     const ios = setup('ios');
     handleAction('/location?lat=-8.5058&lng=115.2569', ios.ctx);

@@ -4,6 +4,9 @@
  *
  * - `/pasteboard` (body: the text): puts text on the simulator's pasteboard (iOS; Android answers
  *   501), for the first-launch paste offer.
+ * - `/fresh-launch?referrer=…`: wipes the app and starts it as a fresh install with the
+ *   `cp_install_referrer` launch extra (Android; iOS answers 501). Maestro's own `launchApp`
+ *   arguments are not filled from a flow's runtime values, and the referrer carries a live code.
  * - `/location?lat=…&lng=…`: moves the device (`simctl location set` on iOS, the emulator console's
  *   `geo fix` on Android).
  * - `/scenario?name=…&<args>`: starts a script that drives other people through the api of the
@@ -16,7 +19,7 @@
 import { spawn, type ChildProcess } from 'node:child_process';
 import path from 'node:path';
 
-import type { ActionContext, ActionResult } from './runner-actions';
+import { APP_ID, type ActionContext, type ActionResult } from './runner-actions';
 
 const SCRIPTS_DIR = path.resolve(import.meta.dirname, '..');
 
@@ -143,4 +146,30 @@ export function location(query: URLSearchParams, ctx: ActionContext): ActionResu
   return result.status === 0
     ? { status: 200, message: `location ${String(lat)},${String(lng)}` }
     : { status: 500, message: result.output };
+}
+
+/** `--es` value for the device's shell: single-quoted, with any single quote escaped. */
+function shellQuote(value: string): string {
+  return `'${value.replace(/'/g, "'\\''")}'`;
+}
+
+export function freshLaunch(query: URLSearchParams, ctx: ActionContext): ActionResult {
+  const referrer = query.get('referrer') ?? '';
+  if (referrer === '') return { status: 400, message: 'referrer is required' };
+  if (ctx.platform === 'ios') return { status: 501, message: 'Android only' };
+  const adb = (...args: string[]) => ctx.run('adb', ['-s', ctx.device, 'shell', ...args]);
+  const cleared = adb('pm', 'clear', APP_ID);
+  if (cleared.status !== 0) return { status: 500, message: cleared.output };
+  const activity = adb('cmd', 'package', 'resolve-activity', '--brief', APP_ID)
+    .output.trim()
+    .split('\n')
+    .pop();
+  if (activity === undefined || !activity.includes('/'))
+    return { status: 500, message: 'no launcher activity' };
+  const started = adb(
+    `am start -W -n ${activity} -a android.intent.action.MAIN -c android.intent.category.LAUNCHER --es cp_install_referrer ${shellQuote(referrer)}`,
+  );
+  return started.status === 0
+    ? { status: 200, message: `fresh launch of ${activity}` }
+    : { status: 500, message: started.output };
 }

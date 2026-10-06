@@ -5,14 +5,15 @@ appId: app.critterpass.dev
 # The organiser (a new account) starts a crew and keeps its live code; the phone is then wiped and
 # the app launched as a fresh install with the referrer the web store button writes
 # (`cp_link=/i/<code>`), injected as the `cp_install_referrer` launch extra (internal builds only).
+# The runner does the wipe and the launch: Maestro's launchApp arguments are not filled from the
+# flow's runtime values.
 - runFlow:
     file: ../happy/subflows/crew-with-code.yaml
     env:
       CREW: 'Referrer Crew'
-- launchApp:
-    clearState: true
-    arguments:
-      cp_install_referrer: 'utm_source=critterpass&utm_medium=invite&cp_link=%2Fi%2F${output.crewCode}'
+# Runner: pm clear, then the launcher activity with the referrer extra.
+- evalScript: "${output.launched = http.post('http://127.0.0.1:7788/fresh-launch?referrer=' + encodeURIComponent('utm_source=critterpass&utm_medium=invite&cp_link=' + encodeURIComponent('/i/' + output.crewCode)), { body: '{}' }).status}"
+- assertTrue: ${output.launched == 200}
 - extendedWaitUntil:
     visible:
       id: 'screen-onboarding-invite-ticket'

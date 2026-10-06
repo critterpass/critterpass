@@ -45,7 +45,8 @@ appId: app.critterpass.dev
       visible:
         id: 'guest-brief'
     commands:
-      - assertVisible: 'GUEST GUIDE: .*'
+      # The guide that reads up on a place no live guide covers names itself as the city's critter.
+      - assertVisible: '(GUEST|YOUR) GUIDE: .*'
       - tapOn:
           id: 'guest-save'
       - assertVisible: '♥ SAVED'

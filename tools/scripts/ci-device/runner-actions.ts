@@ -20,7 +20,7 @@
  * waits for the text's end to show. `/keyboard?state=off|on` disables the soft keyboard (the default
  * input method) and brings it back (Android): typed keys still reach the focused field, and no
  * keyboard panel is left covering the screen's buttons. The other actions answer 200 when done.
- * `/pasteboard`, `/location` and `/scenario` (other people driven through the api) live in
+ * `/pasteboard`, `/fresh-launch`, `/location` and `/scenario` (other people driven through the api) live in
  * ./runner-scenarios.
  *
  *   tsx tools/scripts/ci-device/runner-actions.ts --platform android --device <serial> [--port 7788]
@@ -206,6 +206,7 @@ export function handleAction(url: string, ctx: ActionContext, body = ''): Action
     if (pathname === '/keyboard') return keyboard(searchParams.get('state') ?? '', ctx);
     if (pathname === '/pasteboard') return pasteboard(body, ctx);
     if (pathname === '/location') return location(searchParams, ctx);
+    if (pathname === '/fresh-launch') return freshLaunch(searchParams, ctx);
     if (pathname === '/scenario') return scenario(searchParams, ctx);
     if (pathname === '/scenario-output') return scenarioOutput(searchParams);
     return { status: 404, message: `no action ${pathname}` };
