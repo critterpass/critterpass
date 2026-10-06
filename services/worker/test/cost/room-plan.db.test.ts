@@ -3,6 +3,8 @@
  * people in it, so per-member room shares add up exactly to the room totals and unequal rooms give
  * unequal shares; a member in no room pays for none; the index stay estimate keeps only the nights
  * no room plan prices; and a swap moves the share on rerun without leaving a component behind.
+ * On a trip with two stops a room plan that prices fewer nights than the trip leaves the unpriced
+ * nights to the stops at the end of the trip.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -148,5 +150,73 @@ describe('cost.recompute with a room plan', () => {
     await q("DELETE FROM room_assignments WHERE trip_id = $1 AND room_key = 'room-2'", [tripId]);
     await recomputeTripCosts(db.pool, tripId);
     expect(await componentKeys()).not.toContain('room:stay-1:room-2');
+  });
+});
+
+describe('cost.recompute with a room plan gone stale on a trip with two stops', () => {
+  it('keeps a stay line only for the nights at the end of the trip the plan does not price', async () => {
+    const uid = await insertUser(db.pool);
+    const crewId = await insertCrew(db.pool, [uid]);
+    await q("UPDATE crews SET settlement_currency = 'USD' WHERE id = $1", [crewId]);
+    const first = await q('SELECT destination_id AS id FROM trips WHERE id = $1', [tripId]);
+    const kyoto = (first.rows[0] as { id: string }).id;
+    const next = await q(
+      "INSERT INTO destinations (slug, name, coverage) VALUES ('osaka-rooms', 'Osaka', 'guest') RETURNING id",
+    );
+    const osaka = (next.rows[0] as { id: string }).id;
+    await q(
+      `INSERT INTO destination_cost_indices (destination_id, stay_type, nightly_minor_low,
+         nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, source, sourced_on,
+         reviewed_at)
+       VALUES ($1, 'hotel', 5000, 9000, 2500, 1000, 'USD', 'Editorial estimate', '2026-09-28',
+         '2026-09-28T00:00:00Z')`,
+      [osaka],
+    );
+    // Kyoto two nights then Osaka three: the room plan was made when Osaka had one.
+    const trip = await q(
+      `INSERT INTO trips (crew_id, status, destination_id, tz, start_date, end_date)
+       VALUES ($1, 'setup', $2, 'Asia/Tokyo', '2027-05-01', '2027-05-06') RETURNING id`,
+      [crewId, kyoto],
+    );
+    const routeTripId = (trip.rows[0] as { id: string }).id;
+    await q("INSERT INTO trip_participants (trip_id, user_id, rsvp) VALUES ($1, $2, 'in')", [
+      routeTripId,
+      uid,
+    ]);
+    await q(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       VALUES ($1, $2, 1, $3, 2), ($1, $2, 2, $4, 3)`,
+      [routeTripId, crewId, kyoto, osaka],
+    );
+    const room = (stay: number, type: string, nights: number) => ({
+      stay_key: `stay-${stay}`,
+      stay_type: type,
+      stay_nights: nights,
+      key: 'room-1',
+      capacity: 1,
+      nightly_minor: 20_000,
+      label: 'Room 1',
+    });
+    await q(`INSERT INTO room_plans (trip_id, rooms, currency, nights) VALUES ($1, $2, 'USD', 3)`, [
+      routeTripId,
+      JSON.stringify([room(1, 'ryokan', 2), room(2, 'hotel', 1)]),
+    ]);
+    await q(
+      `INSERT INTO room_assignments (trip_id, stay_key, room_key, user_id) VALUES
+         ($1, 'stay-1', 'room-1', $2), ($1, 'stay-2', 'room-1', $2)`,
+      [routeTripId, uid],
+    );
+    await recomputeTripCosts(db.pool, routeTripId);
+    const { rows } = await db.pool.query<{ component_key: string; amount_minor: string }>(
+      `SELECT component_key, amount_minor FROM cost_components
+        WHERE trip_id = $1 AND kind = 'stay' ORDER BY component_key`,
+      [routeTripId],
+    );
+    // Two of the five nights are not priced by a room: both are Osaka's, at its $90 hotel.
+    expect(rows.map((row) => [row.component_key, Number(row.amount_minor)])).toEqual([
+      ['index:stay:hotel:2', 2 * 9000],
+      ['room:stay-1:room-1', 2 * 20_000],
+      ['room:stay-2:room-1', 20_000],
+    ]);
   });
 });

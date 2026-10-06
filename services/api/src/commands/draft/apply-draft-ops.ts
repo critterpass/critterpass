@@ -10,7 +10,7 @@ import { applyDraftOpsPayloadSchema, DomainError, planOpsToEdits } from '@cp/dom
 
 import { asSystemRole } from '../../admin/command';
 import { draftChanged, lockTripDraft, writeDraftVersion } from '../../plan/draft-versioning';
-import { assertLockRules } from '../../plan/lock-rules';
+import { assertLockRules, loadStopNights } from '../../plan/lock-rules';
 import { loadPlanState, replay } from '../../plan/versioning';
 import { defineCommand } from '../_framework/define-command';
 import { requireOrganiser } from './shared';
@@ -46,7 +46,12 @@ export const applyDraftOpsCommand = defineCommand({
         throw new DomainError('PLAN_VERSION_CONFLICT', { latest: base });
       }
       const state = await loadPlanState(tx, base);
-      assertLockRules(state, payload.ops, payload.confirm_locked);
+      assertLockRules(
+        state,
+        payload.ops,
+        payload.confirm_locked,
+        await loadStopNights(tx, head.tripId),
+      );
       const next = replay(state, planOpsToEdits(payload.ops));
       const versionId = await writeDraftVersion(tx, {
         head,

@@ -8,7 +8,7 @@ import { applyPlanOpsPayloadSchema, planOpsToEdits } from '@cp/domain';
 
 import { defineCommand } from '../_framework/define-command';
 import { requirePlanEditor } from '../../plan/access';
-import { assertLockRules } from '../../plan/lock-rules';
+import { assertLockRules, loadStopNights } from '../../plan/lock-rules';
 import {
   assertCurrentBase,
   commitPlanVersion,
@@ -28,7 +28,12 @@ export const applyPlanOpsCommand = defineCommand({
     const head = await lockTripPlan(tx, payload.trip_id);
     const base = assertCurrentBase(head, payload.base_version);
     const state = await loadPlanState(tx, base);
-    assertLockRules(state, payload.ops, payload.confirm_locked);
+    assertLockRules(
+      state,
+      payload.ops,
+      payload.confirm_locked,
+      await loadStopNights(tx, payload.trip_id),
+    );
     const next = replay(state, planOpsToEdits(payload.ops));
     const versionId = await commitPlanVersion(tx, {
       head,

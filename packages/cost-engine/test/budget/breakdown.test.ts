@@ -48,6 +48,27 @@ describe('budget breakdown golden', () => {
     expect(feasibleLow({ ...base, index: null })).toBeNull();
   });
 
+  it('prices a trip with several stops stop by stop when it is handed its stops', () => {
+    const stop = (position: number, nights: number, days: number) => ({
+      position,
+      destinationId: `stop-${position}`,
+      nights,
+      days,
+      index: KYOTO_INDEX,
+    });
+    const stops = [stop(1, 3, 3), stop(2, 4, 5)];
+    // The same index in both stops over the same seven nights and eight days: the same money.
+    const several = budgetBreakdown({ ...base, target: dollars(1_350), stops });
+    const one = budgetBreakdown({ ...base, target: dollars(1_350) });
+    expect({ ...several, stayMix: null }).toEqual({ ...one, stayMix: null });
+    expect(several.stayMix).toEqual([
+      { type: 'ryokan', nights: 2, stop: 1 },
+      { type: 'apartment', nights: 1, stop: 1 },
+      { type: 'apartment', nights: 4, stop: 2 },
+    ]);
+    expect(feasibleLow({ ...base, stops })).toEqual(feasibleLow(base));
+  });
+
   it('with no fare, the low end and the breakdown are the ground part alone', () => {
     const withFlight = feasibleLow(base);
     const ground = feasibleLow({ ...base, flights: null });

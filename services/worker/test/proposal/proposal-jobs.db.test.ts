@@ -5,7 +5,8 @@
  * private keys, an "out" reply only shows the confirm card, the dropout re-split is built once per
  * member and keeps shared costs whole, suggestion cards never tie a name to a reason, reply-by
  * reminds once and locks once, follow-ups deliver once, and a freed seat is offered to exactly one
- * person at a time.
+ * person at a time. What a version is written from names the route of a trip with several stops
+ * (each city, its nights and the way in) and nothing new for a one-stop trip.
  */
 import { readFileSync } from 'node:fs';
 
@@ -18,6 +19,7 @@ import { runReplyBy } from '../../src/jobs/proposal/reply-by';
 import { decisionIntentReader, runRsvpIntent } from '../../src/jobs/proposal/rsvp-intent';
 import { createShareCardRenderer } from '../../src/jobs/proposal/share-cards';
 import { runSuggestions } from '../../src/jobs/proposal/suggestions';
+import { loadVersionContext } from '../../src/jobs/proposal/version-context';
 import { runVersion } from '../../src/jobs/proposal/versions';
 import { runProposalWaitlist } from '../../src/jobs/proposal/waitlist';
 import { startProposalWorld, type ProposalWorld } from './proposal-world';
@@ -345,5 +347,89 @@ describe('reply-by and follow-ups', () => {
     );
     expect(events).toHaveLength(1);
     expect(JSON.stringify(events)).not.toContain(world.users.Rin);
+  });
+});
+
+describe('what a version is written from', () => {
+  const context = async () =>
+    (
+      await loadVersionContext(world.harness.pool, {
+        version_id: world.versionId,
+        proposal_id: world.proposalId,
+        trip_id: world.tripId,
+        recipient_id: world.users.Rin,
+        plan_version_id: world.versionId,
+        show_cost: false,
+        personal: true,
+        status: 'pending',
+        attempts: 0,
+        organiser_name: 'Maya',
+      })
+    ).context;
+
+  it('names the route of a two-stop trip, and nothing new for one stop', async () => {
+    const city = async (name: string) =>
+      (
+        await world.q<{ id: string }>(
+          `INSERT INTO destinations (slug, name, coverage, currency, tz)
+           VALUES ($1, $2, 'guest', 'VND', 'Asia/Ho_Chi_Minh') RETURNING id`,
+          [`${name.toLowerCase().replace(' ', '-')}-route`, name],
+        )
+      )[0]!.id;
+    const daNang = await city('Da Nang');
+    const hue = await city('Hue');
+    await world.q(
+      "UPDATE trips SET destination_id = $2, start_date = '2027-03-01', end_date = '2027-03-05' WHERE id = $1",
+      [world.tripId, daNang],
+    );
+    const oneStop = await context();
+    expect(oneStop.destination).toBe('Da Nang');
+    expect('route' in oneStop).toBe(false);
+    expect(oneStop.items.some((item) => 'city' in item)).toBe(false);
+
+    await world.q(
+      `INSERT INTO destination_links (key, from_destination_id, to_destination_id, kind, minutes,
+                                      mode, sources)
+       VALUES ('danang>hue:onward', $1, $2, 'onward', 150, 'train', $3)`,
+      [
+        daNang,
+        hue,
+        JSON.stringify([{ url: 'https://example.org/hue', title: 'Hue', quote: '2 h 30' }]),
+      ],
+    );
+    await world.q(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       VALUES ($1, $2, 1, $3, 2), ($1, $2, 2, $4, 2)`,
+      [world.tripId, world.crewId, daNang, hue],
+    );
+    const [day] = await world.q<{ id: string }>(
+      'INSERT INTO plan_days (version_id, trip_id, day_no, destination_id) VALUES ($1, $2, 3, $3) RETURNING id',
+      [world.versionId, world.tripId, hue],
+    );
+    const [citadel] = await world.q<{ stable_id: string }>(
+      `INSERT INTO plan_items (version_id, day_id, trip_id, category)
+       VALUES ($1, $2, $3, 'sight') RETURNING stable_id`,
+      [world.versionId, day!.id, world.tripId],
+    );
+    const estimated = await context();
+    expect(estimated.route).toEqual([
+      { city: 'Da Nang', nights: 2, travel: null },
+      { city: 'Hue', nights: 2, travel: { mode: 'train', minutes: 150 } },
+    ]);
+    expect(estimated.items.find((item) => item.id === citadel!.stable_id)?.city).toBe('Hue');
+    expect(estimated.items.find((item) => item.id === world.items[0])?.city).toBe('Da Nang');
+
+    // The crew's own flight on the day they reach Hue replaces the estimate.
+    const [booking] = await world.q<{ id: string }>(
+      `INSERT INTO bookings (trip_id, owner_id, type, title, visibility, supplier, traveller_ids)
+       VALUES ($1, $2, 'flight', 'Flight', 'crew', 'airline', $3::uuid[]) RETURNING id`,
+      [world.tripId, world.users.Maya, [world.users.Maya]],
+    );
+    await world.q(
+      `INSERT INTO plan_items (version_id, day_id, trip_id, category, booking_id)
+       VALUES ($1, $2, $3, 'flight', $4)`,
+      [world.versionId, day!.id, world.tripId, booking!.id],
+    );
+    expect((await context()).route?.[1]?.travel).toEqual({ mode: 'flight', booked: true });
   });
 });
