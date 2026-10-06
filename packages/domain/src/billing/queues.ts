@@ -15,6 +15,7 @@ export const BILLING_QUEUES = {
   intentExpiry: 'billing.intent_expiry',
   ftfGrant: 'ftf.grant',
   tripChanged: 'boost.trip_changed',
+  pauseRemind: 'pause.remind',
 } as const;
 
 export const BILLING_QUEUE_SPECS = {
@@ -37,6 +38,7 @@ export const BILLING_QUEUE_SPECS = {
   'billing.intent_expiry': { policy: 'exclusive' },
   'ftf.grant': { policy: 'exclusive', deadLetter: true, notify: true },
   'boost.trip_changed': { policy: 'stately', deadLetter: true, notify: true },
+  'pause.remind': { policy: 'exclusive' },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function billingQueueSpecs(
@@ -60,6 +62,7 @@ export const BILLING_QUEUE_DESCRIPTIONS: Readonly<
   'billing.intent_expiry': "Releases a boost intent's trip lock once it lapses",
   'ftf.grant': "Grants a crew's first trip free when that trip enters setup",
   'boost.trip_changed': "Moves or credits a cancelled trip's boost",
+  'pause.remind': 'Reminds a member a week before their planned Pass+ pause ends',
 };
 
 /** The api's internal billing door: one idempotent step per call. */

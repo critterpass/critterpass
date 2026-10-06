@@ -394,6 +394,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   // The recap: ready once per trip; a year later, quietly.
   'recap.ready': ['recap_ready'],
   'memory.surfaced': ['anniversary_memory'],
+  // Pass+: a planned pause ends in a week and renewal is still off, to that member only.
+  'subscription.resume_due': ['pass_resume_reminder'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(
