@@ -17,7 +17,7 @@ import { ACCOUNT_SCENES } from './lab-scenes-account';
 import { FormerMemberChat } from './lab-scenes-former';
 import { EDIT_SCENES } from './lab-scenes-edit';
 import { HISTORY_SCENES } from './lab-scenes-history';
-import { Settings, Sound } from './lab-scenes-settings';
+import { AppIcon, Settings, Sound } from './lab-scenes-settings';
 
 const noop = () => undefined;
 
@@ -226,6 +226,17 @@ export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...HISTORY_SCENES,
   ...EDIT_SCENES,
   '3n-2-settings': () => <Settings />,
+  '3n-5-app-icon': () => <AppIcon />,
+  '3n-5-earned-in-use': () => (
+    <AppIcon
+      current="sardi"
+      unlocks={[
+        { iconKey: 'sardi', seen: true },
+        { iconKey: 'temple', seen: true },
+      ]}
+    />
+  ),
+  '3n-5-locked': () => <AppIcon unlocks={[]} problem={{ locked: 'pon' }} />,
   '3n-7-sound': () => <Sound />,
   '3n-7-music-off': () => <Sound musicOn={false} />,
   '3n-8-language': () => <Language />,

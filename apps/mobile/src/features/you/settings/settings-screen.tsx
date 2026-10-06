@@ -26,6 +26,7 @@ import { exportLine } from '../export/export-copy';
 import { useDataExport } from '../export/use-data-export';
 import { languageLine } from '../language/currency-model';
 import { nativeNameOf } from '../language/language-names';
+import { hasAlternateAppIcons } from '../app-icon/device';
 import { YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
 import { useHelpShareConsent } from './help-share-consent';
@@ -91,6 +92,7 @@ export function SettingsScreen({
       mapsApp: Platform.OS === 'ios' ? mapsAppFor('ios', chosenMapsApp) : null,
       account: account?.kind === 'ok',
       language: languageLine(nativeNameOf(locale), money),
+      appIcon: hasAlternateAppIcons(),
       ideasToVote,
       storeName:
         Platform.OS === 'ios'
@@ -116,6 +118,7 @@ export function SettingsScreen({
       onMusic: () => router.push(YOU_ROUTES.sound),
       onMapsApp: setMapsApp,
       onLanguage: () => router.push(YOU_ROUTES.language),
+      onAppIcon: () => router.push(YOU_ROUTES.appIcon),
       onSignOut: () => router.push(YOU_ROUTES.signOut),
       onRate: reviewUrl === null ? null : () => void Linking.openURL(reviewUrl),
       onFeedback: () => router.push(feedbackHref({ mode: 'feedback', context: 'settings' })),

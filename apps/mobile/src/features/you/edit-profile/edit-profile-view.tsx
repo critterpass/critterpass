@@ -1,7 +1,7 @@
 /**
  * Edit profile (3n-3) as a pure view: back to the profile and SAVE, the avatar with CHANGE AVATAR,
  * the NAME, USERNAME, HOME AIRPORT and LANGUAGES rows (each opens its own sheet), and what crews
- * see. The render's LOOK (app icon) row waits for the native app-icon module.
+ * see. The app icon picker (3n-5) is reached from Settings.
  */
 import { useLingui } from '@lingui/react/macro';
 import { Fragment, type ReactNode } from 'react';

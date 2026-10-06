@@ -62,6 +62,10 @@ msgstr "{days, plural, one {{place} in # day} other {{place} in # days}}"
 msgid "you.profile.stamp.inDays"
 msgstr "{days, plural, one {In # day} other {In # days}}"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.earnedCount"
+msgstr "{earnedUnlocked} of {earnedTotal}"
+
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.currency.homeChosenLine"
 msgstr "{home} · chosen by you"
@@ -81,6 +85,10 @@ msgstr "{language} · prices in {symbol}"
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.settings.languageBoth"
 msgstr "{language} · prices in {symbol} and local"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.lockedLine"
+msgstr "{lockedName} is earned on a trip. It unlocks when you find it."
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.tripCoOrganiser"
@@ -114,6 +122,10 @@ msgstr "24-hour"
 msgid "you.sound.voicesLine"
 msgstr "A chirp when a guide pops up"
 
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.dnd"
+msgstr "A crewmate’s SOS stays silent in Do Not Disturb. Allow it to ring through."
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
 msgstr "Account"
@@ -133,6 +145,10 @@ msgstr "Add a past trip"
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 msgid "you.edit.languages.none"
 msgstr "Add the languages you speak"
+
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.fullScreen"
+msgstr "Alarms show as a banner. Allow full screen to wake you over the lock screen."
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
 msgid "you.stamps.allYears"
@@ -155,9 +171,21 @@ msgstr "Always"
 msgid "you.settings.app"
 msgstr "App"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.appIcon"
+msgstr "App icon"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.title"
+msgstr "App icon"
+
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 msgid "you.language.appLanguage"
 msgstr "App language"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.appearance"
+msgstr "Appearance"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
@@ -289,6 +317,10 @@ msgstr "Critter"
 msgid "you.avatar.formLabel"
 msgstr "Critter {0}"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.footer"
+msgstr "Critter icons are earned by being there, and none of them can be bought."
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.voices"
 msgstr "Critter voices"
@@ -304,6 +336,10 @@ msgstr "Currency code, like SGD"
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.chava"
 msgstr "Đàn bầu lo-fi"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.dark"
+msgstr "Dark"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
@@ -348,6 +384,14 @@ msgstr "During trips"
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.musicLine"
 msgstr "Each guide has a theme. It changes when you land."
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.earned"
+msgstr "Earned"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.earnedTitle"
+msgstr "Earned on the road"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
@@ -394,6 +438,10 @@ msgstr "EXIT · SORTIE"
 msgid "you.delete.keeps.expenses"
 msgstr "Expenses you added, so Balances still add up"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.face"
+msgstr "Face"
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.sardi"
 msgstr "Fado guitar waltz"
@@ -413,6 +461,10 @@ msgstr "Formats"
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
 msgid "you.settings.mailboxForward"
 msgstr "Forward confirmations to your crew’s address"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.free"
+msgstr "Free"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.fr"
@@ -534,6 +586,10 @@ msgstr "How the crew sees it"
 msgid "you.profile.howYouTravel"
 msgstr "How you travel"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.inUse"
+msgstr "In use"
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.id"
 msgstr "Indonesian"
@@ -611,6 +667,10 @@ msgstr "Leave without saving?"
 msgid "you.settings.leaveByAlarms"
 msgstr "Leave-by alarms"
 
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.exactAlarm"
+msgstr "Leave-by alarms may ring a few minutes late. Allow alarms to ring on time."
+
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
 msgstr "Leaves this phone"
@@ -623,6 +683,14 @@ msgstr "Legendary form"
 msgid "you.edit.username.chars"
 msgstr "Letters, numbers, dots and underscores only."
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.light"
+msgstr "Light"
+
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.promoted"
+msgstr "Live updates are off, so trip countdowns sit in the shade, not the status bar."
+
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.mode.local"
 msgstr "Local"
@@ -630,6 +698,10 @@ msgstr "Local"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location"
 msgstr "Location"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.locked"
+msgstr "Locked"
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.manageSubscription"
@@ -681,6 +753,10 @@ msgstr "Needs a connection. Try again in a moment."
 msgid "you.settings.budgetMaxLine"
 msgstr "Never shown to anyone, guides included"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.new"
+msgstr "New"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.dots"
 msgstr "No dot at the start or end, and never two in a row."
@@ -705,6 +781,10 @@ msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.notifications"
 msgstr "Notifications"
+
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.notifications"
+msgstr "Notifications are off, so alarms, SOS and votes cannot reach you."
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
@@ -767,6 +847,10 @@ msgstr "Pass+ is billed by the App Store. Deleting doesn’t cancel it, so cance
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.passport"
+msgstr "Passport"
+
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.editTitle"
 msgstr "Past trip"
@@ -792,6 +876,10 @@ msgid "you.currency.homeNone"
 msgstr "Pick one, or set your home airport"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.appIconLine"
+msgstr "Pick the one on your home screen"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideLockscreenLine"
 msgstr "Pings and live trips show no amounts or places"
 
@@ -815,6 +903,10 @@ msgstr "Plans, photos and chat as a zip"
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.playMusic"
 msgstr "Play music"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.pon"
+msgstr "Pon"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.pt"
@@ -884,6 +976,10 @@ msgstr "Restore my account"
 msgid "you.profile.retake"
 msgstr "Retake"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.sardi"
+msgstr "Sardi"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
 msgid "you.edit.save"
 msgstr "Save"
@@ -930,6 +1026,10 @@ msgstr "Settings"
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 msgid "you.language.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.back"
 msgstr "Settings"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -1050,6 +1150,10 @@ msgstr "Stickers and stamps"
 msgid "you.settings.feedbackLine"
 msgstr "Straight to the team"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.style"
+msgstr "Style"
+
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.idea"
 msgstr "Suggest a feature"
@@ -1065,6 +1169,10 @@ msgstr "Taps on stamps, holds and votes"
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.ideaLine"
 msgstr "Tell us what you’d add"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.temple"
+msgstr "Temple"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.th"
@@ -1098,6 +1206,14 @@ msgstr "The app, your guide’s replies and your notifications switch together. 
 msgid "you.delete.keeps"
 msgstr "The crew keeps"
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.failed"
+msgstr "The icon didn’t change. Try again."
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.appearanceLine"
+msgstr "The icon follows your phone’s look."
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.stickersLine"
 msgstr "The slap, the thud, the peel"
@@ -1126,6 +1242,10 @@ msgstr "This phone is cleared. Close the app and open it again."
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.row"
 msgstr "Time and distance"
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.tinted"
+msgstr "Tinted"
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.samplePlace"

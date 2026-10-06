@@ -3,6 +3,11 @@
  * render's values, every handler a no-op.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, never shipped copy. */
+import { bundledAppIconKeys } from '@/lib/app-icon';
+
+import { APP_ICON_PREVIEWS } from '../app-icon/app-icon-previews';
+import { AppIconView, type AppIconProblem } from '../app-icon/app-icon-view';
+import { pickerModel, type IconUnlock } from '../app-icon/picker-model';
 import { useSettingsSections } from '../settings/settings-sections';
 import { SettingsView } from '../settings/settings-view';
 import { SoundView } from '../sound/sound-view';
@@ -30,6 +35,7 @@ export function Settings() {
       account: true,
       dataExport: { line: 'Plans, photos and chat as a zip', enabled: true },
       language: 'English · prices in S$ and local',
+      appIcon: true,
       storeName: 'On the App Store',
       ideasToVote: 48,
     },
@@ -44,6 +50,7 @@ export function Settings() {
       onSoundEffects: noop,
       onMusic: noop,
       onLanguage: noop,
+      onAppIcon: noop,
       onSignOut: noop,
       onRate: noop,
       onFeedback: noop,
@@ -91,6 +98,29 @@ export function Sound({ musicOn = true }: { readonly musicOn?: boolean }) {
         onFollow: noop,
         onBack: noop,
       }}
+    />
+  );
+}
+
+/** 3n-5 with the icons the app bundles: one earned icon open and new, the rest locked. */
+export function AppIcon(props: {
+  readonly current?: string | null;
+  readonly unlocks?: readonly IconUnlock[];
+  readonly problem?: AppIconProblem;
+}) {
+  return (
+    <AppIconView
+      model={pickerModel({
+        bundled: bundledAppIconKeys(['face', 'pon', 'sardi', 'temple']),
+        previewed: new Set(Object.keys(APP_ICON_PREVIEWS)),
+        currentNativeName: props.current ?? null,
+        unlocks: props.unlocks ?? [{ iconKey: 'sardi', seen: false }],
+        passPlus: false,
+      })}
+      switching={null}
+      problem={props.problem ?? null}
+      onChoose={noop}
+      onBack={noop}
     />
   );
 }
