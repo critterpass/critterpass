@@ -150,7 +150,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: per-car and per-day prices line up as each person's share; NOT SAID taps offer the ASK message; the risk line is deterministic and unit-tested.
 
 ### T10 — Pick for which days (6d-2) + assign op
-- Status: blocked — direct SET is done (a7875e6625); "Ask the crew first" needs an assign_provider op in app.apply_change_set
+- Status: done — 04300651b2 (direct SET a7875e6625; the change set op f3f6525285; "Ask the crew first", the change card and a driver's quote as the terms in the app)
 - Files: `features/drivers/pick/**`, `packages/planner/src/ops/assign-provider.ts` (+ registry mount), `services/api/src/commands/drivers/assign-provider.ts`
 - Done when: direct SET and the vote path both write `provider_assignments`; TAKEN days are locked; 3h-3 shows the driver; the overtime warning shows when a day window exceeds the quoted hours.
 

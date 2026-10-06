@@ -46,6 +46,10 @@ msgid "guide.limit.count"
 msgstr "{used} of {limit} today"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.driver"
+msgstr "A driver"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.anItem"
 msgstr "A plan item"
 

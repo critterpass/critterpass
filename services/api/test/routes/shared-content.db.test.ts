@@ -1,5 +1,5 @@
 /**
- * Shared content over HTTP: the ideas board, a destination's season and cost indices and a place's
+ * Shared content over HTTP: the ideas board, the help centre's articles, a destination's season and cost indices and a place's
  * crowd curves. Each read answers only what its sync stream sends (reviewed, approved, published),
  * needs a session, and carries five minutes of private cache with an ETag that answers 304.
  */
@@ -9,6 +9,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { DestinationCostIndices } from '../../src/routes/destination-cost-indices';
 import type { DestinationSeason } from '../../src/routes/destination-season';
 import type { BoardIdea } from '../../src/routes/help-ideas';
+import type { HelpLibrary } from '../../src/routes/help-library';
 import type { PlaceCrowdForecasts } from '../../src/routes/place-crowd-forecasts';
 import { registerSharedContentRoutes } from '../../src/routes/shared-content';
 import { seedLiveDestinations } from '../travel-data/travel-seed';
@@ -77,6 +78,25 @@ beforeAll(async () => {
               ($1, 2, $2, 'editorial', now(), NULL)`,
       [shrine, CURVE],
     );
+    const live = crypto.randomUUID();
+    const review = crypto.randomUUID();
+    await tx.query(
+      `INSERT INTO content_releases (id, kind, version, batch_key, title, status, stage, checksum,
+         artifact, item_count, approved_by, approved_at, published_at)
+       VALUES ($1, 'help', 1, 'help-library-live', 'Help', 'published', 'publish',
+               repeat('0', 64), '{}', 3, $3, now(), now()),
+              ($2, 'help', 2, 'help-library-review', 'Help', 'review', 'review',
+               repeat('1', 64), '{}', 1, NULL, NULL, NULL)`,
+      [live, review, me.uid],
+    );
+    await tx.query(
+      `INSERT INTO help_articles (slug, locale, category, title, summary, body_md, release_id)
+       VALUES ('refunds', 'en', 'refunds', 'Refunds', 'How refunds work.', '# Refunds', $1),
+              ('refunds', 'vi', 'refunds', 'Hoàn tiền', 'Cách hoàn tiền.', '# Hoàn tiền', $1),
+              ('refunds', 'ja', 'refunds', '返金', '返金について。', '# 返金', $1),
+              ('unreleased', 'en', 'refunds', 'Unreleased', 'Still in review.', '# Soon', $2)`,
+      [live, review],
+    );
     await tx.query(
       `INSERT INTO ideas (title, locale, status, votes_count, author_id)
        VALUES ('Split costs by the night', 'en', 'open', 3, NULL),
@@ -123,6 +143,35 @@ describe('GET /v1/help/ideas', () => {
 
   it('needs a session', async () => {
     expect((await harness.request('/v1/help/ideas')).status).toBe(401);
+  });
+});
+
+describe('GET /v1/help/library', () => {
+  it('answers the published articles of the language and of English, with their bodies', async () => {
+    const { status, body, cache, etag } = await read<HelpLibrary>('/v1/help/library?locale=vi-VN');
+    expect(status).toBe(200);
+    expect(cache).toBe('private, max-age=300');
+    expect(body.articles.map((article) => [article.slug, article.locale]).sort()).toEqual([
+      ['refunds', 'en'],
+      ['refunds', 'vi'],
+    ]);
+    expect(body.articles.find((article) => article.locale === 'vi')).toEqual({
+      slug: 'refunds',
+      locale: 'vi',
+      category: 'refunds',
+      title: 'Hoàn tiền',
+      summary: 'Cách hoàn tiền.',
+      body_md: '# Hoàn tiền',
+    });
+    const again = await read('/v1/help/library?locale=vi-VN', { 'if-none-match': etag ?? '' });
+    expect(again.status).toBe(304);
+  });
+
+  it('answers English alone by default, rejects a malformed locale and needs a session', async () => {
+    const english = await read<HelpLibrary>('/v1/help/library');
+    expect(english.body.articles.map((article) => article.slug)).toEqual(['refunds']);
+    expect((await read('/v1/help/library?locale=not_a_locale')).status).toBe(422);
+    expect((await harness.request('/v1/help/library?locale=en')).status).toBe(401);
   });
 });
 

@@ -6,6 +6,8 @@
  */
 import { t } from '@lingui/core/macro';
 
+import { driverPickTitle } from '@/features/drivers';
+
 import type { ChangeCard } from './model/review-model';
 import { reviewTitle } from './review-copy';
 
@@ -27,9 +29,18 @@ function when(card: ChangeCard, dayLabel: ChangeTitleInput['dayLabel']): string 
   return [day, side?.time ?? null].filter((part) => part !== null && part !== '').join(' ');
 }
 
+/** The driver's name on a change row; a driver whose row has not synced is still a driver. */
+export function driverPickName(name: string): string {
+  return name === '' ? t({ id: 'plan.card.driver', message: 'Driver' }) : name;
+}
+
 export function changeTitle(input: ChangeTitleInput): string {
   const accepted = input.cards.filter((card) => card.accepted);
   const [card] = accepted;
+  // A driver pick names no place: "Minh wants Made to drive", the days and terms under it.
+  if (accepted.length === 1 && card?.driverPick != null) {
+    return driverPickTitle({ pick: card.driverPick, author: input.author, mine: input.mine });
+  }
   const place = (card?.after ?? card?.before)?.label ?? '';
   if (accepted.length !== 1 || card === undefined || place === '') {
     return reviewTitle(input.trigger, input.cards.length);
@@ -56,7 +67,7 @@ export function changeTitle(input: ChangeTitleInput): string {
       return input.mine
         ? t({ id: 'plan.card.title.swapMine', message: `You want to swap in ${where}` })
         : t({ id: 'plan.card.title.swap', message: `${name} wants to swap in ${where}` });
-    // A driver pick names no place: it keeps the counted headline.
+    // A driver pick among other changes keeps the counted headline.
     case 'assign_provider':
       return reviewTitle(input.trigger, input.cards.length);
   }

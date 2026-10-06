@@ -10,6 +10,7 @@ import { Pressable, View } from 'react-native';
 
 import { upper } from '@cp/i18n';
 
+import { driverPickDetail } from '@/features/drivers';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -59,6 +60,8 @@ export function stateWord(state: ChangesetState): string {
 
 export interface ChangesetChatCardViewProps {
   readonly title: string;
+  /** A driver pick's days and terms, under the title. */
+  readonly detail?: string | null;
   readonly state: ChangesetState;
   readonly yes: number;
   readonly needed: number;
@@ -100,6 +103,11 @@ export function ChangesetChatCardView(props: ChangesetChatCardViewProps) {
       <Text variant="title" singleLine={false}>
         {upper(props.title, locale)}
       </Text>
+      {props.detail ? (
+        <Text variant="body" singleLine={false} testID="changeset-card-detail">
+          {props.detail}
+        </Text>
+      ) : null}
       {props.state === 'voting' ? (
         <Text variant="bodySm" color={theme.semantic.text.secondary}>
           {t({ id: 'plan.card.tally', message: `${yes} of ${needed} yeses so far` })}
@@ -163,8 +171,11 @@ export function ChangesetChatCard({
           new Date(`${date}T12:00:00Z`),
         );
   };
+  const kept = view.cards.filter((card) => card.accepted);
+  const pick = kept.length === 1 ? (kept[0]?.driverPick ?? null) : null;
   return (
     <ChangesetChatCardView
+      detail={pick === null ? null : driverPickDetail(pick, locale)}
       title={changeTitle({
         cards: view.cards,
         trigger: view.row?.trigger ?? null,
