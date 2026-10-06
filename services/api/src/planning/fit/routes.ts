@@ -84,7 +84,11 @@ export function registerFitRoutes(
       const trip = await tripFitFacts(tx, id);
       const { walkMaxM } = await readFitThresholds(tx);
       const travel = (fit.travel ?? straightLineSource)(trip.driveFactor, walkMaxM);
-      return nearbyPlaces(tx, { destinationId: trip.destinationId, poiId, limit }, travel);
+      return nearbyPlaces(
+        tx,
+        { destinationId: trip.destinationId, poiId, limit, tripId: trip.id },
+        travel,
+      );
     });
     c.header('Cache-Control', 'private, max-age=900');
     return c.json({ places });

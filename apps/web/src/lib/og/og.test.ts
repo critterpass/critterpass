@@ -12,6 +12,7 @@ import { MemoryBucket, loadPublicAsset } from './og-test-support';
 import { renderCard } from './render';
 import { OG_TEMPLATE_VERSION, serveOg } from './serve';
 import { inviteTemplate } from './templates/invite';
+import { planTemplate } from './templates/plan';
 import { referralTemplate } from './templates/referral';
 import { PALETTE } from './templates/shared';
 import { tipTemplate } from './templates/tip';
@@ -22,6 +23,29 @@ const WORDS: CardWords = {
   referralEyebrow: (name) => (name === null ? 'Bring your crew' : `${name} invited you`),
   referralBody: (name) => `${name ?? 'A friend'} wants you on CritterPass.`,
   estimateEach: (amount) => `~${amount} each`,
+  plan: (plan) => ({
+    eyebrow: `Crew plan · ${plan.destination_name}`,
+    headline: `${plan.days_count} days in ${plan.destination_name}`,
+    chips: [`${plan.days_count} days`, `Crew of ${plan.crew_size}`],
+  }),
+};
+const PLAN_TOKEN = 'KyotoSlowly4Days0Token01';
+const PLAN = {
+  kind: 'plan',
+  shared_plan_id: '0190a6f1-7aaa-7bbb-8ccc-123456789abc',
+  title: null,
+  destination_name: 'Kyoto',
+  days_count: 4,
+  travel_month: 4,
+  travel_year: 2026,
+  crew_size: 3,
+  crew_names: null,
+  travelled: true,
+  tags: [],
+  days: [],
+  rating_avg: null,
+  rating_count: 0,
+  copies_count: 0,
 };
 
 /** Decoded RGBA of a PNG, through Takumi itself (an image node drawn 1:1 into raw pixels). */
@@ -96,6 +120,21 @@ describe('OG cards', { timeout: 60_000 }, () => {
     await expectGolden('referral', png);
   });
 
+  it('draws the crew plan card', async () => {
+    const png = await renderCard(
+      planTemplate({
+        eyebrow: 'Crew plan · Kyoto',
+        headline: '4 days in Kyoto',
+        chips: ['4 days', 'April 2026', 'Crew of 3'],
+        guide: 'gecko',
+      }),
+      ['gecko'],
+      loadPublicAsset,
+    );
+    expectCardSize(png);
+    await expectGolden('plan', png);
+  });
+
   it('draws the tip card', async () => {
     const png = await renderCard(
       tipTemplate({
@@ -128,13 +167,15 @@ describe('serving OG cards', { timeout: 60_000 }, () => {
       },
     ],
   ]);
+  const plans = new Map<string, unknown>([[PLAN_TOKEN, PLAN]]);
   let api: Server;
   let apiBaseUrl = '';
 
   beforeAll(async () => {
     api = createServer((request, response) => {
       const code = /^\/v1\/links\/([^/]+)\/preview/u.exec(request.url ?? '')?.[1] ?? '';
-      const body = previews.get(code);
+      const plan = /^\/v1\/public\/plan\/([^/]+)/u.exec(request.url ?? '')?.[1];
+      const body = plan === undefined ? previews.get(code) : plans.get(plan);
       response.setHeader('content-type', 'application/json');
       response.statusCode = body === undefined ? 404 : 200;
       response.end(
@@ -188,6 +229,22 @@ describe('serving OG cards', { timeout: 60_000 }, () => {
     const response = await serve('invite', 'BAX6XA', bucket);
     expect(response.status).toBe(404);
     expect(bucket.objects.has(key)).toBe(false);
+  });
+
+  it('draws a published plan by its link token, and forgets it once the plan is taken down', async () => {
+    const bucket = new MemoryBucket();
+    const first = await serve('plan', PLAN_TOKEN, bucket);
+    expect(first.status).toBe(200);
+    expect(first.headers.get('x-og-cache')).toBe('miss');
+    expect(first.headers.get('cache-control')).toBe('no-store');
+    expect((await serve('plan', PLAN_TOKEN, bucket)).headers.get('x-og-cache')).toBe('hit');
+    const key = await ogCacheKey('test-secret', 'plan', PLAN_TOKEN, OG_TEMPLATE_VERSION);
+    expect(bucket.objects.has(key)).toBe(true);
+    plans.delete(PLAN_TOKEN);
+    expect((await serve('plan', PLAN_TOKEN, bucket)).status).toBe(404);
+    expect(bucket.objects.has(key)).toBe(false);
+    // The plan's own id is never a key.
+    expect((await serve('plan', PLAN.shared_plan_id, bucket)).status).toBe(404);
   });
 
   it('never resolves an internal id, a non-canonical code or an unknown kind', async () => {

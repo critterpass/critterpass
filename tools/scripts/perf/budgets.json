@@ -4,5 +4,6 @@
   "androidMinFps": 55,
   "iosDownloadMb": 40,
   "commandP95Ms": 300,
-  "dbP50Ms": 3
+  "dbP50Ms": 3,
+  "webInviteJsKb": 100
 }

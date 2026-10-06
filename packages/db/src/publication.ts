@@ -117,6 +117,9 @@ import * as schema from './schema';
  * `destination_home_links` (packages/db/src/schema/destination-travel.ts) is RLS "R" but read
  * over HTTP only (`GET /v1/destinations/{id}/getting-there`); `destination_link_runs` (same file)
  * is "S": the worker's record of a destination's links run.
+ * `driver_plan_shares` and `driver_plan_replies` (packages/db/src/schema/plan-shares.ts) are read
+ * over HTTP only: the share sheet and review changes fetch a trip's links and a driver's reply
+ * when they open, and the link's sealed token must never replicate.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -137,6 +140,8 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'driver_listing_flags',
   'driver_listing_stats',
   'driver_listings',
+  'driver_plan_replies',
+  'driver_plan_shares',
   'driver_ratings',
   'driver_tips',
   'critter_names',

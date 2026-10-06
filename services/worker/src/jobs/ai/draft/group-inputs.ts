@@ -6,18 +6,20 @@
  * A must-do's place goes to the group whose destination's place box holds it (a later stop or a
  * day trip first, since the first stop also owns places inside their boxes), else the group of
  * the destination that owns it, else the first. A typed wish goes to the group with a place it
- * names, else the first. A stop she placed stays on its day, in that day's group. A place a later
+ * names, else the first, and is offered that group's places it may mean (./group-wishes.ts). A
+ * stop she placed stays on its day, in that day's group. A place a later
  * group holds is not also offered to the first stop's days.
  */
 import { withHeldStops, type DayGroup, type DraftPlanInput } from '@cp/ai';
 import { withSystem } from '@cp/db';
-import { dayTripReach, destinationPhrases, matchWish, type DraftPoi } from '@cp/planner';
+import { dayTripReach, destinationPhrases, type DraftPoi } from '@cp/planner';
 import type pg from 'pg';
 
 import type { GroupPlan } from './day-groups';
 import { heldPlaceIds, withMealKinds, type HeldStop } from './held-stops';
 import type { DraftTripData } from './load';
-import { loadDraftPlaces } from './load-places';
+import { groupWishes } from './group-wishes';
+import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import {
   arrivalAtStop,
   buildPlanInput,
@@ -127,19 +129,49 @@ export async function groupInputs(pool: pg.Pool, ask: GroupInputsAsk): Promise<D
   const places = loaded.map((list, index) =>
     index === 0 ? list.filter((poi) => !later.has(poi.id)) : list,
   );
-  const wishHome = (text: string): number => {
-    const found = places.findIndex(
-      (list, index) =>
-        index > 0 &&
-        matchWish(text, list, destinationPhrases(plan[index]?.destination ?? '')).named.length > 0,
-    );
-    return found === -1 ? 0 : found;
-  };
+  // A typed must-do still without a place: the places it may mean, read per group, so the guide
+  // can answer it where it belongs. A row a later group holds is that group's alone.
+  const open = ask.mustDos.flatMap((m) => (m.poiId === null ? [{ id: m.id, text: m.title }] : []));
+  const ignores = plan.map((group) => destinationPhrases(group.destination));
+  const searched = await Promise.all(
+    plan.map((group, index) =>
+      open.length === 0
+        ? Promise.resolve<DraftPoi[]>([])
+        : loadWishCandidates(
+            pool,
+            group.destinationId,
+            open.map((wish) => wish.text),
+            ignores[index] ?? [],
+            { borrow: group.stop > 1 || group.dayTrip !== null },
+          ),
+    ),
+  );
+  const elsewhere = new Set([
+    ...later,
+    ...searched.slice(1).flatMap((l) => l.map((poi) => poi.id)),
+  ]);
+  const wished = groupWishes(
+    open,
+    plan.map((_, index) => ({
+      ignore: ignores[index] ?? [],
+      places: places[index] ?? [],
+      candidates: (searched[index] ?? []).filter((poi) => index > 0 || !elsewhere.has(poi.id)),
+    })),
+  );
   return Promise.all(
     plan.map(async (group, index): Promise<DayGroup> => {
-      const own = places[index] ?? [];
+      const recommended = places[index] ?? [];
+      const offer = wished.offers[index];
+      // The places a wish is offered join the group's own, as they do on a one-destination trip.
+      const own = [
+        ...recommended,
+        ...(searched[index] ?? []).filter(
+          (poi) =>
+            offer?.offered.includes(poi.id) === true && !recommended.some((p) => p.id === poi.id),
+        ),
+      ];
       const mustDos = ask.mustDos.filter((m) =>
-        m.poiId === null ? wishHome(m.title) === index : (homes.get(m.poiId) ?? 0) === index,
+        m.poiId === null ? wished.home.get(m.id) === index : (homes.get(m.poiId) ?? 0) === index,
       );
       const local = ask.held
         .filter((stop) => groupOfDay(stop.dayNo) === index)
@@ -149,7 +181,8 @@ export async function groupInputs(pool: pg.Pool, ask: GroupInputsAsk): Promise<D
         own,
         {
           ...ask.options,
-          ignoreNames: destinationPhrases(group.destination),
+          ignoreNames: ignores[index] ?? [],
+          ...(offer === undefined ? {} : { wished: offer }),
           prefer: ask.ideaPlaces,
           notOffered: ask.taken,
           routed: await loadRoutedPairs(

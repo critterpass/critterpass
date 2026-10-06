@@ -44,13 +44,21 @@ export function toPlanCard(changesetId: string, view: ChangesetView): PlanCardMo
     currency: view.numbers?.currency ?? null,
     swaps: view.cards
       .filter((card) => card.accepted)
-      .map((card) => ({
-        target: card.target,
-        op: card.op,
-        before: card.before === null ? null : { label: card.before.label, time: card.before.time },
-        after: card.after === null ? null : { label: card.after.label, time: card.after.time },
-        reason: card.reason,
-      })),
+      // A driver pick swaps no plan item: it has no line on this card.
+      .flatMap((card) => {
+        const { op } = card;
+        if (op === 'assign_provider') return [];
+        return [
+          {
+            target: card.target,
+            op,
+            before:
+              card.before === null ? null : { label: card.before.label, time: card.before.time },
+            after: card.after === null ? null : { label: card.after.label, time: card.after.time },
+            reason: card.reason,
+          },
+        ];
+      }),
   };
 }
 
