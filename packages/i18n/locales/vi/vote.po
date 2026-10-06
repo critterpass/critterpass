@@ -563,6 +563,10 @@ msgstr "Bắt đầu chuyến một mình"
 msgid "vote.quickCrew.start"
 msgstr "Lập nhóm và giới thiệu"
 
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.ai"
+msgstr "AI tóm tắt từ các trang này"
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.removeTitle"
 msgstr "Gỡ {name} khỏi bảng?"
@@ -697,6 +701,10 @@ msgstr "thắng"
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.wins"
 msgstr "Thắng {0}"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.ai"
+msgstr "Do AI viết"
 
 #: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
 msgid "vote.final.notVoted"

@@ -32,6 +32,10 @@ msgstr "{0} {1}"
 msgid "chat.upload.progress"
 msgstr "Đã tải lên {0}%"
 
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.guideAuthor"
+msgstr "{author} · hướng dẫn viên AI"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.people"
 msgstr "{count, plural, other {# người}}"
