@@ -12,7 +12,7 @@ import type * as ImagePickerModule from 'expo-image-picker';
 import * as Sentry from '@sentry/react-native';
 
 import type { CommandClient } from '@/data/commands/client';
-import { sessionHeaders } from '@/data/app-session/device-session';
+import { sessionHeaders } from '@/data/app-session/auth-client';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { uploadAttachment, type MediaHttp } from '@/features/crew';
 

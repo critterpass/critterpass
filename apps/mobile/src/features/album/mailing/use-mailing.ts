@@ -7,7 +7,7 @@
 import type { MailingAddressPresence, PostcardMailingStatus } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
-import { sessionHeaders } from '@/data/app-session/device-session';
+import { sessionHeaders } from '@/data/app-session/auth-client';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
