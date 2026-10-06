@@ -1,7 +1,7 @@
 ---
 phase: 54
 title: Launch hardening & store submission
-status: in progress
+status: in_progress
 depends_on: [19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57]
 wave: 23
 features: []
