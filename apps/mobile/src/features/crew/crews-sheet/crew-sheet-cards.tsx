@@ -66,7 +66,6 @@ const useStyles = makeStyles((th) => ({
     justifyContent: 'center',
   },
   startBody: { flex: 1, gap: th.space['2'] },
-  settings: { alignItems: 'flex-end', marginEnd: -th.space['12'] },
 }));
 
 function NewPill({ count, active }: { readonly count: number; readonly active: boolean }) {
@@ -216,13 +215,11 @@ export function CrewSheetCard({
         {line}
       </Text>
       {last === null ? null : <Preview last={last} />}
-      <View style={styles.settings}>
-        <TextLink
-          label={t({ id: 'crew.sheet.settings', message: 'Crew settings' })}
-          onPress={onSettings}
-          testID={`crew-card-settings-${crewId}`}
-        />
-      </View>
+      <TextLink
+        label={t({ id: 'crew.sheet.settings', message: 'Crew settings' })}
+        onPress={onSettings}
+        testID={`crew-card-settings-${crewId}`}
+      />
     </Card>
   );
 }
