@@ -8,6 +8,7 @@ import type { PlaceMediaAsset } from '@cp/domain';
 import { isGenericPlacePhoto } from '@/data/media/place-photo-store';
 
 import { poiSubject } from './format';
+import { PROFILE_SOURCE, type ShownPhoto } from './profile-photo';
 
 /** The hero (first, the read is in rank order) of each place's own assets, by POI id. */
 export function photosByPlace(
@@ -23,7 +24,11 @@ export function photosByPlace(
   return photos;
 }
 
-/** A stock photo standing in for the place: shown with the "not this place" label. */
-export function isGenericPhoto(photo: PlaceMediaAsset | null | undefined): boolean {
-  return photo !== null && photo !== undefined && isGenericPlacePhoto(photo);
+/**
+ * A stock photo standing in for the place: shown with the "not this place" label. A photo from
+ * the place's own profile is the place itself.
+ */
+export function isGenericPhoto(photo: ShownPhoto | null | undefined): boolean {
+  if (photo === null || photo === undefined || photo.source === PROFILE_SOURCE) return false;
+  return isGenericPlacePhoto(photo);
 }

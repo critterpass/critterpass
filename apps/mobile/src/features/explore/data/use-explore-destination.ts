@@ -1,14 +1,64 @@
 /**
  * The destination guide's read (`/v1/explore/destinations/{id}`): month curve, FX chip, the fares
  * from each crew member's home airport for a month (in the viewer's currency, each with when it
- * was seen) and the first-timer picks. The last good answer is kept, so the page draws offline.
+ * was seen) and the first-timer picks, with each pick's profile photo by place id and the photo
+ * offered as the destination's cover. The last good answer is kept, so the page draws offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and wire values, never copy. */
 import { exploreDestinationSchema, type ExploreDestinationWire } from '@cp/domain';
 
-import type { Classification } from '@/data/travel-data/client';
+import type { Classification, WireParser } from '@/data/travel-data/client';
 import type { ReadState } from '@/data/travel-data/freshness';
 import { query, useTravelRead } from '@/data/travel-data/use-travel-read';
+
+import {
+  readCoverPhoto,
+  readProfilePhoto,
+  type CoverPhoto,
+  type ProfilePhoto,
+} from '../profile-photo';
+
+/** The guide's read with the photos its picks carry. */
+export interface ExploreDestinationRead extends ExploreDestinationWire {
+  /** Each pick's profile photo, by place id; a pick with none is absent. */
+  readonly pick_photos: Readonly<Record<string, ProfilePhoto>>;
+  /** A pick's photo for the hero of a destination with no curated cover; null without one. */
+  readonly cover: CoverPhoto | null;
+}
+
+function photosOf(value: unknown): Record<string, ProfilePhoto> {
+  const body = value as { picks?: unknown; pick_photos?: unknown } | null;
+  const photos: Record<string, ProfilePhoto> = {};
+  // The saved copy holds the photos as parsed; the api's answer holds one on each pick.
+  if (typeof body?.pick_photos === 'object' && body.pick_photos !== null) {
+    for (const [poiId, raw] of Object.entries(body.pick_photos)) {
+      const photo = readProfilePhoto(raw);
+      if (photo !== null) photos[poiId] = photo;
+    }
+  }
+  for (const entry of Array.isArray(body?.picks) ? (body.picks as unknown[]) : []) {
+    const item = (entry as { item?: { poi_id?: unknown; photo?: unknown } } | null)?.item;
+    const photo = readProfilePhoto(item?.photo);
+    if (typeof item?.poi_id === 'string' && photo !== null) photos[item.poi_id] = photo;
+  }
+  return photos;
+}
+
+/** The guide's answer (or its saved copy) with the picks' photos; an answer without any is whole. */
+export const exploreDestinationReadSchema: WireParser<ExploreDestinationRead> = {
+  safeParse(value) {
+    const parsed = exploreDestinationSchema.safeParse(value);
+    if (!parsed.success) return { success: false };
+    return {
+      success: true,
+      data: {
+        ...parsed.data,
+        pick_photos: photosOf(value),
+        cover: readCoverPhoto((value as { cover?: unknown } | null)?.cover),
+      },
+    };
+  },
+};
 
 export interface ExploreDestinationInput {
   /** Destination id or slug; null reads nothing. */
@@ -36,10 +86,10 @@ function classify(data: ExploreDestinationWire): Classification {
 
 export function useExploreDestination(
   input: ExploreDestinationInput,
-): ReadState<ExploreDestinationWire> {
+): ReadState<ExploreDestinationRead> {
   return useTravelRead({
     path: exploreDestinationPath(input),
-    schema: exploreDestinationSchema,
+    schema: exploreDestinationReadSchema,
     classify,
   });
 }
