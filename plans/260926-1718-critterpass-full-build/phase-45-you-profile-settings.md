@@ -165,7 +165,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: avatar change appears in crew chat on a second device; locked tile shake + hint; photo upload offline retries.
 
 ### T4 — Settings framework 3n-2 / 3n-6, sign-out, voice samples
-- Status: blocked — registry, rows and sign-out done (722c8a5f7), help-and-feedback rows done (b364ce1d7), Music row to Sound done (d05a6f456f); chattiness voice samples wait for the owned ElevenLabs voices, and the plan chip waits for the plan screen
+- Status: blocked — registry, rows and sign-out done (722c8a5f7), help-and-feedback rows done (b364ce1d7), Music row to Sound done (d05a6f456f); plan chip done (2a9d5c809e); chattiness voice samples wait for the owned ElevenLabs voices
 - Goal: one registry-driven settings screen.
 - Files: `apps/mobile/src/app/you/settings/index.tsx`, `apps/mobile/src/features/you/settings/{registry,rows,device-prefs,sign-out}/*`, `tools/scripts/render-settings-voice-samples.ts`, `packages/content/voice-samples/settings/manifest.json`, tests, `e2e/you/settings.yaml`.
 - Steps: 1. Registry + synced/device storage. 2. Rows from render; rows owned by P20/P34/P36/P46/P47/P49 import those phases' public APIs (all precede this phase: P47 `features/help/settings-rows.tsx`, P49 `/you/pings` + `/you/widgets` routes; hence wave 18). 3. Chattiness sample playback. 4. Sign-out flows incl. anonymous warning + full local clear. 5. Collapsing header, easter egg.
