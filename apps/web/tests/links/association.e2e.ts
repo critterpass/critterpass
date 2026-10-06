@@ -5,7 +5,7 @@ import { TEST_FINGERPRINT } from './playwright.config';
 const PRODUCTION_HOSTS = ['critterpass.app', 'go.critterpass.app'];
 const STAGING_HOSTS = ['staging.critterpass.app', 'go.staging.critterpass.app'];
 const APP_PATHS = ['/i/*', '/j/*', '/p/*', '/r/*', '/plan/*', '/g/*', '/locals/*', '/app/*'];
-const EXCLUDED = ['/', '/tips*', '/legal*', '/help*', '/account*'];
+const EXCLUDED = ['/', '/tips*', '/legal*', '/help*', '/account*', '/t/*'];
 
 interface Component {
   readonly '/': string;

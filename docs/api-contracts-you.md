@@ -50,6 +50,25 @@ While an account is closed every other command answers `ACCOUNT_CLOSED` (403) on
 - A crew or trip only that person was in stays in the database, unreachable by anyone.
 - `media_objects` rows stay as the list of stored objects still to erase.
 
+### Outside Postgres
+
+Every `account.purge` run queues `account.purge_external` for each account purged in the last two hours, whichever door purged it (the hourly job, the console's `force_purge_account`, a test device's purge route). The job checks that the deletion row is purged, then runs every step even when an earlier one failed; each step is safe to run again, and a failed step fails the attempt (five retries with backoff, then the dead-letter queue).
+
+| Store | What goes | How |
+|---|---|---|
+| Media bucket (R2) | every object under `u/{uid}/` (uploads, avatar, receipts, feedback attachments, voice notes, signature) and `exports/{uid}/` (data export zips) | list by prefix, delete each |
+| Analytics (PostHog) | the person and all its events | found by the pseudonymous `user_pid`; needs `POSTHOG_PERSONAL_API_KEY` and `POSTHOG_PROJECT_ID` on the worker. Analytics collecting without them is a failed step, never a silent skip |
+| AI traces (Langfuse) | every trace recorded with the uid | list by `userId`, delete in batches of 100 |
+| Sign-in providers | Apple and Google refresh tokens | revoked when the account is closed, while the tokens still exist; the sign-in rows go with the database purge |
+
+Not covered yet: `media_objects` rows are not removed after their objects go (the system role has no delete grant on the table), quarantined uploads under `quarantine/` are left for the legal-hold decision, and issues that `feedback.forward` filed in the feedback tracker keep the text the person wrote.
+
+`account.purge_reminder` runs daily and finds the accounts two to three days from their purge. Nothing the worker can send reaches a closed account (signed out, push tokens parked, inbox behind the restore screen), so until an e-mail or SMS sender is passed to the job each one is counted as `undelivered` in the run's result. The restore screen shows the purge date whenever the owner opens the app.
+
+### In the console
+
+Support sees a traveller's deletion on their user page (`GET /v1/admin/users/{uid}/deletion`: state `none`, `requested`, `restored` or `purged`, the dates, and their last data export) and the list by state (`GET /v1/admin/account-deletions?state=`). The reason a traveller gave for leaving is not shown. An owner can end the grace window with `force_purge_account` (api-contracts §4.17).
+
 ## Data deltas
 
 - `users.languages text[]` (at most 12), `users.username_changed_at`.

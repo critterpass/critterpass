@@ -55,7 +55,7 @@ function affectedBy(row: ChangeSetRow, state: PlanState, everyone: readonly stri
   return [...affected].filter((uid) => members.has(uid)).sort();
 }
 
-async function openPoll(
+export async function openPoll(
   tx: pg.PoolClient,
   row: ChangeSetRow,
   input: {

@@ -9,6 +9,7 @@ import { execFileSync } from 'node:child_process';
 
 import pg from 'pg';
 
+import { seedAccountAndCommunity } from './seed-account-and-community';
 import { seedSeasonReview } from './seed-season-review';
 import { seedWorkQueues } from './seed-work-queues';
 
@@ -108,6 +109,7 @@ export async function seedLocal(databaseUrl: string = DEFAULT_URL): Promise<void
   try {
     await seedWorkQueues(client);
     await seedSeasonReview(client);
+    await seedAccountAndCommunity(client);
   } finally {
     await client.end();
   }

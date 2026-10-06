@@ -1,7 +1,8 @@
 /**
  * `public_reader` and the public views behind web previews: the role reads only the views, the
  * views answer only for the live link named in the transaction, and the proposal view carries an
- * explicit allow-list of columns (no prices, notes, people or ids).
+ * explicit allow-list of columns (no prices, notes, people or ids). The plan view answers only for
+ * a live plan link whose plan is published, with its own allow-list.
  */
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -12,9 +13,13 @@ import {
   type DbTestContainer,
   type DbTestDatabase,
 } from '../helpers/pg-container';
+import { insertTrip } from '../helpers/actors';
 import { buildTripFixture, type TripFixture } from '../helpers/trip-fixture';
 
 const SEAT_HASH = 'a'.repeat(64);
+const PLAN_HASH = 'b'.repeat(64);
+const PENDING_PLAN_HASH = 'c'.repeat(64);
+const REVOKED_PLAN_HASH = 'd'.repeat(64);
 
 let container: DbTestContainer;
 let db: DbTestDatabase;
@@ -22,7 +27,7 @@ let fixture: TripFixture;
 let sentVersion: string;
 
 async function asPublicReader<T>(
-  settings: { code?: string; seat?: string },
+  settings: { code?: string; seat?: string; plan?: string },
   fn: (tx: pg.PoolClient) => Promise<T>,
 ): Promise<T> {
   const client = await db.pool.connect();
@@ -30,8 +35,9 @@ async function asPublicReader<T>(
     await client.query('BEGIN');
     await client.query('SET LOCAL ROLE public_reader');
     await client.query(
-      "SELECT set_config('app.public_code', $1, true), set_config('app.public_seat', $2, true)",
-      [settings.code ?? '', settings.seat ?? ''],
+      `SELECT set_config('app.public_code', $1, true), set_config('app.public_seat', $2, true),
+              set_config('app.public_plan', $3, true)`,
+      [settings.code ?? '', settings.seat ?? '', settings.plan ?? ''],
     );
     return await fn(client);
   } finally {
@@ -39,6 +45,14 @@ async function asPublicReader<T>(
     client.release();
   }
 }
+
+const plans = (plan?: string) =>
+  asPublicReader(plan === undefined ? {} : { plan }, async (tx) => {
+    const { rows } = await tx.query<{ destination_name: string; crew_names: string[] | null }>(
+      'SELECT destination_name, crew_names, days FROM public.shared_plan_public',
+    );
+    return rows;
+  });
 
 const days = (settings: { code?: string; seat?: string }) =>
   asPublicReader(settings, async (tx) => {
@@ -105,6 +119,42 @@ beforeAll(async () => {
        VALUES ($1, $2, $3, 'personal', $4, 'pending', now() + interval '14 days')`,
       [fixture.crewId, fixture.tripId, fixture.organiserId, SEAT_HASH],
     );
+    const destination = (
+      await tx.query<{ id: string }>(
+        "INSERT INTO destinations (slug, name) VALUES ('public-ubud', 'Ubud') RETURNING id",
+      )
+    ).rows[0]!.id;
+    const projection = JSON.stringify({
+      destination_name: 'Ubud',
+      crew_names: null,
+      cost_pp_rounded_minor: 124000,
+      photos: ['trips/secret/photo-1.jpg'],
+      days: [{ day_no: 1, theme: 'Rice terraces', places: [{ poi_id: 'p1', name: 'Tegalalang' }] }],
+    });
+    const plan = async (tripId: string, status: string) =>
+      (
+        await tx.query<{ id: string }>(
+          `INSERT INTO shared_plans (trip_id, destination_id, status, projection)
+           VALUES ($1, $2, $3, $4) RETURNING id`,
+          [tripId, destination, status, projection],
+        )
+      ).rows[0]!.id;
+    const published = await plan(fixture.tripId, 'published');
+    const otherTrip = await insertTrip(tx, { crewId: fixture.crewId, status: 'voting' });
+    const pending = await plan(otherTrip, 'pending_consent');
+    await tx.query(
+      `INSERT INTO plan_links (trip_id, shared_plan_id, token_hash, revoked_at)
+       VALUES ($1, $2, $3, NULL), ($4, $5, $6, NULL), ($1, $2, $7, now())`,
+      [
+        fixture.tripId,
+        published,
+        PLAN_HASH,
+        otherTrip,
+        pending,
+        PENDING_PLAN_HASH,
+        REVOKED_PLAN_HASH,
+      ],
+    );
   });
 }, 180_000);
 
@@ -147,6 +197,51 @@ describe('public.proposal_public', () => {
   });
 });
 
+describe('public.shared_plan_public', () => {
+  it('shows a published plan for its live link, cut to names and places', async () => {
+    expect(await plans(PLAN_HASH)).toEqual([
+      {
+        destination_name: 'Ubud',
+        crew_names: null,
+        days: [
+          { day_no: 1, theme: 'Rice terraces', places: [{ name: 'Tegalalang', category: null }] },
+        ],
+      },
+    ]);
+  });
+
+  it('shows nothing for a plan waiting on consent, a revoked or unknown link, or with no link set', async () => {
+    for (const plan of [PENDING_PLAN_HASH, REVOKED_PLAN_HASH, 'e'.repeat(64)]) {
+      expect(await plans(plan)).toEqual([]);
+    }
+    expect(await plans()).toEqual([]);
+  });
+
+  it('carries only its allow-listed columns', async () => {
+    const { rows } = await db.pool.query<{ column_name: string }>(
+      `SELECT column_name FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'shared_plan_public'
+        ORDER BY ordinal_position`,
+    );
+    expect(rows.map((row) => row.column_name)).toEqual([
+      'shared_plan_id',
+      'title',
+      'destination_name',
+      'days_count',
+      'travel_month',
+      'travel_year',
+      'crew_size',
+      'crew_names',
+      'travelled',
+      'tags',
+      'days',
+      'rating_avg',
+      'rating_count',
+      'copies_count',
+    ]);
+  });
+});
+
 describe('public_reader', () => {
   // PostGIS's spatial_ref_sys (public reference data, readable by every role) is the one exception.
   it('cannot read any base table', async () => {
@@ -160,7 +255,14 @@ describe('public_reader', () => {
   });
 
   it('is denied a direct read of trips and plan items', async () => {
-    for (const table of ['trips', 'plan_items', 'join_codes', 'invites']) {
+    for (const table of [
+      'trips',
+      'plan_items',
+      'join_codes',
+      'invites',
+      'shared_plans',
+      'plan_links',
+    ]) {
       await expect(
         asPublicReader({ code: 'HYPE2K' }, (tx) => tx.query(`SELECT 1 FROM ${table} LIMIT 1`)),
       ).rejects.toThrow(/permission denied/);

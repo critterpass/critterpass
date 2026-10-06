@@ -15,6 +15,7 @@ import {
 } from '@cp/planner';
 import type pg from 'pg';
 
+import { areaScope, placesOfSql, readingArea, type AreaScope } from './area-places';
 import { loadFitContext, straightLineSource, tripFitFacts, type LegPair } from './context';
 import type { FitDeps } from './service';
 import { readFitPlaces } from './signals/visit';
@@ -31,6 +32,7 @@ async function candidatePlaces(
   tripId: string,
   destinationId: string | null,
   near: { readonly lat: number; readonly lng: number } | null,
+  scope: AreaScope | null,
 ) {
   const ideas = await tx.query<{ poi_id: string; created_by: string | null; voted: string[] }>(
     `SELECT i.poi_id, i.created_by,
@@ -44,20 +46,24 @@ async function candidatePlaces(
         AND NOT EXISTS (SELECT 1 FROM place_hides h WHERE h.poi_id = i.poi_id AND h.user_id = app.uid())`,
     [tripId],
   );
+  const from = scope?.areaId ?? destinationId;
   const curated =
-    destinationId === null || near === null
+    from === null || near === null
       ? []
       : (
-          await tx.query<{ id: string }>(
-            `SELECT p.id FROM pois p
-              WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
-                AND p.merged_into_id IS NULL AND p.category NOT IN ('stay', 'transit')
-                AND NOT EXISTS (SELECT 1 FROM trip_ideas i
-                                 WHERE i.trip_id = $4 AND i.poi_id = p.id AND i.deleted_at IS NULL)
-                AND NOT EXISTS (SELECT 1 FROM place_hides h WHERE h.poi_id = p.id AND h.user_id = app.uid())
-              ORDER BY power(p.lat - $2, 2) + power((p.lng - $3) * cos(radians($2)), 2)
-              LIMIT $5`,
-            [destinationId, near.lat, near.lng, tripId, CURATED_NEAR],
+          await readingArea(tx, scope, () =>
+            tx.query<{ id: string }>(
+              `SELECT p.id FROM pois p
+                WHERE ${placesOfSql('p', { destination: '$1', trip: '$4' }, scope)}
+                  AND p.status = 'active' AND ${recommendedSql('p')}
+                  AND p.merged_into_id IS NULL AND p.category NOT IN ('stay', 'transit')
+                  AND NOT EXISTS (SELECT 1 FROM trip_ideas i
+                                   WHERE i.trip_id = $4 AND i.poi_id = p.id AND i.deleted_at IS NULL)
+                  AND NOT EXISTS (SELECT 1 FROM place_hides h WHERE h.poi_id = p.id AND h.user_id = app.uid())
+                ORDER BY power(p.lat - $2, 2) + power((p.lng - $3) * cos(radians($2)), 2)
+                LIMIT $5`,
+              [from, near.lat, near.lng, tripId, CURATED_NEAR],
+            ),
           )
         ).rows;
   return { ideas: ideas.rows, curated: curated.map((row) => row.id) };
@@ -87,7 +93,14 @@ export async function ideasForGap(
     holding.sort((a, b) => b.gap.who_free.length - a.gap.who_free.length)[0];
   if (entry === undefined) throw new DomainError('NOT_FOUND', { reason: 'gap' });
   const near = entry.prev?.point ?? day.stay;
-  const pool = await candidatePlaces(tx, trip.id, trip.destinationId, near ?? loaded.anchor);
+  // A day spent in an area of its own (a day trip, a later stop) is filled from that area.
+  const pool = await candidatePlaces(
+    tx,
+    trip.id,
+    trip.destinationId,
+    near ?? loaded.anchor,
+    areaScope(trip.id, day.areaId),
+  );
   const ideaIds = pool.ideas.map((row) => row.poi_id);
   const facts = await readFitPlaces(tx, trip.id, [...ideaIds, ...pool.curated], loaded.inPlan);
   const byId = new Map(pool.ideas.map((row) => [row.poi_id, row]));
@@ -104,7 +117,9 @@ export async function ideasForGap(
         votedBy: idea?.voted ?? [],
       };
     });
-  const from = near === null ? null : { key: entry.prev?.stableId ?? 'stay', ...near };
+  // On a day trip the way from the stay is the link's: the router is never asked between areas.
+  const linked = day.link != null && entry.prev?.point == null;
+  const from = near === null || linked ? null : { key: entry.prev?.stableId ?? 'stay', ...near };
   const nextPoint = entry.next?.point ?? null;
   const pairs: LegPair[] = candidates.flatMap(({ place }) => {
     const here = { key: place.poiId, ...place.point };

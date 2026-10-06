@@ -74,7 +74,12 @@ export async function fixForIssue(
     case 'too_far': {
       const day = check.input.context.days.find((entry) => entry.dayId === dayId);
       if (day === undefined) return null;
-      const { candidates } = await tooFarCandidates(tx, check.trip.destinationId, day);
+      const { candidates } = await tooFarCandidates(
+        tx,
+        check.trip.destinationId,
+        day,
+        check.trip.id,
+      );
       const pointsOf = (swap: TooFarAlternative) => {
         const point = candidates.find((entry) => entry.poiId === swap.poiId)?.point;
         return point === undefined ? undefined : new Map([[swap.stableId, point]]);

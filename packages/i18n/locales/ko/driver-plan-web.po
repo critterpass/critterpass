@@ -1,0 +1,236 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 16:49+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ko\n"
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.adults"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offRevoked"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.title"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.anotherTip"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.timesDays"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.duration"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.durationMin"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.addTip"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.yourTerms"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.tipHint"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.car"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.errorInvalid"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.notFoundBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.brand"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.entryTickets"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.hours"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.included"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.language"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.moveUp"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.moveDown"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.moved"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.mustDo"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.mustDos"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.footer"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.openPickup"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.openWhatsApp"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.overtime"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.parking"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.petrol"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.pickup"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.pricePerDay"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sendQuote"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.send"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sentTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.stay"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.suggestDay"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.suggestChanges"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sentBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.errorVoting"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.updated"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.unavailable"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.sendFoot"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offExpired"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.ticketsBought"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.tips"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.include.tolls"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.errorRate"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.carHint"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.back"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.eyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.notFoundTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.dayNote"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.replacedBody"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.quoteTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.offQuote"
+msgstr ""
+
+#: ../../apps/web/src/components/driver-plan/copy.ts
+msgid "driverPlan.replyWaiting"
+msgstr ""

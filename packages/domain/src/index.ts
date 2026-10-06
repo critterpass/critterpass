@@ -174,10 +174,13 @@ export {
   type UpsertPoiResult,
 } from './places/poi';
 export {
+  ASSIGN_PROVIDER_OP,
   CHANGE_SET_OP_KINDS,
   changeSetOpKindSchema,
   changeSetOpSchema,
   changeSetOpsSchema,
+  isAssignProviderOp,
+  planItemOps,
   type ChangeSetOp,
   type ChangeSetOpKind,
   type ChangeSetOps,
@@ -296,4 +299,5 @@ export * from './account';
 export * from './recap';
 export * from './album';
 export * from './public';
+export * from './driver-plan-shares';
 export * from './driver-directory';

@@ -2437,6 +2437,30 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  // A driver plan link and the driver's reply: the crew reads them, only the system writes.
+  driver_plan_shares: {
+    selectProbe: {
+      sql: 'SELECT id FROM driver_plan_shares WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+      seed: `INSERT INTO driver_plan_shares
+               (trip_id, driver_name, itinerary_version_id, day_nos, token_hash, token_enc, expires_at)
+             SELECT $1::uuid, 'Matrix', id, ARRAY[1]::smallint[], sha256('matrix-probe'::bytea), 'sealed',
+                    now() + interval '14 days'
+               FROM itinerary_versions WHERE trip_id = $1::uuid AND status = 'current'
+             ON CONFLICT (token_hash) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_plan_replies: {
+    selectProbe: {
+      ...tripRowProbe('driver_plan_replies'),
+      seed: `INSERT INTO driver_plan_replies (share_id, trip_id, tips)
+             SELECT id, trip_id, '[{"day_no":1,"text":"Matrix tip"}]'::jsonb
+               FROM driver_plan_shares WHERE token_hash = sha256('matrix-probe'::bytea)
+             ON CONFLICT DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
 };
 
 /**
