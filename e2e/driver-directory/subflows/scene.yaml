@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# Opens one drivers lab scene (apps/mobile/src/app/(dev)/drivers-lab.tsx), waits for `${READY}`,
+# takes `${SHOT}` and goes back to the list (Android back; iOS reopens the lab).
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-${SCENE}'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${READY}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow: ../../home/subflows/open-dev-tools.yaml
+      - runFlow: open-lab.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-lab-${SCENE}'
+    timeout: 10000

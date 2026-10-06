@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:compare`: the crews' drivers lab scenes, named by design id
+# (6e-1 directory, 6e-2 detail, 6e-3 nobody listed, 6g-1 rate, 6g-2 invite, 6g-3 our drivers).
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: ../driver-directory/subflows/open-lab.yaml
+- runFlow:
+    file: ../driver-directory/subflows/scene.yaml
+    env: { SCENE: directory, READY: drivers-directory, SHOT: 'en-6e-1' }
+- runFlow:
+    file: ../driver-directory/subflows/scene.yaml
+    env: { SCENE: detail, READY: drivers-detail, SHOT: 'en-6e-2' }
+- runFlow:
+    file: ../driver-directory/subflows/scene.yaml
+    env: { SCENE: empty, READY: drivers-empty, SHOT: 'en-6e-3' }
+- runFlow:
+    file: ../driver-directory/subflows/scene.yaml
+    env: { SCENE: rate, READY: drivers-rate, SHOT: 'en-6g-1' }
+- runFlow:
+    file: ../driver-directory/subflows/scene.yaml
+    env: { SCENE: invite, READY: drivers-invite, SHOT: 'en-6g-2' }
+- runFlow:
+    file: ../driver-directory/subflows/scene.yaml
+    env: { SCENE: ours, READY: drivers-ours-timeline, SHOT: 'en-6g-3' }

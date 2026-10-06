@@ -1,0 +1,284 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 15:35+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: id\n"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.consent"
+msgstr "Dengan menyetujui, Anda mengizinkan CritterPass menampilkan data ini, nomor WhatsApp Anda, dan penilaian dari rombongan yang pernah Anda antar kepada wisatawan pengguna aplikasi. Anda bisa menjeda atau menghapusnya di sini kapan saja."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.car"
+msgstr "Mobil"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.change"
+msgstr "Ubah data saya"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.intro"
+msgstr "Periksa data di bawah. Tidak ada yang ditampilkan sebelum Anda setuju, dan Anda bisa menghapusnya kapan saja dari halaman ini."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedBody"
+msgstr "Rombongan tidak bisa menemukan Anda selama dijeda. Penilaian Anda tetap tersimpan."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedBody"
+msgstr "Rombongan yang merencanakan {area} bisa menemukan Anda dan mengirim pesan lewat WhatsApp. Kembali ke tautan ini untuk mengubah apa pun."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.driver"
+msgstr "Sopir"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.fairPrice"
+msgstr "Harga wajar"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.goodEnglish"
+msgstr "Bahasa Inggris bagus"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.greatPhotos"
+msgstr "Foto bagus"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.hello"
+msgstr "Halo {name}. Rombongan {size} orang ingin merekomendasikan Anda."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pauseHint"
+msgstr "Sembunyikan saat jadwal Anda penuh"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.turnOff"
+msgstr "Sembunyikan penilaian"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.dayTrips"
+msgstr "Saya melayani perjalanan seharian"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.expiredBody"
+msgstr "Undangan berlaku 30 hari. Tidak ada yang ditampilkan. Minta tautan baru ke rombongan."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.invalidBody"
+msgstr "Mungkin sudah dibatalkan atau diganti. Minta tautan baru ke rombongan."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.keep"
+msgstr "Tetap tampilkan"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.knewTheSpots"
+msgstr "Tahu tempat bagus"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.languages"
+msgstr "Bahasa"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listMe"
+msgstr "Tampilkan saya"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedBadge"
+msgstr "Tampil"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.newCar"
+msgstr "Mobil baru"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.declined"
+msgstr "Tidak apa-apa"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.noThanks"
+msgstr "Tidak, terima kasih"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removedBody"
+msgstr "Tidak ada lagi data Anda yang ditampilkan di CritterPass."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.ratingsOff"
+msgstr "Nonaktif"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.ratingsOn"
+msgstr "Aktif · {loved} dari {rated} suka"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.onTime"
+msgstr "Tepat waktu"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.open"
+msgstr "Buka profil saya"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.patient"
+msgstr "Sabar"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pause"
+msgstr "Jeda profil saya"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedBadge"
+msgstr "Dijeda"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeAsk"
+msgstr "Hapus untuk selamanya?"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.remove"
+msgstr "Hapus profil saya"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeBody"
+msgstr "Menghapus profil dan penilaian Anda dari CritterPass saat itu juga. Rombongan yang sudah punya nomor Anda tetap menyimpannya di perjalanan mereka."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tag.safeDriver"
+msgstr "Menyetir aman"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.save"
+msgstr "Simpan"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.saved"
+msgstr "Tersimpan."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.seats"
+msgstr "Kursi"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.sendCode"
+msgstr "Kirim kode lewat WhatsApp"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.areasHint"
+msgstr "Pisahkan tempat dengan koma"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.resume"
+msgstr "Tampilkan profil saya lagi"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.turnOn"
+msgstr "Tampilkan penilaian"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.showRatings"
+msgstr "Tampilkan penilaian dan label"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.failed"
+msgstr "Ada yang salah. Coba lagi."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.codeExpired"
+msgstr "Kodenya sudah kedaluwarsa. Kirim yang baru."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.wrongCode"
+msgstr "Kodenya salah. Coba lagi."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.code"
+msgstr "Kode"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.invalid"
+msgstr "Tautan ini tidak berlaku"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.expired"
+msgstr "Tautan ini sudah tidak aktif"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.bookmark"
+msgstr "Halaman ini mendapat tautan pribadi baru setiap kali Anda mengubah sesuatu. Simpan tautannya."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.usedBody"
+msgstr "Untuk mengubah profil Anda, kami bisa mengirim kode ke WhatsApp Anda lalu membukanya lagi."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.tooMany"
+msgstr "Terlalu banyak percobaan. Tunggu beberapa menit."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.verified"
+msgstr "Terverifikasi"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.declinedBody"
+msgstr "Undangan sudah kami hapus. Tidak ada data Anda yang ditampilkan di CritterPass."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.codeSent"
+msgstr "Kami mengirim kode 6 angka ke {phone} lewat WhatsApp."
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.preview"
+msgstr "Yang dilihat rombongan"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.price"
+msgstr "Harga yang Anda sampaikan ke tamu"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.whatsapp"
+msgstr "WhatsApp"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.areas"
+msgstr "Wilayah Anda"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.yes"
+msgstr "Ya, tampilkan saya"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removeYes"
+msgstr "Ya, hapus"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.used"
+msgstr "Tautan ini sudah Anda pakai"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.listedTitle"
+msgstr "Anda sudah tampil, {name}"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pageTitle"
+msgstr "Profil CritterPass Anda"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.removed"
+msgstr "Profil Anda sudah dihapus"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.pausedTitle"
+msgstr "Profil Anda dijeda, {name}"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.name"
+msgstr "Nama Anda"
+
+#: ../../apps/web/src/components/driver-claim/copy.ts
+msgid "driverClaim.priceHint"
+msgstr "Kata-kata Anda sendiri, misalnya \"Rp 900 ribu sehari, termasuk bensin dan parkir\""

@@ -132,6 +132,14 @@ const tripSubAreas = {
   ],
 } as const;
 
+// Drivers our crews used: the directory, the rate card, the invite and the crew's own drivers.
+const driverDirectorySources = [
+  `${repoRootPrefix}/apps/mobile/src/features/drivers/{directory,rating,invite,ours}/**`,
+];
+
+// The driver's own claim page on the web (English and Bahasa Indonesia).
+const driverClaimSources = [`${repoRootPrefix}/apps/web/src/components/driver-claim/**`];
+
 // Supplier cards, the booking sheet, vendor messages and Getting around keep their own catalog
 // inside the bookings area (`suppliers/app`), so the supplier lane and the wallet never edit the
 // same file.
@@ -273,6 +281,12 @@ export default defineConfig({
       exclude: testFileExcludes,
     },
     {
+      name: 'driver-directory/app',
+      path: 'locales/{locale}/driver-directory/app',
+      include: driverDirectorySources,
+      exclude: testFileExcludes,
+    },
+    {
       name: 'suppliers/app',
       path: 'locales/{locale}/suppliers/app',
       include: supplierSources,
@@ -324,6 +338,12 @@ export default defineConfig({
       name: 'web',
       path: 'locales/{locale}/web',
       include: [`${repoRootPrefix}/apps/web/src/**`],
+      exclude: [...testFileExcludes, ...driverClaimSources],
+    },
+    {
+      name: 'driver-claim/web',
+      path: 'locales/{locale}/driver-claim/web',
+      include: driverClaimSources,
       exclude: testFileExcludes,
     },
     {

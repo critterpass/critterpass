@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list to the crews' drivers lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-drivers-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-drivers-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-lab-directory'
+    timeout: 15000
