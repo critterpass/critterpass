@@ -229,7 +229,7 @@ export function PlaceDetailScreen({
       }
       further={
         <>
-          {ready === null ? null : <PlaceProfileSection profile={ready} />}
+          {ready === null ? null : <PlaceProfileSection placeId={placeId} profile={ready} />}
           <RemoveForEveryone
             tripId={tripId}
             placeId={placeId}

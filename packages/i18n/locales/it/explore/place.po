@@ -105,6 +105,10 @@ msgstr ""
 msgid "explore.detail.queued.idea"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.profile.queued.report"
+msgstr "Un problema segnalato nel riassunto di un luogo"
+
 #. placeholder {0}: place.name
 #: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
 msgid "explore.detail.similarAdd"
@@ -337,6 +341,10 @@ msgstr ""
 msgid "explore.detail.unsavedIdea"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
+msgid "explore.profile.report"
+msgstr "Segnala un problema"
+
 #: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.place.retry"
 msgstr ""
@@ -392,6 +400,14 @@ msgstr ""
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.takes"
 msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
+msgid "explore.profile.reported"
+msgstr "Grazie. Controlleremo questo riassunto e lo riscriveremo."
+
+#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
+msgid "explore.profile.reportFailed"
+msgstr "Non è andato a buon fine. Riprova tra un po’."
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.noPlan"
