@@ -5,7 +5,8 @@
  * the workflow already holds.
  *
  * It answers slugs and boxes only: a destination with a trip or a pitch in the last 30 days and no
- * `map_regions` row, the one asked for longest ago first. Nothing about people, how many trips, or
+ * `map_regions` row (a trip asks for its destination, its stops and its days' areas, drafts
+ * included, so a day trip has its map before the day), the one asked for longest ago first. Nothing about people, how many trips, or
  * when. The box is the place's own (`place_bounds`, else its geofence) widened by the 30 km
  * day-trip reach the route server's tiles use (tools/routing-tiles/src/boxes.ts); a destination
  * with no box is left out until it has one.
@@ -56,9 +57,10 @@ export async function listWantedRegions(pool: pg.Pool): Promise<WantedRegion[]> 
     const result = await tx.query<WantedRow>(
       `WITH asked AS (
          SELECT destination_id, min(created_at) AS first_asked
-           FROM (SELECT destination_id, created_at FROM trips
-                  WHERE destination_id IS NOT NULL
-                    AND created_at >= now() - make_interval(days => $1)
+           FROM (SELECT a.id AS destination_id, t.created_at
+                   FROM trips t
+                  CROSS JOIN LATERAL app.trip_area_ids(t.id, true) AS a(id)
+                  WHERE t.created_at >= now() - make_interval(days => $1)
                  UNION ALL
                  SELECT destination_id, created_at FROM pitches
                   WHERE created_at >= now() - make_interval(days => $1)) requests

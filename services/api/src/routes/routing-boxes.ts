@@ -1,7 +1,8 @@
 /**
  * `GET /v1/routing/boxes`: the boxes the routing tile build (`.github/workflows/routing-tiles.yml`)
- * cuts from OpenStreetMap. One per destination the planning legs need: every live destination and
- * every destination with a trip in planning, pre or in. The box is the destination's `place_bounds`
+ * cuts from OpenStreetMap. One per destination the planning legs need: every live destination,
+ * every destination, stop or day area of a trip in planning, pre or in (drafts included), and every
+ * day-trip area with a place box, so an area is routable before its first trip. The box is the destination's `place_bounds`
  * (the area place search covers), else its geofence envelope, else the extent of its places; a
  * destination with none of them is left out until it has one. The build widens each box by 30 km.
  *
@@ -19,8 +20,11 @@ export const ROUTING_BOXES_CACHE_MS = 5 * 60 * 1000;
 
 export interface RoutingBox {
   readonly slug: string;
-  /** A live destination, or one with a trip in planning, pre or in. */
-  readonly reason: 'live' | 'active_trip';
+  /**
+   * A live destination; a day-trip area (whatever its trips); or a destination, stop or day area
+   * of a trip in planning, pre or in.
+   */
+  readonly reason: 'live' | 'area' | 'active_trip';
   /** `[minLon, minLat, maxLon, maxLat]`, WGS84, before the build's 30 km widening. */
   readonly bbox: readonly [number, number, number, number];
 }
@@ -43,11 +47,15 @@ interface BoxRow {
 const QUERY = `
   WITH needed AS (
     SELECT d.id, d.slug, d.place_bounds, d.geofence,
-           CASE WHEN d.coverage = 'live' THEN 'live' ELSE 'active_trip' END AS reason
+           CASE d.coverage WHEN 'live' THEN 'live' WHEN 'area' THEN 'area'
+                ELSE 'active_trip' END AS reason
       FROM destinations d
      WHERE d.coverage = 'live'
-        OR EXISTS (SELECT 1 FROM trips t
-                    WHERE t.destination_id = d.id AND t.phase IN ('planning', 'pre', 'in'))
+        OR (d.coverage = 'area' AND (d.place_bounds IS NOT NULL OR d.geofence IS NOT NULL))
+        OR d.id IN (SELECT a.id
+                      FROM trips t
+                     CROSS JOIN LATERAL app.trip_area_ids(t.id, true) AS a(id)
+                     WHERE t.phase IN ('planning', 'pre', 'in'))
   ), extent AS (
     SELECT n.slug, n.reason,
            COALESCE(ST_Envelope(n.place_bounds::geometry),
