@@ -259,10 +259,9 @@ describe("the day's guide on a trip with two stops", () => {
     await world.q('UPDATE trips SET guide_id = $2 WHERE id = $1', [world.tripId, own!.id]);
     await world.q(
       `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
-       SELECT t.id, t.crew_id, s.position, s.destination_id, s.nights
-         FROM trips t,
-              (VALUES (1, t.destination_id, 2), (2, $2::uuid, 5)) AS s(position, destination_id, nights)
-        WHERE t.id = $1`,
+       SELECT t.id, t.crew_id, 1, t.destination_id, 2 FROM trips t WHERE t.id = $1
+       UNION ALL
+       SELECT t.id, t.crew_id, 2, $2::uuid, 5 FROM trips t WHERE t.id = $1`,
       [world.tripId, next!.id],
     );
   }, 120_000);
