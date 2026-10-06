@@ -244,7 +244,8 @@ describe("the day's guide on a trip with two stops", () => {
   beforeAll(async () => {
     await recomputeLeaveBys(world.harness.pool, world.tripId, router, NOW);
     const [own] = await world.q<{ id: string }>(
-      "INSERT INTO guides (slug, name, colour) VALUES ('chava', 'Chà Vá', 'orange') RETURNING id",
+      `INSERT INTO guides (slug, name, colour) VALUES ('chava', 'Chà Vá', 'orange')
+       ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name RETURNING id`,
     );
     await world.q(
       `INSERT INTO guides (slug, name, colour, accent, critter_key)
