@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { usePermission } from '@/lib/permissions';
 import { impact } from '@/motion';
 
+import { AndroidPermissionRows } from '../android-permissions';
 import { YOU_ROUTES } from '../routes';
 import { ChoiceSheet, type Choice } from './choice-sheet';
 import { clampBudget, type CrewChatMode } from './ping-prefs';
@@ -97,6 +98,7 @@ export function PingSettingsScreen() {
         onCrittersNearby={(crittersNearby) => change({ crittersNearby })}
         onQuietHours={() => setPicker('quiet')}
         onOpenSettings={() => void notifications.openSettings()}
+        systemLimits={<AndroidPermissionRows omit={['notifications']} />}
         onBack={() => (router.canGoBack() ? router.back() : router.replace(YOU_ROUTES.settings))}
       />
       {picker === 'roundup' ? (

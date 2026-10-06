@@ -28,7 +28,7 @@ msgstr "About {budget} pings a day. Votes, plans, money, crew news and a critter
 msgid "you.pings.action.addAll"
 msgstr "Add all"
 
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/always-note.tsx
 msgid "you.pings.always"
 msgstr "Always gets through"
 
@@ -82,7 +82,7 @@ msgstr "Join"
 msgid "you.pings.action.later"
 msgstr "Later"
 
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/always-note.tsx
 msgid "you.pings.alwaysLine"
 msgstr "Leave-by alarms, SOS, flight changes and anything that costs money if you miss it."
 
