@@ -24,6 +24,7 @@ import { usePlaceLive } from '../data/use-place-live';
 import { guideFor, poiSubject } from '../format';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { liveFacts } from '../place-live';
+import { heroCreditOf } from '../place-lightbox';
 import { useTripCrew, useTripFacts, type PoiRow } from '../place-queries';
 import { exploreRoutes } from '../routes';
 import { usePlaceDetailContext } from './context';
@@ -193,6 +194,7 @@ export function PlaceDetailScreen({
       guide={guide}
       photo={photo}
       heroUrl={live.heroUrl ?? ready?.photos[0]?.url ?? null}
+      heroCredit={heroCreditOf(live, ready?.photos ?? [])}
       saved={heart.saved}
       offline={offline}
       onBack={onBack}

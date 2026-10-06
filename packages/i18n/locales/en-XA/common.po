@@ -15,6 +15,18 @@ msgstr ""
 msgid "home.countdown.today"
 msgstr ""
 
+#. placeholder {0}: counter.position
+#. placeholder {1}: counter.total
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.counter"
+msgstr ""
+
+#. placeholder {0}: counter.position
+#. placeholder {1}: counter.total
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.counterLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/PendingSync.tsx
 msgid "common.pending.sending"
 msgstr ""
@@ -619,6 +631,14 @@ msgstr ""
 msgid "motion.motionLab.demoToastAction"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/media/lightbox/use-lightbox.tsx
+msgid "common.lightbox.open"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/media/lightbox/use-lightbox.tsx
+msgid "common.lightbox.openOf"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/PermissionCard.tsx
 msgid "common.permission.openSettings"
 msgstr ""
@@ -649,6 +669,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
 msgid "common.monetize.pausedMonths"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.photo"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
@@ -895,6 +919,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/vote/IdeaVoteBox.tsx
 msgid "common.vote.upvote"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
+msgid "common.lightbox.video"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
