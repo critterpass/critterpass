@@ -195,12 +195,13 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       sql: 'SELECT 1 FROM crew_members WHERE crew_id = $1 AND user_id = $2',
       params: (f) => [f.crewId, f.actors.organiser],
     },
+    // Insert: only the crew's creator adds their own row; everyone else joins via app.join_crew.
     expectations: {
-      outsider: op(false, true, false),
-      exMember: op(false, true, false),
-      anonymous: op(false, true, false),
-      member: op(true, true, false),
-      coOrganiser: op(true, true, true),
+      outsider: op(false, false, false),
+      exMember: op(false, false, false),
+      anonymous: op(false, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, true),
       organiser: op(true, true, true),
     },
   },
@@ -256,10 +257,11 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       sql: 'SELECT 1 FROM trip_participants WHERE trip_id = $1 AND user_id = $2',
       params: (f) => [f.tripId, f.actors.organiser],
     },
+    // Insert: one's own row, on a trip of a crew one is an active member of.
     expectations: {
-      outsider: op(false, true, false),
-      exMember: op(false, true, false),
-      anonymous: op(false, true, false),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
       member: op(true, true, false),
       coOrganiser: op(true, true, true),
       organiser: op(true, true, true),

@@ -11,6 +11,8 @@ export type OtpChannel = 'whatsapp' | 'telegram' | 'prelude';
 export interface CountryOtpPolicy {
   /** Channels to try, first to last; the router skips any without credentials or switched off. */
   readonly channels: readonly OtpChannel[];
+  /** The number's country (ISO 3166-1 alpha-2). */
+  readonly country: CountryCode;
 }
 
 const DEFAULT_CHANNEL_ORDER: readonly OtpChannel[] = ['whatsapp', 'telegram', 'prelude'];
@@ -31,7 +33,7 @@ export function countryOtpPolicy(phoneE164: string): CountryOtpPolicy | undefine
     return undefined;
   }
   if (!country || BLOCKED_COUNTRIES.has(country)) return undefined;
-  return { channels: DEFAULT_CHANNEL_ORDER };
+  return { channels: DEFAULT_CHANNEL_ORDER, country };
 }
 
 /** Structural validity + type check (code-standards.md §18, an SMS-pumping defence): rejects numbers libphonenumber-js cannot validate as a real, non-premium line before any provider is ever called. */

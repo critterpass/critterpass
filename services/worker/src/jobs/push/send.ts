@@ -5,7 +5,7 @@
  * payload, sends through APNs (by the token's environment and the build's bundle id) or FCM, and
  * keeps tokens clean: a token the provider calls dead is retired on the spot. Transient provider
  * failures go back to pg-boss (five retries, backing off); the last one marks the notification
- * failed.
+ * failed. Every attempt that reached a provider counts on `cp_push_total`.
  */
 import { withSystem } from '@cp/db';
 import {
@@ -18,6 +18,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import type { MetricsRecorder } from '../../obs/metrics';
 import type { ApnsProvider } from '../../push/apns';
 import type { FcmProvider } from '../../push/fcm';
 import { apnsAlertPayload, buildPush, fcmData, type PushNotificationRow } from '../../push/payload';
@@ -33,6 +34,7 @@ export interface PushSendDeps {
   readonly renderer: CopyRenderer;
   /** Topic for installs that registered before reporting their bundle id. */
   readonly defaultBundleId: AppBundleId;
+  readonly metrics?: Pick<MetricsRecorder, 'record'>;
   readonly now?: () => Date;
 }
 
@@ -185,20 +187,38 @@ export async function sendPush(
     deps,
     now,
   );
+  const outcome = await settle(pool, target.id, target.token_id, result, now, isFinalAttempt);
+  deps.metrics?.record('cp_push_total', 1, {
+    provider: target.platform === 'ios' ? 'apns' : 'fcm',
+    category: spec.category,
+    outcome: outcome.outcome,
+  });
+  return outcome;
+}
+
+/** Writes down what the provider answered: sent, a dead token retired, or a failure. */
+async function settle(
+  pool: pg.Pool,
+  notificationId: string,
+  tokenId: string,
+  result: PushResult,
+  now: Date,
+  isFinalAttempt: boolean,
+): Promise<PushSendOutcome> {
   switch (result.outcome) {
     case 'sent':
-      await markSent(pool, target.id, now);
+      await markSent(pool, notificationId, now);
       return { outcome: 'sent' };
     case 'invalid_token':
-      await retireToken(pool, target.token_id, result.reason);
-      await markFailed(pool, target.id, 'invalid_token');
+      await retireToken(pool, tokenId, result.reason);
+      await markFailed(pool, notificationId, 'invalid_token');
       return { outcome: 'invalid_token', reason: result.reason };
     case 'rejected':
-      await markFailed(pool, target.id, result.reason);
+      await markFailed(pool, notificationId, result.reason);
       return { outcome: 'failed', reason: result.reason };
     case 'retry':
       if (isFinalAttempt) {
-        await markFailed(pool, target.id, result.reason);
+        await markFailed(pool, notificationId, result.reason);
         return { outcome: 'failed', reason: result.reason };
       }
       return { outcome: 'retry', reason: result.reason };
