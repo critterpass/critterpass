@@ -15,7 +15,8 @@ import { createMMKV } from 'react-native-mmkv';
 
 import { createDevSlots } from '@/data/auth/dev-slots';
 import { runOnSignOutHooks } from '@/data/auth/sign-out-hooks';
-import { secureActionKeyStorage } from '@/data/push/expo-native';
+import { clearAndroidActionKey } from '@/data/push/android-surfaces';
+import { secureActionKeyRecord, secureActionKeyStorage } from '@/data/push/expo-native';
 import { INSTALL_ID_ITEM, LEGACY_ENVELOPE_ID_ITEM } from '@/data/push/register';
 import type { FileTarget, StartFreshPorts } from '@/lib/dev-tools/start-fresh';
 
@@ -50,6 +51,7 @@ async function forgetSessions(): Promise<void> {
   await slots.clear();
   await slots.switchTo(null);
   await secureActionKeyStorage.remove();
+  await clearAndroidActionKey(secureActionKeyRecord);
 }
 
 async function forgetInstallId(): Promise<void> {

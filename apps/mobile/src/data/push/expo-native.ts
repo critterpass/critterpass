@@ -69,3 +69,10 @@ export const secureActionKeyStorage: ActionKeyStorage = {
   write: (value) => SecureStore.setItemAsync(ACTION_KEY_KEYCHAIN.account, value, actionKeyOptions),
   remove: () => SecureStore.deleteItemAsync(ACTION_KEY_KEYCHAIN.account, actionKeyOptions),
 };
+
+/** Android: the key's record beside the Keystore (never the secret; see `android-surfaces.ts`). */
+export const secureActionKeyRecord: ActionKeyStorage = {
+  read: () => SecureStore.getItemAsync(ACTION_KEY_KEYCHAIN.account),
+  write: (value) => SecureStore.setItemAsync(ACTION_KEY_KEYCHAIN.account, value),
+  remove: () => SecureStore.deleteItemAsync(ACTION_KEY_KEYCHAIN.account),
+};
