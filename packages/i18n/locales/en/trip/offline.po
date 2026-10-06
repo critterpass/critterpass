@@ -61,6 +61,14 @@ msgstr "Didn't go through"
 msgid "trip.offline.cancelSend"
 msgstr "Don't send it"
 
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.other"
+msgstr "It couldn't be saved. Try it again"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.removed"
+msgstr "It was removed while you were offline"
+
 #: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
 msgid "trip.offline.alreadySent"
 msgstr "It was sent a moment ago."
@@ -174,6 +182,10 @@ msgstr "Settings"
 msgid "trip.offline.weakLine"
 msgstr "Signal is weak. Sending slowly."
 
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.changed"
+msgstr "Someone changed it first"
+
 #: ../../apps/mobile/src/features/trip/offline/still-works-list.tsx
 msgid "trip.offline.stillWorks"
 msgstr "Still works"
@@ -181,6 +193,14 @@ msgstr "Still works"
 #: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
 msgid "trip.offline.removeTitle"
 msgstr "Take it off this phone"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.planChanged"
+msgstr "The plan changed while you were offline"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.voteClosed"
+msgstr "The vote closed while you were offline"
 
 #: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
@@ -214,3 +234,7 @@ msgstr "Weak signal"
 #: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
 msgid "trip.offline.autoLine"
 msgstr "Whenever the app is open in the days around a trip, and as an early start begins"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.notAllowed"
+msgstr "You can no longer change this"

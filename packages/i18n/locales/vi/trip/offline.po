@@ -61,6 +61,14 @@ msgstr "Chưa gửi được"
 msgid "trip.offline.cancelSend"
 msgstr "Đừng gửi nữa"
 
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.other"
+msgstr "Chưa lưu được. Bạn thử lại nhé"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.removed"
+msgstr "Mục này đã bị xóa khi bạn mất sóng"
+
 #: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
 msgid "trip.offline.alreadySent"
 msgstr "Nó vừa được gửi xong."
@@ -174,6 +182,10 @@ msgstr "Cài đặt"
 msgid "trip.offline.weakLine"
 msgstr "Sóng yếu. Đang gửi chậm."
 
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.changed"
+msgstr "Có người đã thay đổi trước bạn"
+
 #: ../../apps/mobile/src/features/trip/offline/still-works-list.tsx
 msgid "trip.offline.stillWorks"
 msgstr "Vẫn dùng được"
@@ -181,6 +193,14 @@ msgstr "Vẫn dùng được"
 #: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
 msgid "trip.offline.removeTitle"
 msgstr "Xóa khỏi máy này"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.planChanged"
+msgstr "Lịch trình đã thay đổi khi bạn mất sóng"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.voteClosed"
+msgstr "Cuộc bình chọn đã đóng khi bạn mất sóng"
 
 #: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
@@ -214,3 +234,7 @@ msgstr "Sóng yếu"
 #: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
 msgid "trip.offline.autoLine"
 msgstr "Mỗi khi mở ứng dụng trong những ngày quanh chuyến đi, và lúc bắt đầu một buổi khởi hành sớm"
+
+#: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
+msgid "trip.offline.reason.notAllowed"
+msgstr "Bạn không còn thay đổi được mục này"

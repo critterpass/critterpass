@@ -15,6 +15,8 @@ import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
+import { conflictReason } from './conflict-reason';
+
 export function ConflictsList({
   items,
   onDismiss,
@@ -36,7 +38,7 @@ export function ConflictsList({
           {upper(t({ id: 'trip.offline.conflictsTitle', message: "Didn't go through" }), locale)}
         </Text>
         {items.map((item) => {
-          const reason = i18n._({ id: item.messageKey, message: item.code });
+          const reason = i18n._(conflictReason(item.code));
           return (
             <Row key={item.opId} gap="12" align="center">
               <Stack gap="2" flex={1}>
