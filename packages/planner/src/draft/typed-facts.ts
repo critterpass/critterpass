@@ -6,7 +6,7 @@
  * ./wish-time's showtimes, ./place-names). The rules are the planner's own and stay: a food stop
  * of twenty minutes or less is a snack; a meal place follows meal times; a night venue with no
  * time of its own is for after dark, and one with a late time is held to it; a sunset, evening or
- * after-dark time narrows an afternoon.
+ * after-dark time narrows an afternoon that has no morning beside it.
  */
 import type { PlaceBestTime } from '@cp/domain';
 
@@ -57,9 +57,9 @@ export function typedPlaceTimes(poi: TypedPoi): readonly TypedTime[] {
   if (typedFoodRole(poi) === 'meal') return [];
   const has = (time: PlaceBestTime) => poi.bestTimes.includes(time);
   const night = poi.category === 'nightlife' || poi.tags.includes('nightlife');
-  const morning = has('early_morning') || has('morning');
+  const dawn = has('early_morning') || has('morning');
   const late: TypedTime | null =
-    has('after_dark') || (night && poi.bestTimes.length > 0 && !morning)
+    has('after_dark') || (night && poi.bestTimes.length > 0 && !dawn)
       ? 'after_dark'
       : has('sunset')
         ? 'sunset'
@@ -69,11 +69,28 @@ export function typedPlaceTimes(poi: TypedPoi): readonly TypedTime[] {
   if (poi.bestTimes.length === 0) {
     return night && typedFoodRole(poi) === null ? ['after_dark'] : [];
   }
+  // A club good after dark and "early morning" means the small hours of its night, not breakfast.
+  const morning = dawn && !(poi.category === 'nightlife' && late === 'after_dark');
   // A night venue with a late time keeps it, whatever else is good there (a beach club at noon).
-  if (!(night && late !== null) && (has('midday') || (has('afternoon') && late === null))) {
+  // Otherwise a place good at midday, or in the afternoon with nothing later or the morning as well,
+  // suits any time: a late label narrows only an afternoon that has nothing earlier.
+  if (
+    !(night && late !== null) &&
+    (has('midday') || (has('afternoon') && (late === null || morning)))
+  ) {
     return [];
   }
-  return [...(morning ? (['morning'] as const) : []), ...(late === null ? [] : [late])];
+  // An afternoon that runs into later times starts at the first of them, so a long visit lasts
+  // into the rest ("late afternoon into the evening, for the lanterns").
+  const first: TypedTime | null = has('sunset')
+    ? 'sunset'
+    : has('evening')
+      ? 'evening'
+      : has('after_dark')
+        ? 'after_dark'
+        : null;
+  const held = !night && has('afternoon') ? first : late;
+  return [...(morning ? (['morning'] as const) : []), ...(held === null ? [] : [held])];
 }
 
 /**

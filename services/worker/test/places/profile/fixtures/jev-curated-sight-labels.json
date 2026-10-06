@@ -1,0 +1,72 @@
+{
+  "source": "Live recording from TypeSafe Jev (route place.labels) for Crazy House in Đà Lạt with its reviewed note, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "category": {
+          "type": "choice",
+          "choice": "other",
+          "confidence": 0.76,
+          "probabilities": {
+            "museum": 0.14,
+            "other": 0.78,
+            "shopping": 0,
+            "food": 0,
+            "transit": 0,
+            "market": 0,
+            "health": 0,
+            "beach": 0,
+            "nightlife": 0,
+            "stay": 0.08,
+            "temple_shrine": 0,
+            "nature": 0
+          }
+        },
+        "meal": {
+          "type": "choice",
+          "choice": "none",
+          "confidence": 0.37,
+          "probabilities": {
+            "meal": 0.01,
+            "none": 0.58,
+            "light": 0.41
+          }
+        },
+        "early_morning": {
+          "type": "noul",
+          "noul": 0.92
+        },
+        "morning": {
+          "type": "noul",
+          "noul": 0.91
+        },
+        "midday": {
+          "type": "noul",
+          "noul": 0.19
+        },
+        "afternoon": {
+          "type": "noul",
+          "noul": 0.27
+        },
+        "sunset": {
+          "type": "noul",
+          "noul": 0.33
+        },
+        "evening": {
+          "type": "noul",
+          "noul": 0.28
+        },
+        "after_dark": {
+          "type": "noul",
+          "noul": 0.28
+        }
+      },
+      "usage": {
+        "input_tokens": 643,
+        "output_tokens": 266
+      }
+    }
+  }
+}

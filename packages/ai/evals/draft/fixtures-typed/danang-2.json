@@ -1,0 +1,173 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "1585129f-eb86-4edf-9504-d5d77ba88ae7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Area A, riverside near Dragon Bridge\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Riverside welcome\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples and market morning\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p5\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Peninsula and beach\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p13\", \"p8\", \"p11\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Dragon Bridge fire show\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p27\", \"p16\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Cathedral and coffee farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p14\", \"p26\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p3\",\n      \"day_no\": 4,\n      \"when\": \"evening\",\n      \"weekdays\": [\"sa\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 101,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3328,
+          "output_tokens": 353,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "5603c4cc-851c-4d60-8edf-ac16a0b844c3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Red socks on, eyes on the sea. Sơn Trà is my backyard.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Beach at sunrise, mì Quảng by seven, nap by noon. Trust me.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"From up in the trees I can see who still hasn’t voted.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 286,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 120,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-5": {
+      "status": 200,
+      "body": {
+        "id": "920c5a28-2c5c-4dde-a98c-9902b51f91a1",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Pink cathedral with a quiet courtyard, best seen from the side gate when the light hits the glass.\"},{\"poi_id\":\"p26\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Coconut coffee upstairs, slow sips and a good view of the street below.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 35,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 86,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "e6dd1813-ce2f-4f17-be1b-3f64dd35e48b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Climb the stone steps early, peek into the cave shrines, and let the marble carvers’ chisels be your soundtrack.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stand under the tall Lady Buddha and let the sea wind sort out your thoughts.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Weave through the aisles, point at whatever smells best, and let the market ladies feed you like family.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 298,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 136,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "03ff62d1-cf1e-4fc5-acee-8c11bcb0b5fb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p27\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Egg coffee with a view of the dragon's back — creamy, sweet, and the sky does the rest.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The dragon breathes fire over the river, and every bridge lights up like it's showing off.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 135,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 91,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "f179d0cf-7d53-498e-9610-f5942cc74a39",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Ancient sandstone dancers and gods, all watching you with the same patient smile I give tourists.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Turmeric noodles with pork, shrimp and a sesame cracker — the bowl that tells your stomach it has arrived.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Big wheel turns slow enough to count the bridges, fast enough to make the river sparkle.\"\n    },\n    {\n      \"poi_id\": \"p28\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Neon, skewers, and the happy chaos of a night market that never learned to whisper.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon breathes fire and colour after dark — stand close enough to feel the crowd gasp.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 641,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 290,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "991b88c2-4710-4bf2-8d03-beaa083fefca",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: Hải Vân Pass half the day\nDay 4: Bridge evening, then Sky36"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 236,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 23,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (route place.profile_fast) reading the reviewed note of Bánh Căn Nhà Chung in Đà Lạt as its only page, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e37ee389-67b9-4e35-9ded-5e09c5708249",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"write\",\"why_go\":{\"en\":\"A small spot near Nhà Chung Street where a group can share bánh căn, mini rice pancakes, for breakfast or midday.\"},\"best_time\":{\"en\":\"Breakfast or midday\"},\"crowd\":{\"en\":\"Small and often busy\"},\"best_times\":[\"morning\",\"midday\"],\"visit_min\":45,\"meal_role\":\"meal\",\"dish\":\"bánh căn\",\"facts\":[]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 788,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 97,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

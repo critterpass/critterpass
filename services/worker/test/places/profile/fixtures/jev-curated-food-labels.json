@@ -1,0 +1,72 @@
+{
+  "source": "Live recording from TypeSafe Jev (route place.labels) for Bánh Căn Nhà Chung in Đà Lạt with its reviewed note, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "category": {
+          "type": "choice",
+          "choice": "food",
+          "confidence": 1,
+          "probabilities": {
+            "transit": 0,
+            "museum": 0,
+            "health": 0,
+            "nightlife": 0,
+            "beach": 0,
+            "stay": 0,
+            "market": 0,
+            "temple_shrine": 0,
+            "nature": 0,
+            "food": 1,
+            "other": 0,
+            "shopping": 0
+          }
+        },
+        "meal": {
+          "type": "choice",
+          "choice": "meal",
+          "confidence": 0.62,
+          "probabilities": {
+            "light": 0.25,
+            "none": 0,
+            "meal": 0.75
+          }
+        },
+        "early_morning": {
+          "type": "noul",
+          "noul": 0.64
+        },
+        "morning": {
+          "type": "noul",
+          "noul": 0.89
+        },
+        "midday": {
+          "type": "noul",
+          "noul": 0.91
+        },
+        "afternoon": {
+          "type": "noul",
+          "noul": 0.41
+        },
+        "sunset": {
+          "type": "noul",
+          "noul": 0.22
+        },
+        "evening": {
+          "type": "noul",
+          "noul": 0.26
+        },
+        "after_dark": {
+          "type": "noul",
+          "noul": 0.23
+        }
+      },
+      "usage": {
+        "input_tokens": 657,
+        "output_tokens": 266
+      }
+    }
+  }
+}

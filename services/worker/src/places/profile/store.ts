@@ -48,7 +48,9 @@ export async function loadProfileTarget(
       `SELECT p.id, p.name, p.name_local, p.category, p.tags,
               ARRAY(SELECT jsonb_object_keys(coalesce(p.source_ids, '{}'::jsonb))) AS sources,
               p.website, p.address, d.name AS town, d.country,
-              coalesce(p.editorial ? 'why_go', false) AS reviewed, pp.status
+              coalesce(p.editorial ? 'why_go', false) AS reviewed,
+              -- Typed fields from a reviewed note are no profile of the job's own.
+              CASE WHEN pp.basis = 'web' THEN pp.status END AS status
          FROM pois p
          JOIN destinations d ON d.id = p.destination_id
          LEFT JOIN place_profiles pp ON pp.poi_id = p.id
@@ -74,12 +76,12 @@ export async function loadProfileTarget(
   });
 }
 
-/** Spend on profiles in runs started since midnight UTC (micros). */
+/** Spend on profiles in runs started since midnight UTC (micros); typing reviewed notes aside. */
 export async function spentTodayMicros(pool: pg.Pool, now: Date): Promise<number> {
   return withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{ micros: string }>(
       `SELECT coalesce(sum(cost_micros), 0)::text AS micros FROM place_profiles
-        WHERE requested_at >= date_trunc('day', $1::timestamptz AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'`,
+        WHERE basis = 'web' AND requested_at >= date_trunc('day', $1::timestamptz AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'`,
       [now],
     );
     return Number(rows[0]?.micros ?? 0);
@@ -120,7 +122,7 @@ export async function saveProfileText(pool: pg.Pool, poiId: string, w: TextWrite
   await withSystem(pool, (tx) =>
     tx.query(
       `UPDATE place_profiles
-          SET status = 'ready', texts = $2, category = $3, meal_role = $4, best_times = $5,
+          SET status = 'ready', basis = 'web', texts = $2, category = $3, meal_role = $4, best_times = $5,
               visit_min = $6, dish = $7, facts = $8, dropped_facts = $9, sources = $10,
               second_source = NULL, model = $11, cost_micros = cost_micros + $12,
               timings = timings || $13, generated_at = now(), updated_at = now()

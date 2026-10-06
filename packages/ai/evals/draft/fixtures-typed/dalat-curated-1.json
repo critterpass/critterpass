@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "d4bad14b-d7c6-462c-a616-e292a7bdda90",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Khu vực A, trung tâm Đà Lạt\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chiều chậm, chợ đêm lên đèn\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p165\",\n        \"p20\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Lên Langbiang, tối về phố\",\n      \"area\": \"B rồi A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p355\",\n        \"p218\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Sáng hồ, chiều thác, tối cà phê\",\n      \"area\": \"E rồi A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p173\",\n        \"p90\",\n        \"p49\"\n      ]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Sáng nhẹ trước giờ về\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p131\",\n        \"p136\"\n      ]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p191\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 124,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 4864,
+          "output_tokens": 364,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "1404d406-1972-4b73-b344-f6db10bc9054",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dạo một vòng hồ, gió núi thổi mát rượi, chụp vài kiểu ảnh với hàng thông soi bóng nước.\"\n    },\n    {\n      \"poi_id\": \"p270\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô phở bò nóng hổi, nước dùng đậm đà, ngồi xuống là thấy ấm bụng ngay.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 525,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 164,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "6972fcd6-50f0-4174-a9a4-5edb066496c7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p103\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Kiến trúc như một giấc mơ uốn lượn, cứ thong thả mà leo, mà chụp.\"},{\"poi_id\":\"p20\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lên đèn rồi, cứ men theo mùi bắp nướng và hơi ấm từ các gian hàng.\"},{\"poi_id\":\"p22\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Ngồi xuống, gọi món Hà Nội giữa phố núi, chậm rãi mà ăn cho ấm bụng.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 610,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 175,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "8cd9f9cd-48f5-4474-a292-e1577a70a6c0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Bánh căn nóng giòn, nước chấm thơm lừng, ăn xong muốn ở lại Đà Lạt thêm một tuần.\"\n    },\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thác đổ trắng xóa giữa rừng thông, đứng gần là quên hết mệt.\"\n    },\n    {\n      \"poi_id\": \"p80\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô bánh canh cua đậm đà, ngồi xuống là biết vì sao dân địa phương ghiền.\"\n    },\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mặt hồ phẳng như gương, đi dạo một vòng cho lòng nhẹ tênh.\"\n    },\n    {\n      \"poi_id\": \"p215\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đứng trên đồi nhìn nắng chiều buông xuống thung lũng, đẹp đến nghẹt thở.\"\n    },\n    {\n      \"poi_id\": \"p222\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ốc tươi rói, nước chấm cay cay, lai rai tới khuya cũng chưa muốn về.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 786,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 429,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "a2af07ff-bce7-4ec7-9f0a-179ae90d0ee2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p355\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lên đỉnh Langbiang hít gió núi, nhìn thành phố nhỏ xíu dưới chân mình.\"\n    },\n    {\n      \"poi_id\": \"p41\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh ướt lòng gà nóng hổi, ăn kèm rau thơm Đà Lạt, ngon quá.\"\n    },\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thung lũng tình yêu đi dạo chậm, chụp vài kiểu ảnh giữa vườn hoa.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chùa Linh Phước nhìn kỹ từng mảnh sành ghép, càng ngắm càng mê.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Góc nhỏ ngồi ăn tối ấm cúng, món Tây pha chút hồn phố núi.\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối xuống phố, ghé quầy rượu nhấp một ly, nghe nhạc nhẹ cho đêm trôi.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 754,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 430,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "e19b216b-5ff5-495e-b570-79c582f636e8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: Sáng hồ, trưa thác, tối quán cà phê\n4: Sáng nhẹ trước giờ về"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 316,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 34,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}
