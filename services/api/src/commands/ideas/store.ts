@@ -26,12 +26,19 @@ export interface IdeaPlace {
 }
 
 /**
- * A POI belongs to a trip when its destination owns it or it lies inside the destination's place
- * box (a place stored once is owned by the first destination ingested). `p` is the POI, `d` the
- * trip's destination.
+ * A POI belongs to a trip when one of the trip's areas owns it or it lies inside that area's place
+ * box (a place stored once is owned by the first destination ingested). `p` is the POI, `d` one of
+ * the trip's areas (`TRIP_AREAS`).
  */
 export const POI_INSIDE_DESTINATION = `(p.destination_id = d.id
   OR (d.place_bounds IS NOT NULL AND ST_Intersects(p.location, d.place_bounds)))`;
+
+/**
+ * The destinations of trip `t` a place may sit in: its own, its stops' and its days' areas (an
+ * organiser's draft day trip too, so a place saved there is not refused). One row per area.
+ */
+export const TRIP_AREAS = `CROSS JOIN LATERAL app.trip_area_ids(t.id, true) AS area(id)
+  JOIN destinations d ON d.id = area.id`;
 
 /** Trips whose Ideas a save by this person feeds: their crew's trips with a destination, not over. */
 export const ACTIVE_TRIPS_OF_USER = `SELECT t.id AS trip_id, t.crew_id, t.destination_id
@@ -48,10 +55,9 @@ export async function poiForTrip(
   const { rows } = await asSystemRole(tx, () =>
     tx.query<IdeaPlace & { inside: boolean }>(
       `SELECT p.id AS "poiId", p.name, p.name_local AS "nameLocal", p.category, p.lat, p.lng,
-              coalesce(${POI_INSIDE_DESTINATION}, false) AS inside
+              coalesce((SELECT bool_or(${POI_INSIDE_DESTINATION}) FROM trips t ${TRIP_AREAS}
+                         WHERE t.id = $1), false) AS inside
          FROM pois p
-         JOIN trips t ON t.id = $1
-         LEFT JOIN destinations d ON d.id = t.destination_id
         WHERE p.id = $2 AND p.status = 'active'`,
       [tripId, poiId],
     ),
@@ -64,8 +70,8 @@ export async function poiForTrip(
 }
 
 /**
- * A dropped pin as an idea's place: inside the destination's place box, or (a destination with no
- * box yet) within 30 km of one of its places.
+ * A dropped pin as an idea's place: inside the place box of one of the trip's areas, or (an area
+ * with no box yet) within 30 km of one of its places.
  */
 export async function pinForTrip(
   tx: pg.PoolClient,
@@ -75,15 +81,13 @@ export async function pinForTrip(
   const { rows } = await asSystemRole(tx, () =>
     tx.query<{ inside: boolean }>(
       `WITH spot AS (SELECT ST_SetSRID(ST_MakePoint($3, $2), 4326)::geography AS g)
-       SELECT CASE
-                WHEN d.id IS NULL THEN false
+       SELECT coalesce(bool_or(CASE
                 WHEN d.place_bounds IS NOT NULL THEN ST_Intersects(spot.g, d.place_bounds)
                 ELSE EXISTS (SELECT 1 FROM pois p
                               WHERE p.destination_id = d.id AND p.status = 'active'
                                 AND ST_DWithin(p.location, spot.g, 30000))
-              END AS inside
-         FROM trips t CROSS JOIN spot
-         LEFT JOIN destinations d ON d.id = t.destination_id
+              END), false) AS inside
+         FROM trips t ${TRIP_AREAS} CROSS JOIN spot
         WHERE t.id = $1`,
       [tripId, pin.lat, pin.lng],
     ),

@@ -145,8 +145,8 @@ export async function queuePickWhenNeeded(
 
 /**
  * The destinations an appended event names, read through rows the actor can see (the event log
- * itself is not readable from a request): the trip's destination, or the crew's pitches created in
- * this transaction (`created_at` defaults to `now()`, the transaction's start time).
+ * itself is not readable from a request): the trip's destination, the trip's other areas when its
+ * stops or a day's area changed, or the crew's pitches created in this transaction (`created_at` defaults to `now()`, the transaction's start time).
  */
 async function destinationsOf(tx: pg.PoolClient, event: AppendedDomainEvent): Promise<string[]> {
   if (event.type === 'trip.destination_set' && event.tripId !== null) {
@@ -155,6 +155,16 @@ async function destinationsOf(tx: pg.PoolClient, event: AppendedDomainEvent): Pr
       [event.tripId],
     );
     return rows.flatMap((row) => (row.destination_id === null ? [] : [row.destination_id]));
+  }
+  if (event.type === 'trip.areas_changed' && event.tripId !== null) {
+    // A new stop or day-trip area is covered like the trip's own destination was.
+    const { rows } = await tx.query<{ id: string }>(
+      `SELECT area.id FROM app.trip_area_ids($1, true) AS area(id)
+        WHERE area.id IS DISTINCT FROM (SELECT destination_id FROM trips WHERE id = $1)
+        ORDER BY area.id`,
+      [event.tripId],
+    );
+    return rows.map((row) => row.id);
   }
   if (event.type === 'pitch.created' && event.crewId !== null) {
     const { rows } = await tx.query<{ destination_id: string }>(
@@ -167,8 +177,8 @@ async function destinationsOf(tx: pg.PoolClient, event: AppendedDomainEvent): Pr
 }
 
 /**
- * `onEventAppended` hook: a pitch or a trip naming a destination checks that place's coverage,
- * queues its brief when it has none and warms the profiles of its top places.
+ * `onEventAppended` hook: a pitch, a trip naming a destination or a trip gaining an area checks
+ * that place's coverage, queues its brief when it has none and warms the profiles of its top places.
  */
 export async function onDemandIngestHook(
   tx: pg.PoolClient,

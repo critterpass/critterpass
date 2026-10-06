@@ -11,6 +11,7 @@ import {
   backIdea,
   leaveIdea,
   POI_INSIDE_DESTINATION,
+  TRIP_AREAS,
   type IdeaPlace,
 } from './store';
 
@@ -27,10 +28,11 @@ async function tripsHoldingPoi(
   const { rows } = await asSystemRole(tx, () =>
     tx.query<TripPlace>(
       `WITH mine AS (${ACTIVE_TRIPS_OF_USER})
-       SELECT mine.trip_id AS "tripId", mine.crew_id AS "crewId", p.id AS "poiId", p.name,
-              p.name_local AS "nameLocal", p.category, p.lat, p.lng
+       SELECT DISTINCT ON (mine.trip_id) mine.trip_id AS "tripId", mine.crew_id AS "crewId",
+              p.id AS "poiId", p.name, p.name_local AS "nameLocal", p.category, p.lat, p.lng
          FROM mine
-         JOIN destinations d ON d.id = mine.destination_id
+         JOIN trips t ON t.id = mine.trip_id
+         ${TRIP_AREAS}
          JOIN pois p ON p.id = $2 AND p.status = 'active'
         WHERE ${POI_INSIDE_DESTINATION}
         ORDER BY mine.trip_id`,

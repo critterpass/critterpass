@@ -3,7 +3,8 @@
  * and last leg of a planned day, and fit's distance from home. In order:
  *
  * 1. a booked crew stay covering that night, placed on a curated place: the place its plan item
- *    points at, else the destination's stay place whose name is the booking's title or location;
+ *    points at, else a stay place of one of the trip's areas (its destination, a stop, a day's
+ *    area) whose name is the booking's title or location;
  * 2. a stay in the current plan (an item on a stay place that is itself the stay, or has no kind
  *    of its own; a visit to a villa the catalogue files as a stay is a stop): the latest one on or
  *    before that day, else the first one after it;
@@ -77,7 +78,8 @@ async function bookedStays(
              UNION ALL
              SELECT 1, p.id, p.name, p.lat, p.lng
                FROM pois p
-              WHERE p.destination_id = trip.destination_id AND p.category = 'stay'
+              WHERE p.destination_id IN (SELECT app.trip_area_ids($1, true))
+                AND p.category = 'stay'
                 AND p.status = 'active'
                 AND lower(p.name) IN (lower(b.title), lower(coalesce(b.location, '')))
            ) candidate

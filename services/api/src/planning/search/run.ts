@@ -4,6 +4,7 @@
  * anchor (else the stay), `fit=1` adds each place's fit with left-out days removed, and `relax=1`
  * answers ways out when nothing matched. Read as the caller: a trip they are not on is NOT_FOUND.
  */
+import { dayArea } from '@cp/db';
 import type { PlaceFit, PoiCategory, SearchFilter } from '@cp/domain';
 import type pg from 'pg';
 
@@ -104,7 +105,13 @@ async function context(
   deps: TripSearchDeps,
 ): Promise<{ ctx: SearchContext; days: TripDay[] }> {
   const trip = input.tripId === undefined ? null : await tripFitFacts(tx, input.tripId);
-  const destinationId = input.destinationId ?? trip?.destinationId ?? null;
+  // Where to look: the asked destination, else the area of the day the search is anchored on (a
+  // day trip looks in its area), else the trip's destination.
+  const anchorDay =
+    trip !== null && input.filter.max_minutes?.from === 'day_route'
+      ? await dayArea(tx, trip.id, input.filter.max_minutes.day_id)
+      : null;
+  const destinationId = input.destinationId ?? anchorDay?.areaId ?? trip?.destinationId ?? null;
   const name =
     destinationId === null
       ? null

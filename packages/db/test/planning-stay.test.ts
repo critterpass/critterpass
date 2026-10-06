@@ -184,4 +184,33 @@ describe('tripStay', () => {
     await plan(tripId, []);
     expect(await stayOn(tripId, night(1))).toBeNull();
   });
+
+  it("anchors the second stop's nights on a stay booked in that stop's city", async () => {
+    const tripId = await newTrip();
+    const lombok = await one<string>(
+      `INSERT INTO destinations (slug, name, coverage, tz)
+       VALUES ('stay-lombok', 'Lombok', 'guest', 'Asia/Makassar') RETURNING id`,
+      [],
+    );
+    const lodge = await one<string>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng)
+       VALUES ($1, 'Sempiak Villas', 'stay', -8.9, 116.2) RETURNING id`,
+      [lombok],
+    );
+    await book(tripId, 'Villa Lumbung', 1, 3);
+    await book(tripId, 'Sempiak Villas', 3, 5);
+    await plan(tripId, []);
+    // Before Lombok is a stop of the trip, its villa is nobody's stay.
+    expect((await stayOn(tripId, night(3)))?.poiId).toBe(places.villa);
+    await pool.query(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       SELECT id, crew_id, s.position, s.destination_id, 2
+         FROM trips, (VALUES (1, $2::uuid), (2, $3::uuid)) AS s(position, destination_id)
+        WHERE id = $1`,
+      [tripId, destinationId, lombok],
+    );
+    expect((await stayOn(tripId, night(2)))?.poiId).toBe(places.villa);
+    expect((await stayOn(tripId, night(3)))?.poiId).toBe(lodge);
+    expect((await stayOn(tripId, night(4)))?.poiId).toBe(lodge);
+  });
 });
