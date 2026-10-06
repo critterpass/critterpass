@@ -33,7 +33,18 @@ export function modeLabel(mode: DayLeg['mode']): string {
     case 'driver':
       return t({ id: 'plan.tripMap.leg.driver', message: 'Driver' });
     case 'drive':
+    case 'car':
       return t({ id: 'plan.tripMap.leg.car', message: 'Car' });
+    case 'flight':
+      return t({ id: 'plan.tripMap.leg.flight', message: 'Flight' });
+    case 'train':
+      return t({ id: 'plan.tripMap.leg.train', message: 'Train' });
+    case 'bus':
+      return t({ id: 'plan.tripMap.leg.bus', message: 'Bus' });
+    case 'boat':
+      return t({ id: 'plan.tripMap.leg.boat', message: 'Boat' });
+    case 'tour':
+      return t({ id: 'plan.tripMap.leg.tour', message: 'Tour' });
   }
 }
 

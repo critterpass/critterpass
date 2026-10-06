@@ -142,6 +142,10 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ),
     ...(await import('./jobs/proposal')).proposalJobs(env, pool, aiSwitches, llmObservability),
     ...(await import('./jobs/critters')).critterJobs(),
+    ...(await import('./jobs/help')).helpJobs(
+      { ...processEnv, ...env },
+      { pool, assertRouteOn, telemetry: llmObservability },
+    ),
     ...(await import('./jobs/quests')).questJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/trips/lifecycle-jobs')).tripLifecycleJobs(),
     ...(await import('./jobs/album')).albumJobs(

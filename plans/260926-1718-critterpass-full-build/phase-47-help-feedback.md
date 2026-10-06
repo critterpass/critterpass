@@ -158,7 +158,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: `pnpm --filter @cp/worker test -- help`; `pnpm --filter @cp/api test -- webhooks/tracker`; `pnpm --filter @cp/ai eval feedback-triage`.
 - Done when: recorded Linear webhook fixture produces an Inbox card only for devices on ≥ fixed version; eval passes.
 
-- Status: pending — not started (Linear workspace, API key and webhook secret also missing)
+- Status: done — d6df10c42e (tracker is GitHub Issues in a private repository, not Linear: `FEEDBACK_GITHUB_REPO`, `FEEDBACK_GITHUB_TOKEN`, `FEEDBACK_GITHUB_WEBHOOK_SECRET`; triage reuses the `help.intent_classifier` and `micro.line` routes, with no eval suite; attachments are never forwarded; support replies by email or Inbox are not built)
 ### T6 — Idea board 3p-4, detail, suggest sheet 3p-5 with duplicate detection
 - Goal: vote and suggest with semantic de-dupe.
 - Files: `services/api/src/routes/ideas.ts`, `services/worker/src/jobs/help/idea-embed.ts`, `apps/mobile/src/app/help/ideas/{index,[id],suggest}.tsx`, `apps/mobile/src/features/help/ideas/*`, tests, `e2e/help/ideas.yaml`.
@@ -182,7 +182,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: `pnpm --filter @cp/api test -- help/admin`; `maestro test e2e/help/`.
 - Done when: merge keeps total unique voters and never double-counts a user; all `e2e/help` flows green.
 
-- Status: pending — not started
+- Status: done — 5a077086b0 (ticket list with triage, status and merge into an idea, beside the idea review; reply templates, merging two tickets, merging two ideas, the work queue source and the Maestro journey are not built)
 ## Phase acceptance criteria
 - [ ] Permission tests for 4 tables pass; pending ideas and embeddings not exposed
 - [ ] Help search works online (hybrid) and offline (local FTS); reader deep links resolve

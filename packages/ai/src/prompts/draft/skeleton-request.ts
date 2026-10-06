@@ -4,7 +4,7 @@
  * each with the area it is in (./areas.ts) and what it is for (a morning place, for after dark).
  * What a member wrote enters only inside an untrusted data block.
  */
-import { dayWindow } from '@cp/planner';
+import { dayWindow, landsOn, leavesOn } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
@@ -73,8 +73,11 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
   const { frame, pools, pois } = input;
   const days = frame.dates.map((date, index) => {
     const window = dayWindow(frame, index);
-    const note =
-      index === 0 ? ' (arrival day)' : index === frame.dates.length - 1 ? ' (leaving day)' : '';
+    const note = landsOn(frame, index)
+      ? ' (arrival day)'
+      : leavesOn(frame, index)
+        ? ' (leaving day)'
+        : '';
     return `- Day ${index + 1}: ${weekdayOf(date)} ${date}, ${clockText(window.startMin)}–${clockText(window.endMin)}${note}`;
   });
   const areas = areasOf(input);

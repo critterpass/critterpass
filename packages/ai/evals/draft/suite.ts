@@ -31,6 +31,7 @@ import { gradePlaces, gradePlanRules, gradeRedraftRules } from './asserts/plan-r
 import { baselineItinerary } from './baseline';
 import { caseModel, type RecordingOptions } from './recorded-model';
 import { withBaseDay } from './base-day';
+import { GROUP_CASES, runGroupCase } from './groups-cases';
 import { pooled } from './pool';
 import {
   CREWS,
@@ -199,9 +200,22 @@ export async function runDraftSuite(
     draftCase(crew, options),
   );
   const redrafts = await pooled(picked(REDRAFTS), size, (r) => redraftCase(r, options));
-  const firsts = drafts.map((d) => d.firstPassClean).filter((v): v is boolean => v !== null);
+  // Trips planned in day groups: a day trip, and a second stop.
+  const grouped = await pooled(picked(GROUP_CASES), size, async (c): Promise<DraftCaseResult> => {
+    const { model, save } = caseModel(c.id, options);
+    const run = await runGroupCase(c, model).catch((error: unknown) => ({
+      failures: [`failed: ${String(error)}`],
+      output: '',
+      firstPassClean: false,
+    }));
+    save();
+    return { report: report(c.id, run.failures, run.output), firstPassClean: run.firstPassClean };
+  });
+  const firsts = [...drafts, ...grouped]
+    .map((d) => d.firstPassClean)
+    .filter((v): v is boolean => v !== null);
   const firstRate = firsts.length === 0 ? 0 : firsts.filter(Boolean).length / firsts.length;
-  const cases = [...drafts, ...redrafts].map((c) => c.report);
+  const cases = [...drafts, ...grouped, ...redrafts].map((c) => c.report);
   const passed = cases.filter((c) => c.outcome === 'pass').length;
   const score = cases.length === 0 ? 0 : passed / cases.length;
   const firstCase = report(
