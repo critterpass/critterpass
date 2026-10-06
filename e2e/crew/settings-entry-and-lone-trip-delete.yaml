@@ -154,10 +154,12 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub'
     timeout: 30000
+# Centred, so the link is clear of the tab bar and the guide button before the tap.
 - scrollUntilVisible:
     element:
       id: 'trip-menu-delete'
     timeout: 30000
+    centerElement: true
 - waitForAnimationToEnd
 - takeScreenshot: trip-3k-1-hub-foot-delete-trip
 - tapOn:
