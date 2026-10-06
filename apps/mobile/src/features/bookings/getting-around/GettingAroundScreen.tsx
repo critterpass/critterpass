@@ -16,6 +16,7 @@ import { useSupplierCopy } from '../supplier/copy';
 import { deviceSupplierApi } from '../supplier/data/api';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { rideAppName } from '../supplier/suppliers';
+import { RideBackCard } from '@/features/drivers/offline/RideBackCard';
 import { GettingAroundView } from './GettingAroundView';
 import type { Leg } from './model';
 import { durationMessage } from './duration';
@@ -113,6 +114,14 @@ export function GettingAroundScreen({
 
   return (
     <GettingAroundView
+      top={
+        data.tripId === null ? null : (
+          <RideBackCard
+            tripId={data.tripId}
+            date={new Intl.DateTimeFormat('en-CA', { timeZone: data.tz }).format(new Date())}
+          />
+        )
+      }
       status={data.status}
       guide={guide}
       header={header}
