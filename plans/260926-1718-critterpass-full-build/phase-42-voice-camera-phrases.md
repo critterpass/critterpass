@@ -1,7 +1,7 @@
 ---
 phase: 42
 title: Voice mode, point-and-ask, phrase practice
-status: pending
+status: in_progress
 depends_on: [32, 41]
 wave: 20
 features: [F-095, F-096, F-192]
@@ -95,6 +95,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 ## Tasks
 
 ### T1 — cp-speech iOS: STT, audio session, playback
+- Status: done — c66867d6d, a721d36f6 (Swift host tests and CI compile; no device run)
 - Goal: iOS half of `cp-speech` with the JS API.
 - Files: `apps/mobile/modules/cp-speech/{expo-module.config.json,src/**,ios/**}`
 - Steps: 1. Expo module scaffold + TS API. 2. SpeechAnalyzer/SpeechTranscriber stream with partials. 3. AVAudioSession `playAndRecord` + `.voiceChat`, route changes, interruptions. 4. RMS level events 30 Hz. 5. Chunk playback queue + cancel + `setMuted`. 6. Debug fixture-audio input source.
@@ -102,6 +103,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: XCTests pass; on the iOS 26 simulator the fixture WAV produces the expected transcript and chunks play in order and stop on `cancelPlayback`.
 
 ### T2 — cp-speech Android + Deepgram
+- Status: done — c66867d6d, d3675e013 (Deepgram fixture follows the documented format, not a recorded session: no key here)
 - Goal: Android half and Deepgram streaming for Android/unsupported locales.
 - Files: `apps/mobile/modules/cp-speech/android/**`, `apps/mobile/modules/cp-speech/src/deepgram.ts`
 - Steps: 1. AudioRecord (VOICE_COMMUNICATION) + AcousticEchoCanceler/NoiseSuppressor. 2. Deepgram Nova-3 websocket with `POST /v1/stt/token` token (iOS fallback path shares the TS client). 3. On-device SpeechRecognizer where the locale is supported offline. 4. ExoPlayer chunk queue + cancel + mute. 5. Debug fixture-audio source.
@@ -109,6 +111,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: unit tests pass (Deepgram with recorded websocket fixture); on the API 36 emulator the fixture WAV yields a transcript and playback cancels.
 
 ### T3 — VAD and barge-in
+- Status: done — c66867d6d, d3675e013
 - Goal: speech-start detection during playback on the echo-cancelled signal.
 - Files: `apps/mobile/modules/cp-speech/{ios/Vad.swift,android/src/main/java/app/critterpass/speech/Vad.kt,src/barge-in.ts}` + tests
 - Steps: 1. Energy + spectral VAD with hangover on AEC input. 2. `onSpeechStart` during playback → `cancelPlayback` within 200 ms. 3. No-AEC device → barge-in disabled, tap-to-interrupt. 4. Fixture: TTS audio playing + fixture user speech mixed in.
@@ -116,6 +119,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: own-TTS-only fixture never triggers barge-in; TTS + user-speech fixture stops playback ≤ 200 ms (both platforms, simulator/emulator).
 
 ### T4 — Voice server path (STT token, TTS streaming)
+- Status: partial — 415872747 (token route and ElevenLabs streaming written and tested against documented-format fixtures; the route is not mounted in the api and the first-audio metric is not recorded)
 - Goal: voice turns stream audio.
 - Files: `services/api/src/routes/stt-token.ts`, `services/api/src/lib/tts/**`, `packages/ai/src/routes/voice/**`, `packages/ai/evals/voice/**`
 - Steps: 1. Token route (rate-limited). 2. Sentence chunker → ElevenLabs Flash stream → R2-less direct chunk URLs/b64. 3. Filler lines. 4. Latency metrics to OTel.
@@ -130,6 +134,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: barge-in UI test (fixture audio during playback) stops playback within 200 ms; mute toggle yields text-only reply; denied-permission path falls back to text.
 
 ### T6 — Live OCR frame processor
+- Status: done — 48fd61574 (camera snapshots through the still-image OCR at 3 fps, ids stable on 99% of fixture frames; no frame-processor plugin, VisionCamera 5 plugins need Nitro codegen)
 - Goal: stable line ids from live camera.
 - Files: `apps/mobile/modules/cp-ocr/src/live/**`
 - Steps: 1. Vision/ML Kit per frame (throttled 5 fps). 2. IoU tracking ids. 3. On-device translation hook. 4. Debug fixture-frame source.

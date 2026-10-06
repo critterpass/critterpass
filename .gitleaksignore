@@ -6,3 +6,6 @@
 # console tools branch; it exists only to prove the scanner flags `sk_live_` prefixes.
 4ac54a9e69eb4eff033a274799721b71498a5b1a:apps/admin/scripts/scan-bundle.test.ts:stripe-access-token:7
 1fd9a041211a4fcef9b8d86a5321840aa9fdf64f:apps/admin/scripts/scan-bundle.test.ts:stripe-access-token:7
+# False positive: the made-up reference-vector secret in the Android action signer's unit test
+# (the same vector the TypeScript signer test uses); it signs nothing real.
+48fd61574e66e7bc331d6fce99da544655e3db0b:apps/mobile/modules/cp-android-surfaces/android/src/test/java/app/critterpass/surfaces/actions/ActionSignerTest.kt:generic-api-key:11

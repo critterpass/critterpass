@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
+import { useGettingThere } from '@/data/areas/use-getting-there';
 import { estimateLeg } from '@/data/legs/day-legs';
 import type { DayItem } from '@/data/plan/plan-model';
 import { impact } from '@/motion/feedback';
@@ -54,6 +55,7 @@ export function AllDaysScreen({
 }) {
   const { data, model } = useTripMapModel(tripId);
   const editor = useDayEditing(data.plan);
+  const gettingThere = useGettingThere(data.plan.trip?.destination_id ?? null, data.plan.uid);
   const drag = useCrossDayDrag();
   const [measureKey, setMeasureKey] = useState(0);
   const [menuDay, setMenuDay] = useState<number | null>(null);
@@ -79,6 +81,8 @@ export function AllDaysScreen({
         over={drag.over}
         dragging={drag.held !== null}
         measureKey={measureKey}
+        gettingThere={gettingThere.state}
+        onRetryGettingThere={gettingThere.retry}
         onBack={() =>
           router.canGoBack()
             ? router.back()

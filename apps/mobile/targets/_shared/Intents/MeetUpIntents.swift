@@ -6,8 +6,8 @@ import Foundation
 
 // The crew-live (meet-up) activity's buttons (api-contracts-async.md §4, `LA MeetUp` rows). Like
 // `ImUpIntent`, each is a `LiveActivityIntent`, so it runs in the app's process and lives in
-// `_shared`; each queues its command in the shared outbox, which the app drains at once. The
-// server checks Boost and membership when the command arrives.
+// `_shared`; each sends its command with the device action key, or queues it for the app when
+// that is not possible right now (`SignedActionSender`). The server checks Boost and membership.
 
 /// RUNNING LATE: tells the crew this member needs ten more minutes.
 struct RunningLateIntent: LiveActivityIntent {
@@ -31,7 +31,7 @@ struct RunningLateIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        try PendingActionsOutbox.append(
+        try await SignedActionSender.deliver(
             .runningLate(tripId: tripId, meetupId: meetupId), root: AppGroupContainer.url)
         return .result()
     }
@@ -54,7 +54,7 @@ struct OnMyWayIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        try PendingActionsOutbox.append(
+        try await SignedActionSender.deliver(
             .pingAll(tripId: tripId, onMyWay: true), root: AppGroupContainer.url)
         return .result()
     }
@@ -77,7 +77,7 @@ struct PingAllIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        try PendingActionsOutbox.append(
+        try await SignedActionSender.deliver(
             .pingAll(tripId: tripId, onMyWay: false), root: AppGroupContainer.url)
         return .result()
     }
@@ -104,7 +104,7 @@ struct SOSIntent: LiveActivityIntent {
             actionName: .send,
             dialog: "Send an SOS to your whole crew? They will see where you are until you are safe."
         )
-        try PendingActionsOutbox.append(.sos(tripId: tripId), root: AppGroupContainer.url)
+        try await SignedActionSender.deliver(.sos(tripId: tripId), root: AppGroupContainer.url)
         return .result()
     }
 }

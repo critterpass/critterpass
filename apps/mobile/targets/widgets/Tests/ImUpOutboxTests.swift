@@ -85,6 +85,19 @@ final class ImUpOutboxTests: XCTestCase {
         XCTAssertNotEqual(opId, PendingAction.uuidV7(now: now))
     }
 
+    func testSnoozeQueuesTheLeaveByWithoutACountOfItsOwn() throws {
+        try PendingActionsOutbox.append(
+            .snooze(leaveById: "5f0c8e2a-3b1d-4c6e-9a7f-2d4b6c8e0a1f"), root: root)
+
+        let actions = try XCTUnwrap(try json(fileUrl)["actions"] as? [NSDictionary])
+        XCTAssertEqual(actions.first?["cmd"] as? String, "snooze_leave_by")
+        XCTAssertEqual(actions.first?["via"] as? String, "la_intent")
+        XCTAssertEqual(actions.first?["scope"] as? String, "readiness")
+        XCTAssertEqual(
+            actions.first?["payload"] as? NSDictionary,
+            ["leave_by_id": "5f0c8e2a-3b1d-4c6e-9a7f-2d4b6c8e0a1f"] as NSDictionary)
+    }
+
     func testRefusesWithoutAnAppGroupContainer() {
         XCTAssertThrowsError(try PendingActionsOutbox.append(.imUp(leaveById: "x"), root: nil)) { error in
             XCTAssertEqual(error as? PendingActionsOutboxError, .noAppGroupContainer)

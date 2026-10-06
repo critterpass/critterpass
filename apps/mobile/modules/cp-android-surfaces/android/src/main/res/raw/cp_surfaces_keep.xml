@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Live Update labels are looked up by key from the push (status, chip, metric), so the release
+     resource shrinker cannot see them referenced: keep them all. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/cp_lu_*" />
