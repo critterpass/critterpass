@@ -7,8 +7,8 @@
  * than the crew settles in (USD fares on an SGD crew) are converted with the latest FX run, as the
  * recompute job does.
  */
-import { assertCurrencyCode, type FxContext, type FxSnapshot } from '@cp/cost-engine';
-import { outbox, withSystem } from '@cp/db';
+import { assertCurrencyCode } from '@cp/cost-engine';
+import { outbox, readLatestRates, withSystem } from '@cp/db';
 import { PROPOSAL_QUEUES, userChannel } from '@cp/domain';
 import {
   buildDropoutChangeSet,
@@ -55,32 +55,6 @@ async function affiliateStays(
   return rows.map((row) => ({ bookingId: row.id, supplier: row.supplier }));
 }
 
-/** The newest rate of every pair, pinned on the settlement currency's row; null when none exist. */
-async function latestFx(tx: pg.PoolClient, currency: string): Promise<FxContext | null> {
-  const { rows } = await tx.query<{
-    id: string;
-    base: string;
-    quote: string;
-    rate: string;
-    as_of: string;
-    source: string;
-  }>(
-    `SELECT DISTINCT ON (base, quote) id, base, quote, rate::text AS rate, as_of::text AS as_of,
-            source
-       FROM fx_snapshots ORDER BY base, quote, as_of DESC, created_at DESC`,
-  );
-  const pinned = rows.find((r) => r.quote === currency) ?? rows[0];
-  if (pinned === undefined) return null;
-  const snapshots: FxSnapshot[] = rows.map((r) => ({
-    base: assertCurrencyCode(r.base),
-    quote: assertCurrencyCode(r.quote),
-    rate: r.rate,
-    asOf: r.as_of,
-    source: r.source,
-  }));
-  return { snapshotId: pinned.id, snapshots };
-}
-
 export async function runDropout(
   pool: pg.Pool,
   tripId: string,
@@ -125,7 +99,7 @@ export async function runDropout(
     );
     const currency = trip.rows[0]?.currency ?? 'USD';
     const fx = rows.rows.some((row) => row.currency !== currency)
-      ? await latestFx(tx, currency)
+      ? await readLatestRates(tx, currency, assertCurrencyCode)
       : null;
     const state = costStateFromRows({
       currency,

@@ -5,6 +5,7 @@
  * touch. Only the caller's own delta and the crew-wide "each" label leave this module.
  */
 import { assertCurrencyCode, type CurrencyCode, type FxContext } from '@cp/cost-engine';
+import { readLatestRates } from '@cp/db';
 import { DomainError, generateUuidV7, type ChangeSetOp } from '@cp/domain';
 import {
   changeSetReview,
@@ -95,37 +96,6 @@ async function loadDriveContext(
   };
 }
 
-async function loadFx(tx: pg.PoolClient): Promise<FxContext | undefined> {
-  const { rows } = await tx.query<{
-    id: string;
-    base: string;
-    quote: string;
-    rate: string;
-    as_of: string;
-    source: string;
-  }>(
-    // The newest rate of every pair: the source dates each currency on its own, so the newest
-    // day's rows are rarely a complete set.
-    `SELECT id, base, quote, rate, as_of, source FROM (
-       SELECT DISTINCT ON (base, quote) id, base, quote, rate::text AS rate, as_of::text AS as_of,
-              source
-         FROM fx_snapshots ORDER BY base, quote, as_of DESC, created_at DESC
-     ) newest ORDER BY quote, source`,
-  );
-  const first = rows[0];
-  if (!first) return undefined;
-  return {
-    snapshotId: first.id,
-    snapshots: rows.map((r) => ({
-      base: assertCurrencyCode(r.base),
-      quote: assertCurrencyCode(r.quote),
-      rate: r.rate,
-      asOf: r.as_of,
-      source: r.source,
-    })),
-  };
-}
-
 /** The trip's current plan (else the draft, when the caller may see it), priced items only. */
 export async function loadPlanCostContext(
   tx: pg.PoolClient,
@@ -174,7 +144,9 @@ export async function loadPlanCostContext(
     ...(i.currency ? { currency: i.currency } : {}),
   }));
   const needsFx = planItems.some((i) => i.currency !== undefined && i.currency !== currency);
-  const fx = needsFx ? await loadFx(tx) : undefined;
+  const fx = needsFx
+    ? ((await readLatestRates(tx, currency, assertCurrencyCode)) ?? undefined)
+    : undefined;
   return {
     tripId,
     currency,

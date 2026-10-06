@@ -8,8 +8,8 @@
  */
 import type { PersonaId, VersionContext, VersionItem } from '@cp/ai';
 import { personaIdSchema } from '@cp/ai';
-import { formatMoney, money } from '@cp/cost-engine';
-import { withGuideReader, withSystem } from '@cp/db';
+import { assertCurrencyCode, formatMoney, money } from '@cp/cost-engine';
+import { readLatestRates, withGuideReader, withSystem } from '@cp/db';
 import { costStateFromRows, skipOptions, type CostComponentRow } from '@cp/planner';
 import type pg from 'pg';
 
@@ -72,10 +72,15 @@ async function costFacts(tx: pg.PoolClient, target: VersionTarget) {
     [target.trip_id],
   );
   const currency = share.rows[0]?.currency ?? rows.rows[0]?.currency ?? 'USD';
+  // A trip priced in more than one currency is converted with the latest rates.
+  const fx = rows.rows.some((row) => row.currency !== currency)
+    ? await readLatestRates(tx, currency, assertCurrencyCode)
+    : null;
   const state = costStateFromRows({
     currency,
     members: members.rows.map((m) => ({ uid: m.user_id, origin: null })),
     rows: rows.rows,
+    ...(fx ? { fx } : {}),
   });
   return {
     share: share.rows[0] === undefined ? null : BigInt(share.rows[0].total_minor),
