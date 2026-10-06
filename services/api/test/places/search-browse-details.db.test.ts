@@ -1,7 +1,9 @@
 /**
  * A destination browse against real Postgres carries what a pin shows of a place the phone never
  * synced (hours, must-see, pick rank, why-go and best-time lines in the reader's language where
- * stored) and fills a map page past the 50 a name search returns.
+ * stored, the AI profile's first photo where the place page shows that profile), leads with the
+ * curated places and then the machine picks by rank, and fills a map page past the 50 a name
+ * search returns.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -19,6 +21,16 @@ const vietReader = randomUUID();
 
 const HOURS = { weekly: { mo: [{ start: '07:00', end: '17:30' }] } };
 const PLAIN_PLACES = 70;
+const MEDIA_HOST = 'https://media.test';
+const PHOTOS = [
+  {
+    key: 'c/place-profiles/dragon/1.jpg',
+    source_page: 'https://commons.example/dragon',
+    width: 480,
+  },
+  { key: 'c/place-profiles/dragon/2.jpg', source_page: 'https://blog.example/dragon', width: 480 },
+];
+let mediaHostBefore: string | undefined;
 
 async function seed(values: {
   name: string;
@@ -63,6 +75,8 @@ async function search(filters: PlaceSearchFilters, reader?: string) {
 }
 
 beforeAll(async () => {
+  mediaHostBefore = process.env['MEDIA_PUBLIC_BASE_URL'];
+  process.env['MEDIA_PUBLIC_BASE_URL'] = `${MEDIA_HOST}/`;
   postgres = await startPostgres();
   pool = new pg.Pool({ connectionString: postgres.getConnectionUri() });
   await runMigrations(pool);
@@ -78,7 +92,7 @@ beforeAll(async () => {
     vietReader,
   ]);
 
-  await seed({
+  const reviewed = await seed({
     name: 'Marble Mountains',
     lat: 16.0029,
     curation: 'editorial',
@@ -90,30 +104,42 @@ beforeAll(async () => {
       i18n: { vi: { why_go: 'Hang động và chùa trong năm ngọn núi đá.' } },
     },
   });
+  // A profile written before the editors' note: the place page shows the note, not the profile.
+  await pool.query(
+    `INSERT INTO place_profiles (poi_id, status, texts, photos) VALUES ($1, 'ready', '{}', $2)`,
+    [reviewed, JSON.stringify(PHOTOS)],
+  );
   const picked = await seed({ name: 'Dragon Bridge', lat: 16.0612, pickRank: 2 });
-  await pool.query(`INSERT INTO place_profiles (poi_id, status, texts) VALUES ($1, 'ready', $2)`, [
-    picked,
-    JSON.stringify({
-      en: {
-        why_go: 'It breathes fire on weekend nights.',
-        best_time: 'Saturday 9 pm.',
-        crowd: '',
-        facts: [],
-      },
-      vi: {
-        why_go: 'Rồng phun lửa tối cuối tuần.',
-        best_time: '21 giờ thứ Bảy.',
-        crowd: '',
-        facts: [],
-      },
-    }),
-  ]);
+  await pool.query(
+    `INSERT INTO place_profiles (poi_id, status, texts, photos) VALUES ($1, 'ready', $3, $2)`,
+    [
+      picked,
+      JSON.stringify(PHOTOS),
+      JSON.stringify({
+        en: {
+          why_go: 'It breathes fire on weekend nights.',
+          best_time: 'Saturday 9 pm.',
+          crowd: '',
+          facts: [],
+        },
+        vi: {
+          why_go: 'Rồng phun lửa tối cuối tuần.',
+          best_time: '21 giờ thứ Bảy.',
+          crowd: '',
+          facts: [],
+        },
+      }),
+    ],
+  );
+  // The first pick by rank, last by name and with no profile.
+  await seed({ name: 'Zen Pagoda', lat: 16.1, pickRank: 1 });
   const pending = await seed({ name: 'Han Market', lat: 16.068 });
   await pool.query(
-    `INSERT INTO place_profiles (poi_id, status, texts) VALUES ($1, 'pending', $2)`,
+    `INSERT INTO place_profiles (poi_id, status, texts, photos) VALUES ($1, 'pending', $2, $3)`,
     [
       pending,
       JSON.stringify({ en: { why_go: 'Not ready yet.', best_time: 'x', crowd: '', facts: [] } }),
+      JSON.stringify(PHOTOS),
     ],
   );
   // Plain places 150 m apart, so none reads as another's listing.
@@ -123,6 +149,8 @@ beforeAll(async () => {
 }, 180_000);
 
 afterAll(async () => {
+  if (mediaHostBefore === undefined) delete process.env['MEDIA_PUBLIC_BASE_URL'];
+  else process.env['MEDIA_PUBLIC_BASE_URL'] = mediaHostBefore;
   await pool?.end();
   await postgres?.stop();
 });
@@ -166,12 +194,31 @@ describe('a destination browse', () => {
     );
   });
 
+  it("carries a ready profile's first photo, and none where the page shows no profile", async () => {
+    const page = await search({ destinationId: daNang, limit: MAX_BROWSE_LIMIT });
+    const photoOf = (name: string) => page.find((item) => item.name === name)?.photo;
+    expect(photoOf('Dragon Bridge')).toEqual({
+      url: `${MEDIA_HOST}/c/place-profiles/dragon/1.jpg`,
+      sourcePage: 'https://commons.example/dragon',
+    });
+    // A reviewed place's page shows the editors' note and media; a pending profile shows nothing.
+    expect(photoOf('Marble Mountains')).toBeNull();
+    expect(photoOf('Han Market')).toBeNull();
+    expect(photoOf('Lookout 00')).toBeNull();
+  });
+
   it('fills a map page past 50 places, while a name search stays at 50', async () => {
     const page = await search({ destinationId: daNang, limit: MAX_BROWSE_LIMIT });
-    expect(page).toHaveLength(PLAIN_PLACES + 3);
+    expect(page).toHaveLength(PLAIN_PLACES + 4);
     expect(new Set(page.map((item) => item.id)).size).toBe(page.length);
     // The editors' place leads the browse, as before.
     expect(page[0]?.name).toBe('Marble Mountains');
+    // Then the machine picks by rank, ahead of open data of the same quality and an earlier name.
+    expect(page.slice(1, 4).map((item) => item.name)).toEqual([
+      'Zen Pagoda',
+      'Dragon Bridge',
+      'Han Market',
+    ]);
 
     const named = await search({ q: 'Lookout', destinationId: daNang, limit: MAX_BROWSE_LIMIT });
     expect(named).toHaveLength(50);

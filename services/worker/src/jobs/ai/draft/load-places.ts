@@ -58,6 +58,9 @@ interface PoiRow {
 const PLACE_COLUMNS = `p.id, p.name, p.name_local, p.category, p.lat, p.lng,
        coalesce(p.timezone, d.tz) AS timezone, p.hours, p.price_level, p.tags, p.editorial,
        p.curation, p.pick_source, pp.best_times, pp.visit_min, pp.meal_role, pp.dish`;
+/** A place of the destination, or one another destination owns inside its place box. */
+const BORROWED_SQL = `(p.destination_id = $1 OR ST_Intersects(p.location,
+  (SELECT b.place_bounds FROM destinations b WHERE b.id = $1)))`;
 const PROFILE_JOIN = `LEFT JOIN place_profiles pp ON pp.poi_id = p.id AND pp.status = 'ready'`;
 
 /** Whether drafts read places' typed facts (`ops.ops_config`). */
@@ -70,18 +73,25 @@ export async function typedPlacesOn(pool: pg.Pool): Promise<boolean> {
   return rows[0]?.value === true;
 }
 
-/** The destination's recommended places (the editors' first), plus every must-do's place. */
+/**
+ * The destination's recommended places (the editors' first), plus every must-do's place. With
+ * `borrow` (a later stop or a day-trip area), also the recommended places another destination
+ * owns inside this one's place box: a place is filed under the first destination that read it, so
+ * Hội An's old town belongs to Đà Nẵng.
+ */
 export async function loadDraftPlaces(
   pool: pg.Pool,
   destinationId: string,
   mustDoPoiIds: readonly string[],
+  options: { readonly borrow?: boolean } = {},
 ): Promise<DraftPoi[]> {
   const typed = await typedPlacesOn(pool);
   const { rows } = await withSystem(pool, (tx) =>
     tx.query<PoiRow>(
       `(SELECT ${PLACE_COLUMNS}
           FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
-         WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
+         WHERE ${options.borrow === true ? BORROWED_SQL : 'p.destination_id = $1'}
+           AND p.status = 'active' AND ${recommendedSql('p')}
            AND p.merged_into_id IS NULL
            AND p.category NOT IN ('transit', 'stay', 'health')
          ORDER BY ${recommendedOrderSql('p')}, p.id

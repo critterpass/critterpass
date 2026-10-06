@@ -101,6 +101,28 @@ export interface TripFrame {
   readonly closures: readonly ClosureRecord[];
   /** Days (1-based) the crew asked to start later: their window opens later (see `dayWindow`). */
   readonly laterStartDays?: readonly number[];
+  /**
+   * The day (1-based) the crew lands on, where `arrivalMin` applies: absent = the first day; null =
+   * none (the crew is already there when these days begin).
+   */
+  readonly arrivalDay?: number | null;
+  /**
+   * The day the crew leaves on, where `departureMin` applies: absent = the last day; null = none
+   * (the crew stays on: another city of the trip follows).
+   */
+  readonly leavingDay?: number | null;
+  /** Per day (1-based): when the crew reaches the place and when it must start back. */
+  readonly reach?: Readonly<Record<number, DayReach>>;
+}
+
+/**
+ * When the crew is at a day's place: reached at `fromMin` (local minute, no arrival buffer: the
+ * crew arrives ready to go) and left by `untilMin`. A day trip is both; an arrival by train only
+ * sets `arrivalMin` on its landing day.
+ */
+export interface DayReach {
+  readonly fromMin?: number;
+  readonly untilMin?: number;
 }
 
 /** Minutes between two places; null = unknown (not checked). */

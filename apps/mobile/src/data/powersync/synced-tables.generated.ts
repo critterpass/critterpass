@@ -98,7 +98,7 @@ export const SYNCED_TABLE_COLUMNS = {
   facilities:
     'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
   feedback_tickets:
-    'user_id ticket_no:integer mood category body include_device_info:integer device_info context trip_id media_ids source status reply_channel reply_due_at severity triage_summary duplicate_of duplicate_score:real tracker_issue_id fixed_in_version idea_id app_version sent_at created_at updated_at',
+    'user_id ticket_no:integer mood category body include_device_info:integer device_info context trip_id media_ids source status reply_channel reply_due_at triage_kind triage_area triaged_at severity triage_summary duplicate_of duplicate_score:real tracker_issue_id fixed_in_version fix_notified_at idea_id app_version sent_at created_at updated_at',
   flight_segments:
     'booking_id trip_id owner_id crew_visible:integer segment_no:integer carrier flight_no dep_airport arr_airport sched_dep_at sched_arr_at est_dep_at est_arr_at act_dep_at act_arr_at boarding_at boarding_estimated:integer gate terminal status delay_min:integer status_source status_at la_phase version:integer created_at updated_at',
   ftf_grants:
