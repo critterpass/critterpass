@@ -87,7 +87,7 @@ export interface PerkLine {
 export function perkLines(perks: readonly Perk[], tier: PerkTier): PerkLine[] {
   return perks
     .filter((perk) => perk.enabled && perk.tier === tier)
-    .toSorted((a, b) => a.sort - b.sort)
+    .sort((a, b) => a.sort - b.sort)
     .flatMap((perk) => {
       const copy = PERK_COPY[perk.copyKey];
       return copy === undefined ? [] : [{ key: perk.key, copy }];

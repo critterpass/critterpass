@@ -86,7 +86,7 @@ export function planModel(input: PlanInput): PlanModel {
   const { passPlus } = input;
   const main = input.subscriptions
     .filter((subscription) => isPass(subscription) && STORES.includes(subscription.platform))
-    .toSorted((a, b) => RANK[a.status] - RANK[b.status])[0];
+    .sort((a, b) => RANK[a.status] - RANK[b.status])[0];
 
   if (main === undefined || main.status === 'expired' || main.status === 'revoked') {
     if (passPlus) return { ...NONE, kind: 'granted', passPlus, date: input.passPlusUntil };
@@ -171,5 +171,5 @@ export function boostLines(rows: readonly BoostLineRow[]): BoostLine[] {
       on: row.status === 'active' || row.status === 'scheduled',
       endsAt: row.ends_at,
     }))
-    .toSorted((a, b) => Number(b.on) - Number(a.on));
+    .sort((a, b) => Number(b.on) - Number(a.on));
 }
