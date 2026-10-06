@@ -107,8 +107,7 @@ export function createLiveOcr(options: LiveOcrOptions): LiveOcr {
 export function fixtureFrames(uris: readonly string[]): () => Promise<string | null> {
   let index = 0;
   return () => {
-    if (uris.length === 0) return Promise.resolve(null);
-    const uri = uris[index % uris.length]!;
+    const uri = uris[index % Math.max(1, uris.length)] ?? null;
     index += 1;
     return Promise.resolve(uri);
   };

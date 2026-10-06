@@ -14,8 +14,12 @@ import {
   type Synthesize,
 } from '../../src/lib/tts';
 
+/** The model's text as it streams in, one delta per tick. */
 async function* stream(pieces: readonly string[]) {
-  for (const piece of pieces) yield piece;
+  for (const piece of pieces) {
+    await Promise.resolve();
+    yield piece;
+  }
 }
 
 describe('sentence chunker', () => {

@@ -25,9 +25,9 @@ function fakeNative(onDevice: boolean) {
     isOnDeviceSupported: () => Promise.resolve(onDevice),
     addListener: (event, listener) => {
       const set = listeners.get(event) ?? new Set();
-      set.add(listener as (event: never) => void);
+      set.add(listener);
       listeners.set(event, set);
-      return { remove: () => set.delete(listener as (event: never) => void) };
+      return { remove: () => set.delete(listener) };
     },
   };
   return {

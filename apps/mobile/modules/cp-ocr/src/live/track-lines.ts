@@ -88,7 +88,8 @@ function median(values: number[]): number {
   if (values.length === 0) return 0;
   const sorted = [...values].sort((p, q) => p - q);
   const mid = Math.floor(sorted.length / 2);
-  return sorted.length % 2 ? sorted[mid]! : (sorted[mid - 1]! + sorted[mid]!) / 2;
+  const at = (index: number) => sorted[index] ?? 0;
+  return sorted.length % 2 ? at(mid) : (at(mid - 1) + at(mid)) / 2;
 }
 
 function shift(box: OcrBox, dx: number, dy: number): OcrBox {
@@ -125,7 +126,8 @@ function cameraMotion(
   for (const track of tracks) {
     if (track.key.length < 3 || trackKeys.get(track.key) !== 1) continue;
     if (observedKeys.get(track.key) !== 1) continue;
-    const match = observed.find((o) => o.key === track.key)!;
+    const match = observed.find((o) => o.key === track.key);
+    if (match === undefined) continue;
     const [tx, ty] = centre(track.bbox);
     const [ox, oy] = centre(match.bbox);
     dx.push(ox - tx);
@@ -170,8 +172,9 @@ export function createLineTracker(options: TrackOptions = {}): LineTracker {
       for (const pair of pairs) {
         if (trackTaken.has(pair.track) || obsTaken.has(pair.obs)) continue;
         trackTaken.add(pair.track);
-        const track = tracks[pair.track]!;
-        const obs = observed[pair.obs]!;
+        const track = tracks[pair.track];
+        const obs = observed[pair.obs];
+        if (track === undefined || obs === undefined) continue;
         const moved = shift(track.bbox, motion.dx, motion.dy);
         track.bbox = blend(moved, obs.bbox);
         // A clearer read replaces the text; a worse one (motion blur) keeps the last good one.
@@ -211,15 +214,12 @@ export function createLineTracker(options: TrackOptions = {}): LineTracker {
         obsTaken.set(o, track);
       });
 
-      return observed.map((_, o) => {
-        const track = obsTaken.get(o)!;
-        return {
-          id: track.id,
-          text: track.text,
-          bbox: track.bbox,
-          conf: track.conf,
-          seen: track.seen,
-        };
+      // Every observation has its track by now (matched or new), in the order it was read.
+      return observed.flatMap((_, o) => {
+        const track = obsTaken.get(o);
+        if (track === undefined) return [];
+        const { id, text, bbox, conf, seen } = track;
+        return [{ id, text, bbox, conf, seen }];
       });
     },
     reset() {

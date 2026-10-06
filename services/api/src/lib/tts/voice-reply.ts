@@ -62,7 +62,8 @@ export async function* speakReply(
 
   const ready = async function* (all: boolean) {
     while (pending.length > 0 && (all || pending.length > 1)) {
-      const head = pending.shift()!;
+      const head = pending.shift();
+      if (head === undefined) return;
       const audio = await head.audio;
       if (seq === 0 && started !== null) options.onFirstAudio?.(now() - started);
       yield { seq, b64: audio.toString('base64'), text: head.text };

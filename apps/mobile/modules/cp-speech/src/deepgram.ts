@@ -83,7 +83,7 @@ function parse(data: unknown): { readonly type?: string } | null {
   if (typeof data !== 'string') return null;
   try {
     const value: unknown = JSON.parse(data);
-    return typeof value === 'object' && value !== null ? (value as { type?: string }) : null;
+    return typeof value === 'object' && value !== null ? value : null;
   } catch {
     return null;
   }
