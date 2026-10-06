@@ -62,7 +62,7 @@ async function loadPlace(tx: pg.PoolClient, placeId: string): Promise<PlaceRow |
             (SELECT g.slug FROM guides g
               WHERE g.critter_key = d.critter_key AND app.guides_per_city()) AS city_guide
        FROM destinations d LEFT JOIN critter_sets s ON s.id = d.critter_set_id
-      WHERE d.id = $1`,
+      WHERE d.id = $1 AND d.coverage <> 'area'`,
     [placeId],
   );
   return rows[0];
@@ -146,7 +146,8 @@ async function alternatives(
   }
   if (place.set_id !== null) {
     const { rows } = await tx.query<{ id: string; name: string }>(
-      'SELECT id, name FROM destinations WHERE critter_set_id = $1 AND id <> $2 ORDER BY name LIMIT 2',
+      `SELECT id, name FROM destinations
+        WHERE critter_set_id = $1 AND id <> $2 AND coverage <> 'area' ORDER BY name LIMIT 2`,
       [place.set_id, place.id],
     );
     for (const row of rows) {
