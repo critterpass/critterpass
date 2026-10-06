@@ -227,6 +227,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'photo.picks': fast(null, 2048, { output: 'structured', vision: true }),
   'avatar.moderate': fast(null, 256, { output: 'structured', vision: true }),
   'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),
+  'provider.extract': fast('M', 2048, { output: 'structured', temperature: 0 }),
   'menu.parse': fast('M', 4096, { output: 'structured', delivery: 'stream', vision: true }),
   'guide.chat_escalation': pro('C', 2048, 'low', { ...GUIDE_STREAM, webSearch: true }),
   'draft.day': pro('D', 4096, 'low', PLANNING_CALL),
