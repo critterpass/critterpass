@@ -56,6 +56,7 @@ export {
   edgeDays,
   landsOn,
   leavesOn,
+  MOVES_ON_AT_MIN,
 } from './day-window';
 export {
   bestOrder,

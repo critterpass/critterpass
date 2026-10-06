@@ -15,6 +15,7 @@ import {
 } from '@cp/domain';
 import {
   assembleFitContext,
+  withDayAreas,
   DEFAULT_FIT_THRESHOLDS,
   legKey,
   straightLineTravel,
@@ -25,6 +26,7 @@ import {
   type FitStop,
   type FitThresholds,
 } from '@cp/planner';
+import { tripAreas } from '@cp/db';
 import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
@@ -179,6 +181,11 @@ export async function loadFitContext(
             [versionId],
           )
         ).rows;
+  // The area each day is spent in: a day trip's hours, places and travel are its own.
+  const areaDays =
+    versionId === null
+      ? days
+      : withDayAreas(days, await tripAreas(tx, trip.id, versionId, { withGuides: false }));
   const items =
     versionId === null
       ? []
@@ -209,8 +216,10 @@ export async function loadFitContext(
             minutes: number;
             mode: string;
             approx: boolean;
+            source: string;
           }>(
-            'SELECT from_key, to_key, minutes, mode, approx FROM plan_legs WHERE version_id = $1',
+            `SELECT from_key, to_key, minutes, mode, approx, source FROM plan_legs
+              WHERE version_id = $1`,
             [versionId],
           )
         ).rows;
@@ -228,14 +237,19 @@ export async function loadFitContext(
   const storedLegs = new Map<string, FitLeg>(
     legs.map((leg) => [
       legKey(leg.from_key, leg.to_key),
-      { minutes: leg.minutes, mode: leg.mode === 'walk' ? 'walk' : 'drive', approx: leg.approx },
+      {
+        minutes: leg.minutes,
+        mode: leg.mode === 'walk' ? 'walk' : 'drive',
+        approx: leg.approx,
+        ...(leg.source === 'link' ? { link: true } : {}),
+      },
     ]),
   );
   const context = assembleFitContext({
     tz: trip.tz,
     participants: await tripVoters(tx, trip.id, trip.crewId),
     driveFactor: trip.driveFactor,
-    days,
+    days: areaDays,
     items,
     stays,
     rain: await readRain(tx, {

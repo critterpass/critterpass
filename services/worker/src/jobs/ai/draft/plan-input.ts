@@ -13,6 +13,7 @@ import {
   datesOf,
   knownPlaceFor,
   minuteOfDate,
+  MOVES_ON_AT_MIN,
   resolveWishes,
   straightLineMatrix,
   type Chronotype,
@@ -52,9 +53,6 @@ export interface GroupDays {
 
 const shareOf = (days: GroupDays | undefined, minor: number): number =>
   days === undefined ? minor : Math.round(days.share * minor);
-
-/** The crew is up and off at nine on the day it moves on to the next stop. */
-const MOVES_ON_AT_MIN = 9 * 60;
 
 /**
  * When the crew is at a later stop on its first day: when its shared train or flight of that day

@@ -23,6 +23,8 @@ export const DEPARTURE_BUFFER_MIN = 180;
  */
 export const DEFAULT_ARRIVAL_MIN = 12 * 60 + 30;
 export const DEFAULT_DEPARTURE_MIN = 18 * 60;
+/** The crew is up and off at nine on the day it moves on to the next stop of the trip. */
+export const MOVES_ON_AT_MIN = 9 * 60;
 /** A day trip leaves where the crew sleeps at seven and is back by nine at night. */
 export const DAY_TRIP_LEAVES_MIN = 7 * 60;
 export const DAY_TRIP_BACK_MIN = 21 * 60;

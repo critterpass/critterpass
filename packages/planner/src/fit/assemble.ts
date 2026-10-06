@@ -16,6 +16,7 @@ import {
   DEPARTURE_BUFFER_MIN,
   minuteOfDate,
 } from '../draft/schedule-day';
+import { dayTripReach, MOVES_ON_AT_MIN } from '../draft/day-window';
 import type {
   FitContext,
   FitDay,
@@ -35,6 +36,68 @@ export interface FitDayRow {
   readonly day_no: number;
   /** Local date; days without one are left out. */
   readonly date: string | null;
+  /** The destination the day is spent in (absent: not read, any place may go on it). */
+  readonly area_id?: string | null;
+  /** A day trip's link minutes each way: the day opens and closes around the journey. */
+  readonly link_minutes?: number | null;
+  /** The local minute the crew reaches a later stop on its first day there. */
+  readonly arrives_min?: number | null;
+}
+
+/** A trip's areas as `tripAreas` (`@cp/db`) reads them, as far as the fit needs them. */
+export interface FitTripAreas {
+  readonly areaIds: readonly string[];
+  readonly stops: readonly {
+    readonly position: number;
+    readonly destinationId: string;
+    readonly firstDay: number;
+    readonly onwardLink: { readonly minutes: number } | null;
+  }[];
+  readonly days: readonly {
+    readonly dayId: string;
+    readonly areaId: string;
+    readonly stopPosition: number;
+    readonly link: { readonly minutes: number } | null;
+  }[];
+}
+
+/**
+ * The days with the area each is spent in, a day trip's link and the arrival at a later stop. A
+ * trip of one destination is returned as it is, so its fit reads exactly as before.
+ */
+export function withDayAreas(
+  days: readonly FitDayRow[],
+  areas: FitTripAreas | null,
+): readonly FitDayRow[] {
+  if (areas === null || areas.areaIds.length < 2) return days;
+  const byDay = new Map(areas.days.map((day) => [day.dayId, day]));
+  return days.map((row) => {
+    const day = byDay.get(row.day_id);
+    if (day === undefined) return row;
+    const stop = areas.stops.find((s) => s.position === day.stopPosition);
+    const away = stop !== undefined && day.areaId !== stop.destinationId;
+    const moves = stop !== undefined && stop.position > 1 && stop.firstDay === row.day_no;
+    return {
+      ...row,
+      area_id: day.areaId,
+      ...(away && day.link !== null ? { link_minutes: day.link.minutes } : {}),
+      ...(moves && stop.onwardLink !== null
+        ? { arrives_min: MOVES_ON_AT_MIN + stop.onwardLink.minutes }
+        : {}),
+    };
+  });
+}
+
+/** The hours a day trip or an arrival at a later stop leaves (./day-window's rule). */
+function reachedHours(day: FitDayRow): { fromMin: number; toMin: number } | null {
+  if (day.link_minutes != null) {
+    const reach = dayTripReach(day.link_minutes);
+    return { fromMin: ceilGrid(reach.fromMin), toMin: reach.untilMin };
+  }
+  if (day.arrives_min != null) {
+    return { fromMin: ceilGrid(day.arrives_min + ARRIVAL_BUFFER_MIN), toMin: DAY_TO };
+  }
+  return null;
 }
 
 export interface FitItemRow {
@@ -111,6 +174,7 @@ export function assembleFitContext(rows: FitContextRows): FitContext {
     // A day that has begun: what is left of it starts now.
     const nowMin =
       rows.now === undefined ? -1 : ceilGrid(minuteOfDate(rows.now, day.date, rows.tz));
+    const reached = reachedHours(day);
     return {
       dayId: day.day_id,
       dayNo: day.day_no,
@@ -123,11 +187,16 @@ export function assembleFitContext(rows: FitContextRows): FitContext {
             ? Math.max(landed, firstStop)
             : landed
           : DAY_FROM,
+        reached?.fromMin ?? 0,
       ),
-      toMin:
+      toMin: Math.min(
         kind === 'departure'
           ? Math.min(DAY_TO, DEFAULT_DEPARTURE_MIN - DEPARTURE_BUFFER_MIN)
           : DAY_TO,
+        reached?.toMin ?? DAY_TO,
+      ),
+      ...(day.area_id === undefined ? {} : { areaId: day.area_id }),
+      ...(day.link_minutes == null ? {} : { link: { minutes: day.link_minutes } }),
       items,
       stay: rows.stays.get(day.date) ?? null,
       rain: rows.rain.get(day.date) ?? null,
