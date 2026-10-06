@@ -1,0 +1,82 @@
+appId: app.critterpass.dev
+---
+# From the trip map: the search pill, ${QUERY}, the first result's add, and the add sheet's own
+# button (a member before the plan exists can only keep it in Ideas). ${SHOT} prefixes the frames
+# (…-search-results, …-add-sheet, …-add-sheet-lower, …-saved, …-map-after).
+- tapOn:
+    id: 'trip-map-search'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 20000
+    optional: true
+- tapOn:
+    id: 'search-field-query'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - inputText: ${QUERY}
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-search-results
+- tapOn:
+    id: 'search-row-add-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-sheet'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-add-sheet'
+    commands:
+      - tapOn:
+          id: 'search-row-0'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: ${SHOT}-place-page
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-add-sheet
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-confirm|plan-add-save-later'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOT}-add-sheet-lower
+- runFlow:
+    when:
+      visible:
+        id: 'plan-add-confirm'
+    commands:
+      - tapOn:
+          id: 'plan-add-confirm'
+- runFlow:
+    when:
+      visible:
+        id: 'plan-add-save-later'
+    commands:
+      - tapOn:
+          id: 'plan-add-save-later'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOT}-saved
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    file: ../../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}-map-after

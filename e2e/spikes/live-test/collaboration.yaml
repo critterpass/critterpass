@@ -1,0 +1,1358 @@
+appId: app.critterpass.dev
+---
+# Two first-time travellers taking turns on one phone, on staging, with the new planning screens
+# on: Linh (the organiser, Ho Chi Minh City) drafts three days in Đà Nẵng two weeks out, finds she
+# has nobody to send it to and invites; Minh joins from the splash with the crew code; Linh builds
+# the proposal and sends it; Minh reads it, hesitates, looks at the plan and boards; Linh sees who
+# is in and locks the trip; Minh opens the locked plan and keeps a place in Ideas; Linh puts it on
+# a day; Minh learns the outcome; both swipe. Before any plan reaches him, Minh also keeps a place
+# in Ideas. Each hand-over captures Home first: what the returning person sees.
+# Exploratory steps are optional, so a screen that refuses still leaves its frame and the walk
+# goes on. Frames: collaboration-<nn>-<what>.
+
+# ── Linh, set-up (another walk's subject): account, the new screens on, crew, place, dates, draft.
+- runFlow:
+    file: ../../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- evalScript: "${output.walkLang = (typeof WALK_LANG !== 'undefined' && WALK_LANG === 'vi') ? 'vi' : 'en'}"
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Nang gang'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+# A press on START THE CREW has been seen to do nothing (the form stays, no message). When the
+# form is still up after a while, that is framed and the button pressed again.
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+    optional: true
+- repeat:
+    while:
+      notVisible:
+        id: 'start-crew-done'
+    times: 3
+    commands:
+      - takeScreenshot: collaboration-00a-start-the-crew-pressed-form-still-up
+      - tapOn:
+          id: 'start-crew-create'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'start-crew-done'
+          timeout: 30000
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- copyTextFrom:
+    id: 'start-crew-code'
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- waitForAnimationToEnd
+# The first time Linh is shown how friends get in: the code and SHARE.
+- takeScreenshot: collaboration-01-linh-crew-code
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- runFlow: subflows/dates.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 45000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+- tapOn:
+    id: 'budget-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Mi Quang for breakfast'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      text: '(?iu)mi quang for breakfast.*'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-02-linh-must-dos-crew-of-one
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000
+# The draft job takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-03-linh-draft-ready
+# A Vietnamese walk turns Vietnamese here: the date picker above is found by its English month
+# names. Home, the language, and back to the draft by Home's own button.
+- runFlow:
+    when:
+      true: ${output.walkLang == 'vi'}
+    commands:
+      - runFlow: subflows/home.yaml
+      - runFlow: subflows/language.yaml
+      - takeScreenshot: collaboration-03b-linh-home-draft-waiting
+      - runFlow:
+          file: subflows/to-the-draft.yaml
+          env:
+            SHOT: collaboration-03c-linh
+      - takeScreenshot: collaboration-03d-linh-draft-ready
+
+# ── Part 1. Linh wants to send the plan to her friends. Nobody has joined yet.
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-04-linh-draft-bottom
+- tapOn:
+    id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-alone|proposal-build'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-05-linh-nobody-to-send-to
+- tapOn:
+    id: 'build-invite'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-06-linh-invite-friends
+- scroll
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-07-linh-invite-friends-lower
+- scrollUntilVisible:
+    element:
+      id: 'composer-mode'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    text: '(?iu)a link to share|.*liên kết.*'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-07b-linh-invite-link-tab
+- scroll
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-07c-linh-invite-link-tab-lower
+
+# ── Part 2. Minh: never opened the app, has a six-letter code from a chat.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
+- runFlow: subflows/language.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-invite-code'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-08-minh-splash
+- tapOn:
+    id: 'onboarding-invite-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-09-minh-code-empty
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-10-minh-code-found
+- tapOn:
+    id: 'invite-code-join'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-name'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-11-minh-asked-name
+- tapOn:
+    id: 'invite-edit-name'
+- inputText: 'Minh'
+- tapOn:
+    id: 'invite-edit-home'
+- inputText: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-SGN'
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'invite-edit-home-SGN'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-picked'
+    timeout: 10000
+- tapOn:
+    id: 'invite-edit-done'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-pass-issue'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-12-minh-pass
+- tapOn:
+    id: 'invite-pass-issue'
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-13-minh-save-sheet
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-screen'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-14-minh-manifest
+# The manifest's own way on, whichever it offers: the plan, or a look around.
+- runFlow:
+    when:
+      visible:
+        id: 'invite-manifest-plan'
+    commands:
+      - tapOn:
+          id: 'invite-manifest-plan'
+- runFlow:
+    when:
+      visible:
+        id: 'invite-look-around'
+    commands:
+      - tapOn:
+          id: 'invite-look-around'
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-15-minh-after-manifest
+- runFlow: subflows/home.yaml
+- takeScreenshot: collaboration-16-minh-home-no-proposal-yet
+# Set-up, not Minh's doing: the new screens stay on for this phone.
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow: subflows/language.yaml
+- runFlow: subflows/trips-tab.yaml
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-17-minh-trips-no-proposal-yet
+# The hub's big button, before anything was sent to him.
+- tapOn:
+    id: 'trip-hub-planning-cta'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 15000
+- takeScreenshot: collaboration-17b-minh-see-the-plan-before-proposal
+# Before any plan reaches him: he wants the Sơn Trà peninsula, and keeps it in Ideas from the map.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 20000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-17c-minh-trip-map-before-proposal
+# The PLAN tile is not a way in before a plan exists: Explore Đà Nẵng and its search.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-explore'
+          direction: DOWN
+          timeout: 20000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-explore'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'explore-trip'
+          timeout: 30000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: collaboration-17c2-minh-explore-before-proposal
+      - tapOn:
+          id: 'explore-trip-search|explore-trip-search-pinned'
+          index: 0
+          optional: true
+- runFlow:
+    file: subflows/save-to-ideas.yaml
+    env:
+      QUERY: 'Son Tra'
+      SHOT: collaboration-17d-minh-before-plan
+- runFlow: subflows/home.yaml
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-18-minh-first
+
+# ── Part 1 again. Linh comes back: what tells her Minh joined, and the way back to her draft.
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-19-linh-returns-home
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-20-linh-returns
+- runFlow:
+    file: subflows/to-the-draft.yaml
+    env:
+      SHOT: collaboration-21-linh
+- takeScreenshot: collaboration-22b-linh-back-on-draft
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 30000
+- tapOn:
+    id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-build'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+      enabled: true
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-23-linh-build-proposal
+- extendedWaitUntil:
+    visible:
+      id: 'build-preview-.*'
+    timeout: 180000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'build-send'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-24-linh-build-proposal-lower
+# PREVIEW AS MINH: what will he get?
+- tapOn:
+    id: 'build-preview-.*'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-25-linh-preview-as-minh
+- runFlow:
+    when:
+      notVisible:
+        id: 'build-send'
+    file: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+    timeout: 20000
+- tapOn:
+    id: 'build-send'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-sent'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-26-linh-sending
+- extendedWaitUntil:
+    visible:
+      text: '(?iu)their version is ready|.*wrote the group version.*|.*đã sẵn sàng.*'
+    timeout: 300000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-27-linh-sent
+
+# ── Part 2 again. Minh comes back to a proposal: does Home tell him, and what is his to do?
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-28-minh-returns-home
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-29-minh-returns
+- runFlow: ../../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- takeScreenshot: collaboration-30-minh-trailer-first-slide
+- runFlow:
+    when:
+      visible:
+        id: 'proposal-trailer'
+    commands:
+      # One five-second slide on.
+      - extendedWaitUntil:
+          visible:
+            id: 'proposal-version'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: collaboration-31-minh-trailer-next-slide
+      - tapOn:
+          id: 'trailer-quick'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: collaboration-32-minh-trailer-quick-replies
+      - tapOn:
+          id: 'trailer-react-okay_wow'
+          optional: true
+      - takeScreenshot: collaboration-33-minh-trailer-reacted
+      - tapOn:
+          id: 'trailer-maybe'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-version'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'version-pick-0'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-34-minh-your-version
+# "Tap anything to see why it's there."
+- tapOn:
+    id: 'version-pick-0'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-35-minh-tapped-a-pick
+# Out of the note the way an Android user leaves anything: back. Then the close button, if the
+# note is still up.
+- runFlow:
+    when:
+      visible:
+        id: 'sheet-panel'
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: collaboration-35b-minh-back-from-the-note
+- runFlow:
+    when:
+      visible:
+        id: 'sheet-close'
+    commands:
+      - tapOn:
+          id: 'sheet-close'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- runFlow:
+    when:
+      notVisible:
+        id: 'proposal-version'
+    commands:
+      - takeScreenshot: collaboration-35c-minh-back-left-the-proposal
+      - runFlow: subflows/home.yaml
+      - runFlow: ../../proposal/subflows/open-proposal-card.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'proposal-trailer'
+          commands:
+            - tapOn:
+                id: 'trailer-close'
+                optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'version-in'
+          timeout: 60000
+- scrollUntilVisible:
+    element:
+      id: 'version-whole-plan'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-36-minh-your-version-lower
+# Not sure: the cost.
+- tapOn:
+    id: 'version-ask'
+- extendedWaitUntil:
+    visible:
+      id: 'objection-sheet|objection-reason-cost'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-37-minh-not-sure
+- tapOn:
+    id: 'objection-reason-plan'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'objection-later'
+    timeout: 45000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-38-minh-not-sure-the-plan
+- tapOn:
+    id: 'objection-reason-cost'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'objection-later'
+    timeout: 45000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-39-minh-not-sure-the-cost
+- tapOn:
+    id: 'objection-later'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-40-minh-version-after-maybe
+# Before deciding he reads the whole plan: the map, the day's stops, one stop, and a question on
+# it. He taps what reads like a title first; the sheet's handle is the second try.
+- scrollUntilVisible:
+    element:
+      id: 'version-whole-plan'
+    timeout: 20000
+- tapOn:
+    id: 'version-whole-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-41-minh-whole-plan-undecided
+- tapOn:
+    id: 'trip-map-day-title'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: collaboration-41b-minh-tapped-the-day-title
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map-half'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: collaboration-42-minh-day-one-undecided
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-43-minh-stop-undecided
+- tapOn:
+    id: 'stop-1-note'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-43b-minh-stop-note
+- tapOn:
+    id: 'plan-item-comment-field'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-comment-send'
+    commands:
+      - inputText: 'too early?'
+      - tapOn:
+          id: 'plan-item-comment-send'
+      - waitForAnimationToEnd:
+          timeout: 8000
+- takeScreenshot: collaboration-44-minh-question-on-a-stop
+# Back to the proposal by hand: where does each back land?
+- runFlow:
+    file: subflows/walk-back.yaml
+    env:
+      SHOT: collaboration-44-minh-from-the-plan
+
+# The three answers, one at a time, and what Linh sees after each. First: maybe.
+- runFlow: subflows/home.yaml
+- takeScreenshot: collaboration-45-minh-home-while-undecided
+- runFlow: ../../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- tapOn:
+    id: 'trailer-close'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 20000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'version-maybe'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-45a-minh-the-three-answers
+- tapOn:
+    id: 'version-maybe'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-45b-minh-said-maybe
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-45c-linh-returns-home-minh-maybe
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-45d-linh-minh-maybe
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-45e-minh-returns-home-after-maybe
+# Second: he can't make it.
+- runFlow: ../../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- tapOn:
+    id: 'trailer-close'
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'version-cant'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-45f-minh-version-after-maybe
+- tapOn:
+    id: 'version-cant'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-45g-minh-cant-make-it-asked
+# The sheet's own button, under its consequences (the screen behind has a button with the same
+# words).
+- tapOn:
+    text: '(?iu)i can.t make it|mình không đi được'
+    below:
+      text: '(?iu)(shared costs|chi phí chung).*'
+    optional: true
+- extendedWaitUntil:
+    notVisible:
+      id: 'board-out-confirm'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-45h-minh-said-cant
+- runFlow: subflows/home.yaml
+- takeScreenshot: collaboration-45i-minh-home-after-cant
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-45j-linh-returns-home-minh-out
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-45k-linh-minh-out
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-45l-minh-returns-home-out
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-45m-minh-out
+# Third: he is in after all.
+- runFlow: ../../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'proposal-trailer'
+    commands:
+      - takeScreenshot: collaboration-46-minh-trailer-again
+      - tapOn:
+          id: 'trailer-in'
+          optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'version-in'
+    commands:
+      - tapOn:
+          id: 'version-in'
+- runFlow:
+    when:
+      visible:
+        id: 'version-in-after-all'
+    commands:
+      - takeScreenshot: collaboration-46b-minh-version-while-out
+      - tapOn:
+          id: 'version-in-after-all'
+- extendedWaitUntil:
+    visible:
+      id: 'board-slide'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'board-pass-drawn'
+    timeout: 4000
+    optional: true
+- takeScreenshot: collaboration-47-minh-slide-to-board
+- runFlow:
+    when:
+      visible:
+        id: 'board-knob'
+    commands:
+      - swipe:
+          from:
+            id: 'board-knob'
+          direction: RIGHT
+          duration: 1200
+- extendedWaitUntil:
+    visible:
+      id: 'board-egg'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-48-minh-boarded
+- tapOn:
+    id: 'board-done'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-49-minh-after-boarding
+- runFlow: subflows/home.yaml
+- takeScreenshot: collaboration-50-minh-home-after-in
+# He tells the crew in the chat.
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 20000
+- tapOn:
+    text: '(?iu)(message|nhắn tin).*'
+    optional: true
+- inputText: 'in! Ba Na?'
+- tapOn:
+    text: '(?iu)send|gửi'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-51-minh-chat-message-sent
+
+# ── Part 3. Linh comes back: who's in, and what she does with it.
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-52-linh-returns-home-minh-in
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-53-linh-minh-in
+- runFlow: subflows/trips-tab.yaml
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-54-linh-trip-hub-minh-in
+- runFlow: subflows/home.yaml
+- runFlow: ../../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-tracker'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-55-linh-who-s-in
+- scroll
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-56-linh-who-s-in-lower
+
+# ── Part 4. Linh locks the trip.
+- scrollUntilVisible:
+    element:
+      id: 'tracker-lock'
+    direction: UP
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'tracker-lock'
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-57-linh-lock-confirm
+- tapOn: '(?iu)yes, lock it in|ừ, chốt luôn'
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock-note'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-58-linh-locked
+- tapOn:
+    id: 'tracker-open-plan'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 15000
+- takeScreenshot: collaboration-59-linh-plan-after-lock
+
+# Minh on the locked trip: Home, the hub, the plan, and adding a stop of his own.
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-60-minh-returns-home-trip-locked
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-61-minh-trip-locked
+- runFlow: subflows/trips-tab.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-plan'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-62-minh-trip-hub
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-63-minh-trip-map
+# He wants Ba Na Hills in. First try: the search pill at the top of the map.
+- tapOn:
+    id: 'trip-map-search'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-64-minh-map-search
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: collaboration-64b-minh-back-from-map-search
+# Second try: into the day. The title, then the sheet's handle.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map-half'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: collaboration-65-minh-day-on-the-map
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-65b-minh-day-plan
+- tapOn:
+    id: 'day-plan-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-65c-minh-add-search
+- tapOn:
+    id: 'search-field-query'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - inputText: 'Ba Na'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-66-minh-add-search-results
+- tapOn:
+    id: 'search-row-add-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-sheet'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-add-sheet'
+    commands:
+      - tapOn:
+          id: 'search-row-0'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: collaboration-66b-minh-place-page
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-confirm'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-67-minh-add-to-plan-sheet
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-confirm'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: collaboration-67b-minh-add-to-plan-sheet-lower
+- tapOn:
+    id: 'plan-add-confirm'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-68-minh-after-add
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-69-minh-after-add-settled
+# Home by hand this time: where does each back land after an add?
+- runFlow:
+    file: subflows/walk-back.yaml
+    env:
+      SHOT: collaboration-69-minh-after-add
+- runFlow: subflows/home.yaml
+- takeScreenshot: collaboration-70-minh-home-after-his-add
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-71-minh-chat-after-his-add
+
+# Linh: what tells her Minh wants a change, and deciding on it.
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-72-linh-returns-home-change-waiting
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-73-linh-change-waiting
+# Minh's places wait in Ideas: Home's step for her (look-around's …-turn-opens) or the trip's
+# Ideas, and one of them put on a day. That is a change to the locked plan, which Minh should hear
+# about.
+- runFlow: subflows/home.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'home-turn-button'
+    commands:
+      - tapOn:
+          id: 'home-turn-button'
+      - waitForAnimationToEnd:
+          timeout: 10000
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-ideas'
+    commands:
+      - runFlow: subflows/home.yaml
+      - runFlow: subflows/trips-tab.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 30000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 60000
+          optional: true
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - tapOn:
+          id: 'trip-map-all-days'
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'trip-map-ideas'
+          direction: DOWN
+          timeout: 15000
+          optional: true
+      - tapOn:
+          id: 'trip-map-ideas'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-ideas'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-74-linh-ideas-waiting
+- tapOn:
+    id: 'plan-idea-handle-.*'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-idea-actions'
+    timeout: 10000
+    optional: true
+- takeScreenshot: collaboration-74b-linh-idea-actions
+- tapOn:
+    id: 'plan-idea-action-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-sheet|plan-placing'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-74c-linh-placing-an-idea
+# She picks day 2 when the sheet asks for a day.
+- tapOn:
+    id: 'plan-add-days-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-confirm|plan-placing-action'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: collaboration-74d-linh-placing-lower
+- runFlow:
+    when:
+      visible:
+        id: 'plan-add-confirm'
+    commands:
+      - tapOn:
+          id: 'plan-add-confirm'
+- runFlow:
+    when:
+      visible:
+        id: 'plan-placing-action'
+    commands:
+      - tapOn:
+          id: 'plan-placing-action'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: collaboration-75-linh-placed-an-idea
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-75b-linh-placed-settled
+# Home by hand: where does each back land after placing?
+- runFlow:
+    file: subflows/walk-back.yaml
+    env:
+      SHOT: collaboration-75-linh-after-placing
+- runFlow: subflows/home.yaml
+- runFlow: subflows/trips-tab.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+    optional: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 15000
+- takeScreenshot: collaboration-76-linh-trip-map-after-placing
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-77-linh-day-plan-after-placing
+
+# Minh learns the outcome.
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-78-minh-returns-home-outcome
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-79-minh-outcome
+- runFlow: subflows/trips-tab.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+    optional: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 15000
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-80-minh-day-plan-outcome
+
+# ── Part 5. Swipe together, then where the crew disagrees. Minh first: yes to the first two
+# places, no to the next two. Linh: yes to all four. The first two are matches and land in Ideas;
+# the next two, which she wants and he does not, are the crew's split.
+- runFlow: subflows/home.yaml
+- runFlow:
+    file: subflows/swipe-together.yaml
+    env:
+      SHOT: collaboration-81-minh
+      FIRST: explore-swipe-yes
+      SECOND: explore-swipe-no
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-82-linh-returns-home-minh-swiped
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-83-linh-minh-swiped
+- runFlow:
+    file: subflows/swipe-together.yaml
+    env:
+      SHOT: collaboration-84-linh
+      FIRST: explore-swipe-yes
+      SECOND: explore-swipe-yes
+- runFlow: subflows/home.yaml
+- runFlow:
+    file: subflows/ideas-and-split.yaml
+    env:
+      SHOT: collaboration-85-linh
+      STANCE: split-pick-want
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-86-minh-returns-home-both-swiped
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-87-minh-both-swiped
+- runFlow:
+    file: subflows/ideas-and-split.yaml
+    env:
+      SHOT: collaboration-88-minh
+      STANCE: split-pick-rather-not

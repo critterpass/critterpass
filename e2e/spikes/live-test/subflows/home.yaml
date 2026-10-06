@@ -1,0 +1,82 @@
+appId: app.critterpass.dev
+---
+# Home, from wherever the walk is: the app link, the one-time "Open" prompt, then the header. A
+# bare app link can bring back the screen the app was on (the Trips tab): HOME is tapped then.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+# Or the screen the app was last on (a proposal, the inbox): back, until the tab bar shows.
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat|tab-home'
+    times: 4
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'home-header-chat|tab-home'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'home-header-chat|tab-home'
+          file: ../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat|tab-home'
+    timeout: 30000
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat'
+    times: 3
+    commands:
+      - tapOn:
+          id: 'tab-home'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'home-header-chat'
+          timeout: 10000
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+# The link can reopen the last screen a few seconds after Home shows (a proposal, over Home): it is
+# framed, and backed out of.
+- extendedWaitUntil:
+    notVisible:
+      id: 'home-header-chat'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-header-chat'
+    commands:
+      - takeScreenshot: collaboration-home-link-reopened-last-screen
+      - repeat:
+          while:
+            notVisible:
+              id: 'home-header-chat'
+          times: 4
+          commands:
+            - runFlow: ../../../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 5000
+            - tapOn:
+                id: 'tab-home'
+                optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'home-header-chat'
+          timeout: 30000
