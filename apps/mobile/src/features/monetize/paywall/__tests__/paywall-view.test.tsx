@@ -109,7 +109,7 @@ describe('PaywallView', () => {
       disabled: true,
     });
     // Restore is still offered: a purchase made elsewhere can come back.
-    expect(screen.getByTestId('paywall-disclosure-restore')).toBeTruthy();
+    expect(screen.getByTestId('paywall-restore')).toBeTruthy();
   });
 
   it('cannot start a second purchase while one waits on approval', async () => {
