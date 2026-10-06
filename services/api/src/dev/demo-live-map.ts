@@ -9,7 +9,7 @@
  * Mounted with the other dev routes (./routes.ts): never in production.
  */
 import { DomainError, generateUuidV7 } from '@cp/domain';
-import { withSystem } from '@cp/db';
+import { withSystem, withUser } from '@cp/db';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
 
@@ -92,15 +92,20 @@ async function tripInTripDays(
   return tripId;
 }
 
-/** Builds the caller's live map crew and both trips in one system transaction. */
+/**
+ * Starts the crew as the caller (the path `create_crew` takes, which mints the join code), then
+ * builds both trips as the system.
+ */
 export async function seedLiveMapFor(
   pool: pg.Pool,
   uid: string,
   now: Date,
 ): Promise<SeedLiveMapResult> {
+  const crewId = generateUuidV7();
+  const crew = await withUser(pool, uid, 'dev-seed', (tx) =>
+    startCrew(tx, { crewId, name: LIVE_MAP_CREW_NAME, art: null, uid, now }),
+  );
   return withSystem(pool, async (tx) => {
-    const crewId = generateUuidV7();
-    const crew = await startCrew(tx, { crewId, name: LIVE_MAP_CREW_NAME, art: null, uid, now });
     await tx.query(
       `INSERT INTO destinations (slug, name, country, coverage, currency, tz)
        VALUES ($1, $2, $3, 'live', $4, $5) ON CONFLICT (slug) DO NOTHING`,

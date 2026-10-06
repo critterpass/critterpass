@@ -9,7 +9,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerInviteCommands } from '../../src/commands/invites';
 import { registerOnboardingCommands } from '../../src/commands/onboarding';
-import type { SeedLiveMapResult } from '../../src/dev/demo-live-map';
+import { seedLiveMapFor, type SeedLiveMapResult } from '../../src/dev/demo-live-map';
 import { registerDevRoutes } from '../../src/dev/routes';
 import { testInviteDeps } from '../crews/invite-fixture';
 import {
@@ -73,6 +73,8 @@ function tripsSeenBy(uid: string) {
 describe('POST /v1/dev/seed-live-map', { timeout: 60_000 }, () => {
   it('gives the caller a boosted and an unboosted trip that are on, and a live crew code', async () => {
     const caller = await harness.signInAnonymously();
+    // Straight through first, so a database refusal fails with its own message.
+    await seedLiveMapFor(harness.pool, caller.uid, new Date());
     const seeded = await seed(caller);
     expect(seeded.code).toMatch(/^[A-Z0-9]{6}$/);
     expect(await tripsSeenBy(caller.uid)).toEqual([
