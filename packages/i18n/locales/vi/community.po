@@ -349,6 +349,7 @@ msgid "community.publish.linkCopied"
 msgstr "Đã sao chép đường dẫn chỉ xem."
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 msgid "community.browse.intro"
 msgstr "Chuyến đi thật, do chính các nhóm đã đi chia sẻ. Chép cả chuyến, hoặc chỉ những ngày hay."
 

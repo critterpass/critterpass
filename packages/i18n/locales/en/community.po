@@ -349,6 +349,7 @@ msgid "community.publish.linkCopied"
 msgstr "Read-only link copied."
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 msgid "community.browse.intro"
 msgstr "Real trips, shared by the crews who took them. Copy a whole one, or just the good days."
 
