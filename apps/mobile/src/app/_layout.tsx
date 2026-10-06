@@ -62,6 +62,7 @@ import '@/features/recap/routes';
 // After every feature register above: planning registrations win for the ids they re-point.
 import '@/features/planning-register';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
+import { VendorNotificationActions } from '@/features/bookings/supplier/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { usePushNotifications } from '@/data/push/use-push-notifications';
@@ -156,6 +157,7 @@ function SessionBridges() {
       <LocationBridge db={localFirst.db} session={getLocationNative()} analytics={analytics} />
       <SetupNotificationActions />
       <ChangesetNotificationActions />
+      <VendorNotificationActions />
       <TripDayRuntime alarmPort={getAlarmPort()} />
       <CritterRuntime writeSnapshot={writeSnapshot} />
       <SafetyRuntime />

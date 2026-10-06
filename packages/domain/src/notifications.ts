@@ -40,7 +40,7 @@ export type ClassVariant = (typeof CLASS_VARIANTS)[number];
 export const NOTIFICATION_CATEGORIES = [
   'cp.vote', 'cp.changeset', 'cp.disruption', 'cp.leaveby', 'cp.sos', 'cp.money', 'cp.chat',
   'cp.rsvp', 'cp.invite', 'cp.import', 'cp.briefing', 'cp.help', 'cp.memory', 'cp.setup_ask',
-  'cp.generic',
+  'cp.vendor', 'cp.generic',
 ] as const;
 export type NotificationCategory = (typeof NOTIFICATION_CATEGORIES)[number];
 
@@ -166,6 +166,7 @@ const CATALOGUE = [
   spec('bookings_found', 'roundup_only', 'cp.import', 'cp_trip', 'guide'),
   spec('flight_changed', 'always', 'cp.generic', 'cp_always', 'guide', 'flight:{flight_id}'),
   spec('boarding_open', 'always', 'cp.generic', 'cp_always', 'guide', 'flight:{flight_id}'),
+  spec('vendor_draft_ready', 'budgeted', 'cp.vendor', 'cp_trip', 'guide', 'vendor:{thread_id}'),
   spec('booking_deadline', 'always', 'cp.generic', 'cp_always', 'guide', 'deadline:{booking_id}'),
   spec('landed_egg_hatch', 'budgeted', 'cp.generic', 'cp_critters', 'guide'),
   spec('leave_by_la_start', 'silent', 'cp.leaveby', 'cp_trip', 'system', 'leave_by:{leave_by_id}'),
@@ -364,6 +365,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'flight.status_changed': ['flight_changed'],
   'flight.boarding_open': ['boarding_open'],
   'booking.deadline_due': ['booking_deadline'],
+  // A message to a place the guide or a disruption drafted, to the traveller whose yes sends it.
+  'vendor_msg.drafted': ['vendor_draft_ready'],
   // Trip day: the crew knock for a sleeper, the remote copy of an alarm no device confirmed, a
   // member running late (the crew ping) and the morning briefing's one push.
   // Proposals: each recipient's version (N-07), a follow-up or resend that came due (N-08) and the

@@ -24,7 +24,7 @@ import {
   type SessionResolver,
 } from '../commands/_framework/session';
 import { demoScenarioSchema, resetDemoInbox } from './demo-inbox';
-import { ensureUndoableGuideAction } from './demo-plan';
+import { ensureDemoDinner, ensureUndoableGuideAction } from './demo-plan';
 import { ensureDemoVote } from './demo-vote';
 import { ensureDemoWorld } from './demo-world';
 
@@ -63,6 +63,7 @@ export async function seedDemoFor(
   return withSystem(pool, async (tx) => {
     const world = await ensureDemoWorld(tx, uid, now);
     const guideAction = await ensureUndoableGuideAction(tx, world, uid, now);
+    await ensureDemoDinner(tx, world, uid);
     const items = await resetDemoInbox(tx, world, uid, scenario, guideAction, now);
     const vote =
       scenario === 'vote' || scenario === 'vote_final'
