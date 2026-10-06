@@ -80,6 +80,7 @@ export * from './pitches';
 export * from './trips/status';
 export * from './proposals/lock';
 export * from './proposals/booked-plan-items';
+export * from './planning/areas';
 export * from './planning/stay';
 export * from './planning/replaced-draft';
 export * from './planning/split-decision';
