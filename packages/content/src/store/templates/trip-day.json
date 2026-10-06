@@ -1,0 +1,20 @@
+{
+  "id": "trip-day",
+  "order": 4,
+  "background": "#f4efe4",
+  "ink": "#17142a",
+  "accent": {
+    "kind": "gecko",
+    "seed": 7
+  },
+  "caption": {
+    "en": {
+      "headline": "TRIP DAY, ALL ON ONE SCREEN.",
+      "sub": "The day's plan and what to pack, ready before you go."
+    },
+    "vi": {
+      "headline": "NGÀY ĐI, GỌN TRONG MỘT MÀN HÌNH.",
+      "sub": "Kế hoạch trong ngày và đồ cần mang, sẵn sàng trước khi đi."
+    }
+  }
+}
