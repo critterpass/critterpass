@@ -35,6 +35,8 @@ export interface ProposalTrip {
   readonly endDate: string | null;
   readonly me: string;
   readonly isOrganiser: boolean;
+  /** A trip for one: there is nobody to ask, and nobody is pressed to invite. */
+  readonly isSolo: boolean;
   readonly people: readonly CrewPerson[];
   /** Everyone the proposal goes to: the crew other than me. */
   readonly recipients: readonly CrewPerson[];
@@ -51,6 +53,7 @@ interface TripRow {
   readonly guide_slug: string | null;
   readonly start_date: string | null;
   readonly end_date: string | null;
+  readonly is_solo: number | null;
 }
 
 interface PersonRow {
@@ -62,19 +65,24 @@ interface PersonRow {
 }
 
 const TRIP_SQL = `SELECT t.crew_id, t.status, d.name AS destination_name, d.slug AS destination_slug, g.slug AS guide_slug,
-    t.start_date, t.end_date
+    t.start_date, t.end_date, t.is_solo
   FROM trips t
   LEFT JOIN destinations d ON d.id = t.destination_id
   LEFT JOIN guides g ON g.id = t.guide_id
   WHERE t.id = ?`;
 const TRIP_TABLES = ['trips', 'destinations', 'guides'];
 
-const PEOPLE_SQL = `SELECT cm.user_id, u.display_name, tp.role, tp.rsvp, tp.updated_at
+/**
+ * The trip's people the way the server counts who a plan goes to: the active crew, and on a solo
+ * trip (which lives in the traveller's crew without being the crew's trip) only those with a seat
+ * on it, so a trip for one never asks who is in.
+ */
+export const PEOPLE_SQL = `SELECT cm.user_id, u.display_name, tp.role, tp.rsvp, tp.updated_at
   FROM trips t
   JOIN crew_members cm ON cm.crew_id = t.crew_id AND cm.status = 'active'
   LEFT JOIN trip_participants tp ON tp.trip_id = t.id AND tp.user_id = cm.user_id
   LEFT JOIN users u ON u.id = cm.user_id
-  WHERE t.id = ?
+  WHERE t.id = ? AND (coalesce(t.is_solo, 0) = 0 OR tp.user_id IS NOT NULL)
   ORDER BY cm.created_at, cm.user_id`;
 const PEOPLE_TABLES = ['trips', 'crew_members', 'trip_participants', 'users'];
 
@@ -133,6 +141,7 @@ export function useProposalTrip(tripId: string | null): ProposalTrip | null | un
     endDate: row.end_date,
     me,
     isOrganiser: crew.some((p) => p.uid === me && p.organiser),
+    isSolo: row.is_solo === 1,
     people: crew,
     recipients: crew.filter((p) => p.uid !== me && p.rsvp !== 'out'),
     shareMinor: mine?.total_minor ?? null,
