@@ -1,31 +1,26 @@
-jest.mock('../../../../modules/cp-app-icon/src/CpAppIconModule', () => ({
-  nativeCpAppIconModule: {
-    isSupported: jest.fn(),
-    getCurrent: jest.fn(),
-    bundledNames: jest.fn(),
-    set: jest.fn(),
-  },
-}));
+import { describe, expect, it } from '@jest/globals';
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { APP_ICON_BASE_IDS } from '@cp/domain';
 
-import {
-  bundledAppIcons,
-  getCurrentAppIcon,
-  iconKeyFromNativeName,
-  nativeIconName,
-  setAppIcon,
-} from '../index';
-import { nativeCpAppIconModule } from '../../../../modules/cp-app-icon/src/CpAppIconModule';
+import { bundledAppIconKeys, iconKeyFromNativeName, nativeIconName } from '../index';
 
-/** The OS icon switch is the boundary: it cannot run under Jest. */
-const native = nativeCpAppIconModule as unknown as {
-  readonly getCurrent: jest.Mock<() => Promise<string | null>>;
-  readonly bundledNames: jest.Mock<() => string[]>;
-  readonly set: jest.Mock<(name: string | null) => Promise<string | null>>;
-};
+describe('app icon names', () => {
+  it('is the catalogue the icon plugin bundles', () => {
+    // modules/cp-app-icon/plugin/with-app-icons.ts APP_ICON_IDS pins the same list.
+    expect([...APP_ICON_BASE_IDS]).toEqual([
+      'face',
+      'passport',
+      'stamp',
+      'sticker',
+      'temple',
+      'sardi',
+      'home-set',
+      'pon',
+      'golden',
+      'bali-six',
+    ]);
+  });
 
-describe('cp-app-icon names', () => {
   it('maps the automatic passport to the primary icon and the rest to hyphenated names', () => {
     expect(nativeIconName('passport', 'auto')).toBeNull();
     expect(nativeIconName('passport', 'dark')).toBe('passport-dark');
@@ -42,23 +37,12 @@ describe('cp-app-icon names', () => {
     expect(iconKeyFromNativeName('AppIcon')).toBeNull();
     expect(iconKeyFromNativeName('face-sepia')).toBeNull();
   });
-});
-
-describe('cp-app-icon switching', () => {
-  it('reports the device icon as a catalogue key', async () => {
-    native.getCurrent.mockResolvedValueOnce('golden');
-    await expect(getCurrentAppIcon()).resolves.toBe('golden');
-  });
 
   it('lists the primary icon plus every bundled alternate it understands', () => {
-    native.bundledNames.mockReturnValueOnce(['face', 'passport-dark', 'unknown']);
-    expect([...bundledAppIcons()].sort()).toEqual(['face', 'passport', 'passport.dark']);
-  });
-
-  it('sends the native name, null for the primary icon', async () => {
-    native.set.mockResolvedValue(null);
-    await setAppIcon('passport', 'auto');
-    await setAppIcon('sticker', 'dark');
-    expect(native.set.mock.calls).toEqual([[null], ['sticker-dark']]);
+    expect([...bundledAppIconKeys(['face', 'passport-dark', 'unknown'])].sort()).toEqual([
+      'face',
+      'passport',
+      'passport.dark',
+    ]);
   });
 });

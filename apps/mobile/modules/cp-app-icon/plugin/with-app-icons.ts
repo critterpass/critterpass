@@ -2,11 +2,11 @@
  * Bundles the alternate app icons the icon bake wrote (`generated/critter-art/app-icons/`) so
  * cp-app-icon can switch to them.
  *
- * - iOS: each icon's Icon Composer `.icon` bundle becomes an alternate icon (it follows the
- *   system's light, dark and tinted looks by itself), listed in the app target's
+ * - iOS: each icon's baked app icon set (light, dark and tinted images, so it follows the system
+ *   look) goes into the app's asset catalog as an alternate icon, listed in the app target's
  *   `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES`. A forced appearance (`stamp-dark`) is a
- *   one-image app icon set in the main asset catalog, bundled only for the appearances passed in
- *   `forcedAppearances`: each one costs about 2 MB of compiled asset catalog per icon.
+ *   one-image app icon set, bundled only for the appearances passed in `forcedAppearances`: each
+ *   costs about 2 MB of compiled asset catalog per icon, against about 6 MB per automatic icon.
  * - Android: one `activity-alias` of MainActivity per icon, the default one enabled; the launcher
  *   entry moves from MainActivity to that alias, so switching never leaves the app without one.
  *
@@ -26,7 +26,7 @@ import {
   type ConfigPlugin,
 } from 'expo/config-plugins';
 
-/** `@cp/domain` APP_ICON_BASE_IDS (with-app-icons.test.ts pins the two lists together). */
+/** `@cp/domain` APP_ICON_BASE_IDS (src/lib/app-icon's test pins the same list). */
 export const APP_ICON_IDS = [
   'face',
   'passport',
@@ -49,7 +49,7 @@ export interface AppIconsOptions {
 const GENERATED = ['generated', 'critter-art', 'app-icons'];
 const ALIAS_PREFIX = '.CpIcon_';
 
-/** The `.icon` bundles that become automatic-appearance alternates. */
+/** The icons bundled as automatic-appearance alternates. */
 export function automaticAlternateIds(): string[] {
   return APP_ICON_IDS.filter((id) => id !== PRIMARY_ICON_ID);
 }
@@ -74,12 +74,13 @@ export function forcedIconSetContents(filename: string): string {
 
 function writeIosIcons(projectRoot: string, appDir: string, forced: readonly ForcedAppearance[]) {
   const generated = join(projectRoot, ...GENERATED, 'ios');
-  for (const id of automaticAlternateIds()) {
-    const source = join(generated, `${id}.icon`);
-    if (!existsSync(source)) throw new Error(`with-app-icons: ${id}.icon is not in ${generated}`);
-    cpSync(source, join(appDir, `${id}.icon`), { recursive: true, force: true });
-  }
   const catalog = join(appDir, 'Images.xcassets');
+  for (const id of automaticAlternateIds()) {
+    const source = join(generated, `${id}.appiconset`);
+    if (!existsSync(source))
+      throw new Error(`with-app-icons: ${id}.appiconset is not in ${generated}`);
+    cpSync(source, join(catalog, `${id}.appiconset`), { recursive: true, force: true });
+  }
   for (const id of APP_ICON_IDS) {
     for (const appearance of forced) {
       const file = forcedImageFile(id, appearance);
@@ -220,15 +221,6 @@ const withAppIcons: ConfigPlugin<AppIconsOptions | undefined> = (config, options
   config = withXcodeProject(config, (mod) => {
     const projectName = mod.modRequest.projectName;
     if (!projectName) throw new Error('with-app-icons: no iOS project name');
-    for (const id of automaticAlternateIds()) {
-      IOSConfig.XcodeUtils.addResourceFileToGroup({
-        filepath: `${projectName}/${id}.icon`,
-        groupName: projectName,
-        // The `xcode` package ships no types; Expo's helpers take its project object as is.
-        project: mod.modResults as never,
-        isBuildFile: true,
-      });
-    }
     const names = [...automaticAlternateIds(), ...forcedAlternateNames(forced)].join(' ');
     for (const settings of appTargetBuildSettings(
       mod.modResults as unknown as PbxProject,

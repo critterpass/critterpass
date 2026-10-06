@@ -2,6 +2,7 @@
  * The app icon catalogue on the device: catalogue keys (`face`, `passport.dark`) to the native
  * names cp-app-icon switches between (`passport-dark`: asset and activity-alias names cannot hold
  * a dot). PASSPORT in the automatic appearance is the primary icon and has no alternate name.
+ * Pure: the route hands the native module's functions to the screen.
  */
 import {
   DEFAULT_APP_ICON,
@@ -10,15 +11,6 @@ import {
   type AppIconAppearance,
   type AppIconBaseId,
 } from '@cp/domain';
-
-import {
-  bundledAppIconNames,
-  getCurrentAppIconName,
-  isAppIconSupported,
-  setAppIconName,
-} from '../../../modules/cp-app-icon';
-
-export { isAppIconSupported };
 
 export function nativeIconName(id: AppIconBaseId, appearance: AppIconAppearance): string | null {
   if (id === DEFAULT_APP_ICON && appearance === 'auto') return null;
@@ -36,24 +28,15 @@ export function iconKeyFromNativeName(name: string | null): string | null {
   return parseAppIconKey(key) !== null ? key : null;
 }
 
-/** The catalogue key of the icon showing now. */
-export async function getCurrentAppIcon(): Promise<string | null> {
-  return iconKeyFromNativeName(await getCurrentAppIconName());
-}
-
 /**
- * Which icon/appearance keys this app can show: the primary icon plus every bundled alternate.
- * The icon picker offers an appearance only when it is here.
+ * Which icon/appearance keys the app can show, from the bundled alternate names: the primary icon
+ * plus every alternate it understands. The icon picker offers an appearance only when it is here.
  */
-export function bundledAppIcons(): ReadonlySet<string> {
+export function bundledAppIconKeys(nativeNames: readonly string[]): ReadonlySet<string> {
   const keys = new Set<string>([appIconKey(DEFAULT_APP_ICON, 'auto')]);
-  for (const name of bundledAppIconNames()) {
+  for (const name of nativeNames) {
     const key = iconKeyFromNativeName(name);
     if (key !== null) keys.add(key);
   }
   return keys;
-}
-
-export async function setAppIcon(id: AppIconBaseId, appearance: AppIconAppearance): Promise<void> {
-  await setAppIconName(nativeIconName(id, appearance));
 }

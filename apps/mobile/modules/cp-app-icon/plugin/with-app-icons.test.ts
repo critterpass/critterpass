@@ -3,11 +3,8 @@
  * launcher entry leaves MainActivity, and the native names match what cp-app-icon asks for.
  */
 import { describe, expect, it } from '@jest/globals';
-import { AndroidConfig } from 'expo/config-plugins';
+import type { AndroidConfig } from 'expo/config-plugins';
 
-import { APP_ICON_BASE_IDS } from '@cp/domain';
-
-import { nativeIconName } from '../../../src/lib/app-icon';
 import {
   APP_ICON_IDS,
   appTargetBuildSettings,
@@ -48,13 +45,25 @@ type Alias = { $: Record<string, string> };
 
 describe('with-app-icons', () => {
   it('bundles exactly the catalogue icons', () => {
-    expect([...APP_ICON_IDS]).toEqual([...APP_ICON_BASE_IDS]);
+    // The same list src/lib/app-icon pins against the domain catalogue.
+    expect([...APP_ICON_IDS]).toEqual([
+      'face',
+      'passport',
+      'stamp',
+      'sticker',
+      'temple',
+      'sardi',
+      'home-set',
+      'pon',
+      'golden',
+      'bali-six',
+    ]);
     expect(automaticAlternateIds()).not.toContain('passport');
   });
 
   it('names forced appearances the way the module asks for them', () => {
-    expect(forcedAlternateNames(['dark'])).toContain(nativeIconName('home-set', 'dark'));
-    expect(automaticAlternateIds()).toContain(nativeIconName('bali-six', 'auto'));
+    expect(forcedAlternateNames(['dark'])).toContain('home-set-dark');
+    expect(automaticAlternateIds()).toContain('bali-six');
   });
 
   it('moves the launcher entry onto one enabled alias per icon and keeps deep links', () => {
