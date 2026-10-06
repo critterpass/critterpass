@@ -3,6 +3,7 @@
  * (the user sends it), Add to shortlist puts him on this trip with his number, and Report asks once
  * before filing the listing or the tip for moderation.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, SQL and format options, never copy. */
 import { whatsAppLink, type DriverDirectoryDetail } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';

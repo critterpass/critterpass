@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import type { DriverDirectoryCard } from '@cp/domain';
 
 import { filterDirectory, nearbyAreas, NO_FILTERS } from '../filter';

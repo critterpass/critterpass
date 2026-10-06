@@ -1,4 +1,3 @@
-/* eslint-disable lingui/no-unlocalized-strings -- a developer screen, never copy. */
 import { useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
 

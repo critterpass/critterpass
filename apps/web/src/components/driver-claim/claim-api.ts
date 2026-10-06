@@ -58,8 +58,13 @@ export async function callClaimApi(
   return { ok: true, body: json };
 }
 
+/** A form field or wire value as text; a file or anything else is empty. */
+export function text(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
+
 function list(value: FormDataEntryValue | null): string[] {
-  return String(value ?? '')
+  return text(value)
     .split(',')
     .map((part) => part.trim())
     .filter((part) => part.length > 0)
@@ -68,11 +73,11 @@ function list(value: FormDataEntryValue | null): string[] {
 
 /** The details fields of the claim and change forms. */
 export function detailsFromForm(form: FormData): DriverClaimDetails {
-  const seats = Number.parseInt(String(form.get('seats') ?? ''), 10);
-  const model = String(form.get('vehicle_model') ?? '').trim();
-  const price = String(form.get('price_text') ?? '').trim();
+  const seats = Number.parseInt(text(form.get('seats')), 10);
+  const model = text(form.get('vehicle_model')).trim();
+  const price = text(form.get('price_text')).trim();
   return {
-    display_name: String(form.get('display_name') ?? '').trim(),
+    display_name: text(form.get('display_name')).trim(),
     areas: list(form.get('areas')),
     languages: list(form.get('languages')),
     ...(model === '' ? {} : { vehicle_model: model }),

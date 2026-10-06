@@ -7,11 +7,9 @@
  * him. Only the WhatsApp send is a double (the network boundary).
  */
 import { crypto as dbCrypto, withSystem } from '@cp/db';
-import type { OpenAPIHono } from '@hono/zod-openapi';
 import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import type { AppEnv } from '../../src/app';
 import { registerDriverDirectory } from '../../src/commands/driver-directory';
 import type { ApiCommandDoors } from '../../src/feature-routes';
 import { startJobProducer } from '../../src/jobs/producer';
@@ -73,7 +71,7 @@ beforeAll(async () => {
   harness = await startCommandDoors(
     () => undefined,
     (app, deps) =>
-      registerDriverDirectory(app as OpenAPIHono<AppEnv>, deps as unknown as ApiCommandDoors, {
+      registerDriverDirectory(app, deps as unknown as ApiCommandDoors, {
         keyring,
         pepper: 'test-pepper',
         linkEnv: 'staging',

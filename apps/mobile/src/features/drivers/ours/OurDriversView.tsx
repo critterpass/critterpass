@@ -79,6 +79,9 @@ export function OurDriversView(props: OurDriversViewProps) {
           const days = driver.day_numbers
             .map((day) => t({ id: 'drivers.rate.day', message: `Day ${day}` }))
             .join(', ');
+          const driverName = driver.name;
+          const lovedCount = driver.crew_loved;
+          const voters = driver.crew_voters;
           const loved =
             driver.crew_voters === 0
               ? null
@@ -87,9 +90,6 @@ export function OurDriversView(props: OurDriversViewProps) {
                   message: `${lovedCount} of ${voters} loved it`,
                 });
           const busy = props.busy === driver.provider_id;
-          const driverName = driver.name;
-          const lovedCount = driver.crew_loved;
-          const voters = driver.crew_voters;
           const sentOn = state.kind === 'waiting' ? date(state.sentAt) : '';
           const openedOn =
             state.kind === 'waiting' && state.openedAt !== null ? date(state.openedAt) : '';

@@ -2,6 +2,7 @@
  * The directory screen (6e-1, 6e-3): fetches every listed driver, keeps the answer on the phone and
  * filters it here, so the chips still work offline from the last fetch.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, SQL and format options, never copy. */
 import type { DriverDirectoryList } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -20,8 +21,7 @@ import {
   type DirectoryFilters,
 } from './filter';
 
-// A wire value the api matches by prefix against the driver's own language names.
-// eslint-disable-next-line lingui/no-unlocalized-strings
+// A wire value matched by prefix against the driver's own language names.
 const ENGLISH = 'English';
 
 export function DirectoryScreen({

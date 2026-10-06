@@ -3,6 +3,7 @@
  * link opened, waiting) with its expiry and the one nudge, an invite that ended, or nothing yet
  * (rate him, then invite him). Pure, so the states are tested without a screen.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, SQL and format options, never copy. */
 import type { OurDriver } from '@cp/domain';
 
 export type OurDriverState =

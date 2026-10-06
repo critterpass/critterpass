@@ -7,7 +7,7 @@
  */
 import type { DriverClaimDetails } from '@cp/domain';
 
-import { callClaimApi, detailsFromForm, type ClaimApi, type ClaimResult } from './claim-api';
+import { callClaimApi, detailsFromForm, text, type ClaimApi, type ClaimResult } from './claim-api';
 
 export type ClaimError = 'wrongCode' | 'codeExpired' | 'tooMany' | 'failed';
 
@@ -40,24 +40,24 @@ export async function runClaimAction(
   form: FormData,
   lang: 'en' | 'id',
 ): Promise<ClaimOutcome> {
-  const action = String(form.get('action') ?? '');
+  const action = text(form.get('action'));
   const showRatings = form.get('show_ratings') === 'on';
   switch (action) {
     case 'otp': {
       const draft = detailsFromForm(form);
       const sent = await callClaimApi(api, 'POST', '/otp');
       if (!sent.ok) return { draft, showRatings, error: errorOf(sent) };
-      return { draft, showRatings, codeSentTo: String(sent.body['masked_phone'] ?? '') };
+      return { draft, showRatings, codeSentTo: text(sent.body['masked_phone']) };
     }
     case 'confirm': {
       const draft = detailsFromForm(form);
       const result = await callClaimApi(api, 'POST', '/confirm', {
-        code: String(form.get('code') ?? '').trim(),
+        code: text(form.get('code')).trim(),
         details: draft,
         show_ratings: showRatings,
         lang,
       });
-      return rotated(result, { draft, showRatings, codeSentTo: String(form.get('masked') ?? '') });
+      return rotated(result, { draft, showRatings, codeSentTo: text(form.get('masked')) });
     }
     case 'decline': {
       const result = await callClaimApi(api, 'POST', '/decline');
@@ -82,16 +82,14 @@ export async function runClaimAction(
     }
     case 'recover-otp': {
       const sent = await callClaimApi(api, 'POST', '/otp');
-      return sent.ok
-        ? { codeSentTo: String(sent.body['masked_phone'] ?? '') }
-        : { error: errorOf(sent) };
+      return sent.ok ? { codeSentTo: text(sent.body['masked_phone']) } : { error: errorOf(sent) };
     }
     case 'recover':
       return rotated(
         await callClaimApi(api, 'POST', '/recover', {
-          code: String(form.get('code') ?? '').trim(),
+          code: text(form.get('code')).trim(),
         }),
-        { codeSentTo: String(form.get('masked') ?? '') },
+        { codeSentTo: text(form.get('masked')) },
       );
     default:
       return { error: 'failed' };

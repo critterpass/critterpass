@@ -11,24 +11,16 @@ import { crypto as dbCrypto } from '@cp/db';
 import {
   combineCrewAnswer,
   DomainError,
-  DRIVER_CONSENT_VERSION,
   DRIVER_KEY_GRACE_HOURS,
   maskDriverPhone,
   phoneFromContact,
-  type DriverClaimDetails,
   type DriverClaimView,
   type DriverVehicle,
   type DriverVote,
 } from '@cp/domain';
 import type pg from 'pg';
 
-import {
-  hashToken,
-  newLinkToken,
-  refreshListingStats,
-  requireKeyring,
-  type DriverDirectoryDeps,
-} from './shared';
+import { hashToken, requireKeyring, type DriverDirectoryDeps } from './shared';
 
 export type ResolvedKey =
   | {

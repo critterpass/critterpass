@@ -3,6 +3,7 @@
  * English (Bahasa below when asked) and opens WhatsApp with it. The member presses send; we never
  * send for them.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values, SQL and format options, never copy. */
 import {
   driverInviteMessage,
   whatsAppLink,
@@ -76,7 +77,6 @@ export function InviteScreen({
       : {
           driverName: first,
           // The message is English for the driver, whatever the app's language.
-          // eslint-disable-next-line lingui/no-unlocalized-strings
           senderName: (myName ?? '').split(' ')[0] || 'one of your passengers',
           crewSize: data?.crew_size ?? 1,
           places: '',
