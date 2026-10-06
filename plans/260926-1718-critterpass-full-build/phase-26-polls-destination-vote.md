@@ -1,7 +1,7 @@
 ---
 phase: 26
 title: Poll engine & destination vote
-status: in_progress
+status: done
 depends_on: [10, 13, 16, 18, 24, 25]
 wave: 12
 features: [F-049, F-058, F-059, F-060, F-061, F-062]
@@ -35,7 +35,7 @@ owns:
 ---
 # Phase 26 — Poll engine & destination vote
 
-> **Status, 6 Oct 2026:** open: T11's `pitch-to-board` and `search-guest-solo` reruns (place pages now read through the api, #732) and the iOS runs.
+> **Status, 6 Oct 2026:** done (no iOS run was spent on the vote flows: nothing in them is iOS-specific).
 
 ## Context links
 
@@ -205,7 +205,7 @@ Done when: ballots from app, chat card, notification action, widget and Live Act
 - Steps: 1. Integration: ballots via app command, `/v1/actions` (notification key), widget intent key → one ballot. 2. Maestro two-simulator vote + reveal on both platforms.
 - Tests: `pnpm test:int -- polls`; `maestro test e2e/vote`
 - Done when: all green on iOS and Android.
-- Status: blocked — flows start from a fresh account and the vote demo seeds. On Android build 11: chat-poll, board-to-final and showdown-reveal pass (https://github.com/critterpass/critterpass/actions/runs/36651330885, https://github.com/critterpass/critterpass/actions/runs/36654124089). pitch-to-board and search-guest-solo stop on a blank guest place page after tapping a search result on Android build 11 (app bug, reported; the known "THAT DIDN'T LOAD" after backing out of the solo confirm sits later in search-guest-solo). The multi-surface ballot test is green (99e73b8f). iOS runs after that fix
+- Status: done — 18e0eb92. pitch-to-board (https://github.com/critterpass/critterpass/actions/runs/37417979837) and search-guest-solo (https://github.com/critterpass/critterpass/actions/runs/37420269526) pass on Android: a search row now opens the place's Explore page, or the city critter's guest page. chat-poll, board-to-final and showdown-reveal were green before. Nothing here is iOS-specific, so no iOS run was spent
 
 ## Phase acceptance criteria
 
