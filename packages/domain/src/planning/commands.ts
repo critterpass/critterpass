@@ -5,6 +5,13 @@
  */
 import { z } from 'zod';
 
+import {
+  clearDayAreaPayloadSchema,
+  dayAreaResultSchema,
+  setDayAreaPayloadSchema,
+  setTripStopsPayloadSchema,
+  setTripStopsResultSchema,
+} from './areas';
 import { customPlaceSchema, ideaSourceSchema } from './ideas';
 import { placeStanceSchema, stanceNoteSchema } from './stances';
 
@@ -166,5 +173,8 @@ export const PLANNING_COMMANDS = {
     result: askMemberAboutSavesResultSchema,
   },
   answer_member_ask: { payload: answerMemberAskPayloadSchema, result: answerMemberAskResultSchema },
+  set_day_area: { payload: setDayAreaPayloadSchema, result: dayAreaResultSchema },
+  clear_day_area: { payload: clearDayAreaPayloadSchema, result: dayAreaResultSchema },
+  set_trip_stops: { payload: setTripStopsPayloadSchema, result: setTripStopsResultSchema },
 } as const satisfies Record<string, { payload: z.ZodType; result: z.ZodType }>;
 export type PlanningCommandName = keyof typeof PLANNING_COMMANDS;

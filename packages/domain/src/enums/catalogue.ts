@@ -13,6 +13,7 @@ export const GUIDE_COLOURS = ['yellow', 'orange', 'blue', 'pink', 'green', 'crea
 export const guideColourSchema = z.enum([...GUIDE_COLOURS, 'red']);
 export type GuideColour = z.infer<typeof guideColourSchema>;
 
-export const DESTINATION_COVERAGES = ['live', 'guest'] as const;
+/** `area`: a day-trip area, a small destination a city's day trip goes to; never a city to pick. */
+export const DESTINATION_COVERAGES = ['live', 'guest', 'area'] as const;
 export const destinationCoverageSchema = z.enum(DESTINATION_COVERAGES);
 export type DestinationCoverage = z.infer<typeof destinationCoverageSchema>;

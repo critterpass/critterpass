@@ -93,6 +93,8 @@ import * as schema from './schema';
  * `place_profiles` (packages/db/src/schema/place-profiles.ts) is RLS "R" but read over HTTP only
  * (`GET /v1/places/{id}`): phones get a place's profile through the api. `place_search_pace` (same
  * file) is "S": the shared pace of the worker's place searches.
+ * `destination_links` (packages/db/src/schema/trips.ts) is RLS "R" but read over HTTP only:
+ * how one destination leads to another is shared content phones read through the api.
  * `destination_briefs` (packages/db/src/schema/destination-briefs.ts) is RLS "R" but read over
  * HTTP only: Explore's picks and the recommended order read a destination's brief on the server.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
@@ -107,6 +109,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'codes',
   'content_releases',
   'destination_briefs',
+  'destination_links',
   'device_activities',
   'critter_names',
   'engagement_events',
