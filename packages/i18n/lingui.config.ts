@@ -273,6 +273,15 @@ export default defineConfig({
       exclude: testFileExcludes,
     },
     {
+      name: 'drivers/app',
+      path: 'locales/{locale}/drivers/app',
+      include: [
+        `${repoRootPrefix}/apps/mobile/src/features/drivers/**`,
+        `${repoRootPrefix}/apps/mobile/src/app/(trip)/[[]tripId]/drivers/**`,
+      ],
+      exclude: testFileExcludes,
+    },
+    {
       name: 'suppliers/app',
       path: 'locales/{locale}/suppliers/app',
       include: supplierSources,
