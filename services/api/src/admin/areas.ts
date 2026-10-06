@@ -14,6 +14,7 @@ import { communityArea } from './community/shared-plans';
 import { contentArea } from './content';
 import { costReviewArea } from './cost-review';
 import { deskArea } from './desk';
+import { driverDirectoryArea } from './driver-directory';
 import { vendorDeskArea } from './vendor-desk/routes';
 import { flagsArea } from './flags';
 import { ideasArea } from './help/ideas';
@@ -45,6 +46,7 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     flagsArea(deps.pool),
     partnersArea(deps.pool),
     moderationArea(deps),
+    driverDirectoryArea(deps.pool),
     supportArea(deps),
     deskArea(deps.pool),
     vendorDeskArea(deps.pool),

@@ -22,7 +22,7 @@ import { ActionDialog, type SupportAction } from '../support/action-dialog';
 type Status = AdminSharedPlan['status'];
 
 const TAB_LABEL: Readonly<Record<Status, string>> = {
-  published: 'Shared plans',
+  published: 'Published',
   unpublished: 'Came down',
 };
 
@@ -60,8 +60,8 @@ export function SharedPlansPage() {
   return (
     <div className="stack">
       <PageHeader
-        eyebrow="Content"
-        title="Community & drivers"
+        eyebrow="Community"
+        title="Shared plans"
         subtitle="Plans crews chose to share. Only what any traveller browsing them sees is listed."
       />
       <div className="chips" role="tablist" aria-label="Status">

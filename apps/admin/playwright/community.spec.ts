@@ -6,8 +6,8 @@ const PLAN = 'Four slow days in Ubud';
 
 test('ops takes a crew plan down with a reason', async ({ page }) => {
   await signInAs(page, 'ops');
-  await nav(page).getByRole('link', { name: 'Community & drivers' }).click();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Community & drivers');
+  await nav(page).getByRole('link', { name: 'Shared plans' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Shared plans');
 
   const table = page.getByRole('table', { name: 'Crew plans' });
   const row = table.getByRole('row', { name: new RegExp(PLAN) });
@@ -31,9 +31,9 @@ test('ops takes a crew plan down with a reason', async ({ page }) => {
   await expect(down.getByRole('button')).toHaveCount(0);
 });
 
-test('support cannot open crew plans', async ({ page }) => {
+test('support cannot open shared plans', async ({ page }) => {
   await signInAs(page, 'support');
-  await expect(nav(page).getByRole('link', { name: 'Community & drivers' })).toHaveCount(0);
-  await page.goto('/community');
+  await expect(nav(page).getByRole('link', { name: 'Shared plans' })).toHaveCount(0);
+  await page.goto('/shared-plans');
   await expect(page.getByText('Not for your role')).toBeVisible();
 });

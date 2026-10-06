@@ -235,6 +235,14 @@ export {
 } from './album';
 export { tripPlaces } from './trip-places';
 export {
+  driverInvites,
+  driverListingFlags,
+  driverListings,
+  driverListingStats,
+  driverRatings,
+  driverTips,
+} from './driver-directory';
+export {
   placeRatingStats,
   planLinks,
   ratings,

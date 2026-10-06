@@ -1,0 +1,396 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-06 15:35+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: pt\n"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.opened"
+msgstr "{driverName} abriu o link · {openedOn}"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.lovedValue"
+msgstr "{loved} de {rated}"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.loved"
+msgstr "{lovedCount} de {voters} adoraram"
+
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.car"
+msgstr "{model}, {seats} lugares"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.intro"
+msgstr "{name} decide. Nada sobre ele fica público até que confirme no próprio celular, e ele pode tirar quando quiser."
+
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.seats"
+msgstr "{seats} lugares"
+
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.trips"
+msgstr "{trips} viagens"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.sevenPlus"
+msgstr "7+ lugares"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.tipBy"
+msgstr "Um grupo de {crewSize} · {tipMonth}"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.noPhone"
+msgstr "Adicione primeiro o WhatsApp dele à viagem, ou ele já está na lista."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.bahasa"
+msgstr "Incluir também em indonésio"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.shortlist"
+msgstr "Adicionar à lista"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.shortlist"
+msgstr "Adicionando um motorista à viagem"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.saved"
+msgstr "Resposta salva"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.cancel"
+msgstr "Cancelar convite"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.cancel"
+msgstr "Cancelando o convite"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.rerate"
+msgstr "Mudar minha resposta"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.shortlistFailed"
+msgstr "Não deu para adicionar. Tente de novo."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.failed"
+msgstr "Não deu para criar o link. Tente de novo."
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.failed"
+msgstr "Não deu para salvar. Tente de novo."
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.loved"
+msgstr "Os grupos adoraram"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.back"
+msgstr "Motoristas dos grupos"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.day"
+msgstr "Dia {day}"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.dayTrips"
+msgstr "Passeios de um dia"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.role"
+msgstr "Motorista"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.directory"
+msgstr "Motoristas que outros grupos adoraram"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.title"
+msgstr "Motoristas dos nossos grupos"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.intro"
+msgstr "Motoristas que este grupo usou. Quem não confirmou só aparece para vocês {crew}."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.fairPrice"
+msgstr "Preço justo"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.back"
+msgstr "Encontrar motorista"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.fine"
+msgstr "Ok"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.back"
+msgstr "Deslocamentos"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.goodEnglish"
+msgstr "Bom inglês"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.greatPhotos"
+msgstr "Ótimas fotos"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.firstLine"
+msgstr "Olá {first}, encontrei você no CritterPass. Está livre para levar o nosso grupo?"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.noChase"
+msgstr "Não vou ficar insistindo. Um lembrete seu basta."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.title"
+msgstr "Convidar {name} para aparecer"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.invite"
+msgstr "Convidar {name} para aparecer"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.cancelled"
+msgstr "Convite cancelado. Nada foi publicado."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.sent"
+msgstr "Convite enviado no WhatsApp · {sentOn}"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.invite"
+msgstr "Convidar para aparecer"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.invite"
+msgstr "Convidando o motorista"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.knewTheSpots"
+msgstr "Conhecia os lugares"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.listed"
+msgstr "Na lista"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.since"
+msgstr "Na lista desde"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.loved"
+msgstr "Adorei"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.making"
+msgstr "Criando o link…"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.message"
+msgstr "Mensagem no WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.messageLabel"
+msgstr "Mensagem para o seu motorista"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.offline"
+msgstr "Precisa de sinal para criar o link."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.newCar"
+msgstr "Carro novo"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyLineNone"
+msgstr "Nenhum grupo trouxe aqui um motorista que quisesse aparecer."
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyLine"
+msgstr "Nenhum grupo trouxe aqui um motorista que quisesse aparecer. Há motoristas em {widenTo}."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.empty"
+msgstr "Ainda não há motoristas nesta viagem."
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.empty"
+msgstr "Ninguém na lista perto de {area} ainda"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyAny"
+msgstr "Ninguém na lista ainda"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.notAgain"
+msgstr "Nunca mais"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.notClaimed"
+msgstr "Não confirmado"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.nudge"
+msgstr "Lembrar"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.nudge"
+msgstr "Lembrete ao motorista"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+msgid "drivers.directory.stale"
+msgstr "Sem conexão. A lista das {time}."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.onTime"
+msgstr "Pontual"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.shortlisted"
+msgstr "Na sua viagem"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.tip"
+msgstr "Uma dica para o próximo grupo"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.tip"
+msgstr "Uma dica de um grupo"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.intro"
+msgstr "Só motoristas que pediram para aparecer. As avaliações vêm dos grupos que viajaram com eles."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.open"
+msgstr "Abrir no WhatsApp"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.title"
+msgstr "Nossos motoristas"
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.back"
+msgstr "Nossos motoristas"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.line"
+msgstr "Nossa equipe revisa. Ninguém sabe quem denunciou."
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.patient"
+msgstr "Paciente"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.paused"
+msgstr "Pausado"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.rate"
+msgstr "Avaliar"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.title"
+msgstr "Avalie o seu motorista"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.notEligible"
+msgstr "A avaliação abre depois da viagem, para membros com telefone verificado."
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.confirm"
+msgstr "Denunciar"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.report"
+msgstr "Denunciar este perfil"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.reportTip"
+msgstr "Denunciar esta dica"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.title"
+msgstr "Denunciar isto?"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.own"
+msgstr "Cuida do próprio perfil"
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.safeDriver"
+msgstr "Dirige com segurança"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.save"
+msgstr "Salvar resposta"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.widen"
+msgstr "Mostrar {widenTo} também"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.reported"
+msgstr "Obrigado. Vamos verificar."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.expired"
+msgstr "O link se desligou. Nada foi publicado."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.expires"
+msgstr "O link funciona até {expiresOn}. Depois ele se desliga e nada é publicado."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.until"
+msgstr "O link funciona até {untilOn}. Depois ele se desliga e nada é publicado."
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.message"
+msgstr "A mensagem · você envia"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.unavailable"
+msgstr "Este perfil não está disponível agora. Talvez ele tenha pausado."
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.trips"
+msgstr "Viagens com grupos"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.waiting"
+msgstr "Esperando a confirmação dele"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.priceNote"
+msgstr "O que ele diz aos grupos. Não é um preço do CritterPass."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.nudgeUsed"
+msgstr "Você já lembrou ele uma vez."
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.rate"
+msgstr "Sua resposta sobre o motorista"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.intro"
+msgstr "A avaliação e as etiquetas do grupo vão para o perfil de {name} se ele estiver na lista. Nada sobre você."
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.report"
+msgstr "Sua denúncia"

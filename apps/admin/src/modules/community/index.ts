@@ -4,7 +4,7 @@ import { SharedPlansPage } from './shared-plans-page';
 export const communityModule = defineAdminModule({
   id: 'community',
   area: 'community',
-  label: 'Community & drivers',
-  order: 45,
-  routes: [{ path: 'community', component: SharedPlansPage }],
+  label: 'Shared plans',
+  order: 34,
+  routes: [{ path: 'shared-plans', component: SharedPlansPage }],
 });

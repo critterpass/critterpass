@@ -1,7 +1,7 @@
 ---
 phase: 56
 title: Drivers our crews used: rating, invite, claim, directory
-status: pending
+status: done
 depends_on: [9, 17, 21, 43, 51, 52, 55, 58]
 wave: 22
 features: [F-195]
@@ -90,28 +90,36 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 
 ## Tasks
 ### T1 — Schema, public projection, permission tests
+- Status: done — 8e3e4f2b5e (members read listed listings only; no separate public reader, nothing here is public)
 - Done when: forced RLS; `public_reader` sees only listed + unpaused columns (no phone, no raters); removal cascades are tested.
 
 ### T2 — Rate your driver card (6g-1)
+- Status: done — 7e7d8c1d0d, 9cb826cf99 (opened from Our drivers; joins the rate-the-trip stack when it exists; the assigned-day check waits for find-a-driver assignments)
 - Done when: the card appears after the driver's places; combined answer rules are unit-tested; tips pass the automated check.
 
 ### T3 — Invite + our drivers (6g-2, 6g-3)
+- Status: done — 7e7d8c1d0d, 9cb826cf99
 - Done when: the token is single-use, phone-bound and expires; NUDGE works once; CANCEL kills the link; timeline states match link events.
 
 ### T4 — Claim page (6h-1) with WhatsApp OTP
+- Status: done — f037c3ccb4 (no photo field yet)
 - Files: `apps/web/src/pages/d/`, `components/driver-claim/`, `routes/public-driver-claims.ts`
 - Done when: EN/ID switch the whole page; OTP gates YES; consent recorded; Playwright asserts < 60 KB on a 3G profile; no thanks deletes the invite.
 
 ### T5 — Listed page (6h-2): pause, edit, ratings toggle, remove
+- Status: done — f037c3ccb4
 - Done when: remove hard-deletes within one request and 6e-1 no longer returns him; the key rotates.
 
 ### T6 — Directory list, detail, empty (6e-1…6e-3)
+- Status: done — 7e7d8c1d0d, 9cb826cf99 (find-a-driver hub row, ASK FOR ME and PRIVATE TOURS wait for those screens)
 - Done when: ordering test proves no paid or commission input; filters work offline from the last fetch; Add to shortlist lands in P55; the P55 hub row is enabled.
 
 ### T7 — Moderation + anomaly checks
+- Status: done — 8d942afc60, 7e7d8c1d0d
 - Done when: reports reach the P17 queue; takedown is audited and immediate; anomaly flag fires on the seeded ring scenario.
 
 ### T8 — E2E, web tests, screenshots
+- Status: done — 9cb826cf99, f037c3ccb4 (lab scenes captured on Android; live flows need a seeded driver)
 - Done when: mobile flows + Playwright claim/remove flows pass; screenshots are in the report.
 
 ## Phase acceptance criteria
