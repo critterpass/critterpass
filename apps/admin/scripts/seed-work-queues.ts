@@ -176,8 +176,38 @@ async function seedDesk(client: pg.Client): Promise<void> {
   ]);
 }
 
+/** Ideas for the console's review list: two suggestions waiting and one already on the board. */
+async function seedIdeas(client: pg.Client): Promise<void> {
+  const ideas = [
+    [
+      '01920000-0000-7000-8000-00000000d001',
+      mai.id,
+      'Offline maps for the whole trip',
+      'pending_review',
+      0,
+    ],
+    [
+      '01920000-0000-7000-8000-00000000d002',
+      linh.id,
+      'Split a bill by item, not evenly',
+      'pending_review',
+      0,
+    ],
+    ['01920000-0000-7000-8000-00000000d003', mai.id, 'Packing list everyone can tick', 'open', 14],
+  ] as const;
+  for (const [id, author, title, status, votes] of ideas) {
+    await client.query(
+      `INSERT INTO ideas (id, author_id, title, description, locale, status, votes_count)
+       VALUES ($1, $2, $3, 'So the whole crew can use it on the road.', 'en', $4, $5)
+       ON CONFLICT (id) DO NOTHING`,
+      [id, author, title, status, votes],
+    );
+  }
+}
+
 export async function seedWorkQueues(client: pg.Client): Promise<void> {
   await seedTravellers(client);
+  await seedIdeas(client);
   await seedSupport(client);
   await seedDesk(client);
   await seedReport(client, sam.id, 'spam', [mai.id, linh.id]);

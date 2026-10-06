@@ -64,6 +64,13 @@ for (const size of WIDTHS) {
       await shot(page, entry.name, size.name);
     }
 
+    await page.goto('/support');
+    await page.getByLabel('Find user', { exact: true }).fill('@maitran');
+    await page.getByRole('button', { name: 'Find user' }).click();
+    await page.getByRole('link', { name: 'Mai Tran' }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mai Tran');
+    await shot(page, 'support-user', size.name);
+
     if (size.name === '390') {
       await page.goto('/');
       await page.getByRole('navigation', { name: 'Phone tabs' }).getByRole('button').click();
