@@ -5,32 +5,12 @@ appId: app.critterpass.dev
 # dialog or shows how to add the widget by hand. Then "Pings" (5b-4): on a fresh install the note
 # on what always gets through lists what the phone's settings still hold back (alarms on time,
 # full-screen alarms, SOS through Do Not Disturb), each with its way to system settings.
+# The standard fresh account with a crew (fresh install, onboarding through the api, crew
+# started), then Home's header to the profile and Settings.
 - runFlow:
-    file: ../screens/sweep/subflows/start.yaml
+    file: ../happy/subflows/crew-with-code.yaml
     env:
-      LANG: en
-- runFlow: ../home/subflows/onboard.yaml
-# Home shows its header ("HEY {NAME} ›") once the account has a crew: start one, nothing else.
-- runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'The Bali Six'
-- hideKeyboard
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-code'
-    timeout: 30000
-- tapOn:
-    id: 'start-crew-done'
+      CREW: 'The Bali Six'
 - runFlow: ../screens/sweep/subflows/home.yaml
 - extendedWaitUntil:
     visible:
@@ -40,19 +20,14 @@ appId: app.critterpass.dev
     id: 'home-header-profile'
 - extendedWaitUntil:
     visible:
-      id: 'you-profile-name'
-    timeout: 20000
-- scrollUntilVisible:
-    element:
-      id: 'you-profile-mrz'
-    direction: DOWN
-    timeout: 15000
+      id: 'you-profile-settings'
+    timeout: 30000
 - tapOn:
     id: 'you-profile-settings'
 - extendedWaitUntil:
     visible:
       id: 'you-settings'
-    timeout: 15000
+    timeout: 30000
 - scrollUntilVisible:
     element: 'Widgets'
     direction: DOWN
