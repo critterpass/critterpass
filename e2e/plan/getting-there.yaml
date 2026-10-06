@@ -1,0 +1,91 @@
+appId: app.critterpass.dev
+---
+# "Getting there" on All days over the Bali Six's trip in the plan views lab: the ways from the
+# reader's home city with their estimates and the pages they were written from, the wait while the
+# estimate is written, none found, and a read that failed with "Try again".
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days-getting-there'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days-getting-there'
+- extendedWaitUntil:
+    visible:
+      id: 'getting-there-ways'
+    timeout: 20000
+- assertVisible:
+    id: 'getting-there-way-flight'
+- assertVisible:
+    id: 'getting-there-estimate'
+- assertVisible:
+    id: 'getting-there-sources'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7b-3-getting-there
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days-getting-there-loading'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days-getting-there-loading'
+- extendedWaitUntil:
+    visible:
+      id: 'getting-there-loading'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7b-3-getting-there-loading
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days-getting-there-none'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days-getting-there-none'
+- extendedWaitUntil:
+    visible:
+      id: 'getting-there-none'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7b-3-getting-there-none
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days-getting-there-failed'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days-getting-there-failed'
+- extendedWaitUntil:
+    visible:
+      id: 'getting-there-failed'
+    timeout: 20000
+- assertVisible:
+    id: 'getting-there-retry'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7b-3-getting-there-failed
