@@ -6,10 +6,10 @@
  * so `prefers-reduced-motion` needs no special case here: the canvas itself never animates, only the
  * CSS wrapping it (float/wiggle/hop) does, and the page controller already gates that globally.
  */
-import { build, DEFAULT_INK, frame, layout } from '@cp/critter-art';
+import { build, DEFAULT_INK, frame, layout } from '@cp/critter-art/render';
 import { renderToCanvas, viewportFor } from '@cp/critter-art/canvas2d';
 import type { CanvasFactory, CanvasLike } from '@cp/critter-art/canvas2d';
-import type { Pose, RenderSpec, Variant } from '@cp/critter-art';
+import type { Pose, RenderSpec, Variant } from '@cp/critter-art/render';
 
 const canvasFactory: CanvasFactory = (width, height): CanvasLike => {
   const canvas = document.createElement('canvas');

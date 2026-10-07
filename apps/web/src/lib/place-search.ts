@@ -3,12 +3,17 @@
  * type-ahead over them. Two bundled lists, no free text: the critter catalogue's cities (each
  * with its local) and the cities of the airports dataset for everywhere else. Pure: the same
  * functions rank results in the browser and are unit-tested in Node.
+ *
+ * The list is public, so it never says which critter lives in a city: a catalogue row names its
+ * guide only where that guide is one of the public, hand-drawn ones. The server names a city's
+ * local once a visitor picks that city (`/api/waitlist/place/<key>`).
  */
 
 /**
  * One place, as a compact row so the list stays small on the wire. `rank` is 0 for a catalogue
- * city and the airport's size rank (1 largest to 3) otherwise; catalogue rows carry their local,
- * and the city's original name when the page's language calls it something else (`京都`, `Kyoto`).
+ * city and the airport's size rank (1 largest to 3) otherwise; catalogue rows carry their public
+ * guide's name (empty for every other city), and the city's original name when the page's
+ * language calls it something else (`京都`, `Kyoto`).
  */
 export type PlaceRow =
   | readonly [key: string, city: string, country: string, rank: 1 | 2 | 3]
@@ -17,10 +22,7 @@ export type PlaceRow =
       city: string,
       country: string,
       rank: 0,
-      critterName: string,
-      species: string,
-      critterKind: string,
-      critterNo: number,
+      guideName: string,
       original?: string,
     ];
 
@@ -33,7 +35,7 @@ export interface SearchablePlace {
   /** The original name folded the same two ways, when the row carries one. */
   readonly originalFolded: string;
   readonly originalCompact: string;
-  readonly critterFolded: string;
+  readonly guideFolded: string;
 }
 
 export const SEARCH_RESULT_LIMIT = 8;
@@ -56,14 +58,14 @@ export function compactPlaceText(folded: string): string {
 export function indexPlaces(rows: readonly PlaceRow[]): SearchablePlace[] {
   return rows.map((row) => {
     const folded = foldPlaceText(row[1]);
-    const originalFolded = row[3] === 0 && row[8] !== undefined ? foldPlaceText(row[8]) : '';
+    const originalFolded = row[3] === 0 && row[5] !== undefined ? foldPlaceText(row[5]) : '';
     return {
       row,
       folded,
       compact: compactPlaceText(folded),
       originalFolded,
       originalCompact: compactPlaceText(originalFolded),
-      critterFolded: row[3] === 0 ? foldPlaceText(row[4]) : '',
+      guideFolded: row[3] === 0 ? foldPlaceText(row[4]) : '',
     };
   });
 }
@@ -78,14 +80,14 @@ function nameClass(folded: string, compact: string, query: string, compactQuery:
 }
 
 /**
- * 0: the city starts with the query; 1: a later word (or the local's name) does; 2: it appears
+ * 0: the city starts with the query; 1: a later word (or the guide's name) does; 2: it appears
  * inside. The page's name for the city and its original name both count: `kyoto` and `京都`.
  */
 function matchClass(place: SearchablePlace, query: string, compactQuery: string): number | null {
   const best = Math.min(
     nameClass(place.folded, place.compact, query, compactQuery),
     nameClass(place.originalFolded, place.originalCompact, query, compactQuery),
-    place.critterFolded !== '' && place.critterFolded.startsWith(query) ? 1 : 3,
+    place.guideFolded !== '' && place.guideFolded.startsWith(query) ? 1 : 3,
   );
   return best === 3 ? null : best;
 }

@@ -1,4 +1,4 @@
-import { critters } from '@cp/critter-art';
+import { critters, isGuideSpec } from '@cp/critter-art';
 import { describe, expect, it } from 'vitest';
 
 import { CITY_TICKER, GUIDES } from './guides';
@@ -62,6 +62,24 @@ describe('place rows', () => {
     const chipKeys = catalogue.map((row) => row[0]).filter((key) => !key.startsWith('cp-'));
     expect(chipKeys.sort()).toEqual(DESTINATIONS.map((destination) => destination.key).sort());
     expect(new Set(rows.map((row) => row[0])).size).toBe(rows.length);
+  });
+
+  it('names the guide of a city only where the guide is a public, hand-drawn one', () => {
+    const publicNames = critters
+      .filter((critter) => isGuideSpec(critter.spec))
+      .map((critter) => critter.name);
+    for (const locale of SITE_LOCALE_CODES) {
+      const catalogue = placeRows(locale).filter((row) => row[3] === 0);
+      const named = catalogue.map((row) => row[4]).filter((name) => name !== '');
+      expect(named.sort(), locale).toEqual([...publicNames].sort());
+      // Key, city, country, rank, guide and at most the city's original name: nothing else.
+      expect(Math.max(...catalogue.map((row) => row.length)), locale).toBeLessThanOrEqual(6);
+      const wire = JSON.stringify(catalogue);
+      for (const critter of critters) {
+        if (isGuideSpec(critter.spec) || critter.species === critter.city) continue;
+        expect(wire, critter.species).not.toContain(`"${critter.species}"`);
+      }
+    }
   });
 
   it('adds airport cities the catalogue does not have, one row per city', () => {

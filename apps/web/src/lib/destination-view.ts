@@ -3,7 +3,8 @@
  * How a picked place is drawn on the boarding pass and the joined panel. A catalogue city shows
  * its own local; an airport-only city has no local yet, so Tokek covers it as guest guide (the
  * product's rule for everywhere without a live guide). The six chips keep their own guides.
- * Pure and shared: the browser builds the view for a fresh pick, the server for a stored key.
+ * Pure and shared: the browser builds the view for a chip or an airport city, the server for a
+ * stored key and for a catalogue city a visitor picks.
  */
 import { GUIDES, guideForDestination } from './guides';
 import type { Guide } from './guides';
@@ -37,33 +38,45 @@ export function guideView(destinationKey: string, place: string, locale: string)
   };
 }
 
+/** The critter that lives in a catalogue city. Server only: the public place list never has it. */
+export interface CatalogueLocal {
+  readonly key: string;
+  readonly name: string;
+  readonly species: string;
+  readonly kind: string;
+  readonly no: number;
+}
+
+/** A catalogue city (named in the page's language) with its local, as the server draws it. */
+export function localView(local: CatalogueLocal, city: string, locale: string): DestinationView {
+  return {
+    // Catalogue ids draw a local; a hand-drawn kind (`langur`) is a guide of its own city.
+    role: local.kind.startsWith('cp-') ? 'local' : 'guide',
+    destinationKey: local.key,
+    name: local.name.toUpperCase(),
+    city: city.toLocaleUpperCase(locale),
+    place: city,
+    species: local.species.toUpperCase(),
+    kind: local.kind,
+    seed: 1,
+    bg: PASS_COLOURS[local.no % PASS_COLOURS.length] ?? 'var(--color-yellow)',
+    no: String(local.no).padStart(3, '0'),
+  };
+}
+
 /**
- * A place from the bundled list (its city already in the page's language). `chipPlaces` names
- * the six chips' places, for a catalogue row that is one of them.
+ * A place from the public list (its city already in the page's language), where the list alone
+ * can draw it: one of the six chips (`chipPlaces` names their places) or an airport city. `null`
+ * for a catalogue city, whose local only the server names.
  */
 export function placeView(
   row: PlaceRow,
   locale: string,
   chipPlaces: Readonly<Record<string, string>>,
-): DestinationView {
+): DestinationView | null {
   const [key, city] = row;
   if (findDestination(key) !== undefined) return guideView(key, chipPlaces[key] ?? city, locale);
-  if (row[3] === 0) {
-    const [, , , , critterName, species, critterKind, critterNo] = row;
-    return {
-      // Catalogue ids draw a local; a hand-drawn kind (`langur`) is a guide of its own city.
-      role: critterKind.startsWith('cp-') ? 'local' : 'guide',
-      destinationKey: key,
-      name: critterName.toUpperCase(),
-      city: city.toLocaleUpperCase(locale),
-      place: city,
-      species: species.toUpperCase(),
-      kind: critterKind,
-      seed: 1,
-      bg: PASS_COLOURS[critterNo % PASS_COLOURS.length] ?? 'var(--color-yellow)',
-      no: String(critterNo).padStart(3, '0'),
-    };
-  }
+  if (row[3] === 0) return null;
   if (!GUEST_GUIDE) throw new Error('destination-view: GUIDES must not be empty');
   return {
     ...GUEST_GUIDE,

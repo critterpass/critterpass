@@ -151,6 +151,9 @@ test.describe('destination search on the waitlist form', () => {
     expect((await join('atlantis')).status()).toBe(400);
     expect((await join('Đà Nẵng')).status()).toBe(400);
     expect((await join('<img src=x>')).status()).toBe(400);
+    expect((await request.get(`${COMING_SOON_URL}/api/waitlist/place/atlantis`)).status()).toBe(
+      404,
+    );
 
     const places = (await (
       await request.get(`${COMING_SOON_URL}/api/waitlist/places/en.json`)

@@ -13,7 +13,7 @@ import type { PlaceRow, SearchablePlace } from '../lib/place-search';
 import { csEl, setText } from './dom';
 import { fill } from './page-strings';
 import type { PageStrings } from './page-strings';
-import { fetchPlaces } from './waitlist-api';
+import { fetchPlace, fetchPlaces } from './waitlist-api';
 
 export interface PlaceSearch {
   /** Shows `view` as the picked place, or the empty search field for `null`. */
@@ -33,12 +33,10 @@ function countryName(code: string, language: string): string {
   }
 }
 
-/** The line under a city: its local (species too where the page is in the data's language) and country. */
+/** The line under a city: its guide where the guide is a public one, and its country. */
 function describe(row: PlaceRow, language: string): string {
   const country = countryName(row[2], language);
-  if (row[3] !== 0) return country;
-  // Species names exist in English only, so they show on the English page only.
-  return [row[4], ...(language.startsWith('en') ? [row[5]] : []), country].join(' · ');
+  return row[3] === 0 && row[4] !== '' ? `${row[4]} · ${country}` : country;
 }
 
 export function startPlaceSearch(
@@ -138,7 +136,13 @@ export function startPlaceSearch(
     if (!row) return;
     input.value = '';
     close();
-    handlers.onPick(placeView(row, language, strings.chipPlaces));
+    const view = placeView(row, language, strings.chipPlaces);
+    if (view !== null) return handlers.onPick(view);
+    // A catalogue city: the server says who lives there, for this one place.
+    void fetchPlace(row[0]).then((named) => {
+      if (named === null) say(strings.searchFailed);
+      else handlers.onPick(named);
+    });
   }
 
   function show(view: DestinationView | null): void {
