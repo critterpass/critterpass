@@ -15,7 +15,7 @@ const card = (over: Partial<DriverCard>): DriverCard => ({
   price_unit: 'day',
   ...over,
 });
-const driver = { id: 'd1', name: 'Made', terms: { source: 'found' } } as ShortlistDriver;
+const driver = { id: 'made', name: 'Made', terms: { source: 'found' } } as ShortlistDriver;
 const each = (c: DriverCard, days = DAYS, people = 6) =>
   compareColumn(candidateOf(driver, c, days, people), days, people).eachMinor;
 

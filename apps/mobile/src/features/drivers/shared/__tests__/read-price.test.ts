@@ -48,11 +48,11 @@ describe("a shortlisted driver's price as his message gave it", () => {
 
   it('leaves a driver with no read message as shortlisted', () => {
     const intake = [
-      { provider_id: 'd1', parsed: { card: card({ price_ask: 'ask' }) } },
+      { provider_id: 'made', parsed: { card: card({ price_ask: 'ask' }) } },
       { provider_id: null, parsed: null },
     ] as unknown as IntakeItem[];
-    expect(readCardFor(intake, 'd2')).toBeNull();
-    expect(readCardFor(intake, 'd1')?.price_ask).toBe('ask');
+    expect(readCardFor(intake, 'komang')).toBeNull();
+    expect(readCardFor(intake, 'made')?.price_ask).toBe('ask');
     expect(withReadPrice(priced(1), null)).toEqual(priced(1));
   });
 });
