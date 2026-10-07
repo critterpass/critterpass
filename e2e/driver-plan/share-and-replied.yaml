@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # Sharing the plan with a driver on the plan views lab's Bali trip: the sheet before a link exists,
 # with a live link opened twice, revoking (confirmed once), and the driver's quote with two
-# suggested times and two tips on review changes.
+# suggested times and two tips on review changes, and the offer to tell him on WhatsApp once the
+# crew's vote set him on his days.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -29,3 +30,8 @@ appId: app.critterpass.dev
     env:
       SCENE: driver-replied
       SHOT: en-driver-replied
+- runFlow:
+    file: ../plan-before-draft/subflows/lab-shot.yaml
+    env:
+      SCENE: driver-replied-set
+      SHOT: en-driver-replied-set

@@ -142,7 +142,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Tests: XCTest/JUnit for detector; `pnpm --filter @cp/mobile test -- help/shake`.
 - Done when: snapshot of a Balances screen shows masked amounts; capture on wallet/chat/pass/map routes is masked by default with no wrapper present (test per route group); shaking inside a text field does not open the report on iOS.
 
-- Status: partly done — 6924a892c2 (shake → masked screenshot → problem report, mounted at the root; private route groups covered whole, `PrivateContent` covers marked parts, text-field guard and Settings switch in JS, on the existing JS recogniser instead of a native `cp-shake`). Left: wrapping amounts, messages and document details in `PrivateContent` in the money, chat and passport components; on variants with Developer tools the shake still opens those
+- Status: done — 6924a892c2, e0a1c779c6 (shake → masked screenshot → problem report, mounted at the root; private route groups covered whole, `PrivateContent` covers marked parts, text-field guard and Settings switch in JS, on the existing JS recogniser instead of a native `cp-shake`; e0a1c779c6 wraps amounts, messages, booking facts and the pass in `PrivateContent` in the money, chat, bookings, onboarding pass and profile components, and adds a "Report a problem" entry to Developer tools: on variants with Developer tools the shake still opens those (founder decision, 7 Oct), and the entry does there what the shake does in production)
 ### T4 — Send feedback 3p-2, sent 3p-3, offline outbox
 - Goal: designed feedback flow.
 - Files: `apps/mobile/src/app/help/{feedback,feedback-sent}.tsx`, `apps/mobile/src/features/help/feedback/*`, tests, `e2e/help/feedback-offline.yaml`.

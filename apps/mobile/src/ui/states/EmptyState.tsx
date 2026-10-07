@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 
-import { guideColour } from '../avatar/guides';
 import { PillButton } from '../buttons/PillButton';
 import { Stack } from '../layout/Stack';
-import type { GuideId } from '../people/GuideLine';
+import { useGuideVoiceColour, type GuideId } from '../people/GuideLine';
 import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 
@@ -37,6 +36,7 @@ export function EmptyState({
   testID,
 }: EmptyStateProps) {
   const tone = useSurfaceTone();
+  const voiceColour = useGuideVoiceColour(guide);
   return (
     <Stack gap="16" align="center" padding="24" testID={testID}>
       {sticker}
@@ -45,7 +45,7 @@ export function EmptyState({
       </Text>
       <Text
         variant="voice"
-        color={guideColour(guide, tone === 'paper')}
+        color={voiceColour}
         style={CENTRED}
         accessibilityLabel={`${guideName}: ${line}`}
       >

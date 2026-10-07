@@ -1,0 +1,38 @@
+appId: app.critterpass.dev
+---
+# The TRIPS tab with no trips, from the trip day lab: Tokek's line on the yellow card is written in
+# the card's ink, so it reads.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-trips-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-trips-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list-empty'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-trips-empty

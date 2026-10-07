@@ -123,6 +123,7 @@ import * as schema from './schema';
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
+  'account_purge_reminders',
   'affiliate_clicks',
   'anniversaries',
   'app_open_hours',
@@ -150,6 +151,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'engagement_events',
   'fair_use_counters',
   'fare_cells',
+  'feedback_tracker_redactions',
   'flight_watches',
   'foursquare_api_usage',
   'fsq_os_export_chunks',

@@ -843,6 +843,10 @@ msgstr "Pass"
 msgid "you.appIcon.passPlus"
 msgstr "Pass+"
 
+#: ../../apps/mobile/src/features/you/app-icon/lapse-revert.tsx
+msgid "you.appIcon.lapsed"
+msgstr "Pass+ ended, so the app icon is back to Passport."
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.billedPlay"
 msgstr "Pass+ is billed by Google Play. Deleting doesn’t cancel it, so cancel it there too."

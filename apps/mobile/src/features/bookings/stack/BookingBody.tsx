@@ -8,6 +8,7 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { DocField } from '@/ui/documents/DocField';
 import { Icon } from '@/ui/icons/Icon';
@@ -74,13 +75,15 @@ export function BookingBody({ booking, tz, hasPass, onPass, testID }: BookingBod
         <Text variant="label">{meta(booking, tz)}</Text>
       </Row>
       {fields.length === 0 ? null : (
-        <Row gap="12">
-          {fields.map((field) => (
-            <View key={field.key} style={styles.cell}>
-              <DocField label={upper(field.label, locale)} value={field.value} wrap />
-            </View>
-          ))}
-        </Row>
+        <PrivateContent>
+          <Row gap="12">
+            {fields.map((field) => (
+              <View key={field.key} style={styles.cell}>
+                <DocField label={upper(field.label, locale)} value={field.value} wrap />
+              </View>
+            ))}
+          </Row>
+        </PrivateContent>
       )}
       {place === null || place === undefined || place === '' ? null : (
         <Text variant="body">{place}</Text>
@@ -104,9 +107,9 @@ export function BookingBody({ booking, tz, hasPass, onPass, testID }: BookingBod
           style={styles.tile}
           testID={testID === undefined ? undefined : `${testID}-pass`}
         >
-          <View style={styles.bars}>
+          <PrivateContent style={styles.bars}>
             <Barcode color={theme.color.paper.ink} />
-          </View>
+          </PrivateContent>
         </PressScale>
       ) : null}
     </Stack>

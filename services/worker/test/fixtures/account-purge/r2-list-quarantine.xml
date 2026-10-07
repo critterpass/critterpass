@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>media</Name><Prefix>quarantine/u/0192a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b/</Prefix><KeyCount>1</KeyCount><MaxKeys>1000</MaxKeys><IsTruncated>false</IsTruncated><Contents><Key>quarantine/u/0192a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b/avatar/0199b7c9-2f10-7d3e-8a4b-6c5d4e3f2a1b</Key><LastModified>2026-10-02T09:21:40.000Z</LastModified><ETag>&quot;7d793037a0760186574b0282f2f435e7&quot;</ETag><Size>51902</Size><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>

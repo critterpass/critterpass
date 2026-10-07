@@ -9,6 +9,11 @@
  * `not_in_use`. Analytics that is collecting but has no admin credentials to delete with is a
  * failure: the person's events would otherwise stay.
  *
+ * Once the bucket holds nothing of the account, its `media_objects` rows go too. Uploads moved to
+ * `quarantine/` by a known-image match are evidence in a legal report: they are `held` unless this
+ * environment is told to erase them. The feedback tracker is `not_configured` until its repository
+ * and token are set; the tickets to redact stay listed in `feedback_tracker_redactions`.
+ *
  * Sign-in providers are not a step here: Apple and Google tokens are revoked when the account is
  * closed (while the tokens still exist), and the sign-in rows go with the database purge.
  */
@@ -30,15 +35,22 @@ import {
 import {
   deleteAccountMedia,
   deleteAccountTraces,
+  deleteQuarantinedUploads,
   type PrefixStore,
   type TraceStoreOptions,
 } from './purge-stores';
+import {
+  purgeLeftovers,
+  redactAccountFeedback,
+  type PurgeLeftovers,
+  type TrackerRedactionOptions,
+} from './purge-tracker';
 
-export type StepOutcome = 'erased' | 'nothing_left' | 'not_in_use';
+export type StepOutcome = 'erased' | 'nothing_left' | 'not_in_use' | 'held' | 'not_configured';
 
 export interface ExternalPurgeStep {
   readonly name: string;
-  run(uid: string): Promise<StepOutcome>;
+  run(uid: string, deletionId: string): Promise<StepOutcome>;
 }
 
 export interface AnalyticsPurgeConfig {
@@ -52,17 +64,42 @@ export interface ExternalPurgeStores {
   readonly media: PrefixStore | null;
   readonly analytics: AnalyticsPurgeConfig;
   readonly traces: TraceStoreOptions | null;
+  /** True when quarantined uploads are erased with the account; otherwise they are held. */
+  readonly eraseQuarantine?: boolean;
+  /** The feedback tracker to redact in; `null` or absent = not configured. */
+  readonly tracker?: TrackerRedactionOptions | null;
 }
 
 const counted = (count: number): StepOutcome => (count > 0 ? 'erased' : 'nothing_left');
 
-export function externalPurgeSteps(stores: ExternalPurgeStores): readonly ExternalPurgeStep[] {
+/**
+ * `leftovers` is what the database still lists for the purge (media rows, tickets to redact);
+ * without it the steps only talk to the stores.
+ */
+export function externalPurgeSteps(
+  stores: ExternalPurgeStores,
+  leftovers: PurgeLeftovers | null = null,
+): readonly ExternalPurgeStep[] {
   const { media, analytics, traces } = stores;
+  const tracker = stores.tracker ?? null;
   return [
     {
       name: 'media',
-      run: async (uid) =>
-        media === null ? 'not_in_use' : counted(await deleteAccountMedia(media, uid)),
+      async run(uid) {
+        if (media === null) return 'not_in_use';
+        const objects = await deleteAccountMedia(media, uid);
+        // The rows are the list of objects still to erase: they go only after the objects did.
+        const rows = leftovers === null ? 0 : await leftovers.deleteMediaRows(uid);
+        return counted(objects + rows);
+      },
+    },
+    {
+      name: 'quarantined_uploads',
+      async run(uid) {
+        if (media === null) return 'not_in_use';
+        if (stores.eraseQuarantine !== true) return 'held';
+        return counted(await deleteQuarantinedUploads(media, uid));
+      },
     },
     {
       name: 'analytics',
@@ -80,6 +117,14 @@ export function externalPurgeSteps(stores: ExternalPurgeStores): readonly Extern
       run: async (uid) =>
         traces === null ? 'not_in_use' : counted(await deleteAccountTraces(traces, uid)),
     },
+    {
+      name: 'feedback_tracker',
+      async run(_uid, deletionId) {
+        if (tracker === null) return 'not_configured';
+        if (leftovers === null) return 'not_in_use';
+        return counted(await redactAccountFeedback(tracker, leftovers, deletionId));
+      },
+    },
   ];
 }
 
@@ -90,11 +135,12 @@ export async function runExternalPurge(
   steps: readonly ExternalPurgeStep[],
   uid: string,
   logger: JobLogger,
+  deletionId = '',
 ): Promise<ExternalPurgeReport> {
   const report: Record<string, StepOutcome | 'failed'> = {};
   for (const step of steps) {
     try {
-      report[step.name] = await step.run(uid);
+      report[step.name] = await step.run(uid, deletionId);
     } catch (error) {
       report[step.name] = 'failed';
       logger.error({ user_id: uid, step: step.name, err: error }, 'external purge step failed');
@@ -138,7 +184,6 @@ export async function enqueueRecentExternalPurges(tx: pg.PoolClient): Promise<nu
 }
 
 export function accountPurgeExternalJob(stores: ExternalPurgeStores): AnyJobDefinition {
-  const steps = externalPurgeSteps(stores);
   return defineJob({
     queue: ACCOUNT_QUEUES.purgeExternal,
     schema: accountPurgeExternalJobSchema,
@@ -148,7 +193,8 @@ export function accountPurgeExternalJob(stores: ExternalPurgeStores): AnyJobDefi
         logger.warn({ user_id: data.user_id }, 'external purge skipped: account is not purged');
         return { skipped: 'not_purged' };
       }
-      const report = await runExternalPurge(steps, data.user_id, logger);
+      const steps = externalPurgeSteps(stores, purgeLeftovers(pool));
+      const report = await runExternalPurge(steps, data.user_id, logger, data.deletion_id);
       logger.info({ user_id: data.user_id, ...report }, 'external purge finished');
       const failed = Object.entries(report)
         .filter(([, outcome]) => outcome === 'failed')

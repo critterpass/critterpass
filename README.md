@@ -241,9 +241,9 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 
 <!-- progress:start -->
 
-<p align="center"><img src="docs/assets/readme/progress.svg" width="760" alt="542 of 594 tasks and 39 of 59 phases done"></p>
+<p align="center"><img src="docs/assets/readme/progress.svg" width="760" alt="543 of 593 tasks and 39 of 59 phases done"></p>
 
-**542 of 594 tasks** (91%) and **39 of 59 phases** done, 20 in progress. Last updated 2026-10-07; regenerate with `pnpm readme:progress`. Narrative and next steps: [plan.md](plans/260926-1718-critterpass-full-build/plan.md).
+**543 of 593 tasks** (92%) and **39 of 59 phases** done, 20 in progress. Last updated 2026-10-07; regenerate with `pnpm readme:progress`. Narrative and next steps: [plan.md](plans/260926-1718-critterpass-full-build/plan.md).
 
 <details open>
 <summary>Phases by wave</summary>
@@ -293,7 +293,7 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 |  | [38 · Help hub & crew SOS](plans/260926-1718-critterpass-full-build/phase-38-safety-help-sos.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 7/7 |
 | **18** | [37 · Disruptions](plans/260926-1718-critterpass-full-build/phase-37-disruptions.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 11/11 |
 |  | [40 · Critters: hatch, Critterdex, legendaries](plans/260926-1718-critterpass-full-build/phase-40-critters-collect.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 10/11 |
-|  | [55 · Find a driver: ask, capture, compare, pick, private tours](plans/260926-1718-critterpass-full-build/phase-55-find-a-driver.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▱▱ | 10/13 |
+|  | [55 · Find a driver: ask, capture, compare, pick, private tours](plans/260926-1718-critterpass-full-build/phase-55-find-a-driver.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▱▱ | 10/12 |
 | **19** | [41 · Quests, XP, stickers](plans/260926-1718-critterpass-full-build/phase-41-quests-stickers.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 7/7 |
 |  | [43 · Recap, story, awards, stamps](plans/260926-1718-critterpass-full-build/phase-43-recap-stamps-memory.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▰ | 9/9 |
 |  | [48 · Live Activities & Dynamic Island](plans/260926-1718-critterpass-full-build/phase-48-live-activities.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 9/10 |
@@ -306,7 +306,7 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 |  | [52 · Community plans](plans/260926-1718-critterpass-full-build/phase-52-community.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 11/12 |
 | **22** | [53 · Store listing & social kit](plans/260926-1718-critterpass-full-build/phase-53-store-social-assets.md) | ◐ in progress | ▰▰▰▰▰▱▱▱▱▱ | 3/6 |
 |  | [56 · Drivers our crews used: rating, invite, claim, directory](plans/260926-1718-critterpass-full-build/phase-56-crews-drivers-directory.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 8/8 |
-|  | [57 · Share the plan with your driver: page, PDF, quote back](plans/260926-1718-critterpass-full-build/phase-57-share-plan-with-driver.md) | ◐ in progress | ▰▰▰▰▰▰▱▱▱▱ | 4/7 |
+|  | [57 · Share the plan with your driver: page, PDF, quote back](plans/260926-1718-critterpass-full-build/phase-57-share-plan-with-driver.md) | ◐ in progress | ▰▰▰▰▰▰▰▱▱▱ | 5/7 |
 | **23** | [54 · Launch hardening & submission](plans/260926-1718-critterpass-full-build/phase-54-launch-hardening.md) | ◐ in progress | ▰▱▱▱▱▱▱▱▱▱ | 1/12 |
 |  | [59 · Ops console designed pass](plans/260926-1718-critterpass-full-build/phase-59-ops-console-designed-pass.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 9/9 |
 

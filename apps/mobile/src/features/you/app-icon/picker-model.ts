@@ -9,6 +9,7 @@ import {
   APP_ICON_CATALOGUE,
   appIconDenial,
   appIconKey,
+  lapsedAppIconFallback,
   parseAppIconKey,
   type AppIconBaseId,
   type AppIconGate,
@@ -123,4 +124,54 @@ export function iconToRecord(
   // An account that never chose has no copy; the primary icon needs none.
   if (savedKey === null && currentNativeName === null) return null;
   return savedKey === key ? null : { icon_id: parsed.id, appearance: parsed.appearance };
+}
+
+/** Tapping a locked icon: a Pass+ style opens the paywall, an earned one says how it is earned. */
+export function lockedIconAction(choice: IconChoice): 'paywall' | 'how_to_earn' {
+  return choice.gate === 'pass_plus' ? 'paywall' : 'how_to_earn';
+}
+
+/** The synced `user_entitlements` row, as far as icons read it. */
+export interface IconStylesRow {
+  readonly pass_plus: number | null;
+  /** A JSON list; non-empty while every style is open (Pass+ active, or paused). */
+  readonly icon_styles: string | null;
+}
+
+/** Whether Pass+ styles are open: Pass+ is active, or paused (a pause keeps the styles). */
+export function iconStylesOpen(row: IconStylesRow | undefined): boolean {
+  if (row === undefined) return false;
+  if (row.pass_plus === 1) return true;
+  try {
+    const styles: unknown = JSON.parse(row.icon_styles ?? '[]');
+    return Array.isArray(styles) && styles.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+export interface LapsedIconPorts extends ChooseIconPorts {
+  readonly getCurrent: () => Promise<string | null>;
+}
+
+/**
+ * When Pass+ has lapsed and the home screen still shows a Pass+ style, puts the default icon back
+ * and tells the account. Answers whether it switched; a device that refuses is left as it is and
+ * asked again the next time the app comes forward.
+ */
+export async function revertLapsedIcon(
+  stylesOpen: boolean,
+  ports: LapsedIconPorts,
+): Promise<boolean> {
+  if (stylesOpen) return false;
+  try {
+    const key = iconKeyFromNativeName(await ports.getCurrent());
+    const fallback = lapsedAppIconFallback(key, true);
+    if (fallback === null) return false;
+    await ports.setNative(nativeIconName(fallback, 'auto'));
+    await ports.record({ icon_id: fallback, appearance: 'auto' }).catch(() => undefined);
+    return true;
+  } catch {
+    return false;
+  }
 }

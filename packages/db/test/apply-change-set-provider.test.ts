@@ -2,8 +2,12 @@
  * `assign_provider` ops in `app.apply_change_set`: an approved change set sets its driver on the
  * days it names (the voted terms, or his shortlisted terms without any), replaces a driver set on
  * a day meanwhile, skips a pick the reviewer turned off, carries the plan's items over untouched,
- * and refuses a provider that is not a driver of the trip. Members cannot call the writer itself.
+ * and refuses a provider that is not a driver of the trip. Voted terms become the driver's terms
+ * on the comparison; a pick a driver's link proposed is set by the member who made the link (an
+ * organiser when that member is gone). Members cannot call the writer itself.
  */
+import { randomBytes } from 'node:crypto';
+
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../src/tx';
@@ -178,6 +182,89 @@ describe('app.apply_change_set with a driver pick', () => {
       [fx.tripId],
     );
     expect(rows[0]?.current_version_id).toBe(fx.versionId);
+  });
+
+  it("makes the voted terms the driver's terms, and leaves a pick without terms alone", async () => {
+    const fx = await buildPlanFixture(db.pool);
+    const made = await driver(fx.tripId, 'Made');
+    const komang = await driver(fx.tripId, 'Komang');
+    await withSystem(db.pool, async (tx) => {
+      await tx.query(
+        `INSERT INTO provider_terms (provider_id, trip_id, source, price_minor, currency,
+           price_unit, includes, overtime_minor, car)
+         SELECT id, $1, 'found', 65000000, 'IDR', 'day', '{"tolls":"no"}', 7500000, 'Avanza'
+           FROM providers WHERE id = ANY($2::uuid[])`,
+        [fx.tripId, [made, komang]],
+      );
+    });
+    const id = await approvedSet(fx, [
+      pick(made, [day('2027-02-01')], { terms: TERMS }),
+      pick(komang, [day('2027-02-02')]),
+    ]);
+    expect(await apply(fx, id)).not.toBeNull();
+
+    const terms = await withSystem(db.pool, async (tx) => {
+      const { rows } = await tx.query<Record<string, unknown>>(
+        `SELECT provider_id, price_minor::int AS price_minor, currency::text AS currency,
+                price_unit, included_hours::float AS included_hours, includes,
+                overtime_minor::int AS overtime_minor, car
+           FROM provider_terms WHERE trip_id = $1`,
+        [fx.tripId],
+      );
+      return new Map(rows.map((row) => [row.provider_id, row]));
+    });
+    // What the vote did not cover (his car) stays as shortlisted.
+    expect(terms.get(made)).toEqual({ provider_id: made, ...TERMS, car: 'Avanza' });
+    expect(terms.get(komang)).toMatchObject({
+      price_minor: 65000000,
+      includes: { tolls: 'no' },
+      overtime_minor: 7500000,
+    });
+  });
+
+  it("sets a pick a driver's link proposed by the member who made the link", async () => {
+    const fx = await buildPlanFixture(db.pool);
+    const made = await driver(fx.tripId, 'Made');
+    const fromLink = async (createdBy: string | null, date: string): Promise<string> => {
+      const id = await withSystem(db.pool, async (tx) => {
+        const share = await tx.query<{ id: string }>(
+          `INSERT INTO driver_plan_shares (trip_id, provider_id, driver_name, created_by,
+             itinerary_version_id, day_nos, token_hash, token_enc, expires_at, revoked_at)
+           VALUES ($1, $2, 'Made', $3, $4, '{1}', $5, 'sealed', now() + interval '14 days', now())
+           RETURNING id`,
+          [fx.tripId, made, createdBy, fx.versionId, randomBytes(32)],
+        );
+        const base = await tx.query<{ id: string }>(
+          'SELECT current_version_id AS id FROM trips WHERE id = $1',
+          [fx.tripId],
+        );
+        const set = await tx.query<{ id: string }>(
+          `INSERT INTO change_sets (trip_id, base_version_id, trigger, author_kind, author_id, ops)
+           VALUES ($1, $2, 'driver', 'provider', $3, $4) RETURNING id`,
+          [
+            fx.tripId,
+            base.rows[0]?.id,
+            share.rows[0]?.id,
+            JSON.stringify([pick(made, [day(date)], { terms: TERMS })]),
+          ],
+        );
+        const setId = set.rows[0]?.id as string;
+        // The crew's vote passed: no one person approved it.
+        await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [setId]);
+        await tx.query("UPDATE change_sets SET status = 'approved' WHERE id = $1", [setId]);
+        return setId;
+      });
+      expect(await apply(fx, id)).not.toBeNull();
+      return id;
+    };
+
+    const byMember = await fromLink(fx.memberId, '2027-02-01');
+    const orphaned = await fromLink(null, '2027-02-02');
+
+    expect(await assignments(fx.tripId)).toMatchObject([
+      { date: '2027-02-01', change_set_id: byMember, assigned_by: fx.memberId, agreed: TERMS },
+      { date: '2027-02-02', change_set_id: orphaned, assigned_by: fx.organiserId },
+    ]);
   });
 
   it('keeps the writer itself from members', async () => {

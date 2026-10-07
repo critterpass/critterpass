@@ -37,7 +37,7 @@ export interface VendorDouble {
 export function vendorDouble(): VendorDouble {
   const calls: string[] = [];
   const refusing = new Set<string>();
-  const gone = { uploads: 0, exports: 0, traces: false, person: false };
+  const gone = { uploads: 0, exports: 0, quarantined: 0, traces: false, person: false };
   const xml = (body: string) =>
     new Response(body, { headers: { 'content-type': 'application/xml' } });
   const json = (body: string, status = 200) =>
@@ -62,8 +62,14 @@ export function vendorDouble(): VendorDouble {
           xml(fixture(gone.exports >= 1 ? 'r2-list-empty.xml' : 'r2-list-exports.xml')),
         );
       }
+      if (method === 'GET' && prefix?.startsWith('quarantine/u/')) {
+        return Promise.resolve(
+          xml(fixture(gone.quarantined >= 1 ? 'r2-list-empty.xml' : 'r2-list-quarantine.xml')),
+        );
+      }
       if (method === 'DELETE') {
-        if (url.pathname.startsWith('/media/exports/')) gone.exports += 1;
+        if (url.pathname.startsWith('/media/quarantine/')) gone.quarantined += 1;
+        else if (url.pathname.startsWith('/media/exports/')) gone.exports += 1;
         else gone.uploads += 1;
         return Promise.resolve(new Response(null, { status: 204 }));
       }

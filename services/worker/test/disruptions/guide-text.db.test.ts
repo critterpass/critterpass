@@ -159,3 +159,37 @@ describe('disruption and watch words in the reader language', () => {
     );
   });
 });
+
+describe('a row needing a yes', () => {
+  it('pushes its deciders the disruption and the row to approve, beside the poll', async () => {
+    const pollId = randomUUID();
+    await db.pool.query('UPDATE disruptions SET actions = $2 WHERE id = $1', [
+      disruptionId,
+      JSON.stringify([
+        {
+          id: 'retime:dinner',
+          poll: { id: pollId, approve_option_id: randomUUID(), keep_option_id: randomUUID() },
+          affected_user_ids: [organiser],
+          label: 'Move dinner to 20:30',
+        },
+      ]),
+    ]);
+    const needsYes = getRegistration('disruption.needs_yes', 'disruption_update');
+    if (needsYes === undefined) throw new Error('not registered');
+    await withSystem(db.pool, async (tx) => {
+      const asked = routed('disruption.needs_yes', {
+        disruption_id: disruptionId,
+        action_id: pollId,
+        affected: 1,
+      });
+      expect(await needsYes.audience(tx, asked)).toEqual([organiser]);
+      const push = await needsYes.compose(tx, asked, organiser);
+      expect(push?.vars).toMatchObject({ line: 'Move dinner to 20:30' });
+      expect(push?.ctx).toEqual({
+        poll_id: pollId,
+        disruption_id: disruptionId,
+        action_id: 'retime:dinner',
+      });
+    });
+  });
+});
