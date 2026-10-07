@@ -83,6 +83,8 @@ export const setPauseIntentCommand = defineCommand({
   v: 1,
   schema: setPauseIntentPayloadSchema,
   offline: false,
+  // A guest can hold Pass+ (purchases are open to them), so a guest can plan a pause as well.
+  allowAnonymous: true,
   // Self only: the row is found by the caller's own uid.
   authorize: () => Promise.resolve(),
   handle: (tx, payload, ctx) =>
