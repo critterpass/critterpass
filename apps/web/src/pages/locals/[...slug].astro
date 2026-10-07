@@ -1,20 +1,48 @@
 ---
-import Handoff from '../../components/link-handoff/Handoff.astro';
-import { loadHandoff } from '../../lib/links/load-handoff';
+import { env } from 'cloudflare:workers';
 
-// Link handoff page (docs/api-contracts.md §5.6): opens the app when installed, else the store.
+import Handoff from '../../components/link-handoff/Handoff.astro';
+import LocalsLanding from '../../components/previews/LocalsLanding.astro';
+import { fetchPublicLocals, type PublicLocalsOutcome } from '../../lib/api/public-previews';
+import { NOT_FOUND_COPY } from '../../lib/links/handoff-copy';
+import { targetOf } from '../../lib/links/handoff-model';
+import { loadHandoff } from '../../lib/links/load-handoff';
+import { linkRequestContext, type LinksWebEnv } from '../../lib/links/web-env';
+
+// A place's locals (docs/api-contracts.md §5.6): the place, how many critters there are to find
+// and each as an unnamed silhouette, with the way into the app. A place the api does not know
+// answers 404; when the api cannot say, the plain handoff still opens the app.
 export const prerender = false;
 
+const webEnv = env as unknown as LinksWebEnv;
+const target = targetOf(Astro.url);
+const outcome: PublicLocalsOutcome =
+  target?.kind === 'locals'
+    ? await fetchPublicLocals({
+        apiBaseUrl: linkRequestContext(Astro.url, webEnv).apiBaseUrl,
+        target,
+        visitorIp: Astro.request.headers.get('cf-connecting-ip'),
+        visitorUserAgent: Astro.request.headers.get('user-agent'),
+        proxySecret: webEnv.LINKS_WEB_PROXY_SECRET,
+      })
+    : { status: 'gone' };
 const loaded = await loadHandoff(Astro.request, Astro.url);
 if (loaded.kind === 'redirect') return Astro.redirect(loaded.location, 302);
-Astro.response.status = loaded.status;
+const gone = outcome.status === 'gone';
+Astro.response.status = gone ? 404 : loaded.status;
 ---
 
-<Handoff
-  model={loaded.model}
-  copy={loaded.copy}
-  expires={loaded.expires}
-  qrSvg={loaded.qrSvg}
-  appStoreHref={loaded.appStoreHref}
-  playStoreHref={loaded.playStoreHref}
-/>
+{
+  outcome.status === 'found' ? (
+    <LocalsLanding locals={outcome.locals} loaded={loaded} />
+  ) : (
+    <Handoff
+      model={gone ? null : loaded.model}
+      copy={gone ? NOT_FOUND_COPY : loaded.copy}
+      expires={loaded.expires}
+      qrSvg={gone ? null : loaded.qrSvg}
+      appStoreHref={loaded.appStoreHref}
+      playStoreHref={loaded.playStoreHref}
+    />
+  )
+}

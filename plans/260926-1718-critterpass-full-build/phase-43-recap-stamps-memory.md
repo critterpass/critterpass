@@ -174,7 +174,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Recap cards 9:16, receipt, memory-with-signatures via P5 templates. 2. Maestro flows with seeded post-trip fixture.
 - Tests: `pnpm --filter @cp/worker test -- recap/share-render`; `maestro test e2e/recap`
 - Done when: flows pass on iOS and Android; share images byte-stable for fixtures.
-- Status: done in part — d0b6cecfb (share images are drawn on the phone: recap card 67c4b676c, memory card d0b6cecfb, so there is no worker render job; lab-scene flows for the page, story and memory are in `e2e/recap`). Not built: seeded two-device Maestro flows for the MVP vote, signatures and the late-expense re-run (the api and worker database tests cover that behaviour); the recap's shareable link (founder, 7 Oct; product-decisions D35): 5d188416f9 (link table, commands, public projection), fd007b9099 (web page and card), 676fb7b188 (Share a link and Stop sharing behind SHARE RECAP, recap links opened in the app)
+- Status: done in part — d0b6cecfb (share images are drawn on the phone: recap card 67c4b676c, memory card d0b6cecfb, so there is no worker render job; lab-scene flows for the page, story and memory are in `e2e/recap`). Not built: seeded two-device Maestro flows for the MVP vote, signatures and the late-expense re-run (the api and worker database tests cover that behaviour); the recap's shareable link (founder, 7 Oct; product-decisions D36): 5d188416f9 (link table, commands, public projection), fd007b9099 (web page and card), 676fb7b188 (Share a link and Stop sharing behind SHARE RECAP, recap links opened in the app)
 
 ## Phase acceptance criteria
 - [ ] Every recap number comes from code (number guard test passes); route legs from plan + rides only

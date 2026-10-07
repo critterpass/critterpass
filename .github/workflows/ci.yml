@@ -60,12 +60,14 @@ jobs:
       # that were this job's long poles and now have runners of their own: the app's Jest suite
       # (the app tests job) and @cp/db's container suite (a database leg). Turbo has no flag to
       # leave one package's task out, so the tests are named one by one.
+      # At most four tasks at a time: a change to a shared package makes every package affected, and
+      # ten typechecks and lints at once ran this runner out of memory (the job was killed, exit 137).
       - name: Affected packages
         run: |
           set -o pipefail
           tests=$(pnpm turbo run test --affected --filter='!@cp/mobile' --filter='!@cp/db' --dry-run=json |
             jq -r '[.tasks[] | select(.task == "test" and .command != "<NONEXISTENT>") | .taskId] | join(" ")')
-          pnpm turbo run lint typecheck build $tests --affected --continue
+          pnpm turbo run lint typecheck build $tests --affected --continue --concurrency=4
 
   app-tests:
     # The app's Jest suite, split across runners: on one it took 12 to 16 minutes. Turbo still

@@ -23,6 +23,14 @@ msgstr ""
 msgid "web.recap.critters"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageDescription"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.count"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.seatsLeft"
 msgstr "Còn {count} chỗ trong đợt đầu"
@@ -109,6 +117,10 @@ msgstr "{name} đang giữ chỗ cho bạn ở {place}."
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.headline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.photoAlt"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
@@ -435,6 +447,10 @@ msgstr "SẮP RA MẮT"
 msgid "web.comingSoon.hero.badgeSoon"
 msgstr "SẮP RA MẮT · iOS + ANDROID"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.common"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.confirmed"
 msgstr "ĐÃ XÁC NHẬN · ĐỢT ĐẦU"
@@ -563,6 +579,10 @@ msgstr ""
 msgid "web.tips.rssTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openBody"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.hintCrack"
 msgstr "rắc!"
@@ -638,6 +658,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planEditing"
 msgstr "ĐANG SỬA"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.epic"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
@@ -825,6 +849,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.getTheApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -1019,6 +1047,10 @@ msgstr ""
 msgid "web.shell.footerLegal"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.legendary"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbipLicence"
 msgstr ""
@@ -1119,6 +1151,14 @@ msgstr ""
 msgid "web.home.insideMoneyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.listTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.freeDay"
 msgstr ""
@@ -1165,6 +1205,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.openCta"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1285,6 +1329,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.questions"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.rare"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1515,9 +1563,17 @@ msgstr ""
 msgid "web.shell.theLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.eyebrow"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
 msgstr "Thổ địa còn đang xếp vali."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageTitle"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassNextFlight"
@@ -1653,6 +1709,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.unknown"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/pricing.ts

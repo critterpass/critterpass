@@ -636,3 +636,108 @@
   color: var(--color-ink-100);
   line-height: 1.5;
 }
+
+/* A place's locals (`/locals/{slug}`). */
+.pv-locals {
+  overflow: hidden;
+  border-radius: 36px;
+  background-color: var(--color-paper-base);
+  color: var(--color-ink-850);
+}
+.pv-locals__photo {
+  position: relative;
+  margin: 0;
+}
+.pv-locals__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.pv-locals__credit {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  max-width: calc(100% - 24px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-ink-850);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.pv-locals__credit a {
+  color: var(--color-paper-base);
+  text-decoration: none;
+}
+.pv-locals__credit a:hover {
+  text-decoration: underline;
+}
+.pv-locals__text {
+  padding: clamp(24px, 4vw, 40px) clamp(24px, 4vw, 40px) 0;
+}
+.pv-locals__eyebrow {
+  margin-bottom: 12px;
+}
+.pv-locals__headline {
+  font-size: clamp(52px, 7vw, 92px);
+  font-stretch: 66%;
+  line-height: 0.88;
+  overflow-wrap: anywhere;
+}
+.pv-locals .pv-locals__count {
+  margin: 20px 0 0;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-stretch: 78%;
+  line-height: 1.05;
+}
+.pv-locals__body {
+  max-width: 460px;
+  margin: 12px 0 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.pv-locals__found {
+  padding: 28px clamp(24px, 4vw, 40px) clamp(24px, 4vw, 40px);
+}
+.pv-locals .pv-locals__list-title {
+  margin: 0 0 12px;
+}
+.pv-locals__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 12px;
+}
+.pv-local {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 14px 8px 12px;
+  border-radius: var(--radius-lg);
+  background: var(--color-paper-bright);
+}
+.pv-local__tier {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-ink-850);
+  color: var(--color-paper-base);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pv-local__tier--rare {
+  background: var(--color-blue);
+  color: var(--color-ink-850);
+}
+.pv-local__tier--epic {
+  background: var(--color-pink);
+  color: var(--color-ink-850);
+}
+.pv-local__tier--legendary {
+  background: var(--color-yellow);
+  color: var(--color-ink-850);
+}

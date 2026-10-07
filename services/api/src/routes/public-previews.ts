@@ -10,6 +10,8 @@
  *   one whose plan is not published (waiting on consent, declined, taken down), answers 404.
  * - `recap`: a trip recap; `{token}` is a recap link's token. A revoked link, or one whose recap is
  *   not ready, answers 404.
+ *
+ * A place's locals (`GET /v1/public/locals/{slug}`) are in ./public-locals.
  */
 import { createHash } from 'node:crypto';
 
@@ -38,12 +40,15 @@ import {
 } from '../commands/_framework/doors';
 import { seatTokenHash } from '../commands/invites/deps';
 import { enforce, PREVIEW_PER_IP_RULE, visitorOf } from './links';
+import { registerPublicLocalsRoute } from './public-locals';
 import { registerPublicCatalogRoutes } from './public-catalog';
 import { asPublicReader, type PublicScope } from './public-reader';
 
 export interface PublicPreviewRouteDeps extends CommandDoorDeps {
   /** Shared with the web Worker; absent means visitor headers are never trusted. */
   readonly webProxySecret?: string | undefined;
+  /** Where stored media is served from; absent means a place's page carries no photo. */
+  readonly mediaPublicBaseUrl?: string | undefined;
 }
 
 interface ProposalDayRow {
@@ -151,6 +156,8 @@ export function registerPublicPreviewRoutes(
   deps: PublicPreviewRouteDeps,
 ): void {
   registerPublicCatalogRoutes(app, deps);
+  // Before the link kinds below, whose `{kind}` would otherwise claim the address.
+  registerPublicLocalsRoute(app, deps);
   app.openapi(
     route,
     async (c) => {
