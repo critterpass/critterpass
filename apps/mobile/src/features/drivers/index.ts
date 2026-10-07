@@ -4,6 +4,7 @@
  * a change card reads it.
  */
 export { DriverLegCard, type DriverLegCardProps } from './leg-card/DriverLegCard';
+export { DriverConfirmCard } from './replied/driver-confirm-card';
 export { DriverReplyCard } from './replied/driver-reply-card';
 export { withDriverReply } from './replied/driver-reply';
 export { DriverShareSheetView, type DriverShareStatus } from './share/share-sheet-view';
