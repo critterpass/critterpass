@@ -157,7 +157,12 @@ describe('menu reply validation', () => {
 
   it('drops a dish on a line the device never sent', () => {
     const menu = validateMenuReply(reply({ ocr_line_id: 'l99' }), { lines: LINES, crew: CREW });
-    expect(menu).toEqual({ status: 'no_dishes', items: [], suggestion: 'Share a bowl each.' });
+    expect(menu).toEqual({
+      status: 'no_dishes',
+      items: [],
+      suggestion: 'Share a bowl each.',
+      source_language: null,
+    });
   });
 
   it('shows no flag for a member who did not consent, or one the model made up', () => {
