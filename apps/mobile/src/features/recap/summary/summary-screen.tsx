@@ -103,6 +103,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
         onRetry={() => void onRetry()}
         onShare={() => setSharing(true)}
         onWhereNext={() => router.navigate(whereNextHref(data.crewId))}
+        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         onGotAway={formsHref === undefined ? undefined : () => router.push(formsHref)}
         onWatch={model.phase === 'ready' ? () => router.push(recapRoutes.story(tripId)) : undefined}
         onRate={rateHref === undefined ? undefined : () => router.push(rateHref)}

@@ -61,7 +61,10 @@ function Scene({
         onRetry={noop}
         onShare={() => setSharing(true)}
         onWhereNext={noop}
+        onBack={noop}
         onGotAway={noop}
+        onWatch={noop}
+        onRate={noop}
       />
       {sharing ? (
         <RecapShareSheet

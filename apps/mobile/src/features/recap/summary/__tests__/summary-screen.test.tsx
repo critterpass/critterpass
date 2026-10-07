@@ -74,6 +74,7 @@ const visible = (testID: string) => screen.queryByTestId(testID) !== null;
 afterEach(async () => {
   (router.navigate as jest.Mock).mockClear();
   (router.replace as jest.Mock).mockClear();
+  (router.back as jest.Mock).mockClear();
   storySession.reset();
   toastQueue.dismiss();
   await stack?.close();
@@ -182,6 +183,20 @@ describe('recap page', () => {
     await until(() => visible('recap-where-next'));
     await fireEvent.press(screen.getByTestId('recap-where-next'));
     expect(router.navigate).toHaveBeenCalledWith({ pathname: '/', params: { crewId: CREW } });
+  });
+
+  it('goes back to where the traveller came from, or Home when there is nowhere to go back to', async () => {
+    const s = await open();
+    await seedRecap(s, recapRow({ status: 'building' }));
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-back'));
+    await fireEvent.press(screen.getByTestId('recap-back'));
+    expect(router.back).toHaveBeenCalledTimes(1);
+
+    (router.canGoBack as jest.Mock).mockReturnValueOnce(false);
+    await fireEvent.press(screen.getByTestId('recap-back'));
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).toHaveBeenLastCalledWith('/');
   });
 
   it("opens this trip's critter from the forms card, never the whole collection", async () => {
