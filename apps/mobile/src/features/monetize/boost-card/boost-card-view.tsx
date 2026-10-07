@@ -61,17 +61,18 @@ const useStyles = makeStyles((th) => ({
     paddingHorizontal: th.space['10'],
     paddingVertical: th.space['4'],
   },
+  // The share's button hugs its label; the thanks beside it takes the rest of the row.
   action: {
-    flex: 1,
     minHeight: MIN_TOUCH_TARGET,
     borderRadius: sizeToken(th.size.primaryCta, 'radius'),
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: th.space['8'],
+    paddingHorizontal: th.space['16'],
     borderWidth: th.space['2'],
     borderColor: th.color.ink['850'],
   },
   filled: { backgroundColor: th.color.ink['850'] },
+  grow: { flex: 1 },
   quiet: { opacity: 0.6 },
 }));
 
@@ -205,7 +206,11 @@ export function BoostCardView(props: BoostCardViewProps) {
               </View>
             ) : null}
             {model.thanks === 'none' ? null : model.thanks === 'sent' ? (
-              <View style={[styles.action, styles.quiet]} accessible testID="boost-card-thanked">
+              <View
+                style={[styles.action, styles.grow, styles.quiet]}
+                accessible
+                testID="boost-card-thanked"
+              >
                 <Text variant="buttonSm" color={ink} autoFit numberOfLines={1}>
                   {upper(t({ id: 'monetize.card.thanked', message: 'Sent ♥' }), locale)}
                 </Text>
@@ -216,7 +221,7 @@ export function BoostCardView(props: BoostCardViewProps) {
                 accessibilityLabel={t({ id: 'monetize.card.thanks', message: `Thanks ${buyer}` })}
                 disabled={props.thanking === true}
                 onPress={props.onThanks}
-                style={styles.action}
+                style={[styles.action, styles.grow]}
                 testID="boost-card-thanks"
               >
                 <Text variant="buttonSm" color={ink} autoFit numberOfLines={1}>

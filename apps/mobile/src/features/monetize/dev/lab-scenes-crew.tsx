@@ -3,6 +3,7 @@
  * is posted to as the render sets it, and the seventh-seat sheet (4f-1), over fixed rows.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture names, places and ids, never shipped copy. */
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { ScrollView } from 'react-native';
 
@@ -112,7 +113,8 @@ function SeatCap({ price }: { readonly price: boolean }) {
         ways={7}
         onBoost={noop}
         onKeep={noop}
-        onDismiss={noop}
+        // Closing the sheet leaves the scene, so one back returns to the lab's list.
+        onDismiss={() => router.back()}
       />
     </Scaffold>
   );
