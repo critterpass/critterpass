@@ -1,8 +1,9 @@
 /* eslint-disable lingui/no-unlocalized-strings -- CSS variable names, locale tags and separators, not UI copy. */
 /**
  * What an invite preview shows beyond its words: the guide sticker, the crew's member stubs, the
- * trip's dates and per-person estimate as chips, and the live countdown to the code's expiry.
- * Pure functions over the public preview, so the page and its tests agree.
+ * trip's dates and per-person estimate as chips. Pure functions over the public preview, so the
+ * page and its tests agree. Server only: it reads the critter catalogue, which no script sent to
+ * a browser may import (the live countdown lives in ./countdown-label for that reason).
  */
 import { canonicalSeed, critters, isGuideSpec } from '@cp/critter-art';
 import { guideSlug } from '@cp/critter-art/guides';
@@ -97,18 +98,6 @@ export function estimateEach(preview: LinkPreview | null, locale = 'en'): string
     new Intl.NumberFormat(locale, { style: 'currency', currency }).resolvedOptions()
       .maximumFractionDigits ?? 2;
   return format.format(Math.round(minor / 10 ** exponent));
-}
-
-/** "3d 23:12:04" (days only when there are any); null once expired or without an expiry. */
-export function countdownLabel(expiresAt: string | null | undefined, now: number): string | null {
-  if (expiresAt === null || expiresAt === undefined) return null;
-  const left = Math.floor((new Date(expiresAt).getTime() - now) / 1000);
-  if (!(left > 0)) return null;
-  const days = Math.floor(left / 86_400);
-  const clock = [Math.floor((left % 86_400) / 3600), Math.floor((left % 3600) / 60), left % 60]
-    .map((part) => String(part).padStart(2, '0'))
-    .join(':');
-  return days > 0 ? `${days}d ${clock}` : clock;
 }
 
 /** The guide's own name ("Tokek" when the trip has none or one the dex does not know). */

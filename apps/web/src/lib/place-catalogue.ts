@@ -1,8 +1,8 @@
 /**
  * The bundled place list, built from committed data: the critter catalogue (`@cp/critter-art`,
  * generated from design/critters-data.js) and the airports dataset (`@cp/content/airports`,
- * OurAirports). Server and build only: the browser gets the same rows from
- * `/api/waitlist/places.json`, and the join endpoint checks a submitted key against them, so a
+ * OurAirports). Server only, never sent whole: the browser gets the few rows a search finds
+ * (`/api/waitlist/search`), and the join endpoint checks a submitted key against the list, so a
  * destination is always one of these places and never text a visitor typed.
  */
 import { airportDataset } from '@cp/content/airports';
@@ -12,8 +12,8 @@ import { AIRPORT_KEY_PREFIX, guideView, placeView } from './destination-view';
 import type { DestinationView } from './destination-view';
 import { GUIDES } from './guides';
 import { placeName } from './place-names';
-import { compactPlaceText, foldPlaceText } from './place-search';
-import type { PlaceRow } from './place-search';
+import { compactPlaceText, foldPlaceText, indexPlaces, searchPlaces } from './place-search';
+import type { PlaceRow, SearchablePlace } from './place-search';
 import { DESTINATIONS, findDestination } from './waitlist';
 
 function cityId(city: string, country: string): string {
@@ -77,6 +77,18 @@ export function placeRows(locale: string): readonly PlaceRow[] {
     rowsByLocale.set(locale, rows);
   }
   return rows;
+}
+
+const indexByLocale = new Map<string, readonly SearchablePlace[]>();
+
+/** The best few places for what a visitor typed, on a page in `locale`: never more than eight. */
+export function searchCatalogue(query: string, locale: string): PlaceRow[] {
+  let index = indexByLocale.get(locale);
+  if (index === undefined) {
+    index = indexPlaces(placeRows(locale));
+    indexByLocale.set(locale, index);
+  }
+  return searchPlaces(index, query);
 }
 
 /** What `locale` calls the six chips' places, by destination key. */

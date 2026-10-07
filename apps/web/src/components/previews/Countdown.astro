@@ -2,7 +2,7 @@
 /** "Expires in 3d 23:12:04", ticking every second; server-rendered so it reads right without script. */
 import { inviteCopy as copy } from '../site/copy/invite';
 import { siteTranslator } from '../site/i18n';
-import { countdownLabel } from './invite-facts';
+import { countdownLabel } from './countdown-label';
 
 export interface Props {
   readonly expiresAt: string | null | undefined;
@@ -24,7 +24,7 @@ const template = t(copy.expiresIn, { left: '{left}' });
 }
 
 <script>
-  import { countdownLabel } from './invite-facts';
+  import { countdownLabel } from './countdown-label';
 
   for (const element of document.querySelectorAll<HTMLElement>('[data-countdown]')) {
     const expiresAt = element.dataset.countdown ?? null;

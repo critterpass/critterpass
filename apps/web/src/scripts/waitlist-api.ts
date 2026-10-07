@@ -1,5 +1,5 @@
 /* eslint-disable lingui/no-unlocalized-strings -- API paths/HTTP header values, not JSX/UI copy. */
-/** Thin fetch wrappers for the three waitlist endpoints (`src/pages/api/waitlist/**`). */
+/** Thin fetch wrappers for the waitlist endpoints (`src/pages/api/waitlist/**`). */
 import type { DestinationView } from '../lib/destination-view';
 import type { PlaceRow } from '../lib/place-search';
 
@@ -71,10 +71,12 @@ export async function joinWaitlist(input: {
   }
 }
 
-/** The bundled place list, fetched the first time a visitor reaches for the search field. */
-export async function fetchPlaces(): Promise<readonly PlaceRow[] | null> {
+/** The few places the server finds for what a visitor typed; null when it could not answer. */
+export async function searchPlaces(query: string): Promise<readonly PlaceRow[] | null> {
   try {
-    const response = await fetch(`/api/waitlist/places/${encodeURIComponent(pageLanguage())}.json`);
+    const response = await fetch(
+      `/api/waitlist/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(pageLanguage())}`,
+    );
     if (!response.ok) return null;
     return (await response.json()) as PlaceRow[];
   } catch {
