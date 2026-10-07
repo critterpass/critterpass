@@ -28,6 +28,12 @@ describe('decideRateLimit', () => {
     expect(decision.next.count).toBe(RATE_LIMIT_MAX_REQUESTS + 1);
   });
 
+  it('counts against the allowance it is given', () => {
+    const previous = { windowStartMs: 1000, count: RATE_LIMIT_MAX_REQUESTS };
+    expect(decideRateLimit(previous, 1500, RATE_LIMIT_MAX_REQUESTS + 1).limited).toBe(false);
+    expect(decideRateLimit({ ...previous, count: 120 }, 1500, 120).limited).toBe(true);
+  });
+
   it('starts a new window once the previous one has elapsed', () => {
     const previous = { windowStartMs: 1000, count: RATE_LIMIT_MAX_REQUESTS + 10 };
     const decision = decideRateLimit(previous, 1000 + RATE_LIMIT_WINDOW_MS);

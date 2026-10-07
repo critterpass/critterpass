@@ -10,6 +10,7 @@ import type { AnyJobDefinition } from '../../boss';
 import type { MetricsRecorder } from '../../obs/metrics';
 import { billingApplyJob } from './apply';
 import { boostExpireJob, ftfGrantJob, tripChangedJob } from './boost-expire';
+import { registerBoostPush } from './boost-push';
 import { createBillingDoor, type BillingDoor } from './door-client';
 import { intentExpiryJob } from './intent-expiry';
 import { pauseRemindJob, registerPauseReminderPush } from './pause-remind';
@@ -44,6 +45,7 @@ export function billingJobs(
 ): AnyJobDefinition[] {
   const parsed = envSchema.parse(env);
   registerPauseReminderPush();
+  registerBoostPush();
   if (parsed.API_INTERNAL_URL === undefined || parsed.BILLING_INTERNAL_SECRET === undefined) {
     logger.warn('Billing jobs are off: API_INTERNAL_URL or BILLING_INTERNAL_SECRET is unset');
     return [pauseRemindJob()];

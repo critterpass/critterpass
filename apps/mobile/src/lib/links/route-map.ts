@@ -65,6 +65,8 @@ export function routeForTarget(target: LinkTarget, facts: LinkFacts, now: number
     }
     case 'plan_share':
       return href(`/community/link/${encodeURIComponent(target.token)}`, {});
+    case 'recap_share':
+      return href(`/recap-link/${encodeURIComponent(target.token)}`, {});
     case 'plan':
       return href(`/${target.id}/plan`, {});
     case 'guide':

@@ -12,7 +12,13 @@ export type { MediaHttp, PickedPhoto } from './chat/media/media-services';
 export { readUrl, useReadUrl } from './chat/media/read-urls';
 export { uploadAttachment, type UploadInput, type UploadOutcome } from './chat/media/upload';
 export type { ChatMessage } from './chat/data/rows';
-export { registerChatComposerHint } from './chat/slots';
+export { registerChatComposerHint, registerChatHeaderBadge } from './chat/slots';
 export { tidyGuideText } from './chat/components/guide-text';
 export { WaitlistCards } from './waitlist/WaitlistCards';
 export { registerLiveMapPaywall, registerLockScreenStarter } from './live-map/gate-slot';
+export {
+  registerSeatLimitPresenter,
+  type SeatLimitPresenter,
+  type SeatLimitPresenterProps,
+} from './seat-limit/registry';
+export { WaitlistSheet } from './seat-limit/WaitlistSheet';

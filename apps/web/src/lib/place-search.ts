@@ -2,7 +2,10 @@
  * The places a visitor can pick as "where are you headed first" beyond the six chips, and the
  * type-ahead over them. Two bundled lists, no free text: the critter catalogue's cities (each
  * with its local) and the cities of the airports dataset for everywhere else. Pure: the same
- * functions rank results in the browser and are unit-tested in Node.
+ * functions rank results on the server and are unit-tested in Node.
+ *
+ * The lists stay on the server: a catalogue row names the critter of its city, and the open web
+ * gets rows only as the few results of a search (`/api/waitlist/search`), never the whole list.
  */
 
 /**
@@ -37,6 +40,13 @@ export interface SearchablePlace {
 }
 
 export const SEARCH_RESULT_LIMIT = 8;
+/** Shorter queries (after folding) are not searched: one letter would list a slice of the catalogue. */
+export const SEARCH_QUERY_MIN_LENGTH = 2;
+
+/** Whether a typed query is long enough to search. */
+export function isSearchable(rawQuery: string): boolean {
+  return foldPlaceText(rawQuery).length >= SEARCH_QUERY_MIN_LENGTH;
+}
 
 /** Lowercase, diacritics stripped, đ → d, inner whitespace collapsed. */
 export function foldPlaceText(text: string): string {
@@ -101,7 +111,7 @@ export function searchPlaces(
   limit: number = SEARCH_RESULT_LIMIT,
 ): PlaceRow[] {
   const query = foldPlaceText(rawQuery);
-  if (query === '') return [];
+  if (query.length < SEARCH_QUERY_MIN_LENGTH) return [];
   const compactQuery = compactPlaceText(query);
   const hits: { place: SearchablePlace; cls: number }[] = [];
   for (const place of places) {

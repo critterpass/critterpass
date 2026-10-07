@@ -2,7 +2,9 @@
  * One quest card of 3l-7: the library `QuestCard` in the quest's colour with its pips (or faces for
  * an all-hands quest), the reward line and the reward art, which spins onto the card at the shared
  * reveal moment. A finished quest reads DONE, a missed one MISSED and dims; an optional quest
- * offers I'M IN until the traveller joins.
+ * offers I'M IN until the traveller joins. An active phrase quest offers PRACTISE, which opens
+ * phrase practice in the quest's language (an undesigned control, logged in
+ * docs/undesigned-states.md).
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
@@ -147,6 +149,7 @@ export function QuestCardView({
   reveal,
   befriendPlace,
   onSignUp,
+  onPractise,
 }: {
   readonly card: QuestCardModel;
   readonly guide: QuestGuideArt;
@@ -154,6 +157,8 @@ export function QuestCardView({
   /** Where a "befriend" quest can be done, for an active one. */
   readonly befriendPlace?: BefriendPlace | undefined;
   readonly onSignUp: (id: string) => void;
+  /** Opens phrase practice in the given language; absent while practice is not offered. */
+  readonly onPractise?: ((language: string | null) => void) | undefined;
 }) {
   const theme = useTheme();
   const locale = useLocale();
@@ -204,16 +209,23 @@ export function QuestCardView({
     card.befriend !== null && card.state === 'active' && !done && befriendPlace !== undefined ? (
       <BefriendWhere id={card.id} place={befriendPlace} />
     ) : undefined;
+  const practice = card.practice;
+  const practise =
+    practice !== null && card.state === 'active' && !done && onPractise !== undefined ? (
+      <PillButton
+        label={t({ id: 'quests.card.practise', message: 'Practise' })}
+        size="sm"
+        block={false}
+        onPress={() => onPractise(practice.language)}
+        testID={`quest-practise-${card.id}`}
+      />
+    ) : undefined;
+  const parts = [where, practise, join].filter((part) => part !== undefined);
   const footer =
-    where === undefined ? (
-      join
-    ) : join === undefined ? (
-      where
+    parts.length === 0 ? undefined : parts.length === 1 ? (
+      parts[0]
     ) : (
-      <Stack gap="12">
-        {where}
-        {join}
-      </Stack>
+      <Stack gap="12">{parts}</Stack>
     );
   return (
     <View style={card.state === 'missed' ? styles.missed : null}>

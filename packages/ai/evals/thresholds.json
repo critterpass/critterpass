@@ -38,7 +38,8 @@
     "place-compromise": 1,
     "facts-research": 1,
     "fit-check": 1,
-    "provider-extract": 1
+    "provider-extract": 1,
+    "menu": 1
   },
   "live": {
     "chat": 0.9,
@@ -79,7 +80,8 @@
     "place-compromise": 0.85,
     "facts-research": 0.85,
     "fit-check": 0.9,
-    "provider-extract": 0.9
+    "provider-extract": 0.9,
+    "menu": 0.8
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

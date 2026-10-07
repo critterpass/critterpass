@@ -3,9 +3,12 @@
  * `GET /v1/links/settings` answering with fixture bodies (./fixtures and ../links/fixtures), each
  * checked against the shared wire schema at start-up so a contract change fails here first.
  * `GET /v1/public/plan/{token}` answers the published crew plan behind a plan link.
+ * `GET /v1/public/recap/{token}` answers the trip recap behind a recap link.
+ * `GET /v1/public/locals/{slug}` answers a place's locals; its photo is served from `/__media/`,
+ * as the media host would.
  * `GET /v1/catalog/perks` answers the perk catalogue the pricing section is built from.
  * `POST /__revoke/{code}` flips a code to revoked, as the organiser would from the app; for a plan
- * link's token it takes the plan down.
+ * link's token it takes the plan down, and for a recap link's it switches the link off.
  *
  *   tsx tests/site/fake-api.ts <port>
  */
@@ -15,8 +18,10 @@ import { createServer, type ServerResponse } from 'node:http';
 import {
   linkPreviewSchema,
   linkSettingsSchema,
+  publicLocalsSchema,
   publicPerksSchema,
   publicPlanSchema,
+  publicRecapSchema,
   publicProposalSchema,
 } from '@cp/domain';
 
@@ -53,6 +58,25 @@ const PLANS = new Map<string, unknown>(
     publicPlanSchema.parse(fixture('./fixtures/public-plan.json')),
   ]),
 );
+/** Recap link tokens are data keys; the second one is switched off by a test. */
+const RECAPS = new Map<string, unknown>(
+  ['DaLatRecap3Days000Token1', 'DaLatRecap3Days000Token2'].map((token) => [
+    token,
+    publicRecapSchema.parse(fixture('./fixtures/public-recap.json')),
+  ]),
+);
+/** Places by slug: one with a photo, one without. The photo's address is this server's. */
+const LOCALS = new Map<string, unknown>(
+  ['jp-kyoto', 'jp-nara'].map((slug) => {
+    const place = fixture('./fixtures/public-locals.json') as { photo: { url: string } | null };
+    const photo =
+      slug === 'jp-kyoto' && place.photo !== null
+        ? { ...place.photo, url: `http://127.0.0.1:${process.argv[2] ?? '4398'}/__media/kyoto.png` }
+        : null;
+    return [slug, publicLocalsSchema.parse({ ...place, slug, photo })];
+  }),
+);
+const PHOTO = readFileSync(new URL('../../public/apple-touch-icon.png', import.meta.url));
 const PERKS = publicPerksSchema.parse(fixture('./fixtures/catalog-perks.json'));
 const REVOKED = preview('../links/fixtures/preview-revoked-invite.json');
 const NOT_FOUND = fixture('../links/fixtures/error-not-found.json');
@@ -78,7 +102,7 @@ createServer((request, response) => {
   const revoke = /^\/__revoke\/([^/]+)$/.exec(url.pathname);
   if (revoke !== null && request.method === 'POST') {
     const key = decodeURIComponent(revoke[1] ?? '');
-    if (!PLANS.delete(key)) PREVIEWS.set(key, REVOKED);
+    if (!PLANS.delete(key) && !RECAPS.delete(key)) PREVIEWS.set(key, REVOKED);
     return json(response, 200, { ok: true });
   }
   const proposal = /^\/v1\/public\/proposal\/([^/]+)$/.exec(url.pathname);
@@ -90,6 +114,20 @@ createServer((request, response) => {
   if (plan !== null) {
     const found = PLANS.get(decodeURIComponent(plan[1] ?? ''));
     return found === undefined ? json(response, 404, NOT_FOUND) : json(response, 200, found);
+  }
+  const recap = /^\/v1\/public\/recap\/([^/]+)$/.exec(url.pathname);
+  if (recap !== null) {
+    const found = RECAPS.get(decodeURIComponent(recap[1] ?? ''));
+    return found === undefined ? json(response, 404, NOT_FOUND) : json(response, 200, found);
+  }
+  const locals = /^\/v1\/public\/locals\/([^/]+)$/.exec(url.pathname);
+  if (locals !== null) {
+    const found = LOCALS.get(decodeURIComponent(locals[1] ?? ''));
+    return found === undefined ? json(response, 404, NOT_FOUND) : json(response, 200, found);
+  }
+  if (url.pathname === '/__media/kyoto.png') {
+    response.setHeader('content-type', 'image/png');
+    return response.end(PHOTO);
   }
   const match = /^\/v1\/links\/([^/]+)\/preview$/.exec(url.pathname);
   const body = match === null ? undefined : PREVIEWS.get(decodeURIComponent(match[1] ?? ''));

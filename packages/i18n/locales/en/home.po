@@ -121,7 +121,7 @@ msgstr "{name} wants to drop {change}"
 msgid "home.inbox.planChange.askedMove"
 msgstr "{name} wants to move {change}"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.title"
 msgstr "{place} recap"
 
@@ -237,7 +237,7 @@ msgstr "Guides"
 msgid "home.explore.body"
 msgstr "Guides, saved places and offline maps"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.eyebrow"
 msgstr "How'd it go?"
 
@@ -414,7 +414,7 @@ msgstr "Search CritterPass and pick {widget}."
 msgid "home.inbox.planChange.open"
 msgstr "See the change"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.open"
 msgstr "See the recap"
 
@@ -575,13 +575,13 @@ msgstr "They're saving you a spot."
 msgid "home.inbox.closed"
 msgstr "This one has closed."
 
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.today"
+msgstr "Today"
+
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.today"
-msgstr "Today"
-
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
-msgid "home.countdown.today"
 msgstr "Today"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
@@ -596,7 +596,7 @@ msgstr "Touch and hold an empty spot on your home screen."
 msgid "home.widgets.howTo.android.hold"
 msgstr "Touch and hold an empty spot on your home screen."
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.fallback"
 msgstr "Trip"
 

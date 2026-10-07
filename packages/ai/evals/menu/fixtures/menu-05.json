@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "24bb0042-46f9-4297-96c7-8f0c71aa17d4",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Bacalhau à Brás (shredded cod with egg and potato)\",\"description\":\"Shredded salt cod scrambled with egg, onion and thin fried potatoes.\",\"spice\":0,\"flags\":[{\"member\":\"Sam\",\"verdict\":\"ok\",\"reason\":\"no pork\"},{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"contains fish\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Bifana sandwich\",\"description\":\"Thin slices of marinated pork cooked in garlic and served in a bread roll.\",\"spice\":0,\"flags\":[{\"member\":\"Sam\",\"verdict\":\"clash\",\"reason\":\"pork in the sandwich\"},{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"pork in the sandwich\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Pastel de nata (custard tart)\",\"description\":\"Small flaky pastry tart filled with baked egg custard.\",\"spice\":0,\"flags\":[{\"member\":\"Sam\",\"verdict\":\"ok\",\"reason\":\"no pork\"},{\"member\":\"Jordan\",\"verdict\":\"ok\",\"reason\":\"no meat\"}]}],\"suggestion\":\"Sam and Jordan could share the cod dish and the custard tarts, while the pork sandwich suits the meat eaters.\",\"language\":\"pt\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 175,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 282,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

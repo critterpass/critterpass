@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a2d8223f-2b1a-4363-a8e9-d7b02d4e7a39",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Yakitori Assortment\",\"description\":\"Grilled skewers of chicken pieces, cooked over charcoal and lightly seasoned.\",\"spice\":0,\"flags\":[{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"chicken in skewers\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Edamame\",\"description\":\"Steamed young soybeans in the pod, lightly salted.\",\"spice\":0,\"flags\":[{\"member\":\"Jordan\",\"verdict\":\"ok\",\"reason\":\"soybeans only\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Hiyayakko (chilled tofu)\",\"description\":\"Cold silken tofu topped with ginger, scallions and soy sauce.\",\"spice\":0,\"flags\":[{\"member\":\"Jordan\",\"verdict\":\"ok\",\"reason\":\"tofu and soy\"}]}],\"suggestion\":\"Jordan can enjoy the edamame and chilled tofu, while the others share the grilled skewers.\",\"language\":\"ja\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 152,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 215,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

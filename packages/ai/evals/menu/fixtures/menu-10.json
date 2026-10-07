@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "ab976304-4d62-4ee8-80d6-bb6dd1b8e0fe",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Nasi Lemak Ayam\",\"description\":\"Coconut rice with fried chicken, sambal, anchovies, peanuts and egg.\",\"spice\":2,\"flags\":[{\"member\":\"Aisha\",\"verdict\":\"clash\",\"reason\":\"may not be halal\"},{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts included\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Roti Canai\",\"description\":\"Griddled flatbread served with dhal or curry for dipping.\",\"spice\":1,\"flags\":[{\"member\":\"Aisha\",\"verdict\":\"ok\",\"reason\":\"no pork or alcohol\"},{\"member\":\"Alex\",\"verdict\":\"ok\",\"reason\":\"no peanuts\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Char Kuey Teow with lap cheong\",\"description\":\"Stir-fried flat rice noodles with prawns, egg and Chinese sausage.\",\"spice\":1,\"flags\":[{\"member\":\"Aisha\",\"verdict\":\"clash\",\"reason\":\"Chinese sausage pork\"},{\"member\":\"Alex\",\"verdict\":\"ok\",\"reason\":\"no peanuts\"}]}],\"suggestion\":\"Order the roti canai to share and pick noodle or rice dishes to suit everyone.\",\"language\":\"ms\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 168,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 271,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

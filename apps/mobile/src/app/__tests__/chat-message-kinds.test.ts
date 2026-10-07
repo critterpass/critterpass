@@ -12,6 +12,8 @@ jest.mock('@/data/app-session/device-session', () => ({
   sessionHeaders: () => Promise.resolve({}),
 }));
 jest.mock('@/data/powersync/db', () => ({}));
+// The store's SDK is never called here.
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
 jest.mock(
   '@powersync/common',
   () =>
@@ -27,6 +29,7 @@ import { join, resolve } from 'node:path';
 import { chatCard } from '@/features/crew/chat/cards/registry';
 import '@/features/crew/chat/media/register';
 import '@/features/guide/chat/register';
+import '@/features/monetize/register';
 import '@/features/money/chat/register';
 import '@/features/plan/review/register-chat-card';
 import '@/features/proposal/register';
@@ -37,6 +40,7 @@ const CARD_REGISTRATIONS = [
   '@/features/vote/register',
   '@/features/guide/chat/register',
   '@/features/money/chat/register',
+  '@/features/monetize/register',
   '@/features/plan/review/register-chat-card',
   '@/features/proposal/register',
 ];

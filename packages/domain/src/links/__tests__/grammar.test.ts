@@ -57,6 +57,10 @@ const target: fc.Arbitrary<LinkTarget> = fc.oneof(
     kind: fc.constant('plan_share' as const),
     token: fc.string({ unit: fc.constantFrom(...BASE64URL), minLength: 16, maxLength: 64 }),
   }),
+  fc.record({
+    kind: fc.constant('recap_share' as const),
+    token: fc.string({ unit: fc.constantFrom(...BASE64URL), minLength: 16, maxLength: 64 }),
+  }),
   fc.record({ kind: fc.constant('referral' as const), code }),
   fc.record({ kind: fc.constant('plan' as const), id: fc.uuid() }),
   fc.record({ kind: fc.constant('guide' as const), slug }),
@@ -120,6 +124,8 @@ describe('link grammar', () => {
     expect(parseLinkPath('/i/K7M2Q0')).toBeNull();
     expect(parseLinkPath('/i/K7M2QX/not-a-seat')).toBeNull();
     expect(parseLinkPath('/p/short')).toBeNull();
+    expect(parseLinkPath('/rc/short')).toBeNull();
+    expect(parseLinkPath('/rc/K7M2QX')).toBeNull();
     expect(parseLinkPath('/plan/not-a-uuid')).toBeNull();
     expect(parseLinkPath('/g/Has_Upper')).toBeNull();
     expect(parseLinkPath('/locals/a/b')).toBeNull();
@@ -135,6 +141,16 @@ describe('link grammar', () => {
       channel: 'wa',
     });
     expect(parseLink('https://critterpass.app/r/K7M2QX?c=nope')?.channel).toBeNull();
+  });
+
+  it('keeps a recap link apart from a referral code', () => {
+    const shared = 'abcdefghijklmnopqrstuvwx';
+    expect(parseLinkPath(`/rc/${shared}`)).toEqual({ kind: 'recap_share', token: shared });
+    expect(parseLinkPath(`/r/${shared}`)).toBeNull();
+    expect(parseSchemeUrl(`critterpass://rc/${shared}`)).toEqual({
+      kind: 'recap_share',
+      token: shared,
+    });
   });
 
   it('maps in-app scheme routes to the app kind', () => {

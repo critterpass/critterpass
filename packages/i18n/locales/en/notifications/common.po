@@ -23,6 +23,10 @@ msgstr "{asker} asked: {question} Tap an answer, I will count."
 msgid "notifications.changeset.needs_yes.title"
 msgstr "{asker} wants to change the plan"
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.boost_title"
+msgstr "{buyer} boosted {place}"
+
 #: ../domain/src/disruptions/templates.ts
 msgid "notifications.disruption.late_body_waiting"
 msgstr "{count, plural, one {{names} is running {minutes} min late.} other {{names} are running {minutes} min late.}}"
@@ -588,6 +592,10 @@ msgstr "Getting there is not counted. Tap when you are up."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
 msgstr "It's {first} or {second} now. Your vote decides it."
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.boost_body"
+msgstr "It’s on for the whole crew. The details are in the crew chat."
 
 #: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.trip_confirmed.title_no_dates"

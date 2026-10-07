@@ -142,6 +142,15 @@ const CREW = [
 ];
 
 describe('menu reply validation', () => {
+  it("passes on the menu's language only as a language tag", () => {
+    const told = (language: string | null) =>
+      validateMenuReply({ ...reply(), language }, { lines: LINES, crew: CREW }).source_language;
+    expect(told('vi')).toBe('vi');
+    expect(told(' zh-Hant ')).toBe('zh-Hant');
+    expect(told('Vietnamese, mostly')).toBeNull();
+    expect(told(null)).toBeNull();
+  });
+
   it('keeps a dish with its flags and the price printed on its line', () => {
     const menu = validateMenuReply(reply(), { lines: LINES, crew: CREW, currencyHint: 'VND' });
     expect(menu.status).toBe('ok');
@@ -157,7 +166,12 @@ describe('menu reply validation', () => {
 
   it('drops a dish on a line the device never sent', () => {
     const menu = validateMenuReply(reply({ ocr_line_id: 'l99' }), { lines: LINES, crew: CREW });
-    expect(menu).toEqual({ status: 'no_dishes', items: [], suggestion: 'Share a bowl each.' });
+    expect(menu).toEqual({
+      status: 'no_dishes',
+      items: [],
+      suggestion: 'Share a bowl each.',
+      source_language: null,
+    });
   });
 
   it('shows no flag for a member who did not consent, or one the model made up', () => {
@@ -223,6 +237,7 @@ describe('menu request', () => {
       status: 'failed',
       items: [],
       suggestion: null,
+      source_language: null,
     });
   });
 });

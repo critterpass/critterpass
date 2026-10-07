@@ -1,0 +1,60 @@
+---
+/**
+ * The ticket of a trip recap: where and when in the roughest terms, who travelled (first names of
+ * the travellers who have not hidden themselves), the totals, then the places on the trail. Only
+ * what the public recap projection carries: no money, photos, awards or exact dates.
+ */
+import type { PublicRecap } from '@cp/domain';
+
+import { recapCopy as copy } from '../site/copy/recap';
+import { siteTranslator } from '../site/i18n';
+import Sticker from '../site/Sticker.astro';
+import { recapPlaceRows, type RecapWords } from './recap-facts';
+
+export interface Props {
+  readonly recap: PublicRecap;
+  readonly words: RecapWords;
+}
+
+const { recap, words } = Astro.props;
+const t = await siteTranslator();
+const rows = recapPlaceRows(recap);
+---
+
+<section class="pv-ticket site-halftone" aria-labelledby="pv-headline" data-testid="recap-ticket">
+  <Sticker kind="gecko" size={150} class="pv-ticket__guide" />
+  <p class="site-eyebrow pv-ticket__eyebrow">{words.eyebrow}</p>
+  <h1 id="pv-headline" class="site-display pv-ticket__headline pv-ticket__headline--accents">{words.headline}</h1>
+  {
+    words.byline && (
+      <p class="pv-ticket__body" data-testid="recap-byline">
+        {words.byline}
+      </p>
+    )
+  }
+  <ul class="pv-chips" data-testid="recap-chips">
+    {words.chips.map((chip) => <li class="pv-chip">{chip}</li>)}
+  </ul>
+  {
+    rows.length > 0 && (
+      <section class="pv-draft" aria-labelledby="pv-recap-places" data-testid="recap-places">
+        <h2 id="pv-recap-places" class="site-eyebrow pv-draft__title">
+          {t(copy.placesTitle)}
+        </h2>
+        <ol class="pv-draft__days">
+          {rows.map((row) => (
+            <li class="pv-draft__day">
+              <span class={`pv-draft__tile pv-draft__tile--${row.tone}`} aria-hidden="true">
+                <span class="pv-draft__tile-day">{row.no}</span>
+              </span>
+              <span class="pv-draft__text">
+                <span class="site-display pv-draft__name">{row.name}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        {words.morePlaces && <p class="pv-plan__proof">{words.morePlaces}</p>}
+      </section>
+    )
+  }
+</section>

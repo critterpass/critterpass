@@ -224,6 +224,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.shared_plan_copies', ['copied_by', del]),
   ...rules('public.ratings', ['user_id', del]),
   ...rules('public.plan_links', ['created_by', nul]),
+  ...rules('public.recap_links', ['created_by', nul], ['revoked_by', nul]),
   ...rules('public.join_codes', ['created_by', keep('revoked by the purge; the row is history')]),
   ...rules(
     'public.invites',

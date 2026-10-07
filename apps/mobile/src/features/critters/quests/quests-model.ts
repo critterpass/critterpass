@@ -64,6 +64,8 @@ export interface QuestCardModel {
   readonly revealAt: string | null;
   /** A "befriend" quest, with the set it asks for (null = any of the trip's critters). */
   readonly befriend: { readonly set: string | null } | null;
+  /** A phrase quest, with the language it is practised in (null when the quest names none). */
+  readonly practice: { readonly language: string | null } | null;
 }
 
 export type QuestsScreenState = 'loading' | 'before' | 'writing' | 'over' | 'ready';
@@ -208,6 +210,10 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
         befriend:
           row.template === 'befriend'
             ? { set: json<{ set?: string }>(row.params, {}).set ?? null }
+            : null,
+        practice:
+          row.template === 'phrase_practice'
+            ? { language: json<{ language?: string }>(row.params, {}).language ?? null }
             : null,
       };
     });

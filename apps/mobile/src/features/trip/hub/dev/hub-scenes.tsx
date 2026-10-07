@@ -94,6 +94,8 @@ function Hub({
     tz: TZ,
     locale,
     recap: noop,
+    rate: noop,
+    sharePlan: noop,
   });
   const destination = overrides.destination ?? 'Bali';
   const props: HubViewProps = {
@@ -241,6 +243,14 @@ export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
       header={{ phase: 'post', homeSince: '2026-10-19' }}
       briefing={{ kind: 'hidden' }}
       money={{ minor: null, sign: 0 }}
+    />
+  ),
+  '3k-1-post-trip-da-nang': () => (
+    <Hub
+      header={{ phase: 'post', homeSince: '2026-10-04' }}
+      briefing={{ kind: 'hidden' }}
+      money={{ minor: null, sign: 0 }}
+      overrides={DA_NANG}
     />
   ),
   '3k-1-briefing-loading': () => <Hub briefing={{ kind: 'loading' }} />,

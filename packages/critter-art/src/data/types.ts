@@ -108,6 +108,16 @@ export interface Critter {
   readonly kind: string;
 }
 
+/**
+ * A critter as the renderer needs it: its catalogue key, the kind that draws it and its art
+ * parameters. No name, species or city, so a bundle that only draws never carries who a critter is.
+ */
+export interface CritterDrawing {
+  readonly id: string;
+  readonly kind: string;
+  readonly spec: CritterSpec | GuideSpec;
+}
+
 export interface Place {
   readonly code: string;
   readonly name: string;

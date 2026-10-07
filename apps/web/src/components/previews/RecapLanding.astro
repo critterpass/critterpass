@@ -1,0 +1,107 @@
+---
+/**
+ * A trip recap inside the site shell (`/rc/{token}`): the recap's ticket, then "Open in
+ * CritterPass", which opens the recap link in the app (or the store first), with a QR code on
+ * desktop. Rendered per request and never cached, so a link switched off after one visit is gone
+ * on the next.
+ */
+import '../link-handoff/handoff.css';
+import './previews.css';
+
+import type { PublicRecap } from '@cp/domain';
+
+import type { LoadedHandoff } from '../../lib/links/load-handoff';
+import Site from '../../layouts/Site.astro';
+import InAppBrowserEscape from '../link-handoff/InAppBrowserEscape.astro';
+import { inviteCopy } from '../site/copy/invite';
+import { recapCopy as copy } from '../site/copy/recap';
+import { siteTranslator } from '../site/i18n';
+import { recapWords } from './recap-facts';
+import RecapPreview from './RecapPreview.astro';
+import Qr from './Qr.astro';
+
+export interface Props {
+  readonly recap: PublicRecap;
+  /** The recap link's token: the key of its share card. */
+  readonly token: string;
+  /** The handoff to the recap link's screen in the app. */
+  readonly loaded: Extract<LoadedHandoff, { kind: 'page' }>;
+}
+
+const { recap, token, loaded } = Astro.props;
+const { model, qrSvg, install } = loaded;
+const t = await siteTranslator();
+const words = recapWords(recap, t);
+// Android goes through the intent URL and the install referrer; everywhere else the link is copied.
+const copyLink = model !== null && model.platform !== 'android' ? model.canonicalLink : undefined;
+---
+
+<Site
+  title={words.pageTitle}
+  description={words.pageDescription}
+  canonicalPath={null}
+  noindex
+  ogImage={`/og/recap/${token}.png`}
+  tone="ink"
+>
+  <Fragment slot="head">
+    {model?.smartAppBanner && <meta name="apple-itunes-app" content={model.smartAppBanner} />}
+  </Fragment>
+  <section class="pv-page site-halftone--light">
+    <div class="site-wrap pv-grid">
+      <RecapPreview recap={recap} words={words} />
+      <div class="pv-side">
+        <section class="pv-panel" aria-labelledby="pv-recap-open">
+          <h2 id="pv-recap-open" class="site-display pv-plan__title">{t(copy.openTitle)}</h2>
+          <p class="pv-plan__body">{t(copy.openBody)}</p>
+          {qrSvg !== null && <Qr svg={qrSvg} crewName={null} />}
+          <div class="pv-actions">
+            {
+              model !== null && (
+                <a class="site-button pv-actions__open" href={model.openInAppHref} data-copy-link={copyLink} data-testid="open-in-app">
+                  {t(copy.openCta)}
+                </a>
+              )
+            }
+            {
+              install.kind === 'stores' && (
+                <div class="pv-actions__stores">
+                  {install.appStoreHref !== null && (
+                    <a class="pv-store" href={install.appStoreHref} data-copy-link={copyLink} data-testid="app-store">
+                      {t(inviteCopy.appStore)}
+                    </a>
+                  )}
+                  <a class="pv-store" href={install.playStoreHref} data-testid="google-play">
+                    {t(inviteCopy.googlePlay)}
+                  </a>
+                </div>
+              )
+            }
+            {
+              install.kind === 'testflight' && (
+                <a class="pv-store" href={install.href} data-copy-link={copyLink} data-testid="testflight">
+                  {t(inviteCopy.testFlight)}
+                </a>
+              )
+            }
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+  {
+    model?.inAppBrowser && (
+      <InAppBrowserEscape
+        inAppBrowser={model.inAppBrowser}
+        platform={model.platform}
+        link={model.canonicalLink}
+        openInChromeHref={model.openInChromeHref}
+      />
+    )
+  }
+</Site>
+
+<script>
+  import { wireLinkHandoff } from '../link-handoff/CopyOnTap';
+  wireLinkHandoff();
+</script>

@@ -3,7 +3,8 @@ name: web
 # The site (apps/web) end to end: on pull requests that touch it, the whole Playwright suite runs
 # against a local production bundle (link pages, site pages, OG cards, link-preview tags). After
 # every staging deploy (deploy-edge.yml), the link-preview check runs again against
-# staging.critterpass.app. Deploys themselves stay in deploy-edge.yml.
+# staging.critterpass.app, with a check that the deployed site sends its security headers.
+# Deploys themselves stay in deploy-edge.yml.
 on:
   pull_request:
     paths:
@@ -67,7 +68,7 @@ jobs:
           retention-days: 7
 
   unfurl:
-    name: link previews on the deployed site
+    name: link previews and security headers on the deployed site
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
@@ -81,5 +82,5 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      - name: Link previews
+      - name: Link previews and security headers
         run: pnpm --filter @cp/web exec playwright test -c tests/site/unfurl.config.ts

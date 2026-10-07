@@ -1,6 +1,7 @@
 appId: app.critterpass.dev
 ---
-# Every monetization lab scene (apps/mobile/src/features/monetize/dev/lab-scenes.tsx) in en, from
+# The monetization lab scenes (apps/mobile/src/features/monetize/dev/lab-scenes.tsx; the crew's
+# boost card, the seventh-seat sheet and their states are in lab-crew-en.yaml) in en, from
 # the splash of a fresh install: the paywall and its purchase states (4e-1), what is in each plan
 # (4e-2), the welcome (4e-3), Your plan and its states (4d-1), before you go (4d-2), the payment
 # page (4d-3), the boost sheet (4b-3) and the stamp (4b-5). The lab scenes are pure views over

@@ -4,21 +4,31 @@
  * the crew level-up toast, and joining an optional quest.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast, useMotionMode } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { signupQuestCommand } from './commands';
+import { useLiveRows } from './live-rows';
 import { guideOfSlug, QuestsView } from './quests-view';
 import { useBefriendSpot } from './use-befriend-spot';
 import { useQuests } from './use-quests';
 import { useRewardReveal } from './use-reward-reveal';
+
+/* eslint-disable lingui/no-unlocalized-strings -- SQL and a screen registry key, never copy. */
+const PRACTICE_SCREEN = 'guide-practice';
+const PRACTICE_FLAG_SQL =
+  "SELECT value FROM client_config WHERE key = 'guide.quick_actions.practise_phrases'";
+const FLAG_TABLES = ['client_config'] as const;
+const NO_PARAMS: readonly unknown[] = [];
+/* eslint-enable lingui/no-unlocalized-strings */
 
 export function QuestsScreen() {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
@@ -39,6 +49,24 @@ export function QuestsScreen() {
   const guide = guideOfSlug(guideSlug);
   const art = guideSticker(guide);
   const toasted = useRef(new Set<string>());
+  // Phrase practice is offered where the guide's own "Practise phrases" action is.
+  const practiceFlag = useLiveRows<{ value: string | null }>(
+    PRACTICE_FLAG_SQL,
+    NO_PARAMS,
+    FLAG_TABLES,
+  );
+  const practiceOn = practiceFlag.rows.some((row) => row.value === 'true' || row.value === '1');
+  const practiceThere = useScreenHref(PRACTICE_SCREEN) !== undefined;
+  const onPractise =
+    !practiceOn || !practiceThere
+      ? undefined
+      : (language: string | null) => {
+          const href = hrefFor(PRACTICE_SCREEN, {
+            ...(id === null ? {} : { tripId: id }),
+            ...(language === null ? {} : { lang: language }),
+          });
+          if (href !== undefined) router.push(href);
+        };
 
   useEffect(() => {
     const levelUp = reveals.levelUp;
@@ -70,6 +98,7 @@ export function QuestsScreen() {
       reveals={reveals.quests}
       befriendPlace={befriendPlace}
       onSignUp={(questId) => void onSignUp(questId)}
+      onPractise={onPractise}
     />
   );
 }

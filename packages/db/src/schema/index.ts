@@ -223,6 +223,7 @@ export {
   memories,
   memoryReactions,
   recapAwards,
+  recapLinks,
   recapMvpVotes,
   recaps,
   recapViews,

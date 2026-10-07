@@ -3,12 +3,15 @@
  * same words come out as ordered `audio{seq, b64}` events as each piece is synthesised. The turn's
  * `done` waits for the last piece, so the app has every chunk before the stream closes. A failed
  * synthesis ends the audio only: the text keeps streaming and the reply is read instead of heard.
+ * When the guide looks something up before it has said anything, it says one short filler line
+ * first (./filler-lines.ts): spoken only, never part of the reply's text.
  */
 import type { TurnEvent } from '@cp/ai';
 import { metrics } from '@opentelemetry/api';
 import type pg from 'pg';
 
 import { elevenLabsSynthesizer, type Synthesize } from './elevenlabs';
+import { fillerLine } from './filler-lines';
 import { speakReply, type AudioChunk } from './voice-reply';
 
 export interface SpokenTurnOptions {
@@ -83,6 +86,8 @@ export async function* speakTurn(events: Turn, options: SpokenTurnOptions): Turn
 
   let audioStep: Promise<AudioStep> | null = nextAudio();
   let eventStep = events.next();
+  /** The reply has words of its own, or a filler line was said: no filler after either. */
+  let voiced = false;
   try {
     for (;;) {
       const winner = await Promise.race([
@@ -99,7 +104,16 @@ export async function* speakTurn(events: Turn, options: SpokenTurnOptions): Turn
       }
       if (winner.event.done === true) return;
       const event = winner.event.value;
-      if (event.type === 'token') text.push(event.text);
+      if (event.type === 'token') {
+        text.push(event.text);
+        voiced ||= event.text.trim() !== '';
+      } else if (event.type === 'tool_start' && !voiced) {
+        const filler = fillerLine(event.tool, options.language);
+        if (filler !== null) {
+          voiced = true;
+          text.push(`${filler} `);
+        }
+      }
       if (event.type === 'error') abort.abort();
       if (event.type === 'done' || event.type === 'error') {
         text.end();

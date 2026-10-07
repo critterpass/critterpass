@@ -4,7 +4,7 @@ import { useLingui } from '@lingui/react/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import type { PlanModel } from './plan-model';
+import type { BoostLine, PlanModel } from './plan-model';
 
 const LONG_DATE: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
 
@@ -61,5 +61,32 @@ export function usePlanLine(): (plan: PlanModel) => string {
           ? t({ id: 'monetize.plan.line.granted', message: 'Pass+ is on' })
           : t({ id: 'monetize.plan.line.grantedUntil', message: `Pass+ until ${date}` });
     }
+  };
+}
+
+/** A boost row's second line: what it is, its window and, for a split, how much of it is settled. */
+export function useBoostLine(): (boost: BoostLine) => string {
+  const { t } = useLingui();
+  const planDate = usePlanDate();
+  return (boost) => {
+    const until = planDate(boost.endsAt);
+    const kind =
+      boost.source === 'first_trip_free'
+        ? t({ id: 'monetize.plan.boost.ftf', message: 'First trip free' })
+        : boost.source === 'crew_year'
+          ? t({ id: 'monetize.plan.boost.year', message: 'Crew yearly boost' })
+          : t({ id: 'monetize.plan.boost.trip', message: 'Trip Boost' });
+    const window =
+      until === null
+        ? kind
+        : boost.on
+          ? t({ id: 'monetize.plan.boost.onUntil', message: `${kind} · on until ${until}` })
+          : t({ id: 'monetize.plan.boost.ended', message: `${kind} · ended ${until}` });
+    if (boost.settled === null) return window;
+    const { done, of } = boost.settled;
+    return t({
+      id: 'monetize.plan.boost.settled',
+      message: `${window} · ${done} of ${of} settled`,
+    });
   };
 }

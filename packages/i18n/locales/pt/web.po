@@ -19,6 +19,14 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageDescription"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.count"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.seatsLeft"
 msgstr "Restam {count} lugares na primeira leva"
@@ -86,6 +94,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name} está guardando um lugar para você em {place}."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.photoAlt"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passMonthly"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
@@ -211,6 +227,10 @@ msgstr "Uma salamandra de mosaico esperando por você em {place}."
 msgid "web.comingSoon.hatch.local.roucou"
 msgstr "Um pombo de boina esperando por você em {place}."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassPostcard"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
 msgstr ""
@@ -222,6 +242,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
 msgstr "Um rato de metrô esperando por você em {place}."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripBody"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -249,6 +273,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.membersLabel"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePrice"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -309,6 +337,14 @@ msgstr "EMBARQUE EM BREVE"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassMailbox"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.aside"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -374,6 +410,10 @@ msgstr "EM BREVE"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.badgeSoon"
 msgstr "EM BREVE · iOS + ANDROID"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.common"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.confirmed"
@@ -443,6 +483,10 @@ msgstr ""
 msgid "web.plan.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostSeats"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleTop"
 msgstr ""
@@ -475,6 +519,10 @@ msgstr "O CritterPass é um organizador de viagens em grupo que chega em breve a
 msgid "web.home.pageDescription"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageDescription"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.inTesting"
 msgstr "O CritterPass está em testes. Peça a {inviter} o convite do TestFlight e depois entre com este código:"
@@ -485,6 +533,10 @@ msgstr "O CritterPass está em testes. Peça o convite do TestFlight a quem te c
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openBody"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -499,12 +551,12 @@ msgstr "CREEEC!!"
 msgid "web.legal.current"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/plan.ts
-msgid "web.plan.day"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftDay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -563,6 +615,10 @@ msgstr ""
 msgid "web.comingSoon.features.planEditing"
 msgstr "EDITANDO"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.epic"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
 msgstr ""
@@ -583,6 +639,14 @@ msgstr ""
 msgid "web.home.insideLocalBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeCritters"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
 msgstr ""
@@ -590,6 +654,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.referralBody"
 msgstr "Cada amigo que entra pelo seu link faz você subir 100 posições. Com três amigos, você entra na primeira leva."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassIcons"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.title"
@@ -651,6 +719,10 @@ msgstr "PRIMEIRA LEVA · RESTAM {count} LUGARES"
 msgid "web.comingSoon.final.seats"
 msgstr "PRIMEIRA LEVA · {seats} LUGARES"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFlights"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
 msgstr ""
@@ -663,12 +735,32 @@ msgstr ""
 msgid "web.comingSoon.footer.follow"
 msgstr "siga os locais →"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passFor"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardHeadline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.title"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -713,6 +805,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.getTheApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -907,6 +1003,10 @@ msgstr ""
 msgid "web.shell.footerLegal"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.legendary"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbipLicence"
 msgstr ""
@@ -995,8 +1095,24 @@ msgstr ""
 msgid "web.comingSoon.search.empty"
 msgstr "Nenhum lugar com esse nome. Tente escrever de outro jeito."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNoSponsored"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostNoSponsored"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.listTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1005,6 +1121,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeOffline"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -1031,8 +1151,20 @@ msgstr ""
 msgid "web.comingSoon.form.note"
 msgstr "Um e-mail quando lançarmos. Talvez dois. Spam, nunca."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPrice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openCta"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passYearly"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -1067,9 +1199,21 @@ msgstr ""
 msgid "web.referral.coverLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardPass"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.pickPlace"
 msgstr "Escolha um lugar da lista ou limpe a busca."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassReadOut"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.results"
@@ -1107,6 +1251,14 @@ msgstr ""
 msgid "web.tips.category.planning"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPriceNote"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.footnote"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.footer.privacy"
 msgstr "Privacidade"
@@ -1125,6 +1277,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.questions"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.rare"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1255,6 +1411,10 @@ msgstr ""
 msgid "web.home.insideVoteTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.terms"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planRowSunset"
 msgstr "Pôr do sol em Uluwatu"
@@ -1339,13 +1499,29 @@ msgstr ""
 msgid "web.tips.emptyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostLiveMap"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.eyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
 msgstr "Os locais ainda estão fazendo as malas."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNextFlight"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
@@ -1451,6 +1627,10 @@ msgstr "TOTAL"
 msgid "web.plan.travelled"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
 msgstr ""
@@ -1461,6 +1641,22 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.unknown"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostRedrafts"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1483,6 +1679,10 @@ msgstr ""
 msgid "web.home.mockBookingsFlightMeta"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePlan"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.waitlist"
 msgstr "LISTA DE ESPERA · PRIMEIRA LEVA"
@@ -1493,6 +1693,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatVoice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.eyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -1567,6 +1775,10 @@ msgstr "voce@email.com"
 msgid "web.invite.joinEyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.emailLabel"
 msgstr "Seu e-mail"
@@ -1598,3 +1810,7 @@ msgstr "seu local"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"
 msgstr "SEU LUGAR NA FILA"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeKept"
+msgstr ""

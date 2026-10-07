@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "598bbdc7-b902-4e43-9a6a-c8f798fe2f49",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"language\":\"th\",\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Pad Thai tôm tươi\",\"description\":\"Phở xào với tôm tươi, trứng, giá đỗ và nước sốt me, thường có đậu phộng rang rắc lên.\",\"spice\":1,\"flags\":[{\"member\":\"Minh\",\"verdict\":\"clash\",\"reason\":\"đậu phộng rang rắc\"},{\"member\":\"Linh\",\"verdict\":\"clash\",\"reason\":\"tôm trong món\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Som Tam Thái\",\"description\":\"Gỏi đu đủ xanh giã với cà chua, đậu que, nước mắm và ớt, thường có đậu phộng và tôm khô.\",\"spice\":2,\"flags\":[{\"member\":\"Minh\",\"verdict\":\"clash\",\"reason\":\"đậu phộng trong gỏi\"},{\"member\":\"Linh\",\"verdict\":\"clash\",\"reason\":\"tôm khô có thể\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Xôi xoài\",\"description\":\"Xôi nếp dẻo ăn kèm xoài chín và nước cốt dừa chan lên.\",\"spice\":0,\"flags\":[{\"member\":\"Minh\",\"verdict\":\"ok\",\"reason\":\"không có đậu phộng\"},{\"member\":\"Linh\",\"verdict\":\"ok\",\"reason\":\"không có hải sản\"}]}],\"suggestion\":\"Nhóm mình có thể gọi Pad Thái, Som Tam và Xôi xoài để chia nhau, nhưng nhớ dặn bỏ đậu phộng và tôm cho hai bạn dị ứng nhé.\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 165,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 397,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

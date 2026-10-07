@@ -49,6 +49,8 @@ function trackedSourceFiles(): string[] {
     {
       cwd: repoRoot,
       encoding: 'utf8',
+      // The listing has outgrown Node's default megabyte.
+      maxBuffer: 64 * 1024 * 1024,
     },
   );
   return output.split('\n').filter(isCheckedSource);

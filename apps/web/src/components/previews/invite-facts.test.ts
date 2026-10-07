@@ -1,8 +1,8 @@
 import { linkPreviewSchema } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
+import { countdownLabel } from './countdown-label';
 import {
-  countdownLabel,
   draftRows,
   estimateEach,
   guideKind,

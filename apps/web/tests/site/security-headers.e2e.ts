@@ -1,10 +1,13 @@
 import { expect, test } from '@playwright/test';
 
 import { LIVE_TOKEN } from '../driver-plan/fake-driver-plans';
+import { expectSecurityHeaders } from './expect-security-headers';
 import { COMING_SOON_URL } from './playwright.config';
 
 // One address per way a response is produced: prerendered pages and files (served as assets),
-// pages and endpoints the Worker renders, its refusals, and the coming-soon front door.
+// pages and endpoints the Worker renders, its redirects and refusals, partner links, share cards,
+// and the coming-soon front door. The servers are `wrangler dev` on the built Worker and its
+// assets folder, the same pair `wrangler deploy` uploads (playwright.config.ts).
 const RESPONSES = [
   '/',
   '/tips',
@@ -14,6 +17,14 @@ const RESPONSES = [
   '/i/SANDY4',
   '/app/trip/abc/day/2',
   '/og/invite/VANE55.png',
+  '/og/invite/NOCODE.png',
+  '/out/no-such-partner-link',
+  '/zh-hans',
+  '/locals/jp-kyoto',
+  '/locals/no-such-place',
+  '/api/locals/jp-kyoto/photo',
+  '/og/locals/jp-kyoto.png',
+  '/p/NoSuchPlanLinkToken00001',
   '/og/page/pricing.png',
   '/pricing',
   '/.well-known/apple-app-site-association',
@@ -41,7 +52,12 @@ const PAGES = [
   '/r/WYNST8',
   '/w/somefriend',
   '/p/KyotoSlowly4Days0Token01',
+  '/rc/DaLatRecap3Days000Token1',
+  '/rc/NoSuchRecapLinkToken0001',
   '/plan/not-a-trip-id',
+  '/locals/jp-kyoto',
+  '/locals/jp-nara',
+  '/locals/no-such-place',
   '/app/trip/abc/day/2',
   '/d/made-invite01',
   `/t/${LIVE_TOKEN}`,
@@ -54,17 +70,7 @@ const PAGES = [
 test.describe('security headers', () => {
   for (const path of RESPONSES) {
     test(`are sent on ${path}`, async ({ request }) => {
-      const headers = (await request.get(path, { maxRedirects: 0 })).headers();
-      const maxAge = /max-age=(\d+)/u.exec(headers['strict-transport-security'] ?? '');
-      expect(Number(maxAge?.[1])).toBeGreaterThanOrEqual(15_552_000);
-      expect(headers['x-content-type-options']).toBe('nosniff');
-      expect(headers['x-frame-options']).toBe('DENY');
-      expect(headers['referrer-policy']).toBe('strict-origin-when-cross-origin');
-      expect(headers['permissions-policy']).toContain('geolocation=()');
-      const policy = headers['content-security-policy'] ?? '';
-      expect(policy).toContain("default-src 'self'");
-      expect(policy).toContain("frame-ancestors 'none'");
-      expect(policy).not.toContain("'unsafe-eval'");
+      expectSecurityHeaders((await request.get(path, { maxRedirects: 0 })).headers());
     });
   }
 
