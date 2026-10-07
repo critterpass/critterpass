@@ -1159,6 +1159,10 @@ msgstr "Trips with crews"
 msgid "drivers.unread.another"
 msgstr "Try another screenshot"
 
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.askBody"
+msgstr "Turns this into a vote, like any change"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.type"
 msgstr "Type the rest in"
