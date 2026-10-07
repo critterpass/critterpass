@@ -3,13 +3,14 @@
  * Pass+ chip's way to Your plan appear once their screens are registered; Settings, the stamps list and RETAKE are this area's own.
  */
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { createElement, useState } from 'react';
 
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { useMemberFaces } from '../avatar/member-faces';
 import { useOwnerUid } from '../data/live-rows';
 import { YOU_ROUTES } from '../routes';
+import { profileNotice } from './notice-slot';
 import { ProfileView } from './profile-view';
 import { RetakeSheet } from './retake-sheet';
 import { useProfile } from './use-profile';
@@ -31,6 +32,7 @@ export function ProfileScreen({
   readonly from?: 'home' | 'pass';
 }) {
   const { model } = useProfile(now);
+  const Notice = profileNotice();
   const edit = useScreenHref(EDIT_SCREEN);
   const crews = useScreenHref(CREWS_SCREEN);
   const paywall = useScreenHref(PAYWALL_SCREEN, FROM_CHIP);
@@ -45,6 +47,7 @@ export function ProfileScreen({
         model={model}
         from={from}
         photoUri={photoUri}
+        notice={Notice === null ? null : createElement(Notice)}
         faceFor={(member) => faces.faceProps(member, 'sm')}
         onSettings={() => router.push(YOU_ROUTES.settings)}
         onAllStamps={() => router.push(YOU_ROUTES.stamps)}

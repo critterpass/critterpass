@@ -121,15 +121,46 @@ export function catalogueFromRows(
   });
 }
 
+const OWING = `FROM expenses e JOIN expense_shares s ON s.expense_id = e.id
+  WHERE e.boost_id = b.id AND e.deleted_at IS NULL AND s.user_id <> b.buyer_id
+    AND s.computed_minor > 0`;
+/** What a member is owed minus what they owe on the trip, a marked-paid payment counted as made. */
+const NET = `(SELECT coalesce(sum(CASE WHEN l.creditor_id = s.user_id THEN l.amount_minor
+        ELSE -l.amount_minor END), 0) FROM ledger_entries l
+      WHERE l.trip_id = b.trip_id AND l.currency = e.crew_currency
+        AND (l.creditor_id = s.user_id OR l.debtor_id = s.user_id))
+    + (SELECT coalesce(sum(CASE WHEN p.from_id = s.user_id THEN p.amount_minor
+        ELSE -p.amount_minor END), 0) FROM payments p
+      WHERE p.trip_id = b.trip_id AND p.status = 'marked_paid' AND p.currency = e.crew_currency
+        AND (p.from_id = s.user_id OR p.to_id = s.user_id))`;
+/**
+ * `owing`: crewmates with a share of the split. `settled`: those whose IOU for it is in the ledger
+ * and who owe nothing on the trip any more (balances are netted, so a payment is never tied to
+ * one expense; the crew's boost card counts the same way).
+ */
 export const BOOSTS_SQL = `SELECT b.id, b.trip_id, b.source, b.status, b.ends_at, b.buyer_id,
-    b.split_mode, d.name AS destination, c.name AS crew
+    b.split_mode, d.name AS destination, c.name AS crew,
+    (SELECT count(*) ${OWING}) AS owing,
+    (SELECT count(*) ${OWING}
+      AND EXISTS (SELECT 1 FROM ledger_entries i WHERE i.source_kind = 'boost_iou'
+        AND i.source_id = e.id AND i.debtor_id = s.user_id AND i.creditor_id = b.buyer_id)
+      AND ${NET} >= 0) AS settled
   FROM trip_boosts b
   LEFT JOIN trips t ON t.id = b.trip_id
   LEFT JOIN destinations d ON d.id = t.destination_id
   LEFT JOIN crews c ON c.id = b.crew_id
   WHERE b.status IN ('scheduled', 'active', 'ended')
   ORDER BY b.created_at DESC LIMIT 20`;
-export const BOOSTS_TABLES = ['trip_boosts', 'trips', 'destinations', 'crews'];
+export const BOOSTS_TABLES = [
+  'trip_boosts',
+  'trips',
+  'destinations',
+  'crews',
+  'expenses',
+  'expense_shares',
+  'ledger_entries',
+  'payments',
+];
 
 export interface BoostRow {
   readonly id: string;
@@ -141,6 +172,8 @@ export interface BoostRow {
   readonly split_mode: string | null;
   readonly destination: string | null;
   readonly crew: string | null;
+  readonly owing: number | null;
+  readonly settled: number | null;
 }
 
 export const TRIP_SQL = `SELECT t.id, t.crew_id, t.status, t.start_date, t.end_date, t.is_solo,

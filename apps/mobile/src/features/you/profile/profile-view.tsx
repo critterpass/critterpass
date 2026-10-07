@@ -5,6 +5,7 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { PrivateContent } from '@/features/help';
@@ -48,6 +49,8 @@ export interface ProfileViewProps {
   readonly faceFor?: (uid: string) => FaceProps;
   readonly onOpenCrew?: (crewId: string) => void;
   readonly onStartCrew?: () => void;
+  /** A notice above the profile (a failed Pass+ renewal); draws nothing when there is none. */
+  readonly notice?: ReactNode;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -120,6 +123,7 @@ export function ProfileView(props: ProfileViewProps) {
     <Scaffold variant="dark" edges={['top']} testID="you-profile">
       <ScrollView contentContainerStyle={styles.content}>
         {header}
+        {props.notice}
 
         <Row gap="14">
           <ProfileFace

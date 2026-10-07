@@ -8,7 +8,7 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useContext } from 'react';
+import { createElement, useContext } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { LocalFirstContext, useLocalFirst } from '@/data/powersync/local-first-context';
@@ -40,7 +40,7 @@ import { useRecordAppOpen } from './nudge/use-record-app-open';
 import { NextUpCard } from './next-up-card';
 import { OfflineLineRow } from './offline-line';
 import { HOME_ROUTES } from './routes';
-import { homeVoteSlot } from './slots';
+import { homeNotice, homeVoteSlot } from './slots';
 import { TipStrip } from './tip-strip';
 import { InTripCard, NoTripCard, PostTripCard } from './trip-state-cards';
 
@@ -113,6 +113,7 @@ function CrewHome({ view }: { readonly view: HomeView }) {
   const { home, crew, tip } = view;
   const localFirst = useLocalFirst();
   const openTrip = useOpenTrip(view.uid, crew?.id ?? null);
+  const Notice = homeNotice();
   if (crew === null) return null;
   // A trip still choosing its place has nothing to count down to: its vote, drawn below, is the
   // crew's next thing, so the card doesn't repeat it as "Your next trip".
@@ -129,6 +130,8 @@ function CrewHome({ view }: { readonly view: HomeView }) {
     (home.mode === 'everyday' || home.mode === 'no_trip' || home.mode === 'post_trip');
   return (
     <Stack gap="20" testID={`home-mode-${home.mode}`}>
+      {/* A failed Pass+ renewal: says whether Pass+ is still on, and opens the page that fixes it. */}
+      {Notice === null ? null : createElement(Notice)}
       {/* Not on the crew's locked-in trip: the way on, or their place in line for a seat. */}
       {openTrip === null ? null : <JoinTripCard trip={openTrip} crewName={crew.name} />}
       <WaitlistCards

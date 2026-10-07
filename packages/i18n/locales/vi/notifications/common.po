@@ -23,6 +23,10 @@ msgstr "{asker} hỏi: {question} Chạm để trả lời, mình sẽ đếm ph
 msgid "notifications.changeset.needs_yes.title"
 msgstr "{asker} muốn đổi kế hoạch"
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.boost_title"
+msgstr ""
+
 #: ../domain/src/disruptions/templates.ts
 msgid "notifications.disruption.late_body_waiting"
 msgstr "{count, plural, other {{names} đang trễ {minutes} phút.}}"
@@ -588,6 +592,10 @@ msgstr "Chưa tính thời gian đi tới đó. Dậy rồi thì chạm nhé."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
 msgstr "Giờ là {first} hoặc {second}. Phiếu của bạn quyết định."
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.boost_body"
+msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.trip_confirmed.title_no_dates"

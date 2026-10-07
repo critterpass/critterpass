@@ -1,6 +1,6 @@
 /**
- * Home's slots: the vote board and whose turn it is on a trip, each filled by the feature that
- * owns the rows behind it.
+ * Home's slots: the vote board, whose turn it is on a trip and a notice above the crew's cards (a
+ * failed Pass+ renewal), each filled by the feature that owns the rows behind it.
  *
  * The vote slot: the destination poll feature registers the hook that reads its open poll for a
  * crew and the component that draws it (the board, or the final split card), and Home places them
@@ -103,4 +103,18 @@ const LOCKED_IN: ReadonlySet<string> = new Set([
 
 export function tripIsLockedIn(status: string): boolean {
   return LOCKED_IN.has(status);
+}
+
+let notice: ComponentType | null = null;
+
+/** A notice at the top of Home; the component draws nothing when it has nothing to say. */
+export function registerHomeNotice(component: ComponentType): () => void {
+  notice = component;
+  return () => {
+    if (notice === component) notice = null;
+  };
+}
+
+export function homeNotice(): ComponentType | null {
+  return notice;
 }

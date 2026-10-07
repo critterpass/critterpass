@@ -39,6 +39,7 @@ const BOOSTS: readonly BoostLine[] = [
     source: 'purchase',
     on: true,
     endsAt: '2027-04-16T00:00:00Z',
+    settled: { done: 2, of: 5 },
   },
   {
     id: 'b2',
@@ -48,6 +49,7 @@ const BOOSTS: readonly BoostLine[] = [
     source: 'first_trip_free',
     on: false,
     endsAt: '2026-10-26T00:00:00Z',
+    settled: null,
   },
 ];
 
@@ -114,6 +116,20 @@ export const PLAN_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '4d-1-ending': () => Plan({ subscriptions: [sub({ status: 'cancelled_active' })] }),
   '4d-1-grace': () =>
     Plan({ subscriptions: [sub({ status: 'grace', graceEndsAt: '2026-11-09T00:00:00Z' })] }),
+  '4d-1-paused-until': () =>
+    Plan({
+      subscriptions: [
+        sub({
+          status: 'expired',
+          productKey: 'pass_monthly',
+          autoRenew: false,
+          resumeAt: '2027-03-02T00:00:00Z',
+        }),
+      ],
+      passPlus: false,
+      passPlusUntil: null,
+      now: new Date('2027-02-01T00:00:00Z'),
+    }),
   '4d-1-gift': () => Plan({ subscriptions: [], passPlusUntil: '2027-02-01T00:00:00Z' }),
   '4d-1-other-store': () => Plan({ subscriptions: [sub({ platform: 'app_store' })] }),
   '4d-2-monthly': () => Cancel({ subscriptions: [sub({ productKey: 'pass_monthly' })] }),

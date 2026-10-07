@@ -32,5 +32,7 @@ export const BILLING_STATE_REASONS = [
   'rebind_used',
   /** The member already thanked the buyer. */
   'already_thanked',
+  /** The boost is not on (ended, moved or taken back), so there is no card to post. */
+  'boost_not_live',
 ] as const;
 export type BillingStateReason = (typeof BILLING_STATE_REASONS)[number];

@@ -5,6 +5,7 @@
  */
 import { plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
+import { createElement } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { Icon } from '@/ui/icons/Icon';
@@ -15,7 +16,7 @@ import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles, MIN_TOUCH_TARGET } from '@/ui/theme';
 
 import { crewSettingsRoute } from '../../crews-sheet/routes';
-import { chatMapTarget } from '../slots';
+import { chatHeaderBadge, chatMapTarget } from '../slots';
 
 export function peopleLine(count: number, guideName: string | null): string {
   const people = t({
@@ -60,6 +61,7 @@ export function ChatHeader({
   const styles = useStyles();
   const theme = useTheme();
   const map = chatMapTarget();
+  const Badge = chatHeaderBadge();
   useBackAffordance();
   const title = crewName ?? t({ id: 'chat.header.fallbackTitle', message: 'Crew chat' });
   return (
@@ -96,6 +98,7 @@ export function ChatHeader({
           ) : null}
         </Stack>
       </Pressable>
+      {Badge === null ? null : createElement(Badge, { crewId })}
       {map === null ? null : (
         <View>
           <HeaderPill
