@@ -2,11 +2,13 @@
  * The account area's jobs besides the database purge, wired from the worker's environment:
  * `export.build` and the hourly `export.expire`, both against the media bucket (no bucket
  * configured: a build fails cleanly and the person can ask again), the "your data is ready" push,
- * the purge of what an account left outside Postgres, and the daily purge reminder.
+ * the purge of what an account left outside Postgres, and the daily purge reminder. The earned
+ * app icons register here too: they are part of the same account, opened by `reward.fanout`.
  */
 import { LANGFUSE_DEFAULT_HOST } from '@cp/ai';
 
 import type { AnyJobDefinition } from '../../boss/define-job';
+import { registerAppIconUnlocks } from '../app-icons/unlock';
 import { createAvatarMediaStore } from '../avatar/media-store';
 import { exportBuildJob, exportExpireJob } from './export-build';
 import { registerExportReadyPush } from './export-notify';
@@ -77,6 +79,7 @@ export function accountExportJobs(
         })
       : null;
   registerExportReadyPush();
+  registerAppIconUnlocks();
   return [
     exportBuildJob(store),
     exportExpireJob(store),

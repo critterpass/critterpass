@@ -2,27 +2,35 @@
  * The app icon picker over this device and account: what the home screen shows comes from the
  * device, which earned icons are open from the synced unlocks. Choosing switches the device and
  * then tells the account; when the two disagree on opening (a switch made offline, a reinstall)
- * the account's copy is sent again.
+ * the account's copy is sent again. A Pass+ style without Pass+ opens the paywall, and one left
+ * showing after Pass+ ended goes back to the default.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and command names, never copy. */
-import type { AppIconBaseId, SetAppIconPayload } from '@cp/domain';
+import type { AppIconBaseId } from '@cp/domain';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { bundledAppIconKeys, nativeIconName } from '@/lib/app-icon';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { setAppIconCommand } from './app-icon-command';
 import { APP_ICON_PREVIEWS } from './app-icon-previews';
 import { AppIconView, type AppIconProblem } from './app-icon-view';
 import { deviceAppIcon, type AppIconDevice } from './device';
-import { chooseIcon, iconToRecord, pickerModel, type IconChoice } from './picker-model';
+import { AppIconLapseRevert, ICON_STYLES_SQL, ICON_STYLES_TABLES } from './lapse-revert';
+import {
+  chooseIcon,
+  iconStylesOpen,
+  iconToRecord,
+  lockedIconAction,
+  pickerModel,
+  type IconChoice,
+  type IconStylesRow,
+} from './picker-model';
 
-export const setAppIconCommand = defineClientCommand<SetAppIconPayload>({
-  name: 'set_app_icon',
-  offline: false,
-});
+export { setAppIconCommand };
 
 const UNLOCKS_SQL = 'SELECT icon_key, seen_at FROM app_icon_unlocks WHERE user_id = ?';
 const UNLOCKS_TABLES = ['app_icon_unlocks'];
@@ -39,6 +47,7 @@ export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: Ap
     UNLOCKS_TABLES,
   ).rows;
   const saved = useLiveRows<{ app_icon: string | null }>(SAVED_SQL, params, SAVED_TABLES);
+  const styles = useLiveRows<IconStylesRow>(ICON_STYLES_SQL, params, ICON_STYLES_TABLES).rows;
   const record = useCommand(setAppIconCommand);
   // `undefined` until the device has answered.
   const [current, setCurrent] = useState<string | null | undefined>(undefined);
@@ -71,13 +80,18 @@ export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: Ap
     previewed: PREVIEWED,
     currentNativeName: current ?? null,
     unlocks: unlocks.map((row) => ({ iconKey: row.icon_key, seen: row.seen_at !== null })),
-    // No Pass+ style is bundled, so none is offered and none needs the entitlement here.
-    passPlus: false,
+    passPlus: iconStylesOpen(styles[0]),
   });
 
   const choose = async (choice: IconChoice) => {
     setProblem(null);
     if (choice.state === 'locked') {
+      if (lockedIconAction(choice) === 'paywall') {
+        // An explicit ask, like the plan page's own link: it never counts as an unasked paywall.
+        const paywall = hrefFor('4e-1', { entry: 'plan_page' });
+        if (paywall !== undefined) router.push(paywall);
+        return;
+      }
       setProblem({ locked: choice.id });
       return;
     }
@@ -95,12 +109,15 @@ export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: Ap
   };
 
   return (
-    <AppIconView
-      model={model}
-      switching={switching}
-      problem={problem}
-      onChoose={(choice) => void choose(choice)}
-      onBack={() => router.back()}
-    />
+    <>
+      <AppIconLapseRevert device={device} />
+      <AppIconView
+        model={model}
+        switching={switching}
+        problem={problem}
+        onChoose={(choice) => void choose(choice)}
+        onBack={() => router.back()}
+      />
+    </>
   );
 }

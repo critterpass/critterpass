@@ -843,6 +843,10 @@ msgstr "Pass"
 msgid "you.appIcon.passPlus"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/lapse-revert.tsx
+msgid "you.appIcon.lapsed"
+msgstr "Pass+ đã hết hạn nên biểu tượng ứng dụng trở về Passport."
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.billedPlay"
 msgstr "Pass+ được tính tiền qua Google Play. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
