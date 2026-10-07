@@ -246,7 +246,7 @@ describe('POST /v1/camera/menu', () => {
   it('refuses a scan with no lines', async () => {
     const me = await harness.signInAnonymously();
     const response = await scan(me.cookie, { trip_id: null, ocr_lines: [] });
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(422);
     expect(((await response.json()) as { error: { code: string } }).error.code).toBe('VALIDATION');
   });
 });
