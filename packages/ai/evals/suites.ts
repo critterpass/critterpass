@@ -41,6 +41,7 @@ export const SUITES = [
   'place-compromise',
   'facts-research',
   'fit-check',
+  'menu',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -89,6 +90,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/place-compromise\//u, ['place-compromise']],
   [/^packages\/ai\/(src\/routes|evals)\/facts-research\//u, ['facts-research']],
   [/^packages\/ai\/evals\/fit-check\//u, ['fit-check']],
+  [/^packages\/ai\/(src\/routes\/camera|evals\/menu)\//u, ['menu']],
   [/^packages\/domain\/src\/safety\//u, ['help', 'sos']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],

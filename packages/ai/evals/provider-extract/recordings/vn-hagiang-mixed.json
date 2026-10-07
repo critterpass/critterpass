@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1081,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "bdfe782a-f0e9-43f5-9dd1-e721fd93a104",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Tuấn\",\"quote\":\"anh Tuấn\"},\"phone\":{\"value\":\"0912 000 028\",\"quote\":\"Zalo 0912 000 028\"},\"area\":{\"value\":\"Hà Giang\",\"quote\":\"Hà Giang loop\"},\"languages\":{\"value\":[\"en\"],\"quote\":\"Nói tiếng Anh tốt\"},\"car\":{\"value\":\"xe máy\",\"seats\":null,\"quote\":\"chạy xe máy chở khách\"},\"price\":{\"amount\":3500000,\"currency\":\"VND\",\"unit\":\"trip\",\"hours\":null,\"quote\":\"3.500.000đ/người\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"bao xăng, ăn ở homestay, vé tham quan không bao gồm\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 253,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 213,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

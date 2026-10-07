@@ -970,6 +970,30 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // Tracker issues still to redact for an erased account: server-only, like media_objects.
+  feedback_tracker_redactions: {
+    selectProbe: { sql: 'SELECT 1 FROM feedback_tracker_redactions LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  // Which closed accounts were sent their purge reminder: server-only.
+  account_purge_reminders: {
+    selectProbe: { sql: 'SELECT 1 FROM account_purge_reminders LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   // Self-reported past trips: RLS class O, written by their owner.
   past_trips: {
     selectProbe: {

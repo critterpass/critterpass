@@ -1,0 +1,19 @@
+{
+  "kind": "locals",
+  "slug": "jp-kyoto",
+  "name": "Kyoto",
+  "area": "Japan",
+  "photo": {
+    "url": "https://media.example.test/c/media/hero/1280.webp",
+    "width": 1280,
+    "height": 853,
+    "credit": "Aiko T. · CC BY-SA 4.0 · Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Kyoto.jpg"
+  },
+  "count": 3,
+  "critters": [
+    { "rarity": "legendary", "silhouette": "sit" },
+    { "rarity": "rare", "silhouette": "bird" },
+    { "rarity": "common", "silhouette": "sit" }
+  ]
+}

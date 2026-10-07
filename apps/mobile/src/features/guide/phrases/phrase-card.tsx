@@ -4,7 +4,8 @@
  * the phone), else the phone's own voice, labelled as such. A build without on-device speech has
  * no play button for a card without audio, and says so when the audio can't be reached. Tapping
  * the card opens SHOW mode: the phrase full screen in large type for the driver or the person at
- * the counter.
+ * the counter. A card mounted with `practise` also offers "Practise saying it", which opens phrase
+ * practice on this phrase (an undesigned link, logged in docs/undesigned-states.md).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -12,7 +13,10 @@ import { router, type Href } from 'expo-router';
 import { Pressable } from 'react-native';
 
 import { Stack, Text, useTheme } from '@/ui';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { PhraseCard as PhraseCardSurface } from '@/ui/trip/PhraseCard';
+
+import { usePractiseHref, type PractiseFrom } from './practise-link';
 
 import { usePhrasePlayer, type PhrasePlayerState } from './use-phrase-player';
 import { usePhraseSpeech } from './use-phrase-speech';
@@ -27,14 +31,32 @@ export interface PhraseCardProps {
   /** Recorded audio, when it is ready; without it the card is shown, not played. */
   readonly audioKey?: string | null;
   readonly tone?: 'paper' | 'raised';
+  /** Offers practising this phrase out loud (never on the practice screen's own card). */
+  readonly practise?: PractiseFrom;
   readonly testID?: string;
 }
 
-export function showModeHref(phrase: string, lang: string, gloss: string): Href {
-  return { pathname: '/guide/phrase', params: { phrase, lang, gloss } };
+export function showModeHref(
+  phrase: string,
+  lang: string,
+  gloss: string,
+  practise?: PractiseFrom,
+): Href {
+  return {
+    pathname: '/guide/phrase',
+    params: {
+      phrase,
+      lang,
+      gloss,
+      ...(practise === undefined ? {} : { practise: '1' }),
+      ...(typeof practise?.tripId === 'string' ? { tripId: practise.tripId } : {}),
+    },
+  };
 }
 
 export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey'> {
+  /** Opens phrase practice on this phrase; absent when practice is not offered here. */
+  readonly onPractise?: (() => void) | undefined;
   readonly playerState: PhrasePlayerState;
   /** Absent when there is nothing to play (no audio and no on-device speech). */
   readonly onPlay?: () => void;
@@ -52,6 +74,8 @@ export function PhraseCardView({
   playerState,
   onPlay,
   deviceVoice = false,
+  practise,
+  onPractise,
 }: PhraseCardViewProps) {
   const { t } = useLingui();
   const theme = useTheme();
@@ -63,7 +87,7 @@ export function PhraseCardView({
           id: 'guide.phrase.showHint',
           message: 'Opens the phrase full screen to show',
         })}
-        onPress={() => router.push(showModeHref(phrase, lang, gloss))}
+        onPress={() => router.push(showModeHref(phrase, lang, gloss, practise))}
       >
         <PhraseCardSurface
           phrase={phrase}
@@ -100,11 +124,20 @@ export function PhraseCardView({
           })}
         </Text>
       ) : null}
+      {onPractise === undefined ? null : (
+        <TextLink
+          label={t({ id: 'guide.phrase.practise', message: 'Practise saying it' })}
+          onPress={onPractise}
+          testID={`${testID}-practise`}
+        />
+      )}
     </Stack>
   );
 }
 
 export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
+  const practice = usePractiseHref(props.practise, props.lang, props.phrase);
+  const onPractise = practice === undefined ? undefined : () => router.push(practice);
   const player = usePhrasePlayer(audioKey);
   const speech = usePhraseSpeech(props.phrase, props.lang);
   // No recorded audio, or none that can be reached: the phone reads it in its own voice.
@@ -114,6 +147,7 @@ export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
       <PhraseCardView
         {...props}
         playerState={speech.speaking ? 'playing' : 'idle'}
+        onPractise={onPractise}
         deviceVoice
         onPlay={speech.speak}
       />
@@ -123,6 +157,7 @@ export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
     <PhraseCardView
       {...props}
       playerState={player.state}
+      onPractise={onPractise}
       {...(audioKey === null ? {} : { onPlay: () => void player.toggle() })}
     />
   );

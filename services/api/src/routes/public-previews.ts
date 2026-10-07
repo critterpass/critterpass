@@ -8,6 +8,8 @@
  *   personal invite's seat token. A code or seat that is not live answers 404.
  * - `plan`: a published crew plan; `{token}` is an unlisted plan link's token. A revoked link, or
  *   one whose plan is not published (waiting on consent, declined, taken down), answers 404.
+ *
+ * A place's locals (`GET /v1/public/locals/{slug}`) are in ./public-locals.
  */
 import { createHash } from 'node:crypto';
 
@@ -34,51 +36,15 @@ import {
 } from '../commands/_framework/doors';
 import { seatTokenHash } from '../commands/invites/deps';
 import { enforce, PREVIEW_PER_IP_RULE, visitorOf } from './links';
+import { registerPublicLocalsRoute } from './public-locals';
+import { registerPublicCatalogRoutes } from './public-catalog';
+import { asPublicReader, type PublicScope } from './public-reader';
 
 export interface PublicPreviewRouteDeps extends CommandDoorDeps {
   /** Shared with the web Worker; absent means visitor headers are never trusted. */
   readonly webProxySecret?: string | undefined;
-}
-
-/** The link a public read is scoped to; every other setting stays unset. */
-interface PublicScope {
-  readonly code?: string | null;
-  readonly seatHash?: string | null;
-  /** sha-256 hex of a plan link's token. */
-  readonly planHash?: string | null;
-}
-
-const STATEMENT_TIMEOUT_MS = 5_000;
-
-/** Runs `fn` as `public_reader` with only this link's settings. */
-async function asPublicReader<T>(
-  pool: pg.Pool,
-  scope: PublicScope,
-  fn: (tx: pg.PoolClient) => Promise<T>,
-): Promise<T> {
-  const client = await pool.connect();
-  let failure: unknown;
-  try {
-    await client.query('BEGIN');
-    try {
-      await client.query(`SET LOCAL statement_timeout = ${STATEMENT_TIMEOUT_MS}`);
-      await client.query('SET LOCAL ROLE public_reader');
-      await client.query(
-        `SELECT set_config('app.public_code', $1, true), set_config('app.public_seat', $2, true),
-                set_config('app.public_plan', $3, true)`,
-        [scope.code ?? '', scope.seatHash ?? '', scope.planHash ?? ''],
-      );
-      const result = await fn(client);
-      await client.query('COMMIT');
-      return result;
-    } catch (error) {
-      failure = error;
-      await client.query('ROLLBACK').catch(() => undefined);
-      throw error;
-    }
-  } finally {
-    client.release(failure !== undefined);
-  }
+  /** Where stored media is served from; absent means a place's page carries no photo. */
+  readonly mediaPublicBaseUrl?: string | undefined;
 }
 
 interface ProposalDayRow {
@@ -167,6 +133,9 @@ export function registerPublicPreviewRoutes(
   app: OpenAPIHono<AppEnv>,
   deps: PublicPreviewRouteDeps,
 ): void {
+  registerPublicCatalogRoutes(app, deps);
+  // Before the link kinds below, whose `{kind}` would otherwise claim the address.
+  registerPublicLocalsRoute(app, deps);
   app.openapi(
     route,
     async (c) => {

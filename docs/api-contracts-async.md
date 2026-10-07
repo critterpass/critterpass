@@ -292,7 +292,7 @@ Category ids shared iOS (`UNNotificationCategory`) / Android (action set). Backg
 |---|---|---|---|
 | `cp.vote` | N-01, N-02 | `VOTE_1..VOTE_3` → `cast_ballot{poll_id, option_id}` (labels via `notificationActions` per vote); `OPEN` fg | ✓ animated poster + stamp (`.doNotDismiss`) |
 | `cp.changeset` | N-50 (needs yes; doc delta: key `changeset_needs_yes` on `change_set.proposed` to affected voters still pending, `cp.ctx{change_set_id, poll_id, trip_id}`; result notice `changeset_decided` on applied/rejected/expired, `cp.generic`), 7h-7 | `APPROVE` / `DECLINE` → `approve_changeset{decision: yes\|no}` (action-key scope `changeset`); `UNDO` → `undo_guide_action` | – |
-| `cp.disruption` | N-28 | `APPROVE` → `decide_disruption_action{yes}`; `OPEN` fg | – |
+| `cp.disruption` | N-28 (`cp.ctx{poll_id, disruption_id, action_id?}`: `action_id` is the id of the row in `disruptions.actions` waiting for the yes, `poll_id` its decision poll; a storm's crew vote has no row, so its push carries no `action_id` and no APPROVE) | `APPROVE` → `decide_disruption_action{disruption_id, action_id, decision: approve}`; `OPEN` fg | – |
 | `cp.leaveby` | N-20, N-21 | `IM_UP` → `set_readiness{up}`; `SNOOZE` → `snooze_leave_by`; `LATE_10` → `report_running_late{10}` | – |
 | `cp.sos` | N-24 | `COMING` → `respond_sos{coming}`; `CALL` fg (`tel:`); `OPEN` fg | – |
 | `cp.money` | N-16 | `MARK_PAID` → `mark_paid`; `CONFIRM` → `confirm_paid`; `NUDGE` → `nudge_payment` | – |
@@ -300,7 +300,7 @@ Category ids shared iOS (`UNNotificationCategory`) / Android (action set). Backg
 | `cp.rsvp` | N-07, N-09 | `IN` / `MAYBE` → `set_rsvp`; `OPEN` fg (OUT requires app, private reason flow) | ✓ poster |
 | `cp.invite` | N-42 | `JOIN` fg → `accept_invite`; `LATER` → `defer_invite` | – |
 | `cp.import` | N-13 | `ADD_ALL` → `resolve_import_candidate{add}` × n | – |
-| `cp.briefing` | morning briefing | `DONE` → `act_briefing_item{done}`; `NUDGE` → `act_briefing_item{nudge}` | – |
+| `cp.briefing` | morning briefing (`cp.ctx{item_id, actions[]}`: `item_id` is the first open line, the one the push reads out; `actions` is the one button that line takes, `["DONE"]`, `["NUDGE"]` or `[]` for a line that only opens the app) | `DONE` → `act_briefing_item{item_id, action: done}`; `NUDGE` → `act_briefing_item{item_id, action: nudge}` | – |
 | `cp.help` | N-25, `location_share_ending` | `STOP_SHARE` → `stop_help_share`, `EXTEND_SHARE` → `extend_help_share`: on `location_share_ending` only, for the sharer (`ctx.sharer_id`) | – |
 | `cp.memory` | N-35 | `REACT` → `react_memory` | – |
 | `cp.setup_ask` | N-05 | `freed` / `not_movable` fg → `answer_availability_ask{answer}` (opens the ask sheet, which confirms) | – |

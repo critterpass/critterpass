@@ -64,3 +64,52 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-shake-report-private-screen
+# Then a shake over Balances and over a stretch of crew chat, as screens that are not covered
+# whole: the picture is shown full size, with the amounts and the messages covered by those
+# screens' own private parts.
+- runFlow: ../screens/sweep/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'help-lab-shake-wallet'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'help-lab-shake-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+- takeScreenshot: en-shake-wallet
+- tapOn:
+    id: 'help-shake-here'
+- extendedWaitUntil:
+    visible:
+      id: 'help-shake-picture'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-shake-wallet-picture
+- runFlow: ../screens/sweep/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'help-lab-shake-chat'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'help-lab-shake-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-lab-scene'
+    timeout: 15000
+- takeScreenshot: en-shake-chat
+- tapOn:
+    id: 'help-shake-here'
+- extendedWaitUntil:
+    visible:
+      id: 'help-shake-picture'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-shake-chat-picture

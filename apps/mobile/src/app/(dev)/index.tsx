@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native';
 import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
 import { seedLiveMap, type SeededLiveMap } from '@/data/dev/seed-live-map';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
+import { reportProblemUnderneath } from '@/features/help/shake/ShakeListener';
 import { DEV_SECTIONS } from '@/lib/dev-tools/dev-screens';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
@@ -220,6 +221,12 @@ export default function DevToolsIndexScreen() {
             {buildMarkerLabel()}
           </SecondaryText>
         </Stack>
+        {/* The shake opens these tools on this build, so the report it opens in production is here. */}
+        <ListCard
+          testID="dev-report-problem"
+          title="Report a problem"
+          onPress={reportProblemUnderneath}
+        />
         <Section title="Demo data">
           <SeedDemoData />
           <SeedLiveMap />

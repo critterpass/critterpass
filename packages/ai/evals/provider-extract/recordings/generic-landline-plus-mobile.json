@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1397,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "55787ab5-2764-43b7-8b7c-f1c63d9c65f8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Lisbon Private Drivers Lda\",\"quote\":\"Lisbon Private Drivers Lda\"},\"phone\":{\"value\":\"+351915000033\",\"quote\":\"mobile/WhatsApp +351 915 000 033\"},\"area\":{\"value\":\"Lisbon\",\"quote\":\"Lisbon Private Drivers Lda\"},\"languages\":null,\"car\":{\"value\":\"Mercedes S-Class and V-Class\",\"seats\":null,\"quote\":\"Mercedes S-Class and V-Class\"},\"price\":{\"amount\":60,\"currency\":\"EUR\",\"unit\":\"hours\",\"hours\":3,\"quote\":\"From €60/hour, 3h minimum\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 220,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 179,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

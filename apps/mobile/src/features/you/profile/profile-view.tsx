@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -269,9 +270,11 @@ export function ProfileView(props: ProfileViewProps) {
         </Stack>
 
         <Row justify="space-between" style={styles.footer}>
-          <Text variant="monoData" color={theme.semantic.text.secondary} testID="you-profile-mrz">
-            {model.mrz}
-          </Text>
+          <PrivateContent>
+            <Text variant="monoData" color={theme.semantic.text.secondary} testID="you-profile-mrz">
+              {model.mrz}
+            </Text>
+          </PrivateContent>
           <Text variant="monoData" color={theme.semantic.text.secondary}>
             {t({ id: 'you.profile.since', message: `SINCE ${model.sinceYear}` })}
           </Text>

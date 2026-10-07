@@ -27,6 +27,8 @@ export const SITE_PATHS = {
   legal: '/legal',
   privacy: '/legal/privacy',
   terms: '/legal/terms',
+  subscriptionTerms: '/legal/subscription-terms',
+  pricing: '/pricing',
   deleteAccount: '/account/delete',
 } as const;
 

@@ -49,6 +49,34 @@ export const APP_ICON_CATALOGUE: readonly AppIconEntry[] = [
   { id: 'bali-six', gate: 'earned', unlockSource: 'crew_achievement' },
 ];
 
+/**
+ * What a verified find opens: a named form (Temple Tokek, Golden Tokek, Sakura Pon) by its
+ * catalogue key, or any form of a critter (Sardi). Keys are the content release's (`cp-112:rare`,
+ * `cp-076`).
+ */
+export interface AppIconFormUnlock {
+  readonly icon: AppIconBaseId;
+  readonly formKey?: string;
+  readonly critterKey?: string;
+}
+
+export const APP_ICON_FORM_UNLOCKS: readonly AppIconFormUnlock[] = [
+  { icon: 'temple', formKey: 'cp-112:rare' },
+  { icon: 'golden', formKey: 'cp-112:legendary' },
+  { icon: 'pon', formKey: 'cp-061:legendary' },
+  { icon: 'sardi', critterKey: 'cp-076' },
+];
+
+/** The earned icons a find of this form opens (none for most forms). */
+export function appIconsForFind(find: {
+  readonly formKey: string;
+  readonly critterKey: string;
+}): readonly AppIconBaseId[] {
+  return APP_ICON_FORM_UNLOCKS.filter(
+    (rule) => rule.formKey === find.formKey || rule.critterKey === find.critterKey,
+  ).map((rule) => rule.icon);
+}
+
 const BY_ID = new Map(APP_ICON_CATALOGUE.map((entry) => [entry.id, entry]));
 
 export function appIconEntry(id: AppIconBaseId): AppIconEntry {

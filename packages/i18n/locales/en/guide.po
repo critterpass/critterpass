@@ -54,7 +54,7 @@ msgstr "{guideName} can't check how it sounds offline. Say it, then tap \"I said
 msgid "guide.practice.micDeniedBody"
 msgstr "{guideName} can't hear you without the microphone. Turn it on in Settings, or say it and tap \"I said it\"."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.fairUse"
 msgstr "{guideName} has read a lot of menus today and picks it up again tomorrow."
 
@@ -96,6 +96,10 @@ msgstr "A plan item"
 msgid "guide.limit.attach"
 msgstr "Add attachment"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderAdd"
+msgstr "Add one {name}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.ai"
 msgstr "AI guide · answers can be wrong, check what matters"
@@ -107,6 +111,10 @@ msgstr "Allergies"
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.speaking"
 msgstr "Answering"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderAsk"
+msgstr "Ask {guideName} what to order"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 msgid "guide.camera.askPlaceholder"
@@ -123,6 +131,10 @@ msgstr "Ask now, {guideName} answers at midnight"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
 msgid "guide.composer.placeholder"
 msgstr "Ask, or hold to talk"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderClose"
+msgstr "Back to the menu"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.callCar"
@@ -147,6 +159,10 @@ msgstr "Check how I say it"
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 msgid "guide.practice.checking"
 msgstr "Checking…"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.zh"
+msgstr "Chinese"
 
 #: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
 msgid "guide.phrase.close"
@@ -192,9 +208,17 @@ msgstr "Done, check it"
 msgid "guide.dietary.eggs"
 msgstr "Eggs"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.en"
+msgstr "English"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.full"
 msgstr "Every slot is taken"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.tl"
+msgstr "Filipino"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.fish"
@@ -208,6 +232,14 @@ msgstr "Flags are a guide, not medical advice. Ask staff about allergies."
 #: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
 msgid "guide.dietary.title"
 msgstr "Food and access needs"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.fr"
+msgstr "French"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.de"
+msgstr "German"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
@@ -270,7 +302,7 @@ msgstr "Hot"
 msgid "guide.empty.promptCrew"
 msgstr "How do I get my crew planning?"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.noDishes"
 msgstr "I can read the words, but I don't see any dishes. It wasn't counted. Try the menu page itself."
 
@@ -278,7 +310,7 @@ msgstr "I can read the words, but I don't see any dishes. It wasn't counted. Try
 msgid "guide.error.moderation"
 msgstr "I can't answer that one. It didn't pass our safety check."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.noText"
 msgstr "I can't find any writing. Move closer, into better light, and try again."
 
@@ -327,6 +359,18 @@ msgstr "I'm swamped right now. Give me a minute and ask again."
 msgid "guide.plan.applied"
 msgstr "In the plan"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.id"
+msgstr "Indonesian"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.it"
+msgstr "Italian"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.ja"
+msgstr "Japanese"
+
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.justMe"
 msgstr "Just me"
@@ -347,9 +391,21 @@ msgstr "Just me · {place}"
 msgid "guide.header.private"
 msgstr "Just me · only you can see this"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.km"
+msgstr "Khmer"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.ko"
+msgstr "Korean"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietKosher"
 msgstr "Kosher"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.lo"
+msgstr "Lao"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.learned"
@@ -386,6 +442,10 @@ msgstr "Local emergency numbers and your crew are one tap away in Help."
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.actionsHint"
 msgstr "Long press for actions"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.ms"
+msgstr "Malay"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceMedium"
@@ -433,6 +493,10 @@ msgstr "Not now"
 msgid "guide.practice.retry"
 msgstr "Not quite yet. Play it again and have another go."
 
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderLess"
+msgstr "One fewer {name}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.open"
 msgstr "Open Help"
@@ -442,6 +506,11 @@ msgid "guide.phrase.showHint"
 msgstr "Opens the phrase full screen to show"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
+msgid "guide.camera.orderOne"
+msgstr "Order"
+
+#: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 msgid "guide.camera.orderFor"
 msgstr "Order for {crewSize}"
 
@@ -477,9 +546,18 @@ msgstr "Point and ask"
 msgid "guide.camera.aim"
 msgstr "Point me at a menu and I'll put it in your words."
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.pt"
+msgstr "Portuguese"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.practise"
 msgstr "Practise phrases"
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+msgid "guide.phrase.practise"
+msgstr "Practise saying it"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.practising"
@@ -577,6 +655,10 @@ msgstr "Sharing food flags"
 msgid "guide.dietary.shellfish"
 msgstr "Shellfish"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderShow"
+msgstr "Show the order"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.problemFull"
 msgstr "Someone got the last slot first."
@@ -593,11 +675,16 @@ msgstr "Something new"
 msgid "guide.dietary.soy"
 msgstr "Soy"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.es"
+msgstr "Spanish"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.spice"
 msgstr "Spice"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 msgid "guide.camera.split"
 msgstr "Split the bill"
 
@@ -633,6 +720,10 @@ msgstr "Talk with {guideName} out loud?"
 msgid "guide.voice.state.idle"
 msgstr "Tap to talk"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.th"
+msgstr "Thai"
+
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 msgid "guide.practice.ok"
 msgstr "That came through clearly. On to the next one."
@@ -653,7 +744,7 @@ msgstr "That needs a connection. Try again when you're back online."
 msgid "guide.practice.checkFailed"
 msgstr "That one couldn't be checked, so it wasn't counted. Try again."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.captureFailed"
 msgstr "That photo didn't take. Try again."
 
@@ -677,7 +768,7 @@ msgstr "That's not something I can help with. Ask me about the trip instead?"
 msgid "guide.voice.quota"
 msgstr "That's today's questions used up. {guideName} is back after midnight; the chat shows your options."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.quota"
 msgstr "That's today's questions used up. {guideName} is back after midnight; the chat shows your options."
 
@@ -693,7 +784,7 @@ msgstr "The audio isn't on this phone yet. Tap the card to show it instead."
 msgid "guide.camera.deniedTitle"
 msgstr "The camera is off"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.noCamera"
 msgstr "The camera isn't available here. Type what's on the menu and {guideName} will translate it in the chat."
 
@@ -702,7 +793,7 @@ msgstr "The camera isn't available here. Type what's on the menu and {guideName}
 msgid "guide.voice.micDeniedTitle"
 msgstr "The microphone is off"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.failed"
 msgstr "The translation didn't come through, and it wasn't counted. Try again."
 
@@ -730,7 +821,7 @@ msgstr "This offer has closed."
 msgid "guide.offer.expired"
 msgstr "This one has gone"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.unsupportedScript"
 msgstr "This phone can't read that script yet. Type a dish name and I'll explain it."
 
@@ -784,6 +875,10 @@ msgstr "Vegan"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietVegetarian"
 msgstr "Vegetarian"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.vi"
+msgstr "Vietnamese"
 
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.noModule"
@@ -856,7 +951,7 @@ msgstr "You found this unhelpful"
 msgid "guide.offer.mine"
 msgstr "You're in · {0} of {1} taken"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.offline"
 msgstr "You're offline, so {guideName} can't translate this yet. The photo stays here; try again when you're back online."
 
@@ -879,6 +974,10 @@ msgstr "You've used today's free questions. {0} is back in {1}h {2}m."
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
 msgid "guide.dietary.queued"
 msgstr "Your food and access needs"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderTitle"
+msgstr "Your order"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx

@@ -33,6 +33,23 @@ async function leaveBy(tx: pg.PoolClient, routed: RoutedEvent): Promise<LeaveByF
   return rows[0];
 }
 
+/**
+ * What the briefing push's lock-screen buttons act on: the line the push reads out, and the one
+ * button that line takes (DONE or NUDGE; none for a line that only opens the app or sets a value).
+ */
+export function briefingContext(item: { readonly id: string; readonly action: string }): {
+  readonly item_id: string;
+  readonly actions: readonly ('DONE' | 'NUDGE')[];
+} {
+  const actions =
+    item.action === 'done'
+      ? (['DONE'] as const)
+      : item.action === 'nudge'
+        ? (['NUDGE'] as const)
+        : [];
+  return { item_id: item.id, actions };
+}
+
 function uuids(routed: RoutedEvent, key: string): string[] {
   const value = routed.payload[key];
   return Array.isArray(value) ? value.filter((id): id is string => typeof id === 'string') : [];
@@ -130,8 +147,14 @@ export function registerTripDayNotifications(): void {
         Number(routed.payload['item_count'] ?? 0) > 0 ? [str(routed, 'user_id') ?? ''] : [],
       ),
     async compose(tx, routed) {
-      const { rows } = await tx.query<{ text: string; crew_id: string; place: string | null }>(
-        `SELECT i.text, t.crew_id, d.name AS place
+      const { rows } = await tx.query<{
+        id: string;
+        text: string;
+        action: string;
+        crew_id: string;
+        place: string | null;
+      }>(
+        `SELECT i.id, i.text, i.action, t.crew_id, d.name AS place
            FROM briefing_items i JOIN trips t ON t.id = i.trip_id
            LEFT JOIN destinations d ON d.id = t.destination_id
           WHERE i.briefing_id = $1 AND i.status = 'open' ORDER BY i.position LIMIT 1`,
@@ -147,6 +170,7 @@ export function registerTripDayNotifications(): void {
         crewId: first.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
         deepLink: tripHubPath(str(routed, 'trip_id') ?? ''),
+        ctx: briefingContext(first),
         collapseVars: { trip_id: str(routed, 'trip_id') ?? '' },
       };
     },

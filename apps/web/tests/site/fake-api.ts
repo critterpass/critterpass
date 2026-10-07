@@ -3,6 +3,9 @@
  * `GET /v1/links/settings` answering with fixture bodies (./fixtures and ../links/fixtures), each
  * checked against the shared wire schema at start-up so a contract change fails here first.
  * `GET /v1/public/plan/{token}` answers the published crew plan behind a plan link.
+ * `GET /v1/public/locals/{slug}` answers a place's locals; its photo is served from `/__media/`,
+ * as the media host would.
+ * `GET /v1/catalog/perks` answers the perk catalogue the pricing section is built from.
  * `POST /__revoke/{code}` flips a code to revoked, as the organiser would from the app; for a plan
  * link's token it takes the plan down.
  *
@@ -14,6 +17,8 @@ import { createServer, type ServerResponse } from 'node:http';
 import {
   linkPreviewSchema,
   linkSettingsSchema,
+  publicLocalsSchema,
+  publicPerksSchema,
   publicPlanSchema,
   publicProposalSchema,
 } from '@cp/domain';
@@ -51,6 +56,19 @@ const PLANS = new Map<string, unknown>(
     publicPlanSchema.parse(fixture('./fixtures/public-plan.json')),
   ]),
 );
+/** Places by slug: one with a photo, one without. The photo's address is this server's. */
+const LOCALS = new Map<string, unknown>(
+  ['jp-kyoto', 'jp-nara'].map((slug) => {
+    const place = fixture('./fixtures/public-locals.json') as { photo: { url: string } | null };
+    const photo =
+      slug === 'jp-kyoto' && place.photo !== null
+        ? { ...place.photo, url: `http://127.0.0.1:${process.argv[2] ?? '4398'}/__media/kyoto.png` }
+        : null;
+    return [slug, publicLocalsSchema.parse({ ...place, slug, photo })];
+  }),
+);
+const PHOTO = readFileSync(new URL('../../public/apple-touch-icon.png', import.meta.url));
+const PERKS = publicPerksSchema.parse(fixture('./fixtures/catalog-perks.json'));
 const REVOKED = preview('../links/fixtures/preview-revoked-invite.json');
 const NOT_FOUND = fixture('../links/fixtures/error-not-found.json');
 const SETTINGS = linkSettingsSchema.parse({ app_clip: false });
@@ -70,6 +88,7 @@ createServer((request, response) => {
     return;
   }
   if (url.pathname === '/v1/links/settings') return json(response, 200, SETTINGS);
+  if (url.pathname === '/v1/catalog/perks') return json(response, 200, PERKS);
   // Test control: revoke a code, as the organiser would from the app.
   const revoke = /^\/__revoke\/([^/]+)$/.exec(url.pathname);
   if (revoke !== null && request.method === 'POST') {
@@ -86,6 +105,15 @@ createServer((request, response) => {
   if (plan !== null) {
     const found = PLANS.get(decodeURIComponent(plan[1] ?? ''));
     return found === undefined ? json(response, 404, NOT_FOUND) : json(response, 200, found);
+  }
+  const locals = /^\/v1\/public\/locals\/([^/]+)$/.exec(url.pathname);
+  if (locals !== null) {
+    const found = LOCALS.get(decodeURIComponent(locals[1] ?? ''));
+    return found === undefined ? json(response, 404, NOT_FOUND) : json(response, 200, found);
+  }
+  if (url.pathname === '/__media/kyoto.png') {
+    response.setHeader('content-type', 'image/png');
+    return response.end(PHOTO);
   }
   const match = /^\/v1\/links\/([^/]+)\/preview$/.exec(url.pathname);
   const body = match === null ? undefined : PREVIEWS.get(decodeURIComponent(match[1] ?? ''));

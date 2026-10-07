@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "971a78cf-bf0f-427c-83a4-eef3a956a0ff",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Samgyeopsal (grilled pork belly)\",\"description\":\"Thick slices of pork belly grilled at the table, usually eaten wrapped in lettuce with sauce.\",\"spice\":0,\"flags\":[{\"member\":\"Sam\",\"verdict\":\"clash\",\"reason\":\"pork belly\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Kimchi stew\",\"description\":\"A hot stew of fermented kimchi, tofu and often pork simmered in a spicy broth.\",\"spice\":2,\"flags\":[{\"member\":\"Sam\",\"verdict\":\"clash\",\"reason\":\"pork may be in it\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Bibimbap\",\"description\":\"Rice topped with seasoned vegetables, egg and beef, mixed together with chili paste.\",\"spice\":1,\"flags\":[{\"member\":\"Sam\",\"verdict\":\"ok\",\"reason\":\"no pork\"}]}],\"suggestion\":\"Sam should take the bibimbap, while the others can share the grilled pork belly and kimchi stew.\",\"language\":\"ko\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 153,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 228,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

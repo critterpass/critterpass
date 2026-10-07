@@ -66,7 +66,30 @@ export const dataExports = pgTable('data_exports', {
   updatedAt: instant('updated_at').notNull().defaultNow(),
 });
 
+/**
+ * RLS class S: one row per filed feedback ticket of an erased account, kept until the tracker
+ * issue that quotes it is redacted. Tied to the deletion, never to the person.
+ */
+export const feedbackTrackerRedactions = pgTable('feedback_tracker_redactions', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  deletionId: uuid('deletion_id').notNull(),
+  ticketNo: bigint('ticket_no', { mode: 'number' }).notNull(),
+  trackerIssueId: text('tracker_issue_id').notNull(),
+  createdAt: instant('created_at').notNull().defaultNow(),
+});
+
+/** RLS class S: the purge reminder a closed account was sent, one per deletion. */
+export const accountPurgeReminders = pgTable('account_purge_reminders', {
+  deletionId: uuid('deletion_id').primaryKey(),
+  channel: text('channel').notNull(),
+  sentAt: instant('sent_at').notNull().defaultNow(),
+});
+
 registerTablePrivacy('app_icon_unlocks', { class: 'C2' });
+registerTablePrivacy('account_purge_reminders', { class: 'C2' });
+registerTablePrivacy('feedback_tracker_redactions', { class: 'C2' });
 registerTablePrivacy('past_trips', { class: 'C2' });
 registerTablePrivacy('data_exports', { class: 'C2' });
 

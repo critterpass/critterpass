@@ -93,7 +93,6 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: snapshot for Pass+-less user omits next flight and sets `locked`; permission tests pass.
 
 ### T2 — App Group writer + cp-widgets module + Swift snapshot reader
-- Status: done — 8a48ec237
 - Goal: app writes, extensions read.
 - Files: `apps/mobile/modules/cp-widgets/**`, `apps/mobile/modules/cp-app-group/src/snapshots/widgets/*`, `apps/mobile/targets/_shared/Snapshot/*.swift`.
 - Steps: 1. Atomic writes of `snapshot/widgets.json`, `entitlements.json`, `prefs.json`. 2. Reload timelines on write. 3. Report configurations. 4. Swift Codable from zod.
@@ -110,7 +109,6 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: 50 events in 10 min yield ≤1 routine push; vote close always pushes.
 
 ### T4 — Countdown, Vote, Critterdex home widgets
-- Status: done — 8a48ec237
 - Goal: 5c-1 free widgets.
 - Files: `apps/mobile/targets/widgets/Widgets/{Countdown,Vote,Critterdex}Widget.swift`, `apps/mobile/targets/widgets/Intents/Widget/{CastBallotIntent,SelectTripIntent,SelectCrewIntent}.swift`.
 - Steps: 1. Timelines (midnight entry, flip transition). 2. Interactive vote with optimistic tally + result state. 3. Empty/stale/signed-out states.
@@ -119,7 +117,6 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Status: done — 8a48ec237d (the widgets show the snapshot's trip; the pick-a-trip and pick-a-crew configuration intents are not built)
 
 ### T5 — Today, Balances, Crew, Next flight widgets
-- Status: done — 8a48ec237
 - Goal: 5c-2 trip widgets incl. locked states.
 - Files: `apps/mobile/targets/widgets/Widgets/{Today,Balances,Crew,NextFlight}Widget.swift`, `apps/mobile/targets/widgets/Intents/Widget/{NudgeIntent,PackingCheckIntent}.swift`.
 - Steps: 1. Today L with strike/fade transitions and forecast line. 2. NUDGE (1/pair/24 h, server). 3. Crew (Boost) and Next flight (Pass+) locked renderings → offer deep links.
@@ -128,7 +125,6 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Status: done — 8a48ec237d (intents in `_shared/Intents/WidgetTripIntents.swift`)
 
 ### T6 — Lock-screen accessory + StandBy
-- Status: done — 8a48ec237 (accessories are families of the existing widgets)
 - Goal: 5c-3, 5c-4.
 - Files: `apps/mobile/targets/widgets/Widgets/Accessory/{CountdownInline,CountdownRing,VoteScore,CritterdexRing,NextLeaveBy}.swift`, `apps/mobile/targets/widgets/Widgets/StandBy/{SleepyClock,LeaveByAlarm}.swift`.
 - Steps: 1. `widgetRenderingMode` accented/vibrant with mono art. 2. StandBy pair with minute timeline + alarm switch.
@@ -137,22 +133,20 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Status: done — 8a48ec237d
 
 ### T7 — Categories + actionable notifications (all §3.4)
-- Status: partial — c4bfd3696, b72015e0b, 8ca6730f5 (one category table generating the iOS categories), 5357f153b1 (the registration is mounted in the session; chat reply and mark read, invite later, found-booking add all and the memory reaction run their commands in the app; a background button no longer navigates), 225a345550 (invite and found-booking pushes carry their ids). Not done: the money, disruption and briefing buttons are routed in the app but their categories are not registered, because their buttons differ from push to push (needs a per-push category in the notification service extension and on Android, and the disruption and briefing pushes must carry `disruption_id` + the row's `action_id` and `item_id`); no `e2e/notifications/actions` flows beyond `ping-settings`
 - Goal: every category's background actions work locked.
 - Files: `packages/domain/src/surfaces/notification-categories.ts`, `apps/mobile/targets/_shared/Categories/Categories.swift`, `apps/mobile/src/data/push/categories.ts` (edit of phase-11 folder: registration call only), `e2e/notifications/actions/*.yaml`.
 - Steps: 1. Canonical category table; generated registration. 2. Action handler in NSE-shared code → `/v1/actions`. 3. Re-post with collapse id and result text.
 - Tests: `pnpm --filter @cp/domain test -- notification-categories`; `maestro test e2e/notifications/actions/`.
 - Done when: each category's background action produces its command with `via: notif_action`, idempotent on replay.
-- Status: partly done — categories are registered per feature (leave-by, SOS, help, change set, vendor); the shared category registry, `Categories.swift` and the action flows beyond `ping-settings` are not built
+- Status: partial — c4bfd3696, b72015e0b, 8ca6730f5 (one category table generating the iOS categories), 5357f153b1 (the registration is mounted in the session; chat reply and mark read, invite later, found-booking add all and the memory reaction run their commands in the app; a background button no longer navigates), 225a345550 (invite and found-booking pushes carry their ids). Not done: the money, disruption and briefing buttons are routed in the app but their categories are not registered, because their buttons differ from push to push (needs a per-push category in the notification service extension and on Android; the pushes carry their ids since 1bd1cbf2fc: `ctx.disruption_id` + the row's `action_id` on the needs-a-yes push, `ctx.item_id` + `actions` on the briefing); no `e2e/notifications/actions` flows beyond `ping-settings`
 
 ### T8 — Vote poster content extension
-- Status: done — 6af21f314, 225a345550 (the proposal and reply-by pushes carry `ctx.proposal_id`, so the RSVP poster's buttons answer; a seat-opened push has no proposal and keeps OPEN only)
 - Goal: 5b-2 poster + stamp.
 - Files: `apps/mobile/targets/notification-content/{NotificationViewController.swift,VotePosterView.swift,RsvpPosterView.swift,Info.plist}`.
 - Steps: 1. SwiftUI poster with critter frames + VS pulse. 2. Actions update poster in place (`.doNotDismiss`), stamp on success, closed state. 3. RSVP poster reuse.
 - Tests: `xcodebuild test -scheme CPNotificationContent`.
 - Done when: poster snapshot matches render; vote from poster stamps without dismiss.
-- Status: partly done — 356cc52704 (the vote poster from the platform spike). Not built: the RSVP poster and voting from the poster
+- Status: done — 6af21f314, 225a345550 (the proposal and reply-by pushes carry `ctx.proposal_id`, so the RSVP poster's buttons answer; a seat-opened push has no proposal and keeps OPEN only)
 
 ### T9 — Ping settings screen
 - Status: done — 9af4f0b9c, 771624f17, b69b32815, 42fb7aaeb (device capture waits for a runner slot)

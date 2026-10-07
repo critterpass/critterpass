@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1250,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "e429c9f6-354c-4299-966e-86fc66d916b5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Ari\",\"quote\":\"Hello from Ari!\"},\"phone\":null,\"area\":{\"value\":\"east Bali\",\"quote\":\"Full day east Bali (Lempuyang, Tirta Gangga)\"},\"languages\":{\"value\":[\"en\",\"fr\"],\"quote\":\"Speak English + little French.\"},\"car\":{\"value\":null,\"seats\":null,\"quote\":\"\"},\"price\":{\"amount\":55,\"currency\":\"USD\",\"unit\":\"day\",\"hours\":12,\"quote\":\"USD 55 per car, 12 hours\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"all included except entrance and donation\"},\"overtime\":{\"amount\":5,\"quote\":\"Extra hour USD 5\"},\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 221,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 182,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

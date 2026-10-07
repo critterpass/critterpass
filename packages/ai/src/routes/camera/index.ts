@@ -13,7 +13,12 @@ export * from './price';
 export * from './prompt';
 export * from './schema';
 
-const FAILED: ParsedMenu = { status: 'failed', items: [], suggestion: null };
+const FAILED: ParsedMenu = {
+  status: 'failed',
+  items: [],
+  suggestion: null,
+  source_language: null,
+};
 
 export interface ReadMenuInput extends MenuRequestInput {
   readonly currencyHint?: string;

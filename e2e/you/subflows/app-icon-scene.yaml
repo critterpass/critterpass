@@ -1,0 +1,30 @@
+appId: app.critterpass.dev
+---
+# From the profile lab list: opens the app icon scene ${SCENE}, waits for ${ROOT}, takes ${SHOT}
+# and leaves by the picker's own back control, so it is back on the list on both platforms.
+- scrollUntilVisible:
+    element:
+      id: 'you-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'you-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: ${ROOT}
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- scrollUntilVisible:
+    element:
+      id: 'you-app-icon-back'
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: 'you-app-icon-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-lab-3n-1-profile'
+    timeout: 15000
