@@ -1,9 +1,9 @@
 /**
  * Card 7, the stamp (3m-8): a passport page. "ENTRIES · ENTRÉES" and the page number at the top,
  * an older stamp faded in the corner, the trip's stamp slamming down large in the middle in the
- * guide's ink with the guide drawn inside it, the crew's signatures writing themselves around and
- * under it in their own colours (one after another, and live as each traveller opens the recap),
- * and "STAMP 13 IS ĐÀ NẴNG" at the foot.
+ * guide's ink with the guide drawn inside it, the crew's signatures writing themselves in a loose
+ * row under it in their own colours (one after another, and live as each traveller opens the
+ * recap), and "STAMP 13 IS ĐÀ NẴNG" at the foot. Every colour arrives as ink that reads on paper.
  */
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -17,42 +17,46 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { WrittenSignature } from '../signature/written-signature';
 import { fetchStroke, useStroke, type StrokeFetch } from '../signature/stroke-store';
 import { useCardTimeline } from '../story/use-card-timeline';
-import { CardShell } from './card-shell';
+import { CardShell, FOOTER_PT } from './card-shell';
 
 const SLAM_MS = 500;
 const SIGN_GAP_MS = 700;
 const STAMP = 230;
 const DOODLE = 48;
 const TILT = -6;
-/** Where signatures land on the page, as fractions of the field: around and under the stamp. */
-const SPOTS = [
-  { x: 0.02, y: 0.66 },
-  { x: 0.58, y: 0.64 },
-  { x: 0.08, y: 0.8 },
-  { x: 0.6, y: 0.8 },
-  { x: 0.32, y: 0.9 },
-  { x: 0.66, y: 0.04 },
-  { x: 0.0, y: 0.5 },
-  { x: 0.7, y: 0.5 },
+/** Under the caption when no action follows it: the home indicator and a little air. */
+const FOOT_CLEAR_PT = 56;
+/** Each signature's hand-placed lean and drop, in the order they sign. */
+const LEANS = [
+  { rotate: -5, drop: 0 },
+  { rotate: 3, drop: 10 },
+  { rotate: -2, drop: 4 },
+  { rotate: 6, drop: 12 },
+  { rotate: -4, drop: 2 },
+  { rotate: 2, drop: 8 },
 ] as const;
+const OLDER = 120;
 
 const useStyles = makeStyles((th) => ({
   chrome: { flexDirection: 'row', justifyContent: 'space-between' },
-  field: { flex: 1 },
-  stamp: {
-    position: 'absolute',
-    alignSelf: 'center',
-    top: '12%',
-    width: STAMP,
-    height: STAMP,
-    transform: [{ rotate: `${TILT}deg` }],
-  },
+  field: { flex: 1, justifyContent: 'space-between' },
+  // The older stamp sits in the corner and the trip's stamp lands over its edge, as on the page.
+  stamps: { height: STAMP + OLDER * 0.45, alignItems: 'center', justifyContent: 'flex-end' },
+  stamp: { width: STAMP, height: STAMP, transform: [{ rotate: `${TILT}deg` }] },
   doodle: {
     position: 'absolute',
     top: STAMP * 0.12,
     alignSelf: 'center',
   },
   older: { position: 'absolute', top: 0, start: 0, opacity: 0.5 },
+  signatures: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    columnGap: th.space['24'],
+    rowGap: th.space['4'],
+    paddingTop: th.space['16'],
+  },
   foot: { alignItems: 'center', gap: th.space['4'] },
 }));
 
@@ -75,6 +79,8 @@ export interface StampCardProps {
   readonly signers: readonly StampSigner[];
   readonly caption: string;
   readonly detail: string;
+  /** SIGN IT sits under the page: the page keeps room for it. */
+  readonly signable?: boolean;
   readonly loadStroke?: StrokeFetch;
 }
 
@@ -90,9 +96,9 @@ function Signer({
   readonly index: number;
 }) {
   const stroke = useStroke(signer.strokeKey, load);
-  const spot = SPOTS[index % SPOTS.length] ?? SPOTS[0];
+  const lean = LEANS[index % LEANS.length] ?? LEANS[0];
   return (
-    <View style={{ position: 'absolute', left: `${spot.x * 100}%`, top: `${spot.y * 100}%` }}>
+    <View style={{ marginTop: lean.drop, transform: [{ rotate: `${lean.rotate}deg` }] }}>
       <WrittenSignature
         name={signer.name}
         color={signer.color}
@@ -138,8 +144,15 @@ export function StampCard(props: StampCardProps) {
   const steps = [SLAM_MS, ...props.signers.map((_, index) => SLAM_MS + 600 + index * SIGN_GAP_MS)];
   const reached = useCardTimeline(steps);
   const ink = theme.color.paper.ink;
+  // A stamp with no place to print (the home stamp) is not drawn as an empty ring.
+  const older = props.older.find((stamp) => stamp.title !== '');
   return (
-    <CardShell ground={theme.color.paper.base} tone="paper" testID="recap-card-stamp">
+    <CardShell
+      ground={theme.color.paper.base}
+      tone="paper"
+      footerPt={props.signable === true ? FOOTER_PT : FOOT_CLEAR_PT}
+      testID="recap-card-stamp"
+    >
       <View style={styles.chrome} importantForAccessibility="no-hide-descendants">
         <Text variant="eyebrow" color={ink}>
           {props.chrome}
@@ -151,38 +164,40 @@ export function StampCard(props: StampCardProps) {
         )}
       </View>
       <View style={styles.field}>
-        {props.older.length === 0 ? null : (
-          <View style={styles.older}>
-            {props.older.slice(0, 1).map((stamp) => (
-              <Stamp key={stamp.id} title={stamp.title} ink={stamp.ink} size={120} tilt={-8} />
+        <View>
+          <View style={styles.stamps}>
+            {older === undefined ? null : (
+              <View style={styles.older}>
+                <Stamp title={older.title} ink={older.ink} size={OLDER} tilt={-8} />
+              </View>
+            )}
+            {reached > 0 ? <TripStamp {...props} /> : null}
+          </View>
+          <View style={styles.signatures} testID="recap-signatures">
+            {props.signers.map((signer, index) => (
+              <Signer
+                key={signer.userId}
+                signer={signer}
+                written={reached > index + 1}
+                load={load}
+                index={index}
+              />
             ))}
           </View>
-        )}
-        {reached > 0 ? <TripStamp {...props} /> : null}
-        <View style={{ flex: 1 }} testID="recap-signatures">
-          {props.signers.map((signer, index) => (
-            <Signer
-              key={signer.userId}
-              signer={signer}
-              written={reached > index + 1}
-              load={load}
-              index={index}
-            />
-          ))}
         </View>
-      </View>
-      <View
-        style={styles.foot}
-        accessible
-        accessibilityRole="text"
-        accessibilityLabel={`${props.caption}. ${props.detail}`}
-      >
-        <Text variant="h2" color={ink}>
-          {props.caption}
-        </Text>
-        <Text variant="bodySm" color={ink}>
-          {props.detail}
-        </Text>
+        <View
+          style={styles.foot}
+          accessible
+          accessibilityRole="text"
+          accessibilityLabel={`${props.caption}. ${props.detail}`}
+        >
+          <Text variant="h2" color={ink}>
+            {props.caption}
+          </Text>
+          <Text variant="bodySm" color={theme.color.paper.muted}>
+            {props.detail}
+          </Text>
+        </View>
       </View>
     </CardShell>
   );

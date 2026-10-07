@@ -7,7 +7,7 @@
 import type { TurnEvent } from '@cp/ai';
 import { describe, expect, it } from 'vitest';
 
-import { speakTurn, type Synthesize } from '../../src/lib/tts';
+import { speakTurn, spokenTags, type Synthesize } from '../../src/lib/tts';
 
 const DONE: TurnEvent = { type: 'done', ai_generated: true, sources: [] };
 
@@ -140,5 +140,48 @@ describe('speakTurn', () => {
         'It is dry until four.',
       ]);
     });
+  });
+});
+
+describe('a reply with audio tags', () => {
+  const TAGGED: readonly TurnEvent[] = [
+    { type: 'token', text: '[exc' },
+    { type: 'token', text: 'ited] Trời tạnh lúc 4 giờ, ' },
+    { type: 'token', text: 'nên chợ đêm vẫn đi được. [chu' },
+    { type: 'token', text: 'ckles] Nhớ mang áo [sic] mưa.' },
+    DONE,
+  ];
+  const WORDS = 'Trời tạnh lúc 4 giờ, nên chợ đêm vẫn đi được. Nhớ mang áo [sic] mưa.';
+
+  it('is spoken with its tags and shown and recorded without them', async () => {
+    const tags = spokenTags();
+    // What the turn's recorder sees: it sits between the strip and the voice.
+    const recorded: TurnEvent[] = [];
+    async function* record(events: AsyncGenerator<TurnEvent, void, undefined>) {
+      for await (const event of events) {
+        recorded.push(event);
+        yield event;
+      }
+    }
+    const out = await collect(
+      speakTurn(record(tags.strip(turn(TAGGED))), {
+        voiceId: 'voice-tokek',
+        language: 'vi',
+        synthesize: echo,
+        spokenText: tags.spokenFor,
+      }),
+    );
+    const text = (events: readonly TurnEvent[]) =>
+      events.flatMap((event) => (event.type === 'token' ? [event.text] : []));
+    expect(text(out).join('')).toBe(WORDS);
+    expect(text(recorded).join('')).toBe(WORDS);
+    // No text event carries a tag or a piece of one; the bracket that is not a tag stays.
+    expect(text(out).some((piece) => /\[(?!sic\])/u.test(piece) || piece.includes('ited]'))).toBe(
+      false,
+    );
+    const said = spokenText(out).join(' ');
+    expect(said).toContain('[excited] Trời tạnh');
+    expect(said).toContain('[chuckles] Nhớ mang áo [sic] mưa.');
+    expect(out.at(-1)).toEqual(DONE);
   });
 });

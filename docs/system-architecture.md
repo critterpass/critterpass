@@ -228,7 +228,7 @@ Queues are named `<domain>.<action>`; full catalogue (triggers, retries, singlet
 | Streaming | chat: SSE from api (`/v1/guide/stream`); long jobs: pg-boss with step progress on Centrifugo |
 | Metering | quota reserved in the command tx (`entitlements`), released on failure; free = 30 questions/day, reset 00:00 device tz; silent fair-use cap on unlimited tiers |
 | Evals & traces | promptfoo suites per prompt in `packages/ai/evals` (CI gate on change); Langfuse traces with PII-redacted payloads |
-| Voice | on-device SpeechAnalyzer / Android SpeechRecognizer (Deepgram fallback) → fast tier → ElevenLabs Flash (one owned voice per guide) |
+| Voice | on-device SpeechAnalyzer / Android SpeechRecognizer (Deepgram fallback) → fast tier → ElevenLabs Eleven v4 Turbo for live replies, Eleven v4 for recorded audio (phrase cards, recap narration); one owned voice per guide |
 | Vision | on-device OCR boxes (cp-ocr) → fast-tier structured output keyed by OCR line id → deterministic amount parsing |
 
 ### 4.7 Critter art pipeline

@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 
+import { formsTarget, type FormsTarget } from '../summary/forms-target';
 import { buildSummaryModel, type SummaryModel } from '../summary/summary-model';
 import { guideNameOf } from './critter-art';
 import { useLiveRows, useOwnerUid } from './live-rows';
@@ -26,11 +27,16 @@ export interface TripRow {
   readonly country?: string | null;
   readonly guide_slug: string | null;
   readonly guide_name: string | null;
+  /** The destination's own critter (Chà Vá in Đà Nẵng) and the set it belongs to. */
+  readonly destination_critter_id?: string | null;
+  readonly critter_set_id?: string | null;
 }
 
 export const TRIP_SQL = `
   SELECT t.crew_id, t.status, t.is_solo, t.start_date, t.end_date, c.name AS crew_name,
-         d.name AS place, d.country, g.slug AS guide_slug, g.name AS guide_name
+         d.name AS place, d.country, g.slug AS guide_slug, g.name AS guide_name,
+         d.critter_set_id,
+         (SELECT k.id FROM critters k WHERE k.key = d.critter_key) AS destination_critter_id
     FROM trips t
     LEFT JOIN crews c ON c.id = t.crew_id
     LEFT JOIN destinations d ON d.id = t.destination_id
@@ -72,6 +78,8 @@ export interface RecapSummaryData {
   readonly guideSlug: string | null;
   readonly guideName: string | null;
   readonly recapId: string | null;
+  /** Where the forms card leads: this trip's critter, never the whole collection. */
+  readonly formsTarget: FormsTarget | null;
   /** The viewer has watched the story to its end (on any phone). */
   readonly watched: boolean;
   readonly viewLoaded: boolean;
@@ -80,7 +88,13 @@ export interface RecapSummaryData {
 export function useRecapSummary(tripId: string | null): RecapSummaryData {
   const me = useOwnerUid();
   const byTrip = tripId === null ? null : [tripId];
-  const trip = useLiveRows<TripRow>(TRIP_SQL, byTrip, ['trips', 'crews', 'destinations', 'guides']);
+  const trip = useLiveRows<TripRow>(TRIP_SQL, byTrip, [
+    'trips',
+    'crews',
+    'destinations',
+    'guides',
+    'critters',
+  ]);
   const recapRows = useLiveRows<RecapRow>(RECAP_SQL, byTrip, ['recaps']);
   const awardRows = useLiveRows<AwardRow>(AWARDS_SQL, byTrip, ['recap_awards', 'users']);
   const meIn = useLiveRows<{ rsvp: string | null }>(
@@ -166,6 +180,11 @@ export function useRecapSummary(tripId: string | null): RecapSummaryData {
   return {
     model,
     recapId: recapRow?.id ?? null,
+    formsTarget: formsTarget({
+      gotAwayCritterId: gotAway?.critter_id ?? null,
+      destinationCritterId: tripRow?.destination_critter_id ?? null,
+      setId: tripRow?.critter_set_id ?? null,
+    }),
     watched: myView.loaded && (myView.rows[0]?.completed_at ?? null) !== null,
     viewLoaded: myView.loaded,
     crewId: tripRow?.crew_id ?? null,

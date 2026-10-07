@@ -21,7 +21,6 @@ const useStyles = makeStyles((th) => ({
   body: {
     flex: 1,
     paddingTop: CHROME_PT,
-    paddingBottom: FOOTER_PT,
     paddingHorizontal: th.size.gutter,
     gap: th.space['12'],
   },
@@ -34,6 +33,8 @@ export interface CardShellProps {
   readonly eyebrow?: string | null;
   readonly eyebrowColor?: string;
   readonly headline?: string | null;
+  /** Room kept under the card's content. @default FOOTER_PT */
+  readonly footerPt?: number;
   readonly children?: ReactNode;
   readonly testID: string;
 }
@@ -45,6 +46,7 @@ export function CardShell({
   eyebrow = null,
   eyebrowColor,
   headline = null,
+  footerPt = FOOTER_PT,
   children,
   testID,
 }: CardShellProps) {
@@ -54,7 +56,7 @@ export function CardShell({
     <View style={[styles.ground, { backgroundColor: ground }]} testID={testID}>
       <SurfaceToneProvider value={tone}>
         {halftone ? <Halftone /> : null}
-        <View style={styles.body}>
+        <View style={[styles.body, { paddingBottom: footerPt }]}>
           {eyebrow === null ? null : (
             <Text variant="eyebrow" color={eyebrowColor ?? theme.semantic.action.primary}>
               {eyebrow}

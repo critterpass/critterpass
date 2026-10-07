@@ -70,6 +70,7 @@ describe('selectGotAway', () => {
     critter_id: B,
     critter_key: 'cp-001',
     critter_no: 1,
+    own: false,
     rarity: 'epic',
     sightings: 0,
     wandered_off: 0,
@@ -91,6 +92,22 @@ describe('selectGotAway', () => {
       '2026-10-04',
     );
     expect(pick).toMatchObject({ form_id: C, sightings: 2 });
+  });
+
+  it('shows Đà Nẵng its own langur, not a lower-numbered critter of the same country', () => {
+    // Every Vietnamese critter's rare forms may spawn around Đà Nẵng; nobody saw any of them.
+    const carp = candidate({
+      form_id: A,
+      critter_key: 'cp-005',
+      critter_no: 5,
+      rarity: 'legendary',
+    });
+    const langur = candidate({ form_id: B, critter_key: 'cp-151', critter_no: 151, own: true });
+    const pick = selectGotAway([carp, langur], '2026-10-02', '2026-10-04');
+    expect(pick?.critter_key).toBe('cp-151');
+    // A form the crew met and lost on the trip is still the nearer miss.
+    const seen = selectGotAway([{ ...carp, sightings: 1 }, langur], '2026-10-02', '2026-10-04');
+    expect(seen?.critter_key).toBe('cp-005');
   });
 
   it('skips a form out of season and gives a seasonal one its next window', () => {

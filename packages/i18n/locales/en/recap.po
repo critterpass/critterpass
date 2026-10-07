@@ -116,6 +116,10 @@ msgstr "{guideName} is writing your recap"
 msgid "recap.story.presents"
 msgstr "{guideName} presents"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.watchDetail"
+msgstr "{guideName} tells it from the start"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.meals.value"
 msgstr "{meals, plural, one {# meal} other {# meals}}"
@@ -289,6 +293,10 @@ msgstr "Arrived"
 msgid "recap.summary.failed.retrying"
 msgstr "Asking again…"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.back"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.receipt.paidTop"
 msgstr "Balances"
@@ -321,9 +329,17 @@ msgstr "Couldn't ask for it again"
 msgid "recap.link.failed"
 msgstr "Couldn't make a link"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.shareFailed"
+msgstr "Couldn't open the share sheet"
+
 #: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 msgid "recap.memory.reunionFailed"
 msgstr "Couldn't pitch the reunion"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.saveFailed"
+msgstr "Couldn't save it. Check Photos access"
 
 #: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 msgid "recap.memory.reactFailed"
@@ -368,6 +384,10 @@ msgstr "Day {from}"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.route.days"
 msgstr "Days {from}–{to}"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.drawing"
+msgstr "Drawing the picture"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.driver"
@@ -416,10 +436,6 @@ msgstr "Golden {name}"
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.goodCompany"
 msgstr "Good company"
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.voiceOn"
-msgstr "Hear the guide"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.back"
@@ -529,6 +545,10 @@ msgstr "On the trail"
 msgid "recap.signature.line"
 msgstr "Once, and it signs every stamp you share with the crew, in your colour."
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.rateDetail"
+msgstr "One tap a place, for the next crew"
+
 #: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.open"
 msgstr "One tap. You can change it until everyone has voted."
@@ -554,6 +574,10 @@ msgstr "Paid"
 msgid "recap.story.theme.paco"
 msgstr "pan flute and charango"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.format"
+msgstr "Picture shape"
+
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
 msgstr "Pitching a reunion to the crew"
@@ -569,6 +593,10 @@ msgstr "Planned"
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.watch"
 msgstr "Play the story again"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.post"
+msgstr "Post"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.priciest"
@@ -594,6 +622,14 @@ msgstr "Remind me"
 msgid "recap.story.remindIn"
 msgstr "Remind me in {month}"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.save"
+msgstr "Save to Photos"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.saved"
+msgstr "Saved to Photos"
+
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.lineLabel"
 msgstr "Say something"
@@ -610,13 +646,13 @@ msgstr "Settled"
 msgid "recap.summary.owed.lastDay"
 msgstr "settled on the last day"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.share"
+msgstr "Share"
+
 #: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
 msgid "recap.share.link"
 msgstr "Share a link"
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.image"
-msgstr "Share an image"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.share"
@@ -626,9 +662,13 @@ msgstr "Share recap"
 msgid "recap.memory.share"
 msgstr "Share the memory"
 
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
 msgid "recap.share.title"
 msgstr "Share the recap"
+
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareCard"
+msgstr "Share this card"
 
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.sign"
@@ -654,6 +694,14 @@ msgstr "slow sea shanty"
 msgid "recap.summary.failed.line"
 msgstr "Something went wrong on my side. Nothing from the trip is lost. Try again?"
 
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOn"
+msgstr "Sound is off. Turn it on"
+
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOff"
+msgstr "Sound is on. Turn it off"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.stamp.caption"
 msgstr "Stamp {seq} is {place}"
@@ -674,6 +722,10 @@ msgstr "still to settle up"
 msgid "recap.share.stop"
 msgstr "Stop sharing"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.story"
+msgstr "Story"
+
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.linkOff"
 msgstr "Switching the recap link off"
@@ -685,10 +737,6 @@ msgstr "Tap to start · hold to pause"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.taxi"
 msgstr "taxi"
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.voiceOff"
-msgstr "Text only"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.story.receipt.thanks"
@@ -742,6 +790,10 @@ msgstr "The one that got away"
 msgid "recap.story.label.gotAway"
 msgstr "The one that got away"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.failed"
+msgstr "The picture didn't draw."
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.planner"
 msgstr "The planner"
@@ -757,10 +809,6 @@ msgstr "The recap"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitleNoPlace"
 msgstr "The recap"
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.imageLine"
-msgstr "The recap card, for a post or a story."
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.title"
@@ -828,6 +876,10 @@ msgstr "Trip recap · {month}"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.retry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
