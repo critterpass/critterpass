@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { askPostText, buildAskPost, type AskPostTemplates } from './ask-post';
 import { compareColumn, compareRisk, type CompareCandidate } from './compare';
 import { pickupGapFor, type GapStop } from './pickup-gaps';
+import { confirmProviderFieldsPayloadSchema, driverCardSchema, EMPTY_DRIVER_CARD } from './schemas';
 import { whatsappLink } from './whatsapp';
 
 const made: CompareCandidate = {
@@ -189,5 +190,54 @@ describe('whatsapp', () => {
       'https://wa.me/6281234567890?text=Hi%20Made%2C%20tolls%3F',
     );
     expect(whatsappLink('0812 3456', 'x')).toBeNull();
+  });
+});
+
+describe('driver card schema', () => {
+  const tier = {
+    label: '5-8 pax, V-Class',
+    seats: 8,
+    price_minor: 62_000,
+    price_max_minor: null,
+    currency: 'EUR',
+    price_unit: 'day',
+    price_per: null,
+    included_hours: 11,
+  };
+
+  it('still reads a card stored before ranges, tiers and asking were read', () => {
+    expect(driverCardSchema.safeParse(EMPTY_DRIVER_CARD).success).toBe(true);
+  });
+
+  it('carries a range, a rate, tiers, the words to ask about and the overtime unit', () => {
+    const card = {
+      ...EMPTY_DRIVER_CARD,
+      name: 'Tiago',
+      price_minor: 62_000,
+      currency: 'EUR',
+      price_unit: 'day',
+      price_max_minor: 70_000,
+      price_per: 'person',
+      price_from: true,
+      price_tiers: [tier],
+      price_ask: null,
+      overtime_per_minutes: 30,
+    };
+    expect(driverCardSchema.parse(card)).toEqual(card);
+    const confirmed = confirmProviderFieldsPayloadSchema.safeParse({
+      provider_id: '0199b6a0-0000-7000-8000-000000000001',
+      trip_id: '0199b6a0-0000-7000-8000-000000000002',
+      card,
+      confirmed: ['name', 'price'],
+    });
+    expect(confirmed.success).toBe(true);
+  });
+
+  it('refuses a tier without a price and a rate it does not know', () => {
+    const bad = { ...EMPTY_DRIVER_CARD, price_tiers: [{ ...tier, price_minor: 0 }] };
+    expect(driverCardSchema.safeParse(bad).success).toBe(false);
+    expect(driverCardSchema.safeParse({ ...EMPTY_DRIVER_CARD, price_per: 'km' }).success).toBe(
+      false,
+    );
   });
 });

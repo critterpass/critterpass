@@ -24,6 +24,7 @@ import { moderationArea } from './moderation';
 import type { MediaUrlSigner } from './moderation-intake';
 import { operatorsArea, type OperatorStore } from './operators';
 import { partnersArea } from './partners';
+import { recapArea } from './recap';
 import { seasonReviewArea } from './season-review';
 import { servicesArea } from './services';
 import { supportArea } from './support';
@@ -59,5 +60,6 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     ideasArea(deps.pool),
     accountDeletionArea(deps.pool),
     communityArea(deps.pool),
+    recapArea(),
   ];
 }

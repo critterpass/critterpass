@@ -8,6 +8,11 @@
 #   - null means the message does not say it; the route must return null, never a guess
 #   - includes.* is yes | no | unknown
 #   - price.unit is day | hours | trip | person | hour
+#   - price.amount is always a figure the driver wrote; price.amount_max is the top of a range
+#   - ask: true means the message has price words but no one figure to quote (prices that
+#     conflict, or tiers nothing picks between): the card holds no price, only his words to ask
+#   - overtime.amount is per hour; overtime.per_minutes is the stretch he priced it by, if not 60
+#   - party is the crew size the message was shared into (picks between prices by group size)
 #   - phone is E.164 after normalising local formats with the destination's country code
 # `expected_many` lists every provider in a message that names several; `expected: none` means
 # the message holds no provider and the route returns an empty result; `expected_after_crop`
@@ -295,7 +300,7 @@
     price: { amount: 55, currency: USD, unit: day, hours: 12 }
     includes: { fuel: yes, parking: yes, tolls: yes, entry: no }
     overtime: { amount: 5, currency: USD }
-    areas: [Lempuyang, Tirta Gangga]
+    areas: [east Bali, Lempuyang, Tirta Gangga]
     years: null
     licence_shown: unknown
   notes: "'all included except entrance' sets fuel/parking/tolls yes"
@@ -309,7 +314,7 @@
     name: null
     role: null
     phone: null
-    languages: []
+    languages: [id]
     vehicle: null
     price: null
     includes: { fuel: unknown, parking: unknown, tolls: yes, entry: no }
@@ -317,7 +322,7 @@
     areas: []
     years: null
     licence_shown: unknown
-  notes: 'answer to an ASK message; merges into the existing card'
+  notes: 'answer to an ASK message; merges into the existing card; written in Indonesian, so he writes it (as in generic-screenshot-whatsapp-id)'
 
 - id: bali-unrelated
   lang: en
@@ -379,7 +384,7 @@
     vehicle: { model: jumbo taxi, seats: 9 }
     price: { amount: 27000, currency: JPY, unit: hours, hours: 3 }
     includes: { fuel: unknown, parking: no, tolls: no, entry: unknown }
-    overtime: { amount: 9000, currency: JPY }
+    overtime: { amount: 9000, currency: JPY, per_minutes: 30 }
     areas: []
     years: null
     licence_shown: unknown
@@ -413,14 +418,15 @@
     name: Sato
     role: driver
     phone: '+818000001717'
-    languages: [en, ja]
+    languages: [en]
     vehicle: { model: null, seats: 6 }
     price: { amount: 60000, currency: JPY, unit: day, hours: 9 }
     includes: { fuel: yes, parking: unknown, tolls: yes, entry: unknown }
     overtime: null
-    areas: [Miyama]
+    areas: [Miyama, Kyoto]
     years: null
     licence_shown: unknown
+  notes: 'Japanese is likely but not stated, so it is not read; the trip starts at Kyoto station'
 
 - id: iceland-superjeep
   lang: en
@@ -572,6 +578,7 @@
     licence_shown: unknown
 
 - id: lisbon-douro-long
+  party: 6
   lang: en
   destination: lisbon
   source: whatsapp
@@ -597,6 +604,7 @@
   notes: 'tiered price: with a party of 6 the route picks the 5-8 tier and keeps the other as an alternative'
 
 - id: cusco-sacred-valley-es
+  party: 6
   lang: es
   destination: cusco
   source: whatsapp
@@ -611,7 +619,7 @@
     price: { amount: 450, currency: PEN, unit: day, hours: null }
     includes: { fuel: unknown, parking: unknown, tolls: unknown, entry: no }
     overtime: null
-    areas: [Sacred Valley, Pisac, Urubamba, Ollantaytambo]
+    areas: [Cusco, Sacred Valley, Pisac, Urubamba, Ollantaytambo]
     years: null
     licence_shown: unknown
   notes: 'party of 6 picks the van tier'
@@ -703,7 +711,7 @@
     phone: '+6281200003030'
     languages: []
     vehicle: null
-    price: { amount: 600000, currency: IDR, unit: day, hours: null }
+    price: { amount: 600000, amount_max: 800000, currency: IDR, unit: day, hours: null }
     includes: { fuel: unknown, parking: unknown, tolls: unknown, entry: unknown }
     overtime: null
     areas: []
@@ -831,3 +839,62 @@
     years: null
     licence_shown: unknown
   notes: 'handle kept as a contact hint; phone stays null'
+
+- id: generic-half-and-full-day
+  lang: en
+  destination: bali
+  source: whatsapp
+  message: 'Half day (5 hours) 400k, full day (10 hours) 700k, airport drop 300k. Petrol included. Gede, Ubud driver, WA +62 813 0000 3838'
+  expected:
+    name: Gede
+    role: driver
+    phone: '+6281300003838'
+    languages: []
+    vehicle: null
+    price: { amount: 700000, currency: IDR, unit: day, hours: 10 }
+    includes: { fuel: yes, parking: unknown, tolls: unknown, entry: unknown }
+    overtime: null
+    areas: [Ubud]
+    years: null
+    licence_shown: unknown
+  notes: 'prices by length of day: the card is the full day, the others stay listed as tiers'
+
+- id: generic-tiers-without-party
+  lang: en
+  destination: bali
+  source: whatsapp
+  message: 'Sedan up to 3 pax 550k/day, Hiace up to 10 pax 950k/day. Driver Rai 0812 0000 3939'
+  expected:
+    name: Rai
+    role: driver
+    phone: '+6281200003939'
+    languages: []
+    vehicle: null
+    price: null
+    ask: true
+    includes: { fuel: unknown, parking: unknown, tolls: unknown, entry: unknown }
+    overtime: null
+    areas: []
+    years: null
+    licence_shown: unknown
+  notes: 'two prices by vehicle and no crew size to pick with: no price on the card, ask the driver'
+
+- id: generic-price-needs-sum
+  lang: en
+  destination: bali
+  source: whatsapp
+  message: 'Car 500k per day, driver fee 150k per day, petrol you pay. Total you can count ya. Agung 0813 0000 4141'
+  expected:
+    name: Agung
+    role: driver
+    phone: '+6281300004141'
+    languages: []
+    vehicle: null
+    price: null
+    ask: true
+    includes: { fuel: no, parking: unknown, tolls: unknown, entry: unknown }
+    overtime: null
+    areas: []
+    years: null
+    licence_shown: unknown
+  notes: 'the day costs a sum the driver never wrote: no added-up figure, the card asks'

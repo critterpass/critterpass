@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1382,
+  "latency_ms": 887,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "32120f82-8317-4bcb-af67-ecf88907e208",
+        "id": "37ea38f3-0654-4efc-b08d-1272f0f8605a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Wayan Sudarma\",\"quote\":\"Wayan Sudarma\"},\"phone\":null,\"area\":null,\"languages\":{\"value\":[\"en\"],\"quote\":\"English very good\"},\"car\":{\"value\":\"Avanza\",\"seats\":null,\"quote\":\"Avanza\"},\"price\":null,\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"the phone number is cut off after \\\"His number is\\\"\"],\"cut_off\":true}"
+            "text": "{\"name\":{\"value\":\"Wayan Sudarma\",\"quote\":\"Wayan Sudarma\"},\"phone\":null,\"area\":null,\"languages\":{\"value\":[\"en\"],\"quote\":\"English very good\"},\"car\":{\"value\":\"Avanza\",\"seats\":null,\"quote\":\"Avanza\"},\"prices\":[],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"the phone number is cut off after \\\"His number is\\\"\"],\"cut_off\":true}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 198,
+          "input_tokens": 208,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 129,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 130,
           "service_tier": "standard"
         }
       }

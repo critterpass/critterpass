@@ -8,6 +8,7 @@ import type { ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
+import { PRICE_SCENES } from '../../shared/dev/price-scenes';
 import type { PickError } from '../crew-pick';
 import { pickErrorText, pickTermsLine } from '../pick-card';
 import { PickDaysView, type PickDayRow } from '../PickDaysView';
@@ -80,6 +81,8 @@ export const PICK_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'pick-day-taken': () => <PickScene error={{ kind: 'day_taken', dates: ['2026-10-15'] }} />,
   'pick-driver-gone': () => <PickScene error={{ kind: 'driver_gone' }} />,
   'pick-day-twice': () => <PickScene error={{ kind: 'days' }} />,
+  // A driver's price as he gave it, on the check card and in the comparison.
+  ...PRICE_SCENES,
 };
 
 export const PICK_SCENE_NAMES: readonly string[] = Object.keys(PICK_SCENES);

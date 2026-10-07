@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1062,
+  "latency_ms": 911,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "229f53bc-e120-4ec8-ac13-c7150c95648b",
+        "id": "4ae0fc99-8468-4f97-bf7c-fb6b3e14609a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":null,\"phone\":null,\"area\":null,\"languages\":null,\"car\":null,\"price\":null,\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"no driver name\",\"no phone number\",\"no price or vehicle details\"],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"@toursconmateo\",\"quote\":\"@toursconmateo\"},\"phone\":null,\"area\":{\"value\":\"Puebla\",\"quote\":\"Puebla\"},\"languages\":null,\"car\":null,\"prices\":[],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"no phone number given\",\"no price given\",\"no vehicle or languages mentioned\"],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 199,
+          "input_tokens": 209,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 90,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 120,
           "service_tier": "standard"
         }
       }

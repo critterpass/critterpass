@@ -32,8 +32,10 @@ export type DriversState =
   | { readonly kind: 'error' };
 
 export function useDrivers(tripId: string, api: DriversApi = deviceDriversApi) {
+  // Only what the device read from the api is kept on the phone, never a substitute source.
+  const kept = api === deviceDriversApi;
   const [state, setState] = useState<DriversState>(() => {
-    const cached = cachedDrivers(tripId);
+    const cached = kept ? cachedDrivers(tripId) : null;
     return cached === null
       ? { kind: 'loading' }
       : { kind: 'ready', data: cached, savedAt: cached.savedAt };
@@ -43,7 +45,7 @@ export function useDrivers(tripId: string, api: DriversApi = deviceDriversApi) {
       api.read(tripId).then((outcome) => {
         if (outcome.kind === 'ok') {
           const savedAt = new Date().toISOString();
-          store().set(keyOf(tripId), JSON.stringify({ ...outcome.value, savedAt }));
+          if (kept) store().set(keyOf(tripId), JSON.stringify({ ...outcome.value, savedAt }));
           setState({ kind: 'ready', data: outcome.value, savedAt: null });
         } else if (outcome.kind === 'offline') {
           const cached = cachedDrivers(tripId);
@@ -52,7 +54,7 @@ export function useDrivers(tripId: string, api: DriversApi = deviceDriversApi) {
           setState((prev) => (prev.kind === 'ready' ? prev : { kind: 'error' }));
         }
       }),
-    [api, tripId],
+    [api, kept, tripId],
   );
   useEffect(() => {
     void refresh();

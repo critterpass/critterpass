@@ -11,12 +11,21 @@ msgstr ""
 msgid "drivers.share.lastKnown"
 msgstr " · last known"
 
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.question"
+msgstr " You wrote \"{words}\". What is the price for {people} of us for a day?"
+
 #. placeholder {0}: props.dayCount
 #. placeholder {1}: money(total)
 #. placeholder {2}: money(total)
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.total"
 msgstr "{0, plural, one {{1} for the day} other {{2} for # days}}"
+
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr "{0, plural, one {# person} other {# people}}"
 
 #. placeholder {0}: tips.length
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
@@ -47,11 +56,6 @@ msgstr "{0} is {1} hours. {name}'s price covers {2}."
 msgid "drivers.check.count"
 msgstr "{0} of {1} checked"
 
-#. placeholder {0}: plan.people
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
-msgid "drivers.compare.people"
-msgstr "{0} people"
-
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
 #. placeholder {2}: hoursFigure(day.hours)
@@ -72,6 +76,22 @@ msgstr "{0}/hr"
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.priceHours"
 msgstr "{amount} · {hours} hours"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.priceLeastHours"
+msgstr "{amount} · {hours} hours or more"
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.tierSeats"
+msgstr "{amount} · {seats} seats"
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.perPerson"
+msgstr "{amount} a person"
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.perHour"
+msgstr "{amount} an hour"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.set"
@@ -294,9 +314,17 @@ msgstr "Ask {name}"
 msgid "drivers.find.ask"
 msgstr "Ask for me"
 
+#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+msgid "drivers.compare.askPrice"
+msgstr "Ask him"
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.ask"
 msgstr "Ask the crew first"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.priceAsk"
+msgstr "Ask the driver"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.tours"
@@ -547,6 +575,10 @@ msgstr "Found one yourself"
 msgid "drivers.tours.price"
 msgstr "From {0} {1}"
 
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.from"
+msgstr "from {amount}"
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.from"
 msgstr "From Viator"
@@ -570,6 +602,10 @@ msgstr "Good English"
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.greatPhotos"
 msgstr "Great photos"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/price-notes.tsx
+msgid "drivers.check.priceAskWords"
+msgstr "He wrote: “{ask}”"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
 msgid "drivers.share.message"
@@ -642,7 +678,8 @@ msgstr "Inviting your driver"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.title"
-msgstr "Is this right?"
+msgstr "Is this\n"
+"right?"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.toursBody"
@@ -756,6 +793,10 @@ msgstr "No crew has brought back a driver here who asked to be listed. Listed dr
 msgid "drivers.ours.empty"
 msgstr "No drivers on this trip yet."
 
+#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+msgid "drivers.compare.askPriceHint"
+msgstr "No one price yet. Ask him on WhatsApp"
+
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.noRide"
 msgstr "No ride"
@@ -788,11 +829,11 @@ msgstr "Not now"
 msgid "drivers.share.notOpened"
 msgstr "Not opened yet"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Not said"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "Not said. Ask him on WhatsApp"
 
@@ -1058,6 +1099,10 @@ msgstr "Speaks"
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.supplierChecks"
 msgstr "Supplier checks"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.more"
+msgstr "Swipe sideways for the rest →"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"

@@ -7,9 +7,6 @@ import { describe, expect, it } from 'vitest';
 import {
   createSentenceChunker,
   elevenLabsSynthesizer,
-  FALLBACK_MODEL,
-  FLASH_MODEL,
-  modelFor,
   speakReply,
   type Synthesize,
 } from '../../src/lib/tts';
@@ -53,10 +50,23 @@ describe('sentence chunker', () => {
 });
 
 describe('ElevenLabs synthesis', () => {
-  it('picks Flash where it speaks the language and v3 elsewhere', () => {
-    expect(modelFor('vi-VN')).toBe(FLASH_MODEL);
-    expect(modelFor('id')).toBe(FLASH_MODEL);
-    expect(modelFor('th-TH')).toBe(FALLBACK_MODEL);
+  it('reads every language with the real-time model, its language pinned', async () => {
+    const bodies: unknown[] = [];
+    const fetchImpl = ((_url: string, init: RequestInit) => {
+      bodies.push(JSON.parse(init.body as string));
+      return Promise.resolve(new Response(Uint8Array.of(0xff, 0xfb)));
+    }) as unknown as typeof fetch;
+    const speak = elevenLabsSynthesizer('xi-key', fetchImpl);
+    for (const language of ['th-TH', 'is', 'en_US']) {
+      for await (const _ of speak({ voiceId: 'v', text: 'Hi', language })) {
+        // drain
+      }
+    }
+    expect(bodies).toEqual([
+      { text: 'Hi', model_id: 'eleven_v4_turbo', language_code: 'th' },
+      { text: 'Hi', model_id: 'eleven_v4_turbo', language_code: 'is' },
+      { text: 'Hi', model_id: 'eleven_v4_turbo', language_code: 'en' },
+    ]);
   });
 
   it('streams the MP3 body of one request', async () => {
@@ -100,7 +110,7 @@ describe('ElevenLabs synthesis', () => {
     expect((calls[0]!.init.headers as Record<string, string>)['xi-api-key']).toBe('xi-key');
     expect(JSON.parse(calls[0]!.init.body as string)).toEqual({
       text: 'Xin chào!',
-      model_id: FLASH_MODEL,
+      model_id: 'eleven_v4_turbo',
       language_code: 'vi',
       previous_text: 'Chào bạn.',
     });

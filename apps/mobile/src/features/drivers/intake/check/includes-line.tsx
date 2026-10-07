@@ -7,13 +7,13 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
+import { SAID_PILL_HEIGHT, SaidPill } from '../../shared/said-pill';
 import { CheckDot } from './check-dot';
 
 const NEXT = { unknown: 'yes', yes: 'no', no: 'unknown' } as const;
@@ -38,7 +38,7 @@ export function IncludesLine(props: {
         <Text variant="eyebrow" color={theme.semantic.text.secondary}>
           {upper(props.label, locale)}
         </Text>
-        <Row gap="6" style={{ flexWrap: 'wrap' }}>
+        <Row gap="6" wrap>
           {KEYS.map((key) => {
             const said = card.includes[key] ?? 'unknown';
             const item = props.includeLabel[key];
@@ -55,11 +55,12 @@ export function IncludesLine(props: {
                 onPress={() =>
                   props.onChange({ ...card, includes: { ...card.includes, [key]: NEXT[said] } })
                 }
+                style={{ minHeight: SAID_PILL_HEIGHT, minWidth: 0 }}
                 testID={`drivers-check-include-${key}`}
               >
-                <InfoPill variant={said === 'yes' ? 'solid' : 'outline'}>
+                <SaidPill tone={said === 'yes' ? 'said' : said === 'no' ? 'plain' : 'unsaid'}>
                   {upper(text, locale)}
-                </InfoPill>
+                </SaidPill>
               </PressScale>
             );
           })}

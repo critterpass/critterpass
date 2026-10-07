@@ -1,9 +1,10 @@
 /**
  * `recap.narrate`: the guide's voice over each story card, in every language the recap's viewers
- * read it in (ElevenLabs in the guide's own voice, the phrase cards' client: Flash for the
- * languages it speaks, v3 for the rest). A language other than the guide's gets its narration once
- * the card copy is translated (`guide_text.translate` queues this job again when it is); a card
- * whose translation was refused is read in the words its readers see, the guide's own.
+ * read it in (ElevenLabs in the guide's own voice, the phrase cards' client). A language other than
+ * the guide's gets its narration once the card copy is translated (`guide_text.translate` queues
+ * this job again when it is); a card whose translation was refused is read in the words its readers
+ * see, the guide's own. With a model configured, the lines about to be recorded first get a few
+ * audio tags for the delivery; the tagged line goes to the speech model only, never into the recap.
  *
  * The audio is trip media, owned by no traveller (`t/<trip>/recap_audio/<id>`), so purging any
  * account leaves the crew's narration in place; `POST /v1/media/read-urls` signs it for the recap's
@@ -14,7 +15,13 @@
  */
 import { createHash } from 'node:crypto';
 
-import { personaIdSchema, resolvePersonaPack } from '@cp/ai';
+import {
+  personaIdSchema,
+  RECAP_SPOKEN_PROMPT_VERSION,
+  recordUsage,
+  resolvePersonaPack,
+  tagRecapNarration,
+} from '@cp/ai';
 import { withSystem } from '@cp/db';
 import {
   generateUuidV7,
@@ -31,13 +38,16 @@ import {
 import type pg from 'pg';
 
 import { defineJob, type AnyJobDefinition } from '../../boss/define-job';
-import type { TtsProvider } from '../guide/elevenlabs';
+import { TTS_MODEL, type TtsProvider } from '../guide/elevenlabs';
+import type { RecapCopyWriter } from './copy';
 
 export interface RecapVoice {
   readonly tts: TtsProvider;
   readonly store: { put(key: string, bytes: Uint8Array, contentType: string): Promise<void> };
   /** Voice for guides whose persona names none. */
   readonly defaultVoiceId: string;
+  /** The model that tags lines for delivery; absent, every line is read as written. */
+  readonly writer?: RecapCopyWriter | undefined;
 }
 
 export interface NarrationEntry {
@@ -60,9 +70,10 @@ export type NarrateOutcome =
 /** Bumped when the stored audio's layout changes, so every card is recorded again once. */
 const NARRATION_LAYOUT = 'trip-media';
 
-const hashOf = (text: string, language: string, voiceId: string) =>
+/** A recording is of these words, in this voice, by this model, tagged this way. */
+const hashOf = (text: string, language: string, voiceId: string, delivery: string) =>
   createHash('sha256')
-    .update(`${NARRATION_LAYOUT}\n${voiceId}\n${language}\n${text}`)
+    .update(`${NARRATION_LAYOUT}\n${TTS_MODEL}\n${delivery}\n${voiceId}\n${language}\n${text}`)
     .digest('hex');
 
 interface Source {
@@ -146,15 +157,29 @@ export async function narrateRecap(
   const next: Narration = {};
   const recorded: { key: string; bytes: number; sha256: string }[] = [];
   let failed = 0;
+  const gateway = voice.writer?.((record) => recordUsage((fn) => withSystem(pool, fn), record));
+  const delivery = gateway === undefined ? 'plain' : RECAP_SPOKEN_PROMPT_VERSION;
   for (const locale of ready) {
     const current = source.narration[locale] ?? {};
     const entries: Record<string, NarrationEntry> = { ...current };
-    for (const line of linesFor(source, locale)) {
-      const hash = hashOf(line.text, line.language, source.voiceId);
-      if (current[line.card]?.hash === hash) continue;
+    const due = linesFor(source, locale)
+      .map((line) => ({
+        ...line,
+        hash: hashOf(line.text, line.language, source.voiceId, delivery),
+      }))
+      .filter((line) => current[line.card]?.hash !== line.hash);
+    const tagged =
+      gateway === undefined || due.length === 0
+        ? {}
+        : await tagRecapNarration(
+            gateway,
+            due.map(({ card, text }) => ({ card, text })),
+            { tripId: source.tripId },
+          );
+    for (const { hash, ...line } of due) {
       try {
         const audio = await voice.tts.synthesize({
-          text: line.text,
+          text: tagged[line.card] ?? line.text,
           language: line.language,
           voiceId: source.voiceId,
         });

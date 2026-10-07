@@ -101,11 +101,13 @@ export function applyEdit(
       };
     }
     case 'price': {
+      // A typed figure is one price: his range, his floor and the words to ask about go.
+      const { price_max_minor: _max, price_from: _from, price_ask: _ask, ...kept } = card;
       const currency = card.currency ?? fallbackCurrency;
       const minor = toMinor(value, currency);
       return minor === null
         ? { ...card, price_minor: null, currency: null }
-        : { ...card, price_minor: minor, currency, price_unit: card.price_unit ?? 'day' };
+        : { ...kept, price_minor: minor, currency, price_unit: card.price_unit ?? 'day' };
     }
     case 'overtime': {
       const currency = card.currency ?? fallbackCurrency;

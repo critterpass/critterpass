@@ -1,19 +1,71 @@
 /** The comparison's model: a shortlisted driver as a candidate, day hours and the risk line copy. */
-import type { CompareCandidate, CompareRisk } from '@cp/domain';
+import {
+  carsNeeded,
+  type CompareCandidate,
+  type CompareDay,
+  type CompareRisk,
+  type DriverCard,
+} from '@cp/domain';
 import type { useLingui } from '@lingui/react/macro';
 
-import { driverCardOf, type ShortlistDriver } from '../shared/api';
+import type { ShortlistDriver } from '../shared/api';
 import { dayLabel } from '../shared/format';
 
-export function candidateOf(driver: ShortlistDriver): CompareCandidate {
-  const card = driverCardOf(driver);
+type CarPrice = Pick<CompareCandidate, 'priceMinor' | 'priceUnit' | 'includedHours'>;
+
+/**
+ * His price as what the whole party pays, which is what the comparison splits. A price per person
+ * is paid by each of them, and a price per hour is paid for every hour of the chosen days (at
+ * least the hours he asks for, in every car needed); with a day that has no times yet, an hourly
+ * rate has no total to compare.
+ */
+export function partyPrice(
+  card: DriverCard,
+  days: readonly CompareDay[],
+  people: number,
+): CarPrice {
+  const quoted = {
+    priceMinor: card.price_minor,
+    priceUnit: card.price_unit,
+    includedHours: card.included_hours,
+  };
+  if (card.price_minor === null) return quoted;
+  if (card.price_per === 'person') {
+    return {
+      ...quoted,
+      priceMinor: card.price_minor * people,
+      priceUnit: card.price_unit === 'trip' ? 'trip' : 'group',
+    };
+  }
+  if (card.price_per === 'hour') {
+    const least = card.included_hours ?? 0;
+    const hours = days.map((day) => (day.hours === null ? null : Math.max(day.hours, least)));
+    const known = hours.filter((n): n is number => n !== null);
+    const total =
+      known.length === 0 || known.length < hours.length
+        ? null
+        : Math.round(
+            card.price_minor *
+              known.reduce((sum, n) => sum + n, 0) *
+              carsNeeded(people, card.seats),
+          );
+    // The hours he names are the least he drives for, not a day his price covers.
+    return { priceMinor: total, priceUnit: 'trip', includedHours: null };
+  }
+  return quoted;
+}
+
+export function candidateOf(
+  driver: ShortlistDriver,
+  card: DriverCard,
+  days: readonly CompareDay[],
+  people: number,
+): CompareCandidate {
   return {
     id: driver.id,
     name: driver.name,
-    priceMinor: card.price_minor,
+    ...partyPrice(card, days, people),
     currency: card.currency,
-    priceUnit: card.price_unit,
-    includedHours: card.included_hours,
     seats: card.seats,
     includes: card.includes,
     overtimeMinor: card.overtime_minor,

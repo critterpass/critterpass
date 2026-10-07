@@ -1,6 +1,6 @@
 /**
- * Bringing a driver in (6c-1): share the text to the trip (`share_provider_intake`, queued when
- * offline), then ask the api to read it into a card. A screenshot is read on the phone first and
+ * Bringing a driver in (6c-1): share the text to the trip (`share_provider_intake`, queued on the
+ * phone and uploaded when online), then ask the api to read it into a card. A screenshot is read on the phone first and
  * only its text is shared; a typed contact needs no reading.
  */
 import { EMPTY_DRIVER_CARD, generateUuidV7, type IntakeKind, type ParsedIntake } from '@cp/domain';
@@ -11,6 +11,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { deviceDriversApi, type DriversApi } from '../shared/api';
 import { shareIntakeCommand } from '../shared/commands';
 import { rememberIntake, type ReadIntake } from './intake-store';
+import { readWhenShared } from './read-when-shared';
 
 export type IntakeState =
   | { readonly kind: 'idle' }
@@ -51,11 +52,11 @@ export function useIntake(tripId: string, api: DriversApi = deviceDriversApi) {
       setState({ kind: 'done', item });
       return item;
     }
-    if (sent.kind === 'queued') {
+    const read = await readWhenShared(api, intakeId);
+    if (read === null) {
       setState({ kind: 'queued' });
       return null;
     }
-    const read = await api.readIntake(intakeId);
     const item: ReadIntake = {
       intakeId,
       kind,

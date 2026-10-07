@@ -4,7 +4,8 @@
  * stored as trip media no traveller owns; a re-run over the same words makes no call; a card whose
  * call fails keeps its text and the recap stays ready, and the next run records only that card. A
  * viewer reading Vietnamese waits for the copy's translation, then gets it read in Vietnamese while
- * English makes no call; the translation sweep carries the recap and its awards; and purging the
+ * English makes no call; the translation sweep carries the recap and its awards; with a model the
+ * lines are recorded again with audio tags that never reach the recap's own words; and purging the
  * account of a viewer leaves the crew's narration in place.
  */
 import { purgeAccount, withSystem } from '@cp/db';
@@ -175,6 +176,56 @@ describe('recap.narrate', { timeout: 60_000 }, () => {
     calls.length = 0;
     await narrateRecap(world.harness.pool, recapId, voice);
     expect(calls).toEqual([]);
+  });
+
+  it('tags lines for the voice only: recorded again with the tags, the recap keeping its words', async () => {
+    const [before] = await world.q<{ cards: unknown; i18n: unknown }>(
+      'SELECT cards, i18n FROM recaps WHERE id = $1',
+      [recapId],
+    );
+    const source = recapGuideTextSource(before!.cards);
+    const cover = source['cover_narration'] ?? '';
+    const requests: string[] = [];
+    // The model tags the cover, rewords the stamp, and says nothing of the other cards.
+    const tagging: RecapVoice = {
+      ...voice,
+      writer: () => ({
+        callModel: (route, input) => {
+          requests.push(`${route} ${JSON.stringify(input.messages)}`);
+          const lines = [
+            { card: 'cover', text: `[warmly] ${cover}` },
+            { card: 'stamp', text: '[proudly] Stamped, signed and sealed!' },
+          ];
+          return Promise.resolve({
+            message: { content: [{ type: 'text', text: JSON.stringify({ lines }) }] },
+          }) as never;
+        },
+      }),
+    };
+    calls.length = 0;
+    expect(await narrateRecap(world.harness.pool, recapId, tagging)).toEqual({
+      outcome: 'narrated',
+      recorded: 16,
+      failed: 0,
+      waiting: [],
+    });
+    // One tagging call per language read, each carrying that language's lines.
+    expect(requests).toHaveLength(2);
+    expect(requests.every((request) => request.startsWith('recap.narration '))).toBe(true);
+    const english = calls.filter((call) => call.language === 'en').map((call) => call.text);
+    expect(english).toContain(`[warmly] ${cover}`);
+    expect(english).toContain(source['stamp_narration']);
+    expect(english.filter((text) => text.includes('[warmly]'))).toHaveLength(1);
+    expect(calls.some((call) => call.text.includes('Stamped, signed and sealed'))).toBe(false);
+    expect(await world.q('SELECT cards, i18n FROM recaps WHERE id = $1', [recapId])).toEqual([
+      before,
+    ]);
+
+    calls.length = 0;
+    requests.length = 0;
+    await narrateRecap(world.harness.pool, recapId, tagging);
+    expect(calls).toEqual([]);
+    expect(requests).toEqual([]);
   });
 
   it("keeps the crew's narration when a viewer's account is purged", async () => {

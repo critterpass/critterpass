@@ -4,9 +4,10 @@
  * `done` waits for the last piece, so the app has every chunk before the stream closes. A failed
  * synthesis ends the audio only: the text keeps streaming and the reply is read instead of heard.
  * When the guide looks something up before it has said anything, it says one short filler line
- * first (./filler-lines.ts): spoken only, never part of the reply's text.
+ * first (./filler-lines.ts): spoken only, never part of the reply's text. A reply the guide marked
+ * with audio tags (`[warmly]`) is spoken with them and shown, stored and published without them.
  */
-import type { TurnEvent } from '@cp/ai';
+import { createVoiceTagStripper, type TurnEvent } from '@cp/ai';
 import { metrics } from '@opentelemetry/api';
 import type pg from 'pg';
 
@@ -22,6 +23,8 @@ export interface SpokenTurnOptions {
   readonly onFirstAudio?: (ms: number) => void;
   readonly onFailed?: (error: unknown) => void;
   readonly now?: () => number;
+  /** What to say for a text event when it differs from what the event shows (audio tags). */
+  readonly spokenText?: (event: TurnEvent) => string | undefined;
 }
 
 /** Text deltas handed over as they arrive; `end` closes the stream. */
@@ -57,6 +60,48 @@ function textQueue() {
 }
 
 type Turn = AsyncGenerator<TurnEvent, void, undefined>;
+
+export interface SpokenTags {
+  /** The turn with the audio tags taken out of its text; put it before anything stores the text. */
+  readonly strip: (events: Turn) => Turn;
+  /** The tagged words behind a text event `strip` produced, for the voice. */
+  readonly spokenFor: (event: TurnEvent) => string | undefined;
+}
+
+/**
+ * Splits a tagged reply in two as it streams: text events without the tags (a tag cut across
+ * events is held until it is whole, so half of one never shows) and, per event, the words as the
+ * guide wrote them for `speakTurn`.
+ */
+export function spokenTags(): SpokenTags {
+  const stripper = createVoiceTagStripper();
+  const written = new WeakMap<TurnEvent, string>();
+  let unsaid = '';
+  const shown = (text: string): TurnEvent => {
+    const event: TurnEvent = { type: 'token', text };
+    written.set(event, unsaid);
+    unsaid = '';
+    return event;
+  };
+  return {
+    strip: async function* (events) {
+      for await (const event of events) {
+        if (event.type === 'token') {
+          unsaid += event.text;
+          const text = stripper.push(event.text);
+          if (text !== '') yield shown(text);
+          continue;
+        }
+        if (event.type === 'done' || event.type === 'error') {
+          const rest = stripper.flush();
+          if (rest !== '') yield shown(rest);
+        }
+        yield event;
+      }
+    },
+    spokenFor: (event) => written.get(event),
+  };
+}
 type AudioStep = { readonly chunk: AudioChunk } | { readonly over: true };
 
 export async function* speakTurn(events: Turn, options: SpokenTurnOptions): Turn {
@@ -105,7 +150,7 @@ export async function* speakTurn(events: Turn, options: SpokenTurnOptions): Turn
       if (winner.event.done === true) return;
       const event = winner.event.value;
       if (event.type === 'token') {
-        text.push(event.text);
+        text.push(options.spokenText?.(event) ?? event.text);
         voiced ||= event.text.trim() !== '';
       } else if (event.type === 'tool_start' && !voiced) {
         const filler = fillerLine(event.tool, options.language);

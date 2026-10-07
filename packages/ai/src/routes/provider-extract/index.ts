@@ -13,14 +13,14 @@ import {
   PROVIDER_EXTRACT_ROUTE,
   type ProviderExtractRequestInput,
 } from './prompt';
-import {
-  providerExtractReplySchema,
-  validateProviderReply,
-  type ValidateProviderOptions,
-} from './schema';
+import { parseProviderReply } from './reply';
+import { validateProviderReply, type ValidateProviderOptions } from './schema';
 
+export { verifiedPhone } from './phone';
 export * from './prompt';
+export * from './reply';
 export * from './schema';
+export { spanOf } from './span';
 
 export async function extractProvider(
   gateway: Pick<Gateway, 'callModel'>,
@@ -34,8 +34,8 @@ export async function extractProvider(
       context,
     );
     if (isDeclined(result.message)) return null;
-    const reply = providerExtractReplySchema.safeParse(parseStructuredText(textOf(result.message)));
-    return reply.success ? validateProviderReply(reply.data, input.text, input) : null;
+    const reply = parseProviderReply(parseStructuredText(textOf(result.message)));
+    return reply === null ? null : validateProviderReply(reply, input.text, input);
   } catch {
     return null;
   }

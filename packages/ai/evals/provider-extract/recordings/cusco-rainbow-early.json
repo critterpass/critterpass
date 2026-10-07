@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1434,
+  "latency_ms": 1206,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "4dfc0772-cc6f-41a9-9073-1692de1ddb5b",
+        "id": "2898dd97-040b-4a3b-8901-d38494ed7d2f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Edwin\",\"quote\":\"with Edwin\"},\"phone\":{\"value\":\"+51984000027\",\"quote\":\"+51 984 000 027\"},\"area\":null,\"languages\":null,\"car\":null,\"price\":{\"amount\":120,\"currency\":\"USD\",\"unit\":\"trip\",\"hours\":null,\"quote\":\"$120 USD for the car\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Edwin\",\"quote\":\"with Edwin\"},\"phone\":{\"value\":\"+51 984 000 027\",\"quote\":\"+51 984 000 027\"},\"area\":{\"value\":\"Rainbow Mountain\",\"quote\":\"For Rainbow Mountain\"},\"languages\":null,\"car\":{\"value\":null,\"seats\":null,\"quote\":\"\"},\"prices\":[{\"amount\":120,\"amount_max\":null,\"currency\":\"USD\",\"unit\":\"day\",\"per\":\"group\",\"hours\":13,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"$120 USD for the car\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 219,
+          "input_tokens": 229,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 128,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 177,
           "service_tier": "standard"
         }
       }

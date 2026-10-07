@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 906,
+  "latency_ms": 1443,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "052fe839-0169-49d3-a8b2-374a9a06541c",
+        "id": "e514eb85-3918-46d2-9b4c-4dd5af842a2b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Ketut\",\"quote\":\"Ketut\"},\"phone\":{\"value\":\"+6281200000606\",\"quote\":\"+62 812 0000 0606\"},\"area\":{\"value\":\"Nusa Penida\",\"quote\":\"Nusa Penida\"},\"languages\":null,\"car\":{\"value\":\"car\",\"seats\":null,\"quote\":\"by car\"},\"price\":{\"amount\":450000,\"currency\":\"IDR\",\"unit\":\"trip\",\"hours\":null,\"quote\":\"Rp 450k per person\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"incl driver, fuel, parking. Entrance Kelingking 25k not incl\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Ketut\",\"quote\":\"Ketut +62 812 0000 0606\"},\"phone\":{\"value\":\"+62 812 0000 0606\",\"quote\":\"+62 812 0000 0606\"},\"area\":{\"value\":\"Nusa Penida\",\"quote\":\"Nusa Penida west tour\"},\"languages\":null,\"car\":{\"value\":null,\"seats\":null,\"quote\":\"by car\"},\"prices\":[{\"amount\":450000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"trip\",\"per\":\"person\",\"hours\":null,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Rp 450k per person\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"incl driver, fuel, parking. Entrance Kelingking 25k not incl\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 224,
+          "input_tokens": 234,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 174,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 214,
           "service_tier": "standard"
         }
       }

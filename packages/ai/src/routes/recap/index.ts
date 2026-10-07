@@ -27,6 +27,7 @@ export * from './fallback';
 export * from './number-guard';
 export * from './prompt';
 export * from './schema';
+export * from './spoken';
 
 export interface RecapCopyResult {
   readonly cards: RecapCardsCopy;

@@ -1,5 +1,5 @@
 /**
- * Phrase audio: ElevenLabs Flash (multilingual) reads each card in a native voice per language and
+ * Phrase audio: ElevenLabs (Eleven v4) reads each card in a native voice per language and
  * the MP3 is stored in R2 under a content-hash key, so an unchanged card is never synthesised twice.
  * Without an ElevenLabs key the cards stay text-only with `audio_status: pending`; running the
  * stage again once the key is set fills them in.
@@ -9,7 +9,7 @@ import { createHash } from 'node:crypto';
 import type { ContentItem } from '@cp/content';
 import { AwsClient } from 'aws4fetch';
 
-export const TTS_MODEL = 'eleven_flash_v2_5';
+export const TTS_MODEL = 'eleven_v4';
 
 export interface TtsConfig {
   readonly apiKey: string;

@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1145,
+  "latency_ms": 1734,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "86f78f2e-cc9b-49f7-916d-1d95dea0c161",
+        "id": "d562abba-e54f-4205-9274-7c7583b0531b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"田中\",\"quote\":\"運転手 田中\"},\"phone\":{\"value\":\"080-0000-1616\",\"quote\":\"080-0000-1616\"},\"area\":null,\"languages\":{\"value\":[\"en\"],\"quote\":\"英語少し\"},\"car\":{\"value\":\"ジャンボタクシー\",\"seats\":9,\"quote\":\"ジャンボタクシー9人乗り\"},\"price\":{\"amount\":27000,\"currency\":\"JPY\",\"unit\":\"hours\",\"hours\":3,\"quote\":\"3時間 ¥27,000\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"no\",\"tolls\":\"no\",\"entry\":\"unknown\",\"quote\":\"高速代・駐車場代は別途\"},\"overtime\":{\"amount\":4500,\"quote\":\"延長30分 ¥4,500\"},\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"田中\",\"quote\":\"運転手 田中\"},\"phone\":{\"value\":\"080-0000-1616\",\"quote\":\"080-0000-1616\"},\"area\":null,\"languages\":{\"value\":[\"ja\",\"en\"],\"quote\":\"英語少し\"},\"car\":{\"value\":\"jumbo taxi\",\"seats\":9,\"quote\":\"ジャンボタクシー9人乗り\"},\"prices\":[{\"amount\":27000,\"amount_max\":null,\"currency\":\"JPY\",\"unit\":\"hours\",\"per\":\"group\",\"hours\":3,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"3時間 ¥27,000\"},{\"amount\":4500,\"amount_max\":null,\"currency\":\"JPY\",\"unit\":\"hours\",\"per\":\"group\",\"hours\":null,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"延長30分 ¥4,500\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"no\",\"tolls\":\"no\",\"entry\":\"unknown\",\"quote\":\"高速代・駐車場代は別途\"},\"overtime\":{\"amount\":4500,\"currency\":\"JPY\",\"per_minutes\":30,\"quote\":\"延長30分 ¥4,500\"},\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 237,
+          "input_tokens": 247,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 194,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 279,
           "service_tier": "standard"
         }
       }

@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from 'vitest';
 
-import { createElevenLabs, ttsModel } from '../../src/jobs/guide/elevenlabs';
+import { createElevenLabs } from '../../src/jobs/guide/elevenlabs';
 
 const LINE = 'Đà Nẵng, ba ngày: cả nhóm đã ký con dấu, và Chà Vá vẫn trốn ở Sơn Trà.';
 
@@ -38,11 +38,6 @@ describe('ElevenLabs speech request', () => {
     expect(body.text).toBe(LINE);
     expect(body.text.normalize('NFC')).toBe(LINE.normalize('NFC'));
     expect(body.language_code).toBe('vi');
-    expect(body.model_id).toBe('eleven_flash_v2_5');
-  });
-
-  it('reads a language Flash does not speak with v3', () => {
-    expect(ttsModel('vi')).toBe('eleven_flash_v2_5');
-    expect(ttsModel('is')).toBe('eleven_v3');
+    expect(body.model_id).toBe('eleven_v4');
   });
 });
