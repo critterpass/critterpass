@@ -11,7 +11,14 @@ export const CARD_BOOST_SQL = `SELECT b.id, b.trip_id, b.crew_id, b.buyer_id, b.
   LEFT JOIN crews c ON c.id = b.crew_id
   LEFT JOIN guides g ON g.id = t.guide_id
   WHERE b.id = ?`;
-export const CARD_BOOST_TABLES = ['trip_boosts', 'users', 'trips', 'destinations', 'crews', 'guides'];
+export const CARD_BOOST_TABLES = [
+  'trip_boosts',
+  'users',
+  'trips',
+  'destinations',
+  'crews',
+  'guides',
+];
 
 export interface CardBoostRow {
   readonly id: string;

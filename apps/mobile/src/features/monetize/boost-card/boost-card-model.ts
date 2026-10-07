@@ -118,14 +118,11 @@ export function boostCardModel(input: CardInput): BoostCardModel {
   return {
     kind: 'live',
     split: boost.split,
-    ways: !boost.split
-      ? 0
-      : splitPending
-        ? boost.splitMemberIds.length
-        : input.shares.length,
+    ways: !boost.split ? 0 : splitPending ? boost.splitMemberIds.length : input.shares.length,
     splitPending,
     viewer,
-    share: viewer === 'owes' && own !== undefined ? { minor: own.minor, currency: own.currency } : null,
+    share:
+      viewer === 'owes' && own !== undefined ? { minor: own.minor, currency: own.currency } : null,
     thanks,
     settled,
     remaining: debtors.length - settled.length,
