@@ -48,11 +48,7 @@ export const meetUpLoader: LaLoader = async ({ tx, refId, now, redact = false })
   const { rows } = await tx.query<MeetUpRow>(
     `SELECT m.id, m.trip_id, m.place_name, m.meet_at, m.status, m.arrived,
             coalesce(t.tz, d.tz) AS tz, coalesce(e.boost_active, false) AS boosted, m.created_by,
-            ARRAY(SELECT DISTINCT v.actor_id FROM domain_events v
-                   WHERE v.aggregate_kind = 'trip' AND v.aggregate_id = m.trip_id
-                     AND v.type = 'crew.pinged' AND v.actor_id IS NOT NULL
-                     AND v.payload ->> 'kind' = 'on_my_way'
-                     AND v.payload ->> 'meetup_id' = m.id::text) AS on_my_way
+            app.meetup_on_my_way(m.id) AS on_my_way
        FROM meetups m JOIN trips t ON t.id = m.trip_id
        LEFT JOIN destinations d ON d.id = t.destination_id
        LEFT JOIN trip_entitlements e ON e.trip_id = m.trip_id
