@@ -5,6 +5,8 @@
  * - The media bucket: every object under the person's own prefixes (uploads, avatars, feedback
  *   attachments, voice notes, signatures under `u/<uid>/`; "Download my data" zips under
  *   `exports/<uid>/`).
+ * - Quarantine: an upload a known-image match blocked is moved to `quarantine/u/<uid>/…`. It is
+ *   evidence in a legal report, so it is erased only where the environment says so.
  * - The AI trace store (Langfuse): every trace recorded with the person's id.
  *
  * Analytics has its own module (`../../analytics-export/deletion`).
@@ -19,10 +21,24 @@ export function accountMediaPrefixes(uid: string): readonly string[] {
   return [`u/${uid}/`, `exports/${uid}/`];
 }
 
+/** Where a blocked upload of this person waits (`quarantineKey` of a `u/<uid>/…` key). */
+export function accountQuarantinePrefix(uid: string): string {
+  return `quarantine/u/${uid}/`;
+}
+
 /** Deletes every object under the person's prefixes; answers how many went. */
 export async function deleteAccountMedia(store: PrefixStore, uid: string): Promise<number> {
+  return deletePrefixes(store, accountMediaPrefixes(uid));
+}
+
+/** Deletes the person's quarantined uploads; answers how many went. */
+export async function deleteQuarantinedUploads(store: PrefixStore, uid: string): Promise<number> {
+  return deletePrefixes(store, [accountQuarantinePrefix(uid)]);
+}
+
+async function deletePrefixes(store: PrefixStore, prefixes: readonly string[]): Promise<number> {
   let deleted = 0;
-  for (const prefix of accountMediaPrefixes(uid)) {
+  for (const prefix of prefixes) {
     for (const key of await store.list(prefix)) {
       // The listing is by prefix; never delete a key the prefix did not actually match.
       if (!key.startsWith(prefix)) continue;
