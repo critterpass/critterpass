@@ -36,7 +36,7 @@ import { askMessage, whatsappAsk } from '../../shared/whatsapp-copy';
 import { recalledIntake } from '../intake-store';
 import { useCardCopy } from './card-copy';
 import { AskDriverBox } from './ask-driver-box';
-import { CHECK_DOT_SIZE, CheckDot } from './check-dot';
+import { CheckDot, CheckDotSpace } from './check-dot';
 import { IncludesLine } from './includes-line';
 import { CouldntReadView } from './couldnt-read';
 import { PriceNotes } from './price-notes';
@@ -210,7 +210,7 @@ export function CheckCardScreen(props: {
               return (
                 <Row key={field} gap="12" align="flex-start">
                   {asking && editing !== field ? (
-                    <View style={{ width: CHECK_DOT_SIZE }} />
+                    <CheckDotSpace />
                   ) : (
                     <CheckDot on={checked.has(field)} onPress={() => toggle(field)} />
                   )}

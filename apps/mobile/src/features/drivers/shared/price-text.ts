@@ -29,7 +29,8 @@ export function usePriceWords() {
     const low = money(words.price_minor, words.currency, locale);
     if (low === null) return null;
     const high = money(words.price_max_minor ?? null, words.currency, locale);
-    const amount = high === null ? low : `${low}–${high}`;
+    // Spaced, so a narrow column breaks the range between its ends and never inside a figure.
+    const amount = high === null ? low : `${low} – ${high}`;
     const counted =
       words.price_per === 'person'
         ? t({ id: 'drivers.price.perPerson', message: `${amount} a person` })

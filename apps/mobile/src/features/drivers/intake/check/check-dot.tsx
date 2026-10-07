@@ -1,16 +1,15 @@
 /** The confirm circle of a card line (6c-2): dashed until confirmed, then a green tick. */
 import { useLingui } from '@lingui/react/macro';
 
+import { View } from 'react-native';
+
 import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
-/** The circle's width, for a line that has nothing to confirm. */
-export const CHECK_DOT_SIZE = 28;
-
 const DOT = {
-  width: CHECK_DOT_SIZE,
-  height: CHECK_DOT_SIZE,
+  width: 28,
+  height: 28,
   borderRadius: 14,
   borderWidth: 2,
   alignItems: 'center',
@@ -38,5 +37,21 @@ export function CheckDot({ on, onPress }: { readonly on: boolean; readonly onPre
         </Text>
       ) : null}
     </PressScale>
+  );
+}
+
+const nothing = () => undefined;
+
+/** The room a confirm circle takes, for a line that has nothing to confirm yet. */
+export function CheckDotSpace() {
+  return (
+    <View
+      style={{ opacity: 0 }}
+      pointerEvents="none"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+    >
+      <CheckDot on={false} onPress={nothing} />
+    </View>
   );
 }
