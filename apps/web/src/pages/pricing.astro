@@ -1,0 +1,34 @@
+---
+import { env } from 'cloudflare:workers';
+
+import { pricingCopy as copy } from '../components/site/copy/pricing';
+import FinalCall from '../components/site/home/FinalCall.astro';
+import { siteTranslator } from '../components/site/i18n';
+import Pricing from '../components/site/pricing/Pricing.astro';
+import { pricingFacts } from '../components/site/pricing/pricing-facts';
+import { SITE_PATHS } from '../components/site/site-config';
+import Site from '../layouts/Site.astro';
+import { fetchPublicPerks } from '../lib/api/perks';
+import { linkRequestContext, type LinksWebEnv } from '../lib/links/web-env';
+import '../components/site/home/home.css';
+
+// What it costs, at an address of its own to share. Rendered per request from the server's perk
+// list; when the list cannot be read there is nothing to show and the visitor goes to the home page.
+export const prerender = false;
+
+const t = await siteTranslator();
+const { apiBaseUrl } = linkRequestContext(Astro.url, env as unknown as LinksWebEnv);
+const facts = pricingFacts(await fetchPublicPerks({ apiBaseUrl }));
+if (facts === null) return Astro.redirect(SITE_PATHS.home, 302);
+---
+
+<Site
+  title={t(copy.pageTitle)}
+  description={t(copy.pageDescription)}
+  canonicalPath={SITE_PATHS.pricing}
+  ogImage="/og/page/pricing.png"
+  tone="ink"
+>
+  <Pricing facts={facts} level={1} />
+  <FinalCall />
+</Site>
