@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1298,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "df8806eb-a8c2-4dc7-8cc9-ef44203d82e7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Kenji\",\"quote\":\"Kenji\"},\"phone\":null,\"area\":{\"value\":\"Kurama + Kibune\",\"quote\":\"Kurama + Kibune\"},\"languages\":null,\"car\":{\"value\":\"Alphard\",\"seats\":null,\"quote\":\"Alphard\"},\"prices\":[],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"no phone or WhatsApp number given\",\"no price given\",\"no languages stated\"],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 214,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 132,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

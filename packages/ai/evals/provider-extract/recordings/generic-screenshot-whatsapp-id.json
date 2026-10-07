@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1449,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "79a34e94-604f-4908-9937-8c735ab57ca0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Made\",\"quote\":\"- Made\"},\"phone\":null,\"area\":null,\"languages\":{\"value\":[\"id\"],\"quote\":\"Siap kak, untuk tgl 14 & 18 Oktober bisa.\"},\"car\":{\"value\":\"Avanza\",\"seats\":6,\"quote\":\"Mobil Avanza 6 penumpang\"},\"prices\":[{\"amount\":650000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":10,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Harga 650rb per hari, 10 jam\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"include BBM + parkir\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 238,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 189,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1095,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "1100dd7b-c966-4370-be5f-b5278347d559",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":null,\"phone\":null,\"area\":null,\"languages\":{\"value\":[\"id\"],\"quote\":\"Tol sudah termasuk kak\"},\"car\":null,\"prices\":[],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"Tol sudah termasuk kak. Tiket masuk tidak.\"},\"overtime\":{\"amount\":75000,\"currency\":\"IDR\",\"per_minutes\":60,\"quote\":\"Overtime 75rb per jam setelah 10 jam.\"},\"licence_shown\":null,\"unreadable\":[\"no driver name or contact number in the message\",\"no vehicle or area mentioned\"],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 207,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 147,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

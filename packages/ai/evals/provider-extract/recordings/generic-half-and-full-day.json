@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1401,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "77f0d309-0a08-417e-86e2-b23d3e6839a9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Gede\",\"quote\":\"Gede, Ubud driver\"},\"phone\":{\"value\":\"+62 813 0000 3838\",\"quote\":\"WA +62 813 0000 3838\"},\"area\":{\"value\":\"Ubud\",\"quote\":\"Ubud driver\"},\"languages\":null,\"car\":null,\"prices\":[{\"amount\":400000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"hours\",\"per\":\"group\",\"hours\":5,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Half day (5 hours) 400k\"},{\"amount\":700000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":10,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"full day (10 hours) 700k\"},{\"amount\":300000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"trip\",\"per\":\"group\",\"hours\":null,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"airport drop 300k\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"Petrol included.\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 232,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 285,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

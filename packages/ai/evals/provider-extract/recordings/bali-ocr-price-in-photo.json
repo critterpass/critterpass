@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 971,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "484d3035-348a-45fb-a251-c37e1e9f1517",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Wayan\",\"quote\":\"Wayan\"},\"phone\":{\"value\":\"0812 0000 1414\",\"quote\":\"0812 0000 1414\"},\"area\":null,\"languages\":null,\"car\":null,\"prices\":[],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"the price list is inside a picture\"],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 206,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 115,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

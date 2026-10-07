@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1478,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "8cf12c0e-90bd-45ad-be5a-fa3fcd3379be",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Tiago Private Tours\",\"quote\":\"Tiago Private Tours\"},\"phone\":{\"value\":\"+351 913 000 025\",\"quote\":\"+351 913 000 025\"},\"area\":{\"value\":\"Porto\",\"quote\":\"from Porto\"},\"languages\":null,\"car\":{\"value\":null,\"seats\":null,\"quote\":\"\"},\"prices\":[{\"amount\":480,\"amount_max\":null,\"currency\":\"EUR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":11,\"car\":\"Mercedes E-Class\",\"seats\":4,\"from\":false,\"quote\":\"480 EUR (1-4 pax, Mercedes E-Class)\"},{\"amount\":620,\"amount_max\":null,\"currency\":\"EUR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":11,\"car\":\"V-Class\",\"seats\":8,\"from\":false,\"quote\":\"620 EUR (5-8 pax, V-Class)\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"Includes: fuel, tolls, parking, driver-guide. Excludes: wine tastings, lunch, boat.\"},\"overtime\":{\"amount\":45,\"currency\":\"EUR\",\"per_minutes\":60,\"quote\":\"45 EUR per hour\"},\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 154,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 286,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

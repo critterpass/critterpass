@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1238,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "9fc03d82-6cd9-4511-8e58-56991345830e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Dewa\",\"quote\":\"Name Dewa\"},\"phone\":{\"value\":\"0813 0000 1111\",\"quote\":\"0813 0000 1111\"},\"area\":null,\"languages\":null,\"car\":{\"value\":\"Brio\",\"seats\":4,\"quote\":\"car Brio 4 seat\"},\"prices\":[{\"amount\":90000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"hours\",\"per\":\"hour\",\"hours\":4,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Rp 90k/hour min 4 hours\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"Include bensin\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 224,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 180,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

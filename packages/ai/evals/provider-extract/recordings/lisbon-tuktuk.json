@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1383,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "e1b79cd8-2ec1-4cfa-86ca-e06c1a1c29bd",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Sofia\",\"quote\":\"Sofia's tuk-tuk\"},\"phone\":{\"value\":\"912 000 024\",\"quote\":\"912 000 024\"},\"area\":{\"value\":\"Sintra\",\"quote\":\"in Sintra\"},\"languages\":null,\"car\":{\"value\":\"tuk-tuk\",\"seats\":6,\"quote\":\"tuk-tuk ... up to 6\"},\"prices\":[{\"amount\":90,\"amount_max\":null,\"currency\":\"EUR\",\"unit\":\"hours\",\"per\":\"group\",\"hours\":2,\"car\":\"tuk-tuk\",\"seats\":6,\"from\":false,\"quote\":\"2h tour €90 for up to 6\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 221,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 193,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

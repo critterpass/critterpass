@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1726,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "cf012131-d836-457e-8200-b7962fae7770",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Luis\",\"quote\":\"Soy Luis\"},\"phone\":{\"value\":\"55 0000 2020\",\"quote\":\"55 0000 2020\"},\"area\":{\"value\":null,\"quote\":\"\"},\"languages\":{\"value\":[\"es\",\"en\"],\"quote\":\"Hablo inglés\"},\"car\":{\"value\":null,\"seats\":7,\"quote\":\"por camioneta (hasta 7 personas)\"},\"prices\":[{\"amount\":2800,\"amount_max\":null,\"currency\":\"MXN\",\"unit\":\"day\",\"per\":\"group\",\"hours\":8,\"car\":null,\"seats\":7,\"from\":false,\"quote\":\"Tour Teotihuacan + Basílica, 8 horas, $2,800 MXN por camioneta (hasta 7 personas)\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"unknown\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"Incluye gasolina y casetas, entradas no\"},\"overtime\":{\"amount\":300,\"currency\":\"MXN\",\"per_minutes\":60,\"quote\":\"Hora extra $300\"},\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 260,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 255,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

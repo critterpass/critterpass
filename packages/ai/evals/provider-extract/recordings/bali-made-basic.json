@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1108,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "c5b674db-888d-4cd4-83f9-c53ca6576ee7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Made\",\"quote\":\"Made here\"},\"phone\":{\"value\":\"+62 812 0000 0101\",\"quote\":\"WA +62 812 0000 0101\"},\"area\":{\"value\":\"Ubud\",\"quote\":\"driver in Ubud\"},\"languages\":{\"value\":[\"en\"],\"quote\":\"English OK\"},\"car\":{\"value\":\"Avanza\",\"seats\":6,\"quote\":\"Avanza 6 pax\"},\"prices\":[{\"amount\":650000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":10,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Full day 10 hrs Rp 650k\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"incl petrol + parking\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2155,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 207,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

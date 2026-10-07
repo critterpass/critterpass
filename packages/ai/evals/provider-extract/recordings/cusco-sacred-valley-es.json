@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1538,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "88bf0194-7307-4211-8a7c-72503ffd50ca",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Wilber\",\"quote\":\"soy Wilber\"},\"phone\":{\"value\":\"984 000 026\",\"quote\":\"984 000 026\"},\"area\":{\"value\":\"Cusco\",\"quote\":\"movilidad privada en Cusco\"},\"languages\":{\"value\":[\"es\",\"qu\",\"en\"],\"quote\":\"Hablo español y quechua, inglés básico\"},\"car\":{\"value\":null,\"seats\":null,\"quote\":\"S/ 350 por auto hasta 4 pax, van 10 pax S/ 450\"},\"prices\":[{\"amount\":350,\"amount_max\":null,\"currency\":\"PEN\",\"unit\":\"day\",\"per\":\"group\",\"hours\":null,\"car\":null,\"seats\":4,\"from\":false,\"quote\":\"S/ 350 por auto hasta 4 pax\"},{\"amount\":450,\"amount_max\":null,\"currency\":\"PEN\",\"unit\":\"day\",\"per\":\"group\",\"hours\":null,\"car\":\"van\",\"seats\":10,\"from\":false,\"quote\":\"van 10 pax S/ 450\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"Boleto turístico no incluido\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 144,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 286,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}
