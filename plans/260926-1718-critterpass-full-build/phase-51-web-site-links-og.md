@@ -116,7 +116,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. `public_reader` role + security-barrier views for proposal/recap with explicit allow-lists; grant on 52's `community.shared_plan_public`. 2. Handlers run `SET LOCAL ROLE public_reader`; kind=plan calls 52's `readPublicPlan(token)`. 3. Token validation (revoked/expired/unlisted → 404). 4. Proposal crew = count + stickers; names only with consent. 5. Rate limit + bot filter reuse from 21.
 - Tests: `pnpm --filter @cp/api test -- public-previews`; `pnpm --filter @cp/db test -- public-projections`.
 - Done when: projection test fails if any column tagged C2/C3 is selected; `public_reader` SELECT on any base table is denied; revoked token returns 404.
-- Status: partly done — c0462e1d (`public_reader`, `public.proposal_public` and `GET /v1/public/proposal/{token}` for a trip code or seat), d223edf7b7 (the plan kind: `public.shared_plan_public` behind a plan link's token, 404 when revoked or not published). Left: the recap kind (no public recap projection yet) and the locals projection (no `critter_public` yet)
+- Status: partly done — c0462e1d (`public_reader`, `public.proposal_public` and `GET /v1/public/proposal/{token}` for a trip code or seat), d223edf7b7 (the plan kind: `public.shared_plan_public` behind a plan link's token, 404 when revoked or not published). Left: the recap kind (no public recap projection yet) and the locals projection (no `critter_public` yet); faa19e9e3a (the locals projection: `public.locals_place_public` and `GET /v1/public/locals/{slug}`, with the public rule in product-decisions: place, credited photo, count, unnamed silhouettes with a rarity tier). Still open: the recap projection
 
 ### T4 — Invite landing + /join + referral
 - Goal: F-183.
@@ -164,7 +164,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Layouts derived from 3a-10/3m-9/3o-4 styles; proposal crew as count + anonymous stickers. 2. noindex for unlisted. 3. `no-store` for token pages. 4. Handoff CTA.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/previews`.
 - Done when: each preview renders from seeded local stack; unlisted pages carry `noindex`; revoked token shows gone state; proposal preview shows no avatar or name without consent.
-- Status: partly done — 4915f7c5 (the proposal's first days on the invite ticket, as Site-Invite draws them; a proposal has no link of its own, it travels on `/i/{code}`), d223edf7b7 (the published crew plan on its plan link, with copy into my trip and its Playwright suite). Left: the recap preview and the locals page, which wait on their T3 kinds
+- Status: partly done — 4915f7c5 (the proposal's first days on the invite ticket, as Site-Invite draws them; a proposal has no link of its own, it travels on `/i/{code}`), d223edf7b7 (the published crew plan on its plan link, with copy into my trip and its Playwright suite). Left: the recap preview and the locals page, which wait on their T3 kinds; faa19e9e3a (the locals page: place, credited photo, count and unnamed silhouettes, 404 for an unknown place; undesigned, logged). Still open: the recap page
 
 ### T11 — Private OG kinds, locals OG, home pricing (block B)
 - Goal: complete F-186 kinds and F-182 pricing.
@@ -172,7 +172,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Proposal/recap/plan templates keyed by link token, content from T3 projections only (no names/avatars without consent). 2. Locals template by public slug (critter forms from 40). 3. Pricing section from `/v1/catalog/perks` at build (build fails if unreachable in production; no hard-coded perks).
 - Tests: `pnpm --filter @cp/web test -- og` (golden per new kind + revoked plan link → 404); `pnpm --filter @cp/web test:e2e -- site/home`.
 - Done when: all 7 kinds render 1200×630 < 300 KB; revoked plan/recap/proposal tokens 404 with R2 purged; pricing section matches Site-Home render.
-- Status: partly done — a proposal shares the invite card (`/og/invite/{code}.png`), so it needs no card of its own; d223edf7b7 (the plan card with its golden). Left: the recap card (waits on its T3 kind), the locals card (no `critter_public` yet) and home pricing (no `/v1/catalog/perks` route yet; the perk rows exist in the database)
+- Status: partly done — a proposal shares the invite card (`/og/invite/{code}.png`), so it needs no card of its own; d223edf7b7 (the plan card with its golden). Left: the recap card (waits on its T3 kind), the locals card (no `critter_public` yet) and home pricing (no `/v1/catalog/perks` route yet; the perk rows exist in the database); faa19e9e3a (the locals card by public slug: place, count and tiers, no critter drawn). Still open: the recap card and home pricing
 
 ### T10 — Deploy pipeline + link-preview verification
 - Goal: production readiness.
@@ -180,7 +180,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Build + `wrangler deploy` per env. 2. Unfurl test using OG metadata parser against staging. 3. Cache headers.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/unfurl`; `actionlint .github/workflows/web.yml`.
 - Done when: staging deploy green; every route has og:title/og:image/twitter:card.
-- Status: done — e42cedd9 (staging deployed and the link-preview check passes against staging.critterpass.app)
+- Status: done — e42cedd9 (staging deployed and the link-preview check passes against staging.critterpass.app); 25ce49489c (the edge deploy had been skipping every step because the Cloudflare API token secret is missing, while reporting success: it now fails naming the secret, and each staging deploy is followed by a security-header check on the deployed site)
 
 ## Phase acceptance criteria
 - [ ] Site pages visually match renders at desktop + mobile widths
