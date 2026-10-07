@@ -1,8 +1,9 @@
 /**
  * Point and ask on the device: the back camera with a photo output, one still per scan read by
- * the phone's own text recognition, and the lines sent to the menu route. The photo never leaves
- * the phone and is not saved. A build or a phone without a working camera says so and points back
- * to typing.
+ * the phone's own text recognition, and the lines sent to the menu route, whose reading streams
+ * back. The photo never leaves the phone and is not saved. The dishes can be put together as an
+ * order to show the person taking it, and the order can start an expense. A build or a phone
+ * without a working camera says so and points back to typing.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- api paths, wire values and design ids, never copy. */
 import { router, useIsFocused } from 'expo-router';
@@ -11,8 +12,6 @@ import { Image, Linking, StyleSheet } from 'react-native';
 
 import { useLingui } from '@lingui/react/macro';
 
-import { sessionHeaders } from '@/data/app-session/device-session';
-import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
@@ -20,9 +19,26 @@ import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { guideAvatarId } from '../chat/components/guide-header';
+import { GuideStreamError } from '../chat/data/guide-frames';
+import { streamGuide } from '../chat/data/guide-stream';
 import { useGuideContext } from '../chat/data/use-guide-context';
 import { CameraView, type MenuFollowUp } from './camera-view';
-import { dishList, MENU_AIMING, menuStickers, type MenuLine, type MenuReading } from './menu-scan';
+import { showModeHref } from '../phrases/phrase-card';
+import { languagePair, useLanguageNames } from './menu-language';
+import { MenuOrderCard } from './menu-order-card';
+import { createMenuReadingFold, MenuReadingError } from './menu-reading';
+import {
+  changeOrder,
+  dishList,
+  MENU_AIMING,
+  menuStickers,
+  orderCard,
+  orderExpenseName,
+  orderLines,
+  type MenuLine,
+  type MenuOrder,
+  type MenuReading,
+} from './menu-scan';
 import {
   createMenuScanController,
   type MenuScanController,
@@ -31,35 +47,27 @@ import {
 } from './menu-scan-controller';
 import { menuCameraModule, type VisionCamera } from './vision-camera';
 
+/** `POST /v1/camera/menu` as an event stream: the dishes as they arrive, closed by `done`. */
 async function readMenuOnServer(
   tripId: string | null,
   lines: readonly MenuLine[],
 ): Promise<MenuReading> {
-  const response = await fetch(`${resolveApiBaseUrl()}/v1/camera/menu`, {
-    method: 'POST',
-    headers: { ...(await sessionHeaders()), 'content-type': 'application/json' },
-    body: JSON.stringify({
-      trip_id: tripId,
-      ocr_lines: lines.map((line) => ({ id: line.id, text: line.text, bbox: [...line.bbox] })),
-    }),
-  });
-  const body = (await response.json().catch(() => null)) as
-    | (Partial<MenuReading> & {
-        error?: { code?: string; detail?: { reason?: string } };
-      })
-    | null;
-  if (!response.ok || body === null || body.error !== undefined) {
-    throw Object.assign(new Error('menu reading refused'), {
-      code: body?.error?.code,
-      reason: body?.error?.detail?.reason,
-    });
+  const fold = createMenuReadingFold();
+  try {
+    await streamGuide(
+      '/v1/camera/menu',
+      {
+        trip_id: tripId,
+        ocr_lines: lines.map((line) => ({ id: line.id, text: line.text, bbox: [...line.bbox] })),
+      },
+      (frame) => fold.frame(frame),
+    );
+  } catch (error) {
+    if (!(error instanceof GuideStreamError)) throw error;
+    const reason = error.detail['reason'];
+    throw new MenuReadingError(error.code, typeof reason === 'string' ? reason : null);
   }
-  return {
-    status: body.status ?? 'failed',
-    items: body.items ?? [],
-    suggestion: body.suggestion ?? null,
-    checked_members: body.checked_members ?? [],
-  };
+  return fold.result();
 }
 
 /** The back camera with a photo output; hands the screen a way to take one still. */
@@ -118,7 +126,9 @@ export function CameraScreen(props: CameraScreenProps) {
 }
 
 function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
-  const { t } = useLingui();
+  const { t, i18n } = useLingui();
+  const names = useLanguageNames();
+  const [order, setOrder] = useState<MenuOrder | null>(null);
   const context = useGuideContext(tripId);
   const trip = context.trip;
   const sync = useSyncStatus();
@@ -160,6 +170,7 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
 
   const stickers = menuStickers(state.lines, state.reading);
   const dishes = dishList(stickers);
+  const reading = state.reading;
   const tripParams = trip === null ? {} : { tripId: trip.tripId };
   const askGuide = (question: string) => {
     const sheet = hrefFor('3j-1', {
@@ -172,7 +183,21 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
   const voice = hrefFor('3j-2', tripParams);
   const crewSize = trip?.crewSize ?? 1;
   const leastSpicy = t({ id: 'guide.camera.leastSpicy', message: 'Least spicy?' });
-  const orderFor = t({ id: 'guide.camera.orderFor', message: `Order for ${crewSize}` });
+  const orderFor =
+    crewSize > 1
+      ? t({ id: 'guide.camera.orderFor', message: `Order for ${crewSize}` })
+      : t({ id: 'guide.camera.orderOne', message: 'Order' });
+  const ordered = orderLines(stickers, order ?? {});
+  const sourceLanguage = reading?.source_language ?? null;
+  const showOrder = () => {
+    const card = orderCard(ordered);
+    // Without the menu's language the card is still shown; only its pronunciation hint is lost.
+    router.push(showModeHref(card.phrase, sourceLanguage ?? 'und', card.gloss));
+  };
+  const splitOrder =
+    typeof split !== 'string'
+      ? undefined
+      : () => router.push({ pathname: split, params: { name: orderExpenseName(ordered) } });
   const followUps: MenuFollowUp[] = [
     {
       id: 'least-spicy',
@@ -182,21 +207,7 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
           t({ id: 'guide.camera.leastSpicyAsk', message: 'Which of these is the least spicy?' }),
         ),
     },
-    ...(crewSize > 1
-      ? [
-          {
-            id: 'order',
-            label: orderFor,
-            onPress: () =>
-              askGuide(
-                t({
-                  id: 'guide.camera.orderForAsk',
-                  message: `What should we order for ${crewSize} people, and how do I say it?`,
-                }),
-              ),
-          },
-        ]
-      : []),
+    { id: 'order', label: orderFor, onPress: () => setOrder({}) },
     ...(split === undefined
       ? []
       : [
@@ -230,8 +241,37 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
         )
       }
       followUps={followUps}
+      languages={languagePair(names, sourceLanguage, i18n.locale)}
+      {...(order === null
+        ? {}
+        : {
+            order: (
+              <MenuOrderCard
+                guideName={context.guideName}
+                crewSize={crewSize}
+                stickers={stickers}
+                order={order}
+                onChange={(id, by) => setOrder((current) => changeOrder(current ?? {}, id, by))}
+                onShow={showOrder}
+                {...(splitOrder === undefined ? {} : { onSplit: splitOrder })}
+                onAsk={() =>
+                  askGuide(
+                    t({
+                      id: 'guide.camera.orderForAsk',
+                      message: `What should we order for ${crewSize} people, and how do I say it?`,
+                    }),
+                  )
+                }
+                onClose={() => setOrder(null)}
+              />
+            ),
+          })}
       onScan={() => void controller.current?.scan()}
-      onRetake={() => controller.current?.retake()}
+      onRetake={() => {
+        // Another menu starts another order.
+        setOrder(null);
+        controller.current?.retake();
+      }}
       onAsk={askGuide}
       {...(voice === undefined ? {} : { onMic: () => router.push(voice) })}
       onClose={() => router.back()}

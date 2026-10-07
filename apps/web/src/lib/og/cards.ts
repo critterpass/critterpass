@@ -8,6 +8,7 @@ import type { Node } from '@takumi-rs/helpers';
 import { estimateEach, guideKind, tripDates } from '../../components/previews/invite-facts';
 import { handoffCopy } from '../links/handoff-copy';
 import { inviteTemplate } from './templates/invite';
+import { localsTemplate } from './templates/locals';
 import { planTemplate } from './templates/plan';
 import { referralTemplate } from './templates/referral';
 
@@ -37,6 +38,26 @@ export function planCard(plan: PublicPlan, words: CardWords): DrawnCard {
   const { eyebrow, headline, chips } = words.plan(plan);
   const content = { eyebrow, headline, chips: chips.slice(0, 3), guide: 'gecko' };
   return { node: planTemplate(content), stickers: [content.guide], content };
+}
+
+/** The words of a place's locals card, from the same facts as its page. */
+export interface LocalsCardWords {
+  readonly eyebrow: string;
+  readonly headline: string;
+  readonly count: string;
+  readonly chips: readonly string[];
+}
+
+/** A place's locals card: the place and how many critters of each tier; never a critter. */
+export function localsCard(words: LocalsCardWords): DrawnCard {
+  const content = {
+    eyebrow: words.eyebrow,
+    headline: words.headline,
+    count: words.count,
+    chips: words.chips.slice(0, 4),
+    guide: 'gecko',
+  };
+  return { node: localsTemplate(content), stickers: [content.guide], content };
 }
 
 export function linkCard(

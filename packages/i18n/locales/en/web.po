@@ -19,6 +19,14 @@ msgstr "{average} from {count, plural, one {# rating} other {# ratings}}"
 msgid "web.tips.categoryPageTitle"
 msgstr "{category} tips · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageDescription"
+msgstr "{count, plural, one {# critter lives} other {# critters live}} in {place}, {area}. Find them on your trip with CritterPass."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.count"
+msgstr "{count, plural, one {# critter to find here} other {# critters to find here}}"
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.seatsLeft"
 msgstr "{count} first-wave seats left"
@@ -86,6 +94,10 @@ msgstr "{name}'s link"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name}'s saving you a seat in {place}."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.photoAlt"
+msgstr "{place}, {area}"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.passMonthly"
@@ -399,6 +411,10 @@ msgstr "COMING SOON"
 msgid "web.comingSoon.hero.badgeSoon"
 msgstr "COMING SOON · iOS + ANDROID"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.common"
+msgstr "Common"
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.confirmed"
 msgstr "CONFIRMED · FIRST WAVE"
@@ -519,6 +535,10 @@ msgstr "CritterPass is in testing. Ask whoever invited you for the TestFlight in
 msgid "web.tips.rssTitle"
 msgstr "CritterPass tips"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openBody"
+msgstr "Critters show themselves in the app, once you are there. Their names are yours when you find them."
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.hintCrack"
 msgstr "crk!"
@@ -594,6 +614,10 @@ msgstr "Each destination has its own guide with its own colour and voice. They k
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planEditing"
 msgstr "EDITING"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.epic"
+msgstr "Epic"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
@@ -782,6 +806,10 @@ msgstr "Get the app"
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.getTheApp"
 msgstr "Get the app"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openTitle"
+msgstr "Go and meet them"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.googlePlay"
@@ -975,6 +1003,10 @@ msgstr "Legal"
 msgid "web.shell.footerLegal"
 msgstr "Legal"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.legendary"
+msgstr "Legendary"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbipLicence"
 msgstr "licensed under CC BY 4.0"
@@ -1075,6 +1107,14 @@ msgstr "No sponsored picks on the trip"
 msgid "web.home.insideMoneyTitle"
 msgstr "Nobody has to be the one who asks for money."
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.body"
+msgstr "Nobody knows who they are until they meet them. Travel here with CritterPass and the locals turn up on their own."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.listTitle"
+msgstr "Not met yet"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.freeDay"
 msgstr "Nothing fixed"
@@ -1114,6 +1154,10 @@ msgstr "One email when we launch. Maybe two. Never spam."
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostPrice"
 msgstr "One purchase per trip"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openCta"
+msgstr "Open in CritterPass"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
@@ -1234,6 +1278,10 @@ msgstr "QR code for this link"
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.questions"
 msgstr "Questions about any of this? Write to {email} and a human will answer."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.rare"
+msgstr "Rare"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.readCurrent"
@@ -1459,9 +1507,17 @@ msgstr "The live crew map"
 msgid "web.shell.theLocals"
 msgstr "The locals"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.eyebrow"
+msgstr "The locals · {area}"
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
 msgstr "The locals are still packing."
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageTitle"
+msgstr "The locals of {place} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassNextFlight"
@@ -1586,6 +1642,10 @@ msgstr "Type the six-character code a friend sent you. We find the crew, then th
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
 msgstr "Undiscovered local number {num}, found by being there"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.unknown"
+msgstr "Unknown critter, {rarity}"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassGuide"

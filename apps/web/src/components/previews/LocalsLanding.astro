@@ -1,0 +1,142 @@
+---
+/**
+ * A place's locals inside the site shell (`/locals/{slug}`): the place with one credited photo,
+ * how many critters there are to find and each as an unnamed silhouette with its rarity tier,
+ * then the way into the app. Only what the public locals projection carries: a critter's name,
+ * art, description, where it turns up and who found it stay in the app.
+ */
+import '../link-handoff/handoff.css';
+import './previews.css';
+
+import type { PublicLocals } from '@cp/domain';
+
+import type { LoadedHandoff } from '../../lib/links/load-handoff';
+import Site from '../../layouts/Site.astro';
+import InAppBrowserEscape from '../link-handoff/InAppBrowserEscape.astro';
+import { inviteCopy } from '../site/copy/invite';
+import { localsCopy as copy } from '../site/copy/locals';
+import { siteTranslator } from '../site/i18n';
+import Sticker from '../site/Sticker.astro';
+import { localSilhouettes, localsPhotoPath, localsWords } from './locals-facts';
+import Qr from './Qr.astro';
+
+export interface Props {
+  readonly locals: PublicLocals;
+  /** The handoff to the place in the app. */
+  readonly loaded: Extract<LoadedHandoff, { kind: 'page' }>;
+}
+
+const { locals, loaded } = Astro.props;
+const { model, qrSvg, install } = loaded;
+const t = await siteTranslator();
+const words = localsWords(locals, t);
+const silhouettes = localSilhouettes(locals, t);
+const { photo } = locals;
+// Android goes through the intent URL and the install referrer; everywhere else the link is copied.
+const copyLink = model !== null && model.platform !== 'android' ? model.canonicalLink : undefined;
+---
+
+<Site
+  title={words.pageTitle}
+  description={words.pageDescription}
+  canonicalPath={`/locals/${locals.slug}`}
+  ogImage={`/og/locals/${locals.slug}.png`}
+  tone="ink"
+>
+  <Fragment slot="head">
+    {model?.smartAppBanner && <meta name="apple-itunes-app" content={model.smartAppBanner} />}
+  </Fragment>
+  <section class="pv-page site-halftone--light">
+    <div class="site-wrap pv-grid">
+      <section class="pv-locals" aria-labelledby="pv-headline" data-testid="locals-place">
+        {
+          photo !== null && (
+            <figure class="pv-locals__photo">
+              <img
+                src={localsPhotoPath(locals.slug)}
+                width={photo.width}
+                height={photo.height}
+                alt={t(copy.photoAlt, { place: locals.name, area: locals.area })}
+                decoding="async"
+              />
+              <figcaption class="pv-locals__credit" data-testid="locals-photo-credit">
+                <a href={photo.source_url} rel="noopener noreferrer nofollow">{photo.credit}</a>
+              </figcaption>
+            </figure>
+          )
+        }
+        <div class="pv-locals__text">
+          <p class="site-eyebrow pv-locals__eyebrow">{words.eyebrow}</p>
+          <h1 id="pv-headline" class="site-display pv-locals__headline">{words.headline}</h1>
+          <p class="site-display pv-locals__count" data-testid="locals-count">{words.count}</p>
+          <p class="pv-locals__body">{t(copy.body)}</p>
+        </div>
+        <div class="pv-locals__found">
+          <h2 id="pv-locals-list" class="site-eyebrow pv-locals__list-title">{t(copy.listTitle)}</h2>
+          <ul class="pv-locals__list" aria-labelledby="pv-locals-list" data-testid="locals-silhouettes">
+            {
+              silhouettes.map((silhouette) => (
+                <li class="pv-local" aria-label={silhouette.label}>
+                  <Sticker kind={silhouette.kind} size={96} variant="mask" outlined={false} class="pv-local__shape" />
+                  <span class={`pv-local__tier pv-local__tier--${silhouette.rarity}`}>{silhouette.rarityLabel}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+      <div class="pv-side">
+        <section class="pv-panel" aria-labelledby="pv-locals-open">
+          <h2 id="pv-locals-open" class="site-display pv-plan__title">{t(copy.openTitle)}</h2>
+          <p class="pv-plan__body">{t(copy.openBody)}</p>
+          {qrSvg !== null && <Qr svg={qrSvg} crewName={null} />}
+          <div class="pv-actions">
+            {
+              model !== null && (
+                <a class="site-button pv-actions__open" href={model.openInAppHref} data-copy-link={copyLink} data-testid="open-in-app">
+                  {t(copy.openCta)}
+                </a>
+              )
+            }
+            {
+              install.kind === 'stores' && (
+                <div class="pv-actions__stores">
+                  {install.appStoreHref !== null && (
+                    <a class="pv-store" href={install.appStoreHref} data-copy-link={copyLink} data-testid="app-store">
+                      {t(inviteCopy.appStore)}
+                    </a>
+                  )}
+                  <a class="pv-store" href={install.playStoreHref} data-testid="google-play">
+                    {t(inviteCopy.googlePlay)}
+                  </a>
+                </div>
+              )
+            }
+            {
+              install.kind === 'testflight' && (
+                <a class="pv-store" href={install.href} data-copy-link={copyLink} data-testid="testflight">
+                  {t(inviteCopy.testFlight)}
+                </a>
+              )
+            }
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+  {
+    model?.inAppBrowser && (
+      <InAppBrowserEscape
+        inAppBrowser={model.inAppBrowser}
+        platform={model.platform}
+        link={model.canonicalLink}
+        openInChromeHref={model.openInChromeHref}
+      />
+    )
+  }
+</Site>
+
+<script>
+  import { wireLinkHandoff } from '../link-handoff/CopyOnTap';
+  wireLinkHandoff();
+</script>

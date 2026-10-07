@@ -1,6 +1,7 @@
 /**
  * Reads as `public_reader`: the role behind every public web read. It sees only the public views,
- * and a link's views answer only for the one link named in the transaction's settings.
+ * and a link's or place's views answer only for the one link or place named in the transaction's
+ * settings.
  */
 import type pg from 'pg';
 
@@ -10,6 +11,8 @@ export interface PublicScope {
   readonly seatHash?: string | null;
   /** sha-256 hex of a plan link's token. */
   readonly planHash?: string | null;
+  /** A destination's slug. */
+  readonly place?: string | null;
 }
 
 const STATEMENT_TIMEOUT_MS = 5_000;
@@ -29,8 +32,8 @@ export async function asPublicReader<T>(
       await client.query('SET LOCAL ROLE public_reader');
       await client.query(
         `SELECT set_config('app.public_code', $1, true), set_config('app.public_seat', $2, true),
-                set_config('app.public_plan', $3, true)`,
-        [scope.code ?? '', scope.seatHash ?? '', scope.planHash ?? ''],
+                set_config('app.public_plan', $3, true), set_config('app.public_place', $4, true)`,
+        [scope.code ?? '', scope.seatHash ?? '', scope.planHash ?? '', scope.place ?? ''],
       );
       const result = await fn(client);
       await client.query('COMMIT');

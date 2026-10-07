@@ -41,12 +41,21 @@ export interface MenuFlag {
   readonly reason: string;
 }
 
+/** A dish's price as the menu prints it, read by code on the server (never by the model). */
+export interface MenuPrice {
+  readonly printed: string;
+  /** In the currency's minor units; null when the currency is not known. */
+  readonly amountMinor: number | null;
+  readonly currency: string | null;
+}
+
 export interface MenuItem {
   readonly ocr_line_id: string;
   readonly translation: string;
   readonly description: string;
   readonly spice: number | null;
   readonly flags: readonly MenuFlag[];
+  readonly price?: MenuPrice | null;
 }
 
 /** `POST /v1/camera/menu` as the app reads it. */
@@ -56,6 +65,8 @@ export interface MenuReading {
   readonly suggestion: string | null;
   /** Members whose flags were checked. */
   readonly checked_members: readonly string[];
+  /** The language the menu is written in (BCP 47); null when the guide could not tell. */
+  readonly source_language?: string | null;
 }
 
 export interface MenuScanState {
@@ -120,9 +131,19 @@ export interface MenuSticker {
   readonly width: number;
   readonly height: number;
   readonly source: string;
+  /** The dish as the menu writes it, without the price printed on its line. */
+  readonly name: string;
   readonly translation: string;
+  readonly price: MenuPrice | null;
   readonly clash: boolean;
   readonly flags: readonly MenuFlag[];
+}
+
+/** The dish's own words on its line: the printed price and the dots leading to it are left out. */
+export function dishName(source: string, price: MenuPrice | null): string {
+  const at = price === null ? -1 : source.lastIndexOf(price.printed);
+  const name = (at <= 0 ? source : source.slice(0, at)).replace(/[\s.·…:-]+$/u, '').trim();
+  return name === '' ? source.trim() : name;
 }
 
 /** One sticker per dish the guide read, on the line the phone found it on, top to bottom. */
@@ -144,7 +165,9 @@ export function menuStickers(
       width,
       height,
       source: line.text,
+      name: dishName(line.text, item.price ?? null),
       translation: item.translation,
+      price: item.price ?? null,
       clash: item.flags.some((flag) => flag.verdict === 'clash'),
       flags: item.flags,
     });
@@ -160,4 +183,55 @@ export function showsFlags(reading: MenuReading | null): boolean {
 /** The dishes as a short list for a follow-up question ("Nasi campur (mixed rice plate)"). */
 export function dishList(stickers: readonly MenuSticker[]): string {
   return stickers.map((sticker) => `${sticker.source} (${sticker.translation})`).join(', ');
+}
+
+/** What the person is ordering: how many of each dish, by the dish's line id. */
+export type MenuOrder = Readonly<Record<string, number>>;
+
+export const MENU_ORDER_MAX = 20;
+
+/** One more or one fewer of a dish; a dish at zero leaves the order. */
+export function changeOrder(order: MenuOrder, id: string, by: 1 | -1): MenuOrder {
+  const count = Math.max(0, Math.min(MENU_ORDER_MAX, (order[id] ?? 0) + by));
+  const { [id]: _dropped, ...rest } = order;
+  return count === 0 ? rest : { ...rest, [id]: count };
+}
+
+export interface MenuOrderLine {
+  readonly id: string;
+  readonly count: number;
+  readonly name: string;
+  readonly translation: string;
+}
+
+/** The order in menu order, each dish in the menu's own words. */
+export function orderLines(stickers: readonly MenuSticker[], order: MenuOrder): MenuOrderLine[] {
+  return stickers.flatMap((sticker) => {
+    const count = order[sticker.id] ?? 0;
+    return count === 0
+      ? []
+      : [{ id: sticker.id, count, name: sticker.name, translation: sticker.translation }];
+  });
+}
+
+/**
+ * The order as a card to show the person taking it: one dish a line in the menu's language, and
+ * the same in the reader's words underneath.
+ */
+export function orderCard(lines: readonly MenuOrderLine[]): { phrase: string; gloss: string } {
+  return {
+    phrase: lines.map((line) => `${line.count} × ${line.name}`).join('\n'),
+    gloss: lines.map((line) => `${line.count} × ${line.translation}`).join(', '),
+  };
+}
+
+/** The dishes ordered as an expense's name ("Bánh xèo, Gỏi cuốn"), cut at a whole dish. */
+export function orderExpenseName(lines: readonly MenuOrderLine[], max = 60): string {
+  let name = '';
+  for (const line of lines) {
+    const next = name === '' ? line.name : `${name}, ${line.name}`;
+    if (next.length > max) break;
+    name = next;
+  }
+  return name === '' ? (lines[0]?.name.slice(0, max) ?? '') : name;
 }

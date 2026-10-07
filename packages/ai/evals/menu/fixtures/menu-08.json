@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "971c165e-f3e1-426a-ad96-74fc61dbe2b3",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Cao lầu\",\"description\":\"Chewy noodles with sliced pork, fresh herbs and crunchy croutons, served barely warm.\",\"spice\":1,\"flags\":[]},{\"ocr_line_id\":\"l2\",\"translation\":\"Bánh mì thịt\",\"description\":\"A crusty baguette filled with pork, pâté, pickled vegetables and herbs.\",\"spice\":0,\"flags\":[]},{\"ocr_line_id\":\"l3\",\"translation\":\"Cà phê sữa đá\",\"description\":\"Strong Vietnamese coffee poured over ice with sweetened condensed milk.\",\"spice\":null,\"flags\":[]}],\"suggestion\":\"Try the Cao lầu and a Bánh mì thịt to share, with an iced coffee each to cool down.\",\"language\":\"vi\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 147,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 182,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

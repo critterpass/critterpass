@@ -137,7 +137,11 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
     webProxySecret: env.LINKS_WEB_PROXY_SECRET,
     analytics: deps.analytics,
   });
-  registerPublicPreviewRoutes(app, { ...doors, webProxySecret: env.LINKS_WEB_PROXY_SECRET });
+  registerPublicPreviewRoutes(app, {
+    ...doors,
+    webProxySecret: env.LINKS_WEB_PROXY_SECRET,
+    mediaPublicBaseUrl: env.MEDIA_PUBLIC_BASE_URL,
+  });
   registerWidgetSnapshotRoute(app, { ...doors, ...(keyring ? { keyring } : {}) });
   registerDriverPlanShares({
     app,

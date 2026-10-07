@@ -94,6 +94,10 @@ msgstr "Gần nhất: {name} · {away}"
 msgid "quests.empty.overLine"
 msgstr "Chuyến này hết nhiệm vụ rồi. Cấp nhóm và sticker vẫn nằm trong pass của bạn."
 
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.practise"
+msgstr "Tập nói"
+
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
 msgid "quests.offline"
 msgstr "Tiến độ và phần thưởng sẽ cập nhật khi bạn có mạng lại."
