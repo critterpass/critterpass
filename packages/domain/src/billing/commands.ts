@@ -83,3 +83,59 @@ export const recordPaywallEventPayloadSchema = z.strictObject({
   local_date: z.iso.date(),
 });
 export type RecordPaywallEventPayload = z.infer<typeof recordPaywallEventPayloadSchema>;
+
+/** How long before the resume date the reminder to turn Pass+ back on goes out. */
+export const PAUSE_REMIND_LEAD_DAYS = 7;
+/** The furthest ahead a pause can be planned. */
+export const PAUSE_MAX_DAYS = 366;
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** When the reminder for a pause ending at `resumeAt` is due. */
+export function pauseRemindAt(resumeAt: Date): Date {
+  return new Date(resumeAt.getTime() - PAUSE_REMIND_LEAD_DAYS * DAY_MS);
+}
+
+/** A resume date is one in the future, no further out than a pause can be planned. */
+export function pauseResumeAllowed(resumeAt: Date, now: Date): boolean {
+  const ahead = resumeAt.getTime() - now.getTime();
+  return ahead > 0 && ahead <= PAUSE_MAX_DAYS * DAY_MS;
+}
+
+/**
+ * Whether the reminder still has something to say when its timer fires: the pause is still
+ * planned for a date a week or less away, and renewal is still off. Someone who turned renewal
+ * back on, or moved the date later, is not reminded.
+ */
+export function pauseReminderDue(
+  subscription: {
+    readonly status: string;
+    readonly autoRenew: boolean;
+    readonly resumeAt: Date | null;
+  },
+  now: Date,
+): boolean {
+  const { resumeAt } = subscription;
+  if (resumeAt === null || resumeAt.getTime() <= now.getTime()) return false;
+  if (pauseRemindAt(resumeAt).getTime() > now.getTime()) return false;
+  if (subscription.autoRenew) return false;
+  return ['active', 'cancelled_active', 'expired'].includes(subscription.status);
+}
+
+/**
+ * The App Store has no pause, so the person turns renewal off in the store and the app records
+ * when they mean to come back. The server keeps the date on their monthly Pass+ row and reminds
+ * them a week before it; nothing is granted or taken away by this command.
+ */
+export const setPauseIntentPayloadSchema = z.strictObject({
+  resume_at: z.iso.datetime({ offset: true }),
+});
+export type SetPauseIntentPayload = z.infer<typeof setPauseIntentPayloadSchema>;
+
+export const setPauseIntentResultSchema = z.object({
+  subscription_id: z.uuid(),
+  resume_at: z.iso.datetime({ offset: true }),
+  /** Null when the resume date is less than the reminder's lead away: no reminder is sent. */
+  remind_at: z.iso.datetime({ offset: true }).nullable(),
+});
+export type SetPauseIntentResult = z.infer<typeof setPauseIntentResultSchema>;

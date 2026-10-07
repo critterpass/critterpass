@@ -1,6 +1,6 @@
 /**
- * The profile over the signed-in user's synced rows. EDIT, the crews sheet and GET PASS+ appear
- * once their screens are registered; Settings, the stamps list and RETAKE are this area's own.
+ * The profile over the signed-in user's synced rows. EDIT, the crews sheet, GET PASS+ and the
+ * Pass+ chip's way to Your plan appear once their screens are registered; Settings, the stamps list and RETAKE are this area's own.
  */
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -18,6 +18,8 @@ import { useProfile } from './use-profile';
 const EDIT_SCREEN = '3n-3';
 const CREWS_SCREEN = '3g-3';
 const PAYWALL_SCREEN = '4e-1';
+const PLAN_SCREEN = '4d-1';
+const FROM_CHIP = { entry: 'pass_chip' } as const;
 /* eslint-enable lingui/no-unlocalized-strings */
 
 export function ProfileScreen({
@@ -31,7 +33,8 @@ export function ProfileScreen({
   const { model } = useProfile(now);
   const edit = useScreenHref(EDIT_SCREEN);
   const crews = useScreenHref(CREWS_SCREEN);
-  const paywall = useScreenHref(PAYWALL_SCREEN);
+  const paywall = useScreenHref(PAYWALL_SCREEN, FROM_CHIP);
+  const plan = useScreenHref(PLAN_SCREEN);
   const [retaking, setRetaking] = useState(false);
   const uid = useOwnerUid();
   const faces = useMemberFaces();
@@ -48,6 +51,7 @@ export function ProfileScreen({
         onRetake={() => setRetaking(true)}
         {...(edit === undefined ? {} : { onEdit: () => router.push(edit) })}
         {...(paywall === undefined ? {} : { onGetPassPlus: () => router.push(paywall) })}
+        {...(plan === undefined ? {} : { onPlan: () => router.push(plan) })}
         {...(crews === undefined
           ? {}
           : { onOpenCrew: () => router.push(crews), onStartCrew: () => router.push(crews) })}

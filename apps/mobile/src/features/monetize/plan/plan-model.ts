@@ -173,3 +173,15 @@ export function boostLines(rows: readonly BoostLineRow[]): BoostLine[] {
     }))
     .sort((a, b) => Number(b.on) - Number(a.on));
 }
+
+/**
+ * When a pause before a trip ends: a month before the trip starts, so Pass+ is back for the
+ * run-up. Null when that is not in the future (the trip is too close to pause for).
+ */
+export function pauseResumeDate(tripStart: Date, now: Date): Date | null {
+  const resume = new Date(tripStart.getTime());
+  resume.setUTCMonth(resume.getUTCMonth() - 1);
+  // 31 March has no 31 February: stay in the month before rather than spilling into the trip's.
+  if (resume.getUTCDate() !== tripStart.getUTCDate()) resume.setUTCDate(0);
+  return resume.getTime() > now.getTime() ? resume : null;
+}

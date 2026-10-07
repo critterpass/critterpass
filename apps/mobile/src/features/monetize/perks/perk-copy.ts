@@ -56,6 +56,10 @@ const PERK_COPY: Readonly<Record<string, MessageDescriptor>> = {
     id: 'monetize.perks.passPlusReadOut',
     message: 'Pings and the evening roundup read out loud',
   }),
+  'monetize.perks.pass_plus_postcard': msg({
+    id: 'monetize.perks.passPlusPostcard',
+    message: 'A printed postcard from each trip',
+  }),
   'monetize.perks.boost_guide_unlimited': msg({
     id: 'monetize.perks.boostGuideUnlimited',
     message: 'Unlimited guide for the whole crew on this trip',

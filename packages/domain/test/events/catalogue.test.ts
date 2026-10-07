@@ -834,6 +834,16 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     status: 'grace',
     previous_status: 'active',
   },
+  'subscription.pause_intended': {
+    user_id: crypto.randomUUID(),
+    subscription_id: crypto.randomUUID(),
+    resume_at: '2027-03-01T00:00:00Z',
+  },
+  'subscription.resume_due': {
+    user_id: crypto.randomUUID(),
+    subscription_id: crypto.randomUUID(),
+    resume_at: '2027-03-01T00:00:00Z',
+  },
   'purchase.fulfilled': {
     user_id: crypto.randomUUID(),
     store_transaction_id: crypto.randomUUID(),

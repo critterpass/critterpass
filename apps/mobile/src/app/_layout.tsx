@@ -60,6 +60,7 @@ import '@/features/you/routes';
 import '@/features/help/routes';
 import '@/features/recap/routes';
 import '@/features/monetize/routes';
+import '@/features/monetize/register';
 import '@/features/drivers/share/register';
 import '@/features/drivers/ours/routes';
 import '@/features/community/register';

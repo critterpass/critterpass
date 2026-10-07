@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# The ways into the plan screens for real (en): a brand-new account opens Settings from its profile
+# (PASS tab → its face) and finds the plan chip in the header (3n-2), which opens Your plan on the
+# free plan (4d-1); back on the profile, GET PASS+ rises the paywall (4e-1). No store is involved:
+# with no products the paywall says purchases are not available yet.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow: ../home/subflows/onboard.yaml
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings-plan'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-2-plan-chip
+- tapOn:
+    id: 'you-settings-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-card-free'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-4d-1-free-real
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-get-pass-plus'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-get-pass-plus'
+- extendedWaitUntil:
+    visible:
+      id: 'paywall'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-4e-1-real

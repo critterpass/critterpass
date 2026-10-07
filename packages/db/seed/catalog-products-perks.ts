@@ -50,71 +50,30 @@ interface SeedPerk {
   readonly sort: number;
 }
 
-/** One row per matrix line that is not "always free" (docs/product-decisions.md §3); every perk
- * ships at launch, so `is_shipped` defaults to true for all of them. */
+/** The perk lines the app has words for (the same rows the perks catalogue migration writes, so a
+ * seeded database and a migrated one agree); every perk ships at launch, so `is_shipped` is true. */
+const perk = (key: string, tier: SeedPerk['tier'], sort: number): SeedPerk => ({
+  key,
+  tier,
+  copyKey: `monetize.perks.${key}`,
+  sort,
+});
+
 const PERKS: readonly SeedPerk[] = [
-  {
-    key: 'pass_plus_unlimited_guide',
-    tier: 'pass_plus',
-    copyKey: 'monetize.perks.pass_plus_unlimited_guide',
-    sort: 10,
-  },
-  {
-    key: 'pass_plus_icon_styles',
-    tier: 'pass_plus',
-    copyKey: 'monetize.perks.pass_plus_icon_styles',
-    sort: 20,
-  },
-  {
-    key: 'pass_plus_next_flight',
-    tier: 'pass_plus',
-    copyKey: 'monetize.perks.pass_plus_next_flight',
-    sort: 30,
-  },
-  {
-    key: 'pass_plus_mailbox_import',
-    tier: 'pass_plus',
-    copyKey: 'monetize.perks.pass_plus_mailbox_import',
-    sort: 40,
-  },
-  {
-    key: 'pass_plus_spoken_readout',
-    tier: 'pass_plus',
-    copyKey: 'monetize.perks.pass_plus_spoken_readout',
-    sort: 50,
-  },
-  {
-    key: 'pass_plus_postcard',
-    tier: 'pass_plus',
-    copyKey: 'monetize.perks.pass_plus_postcard',
-    sort: 60,
-  },
-  {
-    key: 'boost_unlimited_guide_trip',
-    tier: 'boost',
-    copyKey: 'monetize.perks.boost_unlimited_guide_trip',
-    sort: 70,
-  },
-  { key: 'boost_live_map', tier: 'boost', copyKey: 'monetize.perks.boost_live_map', sort: 80 },
-  {
-    key: 'boost_unlimited_redrafts',
-    tier: 'boost',
-    copyKey: 'monetize.perks.boost_unlimited_redrafts',
-    sort: 90,
-  },
-  { key: 'boost_seats_16', tier: 'boost', copyKey: 'monetize.perks.boost_seats_16', sort: 100 },
-  {
-    key: 'ftf_first_trip_free',
-    tier: 'ftf',
-    copyKey: 'monetize.perks.ftf_first_trip_free',
-    sort: 110,
-  },
-  {
-    key: 'crew_year_everywhere',
-    tier: 'crew_year',
-    copyKey: 'monetize.perks.crew_year_everywhere',
-    sort: 120,
-  },
+  perk('pass_plus_guide_unlimited', 'pass_plus', 10),
+  perk('pass_plus_mailbox_import', 'pass_plus', 20),
+  perk('pass_plus_icon_styles', 'pass_plus', 30),
+  perk('pass_plus_no_sponsored', 'pass_plus', 40),
+  perk('pass_plus_next_flight', 'pass_plus', 50),
+  perk('pass_plus_read_out', 'pass_plus', 60),
+  perk('pass_plus_postcard', 'pass_plus', 70),
+  perk('boost_redrafts', 'boost', 110),
+  perk('boost_live_map', 'boost', 120),
+  perk('boost_seats', 'boost', 130),
+  perk('boost_guide_unlimited', 'boost', 140),
+  perk('boost_no_sponsored', 'boost', 150),
+  perk('ftf_first_trip_free', 'ftf', 210),
+  perk('crew_year_everywhere', 'crew_year', 310),
 ];
 
 interface SeedOpsConfig {
