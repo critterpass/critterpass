@@ -34,6 +34,23 @@ appId: app.critterpass.dev
 - runFlow:
     file: lab-scene.yaml
     env: { SCENE: '3m-8-stamp', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-8-stamp' }
+# A first real trip's rows: named inks, one signature so far, a legendary nobody saw.
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      {
+        SCENE: 'recap-stamp-first-signature',
+        ROOT: 'recap-lab-settled',
+        SHOT: '${LANG}-3m-8-stamp-first-signature',
+      }
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      {
+        SCENE: 'recap-got-away-unseen',
+        ROOT: 'recap-lab-settled',
+        SHOT: '${LANG}-3m-7-got-away-unseen',
+      }
 - runFlow:
     file: sheet-scene.yaml
     env:
