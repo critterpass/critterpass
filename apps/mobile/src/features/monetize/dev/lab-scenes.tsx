@@ -22,6 +22,7 @@ import { PaywallView } from '../paywall/paywall-view';
 import { compareRows } from '../perks/perk-copy';
 import { WelcomeView } from '../welcome/welcome-view';
 import { BOOST_PERKS, NO_RESTORE, noop, PASS_PERKS, PERKS } from './lab-fixtures';
+import { CREW_SCENES } from './lab-scenes-crew';
 import { PLAN_SCENES } from './lab-scenes-plan';
 
 function offer(
@@ -265,6 +266,7 @@ export const MONETIZE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '4b-3-not-available': () => Boost({ products: { status: 'unavailable' } }),
   '4b-5-stamped': () => <Stamped boosted />,
   '4b-5-finishing': () => <Stamped boosted={false} />,
+  ...CREW_SCENES,
 };
 
 export const MONETIZE_SCENE_NAMES = Object.keys(MONETIZE_SCENES);

@@ -6,6 +6,7 @@ import { applyBoostCreditCommand, moveBoostCommand } from './move-boost';
 import { recordPaywallEventCommand } from '../paywall/record-paywall-event';
 import { rebindCrewYearCommand } from './rebind-crew-year';
 import { releaseBoostIntentCommand } from './release-boost-intent';
+import { tellCrewBoostCommand } from './tell-crew-boost';
 import { thankBoostCommand } from './thank-boost';
 
 export function registerBoostCommands(
@@ -15,6 +16,7 @@ export function registerBoostCommands(
   registry.register(createBoostIntentCommand(deps));
   registry.register(releaseBoostIntentCommand);
   registry.register(thankBoostCommand);
+  registry.register(tellCrewBoostCommand);
   registry.register(moveBoostCommand);
   registry.register(applyBoostCreditCommand);
   registry.register(rebindCrewYearCommand);

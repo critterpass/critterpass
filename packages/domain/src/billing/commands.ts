@@ -62,6 +62,8 @@ export type CreateBoostIntentResult = z.infer<typeof createBoostIntentResultSche
 
 export const releaseBoostIntentPayloadSchema = z.strictObject({ intent_id: z.uuid() });
 export const thankBoostPayloadSchema = z.strictObject({ boost_id: z.uuid() });
+/** The buyer posts the boost's card to the crew chat (once per boost). */
+export const tellCrewBoostPayloadSchema = z.strictObject({ boost_id: z.uuid() });
 export const moveBoostPayloadSchema = z.strictObject({ boost_id: z.uuid(), to_trip_id: z.uuid() });
 export const applyBoostCreditPayloadSchema = z.strictObject({
   credit_id: z.uuid(),

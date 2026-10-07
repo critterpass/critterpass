@@ -11,4 +11,12 @@ export const BILLING_PUSH = {
     id: 'notifications.billing.resume_body',
     message: 'Pass+ stays off until you turn it back on. Open Your plan to pick it up again.',
   },
+  boostTitle: /*i18n*/ {
+    id: 'notifications.billing.boost_title',
+    message: '{buyer} boosted {place}',
+  },
+  boostBody: /*i18n*/ {
+    id: 'notifications.billing.boost_body',
+    message: 'It’s on for the whole crew. The details are in the crew chat.',
+  },
 } as const;
