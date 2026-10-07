@@ -219,9 +219,11 @@ describe('create_recap_link', () => {
       await q('SELECT * FROM recap_links WHERE id = $1', [link.link_id]),
     );
     expect(stored).not.toContain(link.token);
-    const events = await q<{ payload: Record<string, unknown> }>(
-      "SELECT payload FROM domain_events WHERE type = 'recap_link.created' AND trip_id = $1",
-      [tripId],
+    // The event log is read on the owner connection: no app role may select from it.
+    const { rows: events } = await harness.pool.query<{ payload: Record<string, unknown> }>(
+      `SELECT payload FROM domain_events
+        WHERE type = 'recap_link.created' AND payload ->> 'recap_id' = $1`,
+      [recapId],
     );
     expect(events).toEqual([
       { payload: { trip_id: tripId, recap_id: recapId, link_id: link.link_id } },
@@ -346,7 +348,7 @@ describe('revoke_recap_link', () => {
     expect((await page(bens.token)).status).toBe(404);
     expect((await revoke(anna)).body).toMatchObject({ result: { revoked: 2 } });
     for (const link of [coras, second]) expect((await page(link.token)).status).toBe(404);
-    const events = await q<{ n: number }>(
+    const { rows: events } = await harness.pool.query<{ n: number }>(
       `SELECT count(*)::int AS n FROM domain_events
         WHERE type = 'recap_link.revoked' AND payload ->> 'link_id' = ANY($1)`,
       [[bens.link_id, coras.link_id, second.link_id]],
