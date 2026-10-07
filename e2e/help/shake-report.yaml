@@ -9,28 +9,6 @@ appId: app.critterpass.dev
       LANG: en
 - tapOn:
     id: 'dev-tools-entry'
-# On a build with Developer tools a shake opens those, so the report is an entry there: it closes
-# the tools, takes the masked screenshot of the screen underneath and opens the report with it.
-- extendedWaitUntil:
-    visible:
-      id: 'dev-report-problem'
-    timeout: 15000
-- tapOn:
-    id: 'dev-report-problem'
-- extendedWaitUntil:
-    visible:
-      id: 'feedback-topic-bug'
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: en-dev-tools-report-attached
-- runFlow: ../screens/sweep/subflows/back.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 15000
-- tapOn:
-    id: 'dev-tools-entry'
 - scrollUntilVisible:
     element:
       id: 'dev-nav-help-lab'

@@ -7,6 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture articles and notes, never shipped copy. */
 import { useState, type ReactNode } from 'react';
 import { Image, ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { FeedbackCategory, FeedbackMood } from '@cp/domain';
 
@@ -157,6 +158,7 @@ const useStyles = makeStyles((t) => ({
  */
 export function ShakeOver({ children }: { readonly children: ReactNode }) {
   const styles = useStyles();
+  const insets = useSafeAreaInsets();
   const [shot, setShot] = useState<string | null | undefined>(undefined);
   if (shot !== undefined) {
     return (
@@ -172,7 +174,7 @@ export function ShakeOver({ children }: { readonly children: ReactNode }) {
   return (
     <View style={styles.fill}>
       {children}
-      <View style={styles.shake}>
+      <View style={[styles.shake, { marginBottom: insets.bottom }]}>
         <PillButton
           label="Shake here"
           onPress={() => void captureMasked('/explore', deviceCapturePorts).then(setShot)}
