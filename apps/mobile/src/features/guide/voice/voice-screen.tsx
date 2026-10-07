@@ -32,6 +32,8 @@ import {
   type VoicePorts,
 } from './voice-controller';
 import { useVoiceProposals } from './use-voice-proposals';
+import { useVoiceConsent } from './voice-consent';
+import { VoiceGate } from './voice-consent-view';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
 import { VoiceView } from './voice-view';
 
@@ -65,7 +67,7 @@ export interface SttToken {
   readonly expires_at: string;
 }
 
-async function sttToken(): Promise<SttToken> {
+export async function sttToken(): Promise<SttToken> {
   const response = await fetch(`${resolveApiBaseUrl()}/v1/stt/token`, {
     method: 'POST',
     headers: await sessionHeaders(),
@@ -78,14 +80,34 @@ export interface VoiceScreenProps {
   readonly tripId: string | null;
   /** Null in a build without the speech module: the screen says so and offers typing. */
   readonly speech: VoiceSpeech | null;
+  /** Start listening as the screen opens (the guide sheet's microphone was held, not tapped). */
+  readonly talkOnOpen?: boolean;
 }
 
 export function VoiceScreen(props: VoiceScreenProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <OpenVoiceScreen {...props} />;
+  return localFirst === null ? null : <ConsentedVoiceScreen {...props} />;
 }
 
-function OpenVoiceScreen({ tripId, speech }: VoiceScreenProps) {
+/** Voice mode once the voice consent stands; until then, the question. */
+function ConsentedVoiceScreen(props: VoiceScreenProps) {
+  const context = useGuideContext(props.tripId);
+  const consent = useVoiceConsent();
+  const sticker = guideSticker(guideAvatarId(context.guideSlug));
+  return (
+    <VoiceGate
+      status={consent.status}
+      guideName={context.guideName}
+      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={96} />}
+      onAgree={consent.agree}
+      onType={() => router.back()}
+    >
+      <OpenVoiceScreen {...props} />
+    </VoiceGate>
+  );
+}
+
+function OpenVoiceScreen({ tripId, speech, talkOnOpen = false }: VoiceScreenProps) {
   const { i18n } = useLingui();
   const context = useGuideContext(tripId);
   const trip = context.trip;
@@ -108,6 +130,7 @@ function OpenVoiceScreen({ tripId, speech }: VoiceScreenProps) {
     live.current = { threadId, tripId: liveTripId, mode, online };
   }, [threadId, liveTripId, mode, online]);
   const controller = useRef<VoiceController | null>(null);
+  const openedTalking = useRef(false);
   const locale = i18n.locale;
 
   useEffect(() => {
@@ -159,6 +182,10 @@ function OpenVoiceScreen({ tripId, speech }: VoiceScreenProps) {
     const voice = createVoiceController(ports, setState);
     controller.current = voice;
     speech?.setMuted(voice.state.muted);
+    if (talkOnOpen && !openedTalking.current) {
+      openedTalking.current = true;
+      void voice.talk();
+    }
     const bargeIn = speech?.bargeIn((by) => voice.interrupted(by)) ?? null;
     const subscriptions =
       speech === null
@@ -176,7 +203,7 @@ function OpenVoiceScreen({ tripId, speech }: VoiceScreenProps) {
       controller.current = null;
       speech?.endSession();
     };
-  }, [speech, locale, level]);
+  }, [speech, locale, level, talkOnOpen]);
 
   const offered = useVoiceProposals(trip?.tripId ?? null, state.proposals, mode === 'group');
   const sticker = guideSticker(guideAvatarId(context.guideSlug));

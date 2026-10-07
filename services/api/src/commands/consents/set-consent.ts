@@ -1,6 +1,6 @@
 /**
  * `set_consent {purpose, granted, copy_version}`: records the caller's decision for one purpose
- * (visit detection, analytics, marketing) on their single `consents` row. A grant stamps
+ * (visit detection, analytics, marketing, sharing dietary flags, the Help share, voice) on their single `consents` row. A grant stamps
  * `granted_at` and clears any revocation; a refusal or withdrawal stamps `revoked_at` and keeps
  * the original grant time as history. Onboarding, Settings and the visit consent sheet all call it.
  * The dietary consent is mirrored onto the caller's dietary profile, whose trigger then shares or
