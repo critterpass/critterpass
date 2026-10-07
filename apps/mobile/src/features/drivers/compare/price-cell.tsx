@@ -9,7 +9,6 @@ import { useLingui } from '@lingui/react/macro';
 import { Linking } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { InfoPill } from '@/ui/chips/InfoPill';
 import { Stack } from '@/ui/layout/Stack';
 import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
@@ -17,6 +16,7 @@ import { useTheme } from '@/ui/theme';
 
 import type { ShortlistDriver } from '../shared/api';
 import { askWords, usePriceWords } from '../shared/price-text';
+import { SAID_PILL_HEIGHT, SaidPill } from '../shared/said-pill';
 import { askMessage, whatsappAsk } from '../shared/whatsapp-copy';
 
 export function DayPriceCell(props: {
@@ -50,10 +50,11 @@ export function DayPriceCell(props: {
               const url = whatsappAsk(driver.phone, text);
               if (url !== null) void Linking.openURL(url);
             }}
+            style={{ minHeight: SAID_PILL_HEIGHT, minWidth: 0 }}
           >
-            <InfoPill variant="outline">
+            <SaidPill tone="unsaid">
               {upper(t({ id: 'drivers.compare.askPrice', message: 'Ask him' }), locale)}
-            </InfoPill>
+            </SaidPill>
           </PressScale>
           {tiers.length > 0 ? null : (
             <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={3}>

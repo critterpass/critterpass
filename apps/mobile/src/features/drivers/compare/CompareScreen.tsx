@@ -7,19 +7,18 @@
  */
 import { compareColumn, compareRisk, type CompareCandidate, type DriverCard } from '@cp/domain';
 import { upper } from '@cp/i18n';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Linking, ScrollView, View } from 'react-native';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
-import { PressScale } from '@/ui/press/PressScale';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -28,8 +27,9 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { driverCardOf, type DriversApi, type ShortlistDriver } from '../shared/api';
-import { COLUMN, ColumnHead } from './column-head';
+import { COLUMN_GAP, ColumnHead, columnWidth } from './column-head';
 import { candidateOf, hoursBetween, riskLine } from './compare-model';
+import { NotSaidCell } from './not-said-cell';
 import { DayPriceCell } from './price-cell';
 import { dayLabel, money } from '../shared/format';
 import { isFloor, usePriceWords } from '../shared/price-text';
@@ -37,12 +37,10 @@ import { readCardFor, withReadPrice } from '../shared/read-price';
 import { driversRoute, splitDays } from '../shared/routes';
 import { useDriverDays } from '../shared/use-driver-days';
 import { useDrivers } from '../shared/use-drivers';
-import { askMessage, whatsappAsk } from '../shared/whatsapp-copy';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['12'], paddingTop: t.space['8'] },
   row: { borderTopWidth: 1, borderColor: t.semantic.border.control, paddingVertical: t.space['8'] },
-  cell: { width: COLUMN },
 }));
 
 export function CompareScreen(props: { tripId: string; days?: string; api?: DriversApi }) {
@@ -51,6 +49,8 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
+  const column = columnWidth(useWindowDimensions().width, theme.size.gutter);
+  const cell = { width: column };
   const words = usePriceWords();
   const plan = useDriverDays(tripId);
   const { state } = useDrivers(tripId, props.api);
@@ -75,10 +75,15 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
     currencies.size <= 1 || currency === plan.currency ? minor : null;
   const risk = compareRisk(candidates, compareDays, plan.people, toCommon);
   const sticker = guideSticker(plan.guide.id);
-  const header = `${chosen.map((day) => dayLabel(day.date, locale)).join(' + ')} · ${t({
-    id: 'drivers.compare.people',
-    message: `${plan.people} people`,
-  })}`;
+  const header = [
+    chosen.map((day) => dayLabel(day.date, locale)).join(' + '),
+    t({
+      id: 'drivers.compare.people',
+      message: plural(plan.people, { one: '# person', other: '# people' }),
+    }),
+  ]
+    .filter((part) => part !== '')
+    .join(' · ');
   if (state.kind === 'loading') {
     return (
       <Scaffold variant="dark" testID="drivers-compare-loading">
@@ -89,25 +94,7 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
       </Scaffold>
     );
   }
-  const notSaid = (driver: ShortlistDriver) => {
-    const ask = askMessage(t, driver.name, [], driverCardOf(driver).overtime_minor === null);
-    return (
-      <PressScale
-        accessibilityLabel={t({
-          id: 'drivers.compare.notSaidHint',
-          message: 'Not said. Ask him on WhatsApp',
-        })}
-        onPress={() => {
-          const url = whatsappAsk(driver.phone, ask);
-          if (url !== null) void Linking.openURL(url);
-        }}
-      >
-        <InfoPill variant="outline">
-          {upper(t({ id: 'drivers.compare.notSaid', message: 'Not said' }), locale)}
-        </InfoPill>
-      </PressScale>
-    );
-  };
+  const notSaid = (driver: ShortlistDriver) => <NotSaidCell driver={driver} />;
   const rows: {
     readonly key: string;
     readonly label: string;
@@ -222,14 +209,29 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
         <Text variant="h1" designSize={52} accessibilityRole="header">
           {upper(t({ id: 'drivers.compare.title', message: `Compare ${drivers.length}` }), locale)}
         </Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {drivers.length > 3 ? (
+          <Text
+            variant="bodySm"
+            color={theme.semantic.text.secondary}
+            testID="drivers-compare-more"
+          >
+            {t({ id: 'drivers.compare.more', message: 'Swipe sideways for the rest →' })}
+          </Text>
+        ) : null}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={column + COLUMN_GAP}
+          decelerationRate="fast"
+        >
           <Stack gap="2">
-            <Row gap="8">
+            <Row gap="8" align="stretch">
               {drivers.map((driver, index) => (
                 <ColumnHead
                   key={driver.id}
                   name={driver.name}
                   index={index}
+                  width={column}
                   missing={
                     compareColumn(candidates[index] as CompareCandidate, compareDays, plan.people)
                       .notSaid.length
@@ -242,9 +244,9 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
                 <Text variant="eyebrow" color={theme.semantic.text.secondary}>
                   {upper(row.label, locale)}
                 </Text>
-                <Row gap="8">
+                <Row gap="8" align="flex-start">
                   {drivers.map((driver, index) => (
-                    <View key={driver.id} style={styles.cell}>
+                    <View key={driver.id} style={cell}>
                       {row.cell(driver, index)}
                     </View>
                   ))}
@@ -253,7 +255,7 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
             ))}
             <Row gap="8" style={{ marginTop: theme.space['12'] }}>
               {drivers.map((driver) => (
-                <View key={driver.id} style={styles.cell}>
+                <View key={driver.id} style={cell}>
                   <PillButton
                     label={t({ id: 'drivers.compare.pick', message: 'Pick' })}
                     tone="yellow"
