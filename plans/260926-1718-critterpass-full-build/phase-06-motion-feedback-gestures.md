@@ -1,7 +1,7 @@
 ---
 phase: 6
 title: Motion runtime, feedback bus, gesture kit
-status: in_progress
+status: done
 depends_on: [3, 4]
 wave: 3
 features: [F-003, F-005, F-028]
@@ -121,7 +121,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Patterns generated from `sound.tokens.json` haptic column. 2. Continuous ramp (intensity 0→1 driven by `holdFill` value, throttled 30 Hz). 3. SOS long pattern. 4. Engine restart on reset/interruption. 5. `isSupported()` fallback to `expo-haptics` impacts.
 - Tests: `xcodebuild test` for the module test target via CI script; `./gradlew :cp-haptics:testDebugUnitTest`.
 - Done when: both builds pass; unit tests assert pattern parameters from tokens.
-- Status: blocked — waits on the next native change to commit the Robolectric `sdk=34` pin (any file under `modules/*/android` moves the native fingerprint, see the acceptance box below); `ramp.*`/`play('sos')` did run in the motion-lab cue grid on both platforms in the device runs (T10). JS wrapper + Swift/Kotlin implementation + XCTest/Robolectric unit tests written and autolinking-verified (`expo-modules-autolinking search` resolves the module on both platforms). iOS native compile proven on real EAS infra: merging the (now-landed) `ci/eas-cloud-e2e` pipeline and running `pnpm e2e:cloud -- --platform ios` triggered a fresh `e2e-test`-profile build (fingerprint changed once `apps/mobile/modules/cp-haptics`'s Swift landed) that **FINISHED successfully** and was reused by every later Maestro run — confirms `CpHapticsModule.swift`/`HapticPatterns.swift` compile for real, not just locally-typechecked Swift syntax. Android build/Kotlin compile and both platforms' Maestro/device behaviour remain unverified: this pass ran iOS only per the coordinator's instruction (Android emulator boot is blocked on a founder EAS dashboard toggle, see the eas-cloud-e2e report), and the Maestro flows themselves didn't get far enough to exercise `ramp.*`/`play('sos')` at runtime (see T10's status — `openLink` into the dev screen is blocked by an unrelated upstream Maestro bug).
+- Status: done — a5d442d334 (the Robolectric `sdk=34` pin went in with the native batch; JS wrapper, Swift and Kotlin implementations and their XCTest and Robolectric unit tests as before; `ramp.*` and `play('sos')` ran in the motion-lab cue grid on both platforms in the device runs)
 
 ### T7 — Feedback bus, SFX, audio session, prefs, quiet rules
 - Goal: `impact(cue)` = haptic + SFX (+ jolt) under all prefs and mute rules.

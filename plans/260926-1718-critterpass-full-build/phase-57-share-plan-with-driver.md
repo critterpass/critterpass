@@ -93,7 +93,7 @@ Quote sent confirmation page; quote replaced; share with no days selected; PDF g
 
 ### T6 — Made replied (6k-1) in review changes
 - Done when: per-item votes, per-person delta and the must-do check are shown; at threshold the provider terms are set on both days and the WhatsApp confirm is offered.
-- Status: blocked — the quote as a voted terms item, terms set on the days and the WhatsApp confirm need `assign_provider` (phase 55); the quote, tips and voted time changes show on review changes — e5e637d12c
+- Status: partial — the quote, tips and voted time changes show on review changes (e5e637d12c); a quote from a shortlisted driver can be put to the crew as the terms of picking him, through the `assign_provider` change set (34d95299d5, `features/drivers/replied/driver-reply.tsx`). Left: the WhatsApp confirm offered when that vote passes
 
 ### T7 — E2E, web tests, screenshots
 - Done when: share → web quote → crew vote runs end to end (mobile flow + Playwright); screenshots are in the report.

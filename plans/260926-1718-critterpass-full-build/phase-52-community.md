@@ -192,12 +192,12 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: an approved tip appears on the place detail for another crew; rejected tip shows the gentle state.
 
 ### T9 — Admin community module + report handling + e2e sweep
-- Status: blocked — moderation kinds and reporting built (6a6ac24af8); the admin console panel and the full-journey flows are not
 - Goal: moderation tooling and verification.
 - Files: `apps/admin/src/modules/community/*`, `services/api/src/admin/community/*`, `services/api/src/commands/community/report-shared-plan.ts`, `services/api/test/community/admin.test.ts`, `e2e/community/{full-journey,a11y}.yaml`.
 - Steps: 1. Kind handlers (tip, shared_plan) in P17 queue. 2. Unpublish with reason + author notification. 3. Full journey A publishes → B browses/copies → B rates, on iOS + Android.
 - Tests: `pnpm --filter @cp/api test -- community/admin`; `maestro test e2e/community/`.
 - Done when: reported plan hidden after ops verdict within one sync cycle; all `e2e/community` flows green.
+- Status: partial — moderation kinds and reporting built (6a6ac24af8); 480deec733 (the console's shared-plans panel with unpublish and a reason, its api and `services/api/test/community/admin.db.test.ts`). Not written: `e2e/community/full-journey.yaml` (A publishes, B browses, copies and rates) and `a11y.yaml`; the five existing community flows have not been reported green together
 
 ## Phase acceptance criteria
 - [ ] Permission tests pass; public projection has no private fields; names-off hides identities
