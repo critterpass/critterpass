@@ -7,12 +7,17 @@ appId: app.critterpass.dev
 #
 # I'M UP is offered only until the crew has left (before the leave-by, in its window, or overdue),
 # so on a run after that the flow checks the crew's count alone.
+#
+# A day has a leave-by only for a stop that needs one: an early start, a transfer, or a stop a long
+# drive away. The trip is under way from noon, so the must-do asks the guide for the last kind on
+# the first evening: dinner in Hội An, about an hour by road from Đà Nẵng.
 - runFlow:
     file: ../subflows/today-with-crew.yaml
     env:
       SHOTS: readiness
       CREW_NAME: 'Up Crew'
       UP: '3'
+      MUST_DO: 'Dinner in Hoi An Ancient Town on the first night'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-readiness'

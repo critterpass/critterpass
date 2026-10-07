@@ -154,6 +154,11 @@ export function BriefFacts({
           )}
         </Stack>
       ))}
+      {state.facts.length === 0 ? null : (
+        <Text variant="caption" color={theme.semantic.text.tertiary} testID="guest-brief-ai-label">
+          {t({ id: 'vote.guest.ai', message: 'Summed up by AI from these pages' })}
+        </Text>
+      )}
       {state.phase === 'streaming' || state.phase === 'loading' ? (
         <Text variant="bodySm" color={theme.semantic.text.secondary} testID="guest-brief-loading">
           {t({ id: 'vote.guest.reading', message: `${guideName} is reading up…` })}

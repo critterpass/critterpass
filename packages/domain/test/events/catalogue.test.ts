@@ -519,6 +519,12 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     user_id: crypto.randomUUID(),
     audio_status: 'device',
   },
+  'phrase.practised': {
+    phrase_id: crypto.randomUUID(),
+    trip_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    language: 'vi',
+  },
   'leave_by.changed': {
     trip_id: crypto.randomUUID(),
     leave_by_id: crypto.randomUUID(),

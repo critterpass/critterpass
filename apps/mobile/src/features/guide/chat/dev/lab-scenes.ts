@@ -5,6 +5,7 @@ import { CREW_SCENES } from '../../crew-mention/dev/lab-scenes-crew';
 import { DIETARY_SCENES } from '../../dietary/dev/lab-scenes-dietary';
 import { METER_SCENES } from '../../meter/dev/lab-scenes-meter';
 import { PHRASE_SCENES } from '../../phrases/dev/lab-scenes-phrases';
+import { VOICE_SCENES } from '../../voice/dev/lab-scenes-voice';
 import { CHAT_SCENES } from './lab-scenes-chat';
 import { CHAVA_SCENES } from './lab-scenes-chava';
 import { CITY_GUIDE_SCENES } from './lab-scenes-city-guide';
@@ -17,6 +18,7 @@ export const GUIDE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...DIETARY_SCENES,
   ...CHAVA_SCENES,
   ...CITY_GUIDE_SCENES,
+  ...VOICE_SCENES,
 };
 
 export const GUIDE_LAB_SCENE_NAMES: readonly string[] = Object.keys(GUIDE_LAB_SCENES);

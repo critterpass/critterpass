@@ -32,6 +32,7 @@ import type { FieldKeyring } from '../commands/bookings/deps';
 import { registerProposePlanChanges } from '../commands/guide/propose-plan-changes';
 import { streamThreadTurn, type GuideTurnDeps } from '../commands/guide/turn';
 import type { ApiEnv } from '../env';
+import { voiceTurnDepsFromEnv } from '../lib/tts';
 import { createKillSwitches } from '../ops/kill-switches';
 import { aclForSql, getNamespace, registerNamespace } from '../realtime/namespaces';
 
@@ -160,6 +161,19 @@ export function registerGuideRoutes(
     pool: doors.pool,
     sessions: doors.sessions,
     redis: doors.redis,
-    turn: { gateway, switches, registry, compliance, logger: doors.logger },
+    turn: {
+      gateway,
+      switches,
+      registry,
+      compliance,
+      logger: doors.logger,
+      ...voiceTurn(doors.pool),
+    },
   });
+}
+
+/** Spoken replies when ElevenLabs is configured; otherwise voice turns answer in text. */
+function voiceTurn(pool: CommandDoorDeps['pool']): Pick<GuideTurnDeps, 'voice'> {
+  const voice = voiceTurnDepsFromEnv(pool, process.env);
+  return voice === undefined ? {} : { voice };
 }

@@ -169,7 +169,9 @@ export function Bubble(props: BubbleProps) {
         >
           {first && author !== null ? (
             <Text variant="label" color={guide ? guideColor : theme.semantic.text.secondary}>
-              {author}
+              {guide
+                ? t({ id: 'chat.message.guideAuthor', message: `${author} · AI guide` })
+                : author}
             </Text>
           ) : null}
           <GestureDetector gesture={swipe.gesture}>

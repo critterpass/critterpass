@@ -269,3 +269,5 @@ export * from './routes/search-parse';
 export * from './routes/link-extract';
 export * from './routes/places';
 export * from './providers/gemini';
+export * from './routes/camera';
+export * from './routes/phrase-practice';
