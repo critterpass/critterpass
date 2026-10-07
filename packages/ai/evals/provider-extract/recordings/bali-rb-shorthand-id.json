@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1327,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "d98034e0-9a84-42a6-a83f-d38dd31d1d85",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Nyoman\",\"quote\":\"saya Nyoman\"},\"phone\":{\"value\":\"0812 0000 0303\",\"quote\":\"WA 0812 0000 0303\"},\"area\":{\"value\":\"Tegallalang\",\"quote\":\"dari Tegallalang\"},\"languages\":{\"value\":[\"en\"],\"quote\":\"Bisa bahasa Inggris\"},\"car\":{\"value\":\"Innova\",\"seats\":6,\"quote\":\"Mobil Innova 6 org\"},\"price\":{\"amount\":700000,\"currency\":\"IDR\",\"unit\":\"hours\",\"hours\":10,\"quote\":\"Harga 700rb/hari 10 jam\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"sudah termasuk bensin dan parkir, tiket masuk belum\"},\"overtime\":{\"amount\":50000,\"quote\":\"Lebih jam 50rb\"},\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 367,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 212,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

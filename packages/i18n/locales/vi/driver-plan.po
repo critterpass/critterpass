@@ -33,6 +33,10 @@ msgstr "{0} mỗi ngày · {1} mỗi người"
 msgid "drivers.share.opened"
 msgstr "{count, plural, other {Đã mở # lần · gần nhất lúc {time}}}"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.set"
+msgstr "{dayCount, plural, other {Cả nhóm đã đồng ý. {driverName} được xếp cho # ngày.}}"
+
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
 msgid "drivers.share.expiresIn"
 msgstr "{left, plural, other {Còn # ngày · {date}}}"
@@ -68,6 +72,22 @@ msgstr "Tên tài xế hoặc hướng dẫn viên"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
 msgid "drivers.share.message"
 msgstr "Đây là những ngày tụi mình cần anh/chị, kèm giờ và điểm đón: {url}"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessagePrice"
+msgstr "Chào {name}, cả nhóm đã đồng ý với giá {price} một ngày. Tụi mình muốn đặt anh/chị cho:\n"
+"{lines}\n"
+"Anh/chị xác nhận giúp nhé?"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessage"
+msgstr "Chào {name}, cả nhóm đã đồng ý. Tụi mình muốn đặt anh/chị cho:\n"
+"{lines}\n"
+"Anh/chị xác nhận giúp nhé?"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tellBody"
+msgstr "Mình sẽ viết kèm ngày và ghim điểm đón. Bạn tự gửi."
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.quote"
@@ -135,6 +155,10 @@ msgstr "Chia sẻ với tài xế"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr "Chạm lần nữa để thu hồi"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tell"
+msgstr "Nhắn {driverName} qua WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoked"

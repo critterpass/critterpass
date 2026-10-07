@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1199,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "f2fa785e-5102-4023-b15f-53eab4a58c3e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Kadek\",\"quote\":\"Try Kadek\"},\"phone\":{\"value\":\"+6281300000808\",\"quote\":\"wa.me/6281300000808\"},\"area\":null,\"languages\":null,\"car\":null,\"price\":null,\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 323,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 105,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

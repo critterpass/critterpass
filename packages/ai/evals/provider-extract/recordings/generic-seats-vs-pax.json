@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1221,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "950674a8-c7d3-40e7-acd5-48a84dfaa395",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Hiroshi\",\"quote\":\"Hiroshi\"},\"phone\":{\"value\":\"+819000003535\",\"quote\":\"+81 90 0000 3535\"},\"area\":{\"value\":\"Kyoto\",\"quote\":\"Kyoto–Nara\"},\"languages\":null,\"car\":{\"value\":\"Hiace\",\"seats\":9,\"quote\":\"Hiace 9 pax + luggage\"},\"price\":{\"amount\":75000,\"currency\":\"JPY\",\"unit\":\"day\",\"hours\":null,\"quote\":\"Kyoto–Nara day ¥75,000\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"yes\",\"entry\":\"unknown\",\"quote\":\"incl. driver, gas, tolls, parking\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 215,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 180,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

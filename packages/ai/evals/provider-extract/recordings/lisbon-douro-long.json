@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1386,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "b359b791-70b8-4b2d-8977-89c0f73c4f71",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Tiago\",\"quote\":\"Tiago | +351 913 000 025\"},\"phone\":{\"value\":\"+351913000025\",\"quote\":\"+351 913 000 025\"},\"area\":{\"value\":\"Porto\",\"quote\":\"Douro Valley full day from Porto\"},\"languages\":null,\"car\":{\"value\":\"Mercedes E-Class / V-Class\",\"seats\":null,\"quote\":\"Mercedes E-Class) / 620 EUR (5-8 pax, V-Class\"},\"price\":{\"amount\":480,\"currency\":\"EUR\",\"unit\":\"day\",\"hours\":11,\"quote\":\"Douro Valley full day from Porto: 10-11 hours\\nPrice: 480 EUR (1-4 pax, Mercedes E-Class)\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"yes\",\"entry\":\"unknown\",\"quote\":\"Includes: fuel, tolls, parking, driver-guide. Excludes: wine tastings, lunch, boat.\"},\"overtime\":{\"amount\":45,\"quote\":\"Extra time: 45 EUR per hour.\"},\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 144,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 247,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

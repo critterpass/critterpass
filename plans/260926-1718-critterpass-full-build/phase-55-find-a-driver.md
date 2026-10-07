@@ -6,7 +6,7 @@ depends_on: [13, 16, 29, 34, 35, 36, 58]
 wave: 18
 features: [F-193, F-194]
 screens: [6a-1, 6a-2, 6b-1, 6c-1, 6c-2, 6c-3, 6d-1, 6d-2, 6e-4, 6f-1, 3e-1, 3h-3]
-tasks: 13
+tasks: 12
 owns:
   - packages/db/src/schema/drivers.ts
   - packages/db/migrations/*_driver_shortlist_intake.sql
@@ -134,7 +134,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Done when: sharing a WhatsApp message and a Facebook screenshot from each OS lands in SHARED WITH TOKEK for every crew member.
 
 ### T7 — Extraction route, eval, check-the-card, couldn't-read (6c-2, 6c-3)
-- Status: blocked — route, span checks and check-the-card are done (74f2870b94, c1ed943d23); the 43-case eval suite is not wired
+- Status: blocked — route, span checks and check-the-card are done (74f2870b94, c1ed943d23); the 43-case suite and its recorded answers are in (042ceaf0b5) but not in the gate: the route reads 18 of 43 right, and a listed suite must pass every case
 - Files: `packages/ai/src/routes/provider-extract/`, `packages/ai/evals/provider-extract/`, `services/worker/src/jobs/drivers/parse-intake.ts`, `features/drivers/intake/check/**`
 - Steps: wire the fixture file into a promptfoo suite; render the `render`/`crop` cases to PNG with Playwright at suite start (not committed).
 - Done when: eval thresholds pass; span highlighting maps to the source; CONFIRM unlocks only when all lines are checked; ASK MADE opens WhatsApp with the templated question.
@@ -159,10 +159,7 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 - Files: `features/drivers/offline/**`, mount in `offline-bundle.ts`
 - Done when: in airplane mode the card shows name, car, plate, pickup and terms; CALL dials; WhatsApp is queued and sent on reconnect.
 
-### T12 — Admin: pickup gaps and ask groups
-- Status: blocked — dropped by the founder's 6 Oct rule (no new curated datasets); nothing to administer
-- Files: `services/api/src/admin/drivers.ts`, `apps/admin/src/modules/drivers/`
-- Done when: ops can add, edit and retire gaps and groups per destination; seed rows come from `plans/reports/research-260927-2116-driver-finder-seed-lists-merged-report.md` after the founder approves it and ops has checked every group URL while logged in.
+Dropped by founder decision on 7 Oct 2026: the admin for pickup gaps and ask groups (no new curated datasets, so there is nothing to administer).
 
 ### T13 — E2E + screenshots
 - Status: done — ea95f48f2f (flows run on the device workflow, not locally)

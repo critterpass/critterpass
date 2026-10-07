@@ -33,6 +33,10 @@ msgstr "{0} a day · {1} each"
 msgid "drivers.share.opened"
 msgstr "{count, plural, one {Opened once · last at {time}} =2 {Opened twice · last at {time}} other {Opened # times · last at {time}}}"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.set"
+msgstr "{dayCount, plural, one {The crew said yes. {driverName} is set on # day.} other {The crew said yes. {driverName} is set on # days.}}"
+
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
 msgid "drivers.share.expiresIn"
 msgstr "{left, plural, one {In # day · {date}} other {In # days · {date}}}"
@@ -68,6 +72,22 @@ msgstr "Driver or guide’s first name"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
 msgid "drivers.share.message"
 msgstr "Here are the days we need you, with times and pickups: {url}"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessagePrice"
+msgstr "Hi {name}, the crew said yes to {price} a day. We'd like to book you for:\n"
+"{lines}\n"
+"Can you confirm?"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessage"
+msgstr "Hi {name}, the crew said yes. We'd like to book you for:\n"
+"{lines}\n"
+"Can you confirm?"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tellBody"
+msgstr "I'll write it with dates and pickup pins. You send it."
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.quote"
@@ -135,6 +155,10 @@ msgstr "Share with your driver"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr "Tap again to revoke"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tell"
+msgstr "Tell {driverName} on WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoked"

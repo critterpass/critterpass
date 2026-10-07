@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1356,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "5ea6bd32-ca10-48da-820e-97326a210c4c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Made\",\"quote\":\"- Made\"},\"phone\":null,\"area\":null,\"languages\":null,\"car\":{\"value\":\"Avanza\",\"seats\":6,\"quote\":\"Mobil Avanza 6 penumpang\"},\"price\":{\"amount\":650000,\"currency\":\"IDR\",\"unit\":\"day\",\"hours\":10,\"quote\":\"Harga 650rb per hari, 10 jam\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"include BBM + parkir\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 228,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 142,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

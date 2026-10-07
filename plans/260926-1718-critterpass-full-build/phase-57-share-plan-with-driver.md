@@ -85,7 +85,7 @@ Quote sent confirmation page; quote replaced; share with no days selected; PDF g
 
 ### T4 — PDF render
 - Done when: the PDF matches the page content; it is removed on revoke; the size is ≤ 1 MB.
-- Status: blocked — not started in this pass (worker PDF render, cache per share version, delete on revoke/expiry)
+- Status: blocked — needs a decision: the worker can draw the PDF without a browser (`@napi-rs/canvas` writes PDF), but the projection loader lives in the api, the serving route and the revoke hook are api work, and stop names in local scripts need fonts in the worker image
 
 ### T5 — Quote + suggestions form (6j-2)
 - Done when: validation, rate limit and replace semantics are tested; the reply creates the ChangeSet + tips.
@@ -93,7 +93,7 @@ Quote sent confirmation page; quote replaced; share with no days selected; PDF g
 
 ### T6 — Made replied (6k-1) in review changes
 - Done when: per-item votes, per-person delta and the must-do check are shown; at threshold the provider terms are set on both days and the WhatsApp confirm is offered.
-- Status: partial — the quote, tips and voted time changes show on review changes (e5e637d12c); a quote from a shortlisted driver can be put to the crew as the terms of picking him, through the `assign_provider` change set (34d95299d5, `features/drivers/replied/driver-reply.tsx`). Left: the WhatsApp confirm offered when that vote passes
+- Status: done — 9b59cc64c1 (the quote is voted as the terms of picking him, the voted terms become his terms, and his reply offers the WhatsApp confirm once the vote set him)
 
 ### T7 — E2E, web tests, screenshots
 - Done when: share → web quote → crew vote runs end to end (mobile flow + Playwright); screenshots are in the report.
