@@ -1,0 +1,104 @@
+---
+/**
+ * What CritterPass costs: the always-free set beside Pass+ and a Trip Boost, whose perk lines come
+ * from the server's catalogue. Nothing is sold here; the plans are bought in the app.
+ */
+import './pricing.css';
+
+import { pricingCopy as copy } from '../copy/pricing';
+import { siteTranslator } from '../i18n';
+import { SITE_PATHS } from '../site-config';
+import Sticker from '../Sticker.astro';
+import { FREE_LINES, PASS_PLUS_PRICE, type PricingFacts } from './pricing-facts';
+
+export interface Props {
+  readonly facts: PricingFacts;
+  /** The heading's level: 1 on the page of its own, 2 inside the home page. */
+  readonly level?: 1 | 2;
+}
+
+const { facts, level = 2 } = Astro.props;
+const t = await siteTranslator();
+const plans = [
+  {
+    id: 'free',
+    name: t(copy.freeName),
+    who: t(copy.freeFor),
+    price: t(copy.freePrice),
+    note: null,
+    lines: FREE_LINES.map((words, index) => ({ key: `free-${index}`, text: t(words) })),
+  },
+  {
+    id: 'pass-plus',
+    name: t(copy.passName),
+    who: t(copy.passFor),
+    price: t(copy.passMonthly, { price: PASS_PLUS_PRICE.monthly }),
+    note: t(copy.passYearly, { price: PASS_PLUS_PRICE.yearly }),
+    lines: facts.passPlus.map((line) => ({ key: line.key, text: t(line.words) })),
+  },
+  {
+    id: 'boost',
+    name: t(copy.boostName),
+    who: t(copy.boostFor),
+    price: t(copy.boostPrice),
+    note: t(copy.boostPriceNote),
+    lines: facts.boost.map((line) => ({ key: line.key, text: t(line.words) })),
+  },
+].filter((plan) => plan.lines.length > 0);
+---
+
+<section id="pricing" class="pricing" aria-labelledby="pricing-title">
+  <div class="site-wrap">
+    <div class="home-section-head">
+      <div>
+        <p class="site-eyebrow">{t(copy.eyebrow)}</p>
+        {
+          level === 1 ? (
+            <h1 id="pricing-title" class="site-display pricing__title">
+              {t(copy.title)}
+            </h1>
+          ) : (
+            <h2 id="pricing-title" class="site-display pricing__title">
+              {t(copy.title)}
+            </h2>
+          )
+        }
+      </div>
+      <p class="site-mono pricing__aside">{t(copy.aside)}</p>
+    </div>
+    <ul class="pricing__plans">
+      {
+        plans.map((plan) => (
+          <li class={`pricing-plan pricing-plan--${plan.id}`} data-plan={plan.id}>
+            <p class="site-eyebrow">{plan.who}</p>
+            <h3 class="site-display pricing-plan__name">{plan.name}</h3>
+            <p class="pricing-plan__price">
+              <span class="site-display">{plan.price}</span>
+              {plan.note !== null && <span class="site-mono">{plan.note}</span>}
+            </p>
+            <ul class="pricing-plan__lines">
+              {plan.lines.map((line) => (
+                <li data-perk={line.key}>{line.text}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+    {
+      facts.firstTripFree && (
+        <div class="pricing__first" data-testid="pricing-first-trip">
+          <Sticker kind="egg" size={72} seed={7} />
+          <div>
+            <h3 class="site-display pricing__first-title">{t(copy.firstTripTitle)}</h3>
+            <p>{t(copy.firstTripBody)}</p>
+          </div>
+        </div>
+      )
+    }
+    <p class="pricing__footnote">
+      {t(copy.footnote)}{' '}
+      <a href={SITE_PATHS.subscriptionTerms}>{t(copy.terms)}</a>
+    </p>
+  </div>
+</section>

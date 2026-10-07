@@ -1,0 +1,88 @@
+{
+  "perks": [
+    {
+      "key": "pass_plus_guide_unlimited",
+      "tier": "pass_plus",
+      "copy_key": "monetize.perks.pass_plus_guide_unlimited",
+      "sort": 10
+    },
+    {
+      "key": "pass_plus_mailbox_import",
+      "tier": "pass_plus",
+      "copy_key": "monetize.perks.pass_plus_mailbox_import",
+      "sort": 20
+    },
+    {
+      "key": "pass_plus_icon_styles",
+      "tier": "pass_plus",
+      "copy_key": "monetize.perks.pass_plus_icon_styles",
+      "sort": 30
+    },
+    {
+      "key": "pass_plus_no_sponsored",
+      "tier": "pass_plus",
+      "copy_key": "monetize.perks.pass_plus_no_sponsored",
+      "sort": 40
+    },
+    {
+      "key": "pass_plus_next_flight",
+      "tier": "pass_plus",
+      "copy_key": "monetize.perks.pass_plus_next_flight",
+      "sort": 50
+    },
+    {
+      "key": "pass_plus_read_out",
+      "tier": "pass_plus",
+      "copy_key": "monetize.perks.pass_plus_read_out",
+      "sort": 60
+    },
+    {
+      "key": "pass_plus_postcard",
+      "tier": "pass_plus",
+      "copy_key": "monetize.perks.pass_plus_postcard",
+      "sort": 70
+    },
+    {
+      "key": "boost_redrafts",
+      "tier": "boost",
+      "copy_key": "monetize.perks.boost_redrafts",
+      "sort": 110
+    },
+    {
+      "key": "boost_live_map",
+      "tier": "boost",
+      "copy_key": "monetize.perks.boost_live_map",
+      "sort": 120
+    },
+    {
+      "key": "boost_seats",
+      "tier": "boost",
+      "copy_key": "monetize.perks.boost_seats",
+      "sort": 130
+    },
+    {
+      "key": "boost_guide_unlimited",
+      "tier": "boost",
+      "copy_key": "monetize.perks.boost_guide_unlimited",
+      "sort": 140
+    },
+    {
+      "key": "boost_no_sponsored",
+      "tier": "boost",
+      "copy_key": "monetize.perks.boost_no_sponsored",
+      "sort": 150
+    },
+    {
+      "key": "ftf_first_trip_free",
+      "tier": "ftf",
+      "copy_key": "monetize.perks.ftf_first_trip_free",
+      "sort": 210
+    },
+    {
+      "key": "crew_year_everywhere",
+      "tier": "crew_year",
+      "copy_key": "monetize.perks.crew_year_everywhere",
+      "sort": 310
+    }
+  ]
+}
