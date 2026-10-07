@@ -74,6 +74,16 @@ async function tripContext(tx: pg.PoolClient, tripId: string): Promise<TripConte
   return row;
 }
 
+/** How many hold a seat on the trip; null when nobody does yet. */
+async function partySize(tx: pg.PoolClient, tripId: string): Promise<number | null> {
+  const { rows } = await tx.query<{ n: number }>(
+    'SELECT count(*)::int AS n FROM trip_participants WHERE trip_id = $1 AND holds_seat',
+    [tripId],
+  );
+  const n = rows[0]?.n ?? 0;
+  return n > 0 ? n : null;
+}
+
 const minorPerMajor = (code: string): number | null =>
   isKnownCurrency(code) ? 10 ** currencyExponent(code) : null;
 
@@ -161,10 +171,18 @@ export function registerDriverRoutes(app: OpenAPIHono<AppEnv>, deps: DriverRoute
       return rows[0];
     });
     if (intake === undefined) throw new DomainError('NOT_FOUND', { reason: 'intake' });
-    const trip = await withUser(deps.pool, session.uid, generateUuidV7(), async (tx) => {
-      await requireMember(tx, intake.trip_id);
-      return tripContext(tx, intake.trip_id);
-    });
+    const { trip, people } = await withUser(
+      deps.pool,
+      session.uid,
+      generateUuidV7(),
+      async (tx) => {
+        await requireMember(tx, intake.trip_id);
+        return {
+          trip: await tripContext(tx, intake.trip_id),
+          people: await partySize(tx, intake.trip_id),
+        };
+      },
+    );
     const parsed =
       deps.gateway === undefined || intake.raw_text === null
         ? null
@@ -176,6 +194,8 @@ export function registerDriverRoutes(app: OpenAPIHono<AppEnv>, deps: DriverRoute
               currencyHint: trip.currency,
               minorPerMajor,
               callingCode: callingCodeFor(toCountryCode(trip.country)),
+              // Prices by group size or vehicle are picked for this crew; without it they are asked.
+              partySize: people,
             },
             { userId: session.uid },
           );
@@ -204,11 +224,7 @@ export function registerDriverRoutes(app: OpenAPIHono<AppEnv>, deps: DriverRoute
       async (tx) => {
         await requireMember(tx, tripId);
         const context = await tripContext(tx, tripId);
-        const party = await tx.query<{ n: number }>(
-          'SELECT count(*)::int AS n FROM trip_participants WHERE trip_id = $1 AND holds_seat',
-          [tripId],
-        );
-        return { trip: context, people: party.rows[0]?.n ?? 1 };
+        return { trip: context, people: (await partySize(tx, tripId)) ?? 1 };
       },
     );
     // Partner switches live in the ops schema, which only the server reads.
