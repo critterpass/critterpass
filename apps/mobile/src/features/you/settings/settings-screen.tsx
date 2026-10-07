@@ -36,6 +36,7 @@ import { nativeNameOf } from '../language/language-names';
 import { hasAlternateAppIcons } from '../app-icon/device';
 import { YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
+import { usePlanChip } from './plan-chip-slot';
 import { useHelpShareConsent } from './help-share-consent';
 import { useLocationRow } from './location-row';
 import { useMusicLine } from '../sound/music-line';
@@ -141,12 +142,14 @@ export function SettingsScreen({
       onDeleteAccount: () => router.push(YOU_ROUTES.deleteAccount),
     },
   );
+  const plan = usePlanChip();
   return (
     <>
       <SettingsView
         sections={sections}
         version={versionLine(Application.nativeApplicationVersion, Application.nativeBuildVersion)}
         onTokek={playTokekTheme}
+        {...(plan === null ? {} : { plan })}
       >
         <PermissionsSection exclude={IN_PRIVACY} testID="you-settings-permissions" />
       </SettingsView>

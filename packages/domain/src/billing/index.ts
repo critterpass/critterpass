@@ -6,3 +6,4 @@ export * from './states';
 export * from './subscription-state';
 export * from './queues';
 export * from './admin';
+export * from './templates';

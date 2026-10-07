@@ -30,3 +30,4 @@ export { useDayReading, type DayReading, type DayStopReading } from './trip-map/
 export { LateEntry } from './day/late-entry';
 export { lateStep, saidLateRoute } from './day/said-late';
 export { useSaidLate, type SaidLateView } from './day/use-said-late';
+export { registerRedraftBoost, type RedraftBoost } from './draft/boost-slot';

@@ -17,6 +17,17 @@ export const MONETIZE_ROUTES = {
   billingIssue: '/you/plan/billing-issue',
 } as const satisfies Readonly<Record<string, Href>>;
 
+/** The paywall, with the entry it is opened from and the trip it is about, when there is one. */
+export function paywallHref(params: { readonly entry?: string; readonly tripId?: string }): Href {
+  return {
+    pathname: MONETIZE_ROUTES.paywall,
+    params: {
+      ...(params.entry === undefined || params.entry === '' ? {} : { entry: params.entry }),
+      ...(params.tripId === undefined || params.tripId === '' ? {} : { tripId: params.tripId }),
+    },
+  };
+}
+
 export function boostHref(tripId: string): Href {
   return { pathname: '/(modal)/boost/[tripId]', params: { tripId } };
 }
@@ -26,7 +37,7 @@ export function stampedHref(tripId: string, split: boolean): Href {
 }
 
 export const MONETIZE_SCREENS: Readonly<Record<string, ScreenRoute>> = {
-  '4e-1': MONETIZE_ROUTES.paywall,
+  '4e-1': (params) => paywallHref(params),
   '4e-2': MONETIZE_ROUTES.compare,
   '4e-3': MONETIZE_ROUTES.welcome,
   '4b-3': (params) => boostHref(params.tripId ?? ''),

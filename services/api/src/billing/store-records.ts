@@ -15,6 +15,7 @@ import type pg from 'pg';
 
 import type { StoredSubscription, StoredTransaction } from './fulfilment';
 import type { MappedSubscription, ProductCatalogueEntry } from './map-subscriber';
+import { resumeAtAfterSync } from './pause-intent';
 
 export interface TransactionFacts {
   readonly platform: StorePlatform;
@@ -162,6 +163,7 @@ interface SubscriptionRow {
   readonly period_start: Date | null;
   readonly period_end: Date | null;
   readonly grace_ends_at: Date | null;
+  readonly resume_at: Date | null;
   readonly original_transaction_id: string | null;
 }
 
@@ -178,7 +180,8 @@ export async function upsertSubscription(
   originalTransactionId: string | null,
 ): Promise<{ subscription: StoredSubscription; changed: boolean }> {
   const { rows } = await tx.query<SubscriptionRow>(
-    `SELECT id, status, auto_renew, period_start, period_end, grace_ends_at, original_transaction_id
+    `SELECT id, status, auto_renew, period_start, period_end, grace_ends_at, resume_at,
+            original_transaction_id
        FROM subscriptions WHERE user_id = $1 AND platform = $2 AND product_key = $3 FOR UPDATE`,
     [uid, mapped.platform, mapped.productKey],
   );
@@ -192,7 +195,13 @@ export async function upsertSubscription(
     mapped.periodEnd,
     mapped.graceEndsAt,
     mapped.pausedFrom,
-    mapped.resumeAt,
+    // The member's own planned resume date outlives a sync that knows nothing about it.
+    resumeAtAfterSync(
+      existing === undefined
+        ? undefined
+        : { autoRenew: existing.auto_renew, resumeAt: existing.resume_at },
+      mapped,
+    ),
     mapped.environment,
     otx,
   ];

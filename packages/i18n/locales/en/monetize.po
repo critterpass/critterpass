@@ -101,6 +101,10 @@ msgstr "A GIFT"
 msgid "monetize.paywall.aMonth"
 msgstr "A month"
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusPostcard"
+msgstr "A printed postcard from each trip"
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.aYear"
 msgstr "A year"
@@ -332,6 +336,10 @@ msgstr "Free"
 msgid "monetize.plan.eyebrow.free"
 msgstr "FREE"
 
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.free"
+msgstr "Free plan ›"
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.get"
 msgstr "Get Pass+"
@@ -510,6 +518,18 @@ msgstr "Pass+"
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.pass"
 msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.monthly"
+msgstr "Pass+ · Monthly ›"
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.yearly"
+msgstr "Pass+ · Yearly ›"
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.passPlus"
+msgstr "Pass+ ›"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.expired"

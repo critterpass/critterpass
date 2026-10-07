@@ -5,7 +5,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import type { Subscription } from '../../data/billing-rows';
-import { boostLines, planModel, type PlanInput } from '../plan-model';
+import { boostLines, pauseResumeDate, planModel, type PlanInput } from '../plan-model';
 
 const sub = (over: Partial<Subscription>): Subscription => ({
   id: 's1',
@@ -174,5 +174,25 @@ describe('boostLines', () => {
       ['b', true, 'purchase'],
       ['a', false, 'first_trip_free'],
     ]);
+  });
+});
+
+describe('when a pause before a trip ends', () => {
+  const now = new Date('2026-11-10T08:00:00Z');
+
+  it('is a month before the trip starts', () => {
+    expect(pauseResumeDate(new Date('2027-03-15T00:00:00Z'), now)?.toISOString()).toBe(
+      '2027-02-15T00:00:00.000Z',
+    );
+  });
+
+  it('stays in the month before for a day that month does not have', () => {
+    expect(pauseResumeDate(new Date('2027-03-31T00:00:00Z'), now)?.toISOString()).toBe(
+      '2027-02-28T00:00:00.000Z',
+    );
+  });
+
+  it('is nothing when the trip is less than a month away', () => {
+    expect(pauseResumeDate(new Date('2026-12-01T00:00:00Z'), now)).toBeNull();
   });
 });

@@ -52,7 +52,10 @@ export const useGuideMeterSlots: GuideMeterHook = (input) => {
   if (!isSpent(meter) || meter.kind !== 'free') {
     return { chip: <MeterChip meter={meter} guideName={input.guideName} /> };
   }
-  const paywall = hrefFor('4a-1', { entry: 'guide_limit' });
+  const paywall = hrefFor('4e-1', {
+    entry: 'guide_limit',
+    ...(input.tripId === null ? {} : { tripId: input.tripId }),
+  });
   const refused = input.spent?.question ?? null;
   const ask = (text: string) =>
     void queue.ask(text).then((queued) => {

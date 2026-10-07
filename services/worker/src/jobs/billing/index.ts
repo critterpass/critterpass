@@ -1,7 +1,8 @@
 /**
- * Billing jobs. They run only when the worker can reach the api's internal billing door
+ * Billing jobs. Most run only when the worker can reach the api's internal billing door
  * (`API_INTERNAL_URL` and `BILLING_INTERNAL_SECRET`, the same secret the api holds); without them
- * the queues keep their jobs until the door is configured and the jobs are redriven.
+ * the queues keep their jobs until the door is configured and the jobs are redriven. The pause
+ * reminder reads the database only, so it runs either way.
  */
 import { z } from 'zod';
 
@@ -11,6 +12,7 @@ import { billingApplyJob } from './apply';
 import { boostExpireJob, ftfGrantJob, tripChangedJob } from './boost-expire';
 import { createBillingDoor, type BillingDoor } from './door-client';
 import { intentExpiryJob } from './intent-expiry';
+import { pauseRemindJob, registerPauseReminderPush } from './pause-remind';
 import { billingReconcileJob } from './reconcile';
 
 const envSchema = z.object({
@@ -41,12 +43,19 @@ export function billingJobs(
   metrics?: Pick<MetricsRecorder, 'record'>,
 ): AnyJobDefinition[] {
   const parsed = envSchema.parse(env);
+  registerPauseReminderPush();
   if (parsed.API_INTERNAL_URL === undefined || parsed.BILLING_INTERNAL_SECRET === undefined) {
     logger.warn('Billing jobs are off: API_INTERNAL_URL or BILLING_INTERNAL_SECRET is unset');
-    return [];
+    return [pauseRemindJob()];
   }
-  return billingJobsFor(
-    createBillingDoor({ baseUrl: parsed.API_INTERNAL_URL, secret: parsed.BILLING_INTERNAL_SECRET }),
-    metrics,
-  );
+  return [
+    ...billingJobsFor(
+      createBillingDoor({
+        baseUrl: parsed.API_INTERNAL_URL,
+        secret: parsed.BILLING_INTERNAL_SECRET,
+      }),
+      metrics,
+    ),
+    pauseRemindJob(),
+  ];
 }
