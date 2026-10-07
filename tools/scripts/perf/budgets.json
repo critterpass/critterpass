@@ -1,5 +1,5 @@
 {
-  "$comment": "Performance budgets from docs/system-architecture.md §9, checked by tools/scripts/perf/run.ts. Change them only with that table.",
+  "$comment": "Performance budgets from docs/system-architecture.md §9, checked by tools/scripts/perf/run.ts. Change them only with that table. Units: coldStartMs in milliseconds, androidMinFps in frames per second, iosDownloadMb in megabytes of the store .ipa, commandP95Ms and dbP50Ms in milliseconds, webInviteJsKb in kilobytes (1 KB = 1,000 bytes) of gzip-compressed JavaScript. The §9 table does not say whether the invite landing budget means compressed or uncompressed size: the gate judges gzip and prints the uncompressed size beside it until the founder answers (staging on 2026-10-07: 46.8 KB gzip, 129.6 KB uncompressed).",
   "coldStartMs": { "android": 1200, "ios": 800 },
   "androidMinFps": 55,
   "iosDownloadMb": 40,
