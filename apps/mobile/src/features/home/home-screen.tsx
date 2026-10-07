@@ -42,7 +42,8 @@ import { OfflineLineRow } from './offline-line';
 import { HOME_ROUTES } from './routes';
 import { homeVoteSlot } from './slots';
 import { TipStrip } from './tip-strip';
-import { InTripCard, NoTripCard, PostTripCard } from './trip-state-cards';
+import { PostTripCard } from './post-trip-card';
+import { InTripCard, NoTripCard } from './trip-state-cards';
 
 // The crew area's start-a-crew screen.
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a route path, never copy.
