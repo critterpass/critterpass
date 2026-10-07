@@ -2,7 +2,8 @@
  * The recap story over the real local-first stack and a channel at the realtime boundary: opening
  * it records the open (which signs the crew's stamps) once, a crewmate's signature arriving on the
  * recap's channel writes itself on the stamp card, VOTE FOR THE MVP queues the vote for the chosen
- * award, and the story's end is counted once per session and settles into the recap page.
+ * award, the sound switch stops and starts the music, and the story's end is counted once per
+ * session and rests on the last card until the traveller closes it into the recap page.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -36,6 +37,7 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { music } from '@/motion/music';
 
 import { MAYA, RECAP, recapRow, TRIP } from '../../dev/recap-fixtures';
 import {
@@ -101,6 +103,13 @@ describe('recap story', () => {
     // Opening is not finishing.
     expect(analytics.captured).not.toContain('recap_story_completed');
 
+    // Played past its last card, the story counts as watched and stays where it is.
+    for (let step = 0; step < 10; step += 1) await next();
+    expect(analytics.captured.filter((event) => event === 'recap_story_completed')).toHaveLength(1);
+    expect(router.replace).not.toHaveBeenCalled();
+    expect(player()).toBeTruthy();
+
+    // Closing it is the traveller's move, and counts nothing twice.
     await fireEvent.press(screen.getByTestId('recap-story-close'));
     await fireEvent.press(screen.getByTestId('recap-story-close'));
     expect(analytics.captured.filter((event) => event === 'recap_story_completed')).toHaveLength(1);
@@ -113,6 +122,28 @@ describe('recap story', () => {
       pathname: '/recap/[tripId]',
       params: { tripId: TRIP, ended: '1' },
     });
+  });
+
+  it('switches the music off and on with the sound switch, and shows which it is', async () => {
+    const s = await open();
+    const start = jest.spyOn(music, 'crossfadeTo');
+    const stop = jest.spyOn(music, 'stop');
+    await renderRecap(<RecapStoryScreen tripId={TRIP} />, s);
+    await until(() => screen.queryByTestId('recap-card-cover') !== null);
+    expect(start).toHaveBeenCalled();
+    start.mockClear();
+    stop.mockClear();
+
+    await fireEvent.press(screen.getByTestId('recap-story-sound-on'));
+    expect(screen.getByTestId('recap-story-sound-off')).toBeTruthy();
+    expect(stop).toHaveBeenCalledTimes(1);
+    expect(start).not.toHaveBeenCalled();
+
+    await fireEvent.press(screen.getByTestId('recap-story-sound-off'));
+    expect(screen.getByTestId('recap-story-sound-on')).toBeTruthy();
+    expect(start).toHaveBeenCalledTimes(1);
+    start.mockRestore();
+    stop.mockRestore();
   });
 
   it("writes a crewmate's signature on the stamp as it arrives on the recap's channel", async () => {

@@ -2,7 +2,8 @@
  * The recap story over synced rows and the recap's live channel: plays the guide's theme, records
  * the open (which signs the crew's stamps) and the finish, votes for the MVP, sets the got-away
  * reminder, asks once for a signature on the stamp card, and at the end counts the story as
- * watched once and settles into the recap page.
+ * watched once and rests on the last card; closing it settles into the recap page. The sound
+ * switch stops and starts the music and the guide's voice together.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -63,7 +64,7 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
   const vote = useCommand(castMvpVoteCommand);
   const remind = useCommand(setLegendaryReminderCommand);
   const sign = useCommand(saveSignatureCommand);
-  const [voice, setVoice] = useState<boolean | null>(null);
+  const [soundOn, setSoundOn] = useState(true);
   const [sheet, setSheet] = useState<'mvp' | 'signature' | null>(null);
   const guide = guideOf(data.trip?.guide_slug);
   const guideName = data.trip?.guide_name ?? guideSticker(guide).name;
@@ -73,10 +74,10 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
   const themed = music.themedGuideFor(guide, guidesOfSameCountry(guide)) ?? null;
   const active = useAppActive();
   useEffect(() => {
-    if (themed === null || !active) return undefined;
+    if (themed === null || !active || !soundOn) return undefined;
     music.crossfadeTo(themed);
     return () => music.stop();
-  }, [themed, active]);
+  }, [themed, active, soundOn]);
 
   // The first open signs the crew's stamps; a repeat open changes nothing on the server.
   useEffect(() => {
@@ -108,15 +109,18 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
     return <SessionWaiting testID="recap-story-waiting" />;
   const recapId = data.recapId;
 
-  const finish = () => {
-    if (storySession.complete(recapId)) {
-      analytics.capture('recap_story_completed', {});
-      void recordView.send({ recap_id: recapId, kind: 'complete' });
-    }
+  // The story's end counts once; it then rests on its last card until the traveller closes it.
+  const complete = () => {
+    if (!storySession.complete(recapId)) return;
+    analytics.capture('recap_story_completed', {});
+    void recordView.send({ recap_id: recapId, kind: 'complete' });
+  };
+  const close = () => {
+    complete();
     router.replace(recapRoutes.summary(tripId, true));
   };
 
-  const voiceOn = voice ?? settings?.talk_out_loud === 1;
+  const voiceOn = soundOn && settings?.talk_out_loud === 1;
   const theme = themed === null ? null : themeName(themed);
   const choices = data.awards
     .filter((award) => !award.optedOut)
@@ -137,9 +141,10 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
         subtitle={storySubtitle(data.trip?.place ?? null, theme)}
         cards={cards}
         voiceOn={voiceOn}
-        onToggleVoice={() => setVoice(!voiceOn)}
-        onClose={finish}
-        onFinished={finish}
+        soundOn={soundOn}
+        onToggleSound={() => setSoundOn((on) => !on)}
+        onClose={close}
+        onFinished={complete}
         held={sheet !== null}
         footerFor={(card) => (
           <StoryFooter

@@ -208,7 +208,8 @@ function Scene({
         subtitle={storySubtitle('Đà Nẵng', themeName('chava'))}
         cards={cards}
         voiceOn={false}
-        onToggleVoice={noop}
+        soundOn
+        onToggleSound={noop}
         onClose={noop}
         onFinished={noop}
         held={settled}

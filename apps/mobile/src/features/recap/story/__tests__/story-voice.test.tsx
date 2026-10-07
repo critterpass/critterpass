@@ -20,6 +20,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import type { MockAudioPlayer } from '@/motion/test-support/expo-audio-mock';
 import { renderUi } from '@/ui/test-support/render';
 
+import type { CardSharer } from '../share-card-image';
 import type { StoryCardSpec } from '../story-cards';
 import { StoryView } from '../story-view';
 import { VOICE_WAIT_MAX_MS } from '../use-voice-wait';
@@ -43,7 +44,7 @@ const METRICS = {
 let players: MockAudioPlayer[] = [];
 let appState: ((state: AppStateStatus) => void) | null = null;
 
-function view(voiceOn: boolean, held = false) {
+function view(voiceOn: boolean, held = false, shareCard?: CardSharer) {
   return (
     <SafeAreaProvider initialMetrics={METRICS}>
       <ScreenJoltProvider>
@@ -53,11 +54,13 @@ function view(voiceOn: boolean, held = false) {
           subtitle="Đà Nẵng"
           cards={CARDS}
           voiceOn={voiceOn}
-          onToggleVoice={() => undefined}
+          soundOn={voiceOn}
+          onToggleSound={() => undefined}
           onClose={() => undefined}
           onFinished={() => undefined}
           footerFor={() => null}
           held={held}
+          {...(shareCard === undefined ? {} : { shareCard })}
           loadVoiceUrl={(key) => Promise.resolve(`https://media.test/${key}.mp3`)}
         />
       </ScreenJoltProvider>
@@ -167,6 +170,31 @@ describe('recap story sound', () => {
     await rerender(view(true, true));
     expect(players[0]?.playing).toBe(false);
     await rerender(view(true, false));
+    expect(players[0]?.playing).toBe(true);
+  });
+
+  it("shares the playing card's picture and holds the story while the share sheet is up", async () => {
+    let done: () => void = () => undefined;
+    const shared: string[] = [];
+    const shareCard: CardSharer = (card, title) => {
+      shared.push(`${title}|${card.current === null ? 'no view' : 'view'}`);
+      return new Promise<void>((resolve) => {
+        done = resolve;
+      });
+    };
+    await renderUi(view(true, false, shareCard));
+    await advance(1000);
+    expect(screen.getByTestId('recap-story-sound-on')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('recap-story-share'));
+    expect(shared).toEqual(['Đà Nẵng · cover|view']);
+    expect(players[0]?.playing).toBe(false);
+    await advance(30_000);
+    expect(showing('cover')).toBe(true);
+
+    await act(async () => {
+      done();
+      await Promise.resolve();
+    });
     expect(players[0]?.playing).toBe(true);
   });
 });
