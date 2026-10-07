@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 
+import { guideColour } from '../avatar/guides';
 import { PillButton } from '../buttons/PillButton';
 import { Stack } from '../layout/Stack';
 import type { GuideId } from '../people/GuideLine';
-import { GuideLine } from '../people/GuideLine';
+import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 
 export interface EmptyStateProps {
@@ -20,7 +21,12 @@ export interface EmptyStateProps {
   readonly testID?: string;
 }
 
-/** Never a blank list: the guide, a title, one voiced line and one primary action. */
+const CENTRED = { textAlign: 'center' } as const;
+
+/**
+ * Never a blank list: the guide, a title, one voiced line and one primary action, all on the
+ * centre line (3b-5), so a line that wraps stays under its title.
+ */
 export function EmptyState({
   guide,
   guideName,
@@ -30,13 +36,21 @@ export function EmptyState({
   action,
   testID,
 }: EmptyStateProps) {
+  const tone = useSurfaceTone();
   return (
     <Stack gap="16" align="center" padding="24" testID={testID}>
       {sticker}
-      <Text variant="h3" accessibilityRole="header" style={{ textAlign: 'center' }}>
+      <Text variant="h3" accessibilityRole="header" style={CENTRED}>
         {title}
       </Text>
-      <GuideLine guide={guide} name={guideName} line={line} />
+      <Text
+        variant="voice"
+        color={guideColour(guide, tone === 'paper')}
+        style={CENTRED}
+        accessibilityLabel={`${guideName}: ${line}`}
+      >
+        {line}
+      </Text>
       {action ? <PillButton label={action.label} onPress={action.onPress} /> : null}
     </Stack>
   );

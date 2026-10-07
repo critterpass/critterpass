@@ -15,9 +15,9 @@ import { PresentedSurfaceContext, useFocusedPresentation } from './presenter';
 import { SheetScrollContext } from './SheetScrollView';
 import { useModalPresentation } from './use-modal-presentation';
 
-const useStyles = makeStyles((t) => ({
+const useStyles = makeStyles(() => ({
   panel: { position: 'absolute', start: 0, end: 0, bottom: 0 },
-  close: { position: 'absolute', end: t.space['16'] },
+  close: { position: 'absolute' },
 }));
 
 export interface RiseModalProps {
@@ -25,6 +25,8 @@ export interface RiseModalProps {
   readonly variant?: ScaffoldVariant | undefined;
   /** Hero colour for the `colourHero` surface. */
   readonly accent?: string | undefined;
+  /** The corner the ✕ sits in; the paywall (4e-1) draws it at the start, across from RESTORE. @default 'end' */
+  readonly closeSide?: 'start' | 'end' | undefined;
   /** Called after the dismiss animation; defaults to going back (rises are `(modal)` routes). */
   readonly onDismiss?: () => void | undefined;
   readonly accessibilityLabel?: string | undefined;
@@ -40,6 +42,7 @@ export function RiseModal({
   children,
   variant = 'dark',
   accent,
+  closeSide = 'end',
   onDismiss,
   accessibilityLabel,
   testID = 'rise',
@@ -78,7 +81,10 @@ export function RiseModal({
             <CloseButton
               onPress={dismiss}
               onPaper={variant === 'paper'}
-              style={[styles.close, { top: insets.top + tokens.space['8'] }]}
+              style={[
+                styles.close,
+                { top: insets.top + tokens.space['8'], [closeSide]: tokens.space['16'] },
+              ]}
               testID={`${testID}-close`}
             />
           </Animated.View>

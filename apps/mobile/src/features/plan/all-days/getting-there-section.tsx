@@ -15,6 +15,7 @@ import { travelLegLabel } from '@/data/areas/travel-line';
 import type { GettingThereState } from '@/data/areas/use-getting-there';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { TextLink } from '@/ui/buttons/TextLink';
+import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -39,7 +40,10 @@ const useStyles = makeStyles((t) => ({
   way: { paddingVertical: t.space['12'], gap: t.space['2'] },
   divider: { borderTopWidth: 1, borderTopColor: t.color.divider },
   quiet: { paddingVertical: t.space['12'], gap: t.space['4'], alignItems: 'flex-start' },
-  sources: { gap: t.space['2'], alignItems: 'flex-start' },
+  sources: { alignItems: 'flex-start' },
+  // A tight list down the card's left edge: each row is drawn 28 pt tall and keeps the full
+  // touch target as slop around it.
+  source: { alignSelf: 'flex-start', minHeight: 28, minWidth: 0, justifyContent: 'center' },
 }));
 
 function hostOf(url: string): string {
@@ -181,14 +185,23 @@ export function GettingThereSection({ state, place, guide, onRetry }: GettingThe
                 <Text variant="label" color={secondary}>
                   {t({ id: 'plan.allDays.gettingThere.sources', message: 'Written from' })}
                 </Text>
-                {sources.map((source, index) => (
-                  <TextLink
-                    key={source.url}
-                    label={source.title ?? hostOf(source.url)}
-                    onPress={() => void Linking.openURL(source.url).catch(() => undefined)}
-                    testID={`getting-there-source-${String(index)}`}
-                  />
-                ))}
+                {sources.map((source, index) => {
+                  const label = source.title ?? hostOf(source.url);
+                  return (
+                    <PressScale
+                      key={source.url}
+                      accessibilityLabel={label}
+                      accessibilityRole="link"
+                      onPress={() => void Linking.openURL(source.url).catch(() => undefined)}
+                      style={styles.source}
+                      testID={`getting-there-source-${String(index)}`}
+                    >
+                      <Text variant="bodySm" color={secondary} numberOfLines={1}>
+                        {label}
+                      </Text>
+                    </PressScale>
+                  );
+                })}
               </View>
             )}
           </>

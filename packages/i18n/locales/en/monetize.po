@@ -20,6 +20,10 @@ msgstr "{0} boost"
 msgid "monetize.stamped.onYou"
 msgstr "{destination} is boosted"
 
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.splitLineExact"
+msgstr "{each} each goes into Balances, like any shared expense. Settle it with the rest of the trip."
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boost.ended"
 msgstr "{kind} · ended {until}"
@@ -28,7 +32,7 @@ msgstr "{kind} · ended {until}"
 msgid "monetize.plan.boost.onUntil"
 msgstr "{kind} · on until {until}"
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.lockedBy"
 msgstr "{lockedBy} is boosting this now"
 
@@ -81,7 +85,7 @@ msgstr "6"
 msgid "monetize.disclosure.once"
 msgstr "A boost is one trip, paid once. It doesn’t renew."
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.endedLine"
 msgstr "A boost only runs during a trip, so there is nothing to buy here."
 
@@ -177,7 +181,7 @@ msgstr "Boost"
 msgid "monetize.boost.title"
 msgstr "Boost {destination}"
 
-#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 msgid "monetize.paywall.boostInstead"
 msgstr "Boost a trip instead"
 
@@ -190,7 +194,7 @@ msgstr "Boost for {0}"
 msgid "monetize.boost.sheet"
 msgstr "Boost this trip"
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.done"
 msgstr "Boosted"
 
@@ -342,7 +346,8 @@ msgstr "Getting prices from the store…"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.headline"
-msgstr "Go further than free"
+msgstr "Go further\n"
+"than free"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.inPlay"
@@ -389,7 +394,7 @@ msgstr "It splits {count} ways and each share goes into Balances, like any share
 msgid "monetize.stamped.coverLine"
 msgstr "It’s on for the whole crew, on you."
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.doneLine"
 msgstr "It’s on for the whole crew."
 
@@ -470,7 +475,7 @@ msgstr "On until a week after you land, {until}"
 msgid "monetize.compare.covers.boost"
 msgstr "One trip, whole crew"
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.lockedLine"
 msgstr "Only one of you can pay at a time. Check back in a few minutes."
 
@@ -595,6 +600,7 @@ msgstr "Redrafts from the guide"
 msgid "monetize.plan.renews"
 msgstr "Renews {renews}"
 
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.restore"
 msgstr "Restore"
@@ -615,7 +621,7 @@ msgstr "Settings"
 msgid "monetize.compare.sponsored.free"
 msgstr "Shown"
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.locked"
 msgstr "Someone is boosting this now"
 
@@ -704,11 +710,11 @@ msgstr "This plan is billed by the App Store. Update the payment on your iPhone.
 msgid "monetize.boost.thisTrip"
 msgstr "This trip"
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.boosted"
 msgstr "This trip is already boosted"
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.ended"
 msgstr "This trip is over"
 
@@ -759,7 +765,7 @@ msgstr "Unlimited guide for the whole crew on this trip"
 msgid "monetize.perks.boostRedrafts"
 msgstr "Unlimited redrafts"
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.boostedLine"
 msgstr "Unlimited redrafts, the live map and crews of 16 are on for everyone."
 
@@ -813,7 +819,7 @@ msgstr "WHAT YOU’D LOSE"
 msgid "monetize.compare.title"
 msgstr "What’s in each"
 
-#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 msgid "monetize.paywall.compare"
 msgstr "What’s in each ›"
 
