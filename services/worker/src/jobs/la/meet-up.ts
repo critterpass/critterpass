@@ -24,6 +24,9 @@ interface MeetUpRow {
   arrived: Record<string, string>;
   tz: string | null;
   boosted: boolean;
+  created_by: string;
+  /** Members who tapped ON MY WAY for this meet-up. */
+  on_my_way: string[];
 }
 
 interface MemberRow {
@@ -44,7 +47,8 @@ function distanceLine(metres: number | null): string | null {
 export const meetUpLoader: LaLoader = async ({ tx, refId, now, redact = false }) => {
   const { rows } = await tx.query<MeetUpRow>(
     `SELECT m.id, m.trip_id, m.place_name, m.meet_at, m.status, m.arrived,
-            coalesce(t.tz, d.tz) AS tz, coalesce(e.boost_active, false) AS boosted
+            coalesce(t.tz, d.tz) AS tz, coalesce(e.boost_active, false) AS boosted, m.created_by,
+            app.meetup_on_my_way(m.id) AS on_my_way
        FROM meetups m JOIN trips t ON t.id = m.trip_id
        LEFT JOIN destinations d ON d.id = t.destination_id
        LEFT JOIN trip_entitlements e ON e.trip_id = m.trip_id
@@ -93,6 +97,8 @@ export const meetUpLoader: LaLoader = async ({ tx, refId, now, redact = false })
       now.getTime() >= meet - LA_MEET_UP_LEAD_MS &&
       now.getTime() < meet + LA_MEET_UP_TAIL_MS,
     audience: input.members.map((m) => m.uid),
+    initiators: [row.created_by],
+    optedIn: row.on_my_way,
     attributes: () => Promise.resolve(buildMeetUpLaAttributes(input)),
     state: (seq) => buildMeetUpLaState(final, now, seq),
     startAlert: {

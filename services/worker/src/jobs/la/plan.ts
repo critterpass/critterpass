@@ -20,6 +20,7 @@ import {
 } from '@cp/domain';
 import type pg from 'pg';
 
+import { androidStartSurface, androidSurfaceOf, startersOn } from './android';
 import type { LaSend } from './deliver';
 import {
   audienceDevices,
@@ -87,6 +88,7 @@ async function updateSends(
 ): Promise<LaSend[]> {
   const spec = LA_KIND_SPECS[input.kind];
   const frequent = new Map(devices.map((d) => [d.device_id, d.la_frequent]));
+  const locales = new Map(devices.map((d) => [d.device_id, d.locale]));
   const alert =
     urgency.alert === undefined
       ? undefined
@@ -103,7 +105,8 @@ async function updateSends(
   for (const row of staying) {
     const channel = spec.broadcast ? channelOf(row) : null;
     if (row.platform === 'android') {
-      if (row.fcm_token === null) continue;
+      const surface = androidSurfaceOf(input.kind, input.snapshot, row.user_id);
+      if (row.fcm_token === null || surface === 'none') continue;
       sends.push({
         ...common,
         priority: 5,
@@ -112,6 +115,8 @@ async function updateSends(
         token: row.fcm_token,
         kind: input.kind,
         refId: input.refId,
+        surface,
+        attributes: await input.snapshot.attributes(locales.get(row.device_id) ?? 'en'),
       });
     } else if (channel !== null) {
       if (channels.has(channel.channelId)) continue;
@@ -175,9 +180,8 @@ async function startOn(
   const { tx, kind, refId, snapshot, now } = input;
   const spec = LA_KIND_SPECS[kind];
   const android = device.platform === 'android';
-  if (!device.la_on || (android ? device.fcm_token === null : device.start_token === null)) {
-    return null;
-  }
+  const surface = android ? androidStartSurface(kind, snapshot, device) : null;
+  if (android ? surface === null : !device.la_on || device.start_token === null) return null;
   // An iPhone whose build cannot draw the kind would show a blank activity.
   if (!android && device.start_drawn !== true && !LA_BASELINE_IOS_KINDS.includes(kind)) {
     return null;
@@ -212,9 +216,20 @@ async function startOn(
   if (rowId === undefined) return sends;
   const attributes = await snapshot.attributes(device.locale);
   const common = { event: 'start' as const, contentState: frame, relevance, staleAt };
-  if (android && device.fcm_token !== null) {
+  if (android) {
+    if (surface === null || device.fcm_token === null) return sends;
     const token = device.fcm_token;
-    sends.push({ ...common, priority: 5, via: 'fcm', rowId, token, kind, refId, attributes });
+    sends.push({
+      ...common,
+      priority: 5,
+      via: 'fcm',
+      rowId,
+      token,
+      kind,
+      refId,
+      attributes,
+      surface,
+    });
   } else if (device.start_token !== null && device.start_env !== null) {
     sends.push({
       ...common,
@@ -273,9 +288,10 @@ export async function planLive(input: PlanInput): Promise<LaPlan> {
   }
 
   let fallbacks = 0;
-  const starters = new Set(snapshot.startAudience ?? snapshot.audience);
+  const starters = { ios: startersOn('ios', snapshot), android: startersOn('android', snapshot) };
   for (const device of devices) {
-    if (showing.has(device.device_id) || device.blocked || !starters.has(device.user_id)) continue;
+    if (showing.has(device.device_id) || device.blocked) continue;
+    if (!starters[device.platform].has(device.user_id)) continue;
     const started = await startOn(input, device, seq, at);
     if (started === null) fallbacks += 1;
     else sends.push(...started);

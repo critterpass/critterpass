@@ -18,6 +18,7 @@ import type { LocationValue } from './location-row';
 import { SETTINGS_REGISTRY, SETTINGS_SECTIONS, type SettingsSectionId } from './registry';
 import type { SyncedSettings } from './synced-settings';
 import type { SettingsSection } from './settings-view';
+import { widgetsRow } from './widgets-row';
 
 const CHATTY_TRACK: ViewStyle = { flexShrink: 1, maxWidth: '64%' };
 
@@ -62,6 +63,7 @@ export interface SettingsHandlers {
   readonly onMapsApp?: (next: MapsApp) => void;
   readonly onLanguage: () => void;
   readonly onAppIcon?: () => void;
+  readonly onWidgets?: () => void;
   readonly onShakeToReport?: (next: boolean) => void;
   readonly onSignOut: () => void;
   readonly onRate: (() => void) | null;
@@ -266,6 +268,7 @@ export function useSettingsSections(
             onPress: handlers.onAppIcon,
           }
         : null,
+    widgets: widgetsRow(handlers.onWidgets),
     ...helpRows(values, handlers),
     'download-data': values.account
       ? {

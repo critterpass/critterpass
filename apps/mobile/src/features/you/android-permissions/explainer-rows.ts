@@ -36,10 +36,19 @@ export const EXPLAINER_ORDER: readonly SettingsBanner[] = [
   'promoted',
 ];
 
-export function explainerRows(state: SurfacePermissionState | null): SettingsBanner[] {
+/**
+ * `omit` leaves out rows the screen already shows its own way (the ping settings have their own
+ * notifications row); while notifications are off the rest stay hidden all the same.
+ */
+export function explainerRows(
+  state: SurfacePermissionState | null,
+  omit: readonly SettingsBanner[] = [],
+): SettingsBanner[] {
   if (state === null) return [];
-  if (!state.notifications) return ['notifications'];
-  return EXPLAINER_ORDER.filter(
-    (banner) => banner !== 'notifications' && state.banners.includes(banner),
-  );
+  const rows: readonly SettingsBanner[] = state.notifications
+    ? EXPLAINER_ORDER.filter(
+        (banner) => banner !== 'notifications' && state.banners.includes(banner),
+      )
+    : ['notifications'];
+  return rows.filter((banner) => !omit.includes(banner));
 }

@@ -62,6 +62,8 @@ export const sosLoader: LaLoader = async ({ tx, refId, now }) => {
     live: row.status === 'open' || row.status === 'responding',
     audience,
     startAudience: audience.filter((uid) => uid !== row.user_id),
+    initiators: [row.user_id],
+    androidStartAudience: audience,
     attributes: () => Promise.resolve(buildSosLaAttributes(input)),
     state: (seq) => buildSosLaState(input, now, seq),
     startAlert: { title: LA_COPY.sosStartTitle, body: LA_COPY.sosStartBody, vars: { sender } },

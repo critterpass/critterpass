@@ -29,7 +29,12 @@ import { resolveApiBaseUrl } from '../places/apiBaseUrl';
 import { startLocalFirst } from '../powersync/db';
 import { createFetchTransport } from '../powersync/transport';
 import { ensureActionKey, type ActionKeyHttp } from '../push/action-key';
-import { expoPushNative, secureActionKeyStorage } from '../push/expo-native';
+import {
+  androidActionKeyStorage,
+  androidCapabilities,
+  androidSurfacesNative,
+} from '../push/android-surfaces';
+import { expoPushNative, secureActionKeyRecord, secureActionKeyStorage } from '../push/expo-native';
 import type { PushLifecycleDeps } from '../push/use-push-lifecycle';
 import type { AppStateSource } from '../realtime/client';
 import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
@@ -178,6 +183,13 @@ function devicePushDeps(): PushLifecycleDeps | undefined {
   if (platform === null) return undefined;
   const transport = createFetchTransport({ baseUrl: resolveApiBaseUrl(), sessionHeaders });
   const bundleId = Application.applicationId;
+  const surfaces = platform === 'android' ? androidSurfacesNative() : null;
+  const actionKeys =
+    platform === 'ios'
+      ? secureActionKeyStorage
+      : surfaces === null
+        ? null
+        : androidActionKeyStorage(surfaces, secureActionKeyRecord);
   // Issuing and rotating are both POSTs; the lifecycle never revokes.
   const actionKeyHttp: ActionKeyHttp = async (path, init) => {
     const response = await transport.postJson(
@@ -191,13 +203,15 @@ function devicePushDeps(): PushLifecycleDeps | undefined {
     transport: (cmd, envelope) => transport.postJson(`/v1/cmd/${cmd}`, envelope),
     // The same Keychain view the command envelope reads its id through.
     storage: installIdKeychain,
-    // Only the iOS extensions (notification service, widgets, Live Activity intents) read the key.
-    ...(platform === 'ios'
+    // The key signs what happens outside the app: the iOS extensions read it from the shared
+    // Keychain, Android's notification and widget buttons sign with it inside the Keystore.
+    ...(actionKeys !== null
       ? {
           ensureActionKey: (owner) =>
-            ensureActionKey({ storage: secureActionKeyStorage, http: actionKeyHttp, ...owner }),
+            ensureActionKey({ storage: actionKeys, http: actionKeyHttp, ...owner }),
         }
       : {}),
+    ...(surfaces !== null ? { capabilities: () => androidCapabilities(surfaces) } : {}),
     // Registration waits for the session; before one exists (offline first launch) it skips and
     // the next foreground tries again.
     currentUid: () =>

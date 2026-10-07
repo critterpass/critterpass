@@ -28,7 +28,7 @@ msgstr "Khoảng {budget} thông báo mỗi ngày. Bình chọn, kế hoạch, t
 msgid "you.pings.action.addAll"
 msgstr "Thêm tất cả"
 
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/always-note.tsx
 msgid "you.pings.always"
 msgstr "Luôn được báo"
 
@@ -82,7 +82,7 @@ msgstr "Tham gia"
 msgid "you.pings.action.later"
 msgstr "Để sau"
 
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/always-note.tsx
 msgid "you.pings.alwaysLine"
 msgstr "Báo thức giờ xuất phát, SOS, thay đổi chuyến bay và mọi thứ khiến bạn tốn tiền nếu bỏ lỡ."
 

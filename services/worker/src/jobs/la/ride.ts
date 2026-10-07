@@ -74,6 +74,7 @@ export const rideLoader: LaLoader = async ({ tx, refId, now, redact }) => {
     tripId: row.trip_id,
     live,
     audience: [row.user_id],
+    initiators: [row.user_id],
     attributes: () => Promise.resolve(attributes),
     state: (seq) => ({
       ...buildRideLaState(input, now, seq),

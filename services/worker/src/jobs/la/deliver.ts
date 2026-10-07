@@ -15,7 +15,8 @@ import {
 } from '@cp/domain';
 
 import type { ApnsEnv, ApnsProvider } from '../../push/apns';
-import type { FcmProvider } from '../../push/fcm';
+import type { FcmProvider, FcmSend } from '../../push/fcm';
+import { laSurfaceMessage, type AndroidSurface } from '../../push/fcm-surfaces';
 import type { ApnsChannelManager } from '../../push/la-channels';
 import type { PushResult } from '../../push/providers';
 
@@ -68,7 +69,10 @@ export type LaSend =
       readonly token: string;
       readonly kind: LaKind;
       readonly refId: string;
+      /** The object's attributes: the Live Update's progress is drawn from them on every step. */
       readonly attributes?: Record<string, unknown>;
+      /** How this member's phone shows the object; absent on an end planned without the object. */
+      readonly surface?: Exclude<AndroidSurface, 'none'>;
     });
 
 export interface LaSendOutcome {
@@ -121,6 +125,47 @@ async function channelFor(
   return created.channelId;
 }
 
+const FCM_TTL_SECONDS = 3600;
+
+/**
+ * The FCM message for one Android step, or null when it cannot fit in a data message. A step
+ * planned with the object in hand carries the surface, its channel and the progress spec; the
+ * attributes travel on `start` only (the phone keeps them). An end planned without the object
+ * (evicted, switched off) is the bare frame, which is all the phone needs to clear it.
+ */
+export function laFcmMessage(send: Extract<LaSend, { via: 'fcm' }>, now: Date): FcmSend | null {
+  const collapseKey = `la:${send.kind}:${send.refId}`;
+  if (send.surface === undefined) {
+    return {
+      token: send.token,
+      data: laFcmData(send.kind, send.event, send.refId, send.contentState, send.attributes),
+      priority: 'high',
+      ttlSeconds: FCM_TTL_SECONDS,
+      collapseKey,
+    };
+  }
+  const message = laSurfaceMessage(
+    {
+      kind: send.kind,
+      op: send.event,
+      refId: send.refId,
+      contentState: send.contentState,
+      attributes: send.attributes ?? {},
+      includeAttributes: send.event === 'start' && send.attributes !== undefined,
+      now,
+    },
+    send.surface,
+  );
+  if (message === null) return null;
+  return {
+    token: send.token,
+    data: { ...message.data },
+    priority: message.priority,
+    ttlSeconds: FCM_TTL_SECONDS,
+    collapseKey: message.collapseKey,
+  };
+}
+
 /** Sends one planned push; never throws for a provider answer. */
 export async function deliverOne(
   transports: LaTransports,
@@ -132,14 +177,11 @@ export async function deliverOne(
     if (transports.fcm === undefined) {
       return { send, result: { outcome: 'rejected', reason: 'fcm_not_configured' } };
     }
-    const result = await transports.fcm.send({
-      token: send.token,
-      data: laFcmData(send.kind, send.event, send.refId, send.contentState, send.attributes),
-      priority: 'high',
-      ttlSeconds: 3600,
-      collapseKey: `la:${send.kind}:${send.refId}`,
-    });
-    return { send, result };
+    const message = laFcmMessage(send, new Date());
+    if (message === null) {
+      return { send, result: { outcome: 'rejected', reason: 'payload_too_large' } };
+    }
+    return { send, result: await transports.fcm.send(message) };
   }
   if (transports.apns === undefined) return { send, result: NOT_CONFIGURED };
   if (send.via === 'broadcast') {

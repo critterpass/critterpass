@@ -133,6 +133,18 @@ msgstr "Còn {spoken} nữa là tới {place}"
 msgid "home.inbox.nudge.payment"
 msgstr "Có một khoản cần thanh toán đang chờ bạn."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.addAnother"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.all"
 msgstr "Tất cả"
@@ -145,6 +157,15 @@ msgstr "Xong hết rồi"
 msgid "home.firstRun.searchBody"
 msgstr "Thành phố hay vùng nào cũng được. Đi đâu cũng có hướng dẫn viên đi cùng."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.balances"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.tier.boost"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.nearHome"
 msgstr "Gần nhà"
@@ -153,9 +174,24 @@ msgstr "Gần nhà"
 msgid "home.joinTrip.failed"
 msgstr "Chưa tham gia được chuyến đi. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.countdown"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.crew"
 msgstr "Nhóm"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.critterdex"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/countdown-chip.tsx
 msgid "home.countdown.dayLetter"
@@ -181,8 +217,16 @@ msgstr "Trước đó"
 msgid "home.explore.title"
 msgstr "Khám phá"
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.android.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.fixShippedVersion"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.tier.free"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
@@ -221,6 +265,10 @@ msgstr "Vào bằng mã"
 msgid "home.joinTrip.offline"
 msgstr "Cần có mạng để tham gia. Thử lại khi bạn có kết nối."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.todayLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.last"
 msgstr "Chuyến trước · {last}"
@@ -249,9 +297,18 @@ msgstr "Đã đánh dấu đã đọc."
 msgid "home.inbox.markedRead"
 msgstr "Đã đánh dấu đã đọc. {stillNeedYou} mục phía trên vẫn cần bạn."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.voteLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.needsYou"
 msgstr "Cần bạn · {needsYou}"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.nextFlight"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.eyebrowUndated"
@@ -313,6 +370,10 @@ msgstr "Lịch còn trống. Đề xuất một nơi đi, mình sẽ mở bình 
 msgid "home.today.open"
 msgstr "Mở hôm nay"
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.tier.passPlus"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr "Đề xuất một nơi"
@@ -324,6 +385,10 @@ msgstr "kế hoạch đã xong {progress} phần trăm"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr "Kế hoạch {progress}%"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.intro"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/offline-line.tsx
 msgid "home.offline.ready"
@@ -341,6 +406,10 @@ msgstr "Tìm một nơi"
 msgid "home.firstRun.body"
 msgstr "Tìm một nơi hoặc chọn một hướng dẫn viên để bắt đầu chuyến đi. Cả nhóm có thể bình chọn sau."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.ios.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.open"
 msgstr "Xem thay đổi"
@@ -349,6 +418,10 @@ msgstr "Xem thay đổi"
 msgid "home.postTrip.open"
 msgstr "Xem lại chuyến đi"
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.filters"
 msgstr "Hiển thị"
@@ -356,6 +429,26 @@ msgstr "Hiển thị"
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.more"
 msgstr "Xem cũ hơn"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.nextFlightLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.countdownLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.critterdexLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.balancesLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.crewLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.inviteOpened"
@@ -400,6 +493,14 @@ msgstr "Vẫn đang tải tệp cho hôm nay"
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"
 msgstr "Xem ngay"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.ios.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.android.widgets"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refused"
@@ -449,6 +550,11 @@ msgstr "Kế hoạch giờ có {change}"
 msgid "home.joinTrip.full"
 msgstr "Chuyến đi đã đủ chỗ. Bạn đứng thứ {position} chờ chỗ."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.vote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.ranOut"
 msgstr "Hết giờ bình chọn. Kế hoạch giữ nguyên."
@@ -469,6 +575,11 @@ msgstr "Mọi người đang giữ chỗ cho bạn."
 msgid "home.inbox.closed"
 msgstr "Mục này đã đóng."
 
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.today"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/countdown-chip.tsx
 msgid "home.countdown.today"
 msgstr "Hôm nay"
@@ -476,6 +587,14 @@ msgstr "Hôm nay"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.inTrip.eyebrowOf"
 msgstr "Hôm nay · Ngày {dayNo}/{dayCount}"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.ios.hold"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+msgid "home.widgets.howTo.android.hold"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"
@@ -513,6 +632,10 @@ msgstr "Chào mừng, {0}"
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.title"
 msgstr "Đi đâu trước?"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+msgid "home.widgets.title"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.tooSoon"

@@ -81,7 +81,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 ## Tasks
 
 ### T1 — Module scaffold, config plugin, shared snapshot + action signing
-- Status: done — 48fd61574 (scaffold, Keystore action key, signer, worker), 9c10e6093 (JS API, config plugin)
+- Status: done — 48fd61574 (scaffold, Keystore action key, signer, worker), 9c10e6093 (JS API, config plugin), df2d78efc6 (the app imports the issued action key into the Keystore, rotates and revokes it, and reports `capabilities.live_updates` at registration)
 - Goal: Kotlin foundation.
 - Files: `apps/mobile/modules/cp-android-surfaces/{expo-module.config.json,index.ts,android/src/main/java/app/critterpass/surfaces/{SnapshotStore,ActionSigner,ActionWorker,PendingActions}.kt}`, `apps/mobile/plugins/with-android-surfaces.ts`.
 - Steps: 1. DataStore `cp_snapshot` mirror of App Group JSON. 2. Import the server-issued action-key secret into Android Keystore as a non-exportable `HmacSHA256` key (`KeyProperties.PURPOSE_SIGN`); key id/scope/expiry metadata in DataStore; revoke = delete Keystore entry. 3. WorkManager expedited worker + offline queue drain. 4. Verify the generated Gradle project name (follows the module package name) and record it in the module README; later tasks use that name (`<cp-surfaces-gradle>` below).
@@ -89,7 +89,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: Keystore signature matches the TS reference vector test; key is non-exportable (`KeyInfo.isInsideSecureHardware` logged, export attempt fails); queued action drains on connectivity.
 
 ### T2a — Live Update spec + FCM payloads (TS)
-- Status: done — e6dc067a5 (the la worker jobs do not call it yet)
+- Status: done — e6dc067a5, 04f6ec98e2 (the la orchestrator plans every Android step through it: surface, channel and spec per member; initiators are the alarm owners, the flight's owner, the meet-up's starter plus ON MY WAY members, the SOS sender, the encounter's and the ride's own traveller; the widget refresh uses the shared `widget.refresh` data). The Boost lock-screen offer (`boostOfferSurface`) has no caller: nothing sends that offer yet
 - Goal: server side of LA parity for 5 kinds.
 - Files: `packages/domain/src/surfaces/android-live-update.ts`, `services/worker/src/push/fcm-surfaces.ts`, `services/worker/test/android-surfaces/*.test.ts`.
 - Steps: 1. `ProgressSpec` derivation per kind from phase-48 ContentState. 2. Per-kind audience split per initiator rule (Live Update payload to initiator/opted-in devices; notification payload to others). 3. FCM op start/update/end mapping + Kotlin data class generation.
@@ -113,7 +113,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: vote action from locked shade creates ballot `source: notification`.
 
 ### T4 — Full-screen alarm, SOS DND channel + permission flows
-- Status: done — 28f84069a, 6ba47959c (reuses cp-alarm's full-screen alarm activity; explainer rows are not mounted in a screen yet)
+- Status: done — 28f84069a, 6ba47959c (reuses cp-alarm's full-screen alarm activity), 21be5068ac (explainer rows on How much we ping, inside the "Always gets through" note; the SOS rows are on Help)
 - Goal: 5b-3 on Android and SOS DND bypass, both with denied-by-default degrade paths.
 - Files: `.../alarm/{AlarmFullScreenActivity,AlarmUi}.kt`, `.../sos/SosChannel.kt`, `apps/mobile/src/features/you/android-permissions/**`.
 - Steps: 1. Compose UI per render; slide I'M UP → `set_readiness`; snooze once → second snooze crew knock. 2. Explainer + settings deep links for exact alarm (`SCHEDULE_EXACT_ALARM`), FSI, promoted notifications, DND access. 3. `cp_sos` channel with `setBypassDnd(true)` once `isNotificationPolicyAccessGranted`; recreate channel after grant. 4. Degrade matrix with denied as the default row.
@@ -129,7 +129,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: widget unit tests cover empty/stale/active states; vote callback posts action.
 
 ### T6 — Crew, Next flight, keyguard, dream, pin
-- Status: done — 19f0bbe75 (no verified-device list: nothing ran on a device)
+- Status: done — 19f0bbe75, fcb47aff4b (the gallery's "+" calls `requestPinWidget`, the how-to sheet covers launchers that refuse, and the placed Glance widgets sync as `installed_widgets`). No verified-device list: nothing ran on a device
 - Goal: tiered widgets and extras.
 - Files: `.../widgets/{Crew,NextFlight}Widget.kt`, `.../hub/{LockScreenWidgets,SleepyClockDream}.kt`, `.../PinWidget.kt`.
 - Steps: 1. Locked states → offer deep links. 2. Keyguard support probe; hidden-with-explanation default. 3. DreamService ("while charging" copy). 4. `requestPinAppWidget` bridged to gallery.
@@ -154,6 +154,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 
 ### T9 — Android end-to-end parity suite
 - Goal: prove parity.
+- Status: partial — 7e106ae7d1 (`e2e/android/surfaces-settings.yaml`: widget gallery, pin or how-to, permission rows). Not written: the leave-by, flight, meetup, sos, widgets and alarm flows, which need FCM test sends to an API 36/37 emulator with Play services
 - Files: `e2e/android/{leave-by,flight,meetup,sos,widgets,alarm}.yaml`.
 - Steps: 1. Maestro flows on API 36 + 37 emulators with FCM test sends via `tools/scripts/push/send-test.ts` (phase 11). 2. Screenshot assertions.
 - Tests: `maestro test e2e/android/`.

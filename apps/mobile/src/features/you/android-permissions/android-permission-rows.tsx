@@ -11,10 +11,15 @@ import { DeniedRow } from '@/ui/permission-primer/DeniedRow';
 import { explainerRows, type SettingsBanner } from './explainer-rows';
 import { useAndroidSurfacePermissions } from './use-android-surface-permissions';
 
-export function AndroidPermissionRows() {
+export interface AndroidPermissionRowsProps {
+  /** Rows the screen already shows its own way. */
+  readonly omit?: readonly SettingsBanner[];
+}
+
+export function AndroidPermissionRows({ omit }: AndroidPermissionRowsProps) {
   const { t } = useLingui();
   const { state, openSettings } = useAndroidSurfacePermissions();
-  const rows = explainerRows(state);
+  const rows = explainerRows(state, omit);
   if (rows.length === 0) return null;
 
   const lines: Record<SettingsBanner, string> = {

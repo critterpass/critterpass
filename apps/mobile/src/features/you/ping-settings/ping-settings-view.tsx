@@ -25,6 +25,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
+import { AlwaysNote } from './always-note';
 import { BUDGET_MAX, type CrewChatMode, type PingPrefs } from './ping-prefs';
 
 export interface PingSettingsViewProps {
@@ -39,6 +40,8 @@ export interface PingSettingsViewProps {
   readonly onCrittersNearby: (next: boolean) => void;
   readonly onQuietHours: () => void;
   readonly onOpenSettings: () => void;
+  /** What the phone's settings still hold back from what always gets through (Android). */
+  readonly systemLimits?: ReactNode;
   readonly onBack?: () => void;
 }
 
@@ -86,14 +89,6 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-  },
-  always: {
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: t.semantic.border.decorative,
-    borderRadius: t.radius.lg,
-    padding: t.size.cardInner.max,
-    gap: t.space['4'],
   },
 }));
 
@@ -305,18 +300,7 @@ export function PingSettingsView(props: PingSettingsViewProps) {
               </Fragment>
             ))}
           </View>
-          <View style={styles.always} testID="you-pings-always">
-            <Text variant="eyebrow" color={theme.color.orange}>
-              {t({ id: 'you.pings.always', message: 'Always gets through' })}
-            </Text>
-            <Text variant="body">
-              {t({
-                id: 'you.pings.alwaysLine',
-                message:
-                  'Leave-by alarms, SOS, flight changes and anything that costs money if you miss it.',
-              })}
-            </Text>
-          </View>
+          <AlwaysNote>{props.systemLimits}</AlwaysNote>
         </View>
       </ScrollView>
     </Scaffold>

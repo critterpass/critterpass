@@ -2,6 +2,7 @@
  * The widgets placed on this phone as `sync_installed_widgets` names them. Each widget in the
  * extension declares its WidgetKit kind (`CPCountdownWidget`, ...); this maps them to the domain's
  * widget kinds and drops anything it does not know (an older or newer extension's widget).
+ * Android's Glance widgets already report the domain's kinds, with the `android` family.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- WidgetKit kind strings, never copy. */
 import {
@@ -35,8 +36,7 @@ export function installedWidgetsPayload(
   const seen = new Set<string>();
   const widgets: SyncInstalledWidgetsPayload['widgets'] = [];
   for (const widget of placed) {
-    const kind = WIDGET_KIND_BY_NATIVE[widget.kind];
-    if (kind === undefined) continue;
+    const kind = WIDGET_KIND_BY_NATIVE[widget.kind] ?? widget.kind;
     const parsed = installedWidgetSchema.safeParse({ kind, family: widget.family });
     if (!parsed.success) continue;
     const key = `${kind}:${widget.family}`;

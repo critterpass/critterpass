@@ -46,7 +46,8 @@ export interface PushLifecycleDeps {
   readonly osVersion?: string;
   readonly locale: () => string;
   readonly timeZone: () => string;
-  readonly capabilities?: DeviceCapabilities;
+  /** Read at every registration: a grant changed in system settings is reported next time. */
+  readonly capabilities?: DeviceCapabilities | (() => DeviceCapabilities);
   /**
    * Issues or rotates the extensions' action key for this install when one is needed; absent
    * where nothing reads one. Called only after `register_device` applied for `userId`.
@@ -110,6 +111,8 @@ export function createPushLifecycle(deps: PushLifecycleDeps): PushLifecycle {
   ): Promise<void> {
     const token = snapshot?.token;
     const foreground = reason !== 'background';
+    const capabilities =
+      typeof deps.capabilities === 'function' ? deps.capabilities() : deps.capabilities;
     await sendRegisterDevice(
       deps.transport,
       {
@@ -123,7 +126,7 @@ export function createPushLifecycle(deps: PushLifecycleDeps): PushLifecycle {
         locale: deps.locale(),
         foreground,
         ...(token !== undefined ? { pushToken: token, apnsEnv: snapshot?.apnsEnv ?? 'prod' } : {}),
-        ...(deps.capabilities !== undefined ? { capabilities: deps.capabilities } : {}),
+        ...(capabilities !== undefined ? { capabilities } : {}),
       },
       new Date(at),
     );

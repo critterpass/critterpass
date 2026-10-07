@@ -1,0 +1,121 @@
+appId: app.critterpass.dev
+---
+# Android: a brand-new account (en) starts a crew and opens Settings. "Widgets" opens the gallery
+# (5c-5): seven widgets, the Critterdex last, and "+" either hands over to the launcher's own pin
+# dialog or shows how to add the widget by hand. Then "Pings" (5b-4): on a fresh install the note
+# on what always gets through lists what the phone's settings still hold back (alarms on time,
+# full-screen alarms, SOS through Do Not Disturb), each with its way to system settings.
+# The standard fresh account with a crew (fresh install, onboarding through the api, crew
+# started), then Home's header to the profile and Settings.
+- runFlow:
+    file: ../happy/subflows/crew-with-code.yaml
+    env:
+      CREW: 'The Bali Six'
+- runFlow: ../screens/sweep/subflows/home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-profile'
+    timeout: 30000
+- tapOn:
+    id: 'home-header-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 30000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 30000
+- scrollUntilVisible:
+    element: 'Widgets'
+    direction: DOWN
+    timeout: 20000
+- tapOn: 'Widgets'
+- extendedWaitUntil:
+    visible:
+      id: 'widgets-countdown'
+    timeout: 15000
+- assertVisible: 'COUNTDOWN'
+- assertVisible: 'THE VOTE'
+- assertVisible: 'Put the trip on your home screen. Tokek keeps them up to date, even offline.'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5c-5-widget-gallery
+- scrollUntilVisible:
+    element:
+      id: 'widgets-critterdex'
+    direction: DOWN
+    timeout: 15000
+- assertVisible:
+    id: 'widgets-next_flight-add'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5c-5-critterdex
+# "+" asks the launcher to pin the widget; a launcher that cannot (or an app binary without the
+# surfaces module) gets the how-to sheet instead. Either way the gallery is still there after.
+- tapOn:
+    id: 'widgets-critterdex-add'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5c-5-add
+- runFlow:
+    when:
+      visible:
+        id: 'widgets-how-to-step-1'
+    commands:
+      - assertVisible: '2. Tap Widgets.'
+      - back
+- runFlow:
+    when:
+      notVisible:
+        id: 'widgets-critterdex'
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'widgets-critterdex'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'widgets-back'
+    direction: UP
+    timeout: 15000
+- tapOn:
+    id: 'widgets-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000
+- scrollUntilVisible:
+    element: 'Pings'
+    direction: UP
+    timeout: 20000
+- tapOn: 'Pings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-pings-budget'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'you-pings-always'
+    direction: DOWN
+    timeout: 15000
+- assertVisible: 'Leave-by alarms, SOS, flight changes and anything that costs money if you miss it.'
+# The rows come from the phone: with the surfaces module on a fresh install there are at least the
+# alarm rows; with notifications off, or without the module, the note stands alone.
+- runFlow:
+    when:
+      visible:
+        id: 'you-android-permissions'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'you-android-permissions'
+          direction: DOWN
+          visibilityPercentage: 100
+          timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5b-4-android-limits

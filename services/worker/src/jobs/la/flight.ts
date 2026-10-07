@@ -121,6 +121,8 @@ export const flightLoader: LaLoader = async ({ tx, refId, now }) => {
     tripId: row.trip_id,
     live: phase !== null && phase !== 'cancelled' && now.getTime() < endsAt.getTime(),
     audience: row.traveller_ids.length > 0 ? row.traveller_ids : [row.owner_id],
+    // Whoever added the flight is tracking it; the other travellers hear of each change.
+    initiators: [row.owner_id],
     attributes: () => Promise.resolve(buildFlightLaAttributes(input)),
     state: (seq) => buildFlightLaState(input, phase ?? 'pickup', now, seq),
     startAlert: {

@@ -28,6 +28,23 @@ describe('android permission explainer rows', () => {
     ).toEqual(['notifications']);
   });
 
+  it('leaves out the rows a screen shows its own way', () => {
+    expect(explainerRows(fresh, ['notifications'])).toEqual([
+      'exact_alarm',
+      'full_screen_intent',
+      'dnd_access',
+    ]);
+    expect(explainerRows(fresh, ['dnd_access'])).toEqual(['exact_alarm', 'full_screen_intent']);
+  });
+
+  it('keeps the other rows hidden while notifications are off, even when that row is left out', () => {
+    expect(
+      explainerRows({ ...fresh, notifications: false, banners: ['notifications', 'exact_alarm'] }, [
+        'notifications',
+      ]),
+    ).toEqual([]);
+  });
+
   it('shows nothing once everything is granted, on iOS, or for ids it does not know', () => {
     expect(explainerRows({ ...fresh, banners: [] })).toEqual([]);
     expect(explainerRows(null)).toEqual([]);
