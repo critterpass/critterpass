@@ -6,7 +6,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture articles and notes, never shipped copy. */
 import { useState, type ReactNode } from 'react';
-import { ScrollView } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 
 import type { FeedbackCategory, FeedbackMood } from '@cp/domain';
 
@@ -15,6 +15,7 @@ import { ListCard } from '@/ui/cards/ListCard';
 import { Stack } from '@/ui/layout/Stack';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
+import { makeStyles } from '@/ui/theme';
 
 import { searchLocal, type LocalArticle } from '../data/search-local';
 import { canSend, initialDraft, topicsFor, type FeedbackDraft } from '../feedback/draft';
@@ -143,6 +144,44 @@ const SPENDING = [
   { title: 'Boat to Nusa Penida', paidBy: 'Mei paid · split 5 ways', amount: 'Rp 2.750.000' },
   { title: 'Airport transfer', paidBy: 'Winston paid · split 5 ways', amount: 'Rp 450.000' },
 ] as const;
+
+const useStyles = makeStyles((t) => ({
+  fill: { flex: 1 },
+  shake: { position: 'absolute', start: t.size.gutter, end: t.size.gutter, bottom: t.space['32'] },
+}));
+
+/**
+ * A shake over another area's screen, without the shake: the screen is drawn as it is in the app,
+ * and the button takes the screenshot a shake would on a screen that is not covered whole, then
+ * shows that picture full size: what the screen's own private parts cover is plain to see.
+ */
+export function ShakeOver({ children }: { readonly children: ReactNode }) {
+  const styles = useStyles();
+  const [shot, setShot] = useState<string | null | undefined>(undefined);
+  if (shot !== undefined) {
+    return (
+      <Scaffold variant="dark" edges={['top', 'bottom']} testID="help-shake-picture">
+        {shot === null ? (
+          <Text variant="body">No picture could be taken.</Text>
+        ) : (
+          <Image source={{ uri: shot }} style={styles.fill} resizeMode="contain" />
+        )}
+      </Scaffold>
+    );
+  }
+  return (
+    <View style={styles.fill}>
+      {children}
+      <View style={styles.shake}>
+        <PillButton
+          label="Shake here"
+          onPress={() => void captureMasked('/explore', deviceCapturePorts).then(setShot)}
+          testID="help-shake-here"
+        />
+      </View>
+    </View>
+  );
+}
 
 /**
  * What a shake does, without the shake: takes the masked screenshot of this scene (as an ordinary

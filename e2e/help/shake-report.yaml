@@ -9,6 +9,28 @@ appId: app.critterpass.dev
       LANG: en
 - tapOn:
     id: 'dev-tools-entry'
+# On a build with Developer tools a shake opens those, so the report is an entry there: it closes
+# the tools, takes the masked screenshot of the screen underneath and opens the report with it.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-report-problem'
+    timeout: 15000
+- tapOn:
+    id: 'dev-report-problem'
+- extendedWaitUntil:
+    visible:
+      id: 'feedback-topic-bug'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-dev-tools-report-attached
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 15000
+- tapOn:
+    id: 'dev-tools-entry'
 - scrollUntilVisible:
     element:
       id: 'dev-nav-help-lab'
@@ -64,3 +86,52 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-shake-report-private-screen
+# Then a shake over Balances and over a stretch of crew chat, as screens that are not covered
+# whole: the picture is shown full size, with the amounts and the messages covered by those
+# screens' own private parts.
+- runFlow: ../screens/sweep/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'help-lab-shake-wallet'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'help-lab-shake-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+- takeScreenshot: en-shake-wallet
+- tapOn:
+    id: 'help-shake-here'
+- extendedWaitUntil:
+    visible:
+      id: 'help-shake-picture'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-shake-wallet-picture
+- runFlow: ../screens/sweep/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'help-lab-shake-chat'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'help-lab-shake-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-lab-scene'
+    timeout: 15000
+- takeScreenshot: en-shake-chat
+- tapOn:
+    id: 'help-shake-here'
+- extendedWaitUntil:
+    visible:
+      id: 'help-shake-picture'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-shake-chat-picture
