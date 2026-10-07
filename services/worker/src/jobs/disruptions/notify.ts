@@ -16,7 +16,12 @@ interface DisruptionFacts {
   readonly summary: string;
   readonly i18n: unknown;
   readonly traveller_ids: string[];
-  readonly actions: { poll?: { id: string } | null; affected_user_ids: string[]; label: string }[];
+  readonly actions: {
+    id: string;
+    poll?: { id: string } | null;
+    affected_user_ids: string[];
+    label: string;
+  }[];
 }
 
 async function disruption(
@@ -50,6 +55,23 @@ async function wordsFor(
   };
 }
 
+/**
+ * What the needs-a-yes push's APPROVE button acts on: the disruption and the row waiting for the
+ * yes, beside the poll the yes is counted on. The crew's own vote on a storm has no row, so its
+ * push names none and is answered on the poll.
+ */
+export function needsYesContext(
+  routed: RoutedEvent,
+  rowId: string | undefined,
+): { readonly poll_id: string; readonly disruption_id: string; readonly action_id?: string } {
+  return {
+    // The event calls the row's decision poll its `action_id`.
+    poll_id: str(routed, 'action_id') ?? '',
+    disruption_id: str(routed, 'disruption_id') ?? '',
+    ...(rowId === undefined ? {} : { action_id: rowId }),
+  };
+}
+
 let registered = false;
 
 export function registerDisruptionNotifications(): void {
@@ -71,7 +93,9 @@ export function registerDisruptionNotifications(): void {
     return {
       facts,
       row:
-        poll === undefined ? undefined : { affected_user_ids: poll.voters, label: poll.question },
+        poll === undefined
+          ? undefined
+          : { id: undefined, affected_user_ids: poll.voters, label: poll.question },
     };
   };
   const deepLink = (routed: RoutedEvent) => `/disruption/${str(routed, 'disruption_id') ?? ''}`;
@@ -92,7 +116,7 @@ export function registerDisruptionNotifications(): void {
         tripId: str(routed, 'trip_id') ?? null,
         deepLink: deepLink(routed),
         needsYou: true,
-        ctx: { poll_id: str(routed, 'action_id') ?? '' },
+        ctx: needsYesContext(routed, row.id),
         collapseVars: { disruption_id: str(routed, 'disruption_id') ?? '' },
       };
     },

@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# Report a problem from Developer tools, in English, on a fresh account: on a build with Developer
+# tools a shake opens those, so the report a shake opens in production is an entry there. It closes
+# the tools, takes the masked screenshot of the screen underneath (Home) and opens the problem
+# report with it attached. Needs a session: the help centre is closed to a pass not yet issued.
+- runFlow: ../happy/subflows/fresh-account.yaml
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-report-problem'
+    timeout: 15000
+- tapOn:
+    id: 'dev-report-problem'
+- extendedWaitUntil:
+    visible:
+      id: 'feedback-topic-bug'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-dev-tools-report-attached

@@ -12,6 +12,7 @@ import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
 import { useMemberFaces } from '@/features/you';
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLongPress } from '@/motion/gestures/long-press';
 import { InlineAction } from '@/ui/buttons/InlineAction';
@@ -196,41 +197,43 @@ export function Bubble(props: BubbleProps) {
                         testID: `chat-card-slot-${message.id}`,
                       })}
                 >
-                  {custom ?? (
-                    <Stack
-                      gap="6"
-                      style={[
-                        styles.bubble,
-                        {
-                          borderTopStartRadius: topStart,
-                          borderTopEndRadius: topEnd,
-                          borderBottomEndRadius: bottomEnd,
-                          borderBottomStartRadius: bottomStart,
-                          ...tail,
-                          backgroundColor:
-                            mine && !deleted
-                              ? theme.semantic.action.primary
-                              : theme.semantic.bg.raised,
-                        },
-                      ]}
-                    >
-                      {props.quote}
-                      <Text
-                        variant={guide && !deleted ? 'voice' : 'body'}
-                        color={
-                          deleted
-                            ? theme.semantic.text.tertiary
-                            : mine
-                              ? theme.semantic.text.onAccent
-                              : guide
-                                ? guideColor
-                                : undefined
-                        }
+                  <PrivateContent>
+                    {custom ?? (
+                      <Stack
+                        gap="6"
+                        style={[
+                          styles.bubble,
+                          {
+                            borderTopStartRadius: topStart,
+                            borderTopEndRadius: topEnd,
+                            borderBottomEndRadius: bottomEnd,
+                            borderBottomStartRadius: bottomStart,
+                            ...tail,
+                            backgroundColor:
+                              mine && !deleted
+                                ? theme.semantic.action.primary
+                                : theme.semantic.bg.raised,
+                          },
+                        ]}
                       >
-                        {text}
-                      </Text>
-                    </Stack>
-                  )}
+                        {props.quote}
+                        <Text
+                          variant={guide && !deleted ? 'voice' : 'body'}
+                          color={
+                            deleted
+                              ? theme.semantic.text.tertiary
+                              : mine
+                                ? theme.semantic.text.onAccent
+                                : guide
+                                  ? guideColor
+                                  : undefined
+                          }
+                        >
+                          {text}
+                        </Text>
+                      </Stack>
+                    )}
+                  </PrivateContent>
                 </View>
               </GestureDetector>
             </Animated.View>

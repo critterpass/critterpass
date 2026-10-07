@@ -6,7 +6,7 @@
  * keyed by its plan link's token and checked the same way: a revoked link or a plan taken down
  * answers 404 and loses its cached card; a recap card is keyed by its recap link's token, and a
  * link switched off answers 404 and loses its card the same way. Public kinds
- * (tip) are keyed by their public slug. Every card is drawn once per content digest and kept in R2;
+ * (tip, and page for a site page with a card of its own) are keyed by their public slug. Every card is drawn once per content digest and kept in R2;
  * any failure falls back to the site card.
  */
 import { parseLinkPath, type LinkTarget } from '@cp/domain';
@@ -21,7 +21,7 @@ import { renderCard, type AssetLoader } from './render';
 export const OG_TEMPLATE_VERSION = '1';
 
 export const PRIVATE_OG_KINDS = ['invite', 'referral', 'plan', 'recap'] as const;
-export const PUBLIC_OG_KINDS = ['tip'] as const;
+export const PUBLIC_OG_KINDS = ['tip', 'page'] as const;
 
 export interface OgEnv {
   readonly OG_CACHE?: OgBucket;

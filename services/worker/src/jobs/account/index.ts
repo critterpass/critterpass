@@ -2,17 +2,21 @@
  * The account area's jobs besides the database purge, wired from the worker's environment:
  * `export.build` and the hourly `export.expire`, both against the media bucket (no bucket
  * configured: a build fails cleanly and the person can ask again), the "your data is ready" push,
- * the purge of what an account left outside Postgres, and the daily purge reminder.
+ * the purge of what an account left outside Postgres, and the daily purge reminder. The earned
+ * app icons register here too: they are part of the same account, opened by `reward.fanout`.
  */
 import { LANGFUSE_DEFAULT_HOST } from '@cp/ai';
 
 import type { AnyJobDefinition } from '../../boss/define-job';
+import { registerAppIconUnlocks } from '../app-icons/unlock';
 import { createAvatarMediaStore } from '../avatar/media-store';
+import { emailSenderFromEnv } from './email-sender';
 import { exportBuildJob, exportExpireJob } from './export-build';
 import { registerExportReadyPush } from './export-notify';
 import { createObjectStore } from '../ops/object-store';
 import { accountPurgeExternalJob, type ExternalPurgeStores } from './purge-external';
 import { accountPurgeReminderJob } from './purge-reminder';
+import { trackerRedactionFromEnv } from './purge-tracker';
 
 export interface AccountJobsEnv {
   readonly R2_S3_ENDPOINT?: string | undefined;
@@ -20,23 +24,27 @@ export interface AccountJobsEnv {
   readonly R2_ACCESS_KEY_ID?: string | undefined;
   readonly R2_SECRET_ACCESS_KEY?: string | undefined;
   readonly POSTHOG_PROJECT_API_KEY?: string | undefined;
+  readonly POSTHOG_PERSONAL_API_KEY?: string | undefined;
+  readonly POSTHOG_PROJECT_ID?: string | undefined;
   readonly ANALYTICS_PID_SALT?: string | undefined;
   readonly LANGFUSE_PUBLIC_KEY?: string | undefined;
   readonly LANGFUSE_SECRET_KEY?: string | undefined;
   readonly LANGFUSE_HOST?: string | undefined;
+  readonly ACCOUNT_PURGE_ERASES_QUARANTINE?: boolean | undefined;
+  readonly FEEDBACK_GITHUB_REPO?: string | undefined;
+  readonly FEEDBACK_GITHUB_TOKEN?: string | undefined;
+  readonly RESEND_API_KEY?: string | undefined;
+  readonly EMAIL_FROM?: string | undefined;
 }
 
 /**
  * The stores the external purge erases from. Deleting an analytics person needs a personal API key
  * and the project's id (`POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID`), which only this job
- * uses; they are read from the process environment.
+ * uses.
  */
-export function externalPurgeStores(
-  env: AccountJobsEnv,
-  processEnv: Record<string, string | undefined>,
-): ExternalPurgeStores {
-  const personalKey = processEnv.POSTHOG_PERSONAL_API_KEY;
-  const projectId = processEnv.POSTHOG_PROJECT_ID;
+export function externalPurgeStores(env: AccountJobsEnv): ExternalPurgeStores {
+  const personalKey = env.POSTHOG_PERSONAL_API_KEY;
+  const projectId = env.POSTHOG_PROJECT_ID;
   return {
     media:
       env.R2_S3_ENDPOINT && env.R2_BUCKET && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
@@ -60,13 +68,12 @@ export function externalPurgeStores(
             host: env.LANGFUSE_HOST ?? LANGFUSE_DEFAULT_HOST,
           }
         : null,
+    eraseQuarantine: env.ACCOUNT_PURGE_ERASES_QUARANTINE === true,
+    tracker: trackerRedactionFromEnv(env),
   };
 }
 
-export function accountExportJobs(
-  env: AccountJobsEnv,
-  processEnv: Record<string, string | undefined> = process.env,
-): AnyJobDefinition[] {
+export function accountExportJobs(env: AccountJobsEnv): AnyJobDefinition[] {
   const store =
     env.R2_S3_ENDPOINT && env.R2_BUCKET && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
       ? createAvatarMediaStore({
@@ -77,10 +84,11 @@ export function accountExportJobs(
         })
       : null;
   registerExportReadyPush();
+  registerAppIconUnlocks();
   return [
     exportBuildJob(store),
     exportExpireJob(store),
-    accountPurgeExternalJob(externalPurgeStores(env, processEnv)),
-    accountPurgeReminderJob(),
+    accountPurgeExternalJob(externalPurgeStores(env)),
+    accountPurgeReminderJob(emailSenderFromEnv(env)),
   ];
 }

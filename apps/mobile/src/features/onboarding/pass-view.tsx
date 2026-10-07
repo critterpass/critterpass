@@ -17,6 +17,7 @@ import {
 } from '@cp/domain';
 import { format, upper } from '@cp/i18n';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { UserAvatar, type AvatarView } from '@/ui/avatar';
 import { PassCard } from '@/ui/pass-card';
@@ -114,44 +115,50 @@ export function OnboardingPassCard({
     stampCount,
   });
   return (
-    <PassCard
-      testID={testID}
-      head={t({ id: 'onboarding.pass.head', message: 'CRITTERPASS · PASSEPORT' })}
-      number={number}
-      {...(syncing ? { numberNote: t({ id: 'onboarding.pass.syncing', message: 'SYNCING' }) } : {})}
-      photo={draft.avatar === null ? null : <PassPhoto draft={draft} />}
-      nameLabel={t({ id: 'onboarding.pass.givenName', message: 'GIVEN NAME · PRÉNOM' })}
-      name={
-        name ?? (
-          <PrintedName text={draft.issued_at === null ? printedName : upper(printedName, locale)} />
-        )
-      }
-      home={{
-        key: 'home',
-        label: t({ id: 'onboarding.pass.home', message: 'HOME' }),
-        value: homeValue,
-        pending: home === null,
-      }}
-      issued={{
-        key: 'issued',
-        label: t({ id: 'onboarding.pass.issued', message: 'ISSUED' }),
-        value: issuedValue,
-        pending: draft.issued_at === null,
-      }}
-      style={{
-        key: 'style',
-        label: t({ id: 'onboarding.pass.travelStyle', message: 'TRAVEL STYLE' }),
-        value: styleValue,
-        pending: tags.length === 0,
-      }}
-      mrz={lines}
-      {...(stamps ? { stamps } : {})}
-      {...(corner ? { corner } : {})}
-      accessibilityLabel={t({
-        id: 'onboarding.pass.a11y',
-        message: `Your pass ${number}: ${printedName || notYet}, home ${homeValue}, issued ${issuedValue}, travel style ${styleValue}`,
-      })}
-    />
+    <PrivateContent>
+      <PassCard
+        testID={testID}
+        head={t({ id: 'onboarding.pass.head', message: 'CRITTERPASS · PASSEPORT' })}
+        number={number}
+        {...(syncing
+          ? { numberNote: t({ id: 'onboarding.pass.syncing', message: 'SYNCING' }) }
+          : {})}
+        photo={draft.avatar === null ? null : <PassPhoto draft={draft} />}
+        nameLabel={t({ id: 'onboarding.pass.givenName', message: 'GIVEN NAME · PRÉNOM' })}
+        name={
+          name ?? (
+            <PrintedName
+              text={draft.issued_at === null ? printedName : upper(printedName, locale)}
+            />
+          )
+        }
+        home={{
+          key: 'home',
+          label: t({ id: 'onboarding.pass.home', message: 'HOME' }),
+          value: homeValue,
+          pending: home === null,
+        }}
+        issued={{
+          key: 'issued',
+          label: t({ id: 'onboarding.pass.issued', message: 'ISSUED' }),
+          value: issuedValue,
+          pending: draft.issued_at === null,
+        }}
+        style={{
+          key: 'style',
+          label: t({ id: 'onboarding.pass.travelStyle', message: 'TRAVEL STYLE' }),
+          value: styleValue,
+          pending: tags.length === 0,
+        }}
+        mrz={lines}
+        {...(stamps ? { stamps } : {})}
+        {...(corner ? { corner } : {})}
+        accessibilityLabel={t({
+          id: 'onboarding.pass.a11y',
+          message: `Your pass ${number}: ${printedName || notYet}, home ${homeValue}, issued ${issuedValue}, travel style ${styleValue}`,
+        })}
+      />
+    </PrivateContent>
   );
 }
 

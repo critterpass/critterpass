@@ -6,6 +6,7 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
@@ -51,20 +52,22 @@ export function InsuranceCard({ policy, onOpen, onCall }: InsuranceCardProps) {
           {upper(t({ id: 'bookings.insurance.eyebrow', message: 'Travel insurance' }), locale)}
         </Text>
         <Text variant="h3">{policy.provider}</Text>
-        <Row gap="16" align="flex-end">
-          <DocField
-            flex={1}
-            label={upper(t({ id: 'bookings.insurance.policyNo', message: 'Policy no.' }), locale)}
-            value={policy.policy_no}
-          />
-          {phone === null ? null : (
+        <PrivateContent>
+          <Row gap="16" align="flex-end">
             <DocField
               flex={1}
-              label={upper(t({ id: 'bookings.insurance.phone', message: 'Assistance' }), locale)}
-              value={phone}
+              label={upper(t({ id: 'bookings.insurance.policyNo', message: 'Policy no.' }), locale)}
+              value={policy.policy_no}
             />
-          )}
-        </Row>
+            {phone === null ? null : (
+              <DocField
+                flex={1}
+                label={upper(t({ id: 'bookings.insurance.phone', message: 'Assistance' }), locale)}
+                value={phone}
+              />
+            )}
+          </Row>
+        </PrivateContent>
         {phone === null ? null : (
           <PillButton
             label={t({ id: 'bookings.insurance.call', message: 'Call assistance' })}

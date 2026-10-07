@@ -4,6 +4,7 @@
  * checked against the shared wire schema at start-up so a contract change fails here first.
  * `GET /v1/public/plan/{token}` answers the published crew plan behind a plan link.
  * `GET /v1/public/recap/{token}` answers the trip recap behind a recap link.
+ * `GET /v1/catalog/perks` answers the perk catalogue the pricing section is built from.
  * `POST /__revoke/{code}` flips a code to revoked, as the organiser would from the app; for a plan
  * link's token it takes the plan down, and for a recap link's it switches the link off.
  *
@@ -15,6 +16,7 @@ import { createServer, type ServerResponse } from 'node:http';
 import {
   linkPreviewSchema,
   linkSettingsSchema,
+  publicPerksSchema,
   publicPlanSchema,
   publicRecapSchema,
   publicProposalSchema,
@@ -60,6 +62,7 @@ const RECAPS = new Map<string, unknown>(
     publicRecapSchema.parse(fixture('./fixtures/public-recap.json')),
   ]),
 );
+const PERKS = publicPerksSchema.parse(fixture('./fixtures/catalog-perks.json'));
 const REVOKED = preview('../links/fixtures/preview-revoked-invite.json');
 const NOT_FOUND = fixture('../links/fixtures/error-not-found.json');
 const SETTINGS = linkSettingsSchema.parse({ app_clip: false });
@@ -79,6 +82,7 @@ createServer((request, response) => {
     return;
   }
   if (url.pathname === '/v1/links/settings') return json(response, 200, SETTINGS);
+  if (url.pathname === '/v1/catalog/perks') return json(response, 200, PERKS);
   // Test control: revoke a code, as the organiser would from the app.
   const revoke = /^\/__revoke\/([^/]+)$/.exec(url.pathname);
   if (revoke !== null && request.method === 'POST') {

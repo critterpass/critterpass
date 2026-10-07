@@ -3,6 +3,8 @@
  * render's values, every handler a no-op.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, never shipped copy. */
+import { router } from 'expo-router';
+
 import { bundledAppIconKeys } from '@/lib/app-icon';
 
 import { APP_ICON_PREVIEWS } from '../app-icon/app-icon-previews';
@@ -122,7 +124,8 @@ export function AppIcon(props: {
       switching={null}
       problem={props.problem ?? null}
       onChoose={noop}
-      onBack={noop}
+      // The picker's own back leaves the scene, so a flow never depends on a back gesture.
+      onBack={() => router.back()}
     />
   );
 }

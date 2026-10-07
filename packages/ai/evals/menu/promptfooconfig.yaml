@@ -1,0 +1,12 @@
+# Reading a menu the camera is pointed at: the lines a phone read from a menu and the dietary
+# flags of crew members who agreed to share theirs → the dishes by line id, each with a
+# translation, a clash or ok verdict per member, and the menu's language. Cases live in cases.yaml
+# and run through the real readMenu (prompt, gateway, validator, code-read prices; see suite.ts);
+# seeded cases grade the validator on deliberate model slips.
+# Run: pnpm --filter @cp/ai eval menu
+description: A menu read for a crew, with dietary clashes
+prompts:
+  - '{{lines}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

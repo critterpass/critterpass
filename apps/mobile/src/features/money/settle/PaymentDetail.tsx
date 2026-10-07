@@ -11,6 +11,7 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
@@ -64,19 +65,11 @@ export interface PaymentDetailProps {
   readonly onOpen: (url: string) => void;
 }
 
-function Method({
-  method,
-  row,
-  toName,
-  onCopy,
-  onOpen,
-}: {
+type MethodProps = Pick<PaymentDetailProps, 'row' | 'toName' | 'onCopy' | 'onOpen'> & {
   readonly method: RevealedPayoutMethod;
-  readonly row: SettleRowModel;
-  readonly toName: string;
-  readonly onCopy: (text: string) => void;
-  readonly onOpen: (url: string) => void;
-}) {
+};
+
+function Method({ method, row, toName, onCopy, onOpen }: MethodProps) {
   const theme = useTheme();
   const locale = useLocale();
   useMoneyDisplay();
@@ -88,45 +81,47 @@ function Method({
   const amount = formatAmount(row.amountMinor, row.currency, locale);
   return (
     <Card testID={`money-pay-method-${method.kind}`}>
-      <Stack gap="12">
-        <Text variant="eyebrow">{upper(label, locale)}</Text>
-        {qr !== null ? (
-          <Stack gap="8" align="center">
-            <PayoutQr
-              payload={qr.payload}
-              label={t({ id: 'money.pay.qrLabel', message: `${label} for ${toName}` })}
+      <PrivateContent>
+        <Stack gap="12">
+          <Text variant="eyebrow">{upper(label, locale)}</Text>
+          {qr !== null ? (
+            <Stack gap="8" align="center">
+              <PayoutQr
+                payload={qr.payload}
+                label={t({ id: 'money.pay.qrLabel', message: `${label} for ${toName}` })}
+              />
+              {qr.withAmount ? null : (
+                <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                  {t({ id: 'money.pay.typeAmount', message: `Type ${amount} in your bank app.` })}
+                </Text>
+              )}
+            </Stack>
+          ) : method.kind === 'bank' ? (
+            <SettingsGroup
+              rows={(['bank_name', 'account_name', 'account_number', 'swift', 'branch'] as const)
+                .filter((field) => details[field] !== undefined)
+                .map((field) => ({
+                  key: field,
+                  kind: 'value' as const,
+                  title: details[field] ?? '',
+                  value: t({ id: 'money.pay.copy', message: 'Copy' }),
+                  onPress: () => onCopy(details[field] ?? ''),
+                }))}
             />
-            {qr.withAmount ? null : (
-              <Text variant="bodySm" color={theme.semantic.text.secondary}>
-                {t({ id: 'money.pay.typeAmount', message: `Type ${amount} in your bank app.` })}
-              </Text>
-            )}
-          </Stack>
-        ) : method.kind === 'bank' ? (
-          <SettingsGroup
-            rows={(['bank_name', 'account_name', 'account_number', 'swift', 'branch'] as const)
-              .filter((field) => details[field] !== undefined)
-              .map((field) => ({
-                key: field,
-                kind: 'value' as const,
-                title: details[field] ?? '',
-                value: t({ id: 'money.pay.copy', message: 'Copy' }),
-                onPress: () => onCopy(details[field] ?? ''),
-              }))}
-          />
-        ) : method.kind === 'wise_link' ? (
-          <PillButton
-            label={upper(t({ id: 'money.pay.openWise', message: 'Open Wise' }), locale)}
-            onPress={() => onOpen(details['url'] ?? '')}
-            variant="secondary"
-            block
-          />
-        ) : (
-          <Text variant="body">
-            {t({ id: 'money.pay.cash', message: 'Hand it over in person.' })}
-          </Text>
-        )}
-      </Stack>
+          ) : method.kind === 'wise_link' ? (
+            <PillButton
+              label={upper(t({ id: 'money.pay.openWise', message: 'Open Wise' }), locale)}
+              onPress={() => onOpen(details['url'] ?? '')}
+              variant="secondary"
+              block
+            />
+          ) : (
+            <Text variant="body">
+              {t({ id: 'money.pay.cash', message: 'Hand it over in person.' })}
+            </Text>
+          )}
+        </Stack>
+      </PrivateContent>
     </Card>
   );
 }
@@ -170,9 +165,11 @@ export function PaymentDetail(props: PaymentDetailProps) {
           {upper(title, locale)}
         </Text>
         <Row gap="12" align="center">
-          <Text variant="displayXl" testID="money-payment-amount">
-            {formatAmountShown(row.amountMinor, row.currency, locale)}
-          </Text>
+          <PrivateContent>
+            <Text variant="displayXl" testID="money-payment-amount">
+              {formatAmountShown(row.amountMinor, row.currency, locale)}
+            </Text>
+          </PrivateContent>
           <Text variant="label" color={theme.semantic.text.secondary}>
             {statusLabel(row)}
           </Text>

@@ -2,8 +2,9 @@ appId: app.critterpass.dev
 ---
 # The ways into talking, practising and the menu camera, prefixed `${PREFIX}`: the voice consent
 # step and voice mode opening from its yes, phrase practice (ready, a miss with the guide's tip, a
-# pass, the consent asked under the switch) and point and ask (3j-3: before a scan, the menu read
-# with a clash, and the stops: no camera, camera refused, offline).
+# pass, the consent asked under the switch), a phrase card that offers practice, and point and ask
+# (3j-3: before a scan, the menu read with a clash and its language pill, the order card with two
+# dishes picked, and the stops: no camera, camera refused, offline).
 # These scenes sit at the end of the lab's list: the list is brought there first.
 - scrollUntilVisible:
     element:
@@ -53,10 +54,21 @@ appId: app.critterpass.dev
       }
 - runFlow:
     file: scene.yaml
+    env:
+      {
+        SCENE: practice-from-card,
+        READY: guide-phrase-card-practise,
+        SHOT: '${PREFIX}-practice-from-card',
+      }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: camera-aiming, READY: guide-camera-scan, SHOT: '${PREFIX}-3j-3-aiming' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: camera-menu, READY: guide-camera-caution, SHOT: '${PREFIX}-3j-3-menu' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: camera-order, READY: guide-camera-order-show, SHOT: '${PREFIX}-3j-3-order' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: camera-no-camera, READY: guide-camera-type, SHOT: '${PREFIX}-3j-3-no-camera' }

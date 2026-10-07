@@ -1,6 +1,7 @@
 /**
  * Phrase cards: recorded audio plays from the phone (airplane mode included), is fetched once when
- * missing, and a card whose audio can't be reached, or has none, is read in the phone's voice.
+ * missing, and a card whose audio can't be reached, or has none, is read in the phone's voice. A
+ * card that offers practice carries the link, and so does its SHOW mode.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -38,7 +39,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { renderWithI18n } from '@/lib/i18n/testing';
 
 import { PhraseAudioContext, prefetchPhraseAudio, type PhraseAudioServices } from '../phrase-audio';
-import { PhraseCard } from '../phrase-card';
+import { PhraseCard, PhraseCardView, showModeHref } from '../phrase-card';
 import { usePhrasePlayer } from '../use-phrase-player';
 
 const KEY = 'phrase_audio/u1/villa.mp3';
@@ -166,5 +167,43 @@ describe('the phrase card', () => {
     );
     await fireEvent.press(screen.getByLabelText('Read aloud'));
     expect(device.played).toHaveLength(1);
+  });
+});
+
+describe('practising a phrase from its card', () => {
+  const view = (onPractise?: () => void) => (
+    <GestureHandlerRootView>
+      <PhraseCardView
+        phrase="Cho tôi xin hoá đơn."
+        lang="vi"
+        gloss="The bill, please."
+        playerState="idle"
+        onPractise={onPractise}
+      />
+    </GestureHandlerRootView>
+  );
+
+  it('offers the link on a card that has somewhere to practise', async () => {
+    const onPractise = jest.fn();
+    await renderWithI18n(view(onPractise));
+    await fireEvent.press(screen.getByTestId('guide-phrase-card-practise'));
+    expect(onPractise).toHaveBeenCalledTimes(1);
+  });
+
+  it('offers no link on any other card', async () => {
+    await renderWithI18n(view());
+    expect(screen.getByTestId('guide-phrase-card')).toBeTruthy();
+    expect(screen.queryByTestId('guide-phrase-card-practise')).toBeNull();
+  });
+
+  it('hands SHOW mode the same offer, with the trip the practice counts for', () => {
+    expect(showModeHref('Xin chào', 'vi', 'Hello')).toEqual({
+      pathname: '/guide/phrase',
+      params: { phrase: 'Xin chào', lang: 'vi', gloss: 'Hello' },
+    });
+    expect(showModeHref('Xin chào', 'vi', 'Hello', { tripId: 'trip-1' })).toEqual({
+      pathname: '/guide/phrase',
+      params: { phrase: 'Xin chào', lang: 'vi', gloss: 'Hello', practise: '1', tripId: 'trip-1' },
+    });
   });
 });

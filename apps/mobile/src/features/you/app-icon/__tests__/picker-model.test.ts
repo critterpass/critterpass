@@ -2,7 +2,15 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import { bundledAppIconKeys } from '@/lib/app-icon';
 
-import { chooseIcon, iconToRecord, pickerModel, type PickerInput } from '../picker-model';
+import {
+  chooseIcon,
+  iconStylesOpen,
+  iconToRecord,
+  lockedIconAction,
+  pickerModel,
+  revertLapsedIcon,
+  type PickerInput,
+} from '../picker-model';
 
 const BUNDLED = ['face', 'pon', 'sardi', 'temple'];
 const input = (over: Partial<PickerInput> = {}): PickerInput => ({
@@ -103,5 +111,53 @@ describe('app icon picker', () => {
     expect(iconToRecord(null, null)).toBeNull();
     expect(iconToRecord(null, 'face')).toEqual({ icon_id: 'passport', appearance: 'auto' });
     expect(iconToRecord('not-an-icon', 'face')).toBeNull();
+  });
+
+  it('sends a locked Pass+ style to the paywall and opens it with Pass+, active or paused', () => {
+    const withStamp = { bundled: bundledAppIconKeys([...BUNDLED, 'stamp']) };
+    const locked = pickerModel(input(withStamp)).styles.find((c) => c.id === 'stamp');
+    if (locked === undefined) throw new Error('no stamp');
+    expect(locked.state).toBe('locked');
+    expect(lockedIconAction(locked)).toBe('paywall');
+    const [temple] = pickerModel(input(withStamp)).earned;
+    if (temple === undefined) throw new Error('no temple');
+    expect(lockedIconAction(temple)).toBe('how_to_earn');
+
+    expect(iconStylesOpen(undefined)).toBe(false);
+    expect(iconStylesOpen({ pass_plus: 0, icon_styles: '[]' })).toBe(false);
+    expect(iconStylesOpen({ pass_plus: 1, icon_styles: '[]' })).toBe(true);
+    // Paused: Pass+ is off but the styles stay.
+    expect(iconStylesOpen({ pass_plus: 0, icon_styles: '["all"]' })).toBe(true);
+    const open = pickerModel(input({ ...withStamp, passPlus: true }));
+    expect(open.styles.find((c) => c.id === 'stamp')?.state).toBe('available');
+    // A style this build does not bundle is never listed.
+    expect(pickerModel(input()).styles.some((c) => c.id === 'stamp')).toBe(false);
+  });
+
+  it('puts the default icon back when Pass+ lapsed under a Pass+ style, and only then', async () => {
+    const ports = (current: string | null) => ({
+      getCurrent: jest.fn(() => Promise.resolve(current)),
+      setNative: jest.fn((_name: string | null) => Promise.resolve()),
+      record: jest.fn((_payload: { icon_id: string }) => Promise.resolve()),
+    });
+    const lapsed = ports('stamp');
+    expect(await revertLapsedIcon(false, lapsed)).toBe(true);
+    expect(lapsed.setNative).toHaveBeenCalledWith(null);
+    expect(lapsed.record).toHaveBeenCalledWith({ icon_id: 'passport', appearance: 'auto' });
+
+    for (const [open, current] of [
+      [true, 'stamp'],
+      [false, 'face'],
+      [false, 'temple'],
+      [false, null],
+    ] as const) {
+      const kept = ports(current);
+      expect(await revertLapsedIcon(open, kept)).toBe(false);
+      expect(kept.setNative).not.toHaveBeenCalled();
+    }
+
+    const refused = { ...ports('stamp'), setNative: jest.fn(() => Promise.reject(new Error())) };
+    expect(await revertLapsedIcon(false, refused)).toBe(false);
+    expect(refused.record).not.toHaveBeenCalled();
   });
 });

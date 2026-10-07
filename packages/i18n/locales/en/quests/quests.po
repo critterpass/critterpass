@@ -94,6 +94,10 @@ msgstr "Nearest: {name} · {away}"
 msgid "quests.empty.overLine"
 msgstr "No more quests on this trip. Your crew level and stickers stay on your pass."
 
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.practise"
+msgstr "Practise"
+
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
 msgid "quests.offline"
 msgstr "Progress and rewards land when you're back online."

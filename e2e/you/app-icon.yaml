@@ -8,21 +8,38 @@ appId: app.critterpass.dev
     file: ../screens/sweep/subflows/start.yaml
     env:
       LANG: en
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-you-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-you-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'you-lab-3n-1-profile'
+    timeout: 15000
 - runFlow:
-    file: subflows/open-scene.yaml
+    file: subflows/app-icon-scene.yaml
     env:
       SCENE: '3n-5-app-icon'
       ROOT: 'you-app-icon'
-- takeScreenshot: en-3n-5-app-icon
-- runFlow: ../screens/sweep/subflows/back.yaml
+      SHOT: en-3n-5-app-icon
 - runFlow:
-    file: subflows/lab-scene.yaml
+    file: subflows/app-icon-scene.yaml
     env:
       SCENE: '3n-5-earned-in-use'
       ROOT: 'you-app-icon'
       SHOT: en-3n-5-earned-in-use
 - runFlow:
-    file: subflows/lab-scene.yaml
+    file: subflows/app-icon-scene.yaml
     env:
       SCENE: '3n-5-locked'
       ROOT: 'you-app-icon-problem'

@@ -6,6 +6,8 @@
  * `GET /v1/public/plan/{token}`: a live link to a published crew plan answers the plan's days and
  * places and nothing the crew did not publish; a link to a plan still waiting on consent, a
  * revoked link and an unknown token answer 404, as does the same link once the plan is taken down.
+ *
+ * `GET /v1/catalog/perks`: the switched-on perk lines for the website, and none that is switched off.
  */
 import { createHash } from 'node:crypto';
 
@@ -244,5 +246,44 @@ describe('GET /v1/public/plan/{token}', () => {
       [publishedPlan],
     );
     expect((await get(`/v1/public/plan/${PLAN_TOKEN}`)).status).toBe(404);
+  });
+});
+
+describe('GET /v1/catalog/perks', () => {
+  interface PerkRow {
+    readonly key: string;
+    readonly tier: string;
+    readonly copy_key: string;
+    readonly sort: number;
+  }
+  const perks = async () => {
+    const response = await get('/v1/catalog/perks');
+    expect(response.status).toBe(200);
+    return ((await response.json()) as { perks: PerkRow[] }).perks;
+  };
+
+  it('answers the switched-on perk lines in display order, without a session, cacheable', async () => {
+    const response = await get('/v1/catalog/perks');
+    expect(response.status).toBe(200);
+    expect(response.headers.get('cache-control')).toBe('public, max-age=300');
+    const rows = ((await response.json()) as { perks: PerkRow[] }).perks;
+    expect(rows[0]).toEqual({
+      key: 'pass_plus_guide_unlimited',
+      tier: 'pass_plus',
+      copy_key: 'monetize.perks.pass_plus_guide_unlimited',
+      sort: 10,
+    });
+    expect(rows.map((row) => row.sort)).toEqual(
+      [...rows.map((row) => row.sort)].sort((a, b) => a - b),
+    );
+    expect(new Set(rows.map((row) => row.tier))).toEqual(
+      new Set(['pass_plus', 'boost', 'ftf', 'crew_year']),
+    );
+  });
+
+  it('leaves a perk out once it is switched off', async () => {
+    expect((await perks()).map((row) => row.key)).toContain('boost_live_map');
+    await harness.pool.query("UPDATE perks SET is_shipped = false WHERE key = 'boost_live_map'");
+    expect((await perks()).map((row) => row.key)).not.toContain('boost_live_map');
   });
 });

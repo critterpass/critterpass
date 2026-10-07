@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -148,7 +149,9 @@ export function BookingDetailView(props: BookingDetailViewProps) {
             {props.status}
           </Text>
         )}
-        <SettingsGroup rows={facts} testID="bookings-detail-facts" />
+        <PrivateContent>
+          <SettingsGroup rows={facts} testID="bookings-detail-facts" />
+        </PrivateContent>
         {booking.freeCancelUntil === null ? null : (
           <Stack gap="6" testID="bookings-detail-deadline">
             <Text variant="title">

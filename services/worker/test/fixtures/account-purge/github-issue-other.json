@@ -1,0 +1,10 @@
+{
+  "url": "https://api.github.com/repos/critterpass/feedback/issues/38",
+  "id": 3120041202,
+  "number": 38,
+  "title": "[CP-1190] Map pin jumps after a day is reordered",
+  "state": "open",
+  "labels": [{ "id": 801, "name": "kind:bug" }],
+  "comments": 3,
+  "body": "- Ticket: CP-1190\n- Kind: bug\n- Area: planning\n- Severity: low\n- App version: 1.0.0\n- Platform: android\n\n> The pin moved to the wrong stop."
+}

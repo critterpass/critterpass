@@ -13,6 +13,7 @@ import { renderCard } from './render';
 import { OG_TEMPLATE_VERSION, serveOg } from './serve';
 import { inviteTemplate } from './templates/invite';
 import { planTemplate } from './templates/plan';
+import { pricingTemplate } from './templates/pricing';
 import { referralTemplate } from './templates/referral';
 import { PALETTE } from './templates/shared';
 import { tipTemplate } from './templates/tip';
@@ -171,6 +172,21 @@ describe('OG cards', { timeout: 60_000 }, () => {
     );
     expectCardSize(png);
     await expectGolden('tip', png);
+  });
+
+  it('draws the pricing card', async () => {
+    const png = await renderCard(
+      pricingTemplate({
+        eyebrow: 'What it costs',
+        headline: 'Free to plan',
+        chips: ['Free', 'Pass+ $3.99 a month', 'Trip Boost'],
+        guide: 'gecko',
+      }),
+      ['gecko'],
+      loadPublicAsset,
+    );
+    expectCardSize(png);
+    await expectGolden('pricing', png);
   });
 });
 
