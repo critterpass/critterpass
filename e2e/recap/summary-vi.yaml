@@ -9,3 +9,7 @@ appId: app.critterpass.dev
     file: subflows/summary-shots.yaml
     env:
       LANG: vi
+- runFlow:
+    file: subflows/share.yaml
+    env:
+      LANG: vi

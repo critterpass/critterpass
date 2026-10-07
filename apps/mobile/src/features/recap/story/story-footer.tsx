@@ -62,7 +62,9 @@ export function StoryFooter(props: StoryFooterProps) {
     return (
       <PillButton
         label={t({ id: 'recap.story.sign', message: 'Sign it' })}
-        tone="cream"
+        // The stamp page is paper: a cream pill would vanish into it.
+        tone="ink"
+        block
         onPress={props.onSign}
         testID="recap-story-sign"
       />

@@ -116,6 +116,10 @@ msgstr "{guideName} đang viết bản tổng kết"
 msgid "recap.story.presents"
 msgstr "{guideName} giới thiệu"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.watchDetail"
+msgstr "{guideName} kể lại từ đầu"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.meals.value"
 msgstr "{meals, plural, other {# bữa ăn}}"
@@ -289,6 +293,10 @@ msgstr "Đã đến"
 msgid "recap.summary.failed.retrying"
 msgstr "Đang thử lại…"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.receipt.paidTop"
 msgstr "Công nợ"
@@ -321,9 +329,17 @@ msgstr "Chưa yêu cầu lại được"
 msgid "recap.link.failed"
 msgstr "Chưa tạo được liên kết"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.shareFailed"
+msgstr "Chưa mở được bảng chia sẻ"
+
 #: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 msgid "recap.memory.reunionFailed"
 msgstr "Chưa đề xuất được buổi họp mặt"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.saveFailed"
+msgstr "Chưa lưu được. Kiểm tra quyền truy cập Ảnh nhé"
 
 #: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 msgid "recap.memory.reactFailed"
@@ -347,7 +363,7 @@ msgstr "Nhóm {travellers} người"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.critterWhisperer"
-msgstr "Người thì thầm với critter"
+msgstr "Người thì thầm với thổ địa"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.cheapestValue"
@@ -368,6 +384,10 @@ msgstr "Ngày {from}"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.route.days"
 msgstr "Ngày {from}–{to}"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.drawing"
+msgstr "Đang vẽ ảnh"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.driver"
@@ -416,10 +436,6 @@ msgstr "{name} Vàng"
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.goodCompany"
 msgstr "Bạn đồng hành vui vẻ"
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.voiceOn"
-msgstr "Nghe hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.back"
@@ -529,6 +545,10 @@ msgstr "Trên đường đi"
 msgid "recap.signature.line"
 msgstr "Ký một lần, chữ ký sẽ có trên mọi con dấu chung với nhóm, theo màu của bạn."
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.rateDetail"
+msgstr "Mỗi nơi một chạm, cho nhóm đi sau"
+
 #: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.open"
 msgstr "Chạm một lần. Bạn có thể đổi đến khi cả nhóm bầu xong."
@@ -554,6 +574,10 @@ msgstr "Đã trả"
 msgid "recap.story.theme.paco"
 msgstr "sáo pan và charango"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.format"
+msgstr "Khổ ảnh"
+
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
 msgstr "Đang đề xuất họp mặt với nhóm"
@@ -569,6 +593,10 @@ msgstr "Dự kiến"
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.watch"
 msgstr "Xem lại câu chuyện"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.post"
+msgstr "Bài đăng"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.priciest"
@@ -594,6 +622,14 @@ msgstr "Nhắc tôi"
 msgid "recap.story.remindIn"
 msgstr "Nhắc tôi vào {month}"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.save"
+msgstr "Lưu vào Ảnh"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.saved"
+msgstr "Đã lưu vào Ảnh"
+
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.lineLabel"
 msgstr "Nói gì đó"
@@ -610,13 +646,13 @@ msgstr "Thanh toán"
 msgid "recap.summary.owed.lastDay"
 msgstr "trả xong vào ngày cuối"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.share"
+msgstr "Chia sẻ"
+
 #: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
 msgid "recap.share.link"
 msgstr "Chia sẻ liên kết"
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.image"
-msgstr "Chia sẻ hình ảnh"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.share"
@@ -626,9 +662,13 @@ msgstr "Chia sẻ"
 msgid "recap.memory.share"
 msgstr "Chia sẻ kỷ niệm"
 
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
 msgid "recap.share.title"
-msgstr "Chia sẻ bản tổng kết"
+msgstr "Chia sẻ tổng kết"
+
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareCard"
+msgstr "Chia sẻ trang này"
 
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.sign"
@@ -654,6 +694,14 @@ msgstr "hò biển chậm"
 msgid "recap.summary.failed.line"
 msgstr "Bên mình có trục trặc. Không mất gì từ chuyến đi đâu. Thử lại nhé?"
 
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOn"
+msgstr "Đang tắt tiếng. Bật lên"
+
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOff"
+msgstr "Đang bật tiếng. Tắt đi"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.stamp.caption"
 msgstr "Con dấu số {seq} là {place}"
@@ -674,6 +722,10 @@ msgstr "vẫn còn phải thanh toán"
 msgid "recap.share.stop"
 msgstr "Dừng chia sẻ"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.story"
+msgstr "Story"
+
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.linkOff"
 msgstr "Đang tắt liên kết tổng kết"
@@ -685,10 +737,6 @@ msgstr "Chạm để bắt đầu · giữ để tạm dừng"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.taxi"
 msgstr "taxi"
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.voiceOff"
-msgstr "Chỉ chữ"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.story.receipt.thanks"
@@ -742,6 +790,10 @@ msgstr "Bé đã trốn mất"
 msgid "recap.story.label.gotAway"
 msgstr "Bé đã trốn mất"
 
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.failed"
+msgstr "Ảnh chưa vẽ được."
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.planner"
 msgstr "Người lên kế hoạch"
@@ -757,10 +809,6 @@ msgstr "Tổng kết"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitleNoPlace"
 msgstr "Tổng kết"
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.imageLine"
-msgstr "Tấm thẻ tổng kết, để đăng bài hoặc đăng tin."
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.title"
@@ -828,6 +876,10 @@ msgstr "Tổng kết chuyến đi · {month}"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx

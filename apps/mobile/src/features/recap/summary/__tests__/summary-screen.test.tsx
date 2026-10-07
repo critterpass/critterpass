@@ -36,11 +36,13 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { registerScreens } from '@/lib/navigation/screen-registry';
 import { toastQueue } from '@/motion';
 
 import {
   awardRows,
   CARDS,
+  CHAVA,
   CREW,
   RECAP,
   RECEIPT,
@@ -72,6 +74,7 @@ const visible = (testID: string) => screen.queryByTestId(testID) !== null;
 afterEach(async () => {
   (router.navigate as jest.Mock).mockClear();
   (router.replace as jest.Mock).mockClear();
+  (router.back as jest.Mock).mockClear();
   storySession.reset();
   toastQueue.dismiss();
   await stack?.close();
@@ -180,6 +183,45 @@ describe('recap page', () => {
     await until(() => visible('recap-where-next'));
     await fireEvent.press(screen.getByTestId('recap-where-next'));
     expect(router.navigate).toHaveBeenCalledWith({ pathname: '/', params: { crewId: CREW } });
+  });
+
+  it('goes back to where the traveller came from, or Home when there is nowhere to go back to', async () => {
+    const s = await open();
+    await seedRecap(s, recapRow({ status: 'building' }));
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-back'));
+    await fireEvent.press(screen.getByTestId('recap-back'));
+    expect(router.back).toHaveBeenCalledTimes(1);
+
+    (router.canGoBack as jest.Mock).mockReturnValueOnce(false);
+    await fireEvent.press(screen.getByTestId('recap-back'));
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).toHaveBeenLastCalledWith('/');
+  });
+
+  it("opens this trip's critter from the forms card, never the whole collection", async () => {
+    const unregister = registerScreens({
+      '3l-3': (params) => ({
+        pathname: '/critters/[critterId]',
+        params: { critterId: params['critterId'] ?? '' },
+      }),
+      '3l-9': '/critters/legendaries',
+    });
+    const s = await open();
+    await seedRecap(s, recapRow());
+    await s.db.execute(
+      `INSERT INTO recap_views (id, recap_id, trip_id, user_id, opened_at, completed_at)
+       VALUES ('rv-1', ?, ?, ?, '2026-10-05T01:00:00Z', '2026-10-05T01:02:00Z')`,
+      [RECAP, TRIP, s.uid],
+    );
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-forms'));
+    await fireEvent.press(screen.getByTestId('recap-forms'));
+    expect(router.push).toHaveBeenLastCalledWith({
+      pathname: '/critters/[critterId]',
+      params: { critterId: CHAVA },
+    });
+    unregister();
   });
 
   it('plays the story first until it has been watched, and opens on the page after that', async () => {

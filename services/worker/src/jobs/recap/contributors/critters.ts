@@ -1,7 +1,8 @@
 /**
  * The critters contributor: the forms the travellers found on the trip and the critters some of
  * them met for the first time, and the one that got away (the destination's epic or legendary form
- * nobody on the trip found, closest-missed first). Per traveller: their finds; per day: finds.
+ * nobody on the trip found, closest-missed first, the destination's own critter before the rest of
+ * its country's set). Per traveller: their finds; per day: finds.
  */
 import { selectGotAway, windowRuleSchema, type GotAwayCandidate } from '@cp/domain';
 import type pg from 'pg';
@@ -38,6 +39,7 @@ interface CandidateRow {
   readonly critter_id: string;
   readonly critter_key: string;
   readonly critter_no: number;
+  readonly own: boolean;
   readonly rarity: 'epic' | 'legendary';
   readonly rules: { kind: string; rule: unknown }[];
   readonly forms_total: number;
@@ -53,6 +55,8 @@ async function loadCandidates(
 ): Promise<CandidateRow[]> {
   const { rows } = await tx.query<CandidateRow>(
     `SELECT f.id AS form_id, c.id AS critter_id, c.key AS critter_key, c.no AS critter_no,
+            coalesce(c.key = (SELECT d.critter_key FROM destinations d WHERE d.id = $2), false)
+              AS own,
             f.rarity,
             (SELECT jsonb_agg(jsonb_build_object('kind', s.kind, 'rule', w.rule) ORDER BY s.id)
                FROM spawn_rules s LEFT JOIN legendary_windows w ON w.id = s.window_id
@@ -118,6 +122,7 @@ export const crittersContributor: RecapContributor = {
         critter_id: row.critter_id,
         critter_key: row.critter_key,
         critter_no: row.critter_no,
+        own: row.own,
         rarity: row.rarity,
         sightings: row.sightings,
         wandered_off: row.wandered_off,

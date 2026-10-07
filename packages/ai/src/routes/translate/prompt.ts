@@ -30,6 +30,10 @@ export const TRANSLATE_GLOSSARY: Readonly<Record<string, readonly (readonly [str
         'the locals, local friends: the critters that live in a place, which travellers meet and befriend there',
         'thổ địa',
       ],
+      [
+        "a critter's form: one of the looks a critter comes in (common, rare, epic, legendary); never left as the English word",
+        'dạng',
+      ],
     ],
   };
 

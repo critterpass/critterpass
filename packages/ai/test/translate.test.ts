@@ -41,6 +41,7 @@ describe("the app's own words", () => {
       buildTranslateRequest({ pack: REPO_PACKS.chava, locale: 'vi', lines: LINES }).system,
     );
     expect(vi).toContain('→ thổ địa');
+    expect(vi).toContain('→ dạng');
     const ja = JSON.stringify(
       buildTranslateRequest({ pack: REPO_PACKS.chava, locale: 'ja', lines: LINES }).system,
     );

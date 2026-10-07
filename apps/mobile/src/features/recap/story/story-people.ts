@@ -1,10 +1,11 @@
 /**
  * The people on the story's cards: one award card per traveller (the guide's words, else the
  * award's own number; the MVP from the live result once the vote closes) and the stamp's signers
- * in the order they signed, live signatures over the synced rows, each in their colour.
+ * in the order they signed, live signatures over the synced rows, each in their colour as ink on paper.
  */
 import type { AwardCardData } from '../cards/awards-card';
 import type { StampSigner } from '../cards/stamp-card';
+import { inkOnPaper } from '../data/paper-ink';
 import { awardDetail, awardTitle } from '../summary/award-copy';
 import type { StoryCardsInput } from './story-cards';
 
@@ -52,6 +53,13 @@ export function signers(input: StoryCardsInput): StampSigner[] {
       const person = byId.get(userId);
       return person === undefined
         ? []
-        : [{ userId, name: person.name, color: person.colour, strokeKey: sign.key }];
+        : [
+            {
+              userId,
+              name: person.name,
+              color: inkOnPaper(person.colour, person.colour),
+              strokeKey: sign.key,
+            },
+          ];
     });
 }
