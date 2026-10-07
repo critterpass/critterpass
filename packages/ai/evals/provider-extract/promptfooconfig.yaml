@@ -1,0 +1,9 @@
+# Driver card extraction: a shared driver or guide message → the card a traveller checks line by
+# line, every field tied to the words it was read from. Cases live in
+# fixtures/driver-messages.yaml and run through the real extractProvider (see suite.ts).
+description: Driver card extraction from a shared message
+prompts:
+  - '{{message}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 990,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "5b24080d-e3ac-46db-9ed1-b26cf7d81684",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Jón\",\"quote\":\"Jón\"},\"phone\":{\"value\":\"+3548000019\",\"quote\":\"+354 800 0019\"},\"area\":{\"value\":\"KEF\",\"quote\":\"KEF transfers\"},\"languages\":null,\"car\":{\"value\":\"van\",\"seats\":null,\"quote\":\"more for the van\"},\"price\":{\"amount\":22000,\"currency\":\"ISK\",\"unit\":\"trip\",\"hours\":null,\"quote\":\"fixed 22.000 ISK to Reykjavík for up to 4\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 212,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 165,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

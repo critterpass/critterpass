@@ -73,6 +73,10 @@ e2e-test builds are made on GitHub's runners, never on EAS's paid builders:
 gh workflow run native-build.yml -f ref=<branch> -f profile=e2e-test -f platform=android  # or ios
 ```
 
+A build costs nothing and takes about 30 to 55 minutes. Staging and store builds, where their
+binaries live, how updates target a build and the secrets involved are in
+`docs/runbooks/release.md` ("Where builds run").
+
 Each build is attached to a GitHub release named
 `native-e2e-test-<platform>-<fingerprint, 12 characters>-<run id>`, with a manifest (profile,
 platform, native fingerprint, commit, versions) as the release body. The prepare job computes the

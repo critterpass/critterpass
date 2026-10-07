@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1196,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "25fb9330-6afb-4ef7-8498-9487e0819faf",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Made\",\"quote\":\"Made here\"},\"phone\":{\"value\":\"+6281200000101\",\"quote\":\"WA +62 812 0000 0101\"},\"area\":{\"value\":\"Ubud\",\"quote\":\"driver in Ubud\"},\"languages\":{\"value\":[\"en\"],\"quote\":\"English OK\"},\"car\":{\"value\":\"Avanza\",\"seats\":6,\"quote\":\"Avanza 6 pax\"},\"price\":{\"amount\":650000,\"currency\":\"IDR\",\"unit\":\"hours\",\"hours\":10,\"quote\":\"Full day 10 hrs Rp 650k\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"incl petrol + parking\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1249,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 179,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

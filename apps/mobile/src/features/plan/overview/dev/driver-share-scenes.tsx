@@ -1,12 +1,14 @@
 /**
  * Lab scenes for sharing the plan with a driver (6i-1) and the driver's reply on review changes
- * (6k-1), over the Bali week's trip map, with every handler a no-op.
+ * (6k-1; and once the crew's vote set him, the offer to tell him on WhatsApp), over the Bali week's
+ * trip map, with every handler a no-op.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
 import {
+  DriverConfirmCard,
   DriverReplyCard,
   DriverShareSheetView,
   dayLabel,
@@ -62,7 +64,7 @@ function ShareScene({ live, status = 'idle' }: { live: boolean; status?: DriverS
   );
 }
 
-function RepliedScene() {
+function RepliedScene({ set = false }: { set?: boolean }) {
   const locale = useLocale();
   const row = (n: number, date: string, dayNo: number, title: string, detail: string) => ({
     key: id(n),
@@ -113,6 +115,7 @@ function RepliedScene() {
               created_at: '2026-10-06T03:20:00Z',
             }}
           />
+          {set ? <DriverConfirmCard driverName="Made" dayCount={2} onTell={noop} /> : null}
           <ChangesTotals
             numbers={{ eachMinor: 0, currency: 'IDR', bookingsMoved: 0, mustDosTouched: 0 }}
             drivingMin={0}
@@ -121,7 +124,7 @@ function RepliedScene() {
       }
       send={null}
       personal={null}
-      vote={{ line: tallyLine(4, 6), canVote: true, onYes: noop, onNo: noop }}
+      vote={set ? null : { line: tallyLine(4, 6), canVote: true, onYes: noop, onNo: noop }}
       notice={null}
     />
   );
@@ -132,4 +135,5 @@ export const DRIVER_SHARE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'driver-share-live': () => <ShareScene live />,
   'driver-share-revoke': () => <ShareScene live status="confirm_revoke" />,
   'driver-replied': () => <RepliedScene />,
+  'driver-replied-set': () => <RepliedScene set />,
 };
