@@ -30,7 +30,7 @@ import type { Logger } from 'pino';
 import type { ApiCompliance } from '../../ai/compliance';
 import { buildGuideContext } from '../../ai/context';
 import { reserveGuideTurn } from '../../ai/guide-meter';
-import { speakTurn, type VoiceTurnDeps } from '../../lib/tts';
+import { speakTurn, spokenTags, type VoiceTurnDeps } from '../../lib/tts';
 import { requireVoiceConsent } from '../../lib/voice-consent';
 import { crewPassHolders, openThread, type GuideThread } from './threads';
 
@@ -212,6 +212,12 @@ export async function streamThreadTurn(
       ],
     ),
   );
+  const voiceId =
+    body.mode === 'voice' && body.speak !== false && deps.voice !== undefined
+      ? await deps.voice.voiceFor(thread.guideSlug).catch(() => null)
+      : null;
+  // Only a reply that will be spoken is asked for audio tags; they leave before anything is kept.
+  const tags = voiceId === null ? null : spokenTags();
   const request_ = buildGuideChatRequest({
     pack,
     // No trip, or a trip without a guide of its own: the home guide answers for anywhere.
@@ -222,6 +228,7 @@ export async function streamThreadTurn(
     documents: context.documents,
     directives: { chattiness: context.prefs.chattiness, locale },
     now: { at: new Date(), tz: request.deviceTz },
+    ...(tags === null ? {} : { spoken: true }),
   });
 
   const abort = new AbortController();
@@ -251,11 +258,8 @@ export async function streamThreadTurn(
       },
     },
   );
-  const recorded = recordTurn(deps, thread, generateUuidV7(), meter.reservation.metered, events);
-  const voiceId =
-    body.mode === 'voice' && body.speak !== false && deps.voice !== undefined
-      ? await deps.voice.voiceFor(thread.guideSlug).catch(() => null)
-      : null;
+  const shown = tags === null ? events : tags.strip(events);
+  const recorded = recordTurn(deps, thread, generateUuidV7(), meter.reservation.metered, shown);
   const outgoing =
     voiceId === null || deps.voice === undefined
       ? recorded
@@ -263,6 +267,7 @@ export async function streamThreadTurn(
           voiceId,
           language: locale,
           synthesize: deps.voice.synthesize,
+          ...(tags === null ? {} : { spokenText: tags.spokenFor }),
           onFirstAudio: (ms) => {
             deps.voice?.onFirstAudio(ms);
             log.info({ first_audio_ms: ms }, 'guide voice first audio');

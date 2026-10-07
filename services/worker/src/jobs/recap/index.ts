@@ -3,7 +3,8 @@
  * build when a trip ends or late data lands. Leg distances route on Valhalla when `VALHALLA_URL` is
  * set, otherwise every leg is a straight-line estimate the recap marks as such. The guide writes the
  * copy when a model key is set (the template does otherwise), and reads it aloud when a voice and
- * the media bucket are configured (the story shows the words alone otherwise).
+ * the media bucket are configured (the story shows the words alone otherwise); with both, the model
+ * also marks how each line is delivered.
  */
 import { createGateway, type AssertRouteOn, type Telemetry } from '@cp/ai';
 import { onEventAppended } from '@cp/db';
@@ -53,7 +54,7 @@ function copyWriter(env: RecapJobsEnv, deps: RecapJobsDeps): RecapCopyWriter | u
 }
 
 /** Recorded narration needs the voice provider and the media bucket; else text only. */
-function recapVoice(env: RecapJobsEnv): RecapVoice | undefined {
+function recapVoice(env: RecapJobsEnv, deps: RecapJobsDeps): RecapVoice | undefined {
   const { ELEVENLABS_API_KEY: apiKey, ELEVENLABS_VOICE_ID: voiceId } = env;
   if (!(apiKey && voiceId && env.R2_S3_ENDPOINT && env.R2_BUCKET)) return undefined;
   if (!(env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY)) return undefined;
@@ -66,6 +67,7 @@ function recapVoice(env: RecapJobsEnv): RecapVoice | undefined {
       secretAccessKey: env.R2_SECRET_ACCESS_KEY,
     }),
     defaultVoiceId: voiceId,
+    writer: copyWriter(env, deps),
   };
 }
 
@@ -86,7 +88,7 @@ export function recapJobs(env: RecapJobsEnv, deps: RecapJobsDeps): AnyJobDefinit
   return [
     recapBuildJob({ router, writer: copyWriter(env, deps) }),
     recapMvpCloseJob(),
-    recapNarrateJob(recapVoice(env)),
+    recapNarrateJob(recapVoice(env, deps)),
     anniversaryScanJob(),
   ];
 }

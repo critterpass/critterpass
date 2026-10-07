@@ -258,6 +258,7 @@ export * from './routes/explore';
 export * from './routes/proposal';
 export * from './routes/quests';
 export * from './routes/recap';
+export * from './voice-tags';
 export * from './routes/album';
 export * from './routes/help';
 export * from './routes/sos';

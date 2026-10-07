@@ -11,6 +11,7 @@ import { userTurnWithData, type UntrustedBlock } from '../../context/wrap-untrus
 import { applyTurnDirectives, type TurnDirectives } from '../../persona/chattiness';
 import { buildSystemBlocks } from '../../persona/layering';
 import type { PersonaPack } from '../../persona/schema';
+import { VOICE_TAGS, VOICE_TAGS_PER_REPLY } from '../../voice-tags';
 
 type MessageParam = Anthropic.Messages.MessageParam;
 
@@ -42,6 +43,12 @@ export const GUIDE_CHAT_RULES = `# Guide chat
 export const QUEUED_QUESTION_NOTE =
   '[This question was asked last night after the free answers ran out. Answer it now, as a fresh morning reply.]';
 
+/**
+ * Said to the guide when its reply is read aloud by the speech model: it may mark the delivery
+ * with a tag or two. The tags are taken out of everything shown or stored.
+ */
+export const SPOKEN_REPLY_NOTE = `[This reply is read aloud in your voice. You may put at most ${VOICE_TAGS_PER_REPLY} delivery tags in it, written in English in square brackets just before the words they colour, only from this list: ${VOICE_TAGS.map((tag) => `[${tag}]`).join(' ')}. They are not spoken or shown. Use none for plain facts, and never put anything else in square brackets.]`;
+
 export interface GuideChatPromptInput {
   readonly pack: PersonaPack;
   readonly tripContext: string | undefined;
@@ -54,6 +61,8 @@ export interface GuideChatPromptInput {
   readonly queued?: boolean;
   /** The traveller's local time, so "next" and "today" mean something. */
   readonly now?: { readonly at: Date; readonly tz: string };
+  /** The reply is spoken by the speech model: the guide may add delivery tags for it. */
+  readonly spoken?: boolean;
   /**
    * The thread has no local guide of its own (no trip, or a trip whose destination has none): the
    * default guide answers for any destination.
@@ -125,6 +134,7 @@ export function buildGuideChatRequest(input: GuideChatPromptInput): Required<
   const notes = [
     ...(input.now === undefined ? [] : [localTimeNote(input.now.at, input.now.tz)]),
     ...(input.queued === true ? [QUEUED_QUESTION_NOTE] : []),
+    ...(input.spoken === true ? [SPOKEN_REPLY_NOTE] : []),
   ];
   const question = [...notes, input.question].join('\n');
   const messages = [

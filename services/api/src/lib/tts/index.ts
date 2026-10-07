@@ -1,12 +1,4 @@
-export {
-  elevenLabsSynthesizer,
-  FALLBACK_MODEL,
-  FLASH_MODEL,
-  modelFor,
-  TtsError,
-  type SpeakRequest,
-  type Synthesize,
-} from './elevenlabs';
+export { elevenLabsSynthesizer, TtsError, type SpeakRequest, type Synthesize } from './elevenlabs';
 export {
   createSentenceChunker,
   type ChunkerOptions,
@@ -15,7 +7,9 @@ export {
 export { speakReply, type AudioChunk, type VoiceReplyOptions } from './voice-reply';
 export {
   speakTurn,
+  spokenTags,
   voiceTurnDepsFromEnv,
+  type SpokenTags,
   type SpokenTurnOptions,
   type VoiceTurnDeps,
 } from './voice-turn';
