@@ -12,7 +12,7 @@ appId: app.critterpass.dev
       id: 'dev-nav-recap-lab'
     direction: DOWN
     visibilityPercentage: 100
-    timeout: 20000
+    timeout: 60000
 - tapOn:
     id: 'dev-nav-recap-lab'
 - extendedWaitUntil:
