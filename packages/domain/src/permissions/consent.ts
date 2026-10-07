@@ -1,7 +1,7 @@
 /**
  * `set_consent {purpose, granted, copy_version}`: the one write path for the consent rows the app
  * asks for itself (onboarding, Settings privacy rows, the visit consent sheet, the dietary consent
- * sheet "Share flags with your crew and guide?"). One row per user and purpose; a revocation keeps
+ * sheet "Share flags with your crew and guide?", the voice step before the guide first listens). One row per user and purpose; a revocation keeps
  * the row with `revoked_at` set.
  */
 import { z } from 'zod';
@@ -13,6 +13,8 @@ export const SETTABLE_CONSENT_PURPOSES = [
   'dietary_visibility',
   // "Share where I am with the crew for 1 hour when I open Help": off until turned on.
   'help_auto_share',
+  // Asked the first time voice is used: what is said can go to a speech service to be written down.
+  'ai_voice',
 ] as const;
 export const settableConsentPurposeSchema = z.enum(SETTABLE_CONSENT_PURPOSES);
 export type SettableConsentPurpose = z.infer<typeof settableConsentPurposeSchema>;
@@ -35,3 +37,5 @@ export interface SetConsentResult {
 
 /** Copy version of the visit consent sheet the app ships ("places you checked in at" copy). */
 export const VISIT_CONSENT_COPY_VERSION = 'visits-2026-09';
+/** Copy version of the step shown before the guide first listens. */
+export const VOICE_CONSENT_COPY_VERSION = 'voice-2026-10';

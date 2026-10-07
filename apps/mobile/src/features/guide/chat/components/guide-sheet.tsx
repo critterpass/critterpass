@@ -64,6 +64,7 @@ const QUICK_TARGETS = [
   { id: 'call_car', screen: '3h-3' },
   { id: 'translate_menu', screen: '3j-3' },
   { id: 'pharmacy', screen: '3k-6' },
+  { id: 'practise_phrases', screen: 'guide-practice' },
 ] as const;
 
 export type QuickActionId = (typeof QUICK_TARGETS)[number]['id'];
@@ -74,6 +75,7 @@ export function useQuickLabels(): Record<QuickActionId, string> {
     call_car: t({ id: 'guide.quick.callCar', message: 'Call a car' }),
     translate_menu: t({ id: 'guide.quick.menu', message: 'Translate a menu' }),
     pharmacy: t({ id: 'guide.quick.pharmacy', message: 'Pharmacy' }),
+    practise_phrases: t({ id: 'guide.quick.practise', message: 'Practise phrases' }),
   };
 }
 
@@ -158,7 +160,9 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
     liveUsage: turn.live?.state.usage ?? null,
     spent: turn.quota,
   });
-  const voice = hrefFor('3j-2', trip === null ? {} : { tripId: trip.tripId });
+  const voiceParams = trip === null ? {} : { tripId: trip.tripId };
+  const voice = hrefFor('3j-2', voiceParams);
+  const voiceTalking = hrefFor('3j-2', { ...voiceParams, talk: '1' });
 
   const send = (text: string) => {
     if (turn.busy) return;
@@ -204,6 +208,7 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
       onSend={() => send(draft)}
       {...(onAttach === undefined ? {} : { onAttach })}
       {...(voice === undefined ? {} : { onMic: () => router.push(voice) })}
+      {...(voiceTalking === undefined ? {} : { onMicHold: () => router.push(voiceTalking) })}
     />
   );
 }
