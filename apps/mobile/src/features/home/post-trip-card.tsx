@@ -4,13 +4,14 @@
  * over the corner; it opens the recap. It is the next-up card's layout (3b-2) with a sentence for
  * a title: the title starts under the sticker, across the card's whole width, in the display face
  * sized for two lines, and shrinks until the whole sentence is on them. A place name is never cut
- * ("NHÌN LẠI THÀNH PHỐ HỒ CHÍ MINH").
+ * ("NHÌN LẠI THÀNH PHỐ HỒ CHÍ MINH"); how the sentence breaks and its line height are
+ * ./post-trip-title.ts.
  */
 import type { HomeTripInput } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -20,10 +21,10 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import { guideOr, guideTone } from './format';
-import { POST_TRIP_TITLE_LINES, POST_TRIP_TITLE_MIN_SIZE } from './post-trip-title';
+import { POST_TRIP_TITLE_LINES, POST_TRIP_TITLE_MIN_SIZE, postTripTitle } from './post-trip-title';
 import { homeRoutes } from './routes';
 
 /** The guide over the card's corner, the size the next-up card draws it. */
@@ -44,14 +45,23 @@ export function PostTripCard({ trip }: { readonly trip: HomeTripInput }) {
   const place = trip.destinationName ?? t({ id: 'home.postTrip.fallback', message: 'Trip' });
   const href = homeRoutes.recap(trip.id);
   const eyebrow = upper(t({ id: 'home.postTrip.eyebrow', message: "How'd it go?" }), locale);
-  const title = upper(t({ id: 'home.postTrip.title', message: `${place} recap` }), locale);
+  const sentence = upper(t({ id: 'home.postTrip.title', message: `${place} recap` }), locale);
+  const theme = useTheme();
+  const { width } = useWindowDimensions();
+  // The card spans Home's gutters; the title has its width inside the card's padding.
+  const title = postTripTitle({
+    sentence,
+    name: upper(place, locale),
+    width: width - 2 * theme.size.gutter - 2 * theme.size.cardInner.max,
+    locale,
+  });
   return (
     <Card
       testID="home-post-trip"
       tone={guideTone(guide)}
       halftone
       radius="cardBig"
-      accessibilityLabel={`${eyebrow}, ${title}`}
+      accessibilityLabel={`${eyebrow}, ${sentence}`}
       {...(href === undefined ? {} : { onPress: () => router.push(href) })}
     >
       <View style={styles.sticker} pointerEvents="none">
@@ -64,10 +74,10 @@ export function PostTripCard({ trip }: { readonly trip: HomeTripInput }) {
           autoFit
           autoFitMinSize={POST_TRIP_TITLE_MIN_SIZE}
           numberOfLines={POST_TRIP_TITLE_LINES}
-          style={styles.title}
+          style={[styles.title, { lineHeight: title.lineHeight }]}
           testID="home-post-trip-title"
         >
-          {title}
+          {title.text}
         </Text>
         <Row gap="8" wrap>
           <InfoPill variant="outline">

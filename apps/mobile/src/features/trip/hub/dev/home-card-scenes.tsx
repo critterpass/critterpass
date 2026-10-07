@@ -18,12 +18,12 @@ const useStyles = makeStyles((th) => ({
 
 function trip(destinationName: string, guideId: string): HomeTripInput {
   return {
-    id: 't1',
+    id: 'trip-1',
     status: 'post_trip',
     startDate: '2026-10-02',
     endDate: '2026-10-04',
     tz: 'Asia/Ho_Chi_Minh',
-    destinationId: 'd1',
+    destinationId: 'place-1',
     destinationName,
     guideId,
     planProgress: 100,
