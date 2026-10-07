@@ -70,9 +70,19 @@ const slide = () => screen.getByRole('adjustable');
 const next = () =>
   fireEvent(slide(), 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
 
+/**
+ * Steps forward until the card shows. A card whose rows load after the story opened (the stamp)
+ * joins the story late, so stepping carries on from the last card until it has.
+ */
 async function skipTo(testID: string): Promise<void> {
-  for (let step = 0; step < 8 && screen.queryByTestId(testID) === null; step += 1) await next();
-  await until(() => screen.queryByTestId(testID) !== null);
+  const deadline = Date.now() + 20_000;
+  while (screen.queryByTestId(testID) === null) {
+    if (Date.now() > deadline) throw new Error(`${testID} never played`);
+    await next();
+    if (screen.queryByTestId(testID) === null) {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+  }
 }
 
 async function untilQueued(s: TestLocalFirst, cmd: string, count: number): Promise<void> {
