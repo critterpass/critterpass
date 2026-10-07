@@ -63,7 +63,7 @@ function ArcLine({
   const fontSize = Math.min(theme.type.label.fontSize ?? 11, Math.round(size * 0.055 * 10) / 10);
   const letters = Array.from(text.normalize('NFC'));
   const radius = size / 2 - inset - fontSize / 2;
-  const step = arcStep(letters.length, fontSize * 0.82, radius);
+  const step = arcStep(letters.length, fontSize * 0.74, radius);
   const turn = side === 'top' ? 1 : -1;
   return (
     <>

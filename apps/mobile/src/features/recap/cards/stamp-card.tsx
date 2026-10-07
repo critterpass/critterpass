@@ -22,7 +22,7 @@ import { PassportStamp, stampDrop } from './passport-stamp';
 const SLAM_MS = 500;
 const SIGN_GAP_MS = 700;
 const STAMP = 230;
-const DOODLE = 72;
+const DOODLE = 64;
 const TILT = -6;
 const OLDER_TILT = -8;
 /** Under the caption when no action follows it: the home indicator and a little air. */
@@ -38,7 +38,7 @@ const LEANS = [
 ] as const;
 const OLDER = 104;
 /** Paper kept between the older stamp's ring and the trip's. */
-const CLEAR = 8;
+const CLEAR = 12;
 
 const useStyles = makeStyles((th) => ({
   chrome: { flexDirection: 'row', justifyContent: 'space-between' },
@@ -135,6 +135,8 @@ function TripStamp(props: StampCardProps) {
           name={props.place}
           size={DOODLE}
           variant="stamp"
+          // Line art inked straight onto the stamp, as an icon is: no sticker edge.
+          blend="srcOver"
           form={{
             rarity: 'common',
             edge: 'none',
