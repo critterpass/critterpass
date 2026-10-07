@@ -5,7 +5,7 @@
  * has not said reads NOT SAID; tapping it opens the question in WhatsApp. One line under the table
  * names the biggest risk, deterministically. PICK opens which days.
  */
-import { compareColumn, compareRisk, type CompareCandidate } from '@cp/domain';
+import { compareColumn, compareRisk, type CompareCandidate, type DriverCard } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -27,10 +27,13 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { driverCardOf, type ShortlistDriver } from '../shared/api';
+import { driverCardOf, type DriversApi, type ShortlistDriver } from '../shared/api';
 import { COLUMN, ColumnHead } from './column-head';
 import { candidateOf, hoursBetween, riskLine } from './compare-model';
+import { DayPriceCell } from './price-cell';
 import { dayLabel, money } from '../shared/format';
+import { isFloor, usePriceWords } from '../shared/price-text';
+import { readCardFor, withReadPrice } from '../shared/read-price';
 import { driversRoute, splitDays } from '../shared/routes';
 import { useDriverDays } from '../shared/use-driver-days';
 import { useDrivers } from '../shared/use-drivers';
@@ -42,13 +45,15 @@ const useStyles = makeStyles((t) => ({
   cell: { width: COLUMN },
 }));
 
-export function CompareScreen({ tripId, days }: { tripId: string; days?: string }) {
+export function CompareScreen(props: { tripId: string; days?: string; api?: DriversApi }) {
+  const { tripId, days } = props;
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
+  const words = usePriceWords();
   const plan = useDriverDays(tripId);
-  const { state } = useDrivers(tripId);
+  const { state } = useDrivers(tripId, props.api);
   const picked = new Set(splitDays(days));
   const chosen = plan.days.filter((day) =>
     picked.size === 0 ? day.gap !== null : picked.has(day.date),
@@ -57,11 +62,14 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
     date: day.date,
     hours: day.window === null ? null : hoursBetween(day.window.start, day.window.end),
   }));
-  const drivers =
-    state.kind === 'ready' || state.kind === 'offline'
-      ? (state.data?.drivers ?? []).filter((driver) => driver.terms.status === 'shortlisted')
-      : [];
-  const candidates = drivers.map(candidateOf);
+  const data = state.kind === 'ready' || state.kind === 'offline' ? state.data : null;
+  const drivers = (data?.drivers ?? []).filter((driver) => driver.terms.status === 'shortlisted');
+  const cards = drivers.map((driver) =>
+    withReadPrice(driverCardOf(driver), readCardFor(data?.intake ?? [], driver.id)),
+  );
+  const candidates = drivers.map((driver, i) =>
+    candidateOf(driver, cards[i] as DriverCard, compareDays, plan.people),
+  );
   const currencies = new Set(candidates.map((c) => c.currency).filter((c) => c !== null));
   const toCommon = (minor: number, currency: string) =>
     currencies.size <= 1 || currency === plan.currency ? minor : null;
@@ -108,10 +116,8 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
     {
       key: 'day',
       label: t({ id: 'drivers.compare.day', message: 'A day' }),
-      cell: (d) => (
-        <Text variant="bodySm">
-          {money(driverCardOf(d).price_minor, d.terms.currency, locale) ?? '—'}
-        </Text>
+      cell: (d, i) => (
+        <DayPriceCell driver={d} card={cards[i] as DriverCard} people={plan.people} />
       ),
     },
     {
@@ -122,9 +128,10 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
           : t({ id: 'drivers.compare.each', message: 'Each' }),
       cell: (d, i) => {
         const column = compareColumn(candidates[i] as CompareCandidate, compareDays, plan.people);
+        const each = money(column.eachMinor, d.terms.currency, locale);
         return (
           <Text variant="bodySm" color={risk?.name === d.name ? theme.color.yellow : undefined}>
-            {money(column.eachMinor, d.terms.currency, locale) ?? '—'}
+            {each === null ? '—' : isFloor(cards[i] as DriverCard) ? words.from(each) : each}
           </Text>
         );
       },

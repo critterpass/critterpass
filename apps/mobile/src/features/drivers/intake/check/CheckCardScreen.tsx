@@ -31,13 +31,16 @@ import { confirmFieldsCommand } from '../../shared/commands';
 import { driversRoute } from '../../shared/routes';
 import { useDriverDays } from '../../shared/use-driver-days';
 import { useDrivers } from '../../shared/use-drivers';
+import { askWords, usePriceWords } from '../../shared/price-text';
 import { askMessage, whatsappAsk } from '../../shared/whatsapp-copy';
 import { recalledIntake } from '../intake-store';
 import { useCardCopy } from './card-copy';
 import { AskDriverBox } from './ask-driver-box';
-import { CheckDot } from './check-dot';
+import { CHECK_DOT_SIZE, CheckDot } from './check-dot';
 import { IncludesLine } from './includes-line';
 import { CouldntReadView } from './couldnt-read';
+import { PriceNotes } from './price-notes';
+import { SourcePeek } from './source-peek';
 import { applyEdit, CARD_LINES, editText, filledLines, unsaidIncludes } from './card-lines';
 
 const useStyles = makeStyles((t) => ({
@@ -47,7 +50,6 @@ const useStyles = makeStyles((t) => ({
     borderRadius: t.radius.lg,
     padding: t.space['16'],
   },
-  peek: { backgroundColor: t.color.paper.base, borderRadius: t.radius.md, padding: t.space['12'] },
 }));
 
 export function CheckCardScreen(props: {
@@ -82,6 +84,7 @@ export function CheckCardScreen(props: {
   const [error, setError] = useState(false);
   const current: DriverCard = card ?? parsed?.card ?? EMPTY_DRIVER_CARD;
   const { lineText, label, includeLabel } = useCardCopy(current);
+  const priceWords = usePriceWords();
   const back = (
     <BackEyebrow
       label={upper(t({ id: 'drivers.back.add', message: 'Add a driver' }), locale)}
@@ -133,12 +136,16 @@ export function CheckCardScreen(props: {
       setError(true);
     }
   };
-  const askText = askMessage(
-    t,
-    name,
-    unsaid.map((key) => includeLabel[key]),
-    current.overtime_minor === null,
-  );
+  // No one price could be read for this crew: the line says to ask, and the question asks it.
+  const priceAsk = askWords(current);
+  const askText =
+    askMessage(
+      t,
+      name,
+      unsaid.map((key) => includeLabel[key]),
+      current.overtime_minor === null,
+    ) + (priceAsk === null ? '' : priceWords.question(priceAsk, plan.people));
+  const asked = unsaid.length + (priceAsk === null ? 0 : 1);
   return (
     <Scaffold variant="dark" testID="drivers-check">
       <ScrollView
@@ -155,21 +162,7 @@ export function CheckCardScreen(props: {
             message: 'Tap each line to confirm or fix it. Nothing reaches the crew until you do.',
           })}
         </Text>
-        {span === undefined || source === '' ? null : (
-          <View style={styles.peek} testID="drivers-check-peek">
-            <Text variant="bodySm" color={theme.color.paper.ink}>
-              {source.slice(Math.max(0, span[0] - 40), span[0])}
-              <Text
-                variant="bodySm"
-                color={theme.color.paper.ink}
-                style={{ backgroundColor: theme.color.yellow }}
-              >
-                {source.slice(span[0], span[1])}
-              </Text>
-              {source.slice(span[1], span[1] + 40)}
-            </Text>
-          </View>
-        )}
+        {span === undefined || source === '' ? null : <SourcePeek source={source} span={span} />}
         <View style={styles.card}>
           <Stack gap="14">
             <Row gap="12" align="center">
@@ -212,10 +205,15 @@ export function CheckCardScreen(props: {
                   />
                 );
               }
-              if (value === null && editing !== field && !typing) return null;
+              const asking = field === 'price' && priceAsk !== null;
+              if (value === null && editing !== field && !typing && !asking) return null;
               return (
                 <Row key={field} gap="12" align="flex-start">
-                  <CheckDot on={checked.has(field)} onPress={() => toggle(field)} />
+                  {asking && editing !== field ? (
+                    <View style={{ width: CHECK_DOT_SIZE }} />
+                  ) : (
+                    <CheckDot on={checked.has(field)} onPress={() => toggle(field)} />
+                  )}
                   <Stack gap="2" style={{ flex: 1 }}>
                     <Text variant="eyebrow" color={theme.semantic.text.secondary}>
                       {upper(label[field], locale)}
@@ -233,10 +231,14 @@ export function CheckCardScreen(props: {
                         testID={`drivers-check-edit-${field}`}
                       />
                     ) : (
-                      <Text variant="rowTitle" onPress={() => toggle(field)}>
-                        {value ?? '—'}
+                      <Text variant="rowTitle" onPress={asking ? undefined : () => toggle(field)}>
+                        {value ??
+                          (asking
+                            ? t({ id: 'drivers.check.priceAsk', message: 'Ask the driver' })
+                            : '—')}
                       </Text>
                     )}
+                    {field === 'price' ? <PriceNotes card={current} /> : null}
                   </Stack>
                   <TextLink
                     label={t({ id: 'drivers.check.fix', message: 'Fix' })}
@@ -256,11 +258,11 @@ export function CheckCardScreen(props: {
             ) : null}
           </Stack>
         </View>
-        {unsaid.length === 0 || current.phone === null ? null : (
+        {asked === 0 || current.phone === null ? null : (
           <AskDriverBox
             guide={plan.guide.id}
             name={name}
-            count={unsaid.length}
+            count={asked}
             url={whatsappAsk(current.phone, askText)}
           />
         )}

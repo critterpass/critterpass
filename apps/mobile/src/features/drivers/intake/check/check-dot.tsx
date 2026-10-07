@@ -5,9 +5,12 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
+/** The circle's width, for a line that has nothing to confirm. */
+export const CHECK_DOT_SIZE = 28;
+
 const DOT = {
-  width: 28,
-  height: 28,
+  width: CHECK_DOT_SIZE,
+  height: CHECK_DOT_SIZE,
   borderRadius: 14,
   borderWidth: 2,
   alignItems: 'center',
