@@ -22,6 +22,11 @@ msgstr " Bạn viết \"{words}\". Giá cho {people} người bọn mình đi m�
 msgid "drivers.replied.total"
 msgstr ""
 
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr "{0, plural, other {# người}}"
+
 #. placeholder {0}: tips.length
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.tips"
@@ -50,11 +55,6 @@ msgstr "{0} kéo dài {1} giờ. Giá của {name} gồm {2} giờ."
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.count"
 msgstr "Đã kiểm {0}/{1}"
-
-#. placeholder {0}: plan.people
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
-msgid "drivers.compare.people"
-msgstr "{0} người"
 
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
@@ -828,11 +828,11 @@ msgstr "Để sau"
 msgid "drivers.share.notOpened"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Chưa nói"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "Chưa nói. Hỏi anh ấy qua WhatsApp"
 
@@ -1098,6 +1098,10 @@ msgstr "Ngôn ngữ"
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.supplierChecks"
 msgstr "Nhà cung cấp kiểm tra"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.more"
+msgstr "Vuốt ngang để xem thêm →"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"

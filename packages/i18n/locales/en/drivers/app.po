@@ -22,6 +22,11 @@ msgstr " You wrote \"{words}\". What is the price for {people} of us for a day?"
 msgid "drivers.replied.total"
 msgstr "{0, plural, one {{1} for the day} other {{2} for # days}}"
 
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr "{0, plural, one {# person} other {# people}}"
+
 #. placeholder {0}: tips.length
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.tips"
@@ -50,11 +55,6 @@ msgstr "{0} is {1} hours. {name}'s price covers {2}."
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.count"
 msgstr "{0} of {1} checked"
-
-#. placeholder {0}: plan.people
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
-msgid "drivers.compare.people"
-msgstr "{0} people"
 
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
@@ -678,7 +678,8 @@ msgstr "Inviting your driver"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.title"
-msgstr "Is this right?"
+msgstr "Is this\n"
+"right?"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.toursBody"
@@ -828,11 +829,11 @@ msgstr "Not now"
 msgid "drivers.share.notOpened"
 msgstr "Not opened yet"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Not said"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "Not said. Ask him on WhatsApp"
 
@@ -1098,6 +1099,10 @@ msgstr "Speaks"
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.supplierChecks"
 msgstr "Supplier checks"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.more"
+msgstr "Swipe sideways for the rest →"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"
