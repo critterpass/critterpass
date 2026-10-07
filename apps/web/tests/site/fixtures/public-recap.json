@@ -1,0 +1,20 @@
+{
+  "kind": "recap",
+  "recap_id": "0190a6f1-7aaa-7bbb-8ccc-123456789abd",
+  "destination_name": "Đà Lạt",
+  "travel_month": 10,
+  "travel_year": 2026,
+  "days": 3,
+  "travellers": 4,
+  "crew_names": ["Anna", "Ben", "Cora"],
+  "distance_m": 41200,
+  "distance_estimated": true,
+  "places_count": 14,
+  "places": [
+    { "name": "Hồ Xuân Hương", "category": "nature" },
+    { "name": "Chợ Đà Lạt", "category": "market" },
+    { "name": "Langbiang", "category": "nature" }
+  ],
+  "critters_found": 5,
+  "new_critters": 2
+}

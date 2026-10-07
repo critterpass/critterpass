@@ -2,14 +2,17 @@
  * Client specs for the recap's commands. Opening and finishing the recap, the signature, the MVP
  * vote and the got-away reminder may wait in the offline queue (the server replays them by id);
  * asking for a failed build again is online only, so the page never says it failed while a retry
- * waits unsent. Reacting to a year-later memory and pitching a reunion also wait offline.
+ * waits unsent. Reacting to a year-later memory and pitching a reunion also wait offline. Making
+ * and switching off the recap's public link are online only: a link exists, or is off, at once.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
   CastMvpVotePayload,
+  CreateRecapLinkPayload,
   ReactMemoryPayload,
   RecordRecapViewPayload,
   RetryRecapPayload,
+  RevokeRecapLinkPayload,
   SaveSignaturePayload,
   SetLegendaryReminderPayload,
   StartReunionPayload,
@@ -62,4 +65,16 @@ export const startReunionCommand = defineClientCommand<StartReunionPayload>({
   name: 'start_reunion',
   offline: true,
   summarize: () => msg({ id: 'recap.queued.reunion', message: 'Pitching a reunion to the crew' }),
+});
+
+export const createRecapLinkCommand = defineClientCommand<CreateRecapLinkPayload>({
+  name: 'create_recap_link',
+  offline: false,
+  summarize: () => msg({ id: 'recap.queued.link', message: 'A link to the recap' }),
+});
+
+export const revokeRecapLinkCommand = defineClientCommand<RevokeRecapLinkPayload>({
+  name: 'revoke_recap_link',
+  offline: false,
+  summarize: () => msg({ id: 'recap.queued.linkOff', message: 'Switching the recap link off' }),
 });

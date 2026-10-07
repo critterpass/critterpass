@@ -10,6 +10,7 @@ import {
   APP_LINK_EXCLUDED_PATHS,
   APP_LINK_PATH_PREFIXES,
   APPLE_TEAM_ID,
+  ASSOCIATION_ONLY_PATH_PREFIXES,
   appClipBundleId,
   appIdsForHost,
 } from '@cp/domain';
@@ -22,7 +23,9 @@ interface PathComponent {
 function pathComponents(): readonly PathComponent[] {
   return [
     ...APP_LINK_EXCLUDED_PATHS.map((path) => ({ '/': path, exclude: true as const })),
-    ...APP_LINK_PATH_PREFIXES.map((prefix) => ({ '/': `/${prefix}/*` })),
+    ...[...APP_LINK_PATH_PREFIXES, ...ASSOCIATION_ONLY_PATH_PREFIXES].map((prefix) => ({
+      '/': `/${prefix}/*`,
+    })),
   ];
 }
 

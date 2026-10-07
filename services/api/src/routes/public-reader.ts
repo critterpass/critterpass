@@ -11,6 +11,8 @@ export interface PublicScope {
   readonly seatHash?: string | null;
   /** sha-256 hex of a plan link's token. */
   readonly planHash?: string | null;
+  /** sha-256 hex of a recap link's token. */
+  readonly recapHash?: string | null;
   /** A destination's slug. */
   readonly place?: string | null;
 }
@@ -32,8 +34,15 @@ export async function asPublicReader<T>(
       await client.query('SET LOCAL ROLE public_reader');
       await client.query(
         `SELECT set_config('app.public_code', $1, true), set_config('app.public_seat', $2, true),
-                set_config('app.public_plan', $3, true), set_config('app.public_place', $4, true)`,
-        [scope.code ?? '', scope.seatHash ?? '', scope.planHash ?? '', scope.place ?? ''],
+                set_config('app.public_plan', $3, true), set_config('app.public_recap', $4, true),
+                set_config('app.public_place', $5, true)`,
+        [
+          scope.code ?? '',
+          scope.seatHash ?? '',
+          scope.planHash ?? '',
+          scope.recapHash ?? '',
+          scope.place ?? '',
+        ],
       );
       const result = await fn(client);
       await client.query('COMMIT');

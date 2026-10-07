@@ -1017,6 +1017,16 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     award_id: crypto.randomUUID(),
     opted_out: true,
   },
+  'recap_link.created': {
+    trip_id: crypto.randomUUID(),
+    recap_id: crypto.randomUUID(),
+    link_id: crypto.randomUUID(),
+  },
+  'recap_link.revoked': {
+    trip_id: crypto.randomUUID(),
+    recap_id: crypto.randomUUID(),
+    link_id: crypto.randomUUID(),
+  },
   'memory.surfaced': {
     trip_id: crypto.randomUUID(),
     memory_id: crypto.randomUUID(),

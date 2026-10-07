@@ -39,6 +39,11 @@
   line-height: 0.86;
   overflow-wrap: anywhere;
 }
+/* A place name leads the recap's headline: room for stacked accents (Đà Lạt) above and between lines. */
+.pv-ticket__headline--accents {
+  padding-top: 0.16em;
+  line-height: 1.04;
+}
 .pv-ticket__body {
   max-width: 440px;
   margin: 20px 0 0;

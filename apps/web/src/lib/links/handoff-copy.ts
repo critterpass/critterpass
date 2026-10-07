@@ -121,6 +121,13 @@ export function handoffCopy(target: LinkTarget, preview: LinkPreview | null): Ha
         'Open the plan',
         `See every day of this trip in ${BRAND}.`,
       );
+    case 'recap_share':
+      return plainCopy(
+        'Trip recap',
+        'A trip recap, shared with you',
+        'Open the recap',
+        `See where this crew went in ${BRAND}.`,
+      );
     case 'plan':
       return plainCopy(
         'Your crew',
@@ -165,6 +172,14 @@ export const PLAN_GONE_COPY = plainCopy(
   'This plan is no longer shared',
   `Get ${BRAND}`,
   'The crew took it down or switched this link off. Ask whoever sent it for a new one.',
+);
+
+/** A recap link that no longer shows a recap: a traveller or an organiser switched it off. */
+export const RECAP_GONE_COPY = plainCopy(
+  'Trip recap',
+  'This recap is no longer shared',
+  `Get ${BRAND}`,
+  'The crew switched this link off. Ask whoever sent it for a new one.',
 );
 
 /** "Expires in 3d 23h" style, or null when the code never expires or already has. */

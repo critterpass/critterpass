@@ -8,6 +8,8 @@
  *   personal invite's seat token. A code or seat that is not live answers 404.
  * - `plan`: a published crew plan; `{token}` is an unlisted plan link's token. A revoked link, or
  *   one whose plan is not published (waiting on consent, declined, taken down), answers 404.
+ * - `recap`: a trip recap; `{token}` is a recap link's token. A revoked link, or one whose recap is
+ *   not ready, answers 404.
  *
  * A place's locals (`GET /v1/public/locals/{slug}`) are in ./public-locals.
  */
@@ -22,8 +24,10 @@ import {
   PUBLIC_PROPOSAL_DAYS,
   publicPlanSchema,
   publicProposalSchema,
+  publicRecapSchema,
   type PublicPlan,
   type PublicProposal,
+  type PublicRecap,
 } from '@cp/domain';
 import { createRoute, z, type OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
@@ -99,6 +103,22 @@ export async function readPublicPlan(pool: pg.Pool, token: string): Promise<Publ
   return row === undefined ? null : publicPlanSchema.parse({ kind: 'plan', ...row });
 }
 
+/** The recap behind a live recap link, or null when the link shows none. */
+export async function readPublicRecap(pool: pg.Pool, token: string): Promise<PublicRecap | null> {
+  if (parseLinkPath(`/rc/${token}`)?.kind !== 'recap_share') return null;
+  const recapHash = createHash('sha256').update(token).digest('hex');
+  const rows = await asPublicReader(pool, { recapHash }, async (tx) => {
+    const { rows: recaps } = await tx.query<Record<string, unknown>>(
+      `SELECT recap_id, destination_name, travel_month, travel_year, days, travellers, crew_names,
+              distance_m, distance_estimated, places_count, places, critters_found, new_critters
+         FROM public.recap_public LIMIT 1`,
+    );
+    return recaps;
+  });
+  const row = rows[0];
+  return row === undefined ? null : publicRecapSchema.parse({ kind: 'recap', ...row });
+}
+
 const route = createRoute({
   method: 'get',
   path: '/v1/public/{kind}/{token}',
@@ -115,7 +135,9 @@ const route = createRoute({
     200: {
       description: 'Preview',
       content: {
-        'application/json': { schema: z.union([publicProposalSchema, publicPlanSchema]) },
+        'application/json': {
+          schema: z.union([publicProposalSchema, publicPlanSchema, publicRecapSchema]),
+        },
       },
     },
     404: {
@@ -147,6 +169,11 @@ export function registerPublicPreviewRoutes(
         const plan = await readPublicPlan(deps.pool, token);
         if (plan === null) throw new DomainError('NOT_FOUND');
         return c.json(plan, 200);
+      }
+      if (kind === 'recap') {
+        const recap = await readPublicRecap(deps.pool, token);
+        if (recap === null) throw new DomainError('NOT_FOUND');
+        return c.json(recap, 200);
       }
       const { seat } = c.req.valid('query');
       const seatHash = seat !== undefined && isSeatTokenShape(seat) ? seatTokenHash(seat) : null;

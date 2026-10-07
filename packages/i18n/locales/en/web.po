@@ -19,6 +19,10 @@ msgstr "{average} from {count, plural, one {# rating} other {# ratings}}"
 msgid "web.tips.categoryPageTitle"
 msgstr "{category} tips · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.critters"
+msgstr "{count, plural, one {# critter found} other {# critters found}}"
+
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.pageDescription"
 msgstr "{count, plural, one {# critter lives} other {# critters live}} in {place}, {area}. Find them on your trip with CritterPass."
@@ -39,6 +43,10 @@ msgstr "{count} IN LINE"
 msgid "web.comingSoon.joined.friendsJoined"
 msgstr "{count} OF 3 FRIENDS JOINED"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.days"
+msgstr "{days, plural, one {# day} other {# days}}"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.days"
 msgstr "{days, plural, one {# day} other {# days}}"
@@ -46,6 +54,10 @@ msgstr "{days, plural, one {# day} other {# days}}"
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.headline"
 msgstr "{days, plural, one {# day} other {# days}} in {place}"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescription"
+msgstr "{days, plural, one {# day} other {# days}} in {place}: where the crew went and how far."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.countdown"
@@ -59,9 +71,17 @@ msgstr "{guide}, {place}"
 msgid "web.invite.draftTitle"
 msgstr "{guide}'s draft · {shown} of {total, plural, one {# day} other {# days}}"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageTitle"
+msgstr "{headline} · CritterPass"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageTitle"
 msgstr "{headline} · CritterPass"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distance"
+msgstr "{km} km"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.minShort"
@@ -94,6 +114,10 @@ msgstr "{name}'s link"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name}'s saving you a seat in {place}."
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headline"
+msgstr "{place}, the recap"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.photoAlt"
@@ -247,9 +271,17 @@ msgstr "A subway rat, waiting for you in {place}."
 msgid "web.pricing.firstTripBody"
 msgstr "A Trip Boost and Pass+ for everyone in the crew, until a week after the trip ends."
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescriptionNoPlace"
+msgstr "A trip recap on CritterPass: where the crew went and how far."
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
 msgstr "A wiggling egg"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distanceAbout"
+msgstr "About {km} km"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.admit"
@@ -282,6 +314,10 @@ msgstr "Always free"
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
 msgstr "An Iberian lynx, waiting for you in {place}."
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.morePlaces"
+msgstr "and {count, plural, one {# more place} other {# more places}}"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -475,6 +511,10 @@ msgstr "Crew"
 msgid "web.referral.crewCaptain"
 msgstr "Crew captain"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.crewOf"
+msgstr "Crew of {size}"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.crewOf"
 msgstr "Crew of {size}"
@@ -530,6 +570,10 @@ msgstr "CritterPass is in testing. Ask {inviter} for the TestFlight invite, then
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.inTestingNoName"
 msgstr "CritterPass is in testing. Ask whoever invited you for the TestFlight invite, then join with this code:"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openBody"
+msgstr "CritterPass plans group trips with the locals and turns every one into a recap like this. Were you on this trip? Open it in the app for the whole story."
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -1131,6 +1175,10 @@ msgstr "Offline maps and the plan"
 msgid "web.home.mockPlanItem2"
 msgstr "Old Town walk"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.placesTitle"
+msgstr "On the trail"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.onTheTrip"
 msgstr "On the trip"
@@ -1154,6 +1202,10 @@ msgstr "One email when we launch. Maybe two. Never spam."
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostPrice"
 msgstr "One purchase per trip"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openCta"
+msgstr "Open in CritterPass"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openCta"
@@ -1379,6 +1431,10 @@ msgstr "Skip to content"
 msgid "web.home.chat1"
 msgstr "so where r we going"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.solo"
+msgstr "Solo trip"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.solo"
 msgstr "Solo trip"
@@ -1539,6 +1595,10 @@ msgstr "The places didn't load. Try again in a moment."
 msgid "web.legal.shortVersion"
 msgstr "The short version"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headlineNoPlace"
+msgstr "The trip, the recap"
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseBody"
 msgstr "There's more on board that we're not showing yet. People on the list see it first."
@@ -1630,6 +1690,14 @@ msgstr "Travelled"
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostName"
 msgstr "Trip Boost"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrow"
+msgstr "Trip recap"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrowWhen"
+msgstr "Trip recap · {when}"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
@@ -1731,6 +1799,10 @@ msgstr "Where to?"
 msgid "web.home.mockVoteWinning"
 msgstr "Winning"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.travelledBy"
+msgstr "With {names}"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.title"
 msgstr "Wrong turn"
@@ -1814,3 +1886,7 @@ msgstr "YOUR PLACE IN LINE"
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeKept"
 msgstr "Your plan, album and recap, kept after the trip"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openTitle"
+msgstr "Your trip next?"

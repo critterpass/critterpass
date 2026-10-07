@@ -1,0 +1,52 @@
+---
+import Handoff from '../../components/link-handoff/Handoff.astro';
+import { recapAppPath } from '../../components/previews/recap-facts';
+import RecapLanding from '../../components/previews/RecapLanding.astro';
+import { env } from 'cloudflare:workers';
+import { fetchPublicRecap, type PublicRecapOutcome } from '../../lib/api/public-previews';
+import { RECAP_GONE_COPY } from '../../lib/links/handoff-copy';
+import { targetOf } from '../../lib/links/handoff-model';
+import { loadHandoff } from '../../lib/links/load-handoff';
+import { linkRequestContext, type LinksWebEnv } from '../../lib/links/web-env';
+
+// A recap link (docs/api-contracts.md §5.6): the public-safe slice of the trip recap it points at,
+// with "Open in CritterPass" handing the link to the app. A link that no longer shows a recap
+// answers 404; when the api cannot say, the plain handoff still opens the app.
+export const prerender = false;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+const webEnv = env as unknown as LinksWebEnv;
+const target = targetOf(Astro.url);
+const outcome: PublicRecapOutcome =
+  target?.kind === 'recap_share'
+    ? await fetchPublicRecap({
+        apiBaseUrl: linkRequestContext(Astro.url, webEnv).apiBaseUrl,
+        target,
+        visitorIp: Astro.request.headers.get('cf-connecting-ip'),
+        visitorUserAgent: Astro.request.headers.get('user-agent'),
+        proxySecret: webEnv.LINKS_WEB_PROXY_SECRET,
+      })
+    : { status: 'unavailable' };
+// The app opens a recap link on its own screen, through a path every installed build claims.
+const handoffUrl = new URL(Astro.url);
+if (target?.kind === 'recap_share') handoffUrl.pathname = recapAppPath(target.token);
+const loaded = await loadHandoff(Astro.request, handoffUrl);
+if (loaded.kind === 'redirect') return Astro.redirect(loaded.location, 302);
+const gone = outcome.status === 'gone';
+Astro.response.status = gone ? 404 : loaded.status;
+---
+
+{
+  outcome.status === 'found' && target?.kind === 'recap_share' ? (
+    <RecapLanding recap={outcome.recap} token={target.token} loaded={loaded} />
+  ) : (
+    <Handoff
+      model={gone ? null : loaded.model}
+      copy={gone ? RECAP_GONE_COPY : loaded.copy}
+      expires={loaded.expires}
+      qrSvg={gone ? null : loaded.qrSvg}
+      appStoreHref={loaded.appStoreHref}
+      playStoreHref={loaded.playStoreHref}
+    />
+  )
+}

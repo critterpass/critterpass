@@ -8,6 +8,7 @@
  * | `/j/{code}[/{seat}]` | invite (alias of `/i/`, parsed identically, never built) | code, seat? |
  * | `/p/{token}` | plan_share (shared read-only plan) | token |
  * | `/r/{code}` | referral | code |
+ * | `/rc/{token}` | recap_share (a trip recap's public page) | token |
  * | `/plan/{id}` | plan (member plan deep link, trip id) | id |
  * | `/g/{slug}` | guide | slug |
  * | `/locals/{slug}` | locals | slug |
@@ -27,6 +28,7 @@ export const LINK_KINDS = [
   'guide',
   'locals',
   'app',
+  'recap_share',
 ] as const;
 export type LinkKind = (typeof LINK_KINDS)[number];
 
@@ -40,7 +42,8 @@ export type LinkTarget =
   | { readonly kind: 'plan'; readonly id: string }
   | { readonly kind: 'guide'; readonly slug: string }
   | { readonly kind: 'locals'; readonly slug: string }
-  | { readonly kind: 'app'; readonly path: string };
+  | { readonly kind: 'app'; readonly path: string }
+  | { readonly kind: 'recap_share'; readonly token: string };
 
 export interface ParsedLink {
   readonly target: LinkTarget;
@@ -58,9 +61,13 @@ export const LINK_PATH_PREFIXES: Readonly<Record<LinkKind, string>> = {
   guide: 'g',
   locals: 'locals',
   app: 'app',
+  recap_share: 'rc',
 };
 
-/** Every first path segment that opens the app (Universal Links / App Links). */
+/**
+ * Every first path segment both platforms claim natively (Universal Links / App Links); the
+ * Android manifest lists exactly these.
+ */
 export const APP_LINK_PATH_PREFIXES: readonly string[] = [
   'i',
   'j',
@@ -70,6 +77,19 @@ export const APP_LINK_PATH_PREFIXES: readonly string[] = [
   'g',
   'locals',
   'app',
+];
+
+/**
+ * Link paths claimed through the web's association file alone: iOS opens them in the app as soon as
+ * the file is served, Android shows their web page, whose button opens the app through an `/app/`
+ * path, until its manifest lists them too.
+ */
+export const ASSOCIATION_ONLY_PATH_PREFIXES: readonly string[] = ['rc'];
+
+/** Every first path segment the link grammar reads, as a custom-scheme URL may carry it. */
+export const LINK_GRAMMAR_PATH_PREFIXES: readonly string[] = [
+  ...APP_LINK_PATH_PREFIXES,
+  ...ASSOCIATION_ONLY_PATH_PREFIXES,
 ];
 
 /** Paths on the link hosts that always stay in the browser. */
@@ -130,6 +150,12 @@ export function parseLinkPath(pathname: string): LinkTarget | null {
       const token = single(rest);
       return token !== null && SHARE_TOKEN_PATTERN.test(token)
         ? { kind: 'plan_share', token }
+        : null;
+    }
+    case 'rc': {
+      const token = single(rest);
+      return token !== null && SHARE_TOKEN_PATTERN.test(token)
+        ? { kind: 'recap_share', token }
         : null;
     }
     case 'r': {
@@ -206,6 +232,7 @@ export function linkPath(target: LinkTarget): string {
         ? `/${prefix}/${target.code}`
         : `/${prefix}/${target.code}/${target.seat}`;
     case 'plan_share':
+    case 'recap_share':
       return `/${prefix}/${target.token}`;
     case 'referral':
       return `/${prefix}/${target.code}`;
