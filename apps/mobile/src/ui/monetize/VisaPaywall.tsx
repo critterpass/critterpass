@@ -77,7 +77,7 @@ export function VisaPaywall({
           </Text>
           {visa}
           {stamps ? (
-            <Row gap="12" align="center" wrap>
+            <Row gap="12" align="center" justify="space-between">
               {stamps}
             </Row>
           ) : null}
@@ -93,7 +93,7 @@ export function VisaPaywall({
               importantForAccessibility="no-hide-descendants"
             >
               {mrz.map((line) => (
-                <Text key={line} variant="monoData" numberOfLines={1}>
+                <Text key={line} variant="monoData" numberOfLines={1} ellipsizeMode="clip">
                   {line}
                 </Text>
               ))}

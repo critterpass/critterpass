@@ -30,6 +30,8 @@ export const guideTurnBodySchema = z.strictObject({
     })
     .default({}),
   attachments: z.array(guideAttachmentSchema).max(5).default([]),
+  /** A voice turn with replies muted: the answer streams as text only, no audio is made. */
+  speak: z.boolean().optional(),
 });
 export type GuideTurnBody = z.infer<typeof guideTurnBodySchema>;
 
@@ -62,6 +64,52 @@ export const requestPhraseCardPayloadSchema = z.strictObject({
   register: z.enum(PHRASE_REGISTERS),
 });
 export type RequestPhraseCardPayload = z.infer<typeof requestPhraseCardPayloadSchema>;
+
+const languageTag = z.string().regex(/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/u);
+
+/**
+ * `record_phrase_practice`: one practice of a curated or custom phrase card. `said` is what the
+ * device heard (absent when the pronunciation check is off and the traveller tapped "I said it").
+ */
+export const recordPhrasePracticePayloadSchema = z.strictObject({
+  phrase_id: z.uuid(),
+  /** The trip the practice counts for (its quests); null when practising outside a trip. */
+  trip_id: z.uuid().nullable(),
+  language: languageTag,
+  outcome: z.enum(['ok', 'retry']),
+  score: z.number().int().min(0).max(100).optional(),
+});
+export type RecordPhrasePracticePayload = z.infer<typeof recordPhrasePracticePayloadSchema>;
+
+export const menuOcrLineSchema = z.strictObject({
+  id: z.string().min(1).max(40),
+  text: z.string().min(1).max(200),
+  /** Left, top, width and height as fractions of the frame. */
+  bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+});
+export type MenuOcrLine = z.infer<typeof menuOcrLineSchema>;
+
+/** `POST /v1/camera/menu`: the locked frame's text lines and, optionally, its downscaled crop. */
+export const cameraMenuBodySchema = z.strictObject({
+  trip_id: z.uuid().nullable(),
+  ocr_lines: z.array(menuOcrLineSchema).min(1).max(120),
+  /** Base64 JPEG, longest side at most 1568 px. Never stored. */
+  crop_b64: z.string().max(1_600_000).optional(),
+  /** The trip's local currency, a hint when the menu prints no symbol. */
+  currency_hint: z
+    .string()
+    .regex(/^[A-Z]{3}$/u)
+    .optional(),
+});
+export type CameraMenuBody = z.infer<typeof cameraMenuBodySchema>;
+
+/** `POST /v1/guide/phrase-feedback`: what the device heard against the phrase, for a short tip. */
+export const phraseFeedbackBodySchema = z.strictObject({
+  phrase_id: z.uuid(),
+  language: languageTag,
+  recognised: z.string().trim().max(300),
+});
+export type PhraseFeedbackBody = z.infer<typeof phraseFeedbackBodySchema>;
 
 /** `guide.token` on `crew_chat:{crew_id}` and `token` on `guide_thread:{id}`. */
 export const rtGuideTokenSchema = z.object({

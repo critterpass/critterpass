@@ -34,6 +34,7 @@ export interface VisaProps {
 }
 
 const SEAL = 44;
+const EYEBROW_MIN = 7;
 const VISA_TILT_DEG = -1.5;
 const BOOST_TILT_DEG = -3;
 
@@ -48,6 +49,7 @@ const useStyles = makeStyles((t) => ({
   },
   boost: {
     alignSelf: 'flex-start',
+    flexShrink: 1,
     borderRadius: t.radius.sm,
     borderWidth: 3,
     padding: t.space['4'],
@@ -111,7 +113,7 @@ export function Visa({
           <Text variant="label" color={ink}>
             {eyebrow}
           </Text>
-          <Text variant="h2" color={ink}>
+          <Text variant="h2" color={ink} numberOfLines={1} adjustsFontSizeToFit>
             {title}
           </Text>
           <Text variant="bodySm" color={ink}>
@@ -131,8 +133,11 @@ export function Visa({
     >
       <SurfaceToneProvider value="accent">
         <Row justify="space-between" align="flex-start">
-          <Stack gap="2">
-            <Text variant="monoData">{eyebrow}</Text>
+          <Stack gap="2" flex={1}>
+            {/* One line beside the price (4e-1): it is set smaller before it would wrap. */}
+            <Text variant="monoData" numberOfLines={1} autoFit autoFitMinSize={EYEBROW_MIN}>
+              {eyebrow}
+            </Text>
             <Text variant="h1">{title}</Text>
           </Stack>
           {price ? (
@@ -160,7 +165,7 @@ export function Visa({
         </View>
         {mrz ? (
           <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            <Text variant="monoData" numberOfLines={1}>
+            <Text variant="monoData" numberOfLines={1} ellipsizeMode="clip">
               {mrz}
             </Text>
           </View>

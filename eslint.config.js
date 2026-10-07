@@ -45,6 +45,34 @@ const extensionlessRelativeImports = [
 
 const testFiles = ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/test/**', '**/__tests__/**'];
 
+/** Workspace packages the mobile app bundles (its dependencies and theirs); they run on Hermes. */
+const appBundledPackages = [
+  'content',
+  'cost-engine',
+  'critter-art',
+  'design-tokens',
+  'domain',
+  'entitlements',
+  'i18n',
+  'planner',
+];
+
+const missingInHermes = (name) =>
+  `\`${name}\` does not exist in the app's Hermes engine and crashes the screen at runtime (Jest runs on Node and does not catch it). Copy and sort/reverse/splice, loop from the end, or group with a reduce instead.`;
+
+/** ES2023+ built-ins that Node has and the app's Hermes lacks. */
+const builtinsMissingInHermes = [
+  ...['toSorted', 'toReversed', 'toSpliced', 'findLast', 'findLastIndex'].map((property) => ({
+    property,
+    message: missingInHermes(`.${property}()`),
+  })),
+  ...['Object', 'Map'].map((object) => ({
+    object,
+    property: 'groupBy',
+    message: missingInHermes(`${object}.groupBy()`),
+  })),
+];
+
 export default defineConfig([
   globalIgnores([
     '**/node_modules/',
@@ -115,6 +143,16 @@ export default defineConfig([
   },
 
   { files: defaultExportAllowed, rules: { 'no-restricted-syntax': 'off' } },
+
+  // Code that ships in the app bundle runs on Hermes, not Node; server-only packages stay free.
+  {
+    files: [
+      'apps/mobile/src/**/*.{ts,tsx}',
+      ...appBundledPackages.map((name) => `packages/${name}/src/**/*.{ts,tsx}`),
+    ],
+    ignores: testFiles,
+    rules: { 'no-restricted-properties': ['error', ...builtinsMissingInHermes] },
+  },
 
   // Generator output (e.g. the app's synced-table schema) grows with the schema it mirrors.
   { files: ['**/*.generated.ts'], rules: { 'max-lines': 'off' } },

@@ -30,6 +30,7 @@ import type { Logger } from 'pino';
 import type { ApiCompliance } from '../../ai/compliance';
 import { buildGuideContext } from '../../ai/context';
 import { reserveGuideTurn } from '../../ai/guide-meter';
+import { speakTurn, type VoiceTurnDeps } from '../../lib/tts';
 import { crewPassHolders, openThread, type GuideThread } from './threads';
 
 export interface GuideTurnDeps {
@@ -42,6 +43,8 @@ export interface GuideTurnDeps {
   readonly heartbeatMs?: number;
   /** Group token flush interval (default 300 ms). */
   readonly flushMs?: number;
+  /** Spoken replies for voice turns; absent, a voice turn answers in text. */
+  readonly voice?: VoiceTurnDeps;
 }
 
 export interface GuideTurnRequest {
@@ -246,7 +249,24 @@ export async function streamThreadTurn(
     },
   );
   const recorded = recordTurn(deps, thread, generateUuidV7(), meter.reservation.metered, events);
-  const stream = sseStream(recorded, {
+  const voiceId =
+    body.mode === 'voice' && body.speak !== false && deps.voice !== undefined
+      ? await deps.voice.voiceFor(thread.guideSlug).catch(() => null)
+      : null;
+  const outgoing =
+    voiceId === null || deps.voice === undefined
+      ? recorded
+      : speakTurn(recorded, {
+          voiceId,
+          language: locale,
+          synthesize: deps.voice.synthesize,
+          onFirstAudio: (ms) => {
+            deps.voice?.onFirstAudio(ms);
+            log.info({ first_audio_ms: ms }, 'guide voice first audio');
+          },
+          onFailed: (error) => log.warn({ err: error }, 'guide voice synthesis failed'),
+        });
+  const stream = sseStream(outgoing, {
     abort,
     ...(deps.heartbeatMs === undefined ? {} : { heartbeatMs: deps.heartbeatMs }),
   });
