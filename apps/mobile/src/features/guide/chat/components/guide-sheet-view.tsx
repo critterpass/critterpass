@@ -31,6 +31,8 @@ export interface GuideSheetViewProps {
   readonly onSend: () => void;
   readonly onAttach?: () => void;
   readonly onMic?: () => void;
+  /** The microphone was held: voice mode opens already listening. Defaults to `onMic`. */
+  readonly onMicHold?: () => void;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -103,7 +105,7 @@ export function GuideSheetView(props: GuideSheetViewProps) {
               {...(props.onAttach === undefined ? {} : { onAttach: props.onAttach })}
               {...(props.onMic === undefined
                 ? {}
-                : { onMicTap: props.onMic, onHoldStart: props.onMic })}
+                : { onMicTap: props.onMic, onHoldStart: props.onMicHold ?? props.onMic })}
               onRaised
               testID="guide-composer"
             />

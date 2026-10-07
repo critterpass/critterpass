@@ -127,7 +127,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: integration test with recorded ElevenLabs fixture verifies ordered `audio{seq}`; TTFA metric emitted.
 
 ### T5 — Voice screen (3j-2) + barge-in
-- Status: partial — 4b6fd12dfa (screen, turn controller, barge-in, mute and failure states with lab scenes and a flow; not built: swap cards and SEND TO THE GROUP, hold-to-talk, the `ai_voice` consent step, so `3j-2` is not registered and the guide sheet's microphone stays hidden; no fixture-audio flow)
+- Status: partial — 4b6fd12dfa, ca43e5eda6, 45161cd30d (screen, turn controller, barge-in, failure states, swap cards and SEND TO THE GROUP; the `ai_voice` consent step comes before the first use, `3j-2` is registered and the guide sheet's microphone opens it, a hold opens it already listening; not built: release-to-send inside the sheet, spoken filler lines during tool rounds, a mute toggle on the screen, a fixture-audio flow)
 - Goal: designed voice UI with rings/waveform and barge-in.
 - Files: `apps/mobile/src/features/guide/voice/**`, `apps/mobile/src/app/(modal)/guide/voice.tsx`, `packages/i18n/locales/en/guide/voice.po`
 - Steps: 1. Rings/waveform (Skia) from level. 2. Turn lifecycle + swap cards + SEND TO THE GROUP. 3. Barge-in cancel. 4. Permission and failure states.
@@ -143,7 +143,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: fixture video frames yield stable ids across ≥ 90 % of frames.
 
 ### T7 — Menu server route (Sonnet structured) + dietary flags
-- Status: partial — e103c5f66b, 01957be1fd (route, validator, code-parsed prices on 10 fixture menus, consented flags only, meter and vision fair use; answers JSON, not SSE; no live-model eval suite, no database route test)
+- Status: partial — e103c5f66b, 01957be1fd (route, validator, code-parsed prices on 10 fixture menus, consented flags only, meter and vision fair use; answers JSON, not SSE: the reading is one structured model call, so the app reads it as JSON; no live-model eval suite, no database route test)
 - Goal: translation + clash flags keyed by OCR line id.
 - Files: `services/api/src/routes/camera.ts`, `packages/ai/src/routes/camera/**`, `packages/ai/evals/camera/**`
 - Steps: 1. Validate lines/crop. 2. Consented flags from `llm` view. 3. Structured output (no price field); drop items with unknown line ids; strip digits/currency from model text. 4. `parseMenuPrice(lines, item_line_id)` in code (same-row bbox, currency symbols/codes, thousand separators e.g. "45.000" IDR, "45k"). 5. Meter + vision fair-use.
@@ -151,7 +151,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: eval covers peanut/veg clash on 10 fixture menus; unknown ids rejected; no flags without consent; every displayed price equals the code-parsed OCR value (unit tests on 10 fixture menus); model output with numbers is stripped.
 
 ### T8 — Point-and-ask screen (3j-3)
-- Status: not started — the screen needs a camera view that hands stills to the live OCR loop (`createLiveOcr` takes a `capture()`); the app's only camera view (the encounter feed) does not expose one
+- Status: partial — 414b373252 (one still per scan through the camera's photo output and the phone's text recognition, the lines to the menu route, stickers on the still's lines, pink clash with one shake, crew chips, the advisory line whenever a flag shows, follow-ups into the guide chat, every stop state, lab scenes and a flow; `3j-3` registered behind the `guide.quick_actions.translate_menu` flag; not built: live lock-on over the moving camera, on-device first translations, the language pill, the order card, the expense prefill, the crop upload; the camera itself has only run in Jest and lab scenes, never on a phone)
 - Goal: stickers, shake-pink clash, caution, follow-ups.
 - Files: `apps/mobile/src/features/guide/camera/**`, `apps/mobile/src/app/(modal)/guide/camera.tsx`, `packages/i18n/locales/en/guide/camera.po`
 - Steps: 1. Sticker overlay aligned to boxes. 2. Clash animation. 3. Caution + allergy phrase card. 4. ORDER FOR 6 card, SPLIT THE BILL prefill, follow-up turns.
@@ -159,7 +159,7 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Done when: caution text always visible when any flag shown; offline shows on-device stickers only.
 
 ### T9 — Phrase practice (3l-7)
-- Status: partial — 01957be1fd (command, `phrase.practised`, quest template, grading and tip route with tests; the practice screen, progress list and its entry points are not built)
+- Status: partial — 01957be1fd, 2a2761c0bc (command, `phrase.practised`, quest template, grading and tip route; the practice screen with the pronunciation check behind the voice consent, "I said it", progress lists, lab scenes and a flow, registered as `guide-practice` and opened from a guide chat quick action behind `guide.quick_actions.practise_phrases`; not built: the links from a phrase card and from the SAY IT quest card, which live in other areas' files; no fixture-audio flow)
 - Goal: practise mode feeding quests.
 - Files: `apps/mobile/src/features/guide/phrase-practice/**`, `apps/mobile/src/app/(modal)/guide/practice.tsx`, `services/api/src/commands/guide/record-phrase-practice.ts`, `packages/ai/src/routes/phrase-practice/**`, `packages/i18n/locales/en/guide/practice.po`
 - Steps: 1. Listen → repeat → local grade → Haiku tip on mismatch. 2. Command + event. 3. Progress list. 4. Register quest template `phrase_practice{n, language}` consuming `phrase.practised` via the P41 `registerQuestTemplate` registry (`services/worker/src/jobs/quests/templates/phrase-practice.ts`).

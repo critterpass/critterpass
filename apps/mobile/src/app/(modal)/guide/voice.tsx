@@ -28,17 +28,19 @@ function deviceSpeech(): VoiceSpeech | null {
 }
 
 /**
- * Voice mode (3j-2): talk to the guide. The guide sheet's microphone opens it once `3j-2` is in the
- * navigation registry, which waits for the voice consent step (on Android, and for languages the
- * phone cannot transcribe itself, what is said goes to a speech service).
+ * Voice mode (3j-2): talk to the guide, from the guide sheet's microphone. The first time, the
+ * voice consent step comes first (on Android, and for languages the phone cannot transcribe
+ * itself, what is said goes to a speech service). `talk` opens it already listening (the
+ * microphone was held).
  */
 export default function VoiceRoute() {
-  const { tripId } = useLocalSearchParams<{ tripId?: string }>();
+  const { tripId, talk } = useLocalSearchParams<{ tripId?: string; talk?: string }>();
   const speech = useMemo(() => deviceSpeech(), []);
   return (
     <VoiceScreen
       tripId={typeof tripId === 'string' && tripId !== '' ? tripId : null}
       speech={speech}
+      talkOnOpen={talk === '1'}
     />
   );
 }

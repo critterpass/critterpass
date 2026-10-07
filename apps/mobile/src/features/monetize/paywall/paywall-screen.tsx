@@ -55,6 +55,7 @@ export function PaywallScreen() {
 
   return (
     <RiseModal
+      closeSide="start"
       onDismiss={() => {
         if (!rows.passPlus && state.status !== 'done') quietNo();
         router.back();

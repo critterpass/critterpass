@@ -81,7 +81,7 @@ export function ConsentCard({
           />
           <PillButton
             size="sm"
-            variant="secondary"
+            tone="ink"
             label={t({ id: 'guide.dietary.notNow', message: 'Not now' })}
             onPress={onNotNow}
             testID="guide-dietary-consent-no"

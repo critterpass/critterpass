@@ -470,7 +470,7 @@ msgstr "截图"
 #. placeholder {0}: chosen.length
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.set"
-msgstr "把{name}定在 {0} 天"
+msgstr ""
 
 #. placeholder {0}: item.shared_by_name ?? ''
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
