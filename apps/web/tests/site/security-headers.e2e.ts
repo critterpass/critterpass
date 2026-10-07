@@ -38,6 +38,8 @@ const PAGES = [
   '/r/WYNST8',
   '/w/somefriend',
   '/p/KyotoSlowly4Days0Token01',
+  '/rc/DaLatRecap3Days000Token1',
+  '/rc/NoSuchRecapLinkToken0001',
   '/plan/not-a-trip-id',
   '/app/trip/abc/day/2',
   '/d/made-invite01',

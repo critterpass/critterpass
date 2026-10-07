@@ -19,6 +19,10 @@ msgstr "{average} from {count, plural, one {# rating} other {# ratings}}"
 msgid "web.tips.categoryPageTitle"
 msgstr "{category} tips · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.critters"
+msgstr "{count, plural, one {# critter found} other {# critters found}}"
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.seatsLeft"
 msgstr "{count} first-wave seats left"
@@ -31,6 +35,10 @@ msgstr "{count} IN LINE"
 msgid "web.comingSoon.joined.friendsJoined"
 msgstr "{count} OF 3 FRIENDS JOINED"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.days"
+msgstr "{days, plural, one {# day} other {# days}}"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.days"
 msgstr "{days, plural, one {# day} other {# days}}"
@@ -38,6 +46,10 @@ msgstr "{days, plural, one {# day} other {# days}}"
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.headline"
 msgstr "{days, plural, one {# day} other {# days}} in {place}"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescription"
+msgstr "{days, plural, one {# day} other {# days}} in {place}: where the crew went and how far."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.countdown"
@@ -51,9 +63,17 @@ msgstr "{guide}, {place}"
 msgid "web.invite.draftTitle"
 msgstr "{guide}'s draft · {shown} of {total, plural, one {# day} other {# days}}"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageTitle"
+msgstr "{headline} · CritterPass"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageTitle"
 msgstr "{headline} · CritterPass"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distance"
+msgstr "{km} km"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.minShort"
@@ -86,6 +106,10 @@ msgstr "{name}'s link"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name}'s saving you a seat in {place}."
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headline"
+msgstr "{place}, the recap"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
@@ -223,9 +247,17 @@ msgstr "A stamp lands once they've joined and voted on, or planned, their first 
 msgid "web.comingSoon.hatch.local.pizza"
 msgstr "A subway rat, waiting for you in {place}."
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescriptionNoPlace"
+msgstr "A trip recap on CritterPass: where the crew went and how far."
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
 msgstr "A wiggling egg"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distanceAbout"
+msgstr "About {km} km"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.admit"
@@ -254,6 +286,10 @@ msgstr "Already in: {names}"
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
 msgstr "An Iberian lynx, waiting for you in {place}."
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.morePlaces"
+msgstr "and {count, plural, one {# more place} other {# more places}}"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -435,6 +471,10 @@ msgstr "Crew"
 msgid "web.referral.crewCaptain"
 msgstr "Crew captain"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.crewOf"
+msgstr "Crew of {size}"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.crewOf"
 msgstr "Crew of {size}"
@@ -483,6 +523,10 @@ msgstr "CritterPass is in testing. Ask {inviter} for the TestFlight invite, then
 msgid "web.invite.inTestingNoName"
 msgstr "CritterPass is in testing. Ask whoever invited you for the TestFlight invite, then join with this code:"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openBody"
+msgstr "CritterPass plans group trips with the locals and turns every one into a recap like this. Were you on this trip? Open it in the app for the whole story."
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
 msgstr "CritterPass tips"
@@ -499,12 +543,12 @@ msgstr "CRRRK!!"
 msgid "web.legal.current"
 msgstr "Current"
 
-#: ../../apps/web/src/components/site/copy/plan.ts
-msgid "web.plan.day"
-msgstr "Day {n}"
-
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftDay"
+msgstr "Day {n}"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
 msgstr "Day {n}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1011,6 +1055,10 @@ msgstr "Nothing in this corner of the journal yet. Every other tip is one tap aw
 msgid "web.home.mockPlanItem2"
 msgstr "Old Town walk"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.placesTitle"
+msgstr "On the trail"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.onTheTrip"
 msgstr "On the trip"
@@ -1030,6 +1078,10 @@ msgstr "One day-by-day plan the whole crew can move around."
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.note"
 msgstr "One email when we launch. Maybe two. Never spam."
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openCta"
+msgstr "Open in CritterPass"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
@@ -1223,6 +1275,10 @@ msgstr "Skip to content"
 msgid "web.home.chat1"
 msgstr "so where r we going"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.solo"
+msgstr "Solo trip"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.solo"
 msgstr "Solo trip"
@@ -1363,6 +1419,10 @@ msgstr "The places didn't load. Try again in a moment."
 msgid "web.legal.shortVersion"
 msgstr "The short version"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headlineNoPlace"
+msgstr "The trip, the recap"
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseBody"
 msgstr "There's more on board that we're not showing yet. People on the list see it first."
@@ -1451,6 +1511,14 @@ msgstr "TOTAL"
 msgid "web.plan.travelled"
 msgstr "Travelled"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrow"
+msgstr "Trip recap"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrowWhen"
+msgstr "Trip recap · {when}"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
 msgstr "Trips are better with tagalongs"
@@ -1522,6 +1590,10 @@ msgstr "Where to?"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteWinning"
 msgstr "Winning"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.travelledBy"
+msgstr "With {names}"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.title"
@@ -1598,3 +1670,7 @@ msgstr "your local"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"
 msgstr "YOUR PLACE IN LINE"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openTitle"
+msgstr "Your trip next?"

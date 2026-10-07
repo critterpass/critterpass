@@ -1,12 +1,14 @@
 /* eslint-disable lingui/no-unlocalized-strings -- an error message for the logs, not UI copy. */
 /**
- * Open Graph cards: `/og/invite/{code}.png`, `/og/referral/{code}.png`, `/og/plan/{token}.png`, `/og/tip/{slug}.png`
+ * Open Graph cards: `/og/invite/{code}.png`, `/og/referral/{code}.png`, `/og/plan/{token}.png`,
+ * `/og/recap/{token}.png`, `/og/tip/{slug}.png`
  * (lib/og/serve.ts). Drawn in the Worker with Takumi and kept in R2.
  */
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 
 import { planWords } from '../../../components/previews/plan-facts';
+import { recapWords } from '../../../components/previews/recap-facts';
 import { inviteCopy } from '../../../components/site/copy/invite';
 import { tipsCopy } from '../../../components/site/copy/tips';
 import { allTips, CATEGORY_COPY, TIP_CARD_COLOURS } from '../../../components/site/tips/tips-data';
@@ -33,6 +35,7 @@ export const GET: APIRoute = async ({ params, request, url }) => {
       name === null ? t(inviteCopy.referralBody) : t(inviteCopy.referralBodyFrom, { name }),
     estimateEach: (amount) => t(inviteCopy.estimateEach, { amount }),
     plan: (plan) => planWords(plan, t),
+    recap: (recap) => recapWords(recap, t),
   };
   const context = linkRequestContext(url, workerEnv);
   return serveOg({

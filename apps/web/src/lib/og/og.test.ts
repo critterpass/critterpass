@@ -28,6 +28,28 @@ const WORDS: CardWords = {
     headline: `${plan.days_count} days in ${plan.destination_name}`,
     chips: [`${plan.days_count} days`, `Crew of ${plan.crew_size}`],
   }),
+  recap: (recap) => ({
+    eyebrow: 'Trip recap',
+    headline: `${recap.destination_name ?? 'The trip'}, the recap`,
+    chips: [`${recap.days ?? 0} days`, `Crew of ${recap.travellers ?? 1}`],
+  }),
+};
+const RECAP_TOKEN = 'DaLatRecap3Days000Token1';
+const RECAP = {
+  kind: 'recap',
+  recap_id: '0190a6f1-7aaa-7bbb-8ccc-123456789abd',
+  destination_name: 'Đà Lạt',
+  travel_month: 10,
+  travel_year: 2026,
+  days: 3,
+  travellers: 3,
+  crew_names: ['Anna', 'Ben'],
+  distance_m: 41200,
+  distance_estimated: false,
+  places_count: 1,
+  places: [{ name: 'Hồ Xuân Hương', category: 'nature' }],
+  critters_found: 5,
+  new_critters: 2,
 };
 const PLAN_TOKEN = 'KyotoSlowly4Days0Token01';
 const PLAN = {
@@ -168,6 +190,7 @@ describe('serving OG cards', { timeout: 60_000 }, () => {
     ],
   ]);
   const plans = new Map<string, unknown>([[PLAN_TOKEN, PLAN]]);
+  const recaps = new Map<string, unknown>([[RECAP_TOKEN, RECAP]]);
   let api: Server;
   let apiBaseUrl = '';
 
@@ -175,7 +198,13 @@ describe('serving OG cards', { timeout: 60_000 }, () => {
     api = createServer((request, response) => {
       const code = /^\/v1\/links\/([^/]+)\/preview/u.exec(request.url ?? '')?.[1] ?? '';
       const plan = /^\/v1\/public\/plan\/([^/]+)/u.exec(request.url ?? '')?.[1];
-      const body = plan === undefined ? previews.get(code) : plans.get(plan);
+      const recap = /^\/v1\/public\/recap\/([^/]+)/u.exec(request.url ?? '')?.[1];
+      const body =
+        recap !== undefined
+          ? recaps.get(recap)
+          : plan === undefined
+            ? previews.get(code)
+            : plans.get(plan);
       response.setHeader('content-type', 'application/json');
       response.statusCode = body === undefined ? 404 : 200;
       response.end(
@@ -245,6 +274,25 @@ describe('serving OG cards', { timeout: 60_000 }, () => {
     expect(bucket.objects.has(key)).toBe(false);
     // The plan's own id is never a key.
     expect((await serve('plan', PLAN.shared_plan_id, bucket)).status).toBe(404);
+  });
+
+  it('draws a recap by its link token, and forgets it once the link is switched off', async () => {
+    const bucket = new MemoryBucket();
+    const first = await serve('recap', RECAP_TOKEN, bucket);
+    expect(first.status).toBe(200);
+    expect(first.headers.get('x-og-cache')).toBe('miss');
+    expect(first.headers.get('cache-control')).toBe('no-store');
+    expect((await serve('recap', RECAP_TOKEN, bucket)).headers.get('x-og-cache')).toBe('hit');
+    const key = await ogCacheKey('test-secret', 'recap', RECAP_TOKEN, OG_TEMPLATE_VERSION);
+    expect(bucket.objects.has(key)).toBe(true);
+    // A plan link's token never opens a recap card, nor a recap's a plan card.
+    expect((await serve('recap', PLAN_TOKEN, bucket)).status).toBe(404);
+    expect((await serve('plan', RECAP_TOKEN, bucket)).status).toBe(404);
+    recaps.delete(RECAP_TOKEN);
+    expect((await serve('recap', RECAP_TOKEN, bucket)).status).toBe(404);
+    expect(bucket.objects.has(key)).toBe(false);
+    // The recap's own id is never a key.
+    expect((await serve('recap', RECAP.recap_id, bucket)).status).toBe(404);
   });
 
   it('never resolves an internal id, a non-canonical code or an unknown kind', async () => {
