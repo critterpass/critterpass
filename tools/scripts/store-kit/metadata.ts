@@ -38,6 +38,10 @@ export function easMetadata(listings: Partial<Record<AppLocale, Listing>>, year:
     apple: {
       copyright: `${year} CritterPass`,
       categories: ['TRAVEL', 'SOCIAL_NETWORKING'],
+      // An approved version waits for a manual release, then reaches people in phases over seven
+      // days, so a bad build can be paused before everyone has it. The release workflow refuses
+      // an iOS submission without `phasedRelease`.
+      release: { automaticRelease: false, phasedRelease: true },
       info,
     },
   };
