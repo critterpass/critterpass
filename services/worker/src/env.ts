@@ -30,6 +30,28 @@ export const workerEnvSchema = z.object({
   /** PostHog EU project key; unset = the domain-event analytics export does not run. */
   POSTHOG_PROJECT_API_KEY: optionalString,
   POSTHOG_HOST: optionalUrl,
+  /** A personal API key and the project's id: what erasing an account's analytics person needs
+   *  (`account.purge_external`). Unset while analytics is collecting = that step fails. */
+  POSTHOG_PERSONAL_API_KEY: optionalString,
+  POSTHOG_PROJECT_ID: optionalString,
+  /** `true` = an erased account's quarantined uploads (`quarantine/u/{uid}/`) are erased with it;
+   *  otherwise they are held for the legal report they belong to. */
+  ACCOUNT_PURGE_ERASES_QUARANTINE: z.preprocess(
+    emptyAsUndefined,
+    z
+      .enum(['true', 'false'])
+      .default('false')
+      .transform((value) => value === 'true'),
+  ),
+  /** The feedback tracker: a private GitHub repository (`owner/name`) and a token that may write
+   *  its issues. Unset = feedback is not forwarded and an erased account's tickets are not
+   *  redacted there (`not_configured`). */
+  FEEDBACK_GITHUB_REPO: optionalString,
+  FEEDBACK_GITHUB_TOKEN: optionalString,
+  /** Transactional e-mail (Resend): the API key and the from-address on a domain verified there.
+   *  Either unset = no e-mail is sent; the purge reminder records `not_configured`. */
+  RESEND_API_KEY: optionalString,
+  EMAIL_FROM: optionalString,
   /** HMAC key for the pseudonymous analytics `user_pid` (shared with the api). */
   ANALYTICS_PID_SALT: z.preprocess(emptyAsUndefined, z.string().min(16).optional()),
   COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),

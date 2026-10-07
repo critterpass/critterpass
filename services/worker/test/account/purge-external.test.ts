@@ -21,12 +21,20 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+/** With nothing said about quarantine or the tracker, the first is held and the second skipped. */
+const LEFT = { quarantined_uploads: 'held', feedback_tracker: 'not_configured' } as const;
+
 const callsTo = (host: string) => vendors.calls.filter((call) => call.includes(` ${host}/`));
 
 describe('external purge', () => {
   it('erases the account from every store with one delete per object, person and trace batch', async () => {
     const report = await runExternalPurge(vendors.steps(), PURGE_UID, silent);
-    expect(report).toEqual({ media: 'erased', analytics: 'erased', ai_traces: 'erased' });
+    expect(report).toEqual({
+      media: 'erased',
+      analytics: 'erased',
+      ai_traces: 'erased',
+      ...LEFT,
+    });
 
     expect(callsTo('r2.test').filter((call) => call.startsWith('DELETE'))).toEqual([
       `DELETE r2.test/media/${UPLOADS}/avatar/0199b7c1-3d52-7a41-8c0e-5f6a7b8c9d0e`,
@@ -53,6 +61,7 @@ describe('external purge', () => {
       media: 'nothing_left',
       analytics: 'nothing_left',
       ai_traces: 'nothing_left',
+      ...LEFT,
     });
     expect(vendors.calls.filter((call) => call.startsWith('DELETE'))).toEqual([]);
   });
@@ -73,6 +82,7 @@ describe('external purge', () => {
         media: 'nothing_left',
         analytics: 'nothing_left',
         ai_traces: 'nothing_left',
+        ...LEFT,
         [String(name)]: 'erased',
       });
     },
@@ -84,7 +94,12 @@ describe('external purge', () => {
       PURGE_UID,
       silent,
     );
-    expect(report).toEqual({ media: 'erased', analytics: 'failed', ai_traces: 'erased' });
+    expect(report).toEqual({
+      media: 'erased',
+      analytics: 'failed',
+      ai_traces: 'erased',
+      ...LEFT,
+    });
     expect(callsTo('posthog.test')).toEqual([]);
   });
 
@@ -96,9 +111,28 @@ describe('external purge', () => {
     });
     expect(await runExternalPurge(steps, PURGE_UID, silent)).toEqual({
       media: 'not_in_use',
+      quarantined_uploads: 'not_in_use',
       analytics: 'not_in_use',
       ai_traces: 'not_in_use',
+      feedback_tracker: 'not_configured',
     });
     expect(vendors.calls).toEqual([]);
+  });
+
+  it('holds quarantined uploads unless told to erase them, then erases only that account', async () => {
+    const held = await runExternalPurge(vendors.steps(), PURGE_UID, silent);
+    expect(held['quarantined_uploads']).toBe('held');
+    expect(vendors.calls.join(' ')).not.toContain('quarantine');
+
+    const steps = externalPurgeSteps({ ...vendors.stores(), eraseQuarantine: true });
+    const erased = await runExternalPurge(steps, PURGE_UID, silent);
+    expect(erased['quarantined_uploads']).toBe('erased');
+    expect(
+      callsTo('r2.test').filter((call) => call.startsWith('DELETE') && call.includes('quarantine')),
+    ).toEqual([
+      `DELETE r2.test/media/quarantine/${UPLOADS}/avatar/0199b7c9-2f10-7d3e-8a4b-6c5d4e3f2a1b`,
+    ]);
+    const again = await runExternalPurge(steps, PURGE_UID, silent);
+    expect(again['quarantined_uploads']).toBe('nothing_left');
   });
 });
