@@ -1,7 +1,7 @@
 /**
  * The recap page (3m-1) over synced rows: holds the trip's streams (the recap and its awards ride
  * them), reads the page's model from the local database, retries a failed build, shares the recap
- * card, and WHERE NEXT? goes back to Home, where the crew's next destination vote lives.
+ * (its card as an image, or a link to its public page), and WHERE NEXT? goes back to Home, where the crew's next destination vote lives.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -24,7 +24,8 @@ import { RecapEndSlot } from '../story/RecapEndSlot';
 import { storySession } from '../story/story-session';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { useRecapSummary } from '../data/use-recap-summary';
-import { RecapShareSheet } from './share-sheet';
+import { useRecapLinkActions } from '../link/use-recap-link';
+import { RecapShare } from './share-choice-sheet';
 import { SummaryView } from './summary-view';
 
 const UNIT_SQL = 'SELECT distance_unit FROM user_settings WHERE user_id = ?';
@@ -61,6 +62,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   const rateHref = useScreenHref('3o-3', { tripId });
   const { model } = data;
   const recapId = data.recapId;
+  const link = useRecapLinkActions(model.phase === 'ready' ? recapId : null);
 
   // A ready recap plays as a story first: once per session, until it has been watched to the end.
   const autoplay =
@@ -110,10 +112,11 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
       />
       {ended && recapId !== null ? <RecapEndSlot recapId={recapId} /> : null}
       {sharing ? (
-        <RecapShareSheet
+        <RecapShare
           model={model}
           guide={guide}
           unit={unit}
+          link={link}
           onClose={() => setSharing(false)}
         />
       ) : null}

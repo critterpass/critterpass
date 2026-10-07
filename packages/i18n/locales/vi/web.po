@@ -19,6 +19,10 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.critters"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.pageDescription"
 msgstr ""
@@ -39,12 +43,20 @@ msgstr "{count} ĐANG CHỜ"
 msgid "web.comingSoon.joined.friendsJoined"
 msgstr "{count}/3 NGƯỜI BẠN ĐÃ ĐĂNG KÝ"
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.days"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.days"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.headline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescription"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -59,8 +71,16 @@ msgstr ""
 msgid "web.invite.draftTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distance"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
@@ -94,6 +114,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name} đang giữ chỗ cho bạn ở {place}."
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headline"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.photoAlt"
@@ -247,9 +271,17 @@ msgstr "Một chú chuột tàu điện ngầm, đang chờ bạn ở {place}."
 msgid "web.pricing.firstTripBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescriptionNoPlace"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
 msgstr "Một quả trứng đang lắc lư"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distanceAbout"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.admit"
@@ -282,6 +314,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
 msgstr "Một chú linh miêu Iberia, đang chờ bạn ở {place}."
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.morePlaces"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -475,6 +511,10 @@ msgstr ""
 msgid "web.referral.crewCaptain"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.crewOf"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.crewOf"
 msgstr ""
@@ -530,6 +570,10 @@ msgstr "CritterPass đang trong giai đoạn thử nghiệm. Hãy xin {inviter} 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.inTestingNoName"
 msgstr "CritterPass đang trong giai đoạn thử nghiệm. Hãy xin người mời bạn lời mời TestFlight, rồi tham gia bằng mã này:"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openBody"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -1131,6 +1175,10 @@ msgstr ""
 msgid "web.home.mockPlanItem2"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.placesTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.onTheTrip"
 msgstr ""
@@ -1153,6 +1201,10 @@ msgstr "Một email khi ra mắt. Cùng lắm là hai. Không bao giờ spam."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostPrice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/locals.ts
@@ -1379,6 +1431,10 @@ msgstr ""
 msgid "web.home.chat1"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.solo"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.solo"
 msgstr ""
@@ -1539,6 +1595,10 @@ msgstr "Chưa tải được danh sách địa điểm. Bạn thử lại sau gi
 msgid "web.legal.shortVersion"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headlineNoPlace"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseBody"
 msgstr "Vẫn còn vài thứ hay ho bọn mình chưa bật mí. Ai có tên trong danh sách sẽ được xem trước."
@@ -1629,6 +1689,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrowWhen"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -1731,6 +1799,10 @@ msgstr ""
 msgid "web.home.mockVoteWinning"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.travelledBy"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.title"
 msgstr ""
@@ -1813,4 +1885,8 @@ msgstr "SỐ THỨ TỰ CỦA BẠN"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeKept"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openTitle"
 msgstr ""

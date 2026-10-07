@@ -3,6 +3,7 @@
  * widget refresh the signed-in session runs.
  */
 export {
+  registerHomeNotice,
   registerHomeVoteSlot,
   registerTripTurn,
   useHomeVote,

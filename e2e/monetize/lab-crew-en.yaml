@@ -1,0 +1,100 @@
+appId: app.critterpass.dev
+---
+# The crew-facing monetization lab scenes in en, from the splash of a fresh install: the crew's
+# boost card and its states (4c-1), the stamp with its shares and TELL THE CREW (4b-5), the
+# seventh-seat sheet (4f-1) and Your plan for a plan let lapse with a date to come back on (4d-1).
+# The lab scenes are pure views over fixed rows; no store is involved.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-monetize-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-monetize-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'monetize-lab-4e-1-paywall'
+    timeout: 15000
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4c-1-boost-card'
+      READY: 'boost-card-scene'
+      SHOT: en-4c-1-boost-card
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4c-1-buyer'
+      READY: 'boost-card-scene'
+      SHOT: en-4c-1-buyer
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4c-1-settled-thanked'
+      READY: 'boost-card-scene'
+      SHOT: en-4c-1-settled-thanked
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4c-1-covered'
+      READY: 'boost-card-scene'
+      SHOT: en-4c-1-covered
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4c-1-split-pending'
+      READY: 'boost-card-scene'
+      SHOT: en-4c-1-split-pending
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4c-1-all-square'
+      READY: 'boost-card-scene'
+      SHOT: en-4c-1-all-square
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4c-1-refunded'
+      READY: 'boost-card-scene'
+      SHOT: en-4c-1-refunded
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-5-stamped'
+      READY: 'stamped'
+      SHOT: en-4b-5-stamped
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4b-5-split-pending'
+      READY: 'stamped'
+      SHOT: en-4b-5-split-pending
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4f-1-seat-cap'
+      READY: 'seat-cap-scene'
+      SHOT: en-4f-1-seat-cap
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4f-1-no-price'
+      READY: 'seat-cap-scene'
+      SHOT: en-4f-1-no-price
+- runFlow:
+    file: ../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: 'monetize-lab-4d-1-paused-until'
+      READY: 'plan'
+      SHOT: en-4d-1-paused-until

@@ -2,7 +2,7 @@
  * From a link's public preview to the card drawn for it: the same words the landing page uses
  * (handoff-copy) and the same facts (invite-facts), so a card never says more than the page.
  */
-import type { LinkPreview, LinkTarget, PublicPlan } from '@cp/domain';
+import type { LinkPreview, LinkTarget, PublicPlan, PublicRecap } from '@cp/domain';
 import type { Node } from '@takumi-rs/helpers';
 
 import { estimateEach, guideKind, tripDates } from '../../components/previews/invite-facts';
@@ -31,11 +31,24 @@ export interface CardWords {
     readonly headline: string;
     readonly chips: readonly string[];
   };
+  /** The recap card's words, from the same facts as the recap page. */
+  readonly recap: (recap: PublicRecap) => {
+    readonly eyebrow: string;
+    readonly headline: string;
+    readonly chips: readonly string[];
+  };
 }
 
 /** A published crew plan's card: where, how long and the crew's size; never names or places. */
 export function planCard(plan: PublicPlan, words: CardWords): DrawnCard {
   const { eyebrow, headline, chips } = words.plan(plan);
+  const content = { eyebrow, headline, chips: chips.slice(0, 3), guide: 'gecko' };
+  return { node: planTemplate(content), stickers: [content.guide], content };
+}
+
+/** A trip recap's card: where, when and the totals; never names or places. */
+export function recapCard(recap: PublicRecap, words: CardWords): DrawnCard {
+  const { eyebrow, headline, chips } = words.recap(recap);
   const content = { eyebrow, headline, chips: chips.slice(0, 3), guide: 'gecko' };
   return { node: planTemplate(content), stickers: [content.guide], content };
 }

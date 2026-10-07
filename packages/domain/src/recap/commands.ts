@@ -1,7 +1,8 @@
 /**
  * Recap command payloads (docs/api-contracts.md §4.14 and doc deltas): opening and finishing the
  * recap (which signs the crew's stamps), the signature stroke, the MVP vote, opting out of an
- * award, and retrying a failed build; reacting to a year-later memory and starting a reunion.
+ * award, and retrying a failed build; reacting to a year-later memory and starting a reunion;
+ * making and switching off the recap's public link.
  */
 import { z } from 'zod';
 
@@ -64,3 +65,46 @@ export interface CastMvpVoteResult {
   /** True when this vote was the last one and closed the vote. */
   readonly closed: boolean;
 }
+
+/** Live public links one recap may have at once. */
+export const RECAP_LINKS_MAX_LIVE = 10;
+
+export const createRecapLinkPayloadSchema = z.strictObject({ recap_id: z.uuid() });
+export type CreateRecapLinkPayload = z.infer<typeof createRecapLinkPayloadSchema>;
+
+/** The token and its URL are returned once; only the token's hash is kept. */
+export const createRecapLinkResultSchema = z.object({
+  link_id: z.uuid(),
+  token: z.string(),
+  url: z.string(),
+});
+export type CreateRecapLinkResult = z.infer<typeof createRecapLinkResultSchema>;
+
+/**
+ * Without `link_id`, every live link of the recap the caller may switch off: their own, and
+ * everyone's for an organiser of the trip.
+ */
+export const revokeRecapLinkPayloadSchema = z.strictObject({
+  recap_id: z.uuid(),
+  link_id: z.uuid().optional(),
+});
+export type RevokeRecapLinkPayload = z.infer<typeof revokeRecapLinkPayloadSchema>;
+
+export const revokeRecapLinkResultSchema = z.object({ revoked: z.number().int().nonnegative() });
+export type RevokeRecapLinkResult = z.infer<typeof revokeRecapLinkResultSchema>;
+
+/** `GET /v1/recaps/{recap_id}/links`: the recap's live links as one of its travellers sees them. */
+export const recapLinksSchema = z.object({
+  /** The recap's trip: where the app opens the recap for one of its travellers. */
+  trip_id: z.uuid(),
+  links: z.array(
+    z.object({
+      link_id: z.uuid(),
+      mine: z.boolean(),
+      /** The caller made it, or organises the trip. */
+      can_revoke: z.boolean(),
+      created_at: z.iso.datetime({ offset: true }),
+    }),
+  ),
+});
+export type RecapLinks = z.infer<typeof recapLinksSchema>;

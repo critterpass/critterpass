@@ -2161,6 +2161,15 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  recap_links: {
+    selectProbe: {
+      ...tripRowProbe('recap_links'),
+      seed: `INSERT INTO recap_links (recap_id, trip_id, token_hash)
+             SELECT id, trip_id, repeat('c', 64) FROM recaps WHERE trip_id = $1
+             ON CONFLICT (token_hash) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
   recap_views: { selectProbe: ownRowProbe('recap_views'), expectations: OWNER_READ },
   recap_mvp_votes: {
     selectProbe: {

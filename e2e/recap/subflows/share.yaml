@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
-# SHARE RECAP from the recap scene: the share sheet opens with the picture drawn on the phone in
-# the story shape (${LANG}-3m-1-share), then the sheet's ✕ closes it.
+# SHARE RECAP from the recap scene: one sheet with the picture drawn on the phone in the story
+# shape and its actions (${LANG}-3m-1-share); sharing a link brings up "Stop sharing"
+# (${LANG}-3m-1-share-link-live), which takes it away again. Then the sheet's ✕ closes it.
 - scrollUntilVisible:
     element:
       id: 'recap-lab-3m-1-recap'
@@ -23,7 +24,28 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 6000
+- assertNotVisible:
+    id: 'recap-share-stop'
 - takeScreenshot: ${LANG}-3m-1-share
+- scrollUntilVisible:
+    element:
+      id: 'recap-share-link'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'recap-share-link'
+- scrollUntilVisible:
+    element:
+      id: 'recap-share-stop'
+    direction: DOWN
+    timeout: 15000
+- takeScreenshot: ${LANG}-3m-1-share-link-live
+- tapOn:
+    id: 'recap-share-stop'
+- extendedWaitUntil:
+    notVisible:
+      id: 'recap-share-stop'
+    timeout: 15000
 - tapOn:
     id: 'recap-share-sheet-close'
 - waitForAnimationToEnd

@@ -12,6 +12,8 @@ export const RECAP_EVENT_TYPES = [
   'recap.award_opted_out',
   'memory.surfaced',
   'memory.reacted',
+  'recap_link.created',
+  'recap_link.revoked',
 ] as const;
 export type RecapEventType = (typeof RECAP_EVENT_TYPES)[number];
 
@@ -27,4 +29,7 @@ export const RECAP_EVENT_PAYLOADS = {
   /** A year-later memory reached one traveller, on their own clock (N-35 goes to them). */
   'memory.surfaced': z.object({ trip_id: z.uuid(), memory_id: z.uuid(), user_id: z.uuid() }),
   'memory.reacted': z.object({ trip_id: z.uuid(), memory_id: z.uuid(), user_id: z.uuid() }),
+  /** A traveller made the recap's public link, or it was switched off (never the token). */
+  'recap_link.created': recap.extend({ link_id: z.uuid() }),
+  'recap_link.revoked': recap.extend({ link_id: z.uuid() }),
 } as const;

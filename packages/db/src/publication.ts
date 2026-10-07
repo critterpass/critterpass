@@ -120,6 +120,8 @@ import * as schema from './schema';
  * `driver_plan_shares` and `driver_plan_replies` (packages/db/src/schema/plan-shares.ts) are read
  * over HTTP only: the share sheet and review changes fetch a trip's links and a driver's reply
  * when they open, and the link's sealed token must never replicate.
+ * `recap_links` (packages/db/src/schema/recap.ts) is read over HTTP only: the recap's share sheet
+ * asks for its live links when it opens, and a link's token hash must never replicate.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -172,6 +174,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'place_qna_summaries',
   'place_rating_stats',
   'plan_links',
+  'recap_links',
   'place_search_pace',
   'place_tips',
   'poi_embeddings',

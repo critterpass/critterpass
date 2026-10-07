@@ -22,6 +22,7 @@ import { PaywallView } from '../paywall/paywall-view';
 import { compareRows } from '../perks/perk-copy';
 import { WelcomeView } from '../welcome/welcome-view';
 import { BOOST_PERKS, NO_RESTORE, noop, PASS_PERKS, PERKS } from './lab-fixtures';
+import { CREW_SCENES } from './lab-scenes-crew';
 import { PLAN_SCENES } from './lab-scenes-plan';
 
 function offer(
@@ -201,7 +202,14 @@ function Boost(over: Partial<BoostInput>) {
   );
 }
 
-function Stamped({ boosted }: { readonly boosted: boolean }) {
+function Stamped({
+  boosted,
+  written = true,
+}: {
+  readonly boosted: boolean;
+  /** The split's shares are in Balances. */
+  readonly written?: boolean;
+}) {
   return (
     <StampedView
       boosted={boosted}
@@ -209,6 +217,11 @@ function Stamped({ boosted }: { readonly boosted: boolean }) {
       crew="The Bali Six"
       window="Apr 2–16"
       split
+      owing={
+        written ? ['Maya', 'Jordan', 'Rin', 'Dev', 'Alex'].map((name) => ({ uid: name, name })) : []
+      }
+      eachShare={written ? '$2' : null}
+      onTell={noop}
       onDone={noop}
     />
   );
@@ -265,6 +278,8 @@ export const MONETIZE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '4b-3-not-available': () => Boost({ products: { status: 'unavailable' } }),
   '4b-5-stamped': () => <Stamped boosted />,
   '4b-5-finishing': () => <Stamped boosted={false} />,
+  '4b-5-split-pending': () => <Stamped boosted written={false} />,
+  ...CREW_SCENES,
 };
 
 export const MONETIZE_SCENE_NAMES = Object.keys(MONETIZE_SCENES);

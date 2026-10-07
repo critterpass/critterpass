@@ -63,6 +63,10 @@ function isPass(subscription: Subscription): boolean {
   return subscription.productKey === 'pass_monthly' || subscription.productKey === 'pass_yearly';
 }
 
+function isAhead(iso: string, now: Date): boolean {
+  return Date.parse(iso) > now.getTime();
+}
+
 const NONE = {
   period: null,
   date: null,
@@ -80,6 +84,8 @@ export interface PlanInput {
   readonly passPlusUntil: string | null;
   /** The store on this phone; null where there is none. */
   readonly deviceStore: StorePlatform | null;
+  /** @default the device's clock */
+  readonly now?: Date;
 }
 
 export function planModel(input: PlanInput): PlanModel {
@@ -90,6 +96,20 @@ export function planModel(input: PlanInput): PlanModel {
 
   if (main === undefined || main.status === 'expired' || main.status === 'revoked') {
     if (passPlus) return { ...NONE, kind: 'granted', passPlus, date: input.passPlusUntil };
+    // The App Store has no pause: the plan was let lapse with a date to come back on, and until
+    // that date it reads as paused, not as over.
+    const resume = main?.status === 'expired' ? main.resumeAt : null;
+    if (main !== undefined && resume !== null && isAhead(resume, input.now ?? new Date())) {
+      return {
+        ...NONE,
+        kind: 'paused',
+        passPlus,
+        period: main.productKey === 'pass_yearly' ? 'yearly' : 'monthly',
+        platform: main.platform as StorePlatform,
+        manageHere: main.platform === input.deviceStore,
+        date: resume,
+      };
+    }
     return { ...NONE, kind: main?.status === 'expired' ? 'expired' : 'free', passPlus };
   }
 
@@ -144,6 +164,8 @@ export interface BoostLine {
   readonly source: 'purchase' | 'first_trip_free' | 'crew_year' | 'other';
   readonly on: boolean;
   readonly endsAt: string | null;
+  /** How many of the split's shares are settled; null when nothing is owed or not known here. */
+  readonly settled: { readonly done: number; readonly of: number } | null;
 }
 
 export interface BoostLineRow {
@@ -154,6 +176,9 @@ export interface BoostLineRow {
   readonly ends_at: string | null;
   readonly destination: string | null;
   readonly crew: string | null;
+  /** Crewmates with a share of the split, and how many of them have paid the buyer since. */
+  readonly owing?: number | null;
+  readonly settled?: number | null;
 }
 
 /** The boosts of the person's trips, running ones first. */
@@ -170,6 +195,10 @@ export function boostLines(rows: readonly BoostLineRow[]): BoostLine[] {
           : 'other',
       on: row.status === 'active' || row.status === 'scheduled',
       endsAt: row.ends_at,
+      settled:
+        (row.owing ?? 0) > 0
+          ? { done: Math.min(row.settled ?? 0, row.owing ?? 0), of: row.owing ?? 0 }
+          : null,
     }))
     .sort((a, b) => Number(b.on) - Number(a.on));
 }

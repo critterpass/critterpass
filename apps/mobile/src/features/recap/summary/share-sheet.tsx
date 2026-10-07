@@ -24,13 +24,15 @@ import {
   type ShareActionsDeps,
 } from '@/ui/share-image/share-actions';
 import { Sheet } from '@/ui/sheet/Sheet';
+import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { deviceShareDeps, renderRecapCard, SHARE_SIZE } from './share-card';
 import { headerEyebrow, headerTitle, tileCopy } from './summary-copy';
 import type { SummaryModel } from './summary-model';
 
-const PREVIEW_HEIGHT = 340;
+// Short enough that the actions under it stay on a small phone's screen.
+const PREVIEW_HEIGHT = 260;
 
 const useStyles = makeStyles((th) => ({
   frame: {
@@ -140,68 +142,76 @@ export function ShareSheetView(props: ShareSheetViewProps) {
       accessibilityLabel={props.title}
       testID="recap-share-sheet"
     >
-      <Stack gap="16" padding="16">
-        <Segmented
-          label={t({ id: 'recap.share.format', message: 'Picture shape' })}
-          segments={[
-            { value: 'story', label: t({ id: 'recap.share.story', message: 'Story' }) },
-            { value: 'post', label: t({ id: 'recap.share.post', message: 'Post' }) },
-          ]}
-          value={format}
-          onChange={setFormat}
-          testID="recap-share-format"
-        />
-        <View style={[styles.frame, { aspectRatio: size.w / size.h }]} testID="recap-share-preview">
-          {drawn.status === 'drawing' ? (
-            <ActivityIndicator
-              color={theme.semantic.text.primary}
-              accessibilityLabel={t({ id: 'recap.share.drawing', message: 'Drawing the picture' })}
-            />
-          ) : null}
-          {drawn.status === 'failed' ? (
-            <View style={styles.failed}>
-              <SecondaryText variant="body">
-                {t({ id: 'recap.share.failed', message: "The picture didn't draw." })}
-              </SecondaryText>
-              <TextLink
-                label={t({ id: 'recap.share.retry', message: 'Try again' })}
-                onPress={() => setAttempt((n) => n + 1)}
-                testID="recap-share-retry"
+      <SheetScrollView>
+        <Stack gap="16" padding="16">
+          <Segmented
+            label={t({ id: 'recap.share.format', message: 'Picture shape' })}
+            segments={[
+              { value: 'story', label: t({ id: 'recap.share.story', message: 'Story' }) },
+              { value: 'post', label: t({ id: 'recap.share.post', message: 'Post' }) },
+            ]}
+            value={format}
+            onChange={setFormat}
+            testID="recap-share-format"
+          />
+          <View
+            style={[styles.frame, { aspectRatio: size.w / size.h }]}
+            testID="recap-share-preview"
+          >
+            {drawn.status === 'drawing' ? (
+              <ActivityIndicator
+                color={theme.semantic.text.primary}
+                accessibilityLabel={t({
+                  id: 'recap.share.drawing',
+                  message: 'Drawing the picture',
+                })}
               />
-            </View>
-          ) : null}
-          {drawn.status === 'ready' ? (
-            <Image
-              source={{ uri: drawn.uri }}
-              style={styles.image}
-              resizeMode="cover"
-              accessibilityLabel={altText}
-              testID={`recap-share-image-${format}`}
+            ) : null}
+            {drawn.status === 'failed' ? (
+              <View style={styles.failed}>
+                <SecondaryText variant="body">
+                  {t({ id: 'recap.share.failed', message: "The picture didn't draw." })}
+                </SecondaryText>
+                <TextLink
+                  label={t({ id: 'recap.share.retry', message: 'Try again' })}
+                  onPress={() => setAttempt((n) => n + 1)}
+                  testID="recap-share-retry"
+                />
+              </View>
+            ) : null}
+            {drawn.status === 'ready' ? (
+              <Image
+                source={{ uri: drawn.uri }}
+                style={styles.image}
+                resizeMode="cover"
+                accessibilityLabel={altText}
+                testID={`recap-share-image-${format}`}
+              />
+            ) : null}
+          </View>
+          <Stack gap="10">
+            <PillButton
+              label={t({ id: 'recap.share.share', message: 'Share' })}
+              tone="yellow"
+              block
+              disabled={drawn.status !== 'ready'}
+              loading={busy === 'share'}
+              onPress={() => void run('share')}
+              testID="recap-share-send"
             />
-          ) : null}
-        </View>
-        <Stack gap="10">
-          <PillButton
-            label={t({ id: 'recap.share.share', message: 'Share' })}
-            tone="yellow"
-            block
-            disabled={drawn.status !== 'ready'}
-            loading={busy === 'share'}
-            onPress={() => void run('share')}
-            testID="recap-share-send"
-          />
-          <PillButton
-            label={t({ id: 'recap.share.save', message: 'Save to Photos' })}
-            variant="secondary"
-            block
-            disabled={drawn.status !== 'ready'}
-            loading={busy === 'save'}
-            onPress={() => void run('save')}
-            testID="recap-share-save"
-          />
-          {props.moreActions}
+            <PillButton
+              label={t({ id: 'recap.share.save', message: 'Save to Photos' })}
+              variant="secondary"
+              block
+              disabled={drawn.status !== 'ready'}
+              loading={busy === 'save'}
+              onPress={() => void run('save')}
+              testID="recap-share-save"
+            />
+            {props.moreActions}
+          </Stack>
         </Stack>
-      </Stack>
+      </SheetScrollView>
     </Sheet>
   );
 }

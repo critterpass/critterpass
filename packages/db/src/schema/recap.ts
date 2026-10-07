@@ -188,7 +188,26 @@ export const anniversaries = pgTable('anniversaries', {
   ...stamps(),
 });
 
+/**
+ * A recap's public links (`/rc/{token}`): read over HTTP by the recap's travellers, written by the
+ * link commands only, never synced.
+ */
+export const recapLinks = pgTable('recap_links', {
+  id: id(),
+  recapId: uuid('recap_id')
+    .notNull()
+    .references(() => recaps.id, { onDelete: 'cascade' }),
+  tripId: tripRef(),
+  /** sha256 of the link token; the token itself is never stored. */
+  tokenHash: text('token_hash').notNull().unique(),
+  createdBy: uuid('created_by').references(() => users.id, { onDelete: 'set null' }),
+  revokedAt: instant('revoked_at'),
+  revokedBy: uuid('revoked_by').references(() => users.id, { onDelete: 'set null' }),
+  ...stamps(),
+});
+
 registerTablePrivacy('recaps', { class: 'C1' });
+registerTablePrivacy('recap_links', { class: 'C2', columns: { token_hash: 'C3' } });
 registerTablePrivacy('recap_views', { class: 'C2' });
 registerTablePrivacy('recap_awards', { class: 'C1' });
 registerTablePrivacy('recap_mvp_votes', { class: 'C2' });
@@ -228,6 +247,7 @@ registerMergeRule({
   strategy: 'reassign',
   conflictColumns: ['memory_id'],
 });
+registerMergeRule({ table: 'recap_links', userColumn: 'created_by', strategy: 'reassign' });
 registerMergeRule({
   table: 'anniversaries',
   userColumn: 'user_id',

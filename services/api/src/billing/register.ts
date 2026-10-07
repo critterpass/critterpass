@@ -5,7 +5,7 @@
  * worker's billing jobs call. Secrets come from the environment and are never logged.
  */
 import { onEventAppended, withSystem } from '@cp/db';
-import { DomainError } from '@cp/domain';
+import { DomainError, registerNotificationTrigger } from '@cp/domain';
 import { BILLING_TRIP_LOADERS, BILLING_USER_LOADERS, type RunQuery } from '@cp/entitlements';
 import type { Hono } from 'hono';
 import type pg from 'pg';
@@ -63,6 +63,8 @@ export const runOn =
 export function registerBillingSources(): void {
   if (sourcesRegistered) return;
   sourcesRegistered = true;
+  // A member's purchase boosting a trip is told to the rest of the crew (the worker composes it).
+  registerNotificationTrigger('boost.activated', 'boost_activated');
   registerPurchaseHandler('boost_trip', {
     fulfil: activateBoostPurchase,
     revoke: revokeBoostPurchase,
