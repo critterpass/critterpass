@@ -23,7 +23,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import type { RestoreState } from '../data/use-billing';
 import { useRestoreLine } from '../paywall/purchase-copy';
 import { PinkLink } from './pink-link';
-import { usePlanDate, usePlanLine } from './plan-copy';
+import { useBoostLine, usePlanDate, usePlanLine } from './plan-copy';
 import type { BoostLine, PlanModel } from './plan-model';
 
 export interface PlanViewProps {
@@ -57,6 +57,7 @@ export function PlanView(props: PlanViewProps) {
   const theme = useTheme();
   const planLine = usePlanLine();
   const planDate = usePlanDate();
+  const boostLine = useBoostLine();
   const restoreLine = useRestoreLine();
   const { plan } = props;
   const restored = restoreLine(props.restore);
@@ -213,22 +214,7 @@ export function PlanView(props: PlanViewProps) {
             <Text variant="eyebrow">{t({ id: 'monetize.plan.boosts', message: 'BOOSTS' })}</Text>
             <View style={styles.boosts} testID="plan-boosts">
               {props.boosts.map((boost, index) => {
-                const until = planDate(boost.endsAt);
-                const kind =
-                  boost.source === 'first_trip_free'
-                    ? t({ id: 'monetize.plan.boost.ftf', message: 'First trip free' })
-                    : boost.source === 'crew_year'
-                      ? t({ id: 'monetize.plan.boost.year', message: 'Crew yearly boost' })
-                      : t({ id: 'monetize.plan.boost.trip', message: 'Trip Boost' });
-                const window =
-                  until === null
-                    ? kind
-                    : boost.on
-                      ? t({
-                          id: 'monetize.plan.boost.onUntil',
-                          message: `${kind} · on until ${until}`,
-                        })
-                      : t({ id: 'monetize.plan.boost.ended', message: `${kind} · ended ${until}` });
+                const window = boostLine(boost);
                 return (
                   <View key={boost.id}>
                     {index > 0 ? <View style={styles.divider} /> : null}

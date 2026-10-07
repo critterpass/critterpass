@@ -100,6 +100,36 @@ describe('planModel', () => {
     ).toMatchObject({ kind: 'paused', date: '2027-03-02T00:00:00Z', canCancel: false });
   });
 
+  it('a plan let lapse with a date to come back on reads as paused until that date', () => {
+    const lapsed = [
+      sub({
+        status: 'expired',
+        platform: 'app_store',
+        productKey: 'pass_monthly',
+        autoRenew: false,
+        resumeAt: '2027-03-02T00:00:00Z',
+      }),
+    ];
+    const before = new Date('2027-02-01T00:00:00Z');
+    expect(
+      plan({ subscriptions: lapsed, passPlus: false, deviceStore: 'app_store', now: before }),
+    ).toMatchObject({
+      kind: 'paused',
+      date: '2027-03-02T00:00:00Z',
+      period: 'monthly',
+      platform: 'app_store',
+      manageHere: true,
+      passPlus: false,
+      canPause: false,
+      canCancel: false,
+      hasIssue: false,
+    });
+    // Past the date it is simply over, and Pass+ from anywhere else still wins.
+    const after = new Date('2027-03-03T00:00:00Z');
+    expect(plan({ subscriptions: lapsed, passPlus: false, now: after }).kind).toBe('expired');
+    expect(plan({ subscriptions: lapsed, passPlus: true, now: before }).kind).toBe('granted');
+  });
+
   it('an expired plan with no other Pass+ reads as expired; with a grant it reads as granted', () => {
     const expired = [sub({ status: 'expired' })];
     expect(plan({ subscriptions: expired, passPlus: false, passPlusUntil: null }).kind).toBe(
@@ -194,5 +224,28 @@ describe('when a pause before a trip ends', () => {
 
   it('is nothing when the trip is less than a month away', () => {
     expect(pauseResumeDate(new Date('2026-12-01T00:00:00Z'), now)).toBeNull();
+  });
+
+  it('counts a split’s settled shares, and says nothing when no share is owed', () => {
+    const row = {
+      trip_id: 't1',
+      source: 'purchase',
+      status: 'active',
+      ends_at: null,
+      destination: 'Kyoto',
+      crew: null,
+    };
+    const lines = boostLines([
+      { ...row, id: 'split', owing: 5, settled: 2 },
+      { ...row, id: 'over', owing: 2, settled: 3 },
+      { ...row, id: 'covered', owing: 0, settled: 0 },
+      { ...row, id: 'unknown' },
+    ]);
+    expect(lines.map((line) => [line.id, line.settled])).toEqual([
+      ['split', { done: 2, of: 5 }],
+      ['over', { done: 2, of: 2 }],
+      ['covered', null],
+      ['unknown', null],
+    ]);
   });
 });
