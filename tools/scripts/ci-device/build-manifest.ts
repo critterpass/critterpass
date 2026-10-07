@@ -34,7 +34,7 @@ const PROFILE_SETTINGS: Record<BuildProfile, { environment: string; variant: str
 export type BuildManifest = {
   profile: BuildProfile;
   platform: DevicePlatform;
-  /** The native fingerprint hash: the runtime version updates target. */
+  /** The native fingerprint hash (see {@link nativeFingerprint}). */
   fingerprint: string;
   commit: string;
   appVersion: string | null;
@@ -131,8 +131,9 @@ function bakedRuntimeVersion(artifact: string): string | undefined {
  * eas-cli in apps/mobile as the profile's app variant. pnpm scripts export a NODE_PATH that adds
  * `web` to the Expo config and so changes the fingerprint; the child runs without it.
  */
-export function eas(args: string, profile: BuildProfile): unknown {
+export function eas(args: string, profile: BuildProfile, without: string[] = []): unknown {
   const { NODE_PATH: _nodePath, ...inherited } = process.env;
+  for (const name of without) delete inherited[name];
   const cli = process.env.EAS_CLI ?? 'eas-cli';
   const result = spawnSync('npx', ['--yes', cli, ...args.split(' ')], {
     cwd: MOBILE_DIR,
@@ -146,12 +147,20 @@ export function eas(args: string, profile: BuildProfile): unknown {
   return parseEasJson(result.stdout);
 }
 
-/** The native fingerprint of the checked-out commit for one profile; needs EXPO_TOKEN. */
+/**
+ * The native fingerprint of the checked-out commit for one profile; needs EXPO_TOKEN.
+ *
+ * For a store profile it is the runtime version updates target, Firebase config included. For
+ * e2e-test it is only the key device runs look a build up by, and they compute it in a job that
+ * has no Firebase config (GitHub masks every line of that secret, which would blank the job's JSON
+ * outputs), so the config is left out here too.
+ */
 export function nativeFingerprint(platform: DevicePlatform, profile: BuildProfile): string {
   const { environment } = PROFILE_SETTINGS[profile];
   const result = eas(
     `fingerprint:generate --platform ${platform} --environment ${environment} --json`,
     profile,
+    profile === 'e2e-test' ? ['GOOGLE_SERVICES_JSON'] : [],
   );
   const hash = (result as { hash?: unknown }).hash;
   if (typeof hash !== 'string') throw new Error('eas fingerprint:generate returned no hash');
@@ -236,8 +245,9 @@ function main(): void {
       `the binary's runtime version ${runtimeVersion} is not the fingerprint ${fingerprint} that ` +
       'eas-cli computes here: updates published from this commit would not reach this build';
     if (profile !== 'e2e-test') throw new Error(message);
-    // Device runs swap their own JS into e2e-test builds, with updates off.
-    console.log(`::warning::${message}`);
+    // Expected on Android (the lookup key leaves the Firebase config out), and harmless: device
+    // runs swap their own JS into e2e-test builds, with updates off.
+    console.log(`e2e-test: ${message}`);
   }
 }
 

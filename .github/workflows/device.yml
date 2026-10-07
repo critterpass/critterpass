@@ -217,16 +217,7 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
           OVERRIDE: ${{ steps.settings.outputs.build_url }}
-          # The Android fingerprint hashes the Firebase config's contents; the build was made with
-          # this secret's (native-build-job.yml), so the lookup hashes the same file.
-          GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
-        run: |
-          if [ -n "$GOOGLE_SERVICES_JSON_CONTENT" ]; then
-            printf '%s' "$GOOGLE_SERVICES_JSON_CONTENT" > "$RUNNER_TEMP/google-services.json"
-            export GOOGLE_SERVICES_JSON=$RUNNER_TEMP/google-services.json
-          fi
-          trap 'rm -f "$RUNNER_TEMP/google-services.json"' EXIT
-          pnpm exec tsx tools/scripts/ci-device/resolve-build.ts --platform android --override "$OVERRIDE"
+        run: pnpm exec tsx tools/scripts/ci-device/resolve-build.ts --platform android --override "$OVERRIDE"
       - name: Plan iOS shards
         id: ios_shards
         if: steps.settings.outputs.ios == 'true'

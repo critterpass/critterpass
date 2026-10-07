@@ -117,8 +117,8 @@ jobs:
       - name: Secret files
         env:
           # Android's runtime version (the native fingerprint) hashes the Firebase config's
-          # contents, and EAS does not hand its file variable to a build that runs here. Device runs
-          # and the staging-update workflow compute the fingerprint from the same secret.
+          # contents, and EAS does not hand its file variable to a build that runs here. The
+          # staging-update workflow computes the fingerprint from the same secret.
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
           FIREBASE_CONFIG_PRODUCTION: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION }}
           # App Store Connect API key, so eas-cli can sync capabilities and provisioning profiles

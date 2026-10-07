@@ -82,8 +82,9 @@ exists it stops (it never falls back to another build), says how to make one, an
 EAS build's URL to pass as `build_url` if its native code still fits. A branch that changes native
 code needs its own build first; a JS-only branch reuses main's.
 
-The Android fingerprint hashes the Firebase config, so both the build and the lookup write it from
-the `GOOGLE_SERVICES_JSON_CONTENT` secret.
+The lookup fingerprint of an e2e-test build leaves the Firebase config out on both sides (the
+prepare job has no such secret), so on Android it is not the runtime version baked into the APK;
+the manifest lists both. Device runs install their own JS with updates off, so that never matters.
 
 Scheduled runs (the nightly sweep and the daily release gate) have no `build_url` input. The repo
 variable `DEVICE_SCHEDULED_ANDROID_BUILD_URL` names an `.apk` they install instead of the matching
