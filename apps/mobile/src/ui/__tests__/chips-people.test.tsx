@@ -24,6 +24,7 @@ import { EmptySeat } from '../people/EmptySeat';
 import { GuideLine } from '../people/GuideLine';
 import { LiveSticker } from '../people/LiveSticker';
 import { BLINK_CLOSED_MS, BLINK_MIN_GAP_MS, useBlink } from '../people/use-blink';
+import { EmptyState } from '../states/EmptyState';
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { createCanvasKitEngine, createMemoryStickerCache } from '../test-support/canvaskit-engine';
 import { renderUi } from '../test-support/render';
@@ -118,6 +119,22 @@ describe('people', () => {
     expect(screen.getByLabelText('Pon: Beat the buses.')).toBeTruthy();
     const voice = screen.getByText('Beat the buses.', { includeHiddenElements: true });
     expect(JSON.stringify(voice.props.style)).toContain(tokens.guide.onPaper.pon);
+  });
+
+  it('writes a guide line in the card ink on a colour card, never in the guide colour', async () => {
+    await renderUi(
+      <SurfaceToneProvider value="accent">
+        <GuideLine guide="tokek" name="Tokek" line="Nothing here yet." />
+        <EmptyState guide="tokek" guideName="Tokek" title="No trips yet" line="Start one." />
+      </SurfaceToneProvider>,
+    );
+    for (const line of ['Nothing here yet.', 'Start one.']) {
+      const style = JSON.stringify(
+        screen.getByText(line, { includeHiddenElements: true }).props.style,
+      );
+      expect(style).toContain(tokens.semantic.text.onAccent);
+      expect(style).not.toContain(tokens.guide.tokek);
+    }
   });
 });
 
