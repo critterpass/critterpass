@@ -18,7 +18,8 @@ import { Tag } from '@/ui/plan/ActionPill';
 import { PressScale } from '@/ui/press/PressScale';
 import { PermissionCard } from '@/ui/states/PermissionCard';
 
-import { menuStickers, showsFlags, type MenuIssue, type MenuScanState } from './menu-scan';
+import { useIssueLine } from './menu-issue-line';
+import { menuStickers, showsFlags, type MenuScanState } from './menu-scan';
 import { MenuStickers } from './menu-stickers';
 
 export interface MenuFollowUp {
@@ -36,6 +37,10 @@ export interface CameraViewProps {
   /** The still that was read (the photo; a drawn menu in the lab). */
   readonly still: ReactNode;
   readonly followUps: readonly MenuFollowUp[];
+  /** "Indonesian → English": the menu's language and the reader's, once the guide told it. */
+  readonly languages?: string | null;
+  /** The order card, while the person is putting an order together. */
+  readonly order?: ReactNode;
   readonly onScan: () => void;
   readonly onRetake: () => void;
   /** "Ask about this menu": the question goes to the guide with the dishes. */
@@ -86,58 +91,6 @@ const useStyles = makeStyles((t) => ({
   composer: { paddingHorizontal: t.space['12'] },
 }));
 
-function useIssueLine(issue: MenuIssue | null, guideName: string): string | null {
-  const { t } = useLingui();
-  switch (issue) {
-    case null:
-    case 'camera_denied':
-      return null;
-    case 'no_camera':
-      return t({
-        id: 'guide.camera.noCamera',
-        message: `The camera isn't available here. Type what's on the menu and ${guideName} will translate it in the chat.`,
-      });
-    case 'capture_failed':
-      return t({ id: 'guide.camera.captureFailed', message: "That photo didn't take. Try again." });
-    case 'no_text':
-      return t({
-        id: 'guide.camera.noText',
-        message: "I can't find any writing. Move closer, into better light, and try again.",
-      });
-    case 'unsupported_script':
-      return t({
-        id: 'guide.camera.unsupportedScript',
-        message: "This phone can't read that script yet. Type a dish name and I'll explain it.",
-      });
-    case 'offline':
-      return t({
-        id: 'guide.camera.offline',
-        message: `You're offline, so ${guideName} can't translate this yet. The photo stays here; try again when you're back online.`,
-      });
-    case 'quota':
-      return t({
-        id: 'guide.camera.quota',
-        message: `That's today's questions used up. ${guideName} is back after midnight; the chat shows your options.`,
-      });
-    case 'fair_use':
-      return t({
-        id: 'guide.camera.fairUse',
-        message: `${guideName} has read a lot of menus today and picks it up again tomorrow.`,
-      });
-    case 'no_dishes':
-      return t({
-        id: 'guide.camera.noDishes',
-        message:
-          "I can read the words, but I don't see any dishes. It wasn't counted. Try the menu page itself.",
-      });
-    case 'failed':
-      return t({
-        id: 'guide.camera.failed',
-        message: "The translation didn't come through, and it wasn't counted. Try again.",
-      });
-  }
-}
-
 export function CameraView(props: CameraViewProps) {
   const { state } = props;
   const styles = useStyles();
@@ -159,6 +112,7 @@ export function CameraView(props: CameraViewProps) {
             id: 'guide.camera.aim',
             message: "Point me at a menu and I'll put it in your words.",
           }));
+  const ordering = state.phase === 'result' && state.reading !== null && props.order !== undefined;
   const ask = () => {
     const question = draft.trim();
     if (question === '') return;
@@ -182,6 +136,15 @@ export function CameraView(props: CameraViewProps) {
             label={t({ id: 'guide.camera.title', message: 'Point and ask' })}
             color={theme.semantic.action.primary}
           />
+          {state.phase !== 'result' || !props.languages ? null : (
+            <View testID="guide-camera-languages">
+              <Tag
+                label={upper(props.languages, i18n.locale)}
+                color={theme.semantic.bg.raised}
+                textColor={theme.semantic.text.primary}
+              />
+            </View>
+          )}
         </Row>
       </View>
       <View style={styles.panel}>
@@ -237,7 +200,11 @@ export function CameraView(props: CameraViewProps) {
             />
           ) : null}
         </Stack>
-        {state.phase === 'result' && state.reading !== null && props.followUps.length > 0 ? (
+        {ordering ? <View style={styles.inset}>{props.order}</View> : null}
+        {!ordering &&
+        state.phase === 'result' &&
+        state.reading !== null &&
+        props.followUps.length > 0 ? (
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -258,7 +225,7 @@ export function CameraView(props: CameraViewProps) {
             ))}
           </ScrollView>
         ) : null}
-        {state.phase === 'result' ? (
+        {ordering ? null : state.phase === 'result' ? (
           <Stack gap="8">
             {state.reading === null ? null : (
               <View style={styles.composer}>
