@@ -58,3 +58,87 @@ export function acceptTaggedLine(original: string, tagged: string): string | nul
   if (!tags.every((tag) => VOICE_TAGS.includes(tag))) return null;
   return stripVoiceTags(tagged) === tidy(original) ? tidy(tagged) : null;
 }
+
+/** At most this many tags in one live spoken reply. */
+export const VOICE_TAGS_PER_REPLY = 2;
+
+export interface VoiceTagStripper {
+  /** Adds streamed text; returns what of it can be shown so far, tags taken out. */
+  push(text: string): string;
+  /** The end of the text: whatever was held back and turned out not to be a tag. */
+  flush(): string;
+}
+
+const BRACKETED: readonly string[] = VOICE_TAGS.map((tag) => `[${tag}]`);
+const CLOSES_A_PAUSE = /[\s.,!?;:…]/u;
+
+/**
+ * Takes the audio tags out of text as it streams, for the words shown beside a spoken reply. Only
+ * the tags on the list go, so any other bracket ("[sic]") is shown as written. Text from a `[` is
+ * held until it is a whole tag or can no longer become one, and the space before it is held with
+ * it, so half a tag never shows and no doubled or stray space is left where a tag was.
+ */
+export function createVoiceTagStripper(): VoiceTagStripper {
+  let space = '';
+  let held = '';
+  let afterTag = false;
+  let last: string | null = null;
+  let out = '';
+  const emit = (text: string) => {
+    if (text === '') return;
+    out += text;
+    last = text.at(-1) ?? last;
+  };
+  const plain = (ch: string) => {
+    if (ch === '[') {
+      held = ch;
+    } else if (/\s/u.test(ch)) {
+      // The space after a tag stands in for the one before it; a reply never starts with one.
+      if (!afterTag) space += ch;
+      else if (space === '' && last !== null) space = ch;
+      afterTag = false;
+    } else {
+      if (afterTag && CLOSES_A_PAUSE.test(ch)) space = '';
+      afterTag = false;
+      emit(space + ch);
+      space = '';
+    }
+  };
+  const take = (ch: string) => {
+    if (held === '') return plain(ch);
+    const candidate = held + ch;
+    if (BRACKETED.includes(candidate)) {
+      held = '';
+      afterTag = true;
+    } else if (BRACKETED.some((tag) => tag.startsWith(candidate))) {
+      held = candidate;
+    } else {
+      // Not a tag after all: it is shown as written, and this character starts afresh.
+      const shown = space + held;
+      space = '';
+      held = '';
+      afterTag = false;
+      emit(shown);
+      plain(ch);
+    }
+  };
+  const drain = () => {
+    const text = out;
+    out = '';
+    return text;
+  };
+  return {
+    push(text) {
+      for (const ch of text) take(ch);
+      return drain();
+    },
+    flush() {
+      if (held !== '') emit(space + held);
+      else if (!afterTag) emit(space);
+      space = '';
+      held = '';
+      afterTag = false;
+      return drain();
+    },
+  };
+}

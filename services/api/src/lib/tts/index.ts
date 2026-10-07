@@ -7,7 +7,9 @@ export {
 export { speakReply, type AudioChunk, type VoiceReplyOptions } from './voice-reply';
 export {
   speakTurn,
+  spokenTags,
   voiceTurnDepsFromEnv,
+  type SpokenTags,
   type SpokenTurnOptions,
   type VoiceTurnDeps,
 } from './voice-turn';

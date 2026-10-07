@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { acceptTaggedLine, stripVoiceTags, tagRecapNarration, voiceTagsIn } from '../src';
+import {
+  acceptTaggedLine,
+  buildGuideChatRequest,
+  createVoiceTagStripper,
+  resolvePersonaPack,
+  stripVoiceTags,
+  tagRecapNarration,
+  voiceTagsIn,
+} from '../src';
 
 const LINE = 'Đà Nẵng, 3 ngày: cả nhóm đã ký con dấu, và Chà Vá vẫn trốn ở Sơn Trà.';
 const TAGGED =
@@ -48,6 +56,65 @@ describe('voice tags', () => {
       acceptTaggedLine('The crew signed.', '[warmly] The [softly] crew [gently] signed [sighs].'),
     ).toBe(null);
     expect(acceptTaggedLine('The crew signed.', 'The crew signed.')).toBe(null);
+  });
+});
+
+/** What the screen gets from `pieces` streamed one by one, and the pieces as they came out. */
+function streamed(pieces: readonly string[]) {
+  const stripper = createVoiceTagStripper();
+  const shown = [...pieces.map((piece) => stripper.push(piece)), stripper.flush()];
+  return { shown, text: shown.join('') };
+}
+
+describe('voice tags in a streamed reply', () => {
+  it('never shows half a tag that is split across pieces', () => {
+    const { shown, text } = streamed([
+      'Chào cả nhà! [exc',
+      'ited] Hôm nay ',
+      'trời đẹp. [chu',
+      'ck',
+      'les] Đi thôi!',
+    ]);
+    expect(text).toBe('Chào cả nhà! Hôm nay trời đẹp. Đi thôi!');
+    expect(shown.some((piece) => piece.includes('[') || piece.includes(']'))).toBe(false);
+    // One character at a time is the worst split there is.
+    const tagged = '[warmly] Xin chào [laughs]. Mai gặp ở Hội An [softly] nhé!';
+    const single = streamed([...tagged]);
+    expect(single.text).toBe('Xin chào. Mai gặp ở Hội An nhé!');
+    expect(single.shown.some((piece) => piece.includes('['))).toBe(false);
+  });
+
+  it('shows every other bracket as written, whole or split', () => {
+    expect(streamed(['The sign says "teh [s', 'ic] beach" [laughs] really.']).text).toBe(
+      'The sign says "teh [sic] beach" really.',
+    );
+    expect(streamed(['Bus [12] or [[excited] the [excitedly] one']).text).toBe(
+      'Bus [12] or [ the [excitedly] one',
+    );
+    // A reply that ends inside a bracket keeps it.
+    expect(streamed(['See the list [exc']).text).toBe('See the list [exc');
+  });
+
+  it('leaves text without tags exactly as it came', () => {
+    const pieces = ['Line one.\n\n', '- 08:30  pier\n', '- 09:15 market  '];
+    expect(streamed(pieces).text).toBe(pieces.join(''));
+  });
+});
+
+describe('the guide chat prompt', () => {
+  const base = {
+    pack: resolvePersonaPack('tokek'),
+    tripContext: undefined,
+    history: [],
+    question: 'Mai mưa không?',
+    directives: { chattiness: 'normal', locale: 'vi' },
+  } as const;
+
+  it('offers audio tags only for a reply that is spoken', () => {
+    expect(JSON.stringify(buildGuideChatRequest(base))).not.toContain('[chuckles]');
+    const spoken = JSON.stringify(buildGuideChatRequest({ ...base, spoken: true }).messages);
+    expect(spoken).toContain('[chuckles]');
+    expect(spoken).toContain('at most 2');
   });
 });
 
