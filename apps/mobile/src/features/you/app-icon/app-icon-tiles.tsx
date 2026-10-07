@@ -19,6 +19,7 @@ import type { IconChoice } from './picker-model';
 
 const TILE = 68;
 const EARNED_TILE = 46;
+const EARNED_NAME_MIN_SIZE = 7;
 /** iOS rounds icons to about this share of their width. */
 export const APP_ICON_CORNER = 0.225;
 const CORNER = APP_ICON_CORNER;
@@ -114,6 +115,9 @@ export function Tiles(props: {
             <Text
               variant="eyebrow"
               numberOfLines={1}
+              // The earned row is six narrow columns (3n-5): a name shrinks to its column, never cut.
+              autoFit={compact}
+              autoFitMinSize={compact ? EARNED_NAME_MIN_SIZE : undefined}
               color={locked ? theme.semantic.text.secondary : theme.semantic.text.primary}
             >
               {upper(name, locale)}
