@@ -5,7 +5,8 @@
  * and its cached card is deleted, and an internal id (not a code) never resolves. A plan card is
  * keyed by its plan link's token and checked the same way: a revoked link or a plan taken down
  * answers 404 and loses its cached card. Public kinds
- * (tip, and page for a site page with a card of its own) are keyed by their public slug. Every card is drawn once per content digest and kept in R2;
+ * (tip, locals, and page for a site page with a card of its own) are keyed by their public slug.
+ * Every card is drawn once per content digest and kept in R2;
  * any failure falls back to the site card.
  */
 import { parseLinkPath, type LinkTarget } from '@cp/domain';
@@ -20,7 +21,7 @@ import { renderCard, type AssetLoader } from './render';
 export const OG_TEMPLATE_VERSION = '1';
 
 export const PRIVATE_OG_KINDS = ['invite', 'referral', 'plan'] as const;
-export const PUBLIC_OG_KINDS = ['tip', 'page'] as const;
+export const PUBLIC_OG_KINDS = ['tip', 'locals', 'page'] as const;
 
 export interface OgEnv {
   readonly OG_CACHE?: OgBucket;
