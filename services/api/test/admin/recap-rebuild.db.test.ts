@@ -45,7 +45,7 @@ afterAll(async () => {
   await harness?.stop();
 });
 
-/** An ended trip with a recap in `status` (a `ready` one has its numbers and words). */
+/** A trip with a recap in `status` (a `ready` one has its numbers and words). */
 async function recap(status: 'ready' | 'failed'): Promise<{ recapId: string; tripId: string }> {
   return withSystem(harness.pool, async (tx) => {
     const { rows: crews } = await tx.query<{ id: string }>(
@@ -53,7 +53,7 @@ async function recap(status: 'ready' | 'failed'): Promise<{ recapId: string; tri
     );
     const crewId = crews[0]!.id;
     const { rows: trips } = await tx.query<{ id: string }>(
-      "INSERT INTO trips (crew_id, status) VALUES ($1, 'post_trip') RETURNING id",
+      "INSERT INTO trips (crew_id, status) VALUES ($1, 'voting') RETURNING id",
       [crewId],
     );
     const tripId = trips[0]!.id;
