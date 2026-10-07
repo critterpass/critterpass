@@ -37,6 +37,7 @@ import {
 import { seatTokenHash } from '../commands/invites/deps';
 import { enforce, PREVIEW_PER_IP_RULE, visitorOf } from './links';
 import { registerPublicLocalsRoute } from './public-locals';
+import { registerPublicCatalogRoutes } from './public-catalog';
 import { asPublicReader, type PublicScope } from './public-reader';
 
 export interface PublicPreviewRouteDeps extends CommandDoorDeps {
@@ -132,6 +133,7 @@ export function registerPublicPreviewRoutes(
   app: OpenAPIHono<AppEnv>,
   deps: PublicPreviewRouteDeps,
 ): void {
+  registerPublicCatalogRoutes(app, deps);
   // Before the link kinds below, whose `{kind}` would otherwise claim the address.
   registerPublicLocalsRoute(app, deps);
   app.openapi(

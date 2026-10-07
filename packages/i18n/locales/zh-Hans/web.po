@@ -99,6 +99,10 @@ msgstr "{name} 正在 {place} 给你占座。"
 msgid "web.locals.photoAlt"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passMonthly"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
 msgstr ""
@@ -223,6 +227,10 @@ msgstr "一只马赛克蝾螈，正在 {place} 等你。"
 msgid "web.comingSoon.hatch.local.roucou"
 msgstr "一只戴贝雷帽的鸽子，正在 {place} 等你。"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassPostcard"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
 msgstr ""
@@ -234,6 +242,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
 msgstr "一只地铁老鼠，正在 {place} 等你。"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripBody"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -261,6 +273,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.membersLabel"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePrice"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -321,6 +337,14 @@ msgstr "即将登机"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassMailbox"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.aside"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -459,6 +483,10 @@ msgstr ""
 msgid "web.plan.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostSeats"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleTop"
 msgstr ""
@@ -489,6 +517,10 @@ msgstr "CritterPass 是一款结伴旅行规划应用，即将登陆 iOS 和 And
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageDescription"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -607,6 +639,14 @@ msgstr ""
 msgid "web.home.insideLocalBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeCritters"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
 msgstr ""
@@ -614,6 +654,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.referralBody"
 msgstr "每有一位朋友通过你的链接加入，你就前进 100 位。邀请三位朋友，就能进入首批。"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassIcons"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.title"
@@ -675,6 +719,10 @@ msgstr "首批 · 还剩 {count} 个座位"
 msgid "web.comingSoon.final.seats"
 msgstr "首批 · {seats} 个座位"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFlights"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
 msgstr ""
@@ -687,12 +735,32 @@ msgstr ""
 msgid "web.comingSoon.footer.follow"
 msgstr "关注当地朋友 →"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passFor"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardHeadline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.title"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -1027,6 +1095,14 @@ msgstr ""
 msgid "web.comingSoon.search.empty"
 msgstr "没有找到这个名字的地方，换个写法试试。"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNoSponsored"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostNoSponsored"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -1045,6 +1121,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeOffline"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -1071,12 +1151,20 @@ msgstr ""
 msgid "web.comingSoon.form.note"
 msgstr "上线时发一封邮件，最多两封，绝不骚扰。"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPrice"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passYearly"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -1111,9 +1199,21 @@ msgstr ""
 msgid "web.referral.coverLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardPass"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.pickPlace"
 msgstr "请从列表里选一个地方，或者清空搜索。"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassReadOut"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.results"
@@ -1149,6 +1249,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPriceNote"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.footnote"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -1303,6 +1411,10 @@ msgstr ""
 msgid "web.home.insideVoteTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.terms"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planRowSunset"
 msgstr "乌鲁瓦图看日落"
@@ -1387,6 +1499,10 @@ msgstr ""
 msgid "web.tips.emptyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostLiveMap"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
 msgstr ""
@@ -1401,6 +1517,10 @@ msgstr "当地朋友们还在收拾行李。"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNextFlight"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -1507,6 +1627,10 @@ msgstr "合计"
 msgid "web.plan.travelled"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
 msgstr ""
@@ -1521,6 +1645,18 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.unknown"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostRedrafts"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1543,6 +1679,10 @@ msgstr ""
 msgid "web.home.mockBookingsFlightMeta"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePlan"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.waitlist"
 msgstr "候补名单 · 首批"
@@ -1553,6 +1693,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatVoice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.eyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -1627,6 +1775,10 @@ msgstr "you@email.com"
 msgid "web.invite.joinEyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.emailLabel"
 msgstr "你的邮箱"
@@ -1658,3 +1810,7 @@ msgstr "你的当地朋友"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"
 msgstr "你的排队位置"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeKept"
+msgstr ""

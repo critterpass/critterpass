@@ -99,6 +99,10 @@ msgstr "{place}에 자리 맡아 뒀어요 — {name}"
 msgid "web.locals.photoAlt"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passMonthly"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
 msgstr ""
@@ -223,6 +227,10 @@ msgstr "{place}에서 기다리고 있는 모자이크 도롱뇽."
 msgid "web.comingSoon.hatch.local.roucou"
 msgstr "{place}에서 기다리고 있는 베레모 쓴 비둘기."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassPostcard"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
 msgstr ""
@@ -234,6 +242,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
 msgstr "{place}에서 기다리고 있는 지하철 쥐."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripBody"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -261,6 +273,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.membersLabel"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePrice"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -321,6 +337,14 @@ msgstr "곧 탑승"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassMailbox"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.aside"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -459,6 +483,10 @@ msgstr ""
 msgid "web.plan.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostSeats"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleTop"
 msgstr ""
@@ -489,6 +517,10 @@ msgstr "CritterPass는 iOS와 Android에 곧 출시될 단체 여행 플래너�
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageDescription"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -607,6 +639,14 @@ msgstr ""
 msgid "web.home.insideLocalBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeCritters"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
 msgstr ""
@@ -614,6 +654,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.referralBody"
 msgstr "내 링크로 친구가 등록할 때마다 순번이 100칸 올라가요. 친구 세 명이면 1차 탑승 확정이에요."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassIcons"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.title"
@@ -675,6 +719,10 @@ msgstr "1차 탑승 · {count}석 남음"
 msgid "web.comingSoon.final.seats"
 msgstr "1차 탑승 · {seats}석"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFlights"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
 msgstr ""
@@ -687,12 +735,32 @@ msgstr ""
 msgid "web.comingSoon.footer.follow"
 msgstr "현지 친구들 팔로우 →"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passFor"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardHeadline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.title"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -1027,6 +1095,14 @@ msgstr ""
 msgid "web.comingSoon.search.empty"
 msgstr "그런 이름의 장소가 없어요. 다른 철자로 검색해 보세요."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNoSponsored"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostNoSponsored"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -1045,6 +1121,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeOffline"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -1071,12 +1151,20 @@ msgstr ""
 msgid "web.comingSoon.form.note"
 msgstr "출시할 때 메일 한 통. 많아야 두 통. 스팸은 절대 없어요."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPrice"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passYearly"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -1111,9 +1199,21 @@ msgstr ""
 msgid "web.referral.coverLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardPass"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.pickPlace"
 msgstr "목록에서 장소를 고르거나 검색어를 지워 주세요."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassReadOut"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.results"
@@ -1149,6 +1249,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPriceNote"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.footnote"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -1303,6 +1411,10 @@ msgstr ""
 msgid "web.home.insideVoteTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.terms"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planRowSunset"
 msgstr "울루와뚜 일몰"
@@ -1387,6 +1499,10 @@ msgstr ""
 msgid "web.tips.emptyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostLiveMap"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
 msgstr ""
@@ -1401,6 +1517,10 @@ msgstr "현지 친구들은 아직 짐 싸는 중."
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNextFlight"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -1507,6 +1627,10 @@ msgstr "합계"
 msgid "web.plan.travelled"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
 msgstr ""
@@ -1521,6 +1645,18 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.unknown"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostRedrafts"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1543,6 +1679,10 @@ msgstr ""
 msgid "web.home.mockBookingsFlightMeta"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePlan"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.waitlist"
 msgstr "대기 명단 · 1차 탑승"
@@ -1553,6 +1693,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatVoice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.eyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -1627,6 +1775,10 @@ msgstr "you@email.com"
 msgid "web.invite.joinEyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.emailLabel"
 msgstr "이메일"
@@ -1658,3 +1810,7 @@ msgstr "나의 현지 친구"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"
 msgstr "내 대기 순번"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeKept"
+msgstr ""

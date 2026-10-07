@@ -1,6 +1,7 @@
 /**
- * Reads as `public_reader`: the role behind every public preview. It sees only the public views,
- * and each view answers only for the one link or place named in the transaction's settings.
+ * Reads as `public_reader`: the role behind every public web read. It sees only the public views,
+ * and a link's or place's views answer only for the one link or place named in the transaction's
+ * settings.
  */
 import type pg from 'pg';
 
