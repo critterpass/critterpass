@@ -4,11 +4,11 @@ import { SEARCH_RESULT_LIMIT, foldPlaceText, indexPlaces, searchPlaces } from '.
 import type { PlaceRow } from './place-search';
 
 const ROWS: readonly PlaceRow[] = [
-  ['cp-151', 'Đà Nẵng', 'VN', 0, 'Chà Vá'],
-  ['cp-005', 'Hội An', 'VN', 0, ''],
-  ['cp-001', 'Hà Nội', 'VN', 0, ''],
-  ['cp-016', 'Barcelona', 'ES', 0, ''],
-  ['kyoto', '京都', 'JP', 0, 'Pon', 'Kyoto'],
+  ['cp-151', 'Đà Nẵng', 'VN', 0, 'Chà Vá', 'Red-shanked douc langur', 'langur', 151],
+  ['cp-005', 'Hội An', 'VN', 0, 'Chép', 'Lantern carp', 'cp-005', 5],
+  ['cp-001', 'Hà Nội', 'VN', 0, 'Cụ Rùa', 'Hoàn Kiếm turtle', 'cp-001', 1],
+  ['cp-016', 'Barcelona', 'ES', 0, 'Drac', 'Mosaic salamander', 'cp-016', 16],
+  ['kyoto', '京都', 'JP', 0, 'Pon', 'Tanuki', 'tanuki', 61, 'Kyoto'],
   ['apt-anc', 'Anchorage', 'US', 1],
   ['apt-esb', 'Ankara', 'TR', 1],
   ['apt-lon', 'London', 'GB', 1],
@@ -54,9 +54,9 @@ describe('searchPlaces', () => {
     expect(keys('da')).toEqual(['cp-151', 'apt-dlc', 'apt-daz']);
   });
 
-  it("finds a city by its public guide's name, and has no other critter's name to find", () => {
-    expect(keys('cha va')).toEqual(['cp-151']);
-    expect(keys('chep')).toEqual([]);
+  it("finds a city by its local's name", () => {
+    expect(keys('chep')).toEqual(['cp-005']);
+    expect(keys('cu rua')).toEqual(['cp-001']);
   });
 
   it("finds a city by the page's name for it and by its original name", () => {

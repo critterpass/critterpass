@@ -71,25 +71,14 @@ export async function joinWaitlist(input: {
   }
 }
 
-/** The bundled place list, fetched the first time a visitor reaches for the search field. */
-export async function fetchPlaces(): Promise<readonly PlaceRow[] | null> {
-  try {
-    const response = await fetch(`/api/waitlist/places/${encodeURIComponent(pageLanguage())}.json`);
-    if (!response.ok) return null;
-    return (await response.json()) as PlaceRow[];
-  } catch {
-    return null;
-  }
-}
-
-/** A catalogue city's view (its local, named by the server) for the place a visitor just picked. */
-export async function fetchPlace(key: string): Promise<DestinationView | null> {
+/** The few places the server finds for what a visitor typed; null when it could not answer. */
+export async function searchPlaces(query: string): Promise<readonly PlaceRow[] | null> {
   try {
     const response = await fetch(
-      `/api/waitlist/place/${encodeURIComponent(key)}?lang=${encodeURIComponent(pageLanguage())}`,
+      `/api/waitlist/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(pageLanguage())}`,
     );
     if (!response.ok) return null;
-    return (await response.json()) as DestinationView;
+    return (await response.json()) as PlaceRow[];
   } catch {
     return null;
   }

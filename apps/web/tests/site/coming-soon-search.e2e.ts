@@ -12,15 +12,18 @@ async function open(browser: Browser, locale: string, path = '/'): Promise<Page>
 const cs = (page: Page, name: string) => page.locator(`[data-cs="${name}"]`);
 
 test.describe('destination search on the waitlist form', () => {
-  test('the place list loads only when the field is first used', async ({ browser }) => {
+  test('the server is asked only once two letters are typed', async ({ browser }) => {
     const page = await open(browser, 'en-US');
     const requests: string[] = [];
     page.on('request', (request) => requests.push(new URL(request.url()).pathname));
+    const search = page.getByRole('combobox', { name: 'Somewhere else?' });
+    await search.focus();
+    await search.fill('h');
     await page.waitForTimeout(500);
-    expect(requests.filter((path) => path.includes('/places/'))).toEqual([]);
-    const loaded = page.waitForResponse((response) => response.url().includes('/places/en.json'));
-    await page.getByRole('combobox', { name: 'Somewhere else?' }).focus();
-    expect((await loaded).status()).toBe(200);
+    expect(requests.filter((path) => path.includes('/search'))).toEqual([]);
+    const answered = page.waitForResponse((response) => response.url().includes('/search?q=ho'));
+    await search.fill('ho');
+    expect((await answered).status()).toBe(200);
     await page.context().close();
   });
 
@@ -151,12 +154,9 @@ test.describe('destination search on the waitlist form', () => {
     expect((await join('atlantis')).status()).toBe(400);
     expect((await join('Đà Nẵng')).status()).toBe(400);
     expect((await join('<img src=x>')).status()).toBe(400);
-    expect((await request.get(`${COMING_SOON_URL}/api/waitlist/place/atlantis`)).status()).toBe(
-      404,
-    );
 
     const places = (await (
-      await request.get(`${COMING_SOON_URL}/api/waitlist/places/en.json`)
+      await request.get(`${COMING_SOON_URL}/api/waitlist/search?q=zanzibar&lang=en`)
     ).json()) as [string, string][];
     const zanzibar = places.find((row) => row[1] === 'Zanzibar');
     const accepted = await join(zanzibar?.[0] ?? '', { place: { city: 'HACKED' }, locale: 'vi' });

@@ -1,19 +1,19 @@
 /* eslint-disable lingui/no-unlocalized-strings -- selectors, ARIA plumbing and key names; the words
    arrive translated in the page strings (src/scripts/page-strings.ts). */
 /**
- * "Somewhere else?": a combobox over the bundled place list (catalogue cities, then airport
- * cities). The list is fetched the first time the field is focused. A visitor can only pick a
- * listed place: what they type is a query, never a destination. A pick replaces the field with a
+ * "Somewhere else?": a combobox over the server's place list (catalogue cities, then airport
+ * cities). The server searches as the visitor types and sends the few best matches; the list
+ * itself never reaches the browser. A visitor can only pick a listed place: what they type is a query, never a destination. A pick replaces the field with a
  * chip of the same height, so the ticket never changes size.
  */
 import { placeView } from '../lib/destination-view';
 import type { DestinationView } from '../lib/destination-view';
-import { indexPlaces, searchPlaces } from '../lib/place-search';
-import type { PlaceRow, SearchablePlace } from '../lib/place-search';
+import { isSearchable } from '../lib/place-search';
+import type { PlaceRow } from '../lib/place-search';
 import { csEl, setText } from './dom';
 import { fill } from './page-strings';
 import type { PageStrings } from './page-strings';
-import { fetchPlace, fetchPlaces } from './waitlist-api';
+import { searchPlaces } from './waitlist-api';
 
 export interface PlaceSearch {
   /** Shows `view` as the picked place, or the empty search field for `null`. */
@@ -25,6 +25,8 @@ export interface PlaceSearch {
 
 type Strings = Pick<PageStrings, 'searchEmpty' | 'searchFailed' | 'removePlace' | 'chipPlaces'>;
 
+const SEARCH_PAUSE_MS = 120;
+
 function countryName(code: string, language: string): string {
   try {
     return new Intl.DisplayNames([language], { type: 'region' }).of(code) ?? code;
@@ -33,10 +35,12 @@ function countryName(code: string, language: string): string {
   }
 }
 
-/** The line under a city: its guide where the guide is a public one, and its country. */
+/** The line under a city: its local (species too where the page is in the data's language) and country. */
 function describe(row: PlaceRow, language: string): string {
   const country = countryName(row[2], language);
-  return row[3] === 0 && row[4] !== '' ? `${row[4]} · ${country}` : country;
+  if (row[3] !== 0) return country;
+  // Species names exist in English only, so they show on the English page only.
+  return [row[4], ...(language.startsWith('en') ? [row[5]] : []), country].join(' · ');
 }
 
 export function startPlaceSearch(
@@ -56,23 +60,16 @@ export function startPlaceSearch(
   const status: HTMLElement = statusEl;
   const picked: HTMLButtonElement = pickedEl;
 
-  let places: readonly SearchablePlace[] | null = null;
-  let loading: Promise<void> | null = null;
   let results: readonly PlaceRow[] = [];
   let active = -1;
-
-  function load(): Promise<void> {
-    loading ??= fetchPlaces().then((rows) => {
-      if (rows === null) {
-        loading = null;
-        return;
-      }
-      places = indexPlaces(rows);
-    });
-    return loading;
-  }
+  // The search in flight: an answer to an earlier one, or one that arrives after the list was
+  // closed, is dropped.
+  let asked = 0;
+  let waiting: ReturnType<typeof setTimeout> | undefined;
 
   function close(): void {
+    asked += 1;
+    clearTimeout(waiting);
     list.hidden = true;
     status.hidden = true;
     input.setAttribute('aria-expanded', 'false');
@@ -101,11 +98,23 @@ export function startPlaceSearch(
     status.hidden = false;
   }
 
-  function render(): void {
+  /** Asks the server once the typing pauses; shorter than two letters is not a search. */
+  function search(): void {
     const query = input.value;
-    if (query.trim() === '') return close();
-    if (places === null) return say(strings.searchFailed);
-    results = searchPlaces(places, query);
+    if (!isSearchable(query)) return close();
+    asked += 1;
+    const mine = asked;
+    clearTimeout(waiting);
+    waiting = setTimeout(() => {
+      void searchPlaces(query).then((rows) => {
+        if (mine === asked) render(rows);
+      });
+    }, SEARCH_PAUSE_MS);
+  }
+
+  function render(rows: readonly PlaceRow[] | null): void {
+    if (rows === null) return say(strings.searchFailed);
+    results = rows;
     if (results.length === 0) return say(strings.searchEmpty);
     status.hidden = true;
     list.replaceChildren(
@@ -136,13 +145,7 @@ export function startPlaceSearch(
     if (!row) return;
     input.value = '';
     close();
-    const view = placeView(row, language, strings.chipPlaces);
-    if (view !== null) return handlers.onPick(view);
-    // A catalogue city: the server says who lives there, for this one place.
-    void fetchPlace(row[0]).then((named) => {
-      if (named === null) say(strings.searchFailed);
-      else handlers.onPick(named);
-    });
+    handlers.onPick(placeView(row, language, strings.chipPlaces));
   }
 
   function show(view: DestinationView | null): void {
@@ -166,10 +169,7 @@ export function startPlaceSearch(
     }
   }
 
-  input.addEventListener('focus', () => void load());
-  input.addEventListener('input', () => {
-    void load().then(render);
-  });
+  input.addEventListener('input', search);
   input.addEventListener('keydown', (event) => {
     const open = !list.hidden;
     if (event.key === 'ArrowDown' && open) {

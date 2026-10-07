@@ -1,8 +1,10 @@
 /**
  * A critter's name and species stay hidden until someone finds it, so nothing the open web can
- * fetch may carry them: not the scripts, not the prerendered pages, not the place list. Scans the
+ * fetch as a file may carry them: not the scripts, not the prerendered pages. Scans the
  * publicly served folder of both builds this suite already made (the site and the coming-soon
  * site) against the catalogue itself; see ./hidden-critters.ts for what counts and who is public.
+ * The waitlist's place search is the one answer that may name a local: the local of a city it
+ * found for what a visitor typed, a few rows at a time.
  */
 import { fileURLToPath } from 'node:url';
 
@@ -48,11 +50,43 @@ test.describe('what the open web can fetch', () => {
     expect(leakIn('/locals/jp-kyoto', html)).toBeNull();
   });
 
-  test('a city names its local only when asked for that one city', async ({ request }) => {
-    const places = await request.get(`${COMING_SOON_URL}/api/waitlist/places/en.json`);
-    expect(leakIn('places/en.json', await places.text())).toBeNull();
-    const picked = await request.get(`${COMING_SOON_URL}/api/waitlist/place/cp-003?lang=en`);
-    expect(picked.status()).toBe(200);
-    expect(await picked.json()).toMatchObject({ role: 'local', name: 'TRÂU', kind: 'cp-003' });
+  test('a search names the locals of the few cities it finds, and never lists', async ({
+    request,
+  }) => {
+    const search = (query: string) =>
+      request.get(`${COMING_SOON_URL}/api/waitlist/search?q=${encodeURIComponent(query)}&lang=en`);
+    const found = await search('sa pa');
+    expect(found.status()).toBe(200);
+    expect(((await found.json()) as unknown[][])[0]?.slice(0, 6)).toEqual([
+      'cp-003',
+      'Sa Pa',
+      'VN',
+      0,
+      'Trâu',
+      'Water buffalo',
+    ]);
+    // A critter's name finds its city too.
+    expect(((await (await search('trau')).json()) as unknown[][])[0]?.[0]).toBe('cp-003');
+    for (const query of ['an', 'ch', 'cp-', 'the']) {
+      const rows = (await (await search(query)).json()) as unknown[];
+      expect(rows.length, query).toBeLessThanOrEqual(8);
+    }
+    for (const query of ['', ' ', 'a', '*', 'x'.repeat(65)]) {
+      expect((await search(query)).status(), JSON.stringify(query)).toBe(400);
+    }
+    expect((await request.get(`${COMING_SOON_URL}/api/waitlist/search`)).status()).toBe(400);
+    // The whole list is no longer a file anyone can fetch.
+    const list = await request.get(`${COMING_SOON_URL}/api/waitlist/places/en.json`);
+    expect(list.status()).toBe(404);
+  });
+
+  // Not served, so not a failure: the Worker names a trip's guide and a searched city's local
+  // from the catalogue. Reported so a change in how much it carries is seen.
+  test('the Worker bundle is reported, not judged', async () => {
+    const leaks = await leaksUnder(`${webRoot}dist/server`);
+    const named = new Set(leaks.flatMap((leak) => [...leak.identified, ...leak.listed]));
+    const summary = `${leaks.length} Worker files name ${named.size} hidden critters`;
+    test.info().annotations.push({ type: 'worker-bundle', description: summary });
+    console.log(`[public-output] ${summary}: ${leaks.map((leak) => leak.file).join(', ')}`);
   });
 });

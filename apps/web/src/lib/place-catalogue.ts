@@ -1,25 +1,20 @@
 /**
  * The bundled place list, built from committed data: the critter catalogue (`@cp/critter-art`,
  * generated from design/critters-data.js) and the airports dataset (`@cp/content/airports`,
- * OurAirports). Server and build only: the browser gets the rows from
- * `/api/waitlist/places/<language>.json`, and the join endpoint checks a submitted key against
- * them, so a destination is always one of these places and never text a visitor typed.
- *
- * The rows are public and say where critters live, never who: a city's local is named one city at
- * a time, by `resolveDestination`, for the place a visitor picked.
+ * OurAirports). Server only, never sent whole: the browser gets the few rows a search finds
+ * (`/api/waitlist/search`), and the join endpoint checks a submitted key against the list, so a
+ * destination is always one of these places and never text a visitor typed.
  */
 import { airportDataset } from '@cp/content/airports';
 import { critters, isGuideSpec } from '@cp/critter-art';
 
-import { AIRPORT_KEY_PREFIX, guideView, localView, placeView } from './destination-view';
+import { AIRPORT_KEY_PREFIX, guideView, placeView } from './destination-view';
 import type { DestinationView } from './destination-view';
 import { GUIDES } from './guides';
 import { placeName } from './place-names';
-import { compactPlaceText, foldPlaceText } from './place-search';
-import type { PlaceRow } from './place-search';
+import { compactPlaceText, foldPlaceText, indexPlaces, searchPlaces } from './place-search';
+import type { PlaceRow, SearchablePlace } from './place-search';
 import { DESTINATIONS, findDestination } from './waitlist';
-
-const CRITTERS_BY_ID = new Map(critters.map((critter) => [critter.id, critter]));
 
 function cityId(city: string, country: string): string {
   return `${compactPlaceText(foldPlaceText(city))}|${country.toUpperCase()}`;
@@ -37,8 +32,10 @@ function catalogueRows(locale: string): PlaceRow[] {
       city,
       critter.code.toUpperCase(),
       0,
-      // The hand-drawn guides are public characters; every other critter stays unnamed.
-      isGuideSpec(critter.spec) ? critter.name : '',
+      critter.name,
+      critter.species,
+      critter.kind,
+      critter.no,
       ...(city === critter.city ? [] : [critter.city]),
     ] as unknown as PlaceRow;
   });
@@ -82,6 +79,18 @@ export function placeRows(locale: string): readonly PlaceRow[] {
   return rows;
 }
 
+const indexByLocale = new Map<string, readonly SearchablePlace[]>();
+
+/** The best few places for what a visitor typed, on a page in `locale`: never more than eight. */
+export function searchCatalogue(query: string, locale: string): PlaceRow[] {
+  let index = indexByLocale.get(locale);
+  if (index === undefined) {
+    index = indexPlaces(placeRows(locale));
+    indexByLocale.set(locale, index);
+  }
+  return searchPlaces(index, query);
+}
+
 /** What `locale` calls the six chips' places, by destination key. */
 export function chipPlaces(locale: string): Record<string, string> {
   return Object.fromEntries(
@@ -102,9 +111,5 @@ export function resolveDestination(key: string, locale: string): DestinationView
     keysByLocale.set(locale, byKey);
   }
   const row = byKey.get(key);
-  if (row === undefined) return null;
-  const critter = row[3] === 0 ? CRITTERS_BY_ID.get(key) : undefined;
-  return critter === undefined
-    ? placeView(row, locale, chips)
-    : localView({ ...critter, key }, row[1], locale);
+  return row === undefined ? null : placeView(row, locale, chips);
 }

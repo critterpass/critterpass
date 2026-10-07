@@ -1,10 +1,10 @@
-import { critters, isGuideSpec } from '@cp/critter-art';
+import { critters } from '@cp/critter-art';
 import { describe, expect, it } from 'vitest';
 
 import { CITY_TICKER, GUIDES } from './guides';
 import { HATCH_POOL } from './hatch-pool';
 import { SITE_LOCALE_CODES } from './locale';
-import { placeRows, resolveDestination } from './place-catalogue';
+import { placeRows, resolveDestination, searchCatalogue } from './place-catalogue';
 import { knownPlaceNames, placeName, placeNameUpper } from './place-names';
 import { indexPlaces, searchPlaces } from './place-search';
 import { DESTINATIONS } from './waitlist';
@@ -64,24 +64,6 @@ describe('place rows', () => {
     expect(new Set(rows.map((row) => row[0])).size).toBe(rows.length);
   });
 
-  it('names the guide of a city only where the guide is a public, hand-drawn one', () => {
-    const publicNames = critters
-      .filter((critter) => isGuideSpec(critter.spec))
-      .map((critter) => critter.name);
-    for (const locale of SITE_LOCALE_CODES) {
-      const catalogue = placeRows(locale).filter((row) => row[3] === 0);
-      const named = catalogue.map((row) => row[4]).filter((name) => name !== '');
-      expect(named.sort(), locale).toEqual([...publicNames].sort());
-      // Key, city, country, rank, guide and at most the city's original name: nothing else.
-      expect(Math.max(...catalogue.map((row) => row.length)), locale).toBeLessThanOrEqual(6);
-      const wire = JSON.stringify(catalogue);
-      for (const critter of critters) {
-        if (isGuideSpec(critter.spec) || critter.species === critter.city) continue;
-        expect(wire, critter.species).not.toContain(`"${critter.species}"`);
-      }
-    }
-  });
-
   it('adds airport cities the catalogue does not have, one row per city', () => {
     const airports = rows.filter((row) => row[3] !== 0);
     expect(airports.length).toBeGreaterThan(3000);
@@ -99,11 +81,22 @@ describe('place rows', () => {
     expect(hits[0]?.[1]).toBe('Đà Nẵng');
   });
 
-  it('stays small enough to fetch on first focus', () => {
+  it('answers a search with a few rows, and nothing for less than two letters', () => {
     for (const locale of SITE_LOCALE_CODES) {
-      const bytes = new TextEncoder().encode(JSON.stringify(placeRows(locale))).length;
-      expect(bytes, locale).toBeLessThan(160 * 1024);
+      expect(searchCatalogue('a', locale), locale).toEqual([]);
+      expect(searchCatalogue(' ', locale), locale).toEqual([]);
+      expect(searchCatalogue('an', locale).length, locale).toBeLessThanOrEqual(8);
     }
+    // A city is found by its own name and by its local's.
+    expect(searchCatalogue('hoi an', 'en')[0]?.slice(0, 6)).toEqual([
+      'cp-005',
+      'Hội An',
+      'VN',
+      0,
+      'Chép',
+      'Lantern carp',
+    ]);
+    expect(searchCatalogue('chep', 'en')[0]?.[0]).toBe('cp-005');
   });
 });
 

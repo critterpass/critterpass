@@ -2,18 +2,16 @@
  * The places a visitor can pick as "where are you headed first" beyond the six chips, and the
  * type-ahead over them. Two bundled lists, no free text: the critter catalogue's cities (each
  * with its local) and the cities of the airports dataset for everywhere else. Pure: the same
- * functions rank results in the browser and are unit-tested in Node.
+ * functions rank results on the server and are unit-tested in Node.
  *
- * The list is public, so it never says which critter lives in a city: a catalogue row names its
- * guide only where that guide is one of the public, hand-drawn ones. The server names a city's
- * local once a visitor picks that city (`/api/waitlist/place/<key>`).
+ * The lists stay on the server: a catalogue row names the critter of its city, and the open web
+ * gets rows only as the few results of a search (`/api/waitlist/search`), never the whole list.
  */
 
 /**
  * One place, as a compact row so the list stays small on the wire. `rank` is 0 for a catalogue
- * city and the airport's size rank (1 largest to 3) otherwise; catalogue rows carry their public
- * guide's name (empty for every other city), and the city's original name when the page's
- * language calls it something else (`京都`, `Kyoto`).
+ * city and the airport's size rank (1 largest to 3) otherwise; catalogue rows carry their local,
+ * and the city's original name when the page's language calls it something else (`京都`, `Kyoto`).
  */
 export type PlaceRow =
   | readonly [key: string, city: string, country: string, rank: 1 | 2 | 3]
@@ -22,7 +20,10 @@ export type PlaceRow =
       city: string,
       country: string,
       rank: 0,
-      guideName: string,
+      critterName: string,
+      species: string,
+      critterKind: string,
+      critterNo: number,
       original?: string,
     ];
 
@@ -35,10 +36,17 @@ export interface SearchablePlace {
   /** The original name folded the same two ways, when the row carries one. */
   readonly originalFolded: string;
   readonly originalCompact: string;
-  readonly guideFolded: string;
+  readonly critterFolded: string;
 }
 
 export const SEARCH_RESULT_LIMIT = 8;
+/** Shorter queries (after folding) are not searched: one letter would list a slice of the catalogue. */
+export const SEARCH_QUERY_MIN_LENGTH = 2;
+
+/** Whether a typed query is long enough to search. */
+export function isSearchable(rawQuery: string): boolean {
+  return foldPlaceText(rawQuery).length >= SEARCH_QUERY_MIN_LENGTH;
+}
 
 /** Lowercase, diacritics stripped, đ → d, inner whitespace collapsed. */
 export function foldPlaceText(text: string): string {
@@ -58,14 +66,14 @@ export function compactPlaceText(folded: string): string {
 export function indexPlaces(rows: readonly PlaceRow[]): SearchablePlace[] {
   return rows.map((row) => {
     const folded = foldPlaceText(row[1]);
-    const originalFolded = row[3] === 0 && row[5] !== undefined ? foldPlaceText(row[5]) : '';
+    const originalFolded = row[3] === 0 && row[8] !== undefined ? foldPlaceText(row[8]) : '';
     return {
       row,
       folded,
       compact: compactPlaceText(folded),
       originalFolded,
       originalCompact: compactPlaceText(originalFolded),
-      guideFolded: row[3] === 0 ? foldPlaceText(row[4]) : '',
+      critterFolded: row[3] === 0 ? foldPlaceText(row[4]) : '',
     };
   });
 }
@@ -80,14 +88,14 @@ function nameClass(folded: string, compact: string, query: string, compactQuery:
 }
 
 /**
- * 0: the city starts with the query; 1: a later word (or the guide's name) does; 2: it appears
+ * 0: the city starts with the query; 1: a later word (or the local's name) does; 2: it appears
  * inside. The page's name for the city and its original name both count: `kyoto` and `京都`.
  */
 function matchClass(place: SearchablePlace, query: string, compactQuery: string): number | null {
   const best = Math.min(
     nameClass(place.folded, place.compact, query, compactQuery),
     nameClass(place.originalFolded, place.originalCompact, query, compactQuery),
-    place.guideFolded !== '' && place.guideFolded.startsWith(query) ? 1 : 3,
+    place.critterFolded !== '' && place.critterFolded.startsWith(query) ? 1 : 3,
   );
   return best === 3 ? null : best;
 }
@@ -103,7 +111,7 @@ export function searchPlaces(
   limit: number = SEARCH_RESULT_LIMIT,
 ): PlaceRow[] {
   const query = foldPlaceText(rawQuery);
-  if (query === '') return [];
+  if (query.length < SEARCH_QUERY_MIN_LENGTH) return [];
   const compactQuery = compactPlaceText(query);
   const hits: { place: SearchablePlace; cls: number }[] = [];
   for (const place of places) {
