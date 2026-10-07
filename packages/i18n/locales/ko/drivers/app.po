@@ -470,7 +470,7 @@ msgstr "스크린샷"
 #. placeholder {0}: chosen.length
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.set"
-msgstr "{name}을 {0}일로 정하기"
+msgstr ""
 
 #. placeholder {0}: item.shared_by_name ?? ''
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx

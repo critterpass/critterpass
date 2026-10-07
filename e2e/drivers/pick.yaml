@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
-# The crew's driver pick, from the labs' fixed scenes: the pick sheet on a crew trip (SET and "Ask
-# the crew first"), on a trip of one, on the driver's quote and when a day just went to another
+# The crew's driver pick, from the labs' fixed scenes: the pick sheet on a crew trip (SET and the
+# "Ask the crew first" toggle), on a trip of one, on the driver's quote and when a day just went to another
 # driver; then the pick as a card in crew chat and as a row in the changes review.
 - launchApp:
     clearState: true
@@ -52,7 +52,9 @@ appId: app.critterpass.dev
     visible:
       id: 'drivers-pick-quote'
     timeout: 20000
-- assertNotVisible:
+- assertVisible:
+    id: 'drivers-pick-ask'
+- assertVisible:
     id: 'drivers-pick-set'
 - waitForAnimationToEnd:
     timeout: 6000

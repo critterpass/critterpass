@@ -10,11 +10,9 @@ import { ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { mrzLine } from '@/ui/documents/mrz';
 import { Stamp } from '@/ui/documents/Stamp';
 import { Visa } from '@/ui/documents/Visa';
-import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { BillingToggle, type BillingOption } from '@/ui/monetize/BillingToggle';
 import { VisaPaywall } from '@/ui/monetize/VisaPaywall';
@@ -24,6 +22,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { RestoreState } from '../data/use-billing';
 import type { PerkLine } from '../perks/perk-copy';
+import { PaywallLinks, PaywallRestore } from './paywall-links';
 import type { BillingPeriod, PaywallModel } from './paywall-model';
 import { Disclosure, usePhaseLine, useRestoreLine } from './purchase-copy';
 
@@ -211,7 +210,6 @@ export function PaywallView(props: PaywallViewProps) {
             store={props.store}
             onTerms={props.onTerms}
             onPrivacy={props.onPrivacy}
-            onRestore={props.onRestore}
             testID="paywall-disclosure"
           />
         )}
@@ -227,6 +225,7 @@ export function PaywallView(props: PaywallViewProps) {
           </Text>
         )}
       </ScrollView>
+      {phase === 'subscribed' ? null : <PaywallRestore onPress={props.onRestore} />}
       <Stack gap="12" style={styles.footer}>
         {options.length > 1 && phase !== 'subscribed' ? (
           <BillingToggle
@@ -276,24 +275,11 @@ export function PaywallView(props: PaywallViewProps) {
             {status}
           </Text>
         )}
-        <Row justify="space-between" align="center">
-          {props.boostTrip && boost ? (
-            <TextLink
-              label={t({ id: 'monetize.paywall.boostInstead', message: 'Boost a trip instead' })}
-              onPress={props.onBoost}
-              disabled={busy}
-              testID="paywall-boost"
-            />
-          ) : (
-            <Stack />
-          )}
-          <TextLink
-            label={t({ id: 'monetize.paywall.compare', message: 'What’s in each ›' })}
-            onPress={props.onCompare}
-            disabled={busy}
-            testID="paywall-compare"
-          />
-        </Row>
+        <PaywallLinks
+          onBoost={props.boostTrip && boost ? props.onBoost : null}
+          onCompare={props.onCompare}
+          disabled={busy}
+        />
       </Stack>
     </View>
   );

@@ -86,6 +86,8 @@ export interface BoostModel {
   readonly memberUids: readonly string[];
   /** Each other member's share of the store's price, formatted; null when covering. */
   readonly eachShare: string | null;
+  /** The price divides evenly, so each share is exactly `eachShare`. */
+  readonly eachShareExact: boolean;
   /** The last day the boost is on (`YYYY-MM-DD`): a week after the trip ends. */
   readonly windowEnd: string | null;
   /** Who holds the lock, when someone else does. */
@@ -114,13 +116,17 @@ function minorDigits(currency: string): number {
   }
 }
 
-/** One member's share of `offer` split over `memberUids`, as the buyer's crewmates will owe it. */
+/**
+ * One member's share of `offer` split over `memberUids`, as the buyer's crewmates will owe it. A
+ * share of whole units reads without decimals ("$2"); `exact` says the price divides evenly, so
+ * the share is the figure itself and not a rounded one.
+ */
 export function sharePreview(
   offer: ProductOffer,
   buyerUid: string,
   memberUids: readonly string[],
   locale: string,
-): string | null {
+): { readonly text: string; readonly exact: boolean } | null {
   if (memberUids.length < 2 || !memberUids.includes(buyerUid)) return null;
   const digits = minorDigits(offer.currencyCode);
   const scale = 10 ** digits;
@@ -130,9 +136,14 @@ export function sharePreview(
   };
   const share = splitBoost(total, buyerUid, memberUids).ious[0];
   if (share === undefined) return null;
-  return new Intl.NumberFormat(locale, { style: 'currency', currency: offer.currencyCode }).format(
-    Number(share.amount.amountMinor) / scale,
-  );
+  const minor = share.amount.amountMinor;
+  const whole = minor % BigInt(scale) === 0n;
+  const text = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: offer.currencyCode,
+    ...(whole ? { minimumFractionDigits: 0, maximumFractionDigits: 0 } : {}),
+  }).format(Number(minor) / scale);
+  return { text, exact: minor * BigInt(memberUids.length) === total.amountMinor };
 }
 
 const BUSY: Partial<Record<PurchaseState['status'], BoostPhase>> = {
@@ -161,6 +172,10 @@ export function boostModel(input: BoostInput): BoostModel {
     input.lock.buyerUid !== buyer &&
     new Date(input.lock.expiresAt).getTime() > input.now.getTime();
   const phase = phaseOf(input, offer, lockLive);
+  const share =
+    offer !== null && buyer !== null && whoPays === 'split'
+      ? sharePreview(offer, buyer, memberUids, input.locale)
+      : null;
   return {
     phase,
     option,
@@ -171,10 +186,8 @@ export function boostModel(input: BoostInput): BoostModel {
     canSplit,
     whoPays,
     memberUids,
-    eachShare:
-      offer !== null && buyer !== null && whoPays === 'split'
-        ? sharePreview(offer, buyer, memberUids, input.locale)
-        : null,
+    eachShare: share?.text ?? null,
+    eachShareExact: share?.exact ?? false,
     windowEnd: boostWindowEnd(input.trip?.endDate ?? null),
     lockedBy: lockLive ? (input.lock?.name ?? '') : null,
     canBuy: (phase === 'ready' || phase === 'failed' || phase === 'refused') && buyer !== null,
