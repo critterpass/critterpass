@@ -1,10 +1,13 @@
 /**
  * Guide lab scenes for phrase practice: ready with the check off ("I said it"), the check on and
  * listening, a miss with the guide's tip, a practice that went well, the voice consent asked under
- * the switch, the microphone refused, offline, and a trip with no phrases yet.
+ * the switch, a phrase card that offers practice (the way in from a card), the microphone refused,
+ * offline, and a trip with no phrases yet.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
+
+import { Scaffold, makeStyles } from '@/ui';
 
 import { PhraseCardView } from '../../phrases/phrase-card';
 import {
@@ -16,6 +19,27 @@ import {
 import { PracticeView } from '../practice-view';
 
 const noop = () => undefined;
+
+const useStyles = makeStyles((t) => ({
+  card: { padding: t.size.gutter, paddingTop: t.space['32'] },
+}));
+
+/** A phrase card somewhere in the app, with the link into practice under it. */
+function CardWithPractise() {
+  const styles = useStyles();
+  return (
+    <Scaffold edges={['top', 'bottom']} style={styles.card}>
+      <PhraseCardView
+        phrase="Cảm ơn nhiều"
+        lang="vi"
+        gloss="Thank you very much"
+        playerState="idle"
+        onPlay={noop}
+        onPractise={noop}
+      />
+    </Scaffold>
+  );
+}
 
 const phrase = (id: string, text: string, gloss: string): PracticePhrase => ({
   id,
@@ -99,6 +123,7 @@ export const PRACTICE_SCENES: Readonly<Record<string, () => ReactNode>> = {
     <Scene checking learned={['hello', 'thanks']} state={{ phase: 'ok', heard: 'Cảm ơn nhiều' }} />
   ),
   'practice-consent': () => <Scene checking consent />,
+  'practice-from-card': () => <CardWithPractise />,
   'practice-mic-denied': () => <Scene checking state={{ issue: 'mic_denied' }} />,
   'practice-offline': () => <Scene checking state={{ issue: 'offline' }} />,
   'practice-empty': () => <Scene phrases={[]} learned={[]} />,

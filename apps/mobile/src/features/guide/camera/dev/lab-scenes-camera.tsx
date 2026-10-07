@@ -1,6 +1,7 @@
 /**
  * Guide lab scenes for point and ask (3j-3) over a drawn menu: before a scan, reading, the menu
- * read with a clash and the crew's chips, a menu read with nobody's flags to check, and each way a
+ * read with a clash and the crew's chips, the order card with two dishes picked, a menu read with
+ * nobody's flags to check, and each way a
  * scan stops short (no camera, camera refused, no writing found, offline, questions spent, the
  * reading failed).
  */
@@ -14,8 +15,11 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Hatch } from '@/ui/textures/hatch';
 
 import { CameraView, type MenuFollowUp } from '../camera-view';
+import { MenuOrderCard } from '../menu-order-card';
 import {
   MENU_AIMING,
+  menuStickers,
+  type MenuOrder,
   type MenuLine,
   type MenuReading,
   type MenuScanState,
@@ -42,6 +46,7 @@ export const MENU_READING: MenuReading = {
       translation: 'Crispy rice pancake',
       description: 'Turmeric pancake with prawns and bean sprouts',
       spice: 0,
+      price: { printed: '45k', amountMinor: 45000, currency: 'VND' },
       flags: [],
     },
     {
@@ -49,6 +54,7 @@ export const MENU_READING: MenuReading = {
       translation: 'Fresh spring rolls',
       description: 'Rice paper rolls with herbs',
       spice: 0,
+      price: { printed: '30k', amountMinor: 30000, currency: 'VND' },
       flags: [],
     },
     {
@@ -56,6 +62,7 @@ export const MENU_READING: MenuReading = {
       translation: 'Beef in betel leaf',
       description: 'Grilled minced beef wrapped in betel leaves',
       spice: 1,
+      price: { printed: '60k', amountMinor: 60000, currency: 'VND' },
       flags: [],
     },
     {
@@ -63,6 +70,7 @@ export const MENU_READING: MenuReading = {
       translation: 'Tofu, peanut sauce',
       description: 'Fried tofu in peanut sauce',
       spice: 0,
+      price: { printed: '35k', amountMinor: 35000, currency: 'VND' },
       flags: [
         { member: 'Linh', verdict: 'ok', reason: 'veg' },
         { member: 'Minh', verdict: 'clash', reason: 'peanuts' },
@@ -72,6 +80,7 @@ export const MENU_READING: MenuReading = {
   suggestion:
     'The tofu works for Linh, but it comes in peanut sauce, so skip it for Minh. The spring rolls suit everyone.',
   checked_members: ['Linh', 'Minh'],
+  source_language: 'vi',
 };
 
 const FOLLOW_UPS: readonly MenuFollowUp[] = [
@@ -104,7 +113,13 @@ function DrawnMenu() {
   );
 }
 
-function Scene({ state }: { readonly state: Partial<MenuScanState> }) {
+function Scene({
+  state,
+  order,
+}: {
+  readonly state: Partial<MenuScanState>;
+  readonly order?: MenuOrder;
+}) {
   const theme = useTheme();
   const sticker = guideSticker('tokek');
   return (
@@ -115,6 +130,24 @@ function Scene({ state }: { readonly state: Partial<MenuScanState> }) {
       camera={<Hatch baseColor={theme.color.ink['930']} />}
       still={<DrawnMenu />}
       followUps={FOLLOW_UPS}
+      languages={state.reading == null ? null : 'Vietnamese → English'}
+      {...(order === undefined
+        ? {}
+        : {
+            order: (
+              <MenuOrderCard
+                guideName="Ngựa"
+                crewSize={6}
+                stickers={menuStickers(MENU_LINES, MENU_READING)}
+                order={order}
+                onChange={noop}
+                onShow={noop}
+                onSplit={noop}
+                onAsk={noop}
+                onClose={noop}
+              />
+            ),
+          })}
       onScan={noop}
       onRetake={noop}
       onAsk={noop}
@@ -131,6 +164,9 @@ export const CAMERA_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'camera-aiming': () => <Scene state={{}} />,
   'camera-reading': () => <Scene state={{ ...READ, phase: 'reading' }} />,
   'camera-menu': () => <Scene state={{ ...READ, phase: 'result', reading: MENU_READING }} />,
+  'camera-order': () => (
+    <Scene state={{ ...READ, phase: 'result', reading: MENU_READING }} order={{ l1: 2, l2: 1 }} />
+  ),
   'camera-menu-no-flags': () => (
     <Scene
       state={{

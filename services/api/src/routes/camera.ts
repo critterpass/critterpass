@@ -4,6 +4,12 @@
  * dietary clash flags for crew members who consented to sharing theirs. One scan is one guide
  * question on the free meter (given back when the menu could not be read) and one `vision_calls`
  * unit of the silent fair-use cap. The crop goes to the model and is never stored.
+ *
+ * A caller that accepts `text/event-stream` gets the reading as events: one `item` per dish, then
+ * `done` with the status, the suggestion line, the menu's language and the members checked (or
+ * `error` when the reading broke after the stream opened). Every refusal (validation, membership,
+ * fair use, a spent meter) is decided before the stream opens, so it stays an ordinary wire error.
+ * Any other caller gets the same reading as one JSON body.
  */
 import { readMenu, type Gateway, type MenuCrewMember, type ParsedMenu } from '@cp/ai';
 import { withGuideReader, withSystem, withUser } from '@cp/db';
@@ -21,6 +27,7 @@ import {
   requireCommandSession,
   type SessionResolver,
 } from '../commands/_framework/session';
+import { SSE_RESPONSE_HEADERS, sseBody, type SseFrame } from './sse';
 
 /** Scans a day on unlimited tiers before the guide stops reading menus until tomorrow. */
 export const MENU_FAIR_USE_DAILY_CAP = 100;
@@ -31,6 +38,8 @@ export interface CameraRouteDeps {
   readonly sessions: SessionResolver;
   readonly redis: RateLimitRedisClient;
   readonly gateway: Pick<Gateway, 'callModel'>;
+  /** Keep-alive interval of the event stream while the model reads. */
+  readonly heartbeatMs?: number;
 }
 
 export interface CameraMenuResult extends ParsedMenu {
@@ -111,38 +120,58 @@ export function registerCameraRoutes(app: OpenAPIHono<AppEnv>, deps: CameraRoute
       deviceTz: deviceTzFrom(c.req.raw.headers),
       tripId: body.trip_id,
     });
-    let menu: ParsedMenu;
-    let crew: MenuCrewMember[];
-    try {
-      const [members, locale] = await Promise.all([
-        consentedCrew(deps.pool, uid, body.trip_id),
-        userLocale(deps.pool, uid),
-      ]);
-      crew = members;
-      menu = await readMenu(
-        deps.gateway,
-        {
-          lines: body.ocr_lines,
-          crew,
-          locale,
-          ...(body.crop_b64 === undefined
-            ? {}
-            : { crop: { base64: body.crop_b64, mediaType: 'image/jpeg' as const } }),
-          ...(body.currency_hint === undefined ? {} : { currencyHint: body.currency_hint }),
-        },
-        { userId: uid, tripId: body.trip_id },
-      );
-    } catch (error) {
-      await meter.release();
-      throw error;
-    }
-    // Only a menu the guide read costs a question.
-    if (menu.status === 'ok') await meter.commit();
-    else await meter.release();
-    const result: CameraMenuResult = {
-      ...menu,
-      checked_members: crew.map((member) => member.first_name),
+    // Only a menu the guide read costs a question; anything else gives the unit back.
+    let settled = false;
+    const read = async (): Promise<CameraMenuResult> => {
+      try {
+        const [crew, locale] = await Promise.all([
+          consentedCrew(deps.pool, uid, body.trip_id),
+          userLocale(deps.pool, uid),
+        ]);
+        const menu = await readMenu(
+          deps.gateway,
+          {
+            lines: body.ocr_lines,
+            crew,
+            locale,
+            ...(body.crop_b64 === undefined
+              ? {}
+              : { crop: { base64: body.crop_b64, mediaType: 'image/jpeg' as const } }),
+            ...(body.currency_hint === undefined ? {} : { currencyHint: body.currency_hint }),
+          },
+          { userId: uid, tripId: body.trip_id },
+        );
+        settled = true;
+        if (menu.status === 'ok') await meter.commit();
+        else await meter.release();
+        return { ...menu, checked_members: crew.map((member) => member.first_name) };
+      } finally {
+        if (!settled) {
+          settled = true;
+          await meter.release();
+        }
+      }
     };
+    if ((c.req.header('accept') ?? '').includes('text/event-stream')) {
+      const frames = async function* (): AsyncGenerator<SseFrame, void, undefined> {
+        let result: CameraMenuResult;
+        try {
+          result = await read();
+        } catch {
+          yield { type: 'error', code: 'AI_UNAVAILABLE', retryable: true };
+          return;
+        }
+        const { items, ...rest } = result;
+        for (const item of items) yield { type: 'item', ...item };
+        // EU AI Act Art. 50: the reading is marked as AI-generated.
+        yield { type: 'done', ...rest, ai_generated: true };
+      };
+      return new Response(sseBody(frames, deps.heartbeatMs), {
+        status: 200,
+        headers: SSE_RESPONSE_HEADERS,
+      });
+    }
+    const result = await read();
     c.header('Cache-Control', 'private, no-store');
     return c.json(result);
   });

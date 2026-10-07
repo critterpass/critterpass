@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e6fe30d1-ec95-4568-87bf-498bcaaa4366",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Chicken Rice\",\"description\":\"Poached or roasted chicken served over fragrant rice, often with a light broth.\",\"spice\":0,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"ok\",\"reason\":\"no peanuts\"},{\"member\":\"Priya\",\"verdict\":\"ok\",\"reason\":\"no shellfish\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Laksa\",\"description\":\"Spicy coconut noodle soup with prawns, fish cake and sometimes cockles.\",\"spice\":2,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"ok\",\"reason\":\"no peanuts\"},{\"member\":\"Priya\",\"verdict\":\"clash\",\"reason\":\"shellfish in broth\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Chicken Satay\",\"description\":\"Grilled marinated chicken skewers served with peanut sauce.\",\"spice\":1,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts in sauce\"},{\"member\":\"Priya\",\"verdict\":\"ok\",\"reason\":\"no shellfish\"}]}],\"suggestion\":\"Order the chicken rice and satay for the table, and let Priya enjoy the laksa while Alex skips the peanut sauce.\",\"language\":\"en\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 154,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 262,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

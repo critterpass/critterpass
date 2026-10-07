@@ -1,6 +1,8 @@
 /**
  * A spoken guide turn: text events pass through unchanged and in order, every piece of the answer
  * comes out as numbered audio before `done`, and a failed synthesis leaves a complete text reply.
+ * A lookup before the guide has said anything is covered by one spoken filler line, in the reply's
+ * language, that never joins the reply's text.
  */
 import type { TurnEvent } from '@cp/ai';
 import { describe, expect, it } from 'vitest';
@@ -94,5 +96,49 @@ describe('speakTurn', () => {
     );
     expect(out.at(-1)).toEqual(error);
     expect(out.filter((event) => event.type === 'audio')).toEqual([]);
+  });
+
+  describe('while the guide looks something up', () => {
+    const LOOKUP: readonly TurnEvent[] = [
+      { type: 'tool_start', tool: 'weather', id: 't1' },
+      { type: 'tool_result', id: 't1', card: { tool: 'weather', status: 'ok' } },
+      { type: 'tool_start', tool: 'plan_read', id: 't2' },
+      { type: 'token', text: 'The rain stops around four, so keep the night market. ' },
+      DONE,
+    ];
+    const speak = (events: readonly TurnEvent[], language: string) =>
+      collect(speakTurn(turn(events), { voiceId: 'voice-tokek', language, synthesize: echo }));
+
+    it('says one filler line first, and keeps it out of the text', async () => {
+      const out = await speak(LOOKUP, 'en');
+      expect(spokenText(out)).toEqual([
+        'Let me check the weather.',
+        'The rain stops around four, so keep the night market.',
+      ]);
+      expect(out.filter((event) => event.type !== 'audio')).toEqual(LOOKUP);
+      // The filler is heard before the answer's first words arrive.
+      const filler = out.findIndex((event) => event.type === 'audio');
+      expect(filler).toBeLessThan(out.findIndex((event) => event.type === 'token'));
+    });
+
+    it('says it in the language of the reply, and nothing in a language it has no line for', async () => {
+      expect(spokenText(await speak(LOOKUP, 'vi-VN'))[0]).toBe('Để mình xem thời tiết nhé.');
+      expect(spokenText(await speak(LOOKUP, 'ja')).join(' ')).toBe(
+        'The rain stops around four, so keep the night market.',
+      );
+    });
+
+    it('says none once the reply has words of its own', async () => {
+      const midway: readonly TurnEvent[] = [
+        { type: 'token', text: 'Good question, let me see. ' },
+        { type: 'tool_start', tool: 'weather', id: 't1' },
+        { type: 'token', text: 'It is dry until four.' },
+        DONE,
+      ];
+      expect(spokenText(await speak(midway, 'en'))).toEqual([
+        'Good question, let me see.',
+        'It is dry until four.',
+      ]);
+    });
   });
 });

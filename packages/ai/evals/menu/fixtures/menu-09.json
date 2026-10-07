@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "227ad3d4-549b-4b42-8008-89be0ceacdce",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Bún bò Huế (spicy beef noodle soup)\",\"description\":\"Rice noodles in a spicy lemongrass beef broth with beef slices and herbs.\",\"spice\":3,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"ok\",\"reason\":\"no peanuts used\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Papaya salad with peanuts\",\"description\":\"Shredded green papaya salad tossed with peanuts, herbs and a tangy dressing.\",\"spice\":1,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts on top\"}]}],\"suggestion\":\"Alex should take the beef noodle soup and skip the papaya salad, which has peanuts.\",\"language\":\"vi\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 167,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 165,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

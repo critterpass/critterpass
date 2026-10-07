@@ -30,6 +30,8 @@ const itemSchema = z.object({
 export const menuReplySchema = z.object({
   items: z.array(itemSchema),
   suggestion: z.string().nullable(),
+  /** The language the menu is written in (BCP 47), when the model can tell. */
+  language: z.string().nullish(),
 });
 export type MenuReply = z.infer<typeof menuReplySchema>;
 
@@ -38,8 +40,9 @@ export const MENU_FORMAT: Anthropic.Messages.JSONOutputFormat = {
   schema: {
     type: 'object',
     additionalProperties: false,
-    required: ['items', 'suggestion'],
+    required: ['items', 'suggestion', 'language'],
     properties: {
+      language: { type: ['string', 'null'] },
       items: {
         type: 'array',
         items: {
@@ -89,7 +92,11 @@ export interface ParsedMenu {
   readonly status: 'ok' | 'no_dishes' | 'failed';
   readonly items: readonly MenuItem[];
   readonly suggestion: string | null;
+  /** The language the menu is written in, as a BCP 47 tag; null when it could not be told. */
+  readonly source_language: string | null;
 }
+
+const LANGUAGE_TAG = /^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8}){0,2}$/u;
 
 const CURRENCY_WORDS =
   /(?:rp\.?|rm|us\$|s\$|[$¥€£฿₫₩]|\b(?:vnd|idr|thb|jpy|krw|sgd|myr|usd|eur|gbp)\b|円|บาท)/giu;
@@ -143,9 +150,11 @@ export function validateMenuReply(reply: MenuReply, options: ValidateMenuOptions
     });
   }
   const suggestion = reply.suggestion === null ? '' : stripNumbers(reply.suggestion);
+  const language = reply.language?.trim() ?? '';
   return {
     status: items.length === 0 ? 'no_dishes' : 'ok',
     items,
     suggestion: suggestion === '' ? null : suggestion,
+    source_language: LANGUAGE_TAG.test(language) ? language : null,
   };
 }

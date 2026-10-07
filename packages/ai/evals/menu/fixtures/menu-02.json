@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "8959a5b7-c776-4376-adeb-299902d2ce0b",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Nasi campur\",\"description\":\"Steamed rice served with small portions of assorted meats, vegetables and sambal.\",\"spice\":2,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts may be in sambal\"},{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"meat in the dish\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Sate lilit\",\"description\":\"Minced meat mixed with coconut and spices, wrapped around lemongrass sticks and grilled.\",\"spice\":1,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"ok\",\"reason\":\"no peanuts evident\"},{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"meat in the dish\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Lawar ayam\",\"description\":\"Chopped chicken mixed with coconut, vegetables and spices, served raw-style or cooked.\",\"spice\":2,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"ok\",\"reason\":\"no peanuts evident\"},{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"chicken in the dish\"}]},{\"ocr_line_id\":\"l4\",\"translation\":\"Gado-gado\",\"description\":\"Blanched vegetables and tofu with a warm peanut sauce dressing.\",\"spice\":1,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts in the sauce\"},{\"member\":\"Jordan\",\"verdict\":\"ok\",\"reason\":\"vegetable and tofu dish\"}]}],\"suggestion\":\"Alex could try the sate lilit or lawar ayam, while Jordan might enjoy the gado-gado, though the peanut sauce is a concern for Alex.\",\"language\":\"id\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 187,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 369,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

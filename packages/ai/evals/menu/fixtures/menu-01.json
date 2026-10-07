@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "805e6d09-cae0-4c9d-8809-cd83843ce189",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"ocr_line_id\":\"l1\",\"translation\":\"Mì Quảng with chicken\",\"description\":\"Turmeric rice noodles in a small amount of broth with chicken, herbs and peanuts.\",\"spice\":1,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts on top\"},{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"chicken in dish\"}]},{\"ocr_line_id\":\"l2\",\"translation\":\"Mì Quảng with shrimp and pork\",\"description\":\"Turmeric rice noodles with shrimp and pork, herbs and peanuts in a little broth.\",\"spice\":1,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts on top\"},{\"member\":\"Jordan\",\"verdict\":\"clash\",\"reason\":\"shrimp and pork\"}]},{\"ocr_line_id\":\"l3\",\"translation\":\"Vegetarian fresh spring rolls\",\"description\":\"Rice paper rolls with vegetables and herbs, served fresh with dipping sauce.\",\"spice\":0,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts in sauce\"},{\"member\":\"Jordan\",\"verdict\":\"ok\",\"reason\":\"vegetarian filling\"}]},{\"ocr_line_id\":\"l4\",\"translation\":\"Tofu in peanut sauce\",\"description\":\"Fried tofu simmered in a savoury peanut sauce.\",\"spice\":0,\"flags\":[{\"member\":\"Alex\",\"verdict\":\"clash\",\"reason\":\"peanuts in sauce\"},{\"member\":\"Jordan\",\"verdict\":\"ok\",\"reason\":\"tofu based\"}]}],\"suggestion\":\"Alex should avoid the peanut-topped noodles and peanut sauce, while Jordan can share the vegetarian rolls and tofu.\",\"language\":\"vi\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 202,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 352,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -54,7 +54,7 @@ msgstr "{guideName} chưa kiểm tra được cách phát âm khi ngoại tuyế
 msgid "guide.practice.micDeniedBody"
 msgstr "{guideName} không nghe được bạn khi chưa có micro. Bật trong Cài đặt, hoặc cứ nói rồi chạm \"Tôi nói rồi\"."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.fairUse"
 msgstr "Hôm nay {guideName} đã đọc rất nhiều thực đơn rồi, mai sẽ đọc tiếp nhé."
 
@@ -96,6 +96,10 @@ msgstr "Một mục trong lịch trình"
 msgid "guide.limit.attach"
 msgstr "Thêm tệp đính kèm"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderAdd"
+msgstr "Thêm một {name}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.ai"
 msgstr "Hướng dẫn viên AI · câu trả lời có thể sai, hãy kiểm tra lại điều quan trọng"
@@ -107,6 +111,10 @@ msgstr "Dị ứng"
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.speaking"
 msgstr "Đang trả lời"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderAsk"
+msgstr "Hỏi {guideName} nên gọi món gì"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 msgid "guide.camera.askPlaceholder"
@@ -123,6 +131,10 @@ msgstr "Hỏi ngay, {guideName} trả lời lúc nửa đêm"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
 msgid "guide.composer.placeholder"
 msgstr "Hỏi, hoặc giữ để nói"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderClose"
+msgstr "Quay lại thực đơn"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.callCar"
@@ -147,6 +159,10 @@ msgstr "Kiểm tra cách tôi nói"
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 msgid "guide.practice.checking"
 msgstr "Đang kiểm tra…"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.zh"
+msgstr "Tiếng Trung"
 
 #: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
 msgid "guide.phrase.close"
@@ -192,9 +208,17 @@ msgstr "Xong, kiểm tra giúp"
 msgid "guide.dietary.eggs"
 msgstr "Trứng"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.en"
+msgstr "Tiếng Anh"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.full"
 msgstr "Đã hết chỗ"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.tl"
+msgstr "Tiếng Philippines"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.fish"
@@ -208,6 +232,14 @@ msgstr "Các nhãn chỉ để tham khảo, không phải lời khuyên y tế. 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
 msgid "guide.dietary.title"
 msgstr "Nhu cầu ăn uống và đi lại"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.fr"
+msgstr "Tiếng Pháp"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.de"
+msgstr "Tiếng Đức"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
@@ -270,7 +302,7 @@ msgstr "Cay nhiều"
 msgid "guide.empty.promptCrew"
 msgstr "Làm sao để cả nhóm bắt đầu lên kế hoạch?"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.noDishes"
 msgstr "Mình đọc được chữ nhưng không thấy món nào. Lần này không bị tính lượt. Bạn thử chụp đúng trang thực đơn nhé."
 
@@ -278,7 +310,7 @@ msgstr "Mình đọc được chữ nhưng không thấy món nào. Lần này k
 msgid "guide.error.moderation"
 msgstr "Câu này mình không trả lời được. Nó không qua được kiểm tra an toàn."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.noText"
 msgstr "Mình không thấy chữ nào. Bạn lại gần hơn, ra chỗ sáng hơn rồi thử lại nhé."
 
@@ -327,6 +359,18 @@ msgstr "Giờ mình đang bận quá. Chờ một phút rồi hỏi lại nhé."
 msgid "guide.plan.applied"
 msgstr "Đã vào lịch trình"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.id"
+msgstr "Tiếng Indonesia"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.it"
+msgstr "Tiếng Ý"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.ja"
+msgstr "Tiếng Nhật"
+
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.justMe"
 msgstr "Riêng tôi"
@@ -347,9 +391,21 @@ msgstr "Riêng tôi · {place}"
 msgid "guide.header.private"
 msgstr "Riêng tôi · chỉ bạn xem được"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.km"
+msgstr "Tiếng Khmer"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.ko"
+msgstr "Tiếng Hàn"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietKosher"
 msgstr "Kosher"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.lo"
+msgstr "Tiếng Lào"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.learned"
@@ -386,6 +442,10 @@ msgstr "Số khẩn cấp ở địa phương và cả nhóm của bạn chỉ c
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.actionsHint"
 msgstr "Nhấn giữ để xem thao tác"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.ms"
+msgstr "Tiếng Mã Lai"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceMedium"
@@ -433,6 +493,10 @@ msgstr "Để sau"
 msgid "guide.practice.retry"
 msgstr "Chưa đúng lắm. Nghe lại rồi thử thêm lần nữa nhé."
 
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderLess"
+msgstr "Bớt một {name}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.open"
 msgstr "Mở Trợ giúp"
@@ -442,6 +506,11 @@ msgid "guide.phrase.showHint"
 msgstr "Mở câu nói toàn màn hình để đưa người khác xem"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
+msgid "guide.camera.orderOne"
+msgstr "Gọi món"
+
+#: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 msgid "guide.camera.orderFor"
 msgstr "Gọi món cho {crewSize} người"
 
@@ -477,9 +546,18 @@ msgstr "Chĩa và hỏi"
 msgid "guide.camera.aim"
 msgstr "Chĩa máy vào thực đơn, mình sẽ dịch sang tiếng của bạn."
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.pt"
+msgstr "Tiếng Bồ Đào Nha"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.practise"
 msgstr "Luyện câu nói"
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+msgid "guide.phrase.practise"
+msgstr "Tập nói câu này"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.practising"
@@ -577,6 +655,10 @@ msgstr "Chia sẻ nhãn ăn uống"
 msgid "guide.dietary.shellfish"
 msgstr "Hải sản có vỏ"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderShow"
+msgstr "Đưa xem món đã chọn"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.problemFull"
 msgstr "Có người đã lấy chỗ cuối cùng trước bạn."
@@ -593,11 +675,16 @@ msgstr "Một điều mới"
 msgid "guide.dietary.soy"
 msgstr "Đậu nành"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.es"
+msgstr "Tiếng Tây Ban Nha"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.spice"
 msgstr "Độ cay"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 msgid "guide.camera.split"
 msgstr "Chia hoá đơn"
 
@@ -633,6 +720,10 @@ msgstr "Nói chuyện thành tiếng với {guideName}?"
 msgid "guide.voice.state.idle"
 msgstr "Chạm để nói"
 
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.th"
+msgstr "Tiếng Thái"
+
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 msgid "guide.practice.ok"
 msgstr "Nghe rất rõ. Sang câu tiếp theo nhé."
@@ -653,7 +744,7 @@ msgstr "Cần có mạng mới làm được. Thử lại khi bạn có mạng n
 msgid "guide.practice.checkFailed"
 msgstr "Câu đó chưa kiểm tra được nên không bị tính. Bạn thử lại nhé."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.captureFailed"
 msgstr "Chưa chụp được ảnh. Bạn thử lại nhé."
 
@@ -677,7 +768,7 @@ msgstr "Chuyện đó mình không giúp được. Hỏi mình về chuyến đi
 msgid "guide.voice.quota"
 msgstr "Hôm nay bạn đã dùng hết lượt hỏi. {guideName} quay lại sau nửa đêm; khung chat có các lựa chọn cho bạn."
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.quota"
 msgstr "Hôm nay bạn đã dùng hết lượt hỏi. {guideName} quay lại sau nửa đêm; khung chat có các lựa chọn cho bạn."
 
@@ -693,7 +784,7 @@ msgstr "Âm thanh chưa có trên điện thoại này. Chạm vào thẻ để 
 msgid "guide.camera.deniedTitle"
 msgstr "Máy ảnh đang tắt"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.noCamera"
 msgstr "Ở đây không dùng được máy ảnh. Bạn gõ các món trong thực đơn, {guideName} sẽ dịch trong khung chat."
 
@@ -702,7 +793,7 @@ msgstr "Ở đây không dùng được máy ảnh. Bạn gõ các món trong th
 msgid "guide.voice.micDeniedTitle"
 msgstr "Micro đang tắt"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.failed"
 msgstr "Bản dịch chưa tới nơi và không bị tính lượt. Bạn thử lại nhé."
 
@@ -730,7 +821,7 @@ msgstr "Đề xuất này đã đóng."
 msgid "guide.offer.expired"
 msgstr "Đề xuất này đã hết"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.unsupportedScript"
 msgstr "Điện thoại này chưa đọc được loại chữ đó. Bạn gõ tên món, mình sẽ giải thích."
 
@@ -784,6 +875,10 @@ msgstr "Thuần chay"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietVegetarian"
 msgstr "Ăn chay"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-language.ts
+msgid "guide.camera.lang.vi"
+msgstr "Tiếng Việt"
 
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.noModule"
@@ -856,7 +951,7 @@ msgstr "Bạn thấy câu này chưa hữu ích"
 msgid "guide.offer.mine"
 msgstr "Bạn đã tham gia · {0} trên {1} chỗ đã có người"
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.offline"
 msgstr "Bạn đang ngoại tuyến nên {guideName} chưa dịch được. Ảnh vẫn ở đây; bạn thử lại khi có mạng nhé."
 
@@ -879,6 +974,10 @@ msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} quay lạ
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
 msgid "guide.dietary.queued"
 msgstr "Nhu cầu ăn uống và đi lại của bạn"
+
+#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+msgid "guide.camera.orderTitle"
+msgstr "Món bạn gọi"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
