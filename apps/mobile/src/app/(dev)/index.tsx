@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native';
 import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
 import { seedLiveMap, type SeededLiveMap } from '@/data/dev/seed-live-map';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
-import { reportProblemUnderneath } from '@/features/help';
+import { reportProblemUnderneath } from '@/features/help/shake/ShakeListener';
 import { DEV_SECTIONS } from '@/lib/dev-tools/dev-screens';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';

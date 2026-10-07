@@ -26,8 +26,8 @@ import { isCovered, whileMasked } from '@/features/help/shake/test-support/maske
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { renderUi } from '@/ui/test-support/render';
 
-import { INSURANCE_SCENES } from '../dev/lab-scenes-insurance';
-import { WALLET_SCENES } from '../dev/lab-scenes-wallet';
+import { INSURANCE_SCENES } from '@/features/bookings/dev/lab-scenes-insurance';
+import { WALLET_SCENES } from '@/features/bookings/dev/lab-scenes-wallet';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },

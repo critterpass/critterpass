@@ -5,5 +5,5 @@ export { useIdeasToVote } from './data/help-local';
 export { RecapEndArbiter } from './rating/RecapEndArbiter';
 export { ratingSession } from './rating/rating-prompt';
 export { PrivateContent } from './shake/PrivateContent';
-export { reportProblemUnderneath, ShakeToReport } from './shake/ShakeListener';
+export { ShakeToReport } from './shake/ShakeListener';
 export { shakeToReportAvailable, useShakeToReport } from './shake/shake-pref';

@@ -27,8 +27,8 @@ import { isCovered, whileMasked } from '@/features/help/shake/test-support/maske
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { renderUi } from '@/ui/test-support/render';
 
-import { HOME_SCENES } from '../dev/lab-scenes-home';
-import { SETTLE_SCENES } from '../dev/lab-scenes-settle';
+import { HOME_SCENES } from '@/features/money/dev/lab-scenes-home';
+import { SETTLE_SCENES } from '@/features/money/dev/lab-scenes-settle';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },

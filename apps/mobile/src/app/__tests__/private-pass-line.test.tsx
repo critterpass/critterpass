@@ -1,6 +1,6 @@
 /**
- * A problem report's screenshot never shows the holder's pass: with the mask up the whole page
- * (photo, name, number, home and the machine-readable lines) sits under a cover.
+ * A problem report's screenshot never shows the machine-readable line of the member's pass on
+ * their profile: with the mask up it sits under a cover, the rest of the profile does not.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -19,33 +19,29 @@ jest.mock('expo-router', () => ({
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
-
-import { newPassDraft } from '@cp/domain';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { isCovered, whileMasked } from '@/features/help/shake/test-support/masked';
+import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { renderUi } from '@/ui/test-support/render';
 
-import { OnboardingPassCard } from '../pass-view';
+import { YOU_SCENES } from '@/features/you/dev/lab-scenes';
 
-describe('the pass in a problem report screenshot', () => {
-  it('covers the pass page with its name, number and machine-readable lines', async () => {
+const METRICS = {
+  frame: { x: 0, y: 0, width: 390, height: 844 },
+  insets: { top: 47, left: 0, right: 0, bottom: 34 },
+};
+
+describe('the profile in a problem report screenshot', () => {
+  it('covers the pass line and nothing else', async () => {
     await renderUi(
-      <OnboardingPassCard
-        draft={{
-          ...newPassDraft('0192f000-0000-7000-8000-0000000000a1'),
-          given_name: 'Winston',
-          number: 'CP-0427',
-          issued_at: '2026-10-07T03:00:00.000Z',
-        }}
-      />,
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <ScreenJoltProvider>{YOU_SCENES['3n-1-profile']?.()}</ScreenJoltProvider>
+      </SafeAreaProvider>,
     );
-    expect(screen.queryByTestId('private-content-cover')).toBeNull();
     await whileMasked(() => {
-      expect(isCovered(screen.getByTestId('onboarding-pass'))).toBe(true);
-      expect(isCovered(screen.getByTestId('onboarding-pass-number'))).toBe(true);
-      expect(
-        isCovered(screen.getByTestId('onboarding-pass-mrz', { includeHiddenElements: true })),
-      ).toBe(true);
+      expect(isCovered(screen.getByTestId('you-profile-mrz'))).toBe(true);
+      expect(screen.getAllByTestId('private-content-cover')).toHaveLength(1);
     });
   });
 });
