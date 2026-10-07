@@ -3,7 +3,7 @@
  * - no trip: the guide's line, PITCH A PLACE and the last trip's stamp;
  * - in trip: the next-up card becomes "TODAY · DAY n OF N", opens the trip hub, and carries the
  *   next stop and one button into the day (drawn by the next-up card itself);
- * - post trip: "{PLACE} RECAP" opens the recap for two weeks after the last day.
+ * The post-trip card is ./post-trip-card.tsx.
  */
 import type { HomeTripInput } from '@cp/domain';
 import { upper } from '@cp/i18n';
@@ -14,14 +14,13 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
-import { CountdownCard } from '@/ui/cards/CountdownCard';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
 
-import { guideOr, guideTone, tripDay } from './format';
-import { NEXT_UP_STICKER, NextUpCard } from './next-up-card';
+import { tripDay } from './format';
+import { NextUpCard } from './next-up-card';
 import { homeRoutes } from './routes';
 
 function go(href: ReturnType<typeof homeRoutes.tripHub>): (() => void) | undefined {
@@ -76,31 +75,4 @@ export function NoTripCard({
 /** A trip the server marked under way: the same card Home shows from the first day's midnight. */
 export function InTripCard({ trip, now }: { readonly trip: HomeTripInput; readonly now: Date }) {
   return <NextUpCard trip={trip} now={() => now} />;
-}
-
-export function PostTripCard({ trip }: { readonly trip: HomeTripInput }) {
-  const { t } = useLingui();
-  const locale = useLocale();
-  const guide = guideOr(trip.guideId);
-  const sticker = guideSticker(guide);
-  const place = trip.destinationName ?? t({ id: 'home.postTrip.fallback', message: 'Trip' });
-  const open = go(homeRoutes.recap(trip.id));
-  return (
-    <CountdownCard
-      testID="home-post-trip"
-      tone={guideTone(guide)}
-      eyebrow={upper(t({ id: 'home.postTrip.eyebrow', message: "How'd it go?" }), locale)}
-      title={upper(t({ id: 'home.postTrip.title', message: `${place} recap` }), locale)}
-      stickerSize={NEXT_UP_STICKER}
-      sticker={
-        <Sticker kind={sticker.kind} name={sticker.name} size={NEXT_UP_STICKER} pose="hop" />
-      }
-      meta={
-        <InfoPill variant="outline">
-          {upper(t({ id: 'home.postTrip.open', message: 'See the recap' }), locale)}
-        </InfoPill>
-      }
-      {...(open === undefined ? {} : { onPress: open })}
-    />
-  );
 }

@@ -1,4 +1,4 @@
-import { critters } from '../../data/critters';
+import { critterDrawings } from '../../data/drawings';
 import { isGuideSpec } from '../../data/types';
 import type { ArchetypeName, CritterSpec } from '../../data/types';
 import { DEFAULT_VIEW_BOX, hasKind, registerKind, resolveKind } from '../registry';
@@ -60,7 +60,7 @@ function wrapArchetype(fn: ArchetypeFn, spec: CritterSpec): KindFn {
  * preserve, and the phase's own done-when calls for the fix (`resolveKind('cp-112')` renders gecko).
  */
 export function registerLocalKinds(): void {
-  for (const critter of critters) {
+  for (const critter of critterDrawings) {
     if (isGuideSpec(critter.spec)) {
       if (!hasKind(critter.kind)) continue;
       registerKind(critter.id, resolveKind(critter.kind));

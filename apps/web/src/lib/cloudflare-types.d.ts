@@ -3,7 +3,7 @@
  * `wrangler types --include-runtime=false`) references. The full `--include-runtime` output embeds
  * workerd's own global `Element`/`Response`/`ReadableStream` etc, which structurally conflict with
  * the DOM lib types this app's browser-side scripts need — so we generate the narrow `Env`-only
- * output and declare just the two binding shapes this app actually calls.
+ * output and declare just the binding shapes this app actually calls.
  */
 interface D1Result<T = Record<string, unknown>> {
   readonly results: T[];
@@ -19,6 +19,11 @@ interface D1PreparedStatement {
 
 declare abstract class D1Database {
   prepare(query: string): D1PreparedStatement;
+}
+
+// The Worker's own edge cache (`caches.default`), which the DOM's `CacheStorage` does not declare.
+interface CacheStorage {
+  readonly default: Cache;
 }
 
 // Referenced by the generated `Env` interface (the `ASSETS` binding) but never called by our code.

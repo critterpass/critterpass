@@ -1,0 +1,46 @@
+appId: app.critterpass.dev
+---
+# Home's card after a trip and the trip hub after it, in Vietnamese: a place with stacked marks
+# ("NHÌN LẠI ĐÀ NẴNG"), the longest city name and a short one, each whole on at most two lines.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- runFlow:
+    file: subflows/trip-day-scene.yaml
+    env:
+      ITEM: 'trip-day-lab-3k-1-post-trip-da-nang'
+      READY: 'trip-hub-rate'
+      SHOT: vi-3k-1-post-trip-da-nang
+- runFlow:
+    file: subflows/trip-day-scene.yaml
+    env:
+      ITEM: 'trip-day-lab-home-post-trip-da-nang'
+      READY: 'home-post-trip'
+      SHOT: vi-3b-2-post-trip-da-nang
+- runFlow:
+    file: subflows/trip-day-scene.yaml
+    env:
+      ITEM: 'trip-day-lab-home-post-trip-long-name'
+      READY: 'home-post-trip'
+      SHOT: vi-3b-2-post-trip-long-name
+- runFlow:
+    file: subflows/trip-day-scene.yaml
+    env:
+      ITEM: 'trip-day-lab-home-post-trip-short-name'
+      READY: 'home-post-trip'
+      SHOT: vi-3b-2-post-trip-short-name
