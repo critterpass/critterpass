@@ -1,7 +1,8 @@
 /**
  * The recap page (3m-1) from props: the dates and crew over "{PLACE}, THE RECAP" with the guide's
  * shadow beside it, the four stat tiles, the forms card with the one that got away, two award
- * chips, and SHARE RECAP / WHERE NEXT?. While the guide is still writing, or when the build failed,
+ * chips, SHARE RECAP / WHERE NEXT?, and under them the rows to rate the trip and play the story
+ * again. A back eyebrow heads the page. While the guide is still writing, or when the build failed,
  * the same header sits over that state instead. The lab scenes render it with fixed data; the
  * screen feeds it synced rows.
  */
@@ -10,15 +11,15 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { NextRow } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -50,7 +51,6 @@ const useStyles = makeStyles((th) => ({
   shadow: { position: 'absolute', top: th.space['4'], end: 0 },
   ctas: { flexDirection: 'row', gap: th.space['10'] },
   cta: { flex: 1 },
-  watch: { alignItems: 'center' },
 }));
 
 export interface SummaryViewProps {
@@ -63,7 +63,9 @@ export interface SummaryViewProps {
   readonly onRetry: () => void;
   readonly onShare: () => void;
   readonly onWhereNext: () => void;
-  /** Opens the legendary calendar from the forms card, once that screen exists. */
+  /** Back to where the traveller came from (Home or the trip hub). */
+  readonly onBack: () => void;
+  /** Opens this trip's critter from the forms card. */
   readonly onGotAway?: (() => void) | undefined;
   /** Plays the story again; absent while there is none to play. */
   readonly onWatch?: (() => void) | undefined;
@@ -73,7 +75,6 @@ export interface SummaryViewProps {
 
 export function SummaryView(props: SummaryViewProps) {
   const { model, guide, guideName, unit, offline } = props;
-  useNoBackByDesign();
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
@@ -94,6 +95,11 @@ export function SummaryView(props: SummaryViewProps) {
           },
         ]}
       >
+        <BackEyebrow
+          label={t({ id: 'recap.summary.back', message: 'Back' })}
+          onPress={props.onBack}
+          testID="recap-back"
+        />
         <View style={styles.header}>
           <View style={styles.shadow}>
             <Sticker
@@ -179,23 +185,41 @@ export function SummaryView(props: SummaryViewProps) {
                 />
               </View>
             </View>
-            {props.onRate === undefined ? null : (
-              <View style={styles.watch}>
-                <TextLink
-                  label={t({ id: 'recap.summary.rate', message: 'Rate the trip' })}
-                  onPress={props.onRate}
-                  testID="recap-rate"
-                />
-              </View>
-            )}
-            {props.onWatch === undefined ? null : (
-              <View style={styles.watch}>
-                <TextLink
-                  label={t({ id: 'recap.summary.watch', message: 'Play the story again' })}
-                  onPress={props.onWatch}
-                  testID="recap-watch"
-                />
-              </View>
+            {props.onRate === undefined && props.onWatch === undefined ? null : (
+              <Stack gap="10">
+                {props.onRate === undefined ? null : (
+                  <NextRow
+                    next={{
+                      icon: 'star',
+                      label: null,
+                      title: t({ id: 'recap.summary.rate', message: 'Rate the trip' }),
+                      detail: t({
+                        id: 'recap.summary.rateDetail',
+                        message: 'One tap a place, for the next crew',
+                      }),
+                      tone: 'raised',
+                      testID: 'recap-rate',
+                      onPress: props.onRate,
+                    }}
+                  />
+                )}
+                {props.onWatch === undefined ? null : (
+                  <NextRow
+                    next={{
+                      icon: 'spark',
+                      label: null,
+                      title: t({ id: 'recap.summary.watch', message: 'Play the story again' }),
+                      detail: t({
+                        id: 'recap.summary.watchDetail',
+                        message: `${guideName} tells it from the start`,
+                      }),
+                      tone: 'raised',
+                      testID: 'recap-watch',
+                      onPress: props.onWatch,
+                    }}
+                  />
+                )}
+              </Stack>
             )}
           </Stack>
         ) : (

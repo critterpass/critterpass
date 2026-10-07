@@ -108,7 +108,13 @@ export function useStoryData(tripId: string): StoryData {
   const locale = useActiveLocale();
   const byTrip = [tripId];
   const mine = me === null ? null : [tripId, me];
-  const trip = useLiveRows<TripRow>(TRIP_SQL, byTrip, ['trips', 'crews', 'destinations', 'guides']);
+  const trip = useLiveRows<TripRow>(TRIP_SQL, byTrip, [
+    'trips',
+    'crews',
+    'destinations',
+    'guides',
+    'critters',
+  ]);
   const recapRows = useLiveRows<RecapRow>(RECAP_SQL, byTrip, ['recaps']);
   const awardRows = useLiveRows<AwardRow>(AWARDS_SQL, byTrip, ['recap_awards', 'users']);
   const votes = useLiveRows<{ award_id: string; votes: number | null }>(VOTES_SQL, byTrip, [

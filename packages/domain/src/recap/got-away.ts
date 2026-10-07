@@ -1,8 +1,9 @@
 /**
  * The one that got away (3m-7): among the destination's epic and legendary forms that could spawn
  * during the trip and that nobody on it found, the one the crew came closest to. Sightings (an
- * encounter that ended without a befriend) rank first, then legendary over epic, then the
- * critter's number, then the form id, so the pick is stable. A seasonal form also carries its next
+ * encounter that ended without a befriend) rank first, then the destination's own critter (Chà Vá
+ * in Đà Nẵng) over the rest of its country's set, then legendary over epic, then the critter's
+ * number, then the form id, so the pick is stable. A seasonal form also carries its next
  * window after the trip, for the "comes back in May" line and the reminder.
  */
 import { nextWindowSpan, windowOpenOn, type WindowRule } from '../critters/spawn-rules';
@@ -13,6 +14,8 @@ export interface GotAwayCandidate {
   readonly critter_id: string;
   readonly critter_key: string;
   readonly critter_no: number;
+  /** A form of the critter whose city the destination is. */
+  readonly own: boolean;
   readonly rarity: 'epic' | 'legendary';
   readonly sightings: number;
   readonly wandered_off: number;
@@ -46,6 +49,7 @@ function comesBack(window: WindowRule, end: string) {
 
 function rank(a: GotAwayCandidate, b: GotAwayCandidate): number {
   if (a.sightings !== b.sightings) return b.sightings - a.sightings;
+  if (a.own !== b.own) return a.own ? -1 : 1;
   if (a.rarity !== b.rarity) return a.rarity === 'legendary' ? -1 : 1;
   if (a.critter_no !== b.critter_no) return a.critter_no - b.critter_no;
   return a.form_id < b.form_id ? -1 : a.form_id > b.form_id ? 1 : 0;

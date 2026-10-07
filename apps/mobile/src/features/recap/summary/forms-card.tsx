@@ -1,7 +1,7 @@
 /**
  * The recap page's forms card (3m-1): the got-away critter's forms (found ones as stickers, the
  * rest as silhouettes, the one that got away in gold) or, when nothing got away, this trip's finds,
- * with "3 OF 4 FOUND" and the got-away line under them. Opens the legendary calendar when it can.
+ * with "3 OF 4 FOUND" and the got-away line under them. Opens that critter (or the destination's own) when it can.
  */
 import { View } from 'react-native';
 

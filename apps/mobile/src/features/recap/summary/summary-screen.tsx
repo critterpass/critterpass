@@ -55,7 +55,10 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   const unit = unitRow?.distance_unit === 'imperial' ? 'imperial' : 'metric';
   const guide = guideOf(data.guideSlug);
   const guideName = data.guideName ?? guideSticker(guide).name;
-  const legendaryHref = useScreenHref('3l-9');
+  const target = data.formsTarget;
+  const critterHref = useScreenHref('3l-3', target?.screen === '3l-3' ? target.params : {});
+  const setHref = useScreenHref('3l-8', target?.screen === '3l-8' ? target.params : {});
+  const formsHref = target === null ? undefined : target.screen === '3l-3' ? critterHref : setHref;
   const rateHref = useScreenHref('3o-3', { tripId });
   const { model } = data;
   const recapId = data.recapId;
@@ -102,7 +105,8 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
         onRetry={() => void onRetry()}
         onShare={() => setSharing(true)}
         onWhereNext={() => router.navigate(whereNextHref(data.crewId))}
-        onGotAway={legendaryHref === undefined ? undefined : () => router.push(legendaryHref)}
+        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        onGotAway={formsHref === undefined ? undefined : () => router.push(formsHref)}
         onWatch={model.phase === 'ready' ? () => router.push(recapRoutes.story(tripId)) : undefined}
         onRate={rateHref === undefined ? undefined : () => router.push(rateHref)}
       />
