@@ -29,6 +29,8 @@ import { router } from 'expo-router';
 /* eslint-disable boundaries/dependencies -- each slot's read side belongs to its own area; read here to prove what was registered. */
 import { mailboxPaywall } from '@/features/bookings/mailbox/mailbox-slot';
 import { liveMapPaywall } from '@/features/crew/live-map/gate-slot';
+import { seatLimitPresenter } from '@/features/crew/seat-limit/registry';
+import { WaitlistSheet } from '@/features/crew/seat-limit/WaitlistSheet';
 import { redraftBoost } from '@/features/plan/draft/boost-slot';
 import { seatBoost } from '@/features/proposal/crowd/boost-slot';
 /* eslint-enable boundaries/dependencies */
@@ -36,6 +38,7 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import '../register';
 import { boostHref, MONETIZE_ROUTES } from '../routes';
+import { SeatCapSheet } from '../seat-cap/seat-cap-sheet';
 
 const push = router.push as jest.Mock;
 
@@ -67,5 +70,10 @@ describe('ways into the paywall and the boost sheet', () => {
       params: { entry: 'guide_limit', tripId: 'trip-1' },
     });
     expect(hrefFor('4e-1')).toEqual({ pathname: MONETIZE_ROUTES.paywall, params: {} });
+  });
+
+  it('a full crew gets the seventh-seat sheet in place of the plain waitlist one', () => {
+    expect(seatLimitPresenter()).toBe(SeatCapSheet);
+    expect(seatLimitPresenter()).not.toBe(WaitlistSheet);
   });
 });

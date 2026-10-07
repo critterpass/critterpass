@@ -13,6 +13,7 @@ import {
   registerChatCard,
   registerChatHeaderBadge,
   registerLiveMapPaywall,
+  registerSeatLimitPresenter,
 } from '@/features/crew';
 import { registerHomeNotice } from '@/features/home';
 import { registerRedraftBoost } from '@/features/plan';
@@ -22,6 +23,7 @@ import { registerPlanChip, registerProfileNotice } from '@/features/you';
 import { BoostChatCard } from './boost-card/boost-chat-card';
 import { BillingIssueBanner } from './plan/billing-issue-banner';
 import { BoostedPill } from './boost-card/boosted-pill';
+import { SeatCapSheet } from './seat-cap/seat-cap-sheet';
 import { usePlanChip } from './plan/use-plan-chip';
 import { boostHref, paywallHref } from './routes';
 
@@ -42,6 +44,8 @@ registerChatCard('boost_card', {
   a11yLabel: () => t({ id: 'monetize.card.label', message: 'Trip boost' }),
 });
 registerChatHeaderBadge(BoostedPill);
+// A full crew at the free cap: the seventh-seat sheet in place of the plain waitlist one.
+registerSeatLimitPresenter(SeatCapSheet);
 // While a Pass+ renewal has failed, Home and the profile say so and open the page that fixes it.
 registerHomeNotice(BillingIssueBanner);
 registerProfileNotice(BillingIssueBanner);
