@@ -241,9 +241,9 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 
 <!-- progress:start -->
 
-<p align="center"><img src="docs/assets/readme/progress.svg" width="760" alt="541 of 593 tasks and 37 of 59 phases done"></p>
+<p align="center"><img src="docs/assets/readme/progress.svg" width="760" alt="543 of 593 tasks and 39 of 59 phases done"></p>
 
-**541 of 593 tasks** (91%) and **37 of 59 phases** done, 22 in progress. Last updated 2026-10-07; regenerate with `pnpm readme:progress`. Narrative and next steps: [plan.md](plans/260926-1718-critterpass-full-build/plan.md).
+**543 of 593 tasks** (92%) and **39 of 59 phases** done, 20 in progress. Last updated 2026-10-07; regenerate with `pnpm readme:progress`. Narrative and next steps: [plan.md](plans/260926-1718-critterpass-full-build/plan.md).
 
 <details open>
 <summary>Phases by wave</summary>
@@ -256,7 +256,7 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 |  | [4 · Critter art core](plans/260926-1718-critterpass-full-build/phase-04-critter-art-core.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 8/8 |
 |  | [8 · Core schema, authz + RLS, domain events](plans/260926-1718-critterpass-full-build/phase-08-core-schema-authz.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 9/9 |
 | **3** | [5 · Sticker renderer, bake pipeline, share images](plans/260926-1718-critterpass-full-build/phase-05-critter-renderer-asset-pipeline.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 10/10 |
-|  | [6 · Motion, feedback bus, gestures](plans/260926-1718-critterpass-full-build/phase-06-motion-feedback-gestures.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 9/10 |
+|  | [6 · Motion, feedback bus, gestures](plans/260926-1718-critterpass-full-build/phase-06-motion-feedback-gestures.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 10/10 |
 |  | [9 · Auth, anonymous-first, anti-abuse](plans/260926-1718-critterpass-full-build/phase-09-auth-anonymous-antiabuse.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 10/10 |
 |  | [12 · Entitlements, money & FX primitives](plans/260926-1718-critterpass-full-build/phase-12-entitlements-money-fx.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 7/7 |
 |  | [14 · POI data, maps, routing](plans/260926-1718-critterpass-full-build/phase-14-places-maps-routing.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 8/8 |
@@ -290,7 +290,7 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 | **17** | [30 · Explore](plans/260926-1718-critterpass-full-build/phase-30-explore.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 10/10 |
 |  | [31 · Proposal, RSVP, dropout re-split](plans/260926-1718-critterpass-full-build/phase-31-proposal-rsvp.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 10/10 |
 |  | [36 · Trip hub, day-of, leave-by, offline](plans/260926-1718-critterpass-full-build/phase-36-trip-day-offline.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 10/11 |
-|  | [38 · Help hub & crew SOS](plans/260926-1718-critterpass-full-build/phase-38-safety-help-sos.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▰ | 7/7 |
+|  | [38 · Help hub & crew SOS](plans/260926-1718-critterpass-full-build/phase-38-safety-help-sos.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 7/7 |
 | **18** | [37 · Disruptions](plans/260926-1718-critterpass-full-build/phase-37-disruptions.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 11/11 |
 |  | [40 · Critters: hatch, Critterdex, legendaries](plans/260926-1718-critterpass-full-build/phase-40-critters-collect.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 10/11 |
 |  | [55 · Find a driver: ask, capture, compare, pick, private tours](plans/260926-1718-critterpass-full-build/phase-55-find-a-driver.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▱▱ | 10/12 |
@@ -300,7 +300,7 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 | **20** | [42 · Voice, point-and-ask, phrases](plans/260926-1718-critterpass-full-build/phase-42-voice-camera-phrases.md) | ◐ in progress | ▰▰▰▰▰▰▱▱▱▱ | 5/9 |
 |  | [44 · Album, postcards, print](plans/260926-1718-critterpass-full-build/phase-44-album-postcards.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 8/9 |
 |  | [47 · Help centre, feedback, rating](plans/260926-1718-critterpass-full-build/phase-47-help-feedback.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 7/8 |
-|  | [49 · Actionable notifs, widgets](plans/260926-1718-critterpass-full-build/phase-49-notification-surfaces-widgets.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▱▱ | 8/10 |
+|  | [49 · Actionable notifs, widgets](plans/260926-1718-critterpass-full-build/phase-49-notification-surfaces-widgets.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 9/10 |
 | **21** | [45 · You: profile, settings, export, deletion](plans/260926-1718-critterpass-full-build/phase-45-you-profile-settings.md) | ◐ in progress | ▰▰▰▰▰▰▰▱▱▱ | 8/12 |
 |  | [50 · Android parity layer](plans/260926-1718-critterpass-full-build/phase-50-android-parity.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 9/10 |
 |  | [52 · Community plans](plans/260926-1718-critterpass-full-build/phase-52-community.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 11/12 |

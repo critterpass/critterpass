@@ -304,6 +304,12 @@ jobs:
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
         run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
+      # Launch and first-screen timings from Maestro's own command log, into the shard's artifact
+      # (perf/device-timings.json) and the job summary. Recorded only: it never fails a shard.
+      - name: Record launch timings
+        if: always()
+        continue-on-error: true
+        run: npx --yes tsx@4 tools/scripts/perf/device-timings.ts --dir "$RUNNER_TEMP/out" --platform ios || true
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -373,6 +379,12 @@ jobs:
           # The emulator connects to an adb server that is already running, instead of racing to start one.
           pre-emulator-launch-script: adb start-server
           script: tools/scripts/ci-device/android-device.sh "$RUNNER_TEMP/app.apk" "$RUNNER_TEMP/out" "$FLOWS"
+      # Launch and first-screen timings from Maestro's own command log, into the shard's artifact
+      # (perf/device-timings.json) and the job summary. Recorded only: it never fails a shard.
+      - name: Record launch timings
+        if: always()
+        continue-on-error: true
+        run: npx --yes tsx@4 tools/scripts/perf/device-timings.ts --dir "$RUNNER_TEMP/out" --platform android || true
       - uses: actions/upload-artifact@v7
         if: always()
         with:

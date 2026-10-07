@@ -3,6 +3,10 @@
   "apple": {
     "copyright": "2026 CritterPass",
     "categories": ["TRAVEL", "SOCIAL_NETWORKING"],
+    "release": {
+      "automaticRelease": false,
+      "phasedRelease": true
+    },
     "info": {
       "en-US": {
         "title": "CritterPass: Group Trips",

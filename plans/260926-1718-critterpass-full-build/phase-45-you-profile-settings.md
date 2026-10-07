@@ -213,12 +213,12 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: restore within grace brings memberships back; `ACCOUNT_CLOSED` returned to closed sessions; close side effects each asserted.
 
 ### T9b — Deletion backend: purge, reminder, admin
-- Status: blocked — database purge done (16fe3312ec); external-store purge steps, the purge reminder (email delivery is not wired in the worker) and the admin panel remain
 - Goal: verified purge across DB and external stores.
 - Files: `services/worker/src/jobs/account/{purge,purge-external,purge-reminder}.ts`, `packages/db/test/purge/account-purge.test.ts`, `services/worker/test/account/purge-external.test.ts`, `services/api/src/admin/account/*`, `apps/admin/src/modules/account/*`.
 - Steps: 1. Purge cascade per privacy §1 + `write_off_debt` for amounts owed to the user + SIWA/Google revoke (P09). 2. External purge steps (PostHog, Langfuse, Linear redaction, R2 `exports/{uid}` + feedback media, Resend) each idempotent with retry + DLQ. 3. Reminder N-52. 4. Admin panel.
 - Tests: `pnpm --filter @cp/db test -- purge`; `pnpm --filter @cp/worker test -- account/purge-external`.
 - Done when: purge test asserts every C3 table empty for uid (enumerated from the privacy registry, incl. Better Auth `user`/`session`/`account`/`verification`), C1 authored rows show former member, ledger still balances to zero across crew, `store_transactions.user_id` NULL; external purge test asserts one delete/redact call per store (recorded HTTP fixtures) and retries on failure.
+- Status: partial — database purge done (16fe3312ec); 480deec733 (purge of the media bucket prefixes and the Langfuse traces with recorded fixtures, analytics deletion, the daily `account.purge_reminder` job, and the console's deletions panel with its api). Left: the reminder has no sender (a closed account can only be reached by email, which the worker cannot send, so each reminder is counted `undelivered`), and the Linear redaction and Resend steps are not written
 
 ### T10 — Deletion UI 3n-9 / 3n-10 / 3n-11 + restore interstitial
 - Status: done — 0f58a0d20a (preflight on 3n-9); screens and restore 60b02dc45c
