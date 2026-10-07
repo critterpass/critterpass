@@ -275,9 +275,9 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 52 | [Community plans](./phase-52-community.md) | 12 | 17, 28, 29, 30, 43, 44, 46, 51, 58 | 21 | in_progress (11/12) |
 | 53 | [Store listing & social kit](./phase-53-store-social-assets.md) | 6 | 5, 40, 43, 45, 47, 49, 50, 51 | 22 | in_progress (1/6) |
 | 54 | [Launch hardening & submission](./phase-54-launch-hardening.md) | 12 | 19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57 | 23 | in_progress (1/12) |
-| 55 | [Find a driver: ask, capture, compare, pick, private tours](./phase-55-find-a-driver.md) | 13 | 13, 16, 29, 34, 35, 36, 58 | 18 | in_progress (9/13) |
+| 55 | [Find a driver: ask, capture, compare, pick, private tours](./phase-55-find-a-driver.md) | 12 | 13, 16, 29, 34, 35, 36, 58 | 18 | in_progress (10/12) |
 | 56 | [Drivers our crews used: rating, invite, claim, directory](./phase-56-crews-drivers-directory.md) | 8 | 9, 17, 21, 43, 51, 52, 55, 58 | 22 | pending (0/8; open PR) |
-| 57 | [Share the plan with your driver: page, PDF, quote back](./phase-57-share-plan-with-driver.md) | 7 | 21, 26, 29, 51, 52, 55 | 22 | pending (0/7; open PR) |
+| 57 | [Share the plan with your driver: page, PDF, quote back](./phase-57-share-plan-with-driver.md) | 7 | 21, 26, 29, 51, 52, 55 | 22 | in_progress (5/7) |
 | 58 | [Ops console data capture and early contracts](./phase-58-ops-console-early-contracts.md) | 7 | 11, 13, 17 | 7 | done |
 | 59 | [Ops console designed pass](./phase-59-ops-console-designed-pass.md) | 9 | 18, 19, 35, 44, 45, 46, 47, 52, 55, 56, 58 | 23 | done |
 
