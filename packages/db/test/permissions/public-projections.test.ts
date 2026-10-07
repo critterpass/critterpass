@@ -242,6 +242,41 @@ describe('public.shared_plan_public', () => {
   });
 });
 
+describe('public.perks_public', () => {
+  const perkKeys = () =>
+    asPublicReader({}, async (tx) => {
+      const { rows } = await tx.query<{ key: string }>(
+        'SELECT key FROM public.perks_public ORDER BY sort',
+      );
+      return rows.map((row) => row.key);
+    });
+
+  it('lists the switched-on perks and drops one the moment it is switched off', async () => {
+    expect(await perkKeys()).toContain('boost_live_map');
+    await withSystem(db.pool, (tx) =>
+      tx.query("UPDATE perks SET is_shipped = false WHERE key = 'boost_live_map'"),
+    );
+    try {
+      const keys = await perkKeys();
+      expect(keys).not.toContain('boost_live_map');
+      expect(keys).toContain('pass_plus_guide_unlimited');
+    } finally {
+      await withSystem(db.pool, (tx) =>
+        tx.query("UPDATE perks SET is_shipped = true WHERE key = 'boost_live_map'"),
+      );
+    }
+  });
+
+  it('carries only its allow-listed columns', async () => {
+    const { rows } = await db.pool.query<{ column_name: string }>(
+      `SELECT column_name FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'perks_public'
+        ORDER BY ordinal_position`,
+    );
+    expect(rows.map((row) => row.column_name)).toEqual(['key', 'tier', 'copy_key', 'sort']);
+  });
+});
+
 describe('public_reader', () => {
   // PostGIS's spatial_ref_sys (public reference data, readable by every role) is the one exception.
   it('cannot read any base table', async () => {
