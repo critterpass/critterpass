@@ -47,7 +47,7 @@ on:
         type: string
         default: ''
       build_url:
-        description: EAS artifact URL(s) to use instead of the fingerprint-matched e2e-test build (.apk for Android, .tar.gz for iOS)
+        description: Artifact URL(s) to use instead of the fingerprint-matched e2e-test build (.apk for Android, .tar.gz for iOS)
         type: string
         default: ''
       shards:
@@ -207,6 +207,7 @@ jobs:
         if: steps.settings.outputs.ios == 'true'
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           OVERRIDE: ${{ steps.settings.outputs.build_url }}
         run: pnpm exec tsx tools/scripts/ci-device/resolve-build.ts --platform ios --override "$OVERRIDE"
       - name: Resolve the Android build
@@ -214,6 +215,7 @@ jobs:
         if: steps.settings.outputs.android == 'true'
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           OVERRIDE: ${{ steps.settings.outputs.build_url }}
         run: pnpm exec tsx tools/scripts/ci-device/resolve-build.ts --platform android --override "$OVERRIDE"
       - name: Plan iOS shards

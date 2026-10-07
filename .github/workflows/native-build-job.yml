@@ -1,0 +1,313 @@
+name: native-build-job
+
+# Builds the app on GitHub's runners with `eas build --local` (no EAS build minutes) and, when asked,
+# hands a store build to App Store Connect or Google Play. Called by native-build.yml (e2e-test and
+# staging) and release.yml (production); it has no trigger of its own.
+#
+# EAS still supplies the signing credentials, the remote build number and the profile's environment
+# variables through EXPO_TOKEN. Each build is uploaded to the run and gets a GitHub release named
+# native-<profile>-<platform>-<fingerprint>-<run id> whose body is its manifest
+# (tools/scripts/ci-device/build-manifest.ts). An e2e-test binary is attached to the release, where
+# device runs find it by fingerprint; a store binary stays a run artifact and only its manifest is
+# attached, because release assets of this public repository are public.
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Branch, tag or commit to build
+        required: true
+        type: string
+      profile:
+        description: eas.json build profile (e2e-test, staging or production)
+        required: true
+        type: string
+      platform:
+        description: ios, android or all
+        required: true
+        type: string
+      submit:
+        description: Send the store build to App Store Connect / Google Play
+        required: false
+        type: boolean
+        default: false
+      environment:
+        description: GitHub environment the jobs run in (production builds need "production")
+        required: false
+        type: string
+        default: ''
+      source_run_id:
+        description: Submit the build of this earlier run instead of building
+        required: false
+        type: string
+        default: ''
+
+env:
+  EAS_CLI: eas-cli@24.8.0
+
+jobs:
+  build:
+    name: build ${{ inputs.profile }} ${{ matrix.platform }}
+    if: inputs.source_run_id == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(inputs.platform == 'all' && '["ios","android"]' || format('["{0}"]', inputs.platform)) }}
+    # Xcode 26.6 on macOS 26: the image device runs install the simulator build on.
+    runs-on: ${{ matrix.platform == 'ios' && 'macos-26' || 'ubuntu-latest' }}
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 150
+    permissions:
+      contents: write
+    env:
+      PROFILE: ${{ inputs.profile }}
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+      - name: Check the profile
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          case "$PROFILE" in
+            e2e-test|staging) ;;
+            production)
+              # Production builds run only behind the production environment's approval.
+              [ "$ENVIRONMENT" = production ] ||
+                { echo "::error::a production build must run in the production environment"; exit 1; } ;;
+            *) echo "::error::unknown profile: $PROFILE"; exit 1 ;;
+          esac
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - uses: actions/setup-java@v6
+        if: matrix.platform == 'android'
+        with: { distribution: temurin, java-version: 17 }
+      - if: matrix.platform == 'ios'
+        run: sudo xcode-select -s /Applications/Xcode_26.6.app
+      - name: Free disk space and give Gradle memory
+        if: matrix.platform == 'android'
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/share/swift /opt/hostedtoolcache/CodeQL
+          df -h / | tail -1
+          # The project's 2 GB heap is too small for R8 on the release build; the runner has 16 GB.
+          # The build cache lets a later build reuse compiled Kotlin and Java (restored below).
+          mkdir -p ~/.gradle
+          {
+            echo 'org.gradle.jvmargs=-Xmx8g -XX:MaxMetaspaceSize=1g -XX:+HeapDumpOnOutOfMemoryError'
+            echo 'org.gradle.caching=true'
+          } >> ~/.gradle/gradle.properties
+      # The build itself runs in a fresh copy of the project, so only download caches carry over.
+      - uses: actions/cache@v5
+        if: matrix.platform == 'android'
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/build-cache-1
+            ~/.gradle/wrapper
+          key: native-gradle-${{ inputs.profile }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: native-gradle-${{ inputs.profile }}-
+      - uses: actions/cache@v5
+        if: matrix.platform == 'ios'
+        with:
+          path: ~/Library/Caches/CocoaPods
+          key: native-cocoapods-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: native-cocoapods-
+      - run: pnpm install --frozen-lockfile
+      - name: Secret files
+        env:
+          # Android's runtime version (the native fingerprint) hashes the Firebase config's
+          # contents, and EAS does not hand its file variable to a build that runs here. The
+          # staging-update workflow computes the fingerprint from the same secret.
+          FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          FIREBASE_CONFIG_PRODUCTION: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION }}
+          # App Store Connect API key, so eas-cli can sync capabilities and provisioning profiles
+          # for iOS store builds; without it the build uses the stored profiles as they are.
+          ASC_API_KEY_P8: ${{ secrets.EXPO_ASC_API_KEY_P8 }}
+          ASC_KEY_ID: ${{ secrets.EXPO_ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.EXPO_ASC_ISSUER_ID }}
+        run: |
+          umask 077
+          mkdir -p "$RUNNER_TEMP/secret-files"
+          # Production has its own Firebase project and never falls back to the staging one.
+          [ "$PROFILE" = production ] && FIREBASE_CONFIG=$FIREBASE_CONFIG_PRODUCTION
+          if [ "$PLATFORM" = android ]; then
+            if [ -n "$FIREBASE_CONFIG" ]; then
+              printf '%s' "$FIREBASE_CONFIG" > "$RUNNER_TEMP/secret-files/google-services.json"
+              echo "GOOGLE_SERVICES_JSON=$RUNNER_TEMP/secret-files/google-services.json" >> "$GITHUB_ENV"
+            elif [ "$PROFILE" != e2e-test ]; then
+              echo "::error::the Firebase config secret is missing (GOOGLE_SERVICES_JSON_CONTENT, or GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION for production): the build would carry a runtime version no update can match"
+              exit 1
+            else
+              echo "::warning::no GOOGLE_SERVICES_JSON_CONTENT secret: the build has no Firebase config"
+            fi
+          fi
+          if [ "$PLATFORM" = ios ] && [ "$PROFILE" != e2e-test ]; then
+            if [ -n "$ASC_API_KEY_P8" ] && [ -n "$ASC_KEY_ID" ] && [ -n "$ASC_ISSUER_ID" ]; then
+              printf '%s' "$ASC_API_KEY_P8" > "$RUNNER_TEMP/secret-files/asc-api-key.p8"
+              {
+                echo "EXPO_ASC_API_KEY_PATH=$RUNNER_TEMP/secret-files/asc-api-key.p8"
+                echo "EXPO_ASC_KEY_ID=$ASC_KEY_ID"
+                echo "EXPO_ASC_ISSUER_ID=$ASC_ISSUER_ID"
+                echo "EXPO_APPLE_TEAM_ID=YFND2EEW8S"
+                echo "EXPO_APPLE_TEAM_TYPE=INDIVIDUAL"
+              } >> "$GITHUB_ENV"
+            else
+              echo "::warning::no App Store Connect API key secrets: capabilities and provisioning profiles are not synced, the stored profiles are used as they are"
+            fi
+          fi
+      - name: Build
+        id: build
+        working-directory: apps/mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          # EAS keeps this one out of reach of a build that runs here; without it a staging build
+          # skips the source map upload (SENTRY_ALLOW_FAILURE) and a production build stops.
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          set -uo pipefail
+          [ -n "$EXPO_TOKEN" ] || { echo "::error::EXPO_TOKEN secret is missing"; exit 1; }
+          [ -n "$SENTRY_AUTH_TOKEN" ] || unset SENTRY_AUTH_TOKEN
+          case "$PROFILE-$PLATFORM" in
+            e2e-test-android) ext=apk ;;
+            e2e-test-ios) ext=tar.gz ;;
+            *-android) ext=aab ;;
+            *) ext=ipa ;;
+          esac
+          mkdir -p "$RUNNER_TEMP/native"
+          artifact=$RUNNER_TEMP/native/critterpass-$PROFILE-$PLATFORM.$ext
+          started=$SECONDS
+          npx --yes "$EAS_CLI" build --local --profile "$PROFILE" --platform "$PLATFORM" \
+            --non-interactive --output "$artifact"
+          status=$?
+          minutes=$(( (SECONDS - started + 30) / 60 ))
+          if [ "$status" != 0 ] || [ ! -s "$artifact" ]; then
+            echo "::error::eas build --local failed (exit $status) after $minutes min"
+            exit 1
+          fi
+          size=$(du -h "$artifact" | cut -f1)
+          echo "artifact=$artifact" >> "$GITHUB_OUTPUT"
+          echo "### Native build: \`$PROFILE\` $PLATFORM at \`$(git rev-parse --short=12 HEAD)\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Built on this runner in $minutes min ($size)." >> "$GITHUB_STEP_SUMMARY"
+      - name: Manifest
+        id: manifest
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          ARTIFACT: ${{ steps.build.outputs.artifact }}
+        run: |
+          pnpm exec tsx tools/scripts/ci-device/build-manifest.ts --profile "$PROFILE" \
+            --platform "$PLATFORM" --artifact "$ARTIFACT" --run-id "$GITHUB_RUN_ID" \
+            --out "$RUNNER_TEMP/native/manifest.json"
+      - name: Remove the secret files
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/secret-files"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: native-${{ inputs.profile }}-${{ matrix.platform }}
+          path: ${{ runner.temp }}/native
+          # Store binaries are kept only long enough to submit them.
+          retention-days: ${{ inputs.profile == 'e2e-test' && 30 || 7 }}
+          compression-level: 0
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.manifest.outputs.tag }}
+          ARTIFACT: ${{ steps.build.outputs.artifact }}
+        run: |
+          set -euo pipefail
+          manifest=$RUNNER_TEMP/native/manifest.json
+          if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$(git rev-parse HEAD)" \
+              --prerelease --latest=false --title "$PROFILE $PLATFORM build ($GITHUB_RUN_ID)" \
+              --notes-file "$manifest"
+          fi
+          files=("$manifest")
+          [ "$PROFILE" = e2e-test ] && files+=("$ARTIFACT")
+          gh release upload "$TAG" "${files[@]}" --repo "$GITHUB_REPOSITORY" --clobber
+          {
+            echo "Release: \`$TAG\`"
+            echo '```json'; cat "$manifest"; echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  submit:
+    name: submit ${{ inputs.profile }} ${{ matrix.platform }}
+    needs: build
+    # After this run's build, or for an earlier run's build when source_run_id is given.
+    if: >-
+      always() && inputs.submit && inputs.profile != 'e2e-test' &&
+      (needs.build.result == 'success' || (needs.build.result == 'skipped' && inputs.source_run_id != ''))
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(inputs.platform == 'all' && '["ios","android"]' || format('["{0}"]', inputs.platform)) }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+    env:
+      PROFILE: ${{ inputs.profile }}
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+      - name: Check the profile
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          if [ "$PROFILE" = production ] && [ "$ENVIRONMENT" != production ]; then
+            echo "::error::a production submission must run in the production environment"; exit 1
+          fi
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          name: native-${{ inputs.profile }}-${{ matrix.platform }}
+          path: ${{ runner.temp }}/native
+          run-id: ${{ inputs.source_run_id || github.run_id }}
+          github-token: ${{ github.token }}
+      - name: Submit to the store
+        working-directory: apps/mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          ASC_API_KEY_P8: ${{ secrets.EXPO_ASC_API_KEY_P8 }}
+          EXPO_ASC_KEY_ID: ${{ secrets.EXPO_ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.EXPO_ASC_ISSUER_ID }}
+          GOOGLE_PLAY_SUBMIT_JSON: ${{ secrets.GOOGLE_PLAY_SUBMIT_JSON }}
+        run: |
+          set -euo pipefail
+          [ -n "$EXPO_TOKEN" ] || { echo "::error::EXPO_TOKEN secret is missing"; exit 1; }
+          manifest=$RUNNER_TEMP/native/manifest.json
+          # Only a store build of this profile, made from the commit being released, is submitted.
+          built=$(jq -r '"\(.profile) \(.platform) \(.commit)"' "$manifest")
+          if [ "$built" != "$PROFILE $PLATFORM $(git rev-parse HEAD)" ]; then
+            echo "::error::the build is \"$built\", not a $PROFILE $PLATFORM build of $(git rev-parse HEAD)"
+            exit 1
+          fi
+          artifact=$RUNNER_TEMP/native/$(jq -r .artifact "$manifest")
+          [ -s "$artifact" ] || { echo "::error::the build's binary is not in the run artifact"; exit 1; }
+          trap 'rm -f "$RUNNER_TEMP/asc-api-key.p8" ../../certs/google-play-submit.json' EXIT
+          if [ "$PLATFORM" = ios ]; then
+            if [ -z "$ASC_API_KEY_P8" ] || [ -z "$EXPO_ASC_KEY_ID" ] || [ -z "$EXPO_ASC_ISSUER_ID" ]; then
+              echo "::error::the App Store Connect API key secrets are missing (EXPO_ASC_API_KEY_P8, EXPO_ASC_KEY_ID, EXPO_ASC_ISSUER_ID)"
+              exit 1
+            fi
+            printf '%s' "$ASC_API_KEY_P8" > "$RUNNER_TEMP/asc-api-key.p8"
+            export EXPO_ASC_API_KEY_PATH=$RUNNER_TEMP/asc-api-key.p8
+            export EXPO_APPLE_TEAM_ID=YFND2EEW8S EXPO_APPLE_TEAM_TYPE=INDIVIDUAL
+          else
+            if [ -z "$GOOGLE_PLAY_SUBMIT_JSON" ]; then
+              echo "::error::the GOOGLE_PLAY_SUBMIT_JSON secret is missing"
+              exit 1
+            fi
+            # eas.json reads the service account key from the git-ignored certs folder.
+            mkdir -p ../../certs
+            printf '%s' "$GOOGLE_PLAY_SUBMIT_JSON" > ../../certs/google-play-submit.json
+          fi
+          npx --yes "$EAS_CLI" submit --profile "$PROFILE" --platform "$PLATFORM" \
+            --path "$artifact" --non-interactive --no-wait
+          echo "- $PLATFORM: $PROFILE build $(jq -r '"\(.appVersion) (\(.buildNumber))"' "$manifest") submitted" >> "$GITHUB_STEP_SUMMARY"
