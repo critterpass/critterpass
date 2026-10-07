@@ -22,10 +22,13 @@ function Scene({
   row = recapRow({ cards: CARDS }),
   over = {},
   offline = false,
+  share = false,
 }: {
   readonly row?: RecapRow | null;
   readonly over?: Partial<SummaryInput>;
   readonly offline?: boolean;
+  /** Opens on the share sheet. */
+  readonly share?: boolean;
 }) {
   const model = buildSummaryModel({
     loaded: true,
@@ -45,7 +48,7 @@ function Scene({
     gotAwayName: 'Chà Vá',
     ...over,
   });
-  const [sharing, setSharing] = useState(false);
+  const [sharing, setSharing] = useState(share);
   return (
     <>
       <SummaryView
@@ -116,6 +119,7 @@ export const RECAP_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   '3m-1-offline': () => <Scene offline />,
+  'recap-share-sheet': () => <Scene share />,
   ...MEMORY_SCENES,
 };
 
