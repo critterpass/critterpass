@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1273,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "a6716f6e-885d-455c-9e40-d3e475fbb904",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Carla\",\"quote\":\"Highly recommend Carla\"},\"phone\":{\"value\":\"+5215500002121\",\"quote\":\"+52 1 55 0000 2121\"},\"area\":{\"value\":\"Xochimilco\",\"quote\":\"Xochimilco + Coyoacán\"},\"languages\":{\"value\":[\"en\",\"es\"],\"quote\":\"bilingual guide\"},\"car\":{\"value\":\"Suburban\",\"seats\":6,\"quote\":\"her husband drives a Suburban\"},\"price\":{\"amount\":180,\"currency\":\"USD\",\"unit\":\"day\",\"hours\":null,\"quote\":\"$180 USD for a full day\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"the driver's own name is not given, only the guide's name\"],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 227,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 198,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

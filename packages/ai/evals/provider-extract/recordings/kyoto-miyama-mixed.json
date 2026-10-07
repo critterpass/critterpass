@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1113,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "2dcc029b-0564-4d05-bef7-e4e99d0c6c8e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Sato\",\"quote\":\"Driver Sato\"},\"phone\":{\"value\":\"+818000001717\",\"quote\":\"+81-80-0000-1717\"},\"area\":{\"value\":\"Kyoto station\",\"quote\":\"from Kyoto station\"},\"languages\":{\"value\":[\"en\"],\"quote\":\"speaks basic English\"},\"car\":{\"value\":null,\"seats\":6,\"quote\":\"Max 6 ppl\"},\"price\":{\"amount\":60000,\"currency\":\"JPY\",\"unit\":\"hours\",\"hours\":9,\"quote\":\"9h, ¥60,000 per car\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"unknown\",\"tolls\":\"yes\",\"entry\":\"unknown\",\"quote\":\"incl highway tolls & gas\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 220,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 178,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

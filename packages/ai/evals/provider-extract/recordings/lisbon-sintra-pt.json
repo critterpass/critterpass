@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1287,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "f87a7cfd-cb55-4f7c-917e-b4c6116ee9f8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Rui\",\"quote\":\"sou o Rui\"},\"phone\":{\"value\":\"+351912000023\",\"quote\":\"+351 912 000 023\"},\"area\":{\"value\":\"Sintra\",\"quote\":\"Sintra + Cabo da Roca + Cascais\"},\"languages\":{\"value\":[\"en\",\"es\"],\"quote\":\"Falo inglês e espanhol\"},\"car\":{\"value\":\"Vito\",\"seats\":7,\"quote\":\"viatura até 7 pessoas (Vito)\"},\"price\":{\"amount\":320,\"currency\":\"EUR\",\"unit\":\"day\",\"hours\":8,\"quote\":\"dia inteiro 8h, 320€ por viatura\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"unknown\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"Combustível e portagens incluídos, entradas não\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 253,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 210,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}
