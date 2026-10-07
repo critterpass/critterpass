@@ -17,6 +17,13 @@ describe('store kit', () => {
     expect(committed).toEqual(easMetadata(listings, 2026));
   });
 
+  it('holds an approved App Store version for a manual, phased release', () => {
+    expect(easMetadata(listings, 2026).apple.release).toEqual({
+      automaticRelease: false,
+      phasedRelease: true,
+    });
+  });
+
   it('maps each listing language to the store locale codes', () => {
     expect(Object.keys(easMetadata(listings, 2026).apple.info)).toEqual(['en-US', 'vi']);
     expect(playListings(listings).map((l) => l.language)).toEqual(['en-US', 'vi']);
