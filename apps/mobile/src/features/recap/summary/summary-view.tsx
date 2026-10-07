@@ -63,7 +63,7 @@ export interface SummaryViewProps {
   readonly onRetry: () => void;
   readonly onShare: () => void;
   readonly onWhereNext: () => void;
-  /** Opens the legendary calendar from the forms card, once that screen exists. */
+  /** Opens this trip's critter from the forms card. */
   readonly onGotAway?: (() => void) | undefined;
   /** Plays the story again; absent while there is none to play. */
   readonly onWatch?: (() => void) | undefined;
