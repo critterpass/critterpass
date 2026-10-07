@@ -1,8 +1,9 @@
 appId: app.critterpass.dev
 ---
-# SHARE RECAP from the recap scene: the card drawn on the phone shows in the share sheet (its
-# preview image reads "Đà Nẵng, the recap, …"), then Close. English only: the sheet's labels are
-# matched by text.
+# SHARE RECAP from the recap scene: the sheet offers an image or a link; sharing a link brings up
+# "Stop sharing", which takes it away again. Then the image: the card drawn on the phone shows in
+# the share sheet (its preview image reads "Đà Nẵng, the recap, …"), then Close. English only: the
+# image sheet's labels are matched by text.
 - scrollUntilVisible:
     element:
       id: 'recap-lab-3m-1-recap'
@@ -18,6 +19,30 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'recap-share'
+- extendedWaitUntil:
+    visible:
+      id: 'recap-share-link'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- assertNotVisible:
+    id: 'recap-share-stop'
+- takeScreenshot: en-3m-1-share-choice
+- tapOn:
+    id: 'recap-share-link'
+- extendedWaitUntil:
+    visible:
+      id: 'recap-share-stop'
+    timeout: 15000
+- takeScreenshot: en-3m-1-share-link-live
+- tapOn:
+    id: 'recap-share-stop'
+- extendedWaitUntil:
+    notVisible:
+      id: 'recap-share-stop'
+    timeout: 15000
+- tapOn:
+    id: 'recap-share-image'
 - extendedWaitUntil:
     visible: '.*the recap, .*'
     timeout: 30000

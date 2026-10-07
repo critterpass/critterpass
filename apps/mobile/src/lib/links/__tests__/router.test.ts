@@ -37,6 +37,8 @@ describe('routeIncomingUrl after onboarding', () => {
     ],
     [`https://critterpass.app/plan/${TRIP}`, `/${TRIP}/plan`],
     ['https://critterpass.app/p/abcdefghijklmnop', '/community/link/abcdefghijklmnop'],
+    ['https://critterpass.app/rc/abcdefghijklmnop', '/recap-link/abcdefghijklmnop'],
+    ['https://critterpass.app/app/recap-link/abcdefghijklmnop', '/recap-link/abcdefghijklmnop'],
     ['https://critterpass.app/g/lundi', '/explore/lundi'],
     ['https://critterpass.app/locals/bali', '/pass'],
     ['critterpass-dev://locals/vn-da-lat', '/pass'],
