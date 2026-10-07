@@ -2,10 +2,12 @@
  * The recap story (3m-3…3m-8) from props: the story player with one segment per card (its own
  * length, its narration as the caption), the header ("{GUIDE} PRESENTS", the recap and its theme,
  * the voice switch and ✕) and the playing card's action in the footer. Each card's recorded voice
- * plays while it is up, paused with the story. The lab scenes render it with fixed data.
+ * plays while it is up, paused with the story and silenced when the card goes; a card whose line
+ * is still speaking at its end waits for it. Leaving the app stops the story and its voice until
+ * it is back in front. The lab scenes render it with fixed data.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { guideSticker } from '@/ui/avatar/guides';
@@ -21,7 +23,9 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { StoryCardSpec } from './story-cards';
 import { presents, storyHint } from './story-copy';
-import { useNarration } from './use-narration';
+import { useAppActive } from './use-app-active';
+import { useNarration, type VoiceUrlLoader } from './use-narration';
+import { useVoiceWait } from './use-voice-wait';
 
 const useStyles = makeStyles((th) => ({
   header: {
@@ -33,9 +37,32 @@ const useStyles = makeStyles((th) => ({
   grow: { flex: 1 },
 }));
 
-function CardHost({ spec, voiceOn }: { readonly spec: StoryCardSpec; readonly voiceOn: boolean }) {
+interface CardHostProps {
+  readonly spec: StoryCardSpec;
+  readonly voiceOn: boolean;
+  /** A sheet is over the story, or the app is not in front: the voice stops with the bar. */
+  readonly frozen: boolean;
+  /** The card is holding its last moment for the voice line. */
+  readonly onVoiceHold: (holding: boolean) => void;
+  readonly loadVoiceUrl: VoiceUrlLoader | undefined;
+}
+
+function CardHost({ spec, voiceOn, frozen, onVoiceHold, loadVoiceUrl }: CardHostProps) {
   const clock = useStoryClock();
-  useNarration(spec.narrationKey, voiceOn, clock.paused);
+  const [speaking, setSpeaking] = useState(false);
+  const holding = useVoiceWait(speaking, spec.durationMs);
+  // The hold for the voice stops the bar, not the voice it is waiting for.
+  useNarration(
+    spec.narrationKey,
+    voiceOn,
+    frozen || (clock.paused && !holding),
+    setSpeaking,
+    loadVoiceUrl,
+  );
+  useEffect(() => {
+    onVoiceHold(holding);
+    return () => onVoiceHold(false);
+  }, [holding, onVoiceHold]);
   return <>{spec.content}</>;
 }
 
@@ -53,6 +80,8 @@ export interface StoryViewProps {
   /** A sheet over the story holds it. */
   readonly held: boolean;
   readonly initialIndex?: number;
+  /** Signs a voice clip's URL; the api's read URLs unless a lab scene or test gives its own. */
+  readonly loadVoiceUrl?: VoiceUrlLoader;
 }
 
 export function StoryView(props: StoryViewProps) {
@@ -60,6 +89,9 @@ export function StoryView(props: StoryViewProps) {
   const theme = useTheme();
   const { t } = useLingui();
   const [index, setIndex] = useState(props.initialIndex ?? 0);
+  const [voiceHold, setVoiceHold] = useState(false);
+  const active = useAppActive();
+  const frozen = props.held || !active;
   const art = guideSticker(props.guide);
   const playing = props.cards[index];
   // The stamp card is paper: the header is set in ink over it.
@@ -68,7 +100,7 @@ export function StoryView(props: StoryViewProps) {
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="recap-story">
       <StoryPlayer
         testID="recap-story-player"
-        held={props.held}
+        held={frozen || voiceHold}
         initialIndex={props.initialIndex ?? 0}
         segments={props.cards.map((spec) => ({
           id: spec.card,
@@ -78,7 +110,17 @@ export function StoryView(props: StoryViewProps) {
           pushIn: false,
           barTone: spec.card === 'stamp' ? 'ink' : 'light',
           ...(spec.caption === null ? {} : { caption: spec.caption }),
-          content: <CardHost spec={spec} voiceOn={props.voiceOn} />,
+          // Keyed by card: the next card's host starts fresh, and the last one's voice stops.
+          content: (
+            <CardHost
+              key={spec.card}
+              spec={spec}
+              voiceOn={props.voiceOn}
+              frozen={frozen}
+              onVoiceHold={setVoiceHold}
+              loadVoiceUrl={props.loadVoiceUrl}
+            />
+          ),
         }))}
         header={
           <View style={styles.header}>

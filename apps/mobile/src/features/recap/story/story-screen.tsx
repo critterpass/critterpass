@@ -36,6 +36,7 @@ import { StoryFooter } from './story-footer';
 import { storySession } from './story-session';
 import { storySummary } from './story-summary';
 import { StoryView } from './story-view';
+import { useAppActive } from './use-app-active';
 import { useRecapChannel } from './use-recap-channel';
 import { useStoryData } from './use-story-data';
 
@@ -70,11 +71,12 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
 
   // The guide's theme under the story, while it plays.
   const themed = music.themedGuideFor(guide, guidesOfSameCountry(guide)) ?? null;
+  const active = useAppActive();
   useEffect(() => {
-    if (themed === null) return undefined;
+    if (themed === null || !active) return undefined;
     music.crossfadeTo(themed);
     return () => music.stop();
-  }, [themed]);
+  }, [themed, active]);
 
   // The first open signs the crew's stamps; a repeat open changes nothing on the server.
   useEffect(() => {
