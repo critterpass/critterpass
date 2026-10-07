@@ -9,3 +9,8 @@
 # False positive: the made-up reference-vector secret in the Android action signer's unit test
 # (the same vector the TypeScript signer test uses); it signs nothing real.
 48fd61574e66e7bc331d6fce99da544655e3db0b:apps/mobile/modules/cp-android-surfaces/android/src/test/java/app/critterpass/surfaces/actions/ActionSignerTest.kt:generic-api-key:11
+
+# False positive: the fixed HMAC test vector in the Android action signer unit test; it signs nothing
+# outside that test and exists so the phone and the server verifier can be checked against the same
+# reference values.
+a5d442d334095c2ccd02c1804c536e690973ebca:apps/mobile/modules/cp-android-surfaces/android/src/test/java/app/critterpass/surfaces/actions/ActionSignerTest.kt:generic-api-key:11
