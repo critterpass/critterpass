@@ -789,6 +789,11 @@ msgstr "Ăn chay"
 msgid "guide.voice.noModule"
 msgstr "Bản ứng dụng này chưa có trò chuyện bằng giọng nói. Bạn gõ câu hỏi nhé."
 
+#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
+msgid "guide.voice.consentNeedsConnection"
+msgstr "Giọng nói cần có kết nối. Tính năng sẽ bật ngay khi bạn có mạng trở lại."
+
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.waiting"
 msgstr "Chờ tới {clock}"

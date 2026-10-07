@@ -506,6 +506,18 @@ msgstr "Tap Widgets."
 msgid "home.inbox.refused"
 msgstr "That didn't go through"
 
+#: ../../apps/mobile/src/features/home/link-notice.tsx
+msgid "home.linkNotice.unknown"
+msgstr "That link couldn’t be opened"
+
+#: ../../apps/mobile/src/features/home/link-notice.tsx
+msgid "home.linkNotice.alreadyMember"
+msgstr "That link is for new travellers. You already have your pass"
+
+#: ../../apps/mobile/src/features/home/link-notice.tsx
+msgid "home.linkNotice.unavailable"
+msgstr "That link isn’t available any more"
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.over"
 msgstr "That trip is over"

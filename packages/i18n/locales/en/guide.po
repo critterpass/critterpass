@@ -789,6 +789,11 @@ msgstr "Vegetarian"
 msgid "guide.voice.noModule"
 msgstr "Voice is not available in this version of the app. Type your question instead."
 
+#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
+msgid "guide.voice.consentNeedsConnection"
+msgstr "Voice needs a connection. It turns on as soon as you are back online."
+
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.waiting"
 msgstr "Waiting for {clock}"

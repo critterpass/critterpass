@@ -5,7 +5,9 @@ appId: app.critterpass.dev
 # 1. a plan link (`/p/{token}`) opens the plan link page (`/community/link/{token}`), which asks
 #    the server for the plan; this token was never shared, so the page says so;
 # 2. a guide link (`/g/{slug}`) opens that destination in Explore;
-# 3. an invite link whose code no crew has, and one that is not a code at all, both open Home.
+# 3. a locals link (`/locals/{place}`) opens the critter collection on the PASS tab;
+# 4. an invite link whose code no crew has, and one that is not a code at all, both open Home,
+#    and the one that is not a code says the link could not be opened.
 # A plan link that is still shared opens the shared plan itself: e2e/community/shared-plan.yaml
 # covers that page. The web handoff for a phone without the app is deferred-android.yaml.
 - runFlow: ../happy/subflows/fresh-account.yaml
@@ -35,7 +37,20 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: link-guide-destination
 
-# 3. Invite links that lead nowhere open Home.
+# 3. A locals link.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://locals/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex|critters-dex-loading'
+    timeout: 30000
+- assertNotVisible: '(?i).*(not found|unmatched route).*'
+- waitForAnimationToEnd
+- takeScreenshot: link-locals-collection
+
+# 4. Invite links that lead nowhere open Home.
 - runFlow:
     file: ../screens/sweep/subflows/open-link.yaml
     env:
@@ -52,13 +67,14 @@ appId: app.critterpass.dev
     visible:
       id: 'explore-destination'
     timeout: 30000
-- runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://i/not-a-code
+# Opened directly: on Android this step alone waits four to five seconds for the app to settle, and
+# the shared subflow's wait for iOS's "Open in …?" prompt (already answered above) would add to it.
+# The notice stays up six seconds so that it is still there to be read.
+- openLink: critterpass-dev://i/not-a-code
+# Home says why the link ended up here.
 - extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 30000
-- waitForAnimationToEnd
+    visible: '(?i).*that link couldn.t be opened.*'
+    timeout: 5000
 - takeScreenshot: link-unknown-opens-home
+- assertVisible:
+    id: 'dev-tools-entry'

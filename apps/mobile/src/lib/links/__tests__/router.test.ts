@@ -38,7 +38,8 @@ describe('routeIncomingUrl after onboarding', () => {
     [`https://critterpass.app/plan/${TRIP}`, `/${TRIP}/plan`],
     ['https://critterpass.app/p/abcdefghijklmnop', '/community/link/abcdefghijklmnop'],
     ['https://critterpass.app/g/lundi', '/explore/lundi'],
-    ['https://critterpass.app/locals/bali', '/critters?place=bali'],
+    ['https://critterpass.app/locals/bali', '/pass'],
+    ['critterpass-dev://locals/vn-da-lat', '/pass'],
     ['https://critterpass.app/app/vote/123', '/vote/123'],
     ['critterpass://trip/abc/day/2', '/trip/abc/day/2'],
     [`critterpass://trips/${TRIP}/day/2026-10-17`, `/trips/${TRIP}/day/2026-10-17`],
@@ -72,10 +73,10 @@ describe('routeIncomingUrl after onboarding', () => {
 
   it('goes Home with a notice for unknown or malformed links of ours', async () => {
     await expect(routeIncomingUrl('https://critterpass.app/i/ZZZZ2K')).resolves.toBe(
-      '/?notice=link_unknown',
+      '/?notice=link_unknown&at=1000000',
     );
     await expect(routeIncomingUrl('https://critterpass.app/i/not-a-code')).resolves.toBe(
-      '/?notice=link_unknown',
+      '/?notice=link_unknown&at=1000000',
     );
   });
 

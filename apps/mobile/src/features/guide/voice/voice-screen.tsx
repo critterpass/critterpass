@@ -32,7 +32,12 @@ import {
   type VoicePorts,
 } from './voice-controller';
 import { useVoiceProposals } from './use-voice-proposals';
-import { useVoiceConsent } from './voice-consent';
+import {
+  refusalOf,
+  useVoiceConsent,
+  withVoiceConsent,
+  type VoiceConsentGuard,
+} from './voice-consent';
 import { VoiceGate } from './voice-consent-view';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
 import { VoiceView } from './voice-view';
@@ -72,7 +77,7 @@ export async function sttToken(): Promise<SttToken> {
     method: 'POST',
     headers: await sessionHeaders(),
   });
-  if (!response.ok) throw new Error(`stt token answered ${response.status}`);
+  if (!response.ok) throw await refusalOf(response, 'stt token');
   return (await response.json()) as SttToken;
 }
 
@@ -102,12 +107,17 @@ function ConsentedVoiceScreen(props: VoiceScreenProps) {
       onAgree={consent.agree}
       onType={() => router.back()}
     >
-      <OpenVoiceScreen {...props} />
+      <OpenVoiceScreen {...props} consent={consent} />
     </VoiceGate>
   );
 }
 
-function OpenVoiceScreen({ tripId, speech, talkOnOpen = false }: VoiceScreenProps) {
+function OpenVoiceScreen({
+  tripId,
+  speech,
+  talkOnOpen = false,
+  consent,
+}: VoiceScreenProps & { readonly consent: VoiceConsentGuard }) {
   const { i18n } = useLingui();
   const context = useGuideContext(tripId);
   const trip = context.trip;
@@ -139,33 +149,41 @@ function OpenVoiceScreen({ tripId, speech, talkOnOpen = false }: VoiceScreenProp
         const outcome = await requestWithPrimer('microphone', 'voice').catch(() => null);
         return outcome?.result === 'granted' || outcome?.result === 'partial';
       },
-      listen: speech === null ? null : (onPartial) => speech.listen(locale, sttToken, onPartial),
+      // The speech service's token is refused without the consent: the question is asked again.
+      listen:
+        speech === null
+          ? null
+          : (onPartial) =>
+              speech.listen(locale, () => withVoiceConsent(sttToken, consent), onPartial),
       online: () => live.current.online,
-      ask: async (text, options, onFrame, signal) => {
-        let threadId = live.current.threadId;
-        for (let attempt = 0; ; attempt += 1) {
-          try {
-            return await streamGuide(
-              `/v1/guide/threads/${threadId}/turns`,
-              {
-                text,
-                mode: 'voice',
-                speak: options.speak,
-                thread_mode: live.current.mode,
-                context: { trip_id: live.current.tripId, screen: '3j-2' },
-              },
-              onFrame,
-              { signal },
-            );
-          } catch (error) {
-            // A thread the server already has for this mode and trip answers with its id.
-            const existing = error instanceof GuideStreamError ? error.detail['thread_id'] : null;
-            if (attempt > 0 || typeof existing !== 'string') throw error;
-            threadId = existing;
-            live.current.threadId = existing;
+      consentRequired: consent.askAgain,
+      // A refusal right after the yes is the yes still landing: the turn is tried once more.
+      ask: (text, options, onFrame, signal) =>
+        withVoiceConsent(async () => {
+          let threadId = live.current.threadId;
+          for (let attempt = 0; ; attempt += 1) {
+            try {
+              return await streamGuide(
+                `/v1/guide/threads/${threadId}/turns`,
+                {
+                  text,
+                  mode: 'voice',
+                  speak: options.speak,
+                  thread_mode: live.current.mode,
+                  context: { trip_id: live.current.tripId, screen: '3j-2' },
+                },
+                onFrame,
+                { signal },
+              );
+            } catch (error) {
+              // A thread the server already has for this mode and trip answers with its id.
+              const existing = error instanceof GuideStreamError ? error.detail['thread_id'] : null;
+              if (attempt > 0 || typeof existing !== 'string') throw error;
+              threadId = existing;
+              live.current.threadId = existing;
+            }
           }
-        }
-      },
+        }, consent),
       queueOffline: (text) =>
         questionQueue().enqueue({
           id: generateUuidV7(),
@@ -203,7 +221,7 @@ function OpenVoiceScreen({ tripId, speech, talkOnOpen = false }: VoiceScreenProp
       controller.current = null;
       speech?.endSession();
     };
-  }, [speech, locale, level, talkOnOpen]);
+  }, [speech, locale, level, talkOnOpen, consent]);
 
   const offered = useVoiceProposals(trip?.tripId ?? null, state.proposals, mode === 'group');
   const sticker = guideSticker(guideAvatarId(context.guideSlug));

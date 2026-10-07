@@ -21,6 +21,7 @@ import { geoHintSchema, type GeoHint } from '@cp/domain';
 import { deviceAuth, sessionHeaders } from '@/data/app-session/device-session';
 import type { NativeIdTokenProvider } from '@/data/auth';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
+import { markInAppRestart } from '@/lib/links/launch-replay';
 
 import { devicePhotoServices } from './photo/device-photos';
 import type { AvatarLifter } from './photo/photo-pipeline';
@@ -107,6 +108,8 @@ async function geoHint(): Promise<GeoHint | null> {
 
 /** Restarts the JS so the app boots on the session now in storage. */
 function restartApp(): void {
+  // The link this process was opened with is not followed again: a sign-in lands on Home.
+  markInAppRestart();
   if (__DEV__) {
     DevSettings.reload();
     return;

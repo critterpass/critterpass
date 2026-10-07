@@ -51,7 +51,14 @@ export function EmptyState({
       >
         {line}
       </Text>
-      {action ? <PillButton label={action.label} onPress={action.onPress} /> : null}
+      {action ? (
+        <PillButton
+          label={action.label}
+          onPress={action.onPress}
+          // On a paper or colour card the yellow pill would sit on its own colour: the ink pill reads.
+          tone={tone === 'dark' ? 'yellow' : 'ink'}
+        />
+      ) : null}
     </Stack>
   );
 }
