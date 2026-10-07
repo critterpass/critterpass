@@ -61,15 +61,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'onboarding-sign-in'
 - runFlow: subflows/phone-sign-in.yaml
-# Signed in, the tab bar is back. The crew is checked on Home, whichever tab the app opened on.
-- extendedWaitUntil:
-    visible:
-      id: 'tab-home'
-    timeout: 90000
-- waitForAnimationToEnd:
-    timeout: 5000
-- tapOn:
-    id: 'tab-home'
+# Signed in, the app opens on Home (never on a link the app was opened with before).
 - extendedWaitUntil:
     visible:
       id: 'home-header-crew-name'

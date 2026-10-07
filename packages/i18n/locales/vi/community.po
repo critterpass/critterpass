@@ -208,6 +208,10 @@ msgid "community.rate.fine"
 msgstr "Tạm được"
 
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.goneAction"
+msgstr "Về Trang chủ"
+
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.back.home"
 msgstr "Trang chủ"
 

@@ -10,6 +10,7 @@
  */
 import { linkPath, parseLink, parseLinkPath, parseSchemeUrl, type LinkTarget } from '@cp/domain';
 
+import { isLaunchReplay } from './launch-replay';
 import {
   isOnboardingComplete,
   savePendingLink,
@@ -118,7 +119,7 @@ export async function routeTarget(
   options: { readonly via?: PendingLink['via']; readonly crewId?: string | null } = {},
 ): Promise<string> {
   const preview = await previewOf(target);
-  if (preview.status === 'not_found') return homeWithNotice('link_unknown');
+  if (preview.status === 'not_found') return homeWithNotice('link_unknown', deps.now());
   const facts = factsFrom(target, preview, options.via);
   if (!isOnboardingComplete()) {
     savePendingLink({
@@ -133,19 +134,28 @@ export async function routeTarget(
       ? deps.memberCrewForCode(target.code)
       : null;
   const crewId = memberCrew ?? options.crewId ?? null;
-  return routeForTarget(target, {
-    ...facts,
-    crewId,
-    isMember: memberCrew !== null || (crewId !== null && deps.isMember(crewId)),
-  });
+  return routeForTarget(
+    target,
+    {
+      ...facts,
+      crewId,
+      isMember: memberCrew !== null || (crewId !== null && deps.isMember(crewId)),
+    },
+    deps.now(),
+  );
 }
 
-/** `+native-intent`'s rewrite: an incoming system URL to the in-app href to open. */
-export async function routeIncomingUrl(url: string): Promise<string> {
+/**
+ * `+native-intent`'s rewrite: an incoming system URL to the in-app href to open. `initial` is the
+ * URL the app was launched with: after a restart the app did itself that link was already
+ * followed, so the app opens Home.
+ */
+export async function routeIncomingUrl(url: string, initial = false): Promise<string> {
+  if (initial && isLaunchReplay(deps.now())) return OUR_URL.test(url) ? HOME_ROUTE : url;
   const target = parseIncomingLink(url);
   if (target !== null) return routeTarget(target);
   if (isBareLink(url)) return HOME_ROUTE;
-  return OUR_URL.test(url) ? homeWithNotice('link_unknown') : url;
+  return OUR_URL.test(url) ? homeWithNotice('link_unknown', deps.now()) : url;
 }
 
 /** Called by onboarding once the pass is issued: the href of the link that was waiting, if any. */

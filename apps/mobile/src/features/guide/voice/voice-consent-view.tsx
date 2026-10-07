@@ -19,6 +19,8 @@ export interface VoiceConsentViewProps {
   readonly guideName: string;
   readonly sticker: ReactNode;
   readonly onAgree: () => void;
+  /** The yes is on its way to the server, or waiting for a connection to go. */
+  readonly pending?: 'sending' | 'needs_connection' | null;
   /** Back to the guide sheet, to type instead. */
   readonly onType: () => void;
 }
@@ -34,7 +36,13 @@ const useStyles = makeStyles((t) => ({
   sticker: { alignItems: 'center', paddingVertical: t.space['32'] },
 }));
 
-export function VoiceConsentView({ guideName, sticker, onAgree, onType }: VoiceConsentViewProps) {
+export function VoiceConsentView({
+  guideName,
+  sticker,
+  onAgree,
+  onType,
+  pending = null,
+}: VoiceConsentViewProps) {
   const styles = useStyles();
   const { t, i18n } = useLingui();
   return (
@@ -59,9 +67,18 @@ export function VoiceConsentView({ guideName, sticker, onAgree, onType }: VoiceC
           </Text>
         </Stack>
         <Stack gap="12">
+          {pending !== 'needs_connection' ? null : (
+            <Text variant="bodySm" testID="guide-voice-consent-offline">
+              {t({
+                id: 'guide.voice.consentNeedsConnection',
+                message: 'Voice needs a connection. It turns on as soon as you are back online.',
+              })}
+            </Text>
+          )}
           <PillButton
             label={t({ id: 'guide.voice.consentYes', message: 'Turn on voice' })}
             onPress={onAgree}
+            loading={pending !== null}
             testID="guide-voice-consent-yes"
           />
           <TextLink
@@ -81,9 +98,12 @@ export interface VoiceGateProps extends VoiceConsentViewProps {
   readonly children: ReactNode;
 }
 
-/** Voice mode behind its consent: the question while it is needed, nothing while it loads. */
+/**
+ * Voice mode behind its consent: the question while it is needed (its button busy while the yes
+ * goes to the server, with a line when there is no connection to send it), nothing while it loads.
+ */
 export function VoiceGate({ status, children, ...consent }: VoiceGateProps) {
   if (status === 'loading') return null;
-  if (status === 'needed') return <VoiceConsentView {...consent} />;
-  return <>{children}</>;
+  if (status === 'granted') return <>{children}</>;
+  return <VoiceConsentView {...consent} pending={status === 'needed' ? null : status} />;
 }

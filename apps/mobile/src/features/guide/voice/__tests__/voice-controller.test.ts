@@ -41,6 +41,7 @@ function harness(over: Partial<VoicePorts> = {}) {
     cancelPlayback: () => calls.push('cancel'),
     outputVolume: () => 0.8,
     setMuted: (muted) => calls.push(`muted:${muted}`),
+    consentRequired: () => calls.push('consent'),
     ...over,
   };
   const controller = createVoiceController(ports, (state) => states.push(state));
@@ -191,5 +192,21 @@ describe('voice controller', () => {
     h.fail(error);
     await h.flush();
     expect(h.controller.state).toMatchObject({ phase: 'idle', issue });
+    expect(h.calls).not.toContain('consent');
+  });
+
+  it('a turn refused for want of the voice consent asks for it, and is not a failed reply', async () => {
+    const h = harness();
+    await h.controller.talk();
+    void h.controller.send();
+    await h.flush();
+    h.fail({ code: 'CONSENT_REQUIRED' });
+    await h.flush();
+    expect(h.calls).toContain('consent');
+    expect(h.controller.state).toMatchObject({
+      phase: 'idle',
+      heard: 'Where can we eat tonight?',
+      issue: null,
+    });
   });
 });

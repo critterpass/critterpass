@@ -208,6 +208,10 @@ msgid "community.rate.fine"
 msgstr "Fine"
 
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.goneAction"
+msgstr "Go to Home"
+
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.back.home"
 msgstr "Home"
 

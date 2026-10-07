@@ -18,6 +18,7 @@ import { runOnSignOutHooks } from '@/data/auth/sign-out-hooks';
 import { secureActionKeyStorage } from '@/data/push/expo-native';
 import { INSTALL_ID_ITEM, LEGACY_ENVELOPE_ID_ITEM } from '@/data/push/register';
 import type { FileTarget, StartFreshPorts } from '@/lib/dev-tools/start-fresh';
+import { markInAppRestart } from '@/lib/links/launch-replay';
 
 export interface AlarmCanceller {
   list(): Promise<readonly { readonly leaveById: string }[]>;
@@ -79,6 +80,8 @@ function deleteFiles(target: FileTarget): Promise<void> {
 }
 
 async function reload(): Promise<void> {
+  // After the stores are wiped: the link this process was opened with is not followed again.
+  markInAppRestart();
   if (__DEV__) {
     DevSettings.reload();
     return;

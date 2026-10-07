@@ -31,6 +31,7 @@ import type { ApiCompliance } from '../../ai/compliance';
 import { buildGuideContext } from '../../ai/context';
 import { reserveGuideTurn } from '../../ai/guide-meter';
 import { speakTurn, type VoiceTurnDeps } from '../../lib/tts';
+import { requireVoiceConsent } from '../../lib/voice-consent';
 import { crewPassHolders, openThread, type GuideThread } from './threads';
 
 export interface GuideTurnDeps {
@@ -171,6 +172,8 @@ export async function streamThreadTurn(
 ): Promise<Response> {
   await deps.switches.assertAiRoute(GUIDE_CHAT_ROUTE);
   const { uid, body } = request;
+  // Before anything is stored or counted: a spoken turn needs the voice consent to stand.
+  if (body.mode === 'voice') await requireVoiceConsent(deps.pool, uid);
   const thread = await openThread(deps.pool, {
     uid,
     device: request.device,

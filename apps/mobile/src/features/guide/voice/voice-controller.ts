@@ -13,6 +13,7 @@ import {
   type VoiceIssue,
   type VoiceState,
 } from './voice-turn';
+import { isVoiceConsentRequired } from './voice-consent';
 
 export interface VoiceListening {
   /** Ends the utterance and resolves with its text. */
@@ -46,6 +47,8 @@ export interface VoicePorts {
   readonly cancelPlayback: () => void;
   readonly outputVolume: () => number;
   readonly setMuted: (muted: boolean) => void;
+  /** The server holds no voice consent for this person: the consent step is shown again. */
+  readonly consentRequired: () => void;
 }
 
 export interface VoiceController {
@@ -165,6 +168,11 @@ export function createVoiceController(
       } catch (error) {
         if (signal.signal.aborted || mine !== turn) return;
         stopReply();
+        if (isVoiceConsentRequired(error)) {
+          // Not a failed reply: the question stays, and the consent step takes the screen.
+          emit({ type: 'settled' });
+          return ports.consentRequired();
+        }
         return emit({ type: 'failed', issue: issueOf(error) });
       }
       if (mine !== turn) return;
