@@ -1,7 +1,7 @@
 /**
  * `phrase.tts`: a custom address card is written by the model (the member's purpose as data, the
  * address kept verbatim and never sent), then either recorded in the guide's voice (ElevenLabs
- * answered at the network boundary: Flash for Indonesian, v3 for Icelandic) and stored for the
+ * answered at the network boundary: one model for every language) and stored for the
  * offline bundle, or, with no voice configured, marked for on-device speech.
  */
 import { randomUUID } from 'node:crypto';
@@ -107,7 +107,7 @@ describe('phrase.tts', () => {
     expect(await job.handler({ card_id: indonesian }, ctx)).toEqual({ outcome: 'ready' });
     expect(await job.handler({ card_id: icelandic }, ctx)).toEqual({ outcome: 'ready' });
 
-    expect(calls.map((call) => call.body.model_id)).toEqual(['eleven_flash_v2_5', 'eleven_v3']);
+    expect(calls.map((call) => call.body.model_id)).toEqual(['eleven_v4', 'eleven_v4']);
     const guide = await packFor(guideReader(db.pool), uid, tripId, null);
     expect(guide.voice_id).toEqual(expect.any(String));
     expect(calls[0]?.url).toContain(`/v1/text-to-speech/${guide.voice_id ?? 'voice-default'}`);
