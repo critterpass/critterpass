@@ -126,11 +126,15 @@ appId: app.critterpass.dev
     visible:
       id: 'you-settings'
     timeout: 30000
+# A row reads as "title, value" to the driver, so rows with a value line match by their start.
 - scrollUntilVisible:
-    element: 'Language and currency'
+    element:
+      text: 'Language and currency.*'
     direction: DOWN
+    centerElement: true
     timeout: 20000
-- tapOn: 'Language and currency'
+- tapOn:
+    text: 'Language and currency.*'
 - extendedWaitUntil:
     visible:
       id: 'you-language-title'
@@ -173,12 +177,16 @@ appId: app.critterpass.dev
 
 # 4. The export is asked for.
 - scrollUntilVisible:
-    element: 'Download my data'
+    element:
+      text: 'Download my data.*'
     direction: DOWN
-    timeout: 20000
-- tapOn: 'Download my data'
+    centerElement: true
+    timeout: 60000
+- tapOn:
+    text: 'Download my data.*'
 - extendedWaitUntil:
-    visible: '.*(Getting it ready|Ready to download).*'
+    visible:
+      text: 'Download my data, (Getting it ready|Ready to download).*'
     timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: you-journey-export-asked
@@ -187,6 +195,7 @@ appId: app.critterpass.dev
 - scrollUntilVisible:
     element: 'Delete account'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn: 'Delete account'
 - extendedWaitUntil:
