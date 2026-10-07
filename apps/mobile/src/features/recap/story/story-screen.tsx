@@ -86,9 +86,20 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
 
   const summary = useMemo(() => storySummary(data), [data]);
   const unit = settings?.distance_unit === 'imperial' ? 'imperial' : 'metric';
+  const canSign = settings !== undefined && settings.signature_media_key === null;
   const cards = useMemo(
-    () => buildStoryCards({ data, summary, live, guide, ground: guideColour(guide), locale, unit }),
-    [data, summary, live, guide, locale, unit],
+    () =>
+      buildStoryCards({
+        data,
+        summary,
+        live,
+        guide,
+        ground: guideColour(guide),
+        locale,
+        unit,
+        canSign,
+      }),
+    [data, summary, live, guide, locale, unit, canSign],
   );
 
   if (data.recapId === null || cards.length === 0)
@@ -135,7 +146,7 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
             canRemind={data.gotAwayWindow !== null}
             reminded={data.reminderSet}
             nextWindow={data.recap?.gotAway?.next_window?.from ?? null}
-            canSign={settings !== undefined && settings.signature_media_key === null}
+            canSign={canSign}
             onVote={() => setSheet('mvp')}
             onRemind={() => {
               if (data.gotAwayWindow === null) return;

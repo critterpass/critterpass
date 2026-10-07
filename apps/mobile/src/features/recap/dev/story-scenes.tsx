@@ -28,16 +28,71 @@ import {
   CARDS,
   CREW,
   FORM_ROWS,
+  GOT_AWAY,
   JORDAN,
   MAYA,
   ME,
   recapRow,
+  STATS,
   TRIP,
 } from './recap-fixtures';
 
 const noop = () => undefined;
 /** Long enough for every card's choreography; short of its six seconds. */
 const SETTLE_MS = 4500;
+
+/**
+ * A trip as its rows really arrive: named accents for the stamp's ink and each member's colour,
+ * the home stamp (no place) as the only older one, one traveller's signature so far and still none
+ * of their own drawn, a legendary nobody saw, and the guide's words read in Vietnamese.
+ */
+function firstOpenData(): StoryData {
+  const base = storyData();
+  return {
+    ...base,
+    recap: readRecap(
+      recapRow({
+        stats: { ...STATS, critters: { forms_found: 0, new_critters: 0, form_ids: [] } },
+        got_away: { ...GOT_AWAY, sightings: 0, wandered_off: 0, seen_by: [], forms_found: 0 },
+        cards: {
+          got_away: {
+            narration:
+              'Một thổ địa huyền thoại vẫn ẩn mình: chưa ai gặp được dạng nào trong 4 dạng.',
+            line: 'Cả nhóm cùng bỏ lỡ, và bé sẽ quay lại theo lịch riêng.',
+          },
+        },
+      }),
+    ),
+    travellers: [
+      { userId: ME, name: 'Khanh', colour: 'yellow' },
+      { userId: MAYA, name: 'Joe', colour: 'orange' },
+    ],
+    stamps: [
+      {
+        id: 'stamp-2',
+        trip_id: TRIP,
+        seq_no: 2,
+        dates: null,
+        iata: null,
+        ink_colour: 'red',
+        status: 'stamped',
+        place: 'Đà Nẵng',
+      },
+      {
+        id: 'stamp-1',
+        trip_id: null,
+        seq_no: 1,
+        dates: null,
+        iata: 'SGN',
+        ink_colour: 'orange',
+        status: 'stamped',
+        place: null,
+      },
+    ],
+    signatures: [{ signer_id: ME, stroke_media_key: null, signed_at: '2026-10-05T00:00:00Z' }],
+    foundForms: [],
+  };
+}
 
 function storyData(): StoryData {
   return {
@@ -108,12 +163,15 @@ function storyData(): StoryData {
 function Scene({
   card,
   sheet = null,
+  firstOpen = false,
 }: {
   readonly card: RecapCard;
   readonly sheet?: 'mvp' | 'signature' | null;
+  /** The rows of a first real trip, not the design's full crew. */
+  readonly firstOpen?: boolean;
 }) {
   const locale = useLocale();
-  const data = useMemo(() => storyData(), []);
+  const data = useMemo(() => (firstOpen ? firstOpenData() : storyData()), [firstOpen]);
   const summary = useMemo(() => storySummary(data), [data]);
   const cards = useMemo(
     () =>
@@ -125,6 +183,7 @@ function Scene({
         ground: tokens.guide.chava,
         locale,
         unit: 'metric',
+        canSign: true,
         loadStroke: () => Promise.resolve(null),
       }),
     [data, summary, locale],
@@ -210,5 +269,7 @@ export const STORY_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3m-6-receipt': () => <Scene card="receipt" />,
   '3m-7-got-away': () => <Scene card="got_away" />,
   '3m-8-stamp': () => <Scene card="stamp" />,
+  'recap-stamp-first-signature': () => <Scene card="stamp" firstOpen />,
+  'recap-got-away-unseen': () => <Scene card="got_away" firstOpen />,
   '3m-8-signature': () => <Scene card="stamp" sheet="signature" />,
 };

@@ -28,6 +28,7 @@ import { ReceiptCard } from '../cards/receipt-card';
 import { ROUTE_CARD_MS, RouteCard } from '../cards/route-card';
 import { StampCard } from '../cards/stamp-card';
 import { artKind } from '../data/critter-art';
+import { inkOnPaper } from '../data/paper-ink';
 import type { StrokeFetch } from '../signature/stroke-store';
 import { headerEyebrow } from '../summary/summary-copy';
 import type { SummaryModel } from '../summary/summary-model';
@@ -71,6 +72,8 @@ export interface StoryCardsInput {
   readonly ground: string;
   readonly locale: string;
   readonly unit: DistanceUnit;
+  /** The traveller has no signature yet: SIGN IT follows the stamp page. */
+  readonly canSign?: boolean;
   readonly loadStroke?: StrokeFetch;
 }
 
@@ -272,12 +275,12 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
             : t({ id: 'recap.story.stamp.arrived', message: `${stamp.iata} · Arrived` })
         }
         bottom={tripDates(summary, locale)}
-        ink={stamp.ink_colour ?? input.ground}
+        ink={inkOnPaper(stamp.ink_colour, input.ground)}
         guideKind={guideSticker(guide).kind}
         older={data.stamps.slice(1).map((older) => ({
           id: older.id,
           title: older.place ?? '',
-          ink: older.ink_colour ?? input.ground,
+          ink: inkOnPaper(older.ink_colour, input.ground),
         }))}
         signers={signers(input)}
         caption={stampCaption(seq, place)}
@@ -285,9 +288,13 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
           id: 'recap.story.stamp.detail',
           message: "The crew signed it. It's on your profile now.",
         })}
+        signable={input.canSign === true}
         {...(input.loadStroke === undefined ? {} : { loadStroke: input.loadStroke })}
       />,
       null,
+      CARD_MS,
+      // The page says it itself; a caption under it would be set in the dark story's light ink.
+      true,
     );
   }
 
