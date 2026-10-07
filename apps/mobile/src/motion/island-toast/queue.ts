@@ -18,6 +18,11 @@ export interface ToastRequest {
   readonly title: string;
   readonly subtitle?: string;
   readonly action?: ToastAction;
+  /**
+   * Stay up as long as a toast with an action does. For a line the traveller has to read to know
+   * why they are where they are, shown as they arrive from another app.
+   */
+  readonly linger?: boolean;
 }
 
 export interface QueuedToast extends ToastRequest {
@@ -76,7 +81,8 @@ export const toastQueue = {
   },
   show(request: ToastRequest): void {
     if (isQueuedOrCurrent(request.id)) return;
-    const durationMs = request.action ? WITH_ACTION_DURATION_MS : DEFAULT_DURATION_MS;
+    const durationMs =
+      request.action || request.linger === true ? WITH_ACTION_DURATION_MS : DEFAULT_DURATION_MS;
     queue.push({ ...request, durationMs });
     scheduleNext();
   },

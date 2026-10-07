@@ -4,6 +4,7 @@ import { PillButton } from '../buttons/PillButton';
 import { Stack } from '../layout/Stack';
 import type { GuideId } from '../people/GuideLine';
 import { GuideLine } from '../people/GuideLine';
+import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 
 export interface EmptyStateProps {
@@ -30,6 +31,8 @@ export function EmptyState({
   action,
   testID,
 }: EmptyStateProps) {
+  // On a paper or colour card the yellow pill would sit on its own colour: the ink pill reads.
+  const onDark = useSurfaceTone() === 'dark';
   return (
     <Stack gap="16" align="center" padding="24" testID={testID}>
       {sticker}
@@ -37,7 +40,13 @@ export function EmptyState({
         {title}
       </Text>
       <GuideLine guide={guide} name={guideName} line={line} />
-      {action ? <PillButton label={action.label} onPress={action.onPress} /> : null}
+      {action ? (
+        <PillButton
+          label={action.label}
+          onPress={action.onPress}
+          tone={onDark ? 'yellow' : 'ink'}
+        />
+      ) : null}
     </Stack>
   );
 }

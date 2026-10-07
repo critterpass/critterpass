@@ -6,7 +6,9 @@
  * (`notice`, `at`): coming back to Home never says it again, the same notice from a later link is
  * said again, and an address older than a minute (navigation restored after a restart) is left
  * alone. On a cold start from such a link Home mounts under the launch screen: the toast waits
- * until that has gone, or its few seconds would pass where nobody can see it.
+ * until that has gone, or its few seconds would pass where nobody can see it. It also stays up for
+ * the longer of the toast's two times: the traveller arrives from another app, and the switch back
+ * takes most of the short one.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
@@ -63,6 +65,6 @@ export function useLinkNotice(
       }),
     }[notice];
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never rendered copy.
-    toast.show({ id: `link-notice-${notice}`, title });
+    toast.show({ id: `link-notice-${notice}`, title, linger: true });
   }, [notice, at, visible, t, now]);
 }

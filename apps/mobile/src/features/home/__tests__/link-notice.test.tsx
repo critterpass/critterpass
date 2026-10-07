@@ -5,7 +5,7 @@
  */
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { afterEach, beforeAll, describe, expect, it } from '@jest/globals';
+import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { act, render } from '@testing-library/react-native';
 
 import { toastQueue } from '@/motion/island-toast';
@@ -42,6 +42,23 @@ describe('a link notice on Home', () => {
   ])('says %s', async (notice, title) => {
     await render(show({ notice, at: String(NOW - 500) }));
     expect(toastQueue.getCurrent()?.title).toBe(title);
+  });
+
+  it('is still up five seconds later, for someone just back from another app', async () => {
+    jest.useFakeTimers();
+    try {
+      await render(show({ notice: 'link_unknown', at: String(NOW - 500) }));
+      await act(() => {
+        jest.advanceTimersByTime(5000);
+      });
+      expect(toastQueue.getCurrent()?.title).toBe('That link couldn’t be opened');
+      await act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+      expect(toastQueue.getCurrent()).toBeNull();
+    } finally {
+      jest.useRealTimers();
+    }
   });
 
   it('says it once for one link, and again for a later link with the same notice', async () => {

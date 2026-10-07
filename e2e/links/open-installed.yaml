@@ -67,13 +67,14 @@ appId: app.critterpass.dev
     visible:
       id: 'explore-destination'
     timeout: 30000
-# Opened directly: the toast is up for under three seconds, and the shared subflow's wait for
-# iOS's "Open in …?" prompt (already answered above) would outlast it.
+# Opened directly: on Android this step alone waits four to five seconds for the app to settle, and
+# the shared subflow's wait for iOS's "Open in …?" prompt (already answered above) would add to it.
+# The notice stays up six seconds so that it is still there to be read.
 - openLink: critterpass-dev://i/not-a-code
 # Home says why the link ended up here.
 - extendedWaitUntil:
     visible: '(?i).*that link couldn.t be opened.*'
-    timeout: 15000
+    timeout: 5000
 - takeScreenshot: link-unknown-opens-home
 - assertVisible:
     id: 'dev-tools-entry'
