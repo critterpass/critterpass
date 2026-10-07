@@ -24,6 +24,8 @@ export const BILLING_EVENT_TYPES = [
   'boost.revoked',
   'boost.thanked',
   'subscription.changed',
+  'subscription.pause_intended',
+  'subscription.resume_due',
   'purchase.fulfilled',
   'purchase.revoked',
   'ftf.granted',
@@ -63,6 +65,18 @@ export const BILLING_EVENT_PAYLOADS = {
     product_key: productKey,
     status: z.enum(SUBSCRIPTION_STATES),
     previous_status: z.enum(SUBSCRIPTION_STATES).nullable(),
+  }),
+  /** The person plans to come back on `resume_at` (the App Store's stand-in for a pause). */
+  'subscription.pause_intended': z.object({
+    user_id: z.uuid(),
+    subscription_id: z.uuid(),
+    resume_at: z.iso.datetime({ offset: true }),
+  }),
+  /** A planned pause ends in a week and renewal is still off: time to remind them. */
+  'subscription.resume_due': z.object({
+    user_id: z.uuid(),
+    subscription_id: z.uuid(),
+    resume_at: z.iso.datetime({ offset: true }),
   }),
   'purchase.fulfilled': z.object({
     user_id: z.uuid(),

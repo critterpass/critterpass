@@ -697,6 +697,10 @@ msgstr "Mở chuyến đi để xem dự báo."
 msgid "notifications.lockscreen.disruption.done_body"
 msgstr "Mở chuyến đi để xem thay đổi."
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.resume_body"
+msgstr ""
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.pickup"
 msgstr "Điểm đón"
@@ -900,6 +904,10 @@ msgstr "Trứng của bạn đã nở!"
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.location_share.ending"
 msgstr "Việc chia sẻ vị trí với cả nhóm sẽ dừng sau 10 phút."
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.resume_title"
+msgstr ""
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.done_title"

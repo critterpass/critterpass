@@ -697,6 +697,10 @@ msgstr "Open the trip to see the forecast."
 msgid "notifications.lockscreen.disruption.done_body"
 msgstr "Open the trip to see what changed."
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.resume_body"
+msgstr "Pass+ stays off until you turn it back on. Open Your plan to pick it up again."
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.pickup"
 msgstr "Pickup"
@@ -900,6 +904,10 @@ msgstr "Your egg hatched!"
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.location_share.ending"
 msgstr "Your location share with the crew ends in 10 minutes."
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.resume_title"
+msgstr "Your Pass+ pause ends on {date}"
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.done_title"

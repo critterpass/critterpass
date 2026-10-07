@@ -795,6 +795,10 @@ msgstr "Điểm tham quan"
 msgid "common.signature.hint"
 msgstr "Ký ở đây"
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.AUTH_REQUIRED"
+msgstr "Hãy đăng nhập để tiếp tục."
+
 #: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
 msgid "common.signature.typeName"
 msgstr "Ký bằng tên của tôi"
@@ -819,9 +823,29 @@ msgstr "Trang {n}/{total}"
 msgid "motion.motionLab.slowmo"
 msgstr "Slowmo"
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.VERSION_CONFLICT"
+msgstr "Có người đã sửa mục này trước. Hãy xem lại rồi thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.BOOST_INTENT_LOCKED"
+msgstr "Một người trong nhóm đang thanh toán cho gói nâng cấp này."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.VALIDATION"
+msgstr "Có thông tin chưa đúng. Hãy kiểm tra rồi thử lại."
+
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorEyebrow"
 msgstr "Có gì đó trục trặc"
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.INTERNAL"
+msgstr "Đã có lỗi từ phía chúng tôi. Hãy thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.unknown"
+msgstr "Đã có lỗi xảy ra. Hãy thử lại."
 
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorHomeBody"
@@ -865,13 +889,117 @@ msgstr "Gợi ý: {0}, {1}. Nhận"
 msgid "common.icon.sunny"
 msgstr "Nắng"
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.STATE_INVALID"
+msgstr "Hiện chưa thể làm việc này."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CONTENT_REJECTED"
+msgstr "Nội dung này không đăng được. Hãy sửa rồi thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CODE_REDEEMED"
+msgstr "Mã này đã được dùng rồi."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CODE_EXPIRED"
+msgstr "Mã này đã hết hạn."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CODE_INVALID"
+msgstr "Mã chưa đúng. Hãy kiểm tra rồi thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.IDEMPOTENCY_MISMATCH"
+msgstr "Thao tác chưa thực hiện được. Hãy thử lại."
+
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorTitle"
 msgstr "Chưa tải được"
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.LOCATION_IMPLAUSIBLE"
+msgstr "Vị trí này có vẻ chưa đúng. Hãy thử lại khi tín hiệu tốt hơn."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.UPSTREAM_TIMEOUT"
+msgstr "Mất quá nhiều thời gian. Hãy thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.PAYLOAD_TOO_LARGE"
+msgstr "Mục này quá lớn để gửi. Hãy thử mục nhỏ hơn."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SUPPLIER_UNAVAILABLE"
+msgstr "Đối tác đặt chỗ chưa phản hồi. Hãy thử lại sau giây lát."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SUPPLIER_REJECTED"
+msgstr "Đối tác đặt chỗ đã từ chối. Hãy kiểm tra thông tin rồi thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.HOLD_EXPIRED"
+msgstr "Đã hết thời gian giữ chỗ. Hãy xem lại giá rồi thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.PLAN_VERSION_CONFLICT"
+msgstr "Kế hoạch đã thay đổi trong lúc bạn sửa. Hãy xem lại rồi thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.K_ANON_UNAVAILABLE"
+msgstr "Chưa có đủ dữ liệu để hiển thị ở đây."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ACCOUNT_CLOSED"
+msgstr "Tài khoản này đã đóng."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.OWNED_BY_OTHER_ACCOUNT"
+msgstr "Mục này đã thuộc về một tài khoản khác."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SEAT_LIMIT"
+msgstr "Nhóm này đã đủ người."
+
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.defaultDestinationName"
 msgstr "điểm đến này"
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.INVITE_EXPIRED"
+msgstr "Lời mời này đã hết hạn. Hãy xin lời mời mới."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.INVITE_REVOKED"
+msgstr "Lời mời này đã bị huỷ. Hãy xin lời mời mới."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.NOT_ELIGIBLE"
+msgstr "Bạn chưa dùng được mục này."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ACTION_KEY_SCOPE"
+msgstr "Liên kết này không làm được việc đó. Hãy mở ứng dụng để tiếp tục."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SHARE_EXPIRED"
+msgstr "Liên kết này đã hết hạn."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SHARE_REVOKED"
+msgstr "Liên kết này đã bị tắt."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ENTITLEMENT_REQUIRED"
+msgstr "Tính năng này cần nâng cấp chuyến đi."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.APPROVAL_REQUIRED"
+msgstr "Việc này cần nhóm đồng ý trước."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.HOLD_NOT_PROVIDED"
+msgstr "Mục này không giữ chỗ được. Hãy đặt để giữ."
 
 #: ../../apps/mobile/src/app/+not-found.tsx
 msgid "common.notFound.title"
@@ -880,6 +1008,14 @@ msgstr "Trang này đi lạc rồi"
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.body"
 msgstr "This screen only exists in development, staging and preview builds."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.MERGE_REQUIRED"
+msgstr "Cách đăng nhập này thuộc về một tài khoản khác. Hãy gộp hai tài khoản để tiếp tục."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.VOTE_CLOSED"
+msgstr "Cuộc bình chọn này đã đóng."
 
 #: ../../apps/mobile/src/ui/inputs/Keypad.tsx
 msgid "common.keypad.thousand"
@@ -892,6 +1028,10 @@ msgstr "Vé"
 #: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
 msgid "common.data.today"
 msgstr "hôm nay"
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.RATE_LIMITED"
+msgstr "Bạn thử quá nhiều lần. Hãy đợi một lát rồi thử lại."
 
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabTrips"
@@ -962,6 +1102,18 @@ msgstr "Ví"
 msgid "common.plan.wasHere"
 msgstr "Trước ở đây"
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.ATTESTATION_FAILED"
+msgstr "Chúng tôi không xác minh được ứng dụng. Hãy cập nhật rồi thử lại."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.NOT_FOUND"
+msgstr "Chúng tôi không tìm thấy mục này. Có thể nó đã bị gỡ."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.CONSENT_REQUIRED"
+msgstr "Chúng tôi cần bạn đồng ý trước khi làm việc này."
+
 #: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
 msgid "common.vote.yes"
 msgstr "Có"
@@ -971,9 +1123,33 @@ msgstr "Có"
 msgid "common.vote.yesTo"
 msgstr "Chọn {0}"
 
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.FORBIDDEN"
+msgstr "Bạn không thể làm việc này ở đây."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.NUDGE_TOO_SOON"
+msgstr "Bạn vừa nhắc họ xong. Hãy cho họ thêm chút thời gian."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.SESSION_REVOKED"
+msgstr "Bạn đã bị đăng xuất. Hãy đăng nhập lại."
+
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.notInDestination"
 msgstr "Bạn chưa tới {destination}."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.WAITLISTED"
+msgstr "Bạn đang trong danh sách chờ. Chúng tôi sẽ báo khi đến lượt bạn."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.QUOTA_EXHAUSTED"
+msgstr "Bạn đã dùng hết lượt lúc này."
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.REDRAFT_LIMIT"
+msgstr "Bạn đã dùng hết lượt soạn lại cho chuyến đi này."
 
 #: ../../apps/mobile/src/ui/critters/DexHeader.tsx
 msgid "common.critter.yourDex"
@@ -982,6 +1158,10 @@ msgstr "Critterdex của bạn"
 #: ../../apps/mobile/src/ui/map/YouDot.tsx
 msgid "map.youDot.accessibilityLabel"
 msgstr "Vị trí của bạn"
+
+#: ../../apps/mobile/src/lib/errors/error-messages.ts
+msgid "errors.PAYMENT_PENDING"
+msgstr "Khoản thanh toán của bạn đang được xử lý. Chúng tôi sẽ báo khi xong."
 
 #: ../../apps/mobile/src/ui/critters/MonthStrip.tsx
 msgid "common.critter.tripMonths"

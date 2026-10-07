@@ -6,3 +6,937 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.no"
+msgstr ""
+
+#. placeholder {0}: boost.destination
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.onYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.splitLineExact"
+msgstr "Mỗi người {each}, ghi vào Công nợ như mọi khoản chi chung. Tính cùng phần còn lại của chuyến đi."
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.onUntil"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.lockedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.monthly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.yearly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.unlimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.guide.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.validMonth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.validYear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.seats.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.redrafts.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.guide.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.seats.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.once"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.endedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.icons.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.gift"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.aMonth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusPostcard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.aYear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.aYearPerMonth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.splitLineEach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.admitted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.after"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.icons.pass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.recovered"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.boostLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.allYearLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.inAppStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.between"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.managePlay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.manageAppStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.mailbox"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusMailboxImport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.buy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
+msgid "monetize.paywall.boostInstead"
+msgstr ""
+
+#. placeholder {0}: offer.priceString
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.buyFor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-screen.tsx
+msgid "monetize.boost.sheet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.stamp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boosts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.anyway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.change"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.checkAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.checking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.seats"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.year"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostSeats"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.endedTag"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.ends"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.entries"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.chrome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.entry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.boostEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.everyCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusIconStyles"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.allYear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.splitLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.finishing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.ftf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.firstTripFree"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.fixPayment"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.get"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.resubscribe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.headline"
+msgstr "Đi xa hơn\nbản miễn phí"
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.inPlay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.play"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pausePlay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.holder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.cover"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.icons"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.staysUntil"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.splitLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.coverLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.liveMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.manage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.line.monthly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.monthly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.monthly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.monthlyRenews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusNoSponsored"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostNoSponsored"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.nothing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.offTag"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.paymentFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.onTag"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.on"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.thisTripLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.thisTripUntil"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.lockedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.page"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.page"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.verifying"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.background"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.pass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.monthly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.yearly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
+msgid "monetize.chip.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.granted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.renews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.staysOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.grantedUntil"
+msgstr ""
+
+#. placeholder {0}: offer.priceString
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.visaLabelPriced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.visaLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.visaLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseInPlay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseTill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseTitleTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.paused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.pausedUntil"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.payment"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.pickIcon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusReadOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.privacy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.noStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.redrafts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.renews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.restore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.restore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.see"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.sponsored.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.locked"
+msgstr ""
+
+#. placeholder {0}: props.seated.length
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.sponsored"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.terms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.disclosure.appStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseAppStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.crewIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.grace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.graceUntil"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostLiveMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusNextFlight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.recoveredLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.afterLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.noneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.otherAccount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.fixPlay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.fixAppStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.thisTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.boosted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.boost.trip"
+msgstr ""
+
+#. placeholder {0}: boost.priceString
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.boostTitle"
+msgstr ""
+
+#. placeholder {0}: boost.priceString
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.boostLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.tryAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.pauseInAppStore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.turnBackOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.unlimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.passPlusGuideUnlimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostGuideUnlimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.perks.boostRedrafts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+msgid "monetize.boost.boostedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.update"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.valid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.visaEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.chrome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.freeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.waitingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.lose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
+msgid "monetize.paywall.compare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.whoPays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.whoPaysEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.paywall.worksIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.line.yearly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.yearly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.eyebrow.yearly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+msgid "monetize.plan.line.yearlyRenews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.havePass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+msgid "monetize.paywall.yourPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+msgid "monetize.compare.covers.pass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
+msgid "monetize.welcome.titleNamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.phase.verifyFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+msgid "monetize.stamped.finishingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-banner.tsx
+msgid "monetize.issue.banner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.off"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+msgid "monetize.issue.grace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+msgid "monetize.plan.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+msgid "monetize.restore.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+msgid "monetize.cancel.yearly"
+msgstr ""
