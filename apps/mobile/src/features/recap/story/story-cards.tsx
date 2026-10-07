@@ -28,7 +28,7 @@ import { ReceiptCard } from '../cards/receipt-card';
 import { ROUTE_CARD_MS, RouteCard } from '../cards/route-card';
 import { StampCard } from '../cards/stamp-card';
 import { artKind } from '../data/critter-art';
-import { inkOnPaper } from '../data/paper-ink';
+import { inkOnPaper, stampInkOnPaper } from '../data/paper-ink';
 import type { StrokeFetch } from '../signature/stroke-store';
 import { headerEyebrow } from '../summary/summary-copy';
 import type { SummaryModel } from '../summary/summary-model';
@@ -275,7 +275,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
             : t({ id: 'recap.story.stamp.arrived', message: `${stamp.iata} · Arrived` })
         }
         bottom={tripDates(summary, locale)}
-        ink={inkOnPaper(stamp.ink_colour, input.ground)}
+        {...stampInkOnPaper(stamp.ink_colour, input.ground)}
         guideKind={guideSticker(guide).kind}
         older={data.stamps.slice(1).map((older) => ({
           id: older.id,

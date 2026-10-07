@@ -5,7 +5,7 @@
 import { contrastRatio, tokens } from '@cp/design-tokens';
 import { describe, expect, it } from '@jest/globals';
 
-import { accentHex, inkOnPaper } from '../paper-ink';
+import { accentHex, inkOnPaper, stampInkOnPaper } from '../paper-ink';
 
 const paper = tokens.color.paper.base;
 
@@ -38,5 +38,21 @@ describe('ink on the recap paper', () => {
   it('falls back to the guide colour for a missing or unknown one', () => {
     expect(inkOnPaper(null, tokens.guide.chava)).toBe(inkOnPaper(tokens.guide.chava, paper));
     expect(inkOnPaper('chartreuse', 'blue')).toBe(inkOnPaper('blue', paper));
+  });
+
+  it("inks a red stamp in the paper's rust, darkened for its small lines", () => {
+    for (const stored of ['red', 'red/dashed', tokens.color.red]) {
+      expect(stampInkOnPaper(stored, 'blue')).toEqual({
+        ink: tokens.color.rust.base,
+        lineInk: tokens.color.rust.darkened,
+      });
+    }
+    expect(stampInkOnPaper(null, 'red').ink).toBe(tokens.color.rust.base);
+    expect(contrastRatio(tokens.color.rust.darkened, paper)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('inks any other stamp in its own colour, darkened until it reads', () => {
+    const blue = inkOnPaper('blue', paper);
+    expect(stampInkOnPaper('blue', 'red')).toEqual({ ink: blue, lineInk: blue });
   });
 });

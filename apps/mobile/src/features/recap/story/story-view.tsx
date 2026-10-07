@@ -9,7 +9,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
-import { I18nManager, View } from 'react-native';
+import { I18nManager, StatusBar, View } from 'react-native';
 
 import { guideSticker } from '@/ui/avatar/guides';
 import { IconButton } from '@/ui/buttons/IconButton';
@@ -137,8 +137,10 @@ export function StoryView(props: StoryViewProps) {
   const frozen = props.held || !active || sharing;
   const art = guideSticker(props.guide);
   const playing = props.cards[index];
-  // The stamp card is paper: the header is set in ink over it.
-  const ink = playing?.card === 'stamp' ? theme.color.paper.ink : undefined;
+  // The stamp card is paper: the header is set in ink over it, and the page runs to the screen's
+  // edges, under the status bar (dark on paper) and the home indicator.
+  const paper = playing?.card === 'stamp';
+  const ink = paper ? theme.color.paper.ink : undefined;
   const sharer = props.shareCard ?? shareCardImage;
   const share = () => {
     if (playing === undefined || sharing) return;
@@ -148,7 +150,13 @@ export function StoryView(props: StoryViewProps) {
       .finally(() => setSharing(false));
   };
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID="recap-story">
+    <Scaffold
+      variant="dark"
+      edges={['top', 'bottom']}
+      style={paper ? { backgroundColor: theme.color.paper.base } : undefined}
+      testID="recap-story"
+    >
+      {paper ? <StatusBar barStyle="dark-content" /> : null}
       <StoryPlayer
         testID="recap-story-player"
         held={frozen || voiceHold}

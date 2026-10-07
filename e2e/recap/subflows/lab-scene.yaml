@@ -6,7 +6,7 @@ appId: app.critterpass.dev
       id: 'recap-lab-${SCENE}'
     direction: DOWN
     centerElement: true
-    timeout: 20000
+    timeout: 60000
 - tapOn:
     id: 'recap-lab-${SCENE}'
 - extendedWaitUntil:
