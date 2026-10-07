@@ -19,6 +19,14 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageDescription"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.count"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.seatsLeft"
 msgstr "รอบแรกเหลืออีก {count} ที่"
@@ -86,6 +94,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name} จองที่ไว้ให้คุณที่ {place} แล้ว"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.photoAlt"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
@@ -375,6 +387,10 @@ msgstr "เร็ว ๆ นี้"
 msgid "web.comingSoon.hero.badgeSoon"
 msgstr "เร็ว ๆ นี้ · iOS + ANDROID"
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.common"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.confirmed"
 msgstr "ยืนยันแล้ว · รอบแรก"
@@ -487,6 +503,10 @@ msgstr "CritterPass กำลังอยู่ในช่วงทดสอบ
 msgid "web.tips.rssTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openBody"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.hintCrack"
 msgstr "แกร๊ก!"
@@ -499,12 +519,12 @@ msgstr "แกร๊กกก!!"
 msgid "web.legal.current"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/plan.ts
-msgid "web.plan.day"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftDay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -562,6 +582,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planEditing"
 msgstr "กำลังแก้ไข"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.epic"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
@@ -713,6 +737,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.getTheApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -907,6 +935,10 @@ msgstr ""
 msgid "web.shell.footerLegal"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.legendary"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbipLicence"
 msgstr ""
@@ -999,6 +1031,14 @@ msgstr "ไม่พบสถานที่ชื่อนี้ ลองส�
 msgid "web.home.insideMoneyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.listTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.freeDay"
 msgstr ""
@@ -1030,6 +1070,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.note"
 msgstr "ส่งอีเมลฉบับเดียวตอนเปิดตัว อย่างมากก็สองฉบับ ไม่มีสแปมแน่นอน"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openCta"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
@@ -1125,6 +1169,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.questions"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.rare"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1343,9 +1391,17 @@ msgstr ""
 msgid "web.shell.theLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.eyebrow"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
 msgstr "เจ้าถิ่นยังจัดกระเป๋ากันอยู่"
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageTitle"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
@@ -1461,6 +1517,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.unknown"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts

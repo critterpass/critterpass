@@ -19,6 +19,14 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageDescription"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.count"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.seatsLeft"
 msgstr ""
@@ -85,6 +93,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.photoAlt"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -375,6 +387,10 @@ msgstr ""
 msgid "web.comingSoon.hero.badgeSoon"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.common"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.confirmed"
 msgstr ""
@@ -487,6 +503,10 @@ msgstr ""
 msgid "web.tips.rssTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openBody"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.hintCrack"
 msgstr ""
@@ -499,12 +519,12 @@ msgstr ""
 msgid "web.legal.current"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/plan.ts
-msgid "web.plan.day"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftDay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -561,6 +581,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planEditing"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.epic"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -713,6 +737,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.getTheApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -907,6 +935,10 @@ msgstr ""
 msgid "web.shell.footerLegal"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.legendary"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbipLicence"
 msgstr ""
@@ -999,6 +1031,14 @@ msgstr ""
 msgid "web.home.insideMoneyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.listTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.freeDay"
 msgstr ""
@@ -1029,6 +1069,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.note"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.openCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1125,6 +1169,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.questions"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.rarity.rare"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1343,8 +1391,16 @@ msgstr ""
 msgid "web.shell.theLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.eyebrow"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.pageTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -1461,6 +1517,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/locals.ts
+msgid "web.locals.unknown"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts

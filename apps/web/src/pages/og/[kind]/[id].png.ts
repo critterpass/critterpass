@@ -1,18 +1,21 @@
 /* eslint-disable lingui/no-unlocalized-strings -- an error message for the logs, not UI copy. */
 /**
- * Open Graph cards: `/og/invite/{code}.png`, `/og/referral/{code}.png`, `/og/plan/{token}.png`, `/og/tip/{slug}.png`
+ * Open Graph cards: `/og/invite/{code}.png`, `/og/referral/{code}.png`, `/og/plan/{token}.png`,
+ * `/og/tip/{slug}.png`, `/og/locals/{slug}.png`
  * (lib/og/serve.ts). Drawn in the Worker with Takumi and kept in R2.
  */
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 
+import { localsWords } from '../../../components/previews/locals-facts';
 import { planWords } from '../../../components/previews/plan-facts';
 import { inviteCopy } from '../../../components/site/copy/invite';
 import { tipsCopy } from '../../../components/site/copy/tips';
 import { allTips, CATEGORY_COPY, TIP_CARD_COLOURS } from '../../../components/site/tips/tips-data';
 import { siteTranslator } from '../../../components/site/i18n';
+import { fetchPublicLocals } from '../../../lib/api/public-previews';
 import { linkRequestContext, type LinksWebEnv } from '../../../lib/links/web-env';
-import type { CardWords } from '../../../lib/og/cards';
+import { localsCard, type CardWords } from '../../../lib/og/cards';
 import { serveOg, type OgEnv } from '../../../lib/og/serve';
 import { tipTemplate } from '../../../lib/og/templates/tip';
 
@@ -43,7 +46,20 @@ export const GET: APIRoute = async ({ params, request, url }) => {
     proxySecret: workerEnv.LINKS_WEB_PROXY_SECRET,
     env: workerEnv,
     words,
-    publicCard: async (_kind, slug) => {
+    publicCard: async (kind, slug) => {
+      if (kind === 'locals') {
+        const outcome = await fetchPublicLocals({
+          apiBaseUrl: context.apiBaseUrl,
+          target: { kind: 'locals', slug },
+          visitorIp: request.headers.get('cf-connecting-ip'),
+          visitorUserAgent: request.headers.get('user-agent'),
+          proxySecret: workerEnv.LINKS_WEB_PROXY_SECRET,
+        });
+        if (outcome.status === 'gone') return null;
+        // The site card stands in while the api cannot say.
+        if (outcome.status === 'unavailable') throw new Error('og: locals are unavailable');
+        return localsCard(localsWords(outcome.locals, t));
+      }
       const tip = (await allTips()).find((entry) => entry.slug === slug);
       if (tip === undefined) return null;
       const data = tip.data;
