@@ -102,7 +102,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerCritters(doors);
   registerQuests(doors);
   registerTripLifecycle(doors);
-  registerRecap(doors);
+  registerRecap(app, doors, env.APP_ENV === 'local' ? 'development' : env.APP_ENV);
   registerAlbum(doors);
   registerPostcards(app, doors, keyring);
   registerLiveActivities(doors);

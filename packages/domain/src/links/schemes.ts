@@ -4,7 +4,7 @@
  * either a link-grammar path (`critterpass://i/ABC234`) or an in-app route
  * (`critterpass://trip/<id>/day/2`), which maps to the generic `app` kind.
  */
-import { APP_LINK_PATH_PREFIXES, linkPath, parseLinkPath, type LinkTarget } from './grammar';
+import { LINK_GRAMMAR_PATH_PREFIXES, linkPath, parseLinkPath, type LinkTarget } from './grammar';
 import { LINK_ENVIRONMENT_CONFIG, LINK_ENVIRONMENTS, type LinkEnvironment } from './hosts';
 
 export const APP_SCHEMES: readonly string[] = LINK_ENVIRONMENTS.map(
@@ -22,7 +22,7 @@ export function parseSchemeUrl(input: string): LinkTarget | null {
   const rest = (match[2] ?? '').split(/[?#]/)[0] ?? '';
   const path = `/${rest.replace(/^\/+/, '')}`;
   const first = path.split('/')[1] ?? '';
-  if (APP_LINK_PATH_PREFIXES.includes(first)) return parseLinkPath(path);
+  if (LINK_GRAMMAR_PATH_PREFIXES.includes(first)) return parseLinkPath(path);
   return parseLinkPath(`/app${path}`);
 }
 
@@ -30,7 +30,7 @@ export function buildSchemeUrl(target: LinkTarget, env: LinkEnvironment): string
   const scheme = LINK_ENVIRONMENT_CONFIG[env].scheme;
   // An in-app route is written bare unless its first segment would read as a link kind.
   const bareAppRoute =
-    target.kind === 'app' && !APP_LINK_PATH_PREFIXES.includes(target.path.split('/')[0] ?? '');
+    target.kind === 'app' && !LINK_GRAMMAR_PATH_PREFIXES.includes(target.path.split('/')[0] ?? '');
   const path = bareAppRoute ? `/${target.path}` : linkPath(target);
   return `${scheme}:/${path}`;
 }
