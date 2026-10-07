@@ -1,26 +1,34 @@
 /**
  * SHOW mode for a phrase card: the phrase alone on paper, as large as the screen allows (it
- * fits itself in portrait or landscape), the gloss small underneath. Tap anywhere to close.
+ * fits itself in portrait or landscape), the gloss small underneath. Tap anywhere to close. Opened
+ * from a card that offers practice, it carries the same "Practise saying it" link at its foot.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Pressable, useWindowDimensions } from 'react-native';
+import { Pressable, View, useWindowDimensions } from 'react-native';
 
 import { Scaffold, Stack, Text, makeStyles } from '@/ui';
+import { TextLink } from '@/ui/buttons/TextLink';
+
+import { usePractiseHref, type PractiseFrom } from './practise-link';
 
 const useStyles = makeStyles((t) => ({
   body: { flex: 1, justifyContent: 'center', padding: t.space['24'], gap: t.space['16'] },
+  foot: { paddingHorizontal: t.space['24'], paddingBottom: t.space['16'] },
 }));
 
 export function ShowMode({
   phrase,
   lang,
   gloss,
+  practise,
 }: {
   readonly phrase: string;
   readonly lang: string;
   readonly gloss: string;
+  readonly practise?: PractiseFrom;
 }) {
+  const practice = usePractiseHref(practise, lang, phrase);
   const styles = useStyles();
   const { t } = useLingui();
   const { width, height } = useWindowDimensions();
@@ -46,6 +54,15 @@ export function ShowMode({
           <Text variant="bodyLg">{`“${gloss}”`}</Text>
         </Stack>
       </Pressable>
+      {practice === undefined ? null : (
+        <View style={styles.foot}>
+          <TextLink
+            label={t({ id: 'guide.phrase.practise', message: 'Practise saying it' })}
+            onPress={() => router.replace(practice)}
+            testID="guide-phrase-show-practise"
+          />
+        </View>
+      )}
     </Scaffold>
   );
 }

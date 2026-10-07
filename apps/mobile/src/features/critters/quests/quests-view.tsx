@@ -90,6 +90,8 @@ export interface QuestsViewProps {
   /** Where today's "befriend" quest can be done. */
   readonly befriendPlace?: BefriendPlace | undefined;
   readonly onSignUp: (questId: string) => void;
+  /** Opens phrase practice for a phrase quest; absent while practice is not offered. */
+  readonly onPractise?: ((language: string | null) => void) | undefined;
 }
 
 export function QuestsView({
@@ -100,6 +102,7 @@ export function QuestsView({
   reveals,
   befriendPlace,
   onSignUp,
+  onPractise,
 }: QuestsViewProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -143,6 +146,7 @@ export function QuestsView({
                   {...(reveal === undefined ? {} : { reveal })}
                   befriendPlace={befriendPlace}
                   onSignUp={onSignUp}
+                  onPractise={onPractise}
                 />
               );
             })}
