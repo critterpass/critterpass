@@ -1005,6 +1005,9 @@ importers:
       '@cp/planner':
         specifier: workspace:*
         version: link:../planner
+      libphonenumber-js:
+        specifier: 1.13.14
+        version: 1.13.14
       zod:
         specifier: 'catalog:'
         version: 4.6.5
