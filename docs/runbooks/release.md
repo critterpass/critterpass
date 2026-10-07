@@ -12,7 +12,7 @@ log before going on.
 |---|---|---|
 | Required reviewer on the `production` environment, so each run waits for approval | GitHub → Settings → Environments | not set: only `staging` exists; GitHub creates `production` on the first run without protection, so create it and add the reviewer first |
 | Secret (name only): `EXPO_TOKEN` | repository secrets | present (`gh secret list`, 2026-10-07) |
-| Secrets (names only): `EXPO_ASC_API_KEY_P8`, `EXPO_ASC_KEY_ID`, `EXPO_ASC_ISSUER_ID`, `GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION`, `GOOGLE_PLAY_SUBMIT_JSON`, `SENTRY_AUTH_TOKEN` | repository secrets, or secrets of the `production` environment | not set (`gh secret list`, 2026-10-07); `build` for Android, `submit` and `health` stop with an error naming the missing one. `SENTRY_AUTH_TOKEN` is also what a build uploads source maps with: EAS does not hand its own copy to a build that runs on GitHub, so a production build stops without it |
+| Secrets (names only): `EXPO_ASC_API_KEY_P8`, `EXPO_ASC_KEY_ID`, `EXPO_ASC_ISSUER_ID`, `GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION`, `GOOGLE_PLAY_SUBMIT_JSON`, `SENTRY_AUTH_TOKEN` | repository secrets, or secrets of the `production` environment | present as repository secrets (`gh secret list`, 2026-10-07); a step that needs a missing one stops with an error naming it. `SENTRY_AUTH_TOKEN` is also what a build uploads source maps with: EAS does not hand its own copy to a build that runs on GitHub, so a production build stops without it |
 | iOS phased release: `"apple": { "release": { "phasedRelease": true, "automaticRelease": false } }` | `apps/mobile/store.config.json` | missing; `submit` and `preflight` fail for iOS until it is there |
 | Play staged release: `"releaseStatus": "inProgress", "rollout": 0.01` (or `"draft"`) under `submit.production.android` | `apps/mobile/eas.json` | missing: today's profile would release to 100%; `submit` and `preflight` fail for Android until it is changed |
 | App Review notes, demo account and age rating (`apple.review`, `apple.advisory`) | `apps/mobile/store.config.json` | missing |
@@ -58,6 +58,75 @@ Every command needs `-f confirm="release production"`.
 Every native build runs on a GitHub-hosted runner with `eas build --local`
 (`.github/workflows/native-build-job.yml`): Android on Linux, iOS on macOS 26 with Xcode 26.6.
 The repository is public, so the runners cost nothing, and a local build uses no EAS build minutes.
+Nothing is built on EAS's builders any more: never run `eas build` without `--local`, and never
+start an EAS Workflow that builds.
+
+```sh
+gh workflow run native-build.yml -f ref=main -f profile=<e2e-test|staging> -f platform=<ios|android|all> [-f submit=true]
+```
+
+A build takes about 30 to 55 minutes. `submit=true` sends a staging build to TestFlight or Play
+internal testing when it is built. Production builds go only through `release.yml` (the steps
+above), behind the `production` environment's approval.
+
+### Where a build goes
+
+Every build gets a GitHub release tagged `native-<profile>-<platform>-<fingerprint, 12
+characters>-<run id>`, whose body is the build's manifest as JSON: `profile`, `platform`,
+`fingerprint`, `commit`, `appVersion`, `buildNumber`, `runtimeVersion` (read back from the binary),
+`artifact`, `runId`, `createdAt` (`tools/scripts/ci-device/build-manifest.ts`). A store build whose
+baked runtime version is not the fingerprint could never receive an update, so that fails the build.
+
+| Profile | Binary | Kept |
+|---|---|---|
+| `e2e-test` | attached to the release (simulator `.tar.gz`, x86_64 `.apk`) and a run artifact | the release stays; the artifact 30 days |
+| `staging`, `production` | run artifact `native-<profile>-<platform>` only: release assets of this public repository are public, so a signed store binary is never attached | seven days |
+
+Builds made here have no EAS build id and do not appear on expo.dev.
+
+### How device runs find a build
+
+`device.yml` computes the commit's native fingerprint and installs the newest `e2e-test` release
+build whose manifest carries exactly that fingerprint (`tools/scripts/ci-device/resolve-build.ts`);
+`build_url` overrides it. It never starts a build: a branch that changes native code needs its own
+`e2e-test` build first, and a JS-only branch reuses main's. Details: `e2e/README.md`.
+
+### How updates target a build
+
+The runtime version is the native fingerprint, so an update reaches only builds with the same
+native code. `staging-update.yml` publishes a ref's JS to the `staging` channel after comparing the
+ref's fingerprint with the installed build's, read from the build manifests
+(`tools/scripts/ci-device/update-target.ts`):
+
+```sh
+gh workflow run staging-update.yml -f ref=main -f message="…"                  # iOS, newest staging build
+gh workflow run staging-update.yml -f ref=main -f android=latest -f ios=""     # Android only
+gh workflow run staging-update.yml -f ref=main -f ios=<fingerprint or release tag>
+```
+
+| Input | Names the installed build by |
+|---|---|
+| `ios`, `android` | `latest` (the platform's newest `native-staging-…` release), a release tag, or a fingerprint (whole, or the 12 characters a tag shows); empty skips the platform. `ios` defaults to `latest`, `android` to empty |
+| `ios_build_id`, `android_build_id` | the EAS build id of a build made on EAS before the move; used instead of the input above when given |
+
+A platform whose installed build has another fingerprint is never published to: the run fails for
+it and says a new build is needed. So is one with no verdict (no staging build recorded, an
+unreadable manifest, EAS unreachable). `latest` means the newest build made, which is not always
+the one on the phone: while a newer build waits in TestFlight, pass the installed build's tag or
+fingerprint. A build made on EAS has no manifest: pass its EAS build id, or its fingerprint when known.
+
+### Secrets (names only)
+
+| Secret | Used by |
+|---|---|
+| `EXPO_TOKEN` | every build, device run and update: the fingerprint, the EAS environment's `EXPO_PUBLIC_*` values, credentials, the build number, `eas update`, `eas submit` |
+| `EXPO_ASC_API_KEY_P8`, `EXPO_ASC_KEY_ID`, `EXPO_ASC_ISSUER_ID` | the App Store Connect key: iOS signing in a build, and submitting to TestFlight or the App Store |
+| `GOOGLE_PLAY_SUBMIT_JSON` | submitting to Google Play |
+| `GOOGLE_SERVICES_JSON_CONTENT` | the Firebase config of `e2e-test` and `staging` Android builds, and the Android fingerprint in `staging-update.yml` |
+| `GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION` | the Firebase config of production Android builds |
+| `SENTRY_AUTH_TOKEN` | source map upload in store builds; `release.yml`'s health check |
+
+### What still uses EAS
 
 | Still on EAS | What for |
 |---|---|
@@ -66,13 +135,6 @@ The repository is public, so the runners cost nothing, and a local build uses no
 | Environment variables | the profile's `EXPO_PUBLIC_*` values; variables with secret visibility and the Firebase file are not handed to a local build and come from GitHub secrets instead |
 | EAS Update | JS updates to the `staging` and `production` channels (billed by monthly active users) |
 | EAS Submit | `eas submit --path <binary>` uploads to App Store Connect and Google Play |
-
-Staging builds: `gh workflow run native-build.yml -f ref=<ref> -f profile=staging -f platform=ios`
-(add `-f submit=true` to send it to TestFlight or Play internal testing when it is built; that needs
-the App Store Connect key secrets or `GOOGLE_PLAY_SUBMIT_JSON`). A store binary is a run artifact
-(`native-<profile>-<platform>`, seven days) and is never attached to a release, because release
-assets of this public repository are public; its release (`native-<profile>-<platform>-
-<fingerprint>-<run id>`) carries only the manifest. Builds made here have no EAS build id.
 
 ## Halt criteria
 
