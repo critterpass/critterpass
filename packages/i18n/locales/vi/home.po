@@ -121,7 +121,7 @@ msgstr "{name} muốn bỏ {change}"
 msgid "home.inbox.planChange.askedMove"
 msgstr "{name} muốn dời {change}"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.title"
 msgstr "Nhìn lại {place}"
 
@@ -237,7 +237,7 @@ msgstr "Hướng dẫn viên"
 msgid "home.explore.body"
 msgstr "Cẩm nang, địa điểm đã lưu và bản đồ ngoại tuyến"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.eyebrow"
 msgstr "Chuyến đi thế nào?"
 
@@ -414,7 +414,7 @@ msgstr ""
 msgid "home.inbox.planChange.open"
 msgstr "Xem thay đổi"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.open"
 msgstr "Xem lại chuyến đi"
 
@@ -575,14 +575,14 @@ msgstr "Mọi người đang giữ chỗ cho bạn."
 msgid "home.inbox.closed"
 msgstr "Mục này đã đóng."
 
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.today"
+msgstr "Hôm nay"
+
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.today"
 msgstr ""
-
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
-msgid "home.countdown.today"
-msgstr "Hôm nay"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.inTrip.eyebrowOf"
@@ -596,7 +596,7 @@ msgstr ""
 msgid "home.widgets.howTo.android.hold"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.fallback"
 msgstr "Chuyến đi"
 

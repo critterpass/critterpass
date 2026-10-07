@@ -1,0 +1,40 @@
+appId: app.critterpass.dev
+---
+# One trip day lab scene from the lab's list, on either platform: the row ${ITEM}, the scene ready
+# on ${READY}, the screenshot ${SHOT}, and back to the list.
+- scrollUntilVisible:
+    element:
+      id: '${ITEM}'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: '${ITEM}'
+    direction: UP
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: '${ITEM}'
+- extendedWaitUntil:
+    visible:
+      id: '${READY}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+# iOS taps the scene's edge back target; an edge swipe over a full-bleed scene is not reliable.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'trip-day-scene-back'
+- waitForAnimationToEnd:
+    timeout: 3000
