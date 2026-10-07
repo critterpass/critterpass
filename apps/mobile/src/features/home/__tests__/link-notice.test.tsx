@@ -1,65 +1,80 @@
 /**
- * A link that cannot be followed lands on Home with a `notice`: Home says why once, as a toast,
- * and drops the param so the same visit never says it twice.
+ * A link that cannot be followed lands on Home with a `notice` and the moment it was routed. Home
+ * says why once per link, as a toast: not again for the same address, again for a later link with
+ * the same notice, and never for an address left over from an earlier visit.
  */
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { afterEach, beforeAll, describe, expect, it } from '@jest/globals';
-import { Slot, useLocalSearchParams } from 'expo-router';
-import { Text } from 'react-native';
+import { act, render } from '@testing-library/react-native';
 
 import { toastQueue } from '@/motion/island-toast';
 
-import { useLinkNotice } from '../link-notice';
+import { NOTICE_FRESH_MS, resetLinkNoticesForTests, useLinkNotice } from '../link-notice';
 
-// Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
-import { renderRouter, screen, waitFor } from 'expo-router/testing-library';
+const NOW = 1_000_000;
 
-function Root() {
-  return (
-    <I18nProvider i18n={i18n}>
-      <Slot />
-    </I18nProvider>
-  );
+function Home(props: { notice: string | null; at: string | null; visible?: boolean }) {
+  useLinkNotice({ notice: props.notice, at: props.at }, props.visible ?? true, () => NOW);
+  return null;
 }
 
-function Home() {
-  const params = useLocalSearchParams<{ notice?: string; crewId?: string }>();
-  useLinkNotice(typeof params.notice === 'string' ? params.notice : null);
-  return <Text>{`home notice=${params.notice ?? 'none'} crew=${params.crewId ?? 'none'}`}</Text>;
-}
-
-async function open(initialUrl: string) {
-  await renderRouter({ _layout: Root, index: Home }, { initialUrl });
-  await waitFor(() => expect(screen.getByText(/^home notice=none/u)).toBeTruthy());
-}
+const show = (props: Parameters<typeof Home>[0]) => (
+  <I18nProvider i18n={i18n}>
+    <Home {...props} />
+  </I18nProvider>
+);
 
 beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
 });
 
-afterEach(() => toastQueue.resetForTests());
+afterEach(() => {
+  toastQueue.resetForTests();
+  resetLinkNoticesForTests();
+});
 
 describe('a link notice on Home', () => {
   it.each([
     ['link_unknown', 'That link couldn’t be opened'],
     ['link_already_member', 'That link is for new travellers. You already have your pass'],
     ['link_unavailable', 'That link isn’t available any more'],
-  ])('says %s once and drops the param', async (notice, title) => {
-    await open(`/?notice=${notice}`);
+  ])('says %s', async (notice, title) => {
+    await render(show({ notice, at: String(NOW - 500) }));
     expect(toastQueue.getCurrent()?.title).toBe(title);
-    expect(screen.getByText('home notice=none crew=none')).toBeTruthy();
   });
 
-  it('says nothing for a notice it does not know, and still drops it', async () => {
-    await open('/?notice=something_else');
+  it('says it once for one link, and again for a later link with the same notice', async () => {
+    const first = { notice: 'link_unknown', at: String(NOW - 500) };
+    const view = await render(show(first));
+    expect(toastQueue.getCurrent()).not.toBeNull();
+    await act(() => toastQueue.dismiss());
+
+    // Home drawn again on the same address (back from another tab, a new render): silence.
+    await view.rerender(show({ ...first }));
+    await view.unmount();
+    await render(show(first));
     expect(toastQueue.getCurrent()).toBeNull();
-    expect(screen.getByText('home notice=none crew=none')).toBeTruthy();
+
+    await render(show({ notice: 'link_unknown', at: String(NOW - 100) }));
+    expect(toastQueue.getCurrent()?.title).toBe('That link couldn’t be opened');
   });
 
-  it('keeps the crew a link handed off to', async () => {
-    await open('/?crewId=abc');
+  it('waits while Home is not visible yet, then says it', async () => {
+    const link = { notice: 'link_unknown', at: String(NOW - 500) };
+    const view = await render(show({ ...link, visible: false }));
     expect(toastQueue.getCurrent()).toBeNull();
-    expect(screen.getByText('home notice=none crew=abc')).toBeTruthy();
+    await view.rerender(show({ ...link, visible: true }));
+    expect(toastQueue.getCurrent()?.title).toBe('That link couldn’t be opened');
+  });
+
+  it.each([
+    ['an address from an earlier visit', 'link_unknown', String(NOW - NOTICE_FRESH_MS)],
+    ['a notice with no time', 'link_unknown', null],
+    ['a time that is not a number', 'link_unknown', 'soon'],
+    ['a notice it does not know', 'something_else', String(NOW - 500)],
+  ])('says nothing for %s', async (_label, notice, at) => {
+    await render(show({ notice, at }));
+    expect(toastQueue.getCurrent()).toBeNull();
   });
 });

@@ -73,10 +73,10 @@ describe('routeIncomingUrl after onboarding', () => {
 
   it('goes Home with a notice for unknown or malformed links of ours', async () => {
     await expect(routeIncomingUrl('https://critterpass.app/i/ZZZZ2K')).resolves.toBe(
-      '/?notice=link_unknown',
+      '/?notice=link_unknown&at=1000000',
     );
     await expect(routeIncomingUrl('https://critterpass.app/i/not-a-code')).resolves.toBe(
-      '/?notice=link_unknown',
+      '/?notice=link_unknown&at=1000000',
     );
   });
 

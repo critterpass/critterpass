@@ -67,16 +67,13 @@ appId: app.critterpass.dev
     visible:
       id: 'explore-destination'
     timeout: 30000
-- runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://i/not-a-code
-- extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 30000
+# Opened directly: the toast is up for under three seconds, and the shared subflow's wait for
+# iOS's "Open in …?" prompt (already answered above) would outlast it.
+- openLink: critterpass-dev://i/not-a-code
 # Home says why the link ended up here.
 - extendedWaitUntil:
     visible: '(?i).*that link couldn.t be opened.*'
-    timeout: 10000
+    timeout: 15000
 - takeScreenshot: link-unknown-opens-home
+- assertVisible:
+    id: 'dev-tools-entry'

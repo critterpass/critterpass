@@ -6,7 +6,9 @@
  * - `/onboarding/invite/ticket` (3a-10): `code`, optional `seat`, `kind` (`invite`|`referral`),
  *   `state` (`active`|`expired`|`revoked`|`full`) and `via` when it came from a deferred claim.
  * - `/onboarding/invite/code` (3a-11): optional `notice` (`invalid`) and `pasted` (the link).
- * - `/` (Home): optional `crewId` to focus, `notice` for a one-line toast (see `LinkNotice`).
+ * - `/` (Home): optional `crewId` to focus, `notice` for a one-line toast (see `LinkNotice`) with
+ *   `at`, the moment the link was routed: Home says each (`notice`, `at`) once, so the same notice
+ *   from a later link is said again while a lingering address is not.
  */
 import { currentAppPath, type AttributionVia, type LinkState, type LinkTarget } from '@cp/domain';
 
@@ -37,8 +39,8 @@ function href(pathname: string, params: Record<string, string | undefined>): str
   return query === '' ? pathname : `${pathname}?${query}`;
 }
 
-export function homeWithNotice(notice: LinkNotice): string {
-  return href(HOME_ROUTE, { notice });
+export function homeWithNotice(notice: LinkNotice, at: number): string {
+  return href(HOME_ROUTE, { notice, at: String(at) });
 }
 
 export function codeEntryRoute(params: { notice?: 'invalid'; pasted?: string } = {}): string {
@@ -46,11 +48,11 @@ export function codeEntryRoute(params: { notice?: 'invalid'; pasted?: string } =
 }
 
 /** The in-app href for a signed-in, onboarded user following `target`. */
-export function routeForTarget(target: LinkTarget, facts: LinkFacts): string {
+export function routeForTarget(target: LinkTarget, facts: LinkFacts, now: number): string {
   switch (target.kind) {
     case 'invite':
     case 'referral': {
-      if (facts.kind === 'referral') return homeWithNotice('link_already_member');
+      if (facts.kind === 'referral') return homeWithNotice('link_already_member', now);
       if (facts.isMember && facts.crewId !== null)
         return href(HOME_ROUTE, { crewId: facts.crewId });
       return href(INVITE_TICKET_ROUTE, {

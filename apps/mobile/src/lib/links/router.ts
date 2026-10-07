@@ -119,7 +119,7 @@ export async function routeTarget(
   options: { readonly via?: PendingLink['via']; readonly crewId?: string | null } = {},
 ): Promise<string> {
   const preview = await previewOf(target);
-  if (preview.status === 'not_found') return homeWithNotice('link_unknown');
+  if (preview.status === 'not_found') return homeWithNotice('link_unknown', deps.now());
   const facts = factsFrom(target, preview, options.via);
   if (!isOnboardingComplete()) {
     savePendingLink({
@@ -134,11 +134,15 @@ export async function routeTarget(
       ? deps.memberCrewForCode(target.code)
       : null;
   const crewId = memberCrew ?? options.crewId ?? null;
-  return routeForTarget(target, {
-    ...facts,
-    crewId,
-    isMember: memberCrew !== null || (crewId !== null && deps.isMember(crewId)),
-  });
+  return routeForTarget(
+    target,
+    {
+      ...facts,
+      crewId,
+      isMember: memberCrew !== null || (crewId !== null && deps.isMember(crewId)),
+    },
+    deps.now(),
+  );
 }
 
 /**
@@ -151,7 +155,7 @@ export async function routeIncomingUrl(url: string, initial = false): Promise<st
   const target = parseIncomingLink(url);
   if (target !== null) return routeTarget(target);
   if (isBareLink(url)) return HOME_ROUTE;
-  return OUR_URL.test(url) ? homeWithNotice('link_unknown') : url;
+  return OUR_URL.test(url) ? homeWithNotice('link_unknown', deps.now()) : url;
 }
 
 /** Called by onboarding once the pass is issued: the href of the link that was waiting, if any. */
