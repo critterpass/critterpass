@@ -1,6 +1,6 @@
 /**
- * Lab scenes for the pick sheet (6d-2) over two Bali days and one already taken: a crew trip
- * (SET and "Ask the crew first"), a trip of one (SET only), a pick on the driver's quote (the crew
+ * Lab scenes for the pick sheet (6d-2) over the render's Bali days, one already taken: a crew trip
+ * (SET and the "Ask the crew first" toggle), a trip of one (SET only), a pick on the driver's quote (the crew
  * is asked first), and each way a pick is refused.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
@@ -18,18 +18,25 @@ const DAYS: readonly PickDayRow[] = [
   {
     date: '2026-10-14',
     title: 'Wed 14 · Jatiluwih',
-    line: '08:00–18:00 · 10 hours',
+    line: '06:30–18:00 · 11½ hours',
     taken: false,
     on: true,
   },
   {
-    date: '2026-10-15',
-    title: 'Thu 15 · Sidemen',
-    line: '09:00–17:00 · 8 hours',
+    date: '2026-10-18',
+    title: 'Sun 18 · Uluwatu',
+    line: '13:00–21:30 · 8½ hours',
     taken: false,
     on: true,
   },
-  { date: '2026-10-16', title: 'Fri 16 · Amed', line: 'Ketut is booked', taken: true, on: false },
+  {
+    date: '2026-10-16',
+    title: 'Fri 16 · Sanur harbour',
+    line: '07:00–08:00 · 1 hour',
+    taken: false,
+    on: false,
+  },
+  { date: '2026-10-15', title: 'Thu 15 · Batur', line: 'Ketut is booked', taken: true, on: false },
 ];
 
 function PickScene({
@@ -56,7 +63,7 @@ function PickScene({
             )
           : null
       }
-      overtime={null}
+      overtime={quote || error !== null ? null : 'Wed is 11½ hours. Made’s price covers 10.'}
       error={error === null ? null : pickErrorText(error, locale)}
       chosen={2}
       busy={null}

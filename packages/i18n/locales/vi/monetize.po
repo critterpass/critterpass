@@ -20,6 +20,10 @@ msgstr ""
 msgid "monetize.stamped.onYou"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+msgid "monetize.boost.splitLineExact"
+msgstr "Mỗi người {each}, ghi vào Công nợ như mọi khoản chi chung. Tính cùng phần còn lại của chuyến đi."
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boost.ended"
 msgstr ""
@@ -28,7 +32,7 @@ msgstr ""
 msgid "monetize.plan.boost.onUntil"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.lockedBy"
 msgstr ""
 
@@ -81,7 +85,7 @@ msgstr ""
 msgid "monetize.disclosure.once"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.endedLine"
 msgstr ""
 
@@ -181,7 +185,7 @@ msgstr ""
 msgid "monetize.boost.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 msgid "monetize.paywall.boostInstead"
 msgstr ""
 
@@ -194,7 +198,7 @@ msgstr ""
 msgid "monetize.boost.sheet"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.done"
 msgstr ""
 
@@ -350,7 +354,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.headline"
-msgstr ""
+msgstr "Đi xa hơn\nbản miễn phí"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.inPlay"
@@ -397,7 +401,7 @@ msgstr ""
 msgid "monetize.stamped.coverLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.doneLine"
 msgstr ""
 
@@ -478,7 +482,7 @@ msgstr ""
 msgid "monetize.compare.covers.boost"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.lockedLine"
 msgstr ""
 
@@ -615,6 +619,7 @@ msgstr ""
 msgid "monetize.plan.renews"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.restore"
 msgstr ""
@@ -635,7 +640,7 @@ msgstr ""
 msgid "monetize.compare.sponsored.free"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.locked"
 msgstr ""
 
@@ -724,11 +729,11 @@ msgstr ""
 msgid "monetize.boost.thisTrip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.boosted"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.ended"
 msgstr ""
 
@@ -779,7 +784,7 @@ msgstr ""
 msgid "monetize.perks.boostRedrafts"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.boostedLine"
 msgstr ""
 
@@ -833,7 +838,7 @@ msgstr ""
 msgid "monetize.compare.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 msgid "monetize.paywall.compare"
 msgstr ""
 

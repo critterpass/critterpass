@@ -1,7 +1,8 @@
 /**
  * The guide sheet's header (3j-1, 4b-1): the guide's sticker and name, the mode line ("Group mode ·
  * all six can see this", "Just me · Kyoto, Apr 2–9"), the GROUP / JUST ME switch when there is a
- * trip to share with, the line that says the guide is an AI, and the meter chip.
+ * trip to share with, then the line that says the guide is an AI on a row of its own, and the
+ * meter chip.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl format options, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -89,17 +90,6 @@ export function GuideHeader({
           <Text variant="bodySm" color={theme.semantic.text.secondary} singleLine={false}>
             {modeLine}
           </Text>
-          <Text
-            variant="caption"
-            color={theme.semantic.text.tertiary}
-            singleLine={false}
-            testID="guide-ai-label"
-          >
-            {t({
-              id: 'guide.header.ai',
-              message: 'AI guide · answers can be wrong, check what matters',
-            })}
-          </Text>
         </Stack>
         {onMode === undefined ? null : (
           <View style={styles.modes}>
@@ -116,6 +106,18 @@ export function GuideHeader({
           </View>
         )}
       </Row>
+      {/* Its own row under the header, so it never squeezes the mode line beside the switch. */}
+      <Text
+        variant="caption"
+        color={theme.semantic.text.tertiary}
+        singleLine={false}
+        testID="guide-ai-label"
+      >
+        {t({
+          id: 'guide.header.ai',
+          message: 'AI guide · answers can be wrong, check what matters',
+        })}
+      </Text>
       {meter}
     </Stack>
   );
