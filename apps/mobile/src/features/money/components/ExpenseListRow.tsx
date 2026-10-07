@@ -5,8 +5,9 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
@@ -76,18 +77,20 @@ export function ExpenseListRow({ item, crewCurrency, onPress, testID }: ExpenseL
             <Text variant="rowTitle" numberOfLines={2}>
               {upper(title, locale)}
             </Text>
-            <Text variant="bodySm" color={theme.semantic.text.secondary}>
-              {parts.join(' · ')}
-            </Text>
+            <PrivateContent>
+              <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                {parts.join(' · ')}
+              </Text>
+            </PrivateContent>
           </Stack>
-          <View>
+          <PrivateContent>
             <Text
               variant="rowTitle"
               style={item.pending === 'delete' ? { textDecorationLine: 'line-through' } : undefined}
             >
               {amount}
             </Text>
-          </View>
+          </PrivateContent>
         </Row>
       </Pressable>
     </PendingSync>

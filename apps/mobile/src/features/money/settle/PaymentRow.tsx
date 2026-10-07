@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useStamp } from '@/motion/patterns/stamp';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
@@ -88,31 +89,33 @@ export function PaymentRow({
   return (
     <View>
       <Animated.View style={slide}>
-        <SettleRow
-          from={{
-            name: from?.name ?? '',
-            avatar: (
-              <Avatar
-                name={from?.name ?? ''}
-                joinIndex={from?.joinIndex ?? 0}
-                size="md"
-                decorative
-              />
-            ),
-          }}
-          to={{
-            name: to?.name ?? '',
-            avatar: (
-              <Avatar name={to?.name ?? ''} joinIndex={to?.joinIndex ?? 0} size="md" decorative />
-            ),
-          }}
-          amount={formatAmount(row.amountMinor, row.currency, locale)}
-          status={row.status === 'disputed' ? 'pending' : status}
-          statusLabel={label(row)}
-          {...(row.actions.includes('nudge') && row.status === 'requested' ? { onNudge } : {})}
-          onPress={onPress}
-          testID={`money-settle-row-${row.key}`}
-        />
+        <PrivateContent>
+          <SettleRow
+            from={{
+              name: from?.name ?? '',
+              avatar: (
+                <Avatar
+                  name={from?.name ?? ''}
+                  joinIndex={from?.joinIndex ?? 0}
+                  size="md"
+                  decorative
+                />
+              ),
+            }}
+            to={{
+              name: to?.name ?? '',
+              avatar: (
+                <Avatar name={to?.name ?? ''} joinIndex={to?.joinIndex ?? 0} size="md" decorative />
+              ),
+            }}
+            amount={formatAmount(row.amountMinor, row.currency, locale)}
+            status={row.status === 'disputed' ? 'pending' : status}
+            statusLabel={label(row)}
+            {...(row.actions.includes('nudge') && row.status === 'requested' ? { onNudge } : {})}
+            onPress={onPress}
+            testID={`money-settle-row-${row.key}`}
+          />
+        </PrivateContent>
       </Animated.View>
       {cleared ? (
         <Animated.View style={[styles.stamp, stamp]} pointerEvents="none">

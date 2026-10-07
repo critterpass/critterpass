@@ -1,6 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { HELP_SCENES } from '@/features/help/dev/lab-scenes';
+import { ChatLabScene } from '@/features/crew/chat/dev/lab-scene';
+import { HELP_SCENES, ShakeOver } from '@/features/help/dev/lab-scenes';
+import { MONEY_LAB_SCENES } from '@/features/money/dev/lab-scenes';
 import { SessionMapNoPackScene } from '@/features/safety/session-map/dev/session-map-scene';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -14,6 +16,15 @@ const SAFETY_SCENE = 'sos-map-no-pack';
 export default function HelpSceneRoute() {
   const { scene } = useLocalSearchParams<{ scene: string }>();
   if (scene === SAFETY_SCENE) return <SessionMapNoPackScene />;
+  // A shake over another area's screen: what that screen marks private is covered in the picture.
+  if (scene === 'shake-wallet') return <ShakeOver>{MONEY_LAB_SCENES['balances']?.()}</ShakeOver>;
+  if (scene === 'shake-chat') {
+    return (
+      <ShakeOver>
+        <ChatLabScene />
+      </ShakeOver>
+    );
+  }
   const render = HELP_SCENES[typeof scene === 'string' ? scene : ''];
   return render === undefined ? null : render();
 }

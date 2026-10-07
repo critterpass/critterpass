@@ -10,6 +10,7 @@ import { ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { WalletSwitch } from '@/features/bookings';
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -99,33 +100,37 @@ function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
   return (
     <Stack gap="4" testID={solo ? 'money-hero-solo' : `money-hero-${kind}`}>
       <Text variant="eyebrow">{upper(eyebrow, locale)}</Text>
-      <Row style={styles.heroRow}>
-        <Odometer
-          // The odometer measures its line once: a new size starts a new one.
-          key={heroVariant(parts)}
-          value={parts.whole}
-          variant={heroVariant(parts)}
-          prefix={parts.prefix}
-          suffix={parts.suffix}
-          color={color}
-          accessibilityLabel={eyebrow}
-          testID="money-hero-amount"
-        />
-        <Animated.View style={[styles.gecko, bob]}>
-          <Sticker
-            kind={tokek.kind}
-            name={guide.name}
-            size={72}
-            variant="mask"
-            maskColor={theme.tier.locked.default}
-            sticker={null}
+      <PrivateContent>
+        <Row style={styles.heroRow}>
+          <Odometer
+            // The odometer measures its line once: a new size starts a new one.
+            key={heroVariant(parts)}
+            value={parts.whole}
+            variant={heroVariant(parts)}
+            prefix={parts.prefix}
+            suffix={parts.suffix}
+            color={color}
+            accessibilityLabel={eyebrow}
+            testID="money-hero-amount"
           />
-        </Animated.View>
-      </Row>
+          <Animated.View style={[styles.gecko, bob]}>
+            <Sticker
+              kind={tokek.kind}
+              name={guide.name}
+              size={72}
+              variant="mask"
+              maskColor={theme.tier.locked.default}
+              sticker={null}
+            />
+          </Animated.View>
+        </Row>
+      </PrivateContent>
       {home === null ? null : (
-        <Text variant="body" color={theme.semantic.text.secondary} testID="money-hero-home">
-          {home}
-        </Text>
+        <PrivateContent>
+          <Text variant="body" color={theme.semantic.text.secondary} testID="money-hero-home">
+            {home}
+          </Text>
+        </PrivateContent>
       )}
     </Stack>
   );
@@ -156,9 +161,11 @@ export function BalancesView(props: BalancesViewProps) {
       >
         <WalletSwitch current="money" />
         <Row justify="space-between" align="center">
-          <Text variant="eyebrow" numberOfLines={1} style={{ flexShrink: 1 }}>
-            {upper(t({ id: 'money.header.spent', message: `Money · ${spent} spent` }), locale)}
-          </Text>
+          <PrivateContent style={{ flexShrink: 1 }}>
+            <Text variant="eyebrow" numberOfLines={1}>
+              {upper(t({ id: 'money.header.spent', message: `Money · ${spent} spent` }), locale)}
+            </Text>
+          </PrivateContent>
           <Row gap="8" align="center">
             {props.offline ? <OfflinePill testID="money-offline" /> : null}
             <HeaderPill
@@ -209,17 +216,19 @@ export function BalancesView(props: BalancesViewProps) {
           <>
             <Hero {...props.hero} currency={props.currency} />
             <Card testID="money-bars">
-              <BalanceBars
-                owesHeading={upper(t({ id: 'money.bars.owes', message: 'Owes' }), locale)}
-                owedHeading={upper(t({ id: 'money.bars.owed', message: 'Is owed' }), locale)}
-                balances={props.lines.map((line) => ({
-                  name: line.me ? t({ id: 'money.bars.you', message: 'You' }) : line.name,
-                  direction: line.direction,
-                  fraction: line.fraction,
-                  amountLabel: formatSigned(line.netMinor, props.currency, locale),
-                  highlight: line.me,
-                }))}
-              />
+              <PrivateContent>
+                <BalanceBars
+                  owesHeading={upper(t({ id: 'money.bars.owes', message: 'Owes' }), locale)}
+                  owedHeading={upper(t({ id: 'money.bars.owed', message: 'Is owed' }), locale)}
+                  balances={props.lines.map((line) => ({
+                    name: line.me ? t({ id: 'money.bars.you', message: 'You' }) : line.name,
+                    direction: line.direction,
+                    fraction: line.fraction,
+                    amountLabel: formatSigned(line.netMinor, props.currency, locale),
+                    highlight: line.me,
+                  }))}
+                />
+              </PrivateContent>
             </Card>
             <PillButton
               label={upper(settleLabel, locale)}

@@ -10,6 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { DocField } from '@/ui/documents/DocField';
@@ -102,21 +103,25 @@ export function BoardingPassView(props: BoardingPassViewProps) {
             })}
             testID="bookings-pass-code"
           >
-            <Canvas style={{ width: size, height: size }}>
-              <Group transform={[{ scale: size / qr.size }]}>
-                <Path path={qr.path} color={theme.color.paper.ink} />
-              </Group>
-            </Canvas>
+            <PrivateContent>
+              <Canvas style={{ width: size, height: size }}>
+                <Group transform={[{ scale: size / qr.size }]}>
+                  <Path path={qr.path} color={theme.color.paper.ink} />
+                </Group>
+              </Canvas>
+            </PrivateContent>
           </View>
         )}
         {props.fields.length === 0 ? null : (
-          <Row gap="12">
-            {props.fields.map((field) => (
-              <View key={field.key} style={styles.cell}>
-                <DocField label={upper(field.label, locale)} value={field.value} />
-              </View>
-            ))}
-          </Row>
+          <PrivateContent>
+            <Row gap="12">
+              {props.fields.map((field) => (
+                <View key={field.key} style={styles.cell}>
+                  <DocField label={upper(field.label, locale)} value={field.value} />
+                </View>
+              ))}
+            </Row>
+          </PrivateContent>
         )}
       </View>
     </Scaffold>

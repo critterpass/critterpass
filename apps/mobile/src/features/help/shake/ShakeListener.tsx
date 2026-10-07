@@ -51,9 +51,35 @@ export function ShakeToReport() {
           message: 'Hidden from the screenshot: this screen shows private details.',
         })}
       />
-      {shakeToReportAvailable() ? <ShakeWhileActive /> : null}
+      {shakeToReportAvailable() ? <ShakeWhileActive /> : <ReportOnRequest />}
     </>
   );
+}
+
+/** How long a screen takes to slide back into view once the one above it is closed. */
+const BACK_SETTLE_MS = 700;
+const requests = new Set<() => void>();
+
+/**
+ * For the Developer tools entry on builds where the shake opens those tools instead: closes the
+ * menu, lets the screen underneath come back, then does there what a shake does in production.
+ */
+export function reportProblemUnderneath(): void {
+  if (router.canGoBack()) router.back();
+  setTimeout(() => {
+    for (const request of requests) request();
+  }, BACK_SETTLE_MS);
+}
+
+function ReportOnRequest() {
+  const report = useReport();
+  useEffect(() => {
+    requests.add(report);
+    return () => {
+      requests.delete(report);
+    };
+  }, [report]);
+  return null;
 }
 
 function ShakeWhileActive() {
@@ -65,7 +91,12 @@ function ShakeWhileActive() {
     );
     return () => subscription.remove();
   }, []);
+  const report = useReport();
+  return enabled && active ? <ShakeSensor onShake={report} /> : null;
+}
 
+/** Takes the masked screenshot of the screen in front and opens a problem report with it. */
+function useReport(): () => void {
   const navigation = useNavigationContainerRef();
   const pathname = usePathname();
   const path = useRef(pathname);
@@ -74,7 +105,7 @@ function ShakeWhileActive() {
   }, [pathname]);
   const busy = useRef(false);
 
-  const report = useCallback(() => {
+  return useCallback(() => {
     if (!navigation.isReady()) return;
     const from = path.current;
     const verdict = shakeVerdict({
@@ -100,8 +131,6 @@ function ShakeWhileActive() {
         busy.current = false;
       });
   }, [navigation]);
-
-  return enabled && active ? <ShakeSensor onShake={report} /> : null;
 }
 
 /** Holds the accelerometer for as long as it is mounted. */

@@ -4,6 +4,8 @@
  * yielding the template briefing with `fallback_used`, one `briefing.built` per day whatever the
  * retries, an event item joining today's briefing once, and the next morning armed.
  */
+import { randomUUID } from 'node:crypto';
+
 import { createGateway } from '@cp/ai';
 import { withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -12,6 +14,8 @@ import { briefingCandidates } from '../../src/jobs/trip-day/briefing-candidates'
 import { runBriefing } from '../../src/jobs/trip-day/briefing-build';
 import { insertBriefingItem } from '../../src/jobs/trip-day/briefing-insert-event';
 import { recomputeLeaveBys } from '../../src/jobs/trip-day/leaveby-recompute';
+import { registerTripDayNotifications } from '../../src/jobs/trip-day/notify';
+import { getRegistration } from '../../src/jobs/notify/register';
 import {
   NOW,
   recordedMapboxRouter,
@@ -181,6 +185,43 @@ describe('briefing.build', () => {
       [world.tripId],
     );
     expect(Number(built[0]?.n)).toBe(1);
+  });
+
+  it('pushes the first open line with its id, and a button only when the line takes one', async () => {
+    registerTripDayNotifications();
+    const push = getRegistration('briefing.built', 'morning_briefing');
+    if (push === undefined) throw new Error('not registered');
+    const items = await world.q<{ id: string; briefing_id: string; text: string }>(
+      `SELECT i.id, i.briefing_id, i.text FROM briefing_items i
+         JOIN briefings b ON b.id = i.briefing_id
+        WHERE b.trip_id = $1 AND b.user_id = $2 ORDER BY i.position`,
+      [world.tripId, world.members[0]],
+    );
+    const [leaveBy, asleep] = items;
+    const built = {
+      id: randomUUID(),
+      type: 'briefing.built',
+      payload: {
+        trip_id: world.tripId,
+        briefing_id: leaveBy!.briefing_id,
+        user_id: world.members[0],
+        item_count: items.length,
+      },
+      crewId: null,
+      tripId: world.tripId,
+      actorId: null,
+      occurredAt: NOW,
+    };
+    await withSystem(world.harness.pool, async (tx) => {
+      const first = await push.compose(tx, built, world.members[0]!);
+      expect(first?.vars).toMatchObject({ line: leaveBy!.text });
+      expect(first?.ctx).toEqual({ item_id: leaveBy!.id, actions: [] });
+      // Once the leave-by line is done the push reads the next one, which nudges the sleepers.
+      await tx.query("UPDATE briefing_items SET status = 'done' WHERE id = $1", [leaveBy!.id]);
+      const next = await push.compose(tx, built, world.members[0]!);
+      expect(next?.ctx).toEqual({ item_id: asleep!.id, actions: ['NUDGE'] });
+      await tx.query("UPDATE briefing_items SET status = 'open' WHERE id = $1", [leaveBy!.id]);
+    });
   });
 
   it('arms the next morning on the trip clock', async () => {

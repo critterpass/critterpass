@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -140,31 +141,37 @@ export function ExpenseDetailView(props: ExpenseDetailViewProps) {
         <Text variant="h1" accessibilityRole="header">
           {upper(title, locale)}
         </Text>
-        <Stack gap="4">
-          <Text variant="displayXl" testID="money-detail-amount">
-            {formatAmountShown(item.amountMinor, item.currency, locale)}
-          </Text>
-          {converted === null ? null : (
-            <Text variant="body" color={theme.semantic.text.secondary}>
-              {`≈ ${converted}`}
+        <PrivateContent>
+          <Stack gap="4">
+            <Text variant="displayXl" testID="money-detail-amount">
+              {formatAmountShown(item.amountMinor, item.currency, locale)}
             </Text>
-          )}
-          {rateLine === null ? null : (
-            <Text variant="bodySm" color={theme.semantic.text.secondary} testID="money-detail-rate">
-              {rateLine}
-            </Text>
-          )}
-          <Text variant="bodySm" color={theme.semantic.text.secondary}>
-            {[payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }), when]
-              .filter(Boolean)
-              .join(' · ')}
-          </Text>
-          {item.fromReceipt ? (
+            {converted === null ? null : (
+              <Text variant="body" color={theme.semantic.text.secondary}>
+                {`≈ ${converted}`}
+              </Text>
+            )}
+            {rateLine === null ? null : (
+              <Text
+                variant="bodySm"
+                color={theme.semantic.text.secondary}
+                testID="money-detail-rate"
+              >
+                {rateLine}
+              </Text>
+            )}
             <Text variant="bodySm" color={theme.semantic.text.secondary}>
-              {t({ id: 'money.detail.receipt', message: 'Split from a receipt scan' })}
+              {[payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }), when]
+                .filter(Boolean)
+                .join(' · ')}
             </Text>
-          ) : null}
-        </Stack>
+            {item.fromReceipt ? (
+              <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                {t({ id: 'money.detail.receipt', message: 'Split from a receipt scan' })}
+              </Text>
+            ) : null}
+          </Stack>
+        </PrivateContent>
         <SettingsGroup
           title={upper(t({ id: 'money.detail.shares', message: 'Who owes what' }), locale)}
           testID="money-detail-shares"
@@ -173,14 +180,16 @@ export function ExpenseDetailView(props: ExpenseDetailViewProps) {
             kind: 'custom' as const,
             title: share.name,
             trailing: (
-              <Text
-                variant="rowTitle"
-                color={share.crewMinor === 0n ? theme.semantic.text.secondary : undefined}
-              >
-                {share.crewMinor === 0n
-                  ? t({ id: 'money.detail.leftOut', message: 'Left out' })
-                  : formatAmount(share.crewMinor, props.crewCurrency, locale)}
-              </Text>
+              <PrivateContent>
+                <Text
+                  variant="rowTitle"
+                  color={share.crewMinor === 0n ? theme.semantic.text.secondary : undefined}
+                >
+                  {share.crewMinor === 0n
+                    ? t({ id: 'money.detail.leftOut', message: 'Left out' })
+                    : formatAmount(share.crewMinor, props.crewCurrency, locale)}
+                </Text>
+              </PrivateContent>
             ),
           }))}
         />
