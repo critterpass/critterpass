@@ -27,7 +27,7 @@ x86_64 Google APIs image). No local simulator is involved.
 | `flows`      | Flow files, folders or globs, separated by spaces or commas. Empty runs the full suite (every `e2e/<area>/*.yaml` except `_shared` and `spikes`).     |
 | `mode`       | `flows` (pass/fail), `capture` (screenshots posted to `pr`) or `compare` (`pnpm screens:compare` sheets posted to `pr`).                              |
 | `pr`         | The pull request that gets the images in `capture` and `compare` modes.                                                                              |
-| `build_url`  | EAS artifact URL(s) to install instead of the fingerprint-matched e2e-test build: `.tar.gz` for iOS, `.apk` for Android, space-separated for both.   |
+| `build_url`  | Artifact URL(s) to install instead of the fingerprint-matched e2e-test build: `.tar.gz` for iOS, `.apk` for Android, space-separated for both.       |
 | `shards`     | Parallel shards per platform (default 3).                                                                                                            |
 | `appearance` | `light` or `dark`.                                                                                                                                    |
 | `preset`     | `sweep` runs the UI sweep (below) in `compare` mode; with `pr` empty the images go to the "Nightly UI sweep" issue. `happy` runs the release gate (below). |
@@ -63,31 +63,45 @@ name's ending, with the render or undesigned-state row that makes it sparse. A s
 because content never drew is a bug to fix, never an entry there.
 
 Each run is titled after its mode, branch, pull request, platform and flows, and dispatching the
-same flows on the same branch again cancels the older run. When no e2e-test build matches the
-native fingerprint the prepare job stops (it never falls back to another build) and names the
-latest build's URL to pass as `build_url` if its native code still fits.
+same flows on the same branch again cancels the older run.
 
-Scheduled runs (the nightly sweep and the daily release gate) have no `build_url` input. While no
-Android e2e-test build matches the native fingerprint, set the repo variable
-`DEVICE_SCHEDULED_ANDROID_BUILD_URL` to the `.apk` URL lanes pass by hand
-(`gh variable set DEVICE_SCHEDULED_ANDROID_BUILD_URL --body <url>`): scheduled runs then install it.
-The prepare job says so every time, as a notice and in the step summary ("scheduled run uses the
-build in DEVICE_SCHEDULED_ANDROID_BUILD_URL: <url>"). Manual and pull-request runs ignore it. When
-the variable is empty, scheduled runs behave as above. Clear it as soon as a new e2e-test build
-matches the fingerprint (`gh variable delete DEVICE_SCHEDULED_ANDROID_BUILD_URL`), so scheduled
-runs go back to the matching build. iOS needs no such variable: its fingerprint lookup still finds
-a build.
+### Builds
 
-The workflow needs the `EXPO_TOKEN` secret (build lookup by fingerprint, and the EAS
-`development` environment's `EXPO_PUBLIC_*` values for the bundle) and `OTP_TEST_CODE`
-(`e2e/onboarding/save-phone.yaml`). Builds come from EAS; the workflow never starts one.
+e2e-test builds are made on GitHub's runners, never on EAS's paid builders:
+
+```sh
+gh workflow run native-build.yml -f ref=<branch> -f profile=e2e-test -f platform=android  # or ios
+```
+
+Each build is attached to a GitHub release named
+`native-e2e-test-<platform>-<fingerprint, 12 characters>-<run id>`, with a manifest (profile,
+platform, native fingerprint, commit, versions) as the release body. The prepare job computes the
+commit's native fingerprint and installs the newest release build whose manifest carries exactly
+that fingerprint; while there is none it looks for a finished EAS build with it. When neither
+exists it stops (it never falls back to another build), says how to make one, and names the latest
+EAS build's URL to pass as `build_url` if its native code still fits. A branch that changes native
+code needs its own build first; a JS-only branch reuses main's.
+
+The Android fingerprint hashes the Firebase config, so both the build and the lookup write it from
+the `GOOGLE_SERVICES_JSON_CONTENT` secret.
+
+Scheduled runs (the nightly sweep and the daily release gate) have no `build_url` input. The repo
+variable `DEVICE_SCHEDULED_ANDROID_BUILD_URL` names an `.apk` they install instead of the matching
+build, and the prepare job says so every time ("scheduled run uses the build in
+DEVICE_SCHEDULED_ANDROID_BUILD_URL: <url>"). Manual and pull-request runs ignore it. Delete it
+(`gh variable delete DEVICE_SCHEDULED_ANDROID_BUILD_URL`) once main has an Android e2e-test build
+on GitHub, so scheduled runs go back to the matching build.
+
+The workflow needs the `EXPO_TOKEN` secret (the fingerprint, and the EAS `development`
+environment's `EXPO_PUBLIC_*` values for the bundle) and `OTP_TEST_CODE`
+(`e2e/onboarding/save-phone.yaml`). It never starts a build.
 
 ### Isolation
 
 The local tools publish the current JS to the shared `e2e-test` update channel, so two runs at
 once could load each other's JS. The workflow never publishes an update:
 
-1. The prepare job finds the latest finished e2e-test build for the native fingerprint (or takes
+1. The prepare job finds the newest e2e-test build for the native fingerprint (or takes
    `build_url`), exports this commit's JS once per platform with `expo export:embed --bytecode`
    (Hermes, the development variant, the commit inlined as `EXPO_PUBLIC_JS_COMMIT`) and plans
    the shards.
@@ -229,9 +243,8 @@ It runs daily on main (Android) and on demand. **Before submitting a build to Te
 on both platforms with the new builds:
 
 ```sh
-# Android, with the new e2e-test APK:
-gh workflow run device.yml -f preset=happy -f platform=android -f build_url=<new .apk URL>
-# iOS, with the e2e-test build that matches the native fingerprint (found automatically):
+# Both find the e2e-test build that matches the native fingerprint (see Builds above):
+gh workflow run device.yml -f preset=happy -f platform=android
 gh workflow run device.yml -f preset=happy -f platform=ios -f shards=3
 ```
 

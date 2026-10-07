@@ -12,7 +12,7 @@ log before going on.
 |---|---|---|
 | Required reviewer on the `production` environment, so each run waits for approval | GitHub → Settings → Environments | not set: only `staging` exists; GitHub creates `production` on the first run without protection, so create it and add the reviewer first |
 | Secret (name only): `EXPO_TOKEN` | repository secrets | present (`gh secret list`, 2026-10-07) |
-| Secrets (names only): `EXPO_ASC_API_KEY_P8`, `EXPO_ASC_KEY_ID`, `EXPO_ASC_ISSUER_ID`, `GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION`, `GOOGLE_PLAY_SUBMIT_JSON`, `SENTRY_AUTH_TOKEN` | repository secrets, or secrets of the `production` environment | not set (`gh secret list`, 2026-10-07); `build` for Android, `submit` and `health` stop with an error naming the missing one |
+| Secrets (names only): `EXPO_ASC_API_KEY_P8`, `EXPO_ASC_KEY_ID`, `EXPO_ASC_ISSUER_ID`, `GOOGLE_SERVICES_JSON_CONTENT_PRODUCTION`, `GOOGLE_PLAY_SUBMIT_JSON`, `SENTRY_AUTH_TOKEN` | repository secrets, or secrets of the `production` environment | not set (`gh secret list`, 2026-10-07); `build` for Android, `submit` and `health` stop with an error naming the missing one. `SENTRY_AUTH_TOKEN` is also what a build uploads source maps with: EAS does not hand its own copy to a build that runs on GitHub, so a production build stops without it |
 | iOS phased release: `"apple": { "release": { "phasedRelease": true, "automaticRelease": false } }` | `apps/mobile/store.config.json` | missing; `submit` and `preflight` fail for iOS until it is there |
 | Play staged release: `"releaseStatus": "inProgress", "rollout": 0.01` (or `"draft"`) under `submit.production.android` | `apps/mobile/eas.json` | missing: today's profile would release to 100%; `submit` and `preflight` fail for Android until it is changed |
 | App Review notes, demo account and age rating (`apple.review`, `apple.advisory`) | `apps/mobile/store.config.json` | missing |
@@ -35,19 +35,44 @@ Every command needs `-f confirm="release production"`.
 1. **Preflight** (read-only): `gh workflow run release.yml -f action=preflight -f ref=<sha>`.
    Checks that the commit is on `main`, that CI passed on it, and that the staged-rollout config
    above is in place.
-2. **Build** (billed by EAS): `-f action=build -f ref=<sha> -f platform=all`. The summary lists the
-   build ids. Wait for both builds to finish on EAS.
+2. **Build** (on GitHub's runners, no EAS build minutes): `-f action=build -f ref=<sha>
+   -f platform=all`. After the checks, each platform's build job waits for the `production`
+   environment's approval, builds with `eas build --local` and uploads the binary to the run
+   (artifact `native-production-<platform>`, kept seven days). Note the run id: `submit` takes it.
+   Each job's summary shows the build's manifest (version, build number, runtime version).
 3. **Rehearse on staging first.** Install the staging store build of the same commit and walk the
    happy path; the halt rehearsal below is also done on the `staging` channel.
-4. **Submit**: `-f action=submit -f ref=<sha> -f ios_build_id=<id> -f android_build_id=<id>`.
-   Only finished store builds of the `production` profile are accepted. Record the submission ids
-   in docs/compliance/launch-evidence.md.
+4. **Submit**: `-f action=submit -f ref=<sha> -f build_run_id=<run id of step 2>`. Only a
+   `production` build of that same commit is accepted, and only within the seven days its binary is
+   kept (build again after that: it costs nothing). Record the submission ids in
+   docs/compliance/launch-evidence.md.
 5. **Release.** iOS: after approval, release the version by hand in App Store Connect; the phased
    release then runs for seven days (1, 2, 5, 10, 20, 50, 100%). Android: the release starts at 1%;
    widen it in the Play Console to 5, 20, 50 and 100%, no faster than one step a day.
 6. **Health** before each widening and daily during the rollout:
    `-f action=health -f sentry_release=app.critterpass@<version>+<build>`. Below the halt line the
    run fails; with fewer than 200 sessions it warns and nothing should be widened yet.
+
+## Where builds run
+
+Every native build runs on a GitHub-hosted runner with `eas build --local`
+(`.github/workflows/native-build-job.yml`): Android on Linux, iOS on macOS 26 with Xcode 26.6.
+The repository is public, so the runners cost nothing, and a local build uses no EAS build minutes.
+
+| Still on EAS | What for |
+|---|---|
+| Credentials service (`EXPO_TOKEN`) | the iOS distribution certificate and provisioning profiles (app and extensions), the Android keystore |
+| Remote app version | the store build number (`appVersionSource: remote`, `autoIncrement`) |
+| Environment variables | the profile's `EXPO_PUBLIC_*` values; variables with secret visibility and the Firebase file are not handed to a local build and come from GitHub secrets instead |
+| EAS Update | JS updates to the `staging` and `production` channels (billed by monthly active users) |
+| EAS Submit | `eas submit --path <binary>` uploads to App Store Connect and Google Play |
+
+Staging builds: `gh workflow run native-build.yml -f ref=<ref> -f profile=staging -f platform=ios`
+(add `-f submit=true` to send it to TestFlight or Play internal testing when it is built; that needs
+the App Store Connect key secrets or `GOOGLE_PLAY_SUBMIT_JSON`). A store binary is a run artifact
+(`native-<profile>-<platform>`, seven days) and is never attached to a release, because release
+assets of this public repository are public; its release (`native-<profile>-<platform>-
+<fingerprint>-<run id>`) carries only the manifest. Builds made here have no EAS build id.
 
 ## Halt criteria
 
