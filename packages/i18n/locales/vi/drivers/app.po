@@ -11,12 +11,21 @@ msgstr ""
 msgid "drivers.share.lastKnown"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.question"
+msgstr " Bạn viết \"{words}\". Giá cho {people} người bọn mình đi một ngày là bao nhiêu?"
+
 #. placeholder {0}: props.dayCount
 #. placeholder {1}: money(total)
 #. placeholder {2}: money(total)
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.total"
 msgstr ""
+
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr "{0, plural, other {# người}}"
 
 #. placeholder {0}: tips.length
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
@@ -47,11 +56,6 @@ msgstr "{0} kéo dài {1} giờ. Giá của {name} gồm {2} giờ."
 msgid "drivers.check.count"
 msgstr "Đã kiểm {0}/{1}"
 
-#. placeholder {0}: plan.people
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
-msgid "drivers.compare.people"
-msgstr "{0} người"
-
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
 #. placeholder {2}: hoursFigure(day.hours)
@@ -72,6 +76,22 @@ msgstr "{0}/giờ"
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.priceHours"
 msgstr "{amount} · {hours} giờ"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.priceLeastHours"
+msgstr "{amount} · từ {hours} giờ trở lên"
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.tierSeats"
+msgstr "{amount} · {seats} chỗ"
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.perPerson"
+msgstr "{amount} một người"
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.perHour"
+msgstr "{amount} một giờ"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.set"
@@ -294,9 +314,17 @@ msgstr "Hỏi {name}"
 msgid "drivers.find.ask"
 msgstr "Hỏi giúp mình"
 
+#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+msgid "drivers.compare.askPrice"
+msgstr "Hỏi tài xế"
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.ask"
 msgstr "Hỏi cả nhóm trước"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.priceAsk"
+msgstr "Hỏi tài xế"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.tours"
@@ -547,6 +575,10 @@ msgstr "Tự tìm được"
 msgid "drivers.tours.price"
 msgstr "Từ {0} {1}"
 
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.from"
+msgstr "từ {amount}"
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.from"
 msgstr "Từ Viator"
@@ -570,6 +602,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.greatPhotos"
 msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/price-notes.tsx
+msgid "drivers.check.priceAskWords"
+msgstr "Tài xế viết: “{ask}”"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
 msgid "drivers.share.message"
@@ -756,6 +792,10 @@ msgstr ""
 msgid "drivers.ours.empty"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+msgid "drivers.compare.askPriceHint"
+msgstr "Chưa có một giá cụ thể. Hỏi tài xế qua WhatsApp"
+
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.noRide"
 msgstr "Không có xe"
@@ -788,11 +828,11 @@ msgstr "Để sau"
 msgid "drivers.share.notOpened"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Chưa nói"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "Chưa nói. Hỏi anh ấy qua WhatsApp"
 
@@ -1058,6 +1098,10 @@ msgstr "Ngôn ngữ"
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.supplierChecks"
 msgstr "Nhà cung cấp kiểm tra"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.more"
+msgstr "Vuốt ngang để xem thêm →"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"

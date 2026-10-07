@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1273,
+  "latency_ms": 1583,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "a6716f6e-885d-455c-9e40-d3e475fbb904",
+        "id": "46b2763d-3130-447d-925e-ef31a7ce5270",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Carla\",\"quote\":\"Highly recommend Carla\"},\"phone\":{\"value\":\"+5215500002121\",\"quote\":\"+52 1 55 0000 2121\"},\"area\":{\"value\":\"Xochimilco\",\"quote\":\"Xochimilco + Coyoacán\"},\"languages\":{\"value\":[\"en\",\"es\"],\"quote\":\"bilingual guide\"},\"car\":{\"value\":\"Suburban\",\"seats\":6,\"quote\":\"her husband drives a Suburban\"},\"price\":{\"amount\":180,\"currency\":\"USD\",\"unit\":\"day\",\"hours\":null,\"quote\":\"$180 USD for a full day\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"the driver's own name is not given, only the guide's name\"],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Carla\",\"quote\":\"Highly recommend Carla\"},\"phone\":{\"value\":\"+52 1 55 0000 2121\",\"quote\":\"Her WhatsApp is +52 1 55 0000 2121\"},\"area\":{\"value\":null,\"quote\":\"\"},\"languages\":{\"value\":[\"en\",\"es\"],\"quote\":\"bilingual guide\"},\"car\":{\"value\":\"Suburban\",\"seats\":6,\"quote\":\"her husband drives a Suburban\"},\"prices\":[{\"amount\":180,\"amount_max\":null,\"currency\":\"USD\",\"unit\":\"day\",\"per\":\"group\",\"hours\":null,\"car\":\"Suburban\",\"seats\":6,\"from\":false,\"quote\":\"We paid $180 USD for a full day Xochimilco + Coyoacán for 6 of us\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 227,
+          "input_tokens": 237,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 198,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 222,
           "service_tier": "standard"
         }
       }

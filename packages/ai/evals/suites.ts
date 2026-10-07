@@ -41,6 +41,7 @@ export const SUITES = [
   'place-compromise',
   'facts-research',
   'fit-check',
+  'provider-extract',
   'menu',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
@@ -90,6 +91,8 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/place-compromise\//u, ['place-compromise']],
   [/^packages\/ai\/(src\/routes|evals)\/facts-research\//u, ['facts-research']],
   [/^packages\/ai\/evals\/fit-check\//u, ['fit-check']],
+  [/^packages\/ai\/(src\/routes|evals)\/provider-extract\//u, ['provider-extract']],
+  [/^packages\/domain\/src\/drivers\//u, ['provider-extract']],
   [/^packages\/ai\/(src\/routes\/camera|evals\/menu)\//u, ['menu']],
   [/^packages\/domain\/src\/safety\//u, ['help', 'sos']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],

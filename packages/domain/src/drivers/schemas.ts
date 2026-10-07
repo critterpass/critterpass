@@ -52,7 +52,32 @@ export type SourceSpan = z.infer<typeof sourceSpanSchema>;
 const hhmm = z.string().regex(/^[0-2]\d:[0-5]\d$/u, 'HH:MM');
 const phoneSchema = z.string().regex(/^\+[1-9]\d{6,14}$/u, 'E.164');
 
-/** A driver card as read from a message, every field optional; `spans` says where each was read. */
+/** What a price is counted by when it is not for the whole car or group. */
+export const PRICE_BASES = ['person', 'hour'] as const;
+export type PriceBasis = (typeof PRICE_BASES)[number];
+
+/** One of several prices a driver gave (by group size, vehicle or length of day), as he said it. */
+export const priceTierSchema = z
+  .object({
+    /** His own words for the offer ("5-8 pax, V-Class"). */
+    label: z.string().trim().min(1).max(160),
+    seats: z.number().int().min(1).max(60).nullable(),
+    price_minor: moneyMinorSchema,
+    /** The top of a range ("600-800k"); null for a single figure. */
+    price_max_minor: moneyMinorSchema.nullable(),
+    currency: currencyCodeSchema,
+    price_unit: priceUnitSchema,
+    price_per: z.enum(PRICE_BASES).nullable(),
+    included_hours: z.number().positive().max(24).nullable(),
+  })
+  .strict();
+export type PriceTier = z.infer<typeof priceTierSchema>;
+
+/**
+ * A driver card as read from a message, every field optional; `spans` says where each was read.
+ * `price_minor` is only ever a figure the driver wrote: a range keeps its low end there and its top
+ * in `price_max_minor`, and prices that cannot be told apart leave it null with `price_ask` set.
+ */
 export const driverCardSchema = z
   .object({
     name: z.string().trim().min(1).max(120).nullable(),
@@ -68,6 +93,17 @@ export const driverCardSchema = z
     includes: includesSchema,
     overtime_minor: moneyMinorSchema.nullable(),
     licence_shown: z.boolean().nullable(),
+    price_max_minor: moneyMinorSchema.nullable().optional(),
+    /** `person` or `hour` when the price is a rate, not the price of the car or group. */
+    price_per: z.enum(PRICE_BASES).nullable().optional(),
+    /** True when the driver gave a floor ("from 750k"). */
+    price_from: z.boolean().optional(),
+    /** Every price he gave when there are several; the card's own price is the one that fits. */
+    price_tiers: z.array(priceTierSchema).max(6).optional(),
+    /** His price words when no single figure can be quoted from them: ask the driver. */
+    price_ask: z.string().trim().min(1).max(200).nullable().optional(),
+    /** The minutes his overtime price buys when not an hour (30); `overtime_minor` is per hour. */
+    overtime_per_minutes: z.number().int().min(1).max(240).nullable().optional(),
   })
   .strict();
 export type DriverCard = z.infer<typeof driverCardSchema>;

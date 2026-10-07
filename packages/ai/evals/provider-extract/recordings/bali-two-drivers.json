@@ -1,26 +1,26 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1456,
+  "latency_ms": 1387,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "edd55472-9114-4842-b4a1-fc35eeab7b98",
+        "id": "ce0aaa03-5b0c-4e37-9791-9e82c52162f3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Putu\",\"quote\":\"Putu - Xpander, Rp 600k/day, +62 811-0000-0404 (airport runs too)\"},\"phone\":{\"value\":\"+6281100000404\",\"quote\":\"+62 811-0000-0404\"},\"area\":null,\"languages\":{\"value\":[\"en\"],\"quote\":\"Both spoke good English.\"},\"car\":{\"value\":\"Xpander\",\"seats\":null,\"quote\":\"Xpander\"},\"price\":{\"amount\":600000,\"currency\":\"IDR\",\"unit\":\"day\",\"hours\":null,\"quote\":\"Rp 600k/day\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Putu\",\"quote\":\"Putu\"},\"phone\":{\"value\":\"+62 811-0000-0404\",\"quote\":\"+62 811-0000-0404\"},\"area\":null,\"languages\":{\"value\":[\"en\"],\"quote\":\"Both spoke good English\"},\"car\":{\"value\":\"Xpander\",\"seats\":null,\"quote\":\"Xpander\"},\"prices\":[{\"amount\":600000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":null,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Rp 600k/day\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 242,
+          "input_tokens": 252,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
+          "cache_read_input_tokens": 1920,
           "output_tokens": 187,
           "service_tier": "standard"
         }

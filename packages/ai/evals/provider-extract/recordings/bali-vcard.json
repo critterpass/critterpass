@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1090,
+  "latency_ms": 969,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "5e3b9c91-7a93-4b49-ba0c-c001b7555efc",
+        "id": "f49c2487-b45c-4702-849f-2315b8603b47",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Komang Driver Ubud\",\"quote\":\"FN:Komang Driver Ubud\"},\"phone\":{\"value\":\"+6281300001313\",\"quote\":\"TEL;TYPE=CELL:+62 813-0000-1313\"},\"area\":{\"value\":\"Ubud\",\"quote\":\"Komang Driver Ubud\"},\"languages\":null,\"car\":null,\"price\":null,\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[\"only a contact card: no car, price, languages or inclusions\"],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Komang Driver Ubud\",\"quote\":\"FN:Komang Driver Ubud\"},\"phone\":{\"value\":\"+62 813-0000-1313\",\"quote\":\"TEL;TYPE=CELL:+62 813-0000-1313\"},\"area\":{\"value\":\"Ubud\",\"quote\":\"Komang Driver Ubud\"},\"languages\":null,\"car\":null,\"prices\":[],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 343,
+          "input_tokens": 353,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 146,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 137,
           "service_tier": "standard"
         }
       }

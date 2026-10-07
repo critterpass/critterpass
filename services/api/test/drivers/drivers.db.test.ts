@@ -21,20 +21,30 @@ import { errorOf, resultOf, type SignedIn } from '../setup/setup-harness';
 const MESSAGE =
   'Hi, Made here, driver in Ubud 12 yrs. Avanza 6 pax. Full day 10 hrs Rp 650k incl petrol + parking. English OK. WA +62 812 0000 0101';
 
-/** DeepSeek's reply to this message, as recorded from the `provider.extract` route. */
+/**
+ * DeepSeek's reply to this message, as recorded from the `provider.extract` route
+ * (`packages/ai/evals/provider-extract/recordings/bali-made-basic.json`).
+ */
 const RECORDED_REPLY = {
   name: { value: 'Made', quote: 'Made here' },
-  phone: { value: '+6281200000101', quote: '+62 812 0000 0101' },
+  phone: { value: '+62 812 0000 0101', quote: 'WA +62 812 0000 0101' },
   area: { value: 'Ubud', quote: 'driver in Ubud' },
   languages: { value: ['en'], quote: 'English OK' },
-  car: { value: 'Toyota Avanza', seats: 6, quote: 'Avanza 6 pax' },
-  price: {
-    amount: 650000,
-    currency: 'IDR',
-    unit: 'day',
-    hours: 10,
-    quote: 'Full day 10 hrs Rp 650k',
-  },
+  car: { value: 'Avanza', seats: 6, quote: 'Avanza 6 pax' },
+  prices: [
+    {
+      amount: 650000,
+      amount_max: null,
+      currency: 'IDR',
+      unit: 'day',
+      per: 'group',
+      hours: 10,
+      car: null,
+      seats: null,
+      from: false,
+      quote: 'Full day 10 hrs Rp 650k',
+    },
+  ],
   includes: {
     fuel: 'yes',
     parking: 'yes',
@@ -47,12 +57,46 @@ const RECORDED_REPLY = {
   unreadable: [],
   cut_off: false,
 };
+const BY_VEHICLE_MESSAGE =
+  'Sedan up to 3 pax 550k/day, Hiace up to 10 pax 950k/day. Driver Rai 0812 0000 3939';
+
+/** The recorded reply to the message priced by vehicle (`generic-tiers-without-party.json`). */
+const price = (amount: number, car: string, seats: number, quote: string) => ({
+  amount,
+  amount_max: null,
+  currency: 'IDR',
+  unit: 'day',
+  per: 'group',
+  hours: null,
+  car,
+  seats,
+  from: false,
+  quote,
+});
+const RECORDED_BY_VEHICLE = {
+  name: { value: 'Rai', quote: 'Driver Rai' },
+  phone: { value: '0812 0000 3939', quote: '0812 0000 3939' },
+  area: null,
+  languages: null,
+  car: { value: null, seats: null, quote: '' },
+  prices: [
+    price(550000, 'Sedan', 3, 'Sedan up to 3 pax 550k/day'),
+    price(950000, 'Hiace', 10, 'Hiace up to 10 pax 950k/day'),
+  ],
+  includes: { fuel: 'unknown', parking: 'unknown', tolls: 'unknown', entry: 'unknown', quote: '' },
+  overtime: null,
+  licence_shown: null,
+  unreadable: [],
+  cut_off: false,
+};
 const prompts: string[] = [];
 const gateway = {
   callModel: (_route: string, input: { messages: unknown }) => {
-    prompts.push(JSON.stringify(input.messages));
+    const prompt = JSON.stringify(input.messages);
+    prompts.push(prompt);
+    const reply = prompt.includes('Driver Rai') ? RECORDED_BY_VEHICLE : RECORDED_REPLY;
     return Promise.resolve({
-      message: { content: [{ type: 'text', text: JSON.stringify(RECORDED_REPLY) }] },
+      message: { content: [{ type: 'text', text: JSON.stringify(reply) }] },
     });
   },
 } as unknown as Parameters<typeof registerDriverRoutes>[1]['gateway'];
@@ -90,13 +134,16 @@ async function json<T>(session: SignedIn, path: string, init: RequestInit = {}) 
   return { status: response.status, body: (await response.json()) as T };
 }
 
-async function shareAndRead(by: SignedIn): Promise<{ intakeId: string; read: IntakeReadResult }> {
+async function shareAndRead(
+  by: SignedIn,
+  text: string = MESSAGE,
+): Promise<{ intakeId: string; read: IntakeReadResult }> {
   const intakeId = generateUuidV7();
   const shared = await harness.run(by, 'share_provider_intake', {
     intake_id: intakeId,
     trip_id: crew.tripId,
     kind: 'text',
-    text: MESSAGE,
+    text,
   });
   expect(shared.status).toBe(200);
   const read = await json<IntakeReadResult>(by, `/v1/drivers/intake/${intakeId}/read`, {
@@ -125,6 +172,32 @@ describe('find a driver', () => {
     expect(
       (await json(outsider, `/v1/drivers/intake/${intakeId}/read`, { method: 'POST' })).status,
     ).toBe(404);
+  });
+
+  it('picks the price for the crew when a driver prices by vehicle', async () => {
+    const [, member] = members();
+    const seated = await harness.pool.query<{ n: number }>(
+      'SELECT count(*)::int AS n FROM trip_participants WHERE trip_id = $1 AND holds_seat',
+      [crew.tripId],
+    );
+    expect(seated.rows[0]?.n).toBe(3);
+    const { read } = await shareAndRead(member, BY_VEHICLE_MESSAGE);
+    // Three travel: the sedan carries them, and the van stays listed as his other price.
+    expect(read.parsed?.card).toMatchObject({
+      name: 'Rai',
+      car: 'Sedan',
+      seats: 3,
+      price_minor: 55000000,
+      currency: 'IDR',
+      price_unit: 'day',
+    });
+    expect(read.parsed?.card.price_ask).toBeUndefined();
+    expect(read.parsed?.card.price_tiers?.map((tier) => [tier.seats, tier.price_minor])).toEqual([
+      [3, 55000000],
+      [10, 95000000],
+    ]);
+    const [start, end] = read.parsed?.spans.price ?? [0, 0];
+    expect(BY_VEHICLE_MESSAGE.slice(start, end)).toBe('Sedan up to 3 pax 550k/day');
   });
 
   it('shortlists a driver only once every line with a value is confirmed', async () => {

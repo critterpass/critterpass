@@ -7,6 +7,32 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.lastKnown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.question"
+msgstr ""
+
+#. placeholder {0}: props.dayCount
+#. placeholder {1}: money(total)
+#. placeholder {2}: money(total)
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.total"
+msgstr ""
+
+#. placeholder {0}: tips.length
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.tips"
+msgstr ""
+
+#. placeholder {0}: money(reply.price_per_day_minor)
+#. placeholder {1}: money(each)
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.perDay"
+msgstr ""
+
 #. placeholder {0}: assigned.name ?? ''
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.assigned"
@@ -51,9 +77,53 @@ msgstr "{0}/Std."
 msgid "drivers.check.priceHours"
 msgstr "{amount} · {hours} Stunden"
 
+#: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
+msgid "drivers.check.priceLeastHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.tierSeats"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.perPerson"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.perHour"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-text.ts
+msgid "drivers.share.opened"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.daysFrom"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 msgid "drivers.check.missing"
 msgstr "{count} Dinge stehen nicht in seiner Nachricht. Soll ich die Frage schreiben?"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.takenDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.titlePlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.opened"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.included"
@@ -63,26 +133,82 @@ msgstr "{included} inklusive"
 msgid "drivers.check.notIncl"
 msgstr "{item} extra"
 
+#: ../../apps/mobile/src/features/drivers/share/share-text.ts
+msgid "drivers.share.expiresIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.lovedValue"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.loved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
 msgid "drivers.compare.missing"
 msgstr "{missing} fehlen"
 
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedNumber"
 msgstr "Nummer, Auto und Kennzeichen von {name}"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.quote"
+msgstr ""
 
 #. placeholder {0}: gap.km
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.dayOut"
 msgstr "{place} liegt etwa {0} km entfernt, und der Tag ist lang. Fahrdienst-Apps warten dort selten oder holen ab. Die meisten Crews nehmen einen Fahrer für den Tag."
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.group"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.price.trip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.seats"
 msgstr "{seats} Plätze"
 
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.seats"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.takenBy"
 msgstr "{takenBy} ist gebucht"
+
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.trips"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.addDay"
@@ -92,17 +218,45 @@ msgstr "+ Tag"
 msgid "drivers.compare.yes"
 msgstr "✓Ja"
 
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.sevenPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.tipBy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.day"
 msgstr "Pro Tag"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.days"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.taken"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/shared/commands.ts
 msgid "drivers.queued.notNow"
 msgstr "Ein Tag, an dem du keinen Fahrer wolltest"
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.aDriver"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/shared/commands.ts
 msgid "drivers.queued.shared"
 msgstr "Eine Fahrer-Nachricht, die du geteilt hast"
+
+#: ../../apps/mobile/src/features/drivers/share/share-slot.tsx
+msgid "drivers.share.entry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.body"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 msgid "drivers.ask.addBudget"
@@ -124,13 +278,33 @@ msgstr "Noch einen zum Vergleich hinzufügen"
 msgid "drivers.add.addContact"
 msgstr "Hinzufügen"
 
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.noPhone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.bahasa"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.add"
 msgstr "Zum Vergleich"
 
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.shortlist"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.confirm"
 msgstr "Zur Shortlist hinzufügen"
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.shortlist"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.saved"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 msgid "drivers.check.ask"
@@ -140,9 +314,25 @@ msgstr "{name} fragen"
 msgid "drivers.find.ask"
 msgstr "Frag für mich"
 
+#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+msgid "drivers.compare.askPrice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+msgid "drivers.check.priceAsk"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.tours"
 msgstr "Private Tour buchen"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.private"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.call"
@@ -152,6 +342,14 @@ msgstr "Anrufen"
 msgid "drivers.offline.note"
 msgstr "Anrufe nutzen Netz, keine Daten. Die Nachricht geht raus, sobald du wieder online bist."
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.car"
 msgstr "Auto"
@@ -159,6 +357,10 @@ msgstr "Auto"
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.car"
 msgstr "Auto"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.rerate"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 msgid "drivers.ask.edit"
@@ -198,6 +400,10 @@ msgstr "Kontakt"
 msgid "drivers.ask.copied"
 msgstr "Kopiert"
 
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.copy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.footnote"
 msgstr "Kopier eine Nachricht aus WhatsApp oder Facebook und füg sie hier ein. Ich lese nur, was du schickst."
@@ -210,6 +416,14 @@ msgstr "Kopier ihn und poste ihn selbst in den Gruppen. CritterPass postet dort 
 msgid "drivers.ask.copy"
 msgstr "Post kopieren"
 
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.shortlistFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.badge.unread"
 msgstr "Nicht lesbar"
@@ -217,6 +431,23 @@ msgstr "Nicht lesbar"
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.title"
 msgstr "Nicht lesbar"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.covers"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.loved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.back"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.cutOff"
@@ -228,14 +459,52 @@ msgstr "Hier abgeschnitten"
 msgid "drivers.find.back"
 msgstr "Tag {0} · {1}"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-text.ts
+msgid "drivers.share.dayNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.dayTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.days"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.draft"
 msgstr "Entwerfen"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+msgid "drivers.card.role"
+msgstr ""
 
 #. placeholder {0}: current.area
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.area"
 msgstr "Fahrer · {0}"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.nameLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.directory"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.intro"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.screenshotDetail"
@@ -258,6 +527,10 @@ msgstr "Eintritt"
 msgid "drivers.compare.entry"
 msgstr "Eintritt"
 
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.fairPrice"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
@@ -271,6 +544,14 @@ msgstr "Fahrer finden"
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.title"
 msgstr "Fahrer finden"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.fine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.fix"
@@ -294,6 +575,10 @@ msgstr "Selbst einen gefunden"
 msgid "drivers.tours.price"
 msgstr "Ab {0} {1}"
 
+#: ../../apps/mobile/src/features/drivers/shared/price-text.ts
+msgid "drivers.price.from"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.from"
 msgstr "Von Viator"
@@ -306,22 +591,86 @@ msgstr "Aus WhatsApp"
 msgid "drivers.include.fuel"
 msgstr "Benzin"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.goodEnglish"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.greatPhotos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/intake/check/price-notes.tsx
+msgid "drivers.check.priceAskWords"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+msgid "drivers.share.message"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.firstLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessagePrice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessage"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.body"
 msgstr "Ich konnte darin keinen Namen, keine Nummer und keinen Preis eines Fahrers finden."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.noChase"
+msgstr ""
 
 #. placeholder {0}: plan.area
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.askBody"
 msgstr "Ich schreibe einen Post für die Gruppen in {0}. Du postest ihn."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tellBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tellBody"
 msgstr "Ich schreibe es mit Daten und Abhol-Pins. Du schickst es."
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.added"
 msgstr "Im Vergleich"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.invite"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.title"
@@ -331,13 +680,41 @@ msgstr "Stimmt das?"
 msgid "drivers.find.toursBody"
 msgstr "Klook und Viator, Festpreis pro Auto"
 
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.knewTheSpots"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 msgid "drivers.ask.language"
 msgstr "Sprache des Posts"
 
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.quote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.quoteAnyone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.licence"
 msgstr "Lizenz"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.expires"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.listed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.since"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.loading"
@@ -347,9 +724,33 @@ msgstr "Shortlist wird geladen"
 msgid "drivers.tours.loading"
 msgstr "Suche private Autos"
 
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.loved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.create"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.making"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.needsSignal"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.kindText"
 msgstr "Nachricht"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.message"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.messageLabel"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.contactName"
@@ -363,13 +764,53 @@ msgstr "Name"
 msgid "drivers.leg.title"
 msgstr "Hier einen Fahrer?"
 
+#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+msgid "drivers.invite.offline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.badge.new"
 msgstr "Neu"
 
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.newCar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyLineNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+msgid "drivers.compare.askPriceHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.noRide"
 msgstr "Keine Fahrt"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.emptyAny"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.verdict.notAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.notClaimed"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.notIncl"
@@ -379,6 +820,10 @@ msgstr "Nicht inkl."
 msgid "drivers.leg.notNow"
 msgstr "Nicht jetzt"
 
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.notOpened"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Nicht gesagt"
@@ -387,13 +832,68 @@ msgstr "Nicht gesagt"
 msgid "drivers.compare.notSaidHint"
 msgstr "Nicht gesagt. Frag ihn auf WhatsApp"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.nudge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.nudge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+msgid "drivers.directory.stale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.onTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.shortlisted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.tip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.tip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.open"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.openViator"
 msgstr "Viator öffnen"
 
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.overtime"
 msgstr "Überstunden"
+
+#. placeholder {0}: money(reply.overtime_per_hour_minor)
+#. placeholder {1}: reply.included_hours
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.overtime"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.overtime"
@@ -415,17 +915,33 @@ msgstr "Nachricht einfügen, Screenshot ablegen, Kontakt teilen"
 msgid "drivers.add.pastePlaceholder"
 msgstr "Füg ein, was der Fahrer geschrieben hat, oder einen Link zu seinem Post"
 
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.patient"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.paused"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.pick"
 msgstr "Wählen"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.label"
 msgstr "{name} wählen"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.eyebrow"
 msgstr "{name} wählen"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.noDays"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.intro"
@@ -434,6 +950,10 @@ msgstr "Wähl die Strecken, dann woher der Fahrer kommt. Du kannst Quellen misch
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.price"
 msgstr "Preis"
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.noPrice"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.klookLink"
@@ -447,9 +967,58 @@ msgstr "Private Fahrer auf Viator ↗"
 msgid "drivers.tours.title"
 msgstr "Private Touren"
 
+#. placeholder {0}: props.driverName
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
+msgid "drivers.replied.quote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.notEligible"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.read"
 msgstr "Lesen"
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.report"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.reportTip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.report.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.revoke"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.own"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/labels.ts
+msgid "drivers.tag.safeDriver"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.save"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.saved"
@@ -467,9 +1036,20 @@ msgstr "Screenshot"
 msgid "drivers.add.kindImage"
 msgstr "Screenshot"
 
-#. placeholder {0}: chosen.length
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.whatsapp"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
-msgid "drivers.pick.set"
+msgid "drivers.pick.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.titleAnyone"
 msgstr ""
 
 #. placeholder {0}: item.shared_by_name ?? ''
@@ -495,6 +1075,10 @@ msgstr "Shortlist"
 msgid "drivers.add.badge.shortlisted"
 msgstr "Auf der Shortlist"
 
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.widen"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.shows"
 msgstr "Zeigt sie"
@@ -511,7 +1095,7 @@ msgstr "Spricht"
 msgid "drivers.compare.supplierChecks"
 msgstr "Anbieter prüft"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"
 msgstr "Vergeben"
 
@@ -519,11 +1103,19 @@ msgstr "Vergeben"
 msgid "drivers.ask.tapSlot"
 msgstr "Tipp auf eine Markierung, um sie zu ändern"
 
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.revokeConfirm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.intro"
 msgstr "Tipp auf jede Zeile, um sie zu bestätigen oder zu korrigieren. Nichts geht an die Crew, bevor du das tust."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tell"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tell"
 msgstr "{name} auf WhatsApp Bescheid geben"
 
@@ -531,21 +1123,53 @@ msgstr "{name} auf WhatsApp Bescheid geben"
 msgid "drivers.add.pasteDetail"
 msgstr "Text oder Link"
 
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.reported"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.failed"
 msgstr "Das hat nicht geklappt. Versuch es gleich nochmal."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
-msgid "drivers.pick.failed"
-msgstr "Das wurde nicht gespeichert. Ein Tag wurde vielleicht gerade vergeben."
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.failed"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.error"
 msgstr "Das wurde nicht gespeichert. Prüf, ob du online bist, und versuch es nochmal."
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.signal"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.pasteLabel"
 msgstr "Die Nachricht des Fahrers"
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.revoked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.expires"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.until"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+msgid "drivers.invite.message"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.moved"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.down"
@@ -558,6 +1182,18 @@ msgstr "Ihre Worte"
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.noApp"
 msgstr "Hier gibt es keine Fahrdienst-App, und an diesem Tag liegen echte Entfernungen zwischen den Stopps. Die meisten Crews nehmen einen Fahrer für den Tag."
+
+#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+msgid "drivers.share.quoteHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.pick.error.gone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+msgid "drivers.detail.unavailable"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedPickups"
@@ -575,13 +1211,29 @@ msgstr "Maut"
 msgid "drivers.back.trip"
 msgstr "Reise"
 
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.trips"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.another"
 msgstr "Anderen Screenshot versuchen"
 
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+msgid "drivers.pick.askBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.type"
 msgstr "Den Rest eintippen"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+msgid "drivers.detail.priceNote"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.includes"
@@ -611,14 +1263,38 @@ msgstr "WhatsApp-Nummer mit Ländervorwahl"
 msgid "drivers.ask.after"
 msgstr "Wenn jemand antwortet, teil die Nachricht mit mir. Ich hole die Details raus."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.title"
 msgstr "Welche Strecken?"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.nudgeUsed"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.late"
 msgstr "Ihr kommt spät aus {place} zurück, und Fahrdienst-Apps holen dort nachts selten ab. Ein Fahrer für den Abend ist der sichere Weg zurück."
 
+#: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
+msgid "drivers.card.titleMine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+msgid "drivers.rate.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/commands.ts
+msgid "drivers.queued.report"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.title"
 msgstr "Deine Rückfahrt"
+
+#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+msgid "drivers.pick.askedLine"
+msgstr ""

@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 941,
+  "latency_ms": 1909,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "87d622b0-29d6-4406-9e64-5802916f1a74",
+        "id": "e81743f1-1111-43fe-828d-0edd021c87f4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Komang Adi\",\"quote\":\"Komang Adi\"},\"phone\":{\"value\":\"0813-0000-0202\",\"quote\":\"WhatsApp 0813-0000-0202\"},\"area\":{\"value\":\"Ubud & Sidemen\",\"quote\":\"Ubud & Sidemen\"},\"languages\":{\"value\":[\"en\",\"id\",\"ja\"],\"quote\":\"Speak English, Indonesia, sedikit Japanese\"},\"car\":{\"value\":\"HiAce\",\"seats\":10,\"quote\":\"HiAce 10 seats\"},\"price\":{\"amount\":900000,\"currency\":\"IDR\",\"unit\":\"day\",\"hours\":10,\"quote\":\"Rp 900.000/day (10 hours)\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"include fuel, parking, toll. Entrance tickets not included\"},\"overtime\":{\"amount\":75000,\"quote\":\"Overtime 75k/hour\"},\"licence_shown\":true,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Komang Adi\",\"quote\":\"Komang Adi\"},\"phone\":{\"value\":\"0813-0000-0202\",\"quote\":\"WhatsApp 0813-0000-0202\"},\"area\":{\"value\":\"Ubud & Sidemen\",\"quote\":\"Ubud & Sidemen\"},\"languages\":{\"value\":[\"en\",\"id\",\"ja\"],\"quote\":\"Speak English, Indonesia, sedikit Japanese\"},\"car\":{\"value\":\"HiAce\",\"seats\":10,\"quote\":\"HiAce 10 seats, aircon\"},\"prices\":[{\"amount\":900000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":10,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Rp 900.000/day (10 hours)\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"include fuel, parking, toll. Entrance tickets not included\"},\"overtime\":{\"amount\":75000,\"currency\":\"IDR\",\"per_minutes\":60,\"quote\":\"Overtime 75k/hour\"},\"licence_shown\":true,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 257,
+          "input_tokens": 139,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 221,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 259,
           "service_tier": "standard"
         }
       }

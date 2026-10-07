@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1606,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "792867a0-6e42-476e-8456-9a8581916ce6",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Rai\",\"quote\":\"Driver Rai\"},\"phone\":{\"value\":\"0812 0000 3939\",\"quote\":\"0812 0000 3939\"},\"area\":null,\"languages\":null,\"car\":{\"value\":null,\"seats\":null,\"quote\":\"\"},\"prices\":[{\"amount\":550000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":null,\"car\":\"Sedan\",\"seats\":3,\"from\":false,\"quote\":\"Sedan up to 3 pax 550k/day\"},{\"amount\":950000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":null,\"car\":\"Hiace\",\"seats\":10,\"from\":false,\"quote\":\"Hiace up to 10 pax 950k/day\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 222,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 234,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1017,
+  "latency_ms": 1056,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "4b09405b-31f4-4fcc-a6c3-c156a40e2380",
+        "id": "8ee36407-eb78-4722-aec9-abd475d8af42",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":null,\"phone\":{\"value\":\"082200000707\",\"quote\":\"0822 0000 0707\"},\"area\":null,\"languages\":null,\"car\":{\"value\":\"Private car charter\",\"seats\":null,\"quote\":\"Private car charter 12h\"},\"price\":{\"amount\":750000,\"currency\":\"IDR\",\"unit\":\"hours\",\"hours\":12,\"quote\":\"start from 750K all in\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"fuel, parking, driver meal\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"BALI SUNSHINE TRANS\",\"quote\":\"BALI SUNSHINE TRANS 🌞\"},\"phone\":{\"value\":\"0822 0000 0707\",\"quote\":\"WA 0822 0000 0707\"},\"area\":null,\"languages\":null,\"car\":{\"value\":null,\"seats\":15,\"quote\":\"6-15 seats\"},\"prices\":[{\"amount\":750000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"day\",\"per\":\"group\",\"hours\":12,\"car\":null,\"seats\":null,\"from\":true,\"quote\":\"12h start from 750K all in\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"all in (fuel, parking, driver meal)\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 232,
+          "input_tokens": 242,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 144,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 197,
           "service_tier": "standard"
         }
       }

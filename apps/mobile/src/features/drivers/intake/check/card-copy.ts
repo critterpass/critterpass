@@ -5,10 +5,12 @@ import { useLingui } from '@lingui/react/macro';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { money } from '../../shared/format';
+import { usePriceWords } from '../../shared/price-text';
 
 export function useCardCopy(current: DriverCard) {
   const { t } = useLingui();
   const locale = useLocale();
+  const words = usePriceWords();
   const seats = current.seats;
   const lineText = (field: DriverField): string | null => {
     switch (field) {
@@ -26,11 +28,15 @@ export function useCardCopy(current: DriverCard) {
               .filter((part): part is string => part !== null)
               .join(' · ');
       case 'price': {
-        const amount = money(current.price_minor, current.currency, locale);
+        const amount = words.price(current);
         if (amount === null) return null;
         const hours = current.included_hours;
-        return hours === null
-          ? amount
+        if (hours === null) return amount;
+        return current.price_per === 'hour'
+          ? t({
+              id: 'drivers.check.priceLeastHours',
+              message: `${amount} · ${hours} hours or more`,
+            })
           : t({ id: 'drivers.check.priceHours', message: `${amount} · ${hours} hours` });
       }
       case 'overtime':

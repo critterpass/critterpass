@@ -6,18 +6,14 @@
  * the span and phone checks); only DeepSeek's network boundary replays (`recordings/<id>.json`).
  *
  * A case is graded on what the driver card holds: name, phone, languages, car and seats, the
- * price (amount, currency, unit, hours; a day and a block of hours are one reading when the hours
- * are stated), what it includes, overtime, the licence, and the area.
- * A field the message does not state must come back empty, never guessed. What the fixture file
- * describes beyond the card is not graded: `role` and `years` (the card has no such lines), a
- * price per person or per hour as a unit (the card knows day, hours and trip), and the notes'
- * second readings (a price range's top end, another tier).
- *
- * Not in `../suites.ts` yet: a listed suite must pass every case in replay, and on the recorded
- * answers the route reads 18 of the 43 right (it loses the whole card when the model answers a
- * field as an object with a null value, mis-prefixes a number written without its country code,
- * and does not pick a tier, a range's low end or a per-30-minutes overtime). List it there, with
- * its thresholds and a line in `../search-parse/planning-suites.ts`, once the route reads them.
+ * price (amount, a range's top end, currency, unit, hours, whether it is a rate per person or per
+ * hour; a day and a block of hours are one reading when the hours are stated), what it includes,
+ * overtime per hour (and the minutes the driver priced it by), the licence, and the area.
+ * A field the message does not state must come back empty, never guessed, and a price is only ever
+ * a figure the driver wrote: where the fixture says `ask`, the card must hold no price, only his
+ * words to ask him about. `party` is the size of the crew the message was shared into, which picks
+ * between prices by group size. What the fixture file describes beyond the card is not graded:
+ * `role` and `years` (the card has no such lines).
  *
  * A case the file marks `render` is a screenshot: it goes in as the screenshot's text, and `crop`
  * cuts that text where the image is cut (above the phone number), so the number must not come
@@ -72,13 +68,18 @@ const expectedSchema = z.object({
   price: z
     .object({
       amount: z.number(),
+      amount_max: z.number().optional(),
       currency: z.string(),
       unit: z.enum(['day', 'hours', 'trip', 'person', 'hour']),
       hours: z.number().nullable(),
     })
     .nullable(),
+  /** The message has price words but no one figure to quote: the card asks instead. */
+  ask: z.boolean().optional(),
   includes: z.object({ fuel: include, parking: include, tolls: include, entry: include }),
-  overtime: z.object({ amount: z.number(), currency: z.string() }).nullable(),
+  overtime: z
+    .object({ amount: z.number(), currency: z.string(), per_minutes: z.number().optional() })
+    .nullable(),
   areas: z.array(z.string()),
   years: z.number().nullable(),
   licence_shown: z.enum(['yes', 'unknown']),
@@ -93,6 +94,7 @@ const caseSchema = z
     source: z.enum(['whatsapp', 'facebook_comment', 'facebook_post', 'link', 'vcard']),
     render: z.enum(['whatsapp_bubble', 'facebook_comment']).optional(),
     crop: z.enum(['phone', 'price']).optional(),
+    party: z.number().int().min(1).optional(),
     message: z.string().min(1),
     expected: z.union([z.literal('none'), expectedSchema]).optional(),
     expected_many: z.array(expectedSchema).min(2).optional(),
@@ -162,12 +164,23 @@ export function gradeDriverCard(card: DriverCard, want: Expected): string[] {
     differs('car', card.car, model);
   differs('seats', card.seats, want.vehicle?.seats ?? null);
 
+  differs('asks about the price', (card.price_ask ?? null) !== null, want.ask === true);
   if (want.price === null) {
     differs('price', card.price_minor, null);
   } else {
     const per = MINOR_PER_MAJOR[want.price.currency] ?? 100;
     differs('price', card.price_minor, Math.round(want.price.amount * per));
+    differs(
+      'price top end',
+      card.price_max_minor ?? null,
+      want.price.amount_max === undefined ? null : Math.round(want.price.amount_max * per),
+    );
     differs('currency', card.currency, want.price.currency);
+    differs(
+      'price per',
+      card.price_per ?? null,
+      want.price.unit === 'person' || want.price.unit === 'hour' ? want.price.unit : null,
+    );
     if (want.price.unit === 'day' || want.price.unit === 'hours' || want.price.unit === 'trip') {
       // "Full day, 10 hours" is a day and a block of 10 hours at once: with the hours stated and
       // read right, either unit names the same terms.
@@ -187,6 +200,11 @@ export function gradeDriverCard(card: DriverCard, want: Expected): string[] {
   else {
     const per = MINOR_PER_MAJOR[want.overtime.currency] ?? 100;
     differs('overtime', card.overtime_minor, Math.round(want.overtime.amount * per));
+    differs(
+      'overtime minutes',
+      card.overtime_per_minutes ?? null,
+      want.overtime.per_minutes ?? null,
+    );
   }
   differs('licence', card.licence_shown === true ? 'yes' : 'unknown', want.licence_shown);
   if (card.area !== null && !want.areas.some((area) => within(card.area ?? '', area))) {
@@ -237,6 +255,7 @@ async function run(
     currencyHint: destination.currency,
     callingCode: destination.callingCode,
     minorPerMajor: (currency) => MINOR_PER_MAJOR[currency] ?? null,
+    partySize: c.party ?? null,
   });
   model.finish();
   return result;

@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1170,
+  "latency_ms": 1443,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "de0def9b-6c44-4eaa-b940-9eadd515b862",
+        "id": "d39d95a2-f5da-4c31-8aff-fc9e3b3dceaf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Rosa\",\"quote\":\"I'm Rosa\"},\"phone\":null,\"area\":{\"value\":\"Machu Picchu\",\"quote\":\"for Machu Picchu\"},\"languages\":{\"value\":[\"en\",\"es\",\"it\"],\"quote\":\"English, Spanish, Italian\"},\"car\":null,\"price\":{\"amount\":80,\"currency\":\"USD\",\"unit\":\"hours\",\"hours\":2.5,\"quote\":\"Private guiding 2.5h at the citadel $80\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"entrance and bus not included\"},\"overtime\":null,\"licence_shown\":true,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Rosa\",\"quote\":\"I'm Rosa\"},\"phone\":null,\"area\":{\"value\":\"Machu Picchu\",\"quote\":\"for Machu Picchu\"},\"languages\":{\"value\":[\"en\",\"es\",\"it\"],\"quote\":\"English, Spanish, Italian\"},\"car\":null,\"prices\":[{\"amount\":80,\"amount_max\":null,\"currency\":\"USD\",\"unit\":\"hours\",\"per\":\"group\",\"hours\":2.5,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"Private guiding 2.5h at the citadel $80\"}],\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"entrance and bus not included\"},\"overtime\":null,\"licence_shown\":true,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 220,
+          "input_tokens": 230,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 155,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 179,
           "service_tier": "standard"
         }
       }

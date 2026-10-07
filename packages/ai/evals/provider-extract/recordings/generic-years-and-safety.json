@@ -1,27 +1,27 @@
 {
   "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
-  "latency_ms": 1232,
+  "latency_ms": 1397,
   "responses": [
     {
       "status": 200,
       "body": {
-        "id": "de035124-ae49-412a-9ed8-38b5075bb430",
+        "id": "0e1c8e5f-5e7c-4fed-93d8-2b1c5d7fc359",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"name\":{\"value\":\"Putu\",\"quote\":\"Hi I'm Putu\"},\"phone\":{\"value\":\"+6281100003434\",\"quote\":\"WA +62 811 0000 3434\"},\"area\":null,\"languages\":null,\"car\":{\"value\":\"Innova\",\"seats\":7,\"quote\":\"Innova 7 seat\"},\"price\":{\"amount\":750000,\"currency\":\"IDR\",\"unit\":\"hours\",\"hours\":10,\"quote\":\"750k/10h\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"all in except tickets\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+            "text": "{\"name\":{\"value\":\"Putu\",\"quote\":\"Hi I'm Putu\"},\"phone\":{\"value\":\"+62 811 0000 3434\",\"quote\":\"WA +62 811 0000 3434\"},\"area\":null,\"languages\":null,\"car\":{\"value\":\"Innova\",\"seats\":7,\"quote\":\"Innova 7 seat\"},\"prices\":[{\"amount\":750000,\"amount_max\":null,\"currency\":\"IDR\",\"unit\":\"hours\",\"per\":\"group\",\"hours\":10,\"car\":null,\"seats\":null,\"from\":false,\"quote\":\"750k/10h\"}],\"includes\":{\"fuel\":\"yes\",\"parking\":\"yes\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"all in except tickets\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 223,
+          "input_tokens": 233,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 155,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 183,
           "service_tier": "standard"
         }
       }

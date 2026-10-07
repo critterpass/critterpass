@@ -1,0 +1,89 @@
+appId: app.critterpass.dev
+---
+# A driver's price as he gave it, on the check card (6c-2) and in the comparison (6d-1): no one
+# price to quote (ask the driver, his words), prices by vehicle, a price per person, a range, and
+# the four side by side with an hourly rate. Fixture cards in the drivers lab, on the seeded trip.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- runFlow:
+    file: ../plan/subflows/open-lab-scene.yaml
+    env:
+      LAB: 'dev-nav-drivers-lab'
+      SCENE: 'drivers-lab-price-check-ask'
+- assertVisible:
+    text: '(?i)ask the driver'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-check-price-notes'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6c-2-price-ask
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-price-check-tiers'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-price-check-tiers'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-check-price-notes'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6c-2-price-tiers
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-price-check-person'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-price-check-person'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-check'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6c-2-price-per-person
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-price-check-range'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-price-check-range'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-check'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6c-2-price-range
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'drivers-lab-price-compare'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'drivers-lab-price-compare'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-compare-col-0'
+    timeout: 30000
+- assertVisible:
+    text: '(?i)ask him'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-6d-1-compare-prices
