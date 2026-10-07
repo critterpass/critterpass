@@ -83,7 +83,7 @@ export default defineConfig({
             filter: (page) => onSurface(new URL(page).pathname),
           }
         : {
-            customPages: [`${SITE}/`, `${SITE}/r`, `${SITE}/j`],
+            customPages: [`${SITE}/`, `${SITE}/pricing`, `${SITE}/r`, `${SITE}/j`],
             filter: (page) => !/\/(404|og)\b/u.test(page),
           },
     ),

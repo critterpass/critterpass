@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1197,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "4899083b-7518-499f-9db6-d45a6cab7b7b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Anna\",\"quote\":\"Anna here, local guide\"},\"phone\":null,\"area\":{\"value\":\"South coast\",\"quote\":\"South coast to Vík\"},\"languages\":{\"value\":[\"en\",\"de\",\"is\"],\"quote\":\"English, German, Icelandic\"},\"car\":{\"value\":\"Land Cruiser\",\"seats\":7,\"quote\":\"Land Cruiser, 7 seats\"},\"price\":{\"amount\":1150,\"currency\":\"EUR\",\"unit\":\"trip\",\"hours\":11,\"quote\":\"€1,150 per vehicle (Land Cruiser, 7 seats), 11 hrs\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":{\"amount\":90,\"quote\":\"Overtime €90/h\"},\"licence_shown\":true,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 224,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 186,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

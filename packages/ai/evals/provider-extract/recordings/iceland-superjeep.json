@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1109,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "db17cada-2a08-4a86-9559-d4e232994ccd",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Siggi\",\"quote\":\"with Siggi\"},\"phone\":{\"value\":\"+3548000018\",\"quote\":\"Phone +354 800 0018\"},\"area\":null,\"languages\":null,\"car\":{\"value\":\"super jeep\",\"seats\":6,\"quote\":\"Private super jeep Golden Circle with Siggi, up to 6 guests\"},\"price\":{\"amount\":185000,\"currency\":\"ISK\",\"unit\":\"trip\",\"hours\":8.5,\"quote\":\"ISK 185.000 for the group, 8-9 hours\"},\"includes\":{\"fuel\":\"yes\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"Fuel included, entrance to Kerið 600 ISK pp not included\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 233,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 184,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

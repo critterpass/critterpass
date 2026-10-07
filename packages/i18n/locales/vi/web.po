@@ -87,6 +87,10 @@ msgstr ""
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name} đang giữ chỗ cho bạn ở {place}."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passMonthly"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
 msgstr ""
@@ -211,6 +215,10 @@ msgstr "Một chú kỳ nhông khảm sành, đang chờ bạn ở {place}."
 msgid "web.comingSoon.hatch.local.roucou"
 msgstr "Một chú bồ câu đội mũ nồi, đang chờ bạn ở {place}."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassPostcard"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
 msgstr ""
@@ -222,6 +230,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
 msgstr "Một chú chuột tàu điện ngầm, đang chờ bạn ở {place}."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripBody"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -249,6 +261,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.membersLabel"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePrice"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -309,6 +325,14 @@ msgstr "SẮP LÊN MÁY BAY"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassMailbox"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.aside"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -443,6 +467,10 @@ msgstr ""
 msgid "web.plan.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostSeats"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleTop"
 msgstr ""
@@ -475,6 +503,10 @@ msgstr "CritterPass là ứng dụng lên kế hoạch đi chơi cho cả nhóm,
 msgid "web.home.pageDescription"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageDescription"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.inTesting"
 msgstr "CritterPass đang trong giai đoạn thử nghiệm. Hãy xin {inviter} lời mời TestFlight, rồi tham gia bằng mã này:"
@@ -499,12 +531,12 @@ msgstr "RẮẮẮC!!"
 msgid "web.legal.current"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/plan.ts
-msgid "web.plan.day"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftDay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -583,6 +615,14 @@ msgstr ""
 msgid "web.home.insideLocalBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeCritters"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
 msgstr ""
@@ -590,6 +630,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.referralBody"
 msgstr "Cứ mỗi người bạn rủ đăng ký qua link, bạn tiến lên 100 bậc. Rủ đủ ba người là vào thẳng đợt đầu."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassIcons"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.title"
@@ -651,6 +695,10 @@ msgstr "ĐỢT ĐẦU · CÒN {count} CHỖ"
 msgid "web.comingSoon.final.seats"
 msgstr "ĐỢT ĐẦU · {seats} CHỖ"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFlights"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
 msgstr ""
@@ -663,12 +711,32 @@ msgstr ""
 msgid "web.comingSoon.footer.follow"
 msgstr "theo chân thổ địa →"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostFor"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passFor"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardHeadline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.title"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -995,6 +1063,14 @@ msgstr ""
 msgid "web.comingSoon.search.empty"
 msgstr "Chưa thấy nơi nào tên như vậy. Bạn thử cách viết khác nhé."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNoSponsored"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostNoSponsored"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -1005,6 +1081,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeOffline"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -1031,8 +1111,16 @@ msgstr ""
 msgid "web.comingSoon.form.note"
 msgstr "Một email khi ra mắt. Cùng lắm là hai. Không bao giờ spam."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPrice"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passYearly"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -1067,9 +1155,21 @@ msgstr ""
 msgid "web.referral.coverLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardPass"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.pickPlace"
 msgstr "Hãy chọn một nơi trong danh sách, hoặc xoá ô tìm kiếm."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassReadOut"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.results"
@@ -1105,6 +1205,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPriceNote"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.footnote"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -1255,6 +1363,10 @@ msgstr ""
 msgid "web.home.insideVoteTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.terms"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planRowSunset"
 msgstr "Ngắm hoàng hôn ở Uluwatu"
@@ -1339,6 +1451,10 @@ msgstr ""
 msgid "web.tips.emptyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostLiveMap"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
 msgstr ""
@@ -1346,6 +1462,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
 msgstr "Thổ địa còn đang xếp vali."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNextFlight"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
@@ -1451,6 +1571,10 @@ msgstr "TỔNG"
 msgid "web.plan.travelled"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
 msgstr ""
@@ -1461,6 +1585,18 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostGuide"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostRedrafts"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/legal.ts
@@ -1483,6 +1619,10 @@ msgstr ""
 msgid "web.home.mockBookingsFlightMeta"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePlan"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.waitlist"
 msgstr "DANH SÁCH CHỜ · ĐỢT ĐẦU"
@@ -1493,6 +1633,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatVoice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.eyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
@@ -1567,6 +1715,10 @@ msgstr "ban@email.com"
 msgid "web.invite.joinEyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.emailLabel"
 msgstr "Email của bạn"
@@ -1598,3 +1750,7 @@ msgstr "thổ địa của bạn"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"
 msgstr "SỐ THỨ TỰ CỦA BẠN"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeKept"
+msgstr ""

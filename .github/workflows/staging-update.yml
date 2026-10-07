@@ -2,8 +2,13 @@ name: staging-update
 
 # Publishes one ref's JS as an EAS Update to the `staging` channel, for each installed staging build
 # whose native fingerprint that ref matches; a build it does not match needs a new build instead.
+# The installed build is read from the build manifests on this repository's GitHub releases (every
+# native-build run records one): `latest` is the platform's newest staging build, and a release tag
+# or a fingerprint names an older one. A build made on EAS has no manifest: pass its fingerprint,
+# or its EAS build id.
 # Runs on GitHub's network, so a slow uplink on the founder's Mac never stalls an update.
-#   gh workflow run staging-update.yml -f ref=main -f ios_build_id=<id> [-f android_build_id=<id>] -f message="..."
+#   gh workflow run staging-update.yml -f ref=main -f message="..."
+#   gh workflow run staging-update.yml -f ref=main -f ios=<fingerprint or release tag> -f android=latest
 on:
   workflow_dispatch:
     inputs:
@@ -11,11 +16,20 @@ on:
         description: Branch, tag or commit to publish (main, release/build-17, a sha)
         required: true
         default: main
+      ios:
+        description: 'Installed iOS staging build: latest, a native-staging-ios-… release tag, its fingerprint, or empty to skip iOS'
+        required: false
+        default: latest
+      android:
+        description: 'Installed Android staging build: latest, a native-staging-android-… release tag, its fingerprint, or empty to skip Android'
+        required: false
+        default: ''
       ios_build_id:
-        description: EAS build id of the installed iOS staging build
-        required: true
+        description: EAS build id of an installed iOS build made on EAS (used instead of `ios`)
+        required: false
+        default: ''
       android_build_id:
-        description: EAS build id of the installed Android staging build (leave empty to skip Android)
+        description: EAS build id of an installed Android build made on EAS (used instead of `android`)
         required: false
         default: ''
       message:
@@ -56,7 +70,10 @@ jobs:
           # environment keeps it as a sensitive file variable the CLI does not hand to local
           # commands, so the Android leg writes it from this secret. iOS does not read the file.
           GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          GITHUB_TOKEN: ${{ github.token }}
           REF: ${{ inputs.ref }}
+          IOS_TARGET: ${{ inputs.ios }}
+          ANDROID_TARGET: ${{ inputs.android }}
           IOS_BUILD: ${{ inputs.ios_build_id }}
           ANDROID_BUILD: ${{ inputs.android_build_id }}
           MESSAGE: ${{ inputs.message }}
@@ -76,8 +93,9 @@ jobs:
             printf '%s' "$GOOGLE_SERVICES_JSON_CONTENT" > "$gsj"
           fi
 
-          # 0 = same fingerprint, 1 = a real difference, 2 = no verdict after three tries.
-          compare() {
+          # Against an EAS build id. 0 = same fingerprint, 1 = a real difference, 2 = no verdict
+          # after three tries.
+          compare_eas() {
             local out i
             for i in 1 2 3; do
               out=$(APP_VARIANT=staging npx --yes "$EAS_CLI" fingerprint:compare --build-id "$1" \
@@ -90,10 +108,38 @@ jobs:
             return 2
           }
 
-          failed=0
-          for pair in "ios:$IOS_BUILD" "android:$ANDROID_BUILD"; do
-            platform=${pair%%:*}; build=${pair#*:}
-            [ -n "$build" ] || continue
+          # Against a build manifest on GitHub releases, or a fingerprint. Same verdicts; sets
+          # `build` and `detail` for the summary.
+          compare_manifest() {
+            local out i line
+            if [ ! -f "$GITHUB_WORKSPACE/tools/scripts/ci-device/update-target.ts" ]; then
+              echo "::error::$REF predates the build-manifest lookup: pass the installed build's EAS build id"
+              return 2
+            fi
+            for i in 1 2 3; do
+              out=$(cd "$GITHUB_WORKSPACE" && pnpm exec tsx tools/scripts/ci-device/update-target.ts \
+                --platform "$1" --target "$2")
+              line=$(tail -n 1 <<< "$out")
+              echo "update target $1 (try $i): $line"
+              case $(jq -r '.verdict // empty' <<< "$line" 2>/dev/null) in
+                match | mismatch)
+                  build=$(jq -r '.build' <<< "$line")
+                  detail="commit \`$(jq -r '.local[0:12]' <<< "$line")\`, build \`$(jq -r '.installed[0:12]' <<< "$line")\`"
+                  [ "$(jq -r '.verdict' <<< "$line")" = match ] && return 0
+                  return 1
+                  ;;
+              esac
+              sleep 20
+            done
+            return 2
+          }
+
+          failed=0; asked=0
+          for entry in "ios|$IOS_BUILD|$IOS_TARGET" "android|$ANDROID_BUILD|$ANDROID_TARGET"; do
+            IFS='|' read -r platform eas_build target <<< "$entry"
+            [ -n "$eas_build" ] || [ -n "$target" ] || continue
+            asked=1
+            build=${eas_build:-$target}; detail=''
             if [ "$platform" = android ]; then
               if [ ! -s "$gsj" ]; then
                 echo "::error::android not published: the GOOGLE_SERVICES_JSON_CONTENT secret is missing, so its fingerprint cannot match"
@@ -104,15 +150,19 @@ jobs:
             else
               unset GOOGLE_SERVICES_JSON
             fi
-            compare "$build"; verdict=$?
+            if [ -n "$eas_build" ]; then
+              compare_eas "$eas_build"; verdict=$?
+            else
+              compare_manifest "$platform" "$target"; verdict=$?
+            fi
             if [ "$verdict" = 1 ]; then
-              echo "::error::$platform MISMATCH: $REF ($commit) differs natively from build $build; a new build is needed"
-              echo "| $platform | \`$build\` | mismatch: a new build is needed | none |" >> "$summary"
+              echo "::error::$platform MISMATCH: $REF ($commit) differs natively from $build; a new build is needed (gh workflow run native-build.yml -f ref=$REF -f profile=staging -f platform=$platform)"
+              echo "| $platform | \`$build\` | mismatch: a new build is needed${detail:+ ($detail)} | none |" >> "$summary"
               failed=1; continue
             fi
-            if [ "$verdict" = 2 ]; then
-              echo "::error::$platform COMPARE FAILED: no fingerprint verdict for build $build after three tries; not published"
-              echo "| $platform | \`$build\` | no verdict (EAS trouble) | none |" >> "$summary"
+            if [ "$verdict" != 0 ]; then
+              echo "::error::$platform COMPARE FAILED: no fingerprint verdict for $build after three tries; not published"
+              echo "| $platform | \`$build\` | no verdict | none |" >> "$summary"
               failed=1; continue
             fi
             # The commit is inlined so Developer tools can show which commit an installed update carries.
@@ -131,4 +181,8 @@ jobs:
             echo "| $platform | \`$build\` | matches | \`$group\` |" >> "$summary"
           done
           rm -f "$gsj"
+          if [ "$asked" = 0 ]; then
+            echo "::error::no platform was named: set ios or android (latest, a release tag or a fingerprint)"
+            exit 1
+          fi
           exit "$failed"

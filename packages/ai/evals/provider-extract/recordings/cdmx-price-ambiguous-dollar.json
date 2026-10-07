@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 1038,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "00475f32-1ace-4b5a-aea6-26ae3a28e7c1",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Don Beto\",\"quote\":\"Pregunten por Don Beto\"},\"phone\":{\"value\":\"55-0000-2222\",\"quote\":\"55-0000-2222\"},\"area\":null,\"languages\":null,\"car\":{\"value\":\"Sedán\",\"seats\":4,\"quote\":\"Sedán 4 pasajeros\"},\"price\":{\"amount\":450,\"currency\":\"MXN\",\"unit\":\"hours\",\"hours\":1,\"quote\":\"$450 la hora, mínimo 3 horas\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 213,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 158,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

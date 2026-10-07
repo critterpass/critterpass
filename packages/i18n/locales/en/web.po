@@ -87,6 +87,10 @@ msgstr "{name}'s link"
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name}'s saving you a seat in {place}."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passMonthly"
+msgstr "{price} a month"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
 msgstr "{title} · CritterPass"
@@ -211,6 +215,10 @@ msgstr "A mosaic salamander, waiting for you in {place}."
 msgid "web.comingSoon.hatch.local.roucou"
 msgstr "A pigeon in a beret, waiting for you in {place}."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassPostcard"
+msgstr "A printed postcard from each trip"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
 msgstr "A seat still open"
@@ -222,6 +230,10 @@ msgstr "A stamp lands once they've joined and voted on, or planned, their first 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
 msgstr "A subway rat, waiting for you in {place}."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripBody"
+msgstr "A Trip Boost and Pass+ for everyone in the crew, until a week after the trip ends."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -250,6 +262,10 @@ msgstr "All tips"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.membersLabel"
 msgstr "Already in: {names}"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePrice"
+msgstr "Always free"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
@@ -310,6 +326,14 @@ msgstr "BOARDING SOON"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
 msgstr "Bookings · offline · all saved"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassMailbox"
+msgstr "Bookings pulled from your email"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.aside"
+msgstr "Bought in the app. Nothing is sold on this site."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrow"
@@ -443,6 +467,10 @@ msgstr "Crew of {size}"
 msgid "web.plan.eyebrow"
 msgstr "Crew plan · {place}"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostSeats"
+msgstr "Crews of 16"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleTop"
 msgstr "Critter"
@@ -475,6 +503,10 @@ msgstr "CritterPass is a group trip planner coming soon to iOS and Android. The 
 msgid "web.home.pageDescription"
 msgstr "CritterPass is a group trip planner for iPhone and Android. Swipe, vote, plan and split with your crew, guided by a local who happens to be an animal."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageDescription"
+msgstr "CritterPass is free to plan with. Pass+ and a Trip Boost add extras, bought in the app from the App Store or Google Play."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.inTesting"
 msgstr "CritterPass is in testing. Ask {inviter} for the TestFlight invite, then join with this code:"
@@ -499,12 +531,12 @@ msgstr "CRRRK!!"
 msgid "web.legal.current"
 msgstr "Current"
 
-#: ../../apps/web/src/components/site/copy/plan.ts
-msgid "web.plan.day"
-msgstr "Day {n}"
-
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftDay"
+msgstr "Day {n}"
+
+#: ../../apps/web/src/components/site/copy/plan.ts
+msgid "web.plan.day"
 msgstr "Day {n}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -583,6 +615,14 @@ msgstr "Every booking. Even with no signal."
 msgid "web.home.insideLocalBody"
 msgstr "Every city has a critter to hatch. {count} to collect, and you have to be there."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFor"
+msgstr "Every crew, every trip"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeCritters"
+msgstr "Every critter and sticker"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
 msgstr "Every day planned. Drag to change it."
@@ -590,6 +630,10 @@ msgstr "Every day planned. Drag to change it."
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.referralBody"
 msgstr "Every friend who joins with your link moves you 100 spots up. Three friends and you're in the first wave."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassIcons"
+msgstr "Every icon style and avatar"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.title"
@@ -651,6 +695,10 @@ msgstr "FIRST WAVE · {count} SEATS LEFT"
 msgid "web.comingSoon.final.seats"
 msgstr "FIRST WAVE · {seats} SEATS"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeFlights"
+msgstr "Flight tracking and boarding pings"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
 msgstr "Flights, stays and tickets in one wallet, pulled in from your email."
@@ -663,13 +711,33 @@ msgstr "Follow"
 msgid "web.comingSoon.footer.follow"
 msgstr "follow the locals →"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostFor"
+msgstr "For the whole crew, one trip"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passFor"
+msgstr "For you, on every trip"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr "Four stops on the route"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeName"
+msgstr "Free"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalBody"
 msgstr "Free on iPhone and Android. Start a crew, or join one with the code a friend sent you."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardHeadline"
+msgstr "Free to plan"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.title"
+msgstr "Free to plan. Extras when you want them."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.from"
@@ -995,6 +1063,14 @@ msgstr "No cookies here. We count page visits without knowing who you are."
 msgid "web.comingSoon.search.empty"
 msgstr "No place by that name. Try another spelling."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNoSponsored"
+msgstr "No sponsored picks"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostNoSponsored"
+msgstr "No sponsored picks on the trip"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr "Nobody has to be the one who asks for money."
@@ -1006,6 +1082,10 @@ msgstr "Nothing fixed"
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
 msgstr "Nothing in this corner of the journal yet. Every other tip is one tap away."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeOffline"
+msgstr "Offline maps and the plan"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem2"
@@ -1031,9 +1111,17 @@ msgstr "One day-by-day plan the whole crew can move around."
 msgid "web.comingSoon.form.note"
 msgstr "One email when we launch. Maybe two. Never spam."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPrice"
+msgstr "One purchase per trip"
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
 msgstr "Open this plan in CritterPass to copy the whole thing, or just the days you like, into your own trip."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passYearly"
+msgstr "or {price} a year"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
@@ -1067,9 +1155,21 @@ msgstr "Pass · No. 010"
 msgid "web.referral.coverLabel"
 msgstr "Pass cover"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.passName"
+msgstr "Pass+"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.cardPass"
+msgstr "Pass+ {price} a month"
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.pickPlace"
 msgstr "Pick a place from the list, or clear the search."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassReadOut"
+msgstr "Pings and the evening roundup read out loud"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.results"
@@ -1106,6 +1206,14 @@ msgstr "Planned, not travelled yet"
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
 msgstr "Planning"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostPriceNote"
+msgstr "Price shown in the App Store and Google Play"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.footnote"
+msgstr "Prices in US dollars. The App Store and Google Play show the price where you live. Pass+ renews until you cancel it in your store account."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.footer.privacy"
@@ -1255,6 +1363,10 @@ msgstr "Stop {n}"
 msgid "web.home.insideVoteTitle"
 msgstr "Stop planning trips in the group chat."
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.terms"
+msgstr "Subscription terms"
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planRowSunset"
 msgstr "Sunset at Uluwatu"
@@ -1339,6 +1451,10 @@ msgstr "The guide drafts the plan and answers anything, by voice or text. Rain o
 msgid "web.tips.emptyTitle"
 msgstr "The guides are still writing"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostLiveMap"
+msgstr "The live crew map"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
 msgstr "The locals"
@@ -1346,6 +1462,10 @@ msgstr "The locals"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
 msgstr "The locals are still packing."
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassNextFlight"
+msgstr "The next flight widget"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
@@ -1451,6 +1571,10 @@ msgstr "TOTAL"
 msgid "web.plan.travelled"
 msgstr "Travelled"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.boostName"
+msgstr "Trip Boost"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
 msgstr "Trips are better with tagalongs"
@@ -1462,6 +1586,18 @@ msgstr "Type the six-character code a friend sent you. We find the crew, then th
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
 msgstr "Undiscovered local number {num}, found by being there"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkPassGuide"
+msgstr "Unlimited guide chat, voice and camera"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostGuide"
+msgstr "Unlimited guide for the whole crew on the trip"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.perkBoostRedrafts"
+msgstr "Unlimited redrafts"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.updated"
@@ -1483,6 +1619,10 @@ msgstr "Version history"
 msgid "web.home.mockBookingsFlightMeta"
 msgstr "VN 128 · Thu 06:40 · 14A"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freePlan"
+msgstr "Voting, planning and splitting money"
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.waitlist"
 msgstr "WAITLIST · FIRST WAVE"
@@ -1494,6 +1634,14 @@ msgstr "we said this in march"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatVoice"
 msgstr "we've all been in this chat"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.pageTitle"
+msgstr "What CritterPass costs"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.eyebrow"
+msgstr "What it costs"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.title"
@@ -1567,6 +1715,10 @@ msgstr "you@email.com"
 msgid "web.invite.joinEyebrow"
 msgstr "Your crew is waiting"
 
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.firstTripTitle"
+msgstr "Your crew's first trip is on us"
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.emailLabel"
 msgstr "Your email"
@@ -1598,3 +1750,7 @@ msgstr "your local"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"
 msgstr "YOUR PLACE IN LINE"
+
+#: ../../apps/web/src/components/site/copy/pricing.ts
+msgid "web.pricing.freeKept"
+msgstr "Your plan, album and recap, kept after the trip"

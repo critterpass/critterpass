@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 749,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "9d4ca808-b8a6-4b90-b597-cf4860afe9ea",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":null,\"phone\":null,\"area\":null,\"languages\":null,\"car\":null,\"price\":null,\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"yes\",\"entry\":\"no\",\"quote\":\"Tol sudah termasuk kak. Tiket masuk tidak.\"},\"overtime\":{\"amount\":75000,\"quote\":\"Overtime 75rb per jam setelah 10 jam.\"},\"licence_shown\":null,\"unreadable\":[\"no driver name\",\"no phone number\",\"no area or car details\"],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 197,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 120,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

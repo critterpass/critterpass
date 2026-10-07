@@ -1,10 +1,19 @@
 ---
-/** Site-Home: hero, city ticker, group chat, four stops, the locals, the pass, a look inside, final call. */
+/**
+ * Site-Home: hero, city ticker, group chat, four stops, the locals, the pass, a look inside, what it
+ * costs (from the server's perk list; left out when it cannot be read), final call.
+ */
 import './home.css';
 
+import { env } from 'cloudflare:workers';
+
+import { fetchPublicPerks } from '../../../lib/api/perks';
+import { linkRequestContext, type LinksWebEnv } from '../../../lib/links/web-env';
 import CityTicker from '../../city-ticker.astro';
 import { homeCopy as copy } from '../copy/home';
 import { siteTranslator } from '../i18n';
+import Pricing from '../pricing/Pricing.astro';
+import { pricingFacts } from '../pricing/pricing-facts';
 import Site from '../../../layouts/Site.astro';
 import FinalCall from './FinalCall.astro';
 import GroupChat from './GroupChat.astro';
@@ -15,6 +24,8 @@ import Stops from './Stops.astro';
 import ThePass from './ThePass.astro';
 
 const t = await siteTranslator();
+const { apiBaseUrl } = linkRequestContext(Astro.url, env as unknown as LinksWebEnv);
+const pricing = pricingFacts(await fetchPublicPerks({ apiBaseUrl }));
 ---
 
 <Site title={t(copy.pageTitle)} description={t(copy.pageDescription)} canonicalPath="/" tone="ink">
@@ -25,5 +36,6 @@ const t = await siteTranslator();
   <Locals />
   <ThePass />
   <Inside />
+  {pricing !== null && <Pricing facts={pricing} />}
   <FinalCall />
 </Site>

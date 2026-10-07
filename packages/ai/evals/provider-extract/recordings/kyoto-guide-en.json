@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 935,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "f3d1a2ae-5cac-4ceb-b0cc-8a9fa210e2f1",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Yuki\",\"quote\":\"I'm Yuki\"},\"phone\":{\"value\":\"+819000001515\",\"quote\":\"+81 90-0000-1515\"},\"area\":{\"value\":\"Kyoto\",\"quote\":\"in Kyoto\"},\"languages\":{\"value\":null,\"quote\":\"\"},\"car\":{\"value\":null,\"seats\":null,\"quote\":\"\"},\"price\":{\"amount\":35000,\"currency\":\"JPY\",\"unit\":\"hours\",\"hours\":8,\"quote\":\"¥35,000 for up to 8 hours\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"no\",\"quote\":\"transport and entry fees paid by guests\"},\"overtime\":null,\"licence_shown\":true,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 240,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 171,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

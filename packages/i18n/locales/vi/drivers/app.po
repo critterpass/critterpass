@@ -89,6 +89,10 @@ msgstr "{count} ngày, từ {first}"
 msgid "drivers.check.missing"
 msgstr "Có {count} điều không có trong tin nhắn. Để mình viết câu hỏi nhé?"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.set"
+msgstr "{dayCount, plural, other {Cả nhóm đã đồng ý. {driverName} được xếp cho # ngày.}}"
+
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.pick.error.takenDays"
 msgstr "{days} vừa có tài xế khác nhận. Bỏ chọn ngày đó rồi thử lại."
@@ -575,6 +579,18 @@ msgstr ""
 msgid "drivers.detail.firstLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessagePrice"
+msgstr "Chào {name}, cả nhóm đã đồng ý với giá {price} một ngày. Tụi mình muốn đặt anh/chị cho:\n"
+"{lines}\n"
+"Anh/chị xác nhận giúp nhé?"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessage"
+msgstr "Chào {name}, cả nhóm đã đồng ý. Tụi mình muốn đặt anh/chị cho:\n"
+"{lines}\n"
+"Anh/chị xác nhận giúp nhé?"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.body"
 msgstr "Mình không thấy tên, số điện thoại hay giá của tài xế."
@@ -587,6 +603,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.askBody"
 msgstr "Mình sẽ viết bài cho các nhóm ở {0}. Bạn tự đăng."
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tellBody"
+msgstr "Mình sẽ viết kèm ngày và ghim điểm đón. Bạn tự gửi."
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tellBody"
@@ -1054,6 +1074,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.intro"
 msgstr "Chạm từng dòng để xác nhận hoặc sửa. Chưa có gì đến nhóm cho tới khi bạn xác nhận."
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tell"
+msgstr "Nhắn {driverName} qua WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.tell"

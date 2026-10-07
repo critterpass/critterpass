@@ -54,7 +54,7 @@ export function newestTags(refs: unknown, prefix: string): string[] {
   return tags.sort((a, b) => b.run - a.run).map((entry) => entry.tag);
 }
 
-type ReleaseRecord = {
+export type ReleaseRecord = {
   tag_name?: unknown;
   draft?: unknown;
   body?: unknown;
@@ -106,10 +106,10 @@ export function noMatchMessage(
   );
 }
 
-type FetchJson = (apiPath: string) => Promise<unknown>;
+export type FetchJson = (apiPath: string) => Promise<unknown>;
 
 /** GitHub's REST API for this repository; a missing page (404) reads as undefined. */
-function githubApi(repository: string, token: string | undefined): FetchJson {
+export function githubApi(repository: string, token: string | undefined): FetchJson {
   const base = process.env.GITHUB_API_URL ?? 'https://api.github.com';
   return async (apiPath) => {
     const response = await fetch(`${base}/repos/${repository}/${apiPath}`, {

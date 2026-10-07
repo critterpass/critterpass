@@ -1,0 +1,231 @@
+[
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "gallery-tab-index",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584060657,
+      "duration": 1796
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "shell-target-guide",
+            "optional": false
+          }
+        },
+        "timeout": "5000",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584064438,
+      "duration": 237
+    }
+  },
+  {
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_FILENAME": "pt_201_824"
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584037571,
+      "duration": 10
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "gallery-tab-index",
+            "optional": false
+          }
+        },
+        "timeout": "10000",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584062453,
+      "duration": 277
+    }
+  },
+  {
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "gallery-shell-tabs",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584059489,
+      "duration": 1167
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "dev-tools-entry",
+            "optional": false
+          }
+        },
+        "timeout": "60000",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584042814,
+      "duration": 12035
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "gallery-shell-tabs",
+            "optional": false
+          }
+        },
+        "timeout": "10000",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584059094,
+      "duration": 394
+    }
+  },
+  {
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "app.critterpass.dev"
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584037581,
+      "duration": 1
+    }
+  },
+  {
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "dev-nav-gallery",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584057258,
+      "duration": 1836
+    }
+  },
+  {
+    "command": {
+      "tapOnPointV2Command": {
+        "point": "201,824",
+        "retryIfNoChange": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584062731,
+      "duration": 1707
+    }
+  },
+  {
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "dev-tools-entry",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584054852,
+      "duration": 2150
+    }
+  },
+  {
+    "command": {
+      "launchAppCommand": {
+        "appId": "app.critterpass.dev",
+        "clearState": true,
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584037582,
+      "duration": 5230
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "dev-nav-gallery",
+            "optional": false
+          }
+        },
+        "timeout": "10000",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1790584057002,
+      "duration": 256
+    }
+  }
+]

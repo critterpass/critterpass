@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-07.",
+  "latency_ms": 726,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "b32960ad-9a39-431b-acc8-2e7a4c40435b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"name\":{\"value\":\"Surya\",\"quote\":\"Driver Surya\"},\"phone\":{\"value\":\"0812 0000 1010\",\"quote\":\"My WA 0812 0000 1010\"},\"area\":null,\"languages\":null,\"car\":null,\"price\":{\"amount\":500000,\"currency\":\"IDR\",\"unit\":\"day\",\"hours\":null,\"quote\":\"Rp 500k/day\"},\"includes\":{\"fuel\":\"unknown\",\"parking\":\"unknown\",\"tolls\":\"unknown\",\"entry\":\"unknown\",\"quote\":\"\"},\"overtime\":null,\"licence_shown\":null,\"unreadable\":[],\"cut_off\":false}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 226,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 137,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}
