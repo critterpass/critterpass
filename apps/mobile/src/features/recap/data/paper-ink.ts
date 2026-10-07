@@ -30,3 +30,23 @@ export function accentHex(stored: string | null | undefined): string | null {
 export function inkOnPaper(stored: string | null | undefined, fallback: string): string {
   return guideAccentOnPaper(accentHex(stored) ?? accentHex(fallback) ?? tokens.color.paper.ink);
 }
+
+export interface StampInk {
+  /** The ring, its tint and the large word. */
+  readonly ink: string;
+  /** The small lines along the ring. */
+  readonly lineInk: string;
+}
+
+/**
+ * A stamp's stored colour as stamp ink on paper. Red is the paper's own stamp ink, rust, with its
+ * darkened step for the small lines; any other colour is darkened until it reads.
+ */
+export function stampInkOnPaper(stored: string | null | undefined, fallback: string): StampInk {
+  const accent = accentHex(stored) ?? accentHex(fallback);
+  if (accent?.toLowerCase() === tokens.color.red.toLowerCase()) {
+    return { ink: tokens.color.rust.base, lineInk: tokens.color.rust.darkened };
+  }
+  const ink = inkOnPaper(stored, fallback);
+  return { ink, lineInk: ink };
+}

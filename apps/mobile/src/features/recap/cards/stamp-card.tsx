@@ -5,11 +5,10 @@
  * row under it in their own colours (one after another, and live as each traveller opens the
  * recap), and "STAMP 13 IS ĐÀ NẴNG" at the foot. Every colour arrives as ink that reads on paper.
  */
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useStamp } from '@/motion/patterns/stamp';
-import { Stamp } from '@/ui/documents/Stamp';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -18,12 +17,14 @@ import { WrittenSignature } from '../signature/written-signature';
 import { fetchStroke, useStroke, type StrokeFetch } from '../signature/stroke-store';
 import { useCardTimeline } from '../story/use-card-timeline';
 import { CardShell, FOOTER_PT } from './card-shell';
+import { PassportStamp, stampDrop } from './passport-stamp';
 
 const SLAM_MS = 500;
 const SIGN_GAP_MS = 700;
 const STAMP = 230;
-const DOODLE = 48;
+const DOODLE = 72;
 const TILT = -6;
+const OLDER_TILT = -8;
 /** Under the caption when no action follows it: the home indicator and a little air. */
 const FOOT_CLEAR_PT = 56;
 /** Each signature's hand-placed lean and drop, in the order they sign. */
@@ -35,20 +36,25 @@ const LEANS = [
   { rotate: -4, drop: 2 },
   { rotate: 2, drop: 8 },
 ] as const;
-const OLDER = 120;
+const OLDER = 104;
+/** Paper kept between the older stamp's ring and the trip's. */
+const CLEAR = 8;
 
 const useStyles = makeStyles((th) => ({
   chrome: { flexDirection: 'row', justifyContent: 'space-between' },
   field: { flex: 1, justifyContent: 'space-between' },
-  // The older stamp sits in the corner and the trip's stamp lands over its edge, as on the page.
-  stamps: { height: STAMP + OLDER * 0.45, alignItems: 'center', justifyContent: 'flex-end' },
+  // The older stamp sits in the upper corner; the trip's stamp lands clear of it, below.
+  stamps: { alignItems: 'center', justifyContent: 'flex-end' },
   stamp: { width: STAMP, height: STAMP, transform: [{ rotate: `${TILT}deg` }] },
-  doodle: {
+  older: {
     position: 'absolute',
-    top: STAMP * 0.12,
-    alignSelf: 'center',
+    top: 0,
+    start: 0,
+    opacity: 0.6,
+    transform: [{ rotate: `${OLDER_TILT}deg` }],
   },
-  older: { position: 'absolute', top: 0, start: 0, opacity: 0.5 },
+  foot: { alignItems: 'center', gap: th.space['4'] },
+  centred: { textAlign: 'center', alignSelf: 'stretch' },
   signatures: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -57,7 +63,6 @@ const useStyles = makeStyles((th) => ({
     rowGap: th.space['4'],
     paddingTop: th.space['16'],
   },
-  foot: { alignItems: 'center', gap: th.space['4'] },
 }));
 
 export interface StampSigner {
@@ -74,6 +79,8 @@ export interface StampCardProps {
   readonly top: string;
   readonly bottom: string;
   readonly ink: string;
+  /** The stamp's small lines, where the ink needs darkening at their size. */
+  readonly lineInk?: string;
   readonly guideKind: string;
   readonly older: readonly { readonly id: string; readonly title: string; readonly ink: string }[];
   readonly signers: readonly StampSigner[];
@@ -115,24 +122,27 @@ function TripStamp(props: StampCardProps) {
   const slam = useStamp({ active: true });
   return (
     <Animated.View style={[styles.stamp, slam]} testID="recap-stamp">
-      <Stamp
+      <PassportStamp
         title={props.place}
         top={props.top}
         bottom={props.bottom}
         ink={props.ink}
+        {...(props.lineInk === undefined ? {} : { lineInk: props.lineInk })}
         size={STAMP}
-        tilt={0}
-      />
-      <View style={styles.doodle} pointerEvents="none">
+      >
         <Sticker
           kind={props.guideKind}
           name={props.place}
           size={DOODLE}
-          variant="mask"
-          maskColor={props.ink}
+          variant="stamp"
+          form={{
+            rarity: 'common',
+            edge: 'none',
+            palette: { f: props.ink, dk: props.ink, bl: props.ink, ink: props.ink },
+          }}
           sticker={null}
         />
-      </View>
+      </PassportStamp>
     </Animated.View>
   );
 }
@@ -146,6 +156,9 @@ export function StampCard(props: StampCardProps) {
   const ink = theme.color.paper.ink;
   // A stamp with no place to print (the home stamp) is not drawn as an empty ring.
   const older = props.older.find((stamp) => stamp.title !== '');
+  const { width } = useWindowDimensions();
+  const drop =
+    older === undefined ? 0 : stampDrop(width - 2 * theme.size.gutter, STAMP, OLDER, CLEAR);
   return (
     <CardShell
       ground={theme.color.paper.base}
@@ -165,10 +178,10 @@ export function StampCard(props: StampCardProps) {
       </View>
       <View style={styles.field}>
         <View>
-          <View style={styles.stamps}>
+          <View style={[styles.stamps, { height: STAMP + drop }]}>
             {older === undefined ? null : (
               <View style={styles.older}>
-                <Stamp title={older.title} ink={older.ink} size={OLDER} tilt={-8} />
+                <PassportStamp title={older.title} ink={older.ink} size={OLDER} />
               </View>
             )}
             {reached > 0 ? <TripStamp {...props} /> : null}
@@ -191,10 +204,10 @@ export function StampCard(props: StampCardProps) {
           accessibilityRole="text"
           accessibilityLabel={`${props.caption}. ${props.detail}`}
         >
-          <Text variant="h2" color={ink}>
+          <Text variant="h2" color={ink} style={styles.centred}>
             {props.caption}
           </Text>
-          <Text variant="bodySm" color={theme.color.paper.muted}>
+          <Text variant="bodySm" color={theme.color.paper.muted} style={styles.centred}>
             {props.detail}
           </Text>
         </View>
