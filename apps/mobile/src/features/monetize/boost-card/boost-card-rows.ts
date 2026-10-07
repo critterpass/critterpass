@@ -1,4 +1,4 @@
-/** The synced rows the crew's boost card reads: the boost, its split's shares, payments to the buyer. */
+/** The synced rows the crew's boost card reads: the boost, its split's shares, the trip's money. */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 export const CARD_BOOST_SQL = `SELECT b.id, b.trip_id, b.crew_id, b.buyer_id, b.status, b.split_mode,
     b.split_member_ids, b.thanked_by, b.created_at, u.display_name AS buyer_name,
@@ -39,7 +39,8 @@ export interface CardBoostRow {
   readonly guide_name: string | null;
 }
 
-export const CARD_SHARES_SQL = `SELECT s.user_id, s.computed_minor, e.currency, u.display_name
+export const CARD_SHARES_SQL = `SELECT e.id AS expense_id, e.crew_currency, s.user_id, s.computed_minor, e.currency,
+    u.display_name
   FROM expenses e
   JOIN expense_shares s ON s.expense_id = e.id
   LEFT JOIN users u ON u.id = s.user_id
@@ -48,21 +49,37 @@ export const CARD_SHARES_SQL = `SELECT s.user_id, s.computed_minor, e.currency, 
 export const CARD_SHARES_TABLES = ['expenses', 'expense_shares', 'users'];
 
 export interface CardShareRow {
+  readonly expense_id: string;
+  readonly crew_currency: string | null;
   readonly user_id: string;
   readonly computed_minor: number | string | null;
   readonly currency: string;
   readonly display_name: string | null;
 }
 
-export const CARD_PAYMENTS_SQL = `SELECT from_id, to_id, status, created_at FROM payments
-  WHERE trip_id = ? AND to_id = ?`;
+export const CARD_LEDGER_SQL = `SELECT debtor_id, creditor_id, amount_minor, currency, source_kind,
+    source_id FROM ledger_entries WHERE trip_id = ?`;
+export const CARD_LEDGER_TABLES = ['ledger_entries'];
+
+export interface CardLedgerRow {
+  readonly debtor_id: string;
+  readonly creditor_id: string;
+  readonly amount_minor: number | string;
+  readonly currency: string;
+  readonly source_kind: string;
+  readonly source_id: string;
+}
+
+export const CARD_PAYMENTS_SQL = `SELECT from_id, to_id, amount_minor, currency, status FROM payments
+  WHERE trip_id = ?`;
 export const CARD_PAYMENTS_TABLES = ['payments'];
 
 export interface CardPaymentRow {
   readonly from_id: string;
   readonly to_id: string;
+  readonly amount_minor: number | string;
+  readonly currency: string;
   readonly status: string;
-  readonly created_at: string;
 }
 
 /** PowerSync replicates a Postgres array as JSON text (an older replica as `{a,b}`). */

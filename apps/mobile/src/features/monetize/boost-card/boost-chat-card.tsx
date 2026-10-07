@@ -1,7 +1,7 @@
 /**
  * The crew chat's `boost_card` message: the card over the synced boost it points at. It holds the
  * trip's streams while it is on screen (the chat itself rides the crew's), so the split's shares
- * and the crew's payments arrive and the SETTLED row fills in as people pay. SETTLE opens settling
+ * and the trip's ledger and payments arrive and the SETTLED row fills in as people square up. SETTLE opens settling
  * up; THANKS tells the buyer once, and the card flips when the server's row says so.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- a command name and Intl option values, never copy. */
@@ -24,17 +24,20 @@ import { boostCardModel, shareText } from './boost-card-model';
 import {
   CARD_BOOST_SQL,
   CARD_BOOST_TABLES,
+  CARD_LEDGER_SQL,
+  CARD_LEDGER_TABLES,
   CARD_PAYMENTS_SQL,
   CARD_PAYMENTS_TABLES,
   CARD_SHARES_SQL,
   CARD_SHARES_TABLES,
   uuidList,
   type CardBoostRow,
+  type CardLedgerRow,
   type CardPaymentRow,
   type CardShareRow,
 } from './boost-card-rows';
 import { BoostCardView } from './boost-card-view';
-import { boostChips, REDRAFTS_PERK } from './perk-chips';
+import { boostChips, GUIDE_PERK, REDRAFTS_PERK } from './perk-chips';
 
 export const thankBoostCommand = defineClientCommand<{ readonly boost_id: string }>({
   name: 'thank_boost',
@@ -69,13 +72,11 @@ export function BoostChatCard({ message }: ChatCardProps) {
   const row = useLiveRows<CardBoostRow>(CARD_BOOST_SQL, key, CARD_BOOST_TABLES).rows[0];
   useTripStreams(row?.trip_id ?? null);
   const shares = useLiveRows<CardShareRow>(CARD_SHARES_SQL, key, CARD_SHARES_TABLES).rows;
-  const paymentsKey = useMemo(
-    () => (row === undefined || row.buyer_id === null ? null : [row.trip_id, row.buyer_id]),
-    [row],
-  );
+  const tripKey = useMemo(() => (row === undefined ? null : [row.trip_id]), [row]);
+  const ledger = useLiveRows<CardLedgerRow>(CARD_LEDGER_SQL, tripKey, CARD_LEDGER_TABLES).rows;
   const payments = useLiveRows<CardPaymentRow>(
     CARD_PAYMENTS_SQL,
-    paymentsKey,
+    tripKey,
     CARD_PAYMENTS_TABLES,
   ).rows;
   const perkRows = useLiveRows<PerkRow>(PERKS_SQL, NO_PARAMS, PERKS_TABLES).rows;
@@ -94,7 +95,13 @@ export function BoostChatCard({ message }: ChatCardProps) {
             split: row.split_mode === 'split',
             splitMemberIds: uuidList(row.split_member_ids),
             thankedBy: uuidList(row.thanked_by),
-            createdAt: row.created_at,
+          },
+    expense:
+      shares[0] === undefined
+        ? null
+        : {
+            id: shares[0].expense_id,
+            ledgerCurrency: shares[0].crew_currency ?? shares[0].currency,
           },
     shares: shares.map((share) => ({
       userId: share.user_id,
@@ -102,11 +109,20 @@ export function BoostChatCard({ message }: ChatCardProps) {
       minor: Number(share.computed_minor ?? 0),
       currency: share.currency,
     })),
+    ledger: ledger.map((entry) => ({
+      debtorId: entry.debtor_id,
+      creditorId: entry.creditor_id,
+      minor: Number(entry.amount_minor),
+      currency: entry.currency,
+      sourceKind: entry.source_kind,
+      sourceId: entry.source_id,
+    })),
     payments: payments.map((payment) => ({
       fromId: payment.from_id,
       toId: payment.to_id,
+      minor: Number(payment.amount_minor),
+      currency: payment.currency,
       status: payment.status,
-      createdAt: payment.created_at,
     })),
   });
 
@@ -116,6 +132,7 @@ export function BoostChatCard({ message }: ChatCardProps) {
   });
   const chips = boostChips(perks);
   const redrafts = chips.some((chip) => chip.key === REDRAFTS_PERK);
+  const guideName = row?.guide_name ?? '';
   const guide =
     row === undefined || row.guide_slug === null || !redrafts || model.kind !== 'live'
       ? null
@@ -134,7 +151,11 @@ export function BoostChatCard({ message }: ChatCardProps) {
       buyer={row === undefined || row.buyer_id === null ? '' : memberFirstName(row.buyer_name)}
       destination={row?.destination ?? row?.crew ?? ''}
       dates={tripDates(locale, row?.start_date ?? null, row?.end_date ?? null)}
-      perks={chips.map((chip) => i18n._(chip.copy))}
+      perks={chips.map((chip) =>
+        chip.key === GUIDE_PERK && guideName !== ''
+          ? t({ id: 'monetize.card.chip.guideNamed', message: `Unlimited ${guideName}` })
+          : i18n._(chip.copy),
+      )}
       share={model.kind === 'live' && model.share !== null ? shareText(model.share, locale) : null}
       guide={guide}
       thanking={thanking}

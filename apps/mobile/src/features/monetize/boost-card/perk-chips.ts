@@ -15,8 +15,11 @@ const CHIP: Readonly<Record<string, MessageDescriptor>> = {
   boost_no_sponsored: msg({ id: 'monetize.card.chip.sponsored', message: 'No sponsored picks' }),
 };
 
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- a perk key from the server's list. */
+/* eslint-disable lingui/no-unlocalized-strings -- perk keys from the server's list. */
 export const REDRAFTS_PERK = 'boost_redrafts';
+/** Its chip names the trip's guide ("Unlimited Pon") when the card knows who that is. */
+export const GUIDE_PERK = 'boost_guide_unlimited';
+/* eslint-enable lingui/no-unlocalized-strings */
 
 export function boostChips(
   perks: readonly Perk[],

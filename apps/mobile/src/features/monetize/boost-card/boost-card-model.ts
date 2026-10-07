@@ -1,8 +1,14 @@
 /**
  * What the crew's boost card (4c-1) says to the person looking at it, from the synced rows alone:
- * the boost, the split's shares and the crew's payments to the buyer. Nothing is decided here that
- * the server did not write: a share counts as settled once its member has a payment to the buyer,
- * marked paid or confirmed, made after the boost.
+ * the boost, the split's shares and the trip's money. Nothing is decided here that the server did
+ * not write.
+ *
+ * The app nets balances: a trip has one ledger of moves between members, a payment is not tied to
+ * the expense it repays, and settling up pays down a member's whole net (to whoever the plan
+ * names, not always the buyer). So a share of the boost is settled exactly when its IOU is in the
+ * ledger and its member owes nothing on the trip any more, counting payments they have marked
+ * paid the way settling up does. Paying part of what they owe, or paying for something else while
+ * still owing, leaves the share open.
  */
 export interface CardBoost {
   readonly id: string;
@@ -13,7 +19,6 @@ export interface CardBoost {
   /** Who the buyer picked for the split (the buyer included), as the intent recorded it. */
   readonly splitMemberIds: readonly string[];
   readonly thankedBy: readonly string[];
-  readonly createdAt: string;
 }
 
 /** One `expense_shares` row of the boost's expense. */
@@ -24,17 +29,32 @@ export interface CardShare {
   readonly currency: string;
 }
 
+/** One `ledger_entries` row of the trip: `debtorId` owes `creditorId` the amount. */
+export interface CardLedgerEntry {
+  readonly debtorId: string;
+  readonly creditorId: string;
+  readonly minor: number;
+  readonly currency: string;
+  readonly sourceKind: string;
+  readonly sourceId: string;
+}
+
+/** One `payments` row of the trip. */
 export interface CardPayment {
   readonly fromId: string;
   readonly toId: string;
+  readonly minor: number;
+  readonly currency: string;
   readonly status: string;
-  readonly createdAt: string;
 }
 
 export interface CardInput {
   readonly viewerUid: string | null;
   readonly boost: CardBoost | null;
+  /** The split's expense and the currency its IOUs are kept in; null until it is written. */
+  readonly expense: { readonly id: string; readonly ledgerCurrency: string } | null;
   readonly shares: readonly CardShare[];
+  readonly ledger: readonly CardLedgerEntry[];
   readonly payments: readonly CardPayment[];
 }
 
@@ -66,12 +86,43 @@ export type BoostCardModel =
       readonly allSquare: boolean;
     };
 
-// eslint-disable-next-line lingui/no-unlocalized-strings -- payment states, never copy.
-const PAID: readonly string[] = ['marked_paid', 'confirmed'];
+/* eslint-disable lingui/no-unlocalized-strings -- ledger and payment wire values, never copy. */
+const BOOST_IOU = 'boost_iou';
+const MARKED_PAID = 'marked_paid';
+/* eslint-enable lingui/no-unlocalized-strings */
 
-/** Synced timestamps come as ISO text, sometimes with a space for the `T`. */
-function time(value: string): number {
-  return Date.parse(value.replace(' ', 'T'));
+/**
+ * The members whose share of the split is settled: their IOU to the buyer is in the ledger and
+ * their net on the trip (what they are owed minus what they owe, a marked-paid payment counted as
+ * made, as settling up counts it) is not below zero. A confirmed payment is already a ledger move.
+ */
+function settledMembers(input: CardInput, buyer: string | null): ReadonlySet<string> {
+  const { expense } = input;
+  const settled = new Set<string>();
+  if (expense === null || buyer === null) return settled;
+  const currency = expense.ledgerCurrency;
+  const net = new Map<string, number>();
+  const move = (uid: string, minor: number) => net.set(uid, (net.get(uid) ?? 0) + minor);
+  const owes = new Set<string>();
+  for (const entry of input.ledger) {
+    if (entry.currency !== currency) continue;
+    move(entry.creditorId, entry.minor);
+    move(entry.debtorId, -entry.minor);
+    if (
+      entry.sourceKind === BOOST_IOU &&
+      entry.sourceId === expense.id &&
+      entry.creditorId === buyer
+    ) {
+      owes.add(entry.debtorId);
+    }
+  }
+  for (const payment of input.payments) {
+    if (payment.status !== MARKED_PAID || payment.currency !== currency) continue;
+    move(payment.fromId, payment.minor);
+    move(payment.toId, -payment.minor);
+  }
+  for (const uid of owes) if ((net.get(uid) ?? 0) >= 0) settled.add(uid);
+  return settled;
 }
 
 export function boostCardModel(input: CardInput): BoostCardModel {
@@ -82,17 +133,7 @@ export function boostCardModel(input: CardInput): BoostCardModel {
     return { kind: 'gone', reason: 'moved' };
   }
   const buyer = boost.buyerId;
-  const since = time(boost.createdAt);
-  const paid = new Set(
-    input.payments
-      .filter(
-        (payment) =>
-          payment.toId === buyer &&
-          PAID.includes(payment.status) &&
-          !(time(payment.createdAt) < since),
-      )
-      .map((payment) => payment.fromId),
-  );
+  const paid = settledMembers(input, buyer);
   const debtors = boost.split
     ? input.shares.filter((share) => share.userId !== buyer && share.minor > 0)
     : [];

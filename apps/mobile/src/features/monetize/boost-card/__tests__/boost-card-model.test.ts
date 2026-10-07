@@ -5,6 +5,7 @@ import {
   shareText,
   type CardBoost,
   type CardInput,
+  type CardLedgerEntry,
   type CardPayment,
   type CardShare,
 } from '../boost-card-model';
@@ -13,6 +14,7 @@ const BUYER = 'u-winston';
 const MAYA = 'u-maya';
 const JORDAN = 'u-jordan';
 const LATE = 'u-late';
+const EXPENSE = 'e-boost';
 
 const boost = (extra: Partial<CardBoost> = {}): CardBoost => ({
   id: 'b1',
@@ -21,7 +23,6 @@ const boost = (extra: Partial<CardBoost> = {}): CardBoost => ({
   split: true,
   splitMemberIds: [BUYER, MAYA, JORDAN],
   thankedBy: [],
-  createdAt: '2027-04-01T10:00:00.000Z',
   ...extra,
 });
 
@@ -33,18 +34,42 @@ const share = (userId: string, minor: number): CardShare => ({
 });
 const SHARES = [share(BUYER, 401), share(MAYA, 399), share(JORDAN, 399)];
 
-const payment = (fromId: string, extra: Partial<CardPayment> = {}): CardPayment => ({
+/** `debtorId` owes `creditorId`; a confirmed payment is the same move the other way round. */
+const owes = (
+  debtorId: string,
+  creditorId: string,
+  minor: number,
+  extra: Partial<CardLedgerEntry> = {},
+): CardLedgerEntry => ({
+  debtorId,
+  creditorId,
+  minor,
+  currency: 'USD',
+  sourceKind: 'expense',
+  sourceId: 'e-dinner',
+  ...extra,
+});
+const iou = (debtorId: string): CardLedgerEntry =>
+  owes(debtorId, BUYER, 399, { sourceKind: 'boost_iou', sourceId: EXPENSE });
+const confirmed = (fromId: string, toId: string, minor: number): CardLedgerEntry =>
+  owes(toId, fromId, minor, { sourceKind: 'payment', sourceId: `p-${fromId}-${minor}` });
+const IOUS = [iou(MAYA), iou(JORDAN)];
+
+const payment = (fromId: string, minor: number, extra: Partial<CardPayment> = {}): CardPayment => ({
   fromId,
   toId: BUYER,
-  status: 'confirmed',
-  createdAt: '2027-04-02T10:00:00.000Z',
+  minor,
+  currency: 'USD',
+  status: 'marked_paid',
   ...extra,
 });
 
 const input = (extra: Partial<CardInput> = {}): CardInput => ({
   viewerUid: MAYA,
   boost: boost(),
+  expense: { id: EXPENSE, ledgerCurrency: 'USD' },
   shares: SHARES,
+  ledger: IOUS,
   payments: [],
   ...extra,
 });
@@ -67,37 +92,106 @@ describe('the crew boost card', () => {
     });
   });
 
-  it('counts a share as settled once its member paid the buyer after the boost', () => {
-    const model = boostCardModel(input({ payments: [payment(MAYA, { status: 'marked_paid' })] }));
-    expect(model).toMatchObject({
+  it('settles a share when its member pays it, marked paid or confirmed', () => {
+    const marked = boostCardModel(input({ payments: [payment(MAYA, 399)] }));
+    expect(marked).toMatchObject({
       viewer: 'settled',
       share: null,
       settled: [{ uid: MAYA, name: 'maya' }],
       remaining: 1,
     });
+    const paid = boostCardModel(input({ ledger: [...IOUS, confirmed(MAYA, BUYER, 399)] }));
+    expect(paid).toMatchObject({ viewer: 'settled', settled: [{ uid: MAYA }], remaining: 1 });
   });
 
-  it('ignores payments that are open, to someone else, or older than the boost', () => {
+  it('keeps the share open when the member repays the buyer for something else', () => {
+    // Maya owes Winston 2,000 for dinner and 399 for the boost; she repays the dinner only.
+    const ledger = [...IOUS, owes(MAYA, BUYER, 2000), confirmed(MAYA, BUYER, 2000)];
+    expect(boostCardModel(input({ ledger }))).toMatchObject({
+      viewer: 'owes',
+      share: { minor: 399, currency: 'USD' },
+      settled: [],
+      remaining: 2,
+    });
+    const marked = input({
+      ledger: [...IOUS, owes(MAYA, BUYER, 2000)],
+      payments: [payment(MAYA, 2000)],
+    });
+    expect(boostCardModel(marked)).toMatchObject({ viewer: 'owes', settled: [] });
+  });
+
+  it('keeps the share open after a part payment, and settles it with the rest', () => {
+    const part = boostCardModel(input({ payments: [payment(MAYA, 200)] }));
+    expect(part).toMatchObject({ viewer: 'owes', settled: [], remaining: 2 });
+    const rest = boostCardModel(
+      input({ ledger: [...IOUS, confirmed(MAYA, BUYER, 200)], payments: [payment(MAYA, 199)] }),
+    );
+    expect(rest).toMatchObject({ viewer: 'settled', remaining: 1 });
+  });
+
+  it('ignores payments that are open, disputed, in another currency or someone else’s', () => {
     const model = boostCardModel(
       input({
         payments: [
-          payment(MAYA, { status: 'requested' }),
-          payment(MAYA, { status: 'cancelled' }),
-          payment(MAYA, { toId: JORDAN }),
-          payment(JORDAN, { createdAt: '2027-03-20 09:00:00.000Z' }),
+          payment(MAYA, 399, { status: 'requested' }),
+          payment(MAYA, 399, { status: 'pending' }),
+          payment(MAYA, 399, { status: 'disputed' }),
+          payment(MAYA, 399, { status: 'cancelled' }),
+          payment(MAYA, 399, { currency: 'JPY' }),
+          payment(LATE, 399, { toId: JORDAN }),
         ],
       }),
     );
     expect(model).toMatchObject({ viewer: 'owes', settled: [], remaining: 2 });
   });
 
+  it('nets the trip: a member who is owed as much elsewhere has nothing left to pay', () => {
+    // Winston owes Maya 1,000 for the hotel, more than her share of the boost.
+    const owed = boostCardModel(input({ ledger: [...IOUS, owes(BUYER, MAYA, 1000)] }));
+    expect(owed).toMatchObject({ viewer: 'settled', settled: [{ uid: MAYA }], remaining: 1 });
+    // Jordan owes Maya 399: settling up sends his money to her, and both shares are done once
+    // she is owed nothing more and he has paid what he owes in all.
+    const ledger = [...IOUS, owes(JORDAN, MAYA, 399)];
+    expect(boostCardModel(input({ ledger }))).toMatchObject({
+      viewer: 'settled',
+      settled: [{ uid: MAYA }],
+      remaining: 1,
+    });
+    const paid = boostCardModel(
+      input({ ledger, payments: [payment(JORDAN, 798, { toId: BUYER })] }),
+    );
+    expect(paid).toMatchObject({ allSquare: true, remaining: 0 });
+  });
+
+  it('pays the share through whoever settling up names, not only the buyer', () => {
+    // Winston owes Jordan 798 elsewhere, so the plan has Maya pay Jordan directly.
+    const ledger = [...IOUS, owes(BUYER, JORDAN, 798), confirmed(MAYA, JORDAN, 399)];
+    expect(boostCardModel(input({ ledger }))).toMatchObject({
+      viewer: 'settled',
+      settled: [{ uid: MAYA }, { uid: JORDAN }],
+      allSquare: true,
+    });
+  });
+
+  it('claims nothing settled before the split’s IOUs reach the ledger', () => {
+    expect(boostCardModel(input({ ledger: [] }))).toMatchObject({ viewer: 'owes', settled: [] });
+    expect(boostCardModel(input({ ledger: [], expense: null }))).toMatchObject({
+      viewer: 'owes',
+      settled: [],
+    });
+    const other = [owes(MAYA, BUYER, 399, { sourceKind: 'boost_iou', sourceId: 'e-other' })];
+    expect(
+      boostCardModel(input({ ledger: [...other, confirmed(MAYA, BUYER, 399)] })),
+    ).toMatchObject({ viewer: 'owes', settled: [] });
+  });
+
   it('shows the buyer who is still to go and never a thanks or a share', () => {
-    const model = boostCardModel(input({ viewerUid: BUYER, payments: [payment(JORDAN)] }));
+    const model = boostCardModel(input({ viewerUid: BUYER, payments: [payment(JORDAN, 399)] }));
     expect(model).toMatchObject({ viewer: 'buyer', share: null, thanks: 'none', remaining: 1 });
   });
 
   it('says everyone is square when every share is settled', () => {
-    const model = boostCardModel(input({ payments: [payment(MAYA), payment(JORDAN)] }));
+    const model = boostCardModel(input({ payments: [payment(MAYA, 399), payment(JORDAN, 399)] }));
     expect(model).toMatchObject({ allSquare: true, remaining: 0 });
   });
 
@@ -111,7 +205,12 @@ describe('the crew boost card', () => {
 
   it('is thanks only when the buyer covered it', () => {
     const model = boostCardModel(
-      input({ boost: boost({ split: false, splitMemberIds: [] }), shares: [] }),
+      input({
+        boost: boost({ split: false, splitMemberIds: [] }),
+        shares: [],
+        ledger: [],
+        expense: null,
+      }),
     );
     expect(model).toMatchObject({
       split: false,

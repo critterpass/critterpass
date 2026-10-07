@@ -49,7 +49,6 @@ const boost = (over: Partial<CardBoost> = {}): CardBoost => ({
   split: true,
   splitMemberIds: ['winston', 'maya'],
   thankedBy: [],
-  createdAt: '2027-04-01T10:00:00Z',
   ...over,
 });
 
@@ -62,6 +61,17 @@ async function card(over: Partial<CardInput> = {}) {
     shares: [
       { userId: 'winston', name: 'Winston', minor: 600, currency: 'USD' },
       { userId: 'maya', name: 'Maya', minor: 599, currency: 'USD' },
+    ],
+    expense: { id: 'e1', ledgerCurrency: 'USD' },
+    ledger: [
+      {
+        debtorId: 'maya',
+        creditorId: 'winston',
+        minor: 599,
+        currency: 'USD',
+        sourceKind: 'boost_iou',
+        sourceId: 'e1',
+      },
     ],
     payments: [],
     ...over,

@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { guideSticker } from '@/ui/avatar/guides';
 import { ChatRichCard } from '@/ui/chat/ChatRichCard';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -16,6 +17,7 @@ import { AvatarStack } from '@/ui/people/AvatarStack';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from '@/ui/theme';
 
@@ -65,13 +67,20 @@ const useStyles = makeStyles((th) => ({
     borderRadius: sizeToken(th.size.primaryCta, 'radius'),
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: th.space['12'],
+    paddingHorizontal: th.space['8'],
     borderWidth: th.space['2'],
     borderColor: th.color.ink['850'],
   },
   filled: { backgroundColor: th.color.ink['850'] },
   quiet: { opacity: 0.6 },
 }));
+
+const GUIDE_STICKER = 44;
+
+function GuideSticker({ id }: { readonly id: string }) {
+  const guide = guideSticker(id);
+  return <Sticker kind={guide.kind} name={guide.name} size={GUIDE_STICKER} />;
+}
 
 export function BoostCardView(props: BoostCardViewProps) {
   const { t } = useLingui();
@@ -135,11 +144,11 @@ export function BoostCardView(props: BoostCardViewProps) {
             accessibilityRole="header"
             accessibilityLabel={[title, detail].filter((part) => part !== '').join(', ')}
           >
-            <Text variant="h3" color={ink} testID="boost-card-title">
+            <Text variant="title" color={ink} testID="boost-card-title">
               {upper(title, locale)}
             </Text>
             {detail === '' ? null : (
-              <Text variant="label" color={ink} testID="boost-card-detail">
+              <Text variant="bodySm" color={ink} testID="boost-card-detail">
                 {detail}
               </Text>
             )}
@@ -184,20 +193,20 @@ export function BoostCardView(props: BoostCardViewProps) {
                 style={[styles.action, styles.filled]}
                 testID="boost-card-settle"
               >
-                <Text variant="buttonSm" color={pink}>
+                <Text variant="buttonSm" color={pink} autoFit numberOfLines={1}>
                   {upper(t({ id: 'monetize.card.settle', message: `Settle ${share}` }), locale)}
                 </Text>
               </PressScale>
             ) : model.viewer === 'settled' ? (
               <View style={[styles.action, styles.quiet]} accessible testID="boost-card-settled">
-                <Text variant="buttonSm" color={ink}>
+                <Text variant="buttonSm" color={ink} autoFit numberOfLines={1}>
                   {upper(t({ id: 'monetize.card.settledMine', message: 'Settled ✓' }), locale)}
                 </Text>
               </View>
             ) : null}
             {model.thanks === 'none' ? null : model.thanks === 'sent' ? (
               <View style={[styles.action, styles.quiet]} accessible testID="boost-card-thanked">
-                <Text variant="buttonSm" color={ink}>
+                <Text variant="buttonSm" color={ink} autoFit numberOfLines={1}>
                   {upper(t({ id: 'monetize.card.thanked', message: 'Sent ♥' }), locale)}
                 </Text>
               </View>
@@ -210,7 +219,7 @@ export function BoostCardView(props: BoostCardViewProps) {
                 style={styles.action}
                 testID="boost-card-thanks"
               >
-                <Text variant="buttonSm" color={ink}>
+                <Text variant="buttonSm" color={ink} autoFit numberOfLines={1}>
                   {upper(t({ id: 'monetize.card.thanks', message: `Thanks ${buyer}` }), locale)}
                 </Text>
               </PressScale>
@@ -223,6 +232,7 @@ export function BoostCardView(props: BoostCardViewProps) {
           guide={props.guide.id}
           name={props.guide.name}
           line={props.guide.line}
+          sticker={<GuideSticker id={props.guide.id} />}
           testID="boost-card-guide"
         />
       )}

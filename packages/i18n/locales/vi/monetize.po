@@ -503,12 +503,12 @@ msgstr ""
 msgid "monetize.card.guideLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
-msgid "monetize.card.chip.sponsored"
-msgstr ""
-
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusNoSponsored"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
+msgid "monetize.card.chip.sponsored"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
@@ -915,6 +915,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.unlimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost-card/boost-chat-card.tsx
+msgid "monetize.card.chip.guideNamed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts

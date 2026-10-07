@@ -503,12 +503,12 @@ msgstr "Monthly · renews {date}"
 msgid "monetize.card.guideLine"
 msgstr "No more counting. Who wants a day back?"
 
-#: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
-msgid "monetize.card.chip.sponsored"
-msgstr "No sponsored picks"
-
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusNoSponsored"
+msgstr "No sponsored picks"
+
+#: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
+msgid "monetize.card.chip.sponsored"
 msgstr "No sponsored picks"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
@@ -916,6 +916,10 @@ msgstr "Turn Pass+ back on"
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.unlimited"
 msgstr "Unlimited"
+
+#: ../../apps/mobile/src/features/monetize/boost-card/boost-chat-card.tsx
+msgid "monetize.card.chip.guideNamed"
+msgstr "Unlimited {guideName}"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
 msgid "monetize.card.chip.guide"
