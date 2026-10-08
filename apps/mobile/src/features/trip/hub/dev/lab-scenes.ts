@@ -6,9 +6,11 @@ import { LOCK_SCREEN_OFFER_SCENES } from '../../live-activities/lock-screen-offe
 import { OFFLINE_SCENES } from '../../offline/dev/offline-scenes';
 import { HOME_CARD_SCENES } from './home-card-scenes';
 import { HUB_SCENES } from './hub-scenes';
+import { HUB_STATE_SCENES } from './hub-state-scenes';
 
 export const TRIP_DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...HUB_SCENES,
+  ...HUB_STATE_SCENES,
   ...DAY_OF_SCENES,
   ...OFFLINE_SCENES,
   ...LOCK_SCREEN_OFFER_SCENES,

@@ -9,6 +9,8 @@ import { useTheme } from '@/ui/theme';
 
 export function CreateNote(props: {
   readonly failed: boolean;
+  /** The refusal was the cap on crews one person can be in. */
+  readonly crewLimit?: boolean;
   readonly notReady: boolean;
   readonly slow: boolean;
 }) {
@@ -17,10 +19,15 @@ export function CreateNote(props: {
   if (props.failed) {
     return (
       <Text variant="bodySm" color={theme.semantic.state.urgent} testID="start-crew-failed">
-        {t({
-          id: 'crew.start.failed',
-          message: 'That didn’t go through. You may be in ten crews already.',
-        })}
+        {props.crewLimit === true
+          ? t({
+              id: 'crew.start.crewLimit',
+              message: 'You’re in ten crews already. Leave one to start another.',
+            })
+          : t({
+              id: 'crew.start.didNotGoThrough',
+              message: 'That didn’t go through. Check your signal and try again.',
+            })}
       </Text>
     );
   }

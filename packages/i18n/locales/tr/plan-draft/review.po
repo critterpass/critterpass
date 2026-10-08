@@ -19,8 +19,7 @@ msgstr ""
 msgid "planDraft.review.subNoCost"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
-#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.review.back"
 msgstr ""
 
@@ -104,8 +103,12 @@ msgstr ""
 msgid "planDraft.review.changeDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.loading.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
+msgid "planDraft.drafting.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
@@ -216,7 +219,7 @@ msgstr ""
 msgid "planDraft.leftOut.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.loading.label"
 msgstr ""
 

@@ -5,7 +5,14 @@
  * once. Bodies carry first names and amounts in the crew currency; never payout details.
  */
 import { formatMoney, money } from '@cp/cost-engine';
-import { MONEY_PUSH_BODY, MONEY_PUSH_TITLE, SETTLED_PUSH } from '@cp/domain';
+import {
+  expenseLink,
+  MONEY_PUSH_BODY,
+  MONEY_PUSH_TITLE,
+  paymentLink,
+  SETTLED_PUSH,
+  settleLink,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -88,7 +95,7 @@ function paymentPush(
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: facts.trip_id,
-        deepLink: `/wallet/money/payment/${paymentId ?? ''}`,
+        deepLink: paymentLink(paymentId ?? ''),
         ctx: { payment_id: paymentId, actions },
         collapseVars: { payment_id: paymentId ?? '' },
       };
@@ -145,7 +152,7 @@ export function registerMoneyPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: `/wallet/money/expense/${str(routed, 'expense_id') ?? ''}`,
+        deepLink: expenseLink(str(routed, 'expense_id') ?? ''),
         classContext: { small: true },
       };
     },
@@ -192,7 +199,7 @@ export function registerMoneyPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: facts.trip_id,
-        deepLink: `/wallet/money/payment/${facts.id}`,
+        deepLink: paymentLink(facts.id),
         ctx: { payment_id: facts.id, actions: ['MARK_PAID'] },
       };
     },
@@ -213,7 +220,7 @@ export function registerMoneyPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: '/wallet/money/settle',
+        deepLink: settleLink(),
         ctx: { reward: 'settled', granted_at: str(routed, 'granted_at') },
       }),
     // Once per member per trip, whichever confirm cleared it.

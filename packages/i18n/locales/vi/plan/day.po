@@ -131,6 +131,10 @@ msgstr "Vẫn đổi"
 msgid "plan.day.item.cost"
 msgstr "Chi phí"
 
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.unavailableToast"
+msgstr "Chưa lưu được"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.item.dayChip"
@@ -234,6 +238,10 @@ msgstr "Chưa có ước tính"
 #: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.notes"
 msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.unavailableLine"
+msgstr "Chưa có gì thay đổi. Hãy thử lại."
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.nothingMoves"

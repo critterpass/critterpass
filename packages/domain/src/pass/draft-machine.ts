@@ -82,12 +82,19 @@ export function resumeStep(draft: PassDraft): PassDraftStep {
   return draft.step;
 }
 
-/** Moves to the next step; stays put when the current step is incomplete or already last. */
-export function advanceDraft(draft: PassDraft, blockedNames: readonly string[] = []): PassDraft {
-  const at = indexOf(draft.step);
-  const next = PASS_DRAFT_STEPS[at + 1];
-  if (next === undefined || !stepComplete(draft, draft.step, blockedNames)) return draft;
-  return { ...draft, step: next };
+/**
+ * A page's own "next": the draft moves to the step after `from` when that page's data is complete,
+ * and stays on `from` when it is not. Where the draft was stored does not count, so a page reached
+ * again by going back leads to the page after it, never past one that was not seen.
+ */
+export function advanceDraft(
+  draft: PassDraft,
+  from: PassDraftStep,
+  blockedNames: readonly string[] = [],
+): PassDraft {
+  const next = PASS_DRAFT_STEPS[indexOf(from) + 1];
+  const step = next !== undefined && stepComplete(draft, from, blockedNames) ? next : from;
+  return step === draft.step ? draft : { ...draft, step };
 }
 
 /** Back one step while the pass is still a draft; an issued pass never goes back. */

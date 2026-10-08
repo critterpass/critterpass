@@ -96,6 +96,7 @@ export function PaymentRow({
               avatar: (
                 <Avatar
                   name={from?.name ?? ''}
+                  uid={row.fromId}
                   joinIndex={from?.joinIndex ?? 0}
                   size="md"
                   decorative
@@ -105,7 +106,13 @@ export function PaymentRow({
             to={{
               name: to?.name ?? '',
               avatar: (
-                <Avatar name={to?.name ?? ''} joinIndex={to?.joinIndex ?? 0} size="md" decorative />
+                <Avatar
+                  name={to?.name ?? ''}
+                  uid={row.toId}
+                  joinIndex={to?.joinIndex ?? 0}
+                  size="md"
+                  decorative
+                />
               ),
             }}
             amount={formatAmount(row.amountMinor, row.currency, locale)}

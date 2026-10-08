@@ -5,7 +5,7 @@
  * no asset, or no answer offline, is simply missing: its tile keeps the category's doodle.
  */
 import type { PlaceMediaAsset } from '@cp/domain';
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { PixelRatio, type ImageSourcePropType } from 'react-native';
 
 import { savedStillUri } from '@/lib/media/media-files';
@@ -91,13 +91,24 @@ export function usePagedPlacePhotos(
   }, [ids, version]);
 }
 
+/** A place's tile by its asset, so a row keeps the same tile while other rows' photos land. */
+const tiles = new WeakMap<PlaceMediaAsset, PlaceTilePhoto | null>();
+
+function tileOf(asset: PlaceMediaAsset): PlaceTilePhoto | null {
+  const known = tiles.get(asset);
+  if (known !== undefined) return known;
+  const tile = tilePhoto(asset);
+  tiles.set(asset, tile);
+  return tile;
+}
+
 /** The same, as what the tiles draw. */
 export function usePlaceTilePhotos(poiIds: readonly string[]): PlaceTilePhotos {
   const assets = usePagedPlacePhotos(poiIds);
   return useMemo(() => {
     const tiles = new Map<string, PlaceTilePhoto>();
     for (const [id, asset] of assets) {
-      const tile = tilePhoto(asset);
+      const tile = tileOf(asset);
       if (tile !== null) tiles.set(id, tile);
     }
     return tiles;
@@ -113,11 +124,13 @@ export function useInViewPlacePhotos(): {
   readonly show: (poiIds: readonly string[]) => void;
 } {
   const [seen, setSeen] = useState<readonly string[]>([]);
+  // Rows already shown never set state again: scrolling back over them redraws nothing.
+  const known = useRef(new Set<string>());
   const show = useCallback((poiIds: readonly string[]) => {
-    setSeen((before) => {
-      const fresh = poiIds.filter((id) => !before.includes(id));
-      return fresh.length === 0 ? before : [...before, ...fresh];
-    });
+    const fresh = poiIds.filter((id) => !known.current.has(id));
+    if (fresh.length === 0) return;
+    for (const id of fresh) known.current.add(id);
+    setSeen((before) => [...before, ...fresh]);
   }, []);
   return { photos: usePlaceTilePhotos(seen), show };
 }

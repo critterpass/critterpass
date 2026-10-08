@@ -8,7 +8,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids, route params and toast ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useState } from 'react';
 
 import { estimateLeg } from '@/data/legs/day-legs';
@@ -19,7 +19,7 @@ import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { usePlanPresence } from '../collab/use-presence';
 import { ItemSheetHost } from '../day/item-sheet-host';
-import { announceEdit, useDayEditing } from '../day/use-day-editing';
+import { useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
 import { useChosenDay, useOpenOnDate } from '../trip-map/chosen-day';
 import { useDayRoute } from '../trip-map/day-route';
@@ -33,7 +33,7 @@ import { DayGone } from './day-gone';
 import { DayPlanView } from './day-plan-view';
 import { refusalLine } from './refusal';
 import type { Travel } from './reschedule';
-import { useReorder } from './use-reorder';
+import { dropResult, useReorder } from './use-reorder';
 
 export function DayPlanScreen({
   tripId,
@@ -63,6 +63,7 @@ export function DayPlanScreen({
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(plan.versionId, day);
   const editor = useDayEditing(plan);
+  const focused = useIsFocused();
   const search = useScreenHref('7d-1', {
     tripId,
     scope: 'day',
@@ -133,13 +134,13 @@ export function DayPlanScreen({
                 onDrop: async () => {
                   const dropped = await reorder.drop();
                   if (dropped.kind === 'refused') refuse(refusalLine(dropped.refusal));
-                  if (dropped.kind === 'sent') announceEdit(dropped.outcome);
-                  return dropped.kind === 'sent';
+                  return dropResult(dropped);
                 },
               }
         }
         onBack={backToTrip}
         backTo={back.target}
+        focused={focused}
         // Back to day-of when it is underneath (the day was opened from it), else onto it.
         onDayOf={dayOf === undefined ? undefined : () => router.dismissTo(dayOf)}
         onAllDays={() => router.push(tripPlanRoutes.days(tripId, dayNo))}
@@ -154,6 +155,10 @@ export function DayPlanScreen({
         onAdd={() => {
           if (search !== undefined) router.push(search);
         }}
+        onOpenArea={(areaId) => {
+          const area = hrefFor('day-trip', { tripId, destinationId: areaId });
+          if (area !== undefined) router.push(area);
+        }}
       />
       {open === null ? null : (
         <ItemSheetHost
@@ -162,7 +167,6 @@ export function DayPlanScreen({
           item={open}
           slot={slot}
           editor={editor}
-          announce={announceEdit}
           travel={travel}
           onClose={() => setOpenId(null)}
         />

@@ -245,7 +245,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 Common custom block `cp` (≤1 KB):
 
 ```json
-{ "v": 1, "nid": "<uuidv7>", "type": "vote.needs_you", "deeplink": "critterpass://crew/<id>/vote/<poll>",
+{ "v": 1, "nid": "<uuidv7>", "type": "vote.needs_you", "deeplink": "/vote/<poll>",
   "crew_id": "…", "trip_id": "…",
   "sender": { "kind": "guide|member|system", "id": "tokek|<uid>", "name": "Tokek", "avatar": "avatars/guide-tokek@3x.png" },
   "ctx": { "poll_id": "…", "options": [{ "id": "…", "label": "Bali" }] },
@@ -253,6 +253,8 @@ Common custom block `cp` (≤1 KB):
 ```
 
 `full: false` → NSE fetches `GET /v1/notifications/{nid}` with the action key (minimal-payload mode for private content).
+
+`deeplink` (and an inbox row's or briefing line's `deep_link`) is an in-app path with the screen's own query, which the app opens under its scheme. Services write it only through the builders in `packages/domain/src/links/app-links.ts`, one per screen; the app's contract test resolves a sample of every builder against its route files, and `currentAppPath` (`links/trip-paths.ts`) keeps the former shape of a link that changed opening the same screen.
 
 **Communication Notification sender identity (NSE):** `INSendMessageIntent` with `sender = INPerson(personHandle: INPersonHandle(value: "cp-guide:<guide_id>"|"cp-user:<uid>", type: .unknown), displayName, image: INImage(avatar from App Group avatars/ or downloaded signed URL))`, `conversationIdentifier = crew_id` (or `guide:<guide_id>:<uid>` for 1:1 guide), `speakableGroupName = crew name`; donate interaction, `content.updating(from: intent)`. Fallback when the capability is refused: plain alert + avatar image attachment. Guide personas always carry AI disclosure in the conversation name ("Tokek · AI guide").
 

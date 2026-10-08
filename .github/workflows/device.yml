@@ -318,6 +318,16 @@ jobs:
         if: always()
         continue-on-error: true
         run: npx --yes tsx@4 tools/scripts/perf/device-timings.ts --dir "$RUNNER_TEMP/out" --platform ios || true
+      # Maestro's command log repeats each flow's variables, and this repository is public: the
+      # staging sign-in code is taken out of every text file before the shard's output is uploaded.
+      - name: Keep the sign-in code out of the artifact
+        if: always()
+        env:
+          OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+        run: |
+          [ -n "$OTP_TEST_CODE" ] || exit 0
+          find "$RUNNER_TEMP/out" -type f \( -name '*.json' -o -name '*.log' -o -name '*.xml' -o -name '*.txt' -o -name '*.html' -o -name '*.yaml' \) \
+            -exec perl -pi -e 'BEGIN { $code = quotemeta($ENV{OTP_TEST_CODE}) } s/(?<![0-9A-Za-z])$code(?![0-9A-Za-z])/[redacted]/g' {} +
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -395,6 +405,16 @@ jobs:
         if: always()
         continue-on-error: true
         run: npx --yes tsx@4 tools/scripts/perf/device-timings.ts --dir "$RUNNER_TEMP/out" --platform android || true
+      # Maestro's command log repeats each flow's variables, and this repository is public: the
+      # staging sign-in code is taken out of every text file before the shard's output is uploaded.
+      - name: Keep the sign-in code out of the artifact
+        if: always()
+        env:
+          OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+        run: |
+          [ -n "$OTP_TEST_CODE" ] || exit 0
+          find "$RUNNER_TEMP/out" -type f \( -name '*.json' -o -name '*.log' -o -name '*.xml' -o -name '*.txt' -o -name '*.html' -o -name '*.yaml' \) \
+            -exec perl -pi -e 'BEGIN { $code = quotemeta($ENV{OTP_TEST_CODE}) } s/(?<![0-9A-Za-z])$code(?![0-9A-Za-z])/[redacted]/g' {} +
       - uses: actions/upload-artifact@v7
         if: always()
         with:

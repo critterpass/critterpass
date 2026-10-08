@@ -13,6 +13,8 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 
 import { useSponsoredSlot } from '../data/use-sponsored-slot';
 import { guideFor } from '../format';
+import { useMyPosition } from '../hooks/use-my-position';
+import { distanceMeters } from '../map-model';
 import { useBrowsePhotos } from '../map-queries';
 import { withProfileTiles } from '../profile-photo';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
@@ -32,6 +34,8 @@ import { useSwipeActions } from './use-swipe-actions';
 
 /** The sponsored slot's list kind for a list of places. */
 const SEARCH: ListKind = 'search';
+/** How far from the middle of a destination's places still counts as being there. */
+const IN_DESTINATION_M = 50_000;
 
 export interface PlacesListScreenProps {
   /** Outside a trip: the map's own field over the places on this phone. */
@@ -105,6 +109,14 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
     if (href !== undefined) router.push(href);
   };
   const tiles = useInViewPlacePhotos();
+  // "Nearest" is from the traveller only when they stand in the destination.
+  const position = useMyPosition();
+  const viewer =
+    position.kind === 'at' &&
+    data.centre !== null &&
+    distanceMeters(position.point, data.centre) <= IN_DESTINATION_M
+      ? position.point
+      : null;
   // A place whose photos live in its AI profile shows the first of them, from the browse.
   const profilePhotos = useBrowsePhotos(data.destinationId);
   const photos = useMemo(
@@ -114,6 +126,9 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
 
   return (
     <PlacesListView
+      status={!data.loaded ? 'loading' : data.failed ? 'failed' : 'ready'}
+      onRetry={data.retry}
+      viewer={viewer}
       photos={photos}
       onInView={tiles.show}
       inTrip={tripId !== null}

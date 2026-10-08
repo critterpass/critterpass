@@ -3,7 +3,7 @@
  * other active member ("Found a booking in Maya’s email"); a mailbox find kept private reaches its
  * owner. Pastes and scans are the user's own, answered in the app, so they send nothing.
  */
-import { BOOKING_PUSH } from '@cp/domain';
+import { addBookingLink, BOOKING_PUSH } from '@cp/domain';
 
 import { registerNotification } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, firstName, str } from '../setup/facts';
@@ -57,7 +57,7 @@ export function registerFoundPush(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: '/wallet/bookings/add',
+        deepLink: addBookingLink(),
         // ADD ALL on the push adds this find without opening the app.
         ctx: { candidate_id: str(routed, 'candidate_id') },
       };

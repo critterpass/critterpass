@@ -19,6 +19,7 @@ import { emitEvent, withSystem } from '@cp/db';
 import {
   DomainError,
   GUIDE_QUEUES,
+  guideThreadLink,
   QUEUED_ANSWER_BODY,
   QUEUED_ANSWER_TITLE,
   queuedAnswerJobSchema,
@@ -227,7 +228,7 @@ export function registerQueuedAnswerPush(): void {
         vars: { guide: guide.name },
         sender: { kind: 'guide', id: guide.id, name: guide.name },
         tripId: event.tripId,
-        deepLink: `/guide/${threadId}`,
+        deepLink: guideThreadLink(threadId),
         ctx: { message_id: event.payload['message_id'] },
       };
     },

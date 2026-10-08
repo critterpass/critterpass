@@ -15,7 +15,7 @@ import { eventually } from '../../powersync/test-support/queue-fixtures';
 import { listQueuedCommands } from '../../status/use-queued-commands';
 import { listRejectedCommands } from '../../status/use-rejected-commands';
 import { reconcileOnce, startReconcile } from '../reconcile';
-import { defineClientCommand } from '../summaries';
+import { defineTestCommand } from '../test-support/test-command';
 
 jest.mock(
   '@powersync/common',
@@ -24,7 +24,7 @@ jest.mock(
       .powersyncCommon,
 );
 
-const createCrew = defineClientCommand<{ crew_id: string }>({
+const createCrew = defineTestCommand<{ crew_id: string }>({
   name: 'create_test_crew',
   offline: true,
 });

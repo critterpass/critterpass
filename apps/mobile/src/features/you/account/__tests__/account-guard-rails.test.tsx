@@ -23,10 +23,16 @@ jest.mock('expo-router', () => ({
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { act, configure, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import {
+  configure,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react-native';
 import { router } from 'expo-router';
 import type { ReactElement } from 'react';
-import { Alert } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -251,15 +257,12 @@ describe('delete account', () => {
     await show(<DeleteScreen services={svc} />, stack);
     await fireEvent.press(screen.getByTestId('you-delete-continue'));
     const hold = await screen.findByTestId('you-delete-hold');
-    // Completing the hold, through the ring's own accessible path: activate, then confirm.
-    const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
+    // Completing the hold, through the ring's own accessible path: activate, then confirm in
+    // the sheet that asks.
     await fireEvent(hold, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
-    const buttons = alert.mock.calls[0]?.[2] ?? [];
-    const confirm = buttons.find((button) => button.style === 'destructive');
-    expect(confirm).toBeDefined();
-    await act(() => {
-      confirm?.onPress?.();
-    });
+    expect(svc.clearPhone).not.toHaveBeenCalled();
+    const ask = await screen.findByTestId('you-delete-confirm-ask');
+    await fireEvent.press(within(ask).getByRole('button', { name: 'Delete my account' }));
     await waitFor(() => expect(screen.getByTestId('you-delete-problem')).toBeTruthy());
     expect(svc.clearPhone).not.toHaveBeenCalled();
     expect(screen.queryByTestId('you-closed-closed')).toBeNull();
@@ -267,16 +270,29 @@ describe('delete account', () => {
 });
 
 describe('settings account section', () => {
-  it.each<[string, AccountRead]>([
-    ['the server has no such route or cannot be reached', { kind: 'unavailable' }],
-    ['the session is gone', { kind: 'signed_out' }],
-  ])('is not drawn when %s', async (_name, read) => {
+  it('stays visible but cannot be used, and says why, when the server cannot be reached', async () => {
+    await show(
+      <SettingsScreen
+        services={services({ readAccount: () => Promise.resolve({ kind: 'unavailable' }) })}
+      />,
+      await openStack(),
+    );
+    await waitFor(() => expect(screen.getByTestId('you-settings-account')).toBeTruthy());
+    const account = within(screen.getByTestId('you-settings-account'));
+    await waitFor(() => expect(account.getAllByText('Needs a connection')).toHaveLength(3));
+    for (const row of ['Download my data', 'Sign out', 'Delete account']) {
+      expect(account.getByLabelText(`${row}, Needs a connection`)).toBeDisabled();
+    }
+  });
+
+  it('is not drawn when the session is gone', async () => {
+    const read: AccountRead = { kind: 'signed_out' };
     await show(
       <SettingsScreen services={services({ readAccount: () => Promise.resolve(read) })} />,
       await openStack(),
     );
     await waitFor(() => expect(screen.getByTestId('you-settings-app')).toBeTruthy());
-    expect(screen.queryByTestId('you-settings-account')).toBeNull();
+    await waitFor(() => expect(screen.queryByTestId('you-settings-account')).toBeNull());
   });
 
   it('is drawn once the server has answered for the account', async () => {

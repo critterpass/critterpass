@@ -9,8 +9,9 @@ import {
   CHECK_ASK_MEMBER_BODY,
   CHECK_ASK_MEMBER_TITLE,
   CHECK_INBOX_KIND,
-  memberAskResolveKey,
   type InboxAction,
+  memberAskResolveKey,
+  tripCheckLink,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -69,7 +70,7 @@ export function registerMemberAskDelivery(): void {
         sender: { kind: 'member', id: ask.asked_by, name: asker },
         crewId: facts.crewId,
         tripId: ask.trip_id,
-        deepLink: `/trip/${ask.trip_id}/check`,
+        deepLink: tripCheckLink(ask.trip_id),
         ctx: { ask_id: ask.id },
         collapseVars: { ask_id: ask.id },
         needsYou: true,
@@ -90,7 +91,7 @@ export function registerMemberAskDelivery(): void {
         actorId: ask.asked_by,
         data: { ask_id: ask.id },
         actions: [answer(ask.id, true), answer(ask.id, false)],
-        deepLink: `/trip/${ask.trip_id}/check`,
+        deepLink: tripCheckLink(ask.trip_id),
         resolveKey: memberAskResolveKey(ask.id),
       };
     },

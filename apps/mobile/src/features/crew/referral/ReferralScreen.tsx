@@ -24,7 +24,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { rowId } from '../crews-sheet/crew-commands';
 import { useCrewServices } from '../crews-sheet/crew-services';
-import { useSessionUid } from '../crews-sheet/CrewsSheet';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { MINT_REFERRAL_CODE, useReferrals, type FriendStatus } from './referral-data';
 import { REFERRAL_TERMS_URL } from './terms';
 

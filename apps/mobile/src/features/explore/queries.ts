@@ -275,7 +275,8 @@ export interface GuideDestination {
 const guideDestinationsSql = (perCity: boolean) => `SELECT d.id, d.slug, d.name,
     ${destinationGuideSql(perCity, 'd.critter_key', 's.guide_slug')} AS guide_slug
   FROM critter_sets s
-    JOIN destinations d ON d.id = s.destination_id WHERE s.guide_slug IS NOT NULL`;
+    JOIN destinations d ON d.id = s.destination_id WHERE s.guide_slug IS NOT NULL
+  GROUP BY d.id`;
 const GUIDE_DESTINATIONS_TABLES = ['critter_sets', 'destinations', ...DESTINATION_GUIDE_TABLES];
 
 /** Every destination with a guide of its own, from the synced catalogue. */

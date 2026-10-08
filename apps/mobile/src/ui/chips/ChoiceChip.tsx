@@ -13,6 +13,8 @@ export interface ChoiceChipProps {
   /** Resting tilt in degrees; alternate signs across a row for the hand-placed look. @default -2 */
   readonly tilt?: number;
   readonly disabled?: boolean;
+  /** The `tick` a tap fires; off for a host that answers with its own cue. @default true */
+  readonly feedback?: boolean;
   readonly testID?: string;
 }
 
@@ -39,6 +41,7 @@ export function ChoiceChip({
   accent,
   tilt = -2,
   disabled = false,
+  feedback = true,
   testID,
 }: ChoiceChipProps) {
   const styles = useStyles();
@@ -49,6 +52,7 @@ export function ChoiceChip({
     <PressScale
       testID={testID}
       onPress={onPress}
+      feedback={feedback ? 'tick' : undefined}
       disabled={disabled}
       widthClass="narrow"
       accessibilityLabel={label}

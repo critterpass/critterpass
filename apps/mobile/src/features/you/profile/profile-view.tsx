@@ -24,7 +24,6 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { statLabel } from './profile-copy';
 import type { ProfileModel } from './profile-model';
-import type { FaceProps } from '../avatar/member-faces';
 import { CrewRows } from './crew-rows';
 import { ProfileFace, SectionHead, StampRow, StatTile, Tags } from './profile-parts';
 
@@ -45,8 +44,6 @@ export interface ProfileViewProps {
   readonly onPlan?: () => void;
   /** The person's own photo link, when they wear a photo. */
   readonly photoUri?: string | null;
-  /** Crewmates' faces, as `Avatar` props. */
-  readonly faceFor?: (uid: string) => FaceProps;
   readonly onOpenCrew?: (crewId: string) => void;
   readonly onStartCrew?: () => void;
   /** A notice above the profile (a failed Pass+ renewal); draws nothing when there is none. */
@@ -152,6 +149,10 @@ export function ProfileView(props: ProfileViewProps) {
                     <Pressable
                       onPress={props.onPlan}
                       accessibilityRole="button"
+                      accessibilityLabel={t({
+                        id: 'you.profile.planLabel',
+                        message: 'Pass+, your plan',
+                      })}
                       hitSlop={theme.space['8']}
                       testID="you-profile-plan"
                     >
@@ -164,6 +165,7 @@ export function ProfileView(props: ProfileViewProps) {
                   <Pressable
                     onPress={props.onGetPassPlus}
                     accessibilityRole="button"
+                    accessibilityLabel={t({ id: 'you.profile.getPassPlus', message: 'Get Pass+' })}
                     hitSlop={theme.space['8']}
                     testID="you-profile-get-pass-plus"
                   >
@@ -265,7 +267,6 @@ export function ProfileView(props: ProfileViewProps) {
             crews={model.crews}
             onOpenCrew={props.onOpenCrew}
             onStartCrew={props.onStartCrew}
-            faceFor={props.faceFor}
           />
         </Stack>
 

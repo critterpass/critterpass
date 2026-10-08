@@ -65,7 +65,7 @@ N-24 `sos` (ALWAYS, `cp.sos`, `cp_sos`, sender avatar, collapse `sos:{sos_id}`, 
 sender's own words, which may describe their health: those are read in the app); escalation "Nobody's answered yet. {sender} still needs help." N-48 `sos_resolved`
 (ALWAYS): "{sender} is safe. Thanks for being there." or "False alarm: {sender} is OK." to everyone
 alerted. `location_share_ending` (budgeted, `cp.help`, collapse per share, to the sharer only): "Your location share with the crew ends in 10 minutes." with STOP and +1 H, ten minutes before a Help share ends (job `help.share_ending`, event `help_share.ending`, re-armed on extend); worded as a location share, never Help. N-25 `help_share_changed` (budgeted): "{sender} opened Help and is sharing where they are
-for an hour." Deep links: `/sos/{sos_id}`, `/help/{trip_id}/session/{session_id}`.
+for an hour." Deep links: `/sos/{sos_id}`, and for a Help share the crew map `/map/{trip_id}`, which draws the sharer (`/help/{trip_id}/session/{session_id}` on pushes sent earlier opens the same map).
 
 ## 6. AI
 

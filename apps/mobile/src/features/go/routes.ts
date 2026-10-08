@@ -4,6 +4,11 @@ import type { Href } from 'expo-router';
 
 import { paramsForTarget, type GoTarget } from './data/go-place';
 
+/** The trip's day, where GO is opened from: where its back lands when GO was opened cold. */
+export function tripTodayHref(tripId: string): Href {
+  return { pathname: '/(tabs)/trips/[tripId]/day/[date]', params: { tripId, date: 'today' } };
+}
+
 export function goHref(target: GoTarget): Href {
   return { pathname: '/go', params: paramsForTarget(target) };
 }

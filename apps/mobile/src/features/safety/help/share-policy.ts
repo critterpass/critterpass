@@ -37,12 +37,28 @@ export function pendingShare(sessionId: string, now: number): PendingShare {
   return { sessionId, endsAt: now + HELP_SHARE_TTL_MIN * 60_000 };
 }
 
+/**
+ * Shares this phone has stopped. A stop is kept on the phone and sent when there is signal, so the
+ * synced row can outlive it for a while; the indicator must not.
+ */
+const stoppedHere = new Set<string>();
+
+export function markShareStopped(shareId: string): void {
+  stoppedHere.add(shareId);
+}
+
+/** The stop was refused: the share is still running, and the indicator says so again. */
+export function unmarkShareStopped(shareId: string): void {
+  stoppedHere.delete(shareId);
+}
+
 export function shareView(
   rows: readonly ShareRow[],
   pending: PendingShare | null,
   now: number,
+  stopped: ReadonlySet<string> = stoppedHere,
 ): ShareView | null {
-  const row = rows[0];
+  const row = rows.find((candidate) => !stopped.has(candidate.id));
   const synced = row === undefined ? null : Date.parse(row.ends_at);
   if (row !== undefined && synced !== null && synced > now) {
     return { shareId: row.id, endsAt: synced, minutesLeft: Math.ceil((synced - now) / 60_000) };

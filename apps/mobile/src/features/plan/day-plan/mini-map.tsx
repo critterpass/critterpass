@@ -73,9 +73,11 @@ export interface MiniMapProps {
   readonly order: readonly string[] | null;
   readonly caption: string;
   readonly onOpen: () => void;
+  /** False while another screen covers the day plan: the camera waits. @default true */
+  readonly active?: boolean | undefined;
 }
 
-export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
+export function MiniMap({ model, day, order, caption, onOpen, active = true }: MiniMapProps) {
   const { t } = useLingui();
   const styles = useStyles();
   const theme = useTheme();
@@ -99,6 +101,7 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
     ready: size.width > 0 && bounds !== null,
     points,
     bounds,
+    active,
   });
   // Opens on the day's stops (the middle of them, not the first one): a lost first fit still
   // shows the day.

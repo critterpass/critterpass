@@ -114,6 +114,33 @@ describe('hold-fill', () => {
   });
 });
 
+describe('usePress keeps one gesture across renders', () => {
+  it('hands back the same gesture when only the handler changes, and calls the newest handler', async () => {
+    const first = jest.fn();
+    const second = jest.fn();
+    const { result, rerender } = await renderHook(
+      ({ onPress }: { onPress: () => void }) => usePress({ onPress, accessibilityLabel: 'Open' }),
+      { initialProps: { onPress: first } },
+    );
+    const gesture = result.current.gesture;
+    await rerender({ onPress: second });
+    expect(result.current.gesture).toBe(gesture);
+    result.current.onAccessibilityAction({ nativeEvent: { actionName: 'activate' } } as never);
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
+  });
+
+  it('builds a new gesture when the control is disabled', async () => {
+    const { result, rerender } = await renderHook(
+      ({ disabled }: { disabled: boolean }) => usePress({ disabled, accessibilityLabel: 'Open' }),
+      { initialProps: { disabled: false } },
+    );
+    const gesture = result.current.gesture;
+    await rerender({ disabled: true });
+    expect(result.current.gesture).not.toBe(gesture);
+  });
+});
+
 describe('every gesture hook exposes an accessibility action (docs/design-system.md §5)', () => {
   it('usePress', async () => {
     const onPress = jest.fn();

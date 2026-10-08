@@ -4,7 +4,7 @@
  * come from the guide (route `watch.copy`), templates otherwise.
  */
 import { personaIdSchema, writeWatchCopy, type Gateway } from '@cp/ai';
-import { DISRUPTION_PUSH, guideText, registerNotificationTrigger } from '@cp/domain';
+import { DISRUPTION_PUSH, forecastLink, guideText, registerNotificationTrigger } from '@cp/domain';
 
 import { registerNotification } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, str } from '../setup/facts';
@@ -77,7 +77,7 @@ export function registerWatchNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: item.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
-        deepLink: `/forecast/${str(routed, 'trip_id') ?? ''}`,
+        deepLink: forecastLink(str(routed, 'trip_id') ?? ''),
         classContext: { planChanging: routed.payload['plan_changing'] === true },
       };
     },

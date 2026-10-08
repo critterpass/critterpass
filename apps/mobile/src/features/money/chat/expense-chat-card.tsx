@@ -1,12 +1,13 @@
 /**
  * The crew chat card for an `expense` message (3g-1): "Maya paid Rp 1.08M for lunch", "Split 6
  * ways · Rp 180K each" and VIEW into the expense. It reads the synced expense the message points
- * at, so it renders offline. The card holds the trip's stream while it is on screen (the chat itself
+ * at, so it renders offline, and VIEW opens it in the message's own trip. The card holds the trip's stream while it is on screen (the chat itself
  * rides the crew's streams); until the expense arrives it keeps a placeholder in the card's slot, and an
  * expense the crew deleted (deleted expenses leave the stream, their edit history stays) says who
  * removed it instead of an empty bubble.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { perHeadMinor } from '@cp/cost-engine';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -160,7 +161,8 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
         ? t({ id: 'money.chat.paid', message: `${payer} paid ${amount}` })
         : t({ id: 'money.chat.paidFor', message: `${payer} paid ${amount} for ${what}` });
   const ways = shares.rows.filter((share) => minor(share.computed_minor) > 0n).length;
-  const each = ways > 0 ? formatShort(amountMinor / BigInt(ways), row.currency, locale) : '';
+  // The engine's per-head figure (half up), the same one the keypad shows before ADD.
+  const each = ways > 0 ? formatShort(perHeadMinor(amountMinor, ways), row.currency, locale) : '';
   // A split needs two people; one person's own expense has no split to show.
   const split =
     ways < 2
@@ -182,7 +184,8 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
       </View>
       <PressScale
         accessibilityLabel={`${view}, ${paid}`}
-        onPress={() => router.push(expenseRoute(row.id))}
+        // The message's trip goes along: the expense opens whatever trip Money is showing.
+        onPress={() => router.push(expenseRoute(row.id, trip.tripId))}
         widthClass="narrow"
         style={styles.view}
         testID={`chat-expense-view-${row.id}`}

@@ -24,6 +24,7 @@ import { useOnline } from '@/data/places/server-name-search';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
+import { useTheme } from '@/ui/theme';
 
 import {
   LOCK_SQL,
@@ -70,6 +71,7 @@ function day(locale: string, iso: string | null): string | null {
 
 export function BoostScreen() {
   const { t } = useLingui();
+  const theme = useTheme();
   const params = useLocalSearchParams<{ tripId?: string }>();
   const tripId = typeof params.tripId === 'string' ? params.tripId : '';
   const locale = useLocale();
@@ -181,7 +183,9 @@ export function BoostScreen() {
       accessibilityLabel={t({ id: 'monetize.boost.sheet', message: 'Boost this trip' })}
       testID="boost-sheet"
     >
-      <SheetScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
+      <SheetScrollView
+        contentContainerStyle={{ padding: theme.size.gutter, paddingBottom: theme.space['32'] }}
+      >
         <BoostView
           model={model}
           destination={trip?.destination ?? ''}

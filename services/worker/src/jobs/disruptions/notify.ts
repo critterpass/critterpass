@@ -4,7 +4,12 @@
  * its travellers what the guide already did; a plan-changing watch escalation and a running-late
  * detection are registered with their own features.
  */
-import { DISRUPTION_PUSH, guideText, registerNotificationTrigger } from '@cp/domain';
+import {
+  DISRUPTION_PUSH,
+  disruptionLink,
+  guideText,
+  registerNotificationTrigger,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -98,7 +103,7 @@ export function registerDisruptionNotifications(): void {
           : { id: undefined, affected_user_ids: poll.voters, label: poll.question },
     };
   };
-  const deepLink = (routed: RoutedEvent) => `/disruption/${str(routed, 'disruption_id') ?? ''}`;
+  const deepLink = (routed: RoutedEvent) => disruptionLink(str(routed, 'disruption_id') ?? '');
   registerNotification({
     key: 'disruption_update',
     event: 'disruption.needs_yes',

@@ -1,12 +1,20 @@
 /**
  * Members' faces for every place a member is drawn (chat, crew rows, the PASS face): one shared
  * live read of the synced avatars, however many avatars are on screen, and photo read links fetched
- * in one batch and kept until shortly before they lapse. `faceProps(uid)` gives the `Avatar` props
- * that draw the face; anyone without one keeps their initial.
+ * in one batch and kept until shortly before they lapse. `MemberFacesRoot` hands the faces to every
+ * `Avatar` that carries a `uid`; `faceProps(uid)` gives the same props to a screen that draws a
+ * face itself. Anyone without one keeps their initial.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- routes, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useCallback, useContext, useEffect, useSyncExternalStore, type ReactNode } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+  type ReactNode,
+} from 'react';
 
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -14,9 +22,17 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { FormSticker } from '@/features/critters';
 import { guideSticker } from '@/ui/avatar/guides';
 import type { AvatarSize } from '@/ui/people/Avatar';
+import { MemberFaceProvider, type MemberFaceResolver } from '@/ui/people/member-face';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { sizeToken, useTheme } from '@/ui/theme';
 
+import { dropPendingEdits, usePendingEdits } from '../data/pending-edits';
+import {
+  PENDING_ME,
+  wearsPending,
+  type PendingAvatar,
+  type PendingMe,
+} from '../profile/pending-me';
 import {
   faceOf,
   MEMBER_AVATARS_SQL,
@@ -173,12 +189,20 @@ export function facePropsOf(face: MemberFace, url: string | null, diameter: numb
   }
 }
 
-/** `faceOf(uid)` and `faceProps(uid, size)` over every member the phone knows. */
-export function useMemberFaces(): {
-  readonly faceOf: (uid: string) => MemberFace;
-  readonly faceProps: (uid: string, size: AvatarSize) => FaceProps;
-} {
-  const theme = useTheme();
+/** A member's avatar row; the viewer's own is the one they just picked until it syncs back. */
+function rowOf(store: Store, uid: string, pending: PendingAvatar | null): AvatarRow | undefined {
+  if (pending === null || uid !== store.viewer) return store.rows.get(uid);
+  return { user_id: uid, ...pending, moderation_status: 'pending' };
+}
+
+interface Faces {
+  readonly store: Store;
+  readonly version: number;
+  readonly pending: PendingAvatar | null;
+}
+
+/** The shared store of the signed-in session, read live; photo links are fetched as they appear. */
+function useFaceStore(): Faces {
   // Outside a signed-in session (a lab scene, a test) there are no faces: everyone keeps an initial.
   const db = useContext(LocalFirstContext)?.db ?? null;
   const store = db === null ? EMPTY_STORE : storeFor(db);
@@ -190,7 +214,16 @@ export function useMemberFaces(): {
     () => store.version,
   );
   const viewer = store.viewer;
-  const photoKeys = [...store.rows.values()]
+  const pending = usePendingEdits<PendingMe>(PENDING_ME, null).avatar ?? null;
+  const worn = viewer === null ? undefined : store.rows.get(viewer);
+  const settled = pending !== null && store.version > 0 && wearsPending(worn, pending);
+  useEffect(() => {
+    if (settled) dropPendingEdits<PendingMe>(PENDING_ME, ['avatar']);
+  }, [settled]);
+  const photoKeys = [
+    ...store.rows.values(),
+    ...(pending === null || viewer === null ? [] : [rowOf(store, viewer, pending)]),
+  ]
     .map((row) => faceOf(row, viewer))
     .flatMap((face) => (face.kind === 'photo' ? [face.mediaKey] : []));
   const keysLine = photoKeys.join('|');
@@ -199,15 +232,45 @@ export function useMemberFaces(): {
     // The keys are folded into `keysLine`.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, keysLine]);
-  const face = (uid: string) => faceOf(store.rows.get(uid), viewer);
-  void version;
+  return { store, version, pending };
+}
+
+function resolveFace(
+  store: Store,
+  uid: string,
+  diameter: number,
+  pending: PendingAvatar | null,
+): FaceProps {
+  const current = faceOf(rowOf(store, uid, pending), store.viewer);
+  const url = current.kind === 'photo' ? (store.urls.get(current.mediaKey)?.url ?? null) : null;
+  return facePropsOf(current, url, diameter);
+}
+
+/** `faceOf(uid)` and `faceProps(uid, size)` over every member the phone knows. */
+export function useMemberFaces(): {
+  readonly faceOf: (uid: string) => MemberFace;
+  readonly faceProps: (uid: string, size: AvatarSize) => FaceProps;
+} {
+  const theme = useTheme();
+  const { store, pending } = useFaceStore();
   return {
-    faceOf: face,
-    faceProps: (uid, size) => {
-      const diameter = sizeToken(theme.size.avatar, size);
-      const current = face(uid);
-      const url = current.kind === 'photo' ? (store.urls.get(current.mediaKey)?.url ?? null) : null;
-      return facePropsOf(current, url, diameter);
-    },
+    faceOf: (uid) => faceOf(rowOf(store, uid, pending), store.viewer),
+    faceProps: (uid, size) => resolveFace(store, uid, sizeToken(theme.size.avatar, size), pending),
   };
+}
+
+/**
+ * Answers "whose face is this?" for every `Avatar` and `AvatarStack` that carries a `uid`. Mounted
+ * once at the app root, inside the session; the answer is renewed only when a face or a photo link
+ * changes, so avatars redraw then and not on every render above them.
+ */
+export function MemberFacesRoot({ children }: { readonly children: ReactNode }) {
+  const { store, version, pending } = useFaceStore();
+  const resolve = useMemo<MemberFaceResolver>(
+    () => (uid, diameter) => resolveFace(store, uid, diameter, pending),
+    // The store is changed in place; its version says when.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [store, version, pending],
+  );
+  return <MemberFaceProvider resolve={resolve}>{children}</MemberFaceProvider>;
 }

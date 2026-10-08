@@ -10,7 +10,8 @@ import {
   withPlanRows,
   type TimelineEntryData,
 } from '../day-of-data';
-import { baturLeaveBy } from '../dev/bali-day';
+import { ringCounting } from '../day-of-copy';
+import { AT_0248, baturLeaveBy } from '../dev/bali-day';
 
 function stop(time: string, title: string): TimelineEntryData {
   return {
@@ -190,5 +191,17 @@ describe('the timeline as the day plan reads the day', () => {
       'Che bo',
       'Dragon Bridge',
     ]);
+  });
+});
+
+describe('when the day needs the time to the second', () => {
+  it('counts seconds only while the ring shows and the leave-by is still ahead', () => {
+    const dayBefore = new Date('2026-10-13T18:48:00Z');
+    const justGone = new Date('2026-10-14T19:10:00Z');
+    expect(ringCounting(baturLeaveBy(), AT_0248)).toBe(true);
+    expect(ringCounting(baturLeaveBy({ now: dayBefore }), dayBefore)).toBe(false);
+    expect(ringCounting(baturLeaveBy({ now: justGone, up: [] }), justGone)).toBe(false);
+    expect(ringCounting(baturLeaveBy({ now: AT_0248, state: 'departed' }), AT_0248)).toBe(false);
+    expect(ringCounting(null, AT_0248)).toBe(false);
   });
 });

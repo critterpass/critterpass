@@ -8,7 +8,19 @@
    developer-facing errors, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
-export type DemoScenario = 'everyday' | 'inbox' | 'caught_up' | 'vote' | 'vote_final';
+/** The demo world's scenarios, then the start scenarios, which build a crew of their own. */
+export const DEMO_SCENARIOS = [
+  'everyday',
+  'inbox',
+  'caught_up',
+  'vote',
+  'vote_final',
+  'trip_today',
+  'trip_tomorrow',
+  'draft_ready',
+  'crew_with_code',
+] as const;
+export type DemoScenario = (typeof DEMO_SCENARIOS)[number];
 
 export interface SeedDemoDeps {
   readonly baseUrl: string;
@@ -22,6 +34,10 @@ export interface SeedDemoDeps {
 
 export interface SeedDemoOutcome {
   readonly crewId: string;
+  /** Null for a scenario without a trip. */
+  readonly tripId: string | null;
+  /** The crew's join code, from the scenarios that answer one. */
+  readonly code: string | null;
   readonly created: boolean;
   /** False when the rows had not all arrived within the timeout. */
   readonly synced: boolean;
@@ -29,16 +45,29 @@ export interface SeedDemoOutcome {
 
 interface SeedDemoResponse {
   readonly crew_id: string;
-  readonly trip_id: string;
+  readonly trip_id?: string;
   readonly created: boolean;
   readonly inbox_item_ids: readonly string[];
   readonly poll_id?: string;
+  readonly code?: string;
+}
+
+/** The api answered, and said no: its status, error code and the reason it gave, if any. */
+export class SeedRefusedError extends Error {
+  constructor(
+    readonly status: number,
+    readonly code: string | null,
+    readonly reason: string | null,
+  ) {
+    super(`seed-demo failed: HTTP ${status} ${code ?? ''}`.trim());
+  }
 }
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function arrived(db: SeedDemoDeps['db'], seeded: SeedDemoResponse): Promise<boolean> {
-  const ids = [seeded.crew_id, seeded.trip_id, ...seeded.inbox_item_ids];
+  const ids = [seeded.crew_id, ...seeded.inbox_item_ids];
+  if (seeded.trip_id !== undefined) ids.push(seeded.trip_id);
   if (seeded.poll_id !== undefined) ids.push(seeded.poll_id);
   const marks = ids.map(() => '?').join(', ');
   const rows = await db.getAll<{ id: string }>(
@@ -63,9 +92,14 @@ export async function seedDemoData(
   });
   if (!response.ok) {
     const body = (await response.json().catch(() => null)) as {
-      error?: { code?: string };
+      error?: { code?: string; detail?: { reason?: unknown } };
     } | null;
-    throw new Error(`seed-demo failed: HTTP ${response.status} ${body?.error?.code ?? ''}`.trim());
+    const reason = body?.error?.detail?.reason;
+    throw new SeedRefusedError(
+      response.status,
+      body?.error?.code ?? null,
+      typeof reason === 'string' ? reason : null,
+    );
   }
   const seeded = (await response.json()) as SeedDemoResponse;
   const deadline = Date.now() + (deps.syncTimeoutMs ?? 90_000);
@@ -74,5 +108,11 @@ export async function seedDemoData(
     await wait(deps.pollMs ?? 500);
     synced = await arrived(deps.db, seeded);
   }
-  return { crewId: seeded.crew_id, created: seeded.created, synced };
+  return {
+    crewId: seeded.crew_id,
+    tripId: seeded.trip_id ?? null,
+    code: seeded.code ?? null,
+    created: seeded.created,
+    synced,
+  };
 }

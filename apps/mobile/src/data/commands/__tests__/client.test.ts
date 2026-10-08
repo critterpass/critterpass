@@ -14,7 +14,8 @@ import {
 } from '../../powersync/test-support/local-first-fixture';
 import { getOrCreateInstallId } from '../../push/register';
 import { loadOrCreateDeviceId } from '../device';
-import { defineClientCommand, summaryOrName } from '../summaries';
+import { summaryOrName } from '../summaries';
+import { defineTestCommand } from '../test-support/test-command';
 
 jest.mock(
   '@powersync/common',
@@ -23,7 +24,7 @@ jest.mock(
       .powersyncCommon,
 );
 
-const createCrew = defineClientCommand({
+const createCrew = defineTestCommand({
   name: 'create_test_crew',
   offline: true,
   summarize: (payload: { crew_id: string; name: string }) => ({
@@ -32,7 +33,7 @@ const createCrew = defineClientCommand({
     values: { name: payload.name },
   }),
 });
-const registeredOnly = defineClientCommand<{ crew_id: string; name: string }>({
+const registeredOnly = defineTestCommand<{ crew_id: string; name: string }>({
   name: 'create_registered_crew',
   offline: false,
 });

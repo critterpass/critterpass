@@ -4,10 +4,10 @@
  * is. At the end it offers to log the ride.
  */
 import { useLingui } from '@lingui/react/macro';
-import * as Haptics from 'expo-haptics';
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import { impact } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -53,9 +53,7 @@ export function JourneyProgress({
   useEffect(() => {
     if (done && !arrived.current) {
       arrived.current = true;
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(
-        () => undefined,
-      );
+      impact('success');
     }
   }, [done]);
   if (minutes === null) return null;

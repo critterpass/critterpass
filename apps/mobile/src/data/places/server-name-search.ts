@@ -48,20 +48,47 @@ export function serverPlace(place: RawPlace): PlaceCandidate {
   };
 }
 
-export const fetchPlacesOnline: FetchPlaces = async ({ destinationId, q }, signal) => {
-  const params = new URLSearchParams({
-    destination_id: destinationId,
-    q,
-    limit: String(SERVER_LIMIT),
+/** How long a place search may stay unanswered before it counts as failed. */
+export const SEARCH_TIMEOUT_MS = 15_000;
+
+/**
+ * Runs a request that gives up after `timeoutMs` or when `signal` aborts, whichever is first: a
+ * stalled connection ends as a failure the screen can offer to retry, never as an endless wait.
+ * (A controller and a timer: Hermes has no `AbortSignal.timeout` or `.any`.)
+ */
+export async function withSearchTimeout<T>(
+  signal: AbortSignal,
+  run: (signal: AbortSignal) => Promise<T>,
+  timeoutMs = SEARCH_TIMEOUT_MS,
+): Promise<T> {
+  const controller = new AbortController();
+  const abort = () => controller.abort();
+  if (signal.aborted) abort();
+  signal.addEventListener('abort', abort);
+  const timer = setTimeout(abort, timeoutMs);
+  try {
+    return await run(controller.signal);
+  } finally {
+    clearTimeout(timer);
+    signal.removeEventListener('abort', abort);
+  }
+}
+
+export const fetchPlacesOnline: FetchPlaces = ({ destinationId, q }, outer) =>
+  withSearchTimeout(outer, async (signal) => {
+    const params = new URLSearchParams({
+      destination_id: destinationId,
+      q,
+      limit: String(SERVER_LIMIT),
+    });
+    const response = await fetch(`${resolveApiBaseUrl()}/v1/places/search?${params.toString()}`, {
+      headers: { accept: 'application/json', ...(await sessionHeaders()) },
+      signal,
+    });
+    if (!response.ok) throw new Error(`place search answered ${String(response.status)}`);
+    const body = (await response.json()) as { results?: RawPlace[] };
+    return rankByName((body.results ?? []).map(serverPlace), q);
   });
-  const response = await fetch(`${resolveApiBaseUrl()}/v1/places/search?${params.toString()}`, {
-    headers: { accept: 'application/json', ...(await sessionHeaders()) },
-    signal,
-  });
-  if (!response.ok) throw new Error(`place search answered ${String(response.status)}`);
-  const body = (await response.json()) as { results?: RawPlace[] };
-  return rankByName((body.results ?? []).map(serverPlace), q);
-};
 
 /**
  * Places whose name or local name has a word starting with each typed word first, the rest after
@@ -149,8 +176,10 @@ export type SearchState = 'searching' | 'arriving' | 'none' | 'failed' | 'result
 
 /**
  * What a search box says under a search, from the phone's search and the server's:
- * - rows from either → `results` (with `more` while the server is still answering);
- * - both failed, or the phone failed and the server cannot be reached → `failed`;
+ * - rows from either → `results` (with `more` while the server is still answering, and
+ *   `incomplete` when the server failed, so the phone's few rows are not shown as the answer);
+ * - the server failed (or the phone failed and the server cannot be reached) with no rows →
+ *   `failed`: a place the phone does not hold was never looked for, so it is not "not found";
  * - the server answered with nothing, or offline the phone's synced places have nothing → `none`;
  * - offline while the trip's places are still landing → `arriving`;
  * - otherwise still `searching`.
@@ -163,14 +192,17 @@ export function searchState(input: {
     readonly arriving: boolean;
   };
   readonly server: ServerSearchStatus;
-}): { readonly state: SearchState; readonly more: boolean } {
+}): { readonly state: SearchState; readonly more: boolean; readonly incomplete: boolean } {
   const { rows, local, server } = input;
   const serverDown = server === 'failed' || server === 'offline';
-  if (rows > 0) return { state: 'results', more: server === 'loading' };
-  if (local.failed && serverDown) return { state: 'failed', more: false };
-  if (server === 'ready') return { state: 'none', more: false };
-  if (serverDown && local.loaded && !local.failed) {
-    return { state: local.arriving ? 'arriving' : 'none', more: false };
+  if (rows > 0) {
+    return { state: 'results', more: server === 'loading', incomplete: server === 'failed' };
   }
-  return { state: 'searching', more: false };
+  const none = { more: false, incomplete: false };
+  if (server === 'failed' || (local.failed && serverDown)) return { state: 'failed', ...none };
+  if (server === 'ready') return { state: 'none', ...none };
+  if (serverDown && local.loaded && !local.failed) {
+    return { state: local.arriving ? 'arriving' : 'none', ...none };
+  }
+  return { state: 'searching', ...none };
 }

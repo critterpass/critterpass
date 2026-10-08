@@ -87,16 +87,6 @@ msgstr ""
 msgid "places.length.minutes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.list"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.map"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/commands.ts
 msgid "places.queued.hide"
 msgstr ""
@@ -130,11 +120,15 @@ msgid "places.group.beaches"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.trip"
+msgid "places.peek.browse"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.destination"
+msgid "places.peek.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.failed.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
@@ -185,6 +179,14 @@ msgstr ""
 msgid "places.label.inPlan"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.list"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.map"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.mon"
 msgstr ""
@@ -206,6 +208,10 @@ msgid "places.sort.nearestMiddle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.sort.nearestYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.nextDoor"
 msgstr ""
 
@@ -219,6 +225,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.peek.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.mapOffline.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-empty.tsx
@@ -289,9 +299,8 @@ msgstr ""
 msgid "places.empty.showAll"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.showList"
 msgstr ""
 
@@ -331,8 +340,20 @@ msgstr ""
 msgid "places.group.temples"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.mapOffline.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.failed.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.thu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.failed.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts

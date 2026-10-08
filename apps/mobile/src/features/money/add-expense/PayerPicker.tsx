@@ -112,7 +112,13 @@ export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
             }}
             testID={`money-add-payer-${member.joinIndex}`}
           >
-            <Avatar name={member.name} joinIndex={member.joinIndex} size="lg" decorative />
+            <Avatar
+              name={member.name}
+              uid={member.userId}
+              joinIndex={member.joinIndex}
+              size="lg"
+              decorative
+            />
           </Pressable>
         ))}
       </View>

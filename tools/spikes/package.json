@@ -7,8 +7,6 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
-    "test:db": "vitest run --config vitest.db.config.ts --passWithNoTests",
     "s-db": "tsx src/s-db/run.ts",
     "s-rt": "tsx src/s-rt/run.ts",
     "s-rt:load": "tsx src/s-rt/load.ts",

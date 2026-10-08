@@ -2,10 +2,11 @@
  * The full-bleed scan stage (3i-3, 3i-4): the dark striped camera field, ✕ and the status chip
  * (AUTO-SPLIT ON, or the quality problem in pink), the receipt photo under the scan sweep, and a
  * bottom panel for whatever comes next. The platform document scanner does the live capture (its
- * own auto-capture on a flat, steady page); this stage shows the photo it took.
+ * own auto-capture on a flat, steady page); this stage shows the photo it took, scaled down when
+ * the panel is tall so the whole receipt stays between the top controls and the panel.
  */
 import { useLingui } from '@lingui/react/macro';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -32,7 +33,10 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: t.space['32'],
+    paddingBottom: t.space['12'],
   },
+  // The stage's own centring, so the receipt inside lays out as it would in the stage itself.
+  fit: { alignSelf: 'stretch', alignItems: 'center' },
   chip: {
     borderRadius: t.space['20'],
     paddingHorizontal: t.space['14'],
@@ -61,6 +65,11 @@ export function ScanCamera(props: ScanCameraProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
+  // The room the stage has for the receipt, and the height the receipt takes at full width.
+  const [room, setRoom] = useState(0);
+  const [paper, setPaper] = useState(0);
+  const stageTop = insets.top + theme.space['32'] + theme.space['16'];
+  const scale = room > 0 && paper > room ? room / paper : 1;
   const chipColour =
     props.chip?.tone === 'pink' ? theme.semantic.state.urgent : theme.semantic.state.success;
   return (
@@ -89,19 +98,27 @@ export function ScanCamera(props: ScanCameraProps) {
         )}
       </Row>
       <View
-        style={[styles.stage, { paddingTop: insets.top + theme.space['32'] + theme.space['16'] }]}
+        style={[styles.stage, { paddingTop: stageTop }]}
+        onLayout={(event) =>
+          setRoom(Math.max(0, event.nativeEvent.layout.height - stageTop - theme.space['12']))
+        }
       >
         {props.photo === null ? (
           props.empty
         ) : (
-          <ScanSweep
-            lines={props.lines}
-            sweeping={props.sweeping}
-            stutter={props.stutter ?? false}
-            testID="money-scan-photo"
+          <View
+            style={[styles.fit, { transform: [{ scale }] }]}
+            onLayout={(event) => setPaper(event.nativeEvent.layout.height)}
           >
-            <View style={styles.photo}>{props.photo}</View>
-          </ScanSweep>
+            <ScanSweep
+              lines={props.lines}
+              sweeping={props.sweeping}
+              stutter={props.stutter ?? false}
+              testID="money-scan-photo"
+            >
+              <View style={styles.photo}>{props.photo}</View>
+            </ScanSweep>
+          </View>
         )}
       </View>
       {props.panel}

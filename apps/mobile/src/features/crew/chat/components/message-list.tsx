@@ -50,6 +50,9 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
+const rowKey = (row: TimelineRow) => row.key;
+const rowType = (row: TimelineRow) => (row.kind === 'message' ? row.message.type : row.kind);
+
 export function lastSeq(messages: readonly ChatMessage[]): number {
   for (let i = messages.length - 1; i >= 0; i -= 1) {
     const seq = messages[i]?.seq;
@@ -128,24 +131,34 @@ export function MessageList({
     settle.current = setTimeout(toEnd, SETTLE_MS);
   }, []);
 
+  // The list redraws every mounted row when `renderItem` changes: it changes only with the rows'
+  // own inputs, never with the screen around the list.
+  const renderItem = useCallback(
+    ({ item }: { readonly item: TimelineRow }) => (
+      <View style={styles.row}>
+        {item.kind === 'day' ? (
+          <DaySeparator day={item.day} today={today} />
+        ) : item.kind === 'unread' ? (
+          <UnreadDivider />
+        ) : (
+          renderMessage(item)
+        )}
+      </View>
+    ),
+    [styles.row, today, renderMessage],
+  );
+  const onEndReached = useCallback(() => {
+    if (newest > 0) onSeenLatest(newest);
+  }, [newest, onSeenLatest]);
+
   return (
     <View style={styles.list} onLayout={onLayout}>
       <FlashList
         ref={list}
         data={rows}
-        keyExtractor={(row) => row.key}
-        getItemType={(row) => (row.kind === 'message' ? row.message.type : row.kind)}
-        renderItem={({ item }) => (
-          <View style={styles.row}>
-            {item.kind === 'day' ? (
-              <DaySeparator day={item.day} today={today} />
-            ) : item.kind === 'unread' ? (
-              <UnreadDivider />
-            ) : (
-              renderMessage(item)
-            )}
-          </View>
-        )}
+        keyExtractor={rowKey}
+        getItemType={rowType}
+        renderItem={renderItem}
         ListHeaderComponent={<>{header}</>}
         ListFooterComponent={<>{footer}</>}
         contentContainerStyle={styles.content}
@@ -155,9 +168,7 @@ export function MessageList({
         // A drag that ends without moving the list says again whether the member is at the end.
         onScrollEndDrag={onScroll}
         onStartReached={onLoadOlder}
-        onEndReached={() => {
-          if (newest > 0) onSeenLatest(newest);
-        }}
+        onEndReached={onEndReached}
         onScroll={onScroll}
         scrollEventThrottle={100}
         keyboardDismissMode="interactive"

@@ -33,6 +33,11 @@ export interface ComposerProps {
   /** A voice message is recording (mic shows active). */
   readonly recording?: boolean;
   /**
+   * An answer is being written (the guide): the button at the end stops it instead of sending or
+   * recording. The field stays open for the next question.
+   */
+  readonly stop?: { readonly label: string; readonly onPress: () => void };
+  /**
    * The bar sits on a raised surface (a sheet): the "+" and the field take the control colour, as
    * the raised colour they wear on a page is the sheet's own.
    */
@@ -62,6 +67,7 @@ const useStyles = makeStyles((th) => ({
     borderBottomEndRadius: th.space['8'],
   },
   stand: { width: th.space['2'], height: th.space['4'] },
+  stop: { width: th.space['14'], height: th.space['14'], borderRadius: th.space['2'] },
   field: {
     flex: 1,
     minHeight: MIN_TOUCH_TARGET + th.space['4'],
@@ -99,7 +105,10 @@ export function composerMicGestures(
   };
 }
 
-/** Chat input bar: + attach, text field, and a mic (tap, or hold to talk) that becomes send. */
+/**
+ * Chat input bar: + attach, text field, and a mic (tap, or hold to talk) that becomes send, or a
+ * stop control while `stop` is given.
+ */
 export function Composer({
   value,
   onChangeText,
@@ -110,6 +119,7 @@ export function Composer({
   onHoldStart,
   onHoldEnd,
   recording = false,
+  stop,
   onRaised = false,
   testID,
 }: ComposerProps) {
@@ -182,7 +192,17 @@ export function Composer({
           }}
         />
       </View>
-      {canSend ? (
+      {stop !== undefined ? (
+        <PressScale
+          accessibilityLabel={stop.label}
+          onPress={stop.onPress}
+          widthClass="narrow"
+          style={[styles.circle, { backgroundColor: theme.color.paper.base }]}
+          testID="composer-stop"
+        >
+          <View style={[styles.stop, { backgroundColor: theme.color.paper.ink }]} />
+        </PressScale>
+      ) : canSend ? (
         <PressScale
           accessibilityLabel={t({ id: 'common.chat.send', message: 'Send' })}
           onPress={onSend}

@@ -5,6 +5,8 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
+import { wearsPending } from '../../profile/pending-me';
+
 import { faceOf, type AvatarRow } from '../member-face';
 
 const KEY = 'u/0192f000-0000-7000-8000-0000000000a1/avatar/0192f000-0000-7000-8000-0000000000b2';
@@ -52,5 +54,28 @@ describe('faceOf', () => {
     );
     expect(faceOf(undefined, null)).toEqual({ kind: 'initials' });
     expect(faceOf(row({ kind: 'initials' }), null)).toEqual({ kind: 'initials' });
+  });
+});
+
+describe('an avatar picked on this phone', () => {
+  it('counts as synced only once the row wears the same thing', () => {
+    const critter = { kind: 'critter', form_id: 'form-a', media_key: null };
+    expect(wearsPending(undefined, critter)).toBe(false);
+    expect(wearsPending({ kind: 'critter', form_id: 'form-b', media_key: null }, critter)).toBe(
+      false,
+    );
+    expect(wearsPending({ ...critter }, critter)).toBe(true);
+    const photo = { kind: 'photo', form_id: null, media_key: 'k2' };
+    expect(wearsPending({ kind: 'photo', form_id: null, media_key: 'k1' }, photo)).toBe(false);
+    expect(wearsPending({ ...photo }, photo)).toBe(true);
+  });
+
+  it('reads no avatar row as initials', () => {
+    const initials = { kind: 'initials', form_id: null, media_key: null };
+    expect(wearsPending(undefined, initials)).toBe(true);
+    expect(wearsPending({ kind: null, form_id: null, media_key: null }, initials)).toBe(true);
+    expect(wearsPending({ kind: 'critter', form_id: 'form-a', media_key: null }, initials)).toBe(
+      false,
+    );
   });
 });

@@ -4,7 +4,7 @@ appId: app.critterpass.dev
 # 1. the number is freed, but only from an account these flows made (its crew is the marker
 #    "CP Test Sign-out"); any other holder stops the flow before anything is erased;
 # 2. a brand-new account onboards, starts the crew "CP Test Sign-out" and saves its pass with the
-#    number. Ends on the permissions primer that follows saving.
+#    number. Ends on Home: the save page goes back to where it was opened.
 # The caller erases the account again when done (guard-test-number.yaml, then start-fresh.yaml), so
 # the number is free for the next run. Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
 - runFlow: ../../happy/subflows/fresh-install.yaml
@@ -69,7 +69,8 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'save-phone'
 - runFlow: phone-sign-in.yaml
+# Saved: the phone page claps, the pass gets its SAVED tick, and the app is back on Home.
 - extendedWaitUntil:
     visible:
-      id: 'permissions-primer'
+      id: 'home-screen'
     timeout: 30000

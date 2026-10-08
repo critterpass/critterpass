@@ -27,6 +27,7 @@ import type { SettleRowModel } from './model';
 import { PaymentRow } from './PaymentRow';
 import { usePayoutKindLabel } from './payout-labels';
 import { SettledTokekReveal } from './SettledTokekReveal';
+import { MONEY_ROUTES } from '../routes';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -74,7 +75,10 @@ export function SettleList(props: SettleListProps) {
   return (
     <Scaffold variant="dark" testID="money-settle">
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.content}>
-        <BackEyebrow label={upper(t({ id: 'money.back', message: 'Money' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'money.back', message: 'Money' }), locale)}
+          fallback={MONEY_ROUTES.balances}
+        />
         <Text variant="h1" accessibilityRole="header">
           {upper(t({ id: 'money.settle.title', message: 'Settle up' }), locale)}
         </Text>
