@@ -20,7 +20,8 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { artKind } from '../art-kind';
-import { backToDex } from '../dex/dex-copy';
+import { backLabel } from '../critters-copy';
+import { PASS_TAB } from '../routes';
 import { SpotMap } from './spot-map';
 import {
   allFound,
@@ -76,7 +77,11 @@ export function WhereView(props: WhereViewProps) {
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-where">
       <ScrollView contentContainerStyle={{ paddingTop: theme.space['8'] }} style={{ flex: 1 }}>
         <View style={styles.body}>
-          <BackEyebrow label={upper(backToDex(), locale)} testID="critters-where-back" />
+          <BackEyebrow
+            label={upper(backLabel(), locale)}
+            fallback={PASS_TAB}
+            testID="critters-where-back"
+          />
           <Row gap="14" align="center">
             {props.critter === null ? null : (
               <SilhouetteSlot

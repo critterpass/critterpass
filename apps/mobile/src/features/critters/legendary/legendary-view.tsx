@@ -20,6 +20,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { unknownName } from '../critters-copy';
 import { CellArt } from '../dex/cell-art';
 import { backToDex } from '../dex/dex-copy';
+import { PASS_TAB } from '../routes';
 import {
   anyLabel,
   emptyBody,
@@ -178,7 +179,11 @@ export function LegendaryView(props: LegendaryViewProps) {
       <ScrollView contentContainerStyle={{ paddingBottom: theme.space['32'] }}>
         <View style={styles.body}>
           <Row justify="space-between" align="center">
-            <BackEyebrow label={upper(backToDex(), locale)} testID="critters-legendaries-back" />
+            <BackEyebrow
+              label={upper(backToDex(), locale)}
+              fallback={PASS_TAB}
+              testID="critters-legendaries-back"
+            />
             {props.items.length === 0 ? null : (
               <PillButton
                 label={props.allReminded ? remindersOn() : remindMe()}
