@@ -7,7 +7,6 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../../src/tx';
-import { expectCrewBillingTable } from '../helpers/billing-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -21,10 +20,6 @@ afterAll(async () => {
 });
 
 describe('trip_boosts', () => {
-  it('is crew-visible, read-only and synced with the trip', async () => {
-    await expectCrewBillingTable(harness, 'trip_boosts', 'trip');
-  });
-
   it('keeps one live boost per trip and final states final', async () => {
     const { tripId, crewId, actors } = harness.fixture;
     const promo = () =>

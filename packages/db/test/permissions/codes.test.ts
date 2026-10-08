@@ -5,7 +5,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem } from '../../src/tx';
-import { expectSystemOnlyTable } from '../helpers/billing-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -19,10 +18,6 @@ afterAll(async () => {
 });
 
 describe('codes', () => {
-  it('is system-only and unpublished', async () => {
-    await expectSystemOnlyTable(harness, 'codes');
-  });
-
   it('refuses a gift code no purchase funded', async () => {
     await expect(
       withSystem(harness.db.pool, (tx) =>

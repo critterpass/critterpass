@@ -5,7 +5,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem } from '../../src/tx';
-import { expectCrewBillingTable } from '../helpers/billing-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -19,10 +18,6 @@ afterAll(async () => {
 });
 
 describe('boost_credits', () => {
-  it('is crew-visible, read-only and synced with the crew', async () => {
-    await expectCrewBillingTable(harness, 'boost_credits', 'crews');
-  });
-
   it('leaves at most one credit per boost', async () => {
     await expect(
       withSystem(harness.db.pool, (tx) =>

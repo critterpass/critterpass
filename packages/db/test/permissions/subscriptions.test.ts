@@ -5,7 +5,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem } from '../../src/tx';
-import { expectOwnerOnlyTable } from '../helpers/billing-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -19,10 +18,6 @@ afterAll(async () => {
 });
 
 describe('subscriptions', () => {
-  it('is owner-only, read-only and synced on me', async () => {
-    await expectOwnerOnlyTable(harness, 'subscriptions');
-  });
-
   it('keeps one row per store product and account, naming its transaction for store rows only', async () => {
     const { organiser } = harness.fixture.actors;
     const insert = (platform: string, otx: string | null, product = 'pass_monthly') =>

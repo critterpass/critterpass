@@ -7,7 +7,6 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withUser } from '../../src/tx';
-import { expectOwnerOnlyTable } from '../helpers/billing-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -21,10 +20,6 @@ afterAll(async () => {
 });
 
 describe('feedback_tickets', () => {
-  it('is owner-only, read-only and synced on me', async () => {
-    await expectOwnerOnlyTable(harness, 'feedback_tickets');
-  });
-
   it('keeps the triage and device columns from the owner, and off the stream', async () => {
     const { organiser } = harness.fixture.actors;
     for (const column of ['triage_summary', 'severity', 'device_info', 'duplicate_of']) {

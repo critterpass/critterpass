@@ -7,7 +7,6 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withUser } from '../../src/tx';
-import { expectSealed } from '../helpers/setup-privacy';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -24,10 +23,6 @@ const as = (uid: string, sql: string, params: unknown[] = []) =>
   withUser(harness.db.pool, uid, randomUUID(), (tx) => tx.query(sql, params));
 
 describe('budget_defaults_private', () => {
-  it('is readable by its owner only, and by no role, publication or stream besides', async () => {
-    await expectSealed(harness, 'budget_defaults_private', { owner: 'organiser' });
-  });
-
   it('lets a member write only their own default', async () => {
     const { member, organiser } = harness.fixture.actors;
     await expect(

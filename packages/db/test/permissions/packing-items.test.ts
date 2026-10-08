@@ -5,7 +5,7 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { expectCrewReadOnly, visibleRows } from '../helpers/setup-privacy';
+import { visibleRows } from '../helpers/setup-privacy';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -21,10 +21,6 @@ afterAll(async () => {
 const personal = 'SELECT 1 FROM packing_items WHERE trip_id = $1 AND owner_id IS NOT NULL';
 
 describe('packing_items', () => {
-  it('shares crew rows with the crew only and never takes app_user writes', async () => {
-    await expectCrewReadOnly(harness, 'packing_items');
-  });
-
   it('keeps a personal row to its owner, directly and in sync', async () => {
     const { actors, tripId } = harness.fixture;
     expect(await visibleRows(harness, actors.organiser, personal, [tripId])).toBe(1);

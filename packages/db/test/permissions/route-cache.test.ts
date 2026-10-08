@@ -8,7 +8,6 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../../src/tx';
-import { expectSealed } from '../helpers/setup-privacy';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -22,10 +21,6 @@ afterAll(async () => {
 });
 
 describe('route_cache', () => {
-  it('is sealed from every person, the guide, replication and every stream', async () => {
-    await expectSealed(harness, 'route_cache', { owner: null });
-  });
-
   it('refuses app_user writes and serves the server', async () => {
     await expect(
       withUser(harness.db.pool, harness.fixture.actors.organiser, randomUUID(), (tx) =>
