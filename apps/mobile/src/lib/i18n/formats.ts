@@ -4,6 +4,7 @@
  * it, and `useFormats()` redraws a screen when it changes. Unset, a clock follows the language's
  * own habit and distances read in kilometres.
  */
+import { dateTimeFormat } from '@cp/i18n';
 import { useSyncExternalStore } from 'react';
 
 export type TimeFormat = '12h' | '24h';
@@ -51,7 +52,7 @@ export function clockOption(formats: Formats = current): { hour12?: boolean } {
 
 /** A clock time in the chosen 12/24-hour style ("14:30", "2:30 PM"), in `timeZone` when given. */
 export function clockText(locale: string, at: Date, timeZone?: string): string {
-  return new Intl.DateTimeFormat(locale, {
+  return dateTimeFormat(locale, {
     hour: '2-digit',
     minute: '2-digit',
     ...clockOption(),

@@ -1,16 +1,18 @@
 /** Date/time `Intl` wrappers (design-system.md §6 "Dates & times"). */
 
+import { dateTimeFormat, relativeTimeFormat } from './formatter-cache';
+
 export interface TimeFormatOptions {
   /** The user's `time_format` setting (data-model.md `user_settings`); `undefined` lets `Intl` pick the locale default. */
   readonly hour12?: boolean;
 }
 
 export function date(locale: string, value: Date, options?: Intl.DateTimeFormatOptions): string {
-  return new Intl.DateTimeFormat(locale, options).format(value);
+  return dateTimeFormat(locale, options).format(value);
 }
 
 export function time(locale: string, value: Date, options?: TimeFormatOptions): string {
-  return new Intl.DateTimeFormat(locale, {
+  return dateTimeFormat(locale, {
     hour: 'numeric',
     minute: '2-digit',
     hour12: options?.hour12,
@@ -24,7 +26,7 @@ export function dateInterval(
   end: Date,
   options?: Intl.DateTimeFormatOptions,
 ): string {
-  const formatter = new Intl.DateTimeFormat(locale, options);
+  const formatter = dateTimeFormat(locale, options);
   // Hermes has no `formatRange`: the same day once, days of one month as "Sep 27–30" (when the
   // parts can be read), anything else as the two dates around an en dash.
   const ranged = formatter as Intl.DateTimeFormat & {
@@ -57,5 +59,5 @@ export function relativeTime(
   unit: Intl.RelativeTimeFormatUnit,
   options?: Intl.RelativeTimeFormatOptions,
 ): string {
-  return new Intl.RelativeTimeFormat(locale, options).format(value, unit);
+  return relativeTimeFormat(locale, options).format(value, unit);
 }
