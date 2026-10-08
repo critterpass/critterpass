@@ -6,8 +6,8 @@ import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
 import { ActionPill, Tag } from '../plan/ActionPill';
 import { PressScale } from '../press/PressScale';
-import { Text } from '../text/Text';
 import { makeStyles, useTheme } from '../theme';
+import { Amount } from './Amount';
 
 export type SettleStatus = 'requested' | 'paid' | 'pending';
 
@@ -72,7 +72,7 @@ export function SettleRow({
     <Row gap="8" align="center" flex={1}>
       {from.avatar}
       <View style={styles.dash} />
-      <Text variant="h3">{amount}</Text>
+      <Amount variant="h3">{amount}</Amount>
       <View style={styles.dash} />
       {to.avatar}
     </Row>

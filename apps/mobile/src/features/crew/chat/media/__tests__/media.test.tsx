@@ -206,6 +206,18 @@ describe('in the chat', () => {
     expect(screen.getByText(/^photo$/iu)).toBeTruthy();
   });
 
+  it('shows a photo sent into an empty chat on its way up, in place of the empty state', async () => {
+    const s = await open();
+    await seedCrew(s);
+    s.network.set(false);
+    await renderWithMedia(s);
+    expect(await screen.findByText(/^say hi to the crew$/iu)).toBeTruthy();
+    await fireEvent.press(screen.getByLabelText('Add attachment'));
+    await fireEvent.press(await screen.findByText('Photo library'));
+    expect(await screen.findByText('Waiting for signal')).toBeTruthy();
+    expect(screen.queryByText(/^say hi to the crew$/iu)).toBeNull();
+  });
+
   it('points a denied camera to Settings with the library as the way on', async () => {
     const s = await open();
     await seedCrew(s);

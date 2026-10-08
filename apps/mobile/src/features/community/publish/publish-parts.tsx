@@ -8,7 +8,7 @@ import * as Clipboard from 'expo-clipboard';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { toast } from '@/motion/island-toast';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -50,7 +50,7 @@ export function Preview({ data, toggles }: { data: TripSharedPlan; toggles: Shar
         <Text variant="eyebrow">
           {t({ id: 'community.publish.preview', message: 'How other crews will see it' })}
         </Text>
-        <Text variant="displayXl">{planTitle(card).toUpperCase()}</Text>
+        <Text variant="displayXl">{planTitle(card)}</Text>
         <Text variant="body">{crewLine(card, locale)}</Text>
         <Row gap="6" wrap>
           <InfoPill>{daysLabel(projection.days_count)}</InfoPill>
@@ -129,13 +129,15 @@ export function Toggles({
 export function useLinkCopy(tripId: string) {
   const { t } = useLingui();
   const { send } = useCommand(createPlanLink);
+  const { report } = useCommandFeedback();
   return async () => {
     const result = await send({ trip_id: tripId });
-    if (result.kind !== 'applied') return;
-    await Clipboard.setStringAsync((result.result as { url: string }).url);
-    toast.show({
+    if (result.kind === 'applied') {
+      await Clipboard.setStringAsync((result.result as { url: string }).url);
+    }
+    report(result, {
       id: toastIds.link(tripId),
-      title: t({ id: 'community.publish.linkCopied', message: 'Read-only link copied.' }),
+      done: t({ id: 'community.publish.linkCopied', message: 'Read-only link copied.' }),
     });
   };
 }

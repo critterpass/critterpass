@@ -5,6 +5,7 @@
  * never saved on the phone.
  */
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { Image, Linking, ScrollView, View } from 'react-native';
 
 import { ListCard } from '@/ui/cards/ListCard';
@@ -53,7 +54,10 @@ export function PlaceLiveDetails(details: LiveDetails) {
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
-  const { rating, photos, tips, phone, website, attribution } = details;
+  const { rating, tips, phone, website, attribution } = details;
+  // A photo that fails to load leaves the strip and the full-screen view, never a grey tile.
+  const [failed, setFailed] = useState<readonly string[]>([]);
+  const photos = details.photos.filter((photo) => !failed.includes(photo.url));
   const lightbox = useLightbox(livePhotoItems(photos, attribution), 'place-live-lightbox');
   return (
     <View style={{ gap: theme.space['16'] }} testID="explore-place-live">
@@ -89,6 +93,7 @@ export function PlaceLiveDetails(details: LiveDetails) {
                 source={{ uri: photo.url }}
                 style={[styles.photo, { width: (STRIP_HEIGHT * photo.width) / photo.height }]}
                 accessibilityIgnoresInvertColors
+                onError={() => setFailed((before) => [...before, photo.url])}
               />
             </LightboxThumb>
           ))}

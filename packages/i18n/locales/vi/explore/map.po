@@ -24,6 +24,18 @@ msgid "explore.pack.downloading"
 msgstr "Đang tải {place}"
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeLine"
+msgstr "Bản đồ và tìm kiếm ở đây sẽ cần mạng cho đến khi bạn tải lại."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeConfirm"
+msgstr "Xóa"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeTitle"
+msgstr "Xóa {place} khỏi điện thoại này?"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.remove"
 msgstr "Xóa khỏi điện thoại này"
 

@@ -44,14 +44,6 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
   },
   bar: { alignItems: 'center', gap: t.space['8'] },
-  plus: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: t.semantic.bg.raised,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   field: {
     flex: 1,
     minHeight: 52,
@@ -241,17 +233,15 @@ export function LimitCard(props: LimitCardProps) {
   );
 }
 
-/** The composer while the meter is spent: "+" stays, the field counts down to the reset. */
+/** The composer while the meter is spent: the field counts down to the reset. */
 export function LimitComposer({
   guideName,
   resetAt,
   now,
-  onAttach,
 }: {
   readonly guideName: string;
   readonly resetAt: string | null;
   readonly now: Date;
-  readonly onAttach?: () => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -266,14 +256,6 @@ export function LimitComposer({
         });
   return (
     <Row style={styles.bar} testID="guide-limit-composer">
-      <PressScale
-        accessibilityLabel={t({ id: 'guide.limit.attach', message: 'Add attachment' })}
-        onPress={onAttach ?? (() => undefined)}
-        widthClass="narrow"
-        style={styles.plus}
-      >
-        <Text variant="h3">+</Text>
-      </PressScale>
       <View style={styles.field} accessible accessibilityLabel={line}>
         <Text variant="body" color={theme.semantic.text.secondary}>
           {line}

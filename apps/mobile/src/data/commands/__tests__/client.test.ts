@@ -14,7 +14,8 @@ import {
 } from '../../powersync/test-support/local-first-fixture';
 import { getOrCreateInstallId } from '../../push/register';
 import { loadOrCreateDeviceId } from '../device';
-import { defineClientCommand, summaryOrName } from '../summaries';
+import { summaryOrName } from '../summaries';
+import { defineTestCommand } from '../test-support/test-command';
 
 jest.mock(
   '@powersync/common',
@@ -23,7 +24,7 @@ jest.mock(
       .powersyncCommon,
 );
 
-const createCrew = defineClientCommand({
+const createCrew = defineTestCommand({
   name: 'create_test_crew',
   offline: true,
   summarize: (payload: { crew_id: string; name: string }) => ({
@@ -32,7 +33,7 @@ const createCrew = defineClientCommand({
     values: { name: payload.name },
   }),
 });
-const registeredOnly = defineClientCommand<{ crew_id: string; name: string }>({
+const registeredOnly = defineTestCommand<{ crew_id: string; name: string }>({
   name: 'create_registered_crew',
   offline: false,
 });
@@ -110,6 +111,23 @@ describe('command client (offline-capable)', () => {
         { optimistic: [{ table: OVERLAY_CREWS, row: { id: 'x', name: 'Bali' } }] },
       ),
     ).rejects.toThrow('online-only');
+  });
+});
+
+describe('command client (online-only) with no signal', () => {
+  it('answers unavailable and leaves nothing queued, so the screen offers a retry', async () => {
+    // The default transport points at a port nothing listens on: every request is refused.
+    stack = await openTestLocalFirst({ holdUploads: true });
+    const crewId = '0190f5a4-0000-7000-8000-0000000000c2';
+
+    const result = await stack.value.commands.send(registeredOnly, {
+      crew_id: crewId,
+      name: 'Bali',
+    });
+
+    expect(result).toEqual({ kind: 'unavailable', opId: expect.any(String), code: 'NETWORK' });
+    expect(await listQueuedCommands(stack.db)).toEqual([]);
+    expect(await stack.db.getAll('SELECT * FROM commands')).toEqual([]);
   });
 });
 

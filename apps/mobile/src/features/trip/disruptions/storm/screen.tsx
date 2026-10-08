@@ -7,15 +7,20 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { generateUuidV7 } from '@cp/domain';
-import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
+import { goBackOr } from '@/lib/navigation/back';
+import { openInTabs } from '@/lib/navigation/open-in-tabs';
+import { useCommandFeedback } from '@/motion/island-toast';
 
 import { useLiveRows, useOwnerUid } from '../../hub/data/live-rows';
 import { guideName, guideOr } from '../../hub/guide';
+import { forecastHref } from '../../hub/hub-disruptions';
+import { walletHref } from '../../hub/hub-links';
+import { TRIPS_TAB } from '../../hub/routes';
 import { castStormBallotCommand, holdStormSeatsCommand } from '../commands';
 import { stormModel, type BallotRowData, type PollRowData, type StormRowData } from './model';
 import { StormView } from './storm-view';
@@ -75,6 +80,7 @@ export function StormScreen({ pollId }: { readonly pollId: string }) {
   ]).rows[0];
   const vote = useCommand(castStormBallotCommand);
   const hold = useCommand(holdStormSeatsCommand);
+  const { report } = useCommandFeedback();
   const [sending, setSending] = useState(false);
   const model = useMemo(
     () => (row === null ? null : stormModel(row, poll, ballots, me)),
@@ -102,21 +108,26 @@ export function StormScreen({ pollId }: { readonly pollId: string }) {
       people={people}
       booker={booker}
       sending={sending}
-      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onBack={() => goBackOr(row === null ? TRIPS_TAB : forecastHref(row.trip_id))}
       onVote={(id) => {
         const option = model?.options.find((o) => o.id === id);
-        if (option === undefined) return;
+        if (option === undefined || sending) return;
         setSending(true);
         void vote
           .send({ poll_id: pollId, option_id: option.poll_option_id })
+          .then((sent) => report(sent, { offlineCapable: true, id: `storm-vote-${pollId}` }))
           .finally(() => setSending(false));
       }}
       onConfirmPay={() => {
-        if (row === null) return;
+        if (row === null || sending) return;
         setSending(true);
         void hold
           .send({ disruption_id: row.id, hold_id: generateUuidV7() })
-          .then(() => router.push('/(tabs)/wallet/bookings'))
+          .then((sent) => {
+            // Bookings opens only once the seats are really held; otherwise the screen stays.
+            if (report(sent, { id: `storm-hold-${row.id}` }) !== 'done') return;
+            openInTabs(walletHref(row.trip_id, 'bookings'));
+          })
           .finally(() => setSending(false));
       }}
     />

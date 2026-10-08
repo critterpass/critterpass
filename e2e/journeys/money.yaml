@@ -1,0 +1,117 @@
+appId: app.critterpass.dev
+---
+# Journey: crew money on a trip that is on. A new account starts as the `trip_today` scenario (six
+# people on a locked Đà Nẵng trip, settling in đồng, two expenses already split). It adds ₫450,000
+# it paid on the keypad, split by share across the crew; the expense is the latest one and its
+# detail shows the amount; Balances can be settled; Settle up lists who pays whom, the account asks
+# the first crewmate who owes it for their part and confirms it arrived, and that payment counts
+# toward everyone being settled.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow: subflows/pass-trip-welcome.yaml
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- runFlow: subflows/pass-trip-welcome.yaml
+# The crew settles in đồng whatever the account's home is.
+- extendedWaitUntil:
+    visible:
+      text: 'VND'
+      id: 'money-currency-chip'
+    timeout: 30000
+# The ADD tile has no id of its own; its label is the app's copy, not data.
+- tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'money-add-keypad-key-4'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn:
+    id: 'money-add-keypad-key-000'
+- assertVisible:
+    id: 'money-add-amount'
+# The split control's middle segment: BY SHARE, everyone at one share.
+- tapOn:
+    id: 'money-add-split'
+- extendedWaitUntil:
+    visible:
+      id: 'money-split-shares'
+    timeout: 10000
+- tapOn:
+    id: 'money-add-submit'
+# Back on Money the new expense is the latest; its detail shows what was typed.
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'money-latest-row'
+- extendedWaitUntil:
+    visible:
+      id: 'money-detail-amount'
+    timeout: 20000
+- copyTextFrom:
+    id: 'money-detail-amount'
+- assertTrue: ${maestro.copiedText.replace(/[^0-9]/g, '').indexOf('450') === 0}
+- runFlow: ../onboarding/subflows/back.yaml
+# The api took it: the crew owes the account, and there is something to settle.
+- extendedWaitUntil:
+    visible:
+      id: 'money-settle'
+      enabled: true
+    timeout: 30000
+- tapOn:
+    id: 'money-settle'
+# A planned transfer (no payment yet) is keyed `plan:<from>:<to>`; the account's own come first.
+- extendedWaitUntil:
+    visible:
+      id: 'money-settle-row-plan:.*'
+    timeout: 15000
+- tapOn:
+    id: 'money-settle-row-plan:.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'money-pay-request'
+    timeout: 15000
+- tapOn:
+    id: 'money-pay-request'
+# The request goes out and comes back as a payment row, keyed by the payment's id; open it and
+# confirm the money arrived (the payee may confirm before the payer marks it paid).
+- extendedWaitUntil:
+    visible:
+      id: 'money-settle-row-[0-9a-f][0-9a-f-]+'
+    timeout: 30000
+- tapOn:
+    id: 'money-settle-row-[0-9a-f][0-9a-f-]+'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'money-pay-confirm'
+    timeout: 20000
+- tapOn:
+    id: 'money-pay-confirm'
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-pay-confirm'
+    timeout: 20000
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-settled-progress'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'money-settled-progress'
+    timeout: 20000

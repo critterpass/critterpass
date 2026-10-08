@@ -12,6 +12,7 @@ import { LocalFirstContext, useLocalFirst } from '@/data/powersync/local-first-c
 import { makeStyles } from '@/ui';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
+import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import {
   EMPTY_PROFILE,
@@ -30,7 +31,11 @@ const useStyles = makeStyles((t) => ({
 /** The sheet once the session's local database is open (a cold start can restore it earlier). */
 export function DietaryScreen(props: { readonly services: DietaryServices }) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <OpenDietaryScreen {...props} />;
+  return localFirst === null ? (
+    <SessionWaiting testID="guide-dietary-waiting" />
+  ) : (
+    <OpenDietaryScreen {...props} />
+  );
 }
 
 function OpenDietaryScreen({ services }: { readonly services: DietaryServices }) {

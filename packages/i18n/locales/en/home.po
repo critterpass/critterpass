@@ -129,6 +129,10 @@ msgstr "{place} recap"
 msgid "home.countdown.spoken"
 msgstr "{spoken} to {place}"
 
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.markedRead"
+msgstr "Marked read. The {stillNeedYou} on top still need you."
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.payment"
 msgstr "A settle-up is waiting for you."
@@ -237,6 +241,10 @@ msgstr "Guides"
 msgid "home.explore.body"
 msgstr "Guides, saved places and offline maps"
 
+#: ../../apps/mobile/src/features/home/home-header.tsx
+msgid "home.header.greetingAnon"
+msgstr "Hey"
+
 #: ../../apps/mobile/src/features/home/post-trip-card.tsx
 msgid "home.postTrip.eyebrow"
 msgstr "How'd it go?"
@@ -245,6 +253,10 @@ msgstr "How'd it go?"
 msgid "home.inbox.title"
 msgstr "Inbox"
 
+#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
+msgid "home.invite.action"
+msgstr "Invite friends"
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.body"
 msgstr "It goes in when the crew says yes."
@@ -252,6 +264,14 @@ msgstr "It goes in when the crew says yes."
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refusedBody"
 msgstr "It's back on your list."
+
+#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
+msgid "home.invite.line"
+msgstr "It’s only you in {crewName} so far. Bring your friends in."
+
+#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
+msgid "home.invite.lineNoName"
+msgstr "It’s only you in the crew so far. Bring your friends in."
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.cta"
@@ -293,10 +313,6 @@ msgstr "Mark all read"
 msgid "home.inbox.markedReadAll"
 msgstr "Marked read."
 
-#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
-msgid "home.inbox.markedRead"
-msgstr "Marked read. The {stillNeedYou} on top still need you."
-
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.voteLine"
 msgstr "Medium · tap to vote"
@@ -304,6 +320,10 @@ msgstr "Medium · tap to vote"
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.needsYou"
 msgstr "Needs you · {needsYou}"
+
+#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
+msgid "home.inbox.unreadSpoken"
+msgstr "New: {line}"
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
@@ -366,6 +386,10 @@ msgstr "Nothing needs you yet. Back to sleep."
 msgid "home.noTrip.line"
 msgstr "Nothing on the calendar yet. Pitch a place and I'll get the vote going."
 
+#: ../../apps/mobile/src/features/home/inbox/action-card.tsx
+msgid "home.inbox.action.nudge"
+msgstr "Nudge"
+
 #: ../../apps/mobile/src/features/home/today-strip.tsx
 msgid "home.today.open"
 msgstr "Open today"
@@ -377,6 +401,10 @@ msgstr "Pass+"
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr "Pitch a place"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.placesLoading"
+msgstr "Places are still loading. Try again in a moment."
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.planSpoken"
@@ -660,6 +688,10 @@ msgstr "Your crew is saving you a spot on CritterPass."
 #: ../../apps/mobile/src/features/home/nudge/use-nudge.ts
 msgid "home.nudge.relayLink"
 msgstr "Your crew is saving you a spot on CritterPass. {url}"
+
+#: ../../apps/mobile/src/features/home/home-header.tsx
+msgid "home.header.yourCrews"
+msgstr "Your crews"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.untitled"

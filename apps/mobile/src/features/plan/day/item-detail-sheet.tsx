@@ -4,7 +4,7 @@
  * another day, remove, skip it just for me, and open in maps. A new time and a new day are both
  * held until SAVE (or SUGGEST for a member, whose change goes to the crew), which stays at the
  * sheet's foot with one line saying what else the change moves, or what it runs into; a booked or
- * must-do item asks first.
+ * must-do item asks first. A read-only plan shows the stop without any of the edits.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
@@ -24,6 +24,7 @@ import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
+import { clock } from './format';
 import { ItemConfirm } from './item-confirm';
 import { ItemFacts, Section } from './item-facts';
 import { SheetFoot } from './sheet-foot';
@@ -73,6 +74,7 @@ export function ItemDetailSheet({
   dayNos,
   members,
   canApply,
+  readOnly = false,
   comments,
   lead,
   actions,
@@ -87,6 +89,8 @@ export function ItemDetailSheet({
   readonly dayNos: readonly number[];
   readonly members: readonly PlanMember[];
   readonly canApply: boolean;
+  /** The plan can't be edited: the time is plain text and no move, remove, skip or save is drawn. */
+  readonly readOnly?: boolean;
   readonly comments?: ReactNode;
   /** What leads the sheet on the day itself (the stop's on-the-day actions). */
   readonly lead?: ReactNode;
@@ -198,27 +202,35 @@ export function ItemDetailSheet({
             ) : null}
             {start !== null && end !== null ? (
               <Section label={t({ id: 'plan.day.item.when', message: 'When' })}>
-                <TimeRangeField
-                  start={start}
-                  end={end}
-                  onChange={(s, e) => setTimes({ start: s, end: e })}
-                />
+                {readOnly ? (
+                  <Text variant="body" testID="plan-item-time">
+                    {`${clock(locale, start)}–${clock(locale, end)}`}
+                  </Text>
+                ) : (
+                  <TimeRangeField
+                    start={start}
+                    end={end}
+                    onChange={(s, e) => setTimes({ start: s, end: e })}
+                  />
+                )}
               </Section>
             ) : null}
             <ItemFacts item={item} members={members} priceLevel={priceLevel} />
-            <Section label={t({ id: 'plan.day.item.moveTo', message: 'Move to' })}>
-              <Row gap="6" wrap>
-                {dayNos.map((option) => (
-                  <ActionPill
-                    key={option}
-                    label={dayLabels?.get(option) ?? dayChip(option)}
-                    selected={option === dayNo}
-                    onPress={() => setToDay(option === item.dayNo ? null : option)}
-                    testID={`plan-item-move-${option}`}
-                  />
-                ))}
-              </Row>
-            </Section>
+            {readOnly ? null : (
+              <Section label={t({ id: 'plan.day.item.moveTo', message: 'Move to' })}>
+                <Row gap="6" wrap>
+                  {dayNos.map((option) => (
+                    <ActionPill
+                      key={option}
+                      label={dayLabels?.get(option) ?? dayChip(option)}
+                      selected={option === dayNo}
+                      onPress={() => setToDay(option === item.dayNo ? null : option)}
+                      testID={`plan-item-move-${option}`}
+                    />
+                  ))}
+                </Row>
+              </Section>
+            )}
             {comments}
             <Row gap="16" wrap>
               {item.place !== null ? (
@@ -227,7 +239,7 @@ export function ItemDetailSheet({
                   onPress={actions.onOpenMaps}
                 />
               ) : null}
-              {actions.onSkipForMe === null ? null : (
+              {readOnly || actions.onSkipForMe === null ? null : (
                 <TextLink
                   label={
                     members.length <= 1
@@ -239,24 +251,28 @@ export function ItemDetailSheet({
                 />
               )}
             </Row>
-            <PillButton
-              variant="destructive"
-              label={t({ id: 'plan.day.item.remove', message: 'Remove from the day' })}
-              onPress={() => setConfirming({ kind: 'remove' })}
-              testID="plan-item-remove"
-            />
+            {readOnly ? null : (
+              <PillButton
+                variant="destructive"
+                label={t({ id: 'plan.day.item.remove', message: 'Remove from the day' })}
+                onPress={() => setConfirming({ kind: 'remove' })}
+                testID="plan-item-remove"
+              />
+            )}
           </SheetScrollView>
-          <SheetFoot
-            effect={effect}
-            saveLabel={saveLabel}
-            canSave={changed && !effect.blocked}
-            onUseStart={(from) =>
-              start === null || end === null
-                ? undefined
-                : setTimes({ start: from, end: from + (end - start) })
-            }
-            onSave={() => run({ kind: 'save' }, false)}
-          />
+          {readOnly ? null : (
+            <SheetFoot
+              effect={effect}
+              saveLabel={saveLabel}
+              canSave={changed && !effect.blocked}
+              onUseStart={(from) =>
+                start === null || end === null
+                  ? undefined
+                  : setTimes({ start: from, end: from + (end - start) })
+              }
+              onSave={() => run({ kind: 'save' }, false)}
+            />
+          )}
         </View>
       ) : (
         <View style={styles.body}>

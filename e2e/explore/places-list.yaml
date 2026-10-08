@@ -103,9 +103,10 @@ appId: app.critterpass.dev
     id: 'chip-saved'
 - tapOn:
     id: 'places-to-map'
+# Nothing is saved by now, so the map stays up and its peek says so.
 - extendedWaitUntil:
     visible:
-      id: 'places-peek'
+      id: 'places-peek(-empty)?'
     timeout: 20000
 - assertVisible:
     id: 'chip-saved'

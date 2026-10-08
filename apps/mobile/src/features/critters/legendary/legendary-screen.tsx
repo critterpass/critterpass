@@ -4,11 +4,14 @@
  * shows at once, offline too), the next trip's months, and a crew co-presence legendary's count.
  */
 /* eslint-disable @typescript-eslint/no-require-imports -- the notifications module loads lazily, so importing this never forces it under Jest. */
+import { upper } from '@cp/i18n';
 import type * as NotificationsModule from 'expo-notifications';
 import { useEffect, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
 
 import { useCopresence } from '../copresence/use-copresence';
 import { setLegendaryReminderCommand } from '../data/commands';
@@ -24,7 +27,9 @@ import {
   type TripRow,
   type WindowRow,
 } from '../data/queries';
+import { backToDex } from '../dex/dex-copy';
 import { deviceTimeZone } from '../hatch/hatch-model';
+import { PASS_TAB } from '../routes';
 import { remindersSet } from './legendary-copy';
 import {
   buildLegendaries,
@@ -55,6 +60,7 @@ function useNotificationsOff(): boolean {
 
 export function LegendaryScreen({ now = () => new Date() }: { readonly now?: () => Date }) {
   const uid = useOwnerUid();
+  const locale = useLocale();
   const mine = uid === null ? null : [uid];
   const windows = useLiveRows<WindowRow>(WINDOWS_SQL, [], WINDOWS_TABLES);
   const art = useLiveRows<WindowArtRow>(WINDOW_ART_SQL, [], WINDOW_ART_TABLES).rows;
@@ -66,7 +72,15 @@ export function LegendaryScreen({ now = () => new Date() }: { readonly now?: () 
   const notificationsOff = useNotificationsOff();
   const trip = trips.find((t) => t.status === 'in_trip') ?? trips[0] ?? null;
   const copresence = useCopresence(trip?.status === 'in_trip' ? trip.id : null);
-  if (!windows.loaded) return null;
+  if (!windows.loaded) {
+    return (
+      <ScreenLoading
+        backLabel={upper(backToDex(), locale)}
+        fallback={PASS_TAB}
+        testID="critters-legendaries-loading"
+      />
+    );
+  }
 
   const reminders = new Set(synced.map((r) => r.target_id));
   for (const [id, on] of overrides) {

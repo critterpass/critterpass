@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"trip.missing.back\":[\" Ţŕĩƥś \"],\"trip.missing.line\":[\"          Ĩţ ḿàŷ ĥàvē ƀēēń ďēĺēţēď, ōŕ ŷōũ àŕē ńō ĺōńĝēŕ ōń ĩţ.          \"],\"trip.missing.title\":[\"    Ţĥĩś ţŕĩƥ ĩśń’ţ ĥēŕē    \"]}")as Messages;

@@ -15,8 +15,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
+import { PressScale } from '@/ui/press/PressScale';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { useTabBarInset } from '@/ui/shell/TabBar';
+import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -57,6 +59,10 @@ export interface HubViewProps {
   readonly crewSize?: number | undefined;
   /** What comes next in this phase, one compact row each. */
   readonly entries: readonly HubNext[];
+  /** The trip's open disruptions, one row each, above everything else under the header. */
+  readonly disruptions?: readonly HubNext[];
+  /** No signal on a day that is not a trip day: the hub stays, and the pill opens the offline page. */
+  readonly offlinePill?: { readonly onPress: () => void } | null;
   readonly briefing: BriefingState;
   readonly onAct: (line: BriefingLine) => void;
   readonly tiles: readonly { key: string; node: ReactNode }[];
@@ -158,8 +164,27 @@ export function HubView(props: HubViewProps) {
               />
             </Row>
           )}
+          {props.offlinePill == null ? null : (
+            <PressScale
+              accessibilityRole="button"
+              accessibilityLabel={t({
+                id: 'trip.hub.offlineOpen',
+                message: 'No signal. See what is saved and what is waiting to send',
+              })}
+              onPress={props.offlinePill.onPress}
+              widthClass="narrow"
+              // Drawn at the pill's own height; the press target grows to the minimum around it.
+              style={{ alignSelf: 'flex-start', minHeight: theme.space['32'] }}
+              testID="trip-hub-offline-pill"
+            >
+              <OfflinePill />
+            </PressScale>
+          )}
           {props.offlineCard}
           {props.offlineConflicts}
+          {props.disruptions?.map((row) => (
+            <NextRow key={row.testID} next={row} />
+          ))}
           {props.offlineCard !== undefined
             ? null
             : props.entries.map((entry) => <NextRow key={entry.testID} next={entry} />)}

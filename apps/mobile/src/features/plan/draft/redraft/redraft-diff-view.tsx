@@ -7,8 +7,7 @@
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 
-import { guideColour, guideSticker } from '@/ui/avatar/guides';
-import { TypingDots } from '@/ui/chat/TypingDots';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
@@ -24,6 +23,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import type { ChangeCard as ChangeCardModel, MetricChip } from '../data/redraft';
 import { ChangeCard } from './change-card';
 import { MetricChips } from './metric-chips';
+import { RedraftThinking, type RedraftWait } from './redraft-thinking';
 import type { LeftOut } from '../data/left-out';
 import { LeftOutRows } from '../review/coverage-strip';
 
@@ -68,6 +68,8 @@ export interface RedraftDiffViewProps {
   readonly locale: string;
   readonly tz: string;
   readonly phase: DiffPhase;
+  /** While thinking: slow or offline adds a line saying so. @default 'working' */
+  readonly wait?: RedraftWait | undefined;
   readonly dayNo: number | null;
   /** The guide's own summary (written in English: passed only to a reader of English). */
   readonly summary: string | null;
@@ -85,24 +87,6 @@ export interface RedraftDiffViewProps {
   /** Essential places the redraft takes out of the trip. */
   readonly takenOut?: readonly LeftOut[] | undefined;
   readonly onBoost: (() => void) | undefined;
-}
-
-function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: number | null }) {
-  const styles = useStyles();
-  const info = guideSticker(guide);
-  const guideName = info.name;
-  const n = dayNo ?? 0;
-  return (
-    <View style={styles.centre} testID="redraft-thinking">
-      <Sticker kind={info.kind} name={info.name} pose="think" size={THINKING} />
-      <Text variant="h2" style={styles.centred} accessibilityLiveRegion="polite">
-        {dayNo === null
-          ? t({ id: 'planDraft.diff.thinkingAny', message: `${guideName} is redrafting` })
-          : t({ id: 'planDraft.diff.thinking', message: `${guideName} is redrafting day ${n}` })}
-      </Text>
-      <TypingDots color={guideColour(guide)} />
-    </View>
-  );
 }
 
 function Outcome({
@@ -160,7 +144,8 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
     </View>
   );
   let body;
-  if (phase === 'thinking') body = <Thinking guide={guide} dayNo={dayNo} />;
+  if (phase === 'thinking')
+    body = <RedraftThinking guide={guide} dayNo={dayNo} wait={props.wait ?? 'working'} />;
   else if (phase === 'identical') {
     body = (
       <Outcome

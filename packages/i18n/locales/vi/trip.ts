@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"trip.missing.back\":[\"Chuyến đi\"],\"trip.missing.line\":[\"Có thể chuyến đã bị xóa, hoặc bạn không còn trong chuyến.\"],\"trip.missing.title\":[\"Chuyến đi này không có ở đây\"]}")as Messages;

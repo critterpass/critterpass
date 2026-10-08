@@ -348,6 +348,10 @@ msgstr "Are you in?"
 msgid "proposal.objection.asked"
 msgstr "Asked without your name"
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.loadingBack"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.done"
 msgstr "Back to the proposal"
@@ -412,12 +416,8 @@ msgstr "Change the booking on {supplier}; we never change it for you"
 msgid "proposal.turn.answered.change"
 msgstr "Change your answer"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.failedSub"
-msgstr "Check your connection and try again."
-
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failedSub"
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.failed.connection"
 msgstr "Check your connection and try again."
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -435,6 +435,10 @@ msgstr "Couldn’t lock it in"
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.failed"
 msgstr "Couldn’t lock it in"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.send.failed"
+msgstr "Couldn’t send the proposal"
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.crew"
@@ -662,6 +666,10 @@ msgstr "It is one of the crew’s must-dos."
 msgid "proposal.why.taste"
 msgstr "It matches what you picked in your this-or-thats, so {guideName} put it in."
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.missing.line"
+msgstr "It may have been replaced by a newer one, or this phone hasn’t got it yet."
+
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
 msgid "proposal.alone.inviteBody"
 msgstr "It’s just you on {destination} for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined."
@@ -719,6 +727,10 @@ msgstr "Lock the crew in?"
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.titleAlone"
 msgstr "Lock the plan in?"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.locked"
+msgstr "Locked in"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.lockedIn"
@@ -952,6 +964,10 @@ msgstr "Said maybe"
 msgid "proposal.share.saved"
 msgstr "Saved"
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.applyingOffline"
+msgstr "Saved. It applies when you’re back online."
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothingOther"
 msgstr "Say it in the crew chat, or to {organiser}. You can still take your time."
@@ -1082,6 +1098,10 @@ msgstr "Tell {organiser} which part. Open the plan and leave a note on the stop,
 msgid "proposal.out.title"
 msgstr "Tell the crew you can’t make it?"
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.failed.refused"
+msgstr "That didn’t go through. Try again in a moment."
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.cost"
 msgstr "The cost"
@@ -1162,6 +1182,10 @@ msgstr "They’ll still get the photos and the recap"
 msgid "proposal.build.alreadySent"
 msgstr "This proposal is already out."
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.missing.title"
+msgstr "This proposal isn’t here"
+
 #. placeholder {0}: ticket.from
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.notAFlightFrom"
@@ -1182,10 +1206,6 @@ msgstr "Trip proposal"
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.board.refusedSub"
-msgstr "Try again in a moment."
-
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.failedSub"
 msgstr "Try again in a moment."
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx

@@ -11,9 +11,11 @@ import { VOICE_SCENES } from '../../voice/dev/lab-scenes-voice';
 import { CHAT_SCENES } from './lab-scenes-chat';
 import { CHAVA_SCENES } from './lab-scenes-chava';
 import { CITY_GUIDE_SCENES } from './lab-scenes-city-guide';
+import { THREAD_SCENES } from './lab-scenes-thread';
 
 export const GUIDE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...CHAT_SCENES,
+  ...THREAD_SCENES,
   ...METER_SCENES,
   ...CREW_SCENES,
   ...PHRASE_SCENES,

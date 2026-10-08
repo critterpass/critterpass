@@ -244,6 +244,14 @@ msgstr ""
 msgid "recap.mvp.votes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.winner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.yours"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.reactChip"
 msgstr ""
@@ -316,10 +324,6 @@ msgstr ""
 msgid "recap.receipt.cheapest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
-msgid "recap.memory.close"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.failed"
 msgstr ""
@@ -338,6 +342,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
 msgid "recap.signature.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
@@ -425,6 +433,8 @@ msgid "recap.award.goodCompany"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/route-missing.tsx
 msgid "recap.link.back"
 msgstr ""
 
@@ -442,6 +452,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
@@ -468,6 +482,14 @@ msgstr ""
 msgid "recap.story.theme.pon"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.loading"
 msgstr ""
@@ -486,10 +508,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.receipt.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.winner"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
@@ -549,6 +567,10 @@ msgstr ""
 msgid "recap.memory.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.notReady.action"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.other"
 msgstr ""
@@ -599,6 +621,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.reactTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
@@ -789,6 +815,10 @@ msgstr ""
 msgid "recap.summary.failed.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.notReady.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.receipt"
 msgstr ""
@@ -805,6 +835,10 @@ msgstr ""
 msgid "recap.story.label.stamp"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.notReady.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.transfer"
 msgstr ""
@@ -819,6 +853,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.missing.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
@@ -927,8 +965,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.yourTrip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.yours"
 msgstr ""

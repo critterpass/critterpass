@@ -35,10 +35,6 @@ msgstr "{n, plural, other {Đã đọc # hồ sơ sở thích}}"
 msgid "planDraft.dayCard.stops"
 msgstr "{stops, plural, other {Ngày {n} · # điểm dừng}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.back"
-msgstr "Về phần chuẩn bị"
-
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.step.balance"
 msgstr "Cân {early} người dậy sớm và {late} cú đêm"

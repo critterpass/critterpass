@@ -2,12 +2,13 @@
  * The trip hub's phase and header (3k-1), from the trip and the viewer's own flight: planning
  * (a vote CTA, no countdown), before the trip ("Wheels up in" to the viewer's first departure, or
  * the trip's first day at 00:00 in its zone), a travel day ("Land in" to the flight's arrival),
- * in the trip ("Day 4 of 8" and what's next), and after it ("Home since Oct 19").
+ * in the trip ("Day 4 of 8" and what's next), and after it ("Home since Oct 19"). A called-off trip
+ * is none of these: its header says so and counts nothing.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- trip statuses and wire values, never copy. */
 import { localSchedule, toLocalWallTime } from '@cp/domain';
 
-export type HubPhase = 'planning' | 'pre' | 'travel' | 'in' | 'post';
+export type HubPhase = 'planning' | 'pre' | 'travel' | 'in' | 'post' | 'cancelled';
 
 const PLANNING = new Set([
   'voting',
@@ -43,7 +44,8 @@ export type HubHeader =
   | { readonly phase: 'pre'; readonly target: Date; readonly byAir: boolean }
   | { readonly phase: 'travel'; readonly target: Date; readonly flight: HubFlight }
   | { readonly phase: 'in'; readonly day: number; readonly days: number }
-  | { readonly phase: 'post'; readonly homeSince: string };
+  | { readonly phase: 'post'; readonly homeSince: string }
+  | { readonly phase: 'cancelled' };
 
 function dayIndex(date: string): number {
   return Math.round(Date.parse(`${date}T00:00:00Z`) / 86_400_000);
@@ -60,6 +62,7 @@ export function hubHeader(
   flights: readonly HubFlight[],
   now: Date,
 ): HubHeader {
+  if (input.status === 'cancelled') return { phase: 'cancelled' };
   if (PLANNING.has(input.status) || input.startDate === null) return { phase: 'planning' };
   const today = toLocalWallTime(now, input.tz).date;
   const end = input.endDate ?? input.startDate;
@@ -93,6 +96,22 @@ export function hubHeader(
   }
   const target = input.countdownTargetAt === null ? start : new Date(input.countdownTargetAt);
   return { phase: 'pre', target: target ?? now, byAir: flights.length > 0 };
+}
+
+const DAY_MS = 24 * 3_600_000;
+
+/**
+ * Whether no signal turns the hub into the trip-day offline card: on a travel day, during the trip
+ * and on its eve. Any other time the hub stays as it is and only says there is no signal.
+ */
+export function offlineCardPhase(header: HubHeader, now: Date): boolean {
+  if (header.phase === 'travel' || header.phase === 'in') return true;
+  return header.phase === 'pre' && header.target.getTime() - now.getTime() < DAY_MS;
+}
+
+/** The crew swipes places while the plan is still open: once the place is picked, until they leave. */
+export function offersSwipe(header: HubHeader, status: string): boolean {
+  return header.phase === 'pre' || (header.phase === 'planning' && status !== 'voting');
 }
 
 /** "17D 05:26:29" (days, then hours:minutes:seconds), tabular. */

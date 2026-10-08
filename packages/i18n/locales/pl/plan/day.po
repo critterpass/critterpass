@@ -131,6 +131,10 @@ msgstr ""
 msgid "plan.day.item.cost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.unavailableToast"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.item.dayChip"
@@ -233,6 +237,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.notes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.unavailableLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts

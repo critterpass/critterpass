@@ -7,6 +7,7 @@
  */
 import { tokens } from '@cp/design-tokens';
 import type { MediaAsset } from '@cp/domain';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
@@ -169,12 +170,17 @@ export function ShowdownHalf({
   useEffect(() => {
     if (rest > 0) onRest(rest);
   }, [rest, onRest]);
+  const votes = option.votes;
+  const votesLabel = t({
+    id: 'vote.showdown.count',
+    message: plural(votes, { one: '# vote', other: '# votes' }),
+  });
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={[
         name,
-        t({ id: 'vote.showdown.votes', message: `${option.votes} votes` }),
+        votesLabel,
         option.mine ? t({ id: 'vote.showdown.yours', message: 'your vote' }) : null,
       ]
         .filter((part) => part !== null)
@@ -269,10 +275,7 @@ export function ShowdownHalf({
                 />
               ) : null}
               <Text variant="title" color={ink}>
-                {upper(
-                  t({ id: 'vote.showdown.count', message: `${option.votes} votes` }),
-                  i18n.locale,
-                )}
+                {upper(votesLabel, i18n.locale)}
               </Text>
             </Row>
           )}

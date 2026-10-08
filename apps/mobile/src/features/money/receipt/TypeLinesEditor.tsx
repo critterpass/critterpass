@@ -24,6 +24,7 @@ import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 import { formatAmount } from '../format';
 import { unitsToMinor } from '../add-expense/draft';
 import type { TypedLine } from './type-lines-model';
+import { MONEY_ROUTES } from '../routes';
 
 const useStyles = makeStyles((t) => ({
   top: { paddingHorizontal: t.size.gutter, gap: t.space['12'], paddingTop: t.space['8'] },
@@ -80,7 +81,10 @@ export function TypeLinesEditor(props: TypeLinesEditorProps) {
         contentContainerStyle={styles.top}
         keyboardShouldPersistTaps="handled"
       >
-        <BackEyebrow label={upper(t({ id: 'money.typeLines.back', message: 'Receipt' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'money.typeLines.back', message: 'Receipt' }), locale)}
+          fallback={MONEY_ROUTES.balances}
+        />
         <Text variant="h1" accessibilityRole="header">
           {upper(t({ id: 'money.typeLines.title', message: 'Type the lines' }), locale)}
         </Text>

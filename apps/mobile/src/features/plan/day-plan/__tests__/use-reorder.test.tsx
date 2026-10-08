@@ -28,7 +28,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { useReorder } from '../use-reorder';
+import { dropResult, useReorder, type DropOutcome } from '../use-reorder';
 
 const CREW = '0192f000-0000-7000-8000-00000000c1e0';
 const TRIP = '0192f000-0000-7000-8000-0000000000f1';
@@ -172,6 +172,7 @@ describe('day plan reorder', () => {
       kind: 'sent',
       outcome: { kind: 'applied', opId: expect.any(String) },
     });
+    expect(dropResult(dropped as DropOutcome)).toBe('moved');
     const [sent] = await queued<ApplyPlanOpsPayload>(s, 'apply_plan_ops');
     const times = new Map(
       (sent?.ops ?? []).flatMap((op) =>
@@ -203,6 +204,9 @@ describe('day plan reorder', () => {
       dropped = await result.current.reorder.drop();
     });
     expect(dropped).toMatchObject({ kind: 'sent', outcome: { kind: 'proposed' } });
+    // The plan is as it was: the lifted stop goes back to its place, never left where it was let go.
+    expect(dropResult(dropped as DropOutcome)).toBe('sent');
+    expect(result.current.stops.map((stop) => stop.stableId)).toEqual([WALK, LUNCH, SPA]);
     expect(await queued(s, 'apply_plan_ops')).toHaveLength(0);
     const [set] = await queued<CreateChangesetPayload>(s, 'create_changeset');
     expect(set?.ops.map((op) => [op.op, op.target])).toEqual(
@@ -236,6 +240,7 @@ describe('day plan reorder', () => {
       kind: 'refused',
       refusal: { kind: 'runs_into', stop: { stableId: SPA } },
     });
+    expect(dropResult(dropped as DropOutcome)).toBe('back');
     expect(await queued(s, 'apply_plan_ops')).toHaveLength(0);
   });
 

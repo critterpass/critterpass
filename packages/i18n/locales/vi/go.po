@@ -52,6 +52,10 @@ msgstr "Quay lại"
 msgid "go.preview.noFix"
 msgstr "Chưa tìm thấy vị trí của bạn. Có vị trí là đường đi hiện ngay."
 
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.startFailed"
+msgstr "Không mở được ứng dụng bản đồ trên máy này."
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.mapsApp"
 msgstr "Chỉ đường bằng"
