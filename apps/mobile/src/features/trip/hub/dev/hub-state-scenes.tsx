@@ -49,7 +49,7 @@ export const HUB_STATE_SCENES: Readonly<Record<string, () => ReactNode>> = {
       briefing={{ kind: 'hidden' }}
       overrides={{
         ...DA_NANG,
-        entries: [{ ...chatEntry('c1'), onPress: noop }],
+        entries: [{ ...chatEntry('crew'), onPress: noop }],
         tiles: calledOffTiles(),
         explore: null,
         swipe: null,
@@ -69,7 +69,7 @@ export const HUB_STATE_SCENES: Readonly<Record<string, () => ReactNode>> = {
             title: 'VN 1541 delayed 2 h 10',
             detail: null,
             tone: 'pink',
-            testID: 'trip-hub-disruption-d1',
+            testID: 'trip-hub-disruption-flight',
             onPress: noop,
           },
           {
@@ -78,7 +78,7 @@ export const HUB_STATE_SCENES: Readonly<Record<string, () => ReactNode>> = {
             title: 'Rough seas Friday',
             detail: null,
             tone: 'pink',
-            testID: 'trip-hub-disruption-d2',
+            testID: 'trip-hub-disruption-storm',
             onPress: noop,
           },
         ],

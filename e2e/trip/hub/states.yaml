@@ -46,7 +46,7 @@ appId: app.critterpass.dev
     file: subflows/lab-scene.yaml
     env:
       SCENE: '3k-1-disruption'
-      SCREEN: 'trip-hub-disruption-d1'
+      SCREEN: 'trip-hub-disruption-flight'
       SHOT: 'en-3k-1-disruption'
 - runFlow:
     file: subflows/lab-scene.yaml
@@ -118,7 +118,7 @@ appId: app.critterpass.dev
     file: subflows/lab-scene.yaml
     env:
       SCENE: '3k-1-disruption'
-      SCREEN: 'trip-hub-disruption-d1'
+      SCREEN: 'trip-hub-disruption-flight'
       SHOT: 'vi-3k-1-disruption'
 - runFlow:
     file: subflows/lab-scene.yaml
