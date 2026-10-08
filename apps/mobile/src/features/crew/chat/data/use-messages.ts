@@ -76,8 +76,10 @@ export function useMessages(
       loadTimeline(db, crewId, me, limit).then(
         (timeline) => {
           if (controller.signal.aborted) return;
-          // With older pages on screen, a row leaving the phone's window stays in the timeline.
-          if (readOlder(crewId).messages.length > 0) {
+          // With older pages on screen or on their way, a row leaving the phone's window stays in
+          // the timeline: the page being fetched ends just below it.
+          const held = readOlder(crewId);
+          if (held.messages.length > 0 || held.status === 'loading') {
             const gone = leftWindow(shown.current, timeline);
             if (gone.length > 0) keepOlder(crewId, gone);
           }
