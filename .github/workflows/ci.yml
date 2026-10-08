@@ -480,14 +480,21 @@ jobs:
     name: secret scan
     runs-on: ubuntu-latest
     steps:
+      # The commits and trees of every branch, the files of none but this checkout. A full fetch
+      # also downloads every branch's files (the screenshots branch alone holds every device run's
+      # images and videos): minutes to scan a handful of commits.
       - uses: actions/checkout@v7
-        with: { fetch-depth: 0 }
+        with: { fetch-depth: 0, filter: 'blob:none' }
       - name: gitleaks
         env:
           # A pull request scans only its own commits, so a finding on another branch never fails it;
-          # a push to main scans main's full history, so nothing unscanned lands there.
-          LOG_OPTS: ${{ github.event_name == 'pull_request' && format('origin/{0}..{1}', github.base_ref, github.event.pull_request.head.sha) || 'HEAD' }}
+          # a push to main scans the commits it added, each of which a pull request scanned before.
+          # Main's full history is scanned weekly (nightly.yml).
+          LOG_OPTS: ${{ github.event_name == 'pull_request' && format('origin/{0}..{1}', github.base_ref, github.event.pull_request.head.sha) || format('{0}..{1}', github.event.before, github.sha) }}
         run: |
+          # The file contents those commits' diffs need, fetched here in a few batches: gitleaks
+          # reads the same diffs with the same git command inside its container.
+          git log -p -U0 $LOG_OPTS > /dev/null
           docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
             git /repo --redact --no-banner --exit-code 1 --log-opts="$LOG_OPTS"
 

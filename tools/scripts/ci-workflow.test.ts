@@ -18,9 +18,10 @@ interface Workflow {
       strategy?: { matrix: { include?: { filter: string; server?: boolean }[] } };
       steps?: {
         id?: string;
+        uses?: string;
         run?: string;
         env?: Record<string, string>;
-        with?: { filters?: string };
+        with?: { filters?: string; filter?: string; 'fetch-depth'?: number };
       }[];
     }
   >;
@@ -61,6 +62,22 @@ describe('ci passed', () => {
   it('passes when every job passed or was skipped by its filter', () => {
     expect(exitCode(['success', 'skipped', 'success', 'skipped'])).toBe(0);
     expect(exitCode(['success'])).toBe(0);
+  });
+});
+
+describe('secret scan', () => {
+  const steps = workflow.jobs.secrets?.steps ?? [];
+
+  it("downloads no branch's files beyond its own checkout", () => {
+    // Without the filter, `fetch-depth: 0` pulls every branch with its files: minutes per run.
+    const checkout = steps.find((step) => step.uses?.startsWith('actions/checkout@'));
+    expect(checkout?.with).toEqual({ 'fetch-depth': 0, filter: 'blob:none' });
+  });
+
+  it('scans the commits of the pull request or of the push, never all of history', () => {
+    const range = steps.find((step) => step.env?.LOG_OPTS !== undefined)?.env?.LOG_OPTS ?? '';
+    expect(range).toContain("format('origin/{0}..{1}', github.base_ref,");
+    expect(range).toContain("format('{0}..{1}', github.event.before, github.sha)");
   });
 });
 

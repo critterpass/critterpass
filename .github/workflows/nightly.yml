@@ -1,0 +1,58 @@
+name: nightly
+
+# What is too slow or too broad for every pull request, on a schedule against main. A failed run
+# opens the "Nightly checks" issue, or adds a comment to it while it is open.
+on:
+  schedule:
+    - cron: '30 19 * * 6' # weekly, Sunday 02:30 in Vietnam
+  workflow_dispatch:
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  secrets-history:
+    # ci.yml scans the commits of each pull request and of each push to main; this scans all of
+    # main's history, so a rule added to gitleaks later still reaches every commit.
+    name: secret scan (main, full history)
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 19 * * 6'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      # Main only: `fetch-depth: 0` would download every branch, the screenshots branch included.
+      - name: Fetch main's history
+        run: git fetch --no-tags --unshallow origin "+refs/heads/${GITHUB_REF_NAME}:refs/remotes/origin/${GITHUB_REF_NAME}"
+      - name: gitleaks
+        run: |
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
+            git /repo --redact --no-banner --exit-code 1 --log-opts=HEAD
+
+  report:
+    name: report a failed run
+    needs: [secrets-history]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open or update the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          failed=$(jq -r '[to_entries[] | select(.value.result == "failure") | .key] | join(", ")' <<< "$RESULTS")
+          body="Failed on $(date -u +%F): ${failed}. Run: ${RUN_URL}"
+          number=$(gh issue list --state open --search 'in:title "Nightly checks"' --json number,title \
+            --jq '[.[] | select(.title == "Nightly checks")][0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --body "$body"
+          else
+            gh issue create --title 'Nightly checks' --body "$body"
+          fi
