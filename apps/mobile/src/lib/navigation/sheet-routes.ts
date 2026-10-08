@@ -19,7 +19,9 @@ import { modalGroupOptions } from './transitions';
 
 const SHEET_SCREENS = {
   crew: ['index'],
-  vote: ['new-poll', 'pitch'],
+  // The winner reveal is no sheet, but it bursts in by itself, takes no back gesture and leaves by
+  // its own action, so its card appears and goes at once like one.
+  vote: ['new-poll', 'pitch', '[pollId]/reveal'],
   places: ['search'],
   explore: ['why-sponsored'],
   '(trip)': ['lock-screen-offer'],
