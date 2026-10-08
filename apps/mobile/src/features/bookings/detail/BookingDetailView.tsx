@@ -50,7 +50,7 @@ export interface BookingDetailViewProps {
   readonly travellers: string;
   /** "$228 · paid by Maya". */
   readonly price: string | null;
-  /** "Delayed 25m · AeroAPI · 09:12" for flights. */
+  /** "Delayed 25m · Updated 09:12" for flights. */
   readonly status: string | null;
   readonly canReportLanded: boolean;
   readonly docs: readonly DetailDoc[];
