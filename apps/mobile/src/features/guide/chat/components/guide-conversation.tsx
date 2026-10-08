@@ -2,13 +2,16 @@
  * The guide thread as the sheet shows it: saved questions (with the asker's avatar) and answers in
  * the guide's voice with their plan cards and sources, then the answer streaming now, questions
  * waiting for the connection, and whatever the turn ended on. A streamed answer gives way to its
- * saved copy once that syncs down, so nothing shows twice.
+ * saved copy once that syncs down, so nothing shows twice. Saved messages are drawn once: a token
+ * arriving, or another message, redraws only the answer being written.
  */
-import type { ReactNode } from 'react';
+import { useLingui } from '@lingui/react/macro';
+import { memo, useCallback, type ReactNode } from 'react';
 
 import { View } from 'react-native';
 
 import { Row, Stack, Text, makeStyles } from '@/ui';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { Avatar } from '@/ui/people/Avatar';
 
 import type { SavedGuideMessage } from '../data/use-guide-thread';
@@ -21,6 +24,8 @@ export interface GuideConversationProps {
   readonly color: string;
   readonly hasTrip: boolean;
   readonly messages: readonly SavedGuideMessage[];
+  /** Shows a page of earlier messages; absent when the thread is shown from its start. */
+  readonly onEarlier?: () => void;
   readonly names: ReadonlyMap<string, { readonly name: string; readonly joinIndex: number }>;
   /** The asker's uid: their own questions sit on the right. */
   readonly me: string | null;
@@ -78,8 +83,46 @@ export function QuestionBubble({
   );
 }
 
+type Author = { readonly name: string; readonly joinIndex: number } | null;
+
+/** One saved message. Its props keep their identity while the message is unchanged. */
+const SavedMessage = memo(function SavedMessage({
+  message,
+  author,
+  color,
+  onRate,
+  renderProposal,
+}: {
+  readonly message: SavedGuideMessage;
+  /** Null for the asker's own question, and for answers. */
+  readonly author: Author;
+  readonly color: string;
+  readonly onRate: GuideConversationProps['onRate'];
+  readonly renderProposal: GuideConversationProps['renderProposal'];
+}) {
+  const id = message.id;
+  const rate = useCallback((verdict: 'up' | 'down') => onRate?.(id, verdict), [onRate, id]);
+  if (message.role === 'user') return <QuestionBubble text={message.text} author={author} />;
+  return (
+    <Stack gap="12">
+      <GuideAnswer
+        text={message.text}
+        color={color}
+        sources={message.sources}
+        rating={message.rating}
+        {...(onRate === undefined ? {} : { onRate: rate })}
+        testID={`guide-answer-${id}`}
+      />
+      {message.proposals.map((proposal) => (
+        <Stack key={proposal}>{renderProposal(proposal)}</Stack>
+      ))}
+    </Stack>
+  );
+});
+
 export function GuideConversation(props: GuideConversationProps) {
   const { messages, live, color, names } = props;
+  const { t } = useLingui();
   const showLive = live !== null && !liveSettled(live, messages);
   const liveQuestionSaved =
     live !== null &&
@@ -99,35 +142,29 @@ export function GuideConversation(props: GuideConversationProps) {
           onPrompt={props.onPrompt}
         />
       ) : null}
-      {messages.map((message) =>
-        message.role === 'user' ? (
-          <QuestionBubble
-            key={message.id}
-            text={message.text}
-            author={
-              message.authorId === null || message.authorId === props.me
-                ? null
-                : (names.get(message.authorId) ?? null)
-            }
+      {props.onEarlier === undefined ? null : (
+        <Row>
+          <TextLink
+            label={t({ id: 'guide.chat.earlier', message: 'Earlier messages' })}
+            onPress={props.onEarlier}
+            testID="guide-earlier"
           />
-        ) : (
-          <Stack key={message.id} gap="12">
-            <GuideAnswer
-              text={message.text}
-              color={color}
-              sources={message.sources}
-              rating={message.rating}
-              {...(props.onRate === undefined
-                ? {}
-                : { onRate: (verdict: 'up' | 'down') => props.onRate?.(message.id, verdict) })}
-              testID={`guide-answer-${message.id}`}
-            />
-            {message.proposals.map((id) => (
-              <Stack key={id}>{props.renderProposal(id)}</Stack>
-            ))}
-          </Stack>
-        ),
+        </Row>
       )}
+      {messages.map((message) => (
+        <SavedMessage
+          key={message.id}
+          message={message}
+          author={
+            message.role !== 'user' || message.authorId === null || message.authorId === props.me
+              ? null
+              : (names.get(message.authorId) ?? null)
+          }
+          color={color}
+          onRate={props.onRate}
+          renderProposal={props.renderProposal}
+        />
+      ))}
       {showLive && live !== null ? (
         <Stack gap="12" testID="guide-live">
           {liveQuestionSaved ? null : <QuestionBubble text={live.question} author={null} />}

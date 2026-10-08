@@ -23,10 +23,17 @@ import { deviceGuideServices } from './data/guide-stream';
 export const guideRoutes = {
   /** Food and access needs (from the guide sheet's "+", trip setup and You settings). */
   dietary: (): Href => '/guide/dietary',
-  /** Point and ask: the menu camera. */
-  camera: (params: { tripId?: string } = {}): Href => ({
+  /**
+   * Point and ask: the menu camera. Opened from the guide sheet it carries `from: 'guide'` and the
+   * sheet's `mode`, so a question about the menu goes back to that sheet.
+   */
+  camera: (params: { tripId?: string; mode?: string; from?: string } = {}): Href => ({
     pathname: '/guide/camera',
-    params: params.tripId === undefined ? {} : { tripId: params.tripId },
+    params: {
+      ...(params.tripId === undefined ? {} : { tripId: params.tripId }),
+      ...(params.mode === undefined ? {} : { mode: params.mode }),
+      ...(params.from === undefined ? {} : { from: params.from }),
+    },
   }),
   /** Phrase practice, for a language and optionally the phrase to start on. */
   practice: (params: { tripId?: string; lang?: string; text?: string } = {}): Href => ({
@@ -72,7 +79,11 @@ registerScreens({
       ...(params['q'] === undefined ? {} : { q: params['q'] }),
     }),
   '3j-3': (params) =>
-    guideRoutes.camera(params['tripId'] === undefined ? {} : { tripId: params['tripId'] }),
+    guideRoutes.camera({
+      ...(params['tripId'] === undefined ? {} : { tripId: params['tripId'] }),
+      ...(params['mode'] === undefined ? {} : { mode: params['mode'] }),
+      ...(params['from'] === undefined ? {} : { from: params['from'] }),
+    }),
   // Not a design screen: phrase cards and the phrase quest open practice by this key.
   'guide-practice': (params) =>
     guideRoutes.practice({

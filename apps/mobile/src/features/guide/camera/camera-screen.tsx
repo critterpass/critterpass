@@ -10,16 +10,19 @@ import { router, useIsFocused } from 'expo-router';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
 
+import type { GuideThreadMode } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { guideAvatarId } from '../chat/components/guide-header';
 import { GuideStreamError } from '../chat/data/guide-frames';
+import { handToSheet } from '../chat/data/handed-question';
 import { streamGuide } from '../chat/data/guide-stream';
 import { useGuideContext } from '../chat/data/use-guide-context';
 import { CameraView, type MenuFollowUp } from './camera-view';
@@ -116,6 +119,10 @@ function MenuCamera({
 
 export interface CameraScreenProps {
   readonly tripId: string | null;
+  /** GROUP or JUST ME of the sheet the camera was opened from; null when it was not. */
+  readonly mode?: GuideThreadMode | null;
+  /** Opened from the guide sheet, which is still open underneath. */
+  readonly fromSheet?: boolean;
   /** The phone's text recognition; null in a build without it. */
   readonly recognize: ((uri: string) => Promise<RecognisedStill>) | null;
 }
@@ -125,7 +132,12 @@ export function CameraScreen(props: CameraScreenProps) {
   return localFirst === null ? null : <OpenCameraScreen {...props} />;
 }
 
-function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
+function OpenCameraScreen({
+  tripId,
+  mode = null,
+  fromSheet = false,
+  recognize,
+}: CameraScreenProps) {
   const { t, i18n } = useLingui();
   const names = useLanguageNames();
   const [order, setOrder] = useState<MenuOrder | null>(null);
@@ -172,15 +184,19 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
   const dishes = dishList(stickers);
   const reading = state.reading;
   const tripParams = trip === null ? {} : { tripId: trip.tripId };
+  const modeParams = mode === null ? {} : { mode };
   const askGuide = (question: string) => {
-    const sheet = hrefFor('3j-1', {
-      ...tripParams,
-      q: t({ id: 'guide.camera.askWithMenu', message: `${question} The menu: ${dishes}` }),
-    });
-    if (sheet !== undefined) router.push(sheet);
+    const q = t({ id: 'guide.camera.askWithMenu', message: `${question} The menu: ${dishes}` });
+    // The sheet the camera was opened from takes the question: back to it, not a second sheet.
+    if (fromSheet && handToSheet(q)) {
+      goBackOr();
+      return;
+    }
+    const sheet = hrefFor('3j-1', { ...tripParams, ...modeParams, q });
+    if (sheet !== undefined) router.replace(sheet);
   };
   const split = trip === null ? undefined : hrefFor('3i-2', tripParams);
-  const voice = hrefFor('3j-2', tripParams);
+  const voice = hrefFor('3j-2', { ...tripParams, ...modeParams });
   const crewSize = trip?.crewSize ?? 1;
   const leastSpicy = t({ id: 'guide.camera.leastSpicy', message: 'Least spicy?' });
   const orderFor =
@@ -197,7 +213,12 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
   const splitOrder =
     typeof split !== 'string'
       ? undefined
-      : () => router.push({ pathname: split, params: { name: orderExpenseName(ordered) } });
+      : () =>
+          router.push({
+            pathname: split,
+            // The expense is for the trip whose menu this is.
+            params: { ...tripParams, name: orderExpenseName(ordered) },
+          });
   const followUps: MenuFollowUp[] = [
     {
       id: 'least-spicy',
@@ -214,7 +235,10 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
           {
             id: 'split',
             label: t({ id: 'guide.camera.split', message: 'Split the bill' }),
-            onPress: () => router.push(split),
+            onPress: () =>
+              router.push(
+                typeof split === 'string' ? { pathname: split, params: tripParams } : split,
+              ),
           },
         ]),
   ];
@@ -274,7 +298,7 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
       }}
       onAsk={askGuide}
       {...(voice === undefined ? {} : { onMic: () => router.push(voice) })}
-      onClose={() => router.back()}
+      onClose={() => goBackOr()}
       onOpenSettings={() => void Linking.openSettings()}
     />
   );

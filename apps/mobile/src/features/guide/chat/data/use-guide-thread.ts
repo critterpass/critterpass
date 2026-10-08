@@ -1,13 +1,17 @@
 /**
  * The sheet's thread and its saved messages. GROUP is the trip's one crew-visible thread; JUST ME
  * is the asker's private thread for the trip (or the home guide's, with no trip). A mode with no
- * thread yet gets a fresh client id; the server opens the thread on its first question.
+ * thread yet gets a fresh client id; the server opens the thread on its first question. A long
+ * thread hands the sheet its latest page; `showEarlier` adds a page above (./thread-window.ts).
+ * A message keeps its identity while its row is unchanged, so a memoised row is not drawn again
+ * when another message arrives.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { generateUuidV7, type GuideThreadMode } from '@cp/domain';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useLiveQuery } from './live-rows';
+import { earlierPin, windowStart } from './thread-window';
 
 export interface GuideCardRef {
   readonly kind: 'proposal';
@@ -82,9 +86,44 @@ export interface GuideThreadView {
   readonly threadId: string;
   /** Whether the server already has this thread (it has synced down). */
   readonly exists: boolean;
+  /** The messages on screen: the latest page, and the pages asked for above it. */
   readonly messages: readonly SavedGuideMessage[];
+  /** Adds a page of earlier messages; absent when the thread is shown from its start. */
+  readonly showEarlier?: () => void;
+  /** The thread, and what it holds, is not read yet. */
   readonly loading: boolean;
 }
+
+type SeenMessages = ReadonlyMap<string, { row: MessageRow; message: SavedGuideMessage }>;
+
+const sameRow = (a: MessageRow, b: MessageRow) =>
+  a.content === b.content &&
+  a.cards === b.cards &&
+  a.sources === b.sources &&
+  a.rating === b.rating &&
+  a.role === b.role &&
+  a.author_id === b.author_id &&
+  a.created_at === b.created_at;
+
+/** The rows as messages, reusing the message of every row that has not changed. */
+export function toSavedMessages(
+  rows: readonly MessageRow[],
+  seen: SeenMessages,
+): { readonly messages: readonly SavedGuideMessage[]; readonly seen: SeenMessages } {
+  const next = new Map<string, { row: MessageRow; message: SavedGuideMessage }>();
+  const messages = rows.map((row) => {
+    const known = seen.get(row.id);
+    const entry =
+      known !== undefined && sameRow(known.row, row)
+        ? known
+        : { row, message: toSavedMessage(row) };
+    next.set(row.id, entry);
+    return entry.message;
+  });
+  return { messages, seen: next };
+}
+
+const NOTHING_SEEN: SeenMessages = new Map();
 
 export function useGuideThread(
   mode: GuideThreadMode,
@@ -101,9 +140,39 @@ export function useGuideThread(
   const existing = threads?.[0]?.id ?? null;
   const threadId = existing ?? fresh;
   const rows = useLiveQuery<MessageRow>(MESSAGES_SQL, [threadId], ['guide_messages']);
-  const messages = useMemo(() => (rows ?? []).map(toSavedMessage), [rows]);
-  return { threadId, exists: existing !== null, messages, loading: threads === null };
+  const [read, setRead] = useState<{
+    readonly rows: readonly MessageRow[] | null;
+    readonly messages: readonly SavedGuideMessage[];
+    readonly seen: SeenMessages;
+  }>({ rows: null, messages: [], seen: NOTHING_SEEN });
+  if (read.rows !== rows) {
+    setRead({ rows, ...toSavedMessages(rows ?? [], read.seen) });
+  }
+  const all = read.rows === rows ? read.messages : NO_MESSAGES;
+
+  // The first message shown, held per thread: answers arriving later never move it.
+  const [pin, setPin] = useState<{ readonly thread: string; readonly id: string } | null>(null);
+  const pinned = pin?.thread === threadId ? pin.id : null;
+  const start = windowStart(all, pinned);
+  const first = all[start]?.id ?? null;
+  if (first !== null && first !== pinned) setPin({ thread: threadId, id: first });
+  const messages = useMemo(() => (start === 0 ? all : all.slice(start)), [all, start]);
+  const showEarlier = useCallback(() => {
+    const earlier = earlierPin(all, start);
+    if (earlier !== null) setPin({ thread: threadId, id: earlier });
+  }, [all, start, threadId]);
+
+  return {
+    threadId,
+    exists: existing !== null,
+    messages,
+    ...(start > 0 ? { showEarlier } : {}),
+    // With nobody signed in there is no thread to wait for.
+    loading: uid !== null && (threads === null || rows === null),
+  };
 }
+
+const NO_MESSAGES: readonly SavedGuideMessage[] = [];
 
 const TARGET_SQL = 'SELECT mode, trip_id FROM guide_threads WHERE id = ?';
 

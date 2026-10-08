@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, config keys and design ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useContext, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 
 import type { GuideThreadMode } from '@cp/domain';
 
@@ -18,6 +18,7 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideColour } from '@/ui/avatar/guides';
 
 import { rateGuideAnswerCommand } from '../data/guide-commands';
+import { useHandedQuestion } from '../data/handed-question';
 import { useLiveQuery } from '../data/live-rows';
 import { useGuideContext } from '../data/use-guide-context';
 import { useGuideThread } from '../data/use-guide-thread';
@@ -61,10 +62,11 @@ const NAMES_SQL = `SELECT cm.user_id, u.display_name,
 const FLAGS_SQL = `SELECT key, value FROM client_config WHERE key LIKE 'guide.quick_actions.%'`;
 
 const QUICK_TARGETS = [
-  { id: 'call_car', screen: '3h-3' },
-  { id: 'translate_menu', screen: '3j-3' },
-  { id: 'pharmacy', screen: '3k-6' },
-  { id: 'practise_phrases', screen: 'guide-practice' },
+  { id: 'call_car', screen: '3h-3', guideScreen: false },
+  // The menu camera hands its questions back to this sheet, and talks in this sheet's mode.
+  { id: 'translate_menu', screen: '3j-3', guideScreen: true },
+  { id: 'pharmacy', screen: '3k-6', guideScreen: false },
+  { id: 'practise_phrases', screen: 'guide-practice', guideScreen: false },
 ] as const;
 
 export type QuickActionId = (typeof QUICK_TARGETS)[number]['id'];
@@ -79,7 +81,7 @@ export function useQuickLabels(): Record<QuickActionId, string> {
   };
 }
 
-function useQuickActions(tripId: string | null): QuickAction[] {
+function useQuickActions(tripId: string | null, mode: GuideThreadMode): QuickAction[] {
   const flags = useLiveQuery<{ key: string; value: string | null }>(
     FLAGS_SQL,
     [],
@@ -92,7 +94,10 @@ function useQuickActions(tripId: string | null): QuickAction[] {
       .map((row) => row.key.replace('guide.quick_actions.', '')),
   );
   return QUICK_TARGETS.flatMap((target) => {
-    const href = hrefFor(target.screen, tripId === null ? {} : { tripId });
+    const href = hrefFor(target.screen, {
+      ...(tripId === null ? {} : { tripId }),
+      ...(target.guideScreen ? { mode, from: 'guide' } : {}),
+    });
     if (!on.has(target.id) || href === undefined) return [];
     return [{ id: target.id, label: labels[target.id], onPress: () => router.push(href) }];
   });
@@ -139,9 +144,10 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
   // A question handed over from search (`q`) waits in the composer for the person to send.
   const { q } = useLocalSearchParams<{ q?: string }>();
   const [draft, setDraft] = useState(q ?? '');
+  useHandedQuestion(setDraft);
   const color = guideColour(guideAvatarId(context.guideSlug));
   const modeLine = useModeLine(mode, trip);
-  const quickActions = useQuickActions(trip?.tripId ?? null);
+  const quickActions = useQuickActions(trip?.tripId ?? null, mode);
   const nameRows = useLiveQuery<NameRow>(
     trip === null ? null : NAMES_SQL,
     [context.uid, trip?.crewId ?? null],
@@ -170,12 +176,26 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
   const voice = hrefFor('3j-2', voiceParams);
   const voiceTalking = hrefFor('3j-2', { ...voiceParams, talk: '1' });
 
+  const [asked, setAsked] = useState(0);
   const send = (text: string) => {
     // Until the trip and its crew are read, the mode on screen is not yet the one to ask in.
     if (turn.busy || !context.ready) return;
     turn.ask(text);
+    setAsked((count) => count + 1);
     setDraft('');
   };
+  // Stable for the saved messages, which are drawn once.
+  const liveTripId = trip?.tripId ?? null;
+  const renderProposal = useCallback(
+    (id: string) => <GuidePlanCard tripId={liveTripId} changesetId={id} canPropose={shared} />,
+    [liveTripId, shared],
+  );
+  const sendRating = rate.send;
+  const onRate = useCallback(
+    (messageId: string, verdict: 'up' | 'down') =>
+      void sendRating({ message_id: messageId, verdict }),
+    [sendRating],
+  );
 
   return (
     <GuideSheetView
@@ -195,19 +215,21 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
           color={color}
           hasTrip={trip !== null}
           messages={thread.messages}
+          {...(thread.showEarlier === undefined ? {} : { onEarlier: thread.showEarlier })}
           names={names}
           me={context.uid}
           live={turn.live}
           waiting={turn.queued.map((question) => question.text)}
-          renderProposal={(id) => (
-            <GuidePlanCard tripId={trip?.tripId ?? null} changesetId={id} canPropose={shared} />
-          )}
+          renderProposal={renderProposal}
           onPrompt={send}
           onRetry={turn.retry}
-          onRate={(messageId, verdict) => void rate.send({ message_id: messageId, verdict })}
+          onRate={onRate}
           footer={meter.footer}
         />
       }
+      threadKey={`${mode}:${liveTripId ?? ''}`}
+      topMessageId={thread.messages[0]?.id ?? null}
+      asked={asked}
       quickActions={quickActions}
       {...(meter.composer === undefined ? {} : { composerSlot: meter.composer })}
       draft={draft}
