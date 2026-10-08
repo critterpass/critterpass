@@ -924,6 +924,10 @@ msgstr ""
 msgid "money.review.changePayer"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.someoneLeft"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.body"
 msgstr ""
@@ -1002,6 +1006,10 @@ msgstr ""
 msgid "money.pay.disputeTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.other"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.error"
 msgstr ""
@@ -1038,8 +1046,16 @@ msgstr ""
 msgid "money.detail.field.when"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.deleteExpense"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.what"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.markPaid"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
@@ -1234,6 +1250,10 @@ msgstr ""
 msgid "money.chat.youPaidFor"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.youLeft"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owed"
 msgstr ""
@@ -1241,4 +1261,12 @@ msgstr ""
 #: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.settle.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.editExpense"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.addExpense"
 msgstr ""

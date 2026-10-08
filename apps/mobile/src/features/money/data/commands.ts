@@ -1,7 +1,8 @@
 /**
  * Client specs for Money's commands. Adding, editing and deleting an expense, and marking a
  * payment paid, may wait in the offline queue (the ledger is the server's, so the list shows them
- * as pending until their rows sync). Requests, nudges, confirms, disputes, reminders, the budget,
+ * as pending until their rows sync; one the server refuses is rolled back and said by
+ * `useRefusedMoneyWrites`). Requests, nudges, confirms, disputes, reminders, the budget,
  * the settlement currency, payout methods and receipt commits go online so the member learns at
  * once whether they landed.
  */
