@@ -177,6 +177,10 @@ msgid "setup.rooms.wishesMissing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.pickStaySolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.pickStay"
 msgstr ""
 
@@ -228,6 +232,10 @@ msgstr ""
 msgid "setup.rooms.stayGone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.line.solo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.traitIn.couple"
 msgstr ""
@@ -249,7 +257,15 @@ msgid "setup.rooms.stay.villa"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.titleSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
@@ -258,4 +274,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
 msgid "setup.rooms.price.mine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.solo"
 msgstr ""

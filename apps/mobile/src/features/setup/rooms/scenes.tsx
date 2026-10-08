@@ -157,6 +157,16 @@ export const ROOMS_SCENES: readonly SetupScene[] = [
     const trip = organiser();
     return { trip, model: model(trip, null) };
   }),
+  // A trip for one where stays are priced: the step is the stay pick, in words for one.
+  scene('rooms-solo-stay', () => {
+    const crew = organiser();
+    const trip = {
+      ...crew,
+      isSolo: true,
+      members: crew.members.filter((person) => person.uid === crew.me),
+    };
+    return { trip, model: model(trip, null, { skippable: true }) };
+  }),
   // No stay prices for the place and one room for everyone: LOOKS GOOD accepts the even split.
   scene('rooms-even-split', () => {
     const trip = organiser();

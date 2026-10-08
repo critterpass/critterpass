@@ -37,10 +37,11 @@ export interface MustDosViewProps {
   readonly canAdd: boolean;
   readonly drafting?: boolean;
   /**
-   * Where the organiser's draft stands once setup is done: still being written, or ready to read.
-   * Null when there is nothing to open (a member, or a trip already past its draft).
+   * Where a finished setup leads: the organiser's draft still being written or ready to read, or
+   * the trip once its plan has gone out (members too). Null when there is nothing to open (a
+   * member before the plan is out).
    */
-  readonly draft?: 'writing' | 'ready' | null;
+  readonly draft?: 'writing' | 'ready' | 'planned' | null;
   readonly onOpenDraft?: () => void;
   readonly onAdd: () => void;
   readonly onDraft: () => void;
@@ -95,15 +96,23 @@ export function MustDosView({
     draft === null || onOpenDraft === undefined ? undefined : (
       <PillButton
         label={
-          draft === 'ready'
-            ? t({ id: 'setup.mustDos.seeDraft', message: 'See the draft' })
-            : t({
-                id: 'setup.mustDos.draftWriting',
-                message: `${guideName} is drafting. See how far`,
-              })
+          draft === 'planned'
+            ? t({ id: 'setup.mustDos.seeTrip', message: 'See the trip' })
+            : draft === 'ready'
+              ? t({ id: 'setup.mustDos.seeDraft', message: 'See the draft' })
+              : t({
+                  id: 'setup.mustDos.draftWriting',
+                  message: `${guideName} is drafting. See how far`,
+                })
         }
         onPress={onOpenDraft}
-        testID={draft === 'ready' ? 'must-dos-see-draft' : 'must-dos-drafting'}
+        testID={
+          draft === 'planned'
+            ? 'must-dos-see-trip'
+            : draft === 'ready'
+              ? 'must-dos-see-draft'
+              : 'must-dos-drafting'
+        }
       />
     )
   ) : trip.isOrganiser ? (
@@ -136,18 +145,26 @@ export function MustDosView({
   ) : canAdd ? (
     <PillButton label={addLabel} onPress={onAdd} testID="must-dos-add" />
   ) : undefined;
+  const organiser = trip.members.find((member) => member.organiser)?.name ?? '';
   const doneLine =
-    draft === 'ready'
-      ? t({ id: 'setup.mustDos.readyLine', message: `${guideName}’s draft is ready for you.` })
-      : draft === 'writing'
-        ? t({
-            id: 'setup.mustDos.writingLine',
-            message: `${guideName} is writing the draft. It takes a few minutes; you can leave and come back.`,
-          })
-        : t({
-            id: 'setup.mustDos.doneLine',
-            message: `Setup’s done. ${guideName} starts the draft from here.`,
-          });
+    draft === 'planned'
+      ? t({ id: 'setup.mustDos.plannedLine', message: 'Setup’s finished and the plan is made.' })
+      : draft === 'ready'
+        ? t({ id: 'setup.mustDos.readyLine', message: `${guideName}’s draft is ready for you.` })
+        : draft === 'writing'
+          ? t({
+              id: 'setup.mustDos.writingLine',
+              message: `${guideName} is writing the draft. It takes a few minutes; you can leave and come back.`,
+            })
+          : trip.isOrganiser || organiser === ''
+            ? t({
+                id: 'setup.mustDos.doneLine',
+                message: `Setup’s done. ${guideName} starts the draft from here.`,
+              })
+            : t({
+                id: 'setup.mustDos.doneLineMember',
+                message: `Setup’s done. ${guideName} is drafting the trip with ${organiser}.`,
+              });
   return (
     <SetupShell
       {...shell}

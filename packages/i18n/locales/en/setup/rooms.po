@@ -177,6 +177,10 @@ msgid "setup.rooms.wishesMissing"
 msgstr "Pick any that fit you. Nobody sees them; they only shape the rooms."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.pickStaySolo"
+msgstr "Pick the kind of place you’d like. It sets what the stay costs."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.pickStay"
 msgstr "Pick where you’ll stay and {guide} splits the rooms."
 
@@ -228,6 +232,10 @@ msgstr "That stay has no price for this trip right now, so it wasn’t picked. T
 msgid "setup.rooms.stayGone"
 msgstr "That stay isn’t on offer for these dates any more. Pick another."
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.line.solo"
+msgstr "That’s your stay for the trip."
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.traitIn.couple"
 msgstr "the couple"
@@ -249,8 +257,16 @@ msgid "setup.rooms.stay.villa"
 msgstr "Villa"
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.titleSolo"
+msgstr "Where will you stay?"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.title"
 msgstr "Who sleeps where?"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr "You can also go on without picking one."
 
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
@@ -259,3 +275,7 @@ msgstr "Your room wishes"
 #: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
 msgid "setup.rooms.price.mine"
 msgstr "Your share of the rooms:"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.solo"
+msgstr "Your stay comes to"

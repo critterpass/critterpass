@@ -1,21 +1,22 @@
 /**
  * The frame every setup step sits in (3c-3…3c-7): "← {PLACE} SETUP" with the header tag, the four
  * step chips, the step's h1 and line, the step's content (scrolls, fading out under the footer) and
- * its bottom actions above the home indicator. Offline, a "No signal" pill and when the step's rows
- * last synced sit under the line; everything still renders from local rows. Pure view: the step
- * screens pass it facts.
+ * its bottom actions above the home indicator, riding the keyboard while a field is being typed in.
+ * Offline, a "No signal" pill and when the step's rows last synced sit under the line; everything
+ * still renders from local rows. Pure view: the step screens pass it facts.
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { patterns } from '@/motion';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { StaleCaption } from '@/ui/states/StaleCaption';
-import { FOOTER_FADE_PT, FooterFade } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -58,17 +59,9 @@ const useStyles = makeStyles((th) => ({
     paddingBottom: th.space['24'],
     gap: th.space['12'],
   },
-  // Ends clear of the footer's fade, so the last card scrolls fully into view.
-  contentAboveFooter: { paddingBottom: th.space['24'] + FOOTER_FADE_PT },
   body: { gap: th.space['12'] },
   offline: { gap: th.space['8'] },
-  footer: {
-    paddingHorizontal: th.space['20'],
-    paddingTop: th.space['8'],
-    paddingBottom: th.space['8'],
-    gap: th.space['8'],
-    alignItems: 'center',
-  },
+  footer: { alignItems: 'center' },
 }));
 
 /** A step's content deals in as the step changes (reduced motion: a fade). */
@@ -97,7 +90,11 @@ export function SetupShell({
   const styles = useStyles();
   const theme = useTheme();
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID={testID}>
+    <Scaffold
+      variant="dark"
+      edges={footer === undefined ? ['top', 'bottom'] : ['top']}
+      testID={testID}
+    >
       <View style={styles.header}>
         <Row justify="space-between" align="center" style={styles.topRow}>
           <BackEyebrow
@@ -114,13 +111,10 @@ export function SetupShell({
           onSelect={onSelectStep}
         />
       </View>
-      <ScrollView
+      <KeyboardScrollView
         style={styles.scroll}
-        contentContainerStyle={[
-          styles.content,
-          footer === undefined ? null : styles.contentAboveFooter,
-        ]}
-        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.content}
+        keyboardDismissMode="on-drag"
         testID="setup-scroll"
       >
         <StepBody key={viewing}>
@@ -143,12 +137,11 @@ export function SetupShell({
           {status ?? null}
           {children}
         </StepBody>
-      </ScrollView>
+      </KeyboardScrollView>
       {footer === undefined ? null : (
-        <>
-          <FooterFade testID="setup-footer-fade" />
-          <View style={styles.footer}>{footer}</View>
-        </>
+        <KeyboardFooter style={styles.footer} testID="setup-footer">
+          {footer}
+        </KeyboardFooter>
       )}
     </Scaffold>
   );

@@ -159,6 +159,10 @@ msgstr ""
 msgid "setup.when.own.change"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.change"
+msgstr "Mudar as datas"
+
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.clear"
 msgstr ""
@@ -308,6 +312,10 @@ msgstr ""
 msgid "setup.when.fail.generic"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.title"
+msgstr "As datas estão definidas"
+
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reason.fullCrew"
 msgstr ""
@@ -351,6 +359,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reasonSolo.fareDrop"
 msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.line"
+msgstr "Você vai em {range}."
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.error"

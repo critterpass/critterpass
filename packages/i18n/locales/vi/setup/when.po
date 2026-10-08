@@ -159,6 +159,10 @@ msgstr "Không dời được"
 msgid "setup.when.own.change"
 msgstr "Đổi"
 
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.change"
+msgstr "Đổi ngày"
+
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.clear"
 msgstr "Xoá"
@@ -308,6 +312,10 @@ msgstr "Cảm ơn nhé. Mình chỉ báo {organiser} tuần đó có ổn không
 msgid "setup.when.fail.generic"
 msgstr "Chưa gửi được. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.title"
+msgstr "Đã chốt ngày"
+
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reason.fullCrew"
 msgstr "Tuần đầu tiên cả nhóm đều rảnh. Chốt trước khi lịch kín."
@@ -351,6 +359,10 @@ msgstr "Khi nào bạn đi được?"
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reasonSolo.fareDrop"
 msgstr "Bạn rảnh, và vé máy bay tuần đó rẻ hơn."
+
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.line"
+msgstr "Bạn sẽ đi {range}."
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.error"

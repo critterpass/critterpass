@@ -148,6 +148,86 @@ describe('upload queue responses', () => {
     expect(await commandRows(db)).toEqual([{ id: opId, status: 'queued', attempts: 1 }]);
   });
 
+  it('holds a batch the server refuses for good: no timer resends it and nothing overtakes it', async () => {
+    const first = await enqueue(db, UID, 'create_test_crew', {});
+    const sent: string[][] = [];
+    const queue = queueWith(db, {
+      postJson(_path, body) {
+        const ids = (body as { ops: { op_id: string }[] }).ops.map((op) => op.op_id);
+        sent.push(ids);
+        return Promise.resolve(
+          sent.length === 1
+            ? serverError('VALIDATION')
+            : {
+                status: 200,
+                body: { results: ids.map((id) => ({ op_id: id, status: 'applied' })) },
+              },
+        );
+      },
+    });
+
+    await queue.flush();
+
+    expect(queue.getState()).toMatchObject({
+      sending: false,
+      refused: 'VALIDATION',
+      lastError: 'VALIDATION',
+      nextRetryAt: null,
+    });
+    expect(await commandRows(db)).toEqual([{ id: first, status: 'queued', attempts: 1 }]);
+
+    // A newer op waits behind the held one, well past the point a backoff would have fired.
+    const second = await enqueue(db, UID, 'create_test_crew', {});
+    queue.schedule();
+    await new Promise((resolve) => setTimeout(resolve, TEST_BACKOFF.baseMs * 8));
+    expect(sent).toEqual([[first]]);
+
+    await queue.retryNow();
+
+    expect(sent).toEqual([[first], [first, second]]);
+    expect(queue.getState()).toMatchObject({ refused: null, failures: 0, lastError: null });
+    expect((await commandRows(db)).map((row) => row.status)).toEqual(['done', 'done']);
+  });
+
+  it('sends a smaller batch, oldest ops first, when the server says the batch is too large', async () => {
+    const ids: string[] = [];
+    for (let n = 0; n < 4; n += 1) ids.push(await enqueue(db, UID, 'create_test_crew', {}));
+    const sent: string[][] = [];
+    const queue = queueWith(db, {
+      postJson(_path, body) {
+        const batch = (body as { ops: { op_id: string }[] }).ops.map((op) => op.op_id);
+        sent.push(batch);
+        return Promise.resolve(
+          batch.length > 2
+            ? serverError('PAYLOAD_TOO_LARGE')
+            : {
+                status: 200,
+                body: { results: batch.map((id) => ({ op_id: id, status: 'applied' })) },
+              },
+        );
+      },
+    });
+
+    await queue.flush();
+
+    expect(sent).toEqual([ids, ids.slice(0, 2), ids.slice(2)]);
+    expect(queue.getState()).toMatchObject({ refused: null, failures: 0, nextRetryAt: null });
+    expect((await commandRows(db)).map((row) => row.status)).toEqual(Array(4).fill('done'));
+  });
+
+  it('holds the queue on one op the server finds too large on its own', async () => {
+    const opId = await enqueue(db, UID, 'create_test_crew', {});
+    const transport = answering(serverError('PAYLOAD_TOO_LARGE'));
+    const queue = queueWith(db, transport);
+
+    await queue.flush();
+    await new Promise((resolve) => setTimeout(resolve, TEST_BACKOFF.baseMs * 8));
+
+    expect(transport.calls).toBe(1);
+    expect(queue.getState()).toMatchObject({ refused: 'PAYLOAD_TOO_LARGE', nextRetryAt: null });
+    expect(await commandRows(db)).toEqual([{ id: opId, status: 'queued', attempts: 1 }]);
+  });
+
   it('clears the failure and the pending retry by the time a retried op is seen done', async () => {
     const opId = await enqueue(db, UID, 'create_test_crew', {});
     const transport = answering(serverError('INTERNAL'), {

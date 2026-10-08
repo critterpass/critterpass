@@ -4,8 +4,10 @@
  * fits all {n}" and the options, the guide's pick, a CTA that follows the selection and "Pick a
  * the dates myself". Before anyone has shared a day, while the options are being worked out, or
  * when the only week that fits starts within days, PICK THE DATES is the main button (the picker
- * asks how many days). Everyone sees their own calendar's row; only
- * the organiser gets the lock and ask actions. Only counts are ever shown, never anyone's days.
+ * asks how many days). Once the dates are locked: the locked days as the band, and "Change the
+ * dates" for the organiser while setup is open. Everyone sees their own calendar's row (above the
+ * calendar while it needs something from them); only the organiser gets the lock and ask actions.
+ * Only counts are ever shown, never anyone's days.
  */
 import { t } from '@lingui/core/macro';
 
@@ -25,13 +27,21 @@ import { SetupShell } from '../shell/setup-shell';
 import { bestReasonLine, countWord, pickReasonLine, rangeLabel } from './copy';
 import { Heatmap } from './heatmap';
 import type { HeatMonth, WhenMode, WindowOption } from './model';
-import { OwnCalendarRow, type OwnCalendar } from './own-calendar-row';
+import { isStale, OwnCalendarRow, type OwnCalendar } from './own-calendar-row';
+import type { DayRange } from './range';
 import { checkedLine, syncedLine } from './when-lines';
+import { WhenLocked } from './when-locked';
 import { WindowOptions } from './window-options';
 
 export interface WhenModel {
   readonly isOrganiser: boolean;
   readonly mode: WhenMode;
+  /** The step's rows have not been read yet: nothing is known about days or options. */
+  readonly loading?: boolean | undefined;
+  /** The trip's locked dates, once decided. */
+  readonly locked?: DayRange | null | undefined;
+  /** The organiser may still change locked dates (setup is open). */
+  readonly canChange?: boolean | undefined;
   readonly place: string;
   readonly guide: GuideId;
   readonly guideName: string;
@@ -107,12 +117,46 @@ export function WhenView({
       onMarkByHand={actions.onMarkByHand}
     />
   );
+  // A calendar that needs something from its owner is what the state is about: it sits above the
+  // calendar, where it cannot end up under the step's actions.
+  const ownFirst = model.calendar.status !== 'synced' || isStale(model.calendar, model.now);
   const failure =
     model.failure === null ? null : (
       <Text variant="bodySm" color={theme.semantic.state.urgent} testID="when-failure">
         {failureLine(model.failure)}
       </Text>
     );
+  const title = model.solo
+    ? t({ id: 'setup.when.titleSolo', message: 'When can you go?' })
+    : t({ id: 'setup.when.title', message: 'When can everyone go?' });
+
+  if (model.loading === true) {
+    return (
+      <SetupShell {...shell} tag={tag} title={title} testID="setup-when-loading">
+        <Skeleton
+          preset="card"
+          label={t({ id: 'setup.when.computing', message: 'Finding the best week' })}
+        />
+      </SetupShell>
+    );
+  }
+
+  const locked = model.locked ?? null;
+  if (model.mode === 'locked' && locked !== null) {
+    return (
+      <WhenLocked
+        shell={shell}
+        tag={tag}
+        locked={locked}
+        months={model.months}
+        startMonth={model.startMonth}
+        total={model.total}
+        today={model.today}
+        failure={failure}
+        onChange={model.isOrganiser && model.canChange === true ? actions.onPickWeek : null}
+      />
+    );
+  }
 
   if (model.mode === 'no_fit') {
     const selected = model.options.find((option) => option.id === model.selectedId);
@@ -136,6 +180,7 @@ export function WhenView({
         footer={
           model.isOrganiser ? (
             <>
+              {failure}
               {cta === null || selected === undefined ? null : (
                 <PillButton
                   label={cta}
@@ -158,10 +203,11 @@ export function WhenView({
           ) : undefined
         }
       >
+        {ownFirst ? own : null}
         <WindowOptions
           options={model.options}
-          selectedId={model.selectedId}
-          onSelect={model.isOrganiser ? actions.onSelect : () => undefined}
+          selectedId={model.isOrganiser ? model.selectedId : null}
+          onSelect={model.isOrganiser ? actions.onSelect : null}
           people={{
             members: model.members,
             guideName: model.guideName,
@@ -170,8 +216,7 @@ export function WhenView({
           }}
         />
         <GuideNote guide={model.guide} line={pickReasonLine(pick)} note />
-        {failure}
-        {own}
+        {ownFirst ? null : own}
       </SetupShell>
     );
   }
@@ -184,16 +229,13 @@ export function WhenView({
     <SetupShell
       {...shell}
       tag={tag}
-      title={
-        model.solo
-          ? t({ id: 'setup.when.titleSolo', message: 'When can you go?' })
-          : t({ id: 'setup.when.title', message: 'When can everyone go?' })
-      }
+      title={title}
       line={syncedLine(model)}
       testID={`setup-when-${model.mode}`}
       footer={
         !model.isOrganiser ? undefined : best !== null && range !== null ? (
           <>
+            {failure}
             <PillButton
               label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}
               flap
@@ -210,14 +252,18 @@ export function WhenView({
         ) : (
           // Nothing to suggest (nobody has shared a day, the windows are being worked out, or the
           // only one starts within days): picking the dates is the step's main action.
-          <PillButton
-            label={t({ id: 'setup.when.pickDates', message: 'Pick the dates' })}
-            onPress={actions.onPickWeek}
-            testID="when-pick-week"
-          />
+          <>
+            {failure}
+            <PillButton
+              label={t({ id: 'setup.when.pickDates', message: 'Pick the dates' })}
+              onPress={actions.onPickWeek}
+              testID="when-pick-week"
+            />
+          </>
         )
       }
     >
+      {ownFirst ? own : null}
       {model.months.length > 0 ? (
         <Heatmap
           months={model.months}
@@ -243,8 +289,7 @@ export function WhenView({
           label={t({ id: 'setup.when.computing', message: 'Finding the best week' })}
         />
       ) : null}
-      {failure}
-      {own}
+      {ownFirst ? null : own}
     </SetupShell>
   );
 }

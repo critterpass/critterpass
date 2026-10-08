@@ -4,7 +4,8 @@
  * src/data/powersync/test-support/synced-schema-source.ts --write`; the synced-schema test
  * fails whenever this file and the server schema disagree. Each value lists the table's columns
  * (`name` = text, `name:integer`, `name:real`); PowerSync adds `id` itself, and streams alias
- * another key to `id` where a table has none.
+ * another key to `id` where a table has none. The indexes come from
+ * test-support/local-indexes.ts, which says what each one is for.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- column lists, never rendered copy. */
 export const SYNCED_TABLE_COLUMNS = {
@@ -325,3 +326,26 @@ export const SYNCED_TABLE_COLUMNS = {
     'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine marine_fetched_at source fetched_at checked_at created_at updated_at',
   xp_ledger: 'user_id crew_id trip_id amount:integer source_kind source_id granted_at created_at',
 } as const;
+
+/** Local indexes per table: index name → its columns, in order. */
+export const SYNCED_TABLE_INDEXES: Partial<
+  Record<keyof typeof SYNCED_TABLE_COLUMNS, Readonly<Record<string, readonly string[]>>>
+> = {
+  activity_events: { trip_at: ['trip_id', 'at'] },
+  bookings: { trip: ['trip_id'] },
+  crew_members: { crew_user: ['crew_id', 'user_id'], user: ['user_id'] },
+  expense_shares: { trip: ['trip_id'] },
+  expenses: { trip: ['trip_id'] },
+  guide_messages: { thread: ['thread_id'] },
+  inbox_items: { user_created: ['user_id', 'created_at'] },
+  ledger_entries: { trip: ['trip_id'] },
+  message_reactions: { message: ['message_id'] },
+  messages: { crew_seq: ['crew_id', 'seq'] },
+  payments: { trip: ['trip_id'] },
+  photos: { trip: ['trip_id'] },
+  plan_days: { version: ['version_id'] },
+  plan_items: { version: ['version_id'] },
+  pois: { destination: ['destination_id'] },
+  trip_participants: { trip_user: ['trip_id', 'user_id'] },
+  trips: { crew: ['crew_id'] },
+};

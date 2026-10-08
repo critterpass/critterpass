@@ -27,6 +27,8 @@ const useStyles = makeStyles((th) => ({
     padding: th.space['14'],
     gap: th.space['10'],
   },
+  // Inside a sheet the calendar sits on the sheet's own surface and gutter, not in a card.
+  flat: { gap: th.space['10'] },
   header: { flexWrap: 'wrap', gap: th.space['8'] },
   pill: {
     backgroundColor: th.semantic.action.primary,
@@ -53,6 +55,8 @@ export interface HeatmapProps {
   /** Makes each day a button (the picker). */
   readonly onSelectDay?: ((date: string) => void) | undefined;
   readonly onDrag?: DragHandlers | undefined;
+  /** Drawn without the card around it (the week picker's sheet). */
+  readonly flat?: boolean | undefined;
   /** Prefix of the grid's own ids (`{id}-grid`, `{id}-month`, `{id}-today`). */
   readonly testID?: string | undefined;
 }
@@ -68,6 +72,7 @@ export function Heatmap({
   today,
   onSelectDay,
   onDrag,
+  flat = false,
   testID = 'heatmap',
 }: HeatmapProps) {
   const styles = useStyles();
@@ -90,7 +95,7 @@ export function Heatmap({
     return heatCellLabel(when, day.free, total, edgesIn(filled, day.date), total > 1 && !past);
   };
   return (
-    <View style={styles.card} testID="setup-heatmap">
+    <View style={flat ? styles.flat : styles.card} testID="setup-heatmap">
       <Row justify="space-between" align="center" style={styles.header}>
         <MonthTitle
           title={monthLabel(locale, month.year, month.month)}
@@ -99,6 +104,7 @@ export function Heatmap({
           onStep={page.step}
           todayIndex={todayIndex}
           onToday={() => page.go(todayIndex)}
+          variant="title"
           testID={testID}
         />
         {windowLabel === undefined ? null : (
