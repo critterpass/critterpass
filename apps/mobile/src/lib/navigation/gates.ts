@@ -45,9 +45,29 @@ export function decideGate(
   return { kind: 'redirect', href: onboardingHref };
 }
 
-/** For session-only layouts (`(tabs)`, `(trip)`): what to render for the current session. */
+/** The onboarding half of the gate (the tabs use it alone): where the current session may go. */
 export function useGateDecision(): GateDecision {
   const state = useSessionGate();
   const onboardingHref = useScreenHref(ONBOARDING_ENTRY_SCREEN);
   return decideGate(state, onboardingHref);
+}
+
+export type SessionGateStep =
+  | { readonly kind: 'wait' }
+  | { readonly kind: 'redirect'; readonly href: Href }
+  | { readonly kind: 'show' };
+
+/**
+ * What a session-only group shows right now: a signed-out or mid-onboarding session leaves (for
+ * onboarding, or for `signedOutTo` when the group names somewhere else), a session still starting
+ * waits, and only a ready session with its local database open gets the screens.
+ */
+export function sessionGateStep(
+  decision: GateDecision,
+  databaseOpen: boolean,
+  signedOutTo?: Href,
+): SessionGateStep {
+  if (decision.kind === 'redirect') return { kind: 'redirect', href: signedOutTo ?? decision.href };
+  if (decision.kind === 'wait' || !databaseOpen) return { kind: 'wait' };
+  return { kind: 'show' };
 }

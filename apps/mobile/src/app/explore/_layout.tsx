@@ -1,24 +1,24 @@
-import { Redirect } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 
-import { useGateDecision } from '@/lib/navigation/gates';
+import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
+import { SessionGate } from '@/ui/states/SessionGate';
 
 /** Explore pages pushed from Home, a trip or a link (screens owned by the explore area); session-only. */
 export default function ExploreLayout() {
-  const decision = useGateDecision();
   const { motion } = useTheme();
   const [motionMode] = useMotionMode();
 
-  if (decision.kind === 'wait') return null;
-  if (decision.kind === 'redirect') return <Redirect href={decision.href} />;
-
   return (
-    <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-      {/* A sheet over the page that opened it: it animates itself. */}
-      <Stack.Screen name="why-sponsored" options={modalGroupOptions()} />
-    </Stack>
+    <SessionGate>
+      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+        {/* "Why sponsored" is a sheet over the page that opened it: it animates itself. */}
+        {sheetScreens('explore').map((name) => (
+          <Stack.Screen key={name} name={name} options={modalGroupOptions()} />
+        ))}
+      </Stack>
+    </SessionGate>
   );
 }

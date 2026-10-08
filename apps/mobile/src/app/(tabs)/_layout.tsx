@@ -1,5 +1,9 @@
 import '@/features/home/register';
+import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 import { ShellTabs } from '@/ui/shell/ShellTabs';
+
+// A screen that fails inside the tabs is contained here: the pages pushed over them stay.
+export { RootErrorBoundary as ErrorBoundary };
 
 /**
  * The app's tabs. The tab screens (`index`, `trips`, `wallet`, `pass`) belong to their areas; the

@@ -104,14 +104,22 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-guide-thread
 
-# English: a cold start drops the gallery's language and restores the guide sheet it was closed on
-# (never an error). The same thread, and a local word's gloss.
+# English: a cold start drops the gallery's language and never reopens a sheet, so the app comes
+# back on the screen under it and the guide opens from its button. The same thread (never an
+# error), and a local word's gloss.
 - stopApp
 - launchApp
 - extendedWaitUntil:
     visible:
-      id: 'guide-composer'
+      id: 'guide-fab'
     timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 30000
 - extendedWaitUntil:
     visible:
       id: 'guide-answer-[0-9a-f-]{36}'
