@@ -5,6 +5,7 @@
  * reason.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- reason codes, never copy. */
+import { upper } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
 /** An hour as people say it: "1" for 13:00 in English, "13" elsewhere. */
@@ -60,9 +61,12 @@ export function sourceLine(input: {
 }
 
 export function recheckChip(date: string, locale: string): string {
-  const label = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' })
-    .format(new Date(`${date}T12:00:00Z`))
-    .toUpperCase();
+  const label = upper(
+    new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(
+      new Date(`${date}T12:00:00Z`),
+    ),
+    locale,
+  );
   return t({ id: 'plan.check.rain.recheck', message: `RECHECKS ${label}` });
 }
 

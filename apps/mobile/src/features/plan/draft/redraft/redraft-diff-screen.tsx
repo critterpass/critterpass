@@ -29,6 +29,7 @@ import {
   redraftPhase,
 } from '../data/redraft';
 import { useRedraft } from '../data/use-redraft';
+import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
 import { putBackToast } from './outcome-copy';
 import { RedraftDiffView } from './redraft-diff-view';
@@ -77,7 +78,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
     [result, cards, off],
   );
   const gone = useTakenOut(result?.base_version_id ?? null, result?.candidate_version_id ?? null);
-  const backLabel = t({ id: 'planDraft.loading.back', message: 'Back' });
+  const backLabel = draftBackLabel(null);
   if (trip === null) {
     return (
       <ScreenMissing

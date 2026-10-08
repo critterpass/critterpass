@@ -19,7 +19,7 @@ import { Text } from '@/ui/text/Text';
 import { Fold } from '@/ui/transitions/Fold';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { draftingBackLabel } from '../back-label';
+import { draftingBackLabel } from '../review/draft-copy';
 import { VISIBLE_STEP_IDS, type DayCard, type DraftPhase, type StepRow } from '../data/job';
 import { DayMarquee } from './day-marquee';
 import { GuideGlow, GuideInRings } from './ping-rings';

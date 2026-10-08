@@ -7,7 +7,6 @@
  * (Home, a tab), a draft that lands navigates nothing; she is told and goes there herself, and
  * coming back to the wait then opens the draft.
  */
-import { t } from '@lingui/core/macro';
 import { router, useIsFocused } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -26,6 +25,7 @@ import { draftPhase, emptySnapshot, isLive, type StartState } from '../data/job'
 import { useDraftServices } from '../data/services';
 import { tripDays } from '../data/trip-days';
 import { useDraftJob } from '../data/use-draft-job';
+import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
 import { DraftingView } from './drafting-view';
 
@@ -140,7 +140,7 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
       .then((result) => report(result, { id: 'draft-cancel' }));
   };
 
-  const backLabel = t({ id: 'planDraft.loading.back', message: 'Back' });
+  const backLabel = draftBackLabel(null);
   if (trip === undefined) {
     return <ScreenLoading backLabel={backLabel} fallback={parent} testID="drafting-loading" />;
   }

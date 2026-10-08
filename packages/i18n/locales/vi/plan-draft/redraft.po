@@ -132,6 +132,10 @@ msgstr "Dày lịch hơn"
 msgid "planDraft.diff.summaryPlain"
 msgstr "Đây là những gì {guideName} muốn đổi."
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.thinkingOffline"
+msgstr "Không có sóng thì mình chưa lấy được. Có mạng lại là nó hiện ở đây."
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.redraft.busy"
 msgstr "Mình cần nghỉ chút. Lát nữa hỏi lại nhé."
@@ -256,6 +260,10 @@ msgstr "Đổi hẳn"
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
 msgid "planDraft.change.dropped"
 msgstr "Bỏ ra"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.thinkingSlow"
+msgstr "Lâu hơn thường lệ. Bạn cứ rời đi: xong mình sẽ báo."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.redraft.failed"

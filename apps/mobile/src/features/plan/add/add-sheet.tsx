@@ -8,6 +8,7 @@
  * for later" keeps it in the trip's Ideas instead. Offline it still adds from the last fit, which
  * the queue sends later.
  */
+import { upper } from '@cp/i18n';
 import { generateStableId } from '@cp/domain';
 import { useRootNavigationState } from 'expo-router';
 
@@ -240,7 +241,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
 
   return (
     <AddSheetView
-      name={(subject?.name ?? '').toUpperCase()}
+      name={upper(subject?.name ?? '', locale)}
       line={words.line}
       days={chips(dayGrades(server.fit))}
       dayNo={nowhere ? null : (choice?.dayNo ?? null)}
@@ -258,7 +259,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
             leave={choice === null || waiting ? null : leaveLine(shown, choice.startMin)}
             time={waiting ? WAITING_TIME : time}
             length={lengthLabel(length)}
-            name={(subject?.name ?? '').toUpperCase()}
+            name={upper(subject?.name ?? '', locale)}
             detail={blockDetail(shown)}
             editingTime={editingTime}
             onTime={() => setEditingTime((open) => !open)}

@@ -24,7 +24,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { draftBackLabel } from '../back-label';
+import { draftBackLabel } from './draft-copy';
 import { estimateMinor, estimateMoney, overBudgetMinor, wholeMoney } from '../data/format';
 import type { RedraftQuota } from '../data/quota';
 import { counterLine } from '../data/quota-copy';

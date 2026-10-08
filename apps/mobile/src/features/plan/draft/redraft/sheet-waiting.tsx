@@ -3,7 +3,6 @@
  * never sits blank over the screen underneath taking its touches. When the draft turns out to be
  * gone it closes onto the draft screen, which says what there is instead.
  */
-import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
@@ -12,6 +11,7 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { makeStyles } from '@/ui/theme';
 
+import { draftLoadingLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
 
 const useStyles = makeStyles((th) => ({
@@ -31,16 +31,9 @@ export function DraftSheetWaiting({
     if (gone) goBackOr(draftRoutes.review(tripId));
   }, [gone, tripId]);
   return (
-    <Sheet
-      accessibilityLabel={t({ id: 'planDraft.loading.label', message: 'Loading your draft' })}
-      testID="draft-sheet-waiting"
-    >
+    <Sheet accessibilityLabel={draftLoadingLabel()} testID="draft-sheet-waiting">
       <View style={styles.body}>
-        <Skeleton
-          preset="list"
-          repeat={3}
-          label={t({ id: 'planDraft.loading.label', message: 'Loading your draft' })}
-        />
+        <Skeleton preset="list" repeat={3} label={draftLoadingLabel()} />
       </View>
     </Sheet>
   );

@@ -17,7 +17,7 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 
-import { draftBackLabel } from '../back-label';
+import { draftBackLabel } from './draft-copy';
 import { restoreDraftVersionCommand } from '../data/commands';
 import { useDecidedRedrafts } from '../data/decided-redrafts';
 import { isBeingDrafted, isDraftRetired } from '../data/draft-stage';

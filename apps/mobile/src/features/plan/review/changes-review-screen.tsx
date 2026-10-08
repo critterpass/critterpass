@@ -8,6 +8,7 @@
  * against the plan; otherwise it names what would collide. Ideas Tokek left out are listed under
  * NEEDS YOU with a way to see why.
  */
+import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 
@@ -242,7 +243,7 @@ export function ChangesReviewScreen({
       send={
         editable
           ? {
-              label: organiser ? addNowLabel(ideas) : sendLabel(view.prediction).toUpperCase(),
+              label: organiser ? addNowLabel(ideas) : upper(sendLabel(view.prediction), locale),
               disabled: !keeps,
               busy: busy === 'send',
               onPress: () => void (organiser ? addNow() : run('send', actions.send)),

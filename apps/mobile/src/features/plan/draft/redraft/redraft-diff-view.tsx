@@ -130,7 +130,7 @@ function Thinking({
                 message: 'I can’t reach it without signal. It shows here once you’re back online.',
               })
             : t({
-                id: 'planDraft.drafting.slow',
+                id: 'planDraft.diff.thinkingSlow',
                 message: 'Taking longer than usual. You can leave: I’ll tell you when it’s ready.',
               })}
         </Text>

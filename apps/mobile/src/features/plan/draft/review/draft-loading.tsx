@@ -13,7 +13,7 @@ import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
-import { draftBackLabel } from '../back-label';
+import { draftBackLabel, draftLoadingLabel } from './draft-copy';
 
 const useStyles = makeStyles((th) => ({
   header: {
@@ -47,7 +47,7 @@ export function DraftLoading({ trip, onBack }: DraftLoadingProps) {
         <Skeleton
           preset="card"
           repeat={3}
-          label={t({ id: 'planDraft.loading.label', message: 'Loading your draft' })}
+          label={draftLoadingLabel()}
           {...(trip === null || guideName === null
             ? {}
             : {

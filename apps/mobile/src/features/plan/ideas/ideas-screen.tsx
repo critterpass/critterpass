@@ -6,6 +6,7 @@
  * crew has a plan an organiser places them on her own draft, and a member reads that it is still
  * being put together (./use-ideas-plan.ts).
  */
+import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
 
@@ -119,7 +120,9 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     const date = days.find((day) => day.dayNo === row?.day_no)?.date;
     return date === undefined ? null : dayName(locale, date);
   };
-  const placeable = ideas.filter((idea) => stopDay(idea) === null);
+  // Worked out once per render: each look-up scans the plan's stops.
+  const inPlanBy = new Map(ideas.map((idea) => [idea.id, stopDay(idea)] as const));
+  const placeable = ideas.filter((idea) => inPlanBy.get(idea.id) == null);
   const summary = ideasSummary(placeable);
   const open = ideas.find((idea) => idea.id === openId) ?? null;
 
@@ -184,7 +187,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     ideas.flatMap((idea) => (idea.poiId === null ? [] : [idea.poiId])),
   );
   const rows = ideas.map((idea) => {
-    const inPlan = stopDay(idea);
+    const inPlan = inPlanBy.get(idea.id) ?? null;
     const line =
       inPlan === null
         ? fitLine(idea.fit, { weekdays, tz, stopName })
@@ -193,7 +196,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
       <IdeaRow
         key={idea.id}
         ideaId={idea.id}
-        name={namer.name(idea).toUpperCase()}
+        name={upper(namer.name(idea), locale)}
         icon={ideaIcon(idea.category)}
         photo={idea.poiId === null ? undefined : photos.get(idea.poiId)}
         fitLine={
@@ -272,8 +275,8 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
       />
       {open === null ? null : (
         <IdeaActions
-          name={namer.name(open).toUpperCase()}
-          inPlan={stopDay(open)}
+          name={upper(namer.name(open), locale)}
+          inPlan={inPlanBy.get(open.id) ?? null}
           onAddToDay={
             beforePlan !== null
               ? null
