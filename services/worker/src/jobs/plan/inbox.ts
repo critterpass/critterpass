@@ -8,14 +8,16 @@
  */
 import { loadPollState } from '@cp/db';
 import {
+  changeReviewLink,
   ensureInboxKinds,
-  PLAN_CHANGE_INBOX_KINDS,
+  type InboxAction,
   PLAN_CHANGE_CHAT_LINE,
   PLAN_CHANGE_INBOX_KIND,
+  PLAN_CHANGE_INBOX_KINDS,
   planChangeLineBody,
-  pollVoteResolveKey,
-  type InboxAction,
   type PlanChangeSummary,
+  pollVoteResolveKey,
+  tripPlanLink,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -147,7 +149,7 @@ function registerVoteNeeded(): void {
         actorId: change.authorId,
         data: { change_set_id: changeSetId, poll_id: change.pollId, ...change.summary },
         actions: [OPEN],
-        deepLink: `/trip/${change.tripId}/review/${changeSetId}`,
+        deepLink: changeReviewLink(change.tripId, changeSetId),
         expiresAt: change.closesAt,
         resolveKey: pollVoteResolveKey(uid, change.pollId),
       };
@@ -208,7 +210,7 @@ function registerDecided(kind: string, outcome: 'applied' | 'kept' | 'ran_out'):
         tripId: change.tripId,
         actorId: change.authorId,
         data: { change_set_id: changeSetId, outcome, ...change.summary },
-        deepLink: `/trip/${change.tripId}/plan`,
+        deepLink: tripPlanLink(change.tripId),
       };
     },
   });

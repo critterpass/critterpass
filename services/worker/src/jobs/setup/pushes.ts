@@ -7,6 +7,7 @@
  * reply's words.
  */
 import {
+  addMustDoLink,
   ASK_BODY,
   ASK_REPLY_BODY,
   CALENDAR_STALE_BODY,
@@ -15,6 +16,8 @@ import {
   MUST_DO_PROMPT_BODY,
   ROOM_SWAP_BODY,
   SETUP_GUIDE_TITLE,
+  setupAskLink,
+  setupStepLink,
 } from '@cp/domain';
 import { fillAskLine } from '@cp/ai';
 
@@ -71,7 +74,7 @@ export function registerSetupPushes(): void {
         sender: facts.guide,
         crewId: facts.crewId,
         tripId: ask.trip_id,
-        deepLink: `/trip/${ask.trip_id}/setup/ask/${askId ?? ''}`,
+        deepLink: setupAskLink(ask.trip_id, askId ?? ''),
         ctx: { ask_id: askId, actions: ['freed', 'not_movable'] },
         needsYou: true,
       };
@@ -109,7 +112,7 @@ export function registerSetupPushes(): void {
           sender: facts.guide,
           crewId: facts.crewId,
           tripId: ask.trip_id,
-          deepLink: `/trip/${ask.trip_id}/setup/when`,
+          deepLink: setupStepLink(ask.trip_id, 'when'),
           ctx: { ask_id: str(routed, 'ask_id'), outcome },
         };
       },
@@ -141,7 +144,7 @@ export function registerSetupPushes(): void {
         sender: facts.guide,
         crewId: facts.crewId,
         tripId: facts.tripId,
-        deepLink: `/trip/${facts.tripId}/setup/when`,
+        deepLink: setupStepLink(facts.tripId, 'when'),
         ctx: { trip_id: facts.tripId, reason },
         collapseVars: { trip_id: facts.tripId },
       };
@@ -171,7 +174,7 @@ export function registerSetupPushes(): void {
         sender: facts.guide,
         crewId: facts.crewId,
         tripId: facts.tripId,
-        deepLink: `/trip/${facts.tripId}/setup/must-dos/add`,
+        deepLink: addMustDoLink(facts.tripId),
         ctx: { trip_id: facts.tripId, sheet: 'add_must_do' },
         needsYou: true,
         collapseVars: { trip_id: facts.tripId },
@@ -201,7 +204,7 @@ export function registerSetupPushes(): void {
         sender: facts.guide,
         crewId: facts.crewId,
         tripId: facts.tripId,
-        deepLink: `/trip/${facts.tripId}/setup/rooms`,
+        deepLink: setupStepLink(facts.tripId, 'rooms'),
         ctx: { trip_id: facts.tripId, user_id: asker },
       };
     },
@@ -237,7 +240,7 @@ export function registerSetupPushes(): void {
         sender: facts.guide,
         crewId: facts.crewId,
         tripId: facts.tripId,
-        deepLink: `/trip/${facts.tripId}/setup/must-dos`,
+        deepLink: setupStepLink(facts.tripId, 'must-dos'),
         ctx: { must_do_id: mustDoId, slot },
       };
     },

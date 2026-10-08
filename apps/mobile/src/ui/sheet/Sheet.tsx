@@ -1,10 +1,11 @@
-import { router } from 'expo-router';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { Platform, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { goBackOr } from '@/lib/navigation/back';
 
 import { useBackAffordance } from '../qa/back-affordance';
 import { SurfaceToneProvider } from '../surface/Scaffold';
@@ -112,7 +113,10 @@ export interface SheetProps {
   readonly closable?: boolean | undefined;
   readonly detents?: readonly SheetDetent[] | undefined;
   readonly initialDetent?: SheetDetent | undefined;
-  /** Called after the dismiss animation; defaults to going back (sheets are `(modal)` routes). */
+  /**
+   * Called after the dismiss animation; defaults to going back (sheets are `(modal)` routes), or to
+   * Home when the sheet was opened cold and nothing is under it.
+   */
   readonly onDismiss?: () => void | undefined;
   /** Screen-reader name of the sheet, e.g. its title. */
   readonly accessibilityLabel?: string | undefined;
@@ -161,7 +165,7 @@ export function Sheet({
     variant: 'sheet',
     heights,
     initialIndex,
-    onDismissed: onDismiss ?? (() => router.back()),
+    onDismissed: onDismiss ?? (() => goBackOr()),
     testID,
   });
   const { dismiss, maxHeight, keyboardInset } = presentation;

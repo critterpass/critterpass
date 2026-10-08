@@ -4,7 +4,7 @@
  * is confirmed (the organiser locked it in, or enough were in when reply-by passed), and "called
  * off" when an organiser cancels it.
  */
-import { tripHubPath } from '@cp/domain';
+import { tripHubLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type NotificationSender } from '../notify/register';
@@ -170,7 +170,7 @@ export function registerTripNewsNotifications(): void {
         sender: { kind: 'member', id: member, name },
         crewId: trip.crew_id,
         tripId,
-        deepLink: tripHubPath(tripId ?? ''),
+        deepLink: tripHubLink(tripId ?? ''),
         collapseVars: { trip_id: tripId ?? '' },
       };
     },
@@ -207,7 +207,7 @@ export function registerTripNewsNotifications(): void {
         sender: trip.guide,
         crewId: trip.crew_id,
         tripId,
-        deepLink: tripHubPath(tripId ?? ''),
+        deepLink: tripHubLink(tripId ?? ''),
         collapseVars: { trip_id: tripId ?? '' },
       };
     },
@@ -239,7 +239,7 @@ export function registerTripNewsNotifications(): void {
         sender: { kind: 'member', id: routed.actorId, name },
         crewId: trip.crew_id,
         tripId,
-        deepLink: tripHubPath(tripId ?? ''),
+        deepLink: tripHubLink(tripId ?? ''),
         collapseVars: { trip_id: tripId ?? '' },
       };
     },

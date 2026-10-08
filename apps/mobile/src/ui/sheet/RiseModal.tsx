@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -6,6 +5,8 @@ import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { tokens } from '@cp/design-tokens';
+
+import { goBackOr } from '@/lib/navigation/back';
 
 import type { ScaffoldVariant } from '../surface/Scaffold';
 import { Scaffold } from '../surface/Scaffold';
@@ -27,7 +28,10 @@ export interface RiseModalProps {
   readonly accent?: string | undefined;
   /** The corner the ✕ sits in; the paywall (4e-1) draws it at the start, across from RESTORE. @default 'end' */
   readonly closeSide?: 'start' | 'end' | undefined;
-  /** Called after the dismiss animation; defaults to going back (rises are `(modal)` routes). */
+  /**
+   * Called after the dismiss animation; defaults to going back (rises are `(modal)` routes), or to
+   * Home when the rise was opened cold and nothing is under it.
+   */
   readonly onDismiss?: () => void | undefined;
   readonly accessibilityLabel?: string | undefined;
   readonly testID?: string | undefined;
@@ -55,7 +59,7 @@ export function RiseModal({
     variant: 'rise',
     heights: [height],
     initialIndex: 0,
-    onDismissed: onDismiss ?? (() => router.back()),
+    onDismissed: onDismiss ?? (() => goBackOr()),
     testID,
   });
   const { dismiss, keyboardInset } = presentation;

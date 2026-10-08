@@ -12,7 +12,7 @@ import { Share } from 'react-native';
 
 import { currentAppEnvironment } from '@/data/app-session/endpoints';
 import { heroAt, useSubjectMedia } from '@/data/media/use-subject-media';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import type { PlaceProfile } from '@/data/places/place-read';
 import { dataOf } from '@/data/travel-data/freshness';
 import { goHref } from '@/features/go';
@@ -73,7 +73,7 @@ export function PlaceDetailScreen({
   const locale = i18n.locale;
   const facts = useTripFacts(tripId, placeId);
   useExploreStream(row.destination_id);
-  const offline = useSyncStatus().phase === 'offline';
+  const offline = useSyncPhase() === 'offline';
   const crew = useTripCrew(tripId);
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
   const read = usePlaceDetailContext(placeId, tripId);

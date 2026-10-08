@@ -1,5 +1,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- dev-gallery sample copy; fixture files are loaded only by the (dev) gallery and never ship. */
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import { View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { registerFixture } from '../gallery/registry';
 import { Text } from '../text/Text';
@@ -16,11 +19,28 @@ import { OfflinePill } from './OfflinePill';
 import { OutboxList } from './OutboxList';
 import { PendingSync } from './PendingSync';
 import { PermissionCard } from './PermissionCard';
+import { ScreenLoading } from './ScreenLoading';
+import { ScreenMissing } from './ScreenMissing';
 import { Skeleton } from './Skeleton';
 import { StaleCaption } from './StaleCaption';
 
 const noop = () => undefined;
 const HOUR = 3_600_000;
+/** Room for a whole-screen state inside the gallery's page. */
+const SCREEN_HEIGHT = 520;
+const NO_INSETS = {
+  frame: { x: 0, y: 0, width: 0, height: 0 },
+  insets: { top: 0, left: 0, right: 0, bottom: 0 },
+};
+
+/** A whole-screen state drawn as a card of the gallery page: its own frame, no device insets. */
+function ScreenFrame({ children }: { readonly children: ReactNode }) {
+  return (
+    <View style={{ height: SCREEN_HEIGHT }}>
+      <SafeAreaProvider initialMetrics={NO_INSETS}>{children}</SafeAreaProvider>
+    </View>
+  );
+}
 
 const STEPS = [
   'Reading the crew’s must-dos',
@@ -60,6 +80,28 @@ registerFixture('Skeleton', 'card', () => <Skeleton />);
 registerFixture('Skeleton', 'list rows', () => <Skeleton preset="list" repeat={3} />);
 registerFixture('Skeleton', 'photo + slow hint', () => (
   <Skeleton preset="photo" slowHint={<GuideLine guide="pon" name="Pon" line="Pon's on it…" />} />
+));
+registerFixture('ScreenLoading', 'pushed screen, still reading', () => (
+  <ScreenFrame>
+    <ScreenLoading backLabel="BOOKINGS" label="Loading the booking" />
+  </ScreenFrame>
+));
+registerFixture('ScreenMissing', 'default copy', () => (
+  <ScreenFrame>
+    <ScreenMissing backLabel="BOOKINGS" />
+  </ScreenFrame>
+));
+registerFixture('ScreenMissing', 'own copy and a second action', () => (
+  <ScreenFrame>
+    <ScreenMissing
+      backLabel="TRIP"
+      title="This booking was removed"
+      line="Maya took it off the trip. The rest of the wallet is still here."
+      action={{ label: 'Back to bookings', onPress: noop }}
+      secondaryAction={{ label: 'Add it again', onPress: noop }}
+      testID="screen-missing-own"
+    />
+  </ScreenFrame>
 ));
 registerFixture('ErrorSheet', 'three ways forward', () => (
   <ErrorSheet

@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the shared loading and "not here" states of a pushed screen, from the dev gallery.
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'ScreenLoading'
+- takeScreenshot: en-screen-loading
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'ScreenMissing'
+- takeScreenshot: en-screen-missing
+- scrollUntilVisible:
+    element:
+      id: 'screen-missing-own-secondary'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-screen-missing-two-actions

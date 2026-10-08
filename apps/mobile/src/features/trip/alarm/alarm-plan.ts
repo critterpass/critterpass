@@ -81,6 +81,26 @@ export function diffAlarms(
   return { schedule, cancel: [...new Set(cancel)] };
 }
 
+/** How far ahead the in-app alarm's clock starts watching for a leave-by: a day. */
+const WATCH_AHEAD_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Whether any leave-by could ring on the in-app alarm screen today: I'm on it, not up, it has not
+ * gone, and its alarm (or its snooze) is due within a day. The alarm's clock runs only then.
+ */
+export function alarmWatched(
+  views: readonly LeaveByView[],
+  now: Date,
+  snoozedUntil: ReadonlyMap<string, Date> = new Map(),
+): boolean {
+  return views.some((view) => {
+    if (!view.viewerIn || view.viewerUp) return false;
+    if (view.leaveAt.getTime() <= now.getTime()) return false;
+    const at = snoozedUntil.get(view.id) ?? view.alarmAt;
+    return at.getTime() - now.getTime() < WATCH_AHEAD_MS;
+  });
+}
+
 /** The alarm ringing now (due, not yet past the leave-by), for the in-app alarm screen. */
 export function dueAlarm(
   views: readonly LeaveByView[],

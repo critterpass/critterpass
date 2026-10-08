@@ -2,7 +2,7 @@
  * The draft-ready push ("{Guide}'s draft is ready"), to the organiser who asked for the draft only,
  * opening the private review. The catalogue sends it only while their app is in the background.
  */
-import { DRAFT_READY_BODY, DRAFT_READY_TITLE } from '@cp/domain';
+import { DRAFT_READY_BODY, DRAFT_READY_TITLE, tripDraftLink } from '@cp/domain';
 
 import { registerNotification } from '../../notify/register';
 import { setupFacts, str } from '../../setup/facts';
@@ -27,7 +27,7 @@ export function registerDraftPushes(): void {
         sender: facts.guide,
         crewId: facts.crewId,
         tripId,
-        deepLink: `/trip/${tripId}/draft`,
+        deepLink: tripDraftLink(tripId),
         ctx: { version_id: str(event, 'version_id') },
         collapseVars: { trip_id: tripId },
       };

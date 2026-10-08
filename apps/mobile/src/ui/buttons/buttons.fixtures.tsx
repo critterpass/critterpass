@@ -45,6 +45,18 @@ registerFixture('PillButton', 'loading and disabled', () => (
     <PillButton disabled label="Pick a date first" onPress={noop} />
   </Stack>
 ));
+registerFixture('PillButton', 'small, loading: keeps the width of its words', () => (
+  <Stack gap="8">
+    <Row gap="8">
+      <PillButton size="sm" label="Accept offer" onPress={noop} />
+      <PillButton size="sm" variant="secondary" label="Later" onPress={noop} />
+    </Row>
+    <Row gap="8">
+      <PillButton size="sm" loading label="Accept offer" onPress={noop} />
+      <PillButton size="sm" variant="secondary" label="Later" onPress={noop} />
+    </Row>
+  </Stack>
+));
 registerFixture('PillButton', 'small and long label', () => (
   <Stack gap="8">
     <PillButton size="sm" label="Pass+ · Yearly" onPress={noop} />

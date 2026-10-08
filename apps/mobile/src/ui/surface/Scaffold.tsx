@@ -1,3 +1,4 @@
+import { BottomTabBarHeightContext } from 'expo-router/js-tabs';
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
@@ -9,6 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useScreenJoltStyle } from '@/motion/patterns/thud';
 
 import { PresenterHostContext, usePresenterStyle } from '../sheet/presenter';
+import { TAB_BAR_CONTENT_HEIGHT } from '../shell/tab-bar-metrics';
 import type { Theme } from '../theme';
 import { makeStyles, useTheme } from '../theme';
 
@@ -50,6 +52,14 @@ export interface ScaffoldProps {
   readonly background?: ReactNode | undefined;
   /** Safe-area edges padded; the tab bar pads its own bottom inset. */
   readonly edges?: readonly Edge[] | undefined;
+  /**
+   * For a screen pushed inside a tab (a booking in the Wallet tab, a trip's page in Trips): ends
+   * the content above the floating tab bar, with no per-screen maths. Outside a tab it pads the
+   * device's bottom inset instead, so the same screen is right wherever it is opened. A tab's root
+   * that scrolls under the bar keeps padding its own content with `useTabBarInset()`; a footer with
+   * text entry uses `KeyboardFooter`, which clears the bar itself.
+   */
+  readonly clearTabBar?: boolean | undefined;
   readonly children?: ReactNode;
   readonly style?: StyleProp<ViewStyle> | undefined;
   readonly testID?: string | undefined;
@@ -85,6 +95,7 @@ export function Scaffold({
   accent,
   background,
   edges = ['top'],
+  clearTabBar = false,
   children,
   style,
   testID,
@@ -99,9 +110,13 @@ export function Scaffold({
   const tone = TONE[variant];
   const backgroundColor = backgroundFor(variant, theme, accent);
 
+  // Only a tab navigator's scenes get a tab bar height; stacks over the tabs have none.
+  const inTab = useContext(BottomTabBarHeightContext) !== undefined;
   const padding: ViewStyle = {
     paddingTop: edges.includes('top') ? insets.top : 0,
-    paddingBottom: edges.includes('bottom') ? insets.bottom : 0,
+    paddingBottom:
+      (clearTabBar || edges.includes('bottom') ? insets.bottom : 0) +
+      (clearTabBar && inTab ? TAB_BAR_CONTENT_HEIGHT : 0),
   };
 
   return (

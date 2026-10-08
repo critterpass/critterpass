@@ -8,7 +8,7 @@
  *   Activity (already refreshed by the flight event itself) and the "nothing changes" note.
  */
 import { appendDomainEvent, sendInTx } from '@cp/db';
-import { generateUuidV7, TRIP_DAY_QUEUES, type DisruptionAction } from '@cp/domain';
+import { type DisruptionAction, disruptionLink, generateUuidV7, TRIP_DAY_QUEUES } from '@cp/domain';
 import type pg from 'pg';
 
 import { planGuideAction } from '../../guide-actions';
@@ -126,7 +126,7 @@ async function runSystemRow(
             icon: 'plane',
             text: ctx.headline.slice(0, 120),
             action: 'open',
-            deep_link: `/disruption/${ctx.disruptionId}`,
+            deep_link: disruptionLink(ctx.disruptionId),
           },
           ctx.now,
         );
@@ -143,7 +143,7 @@ async function runSystemRow(
             icon: 'plane',
             text: row.label.slice(0, 120),
             action: 'open',
-            deep_link: `/disruption/${ctx.disruptionId}`,
+            deep_link: disruptionLink(ctx.disruptionId),
           },
           ctx.now,
         );

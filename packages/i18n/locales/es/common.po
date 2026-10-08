@@ -197,10 +197,6 @@ msgstr ""
 msgid "common.chat.addAttachment"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.instagram"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/trip/EtaList.tsx
 msgid "common.trip.arrivesAt"
 msgstr ""
@@ -283,10 +279,6 @@ msgstr ""
 msgid "common.sheet.close"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.close"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
 msgid "common.chat.closeActions"
 msgstr ""
@@ -308,8 +300,12 @@ msgstr ""
 msgid "common.trip.copyAddress"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.error"
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.shareFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.saveFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
@@ -358,6 +354,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.offlineUnavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.rendering"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
@@ -421,6 +421,10 @@ msgstr ""
 msgid "common.shell.fabHelp"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.back"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
 msgstr ""
@@ -472,6 +476,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.toast"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/plan/DiffRow.tsx
@@ -578,6 +586,10 @@ msgstr ""
 msgid "common.recap.mvp"
 msgstr ""
 
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.needsSignal"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
 msgid "common.story.next"
 msgstr ""
@@ -679,6 +691,10 @@ msgstr "Foto"
 msgid "common.shell.errorBackBody"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.format"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.place"
 msgstr ""
@@ -691,7 +707,7 @@ msgstr ""
 msgid "common.story.play"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.format.post"
 msgstr ""
 
@@ -743,20 +759,16 @@ msgstr ""
 msgid "common.chat.removeAttachment"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.rendering"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/recap/RouteRider.tsx
 msgid "common.recap.route"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.save"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
@@ -779,12 +791,20 @@ msgstr ""
 msgid "common.outbox.sent"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.share"
 msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.showToast"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.showLongToast"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
@@ -871,7 +891,7 @@ msgstr ""
 msgid "common.trip.stopPhrase"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.format.story"
 msgstr ""
 
@@ -909,6 +929,10 @@ msgstr ""
 msgid "errors.CODE_INVALID"
 msgstr ""
 
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.refused"
+msgstr ""
+
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.IDEMPOTENCY_MISMATCH"
 msgstr ""
@@ -941,8 +965,16 @@ msgstr ""
 msgid "errors.HOLD_EXPIRED"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.error"
+msgstr ""
+
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.PLAN_VERSION_CONFLICT"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoLongToastTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
@@ -975,6 +1007,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.NOT_ELIGIBLE"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.title"
 msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
@@ -1039,6 +1075,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorRetry"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/map/CpMap.tsx

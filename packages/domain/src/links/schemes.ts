@@ -48,3 +48,11 @@ export function buildSchemeUrl(target: LinkTarget, env: LinkEnvironment): string
     : linkPath(target);
   return `${scheme}:/${path}`;
 }
+
+/**
+ * An in-app link (`/getting-around`, `/wallet/mailbox/connected?status=…`) as the URL that opens
+ * it from outside the app: a Live Activity, or a browser returning from an OAuth provider.
+ */
+export function appLinkSchemeUrl(scheme: string, link: string): string {
+  return `${scheme}:/${link}`;
+}

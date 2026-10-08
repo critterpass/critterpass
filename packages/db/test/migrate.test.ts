@@ -10,7 +10,8 @@ import { startPostgres, type StartedPostgreSqlContainer } from './helpers/contai
 let container: StartedPostgreSqlContainer;
 
 beforeAll(async () => {
-  container = await startPostgres();
+  // A container of its own: the runner is checked against a database with no migration applied.
+  container = await startPostgres({ ownContainer: true });
 }, 180_000);
 
 afterAll(async () => {

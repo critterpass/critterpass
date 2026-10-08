@@ -14,6 +14,7 @@ import { CritterAvatar } from './CritterAvatar';
 import { EmptySeat } from './EmptySeat';
 import { GuideLine } from './GuideLine';
 import { LiveSticker } from './LiveSticker';
+import { MemberFaceProvider, type MemberFaceResolver } from './member-face';
 import { SilhouetteSlot } from './SilhouetteSlot';
 
 const noop = () => undefined;
@@ -66,6 +67,33 @@ registerFixture('Avatar', 'members 7–16 ring patterns', () => (
 ));
 registerFixture('Avatar', 'critter', () => (
   <Avatar name="Winston" size="xl" critter={<Sticker kind="gecko" name="Tokek" size={40} />} />
+));
+/** The gallery's stand-in for the app root's faces: Maya wears Tokek, Ari wears Pon. */
+const galleryFaces: MemberFaceResolver = (uid, diameter) => {
+  const size = Math.round(diameter * 0.82);
+  if (uid === 'u-maya') return { critter: <Sticker kind="gecko" name="Tokek" size={size} /> };
+  if (uid === 'u-ari') return { critter: <Sticker kind="tanuki" name="Pon" size={size} /> };
+  return {};
+};
+
+registerFixture('Avatar', 'by uid: the chosen face, or the initial', () => (
+  <MemberFaceProvider resolve={galleryFaces}>
+    <Stack gap="12">
+      <Row gap="8" align="center">
+        <Avatar name="Maya" uid="u-maya" size="sm" />
+        <Avatar name="Maya" uid="u-maya" joinIndex={1} />
+        <Avatar name="Ari" uid="u-ari" joinIndex={2} size="lg" />
+        <Avatar name="Jun" uid="u-jun" joinIndex={3} size="lg" />
+      </Row>
+      <AvatarStack
+        members={[
+          { key: 'maya', name: 'Maya', uid: 'u-maya', joinIndex: 0 },
+          { key: 'ari', name: 'Ari', uid: 'u-ari', joinIndex: 1 },
+          { key: 'jun', name: 'Jun', uid: 'u-jun', joinIndex: 2 },
+        ]}
+      />
+    </Stack>
+  </MemberFaceProvider>
 ));
 registerFixture('AvatarStack', 'overflow', () => (
   <AvatarStack members={CREW.map((name, joinIndex) => ({ key: name, name, joinIndex }))} />

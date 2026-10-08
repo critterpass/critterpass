@@ -36,6 +36,15 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-Amount'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-Amount
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-ArLabels'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1116,6 +1125,24 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-ScreenLoading'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-ScreenLoading
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-ScreenMissing'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-ScreenMissing
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-SearchField'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1573,6 +1600,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-ActionPill
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-Amount'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-Amount
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2653,6 +2689,24 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-ScanOverlay
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-ScreenLoading'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-ScreenLoading
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-ScreenMissing'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-ScreenMissing
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:

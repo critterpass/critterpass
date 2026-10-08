@@ -10,9 +10,10 @@
  */
 import {
   DISRUPTION_PUSH,
+  type DisruptionAction,
   lateOptionsSchema,
   registerNotificationTrigger,
-  type DisruptionAction,
+  runningLateLink,
 } from '@cp/domain';
 import { lateChoiceRows } from '@cp/planner';
 import type pg from 'pg';
@@ -157,7 +158,7 @@ export function registerLateNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: late.crew_id,
         tripId,
-        deepLink: `/late/${disruptionId}`,
+        deepLink: runningLateLink(disruptionId),
         collapseVars: { plan_item_id: str(routed, 'plan_item_id') ?? '' },
       };
     },

@@ -21,6 +21,8 @@ export interface ToggleProps {
   /** What the switch controls ("Talk out loud"); the row title usually. */
   readonly label: string;
   readonly disabled?: boolean;
+  /** The `snap` a flip fires; off for a host that answers with its own cue. @default true */
+  readonly feedback?: boolean;
   readonly testID?: string;
 }
 
@@ -52,7 +54,14 @@ const useStyles = makeStyles((t) => {
 });
 
 /** On/off switch with a squash-and-stretch knob; announces "On"/"Off" as its value. */
-export function Toggle({ value, onValueChange, label, disabled = false, testID }: ToggleProps) {
+export function Toggle({
+  value,
+  onValueChange,
+  label,
+  disabled = false,
+  feedback = true,
+  testID,
+}: ToggleProps) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
@@ -87,6 +96,7 @@ export function Toggle({ value, onValueChange, label, disabled = false, testID }
     <PressScale
       testID={testID}
       onPress={() => onValueChange(!value)}
+      feedback={feedback ? 'snap' : undefined}
       disabled={disabled}
       widthClass="narrow"
       accessibilityRole="switch"

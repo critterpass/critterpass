@@ -44,7 +44,19 @@
     "test:db": {
       "dependsOn": ["^build"],
       "outputs": [],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/infra/**"],
       "cache": false
+    },
+    "@cp/db#test": {
+      "dependsOn": [],
+      "outputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/infra/**",
+        "$TURBO_ROOT$/packages/domain/src/**",
+        "!$TURBO_ROOT$/packages/domain/src/**/*.test.ts",
+        "!$TURBO_ROOT$/packages/domain/src/**/__tests__/**"
+      ]
     },
     "dev": {
       "dependsOn": ["^build"],

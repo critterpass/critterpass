@@ -4,7 +4,7 @@
  * guide, opening the recap; N-35 a year later to each traveller on their own morning, quietly,
  * opening the memory. Registered from the worker entry, like the other feature pushes.
  */
-import { RECAP_PUSH } from '@cp/domain';
+import { memoryLink, RECAP_PUSH, recapLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type NotificationSender } from '../notify/register';
@@ -59,7 +59,7 @@ export function registerRecapPushes(): void {
         vars: { place },
         sender,
         tripId: event.tripId,
-        deepLink: `/recap/${event.tripId ?? ''}`,
+        deepLink: recapLink(event.tripId ?? ''),
         ctx: { recap_id: str(event, 'recap_id') },
       };
     },
@@ -78,7 +78,7 @@ export function registerRecapPushes(): void {
         vars: { place },
         sender,
         tripId: event.tripId,
-        deepLink: `/memory/${memoryId ?? ''}?trip=${event.tripId ?? ''}`,
+        deepLink: memoryLink(memoryId ?? '', event.tripId ?? ''),
         ctx: { memory_id: memoryId },
       };
     },

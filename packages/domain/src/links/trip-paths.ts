@@ -1,34 +1,61 @@
 /**
- * In-app paths of a trip's hub and its day-of screen, as notifications, inbox rows and briefing
- * lines link them. Both screens live in the TRIPS tab (`/trips/<trip id>`); rows and pushes sent
- * earlier carry `/hub/<trip id>` shapes, which `currentAppPath` reads as the same screens.
+ * The former paths of the screens a link was once written for. Pushes already delivered and rows
+ * already written keep the path they were sent with, so `currentAppPath` reads each former shape
+ * as the screen `app-links.ts` names today.
  */
+import {
+  crewMapLink,
+  expenseLink,
+  guideThreadLink,
+  moneyLink,
+  paymentLink,
+  settleLink,
+  tripDayLink,
+  tripHubLink,
+  voteLink,
+} from './app-links';
+
 const TRIP_ID = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
 const DAY = '\\d{4}-\\d{2}-\\d{2}|today';
-const FORMER_HUB = new RegExp(`^/hub/(${TRIP_ID})(?:/day/(${DAY}))?/?$`, 'iu');
 const TRIP_DAY = new RegExp(`^/(?:hub|trips)/(${TRIP_ID})/day/(${DAY})/?$`, 'iu');
 
-export function tripHubPath(tripId: string): string {
-  return `/trips/${tripId}`;
-}
-
-export function tripDayPath(tripId: string, localDate: string): string {
-  return `/trips/${tripId}/day/${localDate}`;
-}
+const ID = '[^/?#]+';
+/** The guide's current thread, where a link names none. */
+const NEW_THREAD = 'new';
 
 /**
- * The path the app has a screen for. A former hub or day path becomes today's; anything else
- * (query and fragment included) is returned unchanged.
+ * Former path shapes and the path of the same screen today. Trip hub and day links were written
+ * under `/hub`; money's pushed screens under the wallet tab; a Help share named a session page
+ * that was never built (the crew map draws the sharer); a briefing line's balance, open vote and
+ * queued answer named `/money`, `/polls/<id>` and a guide with no thread (`new` is the guide's
+ * current one).
+ */
+const FORMER_PATHS: readonly (readonly [RegExp, (...parts: string[]) => string])[] = [
+  [new RegExp(`^/hub/(${TRIP_ID})/day/(${DAY})/?$`, 'iu'), tripDayLink],
+  [new RegExp(`^/hub/(${TRIP_ID})/?$`, 'iu'), tripHubLink],
+  [new RegExp(`^/wallet/money/payment/(${ID})/?$`, 'u'), paymentLink],
+  [new RegExp(`^/wallet/money/expense/(${ID})/?$`, 'u'), expenseLink],
+  [/^\/wallet\/money\/settle\/?$/u, settleLink],
+  [new RegExp(`^/help/(${ID})/session/${ID}/?$`, 'u'), crewMapLink],
+  [/^\/money\/?$/u, moneyLink],
+  [new RegExp(`^/polls/(${ID})/?$`, 'u'), voteLink],
+  [/^\/guide\/?$/u, () => guideThreadLink(NEW_THREAD)],
+];
+
+/**
+ * The path the app has a screen for. A former path becomes today's, keeping its query and
+ * fragment; anything else is returned unchanged.
  */
 export function currentAppPath(path: string): string {
   const cut = path.search(/[?#]/u);
   const pathname = cut === -1 ? path : path.slice(0, cut);
-  const match = FORMER_HUB.exec(pathname);
-  const tripId = match?.[1];
-  if (tripId === undefined) return path;
-  const date = match?.[2];
-  const next = date === undefined ? tripHubPath(tripId) : tripDayPath(tripId, date);
-  return cut === -1 ? next : `${next}${path.slice(cut)}`;
+  for (const [former, current] of FORMER_PATHS) {
+    const match = former.exec(pathname);
+    if (match === null) continue;
+    const next = current(...match.slice(1));
+    return cut === -1 ? next : `${next}${path.slice(cut)}`;
+  }
+  return path;
 }
 
 /** The trip and day a day-of path names, in either shape; null for any other path. */

@@ -5,7 +5,7 @@ import type { DoodleName } from '../icons/generated';
 import { Icon } from '../icons/Icon';
 import { PressScale } from '../press/PressScale';
 import type { Theme } from '../theme';
-import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
+import { makeStyles, useTheme } from '../theme';
 
 export type IconButtonSurface = 'dark' | 'cream' | 'onPhoto';
 
@@ -53,7 +53,8 @@ export function IconButton({
   const styles = useStyles();
   const theme = useTheme();
   const { bg, fg } = surfaceColours(theme, surface);
-  const diameter = Math.max(size, MIN_TOUCH_TARGET);
+  // Drawn at the size asked for; a button under the minimum target gains invisible touch slop.
+  const diameter = size;
   return (
     <PressScale
       testID={testID}
@@ -66,9 +67,11 @@ export function IconButton({
         {
           width: diameter,
           height: diameter,
+          minWidth: diameter,
+          minHeight: diameter,
           borderRadius: diameter / 2,
           ...(bg ? { backgroundColor: bg } : {}),
-          opacity: disabled ? 0.4 : 1,
+          opacity: disabled ? theme.opacity.disabled : 1,
         },
       ]}
     >

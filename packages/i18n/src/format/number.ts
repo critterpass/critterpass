@@ -1,6 +1,8 @@
 /** Plain-number `Intl` wrappers (design-system.md §6 "Numbers & currency"); currency itself is
  * formatted by the money primitives phase, which layers a currency code onto these. */
 
+import { numberFormat } from './formatter-cache';
+
 const COMPACT_STEPS: readonly (readonly [number, string])[] = [
   [1e9, 'B'],
   [1e6, 'M'],
@@ -8,25 +10,23 @@ const COMPACT_STEPS: readonly (readonly [number, string])[] = [
 ];
 
 export function number(locale: string, value: number, options?: Intl.NumberFormatOptions): string {
-  return new Intl.NumberFormat(locale, options).format(value);
+  return numberFormat(locale, options).format(value);
 }
 
 /** e.g. "1.2K", "3M" — crew/trip counters and hype percentages that must not wrap. */
 export function compactNumber(locale: string, value: number): string {
-  const full = new Intl.NumberFormat(locale).format(value);
-  const native = new Intl.NumberFormat(locale, { notation: 'compact' }).format(value);
+  const full = numberFormat(locale).format(value);
+  const native = numberFormat(locale, { notation: 'compact' }).format(value);
   if (native !== full || Math.abs(value) < 1000) return native;
   // Hermes on iPhone ignores compact notation and writes the number out: scale it here.
   const [size, suffix] = COMPACT_STEPS.find(([step]) => Math.abs(value) >= step) ?? [1, ''];
-  const scaled = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value / size);
+  const scaled = numberFormat(locale, { maximumFractionDigits: 1 }).format(value / size);
   return `${scaled}${suffix}`;
 }
 
 /** `value` is a fraction (0.42, not 42); rounds to whole percent per design-system.md's hype/plan meters. */
 export function percent(locale: string, value: number): string {
-  return new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 0 }).format(
-    value,
-  );
+  return numberFormat(locale, { style: 'percent', maximumFractionDigits: 0 }).format(value);
 }
 
 /**
@@ -39,7 +39,5 @@ export function countdownUnit(
   value: number,
   unit: 'day' | 'hour' | 'minute' | 'second',
 ): string {
-  return new Intl.NumberFormat(locale, { style: 'unit', unit, unitDisplay: 'narrow' }).format(
-    value,
-  );
+  return numberFormat(locale, { style: 'unit', unit, unitDisplay: 'narrow' }).format(value);
 }

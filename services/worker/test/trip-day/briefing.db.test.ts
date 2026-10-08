@@ -136,7 +136,7 @@ describe('the plan check in the briefing', () => {
       action: 'open',
       facts: { count: 1 },
       template: "One thing on today's plan needs fixing.",
-      deep_link: `/${world.tripId}/check`,
+      deep_link: `/trip/${world.tripId}/check`,
     });
     // Another day's briefing does not carry it.
     const other = await withSystem(world.harness.pool, (tx) =>
