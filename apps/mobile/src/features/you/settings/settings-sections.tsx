@@ -19,7 +19,7 @@ import type { LocationValue } from './location-row';
 import { SETTINGS_REGISTRY, SETTINGS_SECTIONS, type SettingsSectionId } from './registry';
 import type { SyncedSettings } from './synced-settings';
 import type { SettingsSection } from './settings-view';
-import { widgetsRow } from './widgets-row';
+import { inviteFriendsRow, widgetsRow } from './widgets-row';
 
 const CHATTY_TRACK: ViewStyle = { flexShrink: 1, maxWidth: '64%' };
 
@@ -65,6 +65,7 @@ export interface SettingsHandlers {
   readonly onLanguage: () => void;
   readonly onAppIcon?: () => void;
   readonly onWidgets?: () => void;
+  readonly onInviteFriends?: () => void;
   readonly onShakeToReport?: (next: boolean) => void;
   readonly onSignOut: () => void;
   readonly onRate: (() => void) | null;
@@ -271,6 +272,7 @@ export function useSettingsSections(
           }
         : null,
     widgets: widgetsRow(handlers.onWidgets),
+    'invite-friends': inviteFriendsRow(handlers.onInviteFriends),
     ...helpRows(values, handlers),
     ...accountRows,
   };

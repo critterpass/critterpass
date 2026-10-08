@@ -35,7 +35,7 @@ import { useDataExport } from '../export/use-data-export';
 import { languageLine } from '../language/currency-model';
 import { nativeNameOf } from '../language/language-names';
 import { hasAlternateAppIcons } from '../app-icon/device';
-import { YOU_ROUTES } from '../routes';
+import { INVITE_FRIENDS_ROUTE, YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
 import { usePlanChip } from './plan-chip-slot';
 import { useHelpShareConsent } from './help-share-consent';
@@ -132,6 +132,7 @@ export function SettingsScreen({
       onLanguage: () => router.push(YOU_ROUTES.language),
       onAppIcon: () => router.push(YOU_ROUTES.appIcon),
       onWidgets: () => router.push(YOU_ROUTES.widgets),
+      onInviteFriends: () => router.push(INVITE_FRIENDS_ROUTE),
       onShakeToReport: setShakeToReport,
       onSignOut: () => router.push(YOU_ROUTES.signOut),
       onRate: reviewUrl === null ? null : () => void Linking.openURL(reviewUrl),
