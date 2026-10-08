@@ -27,16 +27,20 @@ export function isTabHref(href: string): boolean {
   return path === '/' || TAB_ROOTS.some((root) => path === root || path.startsWith(`${root}/`));
 }
 
+/** The wrapper route the router puts around the root layout; the root stack is its child state. */
+const ROOT_WRAPPER = '__root';
+
 /** The part of the root navigation state the check reads. */
 export interface RootRoutes {
   readonly index?: number | undefined;
-  readonly routes: readonly { readonly name: string }[];
+  readonly routes: readonly { readonly name: string; readonly state?: RootRoutes | undefined }[];
 }
 
 /** True when the screen in front is one of the tab navigator's (a tab root or a page pushed in a tab). */
 export function insideTabs(state: RootRoutes | undefined): boolean {
-  if (state === undefined) return false;
-  return state.routes[state.index ?? state.routes.length - 1]?.name === TABS_GROUP;
+  const front = state?.routes[state.index ?? state.routes.length - 1];
+  if (front?.name === ROOT_WRAPPER) return insideTabs(front.state);
+  return front?.name === TABS_GROUP;
 }
 
 function rootState(): RootRoutes | undefined {

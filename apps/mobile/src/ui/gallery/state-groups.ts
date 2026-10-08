@@ -47,7 +47,7 @@ export const STATE_GROUPS: readonly StateGroup[] = [
       {
         screen: '3b-6',
         label: 'final vote',
-        fixtures: [f('HomeHeader', 'unread chat and inbox'), f('SplitShowdown', 'final vote')],
+        fixtures: [f('HomeHeader', 'unread chat and inbox')],
       },
     ],
   },
@@ -57,10 +57,7 @@ export const STATE_GROUPS: readonly StateGroup[] = [
       {
         screen: '3b-4',
         label: 'inbox',
-        fixtures: [
-          f('ActionCard', 'slides off when handled'),
-          f('SuggestionCard', 'guide pick with actions'),
-        ],
+        fixtures: [f('ActionCard', 'slides off when handled')],
       },
       {
         screen: '3b-5',
@@ -73,11 +70,6 @@ export const STATE_GROUPS: readonly StateGroup[] = [
     title: 'Destination vote',
     states: [
       {
-        screen: '3c-1',
-        label: 'showdown',
-        fixtures: [f('SplitShowdown', 'final vote'), f('VoteBoard', 'vote open')],
-      },
-      {
         screen: '3c-2',
         label: 'Kyoto wins',
         fixtures: [f('ResultTally', 'Kyoto wins'), f('PollBars', 'final vote')],
@@ -88,25 +80,15 @@ export const STATE_GROUPS: readonly StateGroup[] = [
     title: 'When',
     states: [
       {
-        screen: '3c-3',
-        label: 'pick the week',
-        fixtures: [f('StepTabs', 'kyoto setup'), f('CalendarHeatmap', 'April availability')],
-      },
-      {
         screen: '3c-4',
         label: 'no week fits',
-        fixtures: [f('CalendarHeatmap', 'April availability'), f('RadioCard', 'with pick tag')],
+        fixtures: [f('RadioCard', 'with pick tag')],
       },
     ],
   },
   {
     title: 'Draft',
     states: [
-      {
-        screen: '3c-8',
-        label: 'drafting',
-        fixtures: [f('ChecklistProgress', 'live job'), f('StreamText', 'guide line')],
-      },
       {
         screen: '3c-9',
         label: 'the draft',
@@ -125,18 +107,13 @@ export const STATE_GROUPS: readonly StateGroup[] = [
       {
         screen: '3f-7',
         label: 'one drops out',
-        fixtures: [f('AvatarStack', 'overflow'), f('DiffRow', 'rejected')],
+        fixtures: [f('AvatarStack', 'overflow')],
       },
     ],
   },
   {
     title: 'Receipt scan',
     states: [
-      {
-        screen: '3i-3',
-        label: 'scanning',
-        fixtures: [f('ScanOverlay', 'reading a receipt')],
-      },
       {
         screen: '3i-4',
         label: "couldn't read it",
@@ -153,14 +130,9 @@ export const STATE_GROUPS: readonly StateGroup[] = [
         fixtures: [f('ChatMessage', 'thread'), f('Composer', 'idle and typing')],
       },
       {
-        screen: '3j-2',
-        label: 'voice',
-        fixtures: [f('VoiceOrb', 'listening'), f('VoiceOrb', 'thinking')],
-      },
-      {
         screen: '3j-3',
         label: 'point and ask',
-        fixtures: [f('ArLabels', 'menu translation'), f('PhraseCard', 'show to driver')],
+        fixtures: [f('PhraseCard', 'show to driver')],
       },
     ],
   },
@@ -170,7 +142,7 @@ export const STATE_GROUPS: readonly StateGroup[] = [
       {
         screen: '3k-1',
         label: 'hub',
-        fixtures: [f('TileGrid', 'hub 2×2'), f('TimelineList', 'rest of the day')],
+        fixtures: [f('TileGrid', 'hub 2×2')],
       },
       {
         screen: '3k-5',
@@ -185,17 +157,17 @@ export const STATE_GROUPS: readonly StateGroup[] = [
       {
         screen: '3k-2',
         label: 'leave by',
-        fixtures: [f('LeaveByHero', 'sunrise climb'), f('Countdown', 'days away')],
+        fixtures: [f('LeaveByHero', 'sunrise climb')],
       },
       {
         screen: '3k-3',
         label: 'lock screen',
-        fixtures: [f('Countdown', 'turns urgent'), f('Ticket', 'flight')],
+        fixtures: [f('Ticket', 'flight')],
       },
       {
         screen: '3k-4',
         label: 'offline at the top',
-        fixtures: [f('OfflinePill', 'no signal'), f('OutboxList', 'queued and sent')],
+        fixtures: [f('OfflinePill', 'no signal')],
       },
     ],
   },
@@ -210,7 +182,7 @@ export const STATE_GROUPS: readonly StateGroup[] = [
       {
         screen: '3l-5',
         label: 'it wandered off',
-        fixtures: [f('WanderFootprints', 'wandered off'), f('GotAway', 'golden Tokek')],
+        fixtures: [f('WanderFootprints', 'wandered off')],
       },
     ],
   },

@@ -5,6 +5,7 @@
  */
 import type { StorePlatform } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
+import { Platform } from 'react-native';
 
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -112,8 +113,10 @@ export function Disclosure(props: DisclosureProps) {
   const { t } = useLingui();
   const theme = useTheme();
   const { price } = props;
+  // With no store answering yet, the phone itself says which one it would be.
+  const store = props.store ?? (Platform.OS === 'android' ? 'play' : null);
   const where =
-    props.store === 'play'
+    store === 'play'
       ? t({ id: 'monetize.disclosure.play', message: 'Google Play' })
       : t({ id: 'monetize.disclosure.appStore', message: 'the App Store' });
   const line =

@@ -50,6 +50,7 @@ const useStyles = makeStyles((t) => ({
     start: 0,
     top: 0,
     bottom: 0,
+    borderRadius: TRACK_HEIGHT / 2,
     backgroundColor: t.semantic.action.primary,
     opacity: 0.25,
   },
@@ -74,8 +75,10 @@ export function SlideToConfirm({
     disabled: disabled || width === 0,
     accessibilityLabel: actionLabel,
   });
+  // The trail grows from nothing at rest (no band behind a knob that has not moved) to the knob's
+  // centre at the end, so its rounded end always stays under or behind the knob.
   const fillStyle = useAnimatedStyle(() => ({
-    width: slide.progress.value * travel + KNOB + INSET,
+    width: slide.progress.value * (travel + INSET + KNOB / 2),
   }));
   const onLayout = (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width);
   return (

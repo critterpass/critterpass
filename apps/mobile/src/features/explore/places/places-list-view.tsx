@@ -21,6 +21,7 @@ import { centreOf, type Point } from '../map-model';
 import { listItems, planDays, type ListItem } from './list-items';
 import type { PlaceFacts } from './place-facts';
 import { listOrder, placeGroups, type SortMode } from './place-groups';
+import { useListResume } from './places-resume';
 import { sortLabel, swipeHint } from './places-copy';
 import { PlacesEmpty, PlacesFailed } from './places-empty';
 import { PlacesHeader } from './places-header';
@@ -101,6 +102,8 @@ export interface PlacesListViewProps {
   readonly onSearch: () => void;
   readonly onMap: () => void;
   readonly onBack: () => void;
+  /** Names the trip or destination whose order and scroll the list shares with the map. */
+  readonly resumeKey?: string | undefined;
 }
 
 export function PlacesListView(props: PlacesListViewProps) {
@@ -108,8 +111,9 @@ export function PlacesListView(props: PlacesListViewProps) {
   const insets = useSafeAreaInsets();
   const { places, filter, fits, lines, weekdays, crew } = props;
   const status = props.status ?? 'ready';
-  // Must-sees and the guide's picks lead until the traveller asks for another order.
-  const [sort, setSort] = useState<SortMode>('fit');
+  // Must-sees and the guide's picks lead until the traveller asks for another order; the order and
+  // the row the list was left on come back after a look at the map.
+  const { sort, setSort, ref, onScroll, onLoad } = useListResume<ListItem>(props.resumeKey);
   const viewer = props.stay === null ? (props.viewer ?? null) : null;
   const middle = useMemo(() => centreOf(places), [places]);
   const from = props.stay?.at ?? viewer ?? middle;
@@ -270,6 +274,9 @@ export function PlacesListView(props: PlacesListViewProps) {
         </View>
       )}
       <FlashList
+        ref={ref}
+        onScroll={onScroll}
+        onLoad={onLoad}
         data={items}
         extraData={extra}
         keyExtractor={keyOf}

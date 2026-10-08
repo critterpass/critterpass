@@ -13,11 +13,6 @@ import { ActionPill } from './ActionPill';
 import { DayRow } from './DayRow';
 import { DayTimeline } from './DayTimeline';
 import type { TimelineBlock } from './DayTimeline';
-import { DiffRow } from './DiffRow';
-import type { DiffDecision } from './DiffRow';
-import { MustDoRow } from './MustDoRow';
-import { RoomAssign } from './RoomAssign';
-import type { Room } from './RoomAssign';
 
 const { color, member } = tokens;
 const size = sizeToken(tokens.size.avatar, 'lg');
@@ -150,73 +145,6 @@ function TimelineDemo() {
   );
 }
 
-function DiffDemo() {
-  const [decision, setDecision] = useState<DiffDecision>('pending');
-  return (
-    <DiffRow
-      before="14:00 Ridge walk"
-      after="17:00 Ridge walk"
-      reason="Rain clears by 3. Golden hour."
-      people={
-        <Row gap="4">
-          <Face initial="M" index={0} />
-          <Face initial="A" index={1} />
-        </Row>
-      }
-      decision={decision}
-      onKeep={() => setDecision('kept')}
-      onReject={() => setDecision('rejected')}
-    />
-  );
-}
-
-function RoomsDemo() {
-  const [rooms, setRooms] = useState<readonly Room[]>([
-    {
-      id: 'r1',
-      name: 'Room 1',
-      tag: 'Light sleepers',
-      occupants: [
-        { id: 'm', name: 'Maya', avatar: <Face initial="M" index={0} /> },
-        { id: 'r', name: 'Rin', avatar: <Face initial="R" index={1} /> },
-      ],
-    },
-    {
-      id: 'r2',
-      name: 'Room 2',
-      tag: 'Early risers',
-      occupants: [
-        { id: 'w', name: 'Winston', avatar: <Face initial="W" index={2} /> },
-        { id: 'a', name: 'Alex', avatar: <Face initial="A" index={3} /> },
-      ],
-    },
-    {
-      id: 'r3',
-      name: 'Room 3',
-      tag: 'Night owls',
-      occupants: [{ id: 'j', name: 'Jordan', avatar: <Face initial="J" index={4} /> }],
-    },
-  ]);
-  return (
-    <RoomAssign
-      rooms={rooms}
-      onMove={(personId, toRoomId) =>
-        setRooms((list) => {
-          const person = list.flatMap((room) => room.occupants).find((p) => p.id === personId);
-          if (!person) return list;
-          return list.map((room) => ({
-            ...room,
-            occupants:
-              room.id === toRoomId
-                ? [...room.occupants, person]
-                : room.occupants.filter((p) => p.id !== personId),
-          }));
-        })
-      }
-    />
-  );
-}
-
 registerFixture('ActionPill', 'tones', () => (
   <Row gap="8" wrap>
     <ActionPill label="Move it" tone="primary" onPress={() => undefined} />
@@ -239,45 +167,3 @@ registerFixture('DayRow', 'booked', () => (
   />
 ));
 registerFixture('DayTimeline', 'planning mode', () => <TimelineDemo />);
-registerFixture('DiffRow', 'toggle', () => <DiffDemo />);
-registerFixture('DiffRow', 'rejected', () => (
-  <DiffRow
-    before="19:30 Locavore NXT"
-    after="20:30 Locavore NXT"
-    reason="Only needed if the walk runs late."
-    decision="rejected"
-  />
-));
-registerFixture('MustDoRow', 'checked', () => (
-  <MustDoRow
-    owner={<Face initial="M" index={0} />}
-    ownerName="Maya"
-    title="Tea ceremony"
-    detail="Camellia, Gion"
-    state="checked"
-  />
-));
-registerFixture('MustDoRow', 'entered', () => (
-  <MustDoRow
-    owner={<Face initial="A" index={3} />}
-    ownerName="Alex"
-    title="Nintendo Museum"
-    detail="Uji · ticket lottery"
-    state="checked"
-    tag="Entered"
-  />
-));
-registerFixture('MustDoRow', 'flagged', () => (
-  <MustDoRow
-    owner={<Face initial="J" index={4} />}
-    ownerName="Jordan"
-    title="Vegetarian kaiseki"
-    detail="Shigetsu"
-    state="flagged"
-    tag="Clashes with day 3"
-  />
-));
-registerFixture('MustDoRow', 'typing', () => (
-  <MustDoRow owner={<Face initial="D" index={5} />} ownerName="Dev" state="typing" />
-));
-registerFixture('RoomAssign', 'ryokan', () => <RoomsDemo />);

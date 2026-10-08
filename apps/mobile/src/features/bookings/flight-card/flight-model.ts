@@ -39,7 +39,7 @@ export interface FlightView {
   readonly terminal: string | null;
   readonly seat: string | null;
   readonly bag: string | null;
-  /** "AeroAPI · 09:12" once a provider or the traveller said something. */
+  /** Who last reported the status and when, once a provider did; only the time is shown. */
   readonly source: { readonly name: string; readonly at: string } | null;
   readonly coTravellerIds: readonly string[];
   readonly legs: number;

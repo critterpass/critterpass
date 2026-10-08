@@ -67,15 +67,6 @@ appId: app.critterpass.dev
     id: 'state-next'
 - extendedWaitUntil:
     visible:
-      id: 'state-view-3c-1'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: state-3c-1
-- tapOn:
-    id: 'state-next'
-- extendedWaitUntil:
-    visible:
       id: 'state-view-3c-2'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -85,29 +76,11 @@ appId: app.critterpass.dev
     id: 'state-next'
 - extendedWaitUntil:
     visible:
-      id: 'state-view-3c-3'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: state-3c-3
-- tapOn:
-    id: 'state-next'
-- extendedWaitUntil:
-    visible:
       id: 'state-view-3c-4'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: state-3c-4
-- tapOn:
-    id: 'state-next'
-- extendedWaitUntil:
-    visible:
-      id: 'state-view-3c-8'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: state-3c-8
 - tapOn:
     id: 'state-next'
 - extendedWaitUntil:
@@ -139,15 +112,6 @@ appId: app.critterpass.dev
     id: 'state-next'
 - extendedWaitUntil:
     visible:
-      id: 'state-view-3i-3'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: state-3i-3
-- tapOn:
-    id: 'state-next'
-- extendedWaitUntil:
-    visible:
       id: 'state-view-3i-4'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -162,15 +126,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: state-3j-1
-- tapOn:
-    id: 'state-next'
-- extendedWaitUntil:
-    visible:
-      id: 'state-view-3j-2'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: state-3j-2
 - tapOn:
     id: 'state-next'
 - extendedWaitUntil:

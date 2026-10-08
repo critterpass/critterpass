@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
-import { StatusChip } from '@/ui/chips/StatusChip';
+import { statusWord } from '@/ui/chips/StatusChip';
 import { Avatar } from '@/ui/people/Avatar';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { FooterFade, FOOTER_FADE_PT } from '@/ui/surface/FooterFade';
@@ -52,6 +52,12 @@ const useStyles = makeStyles((th) => ({
   },
   divider: { height: 1, backgroundColor: th.semantic.border.decorative },
   grow: { flex: 1 },
+  status: {
+    alignSelf: 'center',
+    borderRadius: th.radius.pill,
+    paddingHorizontal: th.space['10'],
+    paddingVertical: th.space['4'],
+  },
   footer: { paddingHorizontal: th.space['20'], paddingTop: th.space['8'], gap: th.space['6'] },
 }));
 
@@ -188,43 +194,37 @@ export function TrackerView(props: TrackerViewProps) {
   );
 }
 
+/** The row's status as 3f-6 draws it: a rounded pill on the row's middle, the word always there. */
 function StatusChipFor({ status, testID }: { status: PublicStatus; testID: string }) {
-  switch (status) {
-    case 'organiser':
-      return (
-        <StatusChip
-          status="planned"
-          label={t({ id: 'proposal.tracker.organiser', message: 'Organiser' })}
-          testID={testID}
-        />
-      );
-    case 'in':
-      return <StatusChip status="in" testID={testID} />;
-    case 'maybe':
-      return <StatusChip status="maybe" testID={testID} />;
-    case 'out':
-      return (
-        <StatusChip
-          status="ended"
-          label={t({ id: 'proposal.tracker.outChip', message: 'Out' })}
-          testID={testID}
-        />
-      );
-    case 'waitlisted':
-      return (
-        <StatusChip
-          status="planned"
-          label={t({ id: 'proposal.tracker.waitChip', message: 'Waitlist' })}
-          testID={testID}
-        />
-      );
-    case 'no_reply':
-      return (
-        <StatusChip
-          status="unopened"
-          label={t({ id: 'proposal.tracker.noReplyChip', message: 'No reply yet' })}
-          testID={testID}
-        />
-      );
-  }
+  const styles = useStyles();
+  const theme = useTheme();
+  const quiet = { bg: theme.semantic.bg.control, fg: theme.semantic.text.secondary };
+  const onAccent = theme.semantic.text.onAccent;
+  const look: Record<PublicStatus, { bg: string; fg: string; label: string }> = {
+    organiser: {
+      bg: theme.semantic.bg.control,
+      fg: theme.semantic.text.primary,
+      label: t({ id: 'proposal.tracker.organiser', message: 'Organiser' }),
+    },
+    in: { bg: theme.semantic.state.success, fg: onAccent, label: statusWord('in') },
+    maybe: { bg: theme.semantic.state.warning, fg: onAccent, label: statusWord('maybe') },
+    out: { ...quiet, label: t({ id: 'proposal.tracker.outChip', message: 'Out' }) },
+    waitlisted: {
+      bg: theme.semantic.state.info,
+      fg: onAccent,
+      label: t({ id: 'proposal.tracker.waitChip', message: 'Waitlist' }),
+    },
+    no_reply: {
+      ...quiet,
+      label: t({ id: 'proposal.tracker.noReplyChip', message: 'No reply yet' }),
+    },
+  };
+  const { bg, fg, label } = look[status];
+  return (
+    <View testID={testID} style={[styles.status, { backgroundColor: bg }]}>
+      <Text variant="label" color={fg}>
+        {label}
+      </Text>
+    </View>
+  );
 }

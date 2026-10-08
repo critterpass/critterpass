@@ -1,8 +1,10 @@
 /**
  * The virtualised timeline (FlashList, rendered from the bottom): day separators, the "NEW"
  * divider, grouped bubbles and the typing row at the foot. Scrolling to the top loads the next
- * older window from the local database; sitting at the bottom reports the last message seen (for
- * the read marker); scrolled up, a "jump to latest" pill brings the member back down.
+ * older window from the local database, then, past the oldest message the phone keeps, earlier
+ * pages from the api: the row above the first message shows one on its way, or one that could not
+ * be read with RETRY. Sitting at the bottom reports the last message seen (for the read marker);
+ * scrolled up, a "jump to latest" pill brings the member back down.
  */
 import { t } from '@lingui/core/macro';
 import { FlashList, type FlashListRef } from '@shopify/flash-list';
@@ -12,8 +14,11 @@ import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { FOOTER_FADE_PT } from '@/ui/layout/KeyboardFooter';
+import { Skeleton } from '@/ui/states/Skeleton';
+import { Text } from '@/ui';
 import { makeStyles, sizeToken } from '@/ui/theme';
 
+import type { OlderStatus } from '../data/older-messages';
 import type { ChatMessage } from '../data/rows';
 import { DaySeparator } from './day-separator';
 import type { TimelineRow } from './timeline-rows';
@@ -31,6 +36,9 @@ export interface MessageListProps {
   readonly header?: ReactNode;
   readonly footer?: ReactNode;
   readonly onLoadOlder: () => void;
+  /** The page above the first message: on its way, or not read. */
+  readonly older?: OlderStatus;
+  readonly onRetryOlder?: () => void;
   /** The last numbered message is on screen at the bottom. */
   readonly onSeenLatest: (seq: number) => void;
 }
@@ -40,6 +48,8 @@ const useStyles = makeStyles((th) => ({
   // The composer's fade covers the list's last FOOTER_FADE_PT: the newest message ends clear of it.
   content: { paddingHorizontal: th.space['12'], paddingBottom: FOOTER_FADE_PT + th.space['8'] },
   row: { paddingVertical: th.space['2'] },
+  older: { paddingVertical: th.space['12'], gap: th.space['8'] },
+  olderFailed: { alignItems: 'center' },
   // Filled: the pill floats over the bubbles, and an outline alone lets a bubble show through it.
   jump: {
     position: 'absolute',
@@ -49,6 +59,12 @@ const useStyles = makeStyles((th) => ({
     backgroundColor: th.semantic.bg.raised,
   },
 }));
+
+/** Two bubble shapes while an earlier page is on its way. */
+const OLDER_BLOCKS = [
+  { width: '62%', height: 40 },
+  { width: '48%', height: 40 },
+] as const;
 
 const rowKey = (row: TimelineRow) => row.key;
 const rowType = (row: TimelineRow) => (row.kind === 'message' ? row.message.type : row.kind);
@@ -68,6 +84,8 @@ export function MessageList({
   header,
   footer,
   onLoadOlder,
+  older = 'idle',
+  onRetryOlder,
   onSeenLatest,
 }: MessageListProps) {
   const styles = useStyles();
@@ -159,7 +177,32 @@ export function MessageList({
         keyExtractor={rowKey}
         getItemType={rowType}
         renderItem={renderItem}
-        ListHeaderComponent={<>{header}</>}
+        ListHeaderComponent={
+          <>
+            {older === 'loading' ? (
+              <View style={styles.older} testID="chat-older-loading">
+                <Skeleton
+                  blocks={OLDER_BLOCKS}
+                  label={t({ id: 'chat.loading', message: 'Loading the chat' })}
+                />
+              </View>
+            ) : older === 'failed' ? (
+              <View style={[styles.older, styles.olderFailed]} testID="chat-older-failed">
+                <Text variant="caption">
+                  {t({ id: 'chat.voice.failed', message: 'Couldn’t load' })}
+                </Text>
+                <PillButton
+                  label={t({ id: 'chat.status.retry', message: 'Retry' })}
+                  size="sm"
+                  variant="secondary"
+                  onPress={() => onRetryOlder?.()}
+                  testID="chat-older-retry"
+                />
+              </View>
+            ) : null}
+            {header}
+          </>
+        }
         ListFooterComponent={<>{footer}</>}
         contentContainerStyle={styles.content}
         maintainVisibleContentPosition={{ startRenderingFromBottom: true }}

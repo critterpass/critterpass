@@ -120,6 +120,10 @@ msgstr ""
 msgid "safety.sosAccess.allow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.ambulance"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.respond"
 msgstr ""
@@ -182,6 +186,10 @@ msgstr ""
 msgid "safety.showIt.close"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.coastGuard"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.seen"
 msgstr ""
@@ -209,6 +217,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.falseAlarm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.fire"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
@@ -243,6 +255,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.back.help"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.centre"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
@@ -399,6 +415,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.walkBack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.police"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
@@ -587,6 +607,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.touristPolice"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx

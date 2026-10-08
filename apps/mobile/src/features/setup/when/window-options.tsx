@@ -6,7 +6,6 @@
  * An ask shows its progress on its card: asked and waiting, freed, can't move it, no answer.
  * Members read the same cards; only the organiser's are buttons.
  */
-import { formatNarrowCurrency } from '@cp/cost-engine';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -20,6 +19,7 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { money } from '../budget/model';
 import type { SetupMember } from '../data/setup-trip';
 import { countWord, namesList, rangeLabel } from './copy';
 import type { WindowOption } from './model';
@@ -51,21 +51,9 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-function minorToMajor(amountMinor: number, currency: string): number {
-  const digits =
-    new Intl.NumberFormat('en', { style: 'currency', currency }).resolvedOptions()
-      .maximumFractionDigits ?? 2;
-  return Math.round(amountMinor / 10 ** digits);
-}
-
 /** "−$90" / "+$90" (the sign is added here: Hermes's NumberFormat has no `signDisplay`). */
 export function deltaLabel(locale: string, amountMinor: number, currency: string): string {
-  const amount = formatNarrowCurrency(
-    locale,
-    minorToMajor(Math.abs(amountMinor), currency),
-    currency,
-    { maximumFractionDigits: 0 },
-  );
+  const amount = money(locale, Math.abs(amountMinor), currency);
   if (amountMinor === 0) return amount;
   return `${amountMinor < 0 ? '−' : '+'}${amount}`;
 }

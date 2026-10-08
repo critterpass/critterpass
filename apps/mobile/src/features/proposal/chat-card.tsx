@@ -31,8 +31,15 @@ const TRIP_SQL = 'SELECT trip_id FROM messages WHERE id = ?';
 
 export function ProposalMessageCard({ message }: ChatCardProps) {
   const proposalId = message.refId ?? '';
-  const { rows } = useLiveRows<{ trip_id: string | null }>(TRIP_SQL, [message.id], ['messages']);
-  const tripId = rows[0]?.trip_id ?? null;
+  // The message says which trip it is for; one built without its row is looked up on the phone
+  // (a message read from the api, older than the phone keeps, has no row there).
+  const carried = message.tripId ?? null;
+  const { rows } = useLiveRows<{ trip_id: string | null }>(
+    TRIP_SQL,
+    carried === null ? [message.id] : null,
+    ['messages'],
+  );
+  const tripId = carried ?? rows[0]?.trip_id ?? null;
   useTripStreams(tripId);
   const trip = useProposalTrip(tripId);
   const proposal = useProposal(proposalId);

@@ -42,7 +42,12 @@ Rules for a new area (a phase that publishes new tables):
    unpublished table, or when a published table has no stream.
 
 Stream filters cannot use `now()`, so time windows (e.g. recent FX days) need a flag column
-maintained by a job; `fx` is bounded by currency instead.
+maintained by a job; `fx` is bounded by currency instead. A filter also cannot compare a row with
+another table's value (a join or subquery matches on equality only), so a count window is a flag on
+the row too: `crew_chat` sends `messages` and `message_reactions` with `in_sync_window = true`, the
+latest 1,000 messages of a crew, kept by the message insert trigger. The row that leaves the window
+is removed from every phone; the app reads older pages from
+`GET /v1/crews/{crew_id}/chat/messages`.
 
 What is synced: the crew's own data (trip, plan, ideas, money, bookings, chat, trip day, game), the
 caller's own rows, and the small catalogue a trip day needs offline. Content that is the same for

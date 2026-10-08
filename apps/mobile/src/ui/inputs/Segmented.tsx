@@ -42,6 +42,7 @@ const useStyles = makeStyles((t) => ({
   caption: { paddingHorizontal: t.space['10'] },
   // Content-weighted: each segment starts at its label's width and the spare room is shared, so a
   // longer label ("NEEDS YOU · 3") takes more of the track instead of wrapping.
+  // A segment is as tall as a chip by its own style: its touch target comes from slop, not layout.
   segment: {
     flexGrow: 1,
     flexShrink: 1,
@@ -50,7 +51,8 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['4'],
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: sizeToken(t.size.chip, 'hitTarget') / 2,
+    minHeight: sizeToken(t.size.chip, 'height'),
+    borderRadius: sizeToken(t.size.chip, 'height') / 2,
     paddingHorizontal: t.space['8'],
   },
   badge: {

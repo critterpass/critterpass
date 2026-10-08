@@ -40,10 +40,14 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: t.size.gutter,
-    paddingVertical: t.space['8'],
+    // 7c-3: the line sits a chip-gap under the filter chips and close above the first group.
+    paddingTop: t.space['10'],
+    paddingBottom: t.space['4'],
     gap: t.space['12'],
   },
-  label: { flexShrink: 1, justifyContent: 'center' },
+  // A drawn height of its own (the touch target reaches past it), so the line's place under the
+  // chips does not move with the minimum target size.
+  label: { flexShrink: 1, justifyContent: 'center', minHeight: t.space['20'] },
   hint: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['8'] },
   menu: {
     marginHorizontal: t.size.gutter,

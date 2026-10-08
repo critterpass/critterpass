@@ -606,10 +606,6 @@ msgstr "Chưa mở được. Thử lại nhé."
 msgid "suppliers.log.failed"
 msgstr "Chưa lưu được. Thử lại nhé."
 
-#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
-msgid "suppliers.log.invalid"
-msgstr "Có vẻ đây không phải số tiền"
-
 #: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.estimate.gone"
 msgstr "Ước tính đó không còn trên máy này. Hãy mở lại chuyến xe để xem."
@@ -725,10 +721,9 @@ msgstr "Đang chờ nhà tổ chức"
 msgid "suppliers.disclosure.affiliate"
 msgstr "Chúng tôi có thể nhận hoa hồng. Điều đó không bao giờ thay đổi gợi ý của {guide}."
 
-#. placeholder {0}: shown.unit
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
-msgid "suppliers.log.amount"
-msgstr "Chi phí ({0})"
+msgid "suppliers.log.cost"
+msgstr "Chi phí"
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 msgid "suppliers.vendor.selfBody"

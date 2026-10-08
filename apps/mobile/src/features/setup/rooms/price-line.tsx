@@ -6,8 +6,9 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { currencyExponent, currencySymbol, isKnownCurrency } from '@cp/cost-engine';
+import { currencyExponent, isKnownCurrency } from '@cp/cost-engine';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { Odometer } from '@/ui/data/Odometer';
 import { Row } from '@/ui/layout/Row';
@@ -16,6 +17,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
+import { moneyAffixes } from '../budget/model';
 import type { PerPerson } from './model';
 
 const useStyles = makeStyles((th) => ({
@@ -26,10 +28,6 @@ const useStyles = makeStyles((th) => ({
 /** Decimal places of `currency` (2 when unknown). */
 export function fractionDigits(currency: string): number {
   return isKnownCurrency(currency) ? currencyExponent(currency) : 2;
-}
-
-function symbolOf(currency: string): string {
-  return isKnownCurrency(currency) ? currencySymbol(currency, 'narrow') : currency;
 }
 
 export function PriceLine({
@@ -49,7 +47,7 @@ export function PriceLine({
   const styles = useStyles();
   const sticker = guideSticker(guide);
   const colour = guideColour(guide);
-  const symbol = symbolOf(currency);
+  const affixes = moneyAffixes(useLocale(), currency);
   const each = t({ id: 'setup.rooms.price.each', message: ' each' });
   const equal = price.low === price.high;
   let line: string;
@@ -65,8 +63,8 @@ export function PriceLine({
   const amount = (value: number, suffix: string, testID: string) => (
     <Odometer
       value={value}
-      prefix={symbol}
-      suffix={suffix}
+      prefix={affixes.prefix}
+      suffix={`${affixes.suffix}${suffix}`}
       variant="voice"
       color={colour}
       testID={testID}

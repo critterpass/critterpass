@@ -7,10 +7,12 @@
 import { findDesignedForm } from '@cp/critter-art';
 import type { ReactNode } from 'react';
 
+import { crewChip, formEyebrow } from '../encounter/encounter-copy';
 import type { SpawnArt } from '../encounter/encounter-model';
 import { EncounterView, type EncounterViewProps } from '../encounter/encounter-view';
 import { LiveCamera } from '../encounter/live-camera';
 import { goBackOr } from '@/lib/navigation/back';
+import { tierWord } from '@/ui/critters/tier';
 
 const noop = () => undefined;
 
@@ -94,9 +96,9 @@ export const ENCOUNTER_SCENES: Readonly<Record<string, () => ReactNode>> = {
     <EncounterView
       kind="befriended"
       art={TEMPLE}
-      eyebrow="Rare form · 2 of 4"
+      eyebrow={formEyebrow(tierWord('rare'), 2, 4)}
       formChip="Temple Tokek"
-      crewChip="2 in the crew"
+      crewChip={crewChip(2)}
       minutes={11}
       onAdd={noop}
       onShare={noop}

@@ -1,6 +1,5 @@
 /* eslint-disable lingui/no-unlocalized-strings -- dev-gallery sample copy; fixture files are loaded only by the (dev) gallery and never ship. */
 import { useState } from 'react';
-import { View } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
@@ -10,13 +9,10 @@ import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
 import { ActionPill } from '../plan/ActionPill';
 import { Face } from '../plan/plan.fixtures';
-import { Text } from '../text/Text';
 import { Hatch } from '../textures/hatch';
-import { AttachmentThumb } from './AttachmentThumb';
 import { ChatMessage } from './ChatMessage';
 import { ChatRichCard } from './ChatRichCard';
 import { Composer } from './Composer';
-import { FormatPicker } from './FormatPicker';
 import { ReactionFloats } from './ReactionFloats';
 import type { Reaction } from './ReactionFloats';
 
@@ -86,30 +82,6 @@ function FloatsDemo() {
         }
       />
     </Stack>
-  );
-}
-
-function FormatDemo() {
-  const [format, setFormat] = useState<'trailer' | 'poster' | 'postcard'>('trailer');
-  const thumb = (label: string) => (
-    <View style={{ flex: 1 }}>
-      <Hatch />
-      <Text variant="h3" style={{ position: 'absolute', bottom: 8, start: 8 }}>
-        {label}
-      </Text>
-    </View>
-  );
-  return (
-    <FormatPicker
-      label="Pick how it arrives"
-      value={format}
-      onChange={setFormat}
-      options={[
-        { value: 'trailer', label: 'Trailer', preview: thumb('10,000 gates.') },
-        { value: 'poster', label: 'Poster', preview: thumb('Kyo to') },
-        { value: 'postcard', label: 'Postcard', preview: thumb('Dear crew,') },
-      ]}
-    />
   );
 }
 
@@ -198,13 +170,6 @@ registerFixture('ChatRichCard', 'typing', () => (
   <ChatRichCard kind="typing" name="Tokek" avatar={guide} />
 ));
 registerFixture('ReactionFloats', 'live', () => <FloatsDemo />);
-registerFixture('FormatPicker', 'three formats', () => <FormatDemo />);
-registerFixture('AttachmentThumb', 'screenshot and add', () => (
-  <Row gap="12">
-    <AttachmentThumb preview={<Hatch />} label="Screenshot of Budget" onRemove={noop} />
-    <AttachmentThumb onAdd={noop} />
-  </Row>
-));
 registerFixture('Composer', 'idle and typing', () => <ComposerDemo />);
 registerFixture('Composer', 'ready to send', () => (
   <Composer

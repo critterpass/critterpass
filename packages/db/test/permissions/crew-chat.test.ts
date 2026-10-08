@@ -3,6 +3,7 @@
  * `crew_chat_counters` (system only), the `crew_chat` sync stream and the guide's `llm.chat_window`.
  * Active members read and write; a former member who kept the chat reads but cannot write; removed
  * members and outsiders see nothing; moderation-hidden rows vanish for app_user and the stream.
+ * The stream sends only a crew's latest 1,000 messages and their reactions; RLS still reads the rest.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -301,6 +302,224 @@ describe('llm.chat_window', () => {
         tx.query('SELECT body FROM messages LIMIT 1'),
       ),
     ).rejects.toThrow(/permission denied/i);
+  });
+});
+
+describe('chat sync window', () => {
+  const WINDOW = 1000;
+  let recentId: string;
+
+  async function flags(): Promise<{ inside: number; lowestInside: number; lastSeq: number }> {
+    const { rows } = await asSystem<{ inside: number; lowest: string; last: string }>(
+      `SELECT count(*) FILTER (WHERE in_sync_window)::int AS inside,
+              min(seq) FILTER (WHERE in_sync_window) AS lowest, max(seq) AS last
+         FROM messages WHERE crew_id = $1`,
+      [harness.fixture.crewId],
+    );
+    return {
+      inside: rows[0]!.inside,
+      lowestInside: Number(rows[0]!.lowest),
+      lastSeq: Number(rows[0]!.last),
+    };
+  }
+
+  beforeAll(async () => {
+    const { crewId, actors } = harness.fixture;
+    await as(
+      actors.organiser,
+      `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '🌊')`,
+      [visibleId, actors.organiser],
+    );
+    await asSystem(
+      `INSERT INTO messages (crew_id, sender_kind, type, body)
+       SELECT $1, 'system', 'system', 'line ' || n FROM generate_series(1, $2::int) n`,
+      [crewId, WINDOW],
+    );
+    recentId = await send(actors.member, 'still on the phone');
+  });
+
+  it('keeps exactly the latest 1,000 by seq inside, whatever was sent before', async () => {
+    const { inside, lowestInside, lastSeq } = await flags();
+    expect(inside).toBe(WINDOW);
+    expect(lowestInside).toBe(lastSeq - WINDOW + 1);
+    const { rows } = await asSystem<{ in_sync_window: boolean }>(
+      'SELECT in_sync_window FROM messages WHERE id = ANY($1::uuid[])',
+      [[visibleId, hiddenId, pollId]],
+    );
+    expect(rows.map((row) => row.in_sync_window)).toEqual([false, false, false]);
+  });
+
+  it('takes a message’s reactions out with it, and a later reaction to it never comes in', async () => {
+    const { actors } = harness.fixture;
+    await as(
+      actors.member,
+      `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '🙌')`,
+      [visibleId, actors.member],
+    );
+    await as(
+      actors.organiser,
+      `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '👋')`,
+      [recentId, actors.organiser],
+    );
+    const { rows } = await asSystem<{ emoji: string; in_sync_window: boolean }>(
+      `SELECT emoji, in_sync_window FROM message_reactions
+        WHERE message_id = ANY($1::uuid[]) AND emoji IN ('🌊', '🙌', '👋') ORDER BY emoji`,
+      [[visibleId, recentId]],
+    );
+    expect(Object.fromEntries(rows.map((row) => [row.emoji, row.in_sync_window]))).toEqual({
+      '🌊': false,
+      '🙌': false,
+      '👋': true,
+    });
+  });
+
+  it('syncs the window and its reactions only, while members still read older rows', async () => {
+    const { actors } = harness.fixture;
+    for (const rows of [
+      await harness.rows('crew_chat', 'member'),
+      await evaluateStream(harness.db.pool, harness.config, 'crew_chat', { userId: former }),
+    ]) {
+      const messages = rows.get('messages') ?? [];
+      expect(messages).toHaveLength(WINDOW);
+      const ids = new Set(messages.map((row) => row['id']));
+      expect(ids.has(recentId)).toBe(true);
+      expect(ids.has(visibleId)).toBe(false);
+      const reacted = (rows.get('message_reactions') ?? []).map((row) => row['message_id']);
+      expect(reacted).toContain(recentId);
+      expect(reacted.every((id) => ids.has(id))).toBe(true);
+    }
+    const older = await as(actors.member, 'SELECT id FROM messages WHERE id = $1', [visibleId]);
+    expect(older.rows).toHaveLength(1);
+  });
+
+  it('is not the member’s to set, and a deleted message keeps its place in it', async () => {
+    const { actors } = harness.fixture;
+    await expect(
+      as(actors.member, 'UPDATE messages SET in_sync_window = true WHERE id = $1', [visibleId]),
+    ).rejects.toThrow(/permission denied/i);
+    await expect(
+      as(
+        actors.member,
+        `INSERT INTO message_reactions (message_id, user_id, emoji, in_sync_window)
+         VALUES ($1, $2, '👀', true)`,
+        [visibleId, actors.member],
+      ),
+    ).rejects.toThrow(/permission denied/i);
+    const before = await flags();
+    await as(actors.member, "UPDATE messages SET deleted_at = now(), body = '' WHERE id = $1", [
+      recentId,
+    ]);
+    expect(await flags()).toEqual(before);
+  });
+
+  it('slides a long-lived crew with a read of the window’s index, never a scan of every message', async () => {
+    const { crewId } = harness.fixture;
+    interface PlanNode {
+      readonly 'Node Type': string;
+      readonly 'Index Name'?: string;
+      readonly 'Plan Rows': number;
+      readonly Plans?: readonly PlanNode[];
+    }
+    const nodes = (node: PlanNode): PlanNode[] => [node, ...(node.Plans ?? []).flatMap(nodes)];
+    const client = await harness.db.pool.connect();
+    /** How the plan reads `messages`: each scan, the index it uses and the rows it expects. */
+    const reads = async (statement: string) => {
+      const { rows } = await client.query<{ 'QUERY PLAN': [{ Plan: PlanNode }] }>(statement);
+      return nodes(rows[0]!['QUERY PLAN'][0].Plan)
+        .filter((node) => node['Node Type'].endsWith('Scan'))
+        .filter((node) => node['Node Type'] !== 'Bitmap Heap Scan')
+        .map((node) => ({
+          scan: node['Node Type'].replace(/^(Bitmap Index|Index Only|Index) Scan$/, 'index read'),
+          index: node['Index Name'] ?? null,
+          rows: node['Plan Rows'],
+        }));
+    };
+    const shape = (plan: Awaited<ReturnType<typeof reads>>) =>
+      plan.map(({ scan, index }) => ({ scan, index }));
+    try {
+      await client.query('BEGIN');
+      // Five thousand messages and more in one crew, the latest 1,000 of them inside the window.
+      await client.query('SET LOCAL ROLE app_system');
+      await client.query(
+        `INSERT INTO messages (crew_id, sender_kind, type, body)
+         SELECT $1, 'system', 'system', 'line ' || n FROM generate_series(1, 4000) n`,
+        [crewId],
+      );
+      await client.query('RESET ROLE');
+      await client.query('ANALYZE messages');
+      const { rows: counter } = await client.query<{ last_seq: string }>(
+        'SELECT last_seq FROM crew_chat_counters WHERE crew_id = $1',
+        [crewId],
+      );
+      const nextSeq = Number(counter[0]!.last_seq) + 1;
+
+      // The trigger's own statement, as the crew's next send runs it.
+      const { rows: source } = await client.query<{ prosrc: string }>(
+        `SELECT prosrc FROM pg_proc WHERE oid = 'app.slide_chat_sync_window()'::regprocedure`,
+      );
+      const slide =
+        /UPDATE messages SET in_sync_window = false\s+WHERE [^;]*?(?=\s+RETURNING)/.exec(
+          source[0]!.prosrc,
+        )?.[0];
+      expect(slide).toBeDefined();
+      const planned = (crew: string, seq: string) =>
+        slide!.replaceAll('NEW.crew_id', crew).replaceAll('NEW.seq', seq);
+
+      const windowIndexRead = [{ scan: 'index read', index: 'messages_sync_window_idx' }];
+      // With the send's values in hand, and as the plan a session settles on for any send.
+      const custom = await reads(
+        `EXPLAIN (FORMAT JSON) ${planned(`'${crewId}'::uuid`, `${String(nextSeq)}::bigint`)}`,
+      );
+      const generic = await reads(
+        `EXPLAIN (GENERIC_PLAN, FORMAT JSON) ${planned('$1::uuid', '$2::bigint')}`,
+      );
+      expect(
+        { custom: shape(custom), generic: shape(generic) },
+        JSON.stringify({ custom, generic }),
+      ).toEqual({ custom: windowIndexRead, generic: windowIndexRead });
+    } finally {
+      await client.query('ROLLBACK');
+      client.release();
+    }
+  });
+
+  it('reverses cleanly, and a member can still react afterwards', async () => {
+    const { crewId, actors } = harness.fixture;
+    const client = await harness.db.pool.connect();
+    try {
+      await client.query('BEGIN');
+      // The reaction trigger goes back to copying the crew alone: it must not read a dropped column.
+      await client.query(`
+        DROP TRIGGER messages_slide_sync_window ON messages;
+        DROP FUNCTION app.slide_chat_sync_window();
+        CREATE OR REPLACE FUNCTION app.message_reaction_crew() RETURNS trigger
+        LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+        BEGIN
+          SELECT m.crew_id INTO NEW.crew_id FROM messages m WHERE m.id = NEW.message_id;
+          RETURN NEW;
+        END;
+        $$;
+        DROP INDEX messages_sync_window_idx;
+        ALTER TABLE message_reactions DROP COLUMN in_sync_window;
+        ALTER TABLE messages DROP COLUMN in_sync_window;
+      `);
+      const { rows } = await client.query<{ n: number }>(
+        `SELECT count(*)::int AS n FROM information_schema.columns
+          WHERE table_schema = 'public' AND column_name = 'in_sync_window'`,
+      );
+      expect(rows).toEqual([{ n: 0 }]);
+      await client.query('SET LOCAL ROLE app_user');
+      await client.query("SELECT set_config('app.uid', $1, true)", [actors.member]);
+      const reacted = await client.query<{ crew_id: string }>(
+        `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '🧭')
+         RETURNING crew_id`,
+        [recentId, actors.member],
+      );
+      expect(reacted.rows).toEqual([{ crew_id: crewId }]);
+    } finally {
+      await client.query('ROLLBACK');
+      client.release();
+    }
   });
 });
 

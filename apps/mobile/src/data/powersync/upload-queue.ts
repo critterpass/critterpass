@@ -9,9 +9,16 @@
  *
  * A batch the server refuses for good (a 4xx whose error says `retryable: false`; a missing session
  * and a rate limit are not refusals) is never sent again on a timer: the same request can only get
- * the same answer. `PAYLOAD_TOO_LARGE` is answered with half the batch; any other refusal, or one op
- * too large on its own, holds the queue with its ops still in line and the code in `refused`, until
- * `retryNow` (connectivity or foreground) or an explicit `flush` asks once more.
+ * the same answer. A refusal of what the batch holds (`PAYLOAD_TOO_LARGE`, `VALIDATION`) is answered
+ * with half the batch, older half first, until it rests on one op sent alone: that op fails like
+ * any write the server rejects (rolled back, listed in `rejected_commands` with the server's code)
+ * and the ops behind it go on. Batches grow back as they get through.
+ *
+ * The queue holds instead, its ops still in line and the code in `refused`, when the refusal is
+ * not about the batch's content, or when `HOLD_AFTER_REFUSED_ALONE` ops in a row were refused
+ * alone with nothing accepted between them: then the server is refusing everything, and no more
+ * writes are failed for it. `retryNow` (connectivity back), an explicit `flush` or the next app
+ * start asks once more.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is SQL, a route path, a wire code or a developer-facing error, never copy. */
@@ -24,24 +31,29 @@ import {
   type QueuedCommandRow,
 } from './queue-store';
 import { wireError, type SyncTransport } from './transport';
-import { isRefusal, isRejected, results, type UploadResult } from './upload-responses';
+import { backoffDelayMs, DEFAULT_BACKOFF, type BackoffPolicy } from './upload-backoff';
+import {
+  isContentRefusal,
+  isRefusal,
+  isRejected,
+  results,
+  type UploadResult,
+} from './upload-responses';
+
+export { backoffDelayMs, DEFAULT_BACKOFF, type BackoffPolicy } from './upload-backoff';
 
 /** Server caps (services/api `MAX_SYNC_BATCH_OPS`, 1 MB body limit), with headroom on bytes. */
 export const MAX_BATCH_OPS = 500;
 export const MAX_BATCH_BYTES = 900_000;
 
-export interface BackoffPolicy {
-  readonly baseMs: number;
-  readonly maxMs: number;
-  /** Jitter source in [0, 1]; the delay is drawn from [delay/2, delay]. */
-  readonly random: () => number;
-}
-
-export const DEFAULT_BACKOFF: BackoffPolicy = {
-  baseMs: 1_000,
-  maxMs: 300_000,
-  random: Math.random,
-};
+/**
+ * Ops refused alone in a row before the queue stops failing writes and holds. One refused write is
+ * the expected case and a second beside it happens (the same oversized thing tried twice); a third
+ * with nothing accepted in between points at the server, not the writes, and holding costs only
+ * time where failing costs the write. So a server that refuses everything fails two writes at
+ * most.
+ */
+export const HOLD_AFTER_REFUSED_ALONE = 3;
 
 export interface UploadQueueState {
   readonly sending: boolean;
@@ -75,11 +87,6 @@ type AttemptOutcome =
   | { readonly kind: 'revoked' }
   | { readonly kind: 'stale' };
 
-export function backoffDelayMs(failures: number, policy: BackoffPolicy): number {
-  const full = Math.min(policy.maxMs, policy.baseMs * 2 ** Math.max(0, failures - 1));
-  return Math.round(full / 2 + policy.random() * (full / 2));
-}
-
 export function createUploadQueue(options: UploadQueueOptions) {
   const { db, transport } = options;
   const backoff = options.backoff ?? DEFAULT_BACKOFF;
@@ -102,8 +109,12 @@ export function createUploadQueue(options: UploadQueueOptions) {
   let timer: ReturnType<typeof setTimeout> | null = null;
   let recovered = false;
   let stopped = false;
-  // Halved each time the server says a batch is too large; full again once a batch gets through.
+  // Halved each time the server refuses what a batch holds, doubled by each batch that gets
+  // through: the refusal is pinned on one op in about two sends per halving, where starting over
+  // at full size after every accepted batch would spend the upload rate limit on a long queue.
   let batchOps = maxOps;
+  // Ops refused alone since the server last accepted a batch.
+  let refusedAlone = 0;
 
   const SUCCESS: Partial<UploadQueueState> = {
     failures: 0,
@@ -206,7 +217,10 @@ export function createUploadQueue(options: UploadQueueOptions) {
       await settleBatch(batch, outcomes, 'MISSING_RESULT', () => {
         if (outcomes.length > 0 && gen === generation) setState(SUCCESS);
       });
-      if (outcomes.length > 0) batchOps = maxOps;
+      if (outcomes.length > 0) {
+        batchOps = Math.min(maxOps, batchOps * 2);
+        refusedAlone = 0;
+      }
       return outcomes.length > 0
         ? { kind: 'progress' }
         : { kind: 'retry', error: 'MISSING_RESULT' };
@@ -214,6 +228,15 @@ export function createUploadQueue(options: UploadQueueOptions) {
     const error = wireError(response.body);
     if (response.status === 401 && error?.code === 'SESSION_REVOKED') return { kind: 'revoked' };
     const code = error?.code ?? `HTTP_${response.status}`;
+    const refusal = isRefusal(response.status, error);
+    const pinned = refusal && isContentRefusal(code) && batch.length === 1;
+    if (pinned) refusedAlone = Math.min(refusedAlone + 1, HOLD_AFTER_REFUSED_ALONE);
+    if (pinned && refusedAlone < HOLD_AFTER_REFUSED_ALONE) {
+      // The server will never take this op, and said so about it alone: it fails like a rejected
+      // one, and whatever is queued behind it follows at once.
+      await settleBatch(batch, [{ status: 'rejected', code, detail: error?.detail }], code);
+      return { kind: 'progress' };
+    }
     if (response.status === 503) {
       const detail = error?.detail as { first_unprocessed?: number; results?: unknown } | undefined;
       const firstUnprocessed = Math.max(0, Math.min(detail?.first_unprocessed ?? 0, batch.length));
@@ -221,10 +244,8 @@ export function createUploadQueue(options: UploadQueueOptions) {
     } else {
       await db.writeTransaction((tx) => requeueCommands(tx, ids, code));
     }
-    if (isRefusal(response.status, error)) {
-      if (code !== 'PAYLOAD_TOO_LARGE' || batch.length === 1) {
-        return { kind: 'refused', error: code };
-      }
+    if (refusal) {
+      if (!isContentRefusal(code) || pinned) return { kind: 'refused', error: code };
       // A smaller batch is a different request: the older half goes first, at once.
       batchOps = Math.floor(batch.length / 2);
       return { kind: 'progress' };
@@ -340,6 +361,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
       clearTimer();
       recovered = false;
       batchOps = maxOps;
+      refusedAlone = 0;
       setState(idle);
     },
     /**

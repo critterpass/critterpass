@@ -73,7 +73,7 @@ export function narrowCurrencySymbol(currency: string): string {
 
 /**
  * "$1,350", "1.350.000 ₫": a number of major units in the currency's short symbol, formatted by
- * the locale. Where the runtime writes the ISO code for a narrow symbol, the code is swapped.
+ * the locale. Where the runtime writes the ISO code or a wide symbol instead, it is swapped.
  */
 export function formatNarrowCurrency(
   locale: string,
@@ -94,7 +94,11 @@ export function formatNarrowCurrency(
     text = new Intl.NumberFormat(locale, base).format(value);
   }
   const symbol = narrowCurrencySymbol(currency);
-  return symbol === currency || !text.includes(currency) ? text : withCurrencySymbol(text, symbol);
+  if (symbol === currency) return text;
+  // Whatever the runtime wrote for the currency (the code, or a wide symbol such as "US$") gives
+  // way to the short symbol, so one currency reads one way on every phone.
+  const written = currencyTextIn(text);
+  return written === null || written === symbol ? text : withCurrencySymbol(text, symbol);
 }
 
 const COMPACT_STEPS: readonly (readonly [size: number, suffix: string])[] = [

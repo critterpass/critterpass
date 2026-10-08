@@ -5,7 +5,6 @@ import { Linking, View } from 'react-native';
 import { ConfirmSheet } from '../states/ConfirmSheet';
 import { EmptyState } from '../states/EmptyState';
 import { ErrorSheet } from '../states/ErrorSheet';
-import { LimitMeter } from '../states/LimitMeter';
 import { LockedTeaser } from '../states/LockedTeaser';
 import { PermissionCard } from '../states/PermissionCard';
 import { Skeleton, SLOW_LOADING_MS } from '../states/Skeleton';
@@ -98,9 +97,8 @@ describe('state components', () => {
     openSettings.mockRestore();
   });
 
-  it('names the plan on locked teasers and meters quota', async () => {
+  it('names the plan on locked teasers', async () => {
     const onPress = jest.fn();
-    const defer = jest.fn();
     await renderUi(
       <View>
         <LockedTeaser
@@ -109,21 +107,11 @@ describe('state components', () => {
           preview={<View testID="preview" />}
           onPress={onPress}
         />
-        <LimitMeter
-          label="Questions"
-          used={5}
-          limit={5}
-          deferAction={{ label: 'Ask at midnight', onPress: defer }}
-        />
       </View>,
     );
     await activate(screen.getByRole('button', { name: 'Pass+: Live flights' }));
     expect(onPress).toHaveBeenCalled();
     expect(screen.queryByTestId('preview')).toBeNull();
-    const meter = screen.getByRole('progressbar', { name: 'Questions' });
-    expect(meter.props.accessibilityValue).toMatchObject({ now: 5, max: 5, text: '5 of 5 used' });
-    await activate(screen.getByRole('button', { name: 'Ask at midnight' }));
-    expect(defer).toHaveBeenCalled();
   });
 
   it('lists consequences and confirms or cancels', async () => {

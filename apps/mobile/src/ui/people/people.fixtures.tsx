@@ -15,7 +15,6 @@ import { EmptySeat } from './EmptySeat';
 import { GuideLine } from './GuideLine';
 import { LiveSticker } from './LiveSticker';
 import { MemberFaceProvider, type MemberFaceResolver } from './member-face';
-import { SilhouetteSlot } from './SilhouetteSlot';
 
 const noop = () => undefined;
 const CREW = ['Winston', 'Maya', 'Ari', 'Jun', 'Rosa', 'Dani', 'Kofi', 'Lea', 'Tomás', 'Yui'];
@@ -129,10 +128,4 @@ registerFixture('GuideLine', 'plain and bubble', () => (
   </Stack>
 ));
 registerFixture('GuideLine', 'on paper', () => <OnPaperGuide />);
-registerFixture('SilhouetteSlot', 'grey and gold', () => (
-  <Row gap="12">
-    <SilhouetteSlot kind="tanuki" city="Kyoto" size={96} />
-    <SilhouetteSlot kind="alpaca" city="Cusco" size={96} legendary />
-  </Row>
-));
 registerFixture('LiveSticker', 'three heroes, third waits its turn', () => <Draws />);

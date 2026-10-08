@@ -25,7 +25,7 @@ import { useBookingsServices } from '../data/services';
 import { useWallet } from '../data/use-wallet';
 import { useWalletContext } from '../data/use-wallet-context';
 import { canReportLanded, flightView } from '../flight-card/flight-model';
-import { useChipLabel, useSourceLine } from '../flight-card/labels';
+import { useChipLabel, useUpdatedLine } from '../flight-card/labels';
 import { displayWithHome, useMoneyDisplay } from '@/data/money';
 
 import { clock, dayDate, price as formatPrice, shortDate, zoneOf } from '../format';
@@ -63,7 +63,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
   useMoneyDisplay();
   const { t } = useLingui();
   const chipLabel = useChipLabel();
-  const sourceLine = useSourceLine();
+  const updatedLine = useUpdatedLine();
   const del = useCommand(deleteBookingCommand);
   const share = useCommand(setBookingVisibilityCommand);
   const shareFlight = useCommand(setFlightCrewVisibilityCommand);
@@ -106,9 +106,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
       ? null
       : [
           chipLabel(view.chip, view.delayMin),
-          view.source === null
-            ? null
-            : sourceLine(view.source.name, clock(locale, view.source.at, tz)),
+          view.source === null ? null : updatedLine(clock(locale, view.source.at, tz)),
         ]
           .filter(Boolean)
           .join(' · ');

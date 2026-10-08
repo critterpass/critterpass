@@ -10,13 +10,11 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { GiftCard, formatGiftCode } from '../documents/GiftCard';
 import { mrzLine, toMrz } from '../documents/mrz';
 import { PassportPage } from '../documents/PassportPage';
-import { Postcard } from '../documents/Postcard';
 import { Receipt, zigzagPath } from '../documents/Receipt';
 import { appendPoint, SignatureLayer } from '../documents/SignatureLayer';
 import { Stamp, stampLineInset, stampLineMaxSize } from '../documents/Stamp';
 import { Ticket } from '../documents/Ticket';
 import { Visa } from '../documents/Visa';
-import { WalletStack } from '../documents/WalletStack';
 import { fixturesFor, listComponents } from '../gallery/registry';
 import { Icon } from '../icons/Icon';
 import { renderUi } from '../test-support/render';
@@ -183,39 +181,6 @@ describe('document artefacts', () => {
     for (const size of [85, 92, 96, 150]) expect(stampLineMaxSize(size, 11)).toBe(11);
   });
 
-  it('flips a postcard and reads the side facing up', async () => {
-    await renderUi(
-      <Postcard
-        front={<View />}
-        caption="Greetings from Bali"
-        message="Wish you were here."
-        from="Tokek"
-      />,
-    );
-    const card = screen.getByRole('button', { name: 'Greetings from Bali' });
-    await activate(card);
-    expect(screen.getByRole('button', { name: 'Wish you were here., Tokek' })).toBeTruthy();
-  });
-
-  it('opens a fanned booking from its header', async () => {
-    const onSelect = jest.fn();
-    await renderUi(
-      <WalletStack
-        selectedKey="flight"
-        onSelect={onSelect}
-        items={[
-          { key: 'trek', title: 'Batur trek', meta: 'Oct 15', tone: 'yellow' },
-          { key: 'flight', title: 'SQ 938', meta: 'Oct 12', tone: 'blue' },
-        ]}
-      >
-        <View testID="open-booking" />
-      </WalletStack>,
-    );
-    expect(screen.getByTestId('open-booking')).toBeTruthy();
-    await activate(screen.getByRole('button', { name: 'Batur trek, Oct 15' }));
-    expect(onSelect).toHaveBeenCalledWith('trek');
-  });
-
   it('lets anyone sign by typing their name, and builds drawn paths', async () => {
     expect(appendPoint('', 1.234, 5, true)).toBe('M1.2 5');
     expect(appendPoint('M1 1', 2, 3, false)).toBe('M1 1L2 3');
@@ -248,10 +213,7 @@ describe('gallery fixtures', () => {
     'Stamp',
     'Ticket',
     'Receipt',
-    'Postcard',
-    'ManifestCard',
     'GiftCard',
-    'WalletStack',
     'SignatureLayer',
   ];
 

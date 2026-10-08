@@ -23,6 +23,7 @@ import { PhraseCard } from '@/ui/trip/PhraseCard';
 
 import { HelpHero, type HelpHeroProps } from './help-hero';
 import type { HubFacility, HubModel } from './help-model';
+import { serviceLabel } from './service-label';
 import { ShareControls, type ShareControlsProps } from './share-controls';
 import { distanceIn } from '@/lib/i18n/formats';
 
@@ -40,6 +41,8 @@ export interface HelpViewProps {
   readonly onShowPhrase: () => void;
   readonly onSos: (() => void) | null;
   readonly onInsurance: () => void;
+  /** The app's help centre (how the app works), for someone who came here looking for that. */
+  readonly onHelpCentre?: (() => void) | undefined;
   /** Under SOS: what would keep a crewmate's SOS quiet on this phone (Android). */
   readonly sosAccess?: ReactNode;
 }
@@ -98,7 +101,7 @@ export function HelpView(props: HelpViewProps) {
               label:
                 model.coverage === 'limited'
                   ? t({ id: 'safety.help.limitedLabel', message: 'Emergency, from any mobile' })
-                  : model.general.label,
+                  : serviceLabel(model.general.service, model.general.label),
               onCall: () => props.onCall(general),
             }}
             {...(model.side === null
@@ -106,7 +109,7 @@ export function HelpView(props: HelpViewProps) {
               : {
                   secondary: {
                     number: model.side.number,
-                    label: model.side.label,
+                    label: serviceLabel(model.side.service, model.side.label),
                     onCall: () => props.onCall(model.side?.number ?? general),
                   },
                 })}
@@ -192,6 +195,13 @@ export function HelpView(props: HelpViewProps) {
                 message: `CritterPass tells your crew. For emergencies call ${general}.`,
               })}
             </SecondaryText>
+            {props.onHelpCentre === undefined ? null : (
+              <TextLink
+                label={t({ id: 'safety.help.centre', message: 'Help with the app' })}
+                onPress={props.onHelpCentre}
+                testID="help-centre"
+              />
+            )}
           </Stack>
         </Stack>
       </ScrollView>

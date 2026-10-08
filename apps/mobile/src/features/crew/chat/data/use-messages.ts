@@ -4,244 +4,106 @@
  * were queued, then sends the server refused (RETRY / DELETE). Order never reads a device clock or
  * a UUIDv7, so a phone set an hour off still sees the crew's order. Messages from crewmates the
  * user muted are left out; their own messages never are.
+ *
+ * The phone keeps a crew's latest 1,000 messages. Once the member has scrolled past the oldest of
+ * them, earlier pages come from the api (`older-messages.ts`) and sit above the phone's own rows
+ * until the chat closes.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
-import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
-import type { MuteMemberPayload } from '@cp/domain';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
 import {
-  muteMemberCommand,
-  payloadFromSummary,
-  SEND_MESSAGE,
-  type OutgoingMessage,
-} from './chat-commands';
+  CHAT_SYNC_WINDOW,
+  deviceChatHistoryApi,
+  fetchOlder,
+  forgetOlder,
+  keepOlder,
+  localReactions,
+  readOlder,
+  useOlderMessages,
+  type ChatHistoryApi,
+  type OlderReaction,
+  type OlderStatus,
+} from './older-messages';
 import {
-  fromRow,
-  keepUnchanged,
-  parseList,
-  quoted,
-  type ChatMessage,
-  type DeliveryStatus,
-  type MessageRow,
-} from './rows';
+  EMPTY_TIMELINE,
+  keepTimeline,
+  leftWindow,
+  loadTimeline,
+  MESSAGE_WINDOW,
+  movedApart,
+  type Timeline,
+} from './timeline';
 
-/** How many synced messages one window holds; older windows load locally, 200 at a time. */
-export const MESSAGE_WINDOW = 200;
+export { keepTimeline, loadTimeline, MESSAGE_WINDOW, type Timeline } from './timeline';
 
-/** The `messages` columns a timeline row is built from. */
-const MESSAGE_COLUMNS = [
-  'id',
-  'crew_id',
-  'seq',
-  'sender_kind',
-  'sender_id',
-  'guide_id',
-  'type',
-  'body',
-  'ref_kind',
-  'ref_id',
-  'reply_to_id',
-  'mentions',
-  'mentions_guide',
-  'attachments',
-  'edited_at',
-  'deleted_at',
-  'created_at',
-]
-  .map((column) => `m.${column}`)
-  .join(', ');
+/** A window that holds every message the phone has, once older pages are read from the api. */
+const EVERY_LOCAL_MESSAGE = Number.MAX_SAFE_INTEGER - 1;
 
 const TABLES = ['messages', 'users', 'commands', 'rejected_commands', 'user_settings'];
+/** Read as well once the rows that can leave the phone are on screen, for the reactions they take. */
+const TABLES_WITH_REACTIONS = [...TABLES, 'message_reactions'];
+const NO_REACTIONS: readonly OlderReaction[] = [];
 
-export interface Timeline {
-  readonly messages: readonly ChatMessage[];
-  /** More synced history exists below the loaded window. */
-  readonly hasOlder: boolean;
-  /** Highest synced `seq` loaded (0 when the chat is empty). */
-  readonly lastSeq: number;
-}
-
-interface QueuedRow {
-  readonly id: string;
-  readonly status: 'queued' | 'sending' | 'done';
-  readonly envelope: string;
-  readonly created_at: string;
-}
-
-interface RejectedRow {
-  readonly id: string;
-  readonly code: string;
-  readonly summary: string | null;
-  readonly rejected_at: string;
-}
-
-function localMessage(
-  id: string,
-  me: string,
-  payload: OutgoingMessage,
-  createdAt: string,
-  status: DeliveryStatus,
-): ChatMessage {
-  const voice = payload.attachments.some((attachment) => attachment.kind === 'voice');
-  return {
-    id,
-    crewId: payload.crew_id,
-    seq: null,
-    senderKind: 'user',
-    senderId: me,
-    senderName: null,
-    guideId: null,
-    type: voice ? 'voice' : payload.attachments.length > 0 ? 'photo' : 'text',
-    body: payload.body,
-    refKind: null,
-    refId: null,
-    replyToId: payload.reply_to ?? null,
-    mentions: payload.mentions,
-    mentionsGuide: payload.mentions_guide,
-    attachments: payload.attachments.map((attachment) => ({
-      media_id: attachment.media_key,
-      media_key: attachment.media_key,
-      kind: attachment.kind,
-      w: attachment.w ?? null,
-      h: attachment.h ?? null,
-      duration_ms: attachment.duration_ms ?? null,
-      ...(attachment.peaks === undefined ? {} : { peaks: [...attachment.peaks] }),
-    })),
-    edited: false,
-    deleted: false,
-    createdAt,
-    status,
-  };
-}
-
-/** One read of the timeline; `useMessages` re-runs it whenever a source table changes. */
-export async function loadTimeline(
-  db: AbstractPowerSyncDatabase,
-  crewId: string,
-  me: string,
-  limit: number = MESSAGE_WINDOW,
-): Promise<Timeline> {
-  const crew = quoted(crewId);
-  const window = Math.max(1, Math.floor(limit));
-  const [synced, queued, rejected, settings, muting] = await Promise.all([
-    db.getAll<MessageRow>(
-      `SELECT ${MESSAGE_COLUMNS}, coalesce(u.display_name, g.name) AS sender_name,
-              r.display_name AS ref_name
-         FROM messages m LEFT JOIN users u ON u.id = m.sender_id
-         LEFT JOIN guides g ON g.id = m.guide_id
-         LEFT JOIN users r ON r.id = m.ref_id AND m.sender_kind = 'system'
-        WHERE m.crew_id = ${crew}
-        ORDER BY m.seq DESC LIMIT ${window + 1}`,
-    ),
-    db.getAll<QueuedRow>(
-      `SELECT c.id, c.status, c.envelope, c.created_at FROM commands c
-        WHERE c.cmd = '${SEND_MESSAGE}'
-          AND json_extract(c.envelope, '$.payload.crew_id') = ${crew}
-          AND NOT EXISTS (SELECT 1 FROM messages m WHERE m.id = c.id)
-        ORDER BY c.seq`,
-    ),
-    db.getAll<RejectedRow>(
-      `SELECT id, code, summary, rejected_at FROM rejected_commands
-        WHERE cmd = '${SEND_MESSAGE}' ORDER BY rejected_at, id`,
-    ),
-    db.getOptional<{ muted_uids: string | null }>(
-      `SELECT muted_uids FROM user_settings WHERE user_id = ${quoted(me)}`,
-    ),
-    db.getAll<{ envelope: string }>(
-      `SELECT envelope FROM commands WHERE cmd = '${muteMemberCommand.name}' ORDER BY seq`,
-    ),
-  ]);
-  const muted = withPendingMutes(parseList(settings?.muted_uids), muting);
-  const hasOlder = synced.length > window;
-  const visible = synced
-    .slice(0, window)
-    .reverse()
-    .map(fromRow)
-    .filter((message) => message.senderId === me || !muted.has(message.senderId ?? ''));
-
-  const pending = queued.flatMap((row) => {
-    const payload = (JSON.parse(row.envelope) as { payload?: OutgoingMessage }).payload;
-    if (payload === undefined) return [];
-    const status: DeliveryStatus = row.status === 'done' ? 'uploaded' : 'sending';
-    return [localMessage(row.id, me, payload, row.created_at, status)];
-  });
-  const failed = rejected.flatMap((row) => {
-    if (row.summary === null) return [];
-    const payload = payloadFromSummary(
-      JSON.parse(row.summary) as { values?: Record<string, unknown> },
-    );
-    if (payload?.crew_id !== crewId) return [];
-    return [
-      { ...localMessage(row.id, me, payload, row.rejected_at, 'failed'), failureCode: row.code },
-    ];
-  });
-  return {
-    messages: [...visible, ...pending, ...failed],
-    hasOlder,
-    lastSeq: synced[0] === undefined ? 0 : Number(synced[0].seq),
-  };
-}
-
-/**
- * The synced mute list with this device's mute and unmute commands applied in queue order, so a
- * crewmate muted here drops out of the timeline at once rather than when the setting syncs back.
- */
-function withPendingMutes(
-  synced: readonly string[],
-  commands: readonly { envelope: string }[],
-): Set<string> {
-  const muted = new Set(synced);
-  for (const row of commands) {
-    const payload = (JSON.parse(row.envelope) as { payload?: Partial<MuteMemberPayload> }).payload;
-    if (typeof payload?.uid !== 'string') continue;
-    if (payload.muted === true) muted.add(payload.uid);
-    else muted.delete(payload.uid);
-  }
-  return muted;
-}
-
-const EMPTY: Timeline = { messages: [], hasOlder: false, lastSeq: 0 };
-
-export interface MessagesState extends Timeline {
+export interface MessagesState extends Omit<Timeline, 'firstSeq' | 'muted'> {
   /** False until the first local read lands (the skeleton shows meanwhile). */
   readonly loaded: boolean;
   /** The newest seq at the first read: later messages arrived while the chat was open. */
   readonly openedSeq: number | null;
   /** How many synced messages the loaded window holds at most. */
   readonly window: number;
+  /** Where the page above the oldest message stands: on its way, or not read (RETRY). */
+  readonly olderStatus: OlderStatus;
   readonly loadOlder: () => void;
+  readonly retryOlder: () => void;
 }
-
-/** `next`, holding on to everything of `previous` that did not change (the timeline itself too). */
-export function keepTimeline(previous: Timeline, next: Timeline): Timeline {
-  const messages = keepUnchanged(previous.messages, next.messages);
-  return messages === previous.messages &&
-    previous.hasOlder === next.hasOlder &&
-    previous.lastSeq === next.lastSeq
-    ? previous
-    : { ...next, messages };
-}
-
-export function useMessages(crewId: string, me: string | null): MessagesState {
+export function useMessages(
+  crewId: string,
+  me: string | null,
+  history: ChatHistoryApi = deviceChatHistoryApi,
+): MessagesState {
   const { db } = useLocalFirst();
+  const older = useOlderMessages(crewId);
+  // What was fetched lives as long as the screen does.
+  useEffect(() => () => forgetOlder(crewId), [crewId]);
+  const shown = useRef({ timeline: EMPTY_TIMELINE, reactions: NO_REACTIONS });
   const [limit, setLimit] = useState(MESSAGE_WINDOW);
   const [state, setState] = useState<{
     timeline: Timeline;
     loaded: boolean;
     openedSeq: number | null;
-  }>({ timeline: EMPTY, loaded: false, openedSeq: null });
+  }>({ timeline: EMPTY_TIMELINE, loaded: false, openedSeq: null });
 
   useEffect(() => {
     if (me === null) return undefined;
     const controller = new AbortController();
+    // A window this deep reaches the oldest rows the phone holds: the ones a new message pushes out.
+    const leaving = limit >= CHAT_SYNC_WINDOW;
+    const read = async () => {
+      // Reactions are read before the rows, so a row found here still had the reactions found here.
+      const reactions = leaving
+        ? await localReactions(db, crewId).catch(() => NO_REACTIONS)
+        : NO_REACTIONS;
+      return { timeline: await loadTimeline(db, crewId, me, limit), reactions };
+    };
     const load = () =>
-      loadTimeline(db, crewId, me, limit).then(
-        (timeline) => {
+      read().then(
+        ({ timeline, reactions }) => {
           if (controller.signal.aborted) return;
+          // With older pages on screen or on their way, a row leaving the phone's window stays in
+          // the timeline: the page being fetched ends just below it.
+          const held = readOlder(crewId);
+          if (movedApart(shown.current.timeline, timeline)) {
+            // What is held no longer joins on to the phone's rows: scrolling up reads on from
+            // the new oldest message instead of showing the two as one run.
+            forgetOlder(crewId);
+          } else if (held.messages.length > 0 || held.status === 'loading') {
+            const gone = leftWindow(shown.current.timeline, timeline);
+            if (gone.length > 0) keepOlder(crewId, gone, shown.current.reactions);
+          }
+          shown.current = { timeline, reactions };
           setState((previous) => {
             const kept = keepTimeline(previous.timeline, timeline);
             // A reload that changed nothing on screen re-renders nothing.
@@ -258,23 +120,56 @@ export function useMessages(crewId: string, me: string | null): MessagesState {
     void load();
     db.onChange(
       { onChange: () => load() },
-      { tables: TABLES, throttleMs: 30, signal: controller.signal },
+      {
+        tables: leaving ? TABLES_WITH_REACTIONS : TABLES,
+        throttleMs: 30,
+        signal: controller.signal,
+      },
     );
     return () => controller.abort();
   }, [db, crewId, me, limit]);
 
+  const local = state.timeline;
+  // The oldest message in hand: the top of the fetched pages, else of the phone's own rows.
+  const oldestSeq = older.messages[0]?.seq ?? local.firstSeq;
+  // `seq` starts at 1 and has no gaps, so anything above 1 at the top means earlier messages exist.
+  const olderOnServer = !local.hasOlder && !older.reachedStart && oldestSeq > 1;
+
+  const fetchPage = useCallback(() => {
+    if (!olderOnServer) return;
+    // From here on the window holds every row the phone has: pages join on to its oldest one.
+    setLimit(EVERY_LOCAL_MESSAGE);
+    void fetchOlder(db, crewId, oldestSeq, history);
+  }, [db, crewId, history, olderOnServer, oldestSeq]);
+
   const loadOlder = useCallback(() => {
-    if (state.timeline.hasOlder) setLimit((current) => current + MESSAGE_WINDOW);
-  }, [state.timeline.hasOlder]);
+    if (local.hasOlder) setLimit((current) => current + MESSAGE_WINDOW);
+    // A page that could not be read waits for RETRY: reaching the top again does not hammer it.
+    else if (older.status !== 'failed') fetchPage();
+  }, [local.hasOlder, older.status, fetchPage]);
+
+  const messages = useMemo(() => {
+    const floor = local.firstSeq > 0 ? local.firstSeq : Number.POSITIVE_INFINITY;
+    const above = older.messages.filter(
+      (message) =>
+        (message.seq ?? 0) < floor &&
+        (message.senderId === me || !local.muted.has(message.senderId ?? '')),
+    );
+    return above.length === 0 ? local.messages : [...above, ...local.messages];
+  }, [older.messages, local, me]);
 
   return useMemo(
     () => ({
-      ...state.timeline,
+      messages,
+      hasOlder: local.hasOlder || olderOnServer,
+      lastSeq: local.lastSeq,
       loaded: state.loaded,
       openedSeq: state.openedSeq,
       window: limit,
+      olderStatus: older.status,
       loadOlder,
+      retryOlder: fetchPage,
     }),
-    [state, limit, loadOlder],
+    [messages, local, olderOnServer, state, limit, older.status, loadOlder, fetchPage],
   );
 }

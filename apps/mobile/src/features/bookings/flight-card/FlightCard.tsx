@@ -22,7 +22,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clock, dayDate } from '../format';
 import { awaitsBoarding, needsAttention, type FlightView } from './flight-model';
-import { useChipLabel, useCoTravellerLine, useSourceLine } from './labels';
+import { useChipLabel, useCoTravellerLine, useUpdatedLine } from './labels';
 import { useWalletGuide } from '../data/wallet-guide';
 
 const TILE = 76;
@@ -80,7 +80,7 @@ export function FlightCard({
   const { name: guideName } = useWalletGuide();
   const chipLabel = useChipLabel();
   const crewLine = useCoTravellerLine();
-  const sourceLine = useSourceLine();
+  const updatedLine = useUpdatedLine();
   const ink = theme.semantic.text.onAccent;
   const boards = clock(locale, view.boardsAt, tz);
   const cells = [
@@ -199,7 +199,7 @@ export function FlightCard({
           ))}
           {view.source === null ? null : (
             <Text variant="caption" testID={testID === undefined ? undefined : `${testID}-source`}>
-              {sourceLine(view.source.name, clock(locale, view.source.at, tz))}
+              {updatedLine(clock(locale, view.source.at, tz))}
             </Text>
           )}
         </Stack>

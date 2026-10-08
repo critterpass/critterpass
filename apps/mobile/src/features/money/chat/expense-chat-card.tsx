@@ -102,7 +102,7 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
   const queuedDelete = useLiveRows<{ queued: number }>(CHAT_EXPENSE_QUEUED_DELETE_SQL, params, [
     'commands',
   ]);
-  const trip = useExpenseTrip(message.id);
+  const trip = useExpenseTrip(message);
   const uid = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES).rows[0]?.value;
   const row = expense.rows[0];
   // The viewer's own delete shows at once, offline too, before the synced rows catch up.

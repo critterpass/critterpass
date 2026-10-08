@@ -1,6 +1,6 @@
 import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
-import { makeStyles, useTheme } from '../theme';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 
 export interface TextLinkProps {
   readonly label: string;
@@ -10,10 +10,12 @@ export interface TextLinkProps {
 }
 
 const useStyles = makeStyles((t) => ({
+  // The link's own box is the full touch target: that room is its spacing under the pill above.
   target: {
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    minHeight: MIN_TOUCH_TARGET,
     paddingHorizontal: t.space['12'],
   },
 }));

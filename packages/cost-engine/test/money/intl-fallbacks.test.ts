@@ -88,6 +88,20 @@ describe('narrow currency symbols the runtime writes as codes', () => {
     );
   });
 
+  it('swaps a wide symbol too, so a currency reads one way on every phone', () => {
+    // A runtime without narrow symbols writes the locale's wide one: "800 US$" in Vietnamese.
+    function WideNumberFormat(locale?: string | string[], options: Intl.NumberFormatOptions = {}) {
+      const { currencyDisplay: _display, ...rest } = options;
+      return new RealNumberFormat(locale, rest);
+    }
+    vi.spyOn(Intl, 'NumberFormat').mockImplementation(
+      WideNumberFormat as unknown as typeof Intl.NumberFormat,
+    );
+    expect(plain(formatNarrowCurrency('vi', 800, 'USD', { maximumFractionDigits: 0 }))).toBe(
+      '800 $',
+    );
+  });
+
   it('leaves a symbol the runtime already wrote', () => {
     expect(plain(formatNarrowCurrency('en', 1350, 'USD', { maximumFractionDigits: 0 }))).toBe(
       '$1,350',

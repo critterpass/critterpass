@@ -55,6 +55,11 @@ appId: app.critterpass.dev
     visible:
       id: 'money-balances'
     timeout: 30000
+# The latest expense is the page's last row and rests under the tab bar: bring it up first.
+- swipe:
+    start: 50%, 60%
+    end: 50%, 30%
+- waitForAnimationToEnd
 - tapOn:
     id: 'money-latest-row'
 - extendedWaitUntil:

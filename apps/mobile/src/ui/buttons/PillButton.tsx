@@ -84,7 +84,8 @@ const useStyles = makeStyles((t) => ({
   },
   outline: { borderWidth: 2, borderColor: t.semantic.border.control },
   disabled: { opacity: t.opacity.disabled },
-  // A loading pill keeps its label in place, unseen, so the pill keeps the width of its words.
+  // A loading pill keeps its label (and leading mark) in place, unseen, under a centred spinner, so
+  // the pill keeps the width of its words and its neighbours stay put.
   unseen: { opacity: 0 },
   spinner: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
   // Android rounds a label's measured width down for some strings ("ĐỔI GIỜ"), and a pill sized to
@@ -179,7 +180,7 @@ export function PillButton({
       ]}
     >
       {sheen && variant === 'primary' && !inactive ? <Sheen /> : null}
-      {leading}
+      {leading && loading ? <View style={styles.unseen}>{leading}</View> : leading}
       <Animated.View style={[flap ? flapped.style : null, loading ? styles.unseen : null]}>
         <Text
           variant={labelVariant}

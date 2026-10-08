@@ -6,7 +6,7 @@
  * (../data/thread-window.ts).
  */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, type ReactNode } from 'react';
 import {
   ScrollView as HorizontalScroll,
   type LayoutChangeEvent,
@@ -79,14 +79,36 @@ export function GuideSheetView(props: GuideSheetViewProps) {
   const following = useRef(true);
   const top = useRef(props.topMessageId ?? null);
   const thread = useRef(props.threadKey);
-  const toEnd = () => scroll.current?.scrollToEnd({ animated: false });
-  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  // The end is asked for now and once more on the next frame: the first call can land before the
+  // thread's last rows (the latest answer's chips) or the bar under it have their final height.
+  const frame = useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
+  const toEnd = useCallback(() => {
+    scroll.current?.scrollToEnd({ animated: false });
+    if (frame.current !== null) cancelAnimationFrame(frame.current);
+    frame.current = requestAnimationFrame(() => {
+      frame.current = null;
+      if (following.current) scroll.current?.scrollToEnd({ animated: false });
+    });
+  }, []);
+  useEffect(
+    () => () => {
+      if (frame.current !== null) cancelAnimationFrame(frame.current);
+    },
+    [],
+  );
+  const read = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
     metrics.current = {
       offset: contentOffset.y,
       viewport: layoutMeasurement.height,
       content: contentSize.height,
     };
+  };
+  // Only the reader's own scrolling says whether they follow the end. A scroll event that comes
+  // from the thread or the bars around it changing height (the quick actions arriving, the
+  // keyboard) must not read as "scrolled away", or the end stays short by that height.
+  const onReaderScrolled = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    read(event);
     following.current = atThreadEnd(metrics.current);
   };
   const onResize = (_width: number, content: number) => {
@@ -106,7 +128,11 @@ export function GuideSheetView(props: GuideSheetViewProps) {
     });
     metrics.current = { ...metrics.current, content };
     if (next === 'end') toEnd();
-    else if (next !== null) scroll.current?.scrollTo({ y: next.y, animated: false });
+    else if (next !== null) {
+      // Held on the line they were reading, which is no longer the end.
+      following.current = false;
+      scroll.current?.scrollTo({ y: next.y, animated: false });
+    }
   };
   // The keyboard takes room from the thread: the line being read at the end stays in view.
   const onLayout = (event: LayoutChangeEvent) => {
@@ -117,8 +143,8 @@ export function GuideSheetView(props: GuideSheetViewProps) {
   useEffect(() => {
     if (asked === 0) return;
     following.current = true;
-    scroll.current?.scrollToEnd({ animated: false });
-  }, [asked]);
+    toEnd();
+  }, [asked, toEnd]);
   return (
     <Sheet
       detents={['large']}
@@ -129,7 +155,12 @@ export function GuideSheetView(props: GuideSheetViewProps) {
     >
       <SheetScrollView
         keyboardShouldPersistTaps="handled"
-        onScroll={onScroll}
+        onScroll={read}
+        onScrollBeginDrag={() => {
+          following.current = false;
+        }}
+        onScrollEndDrag={onReaderScrolled}
+        onMomentumScrollEnd={onReaderScrolled}
         onLayout={onLayout}
         onContentSizeChange={onResize}
         // React 19 passes `ref` as a prop, through to the scroll view.

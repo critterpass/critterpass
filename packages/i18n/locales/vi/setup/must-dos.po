@@ -137,7 +137,7 @@ msgstr "Ví dụ"
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.resolving"
-msgstr ""
+msgstr "Đang chuẩn bị nơi này…"
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.keep"
@@ -149,7 +149,7 @@ msgstr "Đang tìm địa điểm"
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.searching"
-msgstr ""
+msgstr "Đang tìm rộng hơn"
 
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.lottery"
@@ -157,7 +157,7 @@ msgstr "Bốc thăm"
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.title"
-msgstr ""
+msgstr "Thêm địa điểm"
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
@@ -178,7 +178,7 @@ msgstr "Mất sóng: đây là các nơi có sẵn trên máy. Có mạng sẽ g
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.offline"
-msgstr ""
+msgstr "Mất sóng. Thử lại khi bạn có mạng nhé."
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.line.empty"
@@ -186,7 +186,7 @@ msgstr "Chưa ai thêm. Bạn mở hàng nhé."
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.attribution"
-msgstr ""
+msgstr "Powered by Foursquare"
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.remind"
@@ -222,7 +222,7 @@ msgstr "Phần chuẩn bị đã xong và lịch trình đã có."
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.unavailable"
-msgstr ""
+msgstr "Không lưu được nơi này: CritterPass chỉ giữ các nơi từ dữ liệu bản đồ mở. Thay vào đó, cứ giữ đúng lời của bạn."
 
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.tight"
@@ -234,7 +234,7 @@ msgstr "Đang chờ gửi"
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.loading"
-msgstr ""
+msgstr "Chúng tôi vẫn đang gom địa điểm ở {place}. Vài phút nữa thử lại nơi này nhé."
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.line"

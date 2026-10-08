@@ -2,14 +2,10 @@ import { act, fireEvent, screen } from '@testing-library/react-native';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { AccessibilityInfo } from 'react-native';
 
-import { AttachmentThumb } from '../chat/AttachmentThumb';
 import { ChatMessage } from '../chat/ChatMessage';
 import { ChatRichCard } from '../chat/ChatRichCard';
 import { Composer } from '../chat/Composer';
-import { FormatPicker } from '../chat/FormatPicker';
 import { ReactionFloats } from '../chat/ReactionFloats';
-import { PageDots } from '../story/PageDots';
-import { StepTabs } from '../story/StepTabs';
 import { StoryPlayer } from '../story/StoryPlayer';
 import { renderUi } from '../test-support/render';
 
@@ -88,36 +84,6 @@ describe('chat', () => {
       />,
     );
     expect(screen.getByLabelText("Reactions: Jordan: 6AM??; Alex: I'm in")).toBeTruthy();
-  });
-
-  it('picks a format and removes or adds attachments', async () => {
-    const onChange = jest.fn();
-    const onRemove = jest.fn();
-    const onAdd = jest.fn();
-    await renderUi(
-      <>
-        <FormatPicker
-          label="Format"
-          value="trailer"
-          onChange={onChange}
-          options={[
-            { value: 'trailer', label: 'Trailer', preview: null },
-            { value: 'poster', label: 'Poster', preview: null },
-          ]}
-        />
-        <AttachmentThumb preview={null} label="Screenshot" onRemove={onRemove} />
-        <AttachmentThumb onAdd={onAdd} />
-      </>,
-    );
-    expect(screen.getByRole('radio', { name: 'Trailer' }).props.accessibilityState).toMatchObject({
-      checked: true,
-    });
-    await run(screen.getByRole('radio', { name: 'Poster' }), 'activate');
-    expect(onChange).toHaveBeenCalledWith('poster');
-    await run(screen.getByRole('button', { name: 'Remove Screenshot' }), 'activate');
-    await run(screen.getByRole('button', { name: 'Add attachment' }), 'activate');
-    expect(onRemove).toHaveBeenCalledTimes(1);
-    expect(onAdd).toHaveBeenCalledTimes(1);
   });
 
   it('records by mic tap as the hold-to-talk alternative and sends typed text', async () => {
@@ -199,26 +165,5 @@ describe('story', () => {
     await run(screen.getByRole('adjustable'), 'increment');
     await run(screen.getByRole('adjustable'), 'increment');
     expect(onFinished).toHaveBeenCalledTimes(1);
-  });
-
-  it('reads wizard steps as tabs and the pager as a page count', async () => {
-    const onSelect = jest.fn();
-    await renderUi(
-      <>
-        <StepTabs
-          current={1}
-          onSelect={onSelect}
-          steps={[{ label: 'When', done: true }, { label: 'Budget' }]}
-        />
-        <PageDots page={3} total={4} />
-      </>,
-    );
-    const done = screen.getByRole('tab', { name: 'Step 1 of 2, When, done' });
-    expect(
-      screen.getByRole('tab', { name: 'Step 2 of 2, Budget' }).props.accessibilityState,
-    ).toMatchObject({ selected: true });
-    await run(done, 'activate');
-    expect(onSelect).toHaveBeenCalledWith(0);
-    expect(screen.getByRole('text', { name: 'Page 3 of 4' })).toBeTruthy();
   });
 });

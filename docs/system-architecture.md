@@ -162,7 +162,7 @@ Migrations run in the api **pre-deploy command** (private network; failure block
 
 | Data | Path |
 |---|---|
-| Crew/trip/user data (non-C3) | PowerSync **Sync Streams** (`infra/powersync/streams/*.yaml`, parameterised by `auth.user_id()` and membership) → local SQLite → `useQuery` live queries (Drizzle driver) |
+| Crew/trip/user data (non-C3) | PowerSync **Sync Streams** (`infra/powersync/streams/*.yaml`, parameterised by `auth.user_id()` and membership) → local SQLite → `useQuery` live queries (Drizzle driver). Tables that only grow sync a window, not their history: crew chat keeps a crew's latest 1,000 messages on the phone (a row flag the stream filters on) and the timeline reads older pages from the api on scroll, held in memory while the chat is open |
 | Own C3 data (budget max, dietary, payout, private guide threads) | Not in publication. Fetched via `GET /v1/me/private/{kind}` (owner only) into the PowerSync local-only `local_private` table (SQLCipher DB; data-model-sync §1) |
 | Online-only data (supplier cards, fares search, place live checks, AI stream) | Typed `hc` client via TanStack Query (no persistence for supplier content) |
 | Aggregates across privacy boundary | SECURITY DEFINER functions (e.g. budget band, k ≥ 4) exposed via command/query endpoints |

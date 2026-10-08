@@ -1,7 +1,9 @@
 /**
  * Reactions per message for one crew: each emoji with its count, who reacted (for the sheet) and
  * whether the signed-in member is among them. `toggle` states the outcome it shows (`on`), so a
- * replayed offline queue lands the same way the member saw it.
+ * replayed offline queue lands the same way the member saw it. Messages older than the phone keeps
+ * bring their reactions with their page, and one that left the phone while the chat was open keeps
+ * the reactions it had (`older-messages.ts`).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
@@ -11,6 +13,7 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useQuietLiveRows } from '@/data/powersync/live-rows';
 
 import { reactMessageCommand } from './chat-commands';
+import { readOlder, setOlderReaction, useOlderMessages } from './older-messages';
 import { memberName } from '@/ui/people/member-name';
 
 export interface ReactionGroup {
@@ -96,12 +99,20 @@ const NO_GROUPS: Groups = new Map();
  * a reaction changes, and a message whose reactions did not change keeps its array.
  */
 export function useReactions(crewId: string, me: string | null, window: number) {
-  const { commands } = useLocalFirst();
-  const { rows } = useQuietLiveRows<Row>(
+  const { commands, db } = useLocalFirst();
+  const local = useQuietLiveRows<Row>(
     REACTIONS_SQL,
     me === null ? null : [crewId, crewId, window],
     TABLES,
-  );
+  ).rows;
+  const older = useOlderMessages(crewId);
+  const rows = useMemo(() => {
+    if (older.messages.length === 0) return local;
+    // A message held above the phone's rows shows the reactions held with it: the rows it had on
+    // the phone leave a moment after it does, and are not counted twice meanwhile.
+    const held = new Set(older.messages.map((message) => message.id));
+    return [...older.reactions, ...local.filter((row) => !held.has(row.message_id))];
+  }, [older.messages, older.reactions, local]);
   // Grouped once per change of the rows, holding on to what the last grouping already had.
   const [held, setHeld] = useState<{
     readonly rows: readonly Row[] | null;
@@ -127,13 +138,28 @@ export function useReactions(crewId: string, me: string | null, window: number) 
       const mine = latest.current
         .get(messageId)
         ?.some((group) => group.emoji === emoji && group.mine);
-      return commands.send(reactMessageCommand, {
-        message_id: messageId,
-        emoji,
-        on: mine !== true,
-      });
+      const on = mine !== true;
+      // A reaction to a message outside the phone's window never syncs back: show it from here.
+      if (me !== null && readOlder(crewId).messages.some((message) => message.id === messageId)) {
+        void db
+          .getOptional<{ display_name: string | null }>(
+            'SELECT display_name FROM users WHERE id = ?',
+            [me],
+          )
+          .catch(() => null)
+          .then((row) =>
+            setOlderReaction(
+              crewId,
+              messageId,
+              emoji,
+              { uid: me, name: row?.display_name ?? null },
+              on,
+            ),
+          );
+      }
+      return commands.send(reactMessageCommand, { message_id: messageId, emoji, on });
     },
-    [commands],
+    [commands, db, crewId, me],
   );
 
   return useMemo(() => ({ groups, toggle }), [groups, toggle]);

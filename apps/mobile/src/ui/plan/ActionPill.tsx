@@ -5,7 +5,7 @@ import { Row } from '../layout/Row';
 import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
 import type { Theme } from '../theme';
-import { makeStyles, useTheme } from '../theme';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 
 export type ActionPillTone = 'primary' | 'secondary' | 'outline' | 'success' | 'urgent' | 'paper';
 
@@ -50,13 +50,15 @@ export interface ActionPillProps {
 }
 
 const useStyles = makeStyles((th) => ({
+  // The pill is drawn at the full touch target by its own style (a 44 pt pill or circle).
   pill: {
+    minHeight: MIN_TOUCH_TARGET,
     borderRadius: th.size.chip.height,
     paddingHorizontal: th.space['14'],
     justifyContent: 'center',
     alignItems: 'center',
   },
-  round: { paddingHorizontal: 0, borderRadius: th.radius.xl },
+  round: { minWidth: MIN_TOUCH_TARGET, paddingHorizontal: 0, borderRadius: th.radius.xl },
 }));
 
 /**

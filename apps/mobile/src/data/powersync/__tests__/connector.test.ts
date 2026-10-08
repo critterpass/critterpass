@@ -1,6 +1,7 @@
 /**
  * The PowerSync connector's credentials and upload hooks, the backoff curve, and the queue's
- * response handling that the api harness cannot produce on demand (`SESSION_REVOKED`, rate limits).
+ * response handling that the api harness cannot produce on demand (`SESSION_REVOKED`, rate limits,
+ * batches refused for good).
  * Server responses are built with the domain's own wire serializer (`DomainError#toResponseBody`,
  * what services/api returns), at the transport boundary.
  */
@@ -25,7 +26,7 @@ import {
   stopQueues,
 } from '../test-support/queue-fixtures';
 import type { SyncTransport, TransportResponse } from '../transport';
-import { backoffDelayMs } from '../upload-queue';
+import { backoffDelayMs, HOLD_AFTER_REFUSED_ALONE } from '../upload-queue';
 
 const UID = '0190f5a4-0000-7000-8000-00000000aaaa';
 
@@ -44,6 +45,35 @@ function answering(...responses: TransportResponse[]): SyncTransport & { calls: 
     },
   };
   return transport;
+}
+
+/**
+ * A server that refuses a whole batch with `refuse(ids, call)`'s code and applies every other
+ * batch; `sent` holds each request's op ids and `applied` the ids it accepted, in order.
+ */
+function refusing(refuse: (ids: readonly string[], call: number) => ErrorCode | null) {
+  const server = {
+    sent: [] as string[][],
+    applied: [] as string[],
+    postJson(_path: string, body: unknown): Promise<TransportResponse> {
+      const ids = (body as { ops: { op_id: string }[] }).ops.map((op) => op.op_id);
+      server.sent.push(ids);
+      const code = refuse(ids, server.sent.length);
+      if (code !== null) return Promise.resolve(serverError(code));
+      server.applied.push(...ids);
+      return Promise.resolve({
+        status: 200,
+        body: { results: ids.map((id) => ({ op_id: id, status: 'applied' })) },
+      });
+    },
+  };
+  return server;
+}
+
+function rejectedCodes(db: AbstractPowerSyncDatabase) {
+  return db.getAll<{ id: string; code: string }>(
+    'SELECT id, code FROM rejected_commands ORDER BY rejected_at, id',
+  );
 }
 
 describe('sync connector', () => {
@@ -142,84 +172,119 @@ describe('upload queue responses', () => {
     expect(await commandRows(db)).toEqual([{ id: opId, status: 'queued', attempts: 1 }]);
   });
 
-  it('holds a batch the server refuses for good: no timer resends it and nothing overtakes it', async () => {
+  it('holds on a refusal that is not about the batch: nothing fails, no timer resends it, nothing overtakes it', async () => {
     const first = await enqueue(db, UID, 'create_test_crew', {});
-    const sent: string[][] = [];
-    const queue = queueWith(db, {
-      postJson(_path, body) {
-        const ids = (body as { ops: { op_id: string }[] }).ops.map((op) => op.op_id);
-        sent.push(ids);
-        return Promise.resolve(
-          sent.length === 1
-            ? serverError('VALIDATION')
-            : {
-                status: 200,
-                body: { results: ids.map((id) => ({ op_id: id, status: 'applied' })) },
-              },
-        );
-      },
-    });
+    const server = refusing((_ids, call) => (call === 1 ? 'FORBIDDEN' : null));
+    const queue = queueWith(db, server);
 
     await queue.flush();
 
     expect(queue.getState()).toMatchObject({
       sending: false,
-      refused: 'VALIDATION',
-      lastError: 'VALIDATION',
+      refused: 'FORBIDDEN',
+      lastError: 'FORBIDDEN',
       nextRetryAt: null,
     });
     expect(await commandRows(db)).toEqual([{ id: first, status: 'queued', attempts: 1 }]);
+    expect(await rejectedCodes(db)).toEqual([]);
 
     // A newer op waits behind the held one, well past the point a backoff would have fired.
     const second = await enqueue(db, UID, 'create_test_crew', {});
     queue.schedule();
     await new Promise((resolve) => setTimeout(resolve, TEST_BACKOFF.baseMs * 8));
-    expect(sent).toEqual([[first]]);
+    expect(server.sent).toEqual([[first]]);
 
     await queue.retryNow();
 
-    expect(sent).toEqual([[first], [first, second]]);
+    expect(server.sent).toEqual([[first], [first, second]]);
     expect(queue.getState()).toMatchObject({ refused: null, failures: 0, lastError: null });
     expect((await commandRows(db)).map((row) => row.status)).toEqual(['done', 'done']);
+  });
+
+  it.each(['VALIDATION', 'PAYLOAD_TOO_LARGE'] as const)(
+    'fails alone the one write that draws %s and sends its neighbours in order',
+    async (code) => {
+      const ids: string[] = [];
+      for (let n = 0; n < 5; n += 1) ids.push(await enqueue(db, UID, 'create_test_crew', {}));
+      const poisoned = ids[2]!;
+      const server = refusing((batch) => (batch.includes(poisoned) ? code : null));
+      const queue = queueWith(db, server);
+
+      await queue.flush();
+
+      // The refusal was pinned on the op by sending it alone, and only then was it failed.
+      expect(server.sent).toContainEqual([poisoned]);
+      expect(await rejectedCodes(db)).toEqual([{ id: poisoned, code }]);
+      expect(server.applied).toEqual(ids.filter((id) => id !== poisoned));
+      expect(await commandRows(db)).toEqual(
+        server.applied.map((id) => expect.objectContaining({ id, status: 'done' })),
+      );
+      expect(queue.getState()).toMatchObject({ refused: null, failures: 0, nextRetryAt: null });
+    },
+  );
+
+  it('stops failing writes and holds when three in a row are refused alone', async () => {
+    const ids: string[] = [];
+    for (let n = 0; n < 5; n += 1) ids.push(await enqueue(db, UID, 'create_test_crew', {}));
+    // A server that turns every batch down, whatever it holds.
+    let down = true;
+    const server = refusing(() => (down ? 'VALIDATION' : null));
+    const queue = queueWith(db, server);
+
+    await queue.flush();
+
+    const failed = ids.slice(0, HOLD_AFTER_REFUSED_ALONE - 1);
+    const kept = ids.slice(HOLD_AFTER_REFUSED_ALONE - 1);
+    const heldRows = kept.map((id) => expect.objectContaining({ id, status: 'queued' }));
+    expect(queue.getState()).toMatchObject({ refused: 'VALIDATION', nextRetryAt: null });
+    expect((await rejectedCodes(db)).map((row) => row.id).sort()).toEqual([...failed].sort());
+    expect(await commandRows(db)).toEqual(heldRows);
+
+    // No timer asks again; asking again fails nothing more while the server still refuses.
+    const asked = server.sent.length;
+    await new Promise((resolve) => setTimeout(resolve, TEST_BACKOFF.baseMs * 8));
+    expect(server.sent).toHaveLength(asked);
+    await queue.retryNow();
+    expect(queue.getState().refused).toBe('VALIDATION');
+    expect(await rejectedCodes(db)).toHaveLength(failed.length);
+    expect(await commandRows(db)).toEqual(heldRows);
+
+    down = false;
+    await queue.retryNow();
+
+    expect(server.applied).toEqual(kept);
+    expect(queue.getState()).toMatchObject({ refused: null, failures: 0, lastError: null });
+    expect((await commandRows(db)).map((row) => row.status)).toEqual(kept.map(() => 'done'));
+  });
+
+  it('starts the count again once the server accepts a batch', async () => {
+    const ids: string[] = [];
+    for (let n = 0; n < 7; n += 1) ids.push(await enqueue(db, UID, 'create_test_crew', {}));
+    // Two bad writes, a good one, two more bad ones: four refusals, never three in a row.
+    const bad = [ids[0]!, ids[1]!, ids[3]!, ids[4]!];
+    const server = refusing((batch) =>
+      batch.some((id) => bad.includes(id)) ? 'PAYLOAD_TOO_LARGE' : null,
+    );
+    const queue = queueWith(db, server);
+
+    await queue.flush();
+
+    expect((await rejectedCodes(db)).map((row) => row.id).sort()).toEqual([...bad].sort());
+    expect(server.applied).toEqual(ids.filter((id) => !bad.includes(id)));
+    expect(queue.getState().refused).toBeNull();
   });
 
   it('sends a smaller batch, oldest ops first, when the server says the batch is too large', async () => {
     const ids: string[] = [];
     for (let n = 0; n < 4; n += 1) ids.push(await enqueue(db, UID, 'create_test_crew', {}));
-    const sent: string[][] = [];
-    const queue = queueWith(db, {
-      postJson(_path, body) {
-        const batch = (body as { ops: { op_id: string }[] }).ops.map((op) => op.op_id);
-        sent.push(batch);
-        return Promise.resolve(
-          batch.length > 2
-            ? serverError('PAYLOAD_TOO_LARGE')
-            : {
-                status: 200,
-                body: { results: batch.map((id) => ({ op_id: id, status: 'applied' })) },
-              },
-        );
-      },
-    });
+    const server = refusing((batch) => (batch.length > 2 ? 'PAYLOAD_TOO_LARGE' : null));
+    const queue = queueWith(db, server);
 
     await queue.flush();
 
-    expect(sent).toEqual([ids, ids.slice(0, 2), ids.slice(2)]);
+    expect(server.sent).toEqual([ids, ids.slice(0, 2), ids.slice(2)]);
     expect(queue.getState()).toMatchObject({ refused: null, failures: 0, nextRetryAt: null });
     expect((await commandRows(db)).map((row) => row.status)).toEqual(Array(4).fill('done'));
-  });
-
-  it('holds the queue on one op the server finds too large on its own', async () => {
-    const opId = await enqueue(db, UID, 'create_test_crew', {});
-    const transport = answering(serverError('PAYLOAD_TOO_LARGE'));
-    const queue = queueWith(db, transport);
-
-    await queue.flush();
-    await new Promise((resolve) => setTimeout(resolve, TEST_BACKOFF.baseMs * 8));
-
-    expect(transport.calls).toBe(1);
-    expect(queue.getState()).toMatchObject({ refused: 'PAYLOAD_TOO_LARGE', nextRetryAt: null });
-    expect(await commandRows(db)).toEqual([{ id: opId, status: 'queued', attempts: 1 }]);
   });
 
   it('clears the failure and the pending retry by the time a retried op is seen done', async () => {

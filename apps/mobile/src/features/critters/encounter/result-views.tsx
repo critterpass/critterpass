@@ -19,10 +19,10 @@ import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { Rays } from '@/ui/textures/rays';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { artKind } from '../art-kind';
+import { BefriendRays } from './befriend-rays';
 import type { SpawnArt } from './encounter-model';
 import {
   addToPass,
@@ -167,7 +167,7 @@ export function BefriendedView(props: {
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-befriended">
       <View style={{ flex: 1, justifyContent: 'space-between', padding: theme.size.gutter }}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Rays />
+          <BefriendRays />
           <Sticker
             kind={artKind(art.key)}
             name={art.name ?? ''}

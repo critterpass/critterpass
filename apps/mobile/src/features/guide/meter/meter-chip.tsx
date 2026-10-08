@@ -1,13 +1,14 @@
 /**
- * The meter chip under the guide's name: "12 OF 30 TODAY" on the free meter, "UNLIMITED PON" on a
- * boosted trip, nothing with Pass+.
+ * The meter tag under the guide's name: "12 OF 30 TODAY" on the free meter, "UNLIMITED PON" in the
+ * boost colour on a boosted trip, nothing with Pass+. A filled tag, because the sheet is a raised
+ * surface and a ring in the raised colour does not show on it.
  */
 import { useLingui } from '@lingui/react/macro';
 
 import { upper } from '@cp/i18n';
 
 import { Row } from '@/ui';
-import { InfoPill } from '@/ui/chips/InfoPill';
+import { Tag } from '@/ui/chips/Tag';
 
 import type { GuideMeter } from './meter-model';
 
@@ -26,9 +27,12 @@ export function MeterChip({
       : t({ id: 'guide.meter.count', message: `${meter.used} of ${meter.limit} today` });
   return (
     <Row>
-      <InfoPill variant="outline" testID={`guide-meter-${meter.kind}`}>
-        {upper(label, i18n.locale)}
-      </InfoPill>
+      <Tag
+        label={upper(label, i18n.locale)}
+        tone={meter.kind === 'boosted' ? 'boost' : 'neutral'}
+        size="sm"
+        testID={`guide-meter-${meter.kind}`}
+      />
     </Row>
   );
 }

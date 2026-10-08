@@ -29,7 +29,6 @@ import {
   useConfetti,
 } from '../patterns/confetti';
 import { drawGate, useDraw, useDrawGate } from '../patterns/draw';
-import { usePageTurn } from '../patterns/page-turn';
 import { useRays } from '../patterns/rays';
 import { resetMotionModeForTests } from '../test-support/reset-motion-mode';
 
@@ -119,12 +118,6 @@ describe('other T5 overlay patterns produce a result without throwing', () => {
     await forceReducedMotion();
     const { result } = await renderHook(() => useRays(true));
     expect(result.current.visible).toBe(false);
-  });
-
-  it('usePageTurn fires the page cue once settled', async () => {
-    const onSettled = jest.fn();
-    await renderHook(() => usePageTurn({ active: true, onSettled }));
-    expect(mockedImpact).toHaveBeenCalledWith('page');
   });
 });
 

@@ -1,7 +1,8 @@
 /**
  * The proposal's card in crew chat on the real local-first stack: a `proposal` message carries no
  * body, so the card draws from the proposal it points at and the message's trip, and holds a
- * placeholder until both have synced.
+ * placeholder until both have synced. The trip comes with the message when it has one (a message
+ * older than the phone keeps has no row to look it up in).
  */
 
 import { afterEach, describe, expect, it } from '@jest/globals';
@@ -59,7 +60,7 @@ const message: ChatMessage = {
   status: 'sent',
 };
 
-async function seed(s: TestLocalFirst, withProposal: boolean) {
+async function seed(s: TestLocalFirst, withProposal: boolean, withMessageRow = true) {
   await s.db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
     OWNER_UID_KEY,
     s.uid,
@@ -88,12 +89,14 @@ async function seed(s: TestLocalFirst, withProposal: boolean) {
     "INSERT INTO trips (id, crew_id, status, destination_id, created_at) VALUES ('t-1', ?, 'proposed', 'd-1', '2026-09-01')",
     [CREW],
   );
-  await s.db.execute(
-    `INSERT INTO messages (id, crew_id, trip_id, seq, sender_kind, sender_id, type, body, ref_kind,
-       ref_id, created_at)
-     VALUES (?, ?, 't-1', 1, 'user', ?, 'proposal', '', 'proposal', ?, '2026-10-01T10:00:00Z')`,
-    [MESSAGE, CREW, MAYA, PROPOSAL],
-  );
+  if (withMessageRow) {
+    await s.db.execute(
+      `INSERT INTO messages (id, crew_id, trip_id, seq, sender_kind, sender_id, type, body,
+         ref_kind, ref_id, created_at)
+       VALUES (?, ?, 't-1', 1, 'user', ?, 'proposal', '', 'proposal', ?, '2026-10-01T10:00:00Z')`,
+      [MESSAGE, CREW, MAYA, PROPOSAL],
+    );
+  }
   if (withProposal) await seedProposal(s);
 }
 
@@ -105,13 +108,13 @@ function seedProposal(s: TestLocalFirst) {
   );
 }
 
-function renderCard(s: TestLocalFirst) {
+function renderCard(s: TestLocalFirst, shown: ChatMessage = message) {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
   return render(
     <I18nProvider i18n={i18n}>
       <GestureHandlerRootView>
         <LocalFirstProvider value={s.value}>
-          <ProposalMessageCard message={message} mine={false} />
+          <ProposalMessageCard message={shown} mine={false} />
         </LocalFirstProvider>
       </GestureHandlerRootView>
     </I18nProvider>,
@@ -135,6 +138,13 @@ describe('proposal card in crew chat', () => {
     await renderCard(stack);
     expect(await screen.findByLabelText('Loading the proposal')).toBeTruthy();
     await seedProposal(stack);
+    expect(await screen.findByText(/^Đà Nẵng: the proposal$/iu)).toBeTruthy();
+  });
+
+  it('draws a message read from the api, which the phone holds no row for, from the trip it carries', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seed(stack, true, false);
+    await renderCard(stack, { ...message, tripId: 't-1' });
     expect(await screen.findByText(/^Đà Nẵng: the proposal$/iu)).toBeTruthy();
   });
 });
