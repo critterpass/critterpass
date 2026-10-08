@@ -4,6 +4,7 @@
  * local-only `local_private` table, so every wallet screen renders in airplane mode.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
+import { seatHeldSql } from '@/data/trips/seat-sql';
 
 export const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';
 export const UID_TABLES = ['local_state'];
@@ -29,8 +30,9 @@ export const TRIPS_SQL = `SELECT t.id, t.status, t.start_date, t.end_date, coale
   ORDER BY t.start_date DESC, t.id`;
 export const TRIPS_TABLES = ['trips', 'destinations'];
 
+/** Who a booking can be for: the people holding a seat on the trip, in joining order. */
 export const PARTICIPANTS_SQL = `SELECT user_id FROM trip_participants
-  WHERE trip_id = ? AND coalesce(holds_seat, 1) = 1 ORDER BY created_at, user_id`;
+  WHERE trip_id = ? AND ${seatHeldSql()} ORDER BY created_at, user_id`;
 export const PARTICIPANTS_TABLES = ['trip_participants'];
 
 export const BOOKINGS_SQL = `SELECT id, trip_id, owner_id, type, title, starts_at, ends_at, tz,
