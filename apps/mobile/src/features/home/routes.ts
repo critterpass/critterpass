@@ -40,6 +40,11 @@ export function crewChatRoute(crewId: string): string {
   return `/crew/${crewId}/chat`;
 }
 
+/** The crew area's invite composer for one crew. */
+export function crewInviteRoute(crewId: string): string {
+  return `/crew/${crewId}/invite`;
+}
+
 /** Screens owned elsewhere, by design id. `undefined` until their area registers them. */
 export const homeRoutes = {
   destination: (placeId: string): Href | undefined => hrefFor('7g-3', { placeId }),

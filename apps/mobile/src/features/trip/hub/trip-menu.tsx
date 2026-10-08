@@ -27,6 +27,7 @@ const OTHERS_SQL = `SELECT count(*) AS n FROM trip_participants
   WHERE trip_id = ? AND user_id <> ? AND rsvp <> 'out'`;
 const OTHERS_TABLES = ['trip_participants'];
 const failedToastId = (tripId: string) => `trip-menu-failed-${tripId}`;
+const doneToastId = (tripId: string) => `trip-menu-done-${tripId}`;
 /* eslint-enable lingui/no-unlocalized-strings */
 
 const useStyles = makeStyles((th) => ({
@@ -87,6 +88,15 @@ function copyFor(removal: TripRemoval): RemovalCopy {
     ],
     confirm: t({ id: 'trip.menu.leaveConfirm', message: 'Leave trip' }),
   };
+}
+
+/** What the reader is told once it went through: the sheet closing alone says nothing. */
+function doneLine(removal: TripRemoval): string {
+  if (removal === 'delete') return t({ id: 'trip.menu.deleted', message: 'Trip deleted' });
+  if (removal === 'cancel') {
+    return t({ id: 'trip.menu.cancelled', message: 'Trip called off. Everyone on it was told.' });
+  }
+  return t({ id: 'trip.menu.left', message: 'You left the trip' });
 }
 
 function failedToast(tripId: string, code: string | null): void {
@@ -162,6 +172,7 @@ export function useTripMenu({ tripId, status, role, me }: TripMenuProps): {
         failedToast(tripId, sent.kind === 'rejected' ? sent.code : null);
         return;
       }
+      toast.show({ id: doneToastId(tripId), title: doneLine(removal) });
       // A deleted or left trip is no longer the reader's to look at: back to the trip list.
       if (removal !== 'cancel') router.navigate(TRIPS_TAB);
     });

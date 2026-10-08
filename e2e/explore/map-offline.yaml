@@ -46,7 +46,7 @@ appId: app.critterpass.dev
     optional: true
 - takeScreenshot: en-7c-1-offline-fresh-account-map
 - tapOn:
-    id: 'places-peek-list'
+    id: 'places-to-list'
 - extendedWaitUntil:
     visible:
       id: 'places-suggests-0'

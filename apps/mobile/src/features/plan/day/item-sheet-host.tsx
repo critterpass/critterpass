@@ -6,7 +6,9 @@
  * day before it is saved: the stops after it are pushed only as far as they need, the sheet says
  * so in one line, and a change that would run into a booked or must-do stop can't be saved. Every
  * change goes through the editor (an organiser's applies, a member's becomes a change set), which
- * says what changed, and the sheet closes.
+ * says what changed, and the sheet closes. A plan that can't be edited (a past or called-off trip,
+ * someone who left, a draft the guide is working on) opens the stop to read: its facts, the place,
+ * the maps app and its comments.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import type { PlanOp, PlanPush } from '@cp/domain';
@@ -29,6 +31,7 @@ import { ItemComments } from '../collab/item-comments';
 import { ClashCard } from '../overlay/clash-card';
 import { useResolveClash } from '../overlay/data/use-personal-plan';
 import { usePersonalLayer } from '../trip-map/personal-layer';
+import { isReadOnly } from '../trip-map/use-trip-map-data';
 import { retime, type Retime, type Travel } from '../day-plan/reschedule';
 import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
@@ -38,7 +41,7 @@ import { nowMinOn, pastTimePreview } from './past-time';
 import { pushedBack } from './pushed-back';
 import { gapLine, retimePreview } from './retime-copy';
 import { mapsUrl, placeRoute, reviewRoute } from './routes';
-import { StopDayActions } from './stop-day-actions';
+import { isStopOfToday, StopDayActions } from './stop-day-actions';
 
 export interface ItemSheetEditor {
   readonly submit: (
@@ -75,8 +78,6 @@ export function ItemSheetHost({
   readonly item: DayItem;
   readonly slot: DaySlot;
   readonly editor: ItemSheetEditor;
-  /** Unused: the editor says how an edit went itself. */
-  readonly announce?: (outcome: EditOutcome) => void;
   /** Minutes between two stops (stored legs when the screen has them); straight-line otherwise. */
   readonly travel?: Travel;
   readonly onClose: () => void;
@@ -147,6 +148,9 @@ export function ItemSheetHost({
   // Her own draft, before the crew has a plan: nobody else is on it yet, so there is nothing to
   // skip "just me", no day-of actions and no thread to comment in.
   const onDraft = plan.mode === 'draft';
+  const readOnly = isReadOnly(plan);
+  // On the day itself the on-the-day actions lead the sheet with their own skip.
+  const today = isStopOfToday(item, slot.date, tz, new Date());
   const personal = usePersonalLayer(onDraft ? null : (plan.trip?.id ?? null), plan.uid, plan.state);
   const clash = personal.layer.clashes.find((entry) => entry.stableId === item.stableId) ?? null;
   const resolveClash = useResolveClash();
@@ -184,6 +188,7 @@ export function ItemSheetHost({
       dayLabels={dayLabels}
       members={plan.members}
       canApply={plan.canApply}
+      readOnly={readOnly}
       priceLevel={price.rows[0]?.price_level ?? null}
       removeLine={backLine()}
       mustDoMine={owner.rows[0]?.owner_id != null && owner.rows[0].owner_id === plan.uid}
@@ -205,7 +210,7 @@ export function ItemSheetHost({
             }
       }
       lead={
-        onDraft ? null : clash === null ? (
+        onDraft || readOnly ? null : clash === null ? (
           dayActions
         ) : (
           <View style={{ gap: theme.space['12'] }}>
@@ -278,7 +283,7 @@ export function ItemSheetHost({
           void editor.submit([removeOp(item), ...takeOff], { confirmLocked });
           onClose();
         },
-        onSkipForMe: onDraft ? null : skipForMe,
+        onSkipForMe: onDraft || readOnly || today ? null : skipForMe,
         onOpenPlace: (poiId) => {
           const href = placeRoute(poiId, tripId);
           if (href !== undefined) router.push(href);

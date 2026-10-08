@@ -19,8 +19,7 @@ msgstr "{dates}, mỗi người {cost}. Sửa gì thì sửa trước khi cả n
 msgid "planDraft.review.subNoCost"
 msgstr "{dates}. Chưa có ước tính chi phí. Sửa gì thì sửa trước khi cả nhóm thấy."
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
-#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.review.back"
 msgstr "Chuẩn bị {destination}"
 
@@ -104,9 +103,13 @@ msgstr "Một lần soạn lại bạn đã trả về"
 msgid "planDraft.review.changeDay"
 msgstr "Nhờ {guideName} đổi một ngày"
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.loading.back"
 msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
+msgid "planDraft.drafting.back"
+msgstr "Về phần chuẩn bị"
 
 #: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
 msgid "planDraft.member.back"
@@ -216,7 +219,7 @@ msgstr "Giữ một ngày soạn lại"
 msgid "planDraft.leftOut.line"
 msgstr "Chưa có trong kế hoạch: {name}."
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.loading.label"
 msgstr "Đang tải bản nháp của bạn"
 

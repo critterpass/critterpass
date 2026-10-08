@@ -151,9 +151,9 @@ msgstr "Thêm vào chat"
 msgid "chat.report.alsoMute"
 msgstr "Tắt tiếng {senderName} luôn"
 
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.back"
-msgstr "Quay lại"
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.loneLine"
+msgstr "Rủ bạn bè vào đi. Kế hoạch, ảnh và bình chọn đều về đây."
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.harassment"
@@ -259,6 +259,14 @@ msgstr "Hướng dẫn viên"
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.hate"
 msgstr "Thù ghét"
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.invite"
+msgstr "Mời bạn bè"
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.loneTitle"
+msgstr "Trong này mới có mình bạn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx
 msgid "chat.list.jumpToLatest"

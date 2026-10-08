@@ -1,6 +1,7 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { LocalFirstGate } from '@/features/explore';
 import { PlacesListScreen, PlacesMapScreen, type PlacesFilter } from '@/features/explore/places';
 
@@ -39,7 +40,7 @@ function DestinationPlaces(props: {
     onLeaveResults: () => undefined,
     // Inside a trip the pill opens the trip's search; outside one it searches this phone.
     ...(props.tripId === undefined ? { query, onQuery: setQuery } : {}),
-    onBack: () => (router.canGoBack() ? router.back() : router.replace('/')),
+    onBack: () => goBackOr(),
   };
   return mode === 'map' ? (
     <PlacesMapScreen {...shared} placeId={props.placeId} onList={() => setMode('list')} />

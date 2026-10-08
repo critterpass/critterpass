@@ -10,18 +10,20 @@ import { toCountryCode } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useContext, useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { useMemo } from 'react';
+import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useQuietLiveRows } from '@/data/powersync/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { impact } from '@/motion/feedback';
+import { toast } from '@/motion/island-toast';
 import { useGuidesPerCity } from '@/data/guides';
 import { guideSticker } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import type { GuideId } from '@/ui/people/GuideLine';
+import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -110,12 +112,22 @@ function Cell({ cell, index, width }: { cell: GuideCell; index: number; width: n
   const open = () => {
     impact('pop');
     const href = cell.placeId === null ? undefined : homeRoutes.destination(cell.placeId);
-    if (href !== undefined) void zoomTo(sourceId, href, { hop: true });
+    if (href !== undefined) {
+      void zoomTo(sourceId, href, { hop: true });
+      return;
+    }
+    // The guide's place has not synced yet: the tap is answered, never swallowed.
+    toast.show({
+      id: 'home-places-loading',
+      title: t({
+        id: 'home.firstRun.placesLoading',
+        message: 'Places are still loading. Try again in a moment.',
+      }),
+    });
   };
   return (
-    <Pressable
+    <PressScale
       testID={`home-guide-${cell.guide}`}
-      accessibilityRole="button"
       accessibilityLabel={t({
         id: 'home.firstRun.guideCell',
         message: `${cell.place}, with ${sticker.name}`,
@@ -131,7 +143,7 @@ function Cell({ cell, index, width }: { cell: GuideCell; index: number; width: n
           {upper(cell.place, locale)}
         </Text>
       </View>
-    </Pressable>
+    </PressScale>
   );
 }
 
@@ -146,7 +158,7 @@ const NEAR_HOME_MAX = 12;
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 const NEAR_HOME_SQL = `SELECT d.id, d.name, d.country, d.coverage,
     (SELECT home_country FROM users WHERE id = ?) AS home
-  FROM destinations d ORDER BY d.name`;
+  FROM destinations d WHERE d.country IS NOT NULL ORDER BY d.name`;
 const NEAR_HOME_TABLES = ['destinations', 'users'];
 /* eslint-enable lingui/no-unlocalized-strings */
 
@@ -173,26 +185,13 @@ export function nearHomePlaces(rows: readonly DestinationRow[]): NearHomePlace[]
 
 /** The destinations in the traveller's home country, from the synced catalogue. */
 export function useNearHomePlaces(uid: string | null): readonly NearHomePlace[] {
-  const db = useContext(LocalFirstContext)?.db ?? null;
-  const [places, setPlaces] = useState<readonly NearHomePlace[]>([]);
-  useEffect(() => {
-    if (db === null || uid === null) return undefined;
-    const controller = new AbortController();
-    const load = () =>
-      db.getAll<DestinationRow>(NEAR_HOME_SQL, [uid]).then(
-        (rows) => {
-          if (!controller.signal.aborted) setPlaces(nearHomePlaces(rows));
-        },
-        () => undefined,
-      );
-    void load();
-    db.onChange(
-      { onChange: () => load() },
-      { tables: NEAR_HOME_TABLES, throttleMs: 30, signal: controller.signal },
-    );
-    return () => controller.abort();
-  }, [db, uid]);
-  return places;
+  const { rows } = useQuietLiveRows<DestinationRow>(
+    NEAR_HOME_SQL,
+    uid === null ? null : [uid],
+    NEAR_HOME_TABLES,
+  );
+  // The rows keep their identity until the catalogue or the account changes.
+  return useMemo(() => nearHomePlaces(rows), [rows]);
 }
 
 function NearHome({ places }: { readonly places: readonly NearHomePlace[] }) {

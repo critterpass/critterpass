@@ -7,6 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- toast ids, never copy. */
 import type { PlanCheckIssue } from '@cp/domain';
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useCallback, useMemo, useState } from 'react';
 
 import { usePlanCheck } from '@/data/checks/use-plan-check';
@@ -218,7 +220,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
   return (
     <CheckView
       backLabel={backTripLabel()}
-      onBack={() => router.back()}
+      onBack={() => goBackOr(planRoutes.plan(tripId))}
       status={
         running || check.check?.checked_at == null
           ? checkingLabel()

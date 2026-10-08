@@ -34,6 +34,8 @@ export interface ChatInfo {
   /** `active` writes; `former` (kept the chat) reads only; `null` before the row syncs. */
   readonly myStatus: string | null;
   readonly lastReadSeq: number;
+  /** False until the first local read lands. */
+  readonly loaded: boolean;
 }
 
 const TABLES = ['crews', 'crew_members', 'users', 'trips', 'guides'];
@@ -78,6 +80,7 @@ export async function loadChatInfo(
     guide: guide ?? null,
     myStatus: mine?.status ?? null,
     lastReadSeq: Number(mine?.last_read_seq ?? 0),
+    loaded: true,
   };
 }
 
@@ -87,7 +90,29 @@ const EMPTY: ChatInfo = {
   guide: null,
   myStatus: null,
   lastReadSeq: 0,
+  loaded: false,
 };
+
+function same(a: unknown, b: unknown): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
+/**
+ * `next`, holding on to the members list and guide that did not change: the read marker moves on
+ * every message read, and the timeline's rows hang off the members.
+ */
+export function keepInfo(previous: ChatInfo, next: ChatInfo): ChatInfo {
+  const members = same(previous.members, next.members) ? previous.members : next.members;
+  const guide = same(previous.guide, next.guide) ? previous.guide : next.guide;
+  return members === previous.members &&
+    guide === previous.guide &&
+    previous.crewName === next.crewName &&
+    previous.myStatus === next.myStatus &&
+    previous.lastReadSeq === next.lastReadSeq &&
+    previous.loaded === next.loaded
+    ? previous
+    : { ...next, members, guide };
+}
 
 export function useChatInfo(crewId: string, me: string | null): ChatInfo {
   const { db } = useLocalFirst();
@@ -98,7 +123,7 @@ export function useChatInfo(crewId: string, me: string | null): ChatInfo {
     const load = () =>
       loadChatInfo(db, crewId, me).then(
         (next) => {
-          if (!controller.signal.aborted) setInfo(next);
+          if (!controller.signal.aborted) setInfo((previous) => keepInfo(previous, next));
         },
         () => undefined,
       );

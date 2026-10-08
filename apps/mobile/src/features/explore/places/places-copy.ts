@@ -195,7 +195,13 @@ export function rowMeta(
 /** The sort line, naming the order the list is really in. */
 export function sortLabel(
   order: 'fit' | 'picks' | 'nearest' | 'az',
-  facts: { readonly guide: string; readonly stay: string | null; readonly destination: string },
+  facts: {
+    readonly guide: string;
+    readonly stay: string | null;
+    readonly destination: string;
+    /** Measured from where the traveller stands (they are in the destination, with no stay). */
+    readonly fromViewer?: boolean | undefined;
+  },
 ): string {
   const { guide, destination } = facts;
   const stay = facts.stay;
@@ -205,9 +211,13 @@ export function sortLabel(
     case 'picks':
       return t({ id: 'places.sort.picks', message: `${guide}'s picks first` });
     case 'nearest':
-      return stay === null
-        ? t({ id: 'places.sort.nearestMiddle', message: `Nearest to the middle of ${destination}` })
-        : t({ id: 'places.sort.nearestStay', message: `Nearest to ${stay}` });
+      if (stay !== null) return t({ id: 'places.sort.nearestStay', message: `Nearest to ${stay}` });
+      return facts.fromViewer === true
+        ? t({ id: 'places.sort.nearestYou', message: 'Nearest to you' })
+        : t({
+            id: 'places.sort.nearestMiddle',
+            message: `Nearest to the middle of ${destination}`,
+          });
     case 'az':
       return t({ id: 'places.sort.az', message: 'Sorted A–Z' });
   }

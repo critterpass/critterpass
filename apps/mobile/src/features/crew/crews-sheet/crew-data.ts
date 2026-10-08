@@ -63,6 +63,8 @@ export interface CrewsSnapshot {
   readonly codes: readonly CodeRow[];
   readonly invites: readonly InviteRow[];
   readonly activeCrewId: string | null;
+  /** False until the first read has answered: an empty snapshot before that is not "no crews". */
+  readonly loaded: boolean;
 }
 
 const EMPTY: CrewsSnapshot = {
@@ -72,6 +74,7 @@ const EMPTY: CrewsSnapshot = {
   codes: [],
   invites: [],
   activeCrewId: null,
+  loaded: false,
 };
 
 const TABLES = [
@@ -132,6 +135,7 @@ export function watchCrews(
         codes,
         invites,
         activeCrewId: settings[0]?.active_crew_id ?? null,
+        loaded: true,
       }),
     );
   });

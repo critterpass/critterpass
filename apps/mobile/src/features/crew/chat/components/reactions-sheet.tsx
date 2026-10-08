@@ -55,6 +55,7 @@ export function ReactionsSheet({
                 <Row key={user.uid} style={styles.person}>
                   <Avatar
                     name={name}
+                    uid={user.uid}
                     joinIndex={joinIndex.get(user.uid) ?? 0}
                     size="sm"
                     decorative

@@ -5,13 +5,12 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { watchRows } from '@/data/status/watch-rows';
+import { useQuietLiveRows } from '@/data/powersync/live-rows';
 
 import { reactMessageCommand } from './chat-commands';
-import { quoted } from './rows';
 import { memberName } from '@/ui/people/member-name';
 
 export interface ReactionGroup {
@@ -28,12 +27,15 @@ interface Row {
   readonly display_name: string | null;
 }
 
-function reactionsSql(crewId: string): string {
-  return `SELECT r.message_id, r.emoji, r.user_id, u.display_name
+const TABLES = ['message_reactions', 'users'];
+
+/** Reactions on the newest `?` messages of crew `?`: what the loaded timeline can show. */
+const REACTIONS_SQL = `SELECT r.message_id, r.emoji, r.user_id, u.display_name
             FROM message_reactions r LEFT JOIN users u ON u.id = r.user_id
-           WHERE r.crew_id = ${quoted(crewId)}
+           WHERE r.crew_id = ?
+             AND r.message_id IN (SELECT m.id FROM messages m WHERE m.crew_id = ?
+                                   ORDER BY m.seq DESC LIMIT ?)
            ORDER BY r.created_at, r.id`;
-}
 
 export function groupReactions(
   rows: readonly Row[],
@@ -62,31 +64,77 @@ export function groupReactions(
   );
 }
 
-export async function loadReactions(db: AbstractPowerSyncDatabase, crewId: string, me: string) {
-  return groupReactions(await db.getAll<Row>(reactionsSql(crewId)), me);
+/** One read of the reactions on the crew's newest `window` messages. */
+export async function loadReactions(
+  db: AbstractPowerSyncDatabase,
+  crewId: string,
+  me: string,
+  window: number,
+) {
+  return groupReactions(await db.getAll<Row>(REACTIONS_SQL, [crewId, crewId, window]), me);
 }
 
-export function useReactions(crewId: string, me: string | null) {
-  const { db, commands } = useLocalFirst();
-  const [groups, setGroups] = useState<ReadonlyMap<string, readonly ReactionGroup[]>>(new Map());
+type Groups = ReadonlyMap<string, readonly ReactionGroup[]>;
+
+/** `next`, with each message's groups that read the same as before swapped for the held array. */
+export function keepGroups(previous: Groups, next: Groups): Groups {
+  let changed = previous.size !== next.size;
+  const kept = new Map<string, readonly ReactionGroup[]>();
+  for (const [messageId, groups] of next) {
+    const before = previous.get(messageId);
+    const same = before !== undefined && JSON.stringify(before) === JSON.stringify(groups);
+    if (!same) changed = true;
+    kept.set(messageId, same ? before : groups);
+  }
+  return changed ? kept : previous;
+}
+
+const NO_GROUPS: Groups = new Map();
+
+/**
+ * Reactions for the newest `window` messages of the crew. What it returns keeps its identity until
+ * a reaction changes, and a message whose reactions did not change keeps its array.
+ */
+export function useReactions(crewId: string, me: string | null, window: number) {
+  const { commands } = useLocalFirst();
+  const { rows } = useQuietLiveRows<Row>(
+    REACTIONS_SQL,
+    me === null ? null : [crewId, crewId, window],
+    TABLES,
+  );
+  // Grouped once per change of the rows, holding on to what the last grouping already had.
+  const [held, setHeld] = useState<{
+    readonly rows: readonly Row[] | null;
+    readonly me: string | null;
+    readonly groups: Groups;
+  }>({ rows: null, me: null, groups: NO_GROUPS });
+  if (held.rows !== rows || held.me !== me) {
+    setHeld({
+      rows,
+      me,
+      groups: me === null ? NO_GROUPS : keepGroups(held.groups, groupReactions(rows, me)),
+    });
+  }
+  const groups = held.groups;
+  // `toggle` reads the newest groups without changing with them, so the rows' handlers stay put.
+  const latest = useRef(groups);
   useEffect(() => {
-    if (me === null) return undefined;
-    return watchRows<Row>(db, reactionsSql(crewId), ['message_reactions', 'users'], (rows) =>
-      setGroups(groupReactions(rows, me)),
-    );
-  }, [db, crewId, me]);
+    latest.current = groups;
+  }, [groups]);
 
   const toggle = useCallback(
     (messageId: string, emoji: string) => {
-      const mine = groups.get(messageId)?.some((group) => group.emoji === emoji && group.mine);
+      const mine = latest.current
+        .get(messageId)
+        ?.some((group) => group.emoji === emoji && group.mine);
       return commands.send(reactMessageCommand, {
         message_id: messageId,
         emoji,
         on: mine !== true,
       });
     },
-    [commands, groups],
+    [commands],
   );
 
-  return { groups, toggle };
+  return useMemo(() => ({ groups, toggle }), [groups, toggle]);
 }

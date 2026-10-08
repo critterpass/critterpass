@@ -13,7 +13,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
+import { goBackOr } from '@/lib/navigation/back';
 import { impact } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
 import { cancelDraftCommand, startDraftCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
@@ -21,6 +25,7 @@ import { draftPhase, emptySnapshot, isLive, type StartState } from '../data/job'
 import { useDraftServices } from '../data/services';
 import { tripDays } from '../data/trip-days';
 import { useDraftJob } from '../data/use-draft-job';
+import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
 import { DraftingView } from './drafting-view';
 
@@ -46,6 +51,7 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
   const { now } = useDraftServices();
   const start = useCommand(startDraftCommand);
   const cancel = useCommand(cancelDraftCommand);
+  const { report } = useCommandFeedback();
   const [startState, setStartState] = useState<StartState>({ kind: 'idle' });
   const [jobId, setJobId] = useState<string | null>(null);
   const { job, loaded } = useDraftJob(tripId, jobId);
@@ -123,12 +129,21 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
     router.replace(draftRoutes.review(tripId));
   }, [tripId, focused]);
 
-  const onBack = () => {
-    if (router.canGoBack()) router.back();
-    else router.replace(draftRoutes.setup(tripId) ?? '/');
+  const parent = draftRoutes.setup(tripId) ?? '/';
+  const onBack = () => goBackOr(parent);
+  // Stopping needs the server: a send that did not get there says so, and the wait stays.
+  const onCancel = () => {
+    if (cancel.pending) return;
+    void cancel.send({ trip_id: tripId }).then((result) => report(result, { id: 'draft-cancel' }));
   };
 
-  if (trip === undefined || trip === null) return null;
+  const backLabel = draftBackLabel(null);
+  if (trip === undefined) {
+    return <ScreenLoading backLabel={backLabel} fallback={parent} testID="drafting-loading" />;
+  }
+  if (trip === null) {
+    return <ScreenMissing backLabel={backLabel} fallback={parent} testID="drafting-missing" />;
+  }
   return (
     <DraftingView
       guide={trip.guide}
@@ -139,7 +154,7 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
       leaving={leaving}
       onDone={onDone}
       onRetry={() => void begin()}
-      onCancel={() => void cancel.send({ trip_id: tripId })}
+      onCancel={onCancel}
       onBack={onBack}
     />
   );

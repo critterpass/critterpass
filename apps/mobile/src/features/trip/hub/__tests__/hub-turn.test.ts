@@ -60,6 +60,11 @@ describe('the hub while the crew agrees on a plan', () => {
     expect(planTileBeforeSend(answering, '/draft')).toBeNull();
   });
 
+  it('says the plan comes after the vote, and opens nothing', () => {
+    const tile = planTileBeforeSend(view({ kind: 'vote', href: '/' }), '/draft');
+    expect(tile).toMatchObject({ value: 'Not yet', href: undefined });
+  });
+
   it('shows no empty plan while set-up is unfinished, and leads back to it', () => {
     const tile = planTileBeforeSend(view({ kind: 'setup', href: '/setup/rooms' }), '/draft');
     expect(tile?.href).toBe('/setup/rooms');

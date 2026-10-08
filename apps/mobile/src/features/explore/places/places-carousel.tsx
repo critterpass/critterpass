@@ -17,7 +17,6 @@ import {
 import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { StackMember } from '@/ui/people/AvatarStack';
 import { PhotoCredit, PlaceCard, PlanningTag, type FitTone } from '@/ui/planning';
-import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -48,33 +47,31 @@ export interface PlacesCarouselProps {
   readonly onOpen: (id: string) => void;
   /** Absent while Add to plan is not on this phone. */
   readonly onAdd?: ((id: string) => void) | undefined;
-  readonly onList: () => void;
 }
 
 const useStyles = makeStyles((t) => ({
   head: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: t.size.gutter,
     marginBottom: t.space['8'],
     gap: t.space['12'],
   },
-  count: { flex: 1, minWidth: 0 },
-  list: {
-    flexShrink: 0,
+  // A backing, so the count reads over the map's own labels.
+  count: {
+    flexShrink: 1,
+    minWidth: 0,
     paddingHorizontal: t.space['10'],
-    paddingVertical: t.space['6'],
+    paddingVertical: t.space['4'],
     borderRadius: t.radius.md,
-    backgroundColor: t.semantic.bg.raised,
+    backgroundColor: t.semantic.bg.base,
   },
-  tag: { position: 'absolute', top: t.space['8'], end: t.space['8'] },
 }));
 
 export function PlacesCarousel(props: PlacesCarouselProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const { t, i18n } = useLingui();
+  const { i18n } = useLingui();
   const { width } = useWindowDimensions();
   const list = useRef<FlatList<CarouselEntry>>(null);
   const gap = theme.space['10'];
@@ -104,24 +101,11 @@ export function PlacesCarousel(props: PlacesCarouselProps) {
   return (
     <View testID="places-carousel">
       <View style={styles.head}>
-        {/* The label gives way (it shortens with …) so the LIST pill stays whole on screen. */}
         <View style={styles.count}>
           <Text variant="eyebrow" numberOfLines={1} testID="places-carousel-count">
             {upper(carouselCount(position + 1, props.entries.length), i18n.locale)}
           </Text>
         </View>
-        <PressScale
-          style={styles.list}
-          widthClass="narrow"
-          accessibilityRole="button"
-          accessibilityLabel={t({ id: 'places.showList', message: 'Show as a list' })}
-          onPress={props.onList}
-          testID="places-carousel-list"
-        >
-          <Text variant="label">
-            {upper(t({ id: 'places.list', message: '≡ List' }), i18n.locale)}
-          </Text>
-        </PressScale>
       </View>
       <FlatList
         ref={list}
@@ -152,13 +136,13 @@ export function PlacesCarousel(props: PlacesCarouselProps) {
                   : () => props.onAdd?.(item.id)
               }
               addLabel={addLabel(item.name)}
+              badge={
+                item.nextDoor ? (
+                  <PlanningTag label={upper(nextDoorLabel(), i18n.locale)} />
+                ) : undefined
+              }
               testID={`places-card-${String(index)}`}
             />
-            {item.nextDoor ? (
-              <View style={styles.tag} pointerEvents="none">
-                <PlanningTag label={upper(nextDoorLabel(), i18n.locale)} />
-              </View>
-            ) : null}
           </View>
         )}
       />

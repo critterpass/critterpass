@@ -1,6 +1,7 @@
 /**
  * The guide sheet's synced reads over the real local-first stack: the context guide's trip and
- * guide, the GROUP and JUST ME threads with their saved answers, and today's meter.
+ * guide, the GROUP and JUST ME threads with their saved answers, the thread voice mode asks in,
+ * and today's meter.
  */
 jest.mock(
   '@powersync/common',
@@ -23,6 +24,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { useGuideContext } from '../data/use-guide-context';
 import { useGuideThread } from '../data/use-guide-thread';
 import { useGuideMeter } from '../../meter/use-guide-meter';
+import { useVoiceTarget, voiceTurnRequest } from '../../voice/voice-target';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -124,6 +126,58 @@ describe('the guide sheet reads', () => {
     await waitFor(() => expect(mine.result.current.exists).toBe(true));
     expect(mine.result.current.threadId).toBe(PRIVATE);
     expect(mine.result.current.messages).toEqual([]);
+  });
+
+  it('sends a spoken question to the private thread when voice opened from JUST ME', async () => {
+    const stack = await seeded();
+    const { db, uid } = stack;
+    await db.execute(
+      `INSERT INTO guide_threads (id, user_id, trip_id, crew_id, mode, created_at) VALUES
+       (?, ?, ?, ?, 'group', '2026-09-20'), (?, ?, ?, NULL, 'private', '2026-09-21')`,
+      [GROUP, MAYA, TRIP, CREW, PRIVATE, uid, TRIP],
+    );
+    // A crew of two: with no mode given, voice would talk to the group.
+    const mine = await renderHook(() => useVoiceTarget(TRIP, 'private'), {
+      wrapper: stack.wrapper,
+    });
+    await waitFor(() => expect(mine.result.current.target.threadId).toBe(PRIVATE));
+    expect(mine.result.current.target).toEqual({
+      mode: 'private',
+      tripId: TRIP,
+      uid,
+      threadId: PRIVATE,
+    });
+    const turn = voiceTurnRequest(mine.result.current.target, 'Is my budget too low?', true);
+    expect(turn.path).toBe(`/v1/guide/threads/${PRIVATE}/turns`);
+    expect(turn.body).toMatchObject({ thread_mode: 'private', context: { trip_id: TRIP } });
+
+    const crew = await renderHook(() => useVoiceTarget(TRIP, null), { wrapper: stack.wrapper });
+    await waitFor(() => expect(crew.result.current.target.threadId).toBe(GROUP));
+    expect(crew.result.current.target.mode).toBe('group');
+  });
+
+  it('never gives a JUST ME voice question a thread of the group while the threads load', async () => {
+    const stack = await seeded();
+    const { db, uid } = stack;
+    await db.execute(
+      `INSERT INTO guide_threads (id, user_id, trip_id, crew_id, mode, created_at) VALUES
+       (?, ?, ?, ?, 'group', '2026-09-20')`,
+      [GROUP, MAYA, TRIP, CREW],
+    );
+    const seen: string[] = [];
+    const { result } = await renderHook(
+      () => {
+        const voice = useVoiceTarget(TRIP, 'private');
+        seen.push(`${voice.target.mode}:${voice.target.threadId}`);
+        return voice;
+      },
+      { wrapper: stack.wrapper },
+    );
+    await waitFor(() => expect(result.current.target.uid).toBe(uid));
+    await waitFor(() => expect(result.current.target.tripId).toBe(TRIP));
+    expect(seen.every((entry) => entry.startsWith('private:') && !entry.includes(GROUP))).toBe(
+      true,
+    );
   });
 
   it('reads the meter for today, and a boosted trip as unlimited', async () => {

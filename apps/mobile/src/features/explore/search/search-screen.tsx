@@ -9,19 +9,16 @@ import { router, type Href } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { matchPlaceRef } from './search-navigation';
-import {
-  useLivePlaces,
-  wantsLivePlaces,
-  resolveLivePlace,
-  type LivePlace,
-} from '@/data/places/more-places';
+import { useLivePlaces, wantsLivePlaces } from '@/data/places/more-places';
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { PlaceCandidate } from '@/data/places/match-places';
 import { useOnline } from '@/data/places/server-name-search';
 import { useTripPlaceSearch } from '@/data/places/use-trip-place-search';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion/island-toast';
 
+import { tripExploreLinks } from '../trip-explore/links';
 import { looksLikeAddress, wantsAddresses } from './address-rule';
 import { AddressSection } from './address-section';
 import { BrowseGrid, type BrowseTile } from './browse-grid';
@@ -42,6 +39,7 @@ import { SearchView } from './search-view';
 import { TypedLinkCard } from './typed-link-card';
 import { plainExamples, TypedExamples } from './typed-examples';
 import { useAddPlace } from './use-add-place';
+import { usePickLive } from './use-pick-live';
 import { useAddresses, useDestinationCentre, type AddressPoint } from './use-addresses';
 import { useClipboardLink } from './use-clipboard-link';
 import { usePhoneAddresses } from './use-phone-addresses';
@@ -165,12 +163,11 @@ export function SearchScreen(props: SearchScreenProps) {
   const dropPin = () => setPinning({ start: null, name: typed });
   const askGuide = (words: string) => go(hrefFor('3j-1', { tripId, q: words }));
   const addressFirst = looksLikeAddress(typed);
-  const pickLive = (picked: LivePlace) => {
-    if (trip.destinationId === null) return;
-    void resolveLivePlace(services.getJson, trip.destinationId, picked).then((pick) => {
-      if (pick.kind === 'ready') openPlace(poiRef(pick.poiId));
-    });
-  };
+  const livePick = usePickLive({
+    getJson: services.getJson,
+    destinationId: trip.destinationId,
+    onReady: (poiId) => openPlace(poiRef(poiId)),
+  });
   const browse = (tile: BrowseTile) => {
     const list =
       tile.filter === null ? undefined : hrefFor('7c-3', { tripId, filter: tile.filter });
@@ -188,7 +185,7 @@ export function SearchScreen(props: SearchScreenProps) {
         value: query,
         onChangeText: type,
         onSubmit: () => ask(query),
-        onCancel: () => router.back(),
+        onCancel: () => goBackOr(tripExploreLinks.hub(tripId)),
         destination: trip.destination,
         guide: trip.guide,
         guideName: trip.guideName,
@@ -275,14 +272,19 @@ export function SearchScreen(props: SearchScreenProps) {
             photos={photos}
             onOpen={openPlace}
             onAdd={addPlace}
-            onPickLive={pickLive}
+            onPickLive={livePick.pick}
+            pickingLive={livePick.picking}
+            incomplete={search.incomplete}
+            onRetry={search.retry}
             context={{
               destination: trip.destination,
               from: near ?? centre,
               addresses: knownAddresses,
               planDays: trip.planDays,
             }}
-            asked={search.more || search.state === 'searching' ? undefined : typed}
+            asked={
+              search.more || search.incomplete || search.state === 'searching' ? undefined : typed
+            }
             addressFound={addressState.kind === 'done' && addressState.addresses.length > 0}
             notFound={{
               guideName: trip.guideName,

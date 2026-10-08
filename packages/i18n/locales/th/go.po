@@ -52,6 +52,10 @@ msgstr ""
 msgid "go.preview.noFix"
 msgstr ""
 
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.startFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.mapsApp"
 msgstr ""

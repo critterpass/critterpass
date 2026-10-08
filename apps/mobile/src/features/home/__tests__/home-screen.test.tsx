@@ -246,6 +246,31 @@ describe('modes', () => {
     await seedCrew(s);
     await renderHome(<HomeScreen />, s);
     await until(() => screen.queryByTestId('home-no-trip') !== null);
+    // Three in the crew: nothing asks them to invite friends.
+    expect(screen.queryByTestId('home-invite-friends')).toBeNull();
+  });
+
+  it('gives a crew of one the way to invite friends', async () => {
+    const s = await open();
+    await seedCrew(s);
+    await s.db.execute('DELETE FROM crew_members WHERE user_id <> ?', [s.uid]);
+    await renderHome(<HomeScreen />, s);
+    await until(() => screen.queryByTestId('home-invite-friends') !== null);
+    await fireEvent.press(screen.getByTestId('home-invite-friends-open'));
+    expect(push).toHaveBeenCalledWith(`/crew/${CREW}/invite`);
+  });
+
+  it('keeps the inbox and "Your crews" in reach before the first crew', async () => {
+    const s = await open();
+    await seedMe(s);
+    await seedInboxItem(s, { kind: 'nudge.received', needsYou: true });
+    await renderHome(<HomeScreen />, s);
+    await until(() => screen.queryByTestId('home-first-run') !== null);
+    await until(() => screen.queryByLabelText('Inbox, 1 new') !== null);
+    await fireEvent.press(screen.getByTestId('home-your-crews'));
+    expect(push).toHaveBeenCalledWith('/crew');
+    await fireEvent.press(screen.getByTestId('home-header-inbox'));
+    expect(push).toHaveBeenCalledWith('/inbox');
   });
 
   it('renders the recap card for two weeks after the last day', async () => {

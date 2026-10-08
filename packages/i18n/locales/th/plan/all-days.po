@@ -11,12 +11,32 @@ msgstr ""
 msgid "plan.allDays.titleDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.slow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideasWaiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.noHome"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
@@ -30,6 +50,22 @@ msgstr ""
 #: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.dayTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.estimateDated"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.estimate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.titlePlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
@@ -92,6 +128,22 @@ msgstr ""
 msgid "plan.allDays.preview.suggest"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.backTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.sources"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
+msgid "plan.allDays.gettingThere.offline"
 msgstr ""

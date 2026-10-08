@@ -6,7 +6,7 @@
  * queues what is typed.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, route paths and design ids, never copy. */
-import { router, type Href } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
@@ -87,7 +87,13 @@ export const useGuideMeterSlots: GuideMeterHook = (input) => {
           }
           {...(input.crewId === null
             ? {}
-            : { onCrewChat: () => router.push(`/crew/${input.crewId}/chat` as Href) })}
+            : {
+                onCrewChat: () =>
+                  router.push({
+                    pathname: '/crew/[crewId]/chat',
+                    params: { crewId: input.crewId ?? '' },
+                  }),
+              })}
         />
         {queue.queued === null ? null : (
           <QueuedQuestionRow

@@ -15,6 +15,7 @@ import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
+import { goBackOr } from '@/lib/navigation/back';
 
 import { SwipeView, type SwipeStage } from '../components/swipe-view';
 import { guideFor, noonUtc } from '../format';
@@ -214,7 +215,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
               onDone: () => setStamped((current) => new Set(current).add(match.id)),
             }
       }
-      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onBack={() => goBackOr()}
     />
   );
 }

@@ -25,6 +25,8 @@ appId: app.critterpass.dev
     visible:
       text: 'NEEDS YOU · 1'
     timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-4-inbox-unread-rows
 - tapOn: 'Take a look'
 - extendedWaitUntil:
     visible:
