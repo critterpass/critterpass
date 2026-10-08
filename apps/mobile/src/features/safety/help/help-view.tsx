@@ -41,6 +41,8 @@ export interface HelpViewProps {
   readonly onShowPhrase: () => void;
   readonly onSos: (() => void) | null;
   readonly onInsurance: () => void;
+  /** The app's help centre (how the app works), for someone who came here looking for that. */
+  readonly onHelpCentre?: (() => void) | undefined;
   /** Under SOS: what would keep a crewmate's SOS quiet on this phone (Android). */
   readonly sosAccess?: ReactNode;
 }
@@ -193,6 +195,13 @@ export function HelpView(props: HelpViewProps) {
                 message: `CritterPass tells your crew. For emergencies call ${general}.`,
               })}
             </SecondaryText>
+            {props.onHelpCentre === undefined ? null : (
+              <TextLink
+                label={t({ id: 'safety.help.centre', message: 'Help with the app' })}
+                onPress={props.onHelpCentre}
+                testID="help-centre"
+              />
+            )}
           </Stack>
         </Stack>
       </ScrollView>

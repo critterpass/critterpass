@@ -257,6 +257,10 @@ msgstr "Đang tới ✓"
 msgid "safety.back.help"
 msgstr "Trợ giúp"
 
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.centre"
+msgstr "Trợ giúp về ứng dụng"
+
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.hurt"

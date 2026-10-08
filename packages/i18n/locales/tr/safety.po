@@ -257,6 +257,10 @@ msgstr ""
 msgid "safety.back.help"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.centre"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.hurt"
