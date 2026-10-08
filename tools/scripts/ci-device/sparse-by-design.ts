@@ -90,6 +90,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     '7h-3-none',
     'undesigned-states 7h-3 "No better order": the headline and one card saying the order is already the shortest',
   ],
+  [
+    '7g-2-match',
+    'undesigned-states 7g-2 "Match going to Ideas": the MATCH stamp, the faces and one line over a veil that dims the whole deck',
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {
