@@ -45,6 +45,9 @@ appId: app.critterpass.dev
     env: { SCENE: dropout, READY: dropout-apply, SHOT: '${PREFIX}-3f-7-dev-s-out' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: dropout-applying, READY: dropout-applying, SHOT: '${PREFIX}-3f-7-applying' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: dropout-applied, READY: dropout-applied, SHOT: '${PREFIX}-3f-7-applied' }
 - runFlow:
     file: scene.yaml

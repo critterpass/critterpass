@@ -177,6 +177,10 @@ msgid "setup.rooms.wishesMissing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.pickStaySolo"
+msgstr "泊まりたい宿のタイプを選んでください。宿泊費の目安になります。"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.pickStay"
 msgstr ""
 
@@ -228,6 +232,10 @@ msgstr ""
 msgid "setup.rooms.stayGone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.line.solo"
+msgstr "これがこの旅の宿です。"
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.traitIn.couple"
 msgstr ""
@@ -249,8 +257,16 @@ msgid "setup.rooms.stay.villa"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.titleSolo"
+msgstr "どこに泊まる？"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.title"
 msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr "選ばずに進むこともできます。"
 
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
@@ -259,3 +275,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
 msgid "setup.rooms.price.mine"
 msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.solo"
+msgstr "宿泊費："

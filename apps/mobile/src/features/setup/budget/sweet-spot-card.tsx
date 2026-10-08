@@ -27,7 +27,15 @@ const KNOB = 32;
 
 const useStyles = makeStyles((th) => ({
   card: { padding: th.space['16'], gap: th.space['10'] },
-  head: { gap: th.space['8'] },
+  // A long status (other languages) takes its own line instead of wrapping the label beside it.
+  head: { flexWrap: 'wrap', gap: th.space['8'] },
+  // Over someone's max: ink on pink, readable on the yellow card.
+  over: {
+    backgroundColor: th.semantic.state.urgent,
+    borderRadius: th.radius.sm,
+    paddingHorizontal: th.space['8'],
+    paddingVertical: th.space['4'],
+  },
   eyebrow: { flexShrink: 1 },
   caption: { textAlign: 'center' },
 }));
@@ -73,9 +81,6 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
     symbol,
     Math.round(track.maxMinor / 10 ** fractionDigits(currency)),
   );
-  // End labels long enough to push the amount off the hero face leave the caption no room
-  // between them: it then sits on its own line under the track.
-  const captionBelow = fit.face !== 'displayHero';
 
   const set = (raw: number) => {
     const next = snap(raw, track);
@@ -152,13 +157,11 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
             : t({ id: 'setup.budget.card.eyebrow', message: 'Sweet spot, each' })}
         </Text>
         {status === null ? null : (
-          <Text
-            variant="label"
-            color={over ? theme.semantic.state.urgent : ink}
-            testID="budget-under-all"
-          >
-            {status}
-          </Text>
+          <View style={over ? styles.over : null}>
+            <Text variant="label" color={ink} testID="budget-under-all">
+              {status}
+            </Text>
+          </View>
         )}
       </Row>
       <View
@@ -198,17 +201,17 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
               sweetSpot={target}
               minLabel={money(locale, track.minMinor, currency)}
               maxLabel={money(locale, track.maxMinor, currency)}
-              {...(captionBelow || caption === null ? {} : { caption })}
               summary={summary}
             />
           </View>
         </View>
       </GestureDetector>
-      {captionBelow && caption !== null ? (
+      {/* On its own line under the track: between the end labels it wraps in longer languages. */}
+      {caption === null ? null : (
         <Text variant="monoData" color={ink} style={styles.caption} testID="budget-caption">
           {caption}
         </Text>
-      ) : null}
+      )}
     </Card>
   );
 }

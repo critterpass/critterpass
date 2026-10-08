@@ -1,12 +1,12 @@
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
+import { Segmented } from '../inputs/Segmented';
 import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
 import { Tag } from '../plan/ActionPill';
-import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
-import { makeStyles, useTheme } from '../theme';
+import { useTheme } from '../theme';
 
 export interface DexFilterOption<Value extends string> {
   readonly value: Value;
@@ -23,6 +23,8 @@ export interface DexHeaderProps<Value extends string> {
   readonly filters: readonly DexFilterOption<Value>[];
   readonly filter: Value;
   readonly onFilter: (value: Value) => void;
+  /** What the filter chooses, read before its options. @default the header's title */
+  readonly filterLabel?: string;
   /**
    * A small control at the end of the title line (the person's own avatar, to their profile).
    * Without it the header is unchanged.
@@ -34,15 +36,6 @@ export interface DexHeaderProps<Value extends string> {
 /** The design's size for the found/total count. */
 const COUNT_SIZE = 48;
 
-const useStyles = makeStyles((th) => ({
-  track: {
-    backgroundColor: th.semantic.bg.raised,
-    borderRadius: th.radius.md,
-    padding: th.space['4'],
-  },
-  segment: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: th.radius.sm },
-}));
-
 /** Critterdex header: found/total count, places pill, comparison and the All / Found / Near me filter. */
 export function DexHeader<Value extends string>({
   found,
@@ -52,18 +45,17 @@ export function DexHeader<Value extends string>({
   filters,
   filter,
   onFilter,
+  filterLabel,
   end,
   testID,
 }: DexHeaderProps<Value>) {
-  const styles = useStyles();
   const theme = useTheme();
   const spoken = t({
     id: 'common.critter.dexCount',
     message: `${found} of ${total} critters found`,
   });
-  const title = (
-    <Text variant="eyebrow">{t({ id: 'common.critter.yourDex', message: 'Your Critterdex' })}</Text>
-  );
+  const yourDex = t({ id: 'common.critter.yourDex', message: 'Your Critterdex' });
+  const title = <Text variant="eyebrow">{yourDex}</Text>;
   return (
     <Stack gap="12" testID={testID}>
       {/* With an end control the title gets its own line, so the control sits opposite it. */}
@@ -101,28 +93,12 @@ export function DexHeader<Value extends string>({
           ) : null}
         </Stack>
       </Row>
-      <Row style={styles.track} accessibilityRole="radiogroup">
-        {filters.map((option) => {
-          const checked = option.value === filter;
-          return (
-            <PressScale
-              key={option.value}
-              accessibilityRole="radio"
-              accessibilityLabel={option.label}
-              accessibilityState={{ checked }}
-              onPress={() => onFilter(option.value)}
-              style={[styles.segment, checked ? { backgroundColor: theme.color.paper.base } : null]}
-            >
-              <Text
-                variant="label"
-                color={checked ? theme.color.paper.ink : theme.semantic.text.secondary}
-              >
-                {option.label}
-              </Text>
-            </PressScale>
-          );
-        })}
-      </Row>
+      <Segmented
+        segments={filters}
+        value={filter}
+        onChange={onFilter}
+        label={filterLabel ?? yourDex}
+      />
     </Stack>
   );
 }

@@ -3,7 +3,9 @@
  * it records the open (which signs the crew's stamps) once, a crewmate's signature arriving on the
  * recap's channel writes itself on the stamp card, VOTE FOR THE MVP queues the vote for the chosen
  * award, the sound switch stops and starts the music, and the story's end is counted once per
- * session and rests on the last card until the traveller closes it into the recap page.
+ * session and rests on the last card until the traveller closes it into the recap page. Closing
+ * early marks the story seen without counting it as watched to the end; a replay closes back to the
+ * page underneath.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -95,6 +97,7 @@ async function untilQueued(s: TestLocalFirst, cmd: string, count: number): Promi
 
 afterEach(async () => {
   (router.replace as jest.Mock).mockClear();
+  (router.back as jest.Mock).mockClear();
   storySession.reset();
   await stack?.close();
   if (stack) removeDir(stack.dir);
@@ -131,6 +134,48 @@ describe('recap story', () => {
     expect(router.replace).toHaveBeenLastCalledWith({
       pathname: '/recap/[tripId]',
       params: { tripId: TRIP, ended: '1' },
+    });
+  });
+
+  it('closed early, stops playing by itself but is not counted as watched to the end', async () => {
+    const s = await open();
+    const analytics = recordingAnalytics();
+    await renderRecap(<RecapStoryScreen tripId={TRIP} />, s, { analytics: analytics.client });
+    await until(() => screen.queryByTestId('recap-card-cover') !== null);
+    await fireEvent.press(screen.getByTestId('recap-story-close'));
+    await untilQueued(s, 'record_recap_view', 2);
+    expect(await queued(s, 'record_recap_view')).toEqual([
+      { recap_id: RECAP, kind: 'open' },
+      { recap_id: RECAP, kind: 'complete' },
+    ]);
+    expect(analytics.captured).not.toContain('recap_story_completed');
+    // The first play took the page's place, so a new page follows it.
+    expect(router.replace).toHaveBeenLastCalledWith({
+      pathname: '/recap/[tripId]',
+      params: { tripId: TRIP, ended: '1' },
+    });
+    expect(router.back).not.toHaveBeenCalled();
+  });
+
+  it('closes a replay back to the recap page underneath, leaving one page on the stack', async () => {
+    const s = await open();
+    await renderRecap(<RecapStoryScreen tripId={TRIP} replay />, s);
+    await until(() => screen.queryByTestId('recap-card-cover') !== null);
+    await fireEvent.press(screen.getByTestId('recap-story-close'));
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  it('says the story is not ready, with a way to the recap page, when there is no recap yet', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedTrip(stack);
+    await renderRecap(<RecapStoryScreen tripId={TRIP} />, stack);
+    await until(() => screen.queryByTestId('recap-story-missing') !== null);
+    expect(screen.getByTestId('recap-story-missing-back')).toBeTruthy();
+    await fireEvent.press(screen.getByText('OPEN THE RECAP'));
+    expect(router.replace).toHaveBeenLastCalledWith({
+      pathname: '/recap/[tripId]',
+      params: { tripId: TRIP },
     });
   });
 

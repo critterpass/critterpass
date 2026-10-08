@@ -159,6 +159,10 @@ msgstr "Can’t move it"
 msgid "setup.when.own.change"
 msgstr "Change"
 
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.change"
+msgstr "Change the dates"
+
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.clear"
 msgstr "Clear"
@@ -308,6 +312,10 @@ msgstr "Thanks. I’ll only tell {organiser} whether the week works."
 msgid "setup.when.fail.generic"
 msgstr "That didn’t go through. Try again."
 
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.title"
+msgstr "The dates are set"
+
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reason.fullCrew"
 msgstr "The first week the whole crew is free. Lock it before calendars fill up."
@@ -351,6 +359,10 @@ msgstr "When can you go?"
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reasonSolo.fareDrop"
 msgstr "You’re free, and flights are cheaper that week."
+
+#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
+msgid "setup.when.locked.line"
+msgstr "You’re going {range}."
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.error"

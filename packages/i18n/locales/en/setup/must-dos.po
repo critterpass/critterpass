@@ -159,6 +159,7 @@ msgstr "Lottery"
 msgid "setup.addMustDo.more.title"
 msgstr "More places"
 
+#: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr "Must-dos"
@@ -199,13 +200,25 @@ msgstr "Remove"
 msgid "setup.mustDos.seeDraft"
 msgstr "See the draft"
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.seeTrip"
+msgstr "See the trip"
+
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pending"
 msgstr "Sends when you’re back online"
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.doneLineMember"
+msgstr "Setup’s done. {guideName} is drafting the trip with {organiser}."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.doneLine"
 msgstr "Setup’s done. {guideName} starts the draft from here."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.plannedLine"
+msgstr "Setup’s finished and the plan is made."
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.unavailable"

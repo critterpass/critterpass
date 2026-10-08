@@ -47,15 +47,24 @@ msgstr "Budget"
 msgid "setup.push.notMovable"
 msgstr "Can’t move it"
 
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.close"
+msgstr "Close"
+
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
 msgstr "Freed it"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.back.home"
+msgstr "Home"
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr "It shows up once your phone has synced. Try again in a moment."
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr "Loading trip setup"
 
@@ -106,6 +115,10 @@ msgstr "When"
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.rooms"
 msgstr "Who sleeps where"
+
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.notYours"
+msgstr "You’re not part of this trip’s setup, so there’s nothing to do here."
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.answer"

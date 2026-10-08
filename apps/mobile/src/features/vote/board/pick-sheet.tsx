@@ -2,6 +2,7 @@
  * The organiser's pick for a tied final spot (undesigned, built from the sheet and settings rows):
  * the places level for the last spot, one row each; picking one starts the final with it.
  */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
@@ -48,14 +49,21 @@ export function PickFinalistsSheet({
         </Text>
         <SettingsGroup
           testID="pick-finalist-list"
-          rows={options.map((option) => ({
-            key: option.id,
-            kind: 'value' as const,
-            title:
-              (option.refId === null ? undefined : places.get(option.refId)?.name) ?? option.label,
-            value: t({ id: 'vote.pick.votes', message: `${option.votes} votes` }),
-            onPress: () => onPick(option.id),
-          }))}
+          rows={options.map((option) => {
+            const votes = option.votes;
+            return {
+              key: option.id,
+              kind: 'value' as const,
+              title:
+                (option.refId === null ? undefined : places.get(option.refId)?.name) ??
+                option.label,
+              value: t({
+                id: 'vote.pick.votes',
+                message: plural(votes, { one: '# vote', other: '# votes' }),
+              }),
+              onPress: () => onPick(option.id),
+            };
+          })}
         />
       </View>
     </Sheet>

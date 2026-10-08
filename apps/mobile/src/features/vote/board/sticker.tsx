@@ -6,6 +6,7 @@
  */
 import { tokens } from '@cp/design-tokens';
 import type { BoardItemLayout } from '@cp/domain';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useRef } from 'react';
 import { Pressable, View } from 'react-native';
@@ -86,9 +87,10 @@ export function BoardSticker({
   const guide = guideSticker(place?.guide ?? 'tokek');
   const name = place?.name ?? option.label;
   const colour = place?.colour ?? theme.color.yellow;
+  const count = option.votes;
   const label = [
     name,
-    t({ id: 'vote.board.votes', message: `${option.votes} votes` }),
+    t({ id: 'vote.board.votes', message: plural(count, { one: '# vote', other: '# votes' }) }),
     option.mine ? t({ id: 'vote.board.yours', message: 'your vote' }) : null,
   ]
     .filter((part) => part !== null)
