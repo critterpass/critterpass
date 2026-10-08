@@ -27,7 +27,7 @@ const OPS: readonly DropoutOp[] = [
   { op: 'withdraw_reminder_entry', component_id: 'tickets', uid: 'u-an' },
 ];
 
-const dropout = (locale: string, resolved: boolean) => (
+const dropout = (locale: string, resolved: boolean, applying = false) => (
   <DropoutView
     name="An"
     joinIndex={3}
@@ -42,8 +42,8 @@ const dropout = (locale: string, resolved: boolean) => (
     share={dropoutShare(locale, { before: 4_200_000, after: 4_550_000, delta: 350_000 }, 'VND')}
     keepInChat
     resolved={resolved}
-    applying={false}
-    offline={false}
+    applying={applying}
+    offline={applying}
     onBack={noop}
     onKeep={noop}
     onApply={noop}
@@ -89,6 +89,8 @@ export const DROPOUT_SCENES: Readonly<Record<string, (locale: string) => ReactNo
     </View>
   ),
   dropout: (locale) => dropout(locale, false),
+  // Apply sent with no signal: the button waits and the caption says it goes by itself.
+  'dropout-applying': (locale) => dropout(locale, false, true),
   'dropout-applied': (locale) => dropout(locale, true),
   crowd: () => (
     <Dismissable>

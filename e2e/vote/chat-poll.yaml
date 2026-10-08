@@ -32,6 +32,13 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'new-poll-question'
 - inputText: 'Dinner tonight?'
+# POST stays above the keyboard, with the line that says what is still missing.
+- assertVisible:
+    id: 'new-poll-post'
+- assertVisible:
+    id: 'new-poll-reason'
+- waitForAnimationToEnd
+- takeScreenshot: en-3g-1-new-poll-reason
 - tapOn:
     id: 'new-poll-option-0'
 - inputText: 'Tacos'
@@ -40,17 +47,9 @@ appId: app.critterpass.dev
 - inputText: 'Ramen'
 - waitForAnimationToEnd
 - takeScreenshot: chat-new-poll
-# Android keeps the keyboard up over POST.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - hideKeyboard
-- scrollUntilVisible:
-    element:
-      id: 'new-poll-post'
-    direction: DOWN
-    timeout: 10000
+# POST is pinned over the keyboard: no scrolling and no hiding the keyboard to reach it.
+- assertNotVisible:
+    id: 'new-poll-reason'
 - tapOn:
     id: 'new-poll-post'
 # The card sets the question in capitals.
