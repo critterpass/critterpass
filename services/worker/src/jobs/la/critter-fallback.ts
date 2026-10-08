@@ -3,7 +3,7 @@
  * Activities are off, or no phone of theirs has a push-to-start token from a build that draws it.
  * Everyone else gets the activity instead, never both. It names no place.
  */
-import { LA_COPY, registerNotificationTrigger } from '@cp/domain';
+import { LA_COPY, passLink, registerNotificationTrigger } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type NotificationRegistration } from '../notify/register';
@@ -54,7 +54,7 @@ export const critterNearbyNotification: NotificationRegistration = {
           ? DEFAULT_SETUP_GUIDE
           : { kind: 'guide', id: guide.slug, name: guide.name },
       tripId: event.tripId,
-      deepLink: '/pass',
+      deepLink: passLink(),
     };
   },
 };

@@ -4,20 +4,11 @@
  * recounted every minute (the clock rolls when the ETA or the minute changes).
  */
 import { t } from '@lingui/core/macro';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { clock, etaSpoken, namesList, statusLine } from '../copy';
 import type { RowModel } from '../panel/member-row';
 import type { LiveView, PersonView } from './view-model';
-
-export function useNow(everyMs: number, now: () => number): number {
-  const [value, setValue] = useState(now);
-  useEffect(() => {
-    const timer = setInterval(() => setValue(now()), everyMs);
-    return () => clearInterval(timer);
-  }, [everyMs, now]);
-  return value;
-}
 
 function rowOf(
   people: readonly PersonView[],

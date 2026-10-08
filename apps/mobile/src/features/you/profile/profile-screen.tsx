@@ -48,7 +48,6 @@ export function ProfileScreen({
         from={from}
         photoUri={photoUri}
         notice={Notice === null ? null : createElement(Notice)}
-        faceFor={(member) => faces.faceProps(member, 'sm')}
         onSettings={() => router.push(YOU_ROUTES.settings)}
         onAllStamps={() => router.push(YOU_ROUTES.stamps)}
         onRetake={() => setRetaking(true)}

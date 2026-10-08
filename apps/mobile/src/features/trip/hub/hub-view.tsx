@@ -35,7 +35,8 @@ export type { HubNext } from './next-row';
 export interface HubViewProps {
   readonly state: 'loading' | 'ready';
   readonly header: HubHeader;
-  readonly now: Date;
+  /** A fixed clock for the countdown (design scenes); left out, the header reads its own. */
+  readonly now?: Date;
   readonly startDate: string | null;
   readonly endDate: string | null;
   readonly going: number;
@@ -128,7 +129,7 @@ export function HubView(props: HubViewProps) {
         {props.offlineCard === undefined ? (
           <PhaseHeader
             header={props.header}
-            now={props.now}
+            {...(props.now === undefined ? {} : { now: props.now })}
             startDate={props.startDate}
             endDate={props.endDate}
             going={props.going}

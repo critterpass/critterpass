@@ -2,7 +2,7 @@ import { t } from '@lingui/core/macro';
 import { useEffect, useState } from 'react';
 import type { ComponentType } from 'react';
 import { AccessibilityInfo, StyleSheet, View } from 'react-native';
-import type { AccessibilityActionEvent, StyleProp, TextStyle } from 'react-native';
+import type { AccessibilityActionEvent, StyleProp, TextLayoutEvent, TextStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
@@ -25,11 +25,17 @@ export const LEAVE_MS = 180;
 
 const islandEasing = bezierEasing(tokens.motion.easing.island);
 
+/** A title on its own may run to a second line; with a subtitle under it, each keeps to one. */
+export function titleLineLimit(toast: { readonly subtitle?: string | undefined }): 1 | 2 {
+  return toast.subtitle ? 1 : 2;
+}
+
 /** The slice of the component library's `Text` the toast sets its copy with. */
 export interface ToastTextProps {
   readonly variant: 'rowTitle' | 'bodySm' | 'buttonSm';
   readonly numberOfLines?: number;
   readonly style?: StyleProp<TextStyle>;
+  readonly onTextLayout?: (event: TextLayoutEvent) => void;
   readonly children: string;
 }
 
@@ -39,6 +45,11 @@ export interface IslandToastProps {
    * it in rather than this module importing it.
    */
   readonly Text: ComponentType<ToastTextProps>;
+  /**
+   * The title as it was laid out, line by line: the app root hands in the UI QA check that reports
+   * a title still cut on its lines (copy to shorten, or to split into a subtitle).
+   */
+  readonly onTitleLayout?: (title: string, lines: readonly { readonly text: string }[]) => void;
 }
 
 /** Accessibility action names (the labels screen readers read come from the toast and catalog). */
@@ -61,7 +72,7 @@ const ACTIVATE = [{ name: ACTIVATE_ACTION }];
  * button handled by the gesture system would otherwise fire as well, and cancel the toast's own).
  * Its buttons are gestures too, run alongside that one.
  */
-export function IslandToast({ Text }: IslandToastProps) {
+export function IslandToast({ Text, onTitleLayout }: IslandToastProps) {
   const current = useToastQueue();
   // The last toast stays on screen, still taking its touches, while it leaves.
   const [leaving, setLeaving] = useState<typeof current>(null);
@@ -196,7 +207,12 @@ export function IslandToast({ Text }: IslandToastProps) {
           >
             {toast.sticker}
             <View style={styles.textColumn}>
-              <Text variant="rowTitle" numberOfLines={1} style={styles.onPill}>
+              <Text
+                variant="rowTitle"
+                numberOfLines={titleLineLimit(toast)}
+                style={styles.onPill}
+                onTextLayout={(event) => onTitleLayout?.(toast.title, event.nativeEvent.lines)}
+              >
                 {toast.title}
               </Text>
               {toast.subtitle ? (
@@ -248,9 +264,8 @@ export function IslandToast({ Text }: IslandToastProps) {
   );
 }
 
-// Plain StyleSheet (no @cp/design-tokens colour/spacing values): a toast pill's exact treatment
-// isn't specified in this phase's renders beyond the motion spec, so layout-only styling here; the
-// shell/design phase can restyle via its own wrapper without touching this component's behaviour.
+// An undesigned pill: the darkest ink with paper type, the way the island itself reads. Its corner
+// radius is fixed, so a second title line makes the pill taller without changing its corners.
 const styles = StyleSheet.create({
   host: {
     position: 'absolute',
@@ -259,33 +274,31 @@ const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    borderRadius: 24,
+    gap: tokens.space['8'],
+    borderRadius: tokens.radius.xl,
     // Grows downwards from its top edge, the one nearest the island.
     transformOrigin: 'top',
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    backgroundColor: 'black',
+    paddingVertical: tokens.space['8'],
+    paddingHorizontal: tokens.space['14'],
+    backgroundColor: tokens.color.ink['950'],
   },
   message: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: tokens.space['8'],
     flexShrink: 1,
   },
   textColumn: {
     flexShrink: 1,
   },
   onPill: {
-    color: 'white',
+    color: tokens.color.paper.bright,
   },
   subtitle: {
-    color: 'white',
-    opacity: 0.8,
+    color: tokens.color.ink['100'],
   },
   dismissGlyph: {
-    color: 'white',
-    opacity: 0.6,
-    paddingHorizontal: 4,
+    color: tokens.color.ink['200'],
+    paddingHorizontal: tokens.space['4'],
   },
 });

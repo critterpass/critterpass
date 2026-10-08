@@ -71,6 +71,11 @@ export function problemCardOf(problem: JoinProblem): Exclude<JoinProblem, 'inval
   return problem === 'invalid' ? 'not_found' : problem;
 }
 
+/** Problems where sending the same join again can work: it never arrived, or was told to wait. */
+export function canRetryJoin(problem: JoinProblem): boolean {
+  return problem === 'offline' || problem === 'failed' || problem === 'rate_limited';
+}
+
 /** De-dupe id of the "no crew with that code" toast for one typed code. */
 export function wrongCodeToastId(code: string): string {
   return `invite-code-wrong-${code}`;

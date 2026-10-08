@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useScreenActive } from '@/lib/time/use-screen-active';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { Row } from '@/ui/layout/Row';
 import { Text } from '@/ui/text/Text';
@@ -96,8 +97,10 @@ export function Ticker({ events }: { readonly events: readonly TickerEvent[] }) 
     latest.current = events;
   }, [events]);
   const x = useSharedValue(0);
+  // The line scrolls only while the hub is the screen in front.
+  const visible = useScreenActive();
   useEffect(() => {
-    if (reduced || width === 0) {
+    if (reduced || width === 0 || !visible) {
       cancelAnimation(x);
       x.value = 0;
       return undefined;
@@ -112,7 +115,7 @@ export function Ticker({ events }: { readonly events: readonly TickerEvent[] }) 
       clearInterval(timer);
       cancelAnimation(x);
     };
-  }, [reduced, width, x]);
+  }, [reduced, width, visible, x]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
   const list = shown.length === 0 ? events : shown;
   if (list.length === 0) return null;

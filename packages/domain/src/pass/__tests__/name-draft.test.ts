@@ -33,23 +33,44 @@ describe('pass draft', () => {
 
   it('walks name → photo → taste → home → issued → saved', () => {
     let draft = named();
-    draft = advanceDraft(draft);
+    draft = advanceDraft(draft, 'name');
     expect(draft.step).toBe('photo');
-    expect(advanceDraft(draft).step).toBe('photo');
-    draft = advanceDraft({ ...draft, avatar: { kind: 'critter', form_id: 'guide:tokek' } });
+    expect(advanceDraft(draft, 'photo').step).toBe('photo');
+    draft = advanceDraft(
+      { ...draft, avatar: { kind: 'critter', form_id: 'guide:tokek' } },
+      'photo',
+    );
     expect(draft.step).toBe('taste');
-    draft = advanceDraft({ ...draft, taste_done: true });
-    draft = advanceDraft({ ...draft, home_iata: 'SIN' });
+    draft = advanceDraft({ ...draft, taste_done: true }, 'taste');
+    draft = advanceDraft({ ...draft, home_iata: 'SIN' }, 'home');
     expect(draft.step).toBe('issued');
     expect(backDraft(draft).step).toBe('issued');
-    draft = advanceDraft({ ...draft, issued_at: '2026-09-26T08:00:00.000Z' });
+    draft = advanceDraft({ ...draft, issued_at: '2026-09-26T08:00:00.000Z' }, 'issued');
     expect(draft.step).toBe('saved');
   });
 
   it('blocks a blocked name from advancing', () => {
-    expect(advanceDraft({ ...newPassDraft(ID), given_name: 'badword' }, ['badword']).step).toBe(
-      'name',
-    );
+    expect(
+      advanceDraft({ ...newPassDraft(ID), given_name: 'badword' }, 'name', ['badword']).step,
+    ).toBe('name');
+  });
+
+  it('advances from the page it is asked from, not from where the draft was stored', () => {
+    const issued: PassDraft = {
+      ...named(),
+      avatar: { kind: 'critter', form_id: 'guide:tokek' },
+      taste_done: true,
+      home_iata: 'SIN',
+      issued_at: '2026-09-26T08:00:00.000Z',
+      step: 'issued',
+    };
+    // Home's own "next" on an issued pass leads to the issued page again, never past saving.
+    expect(advanceDraft({ ...issued, home_iata: 'DAD' }, 'home').step).toBe('issued');
+    expect(advanceDraft({ ...issued, step: 'saved' }, 'home').step).toBe('issued');
+    // An earlier page leads to the page after it.
+    expect(advanceDraft({ ...issued, step: 'home' }, 'name').step).toBe('photo');
+    // A page whose own data is missing keeps the draft on it.
+    expect(advanceDraft({ ...issued, step: 'home', given_name: ' ' }, 'name').step).toBe('name');
   });
 
   it('resumes at the first step with missing data', () => {

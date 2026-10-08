@@ -136,6 +136,8 @@ Layout: flow/stack only (the design's absolute positioning is not reproduced); f
 
 `xs 4` · `sm 9` · `md 14` · `lg 20` (cards) · `xl 24` · `card.big 22` · `sheet 32` (top) · `hero 40` (bottom corners of hero panels) · `pill h/2` · `circle`. Chat bubbles: `18 18 18 4` (theirs), mirrored for mine. Ticket stub `10 16 16 10`. App-icon squircle is system-provided.
 
+Opacity of a whole control or item: `opacity.disabled .4` (a control that cannot be used right now) · `opacity.pending .55` (sent from this phone, not confirmed yet).
+
 ### 1.6 Rings, shadows, elevation
 
 Flat sticker language; rings over shadows.

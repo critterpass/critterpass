@@ -76,7 +76,7 @@ export function NameScreen() {
   const problem = givenNameProblem(name, BLOCKED_NAME_WORDS);
   const onNext = () => {
     const next = updateDraft((d) =>
-      advanceDraft({ ...d, given_name: name.trim() }, BLOCKED_NAME_WORDS),
+      advanceDraft({ ...d, given_name: name.trim() }, 'name', BLOCKED_NAME_WORDS),
     );
     if (next.step !== 'name') router.push(routeForStep(next.step));
   };

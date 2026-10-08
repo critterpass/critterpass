@@ -13,7 +13,7 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
   useLocalSearchParams: jest.fn(() => ({})),
   Link: ({ children }: { children: unknown }) => children,
   Redirect: () => null,
@@ -65,6 +65,7 @@ beforeEach(() => {
   }));
   jest.mocked(router.push).mockClear();
   jest.mocked(router.replace).mockClear();
+  jest.mocked(router.back).mockClear();
   jest.mocked(useLocalSearchParams).mockReturnValue({});
 });
 afterEach(() => {
@@ -80,6 +81,15 @@ describe('3a-6 pass issued', () => {
     expect(analytics.events.map((e) => e.event)).toContain('pass_issued');
     await activate(screen.getByTestId('onboarding-issued-save'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/save');
+  });
+
+  it('leads on instead of offering to save again once the pass is saved', async () => {
+    updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
+    await renderOnboarding(<IssuedScreen />);
+    expect(screen.getByTestId('pass-saved-tick')).toBeTruthy();
+    expect(screen.queryByTestId('onboarding-issued-save')).toBeNull();
+    await activate(screen.getByTestId('onboarding-issued-next'));
+    expect(router.push).toHaveBeenCalledWith('/onboarding/permissions');
   });
 
   it('shows the reserved number once it is on the pass', async () => {
@@ -159,6 +169,51 @@ describe('3a-7 save your pass', () => {
     expect(router.replace).not.toHaveBeenCalled();
   });
 
+  it('goes back to where it was opened for someone who already has a pass', async () => {
+    jest.useFakeTimers();
+    setOnboardingComplete(true);
+    await renderOnboarding(<SaveScreen />);
+    await activate(screen.getByTestId('save-google'));
+    await flush();
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      await Promise.resolve();
+    });
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  it('returns from “Not now” without walking a finished pass through permissions', async () => {
+    setOnboardingComplete(true);
+    await renderOnboarding(<SaveScreen />);
+    await activate(screen.getByTestId('save-not-now'));
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  it('waits for a sign-in still working when the sheet is closed, and records the account', async () => {
+    jest.useFakeTimers();
+    let answer: (outcome: { kind: 'linked' }) => void = () => undefined;
+    const linkGoogle = () => new Promise<{ kind: 'linked' }>((resolve) => (answer = resolve));
+    await renderOnboarding(<SaveScreen />, { services: withAuth({ linkGoogle }) });
+    await activate(screen.getByTestId('save-google'));
+    await fireEvent.press(screen.getByTestId('save-sheet-scrim', { includeHiddenElements: true }));
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      await Promise.resolve();
+    });
+    // Closing the sheet is not "Not now" while Google is still answering.
+    expect(router.replace).not.toHaveBeenCalled();
+    answer({ kind: 'linked' });
+    await flush();
+    expect(readDraft()?.saved).toBe(true);
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      await Promise.resolve();
+    });
+    expect(router.replace).toHaveBeenCalledWith('/onboarding/permissions');
+  });
+
   it('lets the user skip saving for now', async () => {
     await renderOnboarding(<SaveScreen />);
     await activate(screen.getByTestId('save-not-now'));
@@ -192,9 +247,13 @@ describe('3a-8 phone sign-in', () => {
     await flush();
   }
 
-  it('sends the code on WhatsApp, verifies it and moves on after the clap', async () => {
+  it('sends the code on WhatsApp, verifies it and goes back to its caller after the clap', async () => {
     jest.useFakeTimers();
-    await sendCode(fakeServices());
+    const analytics = recordingAnalytics();
+    await renderOnboarding(<PhoneScreen />, { analytics });
+    await fireEvent.changeText(screen.getByTestId('phone-number'), '91234567');
+    await activate(screen.getByTestId('phone-send'));
+    await flush();
     expect(screen.getByTestId('phone-sent')).toHaveTextContent(
       'Code sent to +65 9123 4567 on WhatsApp',
     );
@@ -202,10 +261,38 @@ describe('3a-8 phone sign-in', () => {
     await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
     await flush();
     expect(readDraft()?.saved).toBe(true);
+    expect(router.back).not.toHaveBeenCalled();
     await act(async () => {
       jest.advanceTimersByTime(2200);
       await Promise.resolve();
     });
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+    expect(analytics.events.filter((e) => e.event === 'account_saved')).toEqual([
+      { event: 'account_saved', props: { provider: 'phone' } },
+    ]);
+  });
+
+  it('ends the regular path on permissions: the save page sees the number the phone page verified', async () => {
+    jest.useFakeTimers();
+    // The stack as the app has it: the save page stays mounted under the phone page it pushed.
+    await renderOnboarding(
+      <>
+        <SaveScreen />
+        <PhoneScreen />
+      </>,
+    );
+    await fireEvent.changeText(screen.getByTestId('phone-number'), '91234567');
+    await activate(screen.getByTestId('phone-send'));
+    await flush();
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await flush();
+    expect(screen.getByTestId('pass-saved-tick')).toBeTruthy();
+    await act(async () => {
+      jest.advanceTimersByTime(PHONE_ADVANCE_MS);
+      await Promise.resolve();
+    });
+    expect(readDraft()?.step).toBe('saved');
     expect(router.replace).toHaveBeenCalledWith('/onboarding/permissions');
   });
 
@@ -234,6 +321,42 @@ describe('3a-8 phone sign-in', () => {
     expect(screen.getByTestId('phone-problem')).toHaveTextContent(line);
     await activate(screen.getByTestId('phone-change'));
     expect(screen.getByTestId('phone-send')).toBeTruthy();
+  });
+
+  it('empties the boxes after a wrong code, so the next six digits are checked', async () => {
+    const answers: VerifyOtpOutcome[] = [{ kind: 'invalid_code' }, { kind: 'verified' }];
+    const verifyOtp = jest.fn((): Promise<VerifyOtpOutcome> =>
+      Promise.resolve(answers.shift() ?? { kind: 'verified' }),
+    );
+    await sendCode(withAuth({ verifyOtp }));
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '000000');
+    await flush();
+    expect(screen.getByTestId('phone-problem')).toHaveTextContent(/doesn’t match/u);
+    expect(screen.getByLabelText('Verification code')).toHaveProp('value', '');
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await flush();
+    expect(verifyOtp).toHaveBeenLastCalledWith(expect.objectContaining({ code: '419203' }));
+    expect(screen.queryByTestId('phone-problem')).toBeNull();
+    expect(readDraft()?.saved).toBe(true);
+  });
+
+  it('checks the same code again when the check never reached the server', async () => {
+    const answers: VerifyOtpOutcome[] = [{ kind: 'error', code: 'NETWORK' }, { kind: 'verified' }];
+    const verifyOtp = jest.fn((): Promise<VerifyOtpOutcome> =>
+      Promise.resolve(answers.shift() ?? { kind: 'verified' }),
+    );
+    await sendCode(withAuth({ verifyOtp }));
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await flush();
+    // Not the line about a code that was never sent: the code arrived, the check did not.
+    expect(screen.getByTestId('phone-problem')).toHaveTextContent(/couldn’t check that code/u);
+    expect(screen.getByLabelText('Verification code')).toHaveProp('value', '419203');
+    await activate(screen.getByTestId('phone-verify-retry'));
+    await flush();
+    expect(verifyOtp).toHaveBeenCalledTimes(2);
+    expect(verifyOtp).toHaveBeenLastCalledWith(expect.objectContaining({ code: '419203' }));
+    expect(screen.queryByTestId('phone-problem')).toBeNull();
+    expect(readDraft()?.saved).toBe(true);
   });
 
   it('tells a returning user when Google sign-in stops, instead of just resetting the button', async () => {

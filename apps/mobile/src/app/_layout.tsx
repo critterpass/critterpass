@@ -57,6 +57,7 @@ import { CritterRuntime } from '@/features/critters/register';
 import { SafetyRuntime } from '@/features/safety/register';
 import '@/features/bookings/supplier/register';
 import '@/features/you/routes';
+import { MemberFacesRoot } from '@/features/you/avatar/member-faces';
 import '@/features/help/routes';
 import '@/features/recap/routes';
 import '@/features/monetize/routes';
@@ -107,6 +108,7 @@ import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
+import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
 import { ShakeToReport } from '@/features/help/shake/ShakeListener';
@@ -264,26 +266,28 @@ export default function RootLayout() {
               push={devicePush}
             >
               <TravelDataReaderProvider value={travelData}>
-                <ScreenJoltProvider>
-                  <TouchQuietRoot>
-                    <RootNavigator />
-                  </TouchQuietRoot>
-                  <DeferredLinkGate
-                    primitives={deferredLinks}
-                    navigate={openHref}
-                    claims={deviceLinkClaims}
-                    onReady={() => setLinksReady(true)}
-                  />
-                  <SessionBridges />
-                  <PassSync writeAppGroupImage={writeImage} />
-                  <OverlayHost />
-                  <PrimerSheetHost />
-                  <SharedGrowHost />
-                  <IslandToast Text={Text} />
-                  <DevToolsShake />
-                  <ShakeToReport />
-                  <LaunchHatch revealed={prewarmed && linksReady} />
-                </ScreenJoltProvider>
+                <MemberFacesRoot>
+                  <ScreenJoltProvider>
+                    <TouchQuietRoot>
+                      <RootNavigator />
+                    </TouchQuietRoot>
+                    <DeferredLinkGate
+                      primitives={deferredLinks}
+                      navigate={openHref}
+                      claims={deviceLinkClaims}
+                      onReady={() => setLinksReady(true)}
+                    />
+                    <SessionBridges />
+                    <PassSync writeAppGroupImage={writeImage} />
+                    <OverlayHost />
+                    <PrimerSheetHost />
+                    <SharedGrowHost />
+                    <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />
+                    <DevToolsShake />
+                    <ShakeToReport />
+                    <LaunchHatch revealed={prewarmed && linksReady} />
+                  </ScreenJoltProvider>
+                </MemberFacesRoot>
               </TravelDataReaderProvider>
             </AppSessionRoot>
           </AnalyticsProvider>

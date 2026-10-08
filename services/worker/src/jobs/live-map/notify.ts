@@ -4,6 +4,7 @@
  * meet-up): a set or moved meet-up to the members sharing on the map but the one who changed it,
  * and once "everyone's nearly there" to every sharing member. All open the crew map.
  */
+import { crewMapLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -144,7 +145,7 @@ export function registerLiveMapNotifications(): void {
           ...(facts.avatar === null ? {} : { avatar: facts.avatar }),
         },
         tripId: event.tripId,
-        deepLink: `/map/${event.tripId}`,
+        deepLink: crewMapLink(event.tripId),
         ctx: { trip_id: event.tripId, kind: onMyWay ? 'on_my_way' : 'ping' },
       };
     },
@@ -192,7 +193,7 @@ export function registerLiveMapNotifications(): void {
                   ...(facts.avatar === null ? {} : { avatar: facts.avatar }),
                 },
           tripId: routed.tripId,
-          deepLink: `/map/${routed.tripId}`,
+          deepLink: crewMapLink(routed.tripId),
           ctx: { trip_id: routed.tripId, meetup_id: meetupId },
           collapseVars: { meetup_id: meetupId },
         };

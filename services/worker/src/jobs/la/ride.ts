@@ -6,8 +6,10 @@
  * hands over to Grab, so no pickup or drop-off position travels in a push.
  */
 import {
+  appLinkSchemeUrl,
   buildRideLaAttributes,
   buildRideLaState,
+  gettingAroundLink,
   LA_COPY,
   LA_RIDE_TTL_MS,
   type RideLaInput,
@@ -65,7 +67,7 @@ export const rideLoader: LaLoader = async ({ tx, refId, now, redact }) => {
     surge: row.surge,
     fetchedAt: row.fetched_at,
     // The activity opens the app's own route (under each build's scheme); Grab's link stays in-app.
-    deepLink: 'critterpass://getting-around',
+    deepLink: appLinkSchemeUrl('critterpass', gettingAroundLink()),
   };
   const expiresAt = new Date(row.fetched_at.getTime() + LA_RIDE_TTL_MS);
   const live = !row.replaced && now.getTime() < expiresAt.getTime();

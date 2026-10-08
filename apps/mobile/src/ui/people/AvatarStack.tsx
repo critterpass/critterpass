@@ -11,6 +11,8 @@ import type { AvatarSize } from './Avatar';
 export interface StackMember {
   readonly key: string;
   readonly name: string;
+  /** The member's user id: the stack draws the face they chose. */
+  readonly uid?: string | null | undefined;
   readonly joinIndex: number;
   readonly photo?: ImageSourcePropType;
   /** A sticker worn as the member's avatar (a guide), drawn inside the circle. */
@@ -71,6 +73,7 @@ export function AvatarStack({
             joinIndex={member.joinIndex}
             size={size}
             decorative
+            {...(member.uid ? { uid: member.uid } : {})}
             {...(member.photo ? { photo: member.photo } : {})}
             {...(member.critter ? { critter: member.critter } : {})}
             {...(member.pending ? { pending: true } : {})}

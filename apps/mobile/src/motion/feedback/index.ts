@@ -10,6 +10,9 @@ import { getFeedbackPrefsSnapshot } from './prefs';
 import { isQuietNow, setContextMute } from './quiet';
 import { playCue } from './sfx-pool';
 
+/** How many cues have been asked for so far, muted or not: see `withTapFeedback`. */
+let emissions = 0;
+
 /**
  * The feedback bus (docs/design-system.md §4 / docs/code-standards.md §7): one call fires the
  * token-mapped haptic and, where a cue has an SFX asset, its sound — respecting the haptics toggle,
@@ -23,6 +26,7 @@ import { playCue } from './sfx-pool';
  * docs are reconciled.
  */
 export function impact(cueId: SoundCueId): void {
+  emissions += 1;
   const cue = cueFor(cueId);
   const prefs = getFeedbackPrefsSnapshot();
 
@@ -44,6 +48,16 @@ export function impact(cueId: SoundCueId): void {
   }
   if (!cue.bypassesQuiet && isQuietNow(prefs.quietOnTheRoad)) return;
   playCue(cueId, prefs.effectsVolume);
+}
+
+/**
+ * Runs a shared control's tap handler, then fires the control's own cue, unless the handler fired
+ * a cue itself: a screen that already answers the tap with its own feedback is never doubled.
+ */
+export function withTapFeedback(cueId: SoundCueId, handler: () => void): void {
+  const before = emissions;
+  handler();
+  if (emissions === before) impact(cueId);
 }
 
 export const feedback = { emit: impact, setContextMute };

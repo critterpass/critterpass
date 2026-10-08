@@ -88,7 +88,8 @@ export function GuideAnswer({
   const [copied, setCopied] = useState(false);
   // Brackets inside brackets (a gloss within a gloss) are shown, and copied, as one pair.
   const line = tidyGuideText(text);
-  const typed = patterns.useTypewriter({ text: line });
+  // Only the answer being written types itself out; a saved one is whole and starts no timer.
+  const typed = patterns.useTypewriter({ text: line, enabled: streaming });
   const shown = streaming ? typed.visibleText : line;
   return (
     <Stack gap="8" {...(testID === undefined ? {} : { testID })}>

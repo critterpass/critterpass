@@ -2,7 +2,7 @@
  * The hub's words built from rows: the tiles' values and captions (PLAN, BOOKINGS, MONEY) and the
  * ticker's lines ("Alex edited the plan"), in the active locale.
  */
-import { format } from '@cp/i18n';
+import { format, numberFormat } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
 import { clockIn, deadlineOf, type LeaveByRow } from '../leave-by/model';
@@ -244,8 +244,8 @@ export function shortDay(locale: string, date: string): string {
 /** "$186", "Rp 450.000": whole units in the currency's own style. */
 export function wholeMoney(locale: string, amountMinor: number, currency: string): string {
   const exponent =
-    new Intl.NumberFormat('en', { style: 'currency', currency }).resolvedOptions()
-      .maximumFractionDigits ?? 2;
+    numberFormat('en', { style: 'currency', currency }).resolvedOptions().maximumFractionDigits ??
+    2;
   return format.number(locale, Math.abs(amountMinor) / 10 ** exponent, {
     style: 'currency',
     currency,

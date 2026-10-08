@@ -4,7 +4,7 @@
  * is. A boost nobody bought (a first trip free, a moved boost, support's grant) sends nothing, and
  * neither does one that is no longer on by the time the push is composed.
  */
-import { BILLING_PUSH, registerNotificationTrigger } from '@cp/domain';
+import { BILLING_PUSH, crewChatLink, registerNotificationTrigger } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -67,7 +67,7 @@ export async function composeBoostPush(tx: pg.PoolClient, event: RoutedEvent) {
     },
     crewId,
     tripId: event.tripId ?? str(event, 'trip_id'),
-    ...(crewId === null ? {} : { deepLink: `/crew/${crewId}/chat`, threadId: crewId }),
+    ...(crewId === null ? {} : { deepLink: crewChatLink(crewId), threadId: crewId }),
   };
 }
 

@@ -16,7 +16,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { useMotionMode } from '@/motion';
+import { useIdleLoopRunning, useMotionMode } from '@/motion';
 import { HeroPanel } from '@/ui/cards/HeroPanel';
 import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -48,11 +48,15 @@ function ShareIndicator({ hours }: { readonly hours: number }) {
   const locale = useLocale();
   const [motionMode] = useMotionMode();
   const opacity = useSharedValue(1);
+  const blink = useIdleLoopRunning(motionMode === 'full');
   useEffect(() => {
-    if (motionMode !== 'full') return undefined;
+    if (!blink) {
+      opacity.value = 1;
+      return undefined;
+    }
     opacity.value = withRepeat(withTiming(0.2, { duration: BLINK_MS / 2 }), -1, true);
     return () => cancelAnimation(opacity);
-  }, [motionMode, opacity]);
+  }, [blink, opacity]);
   const dotStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
   const label = t({ id: 'safety.help.sharing', message: `Crew can see you · ${hours}h` });
   return (

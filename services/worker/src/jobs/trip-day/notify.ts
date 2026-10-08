@@ -5,7 +5,7 @@
  * leave-by pushes take their words from `leaveByPushCopy`: a time to leave, or a time to be there
  * when no trip to the place was counted.
  */
-import { TRIP_DAY_PUSH, tripDayPath, tripHubPath } from '@cp/domain';
+import { crewChatLink, TRIP_DAY_PUSH, tripDayLink, tripHubLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -79,7 +79,7 @@ export function registerTripDayNotifications(): void {
         sender: { kind: 'member', id: sleeper, name: await firstName(tx, sleeper) },
         crewId: facts.crew_id,
         tripId: facts.trip_id,
-        deepLink: tripDayPath(facts.trip_id, facts.local_date),
+        deepLink: tripDayLink(facts.trip_id, facts.local_date),
         collapseVars: { leave_by_id: str(routed, 'leave_by_id') ?? '' },
       };
     },
@@ -101,7 +101,7 @@ export function registerTripDayNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: facts.crew_id,
         tripId: facts.trip_id,
-        deepLink: tripDayPath(facts.trip_id, facts.local_date),
+        deepLink: tripDayLink(facts.trip_id, facts.local_date),
         classContext: { remote: true },
         collapseVars: { leave_by_id: str(routed, 'leave_by_id') ?? '' },
       };
@@ -135,7 +135,7 @@ export function registerTripDayNotifications(): void {
         sender: { kind: 'member', id: late, name },
         crewId: trip.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
-        deepLink: `/crew/${trip.crew_id}/chat`,
+        deepLink: crewChatLink(trip.crew_id),
       };
     },
   });
@@ -169,7 +169,7 @@ export function registerTripDayNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: first.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
-        deepLink: tripHubPath(str(routed, 'trip_id') ?? ''),
+        deepLink: tripHubLink(str(routed, 'trip_id') ?? ''),
         ctx: briefingContext(first),
         collapseVars: { trip_id: str(routed, 'trip_id') ?? '' },
       };
