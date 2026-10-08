@@ -16,6 +16,7 @@ import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { Icon } from '@/ui/icons/Icon';
+import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { AvatarStack } from '@/ui/people/AvatarStack';
@@ -77,7 +78,7 @@ function SourceCard(props: {
             {props.body}
           </Text>
         </Stack>
-        <Icon name="arrow" size={20} color={theme.color.ink['950']} decorative />
+        <StraightArrow direction="forward" size={20} color={theme.color.ink['950']} />
       </Row>
     </PressScale>
   );
