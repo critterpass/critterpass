@@ -5,7 +5,7 @@
  */
 import { createRecapLinkResultSchema, type RecapLinks } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Share } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -56,6 +56,10 @@ export function useRecapLinkActions(recapId: string | null): RecapLinkActions {
     return () => controller.abort();
   }, [reader, recapId]);
 
+  // One share at a time, from the first tap: reading the links comes before the command is pending.
+  const sharing = useRef(false);
+  const [sharingNow, setSharingNow] = useState(false);
+
   /** Asks again after a change, or before deciding which link to share. */
   async function refresh(): Promise<RecapLinks | null> {
     if (recapId === null) return null;
@@ -70,7 +74,18 @@ export function useRecapLinkActions(recapId: string | null): RecapLinkActions {
   };
 
   async function share() {
-    if (recapId === null || create.pending) return;
+    if (recapId === null || create.pending || sharing.current) return;
+    sharing.current = true;
+    setSharingNow(true);
+    try {
+      await shareLink(recapId);
+    } finally {
+      sharing.current = false;
+      setSharingNow(false);
+    }
+  }
+
+  async function shareLink(recapId: string) {
     const remembered = deviceRememberedLinks();
     let link = reusableLink(remembered.get(recapId), await refresh());
     if (link === null) {
@@ -123,7 +138,7 @@ export function useRecapLinkActions(recapId: string | null): RecapLinkActions {
 
   return {
     stoppable: stoppableLinks(links),
-    busy: create.pending || revoke.pending,
+    busy: create.pending || revoke.pending || sharingNow,
     share,
     stop,
   };
