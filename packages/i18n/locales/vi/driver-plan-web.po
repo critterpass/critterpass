@@ -9,228 +9,228 @@ msgstr ""
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.adults"
-msgstr ""
+msgstr "{count, plural, one {# người lớn} other {# người lớn}}"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.offRevoked"
-msgstr ""
+msgstr "{name} đã ngừng chia sẻ kế hoạch này vào {date}. Hãy hỏi họ qua WhatsApp để lấy liên kết mới."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.title"
-msgstr ""
+msgstr "{people, plural, one {# người} other {# người}}, {days, plural, one {# ngày} other {# ngày}} cùng bạn"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.anotherTip"
-msgstr ""
+msgstr "+ Thêm mẹo nữa"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.timesDays"
-msgstr ""
+msgstr "× {count, plural, one {# ngày} other {# ngày}}"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.duration"
-msgstr ""
+msgstr "Khoảng {hours, plural, one {# giờ} other {# giờ}}"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.durationMin"
-msgstr ""
+msgstr "Khoảng {minutes} phút"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.addTip"
-msgstr ""
+msgstr "Thêm mẹo"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.yourTerms"
-msgstr ""
+msgstr "Đã thống nhất: {price} mỗi ngày"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.tipHint"
-msgstr ""
+msgstr "Mang theo sarong khi đến Uluwatu, hoặc thuê ở cổng."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.car"
-msgstr ""
+msgstr "Xe"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.errorInvalid"
-msgstr ""
+msgstr "Kiểm tra lại biểu mẫu: thêm giá, một thay đổi hoặc một mẹo. Mẹo không được chứa liên kết."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.notFoundBody"
-msgstr ""
+msgstr "Kiểm tra lại liên kết, hoặc nhờ nhóm gửi liên kết mới."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.brand"
-msgstr ""
+msgstr "CritterPass"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.include.entryTickets"
-msgstr ""
+msgstr "Vé vào cửa"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.hours"
-msgstr ""
+msgstr "Số giờ bao gồm mỗi ngày"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.included"
-msgstr ""
+msgstr "Đã gồm trong giá"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.language"
-msgstr ""
+msgstr "Ngôn ngữ"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.moveUp"
-msgstr ""
+msgstr "Dời {name} sớm hơn"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.moveDown"
-msgstr ""
+msgstr "Dời {name} muộn hơn"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.moved"
-msgstr ""
+msgstr "Đã dời"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.mustDo"
-msgstr ""
+msgstr "Việc phải làm"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.mustDos"
-msgstr ""
+msgstr "Việc phải làm"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.footer"
-msgstr ""
+msgstr "Không cần đăng nhập. Liên kết này dùng được đến {date}."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.openPickup"
-msgstr ""
+msgstr "Mở điểm đón trong Bản đồ"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.openWhatsApp"
-msgstr ""
+msgstr "Mở WhatsApp"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.overtime"
-msgstr ""
+msgstr "Quá giờ, mỗi giờ"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.include.parking"
-msgstr ""
+msgstr "Phí đỗ xe"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.include.petrol"
-msgstr ""
+msgstr "Xăng"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.pickup"
-msgstr ""
+msgstr "Điểm đón · {name}"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.pricePerDay"
-msgstr ""
+msgstr "Giá mỗi ngày"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.sendQuote"
-msgstr ""
+msgstr "Gửi báo giá"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.send"
-msgstr ""
+msgstr "Gửi cho nhóm"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.sentTitle"
-msgstr ""
+msgstr "Đã gửi cho nhóm"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.stay"
-msgstr ""
+msgstr "Chỗ ở: {area}"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.suggestDay"
-msgstr ""
+msgstr "Gợi ý thay đổi · {day}"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.suggestChanges"
-msgstr ""
+msgstr "Gợi ý thay đổi"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.sentBody"
-msgstr ""
+msgstr "Nhóm cùng quyết định trong ứng dụng của họ. Cho đến khi họ bắt đầu bình chọn, gửi lại sẽ thay thế câu trả lời này."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.errorVoting"
-msgstr ""
+msgstr "Nhóm đang bình chọn về câu trả lời gần nhất của bạn, nên giờ không thay thế được."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.updated"
-msgstr ""
+msgstr "Nhóm đã cập nhật kế hoạch này vào {date}."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.unavailable"
-msgstr ""
+msgstr "Hiện chưa tải được kế hoạch. Một phút nữa thử lại nhé."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.sendFoot"
-msgstr ""
+msgstr "Họ cùng quyết định trong ứng dụng của họ. {name} sẽ trả lời qua WhatsApp."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.offExpired"
-msgstr ""
+msgstr "Liên kết này đã hết hạn vào {date}. Hãy hỏi {name} qua WhatsApp để lấy liên kết mới."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.offTitle"
-msgstr ""
+msgstr "Liên kết này đã tắt"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.ticketsBought"
-msgstr ""
+msgstr "Đã mua vé"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.tips"
-msgstr ""
+msgstr "Mẹo cho nhóm"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.include.tolls"
-msgstr ""
+msgstr "Phí cầu đường"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.errorRate"
-msgstr ""
+msgstr "Gửi quá nhiều lần từ liên kết này. Một giờ nữa thử lại nhé."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.carHint"
-msgstr ""
+msgstr "Toyota Avanza, 6 chỗ"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.back"
-msgstr ""
+msgstr "Kế hoạch chuyến đi"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.eyebrow"
-msgstr ""
+msgstr "Kế hoạch chuyến đi từ {name}"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.notFoundTitle"
-msgstr ""
+msgstr "Chúng tôi không tìm thấy kế hoạch này"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.dayNote"
-msgstr ""
+msgstr "Vì sao? Nói cho nhóm biết (không bắt buộc)"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.replacedBody"
-msgstr ""
+msgstr "Câu trả lời mới của bạn đã thay câu trả lời trước."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.quoteTitle"
-msgstr ""
+msgstr "Báo giá của bạn"
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.offQuote"
-msgstr ""
+msgstr "Báo giá của bạn từ {date} vẫn đang ở chỗ nhóm."
 
 #: ../../apps/web/src/components/driver-plan/copy.ts
 msgid "driverPlan.replyWaiting"
-msgstr ""
+msgstr "Câu trả lời của bạn từ {date} đang ở chỗ nhóm."
