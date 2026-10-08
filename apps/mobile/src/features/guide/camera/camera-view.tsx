@@ -62,8 +62,8 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  // The still runs edge to edge under the pills, as the photo does in the render.
   menu: {
-    paddingHorizontal: t.size.gutter,
     paddingTop: t.space['32'] * 2,
     paddingBottom: t.size.gutter,
     flexGrow: 1,

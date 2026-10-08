@@ -1,6 +1,7 @@
 /**
- * The top of voice mode (3j-2): the guide's sticker in a halftone disc, rings that breathe while
- * it listens, and a row of bars that follows the microphone's level.
+ * The top of voice mode (3j-2): the guide's sticker large on a halftone disc inside one wide,
+ * quiet ring, rings that breathe while it listens, and a row of bars that follows the
+ * microphone's level.
  */
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
@@ -14,11 +15,14 @@ import { Halftone } from '@/ui/textures/halftone';
 
 const BARS = 17;
 
+/** The guide's sticker on the stage: it nearly fills the disc, as in the render. */
+export const VOICE_STICKER_SIZE = 144;
+
 const useStyles = makeStyles((t) => ({
   stage: { alignItems: 'center', justifyContent: 'center' },
   disc: {
-    width: t.space['32'] * 5,
-    height: t.space['32'] * 5,
+    width: t.space['32'] * 6,
+    height: t.space['32'] * 6,
     borderRadius: t.space['32'] * 3,
     backgroundColor: t.semantic.bg.raised,
     overflow: 'hidden',
@@ -27,11 +31,20 @@ const useStyles = makeStyles((t) => ({
   },
   ring: {
     position: 'absolute',
-    width: t.space['32'] * 5,
-    height: t.space['32'] * 5,
+    width: t.space['32'] * 6,
+    height: t.space['32'] * 6,
     borderRadius: t.space['32'] * 3,
     borderWidth: t.space['2'],
     borderColor: t.semantic.action.primary,
+  },
+  // 3j-2's wide ring: wider than the screen, so only its arcs show above and below the disc.
+  orbit: {
+    position: 'absolute',
+    width: t.space['32'] * 18,
+    height: t.space['32'] * 18,
+    borderRadius: t.space['32'] * 9,
+    borderWidth: 1,
+    borderColor: t.semantic.border.decorative,
   },
   bars: { height: t.space['32'], alignItems: 'center' },
   bar: { width: t.space['4'], height: '100%', borderRadius: t.space['2'] },
@@ -65,11 +78,12 @@ export function VoiceStage({ sticker, level, listening }: VoiceStageProps) {
   return (
     <Stack gap="16" align="center" importantForAccessibility="no-hide-descendants">
       <View style={styles.stage}>
+        <View style={styles.orbit} pointerEvents="none" />
         {listening
           ? rings.map((ring) => <Animated.View key={ring.key} style={[styles.ring, ring.style]} />)
           : null}
         <View style={styles.disc}>
-          <Halftone />
+          <Halftone variant="dark" />
           {sticker}
         </View>
       </View>

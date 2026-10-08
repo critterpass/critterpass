@@ -17,6 +17,7 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
+import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { guideAvatarId } from '../chat/components/guide-header';
@@ -40,6 +41,7 @@ import {
 import { VoiceGate } from './voice-consent-view';
 import { useVoiceTarget, voiceTurnRequest } from './voice-target';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
+import { VOICE_STICKER_SIZE } from './voice-stage';
 import { VoiceView } from './voice-view';
 
 /** The speech module as the screen uses it; the route adapts the native module to this. */
@@ -93,7 +95,11 @@ export interface VoiceScreenProps {
 
 export function VoiceScreen(props: VoiceScreenProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <ConsentedVoiceScreen {...props} />;
+  return localFirst === null ? (
+    <SessionWaiting testID="guide-voice-waiting" />
+  ) : (
+    <ConsentedVoiceScreen {...props} />
+  );
 }
 
 /** Voice mode once the voice consent stands; until then, the question. */
@@ -212,7 +218,7 @@ function OpenVoiceScreen({
     <VoiceView
       guideName={context.guideName}
       shared={mode === 'group'}
-      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={96} />}
+      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={VOICE_STICKER_SIZE} />}
       state={state}
       level={level}
       swaps={offered.swaps}
