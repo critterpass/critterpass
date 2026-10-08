@@ -60,6 +60,8 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   const setHref = useScreenHref('3l-8', target?.screen === '3l-8' ? target.params : {});
   const formsHref = target === null ? undefined : target.screen === '3l-3' ? critterHref : setHref;
   const rateHref = useScreenHref('3o-3', { tripId });
+  const albumHref = useScreenHref('3m-2', { tripId });
+  const postcardHref = useScreenHref('3m-9', { tripId });
   const { model } = data;
   const recapId = data.recapId;
   const link = useRecapLinkActions(model.phase === 'ready' ? recapId : null);
@@ -109,6 +111,8 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
         onGotAway={formsHref === undefined ? undefined : () => router.push(formsHref)}
         onWatch={model.phase === 'ready' ? () => router.push(recapRoutes.story(tripId)) : undefined}
         onRate={rateHref === undefined ? undefined : () => router.push(rateHref)}
+        onPhotos={albumHref === undefined ? undefined : () => router.push(albumHref)}
+        onPostcard={postcardHref === undefined ? undefined : () => router.push(postcardHref)}
       />
       {ended && recapId !== null ? <RecapEndSlot recapId={recapId} /> : null}
       {sharing ? (

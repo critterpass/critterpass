@@ -1,7 +1,8 @@
 /**
  * The album area's routes and the design ids the navigation registry knows them by: the crew's
  * album (3m-2), one photo full screen, the postcard composer (3m-9, the recap's last card) and the
- * traveller's own postal address for printed postcards; also the postcard's inbox wording.
+ * traveller's own postal address for printed postcards; also the postcard's inbox
+ * wording and the trip hub's PHOTOS tile.
  * Imported once by the root layout.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
@@ -9,6 +10,7 @@ import type { Href } from 'expo-router';
 
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
+import { registerAlbumHubTile } from './hub-tile';
 import { registerAlbumInboxRenderers } from './inbox-renderers';
 
 export const albumRoutes = {
@@ -25,6 +27,7 @@ export const albumRoutes = {
 };
 
 registerAlbumInboxRenderers();
+registerAlbumHubTile();
 
 registerScreens({
   '3m-2': (params) => albumRoutes.album(params['tripId'] ?? ''),
