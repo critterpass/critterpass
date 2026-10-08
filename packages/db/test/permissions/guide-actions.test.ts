@@ -19,6 +19,7 @@ import {
   type DbTestContainer,
   type DbTestDatabase,
 } from '../helpers/pg-container';
+import { buildTripFixture, type TripFixture } from '../helpers/trip-fixture';
 
 let container: DbTestContainer;
 let db: DbTestDatabase;
@@ -159,5 +160,87 @@ describe('guide_actions status guard', () => {
         ),
       ),
     ).rejects.toThrow(/must start planned/);
+  });
+});
+
+describe('guide_actions on a plain trip: crew read, system write', () => {
+  let plainDb: DbTestDatabase;
+  let plain: TripFixture;
+  let guideActionId: string;
+
+  beforeAll(async () => {
+    plainDb = await container.createDatabase();
+    plain = await buildTripFixture(plainDb.pool);
+    guideActionId = await withSystem(plainDb.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        "INSERT INTO guide_actions (trip_id, kind, status) VALUES ($1, 'book_activity', 'planned') RETURNING id",
+        [plain.tripId],
+      );
+      return firstRow(rows).id;
+    });
+  }, 180_000);
+
+  afterAll(async () => {
+    await plainDb.drop();
+  });
+
+  it('is invisible to an outsider', async () => {
+    const rows = await withUser(
+      plainDb.pool,
+      plain.outsiderId,
+      anonymousActor().device,
+      async (tx) => {
+        const { rows } = await tx.query<{ id: string }>(
+          'SELECT id FROM guide_actions WHERE trip_id = $1',
+          [plain.tripId],
+        );
+        return rows;
+      },
+    );
+    expect(rows).toHaveLength(0);
+  });
+
+  it('is readable by any crew member', async () => {
+    const rows = await withUser(
+      plainDb.pool,
+      plain.memberId,
+      anonymousActor().device,
+      async (tx) => {
+        const { rows } = await tx.query<{ id: string }>(
+          'SELECT id FROM guide_actions WHERE trip_id = $1',
+          [plain.tripId],
+        );
+        return rows;
+      },
+    );
+    expect(rows).toEqual([{ id: guideActionId }]);
+  });
+
+  it('denies a write from any app_user, including the organiser', async () => {
+    await expect(
+      withUser(plainDb.pool, plain.organiserId, anonymousActor().device, async (tx) => {
+        await tx.query("UPDATE guide_actions SET status = 'done' WHERE id = $1", [guideActionId]);
+      }),
+    ).rejects.toThrow(/permission denied/i);
+  });
+
+  it('is writable by app_system', async () => {
+    await withSystem(plainDb.pool, async (tx) => {
+      await tx.query("UPDATE guide_actions SET status = 'running' WHERE id = $1", [guideActionId]);
+      await tx.query("UPDATE guide_actions SET status = 'done' WHERE id = $1", [guideActionId]);
+    });
+    const rows = await withUser(
+      plainDb.pool,
+      plain.memberId,
+      anonymousActor().device,
+      async (tx) => {
+        const { rows } = await tx.query<{ status: string }>(
+          'SELECT status FROM guide_actions WHERE id = $1',
+          [guideActionId],
+        );
+        return rows;
+      },
+    );
+    expect(rows[0]).toMatchObject({ status: 'done' });
   });
 });
