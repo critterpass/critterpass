@@ -12,31 +12,33 @@ ALTER TABLE message_reactions ADD COLUMN in_sync_window boolean NOT NULL DEFAULT
 GRANT SELECT (in_sync_window) ON messages TO admin_reader;
 GRANT SELECT (in_sync_window) ON message_reactions TO admin_reader;
 
--- The rows a new message pushes out are the lowest of this index: one short range read per send.
+-- The row a new message pushes out is the lowest of this index: one single-row read per send.
 CREATE INDEX messages_sync_window_idx ON messages (crew_id, seq) WHERE in_sync_window;
 
 -- ---------------------------------------------------------------------------------------------
--- Sliding the window: a new message takes every row 1,000 or more below it out, with their
--- reactions. Sends of one crew are serialised by the counter's row lock, so two sends never slide
--- the same crew at once. The reactions are a statement of their own, read after the message rows
--- are locked, so a reaction committed while this waited is seen.
+-- Sliding the window: a new message takes the row 1,000 below it out, with its reactions. `seq`
+-- has no gaps and every insert slides, so that row is the only one below the window that can still
+-- be inside it. It is asked for by its own `seq`: a range (`seq <= NEW.seq - 1000 AND
+-- in_sync_window`) is planned as most of the crew's history, since the planner cannot know the two
+-- conditions exclude each other, and on a crew that makes up much of the table it scans every
+-- message.
+-- Sends of one crew are serialised by the counter's row lock, so two sends never slide the same
+-- crew at once. The reactions are a statement of their own, read after the message row is locked,
+-- so a reaction committed while this waited is seen.
 CREATE OR REPLACE FUNCTION app.slide_chat_sync_window() RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
 DECLARE
-  left_window uuid[];
+  left_window uuid;
 BEGIN
   IF NEW.seq <= 1000 THEN
     RETURN NULL;
   END IF;
-  WITH gone AS (
-    UPDATE messages SET in_sync_window = false
-     WHERE crew_id = NEW.crew_id AND seq <= NEW.seq - 1000 AND in_sync_window
-    RETURNING id
-  )
-  SELECT array_agg(id) INTO left_window FROM gone;
+  UPDATE messages SET in_sync_window = false
+   WHERE crew_id = NEW.crew_id AND seq = NEW.seq - 1000 AND in_sync_window
+  RETURNING id INTO left_window;
   IF left_window IS NOT NULL THEN
     UPDATE message_reactions SET in_sync_window = false
-     WHERE message_id = ANY (left_window) AND in_sync_window;
+     WHERE message_id = left_window AND in_sync_window;
   END IF;
   RETURN NULL;
 END;
