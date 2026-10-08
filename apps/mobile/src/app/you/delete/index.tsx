@@ -1,3 +1,5 @@
+import { Stack } from 'expo-router/js-stack';
+
 import { DeleteScreen } from '@/features/you/account/delete-screen';
 import { LocalFirstGate } from '@/features/you/local-first-gate';
 
@@ -5,7 +7,7 @@ import { LocalFirstGate } from '@/features/you/local-first-gate';
 export default function DeleteAccountRoute() {
   return (
     <LocalFirstGate>
-      <DeleteScreen />
+      <DeleteScreen whenClosed={<Stack.Screen options={{ gestureEnabled: false }} />} />
     </LocalFirstGate>
   );
 }
