@@ -312,6 +312,11 @@ only (a label is used where a control has no id, never text that comes from stag
 | `trip-day`   | start as `trip_today`  | TRIPS hub → day-of → I'M UP → pack list tick → a flight typed in → I LANDED → relaunch → tick kept |
 | `plan-edit`  | start as `trip_today`  | PLAN → day 1 → search → add a stop → move it to day 2 → a place saved to Ideas → relaunch keeps it |
 | `guide`      | start as `everyday`    | guide button → ask → streamed answer → JUST ME has its own thread → GROUP brings it back          |
+| `proposal` | start as `draft_ready` | the friend joins → SEND THE PLAN → build → send → tracker: no reply → the friend boards → drops out → change list applied |
+| `join-under-way` | start as `trip_today` | crew settings → remove a crewmate (frees a seat) → the friend joins with the code → an expense by share has their row |
+| `critters` | start as `trip_today` | PASS → the egg card's button → the ceremony to its reveal → FOUND → the set page → hub → QUESTS |
+| `paywall` | start as `everyday` | PASS face → Settings → plan chip → Your plan (free) → the paywall → What's in each → back (nothing bought: the only store is the real one) |
+| `suppliers` | start as `trip_today` | day plan search → a museum's page → Tickets and tours → OPEN KLOOK → the browser takes over → back, no error on the card |
 
 ```sh
 gh workflow run device.yml --ref <branch> -f platform=android -f mode=flows -f shards=2 \

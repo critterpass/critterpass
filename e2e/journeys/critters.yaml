@@ -1,0 +1,118 @@
+appId: app.critterpass.dev
+---
+# Journey: the trip's critter. A new account starts as the `trip_today` scenario (a locked Đà Nẵng
+# trip that started today, its egg not met yet). The hatch opens by itself only on TRIPS and the
+# trip hub, so this goes the traveller's own way: the PASS tab, the egg card and its button (HATCH
+# IT, or MEET THEM when the egg has already hatched). The ceremony plays to its reveal and is put
+# away; the egg card is gone, FOUND lists the place the critter belongs to and its set page opens.
+# The trip's quests open from the hub's QUESTS tile.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow: subflows/pass-trip-welcome.yaml
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 60000
+- runFlow: subflows/pass-trip-welcome.yaml
+# The egg card, with its button: the egg wobbles, so the screen never settles for Maestro.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-egg-(hatch|meet)'
+    timeout: 60000
+- takeScreenshot: en-journey-critters-egg-card
+- tapOn:
+    id: 'critters-egg-(hatch|meet)'
+    waitToSettleTimeoutMs: 500
+# The ceremony, to its reveal (the title takes its id only once the critter is out).
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch-later'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatched'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-journey-critters-hatched
+- tapOn:
+    id: 'critters-hatch-later'
+    waitToSettleTimeoutMs: 500
+# Back on PASS: met, so the egg card has nothing left to offer.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 30000
+- runFlow: subflows/pass-trip-welcome.yaml
+- extendedWaitUntil:
+    notVisible:
+      id: 'critters-egg-(hatch|meet)'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-journey-critters-pass-after-hatch
+# FOUND keeps only the places with a critter of theirs: the trip's. Its row opens the set page.
+- tapOn:
+    id: 'critters-dex-header-filter-found'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-set-([0-9]+|[A-Za-z]{2})'
+    timeout: 30000
+- tapOn:
+    id: 'critters-set-([0-9]+|[A-Za-z]{2})'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'critters-set-cell-[0-9]+'
+    timeout: 20000
+- assertVisible:
+    id: 'critters-set-back'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-journey-critters-set-page
+- tapOn:
+    id: 'critters-set-back'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 15000
+# The trip's quests, from the hub.
+- tapOn:
+    id: 'tab-trips'
+    # The hub never settles for Maestro: without a limit the tap waits minutes.
+    waitToSettleTimeoutMs: 500
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- runFlow: subflows/pass-trip-welcome.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-quests'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    # Clear of the tab bar, which takes a tap on a tile half under it.
+    centerElement: true
+- runFlow: subflows/pass-trip-welcome.yaml
+- tapOn:
+    id: 'trip-hub-tile-quests'
+    waitToSettleTimeoutMs: 500
+# The page's header, then its quests or the state that says why there are none yet.
+- extendedWaitUntil:
+    visible:
+      id: 'quests-header'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'quests-list|quests-empty-.*'
+    timeout: 30000
+- assertVisible:
+    id: 'quests-level'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-journey-critters-quests
