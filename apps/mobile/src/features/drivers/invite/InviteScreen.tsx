@@ -4,6 +4,7 @@
  * send for them.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, SQL and format options, never copy. */
+import { format } from '@cp/i18n';
 import {
   driverInviteMessage,
   whatsAppLink,
@@ -99,9 +100,7 @@ export function InviteScreen({
   const expiresOn =
     link === null
       ? null
-      : new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(
-          new Date(link.expires_at),
-        );
+      : format.date(locale, new Date(link.expires_at), { day: 'numeric', month: 'short' });
 
   return (
     <InviteView

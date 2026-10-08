@@ -3,7 +3,7 @@
  * timeline (invite sent, link opened, waiting), when the link switches off, NUDGE once and CANCEL
  * INVITE; a confirmed one shows LISTED. Unclaimed drivers are only visible to this crew.
  */
-import { upper } from '@cp/i18n';
+import { format, upper } from '@cp/i18n';
 import type { OurDriver } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
@@ -51,11 +51,17 @@ export function OurDriversView(props: OurDriversViewProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const date = (iso: string) =>
-    new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(new Date(iso));
+    format.date(locale, new Date(iso), { day: 'numeric', month: 'short' });
   const crew = props.crewSize;
   return (
     <Scaffold testID="drivers-ours">
-      <ScrollView contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: 48 }}>
+      <ScrollView
+        contentContainerStyle={{
+          padding: theme.space['20'],
+          gap: theme.space['16'],
+          paddingBottom: theme.space['32'] + theme.space['16'],
+        }}
+      >
         <BackEyebrow
           label={t({ id: 'drivers.ours.back', message: 'Getting around' })}
           onPress={props.onBack}
