@@ -40,8 +40,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3l-3-share-post
+# The switch sets its labels in capitals.
 - tapOn:
-    text: 'Story'
+    text: '(?i)story'
 - extendedWaitUntil:
     visible:
       id: 'critters-share-image-story'
