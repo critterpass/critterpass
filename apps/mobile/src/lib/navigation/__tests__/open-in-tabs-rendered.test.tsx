@@ -1,3 +1,5 @@
+jest.unmock('expo-router');
+
 /**
  * `openInTabs` against the router's real navigation state (the root stack sits inside the router's
  * own wrapper route): on a tab screen it only navigates, from a pushed page it first goes down to
