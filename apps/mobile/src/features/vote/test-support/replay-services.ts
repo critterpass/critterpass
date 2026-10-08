@@ -160,7 +160,7 @@ export function replayServices(options: ReplayOptions): VoteServices {
     },
     searchPlaces: () =>
       options.offline === true
-        ? Promise.reject(new Error('offline'))
+        ? Promise.reject(new TypeError('Network request failed'))
         : Promise.resolve([...(options.results ?? [])]),
     streamGuestBrief: (_placeId, _body, onFrame) => {
       (options.brief ?? []).forEach(onFrame);

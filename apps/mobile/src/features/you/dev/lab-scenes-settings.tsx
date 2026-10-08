@@ -34,7 +34,7 @@ export function Settings() {
       hideCollection: false,
       soundEffects: true,
       music: 'Gamelan lo-fi, follows your guide',
-      account: true,
+      account: 'ready',
       dataExport: { line: 'Plans, photos and chat as a zip', enabled: true },
       language: 'English · prices in S$ and local',
       appIcon: true,

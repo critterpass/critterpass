@@ -5,7 +5,8 @@
  * and unticking every weather swap turns the forecast's suggestion down.
  */
 import { tokens } from '@cp/design-tokens';
-import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useCallback, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 
@@ -18,6 +19,7 @@ import { toast } from '@/motion/island-toast';
 
 import { usePlanGuide } from '../../plan-guide';
 import { sentToast } from '../check-copy';
+import { checkRoutes } from '../routes';
 import { dismissWeatherOnline } from '../commands';
 import { useCheckContext } from '../data/use-check-context';
 import { noteDayFixed } from '../fixed-days';
@@ -114,7 +116,7 @@ export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonl
     if (outcome.kind === 'unavailable') return;
     if (outcome.kind === 'applied') noteDayFixed(dayId);
     if (outcome.kind === 'proposed') toast.show({ id: 'plan-rain-sent', ...sentToast() });
-    router.back();
+    goBackOr(checkRoutes.check(tripId));
   };
   const ops = planOpsOf(swaps.ops);
   const use = () => {
@@ -122,7 +124,7 @@ export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonl
     if (swaps.turnDownWeather && weather !== null)
       void dismiss.send({ changeset_id: weather.changeSetId });
     if (ops.length === 0) {
-      router.back();
+      goBackOr(checkRoutes.check(tripId));
       return;
     }
     setBusy(true);
@@ -132,7 +134,7 @@ export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonl
   return (
     <RainView
       backLabel={date === null ? '' : dayTag(date)}
-      onBack={() => router.back()}
+      onBack={() => goBackOr(checkRoutes.check(tripId))}
       chip={chip}
       title={rainTitle(rainAt, busyAt)}
       source={sourceLine({

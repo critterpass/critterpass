@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
-import { I18nManager, Pressable, View } from 'react-native';
+import { I18nManager, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -14,6 +14,8 @@ import { useFontScale } from '@/lib/a11y/use-font-scale';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 import { Row } from '../layout/Row';
+import { Avatar } from '../people/Avatar';
+import { PressScale } from '../press/PressScale';
 import { useHeaderOverlapGuard } from '../qa/header-overlap';
 import { Stack } from '../layout/Stack';
 import { Sticker } from '../sticker/Sticker';
@@ -22,14 +24,23 @@ import { degrees, makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from '../t
 import { ShellBadge } from './TabBar';
 
 export interface HomeHeaderMember {
-  readonly initial: string;
-  readonly color: string;
+  readonly name: string;
+  /** The member's user id: the pill draws the face they chose, as the crews sheet and chat do. */
+  readonly uid?: string | null | undefined;
+  /** 0-based crew join order (the member colour behind an initial). */
+  readonly joinIndex: number;
 }
 
 export interface HomeHeaderProps {
   readonly name: string;
+  /** The signed-in member: the greeting draws the face they chose. */
+  readonly me?: { readonly uid: string; readonly joinIndex: number } | undefined;
+  /** In place of "Hey {name}", when there is no name to greet by. */
+  readonly greeting?: string | undefined;
   readonly crewName: string;
   readonly members: readonly HomeHeaderMember[];
+  /** Another crew of the member's has unread chat: a dot beside the switcher. */
+  readonly otherCrewsUnread?: boolean | undefined;
   readonly unreadChat?: number | undefined;
   readonly unreadInbox?: number | undefined;
   readonly onOpenProfile: () => void;
@@ -89,6 +100,12 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
   },
   badge: { position: 'absolute', top: -t.space['4'], end: -t.space['4'] },
+  dot: {
+    width: t.space['8'],
+    height: t.space['8'],
+    borderRadius: t.space['4'],
+    backgroundColor: t.semantic.state.urgent,
+  },
   crew: { flex: 1, minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
   crewName: { flexShrink: 1 },
   caret: {
@@ -135,46 +152,88 @@ function useBellRing(count: number | undefined) {
   return useAnimatedStyle(() => ({ transform: [{ rotate: degrees(rotate.value) }] }));
 }
 
+export interface HomeHeaderBellProps {
+  /** Things in the inbox that need the member. */
+  readonly count?: number | undefined;
+  readonly onPress: () => void;
+}
+
+/** The inbox bell with its needs-you count: in the Home header, and alone on a Home without a crew. */
+export function HomeHeaderBell({ count = 0, onPress }: HomeHeaderBellProps) {
+  const { t } = useLingui();
+  const styles = useStyles();
+  const theme = useTheme();
+  const ringStyle = useBellRing(count);
+  return (
+    <PressScale
+      testID="home-header-inbox"
+      accessibilityLabel={
+        count > 0
+          ? t({ id: 'common.home.inboxUnread', message: `Inbox, ${count} new` })
+          : t({ id: 'common.home.inbox', message: 'Inbox' })
+      }
+      onPress={onPress}
+      style={styles.bell}
+    >
+      <Animated.View style={ringStyle}>
+        <Glyph kind="bell" color={theme.semantic.text.primary} />
+      </Animated.View>
+      {count > 0 ? (
+        <ShellBadge count={count} style={styles.badge} testID="home-header-inbox-badge" />
+      ) : null}
+    </PressScale>
+  );
+}
+
 /** Home header (3b-2, 3b-6): greeting, crew switcher ▾, crew pill with chat badge, inbox bell. */
 export function HomeHeader(props: HomeHeaderProps) {
   const { t } = useLingui();
   const styles = useStyles();
   const theme = useTheme();
-  const ringStyle = useBellRing(props.unreadInbox);
   const { isLarge } = useFontScale();
   const { name, crewName } = props;
+  const greeting = props.greeting ?? t({ id: 'common.home.greeting', message: `Hey ${name}` });
   const chat = props.unreadChat ?? 0;
-  const inbox = props.unreadInbox ?? 0;
   const faces = props.members.slice(0, MAX_FACES);
   const qa = useHeaderOverlapGuard('home-header');
 
   return (
     <Stack style={styles.root} onLayout={qa.onLayout}>
-      <Pressable
+      <PressScale
         testID="home-header-profile"
-        accessibilityRole="button"
-        accessibilityLabel={t({ id: 'common.home.greeting', message: `Hey ${name}` })}
+        accessibilityLabel={greeting}
         onPress={props.onOpenProfile}
         style={styles.greeting}
       >
         <Row gap="6">
-          <View style={styles.avatar}>
-            <Text variant="label" color={theme.color.paper.ink}>
-              {name.slice(0, 1)}
-            </Text>
-          </View>
+          {props.me == null ? (
+            <View style={styles.avatar}>
+              <Text variant="label" color={theme.color.paper.ink}>
+                {name.slice(0, 1)}
+              </Text>
+            </View>
+          ) : (
+            <Avatar
+              name={name}
+              uid={props.me.uid}
+              joinIndex={props.me.joinIndex}
+              size="sm"
+              cutout={false}
+              decorative
+            />
+          )}
           <Text variant="eyebrow" numberOfLines={1} style={styles.crewName}>
-            {t({ id: 'common.home.greeting', message: `Hey ${name}` })}
+            {greeting}
           </Text>
           <Text variant="eyebrow" accessibilityElementsHidden>
             {I18nManager.isRTL ? '‹' : '›'}
           </Text>
         </Row>
-      </Pressable>
+      </PressScale>
       <Row justify="space-between" align="center" gap="12">
-        <Pressable
+        <PressScale
           testID="home-header-crew"
-          accessibilityRole="button"
+          widthClass="wide"
           accessibilityLabel={t({
             id: 'common.home.switchCrew',
             message: `${crewName}, switch crew`,
@@ -197,61 +256,49 @@ export function HomeHeader(props: HomeHeaderProps) {
               {crewName}
             </Text>
             <View style={styles.caret} ref={qa.ref('crew-caret')} />
+            {props.otherCrewsUnread === true ? (
+              <View style={styles.dot} testID="home-header-other-crews-unread" />
+            ) : null}
           </Row>
-        </Pressable>
+        </PressScale>
         <Row gap="8">
-          <Pressable
-            ref={qa.ref('chat')}
-            testID="home-header-chat"
-            accessibilityRole="button"
-            accessibilityLabel={
-              chat > 0
-                ? t({ id: 'common.home.chatUnread', message: `Crew chat, ${chat} new` })
-                : t({ id: 'common.home.chat', message: 'Crew chat' })
-            }
-            onPress={props.onOpenChat}
-            style={styles.crewPill}
-          >
-            <Row accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-              {faces.map((member, index) => (
-                <View
-                  key={`${member.initial}-${index}`}
-                  style={[
-                    styles.face,
-                    index > 0 ? styles.overlap : null,
-                    { backgroundColor: member.color },
-                  ]}
-                >
-                  <Text variant="label" color={theme.semantic.text.onAccent}>
-                    {member.initial}
-                  </Text>
-                </View>
-              ))}
-            </Row>
-            <Glyph kind="chat" color={theme.semantic.text.primary} />
-            {chat > 0 ? (
-              <ShellBadge count={chat} style={styles.badge} testID="home-header-chat-badge" />
-            ) : null}
-          </Pressable>
-          <Pressable
-            ref={qa.ref('inbox')}
-            testID="home-header-inbox"
-            accessibilityRole="button"
-            accessibilityLabel={
-              inbox > 0
-                ? t({ id: 'common.home.inboxUnread', message: `Inbox, ${inbox} new` })
-                : t({ id: 'common.home.inbox', message: 'Inbox' })
-            }
-            onPress={props.onOpenInbox}
-            style={styles.bell}
-          >
-            <Animated.View style={ringStyle}>
-              <Glyph kind="bell" color={theme.semantic.text.primary} />
-            </Animated.View>
-            {inbox > 0 ? (
-              <ShellBadge count={inbox} style={styles.badge} testID="home-header-inbox-badge" />
-            ) : null}
-          </Pressable>
+          <View ref={qa.ref('chat')}>
+            <PressScale
+              testID="home-header-chat"
+              accessibilityLabel={
+                chat > 0
+                  ? t({ id: 'common.home.chatUnread', message: `Crew chat, ${chat} new` })
+                  : t({ id: 'common.home.chat', message: 'Crew chat' })
+              }
+              onPress={props.onOpenChat}
+              style={styles.crewPill}
+            >
+              <Row accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+                {faces.map((member, index) => (
+                  <View
+                    key={member.uid ?? `${member.name}-${index}`}
+                    style={[styles.face, index > 0 ? styles.overlap : null]}
+                  >
+                    <Avatar
+                      name={member.name}
+                      uid={member.uid}
+                      joinIndex={member.joinIndex}
+                      size="sm"
+                      cutout={false}
+                      decorative
+                    />
+                  </View>
+                ))}
+              </Row>
+              <Glyph kind="chat" color={theme.semantic.text.primary} />
+              {chat > 0 ? (
+                <ShellBadge count={chat} style={styles.badge} testID="home-header-chat-badge" />
+              ) : null}
+            </PressScale>
+          </View>
+          <View ref={qa.ref('inbox')}>
+            <HomeHeaderBell count={props.unreadInbox} onPress={props.onOpenInbox} />
+          </View>
         </Row>
       </Row>
     </Stack>

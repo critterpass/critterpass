@@ -7,9 +7,9 @@
  */
 import { generateUuidV7, IDEA_TITLE_MIN, IDEA_VOTE_BUDGET, ideaVoteMonth } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
@@ -23,6 +23,7 @@ import {
   type BoardTab,
   type VoteOverrides,
 } from './board';
+import { HELP_ROUTES } from '../routes';
 import { BoardView, type BoardRow } from './BoardView';
 import { submitIdeaCommand, unvoteIdeaCommand, voteIdeaCommand } from './commands';
 import { SuggestSheet } from './SuggestSheet';
@@ -151,7 +152,7 @@ export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: bo
         loaded={board.loaded}
         onVote={(id) => void onVote(id)}
         onSuggest={() => setSuggesting(true)}
-        onBack={() => router.back()}
+        onBack={() => goBackOr(HELP_ROUTES.hub)}
       />
       {suggesting ? (
         <SuggestSheet

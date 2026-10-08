@@ -55,7 +55,7 @@ msgstr ""
 msgid "community.note.withBest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.copied"
 msgstr ""
 
@@ -79,20 +79,12 @@ msgstr ""
 msgid "community.title.generated"
 msgstr ""
 
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/detail/plan-days.tsx
 msgid "community.detail.moreDays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/detail/plan-days.tsx
 msgid "community.detail.addsOne"
-msgstr ""
-
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
-msgid "community.detail.save"
-msgstr ""
-
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
-msgid "community.detail.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
@@ -108,6 +100,7 @@ msgid "community.crew.size"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.heading"
 msgstr ""
 
@@ -139,21 +132,41 @@ msgstr ""
 msgid "community.crew.solo"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+msgid "community.picker.unnamed"
+msgstr ""
+
 #. placeholder {0}: day.day_no
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/detail/plan-days.tsx
 msgid "community.detail.addDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.doneWaiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.done"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
+msgid "community.revoke.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.approve"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.publish.asked"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/commands.ts
 msgid "community.queued.publish"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.backOne"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
@@ -161,15 +174,26 @@ msgid "community.browse.clear"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.published.link"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.publish.link"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.copyPick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.detail.copy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+msgid "community.picker.copy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.back.plans"
 msgstr ""
 
@@ -190,8 +214,12 @@ msgstr ""
 msgid "community.detail.bestDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/detail/plan-days.tsx
 msgid "community.detail.dayByDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.declinedDone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
@@ -206,11 +234,20 @@ msgstr ""
 msgid "community.rate.fine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.goneAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.back.home"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.preview"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.missingLine"
 msgstr ""
 
@@ -232,6 +269,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 msgid "community.filter.newest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.next"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
@@ -290,10 +331,6 @@ msgstr ""
 msgid "community.rate.tipLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
-msgid "community.detail.noTrip"
-msgstr ""
-
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.offlineLine"
 msgstr ""
@@ -304,6 +341,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.names"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.report.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
@@ -320,10 +361,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.noneLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
-msgid "community.back.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
@@ -353,8 +390,8 @@ msgstr ""
 msgid "community.browse.intro"
 msgstr ""
 
-#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
-msgid "community.back.recap"
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.report.confirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
@@ -362,6 +399,30 @@ msgid "community.detail.report"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.report.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.reportedLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.savePlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+msgid "community.detail.savedPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.rate.doneQueued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
+msgid "community.detail.suggestQueued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.suggested"
 msgstr ""
 
@@ -389,13 +450,33 @@ msgstr ""
 msgid "community.consent.ask"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+msgid "community.picker.start"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+msgid "community.picker.suggest"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
 msgid "community.detail.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
+msgid "community.withdraw.confirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.withdraw"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
+msgid "community.withdraw.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.published.unpublished"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/commands.ts
@@ -410,15 +491,36 @@ msgstr ""
 msgid "community.detail.reported"
 msgstr ""
 
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.copyFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+msgid "community.published.revoked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.chat"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.goneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
+msgid "community.unpublish.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
+msgid "community.detail.tripFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+msgid "community.link.gone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 msgid "community.detail.missing"
 msgstr ""
 
@@ -430,7 +532,15 @@ msgstr ""
 msgid "community.filter.rating"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+#: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
+msgid "community.back.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.retry"
@@ -440,8 +550,16 @@ msgstr ""
 msgid "community.publish.offlineLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
+msgid "community.revoke.confirm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
-msgid "community.published.revoke"
+msgid "community.published.revokeDated"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
+msgid "community.revoke.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/commands.ts
@@ -449,7 +567,12 @@ msgid "community.queued.revoke"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.published.unpublish"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
+msgid "community.unpublish.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
@@ -472,8 +595,24 @@ msgstr ""
 msgid "community.detail.tips"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+msgid "community.picker.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+msgid "community.picker.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.approved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/commands.ts
 msgid "community.queued.consent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
+msgid "community.queued.trip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/commands.ts
@@ -482,4 +621,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.published.live"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
+msgid "community.consent.withdrawn"
 msgstr ""

@@ -63,6 +63,7 @@ const pass = (boarded: boolean): BoardViewProps => ({
   onBoard: noop,
   onMaybe: noop,
   onOut: noop,
+  onBack: noop,
   onDone: noop,
 });
 

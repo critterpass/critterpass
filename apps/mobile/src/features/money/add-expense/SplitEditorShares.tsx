@@ -13,6 +13,7 @@ import { FilterChip } from '@/ui/chips/FilterChip';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Avatar } from '@/ui/people/Avatar';
+import { Amount } from '@/ui/money/Amount';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
@@ -88,15 +89,21 @@ export function SplitEditorShares({
         const name = member.name;
         return (
           <Row key={member.userId} style={styles.row}>
-            <Avatar name={member.name} joinIndex={member.joinIndex} size="sm" decorative />
+            <Avatar
+              name={member.name}
+              uid={member.userId}
+              joinIndex={member.joinIndex}
+              size="sm"
+              decorative
+            />
             <Text variant="rowTitle" style={styles.name} numberOfLines={1}>
               {name}
             </Text>
-            <Text variant="bodySm" color={theme.semantic.text.secondary}>
+            <Amount variant="rowTitle" color={theme.semantic.text.secondary}>
               {weight === 0
                 ? t({ id: 'money.add.out', message: 'Out' })
                 : formatAmount(share, currency, locale)}
-            </Text>
+            </Amount>
             <IconButton
               label={t({ id: 'money.add.fewer', message: `One share fewer for ${name}` })}
               glyph={<Text variant="h3">−</Text>}

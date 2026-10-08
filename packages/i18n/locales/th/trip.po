@@ -6,3 +6,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
+
+#: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
+msgid "trip.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
+msgid "trip.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
+msgid "trip.missing.back"
+msgstr ""

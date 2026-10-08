@@ -100,12 +100,12 @@ msgstr "Grr"
 msgid "help.feedback.topic.guideChat"
 msgstr "Guide-Chat"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.back"
-msgstr "Hilfe"
-
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
+msgstr "Hilfe"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
 msgstr "Hilfe"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
@@ -119,6 +119,10 @@ msgstr "Hilfe und Feedback"
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
 msgstr "Hilfezentrum"
+
+#: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
+msgid "help.shake.hidden"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
@@ -343,6 +347,10 @@ msgstr "Das Bild ist zu groß zum Senden. Versuch es stattdessen mit einem Scree
 msgid "help.ideas.offline"
 msgstr "Die Pinnwand öffnet sich, sobald du wieder online bist."
 
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.articlesOffline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "Diesen Artikel gibt es noch nicht"
@@ -429,6 +437,10 @@ msgstr "Deine Notiz"
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
 msgstr "Deine Notiz an die Menschen"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.notSaved"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"

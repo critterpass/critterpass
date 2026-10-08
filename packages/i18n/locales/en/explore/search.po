@@ -282,6 +282,10 @@ msgstr "Couldn’t find it"
 msgid "search.link.end.dayFailed"
 msgstr "Couldn’t put them on {day}"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.incomplete"
+msgstr "Couldn't reach more places."
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.busy"
 msgstr "Couldn’t read it just now."
@@ -505,6 +509,10 @@ msgstr "No room on {day}"
 msgid "search.offline.banner"
 msgstr "No signal · working from what’s saved"
 
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.offline"
+msgstr "No signal. Try again when you have some."
+
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.notDays"
 msgstr "Not {days}"
@@ -721,6 +729,10 @@ msgstr "Spa and wellness"
 msgid "search.row.kind.stay"
 msgstr "Stay"
 
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.gathering"
+msgstr "Still gathering places here. Try again in a moment."
+
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.sun"
 msgstr "Sun"
@@ -744,6 +756,10 @@ msgstr "Temples"
 #: ../../apps/mobile/src/features/explore/search/link-paste.tsx
 msgid "search.paste.notLink"
 msgstr "That isn’t a link yet. Copy the post’s link and paste it here."
+
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.unavailable"
+msgstr "That place can't be opened yet."
 
 #: ../../apps/mobile/src/features/explore/search/plain-close.tsx
 msgid "search.plain.failed"
@@ -769,9 +785,17 @@ msgstr "The closest is {name}, {away} away."
 msgid "search.offline.works.plan"
 msgstr "The plan"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.failed"
+msgstr "The search didn't go through."
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr "This post is private or gone."
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.arriving"
+msgstr "This trip's places are still arriving on this phone. Try again in a moment."
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.thu"
@@ -782,6 +806,7 @@ msgid "search.none.related"
 msgstr "Try {term} instead"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
 #: ../../apps/mobile/src/features/explore/search/plain-close.tsx
 msgid "search.link.retry"
 msgstr "Try again"

@@ -16,7 +16,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { pickPolicy, useInsurancePolicies, BOOKINGS_ROUTES } from '@/features/bookings';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { feedback } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { Card } from '@/ui/cards/Card';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -32,6 +32,7 @@ import { requestOpsClinicCallCommand, startHelpShareCommand } from '../commands'
 import { deviceHelpApi } from '../data/help-api';
 import { useSpeech } from '../data/use-speech';
 import { telUrl } from '../format';
+import { safetyRoutes } from '../routes';
 import { stepText } from './checklist-copy';
 import { useOpsDesk } from '../data/use-ops-desk';
 import {
@@ -61,6 +62,7 @@ export function ChecklistScreen() {
   const policy = pickPolicy(useInsurancePolicies().policies, hub.tripId);
   const clinic = useCommand(requestOpsClinicCallCommand);
   const share = useCommand(startHelpShareCommand);
+  const { report } = useCommandFeedback();
 
   useEffect(() => {
     if (hub.tripId === null || !hub.located) return undefined;
@@ -80,7 +82,8 @@ export function ChecklistScreen() {
   const steps = withPhrase(
     withDesk(server ?? localChecklist(hub.model, problem), desk),
     phrase !== null || found === null,
-  );
+    // With no trip there is no crew to share a position with.
+  ).filter((step) => hub.tripId !== null || step.kind !== 'share_pin');
   const speech = useSpeech(phrase?.text ?? null, phrase?.language ?? null);
   const actionsFor = useStepActions({
     model: hub.model,
@@ -90,7 +93,19 @@ export function ChecklistScreen() {
     onAskDesk: () => setAskDesk(true),
     onShare: () => {
       if (hub.tripId === null) return;
-      void share.send({ trip_id: hub.tripId, reason: 'help' }).then(() => feedback.emit('success'));
+      void share.send({ trip_id: hub.tripId, reason: 'help' }).then((result) =>
+        report(result, {
+          offlineCapable: true,
+          id: 'checklist-share',
+          done:
+            result.kind === 'queued'
+              ? t({
+                  id: 'safety.checklist.shareQueued',
+                  message: 'Your crew sees where you are the moment you have signal',
+                })
+              : t({ id: 'safety.checklist.shared', message: 'Your crew can see where you are' }),
+        }),
+      );
     },
     open: (target) => {
       if (target.kind === 'tel') void Linking.openURL(telUrl(target.number));
@@ -125,7 +140,10 @@ export function ChecklistScreen() {
           gap: theme.space['16'],
         }}
       >
-        <BackEyebrow label={t({ id: 'safety.back.help', message: 'Help' })} />
+        <BackEyebrow
+          label={t({ id: 'safety.back.help', message: 'Help' })}
+          fallback={safetyRoutes.help(hub.tripId ?? undefined)}
+        />
         <Text variant="h1" accessibilityRole="header">
           {titles[problem]}
         </Text>
@@ -192,7 +210,19 @@ export function ChecklistScreen() {
                 text_shown: deskText,
                 ...(facility === null ? {} : { facility_id: facility.id }),
               })
-              .then(() => feedback.emit('success'));
+              .then((result) =>
+                report(result, {
+                  offlineCapable: true,
+                  id: 'checklist-desk',
+                  done:
+                    result.kind === 'queued'
+                      ? t({
+                          id: 'safety.desk.askedQueued',
+                          message: 'The desk is asked the moment you have signal',
+                        })
+                      : t({ id: 'safety.desk.asked', message: 'The desk has been asked' }),
+                }),
+              );
           }}
           testID="checklist-desk-confirm"
         />

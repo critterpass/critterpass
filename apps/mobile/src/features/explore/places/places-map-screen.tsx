@@ -78,6 +78,9 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
     <PlacesMapView
       inTrip={tripId !== null}
       loaded={data.loaded}
+      failed={data.failed}
+      onRetry={data.retry}
+      centre={data.centre}
       places={places}
       weekdays={weekdays}
       crew={data.crew}
@@ -91,7 +94,8 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
       canDraw={syncPhase !== 'offline' || pack.uri !== null}
       localRegionUri={pack.uri}
       pack={
-        downloaded ? null : (
+        // A download cannot start with no signal: the card waits for one.
+        downloaded || syncPhase === 'offline' ? null : (
           <RegionPackCardView
             destinationName={data.destinationName}
             status={pack.status}

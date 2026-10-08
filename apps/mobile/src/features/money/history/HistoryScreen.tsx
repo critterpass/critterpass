@@ -1,13 +1,16 @@
-/** The expense history of the trip Money shows, from synced rows plus the offline queue. */
+/**
+ * The expense history of the trip Money shows, from synced rows plus the offline queue. The list is
+ * built once per change of the rows; the filters only pick from it.
+ */
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { MoneyLoading } from '../balances/BalancesScreen';
+import { MoneyNoTripScreen, MoneyScreenLoading } from '../components/screen-states';
 import { expenseItems, filterItems, type ExpenseFilter } from '../data/expense-items';
 import { useSelectedTrip } from '../data/selected-trip';
 import { useMoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
-import { expenseRoute } from '../routes';
+import { expenseRoute, MONEY_ROUTES } from '../routes';
 import { HistoryView } from './HistoryView';
 
 export function HistoryScreen() {
@@ -30,19 +33,32 @@ export function HistoryScreen() {
           }),
     [ctx.trip, ctx.members, rows, currency],
   );
-  if (ctx.status === 'loading' || !rows.loaded) return <MoneyLoading />;
-  return (
-    <HistoryView
-      items={filterItems(items, filter)}
-      members={ctx.members.filter((member) =>
+  const shown = useMemo(() => filterItems(items, filter), [items, filter]);
+  const members = useMemo(
+    () =>
+      ctx.members.filter((member) =>
         items.some(
           (item) => item.inSplit.includes(member.userId) || item.payerId === member.userId,
         ),
-      )}
+      ),
+    [ctx.members, items],
+  );
+  const onExpense = useCallback((id: string) => router.push(expenseRoute(id)), []);
+  const onAdd = useCallback(() => router.push(MONEY_ROUTES.add), []);
+  if (ctx.status === 'loading' || (ctx.status === 'ready' && !rows.loaded)) {
+    return <MoneyScreenLoading />;
+  }
+  if (ctx.trip === null) return <MoneyNoTripScreen crew={ctx.crew !== null} />;
+  return (
+    <HistoryView
+      items={shown}
+      total={items.length}
+      members={members}
       crewCurrency={currency}
       filter={filter}
       onFilter={setFilter}
-      onExpense={(id) => router.push(expenseRoute(id))}
+      onExpense={onExpense}
+      onAdd={onAdd}
     />
   );
 }

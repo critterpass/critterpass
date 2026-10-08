@@ -11,11 +11,12 @@
  *
  * A command without `summarize` is listed under its own name.
  */
+import type { RegisteredCommandName } from '@cp/domain';
 import type { MessageDescriptor } from '@lingui/core';
 
 export interface ClientCommandSpec<Payload> {
-  /** The server command name (`verb_noun`). */
-  readonly name: string;
+  /** The server command name (`verb_noun`): only a name the api registers compiles. */
+  readonly name: RegisteredCommandName;
   /** Offline-capable: queued and uploaded through `/sync/upload`; otherwise sent to `/v1/cmd`. */
   readonly offline: boolean;
   readonly summarize?: (payload: Payload) => MessageDescriptor;

@@ -4,9 +4,9 @@
  * sheets. Changes are queued when offline and shown at once.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { usePermission } from '@/lib/permissions';
 import { impact } from '@/motion';
 
@@ -99,7 +99,7 @@ export function PingSettingsScreen() {
         onQuietHours={() => setPicker('quiet')}
         onOpenSettings={() => void notifications.openSettings()}
         systemLimits={<AndroidPermissionRows omit={['notifications']} />}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace(YOU_ROUTES.settings))}
+        onBack={() => goBackOr(YOU_ROUTES.settings)}
       />
       {picker === 'roundup' ? (
         <ChoiceSheet

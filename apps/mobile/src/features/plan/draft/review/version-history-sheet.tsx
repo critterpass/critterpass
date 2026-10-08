@@ -4,7 +4,7 @@
  * each on the second line. The current one is marked; any earlier one can be restored (it becomes the draft
  * again, still private). Undesigned: built from the sheet, rows and pill buttons.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -122,10 +122,13 @@ export function VersionHistorySheet({
                 <Text variant="title">{originLabel(entry.origin, guideName)}</Text>
                 <Text variant="bodySm" color={theme.semantic.text.secondary}>
                   {cost === null
-                    ? t({ id: 'planDraft.history.whenDays', message: `${when} · ${days} days` })
+                    ? t({
+                        id: 'planDraft.history.whenDays',
+                        message: `${when} · ${plural(days, { one: '# day', other: '# days' })}`,
+                      })
                     : t({
                         id: 'planDraft.history.whenDaysCost',
-                        message: `${when} · ${days} days · ${cost} each`,
+                        message: `${when} · ${plural(days, { one: '# day', other: '# days' })} · ${cost} each`,
                       })}
                 </Text>
                 {entry.origin.kind !== 'put_back' || entry.current ? null : (

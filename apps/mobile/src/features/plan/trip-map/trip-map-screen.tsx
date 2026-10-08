@@ -5,14 +5,16 @@
  * at in any of the plan's views, else today during the trip, else the first day with stops), reads
  * that day's legs, opens a tapped stop's sheet over the map and SHARE over it.
  */
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import type { MapSheetSnap } from '@/ui/sheet/map-sheet-snap';
 
 import { ItemSheetHost } from '../day/item-sheet-host';
-import { announceEdit, useDayEditing } from '../day/use-day-editing';
+import { useDayEditing } from '../day/use-day-editing';
 import { hubDay } from '../hub/plan-hub';
 import { tripPlanRoutes } from '../hub/routes';
 import { useChosenDay, useOpenOnDate } from './chosen-day';
@@ -40,6 +42,7 @@ export function TripMapScreen({
   const [sharing, setSharing] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const editor = useDayEditing(data.plan);
+  const focused = useIsFocused();
   const known = model.days.some((entry) => entry.dayNo === chosen) ? chosen : null;
   const dayNo =
     known ??
@@ -63,15 +66,13 @@ export function TripMapScreen({
         onDayNo={setChosen}
         route={route}
         initialSnap={sheet}
+        focused={focused}
         onShare={() => setSharing(true)}
         onOpenDay={(n) => {
           setChosen(n);
           router.push(tripPlanRoutes.day(tripId, n));
         }}
-        onBack={() => {
-          if (router.canGoBack()) router.back();
-          else router.replace(hrefFor('3k-1', { tripId }) ?? '/');
-        }}
+        onBack={() => goBackOr(hrefFor('3k-1', { tripId }) ?? '/')}
         onOpenStop={setOpenId}
         onOpenPlace={(placeId) => {
           const place = hrefFor('7e-1', { placeId, tripId });
@@ -86,7 +87,6 @@ export function TripMapScreen({
           item={open}
           slot={{ dayNo: selected.dayNo, date: selected.date ?? '' }}
           editor={editor}
-          announce={announceEdit}
           travel={legTravel(route.legs)}
           onClose={() => setOpenId(null)}
         />

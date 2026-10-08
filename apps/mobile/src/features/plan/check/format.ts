@@ -3,6 +3,8 @@
  * app's own weekday names, drive time ("2H10", "1h05", "45 MIN"), compact money ("RP 60K"), the
  * local time of an instant, and how long ago the check ran.
  */
+import { i18n } from '@lingui/core';
+import { upper } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
 import { minutesOnDay } from '@/data/plan/plan-model';
@@ -40,7 +42,7 @@ export function dayTag(date: string | null): string {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time suffix, never copy.
   const at = new Date(`${date}T12:00:00Z`);
   if (Number.isNaN(at.getTime())) return '';
-  const weekday = shortWeekday(at.getUTCDay()).toUpperCase();
+  const weekday = upper(shortWeekday(at.getUTCDay()), i18n.locale || 'en');
   const day = String(at.getUTCDate());
   return t({ id: 'plan.check.dayTag', message: `${weekday} ${day}` });
 }

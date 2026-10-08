@@ -35,10 +35,6 @@ msgstr "{n, plural, one {Read one taste profile} other {Read # taste profiles}}"
 msgid "planDraft.dayCard.stops"
 msgstr "{stops, plural, one {Day {n} · # stop} other {Day {n} · # stops}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.back"
-msgstr "Back to setup"
-
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.step.balance"
 msgstr "Balancing {early} early birds and {late} night owls"

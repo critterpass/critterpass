@@ -20,7 +20,7 @@ import { startApiHarness, type ApiHarness } from '../../powersync/test-support/s
 import { createFetchTransport } from '../../powersync/transport';
 import { listQueuedCommands } from '../../status/use-queued-commands';
 import { useRejectedCommands } from '../../status/use-rejected-commands';
-import { defineClientCommand } from '../summaries';
+import { defineTestCommand } from '../test-support/test-command';
 
 jest.mock(
   '@powersync/common',
@@ -33,16 +33,16 @@ interface CrewPayload {
   crew_id: string;
   name: string;
 }
-const createCrew = defineClientCommand<CrewPayload>({ name: 'create_test_crew', offline: true });
-const rejectOp = defineClientCommand<Record<string, never>>({
+const createCrew = defineTestCommand<CrewPayload>({ name: 'create_test_crew', offline: true });
+const rejectOp = defineTestCommand<Record<string, never>>({
   name: 'reject_test_op',
   offline: true,
 });
-const createCrewNow = defineClientCommand<CrewPayload>({
+const createCrewNow = defineTestCommand<CrewPayload>({
   name: 'create_test_crew',
   offline: false,
 });
-const registeredOnly = defineClientCommand<CrewPayload>({
+const registeredOnly = defineTestCommand<CrewPayload>({
   name: 'create_registered_crew',
   offline: false,
 });

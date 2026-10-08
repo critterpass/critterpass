@@ -103,7 +103,7 @@ appId: app.critterpass.dev
       id: 'places-peek|places-carousel'
     timeout: 60000
 - tapOn:
-    id: 'places-peek-list|places-carousel-list'
+    id: 'places-to-list'
 - extendedWaitUntil:
     visible:
       id: 'places-[a-z]+-0'
@@ -111,6 +111,16 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: vi-7c-3-fresh-account
+# Outside a trip the list leads with the guide's picks; the menu offers nearest and A–Z.
+- tapOn:
+    id: 'places-sort'
+- extendedWaitUntil:
+    visible:
+      id: 'places-sort-menu'
+    timeout: 10000
+- takeScreenshot: vi-7c-3-no-trip-sort-menu
+- tapOn:
+    id: 'places-sort'
 - tapOn:
     id: 'places-[a-z]+-0'
 - extendedWaitUntil:

@@ -24,6 +24,7 @@ jest.mock('expo-router', () => ({
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { router } from 'expo-router';
 
 import {
   openTestLocalFirst,
@@ -146,6 +147,16 @@ describe('states', () => {
     expect(await screen.findByText(/^say hi to the crew$/iu)).toBeTruthy();
     await fireEvent.press(screen.getByText(/^say hi$/iu));
     expect(screen.getByDisplayValue('👋 ')).toBeTruthy();
+  });
+
+  it('offers a crew of one the way to invite friends', async () => {
+    const s = await open();
+    await seedCrew(s);
+    await s.db.execute('DELETE FROM crew_members WHERE user_id <> ?', [s.uid]);
+    await renderChat(<CrewChat crewId={CREW} />, s);
+    await fireEvent.press(await screen.findByText(/^invite friends$/iu));
+    expect(router.push).toHaveBeenCalledWith(`/crew/${CREW}/invite`);
+    expect(screen.queryByText(/^say hi$/iu)).toBeNull();
   });
 
   it('gives a former member who kept the chat a read-only timeline', async () => {

@@ -22,15 +22,33 @@ export type TimelineRow =
       readonly last: boolean;
     };
 
+const dayFormats = new Map<string, Intl.DateTimeFormat>();
+
 /** `YYYY-MM-DD` of an instant in the viewer's zone. */
 export function dayKey(iso: string, timeZone: string): string {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(new Date(iso));
-  return parts;
+  let format = dayFormats.get(timeZone);
+  if (format === undefined) {
+    format = new Intl.DateTimeFormat('en-CA', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    dayFormats.set(timeZone, format);
+  }
+  return format.format(new Date(iso));
+}
+
+// A message's day is asked for on every rebuild of the rows; a message object that did not change
+// keeps its answer.
+const messageDays = new WeakMap<ChatMessage, { readonly zone: string; readonly day: string }>();
+
+function dayOf(message: ChatMessage, timeZone: string): string {
+  const held = messageDays.get(message);
+  if (held?.zone === timeZone) return held.day;
+  const day = dayKey(message.createdAt, timeZone);
+  messageDays.set(message, { zone: timeZone, day });
+  return day;
 }
 
 function sameRun(a: ChatMessage, b: ChatMessage): boolean {
@@ -48,7 +66,7 @@ export function buildTimelineRows(
   let unreadPlaced = false;
   let previous: ChatMessage | null = null;
   for (const message of messages) {
-    const messageDay = dayKey(message.createdAt, options.timeZone);
+    const messageDay = dayOf(message, options.timeZone);
     let broke = false;
     if (messageDay !== day && message.seq !== null) {
       rows.push({ kind: 'day', key: `day-${messageDay}`, day: messageDay });

@@ -20,6 +20,7 @@ import {
   useShakeToReport,
 } from '@/features/help';
 import { useMoneyDisplay } from '@/data/money';
+import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { mapsAppFor, useChosenMapsApp } from '@/features/go';
@@ -28,7 +29,7 @@ import { PermissionsSection } from '@/ui/permission-primer/PermissionsSection';
 
 import { usePingPrefs } from '../ping-settings/use-ping-prefs';
 import { deviceAccountServices, type AccountServices } from '../account/account-services';
-import { useAccountRead } from '../account/use-account';
+import { accountRows, useAccountRead, useOnline } from '../account/use-account';
 import { exportLine } from '../export/export-copy';
 import { useDataExport } from '../export/use-data-export';
 import { languageLine } from '../language/currency-model';
@@ -64,7 +65,8 @@ export function SettingsScreen({
   const { t } = useLingui();
   const prefs = useFeedbackPrefs();
   const locale = useLocale();
-  const account = useAccountRead(services);
+  const { network } = useLocalFirst();
+  const account = useAccountRead(services, useOnline(network));
   const synced = useSyncedSettings();
   const helpShare = useHelpShareConsent();
   const pings = usePingPrefs();
@@ -99,7 +101,7 @@ export function SettingsScreen({
       soundEffects: prefs.categoryEnabled[STICKER_SOUNDS],
       music: musicLine,
       mapsApp: Platform.OS === 'ios' ? mapsAppFor('ios', chosenMapsApp) : null,
-      account: account?.kind === 'ok',
+      account: accountRows(account),
       language: languageLine(nativeNameOf(locale), money),
       appIcon: hasAlternateAppIcons(),
       shakeToReport: shakeToReportAvailable() ? shakeToReport : null,

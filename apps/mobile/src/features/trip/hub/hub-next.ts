@@ -5,13 +5,15 @@
  * labelled with its day and opening that day. After the trip, rows open its recap, the places to
  * rate for the next crew, and sharing the plan with other crews.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- route paths and icon names, never copy. */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
+
+import { openInTabs } from '@/lib/navigation/open-in-tabs';
 
 import { clockIn } from '../leave-by/model';
 import type { HubRows } from './data/use-hub';
 import { entryLabel, landsAt, leaveByLabel, nextUpLabel, shortDay } from './hub-copy';
+import { walletHref } from './hub-links';
 import type { HubHeader } from './hub-model';
 import type { HubNext } from './next-row';
 import { tripDayRoute } from './routes';
@@ -87,7 +89,7 @@ export function hubEntries(input: {
         detail: flight.arrivesAt === null ? null : landsAt(clockIn(flight.arrivesAt, tz, locale)),
         tone: 'raised',
         testID: 'trip-hub-next',
-        onPress: () => router.push('/(tabs)/wallet/bookings'),
+        onPress: () => openInTabs(walletHref(tripId, 'bookings')),
       },
     ];
   }

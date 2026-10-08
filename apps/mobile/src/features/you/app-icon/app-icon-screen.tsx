@@ -10,10 +10,12 @@ import type { AppIconBaseId } from '@cp/domain';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useCommand } from '@/data/commands/use-command';
 import { bundledAppIconKeys, nativeIconName } from '@/lib/app-icon';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
+import { YOU_ROUTES } from '../routes';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { setAppIconCommand } from './app-icon-command';
 import { APP_ICON_PREVIEWS } from './app-icon-previews';
@@ -116,7 +118,7 @@ export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: Ap
         switching={switching}
         problem={problem}
         onChoose={(choice) => void choose(choice)}
-        onBack={() => router.back()}
+        onBack={() => goBackOr(YOU_ROUTES.settings)}
       />
     </>
   );

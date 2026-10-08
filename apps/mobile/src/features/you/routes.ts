@@ -26,6 +26,13 @@ export const YOU_ROUTES = {
   offlineStorage: '/(trip)/hub/offline-storage',
 } as const satisfies Readonly<Record<string, Href>>;
 
+/** A crew's own page and starting a new one (the crew area's screens), opened from the profile. */
+export const crewHref = (crewId: string): Href => ({
+  pathname: '/crew/[crewId]',
+  params: { crewId },
+});
+export const NEW_CREW_ROUTE: Href = '/crew/new';
+
 export const YOU_SCREENS: Readonly<Record<string, Href>> = {
   '3n-1': YOU_ROUTES.profile,
   '3n-2': YOU_ROUTES.settings,

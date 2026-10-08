@@ -27,6 +27,15 @@ appId: app.critterpass.dev
     env: { SCENE: history, READY: money-history, SHOT: '${PREFIX}-money-history' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: history-none, READY: money-history-none, SHOT: '${PREFIX}-money-history-none' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: expense-gone, READY: money-expense-gone, SHOT: '${PREFIX}-money-expense-gone' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: payment-gone, READY: money-payment-gone, SHOT: '${PREFIX}-money-payment-gone' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: expense, READY: money-expense-detail, SHOT: '${PREFIX}-money-expense' }
 - runFlow:
     file: scene.yaml

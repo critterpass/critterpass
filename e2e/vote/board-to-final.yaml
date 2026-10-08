@@ -6,7 +6,8 @@ appId: app.critterpass.dev
 #
 # Data: a fresh account onboards, then the staging demo seed's `vote` scenario gives it Bali Demo
 # Crew's open destination vote, organised by the account: four places on the board, Kyoto and
-# Lisbon two ballots each, so GO TO THE FINAL needs no pick.
+# Lisbon two ballots each, so GO TO THE FINAL needs no pick. On the way, a long press on a place
+# opens the question that takes it off the board, and Cancel keeps it.
 - launchApp:
     clearState: true
 - runFlow: ../home/subflows/onboard.yaml
@@ -21,6 +22,21 @@ appId: app.critterpass.dev
     timeout: 20000
     centerElement: true
 # A tap while the scroll is still coasting only stops it, so let it settle first.
+- waitForAnimationToEnd
+# A long press on a place asks before taking it off the board; Cancel leaves the board as it was.
+- longPressOn:
+    id: 'board-sticker-0'
+- extendedWaitUntil:
+    visible:
+      id: 'board-remove-confirm'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-2-remove-place
+- tapOn: '(?i)cancel'
+- extendedWaitUntil:
+    notVisible:
+      id: 'board-remove-confirm'
+    timeout: 10000
 - waitForAnimationToEnd
 - tapOn:
     id: 'board-go-to-final'

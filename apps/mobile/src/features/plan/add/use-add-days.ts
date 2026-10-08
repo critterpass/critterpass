@@ -2,6 +2,7 @@
  * The trip's dated days as Add to plan shows them: each named by its date ("SAT 17 OCT"), the
  * chips (weekday over date) with their fit dots, and the month the weather reasons name.
  */
+import { upper } from '@cp/i18n';
 import type { DayFit } from '@cp/domain';
 import { useMemo } from 'react';
 
@@ -34,9 +35,9 @@ export function useAddDays(plan: TripPlan, locale: string) {
   };
   const labelOf = (dayNo: number): string => {
     const date = days.find((entry) => entry.dayNo === dayNo)?.date;
-    const name = date === undefined ? String(dayNo) : dayName(locale, date).toUpperCase();
+    const name = date === undefined ? String(dayNo) : upper(dayName(locale, date), locale);
     const area = areaOf(dayNo);
-    return area === null || area === '' ? name : `${name} · ${area.toUpperCase()}`;
+    return area === null || area === '' ? name : `${name} · ${upper(area, locale)}`;
   };
   const chips = (grades: ReadonlyMap<number, DayFit['grade']>): DayChip[] =>
     days.map((entry) => ({

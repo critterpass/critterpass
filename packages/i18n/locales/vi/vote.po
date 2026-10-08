@@ -69,33 +69,6 @@ msgstr "{0} chịu thua vui vẻ. Đang rủ chuyến sau rồi."
 msgid "vote.poll.votes"
 msgstr "{0} phiếu"
 
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
-#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
-msgid "vote.showdown.votes"
-msgstr "{0} phiếu"
-
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
-msgid "vote.showdown.count"
-msgstr "{0} phiếu"
-
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
-msgid "vote.pick.votes"
-msgstr "{0} phiếu"
-
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/board/sticker.tsx
-msgid "vote.board.votes"
-msgstr "{0} phiếu"
-
-#. placeholder {0}: second.votes
-#. placeholder {1}: lines.toGo ?? ''
-#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
-msgid "vote.showdown.tally"
-msgstr "{0} phiếu · {1}"
-
 #. placeholder {0}: winner.label
 #: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
 msgid "vote.result.won"
@@ -115,6 +88,10 @@ msgstr "{0} tiếng từ {1}"
 #: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 msgid "vote.poll.byline"
 msgstr "Bình chọn của {askerName}"
+
+#: ../../apps/mobile/src/features/vote/board/sticker.tsx
+msgid "vote.board.votes"
+msgstr "{count, plural, other {# phiếu}}"
 
 #: ../../apps/mobile/src/features/vote/places/result-row.tsx
 msgid "vote.search.localMany"
@@ -171,6 +148,16 @@ msgstr "{organiserName} đã chọn"
 #: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
 msgid "vote.quickCrew.defaultName"
 msgstr "Hội {placeName}"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.showdown.count"
+msgstr "{votes, plural, other {# phiếu}}"
+
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.votes"
+msgstr "{votes, plural, other {# phiếu}}"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.lockedIn"
@@ -239,8 +226,16 @@ msgid "vote.final.tieShort"
 msgstr "Nếu hòa, {tiePlace} thắng."
 
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.needsQuestion"
+msgstr "Thêm câu hỏi để đăng."
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.addOption"
 msgstr "Thêm lựa chọn"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.needsAnswers"
+msgstr "Thêm ít nhất hai câu trả lời."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 msgid "vote.pitch.add"
@@ -278,7 +273,7 @@ msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.backHome"
-msgstr ""
+msgstr "Về trang chủ"
 
 #. placeholder {0}: chip.months.map((m) => monthShort(locale, m)).join(' · ')
 #: ../../apps/mobile/src/features/vote/final/showdown-facts.tsx
@@ -380,10 +375,18 @@ msgstr "Vào chung kết"
 msgid "vote.guest.guestGuide"
 msgstr "Hướng dẫn khách mời: {0}"
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.back"
+msgstr "Trang chủ"
+
 #. placeholder {0}: place.name
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.learningLine"
 msgstr "Mình vẫn đang tìm hiểu {0}. Chưa ai kiểm tra các gợi ý của mình ở đây."
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.missingLine"
+msgstr "Có thể đã kết thúc, hoặc máy này chưa nhận được."
 
 #. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
 #. placeholder {1}: tie.memberCount
@@ -392,6 +395,10 @@ msgstr "Mình vẫn đang tìm hiểu {0}. Chưa ai kiểm tra các gợi ý c�
 msgid "vote.reveal.tie"
 msgstr "Hai bên hòa. {winnerName} thắng: rẻ hơn {0} cho {1} người bay từ {2}."
 
+#: ../../apps/mobile/src/features/vote/board/remove-sheet.tsx
+msgid "vote.board.removeVotes"
+msgstr "Phiếu của nơi này mất theo, còn lời giới thiệu thì quay về bộ bài."
+
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.title"
 msgstr "Chỉ mình bạn, {placeName}"
@@ -399,6 +406,14 @@ msgstr "Chỉ mình bạn, {placeName}"
 #: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
 msgid "vote.poll.loading"
 msgstr "Đang tải bình chọn"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.loading"
+msgstr "Đang tải kết quả"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.loading"
+msgstr "Đang tải cuộc bình chọn"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.lockIn"
@@ -470,6 +485,10 @@ msgstr "Đã ghi nhận. Bọn mình sẽ xem {q}."
 msgid "vote.search.none"
 msgstr "Chưa có nơi nào tên “{0}”."
 
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.none"
+msgstr "Chưa có nơi nào tên “{asked}”. Xem lại chính tả, hoặc thử tên nước."
+
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.open"
 msgstr "Mở bình chọn"
@@ -531,7 +550,7 @@ msgstr "Đang chờ giá"
 msgid "vote.newPoll.question"
 msgstr "Câu hỏi"
 
-#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/board/remove-sheet.tsx
 msgid "vote.board.remove"
 msgstr "Gỡ"
 
@@ -539,9 +558,18 @@ msgstr "Gỡ"
 msgid "vote.pitch.search"
 msgstr "Tìm một nơi"
 
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.pitch.searchFailed"
+msgstr "Tìm kiếm chưa trả lời. Thử lại sau chút nhé."
+
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.title"
 msgstr "Tìm địa điểm"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.searching"
+msgstr "Đang tìm địa điểm"
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.setUp"
@@ -571,7 +599,7 @@ msgstr "Lập nhóm và giới thiệu"
 msgid "vote.guest.ai"
 msgstr "AI tóm tắt từ các trang này"
 
-#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/board/remove-sheet.tsx
 msgid "vote.board.removeTitle"
 msgstr "Gỡ {name} khỏi bảng?"
 
@@ -627,6 +655,10 @@ msgstr "Người tổ chức sẽ lên kế hoạch tiếp."
 msgid "vote.pitch.errorTitle"
 msgstr "Lời giới thiệu chưa tới"
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.missingLine"
+msgstr "Cuộc bình chọn có thể đã bị gỡ, hoặc máy này chưa nhận được."
+
 #: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
 msgid "vote.pick.body"
 msgstr "Mấy nơi này đang hòa suất cuối. Bạn là người tổ chức, bạn quyết."
@@ -634,6 +666,14 @@ msgstr "Mấy nơi này đang hòa suất cuối. Bạn là người tổ chức
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.error"
 msgstr "Nơi này chưa tải được. Thử lại nhé?"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.missingTitle"
+msgstr "Kết quả này không có ở đây"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.missingTitle"
+msgstr "Cuộc bình chọn này không có ở đây"
 
 #: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
 msgid "vote.guest.retry"
@@ -646,6 +686,10 @@ msgstr "Thử lại"
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
 msgid "vote.pitch.retry"
 msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.sameAnswers"
+msgstr "Có hai câu trả lời giống nhau."
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.finalShort"

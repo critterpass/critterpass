@@ -15,6 +15,7 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
+import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { useLiveQuery } from '../chat/data/live-rows';
 import { useGuideContext } from '../chat/data/use-guide-context';
@@ -94,7 +95,11 @@ export interface PracticeScreenProps {
 
 export function PracticeScreen(props: PracticeScreenProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <OpenPracticeScreen {...props} />;
+  return localFirst === null ? (
+    <SessionWaiting testID="guide-practice-waiting" />
+  ) : (
+    <OpenPracticeScreen {...props} />
+  );
 }
 
 function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScreenProps) {

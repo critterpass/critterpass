@@ -4,25 +4,16 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- format values, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { I18nManager, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { DistanceUnit, TimeFormat } from '@/lib/i18n/formats';
 import { RadioCard } from '@/ui/inputs/RadioCard';
-import { Stack } from '@/ui/layout/Stack';
-import { PressScale } from '@/ui/press/PressScale';
+import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles } from '@/ui/theme';
 
 const useStyles = makeStyles((t) => ({
-  group: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, overflow: 'hidden' },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: t.space['12'],
-    paddingHorizontal: t.size.cardInner.max,
-    paddingVertical: t.space['14'],
-  },
   body: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['20'], gap: t.space['10'] },
 }));
 
@@ -46,34 +37,24 @@ export function FormatsSection(props: {
   readonly onOpen: () => void;
 }) {
   const { t } = useLingui();
-  const styles = useStyles();
-  const theme = useTheme();
   const words = useFormatWords();
   const title = t({ id: 'you.formats.row', message: 'Time and distance' });
   const value = `${words.time(props.time)} · ${words.distance(props.distance)}`;
   return (
-    <Stack gap="8" testID="you-formats">
-      <Text variant="eyebrow" accessibilityRole="header">
-        {t({ id: 'you.formats.title', message: 'Formats' })}
-      </Text>
-      <View style={styles.group}>
-        <PressScale
-          onPress={props.onOpen}
-          widthClass="wide"
-          accessibilityRole="button"
-          accessibilityLabel={`${title}, ${value}`}
-          style={styles.row}
-          testID="you-formats-row"
-        >
-          <Text variant="rowTitle" style={{ flex: 1 }}>
-            {title}
-          </Text>
-          <Text variant="rowTitle" color={theme.semantic.action.primary}>
-            {`${value} ${I18nManager.isRTL ? '‹' : '›'}`}
-          </Text>
-        </PressScale>
-      </View>
-    </Stack>
+    <SettingsGroup
+      title={t({ id: 'you.formats.title', message: 'Formats' })}
+      rows={[
+        {
+          key: 'formats',
+          kind: 'value',
+          title,
+          value,
+          onPress: props.onOpen,
+          testID: 'you-formats-row',
+        },
+      ]}
+      testID="you-formats"
+    />
   );
 }
 

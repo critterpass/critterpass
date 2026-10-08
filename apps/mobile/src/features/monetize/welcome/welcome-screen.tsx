@@ -15,6 +15,7 @@ import { deviceTier, impact } from '@/motion';
 import { useMotionMode } from '@/motion/motion-mode';
 import { triggerConfetti } from '@/motion/patterns/confetti';
 
+import { closePurchaseModals } from '../close-modals';
 import { useBillingRows } from '../data/use-billing-rows';
 import { perkLines } from '../perks/perk-copy';
 import { usePlanLine } from '../plan/plan-copy';
@@ -62,7 +63,7 @@ export function WelcomeScreen() {
       perks={perks}
       renewal={passPlus ? planLine(plan) : null}
       onPickIcon={icons === undefined ? undefined : () => router.replace(icons)}
-      onDone={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onDone={closePurchaseModals}
     />
   );
 }

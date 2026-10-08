@@ -63,6 +63,8 @@ export interface TripDay {
   readonly personal?: ReadonlyMap<string, PersonalMark> | undefined;
   /** Stops only I have on this day, in time order: listed under the day, never part of its route. */
   readonly mine?: readonly DayItem[] | undefined;
+  /** Stops a change the crew is still deciding on touches (mine or a crewmate's), by stable id. */
+  readonly suggested?: ReadonlySet<string> | undefined;
   /** Set on a day trip only: a day in the trip's own city carries nothing new. */
   readonly area?: TripDayArea | undefined;
   /** The day is at a later stop of a trip with several cities. */
@@ -82,6 +84,8 @@ export interface TripDaysInput {
   readonly personal?:
     | { readonly layer: PersonalLayer; readonly display: ReadonlyMap<string, ItemDisplay> }
     | undefined;
+  /** Stable ids an open or queued suggestion touches (`TripPlan.proposed`). */
+  readonly suggested?: { has: (stableId: string) => boolean } | undefined;
   /** The days spent away from the trip's first stop, by day number; absent for a one-stop trip. */
   readonly areas?:
     ReadonlyMap<number, { readonly area?: TripDayArea; readonly laterStop?: true }> | undefined;
@@ -187,6 +191,9 @@ export function buildTripDays(input: TripDaysInput): TripDay[] {
             input.tz,
           ).filter(isStop);
     const away = input.areas?.get(dayNo);
+    const suggested = stops
+      .filter((stop) => input.suggested?.has(stop.stableId) === true)
+      .map((stop) => stop.stableId);
     return {
       dayNo,
       dayId,
@@ -204,6 +211,7 @@ export function buildTripDays(input: TripDaysInput): TripDay[] {
       tag: tagOf(issues, vote, booked),
       ...(marks.length === 0 ? {} : { personal: new Map(marks) }),
       ...(mine.length === 0 ? {} : { mine }),
+      ...(suggested.length === 0 ? {} : { suggested: new Set(suggested) }),
       ...(away?.area === undefined ? {} : { area: away.area }),
       ...(away?.laterStop === undefined ? {} : { laterStop: true as const }),
     };

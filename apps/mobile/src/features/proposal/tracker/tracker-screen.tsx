@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -25,6 +26,7 @@ import { useProposalTrip } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import {
+  failedLine,
   lockConfirmLabel,
   lockConsequences,
   lockCopy,
@@ -78,7 +80,12 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   }, [member, proposalId]);
 
   if (proposal == null || trip == null || member) {
-    return <ProposalLoading testID="tracker-loading" />;
+    return (
+      <ProposalLoading
+        missing={!member && (proposal === null || trip === null)}
+        testID="tracker-loading"
+      />
+    );
   }
   const recipients = trip.people.filter((p) => !p.organiser);
   const status = lockedNow ? 'locked' : proposal.status;
@@ -101,10 +108,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
       toast.show({
         id: 'proposal-lock-failed',
         title: t({ id: 'proposal.lock.failed', message: 'Couldn’t lock it in' }),
-        subtitle: t({
-          id: 'proposal.lock.failedSub',
-          message: 'Check your connection and try again.',
-        }),
+        subtitle: failedLine(result),
       });
     }
   };
@@ -154,7 +158,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
         lockLabel={copy.label}
         lockNote={copy.note}
         locking={lock.pending}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        onBack={() => goBackOr()}
         onLock={() => setAsking(true)}
       />
       {asking && (state.kind === 'ready' || state.kind === 'alone') ? (

@@ -12,8 +12,12 @@ msgstr ""
 msgid "crew.sheet.members"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.createdTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.inDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
@@ -26,10 +30,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.planning"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.inDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
@@ -105,6 +105,15 @@ msgstr ""
 msgid "crew.referral.at"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.backPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.codeCopied"
 msgstr ""
@@ -137,7 +146,7 @@ msgstr ""
 msgid "crew.composer.previewCrew"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeLabel"
 msgstr ""
 
@@ -146,7 +155,7 @@ msgid "crew.composer.codeLabel"
 msgstr ""
 
 #. placeholder {0}: code.split('').join(' ')
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeA11y"
 msgstr ""
 
@@ -178,15 +187,11 @@ msgstr ""
 msgid "crew.start.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/members/MembersList.tsx
 msgid "crew.members.ringDashed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.done"
 msgstr ""
 
@@ -222,6 +227,14 @@ msgstr ""
 msgid "crew.settings.leaveRoles"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.invite"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.title"
 msgstr ""
@@ -234,8 +247,8 @@ msgstr ""
 msgid "crew.composer.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.offline"
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateNamed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
@@ -247,7 +260,7 @@ msgid "crew.sheet.join"
 msgstr ""
 
 #. placeholder {0}: services.inviteUrl(code)
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.shareMessage"
 msgstr ""
 
@@ -295,6 +308,10 @@ msgstr ""
 msgid "crew.composer.copied"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/members/MembersList.tsx
 msgid "crew.members.member"
 msgstr ""
@@ -325,6 +342,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.rotate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rotated"
 msgstr ""
 
 #. placeholder {0}: p.name
@@ -404,6 +425,10 @@ msgstr ""
 msgid "crew.members.removeTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateConfirm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.save"
 msgstr ""
@@ -416,7 +441,7 @@ msgstr ""
 msgid "crew.composer.signIn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeBody"
 msgstr ""
 
@@ -436,7 +461,7 @@ msgstr ""
 msgid "crew.referral.share"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.share"
 msgstr ""
 
@@ -472,12 +497,12 @@ msgstr ""
 msgid "crew.waitlist.take"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.failed"
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.didNotGoThrough"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.failed"
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
@@ -488,11 +513,19 @@ msgstr ""
 msgid "crew.composer.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/settings/use-crew-rename.ts
+msgid "crew.settings.renameRefused"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.missed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateOld"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeComing"
 msgstr ""
 
@@ -528,6 +561,10 @@ msgstr ""
 msgid "crew.composer.previewHead"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+msgid "crew.composer.notSynced"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.missing"
 msgstr ""
@@ -556,6 +593,10 @@ msgstr ""
 msgid "crew.composer.mode"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.you"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.back"
 msgstr ""
@@ -576,6 +617,14 @@ msgstr ""
 msgid "crew.waitlist.taken"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.crewLimit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.invited"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.next"
 msgstr ""
@@ -584,7 +633,11 @@ msgstr ""
 msgid "crew.waitlist.number"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.needsSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeLater"
 msgstr ""
 

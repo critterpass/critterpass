@@ -6,14 +6,18 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { toLocalWallTime } from '@cp/domain';
+import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
+import { goBackOr } from '@/lib/navigation/back';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
 import { useLiveRows } from '../../hub/data/live-rows';
 import { guideOr } from '../../hub/guide';
+import { tripDayRoute, TRIPS_TAB } from '../../hub/routes';
 import { ForecastView } from './forecast-view';
 import { forecastModel, type DayRow, type SnapshotRow, type WatchRowData } from './model';
 
@@ -59,11 +63,16 @@ export function ForecastScreen({ tripId }: { readonly tripId: string }) {
     const now = new Date();
     return forecastModel(snapshots.rows, watch.rows, toLocalWallTime(now, tz).date, now);
   }, [snapshots.rows, watch.rows, tz]);
+  const back = t({ id: 'trip.disruptions.flight.backTo', message: 'Trip' });
+  // A trip that is not on this phone has no forecast: "all clear" would be a guess.
+  if (tripRows.loaded && trip === undefined) {
+    return <ScreenMissing backLabel={back} fallback={TRIPS_TAB} testID="forecast-missing" />;
+  }
   return (
     <ForecastView
       state={tripRows.loaded && watch.loaded ? 'ready' : 'loading'}
       model={model}
-      place={trip?.place ?? ''}
+      place={trip?.place ?? back}
       tz={tz}
       guide={guideOr(trip?.guide_slug)}
       offline={syncPhase === 'offline'}
@@ -75,7 +84,7 @@ export function ForecastScreen({ tripId }: { readonly tripId: string }) {
         title: words('watch_item', entry.row, 'title') ?? entry.row.title,
         detail: words('watch_item', entry.row, 'detail') ?? entry.row.detail,
       })}
-      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onBack={() => goBackOr(tripDayRoute(tripId, null))}
       onOpenStorm={(pollId) =>
         router.push({ pathname: '/(trip)/storm/[pollId]', params: { pollId } })
       }

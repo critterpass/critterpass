@@ -26,6 +26,18 @@ import type { TripDayServices } from './services';
 
 export { BUNDLE_KIND, savedDayId, type SavedAsset, type SavedDay };
 
+/** A saved day's row read back; null for a row that is not one (a damaged write must not take a screen down). */
+export function parseSavedDay(data: string): SavedDay | null {
+  try {
+    const day = JSON.parse(data) as Partial<SavedDay> | null;
+    return day !== null && Array.isArray(day.assets) && Array.isArray(day.missing)
+      ? (day as SavedDay)
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Below this much free space the map is left out (tickets and phrases still come). */
 export const MAP_MIN_FREE_BYTES = 200 * 1024 * 1024;
 

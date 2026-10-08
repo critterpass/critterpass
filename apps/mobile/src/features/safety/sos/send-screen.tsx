@@ -8,8 +8,7 @@ import { generateUuidV7, SOS_DAILY_CONFIRM_AFTER, type SosPreset } from '@cp/dom
 import { useLingui } from '@lingui/react/macro';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Linking, Platform, StyleSheet, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
@@ -20,6 +19,8 @@ import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { Icon } from '@/ui/icons/Icon';
 import { SlideToConfirm } from '@/ui/inputs/SlideToConfirm';
 import { TextField } from '@/ui/inputs/TextField';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
@@ -36,11 +37,11 @@ import { safetyRoutes } from '../routes';
 import { PHONES_SQL, PHONES_TABLES, PLATFORM, TODAY_SQL, TODAY_TABLES } from './send-queries';
 import { mapsLink, smsUrl } from './sms-fallback';
 import { useCountdown } from './use-countdown';
+import { useSendOnce } from './use-send-once';
 
 export function SosSendScreen() {
   const { t } = useLingui();
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ tripId?: string }>();
   const asked = typeof params.tripId === 'string' && params.tripId !== '' ? params.tripId : null;
   const hub = useHelpHub(deviceHelpApi, asked);
@@ -65,12 +66,12 @@ export function SosSendScreen() {
     PHONES_TABLES,
   ).rows.map((row) => row.phone_display);
 
-  async function send() {
-    if (tripId === null) return;
+  async function send(): Promise<boolean> {
+    if (tripId === null) return false;
     const sosId = generateUuidV7();
     const at = hub.position ?? (await coarsePosition());
     const words = text.trim();
-    await trigger.send({
+    const result = await trigger.send({
       trip_id: tripId,
       sos_id: sosId,
       ...(preset === null ? {} : { preset }),
@@ -80,6 +81,7 @@ export function SosSendScreen() {
         : { fix: { lat: at.lat, lng: at.lng, acc: 100, at: new Date().toISOString() } }),
       ...(hub.model.placeLabel === null ? {} : { place_label: hub.model.placeLabel.slice(0, 120) }),
     });
+    if (result.kind === 'rejected' || result.kind === 'unavailable') return false;
     if (syncPhase === 'offline' && phones.length > 0) {
       const link = mapsLink(at);
       const body =
@@ -94,9 +96,11 @@ export function SosSendScreen() {
       );
     }
     router.replace(safetyRoutes.sos(sosId, true));
+    return true;
   }
 
-  const countdown = useCountdown(() => void send());
+  const once = useSendOnce(send);
+  const countdown = useCountdown(once.fire);
   const presets: readonly { id: SosPreset; label: string }[] = [
     { id: 'fell', label: t({ id: 'safety.preset.fell', message: 'I fell' }) },
     { id: 'lost', label: t({ id: 'safety.preset.lost', message: "I'm lost" }) },
@@ -106,16 +110,17 @@ export function SosSendScreen() {
   const general = hub.model.general.number;
   const left = countdown.left;
   return (
-    <Scaffold variant="dark" testID="sos-send-screen">
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
+    <Scaffold variant="dark" edges={['top']} testID="sos-send-screen">
+      <KeyboardScrollView
         contentContainerStyle={{
           padding: theme.size.gutter,
-          paddingBottom: insets.bottom + theme.space['32'],
           gap: theme.space['20'],
         }}
       >
-        <BackEyebrow label={t({ id: 'safety.back.help', message: 'Help' })} />
+        <BackEyebrow
+          label={t({ id: 'safety.back.help', message: 'Help' })}
+          fallback={safetyRoutes.help(tripId ?? undefined)}
+        />
         <Text variant="h1" accessibilityRole="header">
           {t({ id: 'safety.send.title', message: 'SOS to your crew' })}
         </Text>
@@ -144,11 +149,25 @@ export function SosSendScreen() {
           maxLines={3}
           testID="sos-text"
         />
-        {left === null ? (
+      </KeyboardScrollView>
+      <KeyboardFooter>
+        {once.failed ? (
+          <Text variant="body" color={theme.semantic.state.warning} testID="sos-send-failed">
+            {t({
+              id: 'safety.send.failed',
+              message: `Your SOS didn't go out. Slide to try again, or call ${general}.`,
+            })}
+          </Text>
+        ) : null}
+        {once.sending ? (
+          <Text variant="h2" accessibilityLiveRegion="assertive" testID="sos-sending">
+            {t({ id: 'safety.send.sending', message: 'Sending…' })}
+          </Text>
+        ) : left === null ? (
           <SlideToConfirm
             label={t({ id: 'safety.send.slide', message: 'Slide to send SOS' })}
             actionLabel={t({ id: 'safety.send.action', message: 'Send SOS' })}
-            disabled={tripId === null || trigger.pending}
+            disabled={tripId === null}
             knob={
               <View testID="sos-knob" style={styles.knob}>
                 <Icon name="bell" size={28} color={theme.color.ink['950']} decorative />
@@ -173,7 +192,7 @@ export function SosSendScreen() {
             />
           </Stack>
         )}
-      </ScrollView>
+      </KeyboardFooter>
       {confirming ? (
         <ConfirmSheet
           title={t({ id: 'safety.send.againTitle', message: 'Send another SOS today?' })}
