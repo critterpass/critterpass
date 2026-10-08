@@ -5,7 +5,7 @@
  * part in; a candidate id is used once.
  */
 import { withSystem } from '@cp/db';
-import { generateUuidV7 } from '@cp/domain';
+import { generateUuidV7, importParseJobSchema } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { MoneyCrew, MoneyHarness } from '../money/money-harness';
@@ -136,6 +136,21 @@ describe('import_scan', () => {
     expect(await requestedEvents(candidateId)).toMatchObject([
       { actor_id: outsider.uid, crew_id: null, trip_id: null },
     ]);
+  });
+
+  it('queues a scan longer than the parser reads as its first whole lines', async () => {
+    const candidateId = generateUuidV7();
+    // The longest scan the command takes: 400 lines of 500 characters.
+    const lines = Array.from({ length: 400 }, (_, n) => String(n % 10).repeat(500));
+    const response = await harness.run(maya, 'import_scan', {
+      candidate_id: candidateId,
+      ocr_lines: lines,
+    });
+    expect(resultOf(response)).toEqual({ candidate_id: candidateId });
+    const [job] = await parseJobs(candidateId);
+    // 39 lines and their breaks are 19,538 characters; a fortieth would pass 20,000.
+    expect(job?.['text']).toBe(lines.slice(0, 39).join('\n'));
+    expect(importParseJobSchema.safeParse(job).success).toBe(true);
   });
 
   it('refuses a trip the caller is outside of, or in the crew but not going on', async () => {
