@@ -32,6 +32,20 @@ if (process.env.APP_VARIANT === 'production') {
       : [];
 
   config.resolver.blockList = [...blockList, devRoutePattern];
+
+  // The app's catalog registry (packages/i18n/src/catalog-registry/index.native.ts) adds the
+  // pseudo-locale through `./mobile/pseudo`; a production bundle gets the empty `no-pseudo` instead,
+  // so the pseudo-locale's catalogs never ship to the store.
+  const registryDir = path.resolve(__dirname, '../../packages/i18n/src/catalog-registry');
+  const resolveRequest = config.resolver.resolveRequest;
+  config.resolver.resolveRequest = (context, moduleName, platform) => {
+    const fromRegistry = path.dirname(context.originModulePath) === registryDir;
+    const target =
+      fromRegistry && moduleName === './mobile/pseudo' ? './mobile/no-pseudo' : moduleName;
+    return resolveRequest
+      ? resolveRequest(context, target, platform)
+      : context.resolveRequest(context, target, platform);
+  };
 }
 
 module.exports = config;
