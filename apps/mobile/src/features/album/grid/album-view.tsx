@@ -13,6 +13,7 @@ import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Segmented } from '@/ui/inputs/Segmented';
@@ -21,6 +22,7 @@ import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { LargeTitle } from '@/ui/shell/LargeTitle';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -172,6 +174,14 @@ export function AlbumView(props: AlbumViewProps) {
             <EmptyState
               guide={props.guide}
               guideName={props.guideName}
+              sticker={
+                <Sticker
+                  kind={guideSticker(props.guide).kind}
+                  name={props.guideName}
+                  pose="sleep"
+                  size={120}
+                />
+              }
               title={t({ id: 'album.empty.title', message: 'No photos yet' })}
               line={t({
                 id: 'album.empty.line',
