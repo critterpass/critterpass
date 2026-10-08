@@ -15,6 +15,7 @@ import { applyMoneyDisplay, useMoneyDisplay } from '@/data/money';
 import { useFormats, type DistanceUnit, type TimeFormat } from '@/lib/i18n/formats';
 import { setLocale } from '@/lib/i18n/set-locale';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useCommandFeedback } from '@/motion/island-toast';
 
 import { setSettingsCommand } from '../settings/use-synced-settings';
 import { currencyLines } from './currency-model';
@@ -23,6 +24,8 @@ import { CurrencySheet } from './currency-sheet';
 import { FormatsSection, FormatsSheet } from './formats-section';
 import { featuredLanguages, languageChoices } from './language-names';
 import { LanguageView } from './language-view';
+
+const LANGUAGE_TOAST = 'you-language';
 
 export function LanguageScreen({
   switchTo = (code: string) => setLocale(code),
@@ -47,6 +50,7 @@ export function LanguageScreen({
       : '24h');
   const display = useMoneyDisplay();
   const { send } = useCommand(setSettingsCommand);
+  const { report } = useCommandFeedback();
   const { featured, more } = featuredLanguages(languageChoices(current), deviceLanguages);
   const lines = currencyLines(display, current, now());
 
@@ -54,7 +58,10 @@ export function LanguageScreen({
     if (code === current || switching !== null) return;
     setSwitching(code);
     void switchTo(code)
-      .catch(() => undefined)
+      .catch(() =>
+        // The language's words could not be loaded: the app stays as it was, and says why.
+        report({ kind: 'unavailable' }, { id: LANGUAGE_TOAST }),
+      )
       .finally(() => setSwitching(null));
   };
   const setMode = (mode: PriceDisplayMode) => {

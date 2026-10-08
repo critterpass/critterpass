@@ -6,11 +6,12 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useAnalytics } from '@/lib/analytics';
 
 import { useHelpArticles } from '../data/use-help-articles';
-import { articleHref, feedbackHref } from '../routes';
+import { articleHref, feedbackHref, HELP_ROUTES } from '../routes';
 import { ReaderView } from './ReaderView';
 
 export function ReaderScreen() {
@@ -41,7 +42,7 @@ export function ReaderScreen() {
       onAskHuman={() =>
         router.push(feedbackHref({ mode: 'feedback', ...(slug ? { article: slug } : {}) }))
       }
-      onBack={() => router.back()}
+      onBack={() => goBackOr(HELP_ROUTES.hub)}
     />
   );
 }

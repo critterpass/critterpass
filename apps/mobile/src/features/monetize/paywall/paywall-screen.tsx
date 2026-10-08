@@ -8,6 +8,7 @@ import { format } from '@cp/i18n';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { RiseModal } from '@/ui/sheet/RiseModal';
@@ -58,7 +59,7 @@ export function PaywallScreen() {
       closeSide="start"
       onDismiss={() => {
         if (!rows.passPlus && state.status !== 'done') quietNo();
-        router.back();
+        goBackOr();
       }}
       testID="paywall-rise"
     >

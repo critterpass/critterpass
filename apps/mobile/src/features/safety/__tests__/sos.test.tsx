@@ -4,6 +4,7 @@ import { act, renderHook } from '@testing-library/react-native';
 import { buildSosModel, senderBubble, type SosRow } from '../sos/sos-model';
 import { smsUrl } from '../sos/sms-fallback';
 import { useCountdown } from '../sos/use-countdown';
+import { useSendOnce } from '../sos/use-send-once';
 
 const SENDER = 'u-jordan';
 const ALEX = 'u-alex';
@@ -127,6 +128,68 @@ describe('SOS cancel window', () => {
     });
     expect(send).toHaveBeenCalledTimes(1);
     expect(tick).toHaveBeenCalledTimes(5 + 5);
+  });
+});
+
+describe('SOS send, once the cancel window has run out', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it('is sending from the last tick until the screen changes, and a second trigger sends nothing', async () => {
+    let finish: (went: boolean) => void = () => undefined;
+    const run = jest.fn(
+      () =>
+        new Promise<boolean>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const { result } = await renderHook(() => {
+      const once = useSendOnce(run);
+      return { once, countdown: useCountdown(once.fire, 5, () => undefined) };
+    });
+    await act(() => result.current.countdown.start());
+    await act(() => {
+      jest.advanceTimersByTime(5000);
+    });
+    // The countdown is over and the position is still being looked up: no slider may come back.
+    expect(result.current.countdown.left).toBeNull();
+    expect(result.current.once.sending).toBe(true);
+
+    await act(() => result.current.once.fire());
+    await act(() => result.current.once.fire());
+    expect(run).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      finish(true);
+      await Promise.resolve();
+    });
+    expect(result.current.once.sending).toBe(true);
+    await act(() => result.current.once.fire());
+    expect(run).toHaveBeenCalledTimes(1);
+  });
+
+  it('says a send failed and lets the person try again', async () => {
+    const run = jest
+      .fn<() => Promise<boolean>>()
+      .mockRejectedValueOnce(new Error('no position'))
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(true);
+    const { result } = await renderHook(() => useSendOnce(run));
+    for (const failed of [true, true, false]) {
+      await act(async () => {
+        result.current.fire();
+        await Promise.resolve();
+        await Promise.resolve();
+        await Promise.resolve();
+      });
+      expect(result.current.failed).toBe(failed);
+      expect(result.current.sending).toBe(!failed);
+    }
+    expect(run).toHaveBeenCalledTimes(3);
   });
 });
 

@@ -27,6 +27,7 @@ import { respondPublishConsent, withdrawPublishConsent } from '../commands';
 import { publishFace } from './publish-model';
 import { Compose, Published } from './publish-manage';
 import { Preview } from './publish-parts';
+import { usePublishAction } from './use-publish-action';
 
 const useStyles = makeStyles((th) => ({
   content: { paddingHorizontal: th.size.gutter, gap: th.space['16'] },
@@ -48,7 +49,7 @@ export function SharePlanScreen({ tripId }: { tripId: string }) {
           { paddingTop: theme.space['12'], paddingBottom: insets.bottom + theme.space['24'] },
         ]}
       >
-        <BackEyebrow label={t({ id: 'community.back.plan', message: 'Plan' })} />
+        <BackEyebrow label={t({ id: 'community.back.trip', message: 'Trip' })} />
         <Text variant="displayHero" accessibilityRole="header">
           {t({ id: 'community.publish.title', message: 'Share the plan' })}
         </Text>
@@ -91,7 +92,7 @@ function Faces({
   const face = publishFace(data);
   const { send: respond } = useCommand(respondPublishConsent);
   const { send: withdraw } = useCommand(withdrawPublishConsent);
-  const settle = (promise: Promise<unknown>) => void promise.then(onChanged);
+  const action = usePublishAction(onChanged);
   switch (face.kind) {
     case 'no_plan':
       return (
@@ -117,14 +118,29 @@ function Faces({
             tone="yellow"
             block
             label={t({ id: 'community.consent.approve', message: 'Approve' })}
-            onPress={() => settle(respond({ shared_plan_id: face.planId, approve: true }))}
+            disabled={action.busy}
+            onPress={() =>
+              action.run(
+                () => respond({ shared_plan_id: face.planId, approve: true }),
+                t({ id: 'community.consent.approved', message: "You're in." }),
+              )
+            }
             testID="share-plan-approve"
           />
           <PillButton
             variant="secondary"
             block
             label={t({ id: 'community.consent.decline', message: 'Not this one' })}
-            onPress={() => settle(respond({ shared_plan_id: face.planId, approve: false }))}
+            disabled={action.busy}
+            onPress={() =>
+              action.run(
+                () => respond({ shared_plan_id: face.planId, approve: false }),
+                t({
+                  id: 'community.consent.declinedDone',
+                  message: 'Declined. The plan stays with the crew.',
+                }),
+              )
+            }
             testID="share-plan-decline"
           />
         </Stack>
@@ -141,7 +157,13 @@ function Faces({
           </Text>
           <TextLink
             label={t({ id: 'community.consent.withdraw', message: 'Take my yes back' })}
-            onPress={() => settle(withdraw({ shared_plan_id: face.planId }))}
+            disabled={action.busy}
+            onPress={() =>
+              action.run(
+                () => withdraw({ shared_plan_id: face.planId }),
+                t({ id: 'community.consent.withdrawn', message: 'Your yes is taken back.' }),
+              )
+            }
             testID="share-plan-withdraw"
           />
         </Stack>

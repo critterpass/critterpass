@@ -8,9 +8,10 @@
 import { airportDataset } from '@cp/content/airports';
 import type { SetHomeAirportPayload, UpdateProfilePayload } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { router, usePreventRemove } from 'expo-router';
+import { useEffect, useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -19,6 +20,8 @@ import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import { useMemberFaces } from '../avatar/member-faces';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { putPendingEdits } from '../data/pending-edits';
+import { PENDING_ME, type PendingMe } from '../profile/pending-me';
 import { ProfileFace } from '../profile/profile-parts';
 import { useProfile } from '../profile/use-profile';
 import { YOU_ROUTES } from '../routes';
@@ -98,6 +101,9 @@ export function EditProfileScreen() {
   const username = useUsernameState(saved, draft);
   const [editing, setEditing] = useState<Editing>(null);
   const [leaving, setLeaving] = useState(false);
+  // Saved or discarded: the screen may go. Until then a swipe back or the system back with unsaved
+  // changes asks first, exactly as the eyebrow does.
+  const [free, setFree] = useState(false);
   const [saving, setSaving] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
   const online = useCommand(updateProfileOnline);
@@ -125,13 +131,25 @@ export function EditProfileScreen() {
         }
       }
       if (changes.homeAirport !== null) await airport.send({ iata: changes.homeAirport });
-      router.back();
+      // The profile shows the new name at once; its row follows when the change has synced.
+      if (changes.profile?.name !== undefined) {
+        putPendingEdits<PendingMe>(PENDING_ME, { name: changes.profile.name });
+      }
+      setFree(true);
     } catch {
       setProblem(saveProblemText('UNAVAILABLE', null));
     } finally {
       setSaving(false);
     }
   };
+
+  usePreventRemove(dirty && !free, () => setLeaving(true));
+  useEffect(() => {
+    if (!free) return undefined;
+    // After the guard above has let go of the screen.
+    const timer = setTimeout(() => goBackOr(YOU_ROUTES.profile), 0);
+    return () => clearTimeout(timer);
+  }, [free]);
 
   const avatar = model?.avatar ?? { kind: 'initials' as const };
   const worn = useWornForm(avatar.kind === 'form' ? avatar.formId : null);
@@ -208,7 +226,7 @@ export function EditProfileScreen() {
         saving={saving}
         problem={problem}
         onSave={() => void save()}
-        onBack={() => (dirty ? setLeaving(true) : router.back())}
+        onBack={() => (dirty ? setLeaving(true) : goBackOr(YOU_ROUTES.profile))}
       />
       {editing === 'name' && draft !== null ? (
         <NameSheet
@@ -265,7 +283,7 @@ export function EditProfileScreen() {
           mode="button"
           onConfirm={() => {
             setLeaving(false);
-            router.back();
+            setFree(true);
           }}
           onCancel={() => setLeaving(false)}
           testID="you-edit-discard"

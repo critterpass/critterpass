@@ -144,3 +144,36 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3n-1-after-edit
+# Back to initials: opening the INITIALS tab is the pick, so DONE can save it and the profile
+# shows the letter again at once.
+- tapOn:
+    id: 'you-profile-edit'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-change-avatar'
+    timeout: 15000
+- tapOn:
+    id: 'you-edit-change-avatar'
+- extendedWaitUntil:
+    visible:
+      id: 'you-avatar-tabs'
+    timeout: 15000
+- tapOn: 'INITIALS'
+- extendedWaitUntil:
+    visible:
+      id: 'you-avatar-initials'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-4-real-initials-picked
+- tapOn:
+    id: 'you-avatar-done'
+- tapOn:
+    id: 'you-edit-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-1-initials-again

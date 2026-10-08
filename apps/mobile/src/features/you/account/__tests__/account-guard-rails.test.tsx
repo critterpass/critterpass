@@ -270,16 +270,29 @@ describe('delete account', () => {
 });
 
 describe('settings account section', () => {
-  it.each<[string, AccountRead]>([
-    ['the server has no such route or cannot be reached', { kind: 'unavailable' }],
-    ['the session is gone', { kind: 'signed_out' }],
-  ])('is not drawn when %s', async (_name, read) => {
+  it('stays visible but cannot be used, and says why, when the server cannot be reached', async () => {
+    await show(
+      <SettingsScreen
+        services={services({ readAccount: () => Promise.resolve({ kind: 'unavailable' }) })}
+      />,
+      await openStack(),
+    );
+    await waitFor(() => expect(screen.getByTestId('you-settings-account')).toBeTruthy());
+    const account = within(screen.getByTestId('you-settings-account'));
+    await waitFor(() => expect(account.getAllByText('Needs a connection')).toHaveLength(3));
+    for (const row of ['Download my data', 'Sign out', 'Delete account']) {
+      expect(account.getByLabelText(`${row}, Needs a connection`)).toBeDisabled();
+    }
+  });
+
+  it('is not drawn when the session is gone', async () => {
+    const read: AccountRead = { kind: 'signed_out' };
     await show(
       <SettingsScreen services={services({ readAccount: () => Promise.resolve(read) })} />,
       await openStack(),
     );
     await waitFor(() => expect(screen.getByTestId('you-settings-app')).toBeTruthy());
-    expect(screen.queryByTestId('you-settings-account')).toBeNull();
+    await waitFor(() => expect(screen.queryByTestId('you-settings-account')).toBeNull());
   });
 
   it('is drawn once the server has answered for the account', async () => {

@@ -2,24 +2,30 @@
  * The payment didn't go through (4d-3). Updating the payment happens in the store; coming back to
  * the app, or "Try again", has the server re-check the subscription with the store.
  */
-import { router } from 'expo-router';
-import { useEffect } from 'react';
-import { AppState } from 'react-native';
+import { useLingui } from '@lingui/react/macro';
+
+import { goBackOr } from '@/lib/navigation/back';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
 
 import { MONETIZE_ROUTES } from '../routes';
 import { BillingIssueView } from './billing-issue-view';
+import { useRecheckOnReturn } from './use-billing-issue';
 import { usePlan } from './use-plan';
 
 export function BillingIssueScreen() {
   const { plan, boosts, restore, recheck, manage } = usePlan();
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (state) => {
-      if (state === 'active') recheck();
-    });
-    return () => subscription.remove();
-  }, [recheck]);
-  const back = () => (router.canGoBack() ? router.back() : router.replace(MONETIZE_ROUTES.plan));
-  if (plan === null) return null;
+  const { t } = useLingui();
+  useRecheckOnReturn(recheck);
+  const back = () => goBackOr(MONETIZE_ROUTES.plan);
+  if (plan === null) {
+    return (
+      <ScreenLoading
+        backLabel={t({ id: 'monetize.back.plan', message: 'Your plan' })}
+        fallback={MONETIZE_ROUTES.plan}
+        testID="billing-issue-loading"
+      />
+    );
+  }
   return (
     <BillingIssueView
       plan={plan}
