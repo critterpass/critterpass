@@ -35,12 +35,10 @@ export function parseColumnSpec(spec: string): ColumnsType {
 export function syncedTables(): Record<SyncedTableName, Table> {
   const tables = {} as Record<SyncedTableName, Table>;
   for (const [name, spec] of Object.entries(SYNCED_TABLE_COLUMNS)) {
-    const indexes = Object.entries(SYNCED_TABLE_INDEXES[name as SyncedTableName] ?? {}).map(
-      ([index, columns]) => [index, [...columns]] as const,
-    );
-    tables[name as SyncedTableName] = new Table(parseColumnSpec(spec), {
-      indexes: Object.fromEntries(indexes),
-    });
+    const indexes: Record<string, string[]> = {};
+    const declared = SYNCED_TABLE_INDEXES[name as SyncedTableName] ?? {};
+    for (const [index, columns] of Object.entries(declared)) indexes[index] = [...columns];
+    tables[name as SyncedTableName] = new Table(parseColumnSpec(spec), { indexes });
   }
   return tables;
 }
