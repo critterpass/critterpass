@@ -101,7 +101,7 @@ export function createVoicePlayback() {
   }
 
   return {
-    subscribe(listener: () => void) {
+    subscribe: (listener: () => void) => {
       listeners.add(listener);
       return () => {
         listeners.delete(listener);
@@ -112,7 +112,7 @@ export function createVoicePlayback() {
     rate: (): VoiceRate => rate,
     toggle,
     stop,
-    cycleRate() {
+    cycleRate: () => {
       rate = rate === 1 ? 1.5 : 1;
       player?.setRate(rate);
       emit();

@@ -44,14 +44,13 @@ export function useCrewRename(
 
   // The crew's row now carries the name that was sent: the draft has done its job.
   const landed = sent !== null && crewName === sent.name;
-  useEffect(() => {
-    if (!landed) return;
+  if (landed) {
     setSent(null);
     setDraft(null);
-  }, [landed]);
+  }
+  // Said once per refused save; the field keeps the name, and a new save starts a new answer.
   useEffect(() => {
     if (!refused) return;
-    setSent(null);
     toast.show({
       id: rowId('crew-rename-refused', crewId),
       title: t({

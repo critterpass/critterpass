@@ -71,7 +71,7 @@ export function EmptyChat({
                 onPress: onInvite,
               }
         }
-        testID={onInvite === undefined ? 'chat-empty' : 'chat-empty-invite'}
+        testID="chat-empty"
       />
     </ScrollView>
   );

@@ -26,7 +26,6 @@ import { WaitlistCards } from '../waitlist/WaitlistCards';
 import { CrewSheetCard, StartCrewCard } from './crew-sheet-cards';
 import { ACCEPT_INVITE, DEFER_INVITE, rowId, SET_ACTIVE_CREW } from './crew-commands';
 import { useCrews } from './crew-data';
-import { useCrewServices } from './crew-services';
 import {
   crewCards,
   daysUntil,

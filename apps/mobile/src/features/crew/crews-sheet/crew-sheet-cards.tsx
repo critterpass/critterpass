@@ -230,7 +230,7 @@ export function CrewSheetCard({
         <TextLink
           label={t({ id: 'crew.sheet.invite', message: 'Invite friends' })}
           onPress={onInvite}
-          testID={`crew-card-invite-${crewId}`}
+          testID={`crews-invite-${crewId}`}
         />
         <TextLink
           label={t({ id: 'crew.sheet.settings', message: 'Crew settings' })}

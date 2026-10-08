@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useQuietLiveRows } from '@/data/powersync/live-rows';
@@ -102,15 +102,29 @@ export function useReactions(crewId: string, me: string | null, window: number) 
     me === null ? null : [crewId, crewId, window],
     TABLES,
   );
-  const held = useRef<Groups>(NO_GROUPS);
-  const groups = useMemo(() => {
-    held.current = me === null ? NO_GROUPS : keepGroups(held.current, groupReactions(rows, me));
-    return held.current;
-  }, [rows, me]);
+  // Grouped once per change of the rows, holding on to what the last grouping already had.
+  const [held, setHeld] = useState<{
+    readonly rows: readonly Row[] | null;
+    readonly me: string | null;
+    readonly groups: Groups;
+  }>({ rows: null, me: null, groups: NO_GROUPS });
+  if (held.rows !== rows || held.me !== me) {
+    setHeld({
+      rows,
+      me,
+      groups: me === null ? NO_GROUPS : keepGroups(held.groups, groupReactions(rows, me)),
+    });
+  }
+  const groups = held.groups;
+  // `toggle` reads the newest groups without changing with them, so the rows' handlers stay put.
+  const latest = useRef(groups);
+  useEffect(() => {
+    latest.current = groups;
+  }, [groups]);
 
   const toggle = useCallback(
     (messageId: string, emoji: string) => {
-      const mine = held.current
+      const mine = latest.current
         .get(messageId)
         ?.some((group) => group.emoji === emoji && group.mine);
       return commands.send(reactMessageCommand, {

@@ -3,7 +3,6 @@
  * its trips), or a named seat with only what the inviter typed or picked about the friend, a home
  * hint read from the phone number, and the tags they chose.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { airportDataset } from '@cp/content/airports';
 import { DIAL_CODES } from '@cp/content/onboarding';
 import type { CreateInvitePayload } from '@cp/domain';
