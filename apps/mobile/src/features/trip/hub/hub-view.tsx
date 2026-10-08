@@ -172,9 +172,9 @@ export function HubView(props: HubViewProps) {
                 message: 'No signal. See what is saved and what is waiting to send',
               })}
               onPress={props.offlinePill.onPress}
-              hitSlop={theme.space['12']}
               widthClass="narrow"
-              style={{ alignSelf: 'flex-start' }}
+              // Drawn at the pill's own height; the press target grows to the minimum around it.
+              style={{ alignSelf: 'flex-start', minHeight: theme.space['32'] }}
               testID="trip-hub-offline-pill"
             >
               <OfflinePill />
