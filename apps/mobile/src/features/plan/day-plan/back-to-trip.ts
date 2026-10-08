@@ -6,6 +6,8 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route names, never copy. */
 import { router, useNavigation } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useCallback } from 'react';
 
 import { tripPlanRoutes } from '../hub/routes';
@@ -101,8 +103,7 @@ export function useBackToTrip(tripId: string): {
         );
   const onBack = useCallback(() => {
     if (pops !== null) router.dismiss(pops);
-    else if (router.canGoBack()) router.back();
-    else router.replace(tripPlanRoutes.map(tripId));
+    else goBackOr(tripPlanRoutes.map(tripId));
   }, [pops, tripId]);
   return { onBack, target };
 }

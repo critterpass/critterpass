@@ -5,6 +5,8 @@
  * idea left for the person, and the driving total ("+1H20 DRIVING").
  */
 /* eslint-disable lingui/no-unlocalized-strings -- reason codes and trigger names, never copy (every line is worded through `t`). */
+import { i18n } from '@lingui/core';
+import { upper } from '@cp/i18n';
 import type { FitReason, StoredFit } from '@cp/domain';
 import { plural, t } from '@lingui/core/macro';
 
@@ -45,7 +47,7 @@ export function changesHeadline(trigger: string | null, count: number): string {
       message: plural(count, { one: '# FOR THE FREE TIME', other: '# FOR THE FREE TIME' }),
     });
   }
-  return reviewTitle(trigger, count).toUpperCase();
+  return upper(reviewTitle(trigger, count), i18n.locale || 'en');
 }
 
 const REASON_KEY = /^[a-z0-9]+(?:_[a-z0-9]+)+$/u;

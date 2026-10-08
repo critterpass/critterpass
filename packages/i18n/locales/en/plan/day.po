@@ -131,6 +131,10 @@ msgstr "Change it anyway"
 msgid "plan.day.item.cost"
 msgstr "Cost"
 
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.unavailableToast"
+msgstr "Couldn’t save that"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.item.dayChip"
@@ -234,6 +238,10 @@ msgstr "No estimate yet"
 #: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.notes"
 msgstr "Notes"
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.unavailableLine"
+msgstr "Nothing changed. Try again."
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.nothingMoves"

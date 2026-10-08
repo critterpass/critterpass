@@ -86,6 +86,11 @@ export function hereDetail(since: string): string {
   return t({ id: 'plan.tripMap.hereSince', message: `You’re here · since ${since}` });
 }
 
+/** "Suggested · waiting for the crew": on a stop a change the crew has not decided on touches. */
+export function suggestedDetail(): string {
+  return t({ id: 'plan.tripMap.suggested', message: 'Suggested · waiting for the crew' });
+}
+
 export function personalDetail(mark: PersonalMark): string {
   return mark === 'skipping'
     ? t({ id: 'plan.tripMap.personal.skipping', message: 'You’re skipping this' })
@@ -113,8 +118,11 @@ function detailOf(
   members: readonly PlanMember[],
   me: string | null,
   personal: PersonalMark | null,
+  suggested: boolean,
 ): string | undefined {
   if (personal !== null) return personalDetail(personal);
+  // A change waiting on the crew: the stop stays where the plan has it and says so.
+  if (suggested) return suggestedDetail();
   if (vote !== null) {
     const voted = vote.ballots;
     const crew = members.length;
@@ -179,7 +187,16 @@ export function buildStopRows(input: {
         stop.start === null || stop.end === null ? undefined : lengthLabel(stop.end - stop.start),
       detail:
         since === undefined
-          ? detailOf(locale, stop, issue, vote, input.members, input.me, personal)
+          ? detailOf(
+              locale,
+              stop,
+              issue,
+              vote,
+              input.members,
+              input.me,
+              personal,
+              day.suggested?.has(stop.stableId) === true,
+            )
           : hereDetail(since),
       issue: issue?.severity === 'fix' ? issue : null,
       vote: vote === null ? null : { pollId: vote.pollId },

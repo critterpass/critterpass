@@ -23,11 +23,11 @@ msgstr "{destination} · {guideName}’s draft"
 msgid "planDraft.last.eyebrow"
 msgstr "{destination} · Redraft {n} of {limit}"
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinkingAny"
 msgstr "{guideName} is redrafting"
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinking"
 msgstr "{guideName} is redrafting day {n}"
 
@@ -131,6 +131,10 @@ msgstr "Fuller pace"
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.summaryPlain"
 msgstr "Here’s what {guideName} would change."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
+msgid "planDraft.diff.thinkingOffline"
+msgstr "I can’t reach it without signal. It shows here once you’re back online."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.redraft.busy"
@@ -256,6 +260,10 @@ msgstr "Swap it out"
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
 msgid "planDraft.change.dropped"
 msgstr "Taken out"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
+msgid "planDraft.diff.thinkingSlow"
+msgstr "Taking longer than usual. You can leave: I’ll tell you when it’s ready."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.redraft.failed"
