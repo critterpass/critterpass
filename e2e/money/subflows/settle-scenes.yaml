@@ -13,6 +13,37 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: payment-payer, READY: money-payment, SHOT: '${PREFIX}-money-payment-payer' }
+# The amount paid sits under the payout details: the payer's payment once more, scrolled to it.
+- scrollUntilVisible:
+    element:
+      id: 'money-lab-payment-payer'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'money-lab-payment-payer'
+- extendedWaitUntil:
+    visible:
+      id: 'money-payment'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'money-pay-mark'
+    direction: DOWN
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PREFIX}-money-payment-payer-amount
+- scrollUntilVisible:
+    element:
+      id: 'back-eyebrow'
+    direction: UP
+    timeout: 20000
+- tapOn:
+    id: 'back-eyebrow'
+- extendedWaitUntil:
+    visible:
+      id: 'money-lab-payment-payer'
+    timeout: 10000
 - runFlow:
     file: scene.yaml
     env: { SCENE: payment-disputed, READY: money-payment, SHOT: '${PREFIX}-money-payment-disputed' }

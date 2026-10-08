@@ -74,9 +74,12 @@ export function routeForTarget(target: LinkTarget, facts: LinkFacts, now: number
     case 'locals':
       // A place's locals are its set in the collection, which the PASS tab lists by place.
       return PASS_TAB_ROUTE;
-    case 'app':
+    case 'app': {
       // Pushes and inbox rows sent earlier name the trip hub and its day by their former paths.
-      return currentAppPath(`/${target.path}`);
+      // The route's own query goes with it: an OAuth return's outcome, a push's postcard.
+      const path = currentAppPath(`/${target.path}`);
+      return target.search === undefined ? path : `${path}?${target.search}`;
+    }
   }
 }
 

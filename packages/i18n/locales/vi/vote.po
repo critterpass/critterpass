@@ -276,6 +276,10 @@ msgstr "Đề xuất {0}"
 msgid "vote.guest.back"
 msgstr "Quay lại"
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.backHome"
+msgstr ""
+
 #. placeholder {0}: chip.months.map((m) => monthShort(locale, m)).join(' · ')
 #: ../../apps/mobile/src/features/vote/final/showdown-facts.tsx
 msgid "vote.showdown.best"
