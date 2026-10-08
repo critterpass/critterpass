@@ -29,6 +29,7 @@ import { PlacesHeader } from './places-header';
 import { PlacesMapLayers } from './places-map-layers';
 import { placeCounts, type HubPlace, type PlacesFilter } from './places-model';
 import { PlacesPeek } from './places-peek';
+import { frameKey, mapResume, rememberPlaces } from './places-resume';
 import { useCarouselEntries } from './use-carousel-entries';
 import { useMapFraming } from './use-map-framing';
 import type { CrewMember } from './use-places-data';
@@ -80,6 +81,8 @@ export interface PlacesMapViewProps {
   readonly onSearch: () => void;
   readonly onList: () => void;
   readonly onBack: () => void;
+  /** Names the trip or destination whose camera and pick the map shares with the list. */
+  readonly resumeKey?: string | undefined;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -95,8 +98,18 @@ export function PlacesMapView(props: PlacesMapViewProps) {
   const insets = useSafeAreaInsets();
   const { filter, places, crew, onAsk } = props;
   const camera = usePlanningCamera();
-  const label = useLabelSync(props.placeId ?? null);
-  const [initialZoom] = useState(props.placeId === undefined || props.placeId === null ? 12 : 15);
+  const frame = frameKey(filter, props.resultChips);
+  // Back from the list: the map is where it was left, on the place that was picked.
+  const [resumed] = useState(() => mapResume(props.resumeKey, props.placeId, frame));
+  const label = useLabelSync(props.placeId ?? resumed.pickedId);
+  const [initialZoom] = useState(
+    resumed.camera?.zoom ?? (props.placeId === undefined || props.placeId === null ? 12 : 15),
+  );
+  const { resumeKey } = props;
+  useEffect(
+    () => rememberPlaces(resumeKey, { pickedId: label.focusedId }),
+    [resumeKey, label.focusedId],
+  );
   const [region, setRegion] = useState<{ bounds: LngLatBounds | null; zoom: number }>({
     bounds: null,
     zoom: initialZoom,
@@ -166,7 +179,9 @@ export function PlacesMapView(props: PlacesMapViewProps) {
     resultsKey: props.resultChips === undefined ? null : props.resultChips.join('|'),
     stay: props.stay?.at ?? null,
     ready: region.bounds !== null,
-    opensOnPlace: props.placeId !== undefined && props.placeId !== null,
+    // A camera picked up where it was left is already framed, as one opened on a place is.
+    opensOnPlace:
+      (props.placeId !== undefined && props.placeId !== null) || resumed.camera !== undefined,
     focused,
     camera,
     coveredTop: insets.top + HEADER_PT,
@@ -188,7 +203,7 @@ export function PlacesMapView(props: PlacesMapViewProps) {
       <View style={StyleSheet.absoluteFill} onLayout={(event) => setSize(event.nativeEvent.layout)}>
         {props.canDraw && centre !== null ? (
           <PlanningMapCanvas
-            initialCenter={[centre.lng, centre.lat]}
+            initialCenter={resumed.camera?.center ?? [centre.lng, centre.lat]}
             initialZoom={initialZoom}
             destinationSlug={props.destinationSlug}
             placeName={props.destinationName}
@@ -197,7 +212,12 @@ export function PlacesMapView(props: PlacesMapViewProps) {
             cameraRef={camera.cameraRef}
             ornamentBottom={coveredBottom}
             logo={false}
-            onRegionChange={(next) => setRegion({ bounds: next.bounds, zoom: next.zoom })}
+            onRegionChange={(next) => {
+              setRegion({ bounds: next.bounds, zoom: next.zoom });
+              rememberPlaces(resumeKey, {
+                camera: { center: [next.center[0], next.center[1]], zoom: next.zoom, frame },
+              });
+            }}
             onPressMap={label.clear}
             testID="places-map-canvas"
           >

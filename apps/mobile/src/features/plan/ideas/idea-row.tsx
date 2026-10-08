@@ -157,6 +157,16 @@ export function IdeaRow(props: IdeaRowProps) {
                   widthClass="narrow"
                   accessibilityLabel={moreLabel}
                   onPress={props.onMore}
+                  // Drawn at the grip's own size and centred on the row (7f-2); the touch target
+                  // reaches past it, so the handle does not set the row's height.
+                  style={{
+                    width: theme.space['24'],
+                    height: theme.space['24'],
+                    minWidth: 0,
+                    minHeight: 0,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
                   testID={`plan-idea-handle-${ideaId}`}
                 >
                   <Text variant="label" color={theme.semantic.text.secondary}>

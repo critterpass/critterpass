@@ -278,12 +278,17 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       explore={explore}
       swipe={swipe}
       visitConsent={calledOff ? null : <VisitConsentRow />}
-      ticker={tickerLines(rows.activity, trip?.status ?? null, trip?.role === 'organiser').map(
-        ({ row, text }) => {
-          const onPress = open(activityHref(row, tripId, trip?.status ?? null));
-          return { id: row.id, text, ...(onPress === undefined ? {} : { onPress }) };
-        },
-      )}
+      ticker={
+        // A called-off trip has no live feed to follow.
+        calledOff
+          ? []
+          : tickerLines(rows.activity, trip?.status ?? null, trip?.role === 'organiser').map(
+              ({ row, text }) => {
+                const onPress = open(activityHref(row, tripId, trip?.status ?? null));
+                return { id: row.id, text, ...(onPress === undefined ? {} : { onPress }) };
+              },
+            )
+      }
       onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}
       {...(unread ? { offlineConflicts: offlineNode } : {})}

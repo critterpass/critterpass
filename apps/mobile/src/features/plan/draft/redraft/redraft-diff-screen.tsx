@@ -120,11 +120,12 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
     toast.show({
       // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
       id: `redraft-kept-${redraftId}`,
-      title:
+      // The short fact up top (a title holds two lines); the day's new theme, however long, under it.
+      title: t({ id: 'planDraft.diff.keptTitle', message: `Day ${n} changed` }),
+      subtitle:
         title === ''
-          ? t({ id: 'planDraft.diff.keptToastPlain', message: `Day ${n} is redrafted.` })
-          : t({ id: 'planDraft.diff.keptToast', message: `Day ${n} is ${title} now.` }),
-      subtitle: t({ id: 'planDraft.diff.keptSub', message: 'Nobody else has seen it yet.' }),
+          ? t({ id: 'planDraft.diff.keptSub', message: 'Nobody else has seen it yet.' })
+          : title,
     });
     back();
   };

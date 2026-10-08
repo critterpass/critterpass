@@ -25,6 +25,7 @@ import { PlacesListView } from './places-list-view';
 import { CATEGORY_GROUPS, isCategoryGroup, type PlacesFilter } from './places-model';
 import { useSavedOnce } from './pending-store';
 import { usePlaceFacts } from './place-facts';
+import { forgetPlaces } from './places-resume';
 import { addToPlanHref, placeHref, searchHref, splitHref, useCanAddToPlan } from './places-nav';
 import type { ResultsMode } from './routes';
 import { usePlaceFits, weekdaysOf } from './use-place-fits';
@@ -124,6 +125,7 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
     [tiles.photos, profilePhotos],
   );
 
+  const resumeKey = tripId ?? props.destination ?? undefined;
   return (
     <PlacesListView
       status={!data.loaded ? 'loading' : data.failed ? 'failed' : 'ready'}
@@ -172,7 +174,12 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
       onSplit={tripId === null ? undefined : (poiId) => go(splitHref(tripId, poiId))}
       onSearch={() => go(searchHref(tripId, tripId === null ? 'explore' : 'map'))}
       onMap={props.onMap}
-      onBack={props.onBack}
+      onBack={() => {
+        // Leaving the places for good: the next visit starts afresh.
+        forgetPlaces(resumeKey);
+        props.onBack();
+      }}
+      resumeKey={resumeKey}
     />
   );
 }

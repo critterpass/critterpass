@@ -291,6 +291,10 @@ msgstr "Restoring brings back the draft as it was redrafted. It doesn’t use a 
 msgid "planDraft.history.putBackRestore"
 msgstr "Restoring brings back the draft with day {n} as redrafted. It doesn’t use a redraft."
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restoreQueued"
+msgstr "Saved. The earlier draft comes back when you have signal"
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.title"
 msgstr "Setup changed since this draft"

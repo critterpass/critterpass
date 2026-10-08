@@ -291,6 +291,10 @@ msgstr "Khôi phục sẽ đưa bản nháp về bản đã soạn lại. Không
 msgid "planDraft.history.putBackRestore"
 msgstr "Khôi phục sẽ đưa bản nháp về bản có ngày {n} đã soạn lại. Không tốn lượt soạn lại."
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restoreQueued"
+msgstr "Đã lưu. Bản nháp cũ sẽ trở lại khi có sóng"
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.title"
 msgstr "Phần chuẩn bị đã đổi từ bản nháp này"

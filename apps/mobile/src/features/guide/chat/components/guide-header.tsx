@@ -12,12 +12,14 @@ import { View } from 'react-native';
 import type { GuideThreadMode } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
+import { useFontScale } from '@/lib/a11y/use-font-scale';
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
 import { guideSticker, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import type { GuideTripContext } from '../data/use-guide-context';
+import { modeLineBreaks, unbroken } from './mode-line';
 
 const useStyles = makeStyles((t) => ({
   root: { alignItems: 'center', gap: t.space['12'] },
@@ -50,7 +52,8 @@ export function useModeLine(mode: GuideThreadMode, trip: GuideTripContext | null
       message: `Group mode · all ${count} can see this`,
     });
   }
-  const dates = trip === null ? null : dateRange(trip.startDate, trip.endDate, i18n.locale);
+  const range = trip === null ? null : dateRange(trip.startDate, trip.endDate, i18n.locale);
+  const dates = range === null ? null : unbroken(range);
   const place = [trip?.destination ?? null, dates].filter(Boolean).join(', ');
   return place === ''
     ? t({ id: 'guide.header.private', message: 'Just me · only you can see this' })
@@ -79,6 +82,7 @@ export function GuideHeader({
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const sticker = guideSticker(guideAvatarId(guideSlug));
+  const { isLarge } = useFontScale();
   return (
     <Stack gap="8" testID="guide-header">
       <Row style={styles.root}>
@@ -87,8 +91,17 @@ export function GuideHeader({
           <Text variant="h2" accessibilityRole="header">
             {upper(guideName, i18n.locale)}
           </Text>
-          <Text variant="bodySm" color={theme.semantic.text.secondary} singleLine={false}>
-            {modeLine}
+          {/* Two lines beside the switch, then an ellipsis; a third at the larger text sizes. */}
+          <Text
+            variant="bodySm"
+            color={theme.semantic.text.secondary}
+            singleLine={false}
+            numberOfLines={isLarge ? 3 : 2}
+            ellipsizeMode="tail"
+            accessibilityLabel={modeLine}
+            testID="guide-mode-line"
+          >
+            {modeLineBreaks(modeLine)}
           </Text>
         </Stack>
         {onMode === undefined ? null : (
