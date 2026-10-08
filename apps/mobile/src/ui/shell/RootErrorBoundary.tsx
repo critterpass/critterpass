@@ -4,7 +4,8 @@ import { I18nProvider } from '@lingui/react';
 import type { ErrorBoundaryProps } from 'expo-router';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { sourceLocale } from '@cp/i18n';
 
@@ -13,11 +14,12 @@ import { clearSavedNavigation } from '@/lib/navigation/restore';
 import { ThemeProvider } from '@/lib/theme';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
+import { PillButton } from '../buttons/PillButton';
 import { Row } from '../layout/Row';
 import { Stack as Column } from '../layout/Stack';
 import { Scaffold } from '../surface/Scaffold';
 import { Text } from '../text/Text';
-import { makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from '../theme';
+import { makeStyles, MIN_TOUCH_TARGET } from '../theme';
 
 const HOME_HREF = '/';
 
@@ -39,19 +41,10 @@ const useErrorStyles = makeStyles((th) => ({
     padding: th.space['14'],
     gap: th.space['4'],
   },
-  primary: {
-    minHeight: sizeToken(th.size.primaryCta, 'height'),
-    borderRadius: sizeToken(th.size.primaryCta, 'radius'),
-    backgroundColor: th.semantic.action.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: th.space['20'],
-  },
 }));
 
 function RecoveryPanel({ retry }: Pick<ErrorBoundaryProps, 'retry'>) {
   const styles = useErrorStyles();
-  const theme = useTheme();
   // The imperative router throws until navigation has rendered once, which is exactly when a render
   // error in the root layout's first pass reaches this boundary: there is nothing to go back to then.
   const options = [
@@ -98,16 +91,11 @@ function RecoveryPanel({ retry }: Pick<ErrorBoundaryProps, 'retry'>) {
             </Pressable>
           ))}
         </Row>
-        <Pressable
-          testID="shell-error-retry"
-          accessibilityRole="button"
+        <PillButton
+          label={t({ id: 'common.shell.errorRetry', message: 'Try again' })}
           onPress={() => void retry()}
-          style={styles.primary}
-        >
-          <Text variant="buttonLg" color={theme.semantic.text.onAccent}>
-            {t({ id: 'common.shell.errorRetry', message: 'Try again' })}
-          </Text>
-        </Pressable>
+          testID="shell-error-retry"
+        />
       </View>
     </Scaffold>
   );
@@ -122,9 +110,9 @@ function RecoveryPanel({ retry }: Pick<ErrorBoundaryProps, 'retry'>) {
  *
  * Expo Router renders it in place of the layout that exports it; in place of the root layout none
  * of the app's providers are above it, only Expo Router's own SafeAreaProvider. A boundary that
- * throws while rendering takes a release build down, so it mounts its own locale, theme settings and
- * screen-jolt context. When the layout failed before any locale was activated, it falls back to the
- * source locale's own strings.
+ * throws while rendering takes a release build down, so it mounts its own gesture root (its buttons
+ * press through one), locale, theme settings and screen-jolt context. When the layout failed before
+ * any locale was activated, it falls back to the source locale's own strings.
  *
  * It also drops the saved navigation state: that state still points at the screen that threw, and a
  * cold start inside the restore window would put the user straight back on this panel.
@@ -133,12 +121,16 @@ export function RootErrorBoundary({ retry }: ErrorBoundaryProps) {
   useEffect(() => clearSavedNavigation(), []);
   if (!i18n.locale) i18n.loadAndActivate({ locale: sourceLocale, messages: {} });
   return (
-    <I18nProvider i18n={i18n}>
-      <ThemeProvider>
-        <ScreenJoltProvider>
-          <RecoveryPanel retry={retry} />
-        </ScreenJoltProvider>
-      </ThemeProvider>
-    </I18nProvider>
+    <GestureHandlerRootView style={rootStyles.root}>
+      <I18nProvider i18n={i18n}>
+        <ThemeProvider>
+          <ScreenJoltProvider>
+            <RecoveryPanel retry={retry} />
+          </ScreenJoltProvider>
+        </ThemeProvider>
+      </I18nProvider>
+    </GestureHandlerRootView>
   );
 }
+
+const rootStyles = StyleSheet.create({ root: { flex: 1 } });
