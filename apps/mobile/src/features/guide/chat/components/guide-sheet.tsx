@@ -120,7 +120,11 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
   const trip = context.trip;
   const shared = trip !== null && trip.crewSize > 1;
   const [chosen, setChosen] = useState<GuideThreadMode | null>(initialMode ?? null);
-  const mode: GuideThreadMode = chosen ?? (shared ? 'group' : 'private');
+  // The mode the sheet opened in holds until the person switches it: a crewmate joining while a
+  // JUST ME chat is open must not turn the next question into one the crew reads.
+  const [opened, setOpened] = useState<GuideThreadMode | null>(null);
+  if (opened === null && context.ready) setOpened(shared ? 'group' : 'private');
+  const mode: GuideThreadMode = chosen ?? opened ?? 'private';
   useTripStreams(trip?.tripId ?? null);
   const thread = useGuideThread(mode, trip?.tripId ?? null, context.uid);
   const syncPhase = useSyncPhase();
@@ -128,6 +132,7 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
     threadId: thread.threadId,
     mode,
     tripId: trip?.tripId ?? null,
+    uid: context.uid,
     online: syncPhase !== 'offline',
   });
   const rate = useCommand(rateGuideAnswerCommand);
@@ -160,12 +165,14 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
     liveUsage: turn.live?.state.usage ?? null,
     spent: turn.quota,
   });
-  const voiceParams = trip === null ? {} : { tripId: trip.tripId };
+  // Voice asks in the mode on screen, never one worked out again from the crew's size.
+  const voiceParams = { ...(trip === null ? {} : { tripId: trip.tripId }), mode };
   const voice = hrefFor('3j-2', voiceParams);
   const voiceTalking = hrefFor('3j-2', { ...voiceParams, talk: '1' });
 
   const send = (text: string) => {
-    if (turn.busy) return;
+    // Until the trip and its crew are read, the mode on screen is not yet the one to ask in.
+    if (turn.busy || !context.ready) return;
     turn.ask(text);
     setDraft('');
   };
@@ -191,7 +198,7 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
           names={names}
           me={context.uid}
           live={turn.live}
-          waiting={turn.queued}
+          waiting={turn.queued.map((question) => question.text)}
           renderProposal={(id) => (
             <GuidePlanCard tripId={trip?.tripId ?? null} changesetId={id} canPropose={shared} />
           )}

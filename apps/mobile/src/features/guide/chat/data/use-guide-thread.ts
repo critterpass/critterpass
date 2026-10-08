@@ -125,3 +125,8 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu;
 export function isUuid(value: string | undefined): value is string {
   return value !== undefined && UUID.test(value);
 }
+
+/** GROUP or JUST ME as a route carries it; anything else names no mode. */
+export function threadModeOf(value: string | undefined): GuideThreadMode | undefined {
+  return value === 'group' || value === 'private' ? value : undefined;
+}

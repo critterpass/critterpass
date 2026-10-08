@@ -4,7 +4,7 @@ import { GuideSheet } from '@/features/guide/chat/components/guide-sheet';
 import { GuideServicesProvider } from '@/features/guide/chat/data/guide-services';
 import { deviceGuideServices } from '@/features/guide/chat/data/guide-stream';
 import { useGuideMeterSlots } from '@/features/guide/meter/use-guide-meter-slots';
-import { isUuid, useThreadTarget } from '@/features/guide/chat/data/use-guide-thread';
+import { isUuid, threadModeOf, useThreadTarget } from '@/features/guide/chat/data/use-guide-thread';
 import { guideRoutes } from '@/features/guide/chat/register';
 
 /**
@@ -16,9 +16,7 @@ export default function GuideSheetRoute() {
   const named = isUuid(params.threadId) ? params.threadId : null;
   const target = useThreadTarget(named);
   const tripId = target?.tripId ?? params.tripId ?? null;
-  const mode =
-    target?.mode ??
-    (params.mode === 'group' || params.mode === 'private' ? params.mode : undefined);
+  const mode = target?.mode ?? threadModeOf(params.mode);
   return (
     <GuideServicesProvider services={deviceGuideServices}>
       <GuideSheet

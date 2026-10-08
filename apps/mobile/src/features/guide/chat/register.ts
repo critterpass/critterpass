@@ -37,11 +37,15 @@ export const guideRoutes = {
       ...(params.text === undefined ? {} : { text: params.text }),
     },
   }),
-  /** Voice mode; `talk` opens it already listening (the microphone was held). */
-  voice: (params: { tripId?: string; talk?: boolean } = {}): Href => ({
+  /**
+   * Voice mode; `mode` is the GROUP / JUST ME choice of the sheet it was opened from, and `talk`
+   * opens it already listening (the microphone was held).
+   */
+  voice: (params: { tripId?: string; mode?: string; talk?: boolean } = {}): Href => ({
     pathname: '/guide/voice',
     params: {
       ...(params.tripId === undefined ? {} : { tripId: params.tripId }),
+      ...(params.mode === undefined ? {} : { mode: params.mode }),
       ...(params.talk === true ? { talk: '1' } : {}),
     },
   }),
@@ -79,6 +83,7 @@ registerScreens({
   '3j-2': (params) =>
     guideRoutes.voice({
       ...(params['tripId'] === undefined ? {} : { tripId: params['tripId'] }),
+      ...(params['mode'] === undefined ? {} : { mode: params['mode'] }),
       talk: params['talk'] === '1',
     }),
 });
