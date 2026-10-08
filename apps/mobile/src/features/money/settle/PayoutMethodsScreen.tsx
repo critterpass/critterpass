@@ -7,8 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { feedback } from '@/motion';
-import { toast } from '@/motion/island-toast';
+import { useCommandFeedback } from '@/motion/island-toast';
 
 import { setPayoutMethodCommand } from '../data/commands';
 import { useSelectedTrip } from '../data/selected-trip';
@@ -20,6 +19,7 @@ export function PayoutMethodsScreen() {
   const ctx = useMoneyContext(useSelectedTrip());
   const services = useMoneyServices();
   const { t } = useLingui();
+  const { report } = useCommandFeedback();
   const save = useCommand(setPayoutMethodCommand);
   const kinds = payoutKindsFor(ctx.homeCountry);
   const [saved, setSaved] = useState<readonly RevealedPayoutMethod[]>([]);
@@ -47,26 +47,23 @@ export function PayoutMethodsScreen() {
 
   async function send(remove: boolean) {
     const details = remove ? {} : validDetails(kind, values);
-    if (details === null) return;
+    if (details === null || save.pending) return;
     const result = await save.send({
       kind,
       ...(ctx.homeCountry === null ? {} : { country: ctx.homeCountry }),
       details,
       remove,
     });
-    if (result.kind !== 'applied') {
-      feedback.emit('error');
-      return;
-    }
-    feedback.emit('success');
-    const outcome = await services.myPayoutMethods();
-    if (outcome.kind === 'ok') setSaved(outcome.value);
-    toast.show({
+    // Online only: with no signal it says so, and nothing is shown as saved.
+    const outcome = report(result, {
       id: 'money-payout',
-      title: remove
+      done: remove
         ? t({ id: 'money.payout.removed', message: 'Removed.' })
         : t({ id: 'money.payout.saved', message: 'Saved. Only the person paying you sees it.' }),
     });
+    if (outcome !== 'done') return;
+    const methods = await services.myPayoutMethods();
+    if (methods.kind === 'ok') setSaved(methods.value);
   }
 
   return (

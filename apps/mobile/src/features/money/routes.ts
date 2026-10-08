@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import type { Href } from 'expo-router';
 
-import { hrefFor, registerScreens } from '@/lib/navigation/screen-registry';
+import { registerScreens, type ScreenRoute } from '@/lib/navigation/screen-registry';
 
 export const MONEY_ROUTES = {
   balances: '/wallet/money',
@@ -18,24 +18,46 @@ export const MONEY_ROUTES = {
   payoutMethods: '/money/payout-methods',
 } as const;
 
-export function expenseRoute(id: string): Href {
-  return { pathname: '/money/expense/[id]', params: { id } };
+/**
+ * The `trip` query a money route carries when it is opened for one trip (a chat card, the guide's
+ * camera, a link): the screen shows that trip whatever Balances last showed. Without it the screen
+ * follows Balances.
+ */
+function forTrip(tripId: string | null | undefined): { trip?: string } {
+  return tripId === null || tripId === undefined || tripId === '' ? {} : { trip: tripId };
 }
 
-export function editExpenseRoute(id: string): Href {
-  return { pathname: '/money/add', params: { edit: id } };
+/** The `trip` a money route was opened with, or null when it follows Balances. */
+export function tripParam(value: string | string[] | undefined): string | null {
+  return typeof value === 'string' && value !== '' ? value : null;
 }
 
-export function paymentRoute(id: string): Href {
-  return { pathname: '/money/payment/[id]', params: { id } };
+export function expenseRoute(id: string, tripId?: string | null): Href {
+  return { pathname: '/money/expense/[id]', params: { id, ...forTrip(tripId) } };
 }
 
-export const MONEY_SCREENS: Readonly<Record<string, string>> = {
+export function editExpenseRoute(id: string, tripId?: string | null): Href {
+  return { pathname: '/money/add', params: { edit: id, ...forTrip(tripId) } };
+}
+
+export function paymentRoute(id: string, tripId?: string | null): Href {
+  return { pathname: '/money/payment/[id]', params: { id, ...forTrip(tripId) } };
+}
+
+/** A pushed money screen for the trip the caller names (`tripId`), else the one Balances shows. */
+function tripScreen(pathname: '/money/add' | '/money/scan' | '/money/settle'): ScreenRoute {
+  return (params) => {
+    const trip = forTrip(params['tripId']);
+    return trip.trip === undefined ? pathname : ({ pathname, params: trip } as Href);
+  };
+}
+
+export const MONEY_SCREENS: Readonly<Record<string, ScreenRoute>> = {
   '3i-1': MONEY_ROUTES.balances,
-  '3i-2': MONEY_ROUTES.add,
-  '3i-3': MONEY_ROUTES.scan,
-  '3i-4': MONEY_ROUTES.scan,
-  '3i-5': MONEY_ROUTES.settle,
+  '3i-2': tripScreen(MONEY_ROUTES.add),
+  '3i-3': tripScreen(MONEY_ROUTES.scan),
+  '3i-4': tripScreen(MONEY_ROUTES.scan),
+  '3i-5': tripScreen(MONEY_ROUTES.settle),
   '3i-6': MONEY_ROUTES.budget,
 };
 
@@ -46,9 +68,4 @@ export function registerMoneyScreens(): void {
   if (registered) return;
   registered = true;
   registerScreens(MONEY_SCREENS);
-}
-
-/** The bookings half of the Wallet, once its area registers it. */
-export function bookingsHref(): Href | undefined {
-  return hrefFor('3h-1');
 }

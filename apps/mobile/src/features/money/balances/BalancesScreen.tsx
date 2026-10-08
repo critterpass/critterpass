@@ -1,22 +1,26 @@
 /**
  * Money home (the Wallet tab's MONEY half): the crew and trip from synced rows, the balances from
  * the trip's ledger through the engine, and the latest expense (queued ones included, marked
- * pending). Renders offline; a crew without a trip, or no crew at all, gets its own invitation.
+ * pending). Renders offline; a crew without a trip, or no crew at all, gets its own invitation. A
+ * ledger that does not add up yet (its rows are still arriving) waits on the skeleton for a moment,
+ * then says the balances are still syncing and lists the expenses it has.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useTabBarInset } from '@/ui/shell/TabBar';
+import { Stack } from '@/ui/layout/Stack';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
-import { expenseItems } from '../data/expense-items';
+import { ExpenseListRow } from '../components/ExpenseListRow';
+import { expenseItems, type ExpenseItem } from '../data/expense-items';
 import { useMoneyServices } from '../data/services';
 import { useReceiptQueueDrain } from '../receipt/receipt-queue';
 import { selectTrip, useSelectedTrip } from '../data/selected-trip';
@@ -80,6 +84,73 @@ export function MoneyNoTrip({ crew }: { readonly crew: boolean }) {
   );
 }
 
+/** How long a ledger that does not net to zero waits on the skeleton before saying so. */
+const SYNCING_AFTER_MS = 4000;
+/** How many expenses the syncing state lists; the history has the rest. */
+const SYNCING_ROWS = 5;
+
+/** True once `active` has held for `ms` without a break. */
+function useHeldFor(active: boolean, ms: number): boolean {
+  const [held, setHeld] = useState(false);
+  useEffect(() => {
+    if (!active) {
+      setHeld(false);
+      return undefined;
+    }
+    const timer = setTimeout(() => setHeld(true), ms);
+    return () => clearTimeout(timer);
+  }, [active, ms]);
+  return active && held;
+}
+
+/**
+ * The trip's rows are here but its ledger does not add up yet (undesigned; the empty state over
+ * the expense rows): no totals are shown until they are right, the expenses already synced are.
+ */
+function MoneySyncing({
+  items,
+  currency,
+  onExpense,
+  onHistory,
+}: {
+  readonly items: readonly ExpenseItem[];
+  readonly currency: string;
+  readonly onExpense: (id: string) => void;
+  readonly onHistory: () => void;
+}) {
+  const styles = useStyles();
+  const inset = useTabBarInset();
+  const { t } = useLingui();
+  return (
+    <Scaffold variant="dark" testID="money-syncing">
+      <View style={[styles.content, { paddingBottom: inset }]}>
+        <EmptyState
+          guide="tokek"
+          guideName={guideSticker('tokek').name}
+          title={t({ id: 'money.syncing.title', message: 'Still syncing the balances' })}
+          line={t({
+            id: 'money.syncing.line',
+            message: 'The totals show once every expense is in. Here is what I have so far.',
+          })}
+          {...(items.length > SYNCING_ROWS
+            ? {
+                action: {
+                  label: t({ id: 'money.latest.all', message: 'See all' }),
+                  onPress: onHistory,
+                },
+              }
+            : {})}
+        />
+        <Stack gap="4">
+          {items.slice(0, SYNCING_ROWS).map((item) => (
+            <ExpenseListRow key={item.id} item={item} crewCurrency={currency} onOpen={onExpense} />
+          ))}
+        </Stack>
+      </View>
+    </Scaffold>
+  );
+}
+
 export function BalancesScreen() {
   const selected = useSelectedTrip();
   useReceiptQueueDrain(useMoneyServices());
@@ -123,7 +194,22 @@ export function BalancesScreen() {
           }),
     [ctx.trip, ctx.members, rows, currency],
   );
+  // Every row is read and the ledger still does not net to zero.
+  const unbalancedFor = useHeldFor(
+    ctx.status === 'ready' && rows.loaded && model === null,
+    SYNCING_AFTER_MS,
+  );
 
+  if (unbalancedFor) {
+    return (
+      <MoneySyncing
+        items={items}
+        currency={currency}
+        onExpense={(id) => router.push(expenseRoute(id))}
+        onHistory={() => router.push(MONEY_ROUTES.history)}
+      />
+    );
+  }
   if (ctx.status === 'loading' || (ctx.status === 'ready' && (!rows.loaded || model === null))) {
     return <MoneyLoading />;
   }
