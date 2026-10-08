@@ -193,8 +193,18 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
       <DraftLoading trip={{ destination: 'Đà Nẵng', guide: 'chava' }} onBack={exitScene} />
     ),
   },
-  { name: 'draft-empty', render: () => <NoDraft guide="pon" failed={false} onDraft={noop} /> },
-  { name: 'draft-failed', render: () => <NoDraft guide="pon" failed onDraft={noop} /> },
+  {
+    name: 'draft-empty',
+    render: () => (
+      <NoDraft guide="pon" failed={false} backLabel="Kyoto setup" onBack={noop} onDraft={noop} />
+    ),
+  },
+  {
+    name: 'draft-failed',
+    render: () => (
+      <NoDraft guide="pon" failed backLabel="Kyoto setup" onBack={noop} onDraft={noop} />
+    ),
+  },
   {
     name: 'draft-member',
     render: () => <MemberPlanning trip={{ ...TRIP, isOrganiser: false }} onBack={noop} />,

@@ -13,6 +13,8 @@ import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
+import { draftBackLabel } from '../back-label';
+
 const useStyles = makeStyles((th) => ({
   header: {
     paddingHorizontal: th.space['20'],
@@ -32,16 +34,11 @@ export interface DraftLoadingProps {
 export function DraftLoading({ trip, onBack }: DraftLoadingProps) {
   const styles = useStyles();
   const guideName = trip === null ? null : guideSticker(trip.guide).name;
-  const destination = trip?.destination ?? '';
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="draft-loading">
       <View style={styles.header}>
         <BackEyebrow
-          label={
-            trip === null
-              ? t({ id: 'planDraft.loading.back', message: 'Back' })
-              : t({ id: 'planDraft.review.back', message: `${destination} setup` })
-          }
+          label={draftBackLabel(trip?.destination ?? null)}
           onPress={onBack}
           testID="draft-back"
         />

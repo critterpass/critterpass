@@ -12,10 +12,12 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 
+import { draftBackLabel } from '../back-label';
 import { restoreDraftVersionCommand } from '../data/commands';
 import { isBeingDrafted, isDraftRetired } from '../data/draft-stage';
 import { useDraftTrip } from '../data/draft-trip';
@@ -51,8 +53,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
     else if (drafting) router.replace(draftRoutes.drafting(tripId));
   }, [drafting, focused, retired, tripId]);
 
-  const back = () =>
-    router.canGoBack() ? router.back() : router.replace(draftRoutes.setup(tripId) ?? '/');
+  const back = () => goBackOr(draftRoutes.setup(tripId) ?? '/');
   if (trip === undefined || trip === null || !draft.loaded || drafting || retired) {
     return (
       <DraftLoading
@@ -67,16 +68,15 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   }
   if (!trip.isOrganiser)
     return (
-      <MemberPlanning
-        trip={trip}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-      />
+      <MemberPlanning trip={trip} onBack={() => goBackOr(hrefFor('plan-hub', { tripId }) ?? '/')} />
     );
   if (draft.review === null) {
     return (
       <NoDraft
         guide={trip.guide}
         failed={draft.lastDraftJob?.status === 'failed'}
+        backLabel={draftBackLabel(trip.destinationName)}
+        onBack={back}
         onDraft={() => router.replace(draftRoutes.drafting(tripId))}
       />
     );

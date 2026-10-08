@@ -24,6 +24,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { draftBackLabel } from '../back-label';
 import { estimateMinor, estimateMoney, overBudgetMinor, wholeMoney } from '../data/format';
 import type { RedraftQuota } from '../data/quota';
 import { counterLine } from '../data/quota-copy';
@@ -114,7 +115,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="draft-review">
       <View style={styles.header}>
         <BackEyebrow
-          label={t({ id: 'planDraft.review.back', message: `${destination} setup` })}
+          label={draftBackLabel(destination)}
           onPress={props.onBack}
           testID="draft-back"
         />

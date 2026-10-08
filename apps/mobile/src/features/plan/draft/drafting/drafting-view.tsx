@@ -1,7 +1,8 @@
 /**
  * The drafting screen (3c-8) as a pure view: the guide thinking in its rings, "{GUIDE} IS
  * DRAFTING YOUR {N} DAYS", the real job steps ticking off and the day cards streaming past. Around
- * it: slow (past 45 s, a push will follow), waiting for signal, a start the server refused, a
+ * it: slow (past 45 s, a push will follow), waiting for signal (with a way to leave), a start the
+ * server refused, a
  * failed job (the failed step says why; nothing was spent) and a stopped one. When the job is done
  * everything folds away and `onDone` opens the draft.
  */
@@ -18,6 +19,7 @@ import { Text } from '@/ui/text/Text';
 import { Fold } from '@/ui/transitions/Fold';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { draftingBackLabel } from '../back-label';
 import { VISIBLE_STEP_IDS, type DayCard, type DraftPhase, type StepRow } from '../data/job';
 import { DayMarquee } from './day-marquee';
 import { GuideGlow, GuideInRings } from './ping-rings';
@@ -128,13 +130,14 @@ function lineFor(phase: DraftPhase, days: number): string {
   }
 }
 
-function Footer({
+/** The wait's buttons: every state that is not folding away has a way to leave. */
+export function DraftingFooter({
   phase,
   onRetry,
   onCancel,
   onBack,
 }: Pick<DraftingViewProps, 'phase' | 'onRetry' | 'onCancel' | 'onBack'>) {
-  const back = t({ id: 'planDraft.drafting.back', message: 'Back to setup' });
+  const back = draftingBackLabel();
   switch (phase.kind) {
     case 'failed':
     case 'cancelled':
@@ -173,6 +176,15 @@ function Footer({
         </>
       );
     case 'offline':
+      // Nothing has started and nothing will until the phone is back online: she can leave.
+      return (
+        <PillButton
+          label={t({ id: 'planDraft.drafting.leave', message: 'Come back later' })}
+          variant="secondary"
+          onPress={onBack}
+          testID="drafting-leave"
+        />
+      );
     case 'done':
       return null;
   }
@@ -235,7 +247,7 @@ export function DraftingView({
           ) : null}
         </ScrollView>
         <View style={styles.footer}>
-          <Footer phase={phase} onRetry={onRetry} onCancel={onCancel} onBack={onBack} />
+          <DraftingFooter phase={phase} onRetry={onRetry} onCancel={onCancel} onBack={onBack} />
         </View>
       </Fold>
     </Scaffold>
