@@ -71,19 +71,29 @@ export interface AbuseRateLimitDeps {
  * not an array of matcher rules the way a plugin's own `hooks` are. Missing an install id just skips
  * the device check — best-effort, same degrade-gracefully posture as attestation's log mode, not a
  * way for a client to opt out of the phone-number check.
+ *
+ * `neverSent` marks a number no message is ever sent to (a fixed-code test number, which only
+ * exists outside production): the per-number limit guards provider spend and a real person's
+ * inbox, so it is skipped for such a number, while the device limit still counts the request.
  */
 export async function enforceOtpSendRateLimit(
-  input: { readonly phoneNumber: string | undefined; readonly installId: string | undefined },
+  input: {
+    readonly phoneNumber: string | undefined;
+    readonly installId: string | undefined;
+    readonly neverSent?: boolean;
+  },
   deps: AbuseRateLimitDeps,
 ): Promise<void> {
   if (!input.phoneNumber) return;
 
-  const phoneDecision = await checkRateLimit(
-    deps.redis,
-    `abuse:otp-send:phone:${hashForRateLimitKey(input.phoneNumber)}`,
-    OTP_SEND_PER_PHONE_RULE,
-  );
-  if (!phoneDecision.allowed) throw rateLimited(phoneDecision.retryAfterS);
+  if (input.neverSent !== true) {
+    const phoneDecision = await checkRateLimit(
+      deps.redis,
+      `abuse:otp-send:phone:${hashForRateLimitKey(input.phoneNumber)}`,
+      OTP_SEND_PER_PHONE_RULE,
+    );
+    if (!phoneDecision.allowed) throw rateLimited(phoneDecision.retryAfterS);
+  }
 
   if (!input.installId) return;
   const deviceDecision = await checkRateLimit(

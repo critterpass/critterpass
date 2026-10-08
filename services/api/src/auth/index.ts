@@ -239,6 +239,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     },
     rateLimit: { redis: deps.redis },
     pumping: { redis: deps.redis, config: deps.pumping ?? defaultPumpingConfig() },
+    fixedCodes: deps.fixedCodes,
     appPool: deps.appPool,
   };
 

@@ -105,6 +105,26 @@ describe('enforceOtpSendRateLimit', () => {
     ).rejects.toMatchObject({ code: 'RATE_LIMITED' });
   });
 
+  it('skips only the per-number limit for a number that is never sent a message', async () => {
+    const redis = new FakeRedis();
+    const phoneNumber = '+6591234567';
+    const input = { phoneNumber, installId: 'install-1', neverSent: true };
+    for (let i = 0; i < 5; i += 1) await enforceOtpSendRateLimit(input, { redis });
+    const error = await enforceOtpSendRateLimit(input, { redis }).catch(
+      (caught: unknown) => caught,
+    );
+    expect(error).toMatchObject({ code: 'RATE_LIMITED' });
+    // The hourly device window answered, and none of the number's own allowance was used.
+    expect((error as { detail: { retry_after_s: number } }).detail.retry_after_s).toBeGreaterThan(
+      600,
+    );
+    for (let i = 0; i < 3; i += 1) {
+      await expect(
+        enforceOtpSendRateLimit({ phoneNumber, installId: undefined }, { redis }),
+      ).resolves.toBeUndefined();
+    }
+  });
+
   it('skips the device check entirely when no install id is provided', async () => {
     const redis = new FakeRedis();
     await expect(
