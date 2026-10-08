@@ -1,6 +1,14 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, screen } from '@testing-library/react-native';
-import { DeviceEventEmitter, Keyboard, Platform, StyleSheet, Text, TextInput } from 'react-native';
+import {
+  DeviceEventEmitter,
+  Dimensions,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+} from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -93,6 +101,39 @@ describe('KeyboardFooter', () => {
     await view.rerender(footerScreen('dark'));
     expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
     expect(flat('footer-edge')).toMatchObject({ opacity: 1, height: StyleSheet.hairlineWidth });
+  });
+});
+
+describe("a keyboard with an accessory bar (the number pads' Done key) on iPhone", () => {
+  const frame = (height: number) => ({
+    duration: 250,
+    easing: 'keyboard',
+    endCoordinates: { screenX: 0, screenY: METRICS.frame.height - height, width: 390, height },
+  });
+
+  it("rides on the keyboard and its bar from UIKit's notice when Reanimated reports nothing", async () => {
+    jest.spyOn(Dimensions, 'get').mockReturnValue({ ...METRICS.frame, scale: 3, fontScale: 1 });
+    const view = await renderFooter();
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardWillChangeFrame', frame(336 + 44));
+    });
+    await view.rerender(footerScreen('dark'));
+    expect(flat('footer').paddingBottom).toBe(336 + 44 + tokens.space['8']);
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardWillHide', frame(336 + 44));
+    });
+    await view.rerender(footerScreen('dark'));
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
+  });
+
+  it('leaves Android to Reanimated alone', async () => {
+    jest.replaceProperty(Platform, 'OS', 'android');
+    const view = await renderFooter();
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardWillChangeFrame', frame(380));
+    });
+    await view.rerender(footerScreen('dark'));
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
   });
 });
 
