@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { ItemSheetHost } from '../day/item-sheet-host';
-import { announceEdit, useDayEditing } from '../day/use-day-editing';
+import { useDayEditing } from '../day/use-day-editing';
 import { useChosenDay } from '../trip-map/chosen-day';
 import { legTravel } from './reschedule';
 import { useDayRoute } from '../trip-map/day-route';
@@ -59,7 +59,6 @@ export function DayMapScreen({
           item={open}
           slot={{ dayNo, date: day.date ?? '' }}
           editor={editor}
-          announce={announceEdit}
           travel={legTravel(route.legs)}
           onClose={() => setOpenId(null)}
         />

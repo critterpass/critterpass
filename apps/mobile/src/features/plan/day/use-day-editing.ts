@@ -126,5 +126,3 @@ export function useDayEditing(plan: TripPlan) {
 
   return { ...editor, submit };
 }
-
-export { announceEdit } from './edit-copy';

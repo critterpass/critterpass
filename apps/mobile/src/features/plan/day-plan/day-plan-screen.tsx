@@ -19,7 +19,7 @@ import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { usePlanPresence } from '../collab/use-presence';
 import { ItemSheetHost } from '../day/item-sheet-host';
-import { announceEdit, useDayEditing } from '../day/use-day-editing';
+import { useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
 import { useChosenDay, useOpenOnDate } from '../trip-map/chosen-day';
 import { useDayRoute } from '../trip-map/day-route';
@@ -133,7 +133,6 @@ export function DayPlanScreen({
                 onDrop: async () => {
                   const dropped = await reorder.drop();
                   if (dropped.kind === 'refused') refuse(refusalLine(dropped.refusal));
-                  if (dropped.kind === 'sent') announceEdit(dropped.outcome);
                   return dropped.kind === 'sent';
                 },
               }
@@ -162,7 +161,6 @@ export function DayPlanScreen({
           item={open}
           slot={slot}
           editor={editor}
-          announce={announceEdit}
           travel={travel}
           onClose={() => setOpenId(null)}
         />

@@ -12,7 +12,7 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import type { MapSheetSnap } from '@/ui/sheet/map-sheet-snap';
 
 import { ItemSheetHost } from '../day/item-sheet-host';
-import { announceEdit, useDayEditing } from '../day/use-day-editing';
+import { useDayEditing } from '../day/use-day-editing';
 import { hubDay } from '../hub/plan-hub';
 import { tripPlanRoutes } from '../hub/routes';
 import { useChosenDay, useOpenOnDate } from './chosen-day';
@@ -86,7 +86,6 @@ export function TripMapScreen({
           item={open}
           slot={{ dayNo: selected.dayNo, date: selected.date ?? '' }}
           editor={editor}
-          announce={announceEdit}
           travel={legTravel(route.legs)}
           onClose={() => setOpenId(null)}
         />

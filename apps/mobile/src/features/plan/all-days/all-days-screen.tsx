@@ -18,7 +18,7 @@ import { makeStyles } from '@/ui/theme';
 
 import { refusalLine } from '../day-plan/refusal';
 import type { Travel } from '../day-plan/reschedule';
-import { announceEdit, useDayEditing } from '../day/use-day-editing';
+import { useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
 import { setChosenDay } from '../trip-map/chosen-day';
 import { ShareSheet } from '../trip-map/share-sheet';
@@ -149,7 +149,7 @@ export function AllDaysScreen({
           onConfirm={() => {
             const plan = preview.plan;
             setPreview(null);
-            if (plan.ok) void editor.submit(plan.ops).then(announceEdit);
+            if (plan.ok) void editor.submit(plan.ops);
           }}
           onClose={() => setPreview(null)}
         />
