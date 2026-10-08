@@ -26,10 +26,13 @@ export function EmptyChat({
   guideSlug,
   guideName,
   onSayHi,
+  onInvite,
 }: {
   readonly guideSlug: string | null;
   readonly guideName: string;
   readonly onSayHi: () => void;
+  /** The crew is only this member so far: the way forward is to bring friends in. */
+  readonly onInvite?: () => void;
 }) {
   const styles = useStyles();
   const guide = guideIdOf(guideSlug);
@@ -44,13 +47,31 @@ export function EmptyChat({
         guide={guide}
         guideName={guideName}
         sticker={<Sticker kind={sticker.kind} name={sticker.name} pose="wave" size={GUIDE_SIZE} />}
-        title={t({ id: 'chat.empty.title', message: 'Say hi to the crew' })}
-        line={t({
-          id: 'chat.empty.line',
-          message: 'Plans, photos and votes all land here. Start with a hello.',
-        })}
-        action={{ label: t({ id: 'chat.empty.action', message: 'Say hi' }), onPress: onSayHi }}
-        testID="chat-empty"
+        title={
+          onInvite === undefined
+            ? t({ id: 'chat.empty.title', message: 'Say hi to the crew' })
+            : t({ id: 'chat.empty.loneTitle', message: 'It’s only you in here so far' })
+        }
+        line={
+          onInvite === undefined
+            ? t({
+                id: 'chat.empty.line',
+                message: 'Plans, photos and votes all land here. Start with a hello.',
+              })
+            : t({
+                id: 'chat.empty.loneLine',
+                message: 'Bring your friends in. Plans, photos and votes all land here.',
+              })
+        }
+        action={
+          onInvite === undefined
+            ? { label: t({ id: 'chat.empty.action', message: 'Say hi' }), onPress: onSayHi }
+            : {
+                label: t({ id: 'chat.empty.invite', message: 'Invite friends' }),
+                onPress: onInvite,
+              }
+        }
+        testID={onInvite === undefined ? 'chat-empty' : 'chat-empty-invite'}
       />
     </ScrollView>
   );

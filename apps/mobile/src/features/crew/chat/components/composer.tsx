@@ -168,6 +168,8 @@ export const ChatComposer = forwardRef<ChatComposerHandle, ChatComposerProps>(
           value={text}
           onChangeText={(value) => {
             setText(value);
+            // The line about the last attempt goes once the member changes the message.
+            setProblem(null);
             if (value.length > 0) onTyping();
           }}
           onSend={send}
