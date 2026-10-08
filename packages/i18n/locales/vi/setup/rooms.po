@@ -78,7 +78,7 @@ msgstr "Phòng rộng hơn thì người ở trả nhỉnh hơn."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.tag"
-msgstr "Ngân sách"
+msgstr "Chi phí"
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.trait.couple"
