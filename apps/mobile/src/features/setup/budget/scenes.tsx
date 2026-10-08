@@ -97,7 +97,7 @@ function organiser(
   );
 }
 
-function member(model: Partial<PrivateMaxModel>, me: string = DEV) {
+function member(model: Partial<PrivateMaxModel>, me: string = DEV, changing = false) {
   const trip = kyotoTrip({ step: 'budget', dates: true, me });
   return (
     <PrivateMaxView
@@ -116,6 +116,7 @@ function member(model: Partial<PrivateMaxModel>, me: string = DEV) {
       }}
       onSave={() => undefined}
       onChange={() => undefined}
+      onCancel={changing ? () => undefined : undefined}
     />
   );
 }
@@ -146,6 +147,8 @@ export const BUDGET_SCENES: readonly SetupScene[] = [
     name: 'budget-multi-currency',
     render: () => member({ entryCurrency: 'VND', prefill: 35_000_000 }),
   },
+  // Changing a max already in: the form can be left as it was.
+  { name: 'budget-max-change', render: () => member({}, DEV, true) },
   {
     name: 'budget-member-set',
     render: () => member({ state: 'set', fit: 'fits', counts: { set: 5, of: 6 } }),

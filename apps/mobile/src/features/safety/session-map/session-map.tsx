@@ -5,12 +5,13 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Linking, Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -21,6 +22,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
+import { safetyRoutes } from '../routes';
 import { PLATFORM } from '../sos/send-queries';
 import { useSessionMap, type SessionMap } from './use-session-map';
 import { walkingDirectionsUrl } from './walking-route';
@@ -34,7 +36,7 @@ export function SessionMapScreen() {
     <SessionMapView
       map={map}
       senderName={map.model?.senderName ?? ''}
-      onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onClose={() => goBackOr(sosId === null ? undefined : safetyRoutes.sos(sosId))}
     />
   );
 }
@@ -54,7 +56,13 @@ export function SessionMapView({ map, senderName: name, onClose: close }: Sessio
   const sender = map.sender;
   const eta = map.etaMin;
   const away = map.distanceM === null ? null : distanceIn(map.distanceM);
-  const km = away === null ? null : away.value.toFixed(1);
+  const km =
+    away === null
+      ? null
+      : new Intl.NumberFormat(locale, {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 1,
+        }).format(away.value);
 
   const line = map.ended
     ? t({ id: 'safety.map.ended', message: 'This SOS is over. The location share has stopped.' })
@@ -109,7 +117,7 @@ export function SessionMapView({ map, senderName: name, onClose: close }: Sessio
           />
         )}
       </View>
-      <View style={[styles.back, { top: insets.top + theme.space['8'], left: theme.size.gutter }]}>
+      <View style={[styles.back, { top: insets.top + theme.space['8'], start: theme.size.gutter }]}>
         <BackButton onPress={close} testID="sos-map-back" />
       </View>
       <View

@@ -14,8 +14,8 @@ import { patterns, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { Viewfinder } from '@/ui/camera/Viewfinder';
 import { WanderFootprints } from '@/ui/critters/WanderFootprints';
+import { Icon } from '@/ui/icons/Icon';
 import { Sticker } from '@/ui/sticker/Sticker';
-import { Text } from '@/ui/text/Text';
 import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -24,6 +24,8 @@ import { artKind } from '../art-kind';
 const RING = 250;
 const ART = 170;
 const STROKE = 4;
+/** A legendary's sparkle, at the size the heading glyph it replaces was drawn. */
+const SPARKLE = 24;
 
 export interface SceneProps {
   readonly mode: string;
@@ -85,9 +87,7 @@ function Sparkle({
   const pulse = useLoop('pulse', { offset });
   return (
     <Animated.View style={[styles.sparkle, { start: x, top: y }, pulse]}>
-      <Text variant="h2" color={theme.tier.legendary.color}>
-        ✦
-      </Text>
+      <Icon name="spark" size={SPARKLE} color={theme.tier.legendary.color} />
     </Animated.View>
   );
 }

@@ -12,6 +12,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { goBackOr } from '@/lib/navigation/back';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
@@ -75,6 +76,14 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   useEffect(() => {
     if (autoplay) router.replace(recapRoutes.story(tripId));
   }, [autoplay, tripId]);
+  // Until it is known whether the story plays first, the page waits, so its numbers never flash
+  // before the story takes over.
+  const settling =
+    !ended &&
+    model.phase === 'ready' &&
+    recapId !== null &&
+    !storySession.played(recapId) &&
+    (!data.viewLoaded || !data.watched);
 
   async function onRetry() {
     if (retry.pending) return;
@@ -96,7 +105,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   return (
     <>
       <SummaryView
-        model={model}
+        model={settling ? { ...model, phase: 'loading' } : model}
         guide={guide}
         guideName={guideName}
         unit={unit}
@@ -105,9 +114,11 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
         onRetry={() => void onRetry()}
         onShare={() => setSharing(true)}
         onWhereNext={() => router.navigate(whereNextHref(data.crewId))}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        onBack={() => goBackOr()}
         onGotAway={formsHref === undefined ? undefined : () => router.push(formsHref)}
-        onWatch={model.phase === 'ready' ? () => router.push(recapRoutes.story(tripId)) : undefined}
+        onWatch={
+          model.phase === 'ready' ? () => router.push(recapRoutes.story(tripId, true)) : undefined
+        }
         onRate={rateHref === undefined ? undefined : () => router.push(rateHref)}
       />
       {ended && recapId !== null ? <RecapEndSlot recapId={recapId} /> : null}

@@ -44,10 +44,6 @@ msgstr "Thêm của bạn"
 msgid "setup.budget.stay.apartment"
 msgstr "căn hộ"
 
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.eyebrow"
-msgstr "Mức tối đa"
-
 #: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
 #: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
 msgid "setup.budget.member.change"
@@ -110,6 +106,10 @@ msgid "setup.budget.stay.hotel"
 msgstr "khách sạn"
 
 #: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.keep"
+msgstr "Giữ nguyên"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
 msgid "setup.budget.member.loading"
 msgstr "Đang tải"
 
@@ -124,10 +124,6 @@ msgstr "Được đấy"
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.infeasible.hostels"
 msgstr "Xen hostel"
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.never"
-msgstr "Không hiện cho ai, kể cả hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
 msgid "setup.budget.fit.noTarget"

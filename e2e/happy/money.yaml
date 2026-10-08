@@ -64,6 +64,7 @@ appId: app.critterpass.dev
     visible:
       id: 'money-pay-request'
     timeout: 15000
+- takeScreenshot: en-money-payment-payee-request
 - tapOn:
     id: 'money-pay-request'
 # The request goes out and Settle up lists that payment as requested; open it again and confirm
@@ -79,6 +80,25 @@ appId: app.critterpass.dev
     visible:
       id: 'money-pay-confirm'
     timeout: 20000
+# "It didn't arrive" asks first, with room for a note; NOT YET sends nothing.
+- runFlow:
+    when:
+      visible:
+        id: 'money-pay-dispute'
+    commands:
+      - tapOn:
+          id: 'money-pay-dispute'
+      - extendedWaitUntil:
+          visible:
+            id: 'money-pay-dispute-confirm'
+          timeout: 10000
+      - takeScreenshot: en-money-payment-dispute-confirm
+      - tapOn:
+          id: 'money-pay-dispute-cancel'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'money-pay-dispute-confirm'
+          timeout: 10000
 - tapOn:
     id: 'money-pay-confirm'
 - extendedWaitUntil:

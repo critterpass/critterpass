@@ -114,6 +114,23 @@ describe('command client (offline-capable)', () => {
   });
 });
 
+describe('command client (online-only) with no signal', () => {
+  it('answers unavailable and leaves nothing queued, so the screen offers a retry', async () => {
+    // The default transport points at a port nothing listens on: every request is refused.
+    stack = await openTestLocalFirst({ holdUploads: true });
+    const crewId = '0190f5a4-0000-7000-8000-0000000000c2';
+
+    const result = await stack.value.commands.send(registeredOnly, {
+      crew_id: crewId,
+      name: 'Bali',
+    });
+
+    expect(result).toEqual({ kind: 'unavailable', opId: expect.any(String), code: 'NETWORK' });
+    expect(await listQueuedCommands(stack.db)).toEqual([]);
+    expect(await stack.db.getAll('SELECT * FROM commands')).toEqual([]);
+  });
+});
+
 describe('summaries', () => {
   it('fall back to the command name when absent or unreadable', () => {
     expect(summaryOrName('cast_ballot', null)).toEqual({

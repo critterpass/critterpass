@@ -22,6 +22,10 @@ export interface SettingsLeading {
 interface RowBase {
   readonly key: string;
   readonly leading?: SettingsLeading;
+  /** A leading tile the caller draws itself (Pings' art tiles); shown in place of `leading`. */
+  readonly leadingNode?: ReactNode;
+  /** The row's own id; a toggle row's switch gets `{testID}-toggle`. */
+  readonly testID?: string;
   readonly title: string;
   readonly subtitle?: string;
   readonly disabled?: boolean;
@@ -115,27 +119,31 @@ function Titles({
 function SettingsRowView({ row }: { readonly row: SettingsRow }) {
   const styles = useStyles();
   const theme = useTheme();
+  const leading =
+    row.leadingNode ??
+    (row.leading ? <LeadingTile leading={row.leading} rowKey={row.key} /> : null);
   const chevron = I18nManager.isRTL ? '‹' : '›';
   const dim = row.disabled ? { opacity: 0.4 } : null;
   const described = (extra?: string) => [row.title, row.subtitle, extra].filter(Boolean).join(', ');
   switch (row.kind) {
     case 'toggle':
       return (
-        <Row gap="12" style={[styles.row, dim]}>
-          {row.leading ? <LeadingTile leading={row.leading} rowKey={row.key} /> : null}
+        <Row gap="12" style={[styles.row, dim]} testID={row.testID}>
+          {leading}
           <Titles title={row.title} {...(row.subtitle ? { subtitle: row.subtitle } : {})} />
           <Toggle
             value={row.value}
             onValueChange={row.onChange}
             label={described()}
             {...(row.disabled ? { disabled: true } : {})}
+            {...(row.testID === undefined ? {} : { testID: `${row.testID}-toggle` })}
           />
         </Row>
       );
     case 'custom':
       return (
-        <Row gap="12" style={[styles.row, dim]}>
-          {row.leading ? <LeadingTile leading={row.leading} rowKey={row.key} /> : null}
+        <Row gap="12" style={[styles.row, dim]} testID={row.testID}>
+          {leading}
           <Titles title={row.title} {...(row.subtitle ? { subtitle: row.subtitle } : {})} />
           {row.trailing}
         </Row>
@@ -174,7 +182,7 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
         ) : null;
       const content = (
         <>
-          {row.leading ? <LeadingTile leading={row.leading} rowKey={row.key} /> : null}
+          {leading}
           <Titles
             title={row.title}
             {...(row.subtitle ? { subtitle: row.subtitle } : {})}
@@ -188,6 +196,7 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
           <Row
             gap="12"
             style={[styles.row, dim]}
+            testID={row.testID}
             accessible
             accessibilityLabel={label}
             {...(row.kind === 'check'
@@ -215,6 +224,7 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
               }
             : {})}
           style={[styles.row, { flexDirection: 'row', gap: theme.space['12'] }, dim]}
+          testID={row.testID}
         >
           {content}
         </PressScale>

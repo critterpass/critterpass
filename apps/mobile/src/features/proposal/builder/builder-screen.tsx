@@ -14,6 +14,7 @@ import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { feedback, toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 
@@ -24,7 +25,7 @@ import { useCurrentProposal, useVersions } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
-import { eachPrice, tripDates } from '../labels';
+import { eachPrice, failedLine, tripDates } from '../labels';
 import { proposalRoutes } from '../routes';
 import { AloneView } from './alone-view';
 import { BuilderView } from './builder-view';
@@ -86,7 +87,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
     });
   }, [create, offline, proposal, trip, tripId]);
 
-  const back = () => (router.canGoBack() ? router.back() : router.replace('/'));
+  const back = () => goBackOr();
   if (trip === undefined || proposal === undefined || config === null || !stays.loaded) {
     return <ProposalLoading testID="build-loading" />;
   }
@@ -117,7 +118,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       />
     );
   }
-  if (trip === null) return null;
+  if (trip === null) return <ProposalLoading missing testID="build-loading" />;
   // Nobody to send it to: no pitch to make, the organiser locks the plan in (or invites first).
   if (trip.recipients.length === 0 && trip.isOrganiser) {
     const onLock = async () => {
@@ -135,10 +136,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       toast.show({
         id: 'proposal-lock-alone-failed',
         title: t({ id: 'proposal.alone.failed', message: 'Couldn’t lock it in' }),
-        subtitle: t({
-          id: 'proposal.alone.failedSub',
-          message: 'Check your connection and try again.',
-        }),
+        subtitle: failedLine(result),
       });
     };
     return (
@@ -189,7 +187,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
           toast.show({
             id: 'proposal-build-failed',
             title: t({ id: 'proposal.build.failed', message: 'Couldn’t build the proposal' }),
-            subtitle: t({ id: 'proposal.build.failedSub', message: 'Try again in a moment.' }),
+            subtitle: failedLine(made),
           });
           return;
         }
@@ -198,6 +196,14 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       if (proposalId === null) return;
       const out = await send.send({ proposal_id: proposalId });
       if (out.kind === 'applied' || out.kind === 'queued') setSentId(proposalId);
+      else {
+        feedback.emit('error');
+        toast.show({
+          id: 'proposal-send-failed',
+          title: t({ id: 'proposal.send.failed', message: 'Couldn’t send the proposal' }),
+          subtitle: failedLine(out),
+        });
+      }
     } finally {
       setSending(false);
     }
@@ -251,9 +257,9 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         onPersonal={(personal) => setConfig({ ...config, personal })}
         onReplyBy={() => setPicking(true)}
         onPreview={(uid) => {
-          if (proposal !== null) {
-            router.push(proposalRoutes.preview(proposal.id, uid));
-          }
+          // The proposal row follows its build by a sync; the built id is known at once.
+          const id = proposal?.id ?? autoBuilt;
+          if (id !== null) router.push(proposalRoutes.preview(id, uid));
         }}
         onSend={() => void onSend()}
       />

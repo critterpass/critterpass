@@ -171,7 +171,7 @@ export function QuestCardView({
         ? t({ id: 'quests.reward.settled', message: 'Reward · Settled Tokek' })
         : t({ id: 'quests.reward.xp', message: `Reward · +${card.reward.xp} XP` });
   const status = done
-    ? t({ id: 'quests.card.done', message: 'Done ✓' })
+    ? t({ id: 'quests.card.done', message: 'Done' })
     : card.state === 'missed'
       ? t({ id: 'quests.card.missed', message: 'Missed' })
       : null;

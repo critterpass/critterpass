@@ -2,7 +2,8 @@
  * The recap page over the real local-first stack: the guide writing while the recap is queued or
  * building, the numbers once the row turns ready (every one from the row, the guide's words when
  * written), a late re-run's badge, a dropout's note, a failed build's retry without signal, and
- * WHERE NEXT? back to Home with the crew in front.
+ * WHERE NEXT? back to Home with the crew in front. Until the story has been watched the page waits
+ * and the story plays first; a replay opens over the page.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -63,9 +64,14 @@ import { RecapSummaryScreen } from '../summary-screen';
 
 let stack: TestLocalFirst | null = null;
 
-async function open(options?: SeedTrip): Promise<TestLocalFirst> {
+const WATCHED_SQL = `INSERT INTO recap_views (id, recap_id, trip_id, user_id, opened_at, completed_at)
+  VALUES ('rv-1', ?, ?, ?, '2026-10-05T01:00:00Z', '2026-10-05T01:02:00Z')`;
+
+/** A trip whose recap story the viewer has already watched, unless `watched` is false. */
+async function open(options?: SeedTrip, watched = true): Promise<TestLocalFirst> {
   stack = await openTestLocalFirst({ holdUploads: true });
   await seedTrip(stack, options);
+  if (watched) await stack.db.execute(WATCHED_SQL, [RECAP, TRIP, stack.uid]);
   return stack;
 }
 
@@ -209,11 +215,6 @@ describe('recap page', () => {
     });
     const s = await open();
     await seedRecap(s, recapRow());
-    await s.db.execute(
-      `INSERT INTO recap_views (id, recap_id, trip_id, user_id, opened_at, completed_at)
-       VALUES ('rv-1', ?, ?, ?, '2026-10-05T01:00:00Z', '2026-10-05T01:02:00Z')`,
-      [RECAP, TRIP, s.uid],
-    );
     await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
     await until(() => visible('recap-forms'));
     await fireEvent.press(screen.getByTestId('recap-forms'));
@@ -225,7 +226,7 @@ describe('recap page', () => {
   });
 
   it('plays the story first until it has been watched, and opens on the page after that', async () => {
-    const s = await open();
+    const s = await open(undefined, false);
     await seedRecap(s, recapRow());
     await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
     await until(() => (router.replace as jest.Mock).mock.calls.length > 0);
@@ -233,17 +234,24 @@ describe('recap page', () => {
       pathname: '/recap/[tripId]/story',
       params: { tripId: TRIP },
     });
+    // The page waited for the story: its numbers never showed first.
+    expect(visible('recap-tiles')).toBe(false);
+    expect(visible('recap-loading')).toBe(true);
 
     // Played to its end on another phone: the page stays the page.
     (router.replace as jest.Mock).mockClear();
-    await s.db.execute(
-      `INSERT INTO recap_views (id, recap_id, trip_id, user_id, opened_at, completed_at)
-       VALUES ('rv-1', ?, ?, ?, '2026-10-05T01:00:00Z', '2026-10-05T01:02:00Z')`,
-      [RECAP, TRIP, s.uid],
-    );
+    await s.db.execute(WATCHED_SQL, [RECAP, TRIP, s.uid]);
     storySession.reset();
     await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
     await until(() => visible('recap-watch'));
+    expect(router.replace).not.toHaveBeenCalled();
+
+    // Playing it again opens the story over the page, which stays underneath.
+    await fireEvent.press(screen.getByTestId('recap-watch'));
+    expect(router.push).toHaveBeenLastCalledWith({
+      pathname: '/recap/[tripId]/story',
+      params: { tripId: TRIP, from: 'summary' },
+    });
     expect(router.replace).not.toHaveBeenCalled();
   });
 });

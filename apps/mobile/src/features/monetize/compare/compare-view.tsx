@@ -6,7 +6,7 @@
 import type { StorePlatform } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
@@ -36,6 +36,9 @@ export interface CompareViewProps {
   readonly onPrivacy: () => void;
 }
 
+/** Below this width the two priced buttons stack. */
+const NARROW_PT = 360;
+
 const useStyles = makeStyles((t) => ({
   content: {
     padding: t.size.gutter,
@@ -50,6 +53,9 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['12'],
   },
   half: { flex: 1 },
+  sideBySide: { flexDirection: 'row', gap: t.space['12'] },
+  // Two priced buttons do not fit side by side on the narrowest phones.
+  stacked: { gap: t.space['12'] },
   centre: { textAlign: 'center' },
 }));
 
@@ -58,6 +64,7 @@ export function CompareView(props: CompareViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const phaseLine = usePhaseLine();
+  const narrow = useWindowDimensions().width < NARROW_PT;
   const [column, setColumn] = useState<CompareColumn>('pass');
   const { model } = props;
   const { phase, offer, boost } = model;
@@ -132,8 +139,8 @@ export function CompareView(props: CompareViewProps) {
           </Row>
         </SurfaceToneProvider>
       </View>
-      <Row gap="12">
-        <View style={styles.half}>
+      <View style={narrow ? styles.stacked : styles.sideBySide}>
+        <View style={narrow ? null : styles.half}>
           {phase === 'subscribed' ? (
             <PillButton
               label={t({ id: 'monetize.compare.havePass', message: 'You have Pass+' })}
@@ -162,7 +169,7 @@ export function CompareView(props: CompareViewProps) {
           )}
         </View>
         {props.canBoost && boost ? (
-          <View style={styles.half}>
+          <View style={narrow ? null : styles.half}>
             <PillButton
               label={`${boostLabel} · ${boost.priceString}`}
               onPress={props.onBoost}
@@ -174,7 +181,7 @@ export function CompareView(props: CompareViewProps) {
             />
           </View>
         ) : null}
-      </Row>
+      </View>
       {status === null ? null : (
         <Text
           variant="bodySm"

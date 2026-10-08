@@ -6,20 +6,23 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, SQL and Intl options, never copy. */
 import { format } from '@cp/i18n';
-import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useLingui } from '@lingui/react/macro';
+import { useCallback, useMemo, useState } from 'react';
 
 import { storePlatform } from '@/data/billing';
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import type { PauseMonth } from '@/ui/monetize/PauseBars';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
 
 import { perkLines } from '../perks/perk-copy';
 import { MONETIZE_ROUTES } from '../routes';
 import { CancelView } from './cancel-view';
 import { pauseResumeDate } from './plan-model';
+import { useRecheckOnReturn } from './use-billing-issue';
 import { usePlan } from './use-plan';
 
 const NEXT_TRIP_SQL = `SELECT t.start_date, d.name AS destination FROM trips t
@@ -56,7 +59,8 @@ export function pauseMonths(now: Date, tripStart: Date, locale: string): PauseMo
 
 export function CancelScreen() {
   const locale = useLocale();
-  const { rows, plan, manage } = usePlan();
+  const { t } = useLingui();
+  const { rows, plan, recheck, manage } = usePlan();
   const { send } = useCommand(setPauseIntentCommand);
   const [now] = useState(() => new Date());
   const today = now.toISOString().slice(0, 10);
@@ -66,8 +70,27 @@ export function CancelScreen() {
     NEXT_TRIP_TABLES,
   );
   const perks = useMemo(() => perkLines(rows.perks, 'pass_plus'), [rows.perks]);
-  const back = () => (router.canGoBack() ? router.back() : router.replace(MONETIZE_ROUTES.plan));
-  if (plan === null) return null;
+  const back = useCallback(() => goBackOr(MONETIZE_ROUTES.plan), []);
+  // The store's page did the cancelling or pausing: back in the app, the subscription is checked
+  // again and Your plan (which says "ends on {date}") is where the person lands.
+  const [atStore, setAtStore] = useState(false);
+  const returned = useCallback(() => {
+    if (atStore) back();
+  }, [atStore, back]);
+  useRecheckOnReturn(recheck, returned);
+  const openStore = () => {
+    setAtStore(true);
+    manage();
+  };
+  if (plan === null) {
+    return (
+      <ScreenLoading
+        backLabel={t({ id: 'monetize.back.plan', message: 'Your plan' })}
+        fallback={MONETIZE_ROUTES.plan}
+        testID="cancel-loading"
+      />
+    );
+  }
   const trip = next.rows[0];
   const start = trip?.start_date ? new Date(`${trip.start_date.slice(0, 10)}T00:00:00Z`) : null;
   const months = start === null ? [] : pauseMonths(now, start, locale);
@@ -77,7 +100,7 @@ export function CancelScreen() {
       // The reminder is a courtesy: the store sheet opens whether or not this reaches the server.
       void send({ resume_at: resume.toISOString() }).catch(() => undefined);
     }
-    manage();
+    openStore();
   };
   return (
     <CancelView
@@ -91,7 +114,7 @@ export function CancelScreen() {
       perks={perks}
       onPause={pause}
       onKeep={back}
-      onCancel={manage}
+      onCancel={openStore}
       onBack={back}
     />
   );

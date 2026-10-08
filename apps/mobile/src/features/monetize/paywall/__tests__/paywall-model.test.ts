@@ -70,6 +70,12 @@ describe('paywallModel', () => {
     expect(offline.canBuy).toBe(false);
   });
 
+  it('says offline, not "purchases are not available", when the store had no signal to answer', () => {
+    expect(model({ online: false, products: { status: 'unavailable' } }).phase).toBe('offline');
+    expect(model({ online: false, products: { status: 'loading' } }).phase).toBe('offline');
+    expect(model({ online: true, products: { status: 'unavailable' } }).phase).toBe('unavailable');
+  });
+
   it('never starts a second purchase while one is in flight or waiting', () => {
     const states: PurchaseState[] = [
       { status: 'purchasing', productKey: 'pass_yearly' },

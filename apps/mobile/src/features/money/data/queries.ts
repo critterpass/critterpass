@@ -35,6 +35,10 @@ export const TRIPS_SQL = `SELECT t.id, t.status, t.start_date, t.end_date, coale
   ORDER BY t.start_date DESC, t.id`;
 export const TRIPS_TABLES = ['trips', 'destinations', 'trip_participants'];
 
+/** The crew a trip belongs to, for a money screen opened for one trip. */
+export const TRIP_CREW_SQL = 'SELECT crew_id FROM trips WHERE id = ?';
+export const TRIP_CREW_TABLES = ['trips'];
+
 export const PARTICIPANTS_SQL = `SELECT user_id FROM trip_participants
   WHERE trip_id = ? AND coalesce(holds_seat, 1) = 1 ORDER BY created_at, user_id`;
 export const PARTICIPANTS_TABLES = ['trip_participants'];
@@ -146,8 +150,9 @@ export interface ExpenseRow {
   readonly amount_minor: number;
   readonly currency: string;
   readonly fx_snapshot_id: string | null;
-  readonly crew_amount_minor: number;
-  readonly crew_currency: string;
+  /** Null until the server has written the crew-currency amount of a foreign expense. */
+  readonly crew_amount_minor: number | null;
+  readonly crew_currency: string | null;
   readonly split_mode: string;
   readonly category: string | null;
   readonly description: string | null;

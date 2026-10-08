@@ -10,6 +10,7 @@ import type { ReactNode } from 'react';
 import type { SpawnArt } from '../encounter/encounter-model';
 import { EncounterView, type EncounterViewProps } from '../encounter/encounter-view';
 import { LiveCamera } from '../encounter/live-camera';
+import { goBackOr } from '@/lib/navigation/back';
 
 const noop = () => undefined;
 
@@ -62,6 +63,7 @@ function live(overrides: Partial<LiveProps> = {}) {
       onTap={noop}
       onRemind={noop}
       onBack={noop}
+      onLeave={() => goBackOr()}
       // The real camera guard: on a phone with a camera the preview shows; without one (a
       // simulator, a refused permission) the illustration stays.
       camera={<LiveCamera />}

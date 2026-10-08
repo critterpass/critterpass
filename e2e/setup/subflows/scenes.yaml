@@ -55,6 +55,9 @@ appId: app.critterpass.dev
     env: { SCENE: when-lock-failed }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: when-locked }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: when-week-picker }
 - runFlow:
     file: scene.yaml
@@ -118,6 +121,9 @@ appId: app.critterpass.dev
     env: { SCENE: budget-multi-currency }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: budget-max-change }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: budget-member-set }
 - runFlow:
     file: scene.yaml
@@ -131,6 +137,9 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: rooms-pick-stay }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: rooms-solo-stay }
 - runFlow:
     file: scene.yaml
     env: { SCENE: rooms-even-split }

@@ -1,5 +1,5 @@
 /**
- * Ideas (7f-2) as drawn: ← TRIP and ◎ MAP, IDEAS over how many saved places aren't in a day yet,
+ * Ideas (7f-2) as drawn: the back eyebrow to the trip and a MAP pill, IDEAS over how many saved places aren't in a day yet,
  * DROP ON A DAY with the trip's days (dashed while a row is lifted, the one under it glowing, each
  * dotted by the lifted idea's fit), the yellow PLACE THEM FOR ME card with Tokek, and the rows.
  * Empty, it says how places get here and offers the way to search (undesigned: built from the
@@ -10,8 +10,11 @@ import type { ComponentRef, ReactNode, Ref } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
+import { Icon } from '@/ui/icons/Icon';
 import { PressScale } from '@/ui/press/PressScale';
 import { DayChips, TokekNote, type DayChip } from '@/ui/planning';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -27,12 +30,6 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     minHeight: 44,
-  },
-  map: {
-    paddingHorizontal: t.space['16'],
-    paddingVertical: t.space['8'],
-    borderRadius: t.radius.xl,
-    backgroundColor: t.semantic.bg.raised,
   },
   head: { gap: t.space['8'] },
   section: { gap: t.space['8'] },
@@ -79,29 +76,18 @@ export function IdeasView({ chipsRef, ...props }: IdeasViewProps) {
     <Scaffold testID="plan-ideas">
       <ScrollView contentContainerStyle={styles.scroll} scrollEnabled={props.scrolls}>
         <View style={styles.top}>
-          <PressScale
-            widthClass="narrow"
-            accessibilityRole="button"
-            accessibilityLabel={t({ id: 'plan.ideas.back.a11y', message: 'Back to the trip' })}
+          <BackEyebrow
+            label={t({ id: 'plan.ideas.backTo', message: 'Trip' })}
             onPress={props.onBack}
             testID="plan-ideas-back"
-          >
-            <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-              {t({ id: 'plan.ideas.back', message: '← TRIP' })}
-            </Text>
-          </PressScale>
+          />
           {props.onMap === null ? null : (
-            <PressScale
-              widthClass="narrow"
-              accessibilityRole="button"
-              accessibilityLabel={t({ id: 'plan.ideas.map.a11y', message: 'Ideas on the map' })}
+            <HeaderPill
+              label={t({ id: 'plan.ideas.mapPill', message: 'Map' })}
+              icon={<Icon name="pin" size={theme.space['16']} decorative />}
               onPress={props.onMap}
               testID="plan-ideas-map"
-            >
-              <View style={styles.map}>
-                <Text variant="label">{t({ id: 'plan.ideas.map', message: '◎ MAP' })}</Text>
-              </View>
-            </PressScale>
+            />
           )}
         </View>
         <View style={styles.head}>

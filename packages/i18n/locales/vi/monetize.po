@@ -1085,6 +1085,11 @@ msgstr ""
 msgid "monetize.issue.grace"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/plan/billing-issue-screen.tsx
+#: ../../apps/mobile/src/features/monetize/plan/cancel-screen.tsx
+msgid "monetize.back.plan"
+msgstr "Gói của bạn"
+
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.back"

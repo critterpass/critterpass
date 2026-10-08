@@ -7,6 +7,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
+import { HOME_FALLBACK } from '@/lib/navigation/back';
 import { guideSticker } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
@@ -25,10 +26,13 @@ const useStyles = makeStyles((th) => ({
 export interface SharedPlanScreenProps {
   readonly sharedPlanId: string;
   readonly tripId: string | null;
+  /** Where back leads, named on the eyebrow; a plan opened from a link came from Home. */
+  readonly backLabel?: string;
 }
 
-export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps) {
+export function SharedPlanScreen({ sharedPlanId, tripId, backLabel }: SharedPlanScreenProps) {
   const { t } = useLingui();
+  const back = backLabel ?? t({ id: 'community.back.plans', message: 'Crew plans' });
   const styles = useStyles();
   const { state, reload } = useSharedPlan(sharedPlanId);
   const detail = dataOf(state);
@@ -37,7 +41,7 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
     return (
       <Scaffold testID="shared-plan">
         <View style={styles.content}>
-          <BackEyebrow label={t({ id: 'community.back.plans', message: 'Crew plans' })} />
+          <BackEyebrow label={back} fallback={HOME_FALLBACK} />
           <Text variant="displayHero" accessibilityRole="header">
             {t({ id: 'community.detail.heading', message: 'A crew plan' })}
           </Text>
@@ -73,7 +77,7 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
     return (
       <Scaffold testID="shared-plan-tombstone">
         <View style={styles.content}>
-          <BackEyebrow label={t({ id: 'community.back.plans', message: 'Crew plans' })} />
+          <BackEyebrow label={back} fallback={HOME_FALLBACK} />
           <Text variant="displayHero" accessibilityRole="header">
             {t({ id: 'community.detail.heading', message: 'A crew plan' })}
           </Text>
@@ -98,6 +102,12 @@ export function SharedPlanScreen({ sharedPlanId, tripId }: SharedPlanScreenProps
     );
   }
   return (
-    <PlanView detail={detail} projection={detail.projection} tripId={tripId} onChanged={reload} />
+    <PlanView
+      detail={detail}
+      projection={detail.projection}
+      tripId={tripId}
+      backLabel={back}
+      onChanged={reload}
+    />
   );
 }

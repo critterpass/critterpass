@@ -1,26 +1,28 @@
 /**
- * One expense, from synced rows (or the offline queue for one not uploaded yet). Deleting asks
- * first and queues offline; the ledger reverses it on the server and Balances follows.
+ * One expense, from synced rows (or the offline queue for one not uploaded yet). Opened for one
+ * trip (a chat card), it is looked up in that trip whatever Balances shows. Deleting asks first,
+ * goes once and queues offline; the ledger reverses it on the server and Balances follows.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { toast } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { goBackOr } from '@/lib/navigation/back';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
 import { makeStyles } from '@/ui/theme';
-import { EmptyState } from '@/ui/states/EmptyState';
-import { Scaffold } from '@/ui/surface/Scaffold';
-import { Stack } from '@/ui/layout/Stack';
 
-import { MoneyLoading } from '../balances/BalancesScreen';
+import {
+  ExpenseGone,
+  MONEY_FALLBACK,
+  MoneyNoTripScreen,
+  MoneyScreenLoading,
+} from '../components/screen-states';
 import { deleteExpenseCommand } from '../data/commands';
 import { memberName } from '../data/context';
 import { expenseItems } from '../data/expense-items';
@@ -43,28 +45,6 @@ import { ExpenseDetailView, type DetailEdit, type DetailShare } from './ExpenseD
 import { canChangeExpense, changedFields, changesOf, fxLine } from './model';
 import { WalletGuideProvider } from '@/features/bookings';
 
-/** The expense was deleted (here or on another phone) while it was open. */
-function ExpenseGone() {
-  const { t } = useLingui();
-  const locale = useLocale();
-  return (
-    <Scaffold variant="dark" testID="money-expense-gone">
-      <Stack gap="16" padding="20">
-        <BackEyebrow label={upper(t({ id: 'money.back', message: 'Money' }), locale)} />
-        <EmptyState
-          guide="tokek"
-          guideName={guideSticker('tokek').name}
-          title={t({ id: 'money.detail.goneTitle', message: 'This expense is gone' })}
-          line={t({
-            id: 'money.detail.goneLine',
-            message: 'Someone deleted it. The balances already left it out.',
-          })}
-        />
-      </Stack>
-    </Scaffold>
-  );
-}
-
 const useConfirmStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
 }));
@@ -81,13 +61,23 @@ function DeleteConfirm(props: ConfirmSheetProps) {
   );
 }
 
-export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string }) {
-  const ctx = useMoneyContext(useSelectedTrip());
+export function ExpenseDetailScreen({
+  expenseId,
+  tripId = null,
+}: {
+  readonly expenseId: string;
+  /** The trip the expense belongs to, when the opener knows it (a chat card). */
+  readonly tripId?: string | null;
+}) {
+  const ctx = useMoneyContext(useSelectedTrip(), tripId);
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
   const locale = useLocale();
   const { t } = useLingui();
+  const { report } = useCommandFeedback();
   const [confirming, setConfirming] = useState(false);
   const remove = useCommand(deleteExpenseCommand);
+  // One delete per open expense: a second tap while it goes out, or after, sends nothing.
+  const deleting = useRef(false);
   const row = rows.expenses.find((expense) => expense.id === expenseId) ?? null;
   const edits = useLiveRows<EditRow>(EDITS_SQL, [expenseId], EDITS_TABLES);
   const snapshot = useLiveRows<FxRow>(
@@ -111,7 +101,10 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
     );
   }, [ctx.trip, ctx.members, rows, currency, expenseId]);
 
-  if (ctx.status === 'loading' || !rows.loaded) return <MoneyLoading />;
+  if (ctx.status === 'loading' || (ctx.status === 'ready' && !rows.loaded)) {
+    return <MoneyScreenLoading />;
+  }
+  if (ctx.trip === null) return <MoneyNoTripScreen crew={ctx.crew !== null} />;
   if (item === null) return <ExpenseGone />;
 
   const shares: DetailShare[] = rows.shares
@@ -149,16 +142,23 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
 
   async function confirmDelete() {
     setConfirming(false);
+    if (deleting.current) return;
+    deleting.current = true;
     const result = await remove.send(
       { expense_id: expenseId },
       row?.version == null ? undefined : { baseVersion: row.version },
     );
-    if (result.kind === 'rejected') return;
-    toast.show({
+    // Queued counts: the row shows as deleting until the phone is back online.
+    const outcome = report(result, {
       id: 'money-deleted',
-      title: t({ id: 'money.detail.deletedToast', message: 'Expense deleted. Balances re-count.' }),
+      offlineCapable: true,
+      done: t({ id: 'money.detail.deletedToast', message: 'Expense deleted. Balances re-count.' }),
     });
-    router.back();
+    if (outcome === 'refused' || outcome === 'needs-signal') {
+      deleting.current = false;
+      return;
+    }
+    goBackOr(MONEY_FALLBACK);
   }
 
   return (
@@ -171,7 +171,7 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
           shares={shares}
           edits={history}
           canChange={canChange}
-          onEdit={() => router.push(editExpenseRoute(expenseId))}
+          onEdit={() => router.push(editExpenseRoute(expenseId, tripId))}
           onDelete={() => setConfirming(true)}
         />
         {confirming ? (
