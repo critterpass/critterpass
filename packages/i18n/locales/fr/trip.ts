@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"trip.missing.back\":[\"Trips\"],\"trip.missing.line\":[\"It may have been deleted, or you are no longer on it.\"],\"trip.missing.title\":[\"This trip isn’t here\"]}")as Messages;
