@@ -94,7 +94,13 @@ export function MentionPicker({
           testID={`chat-mention-${candidate.id}`}
         >
           <Row style={styles.row}>
-            <Avatar name={candidate.name} joinIndex={candidate.joinIndex} size="sm" decorative />
+            <Avatar
+              name={candidate.name}
+              uid={candidate.kind === 'member' ? candidate.id : null}
+              joinIndex={candidate.joinIndex}
+              size="sm"
+              decorative
+            />
             <Text variant="body">{candidate.name}</Text>
             {candidate.kind === 'guide' ? (
               <Text variant="caption" color={theme.semantic.text.secondary}>

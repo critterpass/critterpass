@@ -32,8 +32,9 @@ import {
 import { DevToolsEntry } from './dev-tools-entry';
 import { ExploreRow } from './explore-row';
 import { FadeInView } from './fade-in-view';
+import { InviteFriendsCard } from './invite-friends-card';
 import { FirstRunGrid, guideCells } from './first-run-grid';
-import { HomeHeaderBar } from './home-header';
+import { FirstRunHeaderBar, HomeHeaderBar } from './home-header';
 import { useAppBadge } from './inbox/use-app-badge';
 import { JoinTripCard, useOpenTrip } from './join-trip-card';
 import { useRecordAppOpen } from './nudge/use-record-app-open';
@@ -156,6 +157,10 @@ function CrewHome({ view }: { readonly view: HomeView }) {
       ) : null}
       {home.mode === 'no_trip' ? <NoTripCard crewId={crew.id} lastTrip={home.lastTrip} /> : null}
       {home.mode === 'everyday' || home.mode === 'final_vote' ? <VoteSection view={view} /> : null}
+      {/* A crew of one: the way to bring friends in, under whatever the crew's own next thing is. */}
+      {crew.members.length === 1 ? (
+        <InviteFriendsCard crewId={crew.id} crewName={crew.name} />
+      ) : null}
       {showTip ? <TipStrip key={tip.id} tip={tip} /> : null}
       <ExploreRow />
     </Stack>
@@ -239,6 +244,10 @@ function HomeContent({ crewId = null }: HomeScreenProps) {
           needsYou={view.needsYou}
           uid={view.uid}
         />
+      ) : view.uid !== null ? (
+        // Before the first crew: the inbox and "Your crews" (where a friend's invite is answered)
+        // stay in reach.
+        <FirstRunHeaderBar needsYou={view.needsYou} uid={view.uid} />
       ) : null}
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: inset + theme.space['32'] }]}

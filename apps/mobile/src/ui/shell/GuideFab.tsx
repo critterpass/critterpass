@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
+import { router, useGlobalSearchParams } from 'expo-router';
 import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import type { GestureType } from 'react-native-gesture-handler';
@@ -81,7 +81,12 @@ export function GuideFab() {
   // A guide row that arrives later (its name, its accent) redraws the button.
   useGuideRowsRevision();
   const critter = guideSticker(guideId);
-  const askHref = useScreenHref(GUIDE_SHEET_SCREEN);
+  // The trip on screen (its hub, its day, its plan) is the trip the guide is asked about.
+  const { tripId } = useGlobalSearchParams<{ tripId?: string }>();
+  const askHref = useScreenHref(
+    GUIDE_SHEET_SCREEN,
+    typeof tripId === 'string' && tripId !== '' ? { tripId } : undefined,
+  );
   const helpHref = useScreenHref(HELP_HUB_SCREEN);
 
   const guide = critter.name;

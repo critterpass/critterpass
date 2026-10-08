@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 
+import { threadModeOf } from '@/features/guide/chat/data/use-guide-thread';
 import { VoiceScreen, type VoiceSpeech } from '@/features/guide/voice/voice-screen';
 
 import { createBargeIn, getSpeech, startListening } from '../../../../modules/cp-speech';
@@ -30,15 +31,20 @@ function deviceSpeech(): VoiceSpeech | null {
 /**
  * Voice mode (3j-2): talk to the guide, from the guide sheet's microphone. The first time, the
  * voice consent step comes first (on Android, and for languages the phone cannot transcribe
- * itself, what is said goes to a speech service). `talk` opens it already listening (the
- * microphone was held).
+ * itself, what is said goes to a speech service). `mode` is the sheet's GROUP / JUST ME choice:
+ * what is said is asked there. `talk` opens it already listening (the microphone was held).
  */
 export default function VoiceRoute() {
-  const { tripId, talk } = useLocalSearchParams<{ tripId?: string; talk?: string }>();
+  const { tripId, mode, talk } = useLocalSearchParams<{
+    tripId?: string;
+    mode?: string;
+    talk?: string;
+  }>();
   const speech = useMemo(() => deviceSpeech(), []);
   return (
     <VoiceScreen
       tripId={typeof tripId === 'string' && tripId !== '' ? tripId : null}
+      mode={threadModeOf(mode) ?? null}
       speech={speech}
       talkOnOpen={talk === '1'}
     />

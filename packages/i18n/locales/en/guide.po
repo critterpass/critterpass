@@ -92,10 +92,6 @@ msgstr "A phrase you practised"
 msgid "guide.plan.anItem"
 msgstr "A plan item"
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
-msgid "guide.limit.attach"
-msgstr "Add attachment"
-
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 msgid "guide.camera.orderAdd"
 msgstr "Add one {name}"
@@ -164,10 +160,6 @@ msgstr "Checking…"
 msgid "guide.camera.lang.zh"
 msgstr "Chinese"
 
-#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
-msgid "guide.phrase.close"
-msgstr "Close"
-
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.copied"
 msgstr "Copied"
@@ -204,6 +196,14 @@ msgstr "Done talking"
 msgid "guide.practice.check"
 msgstr "Done, check it"
 
+#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+msgid "guide.phrase.closeHint"
+msgstr "Double tap to close"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-conversation.tsx
+msgid "guide.chat.earlier"
+msgstr "Earlier messages"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.eggs"
 msgstr "Eggs"
@@ -227,6 +227,10 @@ msgstr "Fish"
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 msgid "guide.camera.caution"
 msgstr "Flags are a guide, not medical advice. Ask staff about allergies."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.dietary"
+msgstr "Food and access needs"
 
 #: ../../apps/mobile/src/features/guide/dietary/dev/lab-scenes-dietary.tsx
 #: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
@@ -293,6 +297,10 @@ msgstr "Here's what's on it. Ask me about any dish."
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.empty.greeting"
 msgstr "Hi, I'm {guideName}. Ask me anything about the trip, big or small."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.greetingNoTrip"
+msgstr "Hi, I'm {guideName}. Ask me where to go, when, or how to get a trip started."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceHot"
@@ -700,6 +708,14 @@ msgstr "Still checking, one moment…"
 msgid "guide.voice.interrupt"
 msgstr "Stop and talk"
 
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.composer.stop"
+msgstr "Stop the answer"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.stopped"
+msgstr "Stopped there. Ask again whenever you like."
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.confirmBody"
 msgstr "Take one of the slots? Nothing is booked or paid yet."
@@ -893,7 +909,7 @@ msgstr "Voice needs a connection. It turns on as soon as you are back online."
 msgid "guide.queued.waiting"
 msgstr "Waiting for {clock}"
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/chat/components/question-bubble.tsx
 msgid "guide.offline.waiting"
 msgstr "Waiting for a connection"
 

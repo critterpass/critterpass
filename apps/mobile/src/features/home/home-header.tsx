@@ -4,16 +4,17 @@
  * The bell rings once, with a light haptic, whenever the count goes up, and an arrival that needs
  * the user (placed ideas, a plan to answer, a crewmate's answer) is said once as a toast.
  */
-import { resolveMemberStyle } from '@cp/design-tokens';
-import { upper } from '@cp/i18n';
+import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
-import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';
-import { HomeHeader } from '@/ui/shell/HomeHeader';
+import { HeaderPill } from '@/ui/shell/HeaderPills';
+import { HomeHeader, HomeHeaderBell } from '@/ui/shell/HomeHeader';
+import { Row } from '@/ui/layout/Row';
+import { makeStyles } from '@/ui/theme';
 
-import { useChatUnread } from './data/session-rows';
+import { useChatUnread, useOtherCrewsUnread } from './data/session-rows';
 import type { HomeCrew } from './data/use-home-state';
 import { useInboxToast } from './inbox/use-inbox-toast';
 import { crewChatRoute, HOME_ROUTES, homeRoutes } from './routes';
@@ -35,8 +36,10 @@ export function useRingHaptic(count: number): void {
 }
 
 export function HomeHeaderBar({ name, crew, needsYou, uid }: HomeHeaderBarProps) {
-  const locale = useLocale();
+  const { t } = useLingui();
   const unreadChat = useChatUnread(crew.id, uid);
+  const otherUnread = useOtherCrewsUnread(crew.id, uid);
+  const me = crew.members.find((member) => member.userId === uid);
   useRingHaptic(needsYou);
   // Home stays mounted under the screens pushed over it, so an arrival is said wherever she is.
   useInboxToast(uid);
@@ -44,10 +47,14 @@ export function HomeHeaderBar({ name, crew, needsYou, uid }: HomeHeaderBarProps)
     <HomeHeader
       name={name}
       crewName={crew.name}
+      {...(name === '' ? { greeting: t({ id: 'home.header.greetingAnon', message: 'Hey' }) } : {})}
+      {...(me === undefined ? {} : { me: { uid, joinIndex: me.joinIndex } })}
       members={crew.members.map((member) => ({
-        initial: upper(member.name.slice(0, 1), locale),
-        color: resolveMemberStyle(member.joinIndex).color,
+        name: member.name,
+        uid: member.userId,
+        joinIndex: member.joinIndex,
       }))}
+      otherCrewsUnread={otherUnread}
       unreadChat={unreadChat}
       unreadInbox={needsYou}
       onOpenProfile={() => {
@@ -58,5 +65,36 @@ export function HomeHeaderBar({ name, crew, needsYou, uid }: HomeHeaderBarProps)
       onOpenChat={() => router.push(crewChatRoute(crew.id))}
       onOpenInbox={() => router.push(HOME_ROUTES.inbox)}
     />
+  );
+}
+
+const useStyles = makeStyles((th) => ({
+  slim: { paddingHorizontal: th.size.gutter, paddingVertical: th.space['8'] },
+}));
+
+/**
+ * Home before the first crew: no greeting or crew pill yet, only the two ways to what may already
+ * be waiting: "Your crews" (an invite from a friend is answered there) and the inbox bell.
+ */
+export function FirstRunHeaderBar({
+  needsYou,
+  uid,
+}: {
+  readonly needsYou: number;
+  readonly uid: string;
+}) {
+  const { t } = useLingui();
+  const styles = useStyles();
+  useRingHaptic(needsYou);
+  useInboxToast(uid);
+  return (
+    <Row justify="space-between" align="center" style={styles.slim} testID="home-first-run-header">
+      <HeaderPill
+        label={t({ id: 'home.header.yourCrews', message: 'Your crews' })}
+        onPress={() => router.push(HOME_ROUTES.crewSheet)}
+        testID="home-your-crews"
+      />
+      <HomeHeaderBell count={needsYou} onPress={() => router.push(HOME_ROUTES.inbox)} />
+    </Row>
   );
 }
