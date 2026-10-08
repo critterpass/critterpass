@@ -60,7 +60,7 @@ appId: app.critterpass.dev
     id: 'chip-saved'
 # ≡ LIST shows the same places as rows.
 - tapOn:
-    id: 'places-peek-list'
+    id: 'places-to-list'
 - extendedWaitUntil:
     visible:
       id: 'places-suggests-0'

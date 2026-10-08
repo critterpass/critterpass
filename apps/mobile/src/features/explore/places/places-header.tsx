@@ -185,8 +185,8 @@ export function PlacesHeader(props: PlacesHeaderProps) {
           >
             <Text variant="label">
               {toList
-                ? upper(t({ id: 'places.list', message: '≡ List' }), i18n.locale)
-                : upper(t({ id: 'places.map', message: '◎ Map' }), i18n.locale)}
+                ? upper(t({ id: 'places.list', message: 'List' }), i18n.locale)
+                : upper(t({ id: 'places.map', message: 'Map' }), i18n.locale)}
             </Text>
           </PressScale>
         </View>

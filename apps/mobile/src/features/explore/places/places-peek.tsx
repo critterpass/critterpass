@@ -1,6 +1,6 @@
 /**
  * The sheet's peek under the places map (7c-1): "86 PLACES IN VIEW", "Biggest first: what fits your
- * days" (outside a trip, biggest first alone) and ≡ LIST. With no place lit in view it says so and
+ * days" (outside a trip, biggest first alone); the way to the list is the header's. With no place lit in view it says so and
  * offers to show them all; a filter with nothing behind it (nothing saved yet) says how to fill it.
  */
 import { upper } from '@cp/i18n';
@@ -24,7 +24,6 @@ export interface PlacesPeekProps {
   readonly onShowAll?: (() => void) | undefined;
   readonly loading: boolean;
   readonly inTrip: boolean;
-  readonly onList: () => void;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -39,16 +38,10 @@ const useStyles = makeStyles((t) => ({
     backgroundColor: t.semantic.bg.base,
   },
   copy: { flex: 1, minWidth: 0, gap: t.space['2'] },
-  list: {
-    paddingHorizontal: t.space['14'],
-    paddingVertical: t.space['10'],
-    borderRadius: t.radius.lg,
-    backgroundColor: t.semantic.bg.raised,
-  },
 }));
 
 export function PlacesPeek(props: PlacesPeekProps) {
-  const { count, loading, inTrip, onList, total, onShowAll } = props;
+  const { count, loading, inTrip, total, onShowAll } = props;
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
@@ -68,7 +61,7 @@ export function PlacesPeek(props: PlacesPeekProps) {
       ? t({ id: 'places.peek.noneHint', message: 'Zoom out or pick another filter.' })
       : inTrip
         ? t({ id: 'places.peek.trip', message: 'Biggest first: what fits your days' })
-        : t({ id: 'places.peek.destination', message: 'Biggest first: what the crew saved' });
+        : t({ id: 'places.peek.browse', message: 'Biggest first' });
   return (
     <View style={styles.peek} testID={nothing ? 'places-peek-empty' : 'places-peek'}>
       <View style={styles.copy}>
@@ -98,18 +91,6 @@ export function PlacesPeek(props: PlacesPeekProps) {
           </Text>
         )}
       </View>
-      <PressScale
-        style={styles.list}
-        widthClass="narrow"
-        accessibilityRole="button"
-        accessibilityLabel={t({ id: 'places.showList', message: 'Show as a list' })}
-        onPress={onList}
-        testID="places-peek-list"
-      >
-        <Text variant="label">
-          {upper(t({ id: 'places.list', message: '≡ List' }), i18n.locale)}
-        </Text>
-      </PressScale>
     </View>
   );
 }

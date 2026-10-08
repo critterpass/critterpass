@@ -4,45 +4,63 @@
  * chosen order, with the sort menu, at most one labelled sponsored row and the way back to the map.
  */
 import type { PlaceFit } from '@cp/domain';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { FitLine } from '@/data/fit/fit-line';
 import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
-import type { StackMember } from '@/ui/people/AvatarStack';
 import { PhotoCredit } from '@/ui/planning/photo-credit';
+import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { useTheme } from '@/ui/theme';
 
 import type { GuideFacts } from '../format';
-import { centreOf, distanceMeters, type Point } from '../map-model';
-import { minutesBetween } from './label-sync';
+import { centreOf, type Point } from '../map-model';
 import { listItems, planDays, type ListItem } from './list-items';
 import type { PlaceFacts } from './place-facts';
 import { listOrder, placeGroups, type SortMode } from './place-groups';
-import {
-  bestTimeLine,
-  inPlanLine,
-  planDayTitle,
-  planGroupTitle,
-  rowMeta,
-  savedGroupTitle,
-  sortLabel,
-  suggestsGroupTitle,
-  swipeHint,
-} from './places-copy';
-import { PlacesEmpty } from './places-empty';
+import { sortLabel, swipeHint } from './places-copy';
+import { PlacesEmpty, PlacesFailed } from './places-empty';
 import { PlacesHeader } from './places-header';
-import { GroupTitle, PlaceListRow, PlanSummaryRow, RowGap } from './places-list-rows';
+import { PlacesListItem, type ListRowFacts } from './places-list-item';
 import { passesFilter, placeCounts, type HubPlace, type PlacesFilter } from './places-model';
 import type { PlanRouteDay } from './plan-routes';
 import { SortMenu, type HiddenEntry } from './sort-menu';
 import type { SwipeAction } from './swipe-actions';
 import type { CrewMember } from './use-places-data';
 
+/** Where the list stands before it has rows: still reading, or the read failed with none. */
+export type PlacesListStatus = 'loading' | 'failed' | 'ready';
+
+interface RowExtra {
+  readonly list: ListRowFacts;
+  readonly photos: PlaceTilePhotos | undefined;
+}
+
+const keyOf = (item: ListItem) => item.key;
+const typeOf = (item: ListItem) => item.kind;
+const renderRow = ({ item, extraData }: { item: ListItem; extraData?: RowExtra }) =>
+  extraData === undefined ? null : (
+    <PlacesListItem
+      item={item}
+      list={extraData.list}
+      photo={
+        item.kind === 'place' && item.place.poiId !== null
+          ? extraData.photos?.get(item.place.poiId)
+          : undefined
+      }
+    />
+  );
+
 export interface PlacesListViewProps {
   readonly inTrip: boolean;
+  /** Absent reads as ready. */
+  readonly status?: PlacesListStatus | undefined;
+  readonly onRetry?: (() => void) | undefined;
+  /** Where the traveller is, when they are in the destination: "nearest" measures from there. */
+  readonly viewer?: Point | null | undefined;
   readonly places: readonly HubPlace[];
   readonly crew: readonly CrewMember[];
   /** The plan's days as routes: the IN THE PLAN filter lists their stops in order. */
@@ -89,8 +107,12 @@ export function PlacesListView(props: PlacesListViewProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { places, filter, fits, lines, weekdays, crew } = props;
-  const [sort, setSort] = useState<SortMode>(props.inTrip ? 'fit' : 'nearest');
-  const from = props.stay?.at ?? centreOf(places);
+  const status = props.status ?? 'ready';
+  // Must-sees and the guide's picks lead until the traveller asks for another order.
+  const [sort, setSort] = useState<SortMode>('fit');
+  const viewer = props.stay === null ? (props.viewer ?? null) : null;
+  const middle = useMemo(() => centreOf(places), [places]);
+  const from = props.stay?.at ?? viewer ?? middle;
   const { facts, routes } = props;
   const ranks = useMemo(
     () =>
@@ -128,34 +150,70 @@ export function PlacesListView(props: PlacesListViewProps) {
     guide: props.guide.name,
     stay: props.stay?.name ?? null,
     destination: props.destinationName,
+    fromViewer: viewer !== null,
   };
   const sortLabels: Record<SortMode, string> = {
     fit: sortLabel(listOrder({ sort: 'fit', suggestOrder, fits, ranks, from }), orderFacts),
     nearest: sortLabel(from === null ? 'az' : 'nearest', orderFacts),
     az: sortLabel('az', orderFacts),
   };
-  const byUid = useMemo(() => new Map(crew.map((member) => [member.uid, member])), [crew]);
-  const saversOf = useCallback(
-    (place: HubPlace): StackMember[] =>
-      place.backerIds.map((uid) => ({
-        key: uid,
-        name: byUid.get(uid)?.name ?? '',
-        joinIndex: byUid.get(uid)?.joinIndex ?? 0,
-      })),
-    [byUid],
+  const crewByUid = useMemo(() => new Map(crew.map((member) => [member.uid, member])), [crew]);
+  // The rows' handlers keep one identity for the list's life and read the latest props.
+  const latest = useRef(props);
+  useEffect(() => {
+    latest.current = props;
+  });
+  const canAdd = props.onAdd !== undefined;
+  const canSplit = props.onSplit !== undefined;
+  const canAct = props.onAction !== undefined;
+  const hasSponsor = props.sponsored !== null;
+  const stayAt = props.stay?.at ?? null;
+  const guideName = props.guide.name;
+  const list = useMemo(
+    (): ListRowFacts => ({
+      guideName,
+      savedCount: groups.saved.length,
+      suggestCount,
+      planned: groups.plan,
+      order,
+      from,
+      stayAt,
+      facts,
+      fits,
+      lines,
+      weekdays,
+      crew: crewByUid,
+      onOpen: (place, sponsored) => latest.current.onOpen(place, sponsored),
+      onAdd: canAdd ? (poiId) => latest.current.onAdd?.(poiId) : undefined,
+      onSplit: canSplit ? (poiId) => latest.current.onSplit?.(poiId) : undefined,
+      onAction: canAct
+        ? (place: HubPlace, action: SwipeAction) => latest.current.onAction?.(place, action)
+        : undefined,
+      onWhy: hasSponsor ? () => latest.current.sponsored?.onWhy() : undefined,
+      onPlan: () => latest.current.onFilter('plan'),
+    }),
+    [
+      guideName,
+      groups,
+      suggestCount,
+      order,
+      from,
+      stayAt,
+      facts,
+      fits,
+      lines,
+      weekdays,
+      crewByUid,
+      canAdd,
+      canSplit,
+      canAct,
+      hasSponsor,
+    ],
   );
-  const lineFor = (place: HubPlace): FitLine | undefined => {
-    const fit = place.poiId === null ? undefined : fits.get(place.poiId);
-    if (place.standing === 'suggested' && place.bestTime !== null && fit?.best) {
-      return {
-        text: bestTimeLine(place.bestTime, weekdays.get(fit.best.day_no) ?? null),
-        tone: 'fits',
-      };
-    }
-    return place.poiId === null ? undefined : lines.get(place.poiId);
-  };
+  const { photos } = props;
+  const extra = useMemo((): RowExtra => ({ list, photos }), [list, photos]);
 
-  // FlatList wants one handler for its whole life; it reads the latest prop through the ref.
+  // The list wants one handler for its whole life; it reads the latest prop through the ref.
   const inView = useRef(props.onInView);
   useEffect(() => {
     inView.current = props.onInView;
@@ -170,73 +228,6 @@ export function PlacesListView(props: PlacesListViewProps) {
         );
       },
   );
-
-  const renderItem = ({ item }: { item: ListItem }) => {
-    if (item.kind === 'title') {
-      const title =
-        item.group === 'saved'
-          ? savedGroupTitle(groups.saved.length)
-          : item.group === 'plan'
-            ? planGroupTitle(groups.plan.length)
-            : suggestsGroupTitle(props.guide.name, suggestCount);
-      return <GroupTitle title={title} testID={`places-group-${item.group}`} />;
-    }
-    if (item.kind === 'day') {
-      return (
-        <GroupTitle
-          title={planDayTitle(item.dayNo, item.date, weekdays.get(item.dayNo) ?? null, item.count)}
-          testID={`places-plan-day-${String(item.dayNo)}`}
-        />
-      );
-    }
-    if (item.kind === 'plan') {
-      // The summary opens the plan's own filter: the stops by day, here in the list.
-      return <PlanSummaryRow places={groups.plan} onPress={() => props.onFilter('plan')} />;
-    }
-    const { place } = item;
-    const poiId = place.poiId;
-    const fact = facts?.get(poiId ?? place.id);
-    const { onAdd, onSplit, onAction, sponsored } = props;
-    return (
-      <>
-        <PlaceListRow
-          place={place}
-          meta={rowMeta(
-            place.category,
-            props.stay === null ? null : minutesBetween(props.stay.at, place),
-            fact?.area ?? null,
-            order === 'nearest' && from !== null ? distanceMeters(from, place) : null,
-          )}
-          planned={
-            place.standing === 'plan'
-              ? inPlanLine(
-                  place.dayNo,
-                  place.dayNo === null ? null : (weekdays.get(place.dayNo) ?? null),
-                )
-              : undefined
-          }
-          photo={poiId === null ? undefined : props.photos?.get(poiId)}
-          savers={saversOf(place)}
-          fit={lineFor(place)}
-          onOpen={
-            poiId === null && place.standing === 'plan'
-              ? undefined
-              : () => props.onOpen(place, item.sponsored)
-          }
-          onAdd={onAdd === undefined || poiId === null ? undefined : () => onAdd(poiId)}
-          onSplit={onSplit === undefined || poiId === null ? undefined : () => onSplit(poiId)}
-          onAction={
-            onAction === undefined || poiId === null
-              ? undefined
-              : (action) => onAction(place, action)
-          }
-          sponsored={item.sponsored && sponsored !== null ? { onWhy: sponsored.onWhy } : undefined}
-          testID={item.testID}
-        />
-        <RowGap />
-      </>
-    );
-  };
 
   const credits = screenCredits(props.photos?.values() ?? []);
   return (
@@ -268,7 +259,6 @@ export function PlacesListView(props: PlacesListViewProps) {
               : undefined
           }
           count={shown}
-          inTrip={props.inTrip}
           hidden={props.hidden}
           onUnhide={props.onUnhide}
         />
@@ -279,16 +269,37 @@ export function PlacesListView(props: PlacesListViewProps) {
           <PhotoCredit credits={credits} />
         </View>
       )}
-      {items.length === 0 && (filter === 'saved' || filter === 'plan') ? (
-        <PlacesEmpty kind={filter} guide={props.guide} onShowAll={() => props.onFilter('all')} />
-      ) : null}
-      <FlatList
+      <FlashList
         data={items}
-        keyExtractor={(item) => item.key}
-        renderItem={renderItem}
+        extraData={extra}
+        keyExtractor={keyOf}
+        getItemType={typeOf}
+        renderItem={renderRow}
         onEndReached={props.onLoadMore}
         onEndReachedThreshold={0.6}
         onViewableItemsChanged={onViewable}
+        ListEmptyComponent={
+          status === 'loading' ? (
+            <View style={{ padding: theme.size.gutter }} testID="places-list-loading">
+              <Skeleton preset="list" repeat={4} />
+            </View>
+          ) : status === 'failed' ? (
+            <PlacesFailed guide={props.guide} onRetry={props.onRetry} />
+          ) : (
+            <PlacesEmpty
+              kind={filter === 'saved' || filter === 'plan' ? filter : 'none'}
+              guide={props.guide}
+              onShowAll={
+                filter === 'all' && (props.query ?? '') === ''
+                  ? undefined
+                  : () => {
+                      props.onFilter('all');
+                      props.onQuery?.('');
+                    }
+              }
+            />
+          )
+        }
         contentContainerStyle={{ paddingBottom: insets.bottom + theme.space['24'] }}
         testID="places-list-rows"
       />
