@@ -19,6 +19,8 @@ import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import { useMemberFaces } from '../avatar/member-faces';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { putPendingEdits } from '../data/pending-edits';
+import { PENDING_ME, type PendingMe } from '../profile/pending-me';
 import { ProfileFace } from '../profile/profile-parts';
 import { useProfile } from '../profile/use-profile';
 import { YOU_ROUTES } from '../routes';
@@ -125,6 +127,10 @@ export function EditProfileScreen() {
         }
       }
       if (changes.homeAirport !== null) await airport.send({ iata: changes.homeAirport });
+      // The profile shows the new name at once; its row follows when the change has synced.
+      if (changes.profile?.name !== undefined) {
+        putPendingEdits<PendingMe>(PENDING_ME, { name: changes.profile.name });
+      }
       router.back();
     } catch {
       setProblem(saveProblemText('UNAVAILABLE', null));

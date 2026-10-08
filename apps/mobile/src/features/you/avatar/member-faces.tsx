@@ -26,6 +26,13 @@ import { MemberFaceProvider, type MemberFaceResolver } from '@/ui/people/member-
 import { Sticker } from '@/ui/sticker/Sticker';
 import { sizeToken, useTheme } from '@/ui/theme';
 
+import { dropPendingEdits, usePendingEdits } from '../data/pending-edits';
+import {
+  PENDING_ME,
+  wearsPending,
+  type PendingAvatar,
+  type PendingMe,
+} from '../profile/pending-me';
 import {
   faceOf,
   MEMBER_AVATARS_SQL,
@@ -182,8 +189,21 @@ export function facePropsOf(face: MemberFace, url: string | null, diameter: numb
   }
 }
 
+/** A member's avatar row; the viewer's own is the one they just picked until it syncs back. */
+function rowOf(store: Store, uid: string, pending: PendingAvatar | null): AvatarRow | undefined {
+  if (pending === null || uid !== store.viewer) return store.rows.get(uid);
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
+  return { user_id: uid, ...pending, moderation_status: 'pending' };
+}
+
+interface Faces {
+  readonly store: Store;
+  readonly version: number;
+  readonly pending: PendingAvatar | null;
+}
+
 /** The shared store of the signed-in session, read live; photo links are fetched as they appear. */
-function useFaceStore(): { readonly store: Store; readonly version: number } {
+function useFaceStore(): Faces {
   // Outside a signed-in session (a lab scene, a test) there are no faces: everyone keeps an initial.
   const db = useContext(LocalFirstContext)?.db ?? null;
   const store = db === null ? EMPTY_STORE : storeFor(db);
@@ -195,7 +215,16 @@ function useFaceStore(): { readonly store: Store; readonly version: number } {
     () => store.version,
   );
   const viewer = store.viewer;
-  const photoKeys = [...store.rows.values()]
+  const pending = usePendingEdits<PendingMe>(PENDING_ME, null).avatar ?? null;
+  const worn = viewer === null ? undefined : store.rows.get(viewer);
+  const settled = pending !== null && store.version > 0 && wearsPending(worn, pending);
+  useEffect(() => {
+    if (settled) dropPendingEdits<PendingMe>(PENDING_ME, ['avatar']);
+  }, [settled]);
+  const photoKeys = [
+    ...store.rows.values(),
+    ...(pending === null || viewer === null ? [] : [rowOf(store, viewer, pending)]),
+  ]
     .map((row) => faceOf(row, viewer))
     .flatMap((face) => (face.kind === 'photo' ? [face.mediaKey] : []));
   const keysLine = photoKeys.join('|');
@@ -204,11 +233,16 @@ function useFaceStore(): { readonly store: Store; readonly version: number } {
     // The keys are folded into `keysLine`.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, keysLine]);
-  return { store, version };
+  return { store, version, pending };
 }
 
-function resolveFace(store: Store, uid: string, diameter: number): FaceProps {
-  const current = faceOf(store.rows.get(uid), store.viewer);
+function resolveFace(
+  store: Store,
+  uid: string,
+  diameter: number,
+  pending: PendingAvatar | null,
+): FaceProps {
+  const current = faceOf(rowOf(store, uid, pending), store.viewer);
   const url = current.kind === 'photo' ? (store.urls.get(current.mediaKey)?.url ?? null) : null;
   return facePropsOf(current, url, diameter);
 }
@@ -219,10 +253,10 @@ export function useMemberFaces(): {
   readonly faceProps: (uid: string, size: AvatarSize) => FaceProps;
 } {
   const theme = useTheme();
-  const { store } = useFaceStore();
+  const { store, pending } = useFaceStore();
   return {
-    faceOf: (uid) => faceOf(store.rows.get(uid), store.viewer),
-    faceProps: (uid, size) => resolveFace(store, uid, sizeToken(theme.size.avatar, size)),
+    faceOf: (uid) => faceOf(rowOf(store, uid, pending), store.viewer),
+    faceProps: (uid, size) => resolveFace(store, uid, sizeToken(theme.size.avatar, size), pending),
   };
 }
 
@@ -232,12 +266,12 @@ export function useMemberFaces(): {
  * changes, so avatars redraw then and not on every render above them.
  */
 export function MemberFacesRoot({ children }: { readonly children: ReactNode }) {
-  const { store, version } = useFaceStore();
+  const { store, version, pending } = useFaceStore();
   const resolve = useMemo<MemberFaceResolver>(
-    () => (uid, diameter) => resolveFace(store, uid, diameter),
+    () => (uid, diameter) => resolveFace(store, uid, diameter, pending),
     // The store is changed in place; its version says when.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [store, version],
+    [store, version, pending],
   );
   return <MemberFaceProvider resolve={resolve}>{children}</MemberFaceProvider>;
 }

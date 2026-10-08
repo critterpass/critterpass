@@ -3,8 +3,10 @@ import { airportDataset } from '@cp/content/airports';
 import { useMemo } from 'react';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { usePendingEdits } from '../data/pending-edits';
 import { usePastTrips } from '../history/past-trips';
 import { localToday } from '../history/use-travel-history';
+import { PENDING_ME, type PendingMe } from './pending-me';
 import { buildProfile, type ProfileModel } from './profile-model';
 import {
   CREW_MEMBERS_SQL,
@@ -52,10 +54,30 @@ export function useProfile(now: () => Date = () => new Date()): {
     crewMembers.loaded &&
     crewTrips.loaded;
   const today = localToday(now());
+  const meRow = me.rows[0] ?? null;
+  const savedName = useMemo(
+    () => (me.loaded && meRow !== null ? { name: meRow.display_name?.trim() ?? '' } : null),
+    [me.loaded, meRow],
+  );
+  // The name and avatar changed on this phone show before their rows sync back.
+  const pending = usePendingEdits<PendingMe>(PENDING_ME, savedName);
   const model = useMemo(() => {
     if (!loaded) return null;
     return buildProfile({
-      me: me.rows[0] ?? null,
+      me:
+        meRow === null
+          ? null
+          : {
+              ...meRow,
+              ...(pending.name === undefined ? {} : { display_name: pending.name }),
+              ...(pending.avatar === undefined
+                ? {}
+                : {
+                    avatar_kind: pending.avatar.kind,
+                    avatar_form_id: pending.avatar.form_id,
+                    avatar_ring: pending.avatar.ring,
+                  }),
+            },
       stamps: stamps.rows,
       trips: trips.rows,
       pastTrips: pastTrips.rows,
@@ -69,7 +91,8 @@ export function useProfile(now: () => Date = () => new Date()): {
   }, [
     loaded,
     today,
-    me.rows,
+    meRow,
+    pending,
     stamps.rows,
     trips.rows,
     pastTrips.rows,

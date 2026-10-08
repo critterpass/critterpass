@@ -20,6 +20,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
+import { pendingEdits, resetPendingEdits } from '../../data/pending-edits';
 import { useHelpShareConsent } from '../help-share-consent';
 import { useSyncedSettings } from '../use-synced-settings';
 
@@ -28,6 +29,7 @@ configure({ asyncUtilTimeout: 5000 });
 const stacks: TestLocalFirst[] = [];
 
 afterEach(async () => {
+  resetPendingEdits();
   for (const stack of stacks.splice(0)) {
     await stack.close().catch(() => undefined);
     removeDir(stack.dir);
@@ -61,6 +63,29 @@ describe('synced settings on this phone', () => {
     await waitFor(async () =>
       expect(await queued(stack, 'set_settings')).toEqual([{ patch: { hide_collection: true } }]),
     );
+  });
+
+  it('keeps an unsent change when the screen is left and opened again, until the row agrees', async () => {
+    const stack = await open();
+    const first = await renderHook(() => useSyncedSettings(), { wrapper: stack.wrapper });
+    await act(() => first.result.current.change({ hideLockscreenDetails: true }));
+    await first.unmount();
+
+    const again = await renderHook(() => useSyncedSettings(), { wrapper: stack.wrapper });
+    expect(again.result.current.settings.hideLockscreenDetails).toBe(true);
+
+    // The server's row arrives saying the same: the row is the truth again, and a later change
+    // from another phone shows.
+    await stack.db.execute(
+      'INSERT INTO user_settings (id, user_id, hide_lockscreen_details) VALUES (?, ?, 1)',
+      [stack.uid, stack.uid],
+    );
+    await waitFor(() => expect(pendingEdits('settings')).toEqual({}));
+    await stack.db.execute('UPDATE user_settings SET hide_lockscreen_details = 0 WHERE id = ?', [
+      stack.uid,
+    ]);
+    await waitFor(() => expect(again.result.current.settings.hideLockscreenDetails).toBe(false));
+    await again.unmount();
   });
 
   it('shows what another phone saved once its row syncs', async () => {
