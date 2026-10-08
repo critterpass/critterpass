@@ -8,13 +8,13 @@
  * measured width; a longer trip scrolls sideways and keeps the chosen day in view.
  */
 import { tokens } from '@cp/design-tokens';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
 import { makeStyles, useTheme } from '../theme';
-import { chipScrollOffset, chipsFit } from './chip-row-fit';
+import { chipsFit, useChipInView } from './chip-row-fit';
 import { fitDotColor, type FitGrade } from './fit-tone';
 
 export interface DayChip {
@@ -129,24 +129,14 @@ export function DayChips({
       ? !chipsFit(days.length, rowWidth, MIN_CHIP_WIDTH, CHIP_GAP)
       : days.length > FIT_BEFORE_MEASURE;
   // A scrolling row keeps the chosen day in view: at once when it opens, gliding when it changes.
-  const scroller = useRef<ScrollView>(null);
-  const placed = useRef(false);
-  const selectedIndex = days.findIndex((day) => day.dayNo === selectedDayNo);
-  const count = days.length;
-  useEffect(() => {
-    if (!scrolls || rowWidth <= 0 || selectedIndex < 0) return;
-    scroller.current?.scrollTo({
-      x: chipScrollOffset({
-        index: selectedIndex,
-        count,
-        rowWidth,
-        chipWidth: SCROLLING_CHIP_WIDTH,
-        gap: CHIP_GAP,
-      }),
-      animated: placed.current,
-    });
-    placed.current = true;
-  }, [scrolls, rowWidth, selectedIndex, count]);
+  const scroller = useChipInView({
+    scrolls,
+    index: days.findIndex((day) => day.dayNo === selectedDayNo),
+    count: days.length,
+    rowWidth,
+    chipWidth: SCROLLING_CHIP_WIDTH,
+    gap: CHIP_GAP,
+  });
 
   const chips = days.map((day) => {
     const selected = day.dayNo === selectedDayNo;

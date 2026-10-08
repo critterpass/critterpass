@@ -229,6 +229,7 @@ export function ChangesReviewScreen({
       onToggle={editable ? (key, next) => void actions.toggle(key, next) : null}
       needsYou={needsYouRows({
         left,
+        locale,
         tripId,
         explained,
         stopName,

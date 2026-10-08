@@ -1,5 +1,5 @@
 export { AddButton, type AddButtonProps } from './add-button';
-export { chipScrollOffset, chipsFit } from './chip-row-fit';
+export { chipScrollOffset, chipsFit, useChipInView } from './chip-row-fit';
 export { DayChips, type DayChip, type DayChipsProps } from './day-chips';
 export { PlanningDayRow, type PlanningDayRowProps } from './day-row';
 export { FilterChipRow, type FilterChipRowProps, type PlanningChip } from './filter-chip-row';

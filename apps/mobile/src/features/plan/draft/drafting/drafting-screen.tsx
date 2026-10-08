@@ -134,10 +134,7 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
   // Stopping needs the server: a send that did not get there says so, and the wait stays.
   const onCancel = () => {
     if (cancel.pending) return;
-    void cancel
-      .send({ trip_id: tripId })
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
-      .then((result) => report(result, { id: 'draft-cancel' }));
+    void cancel.send({ trip_id: tripId }).then((result) => report(result, { id: 'draft-cancel' }));
   };
 
   const backLabel = draftBackLabel(null);

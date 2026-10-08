@@ -23,11 +23,11 @@ msgstr ""
 msgid "planDraft.last.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinkingAny"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinking"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgstr ""
 msgid "planDraft.diff.summaryPlain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinkingOffline"
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 msgid "planDraft.change.dropped"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinkingSlow"
 msgstr ""
 

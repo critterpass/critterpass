@@ -7,7 +7,7 @@
 import type { RedraftReasonKey } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -15,7 +15,7 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
-import { chipScrollOffset, chipsFit } from '@/ui/planning';
+import { chipsFit, useChipInView } from '@/ui/planning';
 import { PressScale } from '@/ui/press/PressScale';
 import { TextField } from '@/ui/inputs/TextField';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -161,24 +161,14 @@ export function ChangeDayView(props: ChangeDayViewProps) {
   const fits = rowWidth > 0 && chipsFit(days.length, rowWidth, MIN_TILE, TILE_GAP);
   const tileWidth = fits ? shared : MIN_TOUCH_TARGET;
   // A row too long to share the width keeps the picked day in view.
-  const scroller = useRef<ScrollView>(null);
-  const placed = useRef(false);
-  const pickedIndex = days.findIndex((d) => d.dayNo === day);
-  const count = days.length;
-  useEffect(() => {
-    if (fits || rowWidth <= 0 || pickedIndex < 0) return;
-    scroller.current?.scrollTo({
-      x: chipScrollOffset({
-        index: pickedIndex,
-        count,
-        rowWidth,
-        chipWidth: MIN_TOUCH_TARGET,
-        gap: TILE_GAP,
-      }),
-      animated: placed.current,
-    });
-    placed.current = true;
-  }, [fits, rowWidth, pickedIndex, count]);
+  const scroller = useChipInView({
+    scrolls: !fits,
+    index: days.findIndex((d) => d.dayNo === day),
+    count: days.length,
+    rowWidth,
+    chipWidth: MIN_TOUCH_TARGET,
+    gap: TILE_GAP,
+  });
   return (
     <Sheet
       header={

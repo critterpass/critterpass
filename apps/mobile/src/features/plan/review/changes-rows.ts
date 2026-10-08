@@ -70,6 +70,7 @@ export function changeRows(input: {
 
 export function needsYouRows(input: {
   readonly left: readonly LeftForYou[];
+  readonly locale: string;
   readonly tripId: string;
   readonly explained: ReadonlySet<string>;
   readonly stopName: (stableId: string) => string | null;
