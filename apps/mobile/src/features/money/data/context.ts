@@ -61,6 +61,32 @@ export function pickTrip(trips: readonly TripRow[], requested: string | null): T
   return trips.find((trip) => ENDED.has(trip.status)) ?? trips[0] ?? null;
 }
 
+/**
+ * The crew a money screen shows: the crew of the trip its route names when the viewer is in it (an
+ * expense card in another crew's chat), else the crew chosen on Home.
+ */
+export function crewForRoute(
+  crews: readonly CrewRow[],
+  chosen: string | null,
+  routeCrewId: string | null,
+): CrewRow | null {
+  return crews.find((crew) => crew.id === routeCrewId) ?? pickCrew(crews, chosen);
+}
+
+/**
+ * The trip a money screen shows. A trip named by the screen's route is shown or nothing is: the
+ * screen never falls back to another trip, so an expense opened from chat is looked up in its own
+ * trip and a new one never lands in the wrong one. Without a route trip it follows Balances.
+ */
+export function tripForRoute(
+  trips: readonly TripRow[],
+  selected: string | null,
+  routeTripId: string | null,
+): TripRow | null {
+  if (routeTripId !== null) return trips.find((trip) => trip.id === routeTripId) ?? null;
+  return pickTrip(trips, selected);
+}
+
 const DAY_MS = 86_400_000;
 
 /** Whole days from start to end inclusive; 0 when the dates are not set yet. */

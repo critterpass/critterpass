@@ -1,6 +1,6 @@
 /**
  * The places list's order (7c-3 "SORTED BY FIT FOR YOUR DAYS ▾" and the count): tapping it opens
- * the choices inline (fit, nearest, A–Z) and, at the foot, the places I hid, each with a way to
+ * the choices inline (fit or the guide's picks, nearest, A–Z) and, at the foot, the places I hid, each with a way to
  * show it again. The line names the order the list is really in (the guide's picks while no fit
  * order is known) and the count is the shown filter's. The menu itself is undesigned
  * (docs/undesigned-states.md).
@@ -30,8 +30,6 @@ export interface SortMenuProps {
   /** A line under the bar (how to save by swiping), until it is no longer needed. */
   readonly hint?: string | undefined;
   readonly count: number;
-  /** Inside a trip "fit" orders by the trip's days; outside one it isn't offered. */
-  readonly inTrip: boolean;
   readonly hidden: readonly HiddenEntry[];
   readonly onUnhide: (poiId: string) => void;
 }
@@ -65,13 +63,18 @@ const useStyles = makeStyles((t) => ({
   rule: { height: 1, marginVertical: t.space['4'], backgroundColor: t.semantic.bg.control },
 }));
 
+const ALL_MODES: readonly SortMode[] = ['fit', 'nearest', 'az'];
+
 export function SortMenu(props: SortMenuProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const [open, setOpen] = useState(false);
   const { labels } = props;
-  const modes: readonly SortMode[] = props.inTrip ? ['fit', 'nearest', 'az'] : ['nearest', 'az'];
+  // Two choices that would run the list the same way (no picks known: A–Z twice) show once.
+  const modes = ALL_MODES.filter(
+    (mode, index) => ALL_MODES.findIndex((other) => labels[other] === labels[mode]) === index,
+  );
   return (
     <View>
       <View style={styles.bar}>
@@ -109,7 +112,7 @@ export function SortMenu(props: SortMenuProps) {
               style={styles.option}
               accessibilityRole="button"
               accessibilityLabel={labels[mode]}
-              accessibilityState={{ selected: mode === props.sort }}
+              accessibilityState={{ selected: labels[mode] === labels[props.sort] }}
               onPress={() => {
                 props.onSort(mode);
                 setOpen(false);
@@ -118,7 +121,9 @@ export function SortMenu(props: SortMenuProps) {
             >
               <Text
                 variant="body"
-                color={mode === props.sort ? theme.semantic.action.primary : undefined}
+                color={
+                  labels[mode] === labels[props.sort] ? theme.semantic.action.primary : undefined
+                }
               >
                 {labels[mode]}
               </Text>

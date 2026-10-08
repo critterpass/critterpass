@@ -180,6 +180,23 @@ commands, reading the ids they need from the sync service as a phone would
 | `trip-day`  | `tools/scripts/seed-trip-day.ts`         | five travellers join the crew behind `code`; `up=N` of them say they are up for the day |
 | `trip-pack` | `tools/scripts/seed-trip-pack.ts`        | one more joins and adds (`action=add`) or removes the shared pack item `label`          |
 | `live-map`  | `tools/scripts/live-map-sim/by-code.ts`  | crewmates join, share their location and walk to the meet-up on `trip`                  |
+| `friend`    | `tools/scripts/ci-device/scenario-friend.ts` | one friend of the crew behind `code` acts per `action`: `join`, `board` (IN to the sent proposal), `drop-out` (OUT) or `answer-poll` (a vote for the open poll's first option) |
+
+The `friend` is the same person across calls for one crew code (the runner keeps their session in
+its temp directory), so a flow can have them join, wait for the proposal it sends, then board and
+drop out, without ever switching accounts on the phone. `e2e/_shared/friend.yaml` starts one
+action for the crew in `${output.crewCode}` (which `start-as.yaml` leaves) and waits for it:
+
+```yaml
+- runFlow:
+    file: ../_shared/friend.yaml
+    env:
+      ACTION: join
+```
+
+Other people a journey needs, and what brings them: a second account that joins by code
+(`friend` `join`, or `trip-day&members=1`), a crew of six on the trip (`trip-day`), someone who
+boards or drops out of a proposal (`friend`), someone who answers a poll (`friend`).
 
 The runner is on the host, so a flow can start a scenario while the device has no network
 (`e2e/trip/offline/conflict-android.yaml`). Map pins are drawn by the map view and are not in
@@ -228,6 +245,76 @@ reach it. Gaps don't fail CI (other areas add screens at their own pace); they s
 comment, so add the missing steps to the sweep when a new screen or route appears there.
 
 Section 7 planning screens (`7a-1` … `7i-2`) name shots `<lang>-7x-n-<state>` like every design id (`en-7b-1-day`, `vi-7f-1-add`); a state the design does not draw keeps the nearest 7x id plus a state suffix (`en-7b-1-member-suggest`), never an old `3d`/`3e` id.
+
+## Starting a flow: "start as"
+
+`e2e/_shared/start-as.yaml` puts a flow on Home as a brand-new account that already holds a seed
+scenario, in a few seconds, instead of walking nine onboarding screens, tapping a seed button in
+Developer tools and building a trip by hand:
+
+```yaml
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today # LANG: vi for Vietnamese
+```
+
+How it works: the subflow clears the install and launches it with the launch argument
+`cp_install_referrer: cp_start_as=<scenario>&cp_lang=<lang>`. Maestro puts launch arguments on
+the launch intent as string extras on Android, where the cp-deferred-link module reads that one
+extra, and in the user defaults' argument domain on iOS, where React Native's `Settings` reads it;
+no native change and no runner action is involved, so it is the same step on both platforms. A
+dev-only listener (`apps/mobile/src/lib/dev-tools/start-as-launch.tsx`, mounted with the shake)
+opens the `(dev)/start-as` screen once the launch has settled on the splash. A deep link cannot do
+this: the app's link router sends an unknown `critterpass-dev://` path to Home. The screen then
+runs five steps (`apps/mobile/src/data/dev/start-as.ts`): read the request, start the session (an
+anonymous sign-in), issue the pass the way onboarding does and wait for its row to sync back, ask
+the api for the scenario (`POST /v1/dev/seed-demo`), wait for the scenario's rows on the phone.
+It ends in exactly one of two states:
+
+| Id                | Meaning                                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------------------- |
+| `start-as-ready`  | A card; tapping it opens Home. `start-as-code` beside it holds the crew's join code (`${output.crewCode}`). |
+| `start-as-failed` | One line naming the step: unknown scenario, no account, pass not issued after 45 s, seed refused (with the api's status, code and reason), rows not synced after 60 s, or the network. |
+
+The subflow asserts `start-as-ready` as soon as either shows, so a broken start fails at once with
+the line in the failure screenshot. It only acts on an install that has not onboarded: a later
+`launchApp` or an in-app restart starts nothing again. None of it is in a store build (the screen
+is a `(dev)` route; the listener is behind the same gate as the shake).
+
+| Scenario         | The account starts with                                                                                                                                         |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `everyday`, `inbox`, `caught_up`, `vote`, `vote_final` | the Bali demo world (home Singapore): a crew of five, a confirmed trip three weeks out, chat, a tip and that scenario's inbox or vote |
+| `trip_today`     | home Ho Chi Minh City; a crew of six settling in đồng on a locked three-day Đà Nẵng trip that is on today: a plan of editorial places, two split expenses, a stay |
+| `trip_tomorrow`  | the same trip confirmed for tomorrow, with the organiser's flight SGN → DAD that morning                                                                         |
+| `draft_ready`    | a crew of one whose Đà Nẵng trip (two weeks out) has its hand-built plan waiting in draft review; no AI ran                                                       |
+| `crew_with_code` | a crew of one with a live join code and no trip                                                                                                                  |
+
+The four start scenarios answer the crew's join code and are built through the app's own commands
+(`services/api/src/dev/scenarios.ts`); each is one crew per account and asking again builds
+nothing twice. The staging api only knows a scenario once the commit that adds it is deployed
+(the release loop deploys `main`): on an older api the screen fails with "this api does not know
+the scenario yet".
+
+## Journeys
+
+`e2e/journeys/` holds one flow per user journey, each under four minutes of flow time, by ids
+only (a label is used where a control has no id, never text that comes from staging data):
+
+| Flow         | Start                  | Journey                                                                                         |
+| ------------ | ---------------------- | ----------------------------------------------------------------------------------------------- |
+| `onboarding` | fresh install, real UI | name → avatar → taste → home → pass issued → Home → the session survives a relaunch             |
+| `home`       | start as `inbox`       | countdown, tip and bell → inbox → answer the card → UNDO the guide's change → TRIPS, WALLET, PASS |
+| `money`      | start as `trip_today`  | add ₫450,000 split by share → its detail → Settle up → request a payment → confirm it arrived    |
+
+```sh
+gh workflow run device.yml --ref <branch> -f platform=android -f mode=flows -f shards=2 \
+  -f flows="e2e/journeys/onboarding.yaml e2e/journeys/home.yaml"
+```
+
+A new journey starts with `_shared/start-as.yaml` (only `onboarding` walks the real screens),
+brings other people in through the runner's `friend` and `trip-day` scenarios, and adds a seed
+scenario (with its database test) when no existing one holds the state it needs.
 
 ## Release gate (happy paths)
 

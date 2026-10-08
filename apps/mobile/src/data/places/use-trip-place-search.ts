@@ -98,6 +98,8 @@ export interface TripPlaceSearch {
   readonly state: SearchState;
   /** The server is still answering under the phone's rows. */
   readonly more: boolean;
+  /** The server did not answer: the rows are only what this phone holds. */
+  readonly incomplete: boolean;
   /** Only the phone answered (no connection). */
   readonly offline: boolean;
   /** What the phone searched: the trip's saved places and the curated places on the phone. */
@@ -153,7 +155,7 @@ export function useTripPlaceSearch(input: TripPlaceSearchInput): TripPlaceSearch
   const rows = mergePlaceRows(local, server.rows);
   const loaded = curated.loaded && (tripId === null || ideas.loaded);
   const arriving = !failed && (!packSynced || (curated.loaded && curated.rows.length === 0));
-  const { state, more } = searchState({
+  const { state, more, incomplete } = searchState({
     rows: rows.length,
     local: { loaded: destinationId === null || loaded, failed, arriving },
     server: server.status,
@@ -162,6 +164,7 @@ export function useTripPlaceSearch(input: TripPlaceSearchInput): TripPlaceSearch
     rows,
     state: query.trim() === '' ? 'searching' : state,
     more,
+    incomplete,
     offline: server.status === 'offline',
     counts: { saved: ideas.rows.length, curated: curated.rows.length },
     hours,

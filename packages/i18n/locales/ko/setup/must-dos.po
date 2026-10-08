@@ -159,6 +159,7 @@ msgstr ""
 msgid "setup.addMustDo.more.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr ""
@@ -199,13 +200,25 @@ msgstr ""
 msgid "setup.mustDos.seeDraft"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.seeTrip"
+msgstr "여행 보기"
+
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.doneLineMember"
+msgstr "준비 완료. {guideName}이(가) {organiser}와(과) 여행 초안을 짜고 있어요."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.doneLine"
 msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.plannedLine"
+msgstr "준비가 끝났고 계획이 완성됐어요."
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.unavailable"

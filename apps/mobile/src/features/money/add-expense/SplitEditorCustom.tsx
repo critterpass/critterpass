@@ -11,6 +11,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Avatar } from '@/ui/people/Avatar';
+import { Amount } from '@/ui/money/Amount';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
@@ -96,16 +97,22 @@ export function SplitEditorCustom({
             testID={`money-custom-${member.joinIndex}`}
           >
             <Row style={{ flex: 1, alignItems: 'center', gap: theme.space['12'] }}>
-              <Avatar name={member.name} joinIndex={member.joinIndex} size="sm" decorative />
+              <Avatar
+                name={member.name}
+                uid={member.userId}
+                joinIndex={member.joinIndex}
+                size="sm"
+                decorative
+              />
               <Text variant="rowTitle" style={styles.name} numberOfLines={1}>
                 {member.name}
               </Text>
-              <Text
+              <Amount
                 variant="rowTitle"
                 color={amount === 0n ? theme.semantic.text.secondary : undefined}
               >
                 {formatAmount(amount, draft.currency, locale)}
-              </Text>
+              </Amount>
             </Row>
           </Pressable>
         );

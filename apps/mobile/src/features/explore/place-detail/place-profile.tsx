@@ -8,6 +8,7 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { Image, Linking, ScrollView, View } from 'react-native';
 
 import { singleSource, type ReadyProfile } from '@/data/places/place-read';
@@ -62,22 +63,25 @@ export function PlaceProfileSection({
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const english = languageOf(profile.locale) !== languageOf(i18n.locale);
-  const lightbox = useLightbox(profilePhotoItems(profile.photos), 'place-profile-lightbox');
+  // A photo that fails to load leaves the strip and the full-screen view, never a grey tile.
+  const [failed, setFailed] = useState<readonly string[]>([]);
+  const photos = profile.photos.filter((photo) => !failed.includes(photo.url));
+  const lightbox = useLightbox(profilePhotoItems(photos), 'place-profile-lightbox');
   const lines = [profile.whyGo, profile.bestTime, profile.crowd].filter((line) => line !== '');
   return (
     <View style={{ gap: theme.space['14'] }} testID="place-detail-profile">
-      {profile.photos.length === 0 ? null : (
+      {photos.length === 0 ? null : (
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.strip}
           testID="place-detail-profile-photos"
         >
-          {profile.photos.map((photo, index) => (
+          {photos.map((photo, index) => (
             <LightboxThumb
               key={photo.url}
               position={index + 1}
-              total={profile.photos.length}
+              total={photos.length}
               onPress={() => lightbox.open(photo.url)}
               testID={`place-detail-profile-photo-${index}`}
             >
@@ -85,6 +89,7 @@ export function PlaceProfileSection({
                 source={{ uri: photo.url }}
                 style={styles.photo}
                 accessibilityIgnoresInvertColors
+                onError={() => setFailed((before) => [...before, photo.url])}
               />
             </LightboxThumb>
           ))}

@@ -8,6 +8,7 @@ import { format } from '@cp/i18n';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { clearDayAreaCommand, dayAreaOutcome, setDayAreaCommand } from '@/data/areas/commands';
 import { dayOfArea } from '@/data/areas/trip-areas-model';
 import { useTripAreas } from '@/data/areas/use-trip-areas';
@@ -89,10 +90,7 @@ export function AreaScreen({ tripId, destinationId }: AreaScreenProps) {
       timeZone: 'UTC',
     });
 
-  const back = () => {
-    if (router.canGoBack()) router.back();
-    else router.replace(exploreRoutes.tripExplore(tripId));
-  };
+  const back = () => goBackOr(exploreRoutes.tripExplore(tripId));
 
   if (areas.loaded && plan.loaded && (!areas.on || name === '')) {
     return (

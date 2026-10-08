@@ -119,6 +119,23 @@ export function backToDex(): string {
   return t({ id: 'critters.dex.back', message: 'Critterdex' });
 }
 
+export function loadingSet(): string {
+  return t({ id: 'critters.dex.loadingSet', message: 'Loading the set' });
+}
+
+/** The guide line on a dex with nothing found yet: how critters are met. */
+export function firstCritterHint(): string {
+  return t({
+    id: 'critters.dex.firstHint',
+    message:
+      'Critters turn up at real places. Stay a few minutes where one lives and it comes out.',
+  });
+}
+
+export function filterGroupLabel(): string {
+  return t({ id: 'critters.dex.filterLabel', message: 'Which critters' });
+}
+
 export function homeSetEyebrow(): string {
   return t({ id: 'critters.dex.homeEyebrow', message: 'Home set' });
 }

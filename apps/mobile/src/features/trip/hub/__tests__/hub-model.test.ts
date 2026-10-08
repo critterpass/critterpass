@@ -5,7 +5,14 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { countdownClock, hubHeader, viewerNet, type HubTripInput } from '../hub-model';
+import {
+  countdownClock,
+  hubHeader,
+  offersSwipe,
+  offlineCardPhase,
+  viewerNet,
+  type HubTripInput,
+} from '../hub-model';
 
 const TRIP: HubTripInput = {
   status: 'pre_trip',
@@ -27,6 +34,39 @@ describe('hub phase', () => {
     expect(hubHeader({ ...TRIP, status: 'voting' }, [], new Date('2026-09-01T00:00:00Z'))).toEqual({
       phase: 'planning',
     });
+  });
+
+  it('counts nothing for a called-off trip, whatever its dates say', () => {
+    const cancelled = { ...TRIP, status: 'cancelled' };
+    for (const at of ['2026-09-25T10:00:00Z', '2026-10-14T10:00:00Z', '2026-11-01T10:00:00Z']) {
+      expect(hubHeader(cancelled, [FLIGHT], new Date(at))).toEqual({ phase: 'cancelled' });
+    }
+  });
+
+  it('gives the hub to the offline card only on a travel day, during the trip and on its eve', () => {
+    const at = (iso: string, status = 'pre_trip') => {
+      const now = new Date(iso);
+      return offlineCardPhase(hubHeader({ ...TRIP, status }, [], now), now);
+    };
+    expect(at('2026-09-25T10:00:00Z', 'voting')).toBe(false);
+    expect(at('2026-09-25T10:00:00Z')).toBe(false);
+    expect(at('2026-10-11T02:00:00Z')).toBe(true);
+    expect(at('2026-10-14T10:00:00Z')).toBe(true);
+    expect(at('2026-11-01T10:00:00Z')).toBe(false);
+    expect(at('2026-10-14T10:00:00Z', 'cancelled')).toBe(false);
+    const flying = new Date('2026-10-11T20:00:00Z');
+    expect(offlineCardPhase(hubHeader(TRIP, [FLIGHT], flying), flying)).toBe(true);
+  });
+
+  it('offers the place swipe once the place is picked and until the trip starts', () => {
+    const at = (iso: string, status: string) =>
+      offersSwipe(hubHeader({ ...TRIP, status }, [], new Date(iso)), status);
+    expect(at('2026-09-01T00:00:00Z', 'voting')).toBe(false);
+    expect(at('2026-09-01T00:00:00Z', 'drafting')).toBe(true);
+    expect(at('2026-09-25T10:00:00Z', 'pre_trip')).toBe(true);
+    expect(at('2026-10-14T10:00:00Z', 'in_trip')).toBe(false);
+    expect(at('2026-11-01T10:00:00Z', 'post_trip')).toBe(false);
+    expect(at('2026-09-25T10:00:00Z', 'cancelled')).toBe(false);
   });
 
   it("counts to the trip's first day in its own zone, or to my departure", () => {

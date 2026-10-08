@@ -78,7 +78,10 @@ const useStyles = makeStyles((th) => ({
   // A solid ground under the back pill: it reads on any map, loaded or not.
   backPill: { backgroundColor: th.semantic.bg.sunken, borderRadius: th.radius.pill },
   header: { paddingHorizontal: th.size.gutter },
+  // The sheet gives way before the header does: a long reason or large type scrolls inside it.
   sheet: {
+    flexShrink: 1,
+    maxHeight: '80%',
     backgroundColor: th.semantic.bg.sunken,
     borderTopStartRadius: th.radius.sheetTop,
     borderTopEndRadius: th.radius.sheetTop,

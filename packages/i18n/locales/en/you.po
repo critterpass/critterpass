@@ -345,7 +345,7 @@ msgstr "Đàn bầu lo-fi"
 msgid "you.appIcon.dark"
 msgstr "Dark"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.deleteAccount"
 msgstr "Delete account"
 
@@ -373,7 +373,7 @@ msgstr "Done"
 msgid "you.avatar.done"
 msgstr "Done"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.downloadData"
 msgstr "Download my data"
 
@@ -610,6 +610,10 @@ msgstr "Initials"
 msgid "you.edit.username.available"
 msgstr "It’s yours if you save."
 
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeLine"
+msgstr "Its stamp leaves your passport. You can add the trip again later."
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.ja"
 msgstr "Japanese"
@@ -749,6 +753,10 @@ msgstr "Mutes everything 22:00–07:00 and inside temples"
 msgid "you.edit.name"
 msgstr "Name"
 
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
+msgid "you.settings.needsConnection"
+msgstr "Needs a connection"
+
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.offline"
 msgstr "Needs a connection. Try again in a moment."
@@ -858,6 +866,10 @@ msgstr "Pass+ is billed by the App Store. Deleting doesn’t cancel it, so cance
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.planLabel"
+msgstr "Pass+, your plan"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
@@ -976,9 +988,17 @@ msgstr "Rates from {day}"
 msgid "you.export.ready"
 msgstr "Ready to download until {until}"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeConfirm"
+msgstr "Remove"
+
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.remove"
 msgstr "Remove this trip"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeTitle"
+msgstr "Remove this trip?"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restore"
@@ -1080,7 +1100,7 @@ msgstr "Share where I am from Help"
 msgid "you.currency.showIn"
 msgstr "Show prices in"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.signOut"
 msgstr "Sign out"
 

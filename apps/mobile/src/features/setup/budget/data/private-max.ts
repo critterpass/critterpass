@@ -4,12 +4,12 @@
  * `GET /v1/me/private/budget_max`, which this caches in the encrypted local-only `local_private`
  * table (never synced, wiped on sign-out). The screen shows "Set ✓ · change" and reads the value
  * only to prefill the owner's own change form. Also the owner's saved default and their own fit
- * against the organiser's locked target.
+ * against the organiser's locked target, read again whenever the max or the target may have moved.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, api paths and wire values, never copy. */
 import type { OwnFitState } from '@cp/domain';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
@@ -90,6 +90,11 @@ export interface OwnMaxState {
   readonly own: OwnAmount | null;
   readonly fit: OwnFitState | null;
   readonly usual: OwnAmount | null;
+  /**
+   * Reads the fit again (the group's target moved). After the owner's own max changed, `forget`
+   * drops the old answer first, so the screen never repeats a fit worked out for the old max.
+   */
+  readonly rereadFit: (forget?: boolean) => void;
 }
 
 export function useOwnMax(tripId: string): OwnMaxState {
@@ -99,22 +104,36 @@ export function useOwnMax(tripId: string): OwnMaxState {
   const queued = useLiveRows<{ n: number }>(QUEUED_SQL, [tripId], ['commands']);
   const [fit, setFit] = useState<OwnFitState | null>(null);
   const [usual, setUsual] = useState<OwnAmount | null>(null);
+  const [fitRead, setFitRead] = useState(0);
   useEffect(() => {
     let live = true;
     const load = async () => {
       await refreshOwnMax(db, services, tripId);
-      const fitRead = await services.getJson(`/v1/setup/${encodeURIComponent(tripId)}/own-fit`);
-      const state = (fitRead.kind === 'ok' ? (fitRead.body as { state?: unknown }) : null)?.state;
       const usualRead = await services.getJson('/v1/me/private/budget_default');
-      if (!live) return;
-      if (typeof state === 'string') setFit(state as OwnFitState);
-      if (usualRead.kind === 'ok') setUsual(amountOf(usualRead.body));
+      if (live && usualRead.kind === 'ok') setUsual(amountOf(usualRead.body));
     };
     load().catch(() => undefined);
     return () => {
       live = false;
     };
   }, [db, services, tripId]);
+  useEffect(() => {
+    let live = true;
+    services
+      .getJson(`/v1/setup/${encodeURIComponent(tripId)}/own-fit`)
+      .then((read) => {
+        const state = (read.kind === 'ok' ? (read.body as { state?: unknown }) : null)?.state;
+        if (live && typeof state === 'string') setFit(state as OwnFitState);
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, [services, tripId, fitRead]);
+  const rereadFit = useCallback((forget = false) => {
+    if (forget) setFit(null);
+    setFitRead((n) => n + 1);
+  }, []);
   const value = parseOwn(own.rows[0]?.data);
   const pending = (queued.rows[0]?.n ?? 0) > 0;
   return {
@@ -124,5 +143,6 @@ export function useOwnMax(tripId: string): OwnMaxState {
     own: value,
     fit,
     usual,
+    rereadFit,
   };
 }

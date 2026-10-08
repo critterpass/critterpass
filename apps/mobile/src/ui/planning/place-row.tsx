@@ -70,7 +70,8 @@ export function PlaceRow({
         size={saversAtEnd ? 38 : 56}
       />
       <View style={styles.body}>
-        <Text variant="title" numberOfLines={1}>
+        {/* Two lines: a long name ("Nhà thờ Chính tòa Đức Bà Sài Gòn") reads whole. */}
+        <Text variant="title" numberOfLines={2} singleLine={false}>
           {title}
         </Text>
         {meta === undefined ? null : (

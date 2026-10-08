@@ -16,6 +16,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { act, configure, render, screen, waitFor } from '@testing-library/react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
@@ -92,9 +93,11 @@ function show(stack: TestLocalFirst) {
           insets: { top: 47, left: 0, right: 0, bottom: 34 },
         }}
       >
-        <LocalFirstProvider value={stack.value}>
-          <ExpenseListRow item={ITEM} crewCurrency="IDR" onPress={() => undefined} testID="row" />
-        </LocalFirstProvider>
+        <GestureHandlerRootView>
+          <LocalFirstProvider value={stack.value}>
+            <ExpenseListRow item={ITEM} crewCurrency="IDR" onOpen={() => undefined} testID="row" />
+          </LocalFirstProvider>
+        </GestureHandlerRootView>
       </SafeAreaProvider>
     </I18nProvider>,
   );

@@ -2,6 +2,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 
 import { CameraScreen, type CameraScreenProps } from '@/features/guide/camera/camera-screen';
+import { threadModeOf } from '@/features/guide/chat/data/use-guide-thread';
 
 import { getOcr } from '../../../../modules/cp-ocr';
 
@@ -22,14 +23,21 @@ function deviceRecognizer(): CameraScreenProps['recognize'] {
 
 /**
  * Point and ask (3j-3): take a still of a menu and read it in your own language, with the crew's
- * dietary flags on the dishes. Opened from the guide sheet's TRANSLATE A MENU.
+ * dietary flags on the dishes. Opened from the guide sheet's TRANSLATE A MENU (`from: 'guide'`,
+ * with the sheet's `mode`), a question about the menu goes back to that sheet.
  */
 export default function CameraRoute() {
-  const { tripId } = useLocalSearchParams<{ tripId?: string }>();
+  const { tripId, mode, from } = useLocalSearchParams<{
+    tripId?: string;
+    mode?: string;
+    from?: string;
+  }>();
   const recognize = useMemo(() => deviceRecognizer(), []);
   return (
     <CameraScreen
       tripId={typeof tripId === 'string' && tripId !== '' ? tripId : null}
+      mode={threadModeOf(mode) ?? null}
+      fromSheet={from === 'guide'}
       recognize={recognize}
     />
   );

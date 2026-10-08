@@ -6,16 +6,18 @@
 /* eslint-disable lingui/no-unlocalized-strings -- result kinds, wire values and test ids, never copy. */
 import type { DeletionPreflight, DeletionReason } from '@cp/domain';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Linking, Platform } from 'react-native';
+import { useEffect, useState, type ReactNode } from 'react';
+import { BackHandler, Linking, Platform } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { exportLine } from '../export/export-copy';
+import { YOU_ROUTES } from '../routes';
 import { useDataExport } from '../export/use-data-export';
 import { requestAccountDeletionCommand, type ClosedAccount } from './account-api';
 import { deviceAccountServices, type AccountServices } from './account-services';
@@ -53,11 +55,17 @@ function usePreflight(services: AccountServices): DeletionPreflight | null {
 export interface DeleteScreenProps {
   readonly services?: AccountServices;
   readonly now?: () => Date;
+  /**
+   * Drawn with the closed page: the route turns its back gesture off here. The session has ended,
+   * so the only ways on are the page's two buttons.
+   */
+  readonly whenClosed?: ReactNode;
 }
 
 export function DeleteScreen({
   services = deviceAccountServices,
   now = () => new Date(),
+  whenClosed = null,
 }: DeleteScreenProps) {
   const { network } = useLocalFirst();
   const online = useOnline(network);
@@ -77,6 +85,13 @@ export function DeleteScreen({
   const [failed, setFailed] = useState(false);
   const [closed, setClosed] = useState<ClosedAccount | null>(null);
   const [clearProblem, setClearProblem] = useState<ClosedProblem | null>(null);
+
+  const isClosed = closed !== null;
+  useEffect(() => {
+    if (!isClosed) return undefined;
+    const held = BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () => held.remove();
+  }, [isClosed]);
 
   const onDelete = async () => {
     if (busy || !online) return;
@@ -102,15 +117,18 @@ export function DeleteScreen({
 
   if (closed !== null) {
     return (
-      <ClosedView
-        mode={closed.purgeAt === null ? 'erased' : 'closed'}
-        purgeAt={closed.purgeAt}
-        closedOn={now()}
-        busy={busy}
-        problem={clearProblem}
-        onKeep={() => void clear('sign_in')}
-        onClose={() => void clear()}
-      />
+      <>
+        {whenClosed}
+        <ClosedView
+          mode={closed.purgeAt === null ? 'erased' : 'closed'}
+          purgeAt={closed.purgeAt}
+          closedOn={now()}
+          busy={busy}
+          problem={clearProblem}
+          onKeep={() => void clear('sign_in')}
+          onClose={() => void clear()}
+        />
+      </>
     );
   }
   return (
@@ -135,7 +153,7 @@ export function DeleteScreen({
       onContinue={() => setStep('hold')}
       onReason={setReason}
       onDelete={() => void onDelete()}
-      onKeep={() => router.back()}
+      onKeep={() => goBackOr(YOU_ROUTES.settings)}
     />
   );
 }

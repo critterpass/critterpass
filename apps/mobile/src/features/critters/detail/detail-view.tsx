@@ -29,8 +29,8 @@ import { degrees, makeStyles, useTheme } from '@/ui/theme';
 import { tokens } from '@cp/design-tokens';
 
 import { artKind } from '../art-kind';
-import { foundAt, unknownName } from '../critters-copy';
-import { backToDex } from '../dex/dex-copy';
+import { backLabel, foundAt, unknownName } from '../critters-copy';
+import { PASS_TAB } from '../routes';
 import { detailCopy } from './detail-copy';
 import { initialForm, type DetailForm, type DetailModel } from './detail-model';
 
@@ -115,7 +115,11 @@ export function DetailView(props: DetailViewProps) {
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-detail">
       <ScrollView contentContainerStyle={{ paddingTop: theme.space['8'] }} style={{ flex: 1 }}>
         <View style={styles.body}>
-          <BackEyebrow label={upper(backToDex(), locale)} testID="critters-detail-back" />
+          <BackEyebrow
+            label={upper(backLabel(), locale)}
+            fallback={PASS_TAB}
+            testID="critters-detail-back"
+          />
           <Animated.View style={flipStyle}>
             <CritterDetail
               name={upper(name, locale)}

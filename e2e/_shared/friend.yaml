@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# One simulated friend of the crew behind ${output.crewCode} acts through the api, as their own
+# phone would (tools/scripts/ci-device/scenario-friend.ts, started by the shard's runner):
+# ${ACTION} is `join`, `board` (IN to the sent proposal), `drop-out` (OUT) or `answer-poll` (a vote
+# in the crew's open poll). The same friend acts across calls. Waits until the script is done.
+# Runner: /scenario starts it, /scenario-output answers 200 once it is done.
+- evalScript: "${output.friendStarted = http.post('http://127.0.0.1:7788/scenario?name=friend&code=' + output.crewCode + '&action=' + ACTION, { body: '{}' }).status}"
+- assertTrue: ${output.friendStarted == 202}
+- evalScript: ${output.friendDone = 202}
+- repeat:
+    times: 60
+    while:
+      true: ${output.friendDone == 202}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'runner-scenario-never-shown'
+          timeout: 3000
+          optional: true
+      - evalScript: "${output.friendDone = http.get('http://127.0.0.1:7788/scenario-output?name=friend').status}"
+- assertTrue: ${output.friendDone == 200}

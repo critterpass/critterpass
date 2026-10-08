@@ -11,8 +11,16 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'undesigned-states 3h-2 "Mailbox footnote and sheet": the sign-in return page is a status line and BACK TO BOOKINGS',
   ],
   [
+    'must-dos-empty',
+    'undesigned-states 3c-7 "Must-dos step, an empty list": with none yet the step is its title, the guide\'s line and ADD YOUR MUST-DO',
+  ],
+  [
     'money-payment-disputed',
     'undesigned-states 3i-5 "Payment detail (payee), disputed": one payment, its pink note and the actions its state allows',
+  ],
+  [
+    'money-payment-payee-request',
+    'undesigned-states 3i-5 "Payment detail (payee), waiting to be paid": who owes, the amount, the pending tag and REQUEST IT',
   ],
   [
     'gallery-rise',

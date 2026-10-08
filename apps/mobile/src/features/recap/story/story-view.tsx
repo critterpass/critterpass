@@ -16,6 +16,7 @@ import { IconButton } from '@/ui/buttons/IconButton';
 import { Icon } from '@/ui/icons/Icon';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import type { GuideId } from '@/ui/people/GuideLine';
+import { toast } from '@/motion';
 import { CloseButton } from '@/ui/sheet/CloseButton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { useStoryClock } from '@/ui/story/story-clock';
@@ -146,7 +147,12 @@ export function StoryView(props: StoryViewProps) {
     if (playing === undefined || sharing) return;
     setSharing(true);
     void sharer(cardRef, `${props.subtitle} · ${playing.label}`)
-      .catch(() => undefined)
+      .catch(() =>
+        toast.show({
+          id: 'recap-story-share',
+          title: t({ id: 'recap.story.shareFailed', message: 'Couldn’t share this card' }),
+        }),
+      )
       .finally(() => setSharing(false));
   };
   return (

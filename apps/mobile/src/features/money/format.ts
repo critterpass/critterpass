@@ -68,13 +68,26 @@ export function symbolOf(currency: string): string {
   return known(currency) ? currencySymbol(currency) : currency;
 }
 
-/** Short amount for chips, rows and buttons: "Rp 1.08M", "Rp 450K", "US$68". */
+/**
+ * Short amount for chips, rows and buttons: "Rp 1.08M", "Rp 450K", "US$68". Below ten thousand an
+ * amount with cents keeps all of them ("US$6.40", "US$186.40", never "US$6.4" or a rounded
+ * "US$186"), and a whole amount stays whole; from ten thousand up it is the compact form.
+ */
 export function formatShort(amountMinor: bigint, currency: string, locale: string): string {
-  const major = toMajor(amountMinor < 0n ? -amountMinor : amountMinor, currency);
+  const abs = amountMinor < 0n ? -amountMinor : amountMinor;
+  const major = toMajor(abs, currency);
+  const decimals = known(currency) ? displayDecimals(currency) : 2;
+  const exponent = known(currency) ? currencyExponent(currency) : 2;
+  // Exact: the part below one shown unit decides, with no float in the test.
+  const shownUnit = 10n ** BigInt(exponent);
+  const digits = decimals > 0 && abs % shownUnit !== 0n ? decimals : 0;
   const body =
     major >= 10_000
       ? compactNumber(locale, major)
-      : format.number(locale, major, { maximumFractionDigits: major >= 100 ? 0 : 2 });
+      : format.number(locale, major, {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        });
   const symbol = symbolOf(currency);
   const sign = amountMinor < 0n ? MINUS : '';
   if (symbolTrails(currency, locale)) return `${sign}${body}\u00a0${symbol}`;

@@ -1,6 +1,7 @@
 /**
- * Client specs for the community commands. Answers and ratings may wait in the offline queue;
- * copying a plan and making a link need the server's answer at once.
+ * Client specs for the community commands. Saves, suggestions, ratings and reports may wait in the
+ * offline queue. Publishing, consent, unpublishing, links and copying a plan need the server's
+ * answer at once: the screen shows what the server holds, so each waits for it and says so.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type { ReportContentPayload, SharedPlanToggles } from '@cp/domain';
@@ -15,21 +16,21 @@ export const publishSharedPlan = defineClientCommand<{
   readonly toggles: SharedPlanToggles;
 }>({
   name: 'publish_shared_plan',
-  offline: true,
+  offline: false,
   summarize: () =>
     msg({ id: 'community.queued.publish', message: 'Asking the crew to share the plan' }),
 });
 
 export const respondPublishConsent = defineClientCommand<PlanId & { readonly approve: boolean }>({
   name: 'respond_publish_consent',
-  offline: true,
+  offline: false,
   summarize: () =>
     msg({ id: 'community.queued.consent', message: 'Your answer on sharing the plan' }),
 });
 
 export const withdrawPublishConsent = defineClientCommand<PlanId>({
   name: 'withdraw_publish_consent',
-  offline: true,
+  offline: false,
   summarize: () => msg({ id: 'community.queued.withdraw', message: 'Taking the shared plan down' }),
 });
 
@@ -43,7 +44,7 @@ export const updateSharedPlan = defineClientCommand<
 
 export const unpublishSharedPlan = defineClientCommand<PlanId>({
   name: 'unpublish_shared_plan',
-  offline: true,
+  offline: false,
   summarize: () =>
     msg({ id: 'community.queued.unpublish', message: 'Taking the shared plan down' }),
 });
@@ -56,7 +57,7 @@ export const createPlanLink = defineClientCommand<{ readonly trip_id: string }>(
 
 export const revokePlanLink = defineClientCommand<{ readonly link_id: string }>({
   name: 'revoke_plan_link',
-  offline: true,
+  offline: false,
   summarize: () => msg({ id: 'community.queued.revoke', message: 'Turning a read-only link off' }),
 });
 

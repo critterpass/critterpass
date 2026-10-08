@@ -7,7 +7,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, route paths and wire keys, never copy. */
 import { shownPlaceName } from '@cp/domain';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { editorialFor } from '@/data/places/editorial-note';
 import {
@@ -171,25 +171,67 @@ function sharedRead(reader: TravelDataReader | null, destinationId: string) {
   return read;
 }
 
-/** The api's browse of a destination with its last good copy; null reads nothing. */
-export function useDestinationPlaces(destinationId: string | null): ReadState<BrowseWire> {
+/** Answers of this session by destination, newest last: a screen that mounts again starts on it. */
+const answered = new Map<string, ReadState<BrowseWire>>();
+const ANSWERED_MAX = 8;
+
+function remember(destinationId: string, state: ReadState<BrowseWire>): void {
+  if (dataOf(state) === undefined) return;
+  answered.delete(destinationId);
+  answered.set(destinationId, state);
+  const oldest = answered.keys().next();
+  if (answered.size > ANSWERED_MAX && oldest.done !== true) answered.delete(oldest.value);
+}
+
+/** Forgets the session's answers (tests). */
+export function forgetBrowseAnswers(): void {
+  answered.clear();
+  inFlight.clear();
+}
+
+/** Whether a browse ended with nothing to show for a reason another try could fix. */
+export function browseFailed(state: ReadState<BrowseWire>): boolean {
+  return state.status === 'missing' && (state.reason === 'offline' || state.reason === 'error');
+}
+
+/**
+ * The api's browse of a destination and a way to ask again. A destination already answered this
+ * session shows that answer at once while the api is asked again behind it; null reads nothing.
+ */
+export function useDestinationBrowse(destinationId: string | null): {
+  readonly state: ReadState<BrowseWire>;
+  readonly retry: () => void;
+} {
   const reader = useTravelDataReader();
+  const [attempt, setAttempt] = useState(0);
   const [answer, setAnswer] = useState<{
     readonly id: string;
+    readonly attempt: number;
     readonly state: ReadState<BrowseWire>;
   } | null>(null);
   useEffect(() => {
     if (destinationId === null) return undefined;
     let live = true;
     void sharedRead(reader, destinationId).then((state) => {
-      if (live) setAnswer({ id: destinationId, state });
+      remember(destinationId, state);
+      if (live) setAnswer({ id: destinationId, attempt, state });
     });
     return () => {
       live = false;
     };
-  }, [reader, destinationId]);
-  if (destinationId === null) return { status: 'missing', reason: 'no_data' };
-  return answer?.id === destinationId ? answer.state : { status: 'loading' };
+  }, [reader, destinationId, attempt]);
+  const retry = useCallback(() => setAttempt((before) => before + 1), []);
+  const state = useMemo((): ReadState<BrowseWire> => {
+    if (destinationId === null) return { status: 'missing', reason: 'no_data' };
+    if (answer?.id === destinationId && answer.attempt === attempt) return answer.state;
+    return answered.get(destinationId) ?? { status: 'loading' };
+  }, [destinationId, answer, attempt]);
+  return { state, retry };
+}
+
+/** The api's browse of a destination with its last good copy; null reads nothing. */
+export function useDestinationPlaces(destinationId: string | null): ReadState<BrowseWire> {
+  return useDestinationBrowse(destinationId).state;
 }
 
 const NO_PHOTOS: ReadonlyMap<string, ProfilePhoto> = new Map();
@@ -245,8 +287,11 @@ export function withBrowsed(
 export function useDestinationPois(destinationId: string | null): {
   readonly places: readonly MapPoi[];
   readonly loaded: boolean;
+  /** The browse did not answer and has no saved copy: the phone's own places are all there is. */
+  readonly failed: boolean;
+  readonly retry: () => void;
 } {
-  const browse = useDestinationPlaces(destinationId);
+  const { state: browse, retry } = useDestinationBrowse(destinationId);
   const browsed = dataOf(browse)?.results;
   const live = useLiveRows<PoiRow>(
     POIS_SQL,
@@ -286,6 +331,8 @@ export function useDestinationPois(destinationId: string | null): {
   return {
     places,
     loaded: live.loaded && (live.rows.length > 0 || browse.status !== 'loading'),
+    failed: browseFailed(browse),
+    retry,
   };
 }
 

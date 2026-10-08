@@ -163,13 +163,17 @@ export function DestHero(props: DestHeroProps) {
         {props.photo === null ? <Halftone /> : null}
         <MediaLayer media={props.photo} surface="accent" accent={guide.colour} creditAt="bottom" />
         <WalkingGuide guide={guide} seated={seated} />
-        <Row justify="space-between" align="center">
-          <BackEyebrow label={props.backLabel} onPress={props.onBack} testID="explore-back" />
-          {props.trailing ??
-            (props.onToggleSave === undefined ? null : (
-              <SaveButton saved={props.saved ?? false} onToggle={props.onToggleSave} />
-            ))}
-        </Row>
+        {/* The buttons' row takes its own touches: a tap on Back or Save never also opens the cover
+            (the buttons press through the gesture system, which the cover's press does not see). */}
+        <View onStartShouldSetResponder={() => true}>
+          <Row justify="space-between" align="center">
+            <BackEyebrow label={props.backLabel} onPress={props.onBack} testID="explore-back" />
+            {props.trailing ??
+              (props.onToggleSave === undefined ? null : (
+                <SaveButton saved={props.saved ?? false} onToggle={props.onToggleSave} />
+              ))}
+          </Row>
+        </View>
         {/* A short name stays on one line at the size that fits ("ĐÀ NẴNG" as wide as "KYOTO"); a
             longer one takes a line per word, with a floor low enough that a long single word
             shrinks to fit instead of breaking mid-word or cutting off. */}

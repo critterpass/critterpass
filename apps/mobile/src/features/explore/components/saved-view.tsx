@@ -17,6 +17,7 @@ import { FilterChip } from '@/ui/chips/FilterChip';
 import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
+import { Skeleton } from '@/ui/states/Skeleton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -33,6 +34,10 @@ export type { ListEditor } from './saved-list-editor';
 export type ListChoice = string | null;
 
 export interface SavedViewProps {
+  /** The saved rows have not been read yet: neither the rows nor "nothing saved" is known. */
+  readonly loading?: boolean | undefined;
+  /** Places only the api knows are still being read: their count is not said yet. */
+  readonly settling?: boolean | undefined;
   readonly lists: readonly ListSummary[];
   readonly total: number;
   readonly choice: ListChoice;
@@ -84,7 +89,8 @@ export function SavedView(props: SavedViewProps) {
   const listLabel = (name: string | null) => name ?? defaultName;
   const { groups, editor, choice } = props;
   const named = choice !== null && choice !== ALL_LISTS;
-  const empty = groups.groups.length === 0 && groups.unknown === 0;
+  const loading = props.loading === true;
+  const empty = !loading && groups.groups.length === 0 && groups.unknown === 0;
   const guest = guideFor(null);
 
   const rowActions = (row: SavedRow) =>
@@ -204,6 +210,11 @@ export function SavedView(props: SavedViewProps) {
             />
           </Row>
         ) : null}
+        {loading ? (
+          <View testID="explore-saved-loading">
+            <Skeleton preset="list" repeat={3} />
+          </View>
+        ) : null}
         {empty ? (
           <EmptyState
             guide="tokek"
@@ -265,7 +276,7 @@ export function SavedView(props: SavedViewProps) {
             ))}
           </View>
         ))}
-        {groups.unknown === 0 ? null : (
+        {groups.unknown === 0 || props.settling === true ? null : (
           <Text
             variant="bodySm"
             color={theme.semantic.text.secondary}

@@ -4,15 +4,18 @@
  * waits in the feedback outbox until they are uploaded. Either way the sent page opens at once.
  */
 import { FEEDBACK_ATTACHMENTS_MAX, generateUuidV7, type FeedbackSource } from '@cp/domain';
+import { useLingui } from '@lingui/react/macro';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
+import { useCommandFeedback } from '@/motion/island-toast';
 
 import { useHelpArticles } from '../data/use-help-articles';
-import { feedbackSentHref, type FeedbackMode } from '../routes';
+import { feedbackSentHref, HELP_ROUTES, type FeedbackMode } from '../routes';
 import { submitFeedbackCommand } from './commands';
 import { deviceInfoNow, deviceInfoWithNetwork } from './device-info';
 import {
@@ -27,6 +30,8 @@ import {
 import { FeedbackView } from './FeedbackView';
 import { saveOutboxItem } from './outbox';
 import { pickFeedbackPhotos } from './pick-photos';
+
+const TOAST = 'help-feedback-send';
 
 function modeOf(value: unknown): FeedbackMode {
   return value === 'problem' || value === 'idea' ? value : 'feedback';
@@ -45,6 +50,8 @@ export function FeedbackScreen() {
   const articleSlug = typeof params.article === 'string' ? params.article : null;
   const locale = useLocale();
   const { db } = useLocalFirst();
+  const { t } = useLingui();
+  const { report } = useCommandFeedback();
   const submit = useCommand(submitFeedbackCommand);
   const { articles } = useHelpArticles();
   const [draft, setDraft] = useState(() =>
@@ -82,7 +89,9 @@ export function FeedbackScreen() {
     });
     try {
       if (draft.attachments.length === 0) {
-        await submit.send(payload);
+        // Kept on the phone when offline; a refusal leaves the note here to send again.
+        const outcome = report(await submit.send(payload), { offlineCapable: true, id: TOAST });
+        if (outcome === 'refused' || outcome === 'needs-signal') return;
       } else {
         await saveOutboxItem(db, {
           id,
@@ -99,6 +108,17 @@ export function FeedbackScreen() {
           mood: draft.mood,
           topic: draft.category,
         }),
+      );
+    } catch {
+      report(
+        { kind: 'unavailable' },
+        {
+          id: TOAST,
+          needsSignal: t({
+            id: 'help.feedback.notSaved',
+            message: 'Your note wasn’t saved. It’s still here: try again.',
+          }),
+        },
       );
     } finally {
       setSending(false);
@@ -135,7 +155,7 @@ export function FeedbackScreen() {
       }
       onDeviceInfo={(on) => setDraft((d) => ({ ...d, includeDeviceInfo: on }))}
       onSend={() => void send()}
-      onBack={() => router.back()}
+      onBack={() => goBackOr(HELP_ROUTES.hub)}
     />
   );
 }

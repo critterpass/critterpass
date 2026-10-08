@@ -8,6 +8,7 @@ import { router, useIsFocused } from 'expo-router';
 import { useMemo } from 'react';
 
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { goBackOr } from '@/lib/navigation/back';
 
 import { ExploreHomeView } from '../components/explore-home-view';
 import { useOfflinePackFiles } from '../data/use-offline-pack';
@@ -39,7 +40,7 @@ export function ExploreHomeScreen() {
       loading={!destinations.loaded}
       offline={syncPhase === 'offline'}
       savedCount={saved.rows.length}
-      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onBack={() => goBackOr()}
       onOpen={(card) => router.push(exploreRoutes.destination(card.id))}
       onSaved={() => router.push(exploreRoutes.saved())}
       onSearch={search === undefined ? undefined : () => router.push(search)}

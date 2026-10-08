@@ -4,10 +4,12 @@
  * MINE'S DIFFERENT, POST IT (POST IT when nothing matches).
  */
 import { IDEA_TITLE_MIN } from '@cp/domain';
+import { upper } from '@cp/i18n';
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
@@ -69,6 +71,7 @@ function useStatusWord(): (status: BoardStatus) => string {
 
 export function SuggestSheet(props: SuggestSheetProps) {
   const { t } = useLingui();
+  const locale = useLocale();
   const styles = useStyles();
   const theme = useTheme();
   const statusWord = useStatusWord();
@@ -123,7 +126,7 @@ export function SuggestSheet(props: SuggestSheetProps) {
             {props.matches.map((match) => (
               <Row key={match.id} gap="12" style={styles.match}>
                 <View style={styles.matchText}>
-                  <Text variant="rowTitle">{match.title.toUpperCase()}</Text>
+                  <Text variant="rowTitle">{upper(match.title, locale)}</Text>
                   <Text variant="caption" color={theme.semantic.text.secondary}>
                     {t({
                       id: 'help.suggest.matchMeta',

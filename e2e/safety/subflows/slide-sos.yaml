@@ -16,8 +16,8 @@ appId: app.critterpass.dev
       platform: iOS
     commands:
       # The track is one accessibility element on iOS: start where the knob rests (its left end,
-      # level with the track's middle on the send screen), not at the element's centre.
+      # level with the track's middle in the send screen's footer), not at the element's centre.
       - swipe:
-          start: 13%, 54%
-          end: 95%, 54%
+          start: 13%, 90%
+          end: 95%, 90%
           duration: 1200

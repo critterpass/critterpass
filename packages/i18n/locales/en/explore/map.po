@@ -24,6 +24,18 @@ msgid "explore.pack.downloading"
 msgstr "Downloading {place}"
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeLine"
+msgstr "Its map and search will need a connection until you download it again."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeConfirm"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeTitle"
+msgstr "Remove {place} from this phone?"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.remove"
 msgstr "Remove from this phone"
 

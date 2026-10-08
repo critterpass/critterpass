@@ -3,6 +3,7 @@
  * description, hours and price, the fit pill ("FITS SAT · 08:00") and the yellow + that adds it.
  * The picked card is outlined.
  */
+import type { ReactNode } from 'react';
 import { View, type ImageSourcePropType } from 'react-native';
 
 import type { DoodleName } from '../icons/generated';
@@ -25,6 +26,8 @@ export interface PlaceCardProps {
   readonly icon?: DoodleName | undefined;
   readonly savers?: readonly StackMember[] | undefined;
   readonly fit?: { readonly text: string; readonly tone: FitTone } | undefined;
+  /** A small tag beside the name ("NEXT DOOR"): in the row, so it never covers the name. */
+  readonly badge?: ReactNode | undefined;
   readonly picked?: boolean | undefined;
   readonly onPress?: (() => void) | undefined;
   readonly onAdd?: (() => void) | undefined;
@@ -45,7 +48,7 @@ const useStyles = makeStyles((t) => ({
   },
   picked: { borderColor: t.color.paper.base },
   body: { flex: 1, minWidth: 0, gap: t.space['4'] },
-  head: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
+  head: { flexDirection: 'row', alignItems: 'flex-start', gap: t.space['8'] },
   title: { flex: 1, minWidth: 0 },
   foot: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'], marginTop: t.space['4'] },
   pill: {
@@ -67,6 +70,7 @@ export function PlaceCard({
   icon,
   savers = [],
   fit,
+  badge,
   picked = false,
   onPress,
   onAdd,
@@ -95,6 +99,7 @@ export function PlaceCard({
                 {title}
               </Text>
             </View>
+            {badge}
             {savers.length === 0 ? null : <AvatarStack members={savers} size="sm" max={3} />}
           </View>
           {description === undefined ? null : (

@@ -10,7 +10,9 @@ import { useEffect } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { guideSticker } from '@/ui/avatar/guides';
 
 import { resolveDropoutCommand, setKeepInChatCommand } from '../data/commands';
@@ -26,6 +28,10 @@ import { changeRows, shareChange, type DropoutOp, type MemberResplit } from './m
 const DROPOUT_SQL = `SELECT ops, members, resolved_at, created_at FROM trip_dropouts
   WHERE trip_id = ? AND user_id = ? ORDER BY created_at DESC LIMIT 1`;
 const LABELS_SQL = 'SELECT component_key, label FROM cost_components WHERE trip_id = ?';
+/** This phone's own apply, still waiting to reach the server. */
+const APPLYING_SQL = `SELECT 1 AS queued FROM commands WHERE cmd = 'resolve_dropout'
+  AND json_extract(envelope, '$.payload.trip_id') = ?
+  AND json_extract(envelope, '$.payload.uid') = ?`;
 const KEEP_SQL = `SELECT cm.keep_in_chat FROM crew_members cm JOIN trips t ON t.crew_id = cm.crew_id
   WHERE t.id = ? AND cm.user_id = ?`;
 
@@ -49,6 +55,8 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
     ['cost_components'],
   );
   const keep = useLiveRows<{ keep_in_chat: number | null }>(KEEP_SQL, params, ['crew_members']);
+  const applying = useLiveRows<{ queued: number }>(APPLYING_SQL, params, ['commands']);
+  const offline = useSyncPhase() === 'offline';
   const resolve = useCommand(resolveDropoutCommand);
   const setKeep = useCommand(setKeepInChatCommand);
   const member = trip != null && !trip.isOrganiser;
@@ -59,7 +67,15 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
 
   const row = dropout.rows[0];
   if (trip == null || member || row === undefined) {
-    return <ProposalLoading testID="dropout-loading" />;
+    return (
+      <ProposalLoading
+        missing={
+          !member && (proposal === null || trip === null || (trip != null && dropout.loaded))
+        }
+        fallback={proposalRoutes.tracker(props.proposalId)}
+        testID="dropout-loading"
+      />
+    );
   }
   const person = trip.people.find((p) => p.uid === props.uid);
   const name = person?.name ?? '';
@@ -84,11 +100,9 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
       }
       keepInChat={keep.rows[0]?.keep_in_chat === 1}
       resolved={row.resolved_at !== null}
-      onBack={() =>
-        router.canGoBack()
-          ? router.back()
-          : router.replace(proposalRoutes.tracker(props.proposalId))
-      }
+      applying={applying.rows.length > 0 || resolve.pending}
+      offline={offline}
+      onBack={() => goBackOr(proposalRoutes.tracker(props.proposalId))}
       onKeep={(next) => void setKeep.send({ crew_id: trip.crewId, uid: props.uid, keep: next })}
       onApply={() => void resolve.send({ trip_id: trip.tripId, uid: props.uid })}
     />
