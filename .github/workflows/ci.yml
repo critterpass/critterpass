@@ -42,6 +42,10 @@ jobs:
       # only when that package is affected, which let an id in the app's tests reach main.
       - name: No plan ids in source
         run: pnpm --filter @cp/scripts exec vitest run no-plan-ids.test.ts
+      # Reads the servers' source for the same reason: a link written by hand in a worker-only
+      # change would otherwise reach main and fail the next change that touches tools/scripts.
+      - name: No in-app links written by hand in services
+        run: pnpm --filter @cp/scripts exec vitest run server-link-literals.test.ts
       # The content factory starts Testcontainers Postgres from its `test` script, so that suite
       # runs in this job: when it is affected, pull the suites' images and build the test Postgres
       # image before turbo starts everything else on this runner (the database job explains why).
