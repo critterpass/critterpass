@@ -4,6 +4,7 @@ import { ALL_PARTNERS_OFF, supplierCopy, type RideQuoteResult } from '@cp/domain
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 
+import { dateTime } from '../../format';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
@@ -165,7 +166,7 @@ function AroundScene({
                   ALL_PARTNERS_OFF,
                 ),
               ),
-              when: 'Thu 16 Oct, 10:40',
+              when: dateTime(locale, '2026-10-16T02:40:00Z', 'Asia/Makassar'),
               onOpen: noop,
             }
           : null

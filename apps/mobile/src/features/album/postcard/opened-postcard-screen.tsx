@@ -4,10 +4,11 @@
  * read-only with a way on to sending your own; the traveller's own, or none, is the composer.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useLiveRows } from '@/data/plan/live-rows';
+import { goBackOr } from '@/lib/navigation/back';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideIdOr } from '@/ui/avatar/guides';
 
 import { useAlbum } from '../data/use-album';
@@ -55,7 +56,7 @@ export function OpenedPostcardScreen({
         note={opened.note}
         guide={guideIdOr(album.trip?.guideSlug)}
         onOwn={() => setOwn(true)}
-        onClose={() => router.back()}
+        onClose={() => goBackOr(hrefFor('3m-1', { tripId }) ?? '/')}
       />
     </AlbumMediaProvider>
   );

@@ -552,6 +552,10 @@ msgid "recap.signature.line"
 msgstr "Ký một lần, chữ ký sẽ có trên mọi con dấu chung với nhóm, theo màu của bạn."
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcardDetail"
+msgstr "Một tấm ảnh và một lời nhắn, gửi cả nhóm"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.rateDetail"
 msgstr "Mỗi nơi một chạm, cho nhóm đi sau"
 
@@ -583,6 +587,10 @@ msgstr "Đã trả"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.paco"
 msgstr "sáo pan và charango"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photos"
+msgstr "Ảnh"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
@@ -635,6 +643,10 @@ msgstr "Nói gì đó"
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.send"
 msgstr "Gửi"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcard"
+msgstr "Gửi bưu thiếp"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -751,6 +763,10 @@ msgstr "Cả nhóm đã ký. Giờ nó nằm trên hồ sơ của bạn."
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.goneLine"
 msgstr "Nhóm đã tắt liên kết này. Hãy hỏi người gửi để lấy liên kết mới."
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photosDetail"
+msgstr "Album của nhóm, kèm các ảnh chọn"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.explorer"

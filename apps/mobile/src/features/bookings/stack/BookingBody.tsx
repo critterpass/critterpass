@@ -1,6 +1,7 @@
 /**
  * The open card of a stay, activity, boat, transfer, rail or car hire booking (the design shows
- * only a flight open; this uses the flight card's type scale): the doodle, title and when, where,
+ * only a flight open; this uses the flight card's type scale): the doodle and the title on the
+ * full width (the day is printed once, under WHEN), where,
  * the confirmation code, the free-cancellation deadline and, for the owner's own voucher, the
  * code tile that opens it full screen.
  */
@@ -21,7 +22,6 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { WalletBooking } from '../data/model';
 import { clock, dateTime, dayDate } from '../format';
-import { useDeckMeta } from './deck-meta';
 
 const TILE = 64;
 
@@ -51,7 +51,6 @@ export function BookingBody({ booking, tz, hasPass, onPass, testID }: BookingBod
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const meta = useDeckMeta();
   const when = [dayDate(locale, booking.startsAt, tz), clock(locale, booking.startsAt, tz)]
     .filter((part) => part !== '')
     .join(' · ');
@@ -69,10 +68,9 @@ export function BookingBody({ booking, tz, hasPass, onPass, testID }: BookingBod
     <Stack gap="12" testID={testID}>
       <Row gap="8" align="center">
         <Icon name={booking.icon} size={28} color={theme.semantic.text.onAccent} decorative />
-        <Text variant="h3" style={styles.title} numberOfLines={2}>
+        <Text variant="h3" style={styles.title}>
           {upper(booking.title, locale)}
         </Text>
-        <Text variant="label">{meta(booking, tz)}</Text>
       </Row>
       {fields.length === 0 ? null : (
         <PrivateContent>

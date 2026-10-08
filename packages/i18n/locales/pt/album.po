@@ -23,6 +23,14 @@ msgstr "{name} mandou um cartão-postal para você"
 msgid "album.inbox.address"
 msgstr "{name} quer mandar um cartão para você"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.count"
+msgstr "{photos, plural, one {# foto} other {# fotos}}"
+
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.picks"
+msgstr "{picks, plural, one {# favorita} other {# favoritas}}"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · chega por volta de {arrives}"
@@ -31,13 +39,13 @@ msgstr "{progress} · chega por volta de {arrives}"
 msgid "album.upload.skipped"
 msgstr "{skipped, plural, one {# foto já estava no álbum, então pulamos.} other {# fotos já estavam no álbum, então pulamos.}}"
 
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.progress"
+msgstr "{total, plural, one {Enviando sua foto.} other {Enviando {position} de # fotos.}}"
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.byline"
 msgstr "{uploader} · {time}"
-
-#: ../../apps/mobile/src/features/album/grid/album-copy.ts
-msgid "album.upload.uploading"
-msgstr "{uploading, plural, one {Enviando # foto.} other {Enviando # fotos.}}"
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.waiting"
@@ -46,18 +54,6 @@ msgstr "{waiting, plural, one {# foto espera conexão. Ela sobe sozinha.} other 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.upload"
 msgstr "+ Enviar"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.picked"
-msgstr "★ Favorita"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.pick"
-msgstr "☆ Favorita"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.meIn"
-msgstr "✓ Estou nesta"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
@@ -94,6 +90,10 @@ msgstr "Um cartão-postal para você"
 msgid "album.received.title"
 msgstr "Um cartão-postal para você"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.none"
+msgstr "Adicionar"
+
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.address.open"
 msgstr "Adicionar endereço"
@@ -101,6 +101,10 @@ msgstr "Adicionar endereço"
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.address.body"
 msgstr "Adicione um endereço. Só a gráfica vê, sua crew nunca."
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meOff"
+msgstr "Me adicionar"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -110,6 +114,14 @@ msgstr "Adicionar fotos"
 msgid "album.empty.line"
 msgstr "Adicione as fotos da viagem e a crew toda vê. Só fotos, sem vídeos. Grátis, sempre."
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removed"
+msgstr "Endereço removido"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.savedToast"
+msgstr "Endereço salvo"
+
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.all"
 msgstr "Todas · {total}"
@@ -118,6 +130,7 @@ msgstr "Todas · {total}"
 msgid "album.mail.status.sent"
 msgstr "Na gráfica"
 
+#: ../../apps/mobile/src/features/album/grid/album-missing.tsx
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.back"
 msgstr "Voltar"
@@ -133,6 +146,10 @@ msgstr "Por pessoa"
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcardEdit"
 msgstr "Mudanças no seu cartão-postal"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.countryPick"
+msgstr "Escolha o país"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.front"
@@ -150,9 +167,29 @@ msgstr "Não deu para imprimir. Seu envio desta viagem está livre de novo"
 msgid "album.viewer.deviceFailed"
 msgstr "Não deu para pegar a foto. Tente de novo"
 
+#: ../../apps/mobile/src/features/album/grid/album-image.tsx
+msgid "album.image.failed"
+msgstr "Não carregou"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.failed"
+msgstr "Não foi possível carregar esta foto. Verifique sua conexão."
+
+#: ../../apps/mobile/src/features/album/upload/use-album-upload.ts
+msgid "album.upload.pickFailed"
+msgstr "Não foi possível abrir suas fotos"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.mailFailed"
 msgstr "Não deu para pedir as impressões. Tente de novo"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeFailed"
+msgstr "Não foi possível remover. Tente de novo"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.reportFailed"
+msgstr "Não foi possível denunciar. Tente de novo"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.failed"
@@ -171,8 +208,8 @@ msgid "album.export.failed"
 msgstr "Não deu para compactar. Tente de novo"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
-msgid "album.address.country"
-msgstr "Código do país (como VN ou GB)"
+msgid "album.address.countryLabel"
+msgstr "País"
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
@@ -227,17 +264,22 @@ msgstr "Lembranças de"
 msgid "album.curating"
 msgstr "Estou olhando as fotos. Minhas favoritas chegam aqui logo."
 
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.meOut"
-msgstr "Estou nesta"
-
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.who.me"
 msgstr "Estou nesta"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.shipped"
 msgstr "No correio"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.who"
+msgstr "Nesta foto: {names}"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.gone.line"
+msgstr "Ela não está mais no álbum. Quem adicionou pode ter retirado."
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.line"
@@ -247,6 +289,14 @@ msgstr "Ela sai do álbum para toda a crew, junto com favoritos e marcações."
 msgid "album.postcard.eyebrow"
 msgstr "Último cartão"
 
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.loading"
+msgstr "Carregando a foto"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.loading"
+msgstr "Carregando seu cartão-postal"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 msgid "album.postcard.mail"
 msgstr "Mandar um de verdade para cada um"
@@ -255,9 +305,17 @@ msgstr "Mandar um de verdade para cada um"
 msgid "album.address.name"
 msgstr "Nome no cartão"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.needed"
+msgstr "A gráfica precisa disto"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.mailOffline"
 msgstr "Precisa de sinal para pedir as impressões"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeOffline"
+msgstr "Precisa de sinal para remover seu endereço"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.offline"
@@ -283,13 +341,25 @@ msgstr "Ainda não há fotos no álbum, então a frente fica com a cor do guia."
 msgid "album.empty.title"
 msgstr "Ainda sem fotos"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.offlineLine"
+msgstr "Sem sinal. Não dá para mostrar se seu endereço está salvo, e salvar precisa de conexão."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.solo"
+msgstr "Ainda não há mais ninguém nesta viagem, então não há para quem enviar."
+
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 msgid "album.who.nobody"
 msgstr "Ninguém disse ainda que está nesta."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.people.empty"
-msgstr "Ninguém marcado ainda. Segure uma foto e toque em “Estou nesta”."
+msgid "album.people.none"
+msgstr "Ninguém foi marcado ainda. Abra uma foto e toque em “Estou nesta”."
+
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.dismiss"
+msgstr "OK"
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received.open"
@@ -298,6 +368,10 @@ msgstr "Abrir"
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received.body"
 msgstr "Abra e leia o verso."
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.gone.open"
+msgstr "Abrir o álbum"
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -308,12 +382,16 @@ msgid "album.mail.status.queued"
 msgstr "Pedido"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.mailing"
+msgstr "Pedindo as impressões…"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.report.line"
+msgstr "Nossa equipe vai analisar. A crew não fica sabendo quem denunciou."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 msgid "album.postcard.passPlus"
 msgstr "Pass+"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.photo"
-msgstr "Foto"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.photoCaption"
@@ -324,12 +402,26 @@ msgid "album.tile.photo"
 msgstr "Foto de {uploaderName}"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.title"
 msgstr "Fotos"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pickOff"
+msgstr "Favorita"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pickOn"
+msgstr "Nas favoritas"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 msgid "album.postcard.format.classic"
 msgstr "Cartão-postal"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.kept"
+msgstr "Cartão-postal salvo"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.postal"
@@ -351,13 +443,30 @@ msgstr "Cartões impressos"
 msgid "album.postcard.passPlusOnly"
 msgstr "Cartões impressos vêm com o Pass+"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.backLabel"
+msgstr "Resumo"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeConfirm"
+msgstr "Remover"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.remove"
 msgstr "Remover meu endereço"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeTitle"
+msgstr "Remover seu endereço?"
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.report"
 msgstr "Denunciar"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.report.title"
+msgstr "Denunciar esta foto?"
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.save"
@@ -367,17 +476,13 @@ msgstr "Salvar"
 msgid "album.address.save"
 msgstr "Salvar endereço"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
-msgid "album.address.saved"
-msgstr "Salvo ({country}). Sua crew pode mandar um cartão impresso para você. Eles nunca veem o endereço. Preencha o formulário de novo para mudar."
-
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saved"
 msgstr "Salva em Fotos"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendOffline"
-msgstr "Salvo. Vai quando você tiver sinal"
+msgid "album.postcard.sendLater"
+msgstr "Salvo. Envie quando tiver sinal"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.album"
@@ -439,6 +544,10 @@ msgstr "Toque para escrever um recado…"
 msgid "album.viewer.reported"
 msgstr "Valeu. Nossa equipe vai dar uma olhada."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.crew"
+msgstr "o álbum da crew"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 msgid "album.postcard.photoTitle"
 msgstr "A frente"
@@ -456,11 +565,35 @@ msgstr "A gráfica ainda não envia para o país deles, então recebem o digital
 msgid "album.postcard.placeFallback"
 msgstr "a viagem"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "a crew toda vê"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.gone.title"
+msgstr "Esta foto não está mais aqui"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.mailUsed"
 msgstr "Esta viagem já tem seus cartões impressos"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.long"
+msgstr "Longo demais para a etiqueta"
+
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.back"
+msgstr "Viagem"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.retry"
+msgstr "Tentar de novo"
+
+#: ../../apps/mobile/src/features/album/upload/use-album-upload.ts
+msgid "album.upload.pickFailedLine"
+msgstr "Tente de novo daqui a pouco"
+
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.retry"
 msgstr "Tentar de novo as que falharam"
 
@@ -484,6 +617,10 @@ msgstr "Quem está nela"
 msgid "album.postcard.back"
 msgstr "Escrever o recado"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.savedIn"
+msgstr "Você tem um endereço salvo ({savedCountry}). Sua crew pode enviar um cartão-postal impresso para você. Ela nunca vê o endereço. Preencha o formulário de novo para alterar."
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.tag"
 msgstr "Você está numa foto"
@@ -495,6 +632,10 @@ msgstr "Você não está numa foto"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.title"
 msgstr "Seu endereço"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeLine"
+msgstr "Sua crew não poderá mais enviar cartões-postais impressos para você."
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.address.plain"
@@ -513,8 +654,12 @@ msgid "album.inbox.mailing.failed"
 msgstr "Não deu para fazer seus cartões impressos. O envio desta viagem está livre de novo."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.export.ready"
-msgstr "Seu zip fica pronto por 7 dias"
+msgid "album.export.open"
+msgstr "Seu zip está pronto. Baixar"
+
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.started"
+msgstr "Compactando o álbum. O link aparece aqui quando estiver pronto"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.asking"

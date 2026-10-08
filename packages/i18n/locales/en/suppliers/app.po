@@ -145,8 +145,8 @@ msgstr "Book now · seats not held"
 msgid "suppliers.offer.bookKlookLeft"
 msgstr "Book on Klook · {left} left"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/book.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.book.title"
 msgstr "Book with Viator"
 
@@ -179,8 +179,8 @@ msgstr "Cancel on {supplier} by {date} to avoid the fee"
 msgid "suppliers.cancel.confirm"
 msgstr "Cancel the booking"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/cancel.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.cancel.title"
 msgstr "Cancel with Viator"
 
@@ -371,8 +371,8 @@ msgstr "Log it"
 msgid "suppliers.log.save"
 msgstr "Log it"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/log-ride.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.log.title"
 msgstr "Log the ride"
 
@@ -393,8 +393,8 @@ msgstr "Meet at: {meeting}"
 msgid "suppliers.vendor.textLabel"
 msgstr "Message to {vendor}"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.vendor.draftTitle"
 msgstr "Message to a place"
 
@@ -402,8 +402,8 @@ msgstr "Message to a place"
 msgid "suppliers.vendor.listError"
 msgstr "Messages didn’t load. Try again in a moment."
 
-#: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.vendor.listTitle"
 msgstr "Messages to places"
 
@@ -414,6 +414,10 @@ msgstr "Messages to places need signal to load."
 #: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
 msgid "suppliers.fare.taxi"
 msgstr "Metered taxi"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+msgid "suppliers.later.openOffline"
+msgstr "Needs signal to open the ride app with this trip."
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
 msgid "suppliers.vendor.emptyTitle"
@@ -606,6 +610,14 @@ msgstr "That didn’t save. Try again."
 msgid "suppliers.log.invalid"
 msgstr "That doesn’t look like an amount"
 
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
+msgid "suppliers.estimate.gone"
+msgstr "That estimate isn’t on this phone any more. Open the ride again to see it."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+msgid "suppliers.later.openFailed"
+msgstr "That ride didn’t open. Try again in a moment."
+
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.offlineNone"
 msgstr "The card below works offline: show it to any driver."
@@ -713,7 +725,7 @@ msgstr "Waiting for the operator"
 msgid "suppliers.disclosure.affiliate"
 msgstr "We may earn a commission. It never changes what {guide} recommends."
 
-#. placeholder {0}: params.currency
+#. placeholder {0}: shown.unit
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
 msgid "suppliers.log.amount"
 msgstr "What it cost ({0})"
@@ -726,13 +738,13 @@ msgstr "WhatsApp opens with this text. Pick {vendor}’s chat and send it. Their
 msgid "suppliers.vendor.empty"
 msgstr "When you ask a place something, the text and their reply show here."
 
-#: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
-msgid "suppliers.estimate.title"
-msgstr "Why this estimate"
-
 #: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
 msgid "suppliers.rides.whyEstimate"
+msgstr "Why this estimate"
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
+msgid "suppliers.estimate.title"
 msgstr "Why this estimate"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx

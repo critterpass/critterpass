@@ -3,9 +3,11 @@
  * no photos), the back carries the note the guide wrote from the trip's highlights, stamped with this
  * trip's guide, and turns over with a small bounce. "Send it home" opens the composer, where the
  * traveller can rewrite the note, change the photo and format, send it to the crew and mail it;
- * the link under it opens the crew's album.
+ * the link under it opens the crew's album. It keeps clear of the story's bars and
+ * header above and its narration line below.
  */
 import { router } from 'expo-router';
+import { View } from 'react-native';
 
 import { useAlbum } from '../data/use-album';
 import { AlbumMediaProvider } from '../grid/album-media';
@@ -18,7 +20,26 @@ import { TextLink } from '@/ui/buttons/TextLink';
 import { Stack } from '@/ui/layout/Stack';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Text } from '@/ui/text/Text';
-import { useTheme } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
+
+/**
+ * The room every card of the recap story keeps: its bars and header above, its narration line
+ * below. The story's own card frame belongs to the recap area, so this card keeps the same room
+ * itself.
+ */
+const STORY_CHROME_PT = 100;
+const STORY_FOOT_PT = 96;
+
+const useStyles = makeStyles((t) => ({
+  card: {
+    flex: 1,
+    paddingTop: STORY_CHROME_PT,
+    paddingBottom: STORY_FOOT_PT,
+    paddingHorizontal: t.size.gutter,
+    gap: t.space['16'],
+    backgroundColor: t.semantic.bg.base,
+  },
+}));
 
 export interface PostcardCardProps {
   readonly tripId: string;
@@ -30,18 +51,21 @@ export interface PostcardCardProps {
 
 export function PostcardCard({ tripId, guide, place, note }: PostcardCardProps) {
   const theme = useTheme();
+  const styles = useStyles();
   const album = useAlbum(tripId);
   const copy = postcardCardCopy();
   const lead = album.photos.find((photo) => photo.isPick) ?? album.photos[0] ?? null;
   const me = album.people.find((person) => person.id === album.me);
   return (
     <AlbumMediaProvider http={albumHttp}>
-      <Stack gap="16" padding="16" testID="recap-card-postcard">
+      <View style={styles.card} testID="recap-card-postcard">
         <Stack gap="4">
           <Text variant="eyebrow" color={theme.color.yellow}>
             {copy.eyebrow}
           </Text>
-          <Text variant="h1">{copy.title}</Text>
+          <Text variant="h1" accessibilityRole="header">
+            {copy.title}
+          </Text>
         </Stack>
         <PostcardPair
           format="classic"
@@ -64,7 +88,7 @@ export function PostcardCard({ tripId, guide, place, note }: PostcardCardProps) 
           onPress={() => router.push(albumRoutes.album(tripId))}
           testID="recap-postcard-album"
         />
-      </Stack>
+      </View>
     </AlbumMediaProvider>
   );
 }

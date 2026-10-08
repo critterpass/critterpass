@@ -29,10 +29,6 @@ msgstr ""
 msgid "bookings.detail.paidBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
-msgid "bookings.flight.boardsEst"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.offline.a11y"
 msgstr ""
@@ -245,6 +241,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
@@ -255,12 +252,18 @@ msgstr ""
 msgid "bookings.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
 msgid "bookings.add.noTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.call"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.supplierCancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
@@ -338,11 +341,8 @@ msgstr ""
 msgid "bookings.flight.delayedBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
-msgid "bookings.detail.delete"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.delete.confirm"
 msgstr ""
 
@@ -498,6 +498,7 @@ msgid "bookings.candidate.ignore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
 msgid "bookings.add.addedToast"
 msgstr ""
 
@@ -789,6 +790,10 @@ msgstr ""
 msgid "bookings.form.seat"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.seePass"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareBooking"
 msgstr ""
@@ -843,6 +848,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.denied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+msgid "bookings.add.noAddressToast"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
@@ -960,6 +969,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailboxRow.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.supplierCancelSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts

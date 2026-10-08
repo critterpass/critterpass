@@ -1,0 +1,98 @@
+appId: app.critterpass.dev
+---
+# The album as a traveller reaches it, with no demo world: a brand-new traveller's trip that is on
+# today (../happy/subflows/trip-under-way.yaml), the TRIPS tab's hub, its PHOTOS tile, and the
+# crew's album. A new trip's album is empty: it says so with no segments over it and offers "Add
+# photos". "+ Upload" opens the system photo picker, which an emulator may not have (or may have
+# with no photos): the flow leaves it again, and only where a photo did land does it open the
+# viewer, check its bar and close it. Back from the album returns to the hub.
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: album
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+# The tile is the last one: bring all of it above the tab bar before the tap.
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-album'
+    direction: DOWN
+    timeout: 30000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-1-hub-photos-tile
+- tapOn:
+    id: 'trip-hub-tile-album'
+- extendedWaitUntil:
+    visible:
+      id: 'album-empty|album-list'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3m-2-from-hub
+# A new trip has no photos yet: the empty album, without the BEST / ALL / BY PERSON row.
+- runFlow:
+    when:
+      visible:
+        id: 'album-empty'
+    commands:
+      - assertNotVisible:
+          id: 'album-segments'
+# The system picker: opened, then left without choosing (the emulator's library may be empty).
+- tapOn:
+    id: 'album-upload'
+- waitForAnimationToEnd:
+    timeout: 5000
+- runFlow:
+    when:
+      notVisible:
+        id: 'album-upload'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'album-upload'
+    timeout: 15000
+# Only when the album holds a photo: the viewer on it, its bar of actions, and closing it.
+- runFlow:
+    when:
+      visible:
+        id: 'album-photo-.*'
+    commands:
+      - tapOn:
+          id: 'album-photo-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'album-viewer-bar'
+          timeout: 15000
+      - waitForAnimationToEnd
+      - takeScreenshot: en-3m-2-viewer
+      - assertVisible:
+          id: 'album-viewer-pick'
+      - tapOn:
+          id: 'album-viewer-close'
+      - extendedWaitUntil:
+          visible:
+            id: 'album-upload'
+          timeout: 15000
+# Back to the hub the album was opened from, where it was left: scrolled to the Photos tile.
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-album'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-1-hub-after-album

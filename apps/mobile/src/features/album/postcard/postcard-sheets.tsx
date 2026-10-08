@@ -5,18 +5,19 @@
  */
 import { POSTCARD_NOTE_MAX } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
-import { Image, Pressable, ScrollView, View } from 'react-native';
+import { memo, useCallback, useMemo, useState } from 'react';
+import { FlatList, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
 import { Stack } from '@/ui/layout/Stack';
+import { PressScale } from '@/ui/press/PressScale';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { AlbumPhoto } from '../data/album-model';
-import { useAlbumReadUrl } from '../grid/album-media';
+import { AlbumImage } from '../grid/album-image';
 import type { PostcardFormat } from './postcard-pair';
 
 export function NoteSheet({
@@ -58,42 +59,47 @@ export function NoteSheet({
   );
 }
 
+const THUMB = 96;
+
 const useStyles = makeStyles((t) => ({
-  thumb: { width: 96, height: 96, borderRadius: t.radius.sm, overflow: 'hidden' },
-  row: { gap: t.space['8'] },
+  thumb: {
+    width: THUMB,
+    height: THUMB,
+    borderRadius: t.radius.sm,
+    overflow: 'hidden',
+    backgroundColor: t.color.ink['700'],
+  },
+  chosen: { borderWidth: 3, borderColor: t.color.yellow },
+  gap: { width: t.space['8'] },
 }));
 
-function Thumb({
+const Thumb = memo(function Thumb({
   photo,
   selected,
-  onPress,
+  onPick,
 }: {
   photo: AlbumPhoto;
   selected: boolean;
-  onPress: () => void;
+  onPick: (photoId: string) => void;
 }) {
   const { t } = useLingui();
   const styles = useStyles();
-  const theme = useTheme();
-  const url = useAlbumReadUrl(photo.thumbKey);
   return (
-    <Pressable
-      onPress={onPress}
+    <PressScale
+      onPress={() => onPick(photo.id)}
       accessibilityRole="button"
       accessibilityState={{ selected }}
       accessibilityLabel={t({ id: 'album.postcard.photoOption', message: 'Use this photo' })}
-      style={[
-        styles.thumb,
-        { backgroundColor: theme.color.ink['700'] },
-        selected ? { borderWidth: 3, borderColor: theme.color.yellow } : null,
-      ]}
+      style={[styles.thumb, selected ? styles.chosen : null]}
       testID={`postcard-photo-${photo.id}`}
     >
-      {url === null ? null : (
-        <Image source={{ uri: url }} style={{ width: '100%', height: '100%' }} />
-      )}
-    </Pressable>
+      <AlbumImage mediaKey={photo.thumbKey ?? photo.displayKey} failureLine={false} />
+    </PressScale>
   );
+});
+
+function Gap() {
+  return <View style={useStyles().gap} />;
 }
 
 export function PhotoSheet({
@@ -108,9 +114,15 @@ export function PhotoSheet({
   readonly onClose: () => void;
 }) {
   const { t } = useLingui();
-  const styles = useStyles();
+  const theme = useTheme();
   const title = t({ id: 'album.postcard.photoTitle', message: 'The front' });
-  const ordered = [...photos.filter((p) => p.isPick), ...photos.filter((p) => !p.isPick)];
+  // Every photo can be the front: picks first, the rest after, in a row that mounts what is near.
+  const ordered = useMemo(
+    () => [...photos.filter((p) => p.isPick), ...photos.filter((p) => !p.isPick)],
+    [photos],
+  );
+  const pick = useCallback((photoId: string) => onPick(photoId), [onPick]);
+  const step = THUMB + theme.space['8'];
   return (
     <Sheet
       detents={['fit']}
@@ -123,25 +135,27 @@ export function PhotoSheet({
           {title}
         </Text>
         {ordered.length === 0 ? (
-          <Text variant="body">
+          <Text variant="body" singleLine={false}>
             {t({
               id: 'album.postcard.noPhotos',
               message: "No photos in the album yet, so the front is the guide's colour.",
             })}
           </Text>
         ) : (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={[styles.row, { flexDirection: 'row' }]}>
-              {ordered.slice(0, 40).map((photo) => (
-                <Thumb
-                  key={photo.id}
-                  photo={photo}
-                  selected={photo.id === selected}
-                  onPress={() => onPick(photo.id)}
-                />
-              ))}
-            </View>
-          </ScrollView>
+          <FlatList
+            horizontal
+            data={ordered}
+            keyExtractor={(photo) => photo.id}
+            extraData={selected}
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={Gap}
+            getItemLayout={(_, index) => ({ length: step, offset: step * index, index })}
+            initialNumToRender={6}
+            windowSize={5}
+            renderItem={({ item }) => (
+              <Thumb photo={item} selected={item.id === selected} onPick={pick} />
+            )}
+          />
         )}
         <PillButton
           label={t({ id: 'album.postcard.noPhoto', message: 'No photo' })}

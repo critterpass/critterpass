@@ -30,7 +30,7 @@ const SHELL_DEMOS = [
   {
     href: '/(dev)/gallery/shell-demo',
     testID: 'gallery-shell-demo',
-    label: 'Shell: every transition + cold entry',
+    label: 'Shell: every transition',
   },
   {
     href: '/(dev)/gallery/tabs',

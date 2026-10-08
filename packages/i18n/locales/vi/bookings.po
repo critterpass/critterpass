@@ -29,10 +29,6 @@ msgstr "{address}, chép địa chỉ"
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · {payer} trả"
 
-#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
-msgid "bookings.flight.boardsEst"
-msgstr "{boards} dự kiến"
-
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.offline.a11y"
 msgstr "{count, plural, other {# đặt chỗ dùng được khi không có sóng}}"
@@ -245,6 +241,7 @@ msgstr "Đặt chỗ: {title}"
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
@@ -255,13 +252,19 @@ msgstr "Đặt chỗ"
 msgid "bookings.title"
 msgstr "Đặt chỗ"
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
 msgid "bookings.add.noTrip"
 msgstr "Đặt chỗ thuộc về một chuyến đi. Cùng nhóm tạo chuyến là chúng hiện ở đây."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.call"
 msgstr "Gọi hỗ trợ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.supplierCancel"
+msgstr "Huỷ với Viator"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.cancelled"
@@ -338,11 +341,8 @@ msgstr "Trễ"
 msgid "bookings.flight.delayedBy"
 msgstr "Trễ {delayMin} phút"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
-msgid "bookings.detail.delete"
-msgstr "Xoá"
-
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.delete.confirm"
 msgstr "Xoá đặt chỗ"
 
@@ -498,6 +498,7 @@ msgid "bookings.candidate.ignore"
 msgstr "Bỏ qua"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
 msgid "bookings.add.addedToast"
 msgstr "Đã vào ví."
 
@@ -789,6 +790,10 @@ msgstr "Ghế"
 msgid "bookings.form.seat"
 msgstr "Ghế"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.seePass"
+msgstr "Xem Pass+"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareBooking"
 msgstr "Chia sẻ với cả nhóm"
@@ -844,6 +849,10 @@ msgstr "Chưa được. Thử lại khi có sóng nhé."
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.denied"
 msgstr "CritterPass chưa được dùng máy ảnh. Bật trong Cài đặt, hoặc dán thay thế."
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+msgid "bookings.add.noAddressToast"
+msgstr "Địa chỉ của nhóm chưa có trên máy này. Tạm thời hãy quét hoặc dán."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
@@ -961,6 +970,10 @@ msgstr "Ai thấy"
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailboxRow.locked"
 msgstr "Với Pass+"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.supplierCancelSub"
+msgstr "Bạn sẽ thấy số tiền hoàn lại trước khi huỷ bất cứ thứ gì."
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.landed"

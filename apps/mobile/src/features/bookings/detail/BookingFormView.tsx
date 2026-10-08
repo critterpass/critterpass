@@ -22,6 +22,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
+import { BOOKINGS_ROUTES } from '@/features/bookings/routes';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { DateField, DatePickerSheet } from './DatePickerSheet';
@@ -88,7 +89,10 @@ export function BookingFormView(props: BookingFormViewProps) {
   return (
     <Scaffold variant="dark" testID={`bookings-form-${props.mode}`}>
       <KeyboardScrollView contentContainerStyle={styles.content} testID="bookings-form-scroll">
-        <BackEyebrow label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)}
+          fallback={BOOKINGS_ROUTES.wallet}
+        />
         <Text variant="h1" accessibilityRole="header">
           {upper(
             props.mode === 'add'
@@ -125,7 +129,7 @@ export function BookingFormView(props: BookingFormViewProps) {
               )}
               testID="bookings-form-flight"
             />
-            <Row gap="12">
+            <Row gap="12" align="flex-start">
               <View style={styles.cell}>
                 <TextField
                   label={t({ id: 'bookings.form.from', message: 'From' })}
@@ -166,7 +170,7 @@ export function BookingFormView(props: BookingFormViewProps) {
             testID="bookings-form-title"
           />
         )}
-        <Row gap="12">
+        <Row gap="12" align="flex-start">
           <View style={styles.day}>
             <DateField
               label={t({ id: 'bookings.form.day', message: 'Day' })}

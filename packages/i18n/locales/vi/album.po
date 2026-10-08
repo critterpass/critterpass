@@ -23,6 +23,14 @@ msgstr "{name} gửi bạn một bưu thiếp"
 msgid "album.inbox.address"
 msgstr "{name} muốn gửi bưu thiếp in cho bạn"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.count"
+msgstr "{photos, plural, other {# ảnh}}"
+
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.picks"
+msgstr "{picks, plural, other {# ảnh chọn}}"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · đến khoảng {arrives}"
@@ -31,13 +39,13 @@ msgstr "{progress} · đến khoảng {arrives}"
 msgid "album.upload.skipped"
 msgstr "{skipped, plural, other {# ảnh đã có trong album nên bọn mình bỏ qua.}}"
 
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.upload.progress"
+msgstr "{total, plural, other {Đang tải lên {position} trên # ảnh.}}"
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.byline"
 msgstr "{uploader} · {time}"
-
-#: ../../apps/mobile/src/features/album/grid/album-copy.ts
-msgid "album.upload.uploading"
-msgstr "{uploading, plural, other {Đang tải lên # ảnh.}}"
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.waiting"
@@ -46,18 +54,6 @@ msgstr "{waiting, plural, other {# ảnh đang chờ kết nối. Sẽ tự tả
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.upload"
 msgstr "+ Tải lên"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.picked"
-msgstr "★ Đã chọn"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.pick"
-msgstr "☆ Chọn"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.meIn"
-msgstr "✓ Có mình trong ảnh"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
@@ -94,6 +90,10 @@ msgstr "Một bưu thiếp cho bạn"
 msgid "album.received.title"
 msgstr "Một bưu thiếp cho bạn"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.none"
+msgstr "Thêm"
+
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.address.open"
 msgstr "Thêm địa chỉ"
@@ -101,6 +101,10 @@ msgstr "Thêm địa chỉ"
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.address.body"
 msgstr "Thêm địa chỉ. Chỉ nhà in thấy, nhóm không bao giờ thấy."
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.meOff"
+msgstr "Thêm mình"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -110,6 +114,14 @@ msgstr "Thêm ảnh"
 msgid "album.empty.line"
 msgstr "Thêm ảnh chuyến đi để cả nhóm cùng xem. Chỉ ảnh, không video. Luôn miễn phí."
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removed"
+msgstr "Đã xoá địa chỉ"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.savedToast"
+msgstr "Đã lưu địa chỉ"
+
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.all"
 msgstr "Tất cả · {total}"
@@ -118,6 +130,7 @@ msgstr "Tất cả · {total}"
 msgid "album.mail.status.sent"
 msgstr "Đang ở nhà in"
 
+#: ../../apps/mobile/src/features/album/grid/album-missing.tsx
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.back"
 msgstr "Quay lại"
@@ -133,6 +146,10 @@ msgstr "Theo người"
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcardEdit"
 msgstr "Thay đổi bưu thiếp của bạn"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.countryPick"
+msgstr "Chọn quốc gia"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.front"
@@ -150,9 +167,29 @@ msgstr "Không in được. Lượt gửi cho chuyến này của bạn đã đ�
 msgid "album.viewer.deviceFailed"
 msgstr "Không lấy được ảnh. Thử lại nhé"
 
+#: ../../apps/mobile/src/features/album/grid/album-image.tsx
+msgid "album.image.failed"
+msgstr "Không tải được"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.failed"
+msgstr "Không tải được ảnh này. Hãy kiểm tra kết nối."
+
+#: ../../apps/mobile/src/features/album/upload/use-album-upload.ts
+msgid "album.upload.pickFailed"
+msgstr "Không mở được ảnh của bạn"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.mailFailed"
 msgstr "Không đặt in được. Thử lại nhé"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeFailed"
+msgstr "Không xoá được. Thử lại nhé"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.reportFailed"
+msgstr "Không báo cáo được. Thử lại nhé"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.failed"
@@ -171,8 +208,8 @@ msgid "album.export.failed"
 msgstr "Không nén được. Thử lại nhé"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
-msgid "album.address.country"
-msgstr "Mã quốc gia (như VN hoặc GB)"
+msgid "album.address.countryLabel"
+msgstr "Quốc gia"
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
@@ -227,17 +264,22 @@ msgstr "Thân gửi từ"
 msgid "album.curating"
 msgstr "Mình đang xem ảnh. Ảnh mình chọn sắp có ở đây."
 
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.meOut"
-msgstr "Có mình trong ảnh"
-
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.who.me"
 msgstr "Có mình trong ảnh"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.shipped"
 msgstr "Đang trên đường bưu điện"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.who"
+msgstr "Trong ảnh này: {names}"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.gone.line"
+msgstr "Ảnh không còn trong album. Có thể người thêm đã gỡ xuống."
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.line"
@@ -247,6 +289,14 @@ msgstr "Ảnh sẽ rời album của cả nhóm, kèm lượt chọn và thẻ t
 msgid "album.postcard.eyebrow"
 msgstr "Tấm cuối"
 
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.loading"
+msgstr "Đang tải ảnh"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.loading"
+msgstr "Đang tải bưu thiếp của bạn"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 msgid "album.postcard.mail"
 msgstr "Gửi bản in thật cho từng người"
@@ -255,9 +305,17 @@ msgstr "Gửi bản in thật cho từng người"
 msgid "album.address.name"
 msgstr "Tên trên thiệp"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.needed"
+msgstr "Nhà in cần mục này"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.mailOffline"
 msgstr "Cần có sóng để đặt in"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeOffline"
+msgstr "Cần có sóng để xoá địa chỉ"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.offline"
@@ -283,13 +341,25 @@ msgstr "Album chưa có ảnh nên mặt trước mang màu của hướng dẫn
 msgid "album.empty.title"
 msgstr "Chưa có ảnh"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.offlineLine"
+msgstr "Không có sóng. Chưa thể cho biết địa chỉ đã lưu hay chưa, và việc lưu cần kết nối."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.solo"
+msgstr "Chuyến này chưa có ai khác nên chưa có người để gửi."
+
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 msgid "album.who.nobody"
 msgstr "Chưa ai nói mình có trong ảnh này."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.people.empty"
-msgstr "Chưa ai được gắn thẻ. Giữ một ảnh rồi chạm “Có mình trong ảnh”."
+msgid "album.people.none"
+msgstr "Chưa ai được gắn. Mở một ảnh rồi chạm “Có mình trong ảnh”."
+
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.dismiss"
+msgstr "OK"
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received.open"
@@ -298,6 +368,10 @@ msgstr "Mở"
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received.body"
 msgstr "Mở ra và đọc mặt sau nhé."
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.gone.open"
+msgstr "Mở album"
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -308,12 +382,16 @@ msgid "album.mail.status.queued"
 msgstr "Đã đặt"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+msgid "album.postcard.mailing"
+msgstr "Đang đặt in…"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.report.line"
+msgstr "Đội ngũ của chúng tôi sẽ xem. Nhóm không biết ai đã báo cáo."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 msgid "album.postcard.passPlus"
 msgstr "Pass+"
-
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-msgid "album.viewer.photo"
-msgstr "Ảnh"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.photoCaption"
@@ -324,12 +402,26 @@ msgid "album.tile.photo"
 msgstr "Ảnh của {uploaderName}"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.title"
 msgstr "Ảnh"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pickOff"
+msgstr "Chọn"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.pickOn"
+msgstr "Đã chọn"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 msgid "album.postcard.format.classic"
 msgstr "Bưu thiếp"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.kept"
+msgstr "Đã lưu bưu thiếp"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.postal"
@@ -351,13 +443,30 @@ msgstr "Bưu thiếp in"
 msgid "album.postcard.passPlusOnly"
 msgstr "Bưu thiếp in đi kèm Pass+"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.backLabel"
+msgstr "Tổng kết"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeConfirm"
+msgstr "Xoá"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.remove"
 msgstr "Xóa địa chỉ của mình"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeTitle"
+msgstr "Xoá địa chỉ của bạn?"
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.report"
 msgstr "Báo cáo"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.report.title"
+msgstr "Báo cáo ảnh này?"
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.save"
@@ -367,17 +476,13 @@ msgstr "Lưu"
 msgid "album.address.save"
 msgstr "Lưu địa chỉ"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
-msgid "album.address.saved"
-msgstr "Đã lưu ({country}). Nhóm có thể gửi bưu thiếp in cho bạn. Họ không bao giờ thấy địa chỉ. Điền lại biểu mẫu để đổi."
-
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saved"
 msgstr "Đã lưu vào Ảnh"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendOffline"
-msgstr "Đã lưu. Sẽ gửi khi có sóng"
+msgid "album.postcard.sendLater"
+msgstr "Đã lưu. Hãy gửi khi có sóng"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.album"
@@ -439,6 +544,10 @@ msgstr "Chạm để viết lời nhắn…"
 msgid "album.viewer.reported"
 msgstr "Cảm ơn. Đội của bọn mình sẽ xem."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.crew"
+msgstr "album của nhóm"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 msgid "album.postcard.photoTitle"
 msgstr "Mặt trước"
@@ -456,11 +565,35 @@ msgstr "Nhà in chưa gửi tới nước họ, nên họ nhận bản số"
 msgid "album.postcard.placeFallback"
 msgstr "chuyến đi"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "cả nhóm đều thấy"
+
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.viewer.gone.title"
+msgstr "Ảnh này không còn nữa"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.mailUsed"
 msgstr "Chuyến này đã có bưu thiếp in rồi"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.long"
+msgstr "Quá dài so với nhãn"
+
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.back"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+msgid "album.viewer.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/album/upload/use-album-upload.ts
+msgid "album.upload.pickFailedLine"
+msgstr "Lát nữa thử lại nhé"
+
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.retry"
 msgstr "Thử lại các ảnh lỗi"
 
@@ -484,6 +617,10 @@ msgstr "Ai có trong ảnh"
 msgid "album.postcard.back"
 msgstr "Viết lời nhắn"
 
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.savedIn"
+msgstr "Bạn đã lưu một địa chỉ ({savedCountry}). Nhóm có thể gửi bưu thiếp in cho bạn. Họ không bao giờ thấy địa chỉ. Điền lại biểu mẫu để thay đổi."
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.tag"
 msgstr "Bạn có trong một ảnh"
@@ -495,6 +632,10 @@ msgstr "Bạn không có trong một ảnh"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.title"
 msgstr "Địa chỉ của bạn"
+
+#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+msgid "album.address.removeLine"
+msgstr "Nhóm sẽ không thể gửi bưu thiếp in cho bạn nữa."
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.address.plain"
@@ -513,8 +654,12 @@ msgid "album.inbox.mailing.failed"
 msgstr "Không in được bưu thiếp của bạn. Lượt gửi của chuyến này đã được hoàn lại."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.export.ready"
-msgstr "File zip sẵn sàng trong 7 ngày"
+msgid "album.export.open"
+msgstr "File zip đã sẵn sàng. Tải về"
+
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.started"
+msgstr "Đang nén album. Liên kết sẽ hiện ở đây khi xong"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.asking"

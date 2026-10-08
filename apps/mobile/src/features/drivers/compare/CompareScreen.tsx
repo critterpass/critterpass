@@ -1,9 +1,7 @@
 /**
- * Compare (6d-1): the shortlist side by side on equal terms. A day price and what each person pays
- * for the chosen days (`@cp/domain` compare, the per-car or per-group price split across the
- * party), car and seats, languages, what the price includes, overtime and licence. A line a driver
- * has not said reads NOT SAID; tapping it opens the question in WhatsApp. One line under the table
- * names the biggest risk, deterministically. PICK opens which days.
+ * Compare (6d-1): the shortlist side by side on equal terms: a day price, what each person pays
+ * for the chosen days, car and seats, languages, what is included, overtime and licence. A line a
+ * driver has not said reads NOT SAID (tap to ask in WhatsApp); one line names the biggest risk.
  */
 import { compareColumn, compareRisk, type CompareCandidate, type DriverCard } from '@cp/domain';
 import { upper } from '@cp/i18n';
@@ -13,14 +11,14 @@ import { router } from 'expo-router';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { guideSticker } from '@/ui/avatar/guides';
-import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { Skeleton } from '@/ui/states/Skeleton';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -30,8 +28,10 @@ import { driverCardOf, type DriversApi, type ShortlistDriver } from '../shared/a
 import { COLUMN_GAP, ColumnHead, columnWidth } from './column-head';
 import { candidateOf, hoursBetween, riskLine } from './compare-model';
 import { NotSaidCell } from './not-said-cell';
+import { PickRow } from './pick-row';
 import { DayPriceCell } from './price-cell';
 import { dayLabel, money } from '../shared/format';
+import { LoadFailedScreen } from '../shared/load-failed';
 import { isFloor, usePriceWords } from '../shared/price-text';
 import { readCardFor, withReadPrice } from '../shared/read-price';
 import { driversRoute, splitDays } from '../shared/routes';
@@ -53,11 +53,9 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
   const cell = { width: column };
   const words = usePriceWords();
   const plan = useDriverDays(tripId);
-  const { state } = useDrivers(tripId, props.api);
+  const { state, refresh } = useDrivers(tripId, props.api);
   const picked = new Set(splitDays(days));
-  const chosen = plan.days.filter((day) =>
-    picked.size === 0 ? day.gap !== null : picked.has(day.date),
-  );
+  const chosen = plan.days.filter((d) => (picked.size === 0 ? d.gap !== null : picked.has(d.date)));
   const compareDays = chosen.map((day) => ({
     date: day.date,
     hours: day.window === null ? null : hoursBetween(day.window.start, day.window.end),
@@ -84,14 +82,28 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
   ]
     .filter((part) => part !== '')
     .join(' · ');
+  const backLabel = upper(t({ id: 'drivers.back.shortlist', message: 'Shortlist' }), locale);
+  const parent = driversRoute(tripId);
   if (state.kind === 'loading') {
     return (
-      <Scaffold variant="dark" testID="drivers-compare-loading">
-        <Skeleton
-          preset="photo"
-          label={t({ id: 'drivers.compare.loading', message: 'Loading the shortlist' })}
-        />
-      </Scaffold>
+      <ScreenLoading
+        backLabel={backLabel}
+        fallback={parent}
+        label={t({ id: 'drivers.compare.loading', message: 'Loading the shortlist' })}
+        testID="drivers-compare-loading"
+      />
+    );
+  }
+  // Nothing came back and nothing is kept: say so, never an empty table.
+  if (state.kind === 'error' || (state.kind === 'offline' && state.data === null)) {
+    return (
+      <LoadFailedScreen
+        backLabel={backLabel}
+        fallback={parent}
+        offline={state.kind === 'offline'}
+        onRetry={() => void refresh()}
+        testID="drivers-compare-failed"
+      />
     );
   }
   const notSaid = (driver: ShortlistDriver) => <NotSaidCell driver={driver} />;
@@ -117,7 +129,11 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
         const column = compareColumn(candidates[i] as CompareCandidate, compareDays, plan.people);
         const each = money(column.eachMinor, d.terms.currency, locale);
         return (
-          <Text variant="bodySm" color={risk?.name === d.name ? theme.color.yellow : undefined}>
+          <Text
+            variant="bodySm"
+            tabular
+            color={risk?.name === d.name ? theme.color.yellow : undefined}
+          >
             {each === null ? '—' : isFloor(cards[i] as DriverCard) ? words.from(each) : each}
           </Text>
         );
@@ -198,10 +214,7 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
     <Scaffold variant="dark" testID="drivers-compare">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
         <Row align="center" style={{ justifyContent: 'space-between' }}>
-          <BackEyebrow
-            label={upper(t({ id: 'drivers.back.shortlist', message: 'Shortlist' }), locale)}
-            onPress={() => router.back()}
-          />
+          <BackEyebrow label={backLabel} fallback={parent} />
           <Text variant="bodySm" color={theme.semantic.text.secondary}>
             {header}
           </Text>
@@ -253,27 +266,15 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
                 </Row>
               </View>
             ))}
-            <Row gap="8" style={{ marginTop: theme.space['12'] }}>
-              {drivers.map((driver) => (
-                <View key={driver.id} style={cell}>
-                  <PillButton
-                    label={t({ id: 'drivers.compare.pick', message: 'Pick' })}
-                    tone="yellow"
-                    size="sm"
-                    block
-                    onPress={() =>
-                      router.push(
-                        driversRoute(tripId, 'pick', {
-                          provider: driver.id,
-                          ...(days ? { days } : {}),
-                        }),
-                      )
-                    }
-                    testID={`drivers-compare-pick-${driver.id}`}
-                  />
-                </View>
-              ))}
-            </Row>
+            <PickRow
+              drivers={drivers}
+              width={column}
+              onPick={(id) =>
+                router.push(
+                  driversRoute(tripId, 'pick', { provider: id, ...(days ? { days } : {}) }),
+                )
+              }
+            />
           </Stack>
         </ScrollView>
         {risk === null ? null : (
@@ -288,7 +289,7 @@ export function CompareScreen(props: { tripId: string; days?: string; api?: Driv
         {drivers.length < 2 ? (
           <TextLink
             label={t({ id: 'drivers.compare.addAnother', message: 'Add another to compare' })}
-            onPress={() => router.back()}
+            onPress={() => goBackOr(parent)}
             testID="drivers-compare-add"
           />
         ) : null}

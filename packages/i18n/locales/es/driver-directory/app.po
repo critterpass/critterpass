@@ -63,9 +63,14 @@ msgstr "Añadiendo un conductor al viaje"
 msgid "drivers.rate.saved"
 msgstr "Respuesta guardada"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.cancel"
 msgstr "Cancelar invitación"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.cancel"
@@ -134,6 +139,7 @@ msgstr "Buscar conductor"
 msgid "drivers.verdict.fine"
 msgstr "Bien"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.back"
 msgstr "Moverse"
@@ -190,6 +196,14 @@ msgstr "En la lista"
 msgid "drivers.detail.since"
 msgstr "En la lista desde"
 
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.loved"
 msgstr "Me encantó"
@@ -242,6 +256,10 @@ msgstr "Nunca más"
 msgid "drivers.ours.notClaimed"
 msgstr "Sin confirmar"
 
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.nudge"
 msgstr "Recordar"
@@ -283,6 +301,7 @@ msgid "drivers.ours.title"
 msgstr "Nuestros conductores"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.back"
 msgstr "Nuestros conductores"
@@ -359,6 +378,10 @@ msgstr "El enlace funciona hasta el {expiresOn}. Después se desactiva y no se p
 msgid "drivers.ours.until"
 msgstr "El enlace funciona hasta el {untilOn}. Después se desactiva y no se publica nada."
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.message"
 msgstr "El mensaje · lo envías tú"
@@ -382,6 +405,10 @@ msgstr "Lo que él dice a los grupos. No es un precio de CritterPass."
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 msgid "drivers.ours.nudgeUsed"
 msgstr "Ya se lo recordaste una vez."
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.rate"

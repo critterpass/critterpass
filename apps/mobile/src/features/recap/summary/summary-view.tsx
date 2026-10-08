@@ -71,6 +71,10 @@ export interface SummaryViewProps {
   readonly onWatch?: (() => void) | undefined;
   /** Opens Rate the trip; undefined until that screen exists. */
   readonly onRate?: (() => void) | undefined;
+  /** Opens the crew's album; absent when the album has no screen here. */
+  readonly onPhotos?: (() => void) | undefined;
+  /** Opens the postcard composer. */
+  readonly onPostcard?: (() => void) | undefined;
 }
 
 export function SummaryView(props: SummaryViewProps) {
@@ -185,8 +189,43 @@ export function SummaryView(props: SummaryViewProps) {
                 />
               </View>
             </View>
-            {props.onRate === undefined && props.onWatch === undefined ? null : (
+            {props.onRate === undefined &&
+            props.onWatch === undefined &&
+            props.onPhotos === undefined &&
+            props.onPostcard === undefined ? null : (
               <Stack gap="10">
+                {props.onPhotos === undefined ? null : (
+                  <NextRow
+                    next={{
+                      icon: 'camera',
+                      label: null,
+                      title: t({ id: 'recap.summary.photos', message: 'Photos' }),
+                      detail: t({
+                        id: 'recap.summary.photosDetail',
+                        message: "The crew's album, with the picks",
+                      }),
+                      tone: 'raised',
+                      testID: 'recap-photos',
+                      onPress: props.onPhotos,
+                    }}
+                  />
+                )}
+                {props.onPostcard === undefined ? null : (
+                  <NextRow
+                    next={{
+                      icon: 'heart',
+                      label: null,
+                      title: t({ id: 'recap.summary.postcard', message: 'Send a postcard' }),
+                      detail: t({
+                        id: 'recap.summary.postcardDetail',
+                        message: 'One photo and a note, to the crew',
+                      }),
+                      tone: 'raised',
+                      testID: 'recap-postcard',
+                      onPress: props.onPostcard,
+                    }}
+                  />
+                )}
                 {props.onRate === undefined ? null : (
                   <NextRow
                     next={{

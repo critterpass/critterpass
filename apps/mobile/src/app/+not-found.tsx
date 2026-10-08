@@ -1,9 +1,11 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useActiveGuide } from '@/lib/navigation/active-guide';
-import { makeStyles, Scaffold, sizeToken, Stack, Text, useTheme } from '@/ui';
+import { canGoBack, goBackOr } from '@/lib/navigation/back';
+import { makeStyles, Scaffold, Stack, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -13,28 +15,21 @@ const HOME_HREF = '/';
 const useStyles = makeStyles((t) => ({
   body: { flex: 1, padding: t.size.gutter, justifyContent: 'center' },
   art: { alignItems: 'center' },
-  primary: {
-    minHeight: sizeToken(t.size.primaryCta, 'height'),
-    borderRadius: sizeToken(t.size.primaryCta, 'radius'),
-    backgroundColor: t.semantic.action.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: t.size.cta.bottom,
-  },
+  actions: { marginHorizontal: t.size.gutter, marginBottom: t.size.cta.bottom },
 }));
 
 const GUIDE_ART_SIZE = 160;
 
 /**
  * Unknown in-app routes (undesigned; composed from the empty-state pattern): the context guide,
- * one line in its voice and a single way home. Never a dead end, never a raw path.
+ * one line in its voice, the way home and, when a screen is behind this one (a bad link opened from
+ * chat or the inbox), the way back to it. Never a dead end, never a raw path.
  */
 export default function NotFoundScreen() {
-  // "Go home" is this page's way out; there is nothing behind it worth going back to.
+  // The page draws its ways out as buttons ("Go home", and "Go back" when a screen is behind it).
   useNoBackByDesign();
   const { t } = useLingui();
   const styles = useStyles();
-  const theme = useTheme();
   const { guideId } = useActiveGuide();
   const critter = guideSticker(guideId);
   const guide = critter.name;
@@ -63,16 +58,23 @@ export default function NotFoundScreen() {
           </Text>
         </Stack>
       </View>
-      <Pressable
-        testID="not-found-home"
-        accessibilityRole="button"
-        onPress={() => router.replace(HOME_HREF)}
-        style={[styles.primary, { marginHorizontal: theme.size.gutter }]}
-      >
-        <Text variant="buttonLg" color={theme.semantic.text.onAccent}>
-          {t({ id: 'common.notFound.home', message: 'Go home' })}
-        </Text>
-      </Pressable>
+      <View style={styles.actions}>
+        <Stack gap="10">
+          <PillButton
+            label={t({ id: 'common.notFound.home', message: 'Go home' })}
+            onPress={() => router.replace(HOME_HREF)}
+            testID="not-found-home"
+          />
+          {canGoBack() ? (
+            <PillButton
+              label={t({ id: 'common.shell.errorBack', message: 'Go back' })}
+              variant="secondary"
+              onPress={() => goBackOr(HOME_HREF)}
+              testID="not-found-back"
+            />
+          ) : null}
+        </Stack>
+      </View>
     </Scaffold>
   );
 }

@@ -551,6 +551,10 @@ msgid "recap.signature.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcardDetail"
+msgstr "사진 한 장과 한마디를 크루에게"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.rateDetail"
 msgstr ""
 
@@ -582,6 +586,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.paco"
 msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photos"
+msgstr "사진"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
@@ -634,6 +642,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.send"
 msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcard"
+msgstr "엽서 보내기"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -750,6 +762,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.goneLine"
 msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photosDetail"
+msgstr "크루의 앨범과 베스트"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.explorer"

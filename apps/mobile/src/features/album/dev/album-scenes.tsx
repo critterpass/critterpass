@@ -16,6 +16,8 @@ import type { AlbumPerson, AlbumPhoto } from '../data/album-model';
 import type { PostcardFormat } from '../postcard/postcard-pair';
 import { PostcardView } from '../postcard/postcard-view';
 import { ReceivedView } from '../postcard/received-view';
+import { UploadBannerView } from '../upload/upload-banner';
+import { NO_UPLOADS } from '../upload/upload-summary';
 import { PhotoViewer } from '../viewer/photo-viewer';
 
 const noop = () => undefined;
@@ -67,10 +69,10 @@ function Album(over: Partial<AlbumViewProps>) {
         guide="tokek"
         guideName="Tokek"
         curationNote={NOTE}
-        uploads={{ uploading: 0, waiting: 0, failed: 0, skipped: 0 }}
+        banner={null}
         exportState="idle"
+        backFallback="/"
         onUpload={noop}
-        onRetryUploads={noop}
         onOpen={noop}
         onWho={noop}
         onDownloadAll={noop}
@@ -132,15 +134,73 @@ export const ALBUM_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3m-2-curating': () => (
     <Album curationNote={null} photos={photos().map((p) => ({ ...p, isPick: false }))} />
   ),
-  '3m-2-uploading': () => <Album uploads={{ uploading: 12, waiting: 0, failed: 0, skipped: 0 }} />,
-  '3m-2-waiting': () => <Album uploads={{ uploading: 0, waiting: 3, failed: 0, skipped: 0 }} />,
-  '3m-2-failed': () => <Album uploads={{ uploading: 0, waiting: 0, failed: 2, skipped: 0 }} />,
+  '3m-2-uploading': () => (
+    <Album
+      banner={
+        <UploadBannerView
+          counts={{
+            ...NO_UPLOADS,
+            uploading: 12,
+            waiting: 0,
+            failed: 0,
+            total: 50,
+            position: 39,
+            fraction: 0.77,
+          }}
+          onRetry={noop}
+          onDismiss={noop}
+        />
+      }
+    />
+  ),
+  '3m-2-waiting': () => (
+    <Album
+      banner={
+        <UploadBannerView
+          counts={{
+            ...NO_UPLOADS,
+            uploading: 0,
+            waiting: 3,
+            failed: 0,
+            total: 3,
+            position: 0,
+            fraction: 0,
+          }}
+          onRetry={noop}
+          onDismiss={noop}
+        />
+      }
+    />
+  ),
+  '3m-2-failed': () => (
+    <Album
+      banner={
+        <UploadBannerView
+          counts={{
+            ...NO_UPLOADS,
+            uploading: 0,
+            waiting: 0,
+            failed: 2,
+            total: 2,
+            position: 0,
+            fraction: 0,
+          }}
+          onRetry={noop}
+          onDismiss={noop}
+        />
+      }
+    />
+  ),
   '3m-2-empty': () => <Album photos={[]} curationNote={null} tags={[]} />,
   '3m-2-viewer': () => (
     <AlbumMediaProvider http={null}>
       <PhotoViewer
         photos={photos()}
         startId={uid(100)}
+        urls={new Map()}
+        namesIn={() => ['Mai', 'Jon']}
+        notice={null}
+        onRetryPicture={noop}
         me={uid(1)}
         organiser={false}
         nameOf={(id) => PEOPLE.find((p) => p.id === id)?.name ?? ''}

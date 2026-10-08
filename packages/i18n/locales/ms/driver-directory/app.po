@@ -63,9 +63,14 @@ msgstr "Menambah pemandu ke perjalanan"
 msgid "drivers.rate.saved"
 msgstr "Jawapan disimpan"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.cancel"
 msgstr "Batalkan jemputan"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.cancel"
@@ -134,6 +139,7 @@ msgstr "Cari pemandu"
 msgid "drivers.verdict.fine"
 msgstr "Okey"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.back"
 msgstr "Bergerak"
@@ -190,6 +196,14 @@ msgstr "Tersenarai"
 msgid "drivers.detail.since"
 msgstr "Tersenarai sejak"
 
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.loved"
 msgstr "Suka sangat"
@@ -242,6 +256,10 @@ msgstr "Tak lagi"
 msgid "drivers.ours.notClaimed"
 msgstr "Belum disahkan"
 
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.nudge"
 msgstr "Ingatkan"
@@ -283,6 +301,7 @@ msgid "drivers.ours.title"
 msgstr "Pemandu kami"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.back"
 msgstr "Pemandu kami"
@@ -359,6 +378,10 @@ msgstr "Pautan berfungsi hingga {expiresOn}. Selepas itu ia mati dan tiada apa d
 msgid "drivers.ours.until"
 msgstr "Pautan berfungsi hingga {untilOn}. Selepas itu ia mati dan tiada apa disenaraikan."
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.message"
 msgstr "Mesejnya · anda yang hantar"
@@ -382,6 +405,10 @@ msgstr "Apa yang dia beritahu kumpulan. Bukan harga CritterPass."
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 msgid "drivers.ours.nudgeUsed"
 msgstr "Anda sudah ingatkan dia sekali."
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.rate"

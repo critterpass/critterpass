@@ -44,8 +44,8 @@ msgid "drivers.leg.assigned"
 msgstr "{0} lái ngày này"
 
 #. placeholder {0}: dayLabel(long.date, locale)
-#. placeholder {1}: hoursFigure(long.hours)
-#. placeholder {2}: hoursFigure(card.included_hours)
+#. placeholder {1}: hoursFigure(long.hours, locale)
+#. placeholder {2}: hoursFigure(card.included_hours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.overtime"
 msgstr "{0} kéo dài {1} giờ. Giá của {name} gồm {2} giờ."
@@ -58,7 +58,7 @@ msgstr "Đã kiểm {0}/{1}"
 
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
-#. placeholder {2}: hoursFigure(day.hours)
+#. placeholder {2}: hoursFigure(day.hours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.window"
 msgstr "{0}–{1} · {2} giờ"
@@ -342,9 +342,14 @@ msgstr "Gọi"
 msgid "drivers.offline.note"
 msgstr "Cuộc gọi dùng sóng, không dùng dữ liệu. Tin nhắn sẽ gửi khi bạn có mạng lại."
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.cancel"
 msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelTitle"
+msgstr "Huỷ lời mời này?"
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.cancel"
@@ -498,6 +503,10 @@ msgstr ""
 msgid "drivers.ours.directory"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.directory"
+msgstr "Tài xế các nhóm đã đi"
+
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.title"
 msgstr ""
@@ -591,6 +600,7 @@ msgstr "Từ WhatsApp"
 msgid "drivers.include.fuel"
 msgstr "Xăng"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.back"
 msgstr ""
@@ -716,13 +726,25 @@ msgstr ""
 msgid "drivers.ours.listed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.directoryBody"
+msgstr "Tài xế có trong danh sách, do các nhóm từng đi cùng đánh giá"
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.since"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.loading"
+msgstr "Đang tải danh sách tài xế"
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.loading"
 msgstr "Đang tải danh sách"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.loading"
+msgstr "Đang tải tài xế của nhóm"
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.loading"
@@ -788,9 +810,13 @@ msgstr ""
 msgid "drivers.directory.emptyLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.noDays"
+msgstr "Kế hoạch chưa có ngày nào. Bạn vẫn có thể tìm tài xế trước."
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr ""
+msgid "drivers.ours.emptyTitle"
+msgstr "Chưa có tài xế nào"
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
 msgid "drivers.compare.askPriceHint"
@@ -799,6 +825,14 @@ msgstr "Chưa có một giá cụ thể. Hỏi tài xế qua WhatsApp"
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.noRide"
 msgstr "Không có xe"
+
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.offlineTitle"
+msgstr "Mất sóng"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlistOffline"
+msgstr "Mất sóng: danh sách chọn sẽ hiện khi bạn có mạng lại."
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -823,6 +857,10 @@ msgstr "Chưa gồm"
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.notNow"
 msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingTitle"
+msgstr "Không phải tài xế của chuyến này"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.notOpened"
@@ -877,6 +915,7 @@ msgid "drivers.tours.openViator"
 msgstr "Mở Viator"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.back"
 msgstr ""
@@ -884,6 +923,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.title"
 msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.ours"
+msgstr "Tài xế của nhóm: đánh giá hoặc mời"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 msgid "drivers.report.line"
@@ -927,7 +970,7 @@ msgstr ""
 msgid "drivers.ours.paused"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/pick-row.tsx
 msgid "drivers.compare.pick"
 msgstr "Chọn"
 
@@ -992,6 +1035,10 @@ msgstr ""
 msgid "drivers.add.read"
 msgstr "Đọc"
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.loadingDays"
+msgstr "Đang đọc các ngày trong kế hoạch…"
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 msgid "drivers.report.confirm"
 msgstr ""
@@ -1011,6 +1058,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoke"
 msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr "Đi xe với ai trong chuyến này thì họ sẽ hiện ở đây cho cả nhóm."
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
@@ -1087,6 +1138,10 @@ msgstr ""
 msgid "drivers.compare.shows"
 msgstr "Có xuất trình"
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.failedLine"
+msgstr "Đã có trục trặc trên đường truyền."
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.languages"
 msgstr "Ngôn ngữ"
@@ -1143,6 +1198,10 @@ msgstr "Chưa gửi được. Thử lại sau giây lát."
 msgid "drivers.pick.error.failed"
 msgstr "Chưa gửi được. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.failedTitle"
+msgstr "Chưa tải được"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.error"
 msgstr "Chưa lưu được. Kiểm tra mạng rồi thử lại."
@@ -1170,6 +1229,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.until"
 msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelLine"
+msgstr "Đường liên kết bạn đã gửi sẽ ngừng hoạt động ngay."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.message"
@@ -1203,6 +1266,10 @@ msgstr "Tài xế này không còn trong danh sách chọn."
 msgid "drivers.detail.unavailable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.offlineLine"
+msgstr "Phần này cần có mạng. Hãy thử lại khi bạn trực tuyến."
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedPickups"
 msgstr "Điểm đón và ghim hôm nay"
@@ -1222,6 +1289,11 @@ msgstr "Chuyến đi"
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.trips"
 msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.retry"
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.another"
@@ -1279,6 +1351,10 @@ msgstr "Những chặng nào?"
 msgid "drivers.ours.nudgeUsed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingLine"
+msgstr "Bạn có thể đánh giá các tài xế mà nhóm đã đi cùng trong chuyến này."
+
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.late"
 msgstr "Cả nhóm về muộn từ {place}, và ứng dụng gọi xe hiếm khi đón ở đó vào ban đêm. Thuê tài xế buổi tối là cách về an toàn."
@@ -1302,6 +1378,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.title"
 msgstr "Xe về của bạn"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlistFailed"
+msgstr "Chưa tải được danh sách chọn."
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.askedLine"

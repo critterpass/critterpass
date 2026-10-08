@@ -18,6 +18,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
+import { BOOKINGS_ROUTES } from '@/features/bookings/routes';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { WalletBooking } from '../data/model';
@@ -28,6 +29,11 @@ import { useWalletGuide } from '../data/wallet-guide';
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
 }));
+
+/** "SIN → DPS" never breaks at its arrow, so a wrapped title keeps the route on one line. */
+function keepRouteTogether(title: string): string {
+  return title.replaceAll(' → ', '\u00A0→\u00A0');
+}
 
 export interface DetailDoc {
   readonly id: string;
@@ -55,6 +61,8 @@ export interface BookingDetailViewProps {
   readonly onLanded: () => void;
   readonly onEdit: () => void;
   readonly onDelete: () => void;
+  /** Opens the supplier's own cancel (refund quote first); null when it was not booked in the app. */
+  readonly onSupplierCancel?: (() => void) | null | undefined;
 }
 
 export function BookingDetailView(props: BookingDetailViewProps) {
@@ -123,7 +131,10 @@ export function BookingDetailView(props: BookingDetailViewProps) {
   return (
     <Scaffold variant="dark" clearTabBar testID="bookings-detail">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
-        <BackEyebrow label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)}
+          fallback={BOOKINGS_ROUTES.wallet}
+        />
         <Row gap="8" align="center">
           <InfoPill variant="outline" icon={booking.icon}>
             {upper(kindLabel(booking.kind), locale)}
@@ -135,7 +146,7 @@ export function BookingDetailView(props: BookingDetailViewProps) {
           ) : null}
         </Row>
         <Text variant="h1" accessibilityRole="header">
-          {upper(booking.title, locale)}
+          {keepRouteTogether(upper(booking.title, locale))}
         </Text>
         {props.status === null ? null : (
           <Text variant="title" testID="bookings-detail-status">
@@ -233,7 +244,7 @@ export function BookingDetailView(props: BookingDetailViewProps) {
           />
         ) : null}
         {booking.mine ? (
-          <Stack gap="8">
+          <Stack gap="16">
             <PillButton
               label={upper(t({ id: 'bookings.detail.edit', message: 'Edit' }), locale)}
               onPress={props.onEdit}
@@ -241,11 +252,33 @@ export function BookingDetailView(props: BookingDetailViewProps) {
               block
               testID="bookings-detail-edit"
             />
-            <PillButton
-              label={upper(t({ id: 'bookings.detail.delete', message: 'Delete' }), locale)}
-              onPress={props.onDelete}
-              variant="destructive"
-              block
+            <SettingsGroup
+              rows={[
+                ...(props.onSupplierCancel == null
+                  ? []
+                  : [
+                      {
+                        key: 'supplier-cancel',
+                        kind: 'value' as const,
+                        title: t({
+                          id: 'bookings.detail.supplierCancel',
+                          message: 'Cancel with Viator',
+                        }),
+                        subtitle: t({
+                          id: 'bookings.detail.supplierCancelSub',
+                          message: 'You see the refund before anything is cancelled.',
+                        }),
+                        value: '',
+                        onPress: props.onSupplierCancel,
+                      },
+                    ]),
+                {
+                  key: 'delete',
+                  kind: 'destructive',
+                  title: t({ id: 'bookings.delete.confirm', message: 'Delete booking' }),
+                  onPress: props.onDelete,
+                },
+              ]}
               testID="bookings-detail-delete"
             />
           </Stack>
