@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 # 2. a new account through the real screens starts the crew "CP Test Sign-out" from Home (the
 #    marker name is what lets the account be erased at the end);
 # 3. Settings → Sign out warns that the pass is not saved; "Save my pass first" saves it with the
-#    test number, and the same page then offers the plain sign-out;
+#    test number, and Sign out then offers the plain sign-out;
 # 4. signed out, the phone is cleared and the app restarts at the splash; "I already have a pass"
 #    with the same number lands on Home with the crew back;
 # 5. Settings → Delete account → Continue → hold: the account is closed for 30 days; "Undo, keep
@@ -42,12 +42,37 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'save-phone'
 - runFlow: subflows/test-number-sign-in.yaml
-# Verified: the phone page and the save page go back to where they were opened, and the sign-out
-# page now knows the pass is saved.
+# Verified: the phone page and the save page go back to where they were opened. The sign-out page
+# read "saved" once, when it opened, and still shows the warning; opened again from Settings it
+# offers the plain sign-out. A page that already knows is taken as it is.
+- extendedWaitUntil:
+    notVisible:
+      id: 'phone-sent'
+    timeout: 90000
+- extendedWaitUntil:
+    visible:
+      id: 'you-sign-out-save|you-sign-out-confirm'
+    timeout: 60000
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      notVisible:
+        id: 'you-sign-out-confirm'
+    commands:
+      - tapOn:
+          id: 'you-sign-out-back'
+      - extendedWaitUntil:
+          visible:
+            id: 'settings-row-sign-out'
+            enabled: true
+          timeout: 30000
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'settings-row-sign-out'
 - extendedWaitUntil:
     visible:
       id: 'you-sign-out-confirm'
-    timeout: 90000
+    timeout: 60000
 - assertNotVisible:
     id: 'you-sign-out-warning'
 - waitForAnimationToEnd

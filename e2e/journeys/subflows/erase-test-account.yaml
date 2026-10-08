@@ -13,7 +13,6 @@ appId: app.critterpass.dev
       id: 'dev-nav-start-fresh'
     direction: DOWN
     timeout: 20000
-    speed: 20
     visibilityPercentage: 100
     centerElement: true
 - tapOn:

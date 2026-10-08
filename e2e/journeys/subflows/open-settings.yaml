@@ -25,6 +25,8 @@ appId: app.critterpass.dev
       id: 'settings-row-${ROW}'
     direction: DOWN
     timeout: 60000
+    # ACCOUNT is the last group: a fast scroll cannot pass it.
+    speed: 70
     visibilityPercentage: 100
     centerElement: true
 - extendedWaitUntil:
