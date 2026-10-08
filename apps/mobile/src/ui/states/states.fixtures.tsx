@@ -1,5 +1,4 @@
 /* eslint-disable lingui/no-unlocalized-strings -- dev-gallery sample copy; fixture files are loaded only by the (dev) gallery and never ship. */
-import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -8,15 +7,11 @@ import { registerFixture } from '../gallery/registry';
 import { Text } from '../text/Text';
 import { GuideLine } from '../people/GuideLine';
 import { Sticker } from '../sticker/Sticker';
-import { ChecklistProgress } from './ChecklistProgress';
-import type { ChecklistStep } from './ChecklistProgress';
 import { ConfirmSheet } from './ConfirmSheet';
 import { EmptyState } from './EmptyState';
 import { ErrorSheet } from './ErrorSheet';
-import { LimitMeter } from './LimitMeter';
 import { LockedTeaser } from './LockedTeaser';
 import { OfflinePill } from './OfflinePill';
-import { OutboxList } from './OutboxList';
 import { PendingSync } from './PendingSync';
 import { PermissionCard } from './PermissionCard';
 import { ScreenLoading } from './ScreenLoading';
@@ -40,30 +35,6 @@ function ScreenFrame({ children }: { readonly children: ReactNode }) {
       <SafeAreaProvider initialMetrics={NO_INSETS}>{children}</SafeAreaProvider>
     </View>
   );
-}
-
-const STEPS = [
-  'Reading the crew’s must-dos',
-  'Checking opening hours',
-  'Balancing the days',
-  'Pricing it up',
-];
-
-function LiveChecklist() {
-  const [done, setDone] = useState(1);
-  useEffect(() => {
-    const timer = setInterval(
-      () => setDone((value) => (value >= STEPS.length ? 0 : value + 1)),
-      1500,
-    );
-    return () => clearInterval(timer);
-  }, []);
-  const steps: ChecklistStep[] = STEPS.map((label, index) => ({
-    key: label,
-    label,
-    status: index < done ? 'done' : index === done ? 'active' : 'pending',
-  }));
-  return <ChecklistProgress title="Building your Kyoto plan" steps={steps} />;
 }
 
 registerFixture('EmptyState', 'no trips yet', () => (
@@ -132,15 +103,6 @@ registerFixture('ErrorSheet', 'three ways forward', () => (
 ));
 registerFixture('OfflinePill', 'no signal', () => <OfflinePill />);
 registerFixture('OfflinePill', 'needs signal', () => <OfflinePill label="Needs signal" />);
-registerFixture('OutboxList', 'queued and sent', () => (
-  <OutboxList
-    items={[
-      { key: '1', label: 'Expense · Smoothie bowls', detail: 'Rp 450.000', state: 'queued' },
-      { key: '2', label: 'Vote · Lisbon', state: 'queued' },
-      { key: '3', label: 'Photo · Tirta Empul', state: 'sent' },
-    ]}
-  />
-));
 registerFixture('StaleCaption', 'hours old', () => (
   <StaleCaption updatedAt={new Date(Date.now() - 3 * HOUR)} />
 ));
@@ -159,18 +121,6 @@ registerFixture('LockedTeaser', 'pass+', () => (
     perk="See every crew's flights live"
     preview={<Text variant="h3">GA 841 · On time</Text>}
     onPress={noop}
-  />
-));
-registerFixture('LimitMeter', 'some left', () => (
-  <LimitMeter label="Guide questions today" used={3} limit={5} resetLabel="Resets at midnight" />
-));
-registerFixture('LimitMeter', 'exhausted', () => (
-  <LimitMeter
-    label="Guide questions today"
-    used={5}
-    limit={5}
-    resetLabel="Resets at midnight"
-    deferAction={{ label: 'Ask at midnight', onPress: noop }}
   />
 ));
 registerFixture('PendingSync', 'sending', () => (
@@ -201,4 +151,3 @@ registerFixture('ConfirmSheet', 'hold', () => (
     onCancel={noop}
   />
 ));
-registerFixture('ChecklistProgress', 'live job', () => <LiveChecklist />);

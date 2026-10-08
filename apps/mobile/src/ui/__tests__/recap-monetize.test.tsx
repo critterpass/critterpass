@@ -9,44 +9,20 @@ import { join } from 'node:path';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 
-import { tokens } from '@cp/design-tokens';
-
 import { BillingToggle } from '../monetize/BillingToggle';
 import { ComparisonTable } from '../monetize/ComparisonTable';
 import { PlanRadioRows } from '../monetize/PlanRadioRows';
-import { AwardsGrid } from '../recap/AwardsGrid';
-import { RecapStatTiles } from '../recap/RecapStatTiles';
 import { RouteRider } from '../recap/RouteRider';
 import { setUiQaSink } from '../qa/ui-qa';
 import { renderUi } from '../test-support/render';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });
-const { color } = tokens;
 
 describe('recap', () => {
-  it('reads stat tiles, awards and the route as sentences', async () => {
-    const onVoteMvp = jest.fn();
+  it('reads the route as a sentence', async () => {
     await renderUi(
       <>
-        <RecapStatTiles
-          stats={[
-            { id: 'km', value: '214 km', caption: 'driven, mostly by Made', color: color.yellow },
-          ]}
-        />
-        <AwardsGrid
-          onVoteMvp={onVoteMvp}
-          awards={[
-            {
-              id: 'r',
-              title: 'Earliest riser',
-              line: 'Up at 02:51.',
-              personName: 'Jordan',
-              color: color.yellow,
-              mvp: true,
-            },
-          ]}
-        />
         <RouteRider
           distance="214 km"
           reached={1}
@@ -57,10 +33,6 @@ describe('recap', () => {
         />
       </>,
     );
-    expect(screen.getByLabelText('214 km, driven, mostly by Made')).toBeTruthy();
-    expect(screen.getByLabelText('Earliest riser, Jordan, Up at 02:51., MVP')).toBeTruthy();
-    await run(screen.getByRole('button', { name: 'Vote for the MVP' }), 'activate');
-    expect(onVoteMvp).toHaveBeenCalledTimes(1);
     expect(screen.getByLabelText('Route, 214 km: Seminyak Day 1, Ubud Days 2–4')).toBeTruthy();
   });
 });

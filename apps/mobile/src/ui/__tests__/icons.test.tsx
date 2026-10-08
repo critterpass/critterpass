@@ -11,11 +11,10 @@ import { tokens } from '@cp/design-tokens';
 
 import { ActionCard } from '../cards/ActionCard';
 import { Card } from '../cards/Card';
-import { CrewCard } from '../cards/CrewCard';
 import { DashedAddCard } from '../cards/DashedAddCard';
 import { ListCard } from '../cards/ListCard';
 import { TileGrid } from '../cards/TileGrid';
-import { fixturesFor, listComponents } from '../gallery/registry';
+import { fixturesFor } from '../gallery/registry';
 import { DOODLES } from '../icons/generated';
 import type { DoodleName } from '../icons/generated';
 import { Icon } from '../icons/Icon';
@@ -176,30 +175,19 @@ describe('cards', () => {
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
-  it('reads list cards, tiles, crews and add slots as single labelled elements', async () => {
+  it('reads list cards, tiles and add slots as single labelled elements', async () => {
     const onPress = jest.fn();
     await renderUi(
       <View>
         <ListCard title="Hotel Tugu" subtitle="4 nights" onPress={onPress} />
         <TileGrid tiles={[{ key: 'm', title: 'Money', caption: 'You owe $42', onPress }]} />
-        <CrewCard
-          name="The Bali Six"
-          detail="Oct 12–19"
-          membersLabel="6 members"
-          onPress={onPress}
-        />
         <DashedAddCard label="Pitch a place" shape="circle" onPress={onPress} />
       </View>,
     );
-    for (const name of [
-      'Hotel Tugu, 4 nights',
-      'Money, You owe $42',
-      'The Bali Six, Oct 12–19, 6 members',
-      'Pitch a place',
-    ]) {
+    for (const name of ['Hotel Tugu, 4 nights', 'Money, You owe $42', 'Pitch a place']) {
       await fireEvent(screen.getByRole('button', { name }), 'accessibilityAction', activate);
     }
-    expect(onPress).toHaveBeenCalledTimes(4);
+    expect(onPress).toHaveBeenCalledTimes(3);
   });
 
   it('slides a handled action card off and reports when it has collapsed', async () => {
@@ -217,24 +205,6 @@ describe('cards', () => {
 });
 
 describe('gallery fixtures', () => {
-  it('registers every family built here', () => {
-    expect(listComponents()).toEqual(
-      expect.arrayContaining([
-        'Icon',
-        'Texture',
-        'Card',
-        'ListCard',
-        'TileGrid',
-        'HeroPanel',
-        'CountdownCard',
-        'ActionCard',
-        'SuggestionCard',
-        'DashedAddCard',
-        'CrewCard',
-      ]),
-    );
-  });
-
   it('renders the icon, texture and sticker-free card fixtures', async () => {
     // Fixtures that show a guide sticker need the native Skia renderer; the gallery covers them.
     const withSticker = new Set(['HeroPanel', 'CountdownCard']);

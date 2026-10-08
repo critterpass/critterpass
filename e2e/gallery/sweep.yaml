@@ -45,24 +45,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-ArLabels'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-ArLabels
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-AttachmentThumb'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-AttachmentThumb
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Avatar'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -77,15 +59,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-AvatarStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-AwardsGrid'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-AwardsGrid
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -117,15 +90,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-BefriendReveal'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-BefriendReveal
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-BillingToggle'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -140,15 +104,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-Burst
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-CalendarHeatmap'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-CalendarHeatmap
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -176,15 +131,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-ChatRichCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-ChecklistProgress'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-ChecklistProgress
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -252,15 +198,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-Countdown'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-Countdown
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-CountdownCard'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -275,24 +212,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-CountUp
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-CrewCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-CrewCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-CrewRail'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-CrewRail
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -369,15 +288,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-DiffRow'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-DiffRow
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Donut'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -441,15 +351,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-EtaList'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-EtaList
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-FilterChip'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -459,29 +360,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-Flip'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-Flip
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Fold'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-Fold
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-FormatPicker'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-FormatPicker
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -500,15 +383,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-GiftCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-GotAway'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-GotAway
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -576,15 +450,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-HourlyCrowd'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-HourlyCrowd
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Icon'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -635,15 +500,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-InlineAction
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-KeptPausedChips'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-KeptPausedChips
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -702,15 +558,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-LimitMeter'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-LimitMeter
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-LinearBar'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -725,15 +572,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-ListCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-LiveOptionCards'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-LiveOptionCards
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -756,24 +594,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-ManifestCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-ManifestCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-MemoryHero'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-MemoryHero
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-MonthBars'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -788,24 +608,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-MonthStrip
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-MoodPicker'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-MoodPicker
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-MustDoRow'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-MustDoRow
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -828,47 +630,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-OutboxList'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-OutboxList
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-PackingChips'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-PackingChips
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-PageDots'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-PageDots
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-PaperChrome'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-PaperChrome
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-ParsedBookingCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-ParsedBookingCard
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -981,15 +747,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-Postcard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-Postcard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-PrimerCard'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1053,29 +810,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-RateStack'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-RateStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-ReactionFloats'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-ReactionFloats
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-RecapStatTiles'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-RecapStatTiles
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1098,29 +837,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-RoomAssign'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-RoomAssign
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-RouteRider'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-RouteRider
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-ScanOverlay'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-ScanOverlay
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1175,15 +896,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-SegmentedProgress
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SetGrid'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-SetGrid
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1269,15 +981,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-SplitShowdown'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-SplitShowdown
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-StaleCaption'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1296,38 +999,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-StampSpread'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-StampSpread
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-StatChipRow'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-StatChipRow
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-StatusChip'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-StatusChip
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-StepTabs'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-StepTabs
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1346,51 +1022,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-StoryPlayer
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-StreamText'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-StreamText
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SuggestionCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-SuggestionCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SupplierCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-SupplierCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SwipeStack'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-SwipeStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-TeaserPreview'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-TeaserPreview
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1458,24 +1089,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-TiltedSticker'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-TiltedSticker
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-TimelineList'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-TimelineList
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Toggle'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1521,33 +1134,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-VoiceOrb'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-VoiceOrb
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-VoteBoard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-VoteBoard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-WalletStack'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-WalletStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-WanderFootprints'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1562,15 +1148,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-WatchRow
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-WeatherStrip'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-WeatherStrip
 # vi
 - runFlow: ../screens/subflows/open-gallery.yaml
 - tapOn:
@@ -1613,24 +1190,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-ArLabels'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-ArLabels
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-AttachmentThumb'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-AttachmentThumb
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Avatar'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1645,15 +1204,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-AvatarStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-AwardsGrid'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-AwardsGrid
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1685,15 +1235,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-BefriendReveal'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-BefriendReveal
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-BillingToggle'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1708,15 +1249,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-Burst
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-CalendarHeatmap'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-CalendarHeatmap
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1744,15 +1276,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-ChatRichCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-ChecklistProgress'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-ChecklistProgress
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1820,15 +1343,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-Countdown'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-Countdown
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-CountdownCard'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1843,24 +1357,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-CountUp
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-CrewCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-CrewCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-CrewRail'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-CrewRail
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1937,15 +1433,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-DiffRow'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-DiffRow
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Donut'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2009,15 +1496,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-EtaList'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-EtaList
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-FilterChip'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2027,29 +1505,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-Flip'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-Flip
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Fold'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-Fold
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-FormatPicker'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-FormatPicker
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2068,15 +1528,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-GiftCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-GotAway'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-GotAway
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2144,15 +1595,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-HourlyCrowd'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-HourlyCrowd
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Icon'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2203,15 +1645,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-InlineAction
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-KeptPausedChips'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-KeptPausedChips
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2270,15 +1703,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-LimitMeter'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-LimitMeter
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-LinearBar'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2293,15 +1717,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-ListCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-LiveOptionCards'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-LiveOptionCards
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2324,24 +1739,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-ManifestCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-ManifestCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-MemoryHero'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-MemoryHero
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-MonthBars'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2356,24 +1753,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-MonthStrip
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-MoodPicker'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-MoodPicker
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-MustDoRow'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-MustDoRow
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2396,47 +1775,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-OutboxList'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-OutboxList
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-PackingChips'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-PackingChips
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-PageDots'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-PageDots
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-PaperChrome'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-PaperChrome
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-ParsedBookingCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-ParsedBookingCard
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2549,15 +1892,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-Postcard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-Postcard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-PrimerCard'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2621,29 +1955,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-RateStack'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-RateStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-ReactionFloats'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-ReactionFloats
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-RecapStatTiles'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-RecapStatTiles
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2666,29 +1982,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-RoomAssign'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-RoomAssign
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-RouteRider'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-RouteRider
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-ScanOverlay'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-ScanOverlay
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2743,15 +2041,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-SegmentedProgress
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SetGrid'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-SetGrid
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2837,15 +2126,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-SplitShowdown'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-SplitShowdown
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-StaleCaption'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2864,38 +2144,11 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-StampSpread'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-StampSpread
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-StatChipRow'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-StatChipRow
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-StatusChip'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-StatusChip
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-StepTabs'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-StepTabs
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2914,51 +2167,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-StoryPlayer
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-StreamText'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-StreamText
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SuggestionCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-SuggestionCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SupplierCard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-SupplierCard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-SwipeStack'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-SwipeStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-TeaserPreview'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-TeaserPreview
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -3026,24 +2234,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-TiltedSticker'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-TiltedSticker
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-TimelineList'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-TimelineList
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Toggle'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -3089,33 +2279,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-VoiceOrb'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-VoiceOrb
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-VoteBoard'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-VoteBoard
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-WalletStack'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-WalletStack
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-WanderFootprints'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -3130,12 +2293,3 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-WatchRow
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-detail-WeatherStrip'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-WeatherStrip

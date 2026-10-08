@@ -9,41 +9,17 @@ import { join } from 'node:path';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 
-import { tokens } from '@cp/design-tokens';
-
 import { PayMethodChips } from '../money/PayMethodChips';
 import { SettleRow } from '../money/SettleRow';
 import { renderUi } from '../test-support/render';
 import { EmergencyTiles } from '../trip/EmergencyTiles';
-import { ImportTiles } from '../trip/ImportTiles';
-import { PackingChips } from '../trip/PackingChips';
-import { ParsedBookingCard } from '../trip/ParsedBookingCard';
 import { PhraseCard } from '../trip/PhraseCard';
-import { SupplierCard } from '../trip/SupplierCard';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });
 const noop = () => undefined;
 
 describe('trip day', () => {
-  it('toggles packing items as checkboxes', async () => {
-    const onToggle = jest.fn();
-    await renderUi(
-      <PackingChips
-        onToggle={onToggle}
-        items={[
-          { id: 'lamp', label: 'Headlamp', packed: true },
-          { id: 'shoes', label: 'Trail shoes', packed: false },
-        ]}
-      />,
-    );
-    expect(
-      screen.getByRole('checkbox', { name: 'Headlamp' }).props.accessibilityState,
-    ).toMatchObject({ checked: true });
-    await run(screen.getByRole('checkbox', { name: 'Trail shoes' }), 'activate');
-    expect(onToggle).toHaveBeenCalledWith('shoes');
-  });
-
   it('marks phrase language for pronunciation and plays it', async () => {
     const onPlay = jest.fn();
     await renderUi(
@@ -77,59 +53,6 @@ describe('trip day', () => {
     expect(onCall).toHaveBeenCalledTimes(1);
     expect(onHurt).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('button', { name: 'Go, BIMC Ubud' })).toBeTruthy();
-  });
-
-  it('copies the forwarding address and adds a parsed booking with its split switch', async () => {
-    const onCopy = jest.fn();
-    const onToggle = jest.fn();
-    const onAdd = jest.fn();
-    await renderUi(
-      <>
-        <ImportTiles
-          sources={[
-            {
-              id: 'f',
-              label: 'Forward',
-              detail: 'Any email',
-              color: tokens.color.yellow,
-              onPress: noop,
-            },
-          ]}
-          address={{ value: 'six@in.critterpass.app', onCopy }}
-        />
-        <ParsedBookingCard
-          title="Fast boat"
-          fields={['Fri', '$228']}
-          source="From Alex's email"
-          split={{ label: 'Split 6 ways', on: true, onToggle }}
-          addLabel="Add"
-          onAdd={onAdd}
-        />
-      </>,
-    );
-    await run(screen.getByRole('button', { name: 'Copy six@in.critterpass.app' }), 'activate');
-    expect(onCopy).toHaveBeenCalledTimes(1);
-    expect(screen.getByLabelText("Fast boat, Fri, $228, From Alex's email")).toBeTruthy();
-    const split = screen.getByRole('switch', { name: 'Split 6 ways' });
-    expect(split.props.accessibilityState).toMatchObject({ checked: true });
-    await run(split, 'activate');
-    await run(screen.getByRole('button', { name: 'Add, Fast boat' }), 'activate');
-    expect(onToggle).toHaveBeenCalledTimes(1);
-    expect(onAdd).toHaveBeenCalledTimes(1);
-  });
-
-  it('renders supplier values verbatim with attribution', async () => {
-    await renderUi(
-      <SupplierCard
-        title="Batur sunrise trek"
-        price="US$ 42.50"
-        fields={[{ label: 'Pickup', value: 'Ubud hotels, 02:00-02:30' }]}
-        attribution="Prices from Klook"
-      />,
-    );
-    expect(screen.getByText('Ubud hotels, 02:00-02:30')).toBeTruthy();
-    expect(screen.getByText('US$ 42.50')).toBeTruthy();
-    expect(screen.getByText('Prices from Klook')).toBeTruthy();
   });
 });
 
@@ -170,8 +93,6 @@ describe('money', () => {
     expect(onToggle).toHaveBeenCalledWith('cash');
   });
 });
-
-describe('camera', () => {});
 
 describe('trip, money and camera boundaries', () => {
   it('stays presentational: no feature or data imports', () => {

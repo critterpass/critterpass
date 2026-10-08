@@ -6,18 +6,15 @@ import { tokens } from '@cp/design-tokens';
 import { registerFixture } from '../gallery/registry';
 import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
-import { AvatarStack } from '../people/AvatarStack';
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { ChoiceChip } from './ChoiceChip';
 import { CountBadge } from './CountBadge';
 import { FilterChip } from './FilterChip';
 import { InfoPill } from './InfoPill';
 import { QuickActionChip } from './QuickActionChip';
-import { StatChipRow } from './StatChipRow';
 import type { ChipStatus } from './StatusChip';
 import { StatusChip } from './StatusChip';
 import { TierLabel } from './TierLabel';
-import { TiltedSticker } from './TiltedSticker';
 
 const noop = () => undefined;
 const STATUSES: readonly ChipStatus[] = [
@@ -115,29 +112,4 @@ registerFixture('TierLabel', 'all tiers', () => (
     <TierLabel tier="epic" />
     <TierLabel tier="legendary" />
   </Stack>
-));
-registerFixture('StatChipRow', 'recap stats', () => (
-  <StatChipRow
-    stats={[
-      { key: 'c', value: '12', label: 'critters' },
-      { key: 's', value: '3', label: 'stamps' },
-      { key: 'k', value: '412', label: 'km' },
-    ]}
-  />
-));
-registerFixture('TiltedSticker', 'vote board labels', () => (
-  <Row gap="16" wrap>
-    <TiltedSticker label="Kyoto" tone="orange" detail="3 votes" onPress={noop}>
-      <AvatarStack
-        size="sm"
-        members={[
-          { key: 'm', name: 'Maya', joinIndex: 1 },
-          { key: 'a', name: 'Ari', joinIndex: 2 },
-          { key: 'w', name: 'Winston', joinIndex: 0 },
-        ]}
-      />
-    </TiltedSticker>
-    <TiltedSticker label="Lisbon" tone="blue" tilt={3} />
-    <TiltedSticker label="Reykjavík" tilt={-2} />
-  </Row>
 ));

@@ -1,5 +1,4 @@
 /* eslint-disable lingui/no-unlocalized-strings -- dev-gallery sample copy; fixture files are loaded only by the (dev) gallery and never ship. */
-import { useState } from 'react';
 import { View } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
@@ -12,8 +11,6 @@ import { ActionPill } from '../plan/ActionPill';
 import { Face } from '../plan/plan.fixtures';
 import { Text } from '../text/Text';
 import { Hatch } from '../textures/hatch';
-import { PageDots } from './PageDots';
-import { StepTabs } from './StepTabs';
 import { StoryPlayer } from './StoryPlayer';
 
 const slide = (eyebrow: string, headline: string) => (
@@ -27,22 +24,6 @@ const slide = (eyebrow: string, headline: string) => (
     </Stack>
   </View>
 );
-
-function StepsDemo() {
-  const [current, setCurrent] = useState(1);
-  return (
-    <StepTabs
-      current={current}
-      onSelect={setCurrent}
-      steps={[
-        { label: 'When', done: true },
-        { label: 'Budget', done: current > 1 },
-        { label: 'Rooms' },
-        { label: 'Must-dos' },
-      ]}
-    />
-  );
-}
 
 registerFixture('StoryPlayer', 'proposal trailer', () => (
   <View style={{ height: 640 }}>
@@ -106,5 +87,3 @@ registerFixture('StoryPlayer', 'held for a reply', () => (
     />
   </View>
 ));
-registerFixture('StepTabs', 'kyoto setup', () => <StepsDemo />);
-registerFixture('PageDots', 'page three of four', () => <PageDots page={3} total={4} />);

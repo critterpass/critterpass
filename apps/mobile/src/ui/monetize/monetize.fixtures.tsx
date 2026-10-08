@@ -11,15 +11,12 @@ import { Stack } from '../layout/Stack';
 import { ActionPill } from '../plan/ActionPill';
 import { Face } from '../plan/plan.fixtures';
 import { Text } from '../text/Text';
-import { Hatch } from '../textures/hatch';
 import { BillingToggle } from './BillingToggle';
 import { ComparisonTable } from './ComparisonTable';
-import { KeptPausedChips } from './KeptPausedChips';
 import { PauseBars } from './PauseBars';
 import { PerksChecklist } from './PerksChecklist';
 import { PlanRadioRows } from './PlanRadioRows';
 import { SeatsRow } from './SeatsRow';
-import { TeaserPreview } from './TeaserPreview';
 import { VisaPaywall } from './VisaPaywall';
 
 const { color } = tokens;
@@ -146,17 +143,6 @@ registerFixture('SeatsRow', "seven's a crowd", () => (
     waiting={{ id: 'sam', name: 'Sam', avatar: <Face initial="S" index={6} /> }}
   />
 ));
-registerFixture('TeaserPreview', 'live map teaser', () => (
-  <TeaserPreview
-    preview={<Hatch baseColor={color.map.base} />}
-    previewLabel="Preview · your Bali trip"
-    eyebrow="Kyoto isn't boosted"
-    title="The live map"
-    body="Everyone on one map during the trip, with walking times and SOS."
-    action={<ActionPill tone="urgent" label="Boost Kyoto · $12" onPress={noop} />}
-    dismiss={<ActionPill tone="outline" label="Maybe later" onPress={noop} />}
-  />
-));
 registerFixture('PauseBars', 'pause until Kyoto', () => (
   <PauseBars
     months={[
@@ -167,13 +153,5 @@ registerFixture('PauseBars', 'pause until Kyoto', () => (
       { label: 'M', name: 'March', paused: false },
       { label: 'A', name: 'April', paused: false, trip: true },
     ]}
-  />
-));
-registerFixture('KeptPausedChips', 'free boost ending', () => (
-  <KeptPausedChips
-    keptLabel="Kept for good"
-    kept={['The plan', '312 photos', 'The recap', '4 critters', 'Map trail']}
-    pausedLabel="Pauses Oct 26"
-    paused={['Unlimited Tokek', 'Redrafts', 'Live map', 'All icons']}
   />
 ));

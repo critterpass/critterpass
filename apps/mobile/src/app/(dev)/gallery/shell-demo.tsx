@@ -40,7 +40,7 @@ const ROUTE_TRANSITIONS: readonly {
 ];
 
 /** In-place transitions, previewed from their gallery fixtures (tap each to replay). */
-const IN_PLACE_TRANSITIONS = ['Burst', 'Fold', 'Flip'] as const;
+const IN_PLACE_TRANSITIONS = ['Burst', 'Fold'] as const;
 
 /**
  * Opens `COLD_ENTRY_SCREEN` the way a deep link does. Screens no area has registered yet stand in as

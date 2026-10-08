@@ -16,7 +16,6 @@ import { ThemeProvider } from '../../../lib/theme';
 import { useMotionMode } from '../../../motion/motion-mode';
 import { resetMotionModeForTests } from '../../../motion/test-support/reset-motion-mode';
 import { Burst } from '../Burst';
-import { Flip } from '../Flip';
 import { Fold } from '../Fold';
 import { SharedGrowHost, SharedTarget } from '../SharedGrow';
 import type { Rect } from '../use-shared-source';
@@ -197,7 +196,7 @@ async function setMotion(mode: 'reduced') {
   await rendered.unmount();
 }
 
-describe('Burst, Fold, Flip', () => {
+describe('Burst, Fold', () => {
   it('bursts in with a cream flash, without it under reduced motion', async () => {
     const full = await render(<Burst>{<Text>won</Text>}</Burst>);
     expect(full.getByTestId('burst-flash', HIDDEN)).toBeTruthy();
@@ -217,16 +216,5 @@ describe('Burst, Fold, Flip', () => {
       </Fold>,
     );
     expect(onLeft).toHaveBeenCalledTimes(1);
-  });
-
-  it('keeps only the showing face in the accessibility tree', async () => {
-    const card = await render(
-      <Flip front={<Text>front</Text>} back={<Text>back</Text>} flipped={false} />,
-    );
-    expect(card.getByText('front')).toBeTruthy();
-    expect(card.queryByText('back')).toBeNull();
-    await card.rerender(<Flip front={<Text>front</Text>} back={<Text>back</Text>} flipped />);
-    expect(card.getByText('back')).toBeTruthy();
-    expect(card.queryByText('front')).toBeNull();
   });
 });
