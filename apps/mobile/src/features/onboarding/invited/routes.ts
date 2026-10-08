@@ -1,5 +1,7 @@
 /** The invited fast path's routes (3a-10 … 3a-13) and the design screen ids they carry. */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
+import { isOnboardingComplete } from '@/lib/links/pending';
+
 export const INVITED_ROUTES = {
   ticket: '/onboarding/invite/ticket',
   code: '/onboarding/invite/code',
@@ -13,6 +15,11 @@ export const HANDOFF_ROUTES = {
   passFlow: '/onboarding',
   phone: '/onboarding/phone',
 } as const;
+
+/** Leaving an invite without taking the seat: Home for someone with a pass, else the pass flow. */
+export function withoutSeatRoute(): string {
+  return isOnboardingComplete() ? HANDOFF_ROUTES.home : HANDOFF_ROUTES.passFlow;
+}
 
 export function tripPlanRoute(tripId: string): string {
   return `/${tripId}/plan`;
