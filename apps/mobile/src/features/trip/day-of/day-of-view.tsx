@@ -9,8 +9,9 @@
 import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import type { Href } from 'expo-router';
-import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import type { ComponentRef, ReactNode } from 'react';
+import { Keyboard, Platform, ScrollView, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GoButton } from '@/ui/buttons/GoButton';
@@ -94,6 +95,27 @@ export function DayOfView(props: DayOfViewProps) {
   const { t } = useLingui();
   const insets = useSafeAreaInsets();
   const inset = useTabBarInset();
+  // Android draws edge to edge and never resizes the page for the keyboard (iOS insets the scroll
+  // view by itself): the page ends that much further down while the keyboard is up, and the field
+  // being typed in scrolls to just above it.
+  const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
+  const [keyboard, setKeyboard] = useState(0);
+  useEffect(() => {
+    if (Platform.OS !== 'android') return undefined;
+    const shown = Keyboard.addListener('keyboardDidShow', (event) =>
+      setKeyboard(event.endCoordinates.height),
+    );
+    const hidden = Keyboard.addListener('keyboardDidHide', () => setKeyboard(0));
+    return () => {
+      shown.remove();
+      hidden.remove();
+    };
+  }, []);
+  useEffect(() => {
+    const field = TextInput.State.currentlyFocusedInput();
+    if (keyboard === 0 || field == null) return;
+    scroll.current?.scrollResponderScrollNativeHandleToKeyboard(field, theme.space['24'], true);
+  }, [keyboard, theme]);
   const view = props.leaveBy;
   const back = t({ id: 'trip.dayOf.back', message: 'Trip' });
   if (props.state === 'loading') {
@@ -109,7 +131,8 @@ export function DayOfView(props: DayOfViewProps) {
   return (
     <Scaffold variant="dark" edges={[]} testID="trip-day">
       <ScrollView
-        contentContainerStyle={{ paddingBottom: inset + theme.space['32'] }}
+        ref={scroll}
+        contentContainerStyle={{ paddingBottom: inset + theme.space['32'] + keyboard }}
         // The pack list's add field sits mid-page: the keyboard must not cover it.
         automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
