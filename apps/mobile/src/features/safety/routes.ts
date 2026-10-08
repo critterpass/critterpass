@@ -15,9 +15,10 @@ export const SOS_SCREEN = '3k-10';
 export const safetyRoutes = {
   help: (tripId?: string): Href =>
     tripId === undefined || tripId === '' ? '/help' : { pathname: '/help', params: { tripId } },
-  checklist: (tripId: string, problem: HelpProblem): Href => ({
+  /** With no trip the checklist is built from what the phone knows (numbers, phrases). */
+  checklist: (tripId: string | null, problem: HelpProblem): Href => ({
     pathname: '/help/[problem]',
-    params: { problem, tripId },
+    params: tripId === null ? { problem } : { problem, tripId },
   }),
   send: (tripId: string): Href => ({ pathname: '/sos/send', params: { tripId } }),
   /** `sent`: this phone just sent it (the screen says so until the incident syncs back). */

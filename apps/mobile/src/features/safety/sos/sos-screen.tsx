@@ -9,9 +9,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { Linking } from 'react-native';
 
+import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
-import { feedback, toast } from '@/motion';
+import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
@@ -87,6 +88,22 @@ export function SosScreen() {
   const fromSender = sos.messages.filter((m) => m.sender_id === sos.row?.user_id);
   const name = model.senderName;
 
+  /** The all-clear is drawn by the incident row; only a queued or failed one needs words. */
+  const resolved = (result: SendResult) =>
+    report(result, {
+      offlineCapable: true,
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key.
+      id: `sos-resolve-${sosId}`,
+      ...(result.kind === 'queued'
+        ? {
+            done: t({
+              id: 'safety.sos.resolvedQueued',
+              message: 'Your crew hears the all-clear the moment you have signal.',
+            }),
+          }
+        : {}),
+    });
+
   return (
     <SosView
       hero={{
@@ -106,27 +123,31 @@ export function SosScreen() {
       senderPhone={sos.senderPhone}
       busy={respond.pending || resolve.pending || trigger.pending}
       onGoing={() => {
-        void respond.send({ sos_id: sosId, state: 'coming' }).then((result) => {
-          if (result.kind === 'rejected') return feedback.emit('error');
-          feedback.emit('success');
-          toast.show({
+        void respond.send({ sos_id: sosId, state: 'coming' }).then((result) =>
+          report(result, {
+            offlineCapable: true,
             // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key.
             id: `sos-going-${sosId}`,
-            title: t({ id: 'safety.sos.knows', message: `${name} knows you're coming.` }),
-          });
-        });
+            done:
+              result.kind === 'queued'
+                ? t({
+                    id: 'safety.sos.knowsQueued',
+                    message: `${name} hears you're coming the moment you have signal.`,
+                  })
+                : t({ id: 'safety.sos.knows', message: `${name} knows you're coming.` }),
+          }),
+        );
       }}
       onCallSender={() => {
         if (sos.senderPhone !== null) dial(sos.senderPhone);
       }}
       onCallGeneral={() => dial(general)}
       onOk={() => {
-        void resolve.send({
-          sos_id: sosId,
-          ...(model.state === 'stale' ? { false_alarm: true } : {}),
-        });
+        void resolve
+          .send({ sos_id: sosId, ...(model.state === 'stale' ? { false_alarm: true } : {}) })
+          .then(resolved);
       }}
-      onSafe={() => void resolve.send({ sos_id: sosId })}
+      onSafe={() => void resolve.send({ sos_id: sosId }).then(resolved)}
       onSendAgain={() => {
         if (tripId === null || resending.current) return;
         resending.current = true;
@@ -147,7 +168,7 @@ export function SosScreen() {
           });
       }}
       onMap={() => router.push(safetyRoutes.map(sosId))}
-      onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onClose={() => goBackOr()}
     />
   );
 }
