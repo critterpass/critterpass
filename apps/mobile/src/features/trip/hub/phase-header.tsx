@@ -69,6 +69,32 @@ export interface PhaseHeaderProps {
   readonly guestGuideName: string | null;
 }
 
+/** The phase line's value. A countdown reads the clock every second here and nowhere above. */
+function PhaseValue({
+  header,
+  now,
+  colour,
+}: {
+  readonly header: HubHeader;
+  readonly now: Date | undefined;
+  readonly colour: string;
+}) {
+  const locale = useLocale();
+  const line = usePhaseLine(header, now);
+  if (line === null) return null;
+  return (
+    <Text
+      variant="h3"
+      designSize={COUNTDOWN_SIZE}
+      color={colour}
+      tabular
+      testID="trip-hub-countdown"
+    >
+      {upper(line.value, locale)}
+    </Text>
+  );
+}
+
 const useStyles = makeStyles((th) => ({
   hero: { paddingHorizontal: th.size.gutter },
   meta: { flexShrink: 1 },
@@ -123,7 +149,9 @@ export function PhaseHeader(props: PhaseHeaderProps) {
     locale,
   );
   const title = upper(props.destination, locale);
-  const line = usePhaseLine(header, props.now);
+  // The header lays itself out around the phase line once a minute; the seconds are drawn by
+  // `PhaseValue`, so a tick redraws that one text and not the photo, title and pills.
+  const line = usePhaseLine(header, props.now, 60_000);
   const label = line === null ? null : upper(line.label, locale);
   const value = line === null ? null : upper(line.value, locale);
   const titleLine =
@@ -155,26 +183,13 @@ export function PhaseHeader(props: PhaseHeaderProps) {
   // A licence credit sits in the bottom corner, under the content.
   const paddingBottom = media?.attribution_required ? theme.space['24'] : theme.space['12'];
   const guideName = props.guestGuideName;
+  // A group with no label of its own: a screen reader reads the label and the live value inside.
   const timer =
     label === null || value === null
       ? null
-      : ({
-          accessible: true,
-          accessibilityRole: 'timer',
-          accessibilityLabel: `${label} ${value}`,
-        } as const);
+      : ({ accessible: true, accessibilityRole: 'timer' } as const);
   const countdown =
-    value === null ? null : (
-      <Text
-        variant="h3"
-        designSize={COUNTDOWN_SIZE}
-        color={cream}
-        tabular
-        testID="trip-hub-countdown"
-      >
-        {value}
-      </Text>
-    );
+    value === null ? null : <PhaseValue header={header} now={props.now} colour={cream} />;
   return (
     <View
       style={[styles.hero, { paddingTop, paddingBottom }]}

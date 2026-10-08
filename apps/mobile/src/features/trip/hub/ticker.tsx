@@ -1,7 +1,7 @@
 /**
  * The crew's activity ticker (3k-1): a 36 pt strip scrolling the latest events right to left over
  * 22 s, the content drawn twice so the loop never shows a gap; an event that arrives joins on the
- * next cycle. Tapping an event opens what it is about. Hidden when there is nothing yet; still
+ * next cycle. Tapping an event opens what it is about. Hidden when there is nothing to say; still
  * (the first events, no scroll) with reduced motion.
  */
 import { upper } from '@cp/i18n';
@@ -123,8 +123,10 @@ export function Ticker({ events }: { readonly events: readonly TickerEvent[] }) 
     };
   }, [reduced, width, visible, x]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
+  // Nothing to say now (a called-off trip, an emptied feed): the strip goes at once, whatever the
+  // last cycle was showing.
+  if (events.length === 0) return null;
   const list = shown.length === 0 ? events : shown;
-  if (list.length === 0) return null;
   return (
     <View style={styles.strip} testID="trip-hub-ticker">
       {/* Wider than the strip on purpose: the run scrolls past its clipped edge, never shrinks. */}
