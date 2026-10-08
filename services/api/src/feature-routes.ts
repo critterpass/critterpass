@@ -5,6 +5,7 @@ import type { AuthModule } from './auth';
 import type { buildFieldEncryptionKeyringFromEnv } from './auth/bootstrap';
 import type { CommandDoorDeps } from './commands/_framework/doors';
 import { registerSetupRoutes } from './commands/catalogue';
+import { registerChatHistoryRoute } from './commands/chat/history-route';
 import type { ApiEnv } from './env';
 import type { LinkProviderRegistry } from './links/registry';
 import type { ServerAnalytics } from './obs/analytics';
@@ -94,6 +95,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerBookings(app, doors, keyring, deps.auth);
   registerLocationRouteFromEnv(app, doors, env);
   registerLiveMapRoutes(app, doors);
+  registerChatHistoryRoute(app, doors);
   registerAiRoutes(app, doors, env, logger);
   registerGuideRoutes(app, doors, env, keyring);
   registerTripDay(doors);
