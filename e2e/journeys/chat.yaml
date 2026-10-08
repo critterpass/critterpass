@@ -119,8 +119,10 @@ appId: app.critterpass.dev
 - inputText: 'bring the map'
 - tapOn:
     id: 'chat-composer-send'
+# iPhone reads a bubble as one label ("You, 4:03 PM: @Jordan bring the map"), so the text may not
+# start the string.
 - extendedWaitUntil:
-    visible: '@.*bring the map.*'
+    visible: '.*@.*bring the map.*'
     timeout: 10000
 - assertNotVisible:
     id: 'chat-failed-.*'
