@@ -1,9 +1,14 @@
 /**
- * Live query helper for the headless status hooks: runs `sql` now and again whenever one of
- * `tables` changes, delivering rows until stopped.
+ * Live query helpers for the headless status hooks, over the app's shared live queries
+ * (`data/powersync/live-rows.ts`): `watchRows` delivers a parameterless query's rows now and after
+ * every change to `tables`; `useWatchedRows` is the same query as React state, mapped once per
+ * distinct result.
  */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useEffect, useState } from 'react';
+
+import { NO_ROWS, useLiveQueryStateOn, watchQuery } from '../powersync/live-rows';
+
+const NO_PARAMS: readonly unknown[] = [];
 
 export function watchRows<Row>(
   db: AbstractPowerSyncDatabase,
@@ -12,32 +17,33 @@ export function watchRows<Row>(
   onRows: (rows: Row[]) => void,
   onError: (error: unknown) => void = () => undefined,
 ): () => void {
-  const controller = new AbortController();
-  const load = () =>
-    db.getAll<Row>(sql).then((rows) => {
-      if (!controller.signal.aborted) onRows(rows);
-    }, onError);
-  void load();
-  db.onChange(
-    { onChange: () => load() },
-    { tables: [...tables], throttleMs: 30, signal: controller.signal },
-  );
-  return () => controller.abort();
+  return watchQuery<Row>(db, sql, NO_PARAMS, tables, onRows, onError);
 }
 
-/** `watchRows` as React state, mapped once per delivery. */
+const mappedByRows = new WeakMap<readonly unknown[], Map<unknown, readonly unknown[]>>();
+
+/** `rows.map(map)`, computed once per rows array and `map`, so equal rows give the same items. */
+function mapOnce<Row, Item>(rows: readonly Row[], map: (row: Row) => Item): readonly Item[] {
+  if (rows.length === 0) return NO_ROWS;
+  let byMap = mappedByRows.get(rows);
+  if (byMap === undefined) {
+    byMap = new Map();
+    mappedByRows.set(rows, byMap);
+  }
+  let items = byMap.get(map);
+  if (items === undefined) {
+    items = rows.map(map);
+    byMap.set(map, items);
+  }
+  return items as readonly Item[];
+}
+
+/** `watchRows` as React state: empty until the first answer, and unchanged by a failed read. */
 export function useWatchedRows<Row, Item>(
   db: AbstractPowerSyncDatabase,
   sql: string,
   tables: readonly string[],
   map: (row: Row) => Item,
 ): readonly Item[] {
-  const [items, setItems] = useState<readonly Item[]>([]);
-  useEffect(
-    () => watchRows<Row>(db, sql, tables, (rows) => setItems(rows.map(map))),
-    // `tables` and `map` are module constants at every call site; the query identity is `sql`.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [db, sql],
-  );
-  return items;
+  return mapOnce(useLiveQueryStateOn<Row>(db, sql, NO_PARAMS, tables).rows, map);
 }

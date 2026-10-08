@@ -9,7 +9,7 @@ import { useEffect, useRef } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast, useMotionMode } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -35,7 +35,7 @@ export function QuestsScreen() {
   const id = typeof tripId === 'string' && tripId.length > 0 ? tripId : null;
   useTripStreams(id);
   const { t } = useLingui();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const [motionMode] = useMotionMode();
   const { model, crewName, guideSlug } = useQuests(id);
   const befriend = model.cards.find((card) => card.befriend !== null && card.state === 'active');
@@ -94,7 +94,7 @@ export function QuestsScreen() {
       crewName={crewName}
       guide={guide}
       model={model}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       reveals={reveals.quests}
       befriendPlace={befriendPlace}
       onSignUp={(questId) => void onSignUp(questId)}

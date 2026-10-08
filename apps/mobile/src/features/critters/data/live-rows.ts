@@ -1,18 +1,26 @@
 /**
  * Live local queries for the critter screens: a query with bound parameters runs now and again
  * whenever one of its tables changes; `null` params skip it until a value it needs is known.
- * Everything reads synced rows, so the Critterdex and encounters work with no signal.
+ * Everything reads synced rows, so the Critterdex and encounters work with no signal. Over the
+ * app's shared hooks.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- a developer-facing warning, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import {
+  quietView,
+  useLiveQueryState,
+  watchQuery as watchLocalQuery,
+  type QuietLiveRows,
+} from '@/data/powersync/live-rows';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 
-export interface LiveRows<Row> {
-  readonly rows: readonly Row[];
-  readonly loaded: boolean;
+export type LiveRows<Row> = QuietLiveRows<Row>;
+
+// A query that cannot run leaves its screen waiting for ever; say so where it can be read.
+function warnFailed(sql: string, error: unknown): void {
+  console.warn('[critters] local query failed', sql.slice(0, 80), error);
 }
 
 export function watchQuery<Row>(
@@ -22,23 +30,7 @@ export function watchQuery<Row>(
   tables: readonly string[],
   onRows: (rows: Row[]) => void,
 ): () => void {
-  const controller = new AbortController();
-  const load = () =>
-    db.getAll<Row>(sql, [...params]).then(
-      (rows) => {
-        if (!controller.signal.aborted) onRows(rows);
-      },
-      (error: unknown) => {
-        // A query that cannot run leaves its screen waiting for ever; say so where it can be read.
-        console.warn('[critters] local query failed', sql.slice(0, 80), error);
-      },
-    );
-  void load();
-  db.onChange(
-    { onChange: () => load() },
-    { tables: [...tables], throttleMs: 30, signal: controller.signal },
-  );
-  return () => controller.abort();
+  return watchLocalQuery<Row>(db, sql, params, tables, onRows, (error) => warnFailed(sql, error));
 }
 
 export function useLiveRows<Row>(
@@ -46,24 +38,15 @@ export function useLiveRows<Row>(
   params: readonly unknown[] | null,
   tables: readonly string[],
 ): LiveRows<Row> {
-  const { db } = useLocalFirst();
-  const key = params === null ? null : `${sql}\u0000${JSON.stringify(params)}`;
-  const [state, setState] = useState<{ key: string; rows: readonly Row[] } | null>(null);
+  const state = useLiveQueryState<Row>(sql, params, tables);
+  const { failed, error } = state;
   useEffect(() => {
-    if (key === null || params === null) return undefined;
-    return watchQuery<Row>(db, sql, params, tables, (rows) => setState({ key, rows }));
-    // `tables` is a module constant at every call site and `params` is folded into `key`.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [db, key]);
-  return state !== null && state.key === key
-    ? { rows: state.rows, loaded: true }
-    : { rows: [], loaded: false };
+    if (failed) warnFailed(sql, error);
+  }, [failed, error, sql]);
+  return quietView(state);
 }
-
-const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';
 
 /** The signed-in uid as the local database knows it; null until bound. */
 export function useOwnerUid(): string | null {
-  const { rows } = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], ['local_state']);
-  return rows[0]?.value ?? null;
+  return useSessionUid();
 }

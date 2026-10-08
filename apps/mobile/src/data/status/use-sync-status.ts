@@ -87,3 +87,13 @@ export function useSyncStatus(): SyncStatusView {
   const store = useMemo(() => createSyncStatusStore(db, queue, network), [db, queue, network]);
   return useSyncExternalStore(store.subscribe, store.getSnapshot);
 }
+
+/**
+ * Only the phase, for the many screens that ask nothing else: a sync checkpoint or an upload that
+ * leaves the phase where it was re-renders none of them.
+ */
+export function useSyncPhase(): SyncPhase {
+  const { db, queue, network } = useLocalFirst();
+  const store = useMemo(() => createSyncStatusStore(db, queue, network), [db, queue, network]);
+  return useSyncExternalStore(store.subscribe, () => store.getSnapshot().phase);
+}

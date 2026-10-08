@@ -67,42 +67,50 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'place-search-field'
 - inputText: 'morocc'
+# What the sheet shows depends on staging's answer (the country row needs the search to place
+# "morocc"): the screenshots take whichever state came back, and the guest page is visited only
+# when Marrakech is among the results.
 - extendedWaitUntil:
     visible:
-      id: 'place-search-unguided'
+      id: 'place-search-(unguided|results|empty|offline)'
     timeout: 20000
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3b-7-search-keyboard
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3b-7-search
-- tapOn: 'MARRAKECH'
-- extendedWaitUntil:
-    visible:
-      id: 'guest-locals'
-    timeout: 30000
-- extendedWaitUntil:
-    notVisible:
-      id: 'guest-brief-loading'
-    timeout: 60000
-- waitForAnimationToEnd
-- takeScreenshot: ${LANG}-3b-8-guest
-- scrollUntilVisible:
-    element:
-      id: 'guest-solo'
-    centerElement: true
-- tapOn:
-    id: 'guest-solo'
-- extendedWaitUntil:
-    visible:
-      id: 'solo-confirm'
-    timeout: 5000
-- scrollUntilVisible:
-    element:
-      id: 'solo-cancel'
-    centerElement: true
-- waitForAnimationToEnd
-- takeScreenshot: ${LANG}-3b-8-solo-confirm
-- tapOn:
-    id: 'solo-cancel'
+- runFlow:
+    when:
+      visible: 'MARRAKECH'
+    commands:
+      - tapOn: 'MARRAKECH'
+      - extendedWaitUntil:
+          visible:
+            id: 'guest-locals'
+          timeout: 30000
+      - extendedWaitUntil:
+          notVisible:
+            id: 'guest-brief-loading'
+          timeout: 60000
+      - waitForAnimationToEnd
+      - takeScreenshot: ${LANG}-3b-8-guest
+      - scrollUntilVisible:
+          element:
+            id: 'guest-solo'
+          centerElement: true
+      - tapOn:
+          id: 'guest-solo'
+      - extendedWaitUntil:
+          visible:
+            id: 'solo-confirm'
+          timeout: 5000
+      - scrollUntilVisible:
+          element:
+            id: 'solo-cancel'
+          centerElement: true
+      - waitForAnimationToEnd
+      - takeScreenshot: ${LANG}-3b-8-solo-confirm
+      - tapOn:
+          id: 'solo-cancel'
 - runFlow: home.yaml
