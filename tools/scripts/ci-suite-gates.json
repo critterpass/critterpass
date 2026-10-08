@@ -5,9 +5,10 @@
     "ignore": ["infra/cloudflare/**", "infra/monitoring/**", "infra/railway/**"]
   },
   "service_images": {
-    "why": "The api and worker images build from the repo root: their own code and every package they bundle (the build tasks), plus what only `docker build` and the image's install read.",
+    "why": "The api and worker images build from the repo root: their own code and every package they bundle (the build tasks), plus what only `docker build` and the image's install read. No image build reads a message catalog, which nearly every app change touches.",
     "tasks": ["@cp/api#build", "@cp/worker#build"],
-    "paths": [".dockerignore", ".npmrc", "patches/**", "apps/mobile/assets/fonts/**"]
+    "paths": [".dockerignore", ".npmrc", "patches/**", "apps/mobile/assets/fonts/**"],
+    "ignore": ["packages/i18n/locales/**"]
   },
   "mobile": {
     "why": "The release bundle check.",

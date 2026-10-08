@@ -6,6 +6,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 
 import {
+  CATALOGS,
   DEPLOY_CONFIG,
   GATES,
   suitesFor,
@@ -129,6 +130,19 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
     expect(legs(suites)).toEqual(['other packages']);
     expect(legs(suitesFor(dryRun, changed(...catalogs)))).toEqual(['other packages']);
     expect(suitesFor(dryRun, changed(screen)).flags.app_tests).toBe(true);
+  });
+
+  it('builds the service images for what they bundle, not for message catalogs', () => {
+    expect(suitesFor(dryRun, changed(screen, ...catalogs)).flags.service_images).toBe(false);
+    expect(GATES.service_images.ignore).toEqual([CATALOGS]);
+    for (const file of [
+      'packages/i18n/src/index.ts',
+      'packages/domain/src/privacy.ts',
+      'services/worker/Dockerfile',
+      '.dockerignore',
+    ]) {
+      expect(suitesFor(dryRun, changed(...catalogs, file)).flags.service_images, file).toBe(true);
+    }
   });
 
   it('starts only the legs that build on a server package, and no app shard', () => {
