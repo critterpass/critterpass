@@ -4,8 +4,9 @@
 #
 #   tools/scripts/ci-device/ios-device.sh <build url> <bundle dir> <out dir> "<flow.yaml …>"
 #
-# Env: DEVICE (default "iPhone 17"), APPEARANCE (light|dark), RECORD_VIDEO, TSX_VERSION, and whatever the flows
-# read (JS_COMMIT, OTP_TEST_CODE), forwarded to Maestro by run-shard.ts.
+# Env: DEVICE (default "iPhone 17"), APPEARANCE (light|dark), RECORD_VIDEO, TSX_VERSION, E2E_API_BASE_URL
+# (the api the pre-flight reaches), FLOW_TIMEOUT_MINUTES, and whatever the flows read (JS_COMMIT,
+# OTP_TEST_CODE), forwarded to Maestro by run-shard.ts.
 set -euo pipefail
 
 build_url=$1
@@ -44,6 +45,9 @@ xcrun simctl ui "$udid" appearance "${APPEARANCE:-light}"
 xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --batteryLevel 100 \
   --cellularMode active --cellularBars 4 --wifiMode active --wifiBars 3 --dataNetwork wifi
 xcrun simctl install "$udid" "$app"
+
+# A simulator uses the Mac's network: the runner itself must reach the api before any flow runs.
+npx --yes "$tsx" "$here/network-preflight.ts" --platform ios --device "$udid" --url "${E2E_API_BASE_URL:-}"
 
 # RECORD_VIDEO=true records every flow (the release gate).
 video=$([ "${RECORD_VIDEO:-}" = true ] && echo --video || true)

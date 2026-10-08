@@ -164,7 +164,10 @@ Android's hierarchy: assert on the panel under the map (`e2e/crew/live-map/share
 Each Android shard boots a fresh `system-images;android-35;google_apis;x86_64` emulator (Pixel 7
 profile, 4 cores, 4 GB, software GPU). Before the flows, `android-device.sh` waits for the package
 manager, turns off the lock screen, animations and the system "isn't responding" dialogs (a slow
-emulator often trips one in the launcher, and it covers the app), installs the APK with every
+emulator often trips one in the launcher, and it covers the app), checks that the emulator resolves
+and reaches the api (`network-preflight.ts`, with `E2E_API_BASE_URL`: it turns Wi-Fi and mobile data
+off and on once when the check fails, and a second failure ends the shard with "Device cannot reach
+the api" before any flow waits on data that cannot arrive), installs the APK with every
 runtime permission granted, and launches it once: a crash on start fails the shard at once, with
 the crash log printed and `failures/launch.*` in the artifact. The e2e-test profile builds
 `arm64-v8a` and `x86_64`, so the app runs natively; older arm64-only builds run through ARM

@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # One Android shard, run inside android-emulator-runner once the emulator has booted: settle the
-# device, install the patched APK (patch-android-apk.sh), check the app starts, then run the flows.
+# device, check it reaches the api (network-preflight.ts), install the patched APK
+# (patch-android-apk.sh), check the app starts, then run the flows.
 #
 #   tools/scripts/ci-device/android-device.sh <patched.apk> <out dir> "<flow.yaml …>"
 #
-# Env: APPEARANCE (light|dark), RECORD_VIDEO, SAVE_HIERARCHY, TSX_VERSION, and whatever the flows read (JS_COMMIT, OTP_TEST_CODE).
+# Env: APPEARANCE (light|dark), RECORD_VIDEO, SAVE_HIERARCHY, TSX_VERSION, E2E_API_BASE_URL (the api
+# the pre-flight reaches), FLOW_TIMEOUT_MINUTES, and whatever the flows read (JS_COMMIT, OTP_TEST_CODE).
 set -euo pipefail
 
 apk=$1
@@ -35,6 +37,11 @@ device settings put global package_verifier_enable 0
 device settings put secure immersive_mode_confirmations confirmed
 device input keyevent 82
 device cmd uimode night "$([ "${APPEARANCE:-light}" = dark ] && echo yes || echo no)"
+
+# The emulator must resolve and reach the api before anything else is worth doing: without it every
+# flow waits out its longest timeout on data that cannot arrive.
+npx --yes "tsx@${TSX_VERSION:-4}" "$here/network-preflight.ts" --platform android --device "$serial" \
+  --url "${E2E_API_BASE_URL:-}"
 
 # A full (not incremental) install, so the manifest's extractNativeLibs is honoured at install time;
 # -g grants every runtime permission.
