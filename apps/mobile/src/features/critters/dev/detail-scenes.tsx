@@ -9,12 +9,9 @@
 import { router } from 'expo-router';
 import { useState, type ReactNode } from 'react';
 
-import { tierWord } from '@/ui/critters/tier';
-import { ShareImageSheet } from '@/ui/share-image/ShareImageSheet';
-
 import { artKind } from '../art-kind';
 import type { EntryRow } from '../data/queries';
-import { shareAlt, shareLine } from '../detail/detail-copy';
+import { CritterShare } from '../detail/critter-share';
 import {
   buildDetail,
   type CritterDetailRow,
@@ -22,7 +19,6 @@ import {
   type DetailFormRow,
 } from '../detail/detail-model';
 import { DetailView } from '../detail/detail-view';
-import { deviceShareDeps, renderCritterCard } from '../detail/share-card';
 import { LAB_ENTRIES, LAB_FORMS } from './dex-fixtures';
 
 const TOKEK: CritterDetailRow = {
@@ -113,24 +109,13 @@ function Detail({
         }
       />
       {sharing === null ? null : (
-        <ShareImageSheet
-          visible
+        <CritterShare
+          kind={artKind(model.key)}
+          seed={model.seed}
+          city={model.city}
+          form={sharing}
+          name={name}
           onClose={() => setSharing(null)}
-          altText={shareAlt(name, model.city)}
-          formats={['post', 'story']}
-          render={(format) =>
-            renderCritterCard(
-              {
-                kind: artKind(model.key),
-                seed: model.seed,
-                form: sharing.spec,
-                name,
-                line: shareLine(tierWord(sharing.rarity), model.city),
-              },
-              format,
-            )
-          }
-          deps={deviceShareDeps()}
         />
       )}
     </>

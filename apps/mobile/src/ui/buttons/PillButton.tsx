@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { ActivityIndicator, Platform } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useFlap } from '@/motion/patterns/flap';
@@ -83,7 +83,10 @@ const useStyles = makeStyles((t) => ({
     paddingHorizontal: t.space['16'],
   },
   outline: { borderWidth: 2, borderColor: t.semantic.border.control },
-  disabled: { opacity: 0.4 },
+  disabled: { opacity: t.opacity.disabled },
+  // A loading pill keeps its label in place, unseen, so the pill keeps the width of its words.
+  unseen: { opacity: 0 },
+  spinner: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
   // Android rounds a label's measured width down for some strings ("ĐỔI GIỜ"), and a pill sized to
   // its words then has a fraction of a point too little and breaks the label in two: a point of
   // slack on each side keeps a label that fits on one line.
@@ -177,38 +180,39 @@ export function PillButton({
     >
       {sheen && variant === 'primary' && !inactive ? <Sheen /> : null}
       {leading}
+      <Animated.View style={[flap ? flapped.style : null, loading ? styles.unseen : null]}>
+        <Text
+          variant={labelVariant}
+          color={textColor}
+          numberOfLines={2}
+          singleLine={size === 'sm' && scale <= LABEL_MIN_SCALE}
+          style={[
+            styles.label,
+            shrunk,
+            wrapped ? { lineHeight: labelSize * TWO_LINE_LEADING } : null,
+          ]}
+          onTextLayout={(event) => {
+            const lines = event.nativeEvent.lines.length;
+            // Shrink first; wrap only once the label is at its floor.
+            if (lines > 1 && scale > LABEL_MIN_SCALE) {
+              setFit({
+                label: shown,
+                scale: Math.max(LABEL_MIN_SCALE, scale * LABEL_SHRINK_STEP),
+              });
+              return;
+            }
+            const next = lines > 1;
+            if (next !== wrapped) setWrapped(next);
+          }}
+        >
+          {shown}
+        </Text>
+      </Animated.View>
       {loading ? (
-        <ActivityIndicator color={textColor} />
-      ) : (
-        <Animated.View style={flap ? flapped.style : undefined}>
-          <Text
-            variant={labelVariant}
-            color={textColor}
-            numberOfLines={2}
-            singleLine={size === 'sm' && scale <= LABEL_MIN_SCALE}
-            style={[
-              styles.label,
-              shrunk,
-              wrapped ? { lineHeight: labelSize * TWO_LINE_LEADING } : null,
-            ]}
-            onTextLayout={(event) => {
-              const lines = event.nativeEvent.lines.length;
-              // Shrink first; wrap only once the label is at its floor.
-              if (lines > 1 && scale > LABEL_MIN_SCALE) {
-                setFit({
-                  label: shown,
-                  scale: Math.max(LABEL_MIN_SCALE, scale * LABEL_SHRINK_STEP),
-                });
-                return;
-              }
-              const next = lines > 1;
-              if (next !== wrapped) setWrapped(next);
-            }}
-          >
-            {shown}
-          </Text>
-        </Animated.View>
-      )}
+        <View style={styles.spinner} pointerEvents="none">
+          <ActivityIndicator color={textColor} />
+        </View>
+      ) : null}
     </PressScale>
   );
 }

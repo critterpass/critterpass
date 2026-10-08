@@ -89,7 +89,7 @@ const useStyles = makeStyles((t) => ({
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a style value, never copy.
     transform: [{ rotate: '45deg' }],
   },
-  dimmed: { opacity: 0.4 },
+  dimmed: { opacity: t.opacity.disabled },
   dot: {
     position: 'absolute',
     top: t.space['4'],

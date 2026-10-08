@@ -26,6 +26,12 @@ export interface HoldRingProps {
   readonly destructive?: boolean;
   /** Confirmation copy for the non-gesture path of a destructive hold. */
   readonly confirmMessage?: string;
+  /**
+   * A destructive hold triggered without the gesture (a screen reader, Switch Control) asks first:
+   * the host shows its confirmation (a `ConfirmSheet`) and calls `confirm` when the person agrees.
+   * A host that passes none gets the system alert.
+   */
+  readonly onConfirmRequest?: ((confirm: () => void) => void) | undefined;
   /** Dwell-driven fill (e.g. staying at a place) instead of touch-and-hold. */
   readonly progress?: SharedValue<number>;
   /** @default 88 */
@@ -59,6 +65,7 @@ export function HoldRing({
   tone = 'green',
   destructive = tone === 'pink',
   confirmMessage,
+  onConfirmRequest,
   progress,
   size = 88,
   children,
@@ -88,9 +95,14 @@ export function HoldRing({
       fill.onAccessibilityAction(event);
       return;
     }
+    const confirm = () => fill.onAccessibilityAction(event);
+    if (onConfirmRequest) {
+      onConfirmRequest(confirm);
+      return;
+    }
     Alert.alert(actionLabel, confirmMessage, [
       { text: t({ id: 'common.confirm.cancel', message: 'Cancel' }), style: 'cancel' },
-      { text: actionLabel, style: 'destructive', onPress: () => fill.onAccessibilityAction(event) },
+      { text: actionLabel, style: 'destructive', onPress: confirm },
     ]);
   };
 

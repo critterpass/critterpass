@@ -11,7 +11,6 @@ import { useWindowDimensions, View, type AccessibilityActionEvent } from 'react-
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
-import { useMemberFaces } from '@/features/you';
 import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLongPress } from '@/motion/gestures/long-press';
@@ -82,7 +81,6 @@ const useStyles = makeStyles((th) => ({
 
 export function Bubble(props: BubbleProps) {
   const { message, mine, first, last, joinIndex, guideColor, animate = false } = props;
-  const faces = useMemberFaces();
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
@@ -155,7 +153,7 @@ export function Bubble(props: BubbleProps) {
                 joinIndex={Math.max(0, joinIndex)}
                 size="sm"
                 decorative
-                {...(message.senderId === null ? {} : faces.faceProps(message.senderId, 'sm'))}
+                uid={message.senderId}
               />
             ) : null}
           </View>
