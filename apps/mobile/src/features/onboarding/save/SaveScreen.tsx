@@ -6,8 +6,6 @@
 import { router, useIsFocused } from 'expo-router';
 import { useEffect } from 'react';
 
-import { useAnalytics } from '@/lib/analytics';
-
 import { markOnboardingComplete } from '../flow-controller/completion';
 import { updateDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
@@ -24,16 +22,15 @@ export function SaveScreen() {
   useTrackStep('save');
   const flow = useSaveFlow();
   const services = useOnboardingServices();
-  const analytics = useAnalytics();
   const { state } = flow;
   // The phone page is pushed over this one: the sheet goes while it is up (so the presenter scale
   // is released) and rises again on the way back.
   const focused = useIsFocused();
 
   useEffect(() => {
+    // While the phone page is up it is the one that reacts; this page moves on once it is back.
+    if (!focused) return undefined;
     if (state.kind === 'saved') {
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
-      analytics.capture('account_saved', { provider: state.provider });
       updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
       const timer = setTimeout(
         () => router.replace(ONBOARDING_ROUTES.permissions),
@@ -46,7 +43,7 @@ export function SaveScreen() {
       services.restart();
     }
     return undefined;
-  }, [state, analytics, services]);
+  }, [state, focused, services]);
 
   const notNow = () => {
     updateDraft((d) => ({ ...d, step: 'saved' }));

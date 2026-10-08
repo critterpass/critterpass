@@ -7,8 +7,8 @@
  * missing one instead of issuing.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { router, useIsFocused } from 'expo-router';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { guideFormId, guideOfForm, homeBaseFor, type TasteTag } from '@cp/domain';
@@ -73,6 +73,10 @@ export function PassScreen() {
   const [issued, setIssued] = useState(false);
   const [problem, setProblem] = useState<JoinProblem | null>(null);
   const save = useSaveFlow();
+  // The phone page is pushed over this one: the sheet goes while it is up, and the seat is taken
+  // once this page is back in front with the pass saved.
+  const focused = useIsFocused();
+  const joinSent = useRef(false);
   const inviter = session.preview?.inviter_first_name ?? '';
 
   useEffect(() => {
@@ -118,6 +122,8 @@ export function PassScreen() {
   };
 
   const join = async () => {
+    if (joinSent.current) return;
+    joinSent.current = true;
     const code = session.code;
     if (code === null || localFirst === null) {
       setProblem('offline');
@@ -136,13 +142,16 @@ export function PassScreen() {
     } else setProblem(outcome.problem);
   };
 
+  const saved = save.state.kind === 'saved';
   useEffect(() => {
-    // Saving happens in the auth sheet; the seat is taken once it reports success.
+    // Saved with Apple, Google or a number verified on the phone page: the seat is taken next.
+    if (!issued || !saved || !focused) return;
+    updateDraft((d) => ({ ...d, saved: true }));
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (save.state.kind === 'saved') void join();
-    // Joins once the pass is saved.
+    void join();
+    // Joins once the pass is saved and this page is the one in front.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [save.state.kind]);
+  }, [issued, saved, focused]);
 
   if (problem !== null) {
     return (
@@ -163,8 +172,8 @@ export function PassScreen() {
   if (issued) {
     return (
       <>
-        <IssuedPage choreography saved={save.state.kind === 'saved'} />
-        {save.state.kind === 'saved' ? null : (
+        <IssuedPage choreography saved={saved} />
+        {saved || !focused ? null : (
           <SaveSheet
             state={save.state}
             onApple={() => void save.apple()}

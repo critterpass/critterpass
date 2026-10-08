@@ -1,7 +1,8 @@
 /**
  * 3a-12 and 3a-13 over the real local-first stack, with the api answered by recorded responses at
  * the transport: the inviter's prefill on the pass (provenance, home, chips), issuing into the save
- * sheet and taking the seat after "Not now", a join refused as a state, and the manifest built from
+ * sheet and taking the seat after "Not now" or a number verified on the phone page, a join refused
+ * as a state, and the manifest built from
  * synced crew rows with the newcomer ringed, unnamed waiting seats, the waitlist copy and the
  * link-open-to-manifest timing.
  */
@@ -15,15 +16,18 @@ jest.mock(
     jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
       .powersyncCommon,
 );
+// A page is in front until another is pushed over it; `mockOver` is that page's count.
+const mockOver = { pages: 0 };
 jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
+  useIsFocused: () => mockOver.pages === 0,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
   useLocalSearchParams: jest.fn(() => ({})),
 }));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen, waitFor, within } from '@testing-library/react-native';
+import { act, fireEvent, screen, waitFor, within } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import { useState } from 'react';
 
 import {
   openTestLocalFirst,
@@ -33,6 +37,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending';
 
 import { clearDraftForTests, readDraft } from '../../flow-controller/draft-store';
+import { PhoneScreen } from '../../phone/PhoneScreen';
 import { inviteSession } from '../invite-session';
 import { ManifestScreen } from '../ManifestScreen';
 import { PassScreen } from '../PassScreen';
@@ -68,8 +73,10 @@ beforeEach(() => {
   clearDraftForTests();
   inviteSession.reset();
   setOnboardingComplete(false);
-  jest.mocked(router.push).mockClear();
+  mockOver.pages = 0;
+  jest.mocked(router.push).mockReset();
   jest.mocked(router.replace).mockClear();
+  jest.mocked(router.back).mockReset();
 });
 afterEach(async () => {
   await stack?.close();
@@ -119,6 +126,57 @@ describe('3a-12 your pass, three taps', () => {
     expect(api.sent.find((s) => s.path.endsWith('accept_invite'))).toBeTruthy();
     expect(analytics.events.map((e) => e.event)).toContain('invite_prefill_viewed');
   });
+
+  /** The pass page with the phone page pushed over it and popped again, as the stack keeps them. */
+  function PassUnderPhone() {
+    const [phoneUp, setPhoneUp] = useState(false);
+    jest.mocked(router.push).mockImplementation(() => {
+      mockOver.pages = 1;
+      setPhoneUp(true);
+    });
+    jest.mocked(router.back).mockImplementation(() => {
+      mockOver.pages = 0;
+      setPhoneUp(false);
+    });
+    return (
+      <>
+        <PassScreen />
+        {phoneUp ? <PhoneScreen /> : null}
+      </>
+    );
+  }
+
+  it('takes the seat once, with the code and the seat, after saving with a phone number', async () => {
+    openInvite();
+    const api = recordedApi({ accept_invite: applied(JOINED) });
+    stack = await openTestLocalFirst({ transport: api, holdUploads: true });
+    await renderInvited(<PassUnderPhone />, {
+      services: services({ status: 'not_found' }),
+      stack,
+    });
+    await waitFor(() => expect(readDraft()?.home_iata).toBe('SIN'));
+    await activate(screen.getByTestId('invite-pass-issue'));
+    await activate(await screen.findByTestId('save-phone'));
+    expect(router.push).toHaveBeenCalledWith('/onboarding/phone');
+
+    await fireEvent.changeText(await screen.findByTestId('phone-number'), '91234567');
+    await activate(screen.getByTestId('phone-send'));
+    await fireEvent.changeText(await screen.findByLabelText('Verification code'), '419203');
+    await waitFor(() => expect(readDraft()?.saved).toBe(true));
+    // The number is verified on the page above: nothing is sent until the pass page is back.
+    const joins = () => api.sent.filter((s) => s.path.endsWith('accept_invite'));
+    expect(joins()).toHaveLength(0);
+
+    await waitFor(() => expect(router.back).toHaveBeenCalledTimes(1), { timeout: 5000 });
+    await waitFor(() => expect(router.replace).toHaveBeenCalledWith('/onboarding/invite/manifest'));
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(joins()).toHaveLength(1);
+    expect(joins()[0]?.body).toMatchObject({ payload: { code: 'BATH6X', seat: 'seat-token' } });
+    expect(router.replace).not.toHaveBeenCalledWith('/onboarding/permissions');
+    expect(isOnboardingComplete()).toBe(true);
+  }, 15_000);
 
   it('shows a refused join as its state', async () => {
     openInvite();

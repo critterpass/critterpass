@@ -2,11 +2,17 @@
  * Saving the pass to an account (3a-7, 3a-8) over the auth data layer: Apple, Google or phone link
  * the anonymous uid (the pass keeps its uid), and an identity that already has a pass comes back
  * as a merge ticket, which becomes the merge-or-switch choice.
+ *
+ * One save is one state, whichever screen it is seen from: the sheet over the pass, the phone page
+ * pushed over that sheet and the invited pass under both read the same state, so a number verified
+ * on the phone page is a saved pass to the page that opened it. The state lasts as long as one of
+ * those screens is up; when the last one leaves, the next save starts clean.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- state discriminants and provider ids, never copy. */
-import { useCallback, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
 import type { LinkOutcome, MergePreviewSummary } from '@/data/auth';
+import { useAnalytics } from '@/lib/analytics';
 
 import { useOnboardingServices } from '../services';
 
@@ -49,15 +55,40 @@ const PROVIDER_CODES = new Set([
   'SIGN_IN_CANCELLED',
 ]);
 
+const IDLE: SaveState = { kind: 'idle' };
+let current: SaveState = IDLE;
+const listeners = new Set<() => void>();
+
+function readState(): SaveState {
+  return current;
+}
+
+/** An answer that arrives after every screen of the flow has left is dropped. */
+function setState(next: SaveState): void {
+  if (listeners.size === 0) return;
+  current = next;
+  listeners.forEach((listener) => listener());
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0) current = IDLE;
+  };
+}
+
 export function useSaveFlow() {
   const services = useOnboardingServices();
-  const [state, setState] = useState<SaveState>({ kind: 'idle' });
+  const analytics = useAnalytics();
+  const state = useSyncExternalStore(subscribe, readState, readState);
 
   /** A linked or verified identity, or the ticket of one that already has a pass. */
   const handle = useCallback(
     async (provider: SaveProvider, outcome: LinkOutcome) => {
       switch (outcome.kind) {
         case 'linked':
+          analytics.capture('account_saved', { provider });
           setState({ kind: 'saved', provider });
           return;
         case 'cancelled':
@@ -86,7 +117,7 @@ export function useSaveFlow() {
         }
       }
     },
-    [services],
+    [services, analytics],
   );
 
   const withProvider = useCallback(
@@ -113,28 +144,26 @@ export function useSaveFlow() {
 
   /** "Use my old pass": the account that already exists wins; this device's crews move over. */
   const confirmSwitch = useCallback(async () => {
-    if (state.kind !== 'merge' && state.kind !== 'kept' && state.kind !== 'declined') return;
-    const { provider, ticket, preview } = state;
+    const at = readState();
+    if (at.kind !== 'merge' && at.kind !== 'kept' && at.kind !== 'declined') return;
+    const { provider, ticket, preview } = at;
     setState({ kind: 'merging', provider, ticket, preview });
     const result = await services.auth.confirmMerge(ticket).catch(() => null);
     if (result?.kind === 'merged') setState({ kind: 'switched' });
     else if (result?.kind === 'ticket_invalid')
       setState({ kind: 'error', provider, reason: 'merge_expired' });
     else setState({ kind: 'error', provider, reason: 'network' });
-  }, [services, state]);
+  }, [services]);
 
   /** Moves between the merge choice and its "kept" follow-ups, keeping the ticket for a switch. */
-  const moveMerge = useCallback(
-    (kind: 'merge' | 'kept' | 'declined') => {
-      if (state.kind !== 'merge' && state.kind !== 'kept' && state.kind !== 'declined') return;
-      setState({ kind, provider: state.provider, ticket: state.ticket, preview: state.preview });
-    },
-    [state],
-  );
+  const moveMerge = useCallback((kind: 'merge' | 'kept' | 'declined') => {
+    const at = readState();
+    if (at.kind !== 'merge' && at.kind !== 'kept' && at.kind !== 'declined') return;
+    setState({ kind, provider: at.provider, ticket: at.ticket, preview: at.preview });
+  }, []);
 
   return {
     state,
-    setState,
     apple: () => withProvider('apple'),
     google: () => withProvider('google'),
     /** Phone verification results arrive here from the phone screen. */

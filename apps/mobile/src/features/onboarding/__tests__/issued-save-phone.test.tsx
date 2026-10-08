@@ -65,6 +65,7 @@ beforeEach(() => {
   }));
   jest.mocked(router.push).mockClear();
   jest.mocked(router.replace).mockClear();
+  jest.mocked(router.back).mockClear();
   jest.mocked(useLocalSearchParams).mockReturnValue({});
 });
 afterEach(() => {
@@ -192,9 +193,13 @@ describe('3a-8 phone sign-in', () => {
     await flush();
   }
 
-  it('sends the code on WhatsApp, verifies it and moves on after the clap', async () => {
+  it('sends the code on WhatsApp, verifies it and goes back to its caller after the clap', async () => {
     jest.useFakeTimers();
-    await sendCode(fakeServices());
+    const analytics = recordingAnalytics();
+    await renderOnboarding(<PhoneScreen />, { analytics });
+    await fireEvent.changeText(screen.getByTestId('phone-number'), '91234567');
+    await activate(screen.getByTestId('phone-send'));
+    await flush();
     expect(screen.getByTestId('phone-sent')).toHaveTextContent(
       'Code sent to +65 9123 4567 on WhatsApp',
     );
@@ -202,10 +207,38 @@ describe('3a-8 phone sign-in', () => {
     await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
     await flush();
     expect(readDraft()?.saved).toBe(true);
+    expect(router.back).not.toHaveBeenCalled();
     await act(async () => {
       jest.advanceTimersByTime(2200);
       await Promise.resolve();
     });
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+    expect(analytics.events.filter((e) => e.event === 'account_saved')).toEqual([
+      { event: 'account_saved', props: { provider: 'phone' } },
+    ]);
+  });
+
+  it('ends the regular path on permissions: the save page sees the number the phone page verified', async () => {
+    jest.useFakeTimers();
+    // The stack as the app has it: the save page stays mounted under the phone page it pushed.
+    await renderOnboarding(
+      <>
+        <SaveScreen />
+        <PhoneScreen />
+      </>,
+    );
+    await fireEvent.changeText(screen.getByTestId('phone-number'), '91234567');
+    await activate(screen.getByTestId('phone-send'));
+    await flush();
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await flush();
+    expect(screen.getByTestId('pass-saved-tick')).toBeTruthy();
+    await act(async () => {
+      jest.advanceTimersByTime(PHONE_ADVANCE_MS);
+      await Promise.resolve();
+    });
+    expect(readDraft()?.step).toBe('saved');
     expect(router.replace).toHaveBeenCalledWith('/onboarding/permissions');
   });
 

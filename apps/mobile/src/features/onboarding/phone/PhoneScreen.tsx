@@ -1,7 +1,8 @@
 /**
  * 3a-8 "Your number": number entry with a country picker, the OTP boxes (digits drop in as the code
  * autofills; the last one rings green and the puffin claps), resend with a growing wait, and every
- * error the OTP route can answer. Also the returning user's sign-in from the splash.
+ * error the OTP route can answer. Pushed over the page that offered to save the pass, which it goes
+ * back to once the number is verified. Also the returning user's sign-in from the splash.
  */
 import { t } from '@lingui/core/macro';
 import { getLocales } from 'expo-localization';
@@ -14,7 +15,6 @@ import { homeBaseFor } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { deviceLastUid } from '@/data/app-session/last-uid-store';
-import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -74,7 +74,6 @@ export function PhoneScreen() {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const analytics = useAnalytics();
   const services = useOnboardingServices();
   const flow = useSaveFlow();
   const draft = readDraft();
@@ -107,18 +106,15 @@ export function PhoneScreen() {
   useEffect(() => {
     const state = flow.state;
     if (state.kind === 'saved') {
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
-      analytics.capture('account_saved', { provider: state.provider });
       if (returning) {
         // No pass on this number yet: it is now this phone's account; make the pass.
         const timer = setTimeout(() => router.replace(ONBOARDING_ROUTES.name), PHONE_ADVANCE_MS);
         return () => clearTimeout(timer);
       }
-      updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
-      const timer = setTimeout(
-        () => router.replace(ONBOARDING_ROUTES.permissions),
-        PHONE_ADVANCE_MS,
-      );
+      // The page that asked for a number decides what a saved pass leads to (the permissions page,
+      // or a seat in the crew that invited them): after the clap, back to it.
+      updateDraft((d) => ({ ...d, saved: true }));
+      const timer = setTimeout(() => router.back(), PHONE_ADVANCE_MS);
       return () => clearTimeout(timer);
     }
     if (state.kind === 'switched') {
@@ -127,7 +123,7 @@ export function PhoneScreen() {
       services.restart();
     }
     return undefined;
-  }, [flow.state, returning, analytics, services]);
+  }, [flow.state, returning, services]);
 
   const lundi = guideSticker('lundi');
   return (
