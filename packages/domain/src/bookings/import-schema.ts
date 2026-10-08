@@ -9,12 +9,15 @@ import { bookingSplitSchema } from './booking-schema';
 import type { ExtractedBooking } from './extracted';
 import { barcodeFormatSchema, bookingVisibilitySchema } from './kinds';
 
+/** The most text the parser reads from one paste or scan. */
+export const IMPORT_TEXT_MAX = 20_000;
+
 export const importPastePayloadSchema = z
   .object({
     /** Client UUIDv7: the candidate row appears `parsing` at once and fills in. */
     candidate_id: z.uuid(),
     trip_id: z.uuid().optional(),
-    text: z.string().trim().min(1).max(20_000).optional(),
+    text: z.string().trim().min(1).max(IMPORT_TEXT_MAX).optional(),
     url: z
       .url({ protocol: /^https?$/u })
       .max(2000)
@@ -41,6 +44,20 @@ export const importScanPayloadSchema = z
   });
 export type ImportScanPayload = z.infer<typeof importScanPayloadSchema>;
 
+/**
+ * A scan's lines as the text the parser reads: joined top to bottom and cut after the last whole
+ * line that fits, so a long scan is still read from its first page.
+ */
+export function scanText(lines: readonly string[]): string {
+  let text = '';
+  for (const [index, line] of lines.entries()) {
+    const next = index === 0 ? line : `${text}\n${line}`;
+    if (next.length > IMPORT_TEXT_MAX) break;
+    text = next;
+  }
+  return text;
+}
+
 export const resolveImportCandidatePayloadSchema = z.object({
   candidate_id: z.uuid(),
   action: z.enum(['add', 'ignore']),
@@ -59,7 +76,7 @@ export type ResolveImportCandidatePayload = z.infer<typeof resolveImportCandidat
 export const importParseJobSchema = z.object({
   candidate_id: z.uuid(),
   kind: z.enum(['paste', 'scan']),
-  text: z.string().max(20_000).optional(),
+  text: z.string().max(IMPORT_TEXT_MAX).optional(),
   url: z.string().max(2000).optional(),
   barcode: z.object({ format: barcodeFormatSchema, payload: z.string().max(4000) }).optional(),
 });

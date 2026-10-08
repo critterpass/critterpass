@@ -1,8 +1,9 @@
 /**
  * `import_scan` (docs/api-contracts.md §4.10): the device's OCR lines of a scanned confirmation or
  * boarding pass, and the pass's PDF417/Aztec barcode when it read one, become a candidate to ADD.
+ * The parser reads the lines up to its text limit: a longer scan is read from its first page.
  */
-import { importScanPayloadSchema } from '@cp/domain';
+import { importScanPayloadSchema, scanText } from '@cp/domain';
 
 import { defineCommand } from '../_framework/define-command';
 import { requestImport } from './import-request';
@@ -22,7 +23,7 @@ export const importScanCommand = defineCommand({
       job: {
         candidate_id: payload.candidate_id,
         kind: 'scan',
-        ...(payload.ocr_lines.length === 0 ? {} : { text: payload.ocr_lines.join('\n') }),
+        ...(payload.ocr_lines.length === 0 ? {} : { text: scanText(payload.ocr_lines) }),
         ...(payload.barcode === undefined ? {} : { barcode: payload.barcode }),
       },
     }),
