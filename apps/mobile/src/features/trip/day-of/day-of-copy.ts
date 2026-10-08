@@ -12,6 +12,17 @@ import { clockIn, countdownText, type LeaveByView } from '../leave-by/model';
 /** Past ten hours the countdown no longer fits inside the ring. */
 const RING_MAX_MS = 10 * 60 * 60 * 1000;
 
+/**
+ * Whether the hero's ring is counting down right now: it shows, and the leave-by is still ahead.
+ * Only then does the day need the time to the second.
+ */
+export function ringCounting(view: LeaveByView | null, now: Date): boolean {
+  if (view === null || view.phase === 'transit') return false;
+  const at = now.getTime();
+  const deadline = view.deadline.at.getTime();
+  return deadline - at < RING_MAX_MS && at < Math.max(deadline, view.leaveAt.getTime());
+}
+
 export interface HeroCopy {
   readonly label: string;
   readonly time: string;

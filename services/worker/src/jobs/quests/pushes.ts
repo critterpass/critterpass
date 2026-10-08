@@ -4,7 +4,7 @@
  * key), both in the voice of the guide of the quests' day. The push lands on the quests screen, which reveals the
  * reward at the shared moment (or shows it already granted to a late opener).
  */
-import { QUEST_PUSH } from '@cp/domain';
+import { QUEST_PUSH, questsLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type NotificationSender } from '../notify/register';
@@ -51,7 +51,7 @@ export function registerQuestPushes(): void {
         sender: await questGuide(tx, event.tripId, str(event, 'local_date')),
         crewId: event.crewId,
         tripId: event.tripId,
-        deepLink: `/quests/${event.tripId ?? ''}`,
+        deepLink: questsLink(event.tripId ?? ''),
       };
     },
     dedupeKey: (event, uid) =>
@@ -81,7 +81,7 @@ export function registerQuestPushes(): void {
         sender: await questGuide(tx, event.tripId, rows[0]?.local_date),
         crewId: event.crewId,
         tripId: event.tripId,
-        deepLink: `/quests/${event.tripId ?? ''}`,
+        deepLink: questsLink(event.tripId ?? ''),
         ctx: { reward: 'quest', quest_id: questId, reveal_at: str(event, 'reveal_at') },
       };
     },

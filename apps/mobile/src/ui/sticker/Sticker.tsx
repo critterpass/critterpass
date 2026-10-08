@@ -9,6 +9,7 @@ import type { Blend, FormSpec, Pose, RenderSpec, StickerSpec, Variant } from '@c
 import type { SkiaEngine } from '@cp/critter-art/skia';
 import { tokens } from '@cp/design-tokens';
 
+import { PressScale } from '../press/PressScale';
 import { reportUiQa, UI_QA_ENABLED } from '../qa/ui-qa';
 
 import { stickerLabel, stickerPoseLabel } from './a11y';
@@ -218,26 +219,43 @@ export function Sticker(props: StickerProps): React.JSX.Element {
     ? stickerPoseLabel(name, pose)
     : stickerLabel(name, spec.form?.rarity ?? 'common');
 
+  const art = livePicture ? (
+    <Canvas style={{ width: size, height: size }}>
+      <Picture picture={livePicture} />
+    </Canvas>
+  ) : uri ? (
+    // A finished sticker is a plain image: a live canvas is a GL surface of its own, and a
+    // screen of them (the Critterdex grid) left the next screen without surfaces on Android.
+    // Until it is drawn the slot shows its own background, never a silhouette ("not found").
+    <StickerImage uri={uri} size={size} fade={fresh} />
+  ) : null;
+
+  // A tappable sticker is a real button: a press that ends a scroll does not count, a screen
+  // reader can activate it, and a small one gains touch slop.
+  if (onPress) {
+    return (
+      <View ref={place} onLayout={onLayout}>
+        <PressScale
+          onPress={onPress}
+          accessibilityLabel={label}
+          style={{ width: size, height: size, minWidth: size, minHeight: size }}
+        >
+          {art}
+        </PressScale>
+      </View>
+    );
+  }
+
   return (
     <View
       ref={place}
       onLayout={onLayout}
       style={{ width: size, height: size }}
       accessible
-      accessibilityRole={onPress ? 'button' : 'image'}
+      accessibilityRole="image"
       accessibilityLabel={label}
-      onTouchEnd={onPress}
     >
-      {livePicture ? (
-        <Canvas style={{ width: size, height: size }}>
-          <Picture picture={livePicture} />
-        </Canvas>
-      ) : uri ? (
-        // A finished sticker is a plain image: a live canvas is a GL surface of its own, and a
-        // screen of them (the Critterdex grid) left the next screen without surfaces on Android.
-        // Until it is drawn the slot shows its own background, never a silhouette ("not found").
-        <StickerImage uri={uri} size={size} fade={fresh} />
-      ) : null}
+      {art}
     </View>
   );
 }

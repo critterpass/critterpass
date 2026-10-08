@@ -76,3 +76,20 @@ appId: app.critterpass.dev
     id: 'island-toast-dismiss'
 - assertNotVisible:
     id: 'island-toast-pill'
+
+# A title on its own takes a second line instead of ending in an ellipsis.
+- scrollUntilVisible:
+    element:
+      id: 'show-long-toast-button'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'show-long-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
+- assertVisible: '.*in line for a seat.*'
+- takeScreenshot: island-toast-two-lines
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertNotVisible:
+    id: 'island-toast-pill'

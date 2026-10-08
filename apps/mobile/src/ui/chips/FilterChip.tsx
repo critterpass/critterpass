@@ -10,6 +10,8 @@ export interface FilterChipProps {
   readonly onPress: () => void;
   /** Result count after the label ("Food 12"). */
   readonly count?: number;
+  /** The `tick` a tap fires; off for a host that answers with its own cue. @default true */
+  readonly feedback?: boolean;
   readonly testID?: string;
 }
 
@@ -29,13 +31,21 @@ const useStyles = makeStyles((t) => ({
 }));
 
 /** A list/map filter toggle; selected fills paper with ink text. */
-export function FilterChip({ label, selected, onPress, count, testID }: FilterChipProps) {
+export function FilterChip({
+  label,
+  selected,
+  onPress,
+  count,
+  feedback = true,
+  testID,
+}: FilterChipProps) {
   const styles = useStyles();
   const theme = useTheme();
   return (
     <PressScale
       testID={testID}
       onPress={onPress}
+      feedback={feedback ? 'tick' : undefined}
       widthClass="narrow"
       accessibilityLabel={count !== undefined ? `${label}, ${count}` : label}
       accessibilityState={{ selected }}

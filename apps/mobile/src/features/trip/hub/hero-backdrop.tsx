@@ -8,7 +8,7 @@
  */
 import type { MediaAsset } from '@cp/domain';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { MediaLayer } from '@/ui/media/MediaLayer';
@@ -36,7 +36,13 @@ function withAlpha(hex: string, alpha: number): string {
     .padStart(2, '0')}`;
 }
 
-export function HeroBackdrop({ media, colour, lowData, titleY }: HeroBackdropProps) {
+/** Memoised: the header above it redraws each second for its countdown, the photo does not. */
+export const HeroBackdrop = memo(function HeroBackdrop({
+  media,
+  colour,
+  lowData,
+  titleY,
+}: HeroBackdropProps) {
   const theme = useTheme();
   const styles = useStyles();
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
@@ -86,4 +92,4 @@ export function HeroBackdrop({ media, colour, lowData, titleY }: HeroBackdropPro
       ) : null}
     </View>
   );
-}
+});

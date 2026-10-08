@@ -10,6 +10,7 @@ import { useLoop } from '@/motion/use-loop';
 
 import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
+import { useMemberFace } from './member-face';
 import { formerMemberLabel, isFormerMember } from './member-name';
 import type { TextVariant } from '../text/Text';
 import { makeStyles, sizeToken, useTheme } from '../theme';
@@ -18,6 +19,11 @@ export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export interface AvatarProps {
   readonly name: string;
+  /**
+   * The member's user id: draws the face they chose (a photo, a critter, a guide) in place of the
+   * initial. A `photo` or `critter` passed here wins over it.
+   */
+  readonly uid?: string | null | undefined;
   /** 0-based crew join order: picks the member colour and, for members 7–16, the ring pattern. */
   readonly joinIndex?: number;
   readonly photo?: ImageSourcePropType;
@@ -55,6 +61,7 @@ function initialOf(name: string): string {
 /** A crew member: initial, photo or critter in their member colour, with pattern ring and cut-out. */
 export function Avatar({
   name,
+  uid,
   joinIndex = 0,
   photo,
   critter,
@@ -69,6 +76,9 @@ export function Avatar({
   const tone = useSurfaceTone();
   const bob = useLoop('bob', { active: pending });
   const diameter = sizeToken(theme.size.avatar, size);
+  const face = useMemberFace(uid, diameter);
+  const shownPhoto = photo ?? face.photo;
+  const shownCritter = critter ?? face.critter;
   const member = resolveMemberStyle(joinIndex);
   const cut = tone === 'paper' ? theme.color.paper.base : theme.semantic.bg.base;
   const ringWidth = cutout ? theme.ring.cutout.widthPt : 0;
@@ -116,10 +126,15 @@ export function Avatar({
           },
         ]}
       >
-        {former ? null : photo ? (
-          <Image source={photo} style={styles.fill} accessibilityIgnoresInvertColors />
-        ) : critter ? (
-          critter
+        {former ? null : shownPhoto ? (
+          <Image
+            source={shownPhoto}
+            style={styles.fill}
+            accessibilityIgnoresInvertColors
+            {...(testID ? { testID: `${testID}-photo` } : {})}
+          />
+        ) : shownCritter ? (
+          shownCritter
         ) : (
           <Text variant={INITIAL_VARIANT[size]} color={theme.semantic.text.onAccent}>
             {initialOf(name)}

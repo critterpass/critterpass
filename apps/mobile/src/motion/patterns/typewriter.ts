@@ -13,6 +13,11 @@ export interface UseTypewriterOptions {
   /** The full target text (typewriter mode), or the current accumulated text (stream mode, growing over calls). */
   readonly text: string;
   readonly wordsPerSecond?: number;
+  /**
+   * `false` for text that is already on the page (a saved answer): the whole text is shown and no
+   * timer starts. @default true
+   */
+  readonly enabled?: boolean;
 }
 
 export interface UseTypewriterResult {
@@ -30,31 +35,42 @@ export interface UseTypewriterResult {
  * revealing from where it left off rather than restarting; an unrelated (non-prefix) `text` restarts
  * from empty. Reduced motion: the full text is visible immediately (`revealedCount` state is simply
  * never consulted in that case, so there is nothing to keep synchronized with `text` for it).
+ * The timer runs only while words are left to reveal: it stops with the last word, and text that is
+ * already whole (or switched off with `enabled`) starts none.
  */
 export function useTypewriter({
   text,
   wordsPerSecond = DEFAULT_WORDS_PER_SECOND,
+  enabled = true,
 }: UseTypewriterOptions): UseTypewriterResult {
   const reduced = useReducedImpactMotion();
   const chunks = wordChunksOf(text);
   const [revealedCount, setRevealedCount] = useState(0);
   const previousTextRef = useRef('');
+  // The count the timer works from, in step with `revealedCount`.
+  const revealedRef = useRef(0);
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !enabled) return undefined;
     const isContinuation = text.startsWith(previousTextRef.current);
     previousTextRef.current = text;
-    if (!isContinuation) setRevealedCount(0);
+    if (!isContinuation) {
+      revealedRef.current = 0;
+      setRevealedCount(0);
+    }
 
     const intervalMs = 1000 / wordsPerSecond;
     const totalWords = wordChunksOf(text).length;
+    if (revealedRef.current >= totalWords) return undefined;
     const interval = setInterval(() => {
-      setRevealedCount((current) => Math.min(current + 1, totalWords));
+      revealedRef.current = Math.min(revealedRef.current + 1, totalWords);
+      setRevealedCount(revealedRef.current);
+      if (revealedRef.current >= totalWords) clearInterval(interval);
     }, intervalMs);
     return () => clearInterval(interval);
-  }, [text, reduced, wordsPerSecond]);
+  }, [text, reduced, wordsPerSecond, enabled]);
 
-  if (reduced) {
+  if (reduced || !enabled) {
     return { visibleText: text, fullText: text, isRevealing: false };
   }
   const clampedRevealedCount = Math.min(revealedCount, chunks.length);

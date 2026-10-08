@@ -38,7 +38,7 @@ export {
   type LinkEnvironment,
   type LinkEnvironmentConfig,
 } from './hosts';
-export { APP_SCHEMES, buildSchemeUrl, parseSchemeUrl } from './schemes';
+export { APP_SCHEMES, appLinkSchemeUrl, buildSchemeUrl, parseSchemeUrl } from './schemes';
 export {
   createSeatToken,
   isSeatTokenShape,
@@ -67,4 +67,18 @@ export {
   type LinkSettings,
   type LinkState,
 } from './wire';
+export * from './app-links';
+export {
+  APP_LINK_SAMPLES,
+  FORMER_APP_LINK_SAMPLES,
+  type AppLinkSample,
+  type FormerAppLinkSample,
+} from './app-link-samples';
+export {
+  appRoutePattern,
+  matchAppRoute,
+  ROUTE_PARAM,
+  ROUTE_REST,
+  type AppRoutePattern,
+} from './app-routes';
 export * from './trip-paths';

@@ -8,7 +8,9 @@ import {
   ensureInboxKinds,
   POSTCARD_INBOX_KIND,
   POSTCARD_INBOX_KINDS,
+  postcardAddressLink,
   postcardAddressResolveKey,
+  postcardLink,
 } from '@cp/domain';
 
 import { registerInboxFanout, type FanoutEvent } from '../inbox/fanout';
@@ -25,9 +27,7 @@ const ids = (event: FanoutEvent, key: string): readonly string[] => {
 
 /** The postcard screen in the trip's recap, opened on one postcard. */
 export function postcardPath(tripId: string | null, postcardId: string | null): string | null {
-  return tripId === null || postcardId === null
-    ? null
-    : `/recap/${tripId}/postcard?postcard_id=${postcardId}`;
+  return tripId === null || postcardId === null ? null : postcardLink(tripId, postcardId);
 }
 
 let registered = false;
@@ -60,7 +60,7 @@ export function registerPostcardInboxFanouts(): void {
         data: { trip_id: tripId, postcard_id: postcardId, payer_id: str(event, 'payer_id') },
         resolveKey: postcardAddressResolveKey(uid),
         // The member's own address form: saving one settles this request.
-        deepLink: '/album/address',
+        deepLink: postcardAddressLink(),
       });
     },
   });

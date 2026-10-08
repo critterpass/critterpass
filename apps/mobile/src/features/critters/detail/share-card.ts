@@ -13,11 +13,10 @@ import type * as RNSkiaModule from '@shopify/react-native-skia';
 import type * as ExpoFileSystemModule from 'expo-file-system';
 import type * as MediaLibraryModule from 'expo-media-library';
 import type * as SharingModule from 'expo-sharing';
-import { Linking } from 'react-native';
 
 import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
-import type { ShareFormat } from '@/ui/share-image/ShareImageSheet';
 import type { ShareActionsDeps } from '@/ui/share-image/share-actions';
+import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
 import { renderStickerImage } from '@/ui/sticker/export-png';
 import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
 
@@ -29,11 +28,6 @@ export interface CritterCard {
   readonly line: string;
 }
 
-const SIZE: Readonly<Record<ShareFormat, { readonly w: number; readonly h: number }>> = {
-  post: { w: 1080, h: 1350 },
-  story: { w: 1080, h: 1920 },
-};
-
 export async function renderCritterCard(
   card: CritterCard,
   format: ShareFormat,
@@ -43,7 +37,7 @@ export async function renderCritterCard(
     bundledTypeface('Archivo-W100-900'),
     bundledTypeface('Geist-600'),
   ]);
-  const { w, h } = SIZE[format];
+  const { w, h } = SHARE_SIZE[format];
   const surface = Skia.Surface.MakeOffscreen(w, h) ?? Skia.Surface.Make(w, h);
   if (surface === null) throw new Error('critter card: no surface');
   const canvas = surface.getCanvas();
@@ -105,7 +99,6 @@ export function deviceShareDeps(): ShareActionsDeps {
       requestPermissionsAsync: (writeOnly) => media.requestPermissionsAsync(writeOnly),
       createAssetAsync: (uri) => media.createAssetAsync(uri),
     },
-    canOpenURL: (url) => Linking.canOpenURL(url),
   };
   return deps;
 }

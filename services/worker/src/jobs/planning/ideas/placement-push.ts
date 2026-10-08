@@ -5,11 +5,13 @@
  * review is sent, applied or overtaken. Both carry a count, never a place or a name.
  */
 import {
+  changeReviewLink,
   IDEAS_INBOX_KIND,
   IDEAS_PLACED_BODY,
   IDEAS_PLACED_NONE_BODY,
   IDEAS_PLACED_TITLE,
   ideasPlacedResolveKey,
+  tripIdeasLink,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -62,8 +64,8 @@ export function registerPlacementPush(): void {
         tripId,
         deepLink:
           changeSetId === null || count === 0
-            ? `/trip/${tripId}/ideas`
-            : `/trip/${tripId}/review/${changeSetId}`,
+            ? tripIdeasLink(tripId)
+            : changeReviewLink(tripId, changeSetId),
         ctx: { change_set_id: changeSetId, job_id: str(event, 'job_id') },
         collapseVars: { trip_id: tripId },
       };
@@ -86,7 +88,7 @@ export function registerPlacementPush(): void {
         actorId: null,
         data: { change_set_id: changeSetId, job_id: str(event, 'job_id'), count },
         actions: [{ id: 'open', style: 'primary' }],
-        deepLink: `/trip/${tripId}/review/${changeSetId}`,
+        deepLink: changeReviewLink(tripId, changeSetId),
         expiresAt: new Date(event.occurredAt.getTime() + REVIEW_WAITS_MS),
         resolveKey: ideasPlacedResolveKey(changeSetId),
       };

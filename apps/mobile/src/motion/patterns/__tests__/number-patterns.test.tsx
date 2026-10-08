@@ -124,6 +124,7 @@ describe('useTypewriter', () => {
   });
 
   afterEach(() => {
+    jest.restoreAllMocks();
     jest.useRealTimers();
   });
 
@@ -163,6 +164,48 @@ describe('useTypewriter', () => {
       jest.advanceTimersByTime(100);
     });
     expect(result.current.visibleText).toBe('one two');
+  });
+
+  it('stops its timer with the last word and starts it again when more text arrives', async () => {
+    const { result, rerender } = await renderHook(
+      ({ text }: { text: string }) => useTypewriter({ text, wordsPerSecond: 10 }),
+      { initialProps: { text: 'one two' } },
+    );
+    const started = jest.spyOn(globalThis, 'setInterval');
+    const stopped = jest.spyOn(globalThis, 'clearInterval');
+    await act(() => {
+      jest.advanceTimersByTime(200);
+    });
+    expect(result.current.visibleText).toBe('one two');
+    expect(stopped).toHaveBeenCalledTimes(1);
+
+    // Whole text on the page: nothing ticks, however long it stays there.
+    const before = jest.getTimerCount();
+    await act(() => {
+      jest.advanceTimersByTime(60_000);
+    });
+    expect(jest.getTimerCount()).toBeLessThanOrEqual(before);
+    expect(started).not.toHaveBeenCalled();
+
+    await rerender({ text: 'one two three' });
+    expect(started).toHaveBeenCalledTimes(1);
+    await act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    expect(result.current.visibleText).toBe('one two three');
+    expect(result.current.isRevealing).toBe(false);
+  });
+
+  it('starts no timer for text that is not being revealed', async () => {
+    const started = jest.spyOn(globalThis, 'setInterval');
+    const saved = await renderHook(() =>
+      useTypewriter({ text: 'a saved answer, already whole', enabled: false }),
+    );
+    expect(saved.result.current.visibleText).toBe('a saved answer, already whole');
+    expect(saved.result.current.isRevealing).toBe(false);
+    const empty = await renderHook(() => useTypewriter({ text: '' }));
+    expect(empty.result.current.visibleText).toBe('');
+    expect(started).not.toHaveBeenCalled();
   });
 
   it('shows the full text immediately under reduced motion', async () => {

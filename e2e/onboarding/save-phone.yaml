@@ -1,10 +1,11 @@
 appId: app.critterpass.dev
 ---
 # 3a-7 → 3a-8: the save sheet over the issued pass, the phone number step with a staging test
-# number (+65 9123 4567 in the api's OTP_TEST_NUMBERS, never sent a message), its fixed code, and
-# on to the permissions page. Run with `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
-- launchApp:
-    clearState: true
+# number (+65 9123 4567 in the api's OTP_TEST_NUMBERS, never sent a message), its fixed code, back
+# to the pass with its SAVED tick and on to the permissions page. The number is freed first (only
+# from an account these flows made) and the new account is erased at the end, so the number is
+# free for the next run. Run with `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: subflows/free-test-number.yaml
 - runFlow: subflows/through-name.yaml
 - tapOn:
     id: 'onboarding-photo-next'
@@ -56,3 +57,14 @@ appId: app.critterpass.dev
     visible:
       id: 'permissions-primer'
     timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-3a-9-permissions-after-phone-save
+
+# The account this flow just made is erased, leaving the number free.
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 30000
+- runFlow: ../you/subflows/start-fresh.yaml

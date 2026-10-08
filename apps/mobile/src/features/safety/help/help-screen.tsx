@@ -15,6 +15,7 @@ import { SET_CONSENT } from '@/lib/location/visits';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { usePermission } from '@/lib/permissions';
+import { useNow } from '@/lib/time/use-now';
 import { toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -39,7 +40,6 @@ import { HelpView } from './help-view';
 import { ShowIt } from './show-it';
 import { onOpen, pendingShare, shareView, type PendingShare } from './share-policy';
 import { useHelpHub } from './use-help-hub';
-import { useNow } from './use-now';
 import { useFormats } from '@/lib/i18n/formats';
 
 export function HelpScreen() {
@@ -48,7 +48,7 @@ export function HelpScreen() {
   const asked = typeof params.tripId === 'string' && params.tripId !== '' ? params.tripId : null;
   const hub = useHelpHub(deviceHelpApi, asked);
   useTripStreams(hub.tripId);
-  const now = useNow(30_000);
+  const now = useNow(30_000).getTime();
   const location = usePermission('location').report;
   const locationDenied = location?.status === 'denied' || location?.status === 'restricted';
   const insurance = useInsurancePolicies();

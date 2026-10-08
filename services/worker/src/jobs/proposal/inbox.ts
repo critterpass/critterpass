@@ -6,13 +6,15 @@
  */
 import {
   ensureInboxKinds,
-  PROPOSAL_INBOX_KINDS,
+  type InboxAction,
   PROPOSAL_ANSWERS,
   PROPOSAL_INBOX_KIND,
+  PROPOSAL_INBOX_KINDS,
   proposalAnswerResolveKey,
+  proposalLink,
   proposalRepliesResolveKey,
-  tripHubPath,
-  type InboxAction,
+  proposalTrackerLink,
+  tripHubLink,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -79,7 +81,7 @@ function registerReceived(): void {
           reply_by: row.reply_by?.toISOString() ?? null,
         },
         actions: [OPEN],
-        deepLink: `/proposal/${proposalId}`,
+        deepLink: proposalLink(proposalId),
         expiresAt: row.reply_by,
         resolveKey: proposalAnswerResolveKey(tripId, uid),
       };
@@ -145,7 +147,7 @@ function registerAnswered(): void {
           out: proposal.out,
         },
         actions: [OPEN],
-        deepLink: `/proposal/${proposal.id}/tracker`,
+        deepLink: proposalTrackerLink(proposal.id),
         resolveKey: proposalRepliesResolveKey(tripId),
       };
     },
@@ -171,7 +173,7 @@ function registerTripLocked(): void {
       return {
         tripId,
         data: { trip_id: tripId, place: trip.place, guide: trip.guide },
-        deepLink: tripHubPath(tripId),
+        deepLink: tripHubLink(tripId),
       };
     },
   });

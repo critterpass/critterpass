@@ -5,7 +5,7 @@
  * the profile's retake sheet (`mode="sheet"`), where answers overwrite the old ones.
  */
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import {
@@ -70,6 +70,13 @@ export function TasteQuiz({ answers, onAnswersChange, onDone, mode = 'page' }: T
   const tags = tasteFromAnswers(quiz, answers).tags;
   const [lastTrigger, setLastTrigger] = useState<'taste' | 'taste_skip'>('taste');
   const answeredCount = normalizeAnswers(quiz, answers).length;
+  const flingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (flingTimer.current !== null) clearTimeout(flingTimer.current);
+    },
+    [],
+  );
 
   const record = (value: TasteAnswer['value']) => {
     if (question === null) return;
@@ -82,13 +89,17 @@ export function TasteQuiz({ answers, onAnswersChange, onDone, mode = 'page' }: T
     feedback.emit('thud.heavy');
     setFlinging(side);
     setLastTrigger('taste');
-    setTimeout(() => {
+    flingTimer.current = setTimeout(() => {
+      flingTimer.current = null;
       setFlinging(null);
       record(side);
     }, FLING_MS);
   };
 
+  // A card in the air is an answer on its way: skip and undo wait for it to land, or the answer
+  // would be written over the list they just changed.
   const skip = () => {
+    if (flinging !== null) return;
     feedback.emit('tick');
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a content trigger id.
     setLastTrigger('taste_skip');
@@ -96,6 +107,7 @@ export function TasteQuiz({ answers, onAnswersChange, onDone, mode = 'page' }: T
   };
 
   const undo = () => {
+    if (flinging !== null) return;
     feedback.emit('tick');
     onAnswersChange(undoLastAnswer(normalizeAnswers(quiz, answers)));
   };
