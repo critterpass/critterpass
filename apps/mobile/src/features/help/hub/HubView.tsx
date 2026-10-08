@@ -203,7 +203,7 @@ export function HubView(props: HubViewProps) {
               ))}
             </Stack>
           ) : !props.articlesLoaded ? (
-            <Skeleton preset="row" repeat={3} />
+            <Skeleton preset="lines" repeat={3} />
           ) : rows.length === 0 ? (
             <SecondaryText testID="help-articles-none">
               {t({
