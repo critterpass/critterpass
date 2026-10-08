@@ -227,6 +227,8 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
                 header={header}
                 footer={footer}
                 onLoadOlder={timeline.loadOlder}
+                older={timeline.olderStatus}
+                onRetryOlder={timeline.retryOlder}
                 onSeenLatest={markSeen}
               />
             )}

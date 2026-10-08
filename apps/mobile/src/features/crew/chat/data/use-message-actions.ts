@@ -15,6 +15,7 @@ import {
   muteMemberCommand,
   reportMessageCommand,
 } from './chat-commands';
+import { setOlderDeleted } from './older-messages';
 import type { ChatMessage } from './rows';
 
 export type MessageAction = 'reply' | 'copy' | 'edit' | 'delete' | 'report' | 'mute';
@@ -48,8 +49,12 @@ export function useMessageActions(crewId: string) {
     [commands],
   );
   const remove = useCallback(
-    (message: ChatMessage) => commands.send(deleteMessageCommand, { message_id: message.id }),
-    [commands],
+    (message: ChatMessage) => {
+      // The tombstone of a message outside the phone's window never syncs back: empty it here.
+      setOlderDeleted(crewId, message.id);
+      return commands.send(deleteMessageCommand, { message_id: message.id });
+    },
+    [commands, crewId],
   );
   const report = useCallback(
     (message: ChatMessage, reason: ReportReason) =>
