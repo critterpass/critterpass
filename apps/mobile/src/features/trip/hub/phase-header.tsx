@@ -169,7 +169,7 @@ export function PhaseHeader(props: PhaseHeaderProps) {
         variant="h3"
         designSize={COUNTDOWN_SIZE}
         color={cream}
-        style={{ fontVariant: ['tabular-nums'] }}
+        tabular
         testID="trip-hub-countdown"
       >
         {value}

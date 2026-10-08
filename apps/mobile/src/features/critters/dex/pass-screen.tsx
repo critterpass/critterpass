@@ -13,7 +13,6 @@ import { router, useIsFocused } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useMemberFaces } from '@/features/you';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { setExploreAtHome, useExploreAtHome } from '@/lib/location';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
@@ -68,7 +67,6 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   // The way to the profile (and from there Settings) for someone with no crew yet: Home shows its
   // "HEY {NAME}" header only once there is one.
   const profileHref = useScreenHref(PROFILE_SCREEN);
-  const faces = useMemberFaces();
   const [filter, setFilter] = useState<DexFilter>('all');
   const [query, setQuery] = useState('');
   const hatch = useCommand(hatchEggCommand);
@@ -122,7 +120,7 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
           ? undefined
           : {
               name: me.display_name?.trim() ?? '',
-              ...(uid === null ? {} : { face: faces.faceProps(uid, 'lg') }),
+              uid,
               guide:
                 me.avatar_kind === 'critter' && me.avatar_form_id !== null
                   ? guideOfForm(me.avatar_form_id)

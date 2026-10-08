@@ -184,6 +184,10 @@ msgstr ""
 msgid "plan.review.notice.approvedSolo"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.driver"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
 msgid "plan.review.each"
 msgstr ""

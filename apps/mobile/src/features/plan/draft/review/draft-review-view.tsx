@@ -24,6 +24,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { draftBackLabel } from './draft-copy';
 import { estimateMinor, estimateMoney, overBudgetMinor, wholeMoney } from '../data/format';
 import type { RedraftQuota } from '../data/quota';
 import { counterLine } from '../data/quota-copy';
@@ -40,6 +41,9 @@ const useStyles = makeStyles((th) => ({
   header: {
     paddingHorizontal: th.space['20'],
     flexDirection: 'row',
+    // A long back label pushes the pill to its own line; neither is squeezed.
+    flexWrap: 'wrap',
+    columnGap: th.space['8'],
     alignItems: 'center',
     justifyContent: 'space-between',
     minHeight: th.space['32'] + th.space['12'],
@@ -114,7 +118,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="draft-review">
       <View style={styles.header}>
         <BackEyebrow
-          label={t({ id: 'planDraft.review.back', message: `${destination} setup` })}
+          label={draftBackLabel(destination)}
           onPress={props.onBack}
           testID="draft-back"
         />

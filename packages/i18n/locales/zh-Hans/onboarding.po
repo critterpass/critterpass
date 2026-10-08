@@ -207,7 +207,7 @@ msgstr ""
 msgid "onboarding.tag.thrifty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr ""
@@ -262,12 +262,12 @@ msgstr ""
 msgid "onboarding.tag.coffee"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.google"
 msgstr ""
@@ -402,12 +402,14 @@ msgstr ""
 msgid "onboarding.quiz.pace.left.label"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
-msgid "onboarding.invite.manifest.home"
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.pass.home"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-msgid "onboarding.invite.pass.home"
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.home"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
@@ -536,6 +538,7 @@ msgstr ""
 msgid "onboarding.photo.real.review"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.startPass"
 msgstr ""
@@ -577,6 +580,7 @@ msgstr ""
 msgid "onboarding.home.far"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 msgid "onboarding.name.next"
 msgstr ""
@@ -654,7 +658,7 @@ msgstr ""
 msgid "onboarding.taste.or"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.or"
 msgstr ""
 
@@ -866,6 +870,7 @@ msgstr ""
 msgid "onboarding.photo.real.camera"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.ticket.take"
 msgstr ""
@@ -1023,6 +1028,12 @@ msgstr ""
 msgid "onboarding.photo.real.retry"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.retry"
 msgstr ""
@@ -1089,6 +1100,10 @@ msgstr ""
 msgid "onboarding.phone.unsupported"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.verifyFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.noSubject"
 msgstr ""
@@ -1097,7 +1112,7 @@ msgstr ""
 msgid "onboarding.photo.real.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.neverPost"
 msgstr ""
 

@@ -226,7 +226,7 @@ export function HomeScreen() {
   const onNext = () => {
     if (picked === null) return;
     const next = updateDraft((d) => {
-      const moved = advanceDraft({ ...d, home_iata: picked });
+      const moved = advanceDraft({ ...d, home_iata: picked }, 'home');
       // The pass is issued the moment home is set: locally first, the server copy follows.
       return moved.step === 'issued' && moved.issued_at === null
         ? { ...moved, issued_at: new Date().toISOString() }

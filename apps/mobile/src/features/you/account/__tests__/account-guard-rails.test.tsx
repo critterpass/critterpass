@@ -23,10 +23,16 @@ jest.mock('expo-router', () => ({
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { act, configure, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import {
+  configure,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react-native';
 import { router } from 'expo-router';
 import type { ReactElement } from 'react';
-import { Alert } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -251,15 +257,12 @@ describe('delete account', () => {
     await show(<DeleteScreen services={svc} />, stack);
     await fireEvent.press(screen.getByTestId('you-delete-continue'));
     const hold = await screen.findByTestId('you-delete-hold');
-    // Completing the hold, through the ring's own accessible path: activate, then confirm.
-    const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
+    // Completing the hold, through the ring's own accessible path: activate, then confirm in
+    // the sheet that asks.
     await fireEvent(hold, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
-    const buttons = alert.mock.calls[0]?.[2] ?? [];
-    const confirm = buttons.find((button) => button.style === 'destructive');
-    expect(confirm).toBeDefined();
-    await act(() => {
-      confirm?.onPress?.();
-    });
+    expect(svc.clearPhone).not.toHaveBeenCalled();
+    const ask = await screen.findByTestId('you-delete-confirm-ask');
+    await fireEvent.press(within(ask).getByRole('button', { name: 'Delete my account' }));
     await waitFor(() => expect(screen.getByTestId('you-delete-problem')).toBeTruthy());
     expect(svc.clearPhone).not.toHaveBeenCalled();
     expect(screen.queryByTestId('you-closed-closed')).toBeNull();

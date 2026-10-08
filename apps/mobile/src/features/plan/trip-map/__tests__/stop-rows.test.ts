@@ -120,6 +120,16 @@ describe('what is mine alone on a day', () => {
   });
 });
 
+describe('a change the crew has not decided on', () => {
+  it('tags the stops it touches and leaves them where the plan has them', () => {
+    const rows = rowsOf(day([MARKET, MUSEUM], { suggested: new Set(['museum']) }));
+    expect(rows.map((row) => [row.stop.stableId, row.detail])).toEqual([
+      ['market', undefined],
+      ['museum', 'Suggested · waiting for the crew'],
+    ]);
+  });
+});
+
 describe('where today is', () => {
   // 13:00 on 4 October in Đà Nẵng.
   const NOW = new Date('2026-10-04T06:00:00Z');

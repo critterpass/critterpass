@@ -197,10 +197,6 @@ msgstr "Đang dùng: {active}"
 msgid "common.chat.addAttachment"
 msgstr "Thêm tệp đính kèm"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.instagram"
-msgstr "Thêm vào Story"
-
 #: ../../apps/mobile/src/ui/trip/EtaList.tsx
 msgid "common.trip.arrivesAt"
 msgstr "đến lúc {eta}"
@@ -283,10 +279,6 @@ msgstr "Xoá"
 msgid "common.sheet.close"
 msgstr "Đóng"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.close"
-msgstr "Đóng"
-
 #: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
 msgid "common.chat.closeActions"
 msgstr "Đóng"
@@ -308,9 +300,13 @@ msgstr "Chép"
 msgid "common.trip.copyAddress"
 msgstr "Chép {0}"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.error"
-msgstr "Chưa tạo được ảnh này."
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.shareFailed"
+msgstr "Chưa mở được bảng chia sẻ"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.saveFailed"
+msgstr "Chưa lưu được. Kiểm tra quyền truy cập Ảnh nhé"
 
 #: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
 msgid "common.home.chat"
@@ -359,6 +355,10 @@ msgstr "Xong"
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.offlineUnavailable"
 msgstr "Tải khu vực này về để dùng bản đồ khi không có mạng."
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.rendering"
+msgstr "Đang vẽ ảnh"
 
 #: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
 #: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
@@ -691,6 +691,10 @@ msgstr "Ảnh"
 msgid "common.shell.errorBackBody"
 msgstr "Tiếp tục chỗ bạn đang dở"
 
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.format"
+msgstr "Khổ ảnh"
+
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.place"
 msgstr "Địa điểm"
@@ -703,7 +707,7 @@ msgstr "Đã lên lịch"
 msgid "common.story.play"
 msgstr "Phát"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.format.post"
 msgstr "Bài đăng"
 
@@ -755,21 +759,17 @@ msgstr "Đã bỏ"
 msgid "common.chat.removeAttachment"
 msgstr "Bỏ {label}"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.rendering"
-msgstr "Đang tạo ảnh chia sẻ"
-
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.retry"
-msgstr "Thử lại"
-
 #: ../../apps/mobile/src/ui/recap/RouteRider.tsx
 msgid "common.recap.route"
 msgstr "Lộ trình, {distance}: {route}"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.save"
 msgstr "Lưu vào Ảnh"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.saved"
+msgstr "Đã lưu vào Ảnh"
 
 #: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
 msgid "common.camera.scanning"
@@ -791,13 +791,21 @@ msgstr "Sẽ gửi khi có mạng lại"
 msgid "common.outbox.sent"
 msgstr "Đã gửi"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.title"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.share"
 msgstr "Chia sẻ"
 
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.showToast"
 msgstr "show toast"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.showLongToast"
+msgstr "hiện toast hai dòng"
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.sight"
@@ -883,7 +891,7 @@ msgstr "Dừng và gửi tin nhắn thoại"
 msgid "common.trip.stopPhrase"
 msgstr "Dừng đọc"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.format.story"
 msgstr "Story"
 
@@ -957,9 +965,17 @@ msgstr "Đối tác đặt chỗ đã từ chối. Hãy kiểm tra thông tin r�
 msgid "errors.HOLD_EXPIRED"
 msgstr "Đã hết thời gian giữ chỗ. Hãy xem lại giá rồi thử lại."
 
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.error"
+msgstr "Ảnh chưa vẽ được."
+
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.PLAN_VERSION_CONFLICT"
 msgstr "Kế hoạch đã thay đổi trong lúc bạn sửa. Hãy xem lại rồi thử lại."
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoLongToastTitle"
+msgstr "Chuyến đi đã đủ người. Bạn đứng thứ 3 trong hàng chờ một chỗ."
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.K_ANON_UNAVAILABLE"
@@ -1059,6 +1075,10 @@ msgstr "Chuyến đi"
 
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorRetry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/ui/map/CpMap.tsx

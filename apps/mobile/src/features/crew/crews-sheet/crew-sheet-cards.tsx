@@ -14,7 +14,6 @@ import { upper } from '@cp/i18n';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { watchRows } from '@/data/status/watch-rows';
 import { useHomeVote } from '@/features/home';
-import { useMemberFaces } from '@/features/you';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Card } from '@/ui/cards/Card';
 import { Icon } from '@/ui/icons/Icon';
@@ -182,7 +181,6 @@ export function CrewSheetCard({
   const styles = useStyles();
   const theme = useTheme();
   const { unread, last } = useChat(crewId);
-  const faces = useMemberFaces();
   const vote = useVoteLine(crewId);
   const line = vote === null ? detail : `${detail} · ${vote}`;
   const membersLabel = t({ id: 'crew.sheet.members', message: `${members.length} members` });
@@ -203,7 +201,7 @@ export function CrewSheetCard({
             key: `${index}`,
             name: m.name,
             joinIndex: index,
-            ...(m.userId === undefined ? {} : faces.faceProps(m.userId, 'sm')),
+            uid: m.userId,
           }))}
           max={6}
           size="sm"
