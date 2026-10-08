@@ -1,11 +1,12 @@
 /**
  * What the expense was and when (undesigned; opened from the description row): the name, the
- * category chips (stays / food / transit / fun / other) and the day it was spent (today, or one of
- * the trip's days so far), keeping the time of day. The fields scroll and DONE stays at the foot,
+ * category chips (stays / food / transit / fun / other) and the day it was spent (today or one of
+ * the six days before; an older expense being edited keeps a chip for its own day), keeping the
+ * time of day. The fields scroll and DONE stays at the foot,
  * which the sheet keeps above the keyboard while the name is typed.
  */
 import type { ExpenseCategory } from '@cp/domain';
-import { format, upper } from '@cp/i18n';
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
@@ -21,6 +22,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
 import { CATEGORY_ORDER, useCategoryLabel } from '../components/category';
+import { DAY_CHIPS, useSpentDayLabel } from './spent-day';
 
 const useStyles = makeStyles((t) => ({
   body: { padding: t.space['16'], gap: t.space['16'] },
@@ -28,15 +30,6 @@ const useStyles = makeStyles((t) => ({
   chips: { gap: t.space['8'], flexWrap: 'wrap' },
   days: { gap: t.space['8'] },
 }));
-
-const DAY_MS = 86_400_000;
-/** How many days back the day chips reach. */
-export const DAY_CHIPS = 7;
-
-/** The same time of day, `daysBack` days earlier. */
-export function shiftDays(now: Date, daysBack: number): string {
-  return new Date(now.getTime() - daysBack * DAY_MS).toISOString();
-}
 
 export function DetailsSheet({
   description,
@@ -49,6 +42,7 @@ export function DetailsSheet({
 }: {
   readonly description: string;
   readonly category: ExpenseCategory;
+  /** Whole calendar days back from today that the expense was spent (0 is today). */
   readonly daysBack: number;
   readonly onDescription: (text: string) => void;
   readonly onCategory: (category: ExpenseCategory) => void;
@@ -59,8 +53,14 @@ export function DetailsSheet({
   const locale = useLocale();
   const { t } = useLingui();
   const categoryLabel = useCategoryLabel();
+  const dayLabel = useSpentDayLabel();
   const title = t({ id: 'money.add.detailsTitle', message: 'What was it?' });
   const now = new Date();
+  // The chips reach six days back; an older expense keeps a chip for its own day after them.
+  const days = [
+    ...Array.from({ length: DAY_CHIPS }, (_, back) => back),
+    ...(daysBack >= DAY_CHIPS ? [daysBack] : []),
+  ];
   return (
     <Sheet
       detents={['large']}
@@ -107,19 +107,10 @@ export function DetailsSheet({
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <Row style={styles.days}>
-              {Array.from({ length: DAY_CHIPS }, (_, back) => (
+              {days.map((back) => (
                 <ChoiceChip
                   key={back}
-                  label={
-                    back === 0
-                      ? t({ id: 'money.add.today', message: 'Today' })
-                      : back === 1
-                        ? t({ id: 'money.add.yesterday', message: 'Yesterday' })
-                        : format.date(locale, new Date(now.getTime() - back * DAY_MS), {
-                            weekday: 'short',
-                            day: 'numeric',
-                          })
-                  }
+                  label={dayLabel(back, now)}
                   selected={back === daysBack}
                   onPress={() => onDay(back)}
                   testID={`money-add-day-${back}`}

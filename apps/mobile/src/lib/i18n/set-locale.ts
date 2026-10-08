@@ -8,6 +8,8 @@ import { createMMKV } from 'react-native-mmkv';
 // eslint-disable-next-line boundaries/dependencies -- see the comment above
 import { isShippedLocale, loadAllCatalogs, sourceLocale } from '@cp/i18n';
 
+import { loadIntlLocaleData } from './intl-polyfills';
+
 const LOCALE_STORAGE_KEY = 'cp.locale';
 // createMMKV() (not the `MMKV` type-only export) detects a Jest/Vitest worker itself
 // (react-native-mmkv's own isTest()) and returns its own in-memory mock, so this needs no test
@@ -30,7 +32,8 @@ export interface SetLocaleOptions {
 }
 
 /**
- * Activates a locale in place: loads its bundled catalogs, then `i18n.loadAndActivate`, which every
+ * Activates a locale in place: loads its bundled catalogs and its language's plural, relative-time
+ * and list data, then `i18n.loadAndActivate`, which every
  * `<Trans>`/`useLingui()` consumer under `I18nProvider` re-renders from automatically — the screen
  * stays mounted and navigation state is untouched, since nothing here remounts the app's tree. Falls
  * back to the source locale for an unregistered code rather than activating a locale with no
@@ -40,6 +43,7 @@ export async function setLocale(locale: string, options: SetLocaleOptions = {}):
   const { persist = true } = options;
   const resolved = isShippedLocale(locale) ? locale : sourceLocale;
   const messages = await loadAllCatalogs(resolved);
+  loadIntlLocaleData(resolved);
   i18n.loadAndActivate({ locale: resolved, messages });
   if (persist) storage.set(LOCALE_STORAGE_KEY, resolved);
 }

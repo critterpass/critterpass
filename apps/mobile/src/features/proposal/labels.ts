@@ -70,12 +70,17 @@ export function answerChip(answer: 'in' | 'maybe' | 'out' | 'waitlisted'): strin
   }
 }
 
-/** The deadline chip on a member's version. */
+/**
+ * The chip on a member's version before they answer: the deadline, or "Locked in" once the
+ * organiser has locked the trip (a late answer is still taken, as a seat or a waitlist place).
+ */
 export function versionChip(
   locale: string,
   freeCancelUntil: string | null,
   replyBy: string | null,
+  locked = false,
 ): string | null {
+  if (locked) return t({ id: 'proposal.version.locked', message: 'Locked in' });
   if (freeCancelUntil !== null) {
     return t({
       id: 'proposal.version.freeCancel',
@@ -255,4 +260,14 @@ export function lockTitle(alone = false): string {
 
 export function lockConfirmLabel(): string {
   return t({ id: 'proposal.lock.confirmYes', message: 'Yes, lock it in' });
+}
+
+/** Why an online action did not happen: no way to the server, or the server said no. */
+export function failedLine(result: { readonly kind: string }): string {
+  return result.kind === 'unavailable'
+    ? t({ id: 'proposal.failed.connection', message: 'Check your connection and try again.' })
+    : t({
+        id: 'proposal.failed.refused',
+        message: 'That didn’t go through. Try again in a moment.',
+      });
 }

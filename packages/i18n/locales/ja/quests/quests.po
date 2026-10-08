@@ -94,6 +94,10 @@ msgstr ""
 msgid "quests.empty.overLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.practise"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
 msgid "quests.offline"
 msgstr ""

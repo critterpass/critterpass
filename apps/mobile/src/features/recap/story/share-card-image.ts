@@ -26,6 +26,7 @@ export const shareCardImage: CardSharer = async (card, title) => {
   const { captureRef } = require('react-native-view-shot') as ViewShot;
   const sharing = require('expo-sharing') as typeof SharingModule;
   const uri = await captureRef(card, { format: 'png', result: 'tmpfile' });
-  if (!(await sharing.isAvailableAsync())) return;
+  // Nothing to hand the picture to: the caller says so, rather than doing nothing.
+  if (!(await sharing.isAvailableAsync())) throw new Error('sharing is unavailable');
   await sharing.shareAsync(uri, { dialogTitle: title, mimeType: 'image/png' });
 };

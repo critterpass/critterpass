@@ -16,6 +16,9 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
+import { goBackOr } from '@/lib/navigation/back';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { reactMemoryCommand, startReunionCommand } from '../commands';
@@ -44,6 +47,29 @@ function useSignedUrl(mediaKey: string | null): string | null {
   return url !== null && url.key === mediaKey ? url.url : null;
 }
 
+/** The memory is still being read (a wait that can be left), or is not on this phone. */
+function MemoryAbsent({ loaded }: { readonly loaded: boolean }) {
+  const { t } = useLingui();
+  const backLabel = t({ id: 'recap.link.back', message: 'Home' });
+  return loaded ? (
+    <ScreenMissing
+      backLabel={backLabel}
+      title={t({ id: 'recap.memory.missing.title', message: 'This memory isn’t here' })}
+      line={t({
+        id: 'recap.memory.missing.line',
+        message: 'It may have been removed, or this phone hasn’t got it yet.',
+      })}
+      testID="memory-missing"
+    />
+  ) : (
+    <ScreenLoading
+      backLabel={backLabel}
+      label={t({ id: 'recap.memory.loading', message: 'Loading the memory' })}
+      testID="memory-waiting"
+    />
+  );
+}
+
 function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly tripId: string }) {
   useTripStreams(tripId);
   const { t } = useLingui();
@@ -62,7 +88,7 @@ function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly trip
     [data.reactions, data.live, data.viewerId],
   );
 
-  if (data.memory === null) return <SessionWaiting testID="memory-waiting" />;
+  if (data.memory === null) return <MemoryAbsent loaded={data.loaded} />;
   const memory = data.memory;
   const place = data.trip?.place ?? null;
   const eyebrow = t({ id: 'recap.memory.eyebrow', message: 'One year ago today' });
@@ -119,7 +145,7 @@ function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly trip
         guideKind={guideSticker(guide).kind}
         guideName={guideName}
         reactions={chips}
-        onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        onClose={() => goBackOr()}
         onReact={() => setReacting(true)}
         onReunion={data.inCrew && place !== null ? () => void onReunion() : undefined}
         reunionPending={reunion.pending}
@@ -152,8 +178,9 @@ const MEMORY_TRIP_SQL = 'SELECT trip_id FROM memories WHERE id = ?';
 
 /** A link without its trip (an older push) finds the trip from a memory already on the phone. */
 function MemoryOfTrip({ memoryId }: { readonly memoryId: string }) {
-  const trip = useLiveRows<{ trip_id: string }>(MEMORY_TRIP_SQL, [memoryId], ['memories']).rows[0];
-  if (trip === undefined) return <SessionWaiting testID="memory-waiting" />;
+  const trips = useLiveRows<{ trip_id: string }>(MEMORY_TRIP_SQL, [memoryId], ['memories']);
+  const trip = trips.rows[0];
+  if (trip === undefined) return <MemoryAbsent loaded={trips.loaded} />;
   return <Memory memoryId={memoryId} tripId={trip.trip_id} />;
 }
 

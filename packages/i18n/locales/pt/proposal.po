@@ -348,6 +348,10 @@ msgstr ""
 msgid "proposal.objection.asked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.loadingBack"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.done"
 msgstr ""
@@ -412,12 +416,8 @@ msgstr ""
 msgid "proposal.turn.answered.change"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.failedSub"
-msgstr ""
-
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failedSub"
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.failed.connection"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -434,6 +434,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.send.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
@@ -662,6 +666,10 @@ msgstr ""
 msgid "proposal.why.taste"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.missing.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
 msgid "proposal.alone.inviteBody"
 msgstr ""
@@ -718,6 +726,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.titleAlone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.locked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
@@ -952,6 +964,10 @@ msgstr ""
 msgid "proposal.share.saved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.applyingOffline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothingOther"
 msgstr ""
@@ -1082,6 +1098,10 @@ msgstr ""
 msgid "proposal.out.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.failed.refused"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.cost"
 msgstr ""
@@ -1162,6 +1182,10 @@ msgstr ""
 msgid "proposal.build.alreadySent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.missing.title"
+msgstr ""
+
 #. placeholder {0}: ticket.from
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.notAFlightFrom"
@@ -1182,10 +1206,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.board.refusedSub"
-msgstr ""
-
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.failedSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx

@@ -79,7 +79,13 @@ export function MemberPicker({
                 testID={`money-member-${member.joinIndex}`}
               >
                 <Stack style={[styles.person, on ? null : styles.off]}>
-                  <Avatar name={member.name} joinIndex={member.joinIndex} size="lg" decorative />
+                  <Avatar
+                    name={member.name}
+                    uid={member.userId}
+                    joinIndex={member.joinIndex}
+                    size="lg"
+                    decorative
+                  />
                   <Text variant="label">{member.name}</Text>
                 </Stack>
               </Pressable>

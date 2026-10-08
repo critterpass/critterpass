@@ -4,6 +4,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { forecast, type ForecastInput } from '@cp/cost-engine';
+import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 
 import { BudgetView } from '../budget/BudgetView';
@@ -47,9 +48,11 @@ function Budget({
   readonly today: number;
   readonly organiser?: boolean;
 }) {
+  const { t } = useLingui();
+  const place = 'Bali';
   return (
     <BudgetView
-      title="Bali budget"
+      title={t({ id: 'money.budget.title', message: `${place} budget` })}
       currency="USD"
       today={today}
       days={input.days}

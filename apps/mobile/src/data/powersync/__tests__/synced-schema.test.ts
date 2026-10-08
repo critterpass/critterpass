@@ -11,6 +11,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { LOCAL_TABLE_NAMES } from '../local-tables';
 import { buildAppSchema, parseColumnSpec } from '../schema';
 import { SYNCED_TABLE_COLUMNS } from '../synced-tables.generated';
+import { openNodeDatabase, removeDir, tempDatabaseDir } from '../test-support/open-node-database';
 
 jest.mock(
   '@powersync/common',
@@ -33,6 +34,25 @@ describe('synced tables', () => {
   it('carry command results, whose synced rows drive reconcile', () => {
     expect(parseColumnSpec(SYNCED_TABLE_COLUMNS.cmd_results)).toHaveProperty('status');
   });
+
+  it('read the newest messages of one crew from an index, without sorting the table', async () => {
+    const dir = tempDatabaseDir();
+    const db = await openNodeDatabase({ dir, key: 'a'.repeat(64) });
+    try {
+      const plan = await db.getAll<{ detail: string }>(
+        `EXPLAIN QUERY PLAN
+         SELECT m.id, u.display_name FROM messages m LEFT JOIN users u ON u.id = m.sender_id
+          WHERE m.crew_id = ? ORDER BY m.seq DESC LIMIT 201`,
+        ['crew'],
+      );
+      const steps = plan.map((step) => step.detail).join('\n');
+      expect(steps).toContain('ps_data__messages USING INDEX ps_data__messages__crew_seq');
+      expect(steps).not.toContain('TEMP B-TREE');
+    } finally {
+      await db.close();
+      removeDir(dir);
+    }
+  }, 60_000);
 
   it('never collide with local-only table names', () => {
     for (const name of LOCAL_TABLE_NAMES) expect(SYNCED_TABLE_COLUMNS).not.toHaveProperty(name);

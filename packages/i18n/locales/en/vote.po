@@ -69,33 +69,6 @@ msgstr "{0} took it well. Already pitching the next trip."
 msgid "vote.poll.votes"
 msgstr "{0} votes"
 
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
-#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
-msgid "vote.showdown.votes"
-msgstr "{0} votes"
-
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
-msgid "vote.showdown.count"
-msgstr "{0} votes"
-
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
-msgid "vote.pick.votes"
-msgstr "{0} votes"
-
-#. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/board/sticker.tsx
-msgid "vote.board.votes"
-msgstr "{0} votes"
-
-#. placeholder {0}: second.votes
-#. placeholder {1}: lines.toGo ?? ''
-#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
-msgid "vote.showdown.tally"
-msgstr "{0} votes · {1}"
-
 #. placeholder {0}: winner.label
 #: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
 msgid "vote.result.won"
@@ -115,6 +88,10 @@ msgstr "{0}h from {1}"
 #: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 msgid "vote.poll.byline"
 msgstr "{askerName}'s poll"
+
+#: ../../apps/mobile/src/features/vote/board/sticker.tsx
+msgid "vote.board.votes"
+msgstr "{count, plural, one {# vote} other {# votes}}"
 
 #: ../../apps/mobile/src/features/vote/places/result-row.tsx
 msgid "vote.search.localMany"
@@ -171,6 +148,16 @@ msgstr "{organiserName} picked it"
 #: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
 msgid "vote.quickCrew.defaultName"
 msgstr "{placeName} crew"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.showdown.count"
+msgstr "{votes, plural, one {# vote} other {# votes}}"
+
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.votes"
+msgstr "{votes, plural, one {# vote} other {# votes}}"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.lockedIn"
@@ -239,8 +226,16 @@ msgid "vote.final.tieShort"
 msgstr "A tie goes to {tiePlace}."
 
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.needsQuestion"
+msgstr "Add a question to post."
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.addOption"
 msgstr "Add an answer"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.needsAnswers"
+msgstr "Add at least two answers."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 msgid "vote.pitch.add"
@@ -380,10 +375,18 @@ msgstr "Go to final"
 msgid "vote.guest.guestGuide"
 msgstr "Guest guide: {0}"
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.back"
+msgstr "Home"
+
 #. placeholder {0}: place.name
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.learningLine"
 msgstr "I'm still learning {0}. Nobody has checked my picks here yet."
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.missingLine"
+msgstr "It may be over, or this phone hasn’t got it yet."
 
 #. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
 #. placeholder {1}: tie.memberCount
@@ -392,6 +395,10 @@ msgstr "I'm still learning {0}. Nobody has checked my picks here yet."
 msgid "vote.reveal.tie"
 msgstr "It was a tie. {winnerName} won it: {0} cheaper for the {1} flying from {2}."
 
+#: ../../apps/mobile/src/features/vote/board/remove-sheet.tsx
+msgid "vote.board.removeVotes"
+msgstr "Its votes go with it, and its pitch goes back in the deck."
+
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.title"
 msgstr "Just you, {placeName}"
@@ -399,6 +406,14 @@ msgstr "Just you, {placeName}"
 #: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
 msgid "vote.poll.loading"
 msgstr "Loading the poll"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.loading"
+msgstr "Loading the result"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.loading"
+msgstr "Loading the vote"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.lockIn"
@@ -470,6 +485,10 @@ msgstr "Noted. We'll look into {q}."
 msgid "vote.search.none"
 msgstr "Nothing called “{0}” yet."
 
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.none"
+msgstr "Nothing called “{asked}”. Check the spelling, or try the country."
+
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.open"
 msgstr "Open the vote"
@@ -531,7 +550,7 @@ msgstr "Prices pending"
 msgid "vote.newPoll.question"
 msgstr "Question"
 
-#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/board/remove-sheet.tsx
 msgid "vote.board.remove"
 msgstr "Remove"
 
@@ -539,9 +558,18 @@ msgstr "Remove"
 msgid "vote.pitch.search"
 msgstr "Search a place"
 
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.pitch.searchFailed"
+msgstr "Search didn't answer. Try again in a moment."
+
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.title"
 msgstr "Search places"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.searching"
+msgstr "Searching places"
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.setUp"
@@ -571,7 +599,7 @@ msgstr "Start the crew and pitch"
 msgid "vote.guest.ai"
 msgstr "Summed up by AI from these pages"
 
-#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/board/remove-sheet.tsx
 msgid "vote.board.removeTitle"
 msgstr "Take {name} off the board?"
 
@@ -627,6 +655,10 @@ msgstr "The organiser sets it up next."
 msgid "vote.pitch.errorTitle"
 msgstr "The pitch didn't come through"
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.missingLine"
+msgstr "The vote may have been removed, or this phone hasn’t got it yet."
+
 #: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
 msgid "vote.pick.body"
 msgstr "These places are level for the last spot. You're the organiser, so it's your call."
@@ -634,6 +666,14 @@ msgstr "These places are level for the last spot. You're the organiser, so it's 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.error"
 msgstr "This place didn't load. Try again?"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.missingTitle"
+msgstr "This result isn’t here"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.missingTitle"
+msgstr "This vote isn’t here"
 
 #: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
 msgid "vote.guest.retry"
@@ -646,6 +686,10 @@ msgstr "Try again"
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
 msgid "vote.pitch.retry"
 msgstr "Try again"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.sameAnswers"
+msgstr "Two answers are the same."
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.finalShort"

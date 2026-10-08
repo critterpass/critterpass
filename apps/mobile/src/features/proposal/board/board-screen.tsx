@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { feedback, toast } from '@/motion';
 
 import { rememberAnswer } from '../data/answered-here';
@@ -57,7 +58,15 @@ export function BoardScreen(props: {
   const [outcome, setOutcome] = useState<BoardOutcome | null>(null);
   const [confirmOut, setConfirmOut] = useState(props.decline === true);
 
-  if (proposal == null || trip == null) return <ProposalLoading testID="board-loading" />;
+  if (proposal == null || trip == null) {
+    return (
+      <ProposalLoading
+        missing={proposal === null || trip === null}
+        fallback={proposalRoutes.open(props.proposalId)}
+        testID="board-loading"
+      />
+    );
+  }
   const me = trip.people.find((p) => p.uid === trip.me);
   const version = versions.find((v) => v.recipientId === trip.me);
   const share = version?.shareMinor ?? trip.shareMinor;
@@ -94,9 +103,10 @@ export function BoardScreen(props: {
             ? t({ id: 'proposal.board.maybeDone', message: 'You said maybe' })
             : t({ id: 'proposal.board.outDone', message: 'The crew knows you can’t make it' }),
       });
-      router.back();
+      goBackOr(proposalRoutes.open(props.proposalId));
     }
   };
+  const toPlan = () => goBackOr(proposalRoutes.open(props.proposalId));
 
   return (
     <>
@@ -125,6 +135,7 @@ export function BoardScreen(props: {
         onBoard={() => void reply('in')}
         onMaybe={() => void reply('maybe')}
         onOut={() => setConfirmOut(true)}
+        onBack={toPlan}
         onDone={() => router.replace(proposalRoutes.open(props.proposalId))}
       />
       {outcome?.kind === 'waitlisted' ? (
@@ -150,7 +161,11 @@ export function BoardScreen(props: {
             setConfirmOut(false);
             void reply('out');
           }}
-          onCancel={() => setConfirmOut(false)}
+          onCancel={() => {
+            setConfirmOut(false);
+            // Opened only to ask this question: thinking again returns to the plan, not the pass.
+            if (props.decline === true) toPlan();
+          }}
           testID="board-out-confirm"
         />
       ) : null}

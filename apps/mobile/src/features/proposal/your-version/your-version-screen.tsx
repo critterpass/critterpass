@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/avatar/guides';
 import { toast } from '@/motion/island-toast';
@@ -113,7 +114,9 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   }, [open, proposal, props.proposalId, trip]);
 
   if (proposal === undefined || proposal === null || trip === undefined || trip === null) {
-    return <ProposalLoading testID="version-loading" />;
+    return (
+      <ProposalLoading missing={proposal === null || trip === null} testID="version-loading" />
+    );
   }
   if (organiserView) return <ProposalLoading testID="version-loading" />;
   const guideName = guideSticker(trip.guide).name;
@@ -122,7 +125,12 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   const latest = reactions[0];
   const reactor =
     latest === undefined ? undefined : trip.people.find((p) => p.uid === latest.userId);
-  const chip = versionChip(locale, proposal.freeCancelUntil, proposal.replyBy);
+  const chip = versionChip(
+    locale,
+    proposal.freeCancelUntil,
+    proposal.replyBy,
+    proposal.status === 'locked',
+  );
   const base = version?.shareMinor ?? trip.shareMinor;
   const currency = version?.currency ?? trip.currency;
   const preview = props.as !== undefined && props.as !== trip.me;
@@ -198,7 +206,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
           />
         }
         answer={answer}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        onBack={() => goBackOr()}
         onPick={(pick) => {
           if (!group) {
             setWhy(pick);

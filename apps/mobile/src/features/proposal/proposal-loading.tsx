@@ -1,25 +1,52 @@
-/** The proposal screens while their rows arrive: the dark screen with card placeholders. */
+/**
+ * The proposal screens before their rows can be drawn. While reading, and for a short while after a
+ * read came back empty (a push or a link can open a proposal before this phone has synced it, and
+ * the screen holds its trip so it arrives), a skeleton under a back control. A proposal that still
+ * is not here after that wait says so, with a way out.
+ */
 import { t } from '@lingui/core/macro';
-import { View } from 'react-native';
+import type { Href } from 'expo-router';
 
-import { Skeleton } from '@/ui/states/Skeleton';
-import { Scaffold } from '@/ui/surface/Scaffold';
-import { makeStyles } from '@/ui/theme';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
-const useStyles = makeStyles((th) => ({
-  body: { padding: th.space['20'], gap: th.space['16'] },
-}));
+import { useStillMissing } from './use-still-missing';
 
-export function ProposalLoading({ testID = 'proposal-loading' }: { readonly testID?: string }) {
-  const styles = useStyles();
-  const label = t({ id: 'proposal.loading', message: 'Loading the proposal' });
+export interface ProposalLoadingProps {
+  /** The read has answered and what the screen is about is not on this phone. */
+  readonly missing?: boolean | undefined;
+  /** Where back lands when the screen was opened cold. @default Home */
+  readonly fallback?: Href | undefined;
+  readonly testID?: string | undefined;
+}
+
+export function ProposalLoading({
+  missing = false,
+  fallback,
+  testID = 'proposal-loading',
+}: ProposalLoadingProps) {
+  const notHere = useStillMissing(missing);
+  const backLabel = t({ id: 'proposal.loadingBack', message: 'Back' });
+  if (notHere) {
+    return (
+      <ScreenMissing
+        backLabel={backLabel}
+        fallback={fallback}
+        title={t({ id: 'proposal.missing.title', message: 'This proposal isn’t here' })}
+        line={t({
+          id: 'proposal.missing.line',
+          message: 'It may have been replaced by a newer one, or this phone hasn’t got it yet.',
+        })}
+        testID="proposal-missing"
+      />
+    );
+  }
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID={testID}>
-      <View style={styles.body}>
-        <Skeleton preset="lines" label={label} />
-        <Skeleton preset="card" label={label} />
-        <Skeleton preset="card" label={label} />
-      </View>
-    </Scaffold>
+    <ScreenLoading
+      backLabel={backLabel}
+      fallback={fallback}
+      label={t({ id: 'proposal.loading', message: 'Loading the proposal' })}
+      testID={testID}
+    />
   );
 }

@@ -2,7 +2,8 @@
  * Expense rows as the money lists show them: synced expenses plus the ones still waiting in the
  * offline queue (marked pending, so the list never loses an expense added on a plane). A queued
  * edit or delete marks its synced row pending too. Rows group by the trip-local day they were
- * spent on, newest first.
+ * spent on, newest first. A synced expense the server has not converted yet keeps a null crew
+ * amount, so the row shows what was paid and never a made-up zero.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import type { AddExpensePayload, ExpenseCategory } from '@cp/domain';
@@ -18,7 +19,7 @@ export interface ExpenseItem {
   readonly payerName: string;
   readonly amountMinor: bigint;
   readonly currency: string;
-  /** Crew-currency amount; null until the server has converted a queued foreign expense. */
+  /** Crew-currency amount; null until the server has converted a foreign expense. */
   readonly crewAmountMinor: bigint | null;
   readonly localDate: string;
   readonly spentAt: string;
@@ -80,6 +81,17 @@ function localDateOf(iso: string, tz: string | null): string {
   }
 }
 
+/** Each expense's shares, grouped once (a trip has hundreds of rows; no scan per expense). */
+export function sharesByExpense(shares: readonly ShareRow[]): Map<string, ShareRow[]> {
+  const byExpense = new Map<string, ShareRow[]>();
+  for (const share of shares) {
+    const list = byExpense.get(share.expense_id);
+    if (list === undefined) byExpense.set(share.expense_id, [share]);
+    else list.push(share);
+  }
+  return byExpense;
+}
+
 export function expenseItems(input: {
   readonly expenses: readonly ExpenseRow[];
   readonly shares: readonly ShareRow[];
@@ -90,8 +102,9 @@ export function expenseItems(input: {
   readonly crewCurrency: string;
 }): ExpenseItem[] {
   const touched = queuedTouches(input.pending);
+  const byExpense = sharesByExpense(input.shares);
   const synced: ExpenseItem[] = input.expenses.map((row) => {
-    const shares = input.shares.filter((share) => share.expense_id === row.id);
+    const shares = byExpense.get(row.id) ?? [];
     const spentAt = row.spent_at ?? row.created_at ?? '';
     return {
       id: row.id,
@@ -101,7 +114,7 @@ export function expenseItems(input: {
       payerName: memberName(input.members, row.payer_id),
       amountMinor: minor(row.amount_minor),
       currency: row.currency,
-      crewAmountMinor: minor(row.crew_amount_minor),
+      crewAmountMinor: row.crew_amount_minor === null ? null : minor(row.crew_amount_minor),
       localDate: row.local_date ?? localDateOf(spentAt, input.tz),
       spentAt,
       leftOut: shares

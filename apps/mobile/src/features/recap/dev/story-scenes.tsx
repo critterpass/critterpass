@@ -253,7 +253,7 @@ function Scene({
         <SignatureSheet
           name="Winston"
           onClose={closeSheet}
-          onSaved={() => Promise.resolve()}
+          onSaved={() => Promise.resolve(true)}
           upload={() => Promise.resolve(null)}
         />
       ) : null}
