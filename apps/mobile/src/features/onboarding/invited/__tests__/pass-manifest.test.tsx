@@ -50,6 +50,7 @@ import {
   renderInvited,
   services,
   TRIP_ID,
+  UNREACHABLE,
 } from '../test-support/fast-path';
 
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
@@ -189,6 +190,32 @@ describe('3a-12 your pass, three taps', () => {
     await activate(screen.getByTestId('invite-pass-issue'));
     await activate(await screen.findByTestId('save-not-now'));
     expect(await screen.findByTestId('invite-problem-expired')).toBeTruthy();
+    // An invite that is over cannot be tried again: the pass is theirs, and Home is the way on.
+    expect(screen.queryByRole('button', { name: /try again/iu })).toBeNull();
+    await activate(screen.getByRole('button', { name: /go home/iu }));
+    expect(router.replace).toHaveBeenCalledWith('/');
+    expect(isOnboardingComplete()).toBe(true);
+  });
+
+  it('keeps the code and sends the join again in place when it could not reach the server', async () => {
+    openInvite();
+    const api = recordedApi({ accept_invite: [UNREACHABLE, applied(JOINED)] });
+    stack = await openTestLocalFirst({ transport: api, holdUploads: true });
+    await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
+    await waitFor(() => expect(readDraft()?.home_iata).toBe('SIN'));
+    await activate(screen.getByTestId('invite-pass-issue'));
+    await activate(await screen.findByTestId('save-not-now'));
+    expect(await screen.findByTestId('invite-problem-offline')).toBeTruthy();
+    // Nothing is given up yet: the invite and the unfinished onboarding are as they were.
+    expect(isOnboardingComplete()).toBe(false);
+    expect(inviteSession.read().code).toBe('BATH6X');
+
+    await activate(screen.getByRole('button', { name: /try again/iu }));
+    await waitFor(() => expect(router.replace).toHaveBeenCalledWith('/onboarding/invite/manifest'));
+    const joins = api.sent.filter((sent) => sent.path.endsWith('accept_invite'));
+    expect(joins).toHaveLength(2);
+    expect(joins[1]?.body).toMatchObject({ payload: { code: 'BATH6X', seat: 'seat-token' } });
+    expect(isOnboardingComplete()).toBe(true);
   });
 
   it('asks a code joiner for a name and a home, then lets them issue', async () => {
