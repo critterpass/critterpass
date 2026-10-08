@@ -153,7 +153,6 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
     lines.toGo,
   ]
     .filter((part) => part !== null)
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a separator, never copy.
     .join(' · ');
   return (
     <View style={styles.screen} testID="showdown">

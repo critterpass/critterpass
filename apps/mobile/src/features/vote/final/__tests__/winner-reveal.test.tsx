@@ -162,7 +162,7 @@ describe('winner reveal', () => {
     expect(screen.getByTestId('reveal-name')).toHaveTextContent('KYOTO');
     expect(screen.getByTestId('reveal-score')).toHaveTextContent('WINS 2–1');
     expect(screen.getByTestId('reveal-tally').props.accessibilityLabel).toBe(
-      'Kyoto. Wins 2–1; Kyoto, 2 votes; Lisbon, 1 votes',
+      'Kyoto. Wins 2–1; Kyoto, 2 votes; Lisbon, 1 vote',
     );
     expect(screen.getByTestId('reveal-consolation')).toHaveTextContent(
       'Tokek took it well. Already pitching the next trip.',

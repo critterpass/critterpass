@@ -22,8 +22,6 @@ import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { Row } from '@/ui/layout/Row';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -43,6 +41,7 @@ import { upper } from '../format';
 import { voteRoutes } from '../routes';
 import { registerBoardLanding } from './fly-to-board';
 import { PickFinalistsSheet } from './pick-sheet';
+import { RemovePlaceSheet } from './remove-sheet';
 import { BoardSticker } from './sticker';
 
 const useStyles = makeStyles((th) => ({
@@ -51,12 +50,6 @@ const useStyles = makeStyles((th) => ({
     borderRadius: th.radius.cardBig,
     overflow: 'hidden',
     padding: th.space['8'],
-  },
-  // The title starts under the sheet's close button.
-  confirm: {
-    paddingHorizontal: th.space['20'],
-    paddingTop: th.space['32'],
-    paddingBottom: th.space['24'],
   },
   dot: {
     width: th.space['8'],
@@ -182,7 +175,6 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
     setRemoving(null);
     void remove.send({ poll_id: poll.id, option_id: removing.id });
   };
-  const removingName = removing?.name ?? '';
 
   if (options.length === 0) {
     const guide = guideSticker('tokek');
@@ -296,34 +288,11 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
         />
       )}
       {removing === null ? null : (
-        <Sheet
-          detents={['fit']}
-          onDismiss={() => setRemoving(null)}
-          accessibilityLabel={t({
-            id: 'vote.board.removeTitle',
-            message: `Take ${removingName} off the board?`,
-          })}
-          testID="board-remove"
-        >
-          <View style={styles.confirm}>
-            <ConfirmSheet
-              title={t({
-                id: 'vote.board.removeTitle',
-                message: `Take ${removingName} off the board?`,
-              })}
-              consequences={[
-                t({
-                  id: 'vote.board.removeVotes',
-                  message: 'Its votes go with it, and its pitch goes back in the deck.',
-                }),
-              ]}
-              confirmLabel={t({ id: 'vote.board.remove', message: 'Remove' })}
-              onConfirm={confirmRemove}
-              onCancel={() => setRemoving(null)}
-              testID="board-remove-confirm"
-            />
-          </View>
-        </Sheet>
+        <RemovePlaceSheet
+          name={removing.name}
+          onConfirm={confirmRemove}
+          onCancel={() => setRemoving(null)}
+        />
       )}
     </Stack>
   );
