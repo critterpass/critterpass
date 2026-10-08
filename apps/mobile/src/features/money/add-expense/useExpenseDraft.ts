@@ -42,6 +42,9 @@ export type SubmitOutcome = SendResult | null | 'already';
 
 export interface ExpenseDraftState {
   readonly ctx: MoneyContext;
+  /** The trip's rows are still being read; once they are, `ready` false means nothing to show. */
+  readonly loading: boolean;
+  /** There is a draft to show: a trip to add to, or the expense being edited. */
   readonly ready: boolean;
   readonly draft: ExpenseDraft;
   readonly dispatch: (action: DraftAction) => void;
@@ -61,8 +64,9 @@ const EMPTY = newDraft({ currency: 'USD', payerId: '', memberIds: [] });
 export function useExpenseDraft(
   editId: string | null,
   prefillName: string | null = null,
+  routeTripId: string | null = null,
 ): ExpenseDraftState {
-  const ctx = useMoneyContext(useSelectedTrip());
+  const ctx = useMoneyContext(useSelectedTrip(), routeTripId);
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
   const crewCurrency = ctx.crew?.settlementCurrency ?? 'USD';
   const add = useCommand(addExpenseCommand);
@@ -164,6 +168,7 @@ export function useExpenseDraft(
 
   return {
     ctx,
+    loading: ctx.status === 'loading' || (ctx.status === 'ready' && !rows.loaded),
     ready: seed !== null,
     draft,
     dispatch,

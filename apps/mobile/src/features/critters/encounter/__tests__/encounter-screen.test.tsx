@@ -22,13 +22,21 @@ jest.mock('react-native-nitro-modules', () => ({
 }));
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
+  router: {
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    navigate: jest.fn(),
+    dismissTo: jest.fn(),
+    canGoBack: () => true,
+  },
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { configure, render, screen, waitFor } from '@testing-library/react-native';
+import { configure, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -46,6 +54,7 @@ import type { EncounterEngine, EngineSnapshot } from '../../engine/engine';
 import { setEncounterEngine } from '../../engine/session';
 import {
   COPRESENCE_RULE,
+  CREW,
   DEST,
   SET_ID,
   seedCritters,
@@ -65,6 +74,7 @@ const METRICS = {
 const stacks: TestLocalFirst[] = [];
 
 afterEach(async () => {
+  jest.clearAllMocks();
   setEncounterEngine(null);
   for (const stack of stacks.splice(0)) {
     await stack.close();
@@ -113,13 +123,16 @@ const SNAPSHOT: EngineSnapshot = {
   startedAt: Date.now(),
 };
 
-function engineAt(snapshot: EngineSnapshot): EncounterEngine {
+function engineAt(
+  snapshot: EngineSnapshot,
+  dismiss: () => void = () => undefined,
+): EncounterEngine {
   return {
     onFix: () => undefined,
     tick: () => undefined,
     befriend: () => Promise.resolve(false),
     abandon: () => undefined,
-    dismiss: () => undefined,
+    dismiss,
     snapshot: () => snapshot,
     subscribe: () => () => undefined,
   };
@@ -179,6 +192,41 @@ describe('encounter screen', () => {
     await renderScreen(stack);
     await waitFor(() => expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy());
     expect(screen.getByText('SOMEONE IS HERE')).toBeTruthy();
+  });
+
+  it('leaves the live scene by its back control, with the encounter still running', async () => {
+    const stack = await openTestLocalFirst({ holdUploads: true });
+    stacks.push(stack);
+    await seedCritters(stack.db, stack.uid);
+    const dismiss = jest.fn();
+    setEncounterEngine(engineAt(SNAPSHOT, dismiss));
+    await renderScreen(stack);
+    await waitFor(() => expect(screen.getByTestId('critters-encounter-leave')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('critters-encounter-leave'));
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(dismiss).not.toHaveBeenCalled();
+  });
+
+  it('shares a befriended critter in the trip’s crew chat, and adds it to the pass at its set', async () => {
+    const stack = await openTestLocalFirst({ holdUploads: true });
+    stacks.push(stack);
+    await seedCritters(stack.db, stack.uid);
+    setEncounterEngine(engineAt({ ...SNAPSHOT, phase: 'befriended' }));
+    await renderScreen(stack);
+    await waitFor(() => expect(screen.getByTestId('critters-befriended-share')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('critters-befriended-share'));
+    expect(router.push).toHaveBeenLastCalledWith({
+      pathname: '/crew/[crewId]/chat',
+      params: { crewId: CREW },
+    });
+    await fireEvent.press(screen.getByTestId('critters-befriended-add'));
+    // Down to the tabs under the encounter, then the pass with the critter that landed.
+    expect(router.dismissTo).toHaveBeenCalledWith('/(tabs)');
+    expect(router.navigate).toHaveBeenLastCalledWith({
+      pathname: '/(tabs)/pass',
+      params: { landed: TOKEK },
+    });
+    expect(router.replace).not.toHaveBeenCalled();
   });
 
   describe('with the live camera switched on', () => {

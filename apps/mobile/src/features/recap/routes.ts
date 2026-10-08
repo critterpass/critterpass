@@ -15,7 +15,11 @@ export const recapRoutes = {
     pathname: '/recap/[tripId]',
     params: ended ? { tripId, ended: '1' } : { tripId },
   }),
-  story: (tripId: string): Href => ({ pathname: '/recap/[tripId]/story', params: { tripId } }),
+  /** `replay`: opened over the recap page, which closing the story goes back to. */
+  story: (tripId: string, replay = false): Href => ({
+    pathname: '/recap/[tripId]/story',
+    params: replay ? { tripId, from: 'summary' } : { tripId },
+  }),
   memory: (memoryId: string, tripId: string): Href => ({
     pathname: '/memory/[memoryId]',
     params: { memoryId, trip: tripId },

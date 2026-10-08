@@ -8,23 +8,23 @@ import { router } from 'expo-router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 
-import { generateUuidV7 } from '@cp/domain';
+import type { GuideThreadMode } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
-import { questionQueue } from '@/data/places/question-queue';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
+import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { guideAvatarId } from '../chat/components/guide-header';
 import { GuideStreamError } from '../chat/data/guide-frames';
+import { queueQuestion } from '../chat/data/guide-question-queue';
 import { streamGuide } from '../chat/data/guide-stream';
 import { useGuideContext } from '../chat/data/use-guide-context';
-import { useGuideThread } from '../chat/data/use-guide-thread';
 import {
   createVoiceController,
   type VoiceController,
@@ -39,7 +39,9 @@ import {
   type VoiceConsentGuard,
 } from './voice-consent';
 import { VoiceGate } from './voice-consent-view';
+import { useVoiceTarget, voiceTurnRequest } from './voice-target';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
+import { VOICE_STICKER_SIZE } from './voice-stage';
 import { VoiceView } from './voice-view';
 
 /** The speech module as the screen uses it; the route adapts the native module to this. */
@@ -83,6 +85,8 @@ export async function sttToken(): Promise<SttToken> {
 
 export interface VoiceScreenProps {
   readonly tripId: string | null;
+  /** GROUP or JUST ME, as the sheet that opened voice mode had it; null works it out (a link). */
+  readonly mode?: GuideThreadMode | null;
   /** Null in a build without the speech module: the screen says so and offers typing. */
   readonly speech: VoiceSpeech | null;
   /** Start listening as the screen opens (the guide sheet's microphone was held, not tapped). */
@@ -91,7 +95,11 @@ export interface VoiceScreenProps {
 
 export function VoiceScreen(props: VoiceScreenProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <ConsentedVoiceScreen {...props} />;
+  return localFirst === null ? (
+    <SessionWaiting testID="guide-voice-waiting" />
+  ) : (
+    <ConsentedVoiceScreen {...props} />
+  );
 }
 
 /** Voice mode once the voice consent stands; until then, the question. */
@@ -114,31 +122,25 @@ function ConsentedVoiceScreen(props: VoiceScreenProps) {
 
 function OpenVoiceScreen({
   tripId,
+  mode: given = null,
   speech,
   talkOnOpen = false,
   consent,
 }: VoiceScreenProps & { readonly consent: VoiceConsentGuard }) {
   const { i18n } = useLingui();
-  const context = useGuideContext(tripId);
+  const { context, target } = useVoiceTarget(tripId, given);
   const trip = context.trip;
-  const mode = trip !== null && trip.crewSize > 1 ? 'group' : 'private';
-  const thread = useGuideThread(mode, trip?.tripId ?? null, context.uid);
+  const mode = target.mode;
   const sync = useSyncStatus();
   const level = useSharedValue(0);
   const [state, setState] = useState<VoiceState>(VOICE_IDLE);
   // The ports read the latest thread, trip and connection without rebuilding the controller.
-  const live = useRef({
-    threadId: thread.threadId,
-    tripId: trip?.tripId ?? null,
-    mode,
-    online: true,
-  });
+  const live = useRef({ ...target, online: true });
   const online = sync.phase !== 'offline';
-  const threadId = thread.threadId;
-  const liveTripId = trip?.tripId ?? null;
+  const { threadId, tripId: liveTripId, uid } = target;
   useEffect(() => {
-    live.current = { threadId, tripId: liveTripId, mode, online };
-  }, [threadId, liveTripId, mode, online]);
+    live.current = { threadId, tripId: liveTripId, uid, mode, online };
+  }, [threadId, liveTripId, uid, mode, online]);
   const controller = useRef<VoiceController | null>(null);
   const openedTalking = useRef(false);
   const locale = i18n.locale;
@@ -160,37 +162,24 @@ function OpenVoiceScreen({
       // A refusal right after the yes is the yes still landing: the turn is tried once more.
       ask: (text, options, onFrame, signal) =>
         withVoiceConsent(async () => {
-          let threadId = live.current.threadId;
+          // The mode, trip and thread are read once: the whole turn is asked in one place.
+          let asked = { ...live.current };
           for (let attempt = 0; ; attempt += 1) {
             try {
-              return await streamGuide(
-                `/v1/guide/threads/${threadId}/turns`,
-                {
-                  text,
-                  mode: 'voice',
-                  speak: options.speak,
-                  thread_mode: live.current.mode,
-                  context: { trip_id: live.current.tripId, screen: '3j-2' },
-                },
-                onFrame,
-                { signal },
-              );
+              const turn = voiceTurnRequest(asked, text, options.speak);
+              return await streamGuide(turn.path, turn.body, onFrame, { signal });
             } catch (error) {
               // A thread the server already has for this mode and trip answers with its id.
               const existing = error instanceof GuideStreamError ? error.detail['thread_id'] : null;
               if (attempt > 0 || typeof existing !== 'string') throw error;
-              threadId = existing;
-              live.current.threadId = existing;
+              asked = { ...asked, threadId: existing };
+              if (live.current.mode === asked.mode && live.current.tripId === asked.tripId) {
+                live.current.threadId = existing;
+              }
             }
           }
         }, consent),
-      queueOffline: (text) =>
-        questionQueue().enqueue({
-          id: generateUuidV7(),
-          tripId: live.current.tripId,
-          threadId: live.current.threadId,
-          text,
-        }),
+      queueOffline: (text) => queueQuestion(live.current, text),
       play: (turn, chunk) => speech?.play(turn, chunk),
       endOfReply: (turn) => bargeIn?.streamEnded(turn),
       cancelPlayback: () => speech?.cancelPlayback(),
@@ -229,7 +218,7 @@ function OpenVoiceScreen({
     <VoiceView
       guideName={context.guideName}
       shared={mode === 'group'}
-      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={96} />}
+      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={VOICE_STICKER_SIZE} />}
       state={state}
       level={level}
       swaps={offered.swaps}

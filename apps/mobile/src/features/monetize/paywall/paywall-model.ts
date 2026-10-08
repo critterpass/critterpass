@@ -81,9 +81,10 @@ function phaseOf(input: PaywallInput, offer: ProductOffer | null): PaywallPhase 
   if (busy !== undefined) return busy;
   if (purchase.status === 'failed' && purchase.stage === 'verify') return 'verify_failed';
   if (input.passPlus || (purchase.status === 'done' && purchase.passPlus)) return 'subscribed';
+  // Offline comes first: with no signal the store has no offers, and that is not "unavailable".
+  if (!input.online) return 'offline';
   if (input.products.status === 'loading') return 'loading';
   if (offer === null) return 'unavailable';
-  if (!input.online) return 'offline';
   if (purchase.status === 'failed') return 'failed';
   return 'ready';
 }

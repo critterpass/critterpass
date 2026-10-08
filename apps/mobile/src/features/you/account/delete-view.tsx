@@ -8,7 +8,7 @@ import type { DeletionPreflight, DeletionReason } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ScrollView, View, type ScrollViewInstance } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -18,7 +18,9 @@ import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { HoldRing } from '@/ui/inputs/HoldRing';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { Sheet } from '@/ui/sheet/Sheet';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -121,6 +123,8 @@ export function DeleteView(props: DeleteViewProps) {
           }),
         });
   const owed = (preflight?.balances ?? []).filter((b) => b.net_minor > 0);
+  // The hold asked for without the gesture (a screen reader): the sheet asks before it commits.
+  const [asking, setAsking] = useState<(() => void) | null>(null);
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="you-delete">
       <ScrollView
@@ -226,7 +230,7 @@ export function DeleteView(props: DeleteViewProps) {
               <HoldRing
                 label={t({ id: 'you.delete.hold', message: 'Hold' })}
                 actionLabel={holdLabel}
-                confirmMessage={closesLine}
+                onConfirmRequest={(confirm) => setAsking(() => confirm)}
                 tone="pink"
                 onComplete={props.onDelete}
                 disabled={!props.online || props.busy}
@@ -284,6 +288,28 @@ export function DeleteView(props: DeleteViewProps) {
           testID="you-delete-keep"
         />
       </ScrollView>
+      {asking === null ? null : (
+        <Sheet
+          detents={['fit']}
+          onDismiss={() => setAsking(null)}
+          accessibilityLabel={holdLabel}
+          testID="you-delete-confirm"
+        >
+          <Stack padding="16">
+            <ConfirmSheet
+              title={holdLabel}
+              consequences={[closesLine]}
+              confirmLabel={holdLabel}
+              onConfirm={() => {
+                setAsking(null);
+                asking();
+              }}
+              onCancel={() => setAsking(null)}
+              testID="you-delete-confirm-ask"
+            />
+          </Stack>
+        </Sheet>
+      )}
     </Scaffold>
   );
 }

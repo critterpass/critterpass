@@ -33,7 +33,11 @@ const useStyles = makeStyles((th) => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: th.space['10'],
+    paddingHorizontal: th.space['6'],
   },
+  // One line while it fits; a long price (a dong amount) or a large text size wraps under the
+  // label, centred, and the badge follows it.
+  words: { flexShrink: 1, textAlign: 'center' },
 }));
 
 /** Monthly / yearly switch with prices and the discount badge. */
@@ -60,9 +64,10 @@ export function BillingToggle<Value extends string>({
             onPress={() => onChange(option.value)}
             style={[styles.segment, checked ? { backgroundColor: theme.color.paper.base } : null]}
           >
-            <Row gap="6" align="center">
+            <Row gap="6" align="center" justify="center" wrap>
               <Text
                 variant="label"
+                style={styles.words}
                 color={checked ? theme.color.paper.ink : theme.semantic.text.secondary}
               >
                 {`${option.label} · ${option.price}`}

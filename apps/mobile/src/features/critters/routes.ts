@@ -10,8 +10,14 @@ import { registerScreens } from '@/lib/navigation/screen-registry';
 
 export const PASS_TAB: Href = '/(tabs)/pass';
 
+/** The PASS tab; with `landed`, the critter just added, whose set the dex scrolls to and outlines. */
 export function passRoute(landed?: string): Href {
   return landed === undefined ? PASS_TAB : { pathname: '/(tabs)/pass', params: { landed } };
+}
+
+/** A crew's chat, where a find is shared from Befriended. */
+export function crewChatRoute(crewId: string): Href {
+  return { pathname: '/crew/[crewId]/chat', params: { crewId } };
 }
 
 export function setRoute(setId: string): Href {

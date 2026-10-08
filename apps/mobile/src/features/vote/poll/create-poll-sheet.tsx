@@ -5,11 +5,11 @@
  */
 import { generateUuidV7, POLL_MAX_OPTIONS, POLL_MIN_OPTIONS } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
+import { goBackOr } from '@/lib/navigation/back';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Segmented } from '@/ui/inputs/Segmented';
@@ -20,7 +20,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import { createPollCommand } from '../data/vote-commands';
 
@@ -51,7 +51,27 @@ export function postableOptions(draft: PollDraft): string[] | null {
   return options;
 }
 
-const useStyles = makeStyles((th) => ({ body: { padding: th.space['16'], gap: th.space['16'] } }));
+/** What still stops the draft from being posted, for the line over the button; null when ready. */
+export function postBlocker(draft: PollDraft): 'question' | 'answers' | 'same' | null {
+  if (draft.question.trim().length === 0) return 'question';
+  const options = draft.options
+    .map((option) => option.trim().toLocaleLowerCase())
+    .filter((option) => option.length > 0);
+  if (options.length < POLL_MIN_OPTIONS) return 'answers';
+  return new Set(options).size === options.length ? null : 'same';
+}
+
+const useStyles = makeStyles((th) => ({
+  body: { paddingHorizontal: th.size.gutter, paddingVertical: th.space['16'], gap: th.space['16'] },
+  // Outside the scroll, so the button stays above the keyboard while the fields scroll.
+  footer: {
+    paddingHorizontal: th.size.gutter,
+    paddingTop: th.space['8'],
+    paddingBottom: th.space['16'],
+    gap: th.space['8'],
+  },
+  reason: { textAlign: 'center' },
+}));
 
 export function CreatePollSheet({
   crewId,
@@ -62,6 +82,7 @@ export function CreatePollSheet({
 }) {
   const styles = useStyles();
   const { t } = useLingui();
+  const theme = useTheme();
   const create = useCommand(createPollCommand);
   const [draft, setDraft] = useState<PollDraft>({
     question: '',
@@ -70,6 +91,15 @@ export function CreatePollSheet({
     allowChange: true,
   });
   const options = postableOptions(draft);
+  const blocker = postBlocker(draft);
+  const reason =
+    blocker === 'question'
+      ? t({ id: 'vote.newPoll.needsQuestion', message: 'Add a question to post.' })
+      : blocker === 'answers'
+        ? t({ id: 'vote.newPoll.needsAnswers', message: 'Add at least two answers.' })
+        : blocker === 'same'
+          ? t({ id: 'vote.newPoll.sameAnswers', message: 'Two answers are the same.' })
+          : null;
   const setOption = (index: number, text: string) =>
     setDraft((current) => ({
       ...current,
@@ -87,7 +117,7 @@ export function CreatePollSheet({
       allow_change: draft.allowChange,
       ...(window === null ? {} : { closes_at: new Date(now().getTime() + window).toISOString() }),
     });
-    router.back();
+    goBackOr();
   };
   return (
     <Sheet
@@ -95,7 +125,7 @@ export function CreatePollSheet({
       accessibilityLabel={t({ id: 'vote.newPoll.title', message: 'New poll' })}
       testID="new-poll"
     >
-      <SheetScrollView>
+      <SheetScrollView keyboardShouldPersistTaps="handled">
         <Stack style={styles.body}>
           <Text variant="h2" accessibilityRole="header">
             {t({ id: 'vote.newPoll.title', message: 'New poll' })}
@@ -156,17 +186,27 @@ export function CreatePollSheet({
               testID="new-poll-allow-change"
             />
           </Row>
-          <View>
-            <PillButton
-              label={t({ id: 'vote.newPoll.post', message: 'Post poll' })}
-              onPress={() => void post()}
-              disabled={options === null}
-              loading={create.pending}
-              testID="new-poll-post"
-            />
-          </View>
         </Stack>
       </SheetScrollView>
+      <View style={styles.footer}>
+        {reason === null ? null : (
+          <Text
+            variant="caption"
+            color={theme.semantic.text.secondary}
+            style={styles.reason}
+            testID="new-poll-reason"
+          >
+            {reason}
+          </Text>
+        )}
+        <PillButton
+          label={t({ id: 'vote.newPoll.post', message: 'Post poll' })}
+          onPress={() => void post()}
+          disabled={options === null}
+          loading={create.pending}
+          testID="new-poll-post"
+        />
+      </View>
     </Sheet>
   );
 }

@@ -31,6 +31,9 @@ export interface TurnState {
   readonly retryable: boolean;
 }
 
+/** Not a wire code: the person stopped the answer themselves. */
+export const TURN_STOPPED = 'STOPPED_BY_ASKER';
+
 export const THINKING: TurnState = {
   phase: 'thinking',
   text: '',

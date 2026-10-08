@@ -255,7 +255,7 @@ async function openScan(answer: 'applied' | 'unreachable', using: MoneyServices)
       '(tabs)/index': () => <Text>home</Text>,
       '(tabs)/wallet/_layout': () => <Stack screenOptions={{ headerShown: false }} />,
       '(tabs)/wallet/money/index': Money,
-      'money/scan': ScanScreen,
+      'money/scan': () => <ScanScreen />,
       'money/add': () => <View testID="money-add" />,
     },
     { initialUrl: MONEY_ROUTES.balances },

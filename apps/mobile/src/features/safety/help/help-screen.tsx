@@ -15,7 +15,10 @@ import { SET_CONSENT } from '@/lib/location/visits';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { usePermission } from '@/lib/permissions';
+import { useNow } from '@/lib/time/use-now';
+import { goBackOr } from '@/lib/navigation/back';
 import { toast } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { BOOKINGS_ROUTES, pickPolicy, useInsurancePolicies } from '@/features/bookings';
@@ -37,9 +40,15 @@ import { readsPhraseLanguage } from './checklist-model';
 import { ConsentSheet } from './consent-sheet';
 import { HelpView } from './help-view';
 import { ShowIt } from './show-it';
-import { onOpen, pendingShare, shareView, type PendingShare } from './share-policy';
+import {
+  markShareStopped,
+  onOpen,
+  pendingShare,
+  shareView,
+  unmarkShareStopped,
+  type PendingShare,
+} from './share-policy';
 import { useHelpHub } from './use-help-hub';
-import { useNow } from './use-now';
 import { useFormats } from '@/lib/i18n/formats';
 
 export function HelpScreen() {
@@ -48,7 +57,7 @@ export function HelpScreen() {
   const asked = typeof params.tripId === 'string' && params.tripId !== '' ? params.tripId : null;
   const hub = useHelpHub(deviceHelpApi, asked);
   useTripStreams(hub.tripId);
-  const now = useNow(30_000);
+  const now = useNow(30_000).getTime();
   const location = usePermission('location').report;
   const locationDenied = location?.status === 'denied' || location?.status === 'restricted';
   const insurance = useInsurancePolicies();
@@ -61,7 +70,10 @@ export function HelpScreen() {
   const [pending, setPending] = useState<PendingShare | null>(null);
   const [answered, setAnswered] = useState(false);
   const [showIt, setShowIt] = useState(false);
+  // A refused stop puts the share back; the count only redraws the indicator.
+  const [, setStopFailed] = useState(0);
   const opened = useRef(false);
+  const { report } = useCommandFeedback();
 
   const share = shareView(hub.shares, pending, now);
   // The first Help open asks (nothing is shared until the answer); an answer holds before its row syncs.
@@ -78,7 +90,8 @@ export function HelpScreen() {
   const speech = useSpeech(phrase?.text ?? null, phrase?.language ?? null);
 
   function shared(sessionId: string, result: SendResult) {
-    if (result.kind === 'applied' || result.kind === 'queued') {
+    const outcome = report(result, { offlineCapable: true, id: 'help-share-start' });
+    if (outcome === 'done' || outcome === 'queued') {
       setPending(pendingShare(sessionId, Date.now()));
     }
     const overrode =
@@ -154,7 +167,7 @@ export function HelpScreen() {
           guideSticker: guide,
           placeLabel: hub.model.placeLabel,
           shareHours: share === null ? null : Math.max(1, Math.ceil(share.minutesLeft / 60)),
-          onBack: () => (router.canGoBack() ? router.back() : router.replace('/')),
+          onBack: () => goBackOr(),
         }}
         model={phrase === found ? hub.model : { ...hub.model, phrase: null }}
         share={{
@@ -165,13 +178,43 @@ export function HelpScreen() {
           busy: start.pending || stop.pending || extend.pending,
           onStart: () => startShare(),
           onStop: () => {
-            if (share?.shareId == null) return;
+            const shareId = share?.shareId ?? null;
+            if (shareId === null) return;
             setPending(null);
-            void stop.send({ share_id: share.shareId });
+            markShareStopped(shareId);
+            void stop.send({ share_id: shareId }).then((result) => {
+              const outcome = report(result, {
+                offlineCapable: true,
+                id: 'help-share-stop',
+                done:
+                  result.kind === 'queued'
+                    ? t({
+                        id: 'safety.share.stoppedQueued',
+                        message: 'Stopped here. Your crew hears the moment you have signal.',
+                      })
+                    : t({ id: 'safety.share.stopped', message: 'Stopped sharing' }),
+              });
+              if (outcome === 'refused' || outcome === 'needs-signal') {
+                unmarkShareStopped(shareId);
+                setStopFailed((n) => n + 1);
+              }
+            });
           },
           onExtend: () => {
             if (share?.shareId == null) return;
-            void extend.send({ share_id: share.shareId });
+            void extend.send({ share_id: share.shareId }).then((result) =>
+              report(result, {
+                offlineCapable: true,
+                id: 'help-share-extend',
+                done:
+                  result.kind === 'queued'
+                    ? t({
+                        id: 'safety.share.extendedQueued',
+                        message: 'One more hour, once you have signal',
+                      })
+                    : t({ id: 'safety.share.extended', message: 'Sharing for one more hour' }),
+              }),
+            );
           },
           onSettings: () => void Linking.openSettings(),
         }}
@@ -185,9 +228,7 @@ export function HelpScreen() {
         }
         playing={speech.speaking}
         onCall={call}
-        onProblem={(problem: HelpProblem) => {
-          if (tripId !== null) router.push(safetyRoutes.checklist(tripId, problem));
-        }}
+        onProblem={(problem: HelpProblem) => router.push(safetyRoutes.checklist(tripId, problem))}
         onGo={(facility) => {
           const href = hrefFor(GETTING_AROUND_SCREEN, {
             ...(tripId === null ? {} : { tripId }),

@@ -1,12 +1,14 @@
 /**
  * The 3a-7 route: the finished pass with the save sheet over it. Saved → SAVED tick, then on to
  * the permissions page; "Use that pass" → the app starts again on the existing pass's account, at
- * Home (its session and its data, not the new pass's).
+ * Home (its session and its data, not the new pass's). Someone who already finished onboarding
+ * opens this page from inside the app (the invite composer, sign out): saved or not, they go back
+ * to where they opened it.
  */
 import { router, useIsFocused } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useAnalytics } from '@/lib/analytics';
+import { isOnboardingComplete } from '@/lib/links/pending';
 
 import { markOnboardingComplete } from '../flow-controller/completion';
 import { updateDraft } from '../flow-controller/draft-store';
@@ -20,23 +22,27 @@ import { useSaveFlow } from './use-save-flow';
 /** Long enough for the SAVED tick to pop (300 ms delay + pop) before the page moves on. */
 export const SAVED_ADVANCE_MS = 900;
 
+const HOME = '/';
+
 export function SaveScreen() {
   useTrackStep('save');
   const flow = useSaveFlow();
   const services = useOnboardingServices();
-  const analytics = useAnalytics();
   const { state } = flow;
   // The phone page is pushed over this one: the sheet goes while it is up (so the presenter scale
   // is released) and rises again on the way back.
   const focused = useIsFocused();
+  // Read once: the page leaves the same way it was entered.
+  const [outside] = useState(isOnboardingComplete);
+  const goBack = () => (router.canGoBack() ? router.back() : router.replace(HOME));
 
   useEffect(() => {
+    // While the phone page is up it is the one that reacts; this page moves on once it is back.
+    if (!focused) return undefined;
     if (state.kind === 'saved') {
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
-      analytics.capture('account_saved', { provider: state.provider });
       updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
       const timer = setTimeout(
-        () => router.replace(ONBOARDING_ROUTES.permissions),
+        () => (outside ? goBack() : router.replace(ONBOARDING_ROUTES.permissions)),
         SAVED_ADVANCE_MS,
       );
       return () => clearTimeout(timer);
@@ -46,9 +52,13 @@ export function SaveScreen() {
       services.restart();
     }
     return undefined;
-  }, [state, analytics, services]);
+  }, [state, focused, outside, services]);
 
   const notNow = () => {
+    if (outside) {
+      goBack();
+      return;
+    }
     updateDraft((d) => ({ ...d, step: 'saved' }));
     router.replace(ONBOARDING_ROUTES.permissions);
   };

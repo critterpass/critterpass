@@ -11,6 +11,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { feedback } from '@/motion';
 import { toast } from '@/motion/island-toast';
 import { usePermission } from '@/lib/permissions';
+import { useNow } from '@/lib/time/use-now';
 import { offerAlwaysUpgrade } from '@/lib/location/always-upgrade';
 
 import { useMyUid } from '../chat/data/use-my-uid';
@@ -24,7 +25,7 @@ import {
 } from './data/live-commands';
 import type { LiveMember } from './data/live-state';
 import { useLiveFixes } from './data/use-live-fixes';
-import { useMemberEtas, useNow } from './data/use-member-etas';
+import { useMemberEtas } from './data/use-member-etas';
 import { useMeetupSnapshot } from './data/use-meetup-snapshot';
 import { useTrails } from './data/use-trails';
 import { useTripCrew } from './data/use-trip-crew';
@@ -44,7 +45,12 @@ export function useLiveMapScreen(tripId: string): LiveMapModel {
   const me = useMyUid();
   const crew = useTripCrew(tripId, me);
   const live = useLiveFixes(tripId, me);
-  const now = useNow(TICK_MS, services.now);
+  const tick = useNow(TICK_MS);
+  // The services' own clock, read again on each tick.
+  const now = useMemo(() => {
+    void tick;
+    return services.now();
+  }, [services, tick]);
   const [ownFix, setOwnFix] = useState<OwnFix | null>(null);
   const [overlay, setOverlay] = useState<Overlay>({ kind: 'none' });
   const [pendingMeetup, setPendingMeetup] = useState<MeetupWire | null>(null);

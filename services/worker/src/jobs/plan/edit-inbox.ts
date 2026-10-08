@@ -9,6 +9,7 @@ import {
   PLAN_CHANGE_INBOX_KIND,
   planChangeLineBody,
   type PlanChangeSummary,
+  tripPlanLink,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -123,7 +124,7 @@ export function registerPlanEditFanout(): void {
         tripId: edit.tripId,
         actorId: event.actorId,
         data: { trip_id: edit.tripId, version_id: str(event, 'version_id'), ...edit.summary },
-        deepLink: `/trip/${edit.tripId}/plan`,
+        deepLink: tripPlanLink(edit.tripId),
       };
     },
   });

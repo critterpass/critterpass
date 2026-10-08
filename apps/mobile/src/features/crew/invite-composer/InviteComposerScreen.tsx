@@ -9,19 +9,22 @@
 import { t } from '@lingui/core/macro';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useContext, useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { airportDataset } from '@cp/content/airports';
 import { DIAL_CODES } from '@cp/content/onboarding';
-import type { CreateInvitePayload, InviteSeatLimitDetail } from '@cp/domain';
+import type { InviteSeatLimitDetail } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { Segmented } from '@/ui/inputs/Segmented';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -31,9 +34,10 @@ import { rowId } from '../crews-sheet/crew-commands';
 import { useCrewCode, useCrews } from '../crews-sheet/crew-data';
 import { CREW_ROUTES } from '../crews-sheet/routes';
 import { useCrewServices } from '../crews-sheet/crew-services';
-import { useSessionUid } from '../crews-sheet/CrewsSheet';
 import { renderSeatLimit } from '../seat-limit/registry';
-import { composeUrl, sendInvite, shareVia, type ComposerChannel } from './compose';
+import { composeUrl, sendInvite, type ComposerChannel } from './compose';
+import { ComposerUnavailable } from './composer-unavailable';
+import { invitePayload } from './invite-payload';
 import { ContactFields, EMPTY_CONTACT, type ContactDraft } from './ContactFields';
 import { CrewCode } from './CrewCode';
 import { homeHintFor, toE164 } from './home-hint';
@@ -43,6 +47,7 @@ import { type InviteComposerProps } from './use-contact-pick';
 import { useTagSuggestion } from './use-tag-suggestion';
 
 const useStyles = makeStyles((th) => ({
+  scroll: { flex: 1 },
   content: {
     paddingHorizontal: th.space['20'],
     gap: th.space['16'],
@@ -96,28 +101,8 @@ export function InviteComposerScreen({ pickContact = null }: InviteComposerProps
     contact.name.trim().length > 0 && (contact.phone.trim() === '' || phone !== null);
   const ready = localFirst !== null && crew !== null && (mode === 'link' || friendReady);
 
-  const payloadFor = (channel: ComposerChannel, onFull?: 'waitlist'): CreateInvitePayload => {
-    const via = shareVia(channel);
-    const base = {
-      crew_id: crewId,
-      ...(tripId === null ? {} : { trip_id: tripId }),
-      ...(via === undefined ? {} : { share_via: via }),
-      ...(onFull === undefined ? {} : { on_full: onFull }),
-    };
-    if (mode === 'link') return { ...base, channel: 'link' };
-    return {
-      ...base,
-      channel: 'contact',
-      contact: {
-        name: contact.name.trim(),
-        provenance: contact.picked ? 'contacts' : 'typed',
-        ...(phone === null ? {} : { phone_e164: phone }),
-        ...(homeHint === null ? {} : { home_hint: homeHint }),
-      },
-      ...(contact.note.trim() === '' ? {} : { note: contact.note.trim() }),
-      ...(contact.tags.length === 0 ? {} : { tags: [...contact.tags] }),
-    };
-  };
+  const payloadFor = (channel: ComposerChannel, onFull?: 'waitlist') =>
+    invitePayload({ crewId, tripId, contact: mode === 'friend' ? contact : null }, channel, onFull);
 
   const deliver = async (channel: ComposerChannel, url: string) => {
     const message = t({
@@ -155,16 +140,42 @@ export function InviteComposerScreen({ pickContact = null }: InviteComposerProps
         id: rowId('invite-failed', crewId),
         title:
           outcome.kind === 'offline'
-            ? t({ id: 'crew.composer.offline', message: 'Invites go out once you’re online' })
+            ? t({
+                id: 'crew.composer.needsSignal',
+                message: 'You’re offline. Send the invite when you’re back online.',
+              })
             : t({ id: 'crew.composer.failed', message: 'That invite didn’t go out. Try again.' }),
       });
   };
 
   const invitee = mode === 'friend' ? contact.name.trim() : '';
+  const backLabel = t({ id: 'crew.composer.back', message: 'Back' });
+  if (localFirst === null || !snapshot.loaded || crew === null) {
+    return <ComposerUnavailable loaded={localFirst !== null && snapshot.loaded} />;
+  }
+  const sendButton = (channel: ComposerChannel, label: string) => (
+    <PillButton
+      key={channel}
+      label={label}
+      variant={channel === 'wa' ? 'primary' : 'secondary'}
+      onPress={() => void send(channel)}
+      loading={busy === channel}
+      disabled={!ready || busy !== null}
+      block
+      testID={rowId('composer-send', channel)}
+    />
+  );
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID="invite-composer">
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <BackEyebrow label={crewName} />
+    // The footer pads the bottom inset and rides the keyboard: the friend's fields scroll clear of
+    // it and the main send stays in reach while they are typed.
+    <Scaffold variant="dark" edges={['top']} testID="invite-composer">
+      <KeyboardScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+      >
+        <BackEyebrow label={backLabel} fallback={CREW_ROUTES.home} />
         <Text variant="displayXl" accessibilityRole="header">
           {upper(t({ id: 'crew.composer.title', message: `Invite to ${crewName}` }), locale)}
         </Text>
@@ -239,26 +250,10 @@ export function InviteComposerScreen({ pickContact = null }: InviteComposerProps
           </Text>
         ) : null}
         <View style={styles.channels}>
-          {(
-            [
-              ['wa', t({ id: 'crew.composer.whatsapp', message: 'WhatsApp' })],
-              ['imsg', t({ id: 'crew.composer.messages', message: 'Messages' })],
-              ['copy', t({ id: 'crew.composer.copy', message: 'Copy link' })],
-              ['qr', t({ id: 'crew.composer.qr', message: 'Show a QR code' })],
-              ['share', t({ id: 'crew.composer.share', message: 'More…' })],
-            ] as const
-          ).map(([channel, label]) => (
-            <PillButton
-              key={channel}
-              label={label}
-              variant={channel === 'wa' ? 'primary' : 'secondary'}
-              onPress={() => void send(channel)}
-              loading={busy === channel}
-              disabled={!ready || busy !== null}
-              block
-              testID={rowId('composer-send', channel)}
-            />
-          ))}
+          {sendButton('imsg', t({ id: 'crew.composer.messages', message: 'Messages' }))}
+          {sendButton('copy', t({ id: 'crew.composer.copy', message: 'Copy link' }))}
+          {sendButton('qr', t({ id: 'crew.composer.qr', message: 'Show a QR code' }))}
+          {sendButton('share', t({ id: 'crew.composer.share', message: 'More…' }))}
         </View>
         {qrUrl === null ? null : (
           <View style={styles.channels} testID="composer-qr">
@@ -275,7 +270,10 @@ export function InviteComposerScreen({ pickContact = null }: InviteComposerProps
             testID="composer-save"
           />
         ) : null}
-      </ScrollView>
+      </KeyboardScrollView>
+      <KeyboardFooter>
+        {sendButton('wa', t({ id: 'crew.composer.whatsapp', message: 'WhatsApp' }))}
+      </KeyboardFooter>
       {full !== null
         ? renderSeatLimit({
             detail: full.detail,

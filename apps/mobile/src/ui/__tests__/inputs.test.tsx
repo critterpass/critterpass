@@ -333,6 +333,26 @@ describe('inputs', () => {
     expect(onComplete).toHaveBeenCalledTimes(1);
     alert.mockRestore();
   });
+  it('hands a destructive hold without the gesture to the host to confirm', async () => {
+    const onComplete = jest.fn();
+    const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
+    let confirm: (() => void) | null = null;
+    await renderUi(
+      <HoldRing
+        label="Hold"
+        actionLabel="Delete my account"
+        tone="pink"
+        onConfirmRequest={(next) => (confirm = next)}
+        onComplete={onComplete}
+      />,
+    );
+    await activate(screen.getByRole('button', { name: 'Delete my account' }));
+    expect(alert).not.toHaveBeenCalled();
+    expect(onComplete).not.toHaveBeenCalled();
+    (confirm as (() => void) | null)?.();
+    expect(onComplete).toHaveBeenCalledTimes(1);
+    alert.mockRestore();
+  });
 });
 
 describe('settings group', () => {

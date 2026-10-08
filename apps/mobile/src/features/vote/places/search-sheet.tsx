@@ -165,6 +165,14 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
               })}
             </Text>
           ) : null}
+          {search.status === 'failed' ? (
+            <Text variant="body" testID="place-search-failed">
+              {t({
+                id: 'vote.pitch.searchFailed',
+                message: "Search didn't answer. Try again in a moment.",
+              })}
+            </Text>
+          ) : null}
           {empty ? (
             <Stack gap="8" testID="place-search-empty">
               <Text variant="body">

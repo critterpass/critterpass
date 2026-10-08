@@ -187,13 +187,13 @@ describe('destination final', () => {
     await renderVote(<Final me={s.uid} view="showdown" />, s);
     await until(() => screen.queryByText('LISBON') !== null);
     const top = within(screen.getByTestId('showdown-half-0'));
-    expect(top.getByTestId('showdown-votes-0')).toHaveTextContent(/1 VOTES/);
+    expect(top.getByTestId('showdown-votes-0')).toHaveTextContent(/1 VOTE$/);
     // The bottom half keeps its height for its name: its voters and count are in the card.
     const bottom = within(screen.getByTestId('showdown-half-1'));
     expect(bottom.queryByTestId('showdown-votes-1')).toBeNull();
     const footer = within(screen.getByTestId('showdown-footer'));
     expect(footer.getByTestId('showdown-votes-1')).toBeTruthy();
-    expect(footer.getByText('1 VOTES · WINSTON TO GO')).toBeTruthy();
+    expect(footer.getByText('1 VOTE · WINSTON TO GO')).toBeTruthy();
   });
 
   it('keeps each half clear of the header and the tally card however tall they get', async () => {

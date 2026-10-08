@@ -224,7 +224,7 @@ async function openApp(options: { initialUrl?: string; lunch?: boolean } = {}) {
       '(tabs)/wallet/money/index': Money,
       'money/_layout': PushStack,
       'money/add': AddExpenseRoute,
-      'money/scan': ScanScreen,
+      'money/scan': () => <ScanScreen />,
       'money/expense/[id]': Expense,
     },
     { initialUrl: options.initialUrl ?? MONEY_ROUTES.balances },

@@ -147,6 +147,7 @@ const board = (locale: string, over: Partial<BoardViewProps> = {}) => (
     onBoard={noop}
     onMaybe={noop}
     onOut={noop}
+    onBack={noop}
     onDone={noop}
     {...over}
   />

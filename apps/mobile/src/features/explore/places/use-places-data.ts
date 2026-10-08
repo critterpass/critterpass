@@ -14,7 +14,7 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 import { useExploreStream } from '../data/use-explore-stream';
 import { useDestinationPois } from '../map-queries';
-import { fold, type Point } from '../map-model';
+import { centreOf, fold, type Point } from '../map-model';
 import { useDestinationRow } from '../queries';
 import { useSaved } from '../saved-queries';
 import { routeDays, type PlanRouteDay, type RouteItem } from './plan-routes';
@@ -33,6 +33,11 @@ export interface CrewMember {
 
 export interface PlacesData {
   readonly loaded: boolean;
+  /** The destination's places did not load and none are held: `retry` asks again. */
+  readonly failed: boolean;
+  readonly retry: () => void;
+  /** The middle of every place of the destination, whatever is typed or filtered. */
+  readonly centre: Point | null;
   readonly places: readonly HubPlace[];
   /** Every crew row in join order (colours follow the whole crew's join order). */
   readonly crew: readonly CrewMember[];
@@ -203,8 +208,12 @@ export function usePlacesData({
     const needle = fold(query.trim());
     return needle === '' ? all : all.filter((place) => fold(place.name).includes(needle));
   }, [curated.places, ideas, stops, hiddenIds, results, destinationName, query]);
+  const centre = useMemo(() => centreOf(curated.places), [curated.places]);
   return {
     loaded: curated.loaded && (tripId === null || (plan.loaded && tripIdeas.loaded)),
+    failed: curated.failed && curated.places.length === 0,
+    retry: curated.retry,
+    centre,
     places,
     crew,
     uid: plan.uid,

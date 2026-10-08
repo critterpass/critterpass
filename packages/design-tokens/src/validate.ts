@@ -10,6 +10,7 @@ import { buildContrastPairs, computeGuideColors, guideOnPaperRecord } from './de
 import guideTokens from './guide.tokens.json';
 import memberTokens from './member.tokens.json';
 import motionTokens from './motion.tokens.json';
+import opacityTokens from './opacity.tokens.json';
 import radiusTokens from './radius.tokens.json';
 import ringTokens from './ring.tokens.json';
 import type { RawTree } from './resolve';
@@ -27,7 +28,7 @@ import type { DeclaredToken } from './resolve';
 import type { Tokens } from './types';
 
 // Each *.tokens.json's own top-level key already names its category (docs/design-system.md §1);
-// merging is a plain union of those 14 keys.
+// merging is a plain union of those 15 keys.
 const RAW_SOURCE_FILES: readonly RawTree[] = [
   colorTokens,
   semanticTokens,
@@ -37,6 +38,7 @@ const RAW_SOURCE_FILES: readonly RawTree[] = [
   spaceTokens,
   sizeTokens,
   radiusTokens,
+  opacityTokens,
   ringTokens,
   shadowTokens,
   textureTokens,

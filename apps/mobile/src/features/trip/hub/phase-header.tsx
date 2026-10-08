@@ -4,15 +4,15 @@
  * destination in the display face in the guide's colour; and the phase's line, on the
  * destination's baseline: a 1 Hz countdown before the trip ("Wheels up in 17D 05:26:29") or on a
  * travel day ("Land in"), "Day 4 of 8" during it, "Home since Oct 19" after, or the planning CTA
- * while the trip is still being planned. A name too long to share its line takes the whole width
+ * while the trip is still being planned. A called-off trip keeps its dates and name and says so,
+ * with nothing counted. A name too long to share its line takes the whole width
  * and the phase's line sits under it. Behind it all, the destination's photo under an ink scrim;
  * with a photo the header is taller, the photo showing between the dates line and the
  * destination; with none it is plain ink.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 import { tokens } from '@cp/design-tokens';
 import type { MediaAsset } from '@cp/domain';
-import { format, upper } from '@cp/i18n';
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
@@ -40,11 +40,13 @@ import {
   titleLineSize,
 } from './hero-layout';
 import { tripDates } from './hub-copy';
-import { countdownClock, type HubHeader } from './hub-model';
+import type { HubHeader } from './hub-model';
+import { usePhaseLine } from './phase-line';
 
 export interface PhaseHeaderProps {
   readonly header: HubHeader;
-  readonly now: Date;
+  /** A fixed clock for the countdown (design scenes); left out, the header reads its own. */
+  readonly now?: Date;
   readonly startDate: string | null;
   readonly endDate: string | null;
   readonly going: number;
@@ -91,42 +93,6 @@ const useStyles = makeStyles((th) => ({
 /** Vietnamese letters with marks above (Ặ, Ỗ, Ế…), which rise past the capitals' height. */
 const STACKED_MARKS = /[\u1EA0-\u1EF9]/u;
 
-function day(locale: string, date: string, options: Intl.DateTimeFormatOptions): string {
-  return format.date(locale, new Date(`${date}T12:00:00Z`), { timeZone: 'UTC', ...options });
-}
-
-/** The phase's label and value: the countdown, the day of the trip, or home since. */
-function usePhaseLine(header: HubHeader, now: Date): { label: string; value: string } | null {
-  const locale = useLocale();
-  const { t } = useLingui();
-  const dayUnit = t({ id: 'trip.hub.dayUnit', message: 'D' });
-  if (header.phase === 'pre' || header.phase === 'travel') {
-    const label =
-      header.phase === 'pre'
-        ? header.byAir
-          ? t({ id: 'trip.hub.wheelsUp', message: 'Wheels up in' })
-          : t({ id: 'trip.hub.leavingIn', message: 'Leaving in' })
-        : header.target.getTime() === header.flight.departsAt.getTime()
-          ? t({ id: 'trip.hub.takeOff', message: 'Take off in' })
-          : t({ id: 'trip.hub.landIn', message: 'Land in' });
-    return { label, value: countdownClock(header.target.getTime() - now.getTime(), dayUnit) };
-  }
-  if (header.phase === 'in') {
-    const { day: dayNo, days } = header;
-    return {
-      label: t({ id: 'trip.hub.today', message: 'Today' }),
-      value: t({ id: 'trip.hub.dayOf', message: `Day ${dayNo} of ${days}` }),
-    };
-  }
-  if (header.phase === 'post') {
-    return {
-      label: t({ id: 'trip.hub.homeSince', message: 'Home since' }),
-      value: day(locale, header.homeSince, { month: 'short', day: 'numeric' }),
-    };
-  }
-  return null;
-}
-
 export function PhaseHeader(props: PhaseHeaderProps) {
   const locale = useLocale();
   const { t } = useLingui();
@@ -149,7 +115,7 @@ export function PhaseHeader(props: PhaseHeaderProps) {
       : t({ id: 'trip.hub.going', message: `${count} going` });
   // Each part keeps its words together, so a line too long for the row breaks after the dot.
   const meta = upper(
-    [dates, going]
+    [dates, header.phase === 'cancelled' ? null : going]
       .filter((part) => part !== null)
       .map((part) => part.replaceAll(' ', '\u00a0'))
       .join(' · ')
@@ -203,7 +169,7 @@ export function PhaseHeader(props: PhaseHeaderProps) {
         variant="h3"
         designSize={COUNTDOWN_SIZE}
         color={cream}
-        style={{ fontVariant: ['tabular-nums'] }}
+        tabular
         testID="trip-hub-countdown"
       >
         {value}
@@ -274,6 +240,13 @@ export function PhaseHeader(props: PhaseHeaderProps) {
           </InfoPill>
         </View>
       )}
+      {header.phase === 'cancelled' ? (
+        <View style={styles.below}>
+          <InfoPill testID="trip-hub-called-off">
+            {t({ id: 'trip.hub.calledOff', message: 'Called off' })}
+          </InfoPill>
+        </View>
+      ) : null}
       {header.phase === 'planning' && props.planning !== null ? (
         <View style={{ marginTop: theme.space['12'], gap: theme.space['12'] }}>
           {props.planning.note === undefined ? null : (

@@ -476,6 +476,10 @@ msgstr "Mua sắm"
 msgid "plan.tripMap.label.stop"
 msgstr "Điểm {n}"
 
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.suggested"
+msgstr "Đã đề xuất · chờ cả nhóm"
+
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.swipe"
 msgstr "Cùng lướt chọn"

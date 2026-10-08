@@ -22,6 +22,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { usePayoutKindLabel } from './payout-labels';
+import { MONEY_ROUTES } from '../routes';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -106,7 +107,10 @@ export function PayoutMethodsEditor(props: PayoutMethodsEditorProps) {
         ]}
         keyboardShouldPersistTaps="handled"
       >
-        <BackEyebrow label={upper(t({ id: 'money.pay.back', message: 'Settle up' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'money.pay.back', message: 'Settle up' }), locale)}
+          fallback={MONEY_ROUTES.settle}
+        />
         <Text variant="h1" accessibilityRole="header">
           {upper(t({ id: 'money.settle.payYou', message: 'How people pay you' }), locale)}
         </Text>

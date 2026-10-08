@@ -1,0 +1,104 @@
+name: nightly
+
+# What is too slow or too broad for every pull request, on a schedule against main. A failed run
+# opens the "Nightly checks" issue, or adds a comment to it while it is open.
+on:
+  schedule:
+    - cron: '30 18 * * *' # nightly, 01:30 in Vietnam
+    - cron: '30 19 * * 6' # weekly, Sunday 02:30 in Vietnam
+  workflow_dispatch:
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  suites:
+    # The suites ci.yml's database legs leave out (NIGHTLY_SUITES in
+    # tools/scripts/ci-affected-suites.ts, which a test keeps equal to this matrix): the RLS fuzz
+    # with its random seed and 15-minute budget, the wall-clock SOS latency asserts, and two
+    # one-case suites that take a minute or build the api bundle.
+    name: nightly suites (${{ matrix.suite }})
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 18 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: db
+            task: '@cp/db#test'
+            files: test/fuzz/rls-fuzz.test.ts
+          - suite: api
+            task: '@cp/api#test:db'
+            files: test/obs/bundle-traces.db.test.ts
+          - suite: worker
+            task: '@cp/worker#test:db'
+            files: test/jobs/ai/redraft.db.test.ts test/safety/sos-latency.db.test.ts
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Pull the suites' images
+        timeout-minutes: 12
+        run: pnpm exec tsx tools/scripts/test-images.ts --pull
+      - name: Build the test Postgres image
+        timeout-minutes: 10
+        env:
+          DEBUG: testcontainers:build
+          TESTCONTAINERS_RYUK_DISABLED: 'true'
+        run: pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
+      # Through turbo for the builds the suites depend on; --force because @cp/db's `test` is
+      # cached and a cached pass would never try a new seed.
+      - name: Suites
+        env:
+          TASK: ${{ matrix.task }}
+          FILES: ${{ matrix.files }}
+        run: pnpm turbo run "$TASK" --force -- $FILES
+
+  secrets-history:
+    # ci.yml scans the commits of each pull request and of each push to main; this scans all of
+    # main's history, so a rule added to gitleaks later still reaches every commit.
+    name: secret scan (main, full history)
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 19 * * 6'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      # Main only: `fetch-depth: 0` would download every branch, the screenshots branch included.
+      - name: Fetch main's history
+        run: git fetch --no-tags --unshallow origin "+refs/heads/${GITHUB_REF_NAME}:refs/remotes/origin/${GITHUB_REF_NAME}"
+      - name: gitleaks
+        run: |
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
+            git /repo --redact --no-banner --exit-code 1 --log-opts=HEAD
+
+  report:
+    name: report a failed run
+    needs: [suites, secrets-history]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open or update the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          failed=$(jq -r '[to_entries[] | select(.value.result == "failure") | .key] | join(", ")' <<< "$RESULTS")
+          body="Failed on $(date -u +%F): ${failed}. Run: ${RUN_URL}"
+          number=$(gh issue list --state open --search 'in:title "Nightly checks"' --json number,title \
+            --jq '[.[] | select(.title == "Nightly checks")][0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --body "$body"
+          else
+            gh issue create --title 'Nightly checks' --body "$body"
+          fi

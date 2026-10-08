@@ -8,6 +8,7 @@ import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { Linking, Platform, View } from 'react-native';
 
+import { toast } from '@/motion/island-toast';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -18,6 +19,7 @@ import type { GoTarget } from './data/go-place';
 import { GoPreviewView } from './go-preview-view';
 import { mapsAppFor, mapsDirectionsUrl, useChosenMapsApp } from './maps-handoff';
 import type { GrabRow } from './preview-model';
+import { tripTodayHref } from './routes';
 import { useGoPreview } from './use-go-preview';
 
 const PLATFORM = Platform.OS === 'ios' ? 'ios' : 'android';
@@ -56,6 +58,7 @@ function Missing({ loading }: { readonly loading: boolean }) {
 }
 
 export function GoScreen({ target }: { readonly target: GoTarget | null }) {
+  const { t } = useLingui();
   const data = useGoPreview(target);
   const [chosen] = useChosenMapsApp();
   const app = mapsAppFor(PLATFORM, chosen);
@@ -75,7 +78,22 @@ export function GoScreen({ target }: { readonly target: GoTarget | null }) {
       mode={mode}
       onMode={data.setMode}
       mapsApp={app}
-      onStart={() => void Linking.openURL(mapsDirectionsUrl(place, mode, app)).catch(() => false)}
+      backFallback={fallback ?? (place.tripId === null ? undefined : tripTodayHref(place.tripId))}
+      onStart={() => {
+        // The chosen maps app may be gone from the phone: the other one, then a word about it.
+        const other = app === 'apple' ? 'google' : 'apple';
+        void Linking.openURL(mapsDirectionsUrl(place, mode, app))
+          .catch(() => Linking.openURL(mapsDirectionsUrl(place, mode, other)))
+          .catch(() =>
+            toast.show({
+              id: 'go-start-failed',
+              title: t({
+                id: 'go.preview.startFailed',
+                message: 'Couldn’t open a maps app on this phone.',
+              }),
+            }),
+          );
+      }}
       onRetry={data.retryLocate}
       onRide={() => {
         if (state.grab !== null) openGrab(state.grab);

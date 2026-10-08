@@ -3,7 +3,7 @@
  * flow and the model the surface draws, with the welcome opened once the server has confirmed.
  */
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useProducts, type StorePort } from '@/data/billing';
 import { useOnline } from '@/data/places/server-name-search';
@@ -27,7 +27,14 @@ export function usePassPurchase(period: BillingPeriod): PassPurchase {
   const online = useOnline();
   const rows = useBillingRows();
   const store = useStore(rows.uid);
-  const products = useProducts(store, locale, rows.catalogue);
+  // The store is asked for its offers again each time signal returns: a paywall opened offline
+  // has none, and would otherwise stay empty until it was reopened.
+  const catalogue = useMemo(
+    () => [...rows.catalogue],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `online` renews the list on purpose
+    [rows.catalogue, online],
+  );
+  const products = useProducts(store, locale, catalogue);
   const purchase = usePurchase(store);
   const model = paywallModel({
     products,

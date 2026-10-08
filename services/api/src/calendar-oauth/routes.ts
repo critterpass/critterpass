@@ -7,7 +7,14 @@
  *   `connect_calendar`, which checks the state belongs to the same user and device. The code is
  *   worthless without the verifier, which never leaves the server.
  */
-import { DomainError, oauthCalendarProviderSchema, type OAuthCalendarProvider } from '@cp/domain';
+import {
+  appLinkSchemeUrl,
+  calendarConnectedLink,
+  DomainError,
+  oauthCalendarProviderSchema,
+  type OAuthCalendarProvider,
+  type OAuthReturn,
+} from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 
@@ -84,20 +91,18 @@ export function registerCalendarOAuthRoutes(
   app.get('/v1/calendar/oauth/:provider/callback', async (c) => {
     const provider = providerOf(c.req.param('provider'));
     const query = callbackQuery.parse(c.req.query());
-    const scheme = deps.config?.appScheme ?? 'critterpass';
-    const back = new URL(`${scheme}://setup/calendar/connected`);
-    back.searchParams.set('provider', provider);
     const live =
       query.state !== undefined && (await peekOAuthState(deps.store, query.state, provider));
-    if (!live || query.code === undefined || query.error !== undefined) {
-      back.searchParams.set('status', query.error === 'access_denied' ? 'denied' : 'failed');
-    } else {
-      back.searchParams.set('status', 'authorized');
-      back.searchParams.set('state', query.state ?? '');
-      back.searchParams.set('code', query.code);
-    }
+    const outcome: OAuthReturn =
+      !live || query.code === undefined || query.error !== undefined
+        ? { status: query.error === 'access_denied' ? 'denied' : 'failed' }
+        : { status: 'authorized', state: query.state ?? '', code: query.code };
+    const back = appLinkSchemeUrl(
+      deps.config?.appScheme ?? 'critterpass',
+      calendarConnectedLink(provider, outcome),
+    );
     c.header('Cache-Control', 'no-store');
     c.header('Referrer-Policy', 'no-referrer');
-    return c.redirect(back.toString(), 302);
+    return c.redirect(back, 302);
   });
 }

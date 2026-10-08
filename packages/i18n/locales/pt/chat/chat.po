@@ -32,6 +32,10 @@ msgstr ""
 msgid "chat.upload.progress"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.guideAuthor"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.people"
 msgstr ""
@@ -147,8 +151,8 @@ msgstr ""
 msgid "chat.report.alsoMute"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.back"
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.loneLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
@@ -254,6 +258,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.hate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.loneTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx

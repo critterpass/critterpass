@@ -8,6 +8,8 @@ jest.mock('@/ui/sticker/Sticker', () => {
   const RN = require('react-native') as typeof ReactNativeModule;
   return { Sticker: ({ kind }: { kind: string }) => <RN.View testID={`sticker-${kind}`} /> };
 });
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- FlashList cannot run under Jest; see the double's header
+jest.mock('@shopify/flash-list', () => require('../../test-support/flash-list-double'));
 jest.mock(
   '@powersync/common',
   () =>

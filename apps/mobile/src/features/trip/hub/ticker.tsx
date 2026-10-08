@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useScreenActive } from '@/lib/time/use-screen-active';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { Row } from '@/ui/layout/Row';
 import { Text } from '@/ui/text/Text';
@@ -53,8 +54,11 @@ const useStyles = makeStyles((th) => ({
 function Run({
   events,
   onWidth,
+  copy = false,
 }: {
   readonly events: readonly TickerEvent[];
+  /** The second run only fills the loop: a screen reader meets each line once. */
+  readonly copy?: boolean;
   readonly onWidth?: (w: number) => void;
 }) {
   const styles = useStyles();
@@ -65,6 +69,8 @@ function Run({
       align="center"
       style={{ flexShrink: 0 }}
       onLayout={(event: LayoutChangeEvent) => onWidth?.(event.nativeEvent.layout.width)}
+      accessibilityElementsHidden={copy}
+      importantForAccessibility={copy ? 'no-hide-descendants' : 'auto'}
     >
       {events.map((event) => (
         <Row key={event.id} align="center" style={{ flexShrink: 0 }}>
@@ -72,7 +78,8 @@ function Run({
             accessibilityRole={event.onPress === undefined ? 'text' : 'link'}
             onPress={event.onPress}
             disabled={event.onPress === undefined}
-            hitSlop={theme.space['8']}
+            accessibilityLabel={event.text}
+            hitSlop={theme.space['12']}
           >
             <Text variant="label" color={theme.semantic.text.primary} singleLine>
               {upper(event.text, locale)}
@@ -96,8 +103,10 @@ export function Ticker({ events }: { readonly events: readonly TickerEvent[] }) 
     latest.current = events;
   }, [events]);
   const x = useSharedValue(0);
+  // The line scrolls only while the hub is the screen in front.
+  const visible = useScreenActive();
   useEffect(() => {
-    if (reduced || width === 0) {
+    if (reduced || width === 0 || !visible) {
       cancelAnimation(x);
       x.value = 0;
       return undefined;
@@ -112,22 +121,16 @@ export function Ticker({ events }: { readonly events: readonly TickerEvent[] }) 
       clearInterval(timer);
       cancelAnimation(x);
     };
-  }, [reduced, width, x]);
+  }, [reduced, width, visible, x]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
   const list = shown.length === 0 ? events : shown;
   if (list.length === 0) return null;
   return (
-    <View
-      style={styles.strip}
-      accessible
-      accessibilityRole="text"
-      accessibilityLabel={list.map((event) => event.text).join('. ')}
-      testID="trip-hub-ticker"
-    >
+    <View style={styles.strip} testID="trip-hub-ticker">
       {/* Wider than the strip on purpose: the run scrolls past its clipped edge, never shrinks. */}
       <Animated.View style={[{ flexDirection: 'row', alignSelf: 'flex-start' }, style]}>
         <Run events={list} onWidth={setWidth} />
-        {reduced ? null : <Run events={list} />}
+        {reduced ? null : <Run events={list} copy />}
       </Animated.View>
     </View>
   );

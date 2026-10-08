@@ -3,36 +3,25 @@
  * plays the ceremony at once, offline too), and Explore at home (the device's own opt-in plus
  * `set_explore_at_home`, so the server accepts home-set encounters).
  *
- * While another screen or tab is in front, the dex is not drawn: its grid is dozens of live Skia
- * canvases (each one a GL surface on Android), and keeping them up under the encounter left the
- * screen on top without surfaces of its own (no scene, no critter) and stalled the app. The rows
- * stay loaded, so coming back draws the dex at once.
+ * The dex stays mounted while another screen or tab is in front, so it is where the person left
+ * it when they come back; its cells are plain images and its loops rest when the tab is hidden.
  */
 import { guideOfForm } from '@cp/domain';
-import { router, useIsFocused } from 'expo-router';
+import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useMemberFaces } from '@/features/you';
-import { Scaffold } from '@/ui/surface/Scaffold';
 import { setExploreAtHome, useExploreAtHome } from '@/lib/location';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { hatchEggCommand, setExploreAtHomeCommand } from '../data/commands';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model';
-import { useEncounter } from '../engine/use-encounter';
-import {
-  critterRoute,
-  encounterRoute,
-  hatchRoute,
-  LEGENDARIES_ROUTE,
-  setRoute,
-  whereRoute,
-} from '../routes';
+import { critterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute, whereRoute } from '../routes';
 import { NearMap } from '../where/near-map';
 import type { DexFilter } from './dex-model';
 import { DexView } from './dex-view';
+import { LiveEncounterBanner } from './encounter-banner';
 import {
   dismissSlipped,
   SLIPPED_SQL,
@@ -59,8 +48,6 @@ interface MeRow {
   readonly avatar_form_id: string | null;
 }
 
-const LIVE = new Set(['accruing', 'ready', 'draining']);
-
 export function PassScreen({ now = () => new Date() }: { readonly now?: () => Date }) {
   const data = useDexRows();
   const uid = useOwnerUid();
@@ -68,7 +55,6 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   // The way to the profile (and from there Settings) for someone with no crew yet: Home shows its
   // "HEY {NAME}" header only once there is one.
   const profileHref = useScreenHref(PROFILE_SCREEN);
-  const faces = useMemberFaces();
   const [filter, setFilter] = useState<DexFilter>('all');
   const [query, setQuery] = useState('');
   const hatch = useCommand(hatchEggCommand);
@@ -76,13 +62,11 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   const exploreOn = useExploreAtHome();
   useHatchSeenVersion();
   const egg = eggCardFor(data.input.trips, now(), hatchSeen);
-  const { snapshot } = useEncounter();
   useSlippedVersion();
   const slipped = useLiveRows<SlippedRow>(SLIPPED_SQL, uid === null ? null : [uid], SLIPPED_TABLES);
   const slippedAway = slippedAwayFor(slipped.rows, now(), slippedDismissed);
-  const live = LIVE.has(snapshot.phase) && snapshot.encounterId !== null;
-  const encounterId = snapshot.encounterId;
-
+  const { landed } = useLocalSearchParams<{ landed?: string }>();
+  // The map is a live native surface that watches the position: it rests while the tab is hidden.
   const focused = useIsFocused();
 
   const onHatch = () => {
@@ -90,8 +74,6 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
     void hatch.send({ trip_id: egg.tripId, trigger: egg.trigger ?? 'manual' });
     router.push(hatchRoute(egg.tripId));
   };
-
-  if (!focused) return <Scaffold variant="dark" edges={['top']} testID="critters-dex-resting" />;
 
   return (
     <DexView
@@ -115,14 +97,14 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
       onOpenSet={(id) => router.push(setRoute(id))}
       onOpenCritter={(id) => router.push(critterRoute(id))}
       onOpenWhere={(formId) => router.push(whereRoute(formId))}
-      nearMap={<NearMap watching={filter === 'near'} />}
+      nearMap={focused ? <NearMap watching={filter === 'near'} /> : null}
       onOpenLegendaries={() => router.push(LEGENDARIES_ROUTE)}
       profile={
         profileHref === undefined || me === undefined
           ? undefined
           : {
               name: me.display_name?.trim() ?? '',
-              ...(uid === null ? {} : { face: faces.faceProps(uid, 'lg') }),
+              uid,
               guide:
                 me.avatar_kind === 'critter' && me.avatar_form_id !== null
                   ? guideOfForm(me.avatar_form_id)
@@ -136,15 +118,9 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
       }
       slippedAway={slippedAway}
       onDismissSlipped={() => slippedAway !== null && dismissSlipped(slippedAway.encounterId)}
-      encounter={
-        live && encounterId !== null
-          ? {
-              place: snapshot.candidate?.spot.name ?? '',
-              progress: snapshot.progress,
-              onOpen: () => router.push(encounterRoute(encounterId)),
-            }
-          : null
-      }
+      encounterBanner={<LiveEncounterBanner />}
+      landed={typeof landed === 'string' && landed !== '' ? landed : null}
+      onLandedShown={() => router.setParams({ landed: undefined })}
     />
   );
 }

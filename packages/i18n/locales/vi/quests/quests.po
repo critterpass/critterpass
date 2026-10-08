@@ -60,7 +60,7 @@ msgstr "Ngày đầu"
 
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.done"
-msgstr "Xong ✓"
+msgstr "Xong"
 
 #: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
 msgid "quests.befriend.go"

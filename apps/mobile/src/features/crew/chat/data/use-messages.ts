@@ -7,7 +7,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { MuteMemberPayload } from '@cp/domain';
 
@@ -21,6 +21,7 @@ import {
 } from './chat-commands';
 import {
   fromRow,
+  keepUnchanged,
   parseList,
   quoted,
   type ChatMessage,
@@ -30,6 +31,29 @@ import {
 
 /** How many synced messages one window holds; older windows load locally, 200 at a time. */
 export const MESSAGE_WINDOW = 200;
+
+/** The `messages` columns a timeline row is built from. */
+const MESSAGE_COLUMNS = [
+  'id',
+  'crew_id',
+  'seq',
+  'sender_kind',
+  'sender_id',
+  'guide_id',
+  'type',
+  'body',
+  'ref_kind',
+  'ref_id',
+  'reply_to_id',
+  'mentions',
+  'mentions_guide',
+  'attachments',
+  'edited_at',
+  'deleted_at',
+  'created_at',
+]
+  .map((column) => `m.${column}`)
+  .join(', ');
 
 const TABLES = ['messages', 'users', 'commands', 'rejected_commands', 'user_settings'];
 
@@ -105,7 +129,8 @@ export async function loadTimeline(
   const window = Math.max(1, Math.floor(limit));
   const [synced, queued, rejected, settings, muting] = await Promise.all([
     db.getAll<MessageRow>(
-      `SELECT m.*, coalesce(u.display_name, g.name) AS sender_name, r.display_name AS ref_name
+      `SELECT ${MESSAGE_COLUMNS}, coalesce(u.display_name, g.name) AS sender_name,
+              r.display_name AS ref_name
          FROM messages m LEFT JOIN users u ON u.id = m.sender_id
          LEFT JOIN guides g ON g.id = m.guide_id
          LEFT JOIN users r ON r.id = m.ref_id AND m.sender_kind = 'system'
@@ -186,7 +211,19 @@ export interface MessagesState extends Timeline {
   readonly loaded: boolean;
   /** The newest seq at the first read: later messages arrived while the chat was open. */
   readonly openedSeq: number | null;
+  /** How many synced messages the loaded window holds at most. */
+  readonly window: number;
   readonly loadOlder: () => void;
+}
+
+/** `next`, holding on to everything of `previous` that did not change (the timeline itself too). */
+export function keepTimeline(previous: Timeline, next: Timeline): Timeline {
+  const messages = keepUnchanged(previous.messages, next.messages);
+  return messages === previous.messages &&
+    previous.hasOlder === next.hasOlder &&
+    previous.lastSeq === next.lastSeq
+    ? previous
+    : { ...next, messages };
 }
 
 export function useMessages(crewId: string, me: string | null): MessagesState {
@@ -205,11 +242,16 @@ export function useMessages(crewId: string, me: string | null): MessagesState {
       loadTimeline(db, crewId, me, limit).then(
         (timeline) => {
           if (controller.signal.aborted) return;
-          setState((previous) => ({
-            timeline,
-            loaded: true,
-            openedSeq: previous.openedSeq ?? timeline.lastSeq,
-          }));
+          setState((previous) => {
+            const kept = keepTimeline(previous.timeline, timeline);
+            // A reload that changed nothing on screen re-renders nothing.
+            if (previous.loaded && kept === previous.timeline) return previous;
+            return {
+              timeline: kept,
+              loaded: true,
+              openedSeq: previous.openedSeq ?? timeline.lastSeq,
+            };
+          });
         },
         () => undefined,
       );
@@ -225,5 +267,14 @@ export function useMessages(crewId: string, me: string | null): MessagesState {
     if (state.timeline.hasOlder) setLimit((current) => current + MESSAGE_WINDOW);
   }, [state.timeline.hasOlder]);
 
-  return { ...state.timeline, loaded: state.loaded, openedSeq: state.openedSeq, loadOlder };
+  return useMemo(
+    () => ({
+      ...state.timeline,
+      loaded: state.loaded,
+      openedSeq: state.openedSeq,
+      window: limit,
+      loadOlder,
+    }),
+    [state, limit, loadOlder],
+  );
 }

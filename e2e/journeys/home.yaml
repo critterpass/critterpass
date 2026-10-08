@@ -1,0 +1,80 @@
+appId: app.critterpass.dev
+---
+# Journey: Home with a crew and a trip. A new account starts as the `inbox` scenario (the Bali demo
+# crew, a confirmed trip three weeks out, one card that needs the account and a guide change still
+# inside its undo window). Home counts down to the trip with its plan progress, tip and bell badge;
+# the bell opens the inbox; answering the card leaves nothing that needs the account; UNDO on the
+# guide's change goes through to the api; back on Home the badge is gone; and TRIPS, WALLET and
+# PASS each open from the tab bar and Home comes back.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: inbox
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 30000
+- assertVisible:
+    id: 'home-plan-progress'
+- assertVisible:
+    id: 'home-tip'
+- assertVisible:
+    id: 'home-header-inbox-badge'
+- tapOn:
+    id: 'home-header-inbox'
+# The one card that needs the account, and its answer.
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-card-.*'
+    timeout: 15000
+- tapOn:
+    id: 'inbox-action-.*-open'
+- extendedWaitUntil:
+    notVisible:
+      id: 'inbox-card-.*'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 10000
+- tapOn:
+    id: 'inbox-undo-.*'
+# The row settles (its UNDO turns into a check) once the api has undone the change.
+- extendedWaitUntil:
+    notVisible:
+      id: 'inbox-undo-.*'
+    timeout: 20000
+# Back on Home the bell has nothing left that needs the account.
+- tapOn:
+    id: 'inbox-back'
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 15000
+- assertNotVisible:
+    id: 'home-header-inbox-badge'
+# The tab bar: the trip's hub, the crew's money, the pass, and Home again.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 15000

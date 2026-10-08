@@ -18,6 +18,7 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
+import { Amount } from '@/ui/money/Amount';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -27,6 +28,7 @@ import { useMoneyDisplay } from '@/data/money';
 
 import { calendarDate, formatAmount, formatAmountShown } from '../format';
 import type { EditField, FxLine } from './model';
+import { MONEY_ROUTES } from '../routes';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -129,7 +131,10 @@ export function ExpenseDetailView(props: ExpenseDetailViewProps) {
           { paddingBottom: insets.bottom + theme.space['32'] },
         ]}
       >
-        <BackEyebrow label={upper(t({ id: 'money.back', message: 'Money' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'money.back', message: 'Money' }), locale)}
+          fallback={MONEY_ROUTES.balances}
+        />
         <Row gap="8" align="center">
           <InfoPill variant="outline">{upper(categoryLabel(item.category), locale)}</InfoPill>
           {item.pending !== null ? (
@@ -181,14 +186,14 @@ export function ExpenseDetailView(props: ExpenseDetailViewProps) {
             title: share.name,
             trailing: (
               <PrivateContent>
-                <Text
+                <Amount
                   variant="rowTitle"
                   color={share.crewMinor === 0n ? theme.semantic.text.secondary : undefined}
                 >
                   {share.crewMinor === 0n
                     ? t({ id: 'money.detail.leftOut', message: 'Left out' })
                     : formatAmount(share.crewMinor, props.crewCurrency, locale)}
-                </Text>
+                </Amount>
               </PrivateContent>
             ),
           }))}

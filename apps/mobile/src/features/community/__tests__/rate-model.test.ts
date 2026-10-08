@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import type { RatingCard } from '@cp/domain';
 
-import { rejectedTips, resumeIndex, verdictFor, withAnswers } from '../rate/rate-model';
+import { draftFor, rejectedTips, resumeIndex, verdictFor, withAnswers } from '../rate/rate-model';
 
 const card = (poi: string, verdict: RatingCard['verdict'] = null): RatingCard => ({
   poi_id: poi,
@@ -37,5 +37,16 @@ describe('rate model', () => {
     expect(
       rejectedTips([{ ...card('a', 'loved'), tip: 'x', tip_status: 'rejected' }, card('b')]),
     ).toHaveLength(1);
+  });
+});
+
+describe('the card on screen', () => {
+  it('starts clean for a place not answered yet, and with the earlier answer when stepping back', () => {
+    expect(draftFor(undefined)).toEqual({ verdict: null, tip: '' });
+    const answered = withAnswers(
+      [card('p1')],
+      new Map([['p1', { poi_id: 'p1', verdict: 'loved' as const, tip: 'go early' }]]),
+    )[0];
+    expect(draftFor(answered)).toEqual({ verdict: 'loved', tip: 'go early' });
   });
 });

@@ -5,6 +5,8 @@
  * waits as a card on the trip and a quiet ping.
  */
 import { router, type Href } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useEffect } from 'react';
 
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
@@ -94,7 +96,7 @@ export function PlacingScreen({
             }
           : null
       }
-      onLeave={() => (router.canGoBack() ? router.back() : router.replace(ideasRoute(tripId)))}
+      onLeave={() => goBackOr(ideasRoute(tripId))}
     />
   );
 }

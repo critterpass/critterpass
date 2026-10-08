@@ -12,6 +12,10 @@ msgstr ""
 msgid "explore.saved.unknown"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.removedNamed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.newList"
 msgstr ""
@@ -29,7 +33,12 @@ msgid "explore.saved.create"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
 msgid "explore.saved.deleteList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.deleteTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
@@ -52,6 +61,10 @@ msgstr ""
 msgid "explore.saved.explore"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.deleteKeeps"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.move"
 msgstr ""
@@ -70,6 +83,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.removed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
@@ -94,6 +111,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.undo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx

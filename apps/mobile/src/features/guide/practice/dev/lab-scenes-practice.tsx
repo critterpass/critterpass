@@ -7,7 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
 
-import { Scaffold, makeStyles } from '@/ui';
+import { Scaffold, Stack, Text, makeStyles, useTheme } from '@/ui';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 
 import { PhraseCardView } from '../../phrases/phrase-card';
 import {
@@ -21,22 +22,40 @@ import { PracticeView } from '../practice-view';
 const noop = () => undefined;
 
 const useStyles = makeStyles((t) => ({
-  card: { padding: t.size.gutter, paddingTop: t.space['32'] },
+  card: { padding: t.size.gutter, paddingTop: t.space['12'] },
 }));
 
 /** A phrase card somewhere in the app, with the link into practice under it. */
 function CardWithPractise() {
   const styles = useStyles();
+  const theme = useTheme();
   return (
     <Scaffold edges={['top', 'bottom']} style={styles.card}>
-      <PhraseCardView
-        phrase="Cảm ơn nhiều"
-        lang="vi"
-        gloss="Thank you very much"
-        playerState="idle"
-        onPlay={noop}
-        onPractise={noop}
-      />
+      <Stack gap="16">
+        <BackEyebrow label="Guide lab" testID="guide-lab-card-back" />
+        <Text variant="h1" singleLine={false}>
+          A PHRASE CARD
+        </Text>
+        <Text variant="bodyLg" color={theme.semantic.text.secondary}>
+          A phrase the guide deals into a plan or an answer. Play it, show it to someone, or
+          practise saying it.
+        </Text>
+        <PhraseCardView
+          phrase="Cảm ơn nhiều"
+          lang="vi"
+          gloss="Thank you very much"
+          playerState="idle"
+          onPlay={noop}
+          onPractise={noop}
+        />
+        <PhraseCardView
+          phrase="Tính tiền giúp em"
+          lang="vi"
+          gloss="The bill, please"
+          playerState="idle"
+          onPlay={noop}
+        />
+      </Stack>
     </Scaffold>
   );
 }

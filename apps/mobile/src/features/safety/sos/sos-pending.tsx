@@ -19,9 +19,11 @@ export interface SosPendingProps {
   readonly sent: boolean;
   readonly general: string;
   readonly onCallGeneral: () => void;
+  /** Leaves the page; drawn under the call button so the screen is never a dead end. */
+  readonly onClose: () => void;
 }
 
-export function SosPending({ sent, general, onCallGeneral }: SosPendingProps) {
+export function SosPending({ sent, general, onCallGeneral, onClose }: SosPendingProps) {
   const { t } = useLingui();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
@@ -56,6 +58,13 @@ export function SosPending({ sent, general, onCallGeneral }: SosPendingProps) {
             block
             onPress={onCallGeneral}
             testID="sos-pending-call"
+          />
+          <PillButton
+            label={t({ id: 'safety.sos.close', message: 'Close' })}
+            variant="secondary"
+            block
+            onPress={onClose}
+            testID="sos-pending-close"
           />
         </Stack>
       </ScrollView>

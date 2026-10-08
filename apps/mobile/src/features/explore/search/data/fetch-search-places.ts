@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and query keys, never copy. */
 import { sessionHeaders } from '@/data/app-session/auth-client';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
-import type { FetchPlaces } from '@/data/places/server-name-search';
+import { withSearchTimeout, type FetchPlaces } from '@/data/places/server-name-search';
 
 import type { Point, SearchPlace } from '../search-rows';
 
@@ -50,18 +50,19 @@ export function searchPlacesOf(body: unknown): SearchPlace[] {
 
 /** A fetcher for `useTripPlaceSearch` that measures from `near` when the search has a point. */
 export function fetchSearchPlaces(near: Point | null): FetchPlaces {
-  return async ({ destinationId, q }, signal) => {
-    const params = new URLSearchParams({
-      destination_id: destinationId,
-      q,
-      limit: String(SERVER_LIMIT),
+  return ({ destinationId, q }, outer) =>
+    withSearchTimeout(outer, async (signal) => {
+      const params = new URLSearchParams({
+        destination_id: destinationId,
+        q,
+        limit: String(SERVER_LIMIT),
+      });
+      if (near !== null) params.set('near', `${near.lat.toFixed(5)},${near.lng.toFixed(5)}`);
+      const response = await fetch(`${resolveApiBaseUrl()}/v1/places/search?${params.toString()}`, {
+        headers: { accept: 'application/json', ...(await sessionHeaders()) },
+        signal,
+      });
+      if (!response.ok) throw new Error(`place search answered ${String(response.status)}`);
+      return searchPlacesOf(await response.json());
     });
-    if (near !== null) params.set('near', `${near.lat.toFixed(5)},${near.lng.toFixed(5)}`);
-    const response = await fetch(`${resolveApiBaseUrl()}/v1/places/search?${params.toString()}`, {
-      headers: { accept: 'application/json', ...(await sessionHeaders()) },
-      signal,
-    });
-    if (!response.ok) throw new Error(`place search answered ${String(response.status)}`);
-    return searchPlacesOf(await response.json());
-  };
 }

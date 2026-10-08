@@ -9,7 +9,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.titleDays"
-msgstr "{count} days"
+msgstr "{count, plural, one {# day} other {# days}}"
 
 #: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
 msgid "plan.allDays.gettingThere.none"
@@ -29,7 +29,7 @@ msgstr "{ideas, plural, one {# saved place isn’t in a day yet} other {# saved 
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.title"
-msgstr "{place}, {count} days"
+msgstr "{place}, {count, plural, one {# day} other {# days}}"
 
 #: ../../apps/mobile/src/features/plan/all-days/getting-there-section.tsx
 msgid "plan.allDays.gettingThere.cost"

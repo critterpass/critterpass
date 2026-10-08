@@ -1,20 +1,20 @@
 /**
  * 3a-8 "Your number": number entry with a country picker, the OTP boxes (digits drop in as the code
  * autofills; the last one rings green and the puffin claps), resend with a growing wait, and every
- * error the OTP route can answer. Also the returning user's sign-in from the splash.
+ * error the OTP route can answer. Pushed over the page that offered to save the pass, which it goes
+ * back to once the number is verified. Also the returning user's sign-in from the splash.
  */
 import { t } from '@lingui/core/macro';
 import { getLocales } from 'expo-localization';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { homeBaseFor } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { deviceLastUid } from '@/data/app-session/last-uid-store';
-import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -22,6 +22,8 @@ import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { CodeBoxes } from '@/ui/inputs/CodeBoxes';
 import { TextField } from '@/ui/inputs/TextField';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -35,11 +37,11 @@ import { readDraft, updateDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
 import { DeclinedMergeNote, MergeSheet } from '../save/MergeSheet';
-import { ProviderMark } from '../save/ProviderMark';
 import { saveErrorLine } from '../save/SaveSheet';
 import { useSaveFlow } from '../save/use-save-flow';
 import { useOnboardingServices } from '../services';
 import { CountryPicker } from './CountryPicker';
+import { OtherWays } from './OtherWays';
 import { phoneProblemLine } from './phone-copy';
 import { defaultCountry, formatE164 } from './phone-number';
 import { usePhoneFlow } from './use-phone-flow';
@@ -48,6 +50,7 @@ import { usePhoneFlow } from './use-phone-flow';
 export const PHONE_ADVANCE_MS = 2150;
 
 const useStyles = makeStyles((th) => ({
+  scroll: { flex: 1 },
   content: {
     paddingHorizontal: th.space['20'],
     gap: th.space['14'],
@@ -62,8 +65,6 @@ const useStyles = makeStyles((th) => ({
     borderRadius: th.radius.md,
     backgroundColor: th.semantic.bg.base,
   },
-  or: { flexDirection: 'row', alignItems: 'center', gap: th.space['10'] },
-  rule: { flex: 1, height: 1 },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
 }));
 
@@ -74,7 +75,6 @@ export function PhoneScreen() {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const analytics = useAnalytics();
   const services = useOnboardingServices();
   const flow = useSaveFlow();
   const draft = readDraft();
@@ -107,18 +107,15 @@ export function PhoneScreen() {
   useEffect(() => {
     const state = flow.state;
     if (state.kind === 'saved') {
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
-      analytics.capture('account_saved', { provider: state.provider });
       if (returning) {
         // No pass on this number yet: it is now this phone's account; make the pass.
         const timer = setTimeout(() => router.replace(ONBOARDING_ROUTES.name), PHONE_ADVANCE_MS);
         return () => clearTimeout(timer);
       }
-      updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
-      const timer = setTimeout(
-        () => router.replace(ONBOARDING_ROUTES.permissions),
-        PHONE_ADVANCE_MS,
-      );
+      // The page that asked for a number decides what a saved pass leads to (the permissions page,
+      // or a seat in the crew that invited them): after the clap, back to it.
+      updateDraft((d) => ({ ...d, saved: true }));
+      const timer = setTimeout(() => router.back(), PHONE_ADVANCE_MS);
       return () => clearTimeout(timer);
     }
     if (state.kind === 'switched') {
@@ -127,13 +124,20 @@ export function PhoneScreen() {
       services.restart();
     }
     return undefined;
-  }, [flow.state, returning, analytics, services]);
+  }, [flow.state, returning, services]);
 
   const lundi = guideSticker('lundi');
   return (
     <>
-      <Scaffold variant="dark" edges={['top', 'bottom']} testID="onboarding-phone">
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+      {/* The footer pads the bottom inset itself and rides the keyboard: the field being typed in
+          stays in view above it, and "Send code" stays in reach over the phone pad. */}
+      <Scaffold variant="dark" edges={['top']} testID="onboarding-phone">
+        <KeyboardScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+        >
           <BackEyebrow label={t({ id: 'onboarding.phone.back', message: 'Back' })} />
           <View style={styles.head}>
             <View style={styles.headText}>
@@ -190,15 +194,7 @@ export function PhoneScreen() {
               }
               testID="phone-number"
             />
-            {sent === null ? (
-              <PillButton
-                label={t({ id: 'onboarding.phone.send', message: 'Send code' })}
-                onPress={() => void phone.send()}
-                loading={busy}
-                disabled={number.trim().length === 0}
-                testID="phone-send"
-              />
-            ) : (
+            {sent === null ? null : (
               <>
                 <Text variant="bodySm" color={theme.semantic.text.secondary} testID="phone-sent">
                   {sent.channel === 'whatsapp'
@@ -244,6 +240,14 @@ export function PhoneScreen() {
                 {phoneProblemLine(problem.kind, problem.retryS)}
               </Text>
             ) : null}
+            {problem?.kind === 'verify_failed' ? (
+              <InlineAction
+                label={t({ id: 'onboarding.phone.retry', message: 'Try again' })}
+                onPress={() => void phone.verify(code)}
+                disabled={busy}
+                testID="phone-verify-retry"
+              />
+            ) : null}
             {flow.state.kind === 'error' ? (
               <Text variant="bodySm" color={theme.color.pink} testID="phone-save-error">
                 {saveErrorLine(flow.state.reason)}
@@ -252,48 +256,26 @@ export function PhoneScreen() {
             {flow.state.kind === 'declined' ? (
               <DeclinedMergeNote state={flow.state} onSwitch={flow.reopenMerge} />
             ) : null}
-            <View style={styles.or}>
-              <View style={[styles.rule, { backgroundColor: theme.semantic.border.control }]} />
-              <Text variant="eyebrow" color={theme.semantic.text.tertiary}>
-                {upper(t({ id: 'onboarding.phone.or', message: 'or' }), locale)}
-              </Text>
-              <View style={[styles.rule, { backgroundColor: theme.semantic.border.control }]} />
-            </View>
-            {services.apple !== null ? (
-              <PillButton
-                label={t({ id: 'onboarding.save.apple', message: 'Continue with Apple' })}
-                variant="secondary"
-                leading={<ProviderMark provider="apple" color={theme.semantic.text.primary} />}
-                onPress={() => void flow.apple()}
-                loading={flow.state.kind === 'working' && flow.state.provider === 'apple'}
-                testID="phone-apple"
-              />
-            ) : null}
-            <PillButton
-              label={t({ id: 'onboarding.save.google', message: 'Continue with Google' })}
-              variant="secondary"
-              leading={<ProviderMark provider="google" color={theme.semantic.text.primary} />}
-              onPress={() => void flow.google()}
-              loading={flow.state.kind === 'working' && flow.state.provider === 'google'}
-              testID="phone-google"
+            <OtherWays
+              apple={services.apple !== null}
+              working={flow.state.kind === 'working' ? flow.state.provider : null}
+              onApple={() => void flow.apple()}
+              onGoogle={() => void flow.google()}
             />
-            <Text
-              variant="caption"
-              color={theme.semantic.text.tertiary}
-              style={{ textAlign: 'center' }}
-            >
-              {t({
-                id: 'onboarding.save.terms',
-                message: 'By continuing you agree to the Terms and the Privacy Policy.',
-              })}
-              {'\n'}
-              {t({
-                id: 'onboarding.phone.neverPost',
-                message: 'We never post anything for you.',
-              })}
-            </Text>
           </>
-        </ScrollView>
+        </KeyboardScrollView>
+        <KeyboardFooter>
+          {sent === null ? (
+            <PillButton
+              label={t({ id: 'onboarding.phone.send', message: 'Send code' })}
+              onPress={() => void phone.send()}
+              loading={busy}
+              disabled={number.trim().length === 0}
+              block
+              testID="phone-send"
+            />
+          ) : null}
+        </KeyboardFooter>
       </Scaffold>
       {/* Outside the page, so the sheets stay full size while the page scales down under them. */}
       <MergeSheet

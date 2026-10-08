@@ -8,7 +8,6 @@ import { useState } from 'react';
 
 import { parseMemberColour, type MemberRingPattern } from '@cp/domain';
 
-import { useMemberFaces } from '@/features/you';
 import { Avatar } from '@/ui/people/Avatar';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
@@ -42,7 +41,6 @@ export function ringLabel(colour: string | null): string {
 
 export function MembersList({ members, uid, createdBy, canManage, onRemove }: MembersListProps) {
   const [removing, setRemoving] = useState<CrewMemberRow | null>(null);
-  const faces = useMemberFaces();
   const rows: SettingsRow[] = members.map((member, index) => {
     const name = firstName(member.display_name);
     const role =
@@ -50,20 +48,13 @@ export function MembersList({ members, uid, createdBy, canManage, onRemove }: Me
         ? t({ id: 'crew.members.organiser', message: 'Organiser' })
         : t({ id: 'crew.members.member', message: 'Member' });
     const ring = ringLabel(member.colour);
+    const you = member.user_id === uid ? t({ id: 'crew.members.you', message: 'You' }) : '';
     return {
       key: member.user_id,
       kind: 'custom',
       title: name,
-      subtitle: ring === '' ? role : `${role} · ${ring}`,
-      trailing: (
-        <Avatar
-          name={name}
-          joinIndex={index}
-          size="sm"
-          decorative
-          {...faces.faceProps(member.user_id, 'sm')}
-        />
-      ),
+      subtitle: [role, you, ring].filter((part) => part !== '').join(' · '),
+      trailing: <Avatar name={name} joinIndex={index} size="sm" decorative uid={member.user_id} />,
     };
   });
   const removeRows: SettingsRow[] = canManage

@@ -403,6 +403,10 @@ msgstr "Refund depends on the booking policy."
 msgid "trip.disruptions.late.title"
 msgstr "Running {minutes} min late"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.queued"
+msgstr "Saved. It sends when you have signal."
+
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.seat.notConfirmed"
 msgstr "Seats for {date} weren't confirmed. The old booking is kept."
@@ -442,6 +446,10 @@ msgstr "Tell {vendor} the flight won't land today?"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.tellCrew"
 msgstr "Tell the crew"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.failed"
+msgstr "That didn’t change anything. Try again."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.detail.rebook"
@@ -492,6 +500,7 @@ msgid "trip.disruptions.late.told"
 msgstr "Told whoever's waiting."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/screen.tsx
 msgid "trip.disruptions.flight.backTo"
 msgstr "Trip"
 

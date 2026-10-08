@@ -1,6 +1,7 @@
 /**
  * Place search (`GET /v1/places?q=`) as the user types: debounced, the latest answer wins, and an
- * unreachable api reads as `offline` so the sheet can say so instead of showing nothing.
+ * unreachable api reads as `offline` and an api that answered with an error as `failed`, so the
+ * sheet can say which instead of showing nothing.
  */
 import { useEffect, useState } from 'react';
 
@@ -19,7 +20,7 @@ export interface PlaceResult {
 }
 
 export interface PlaceSearchState {
-  readonly status: 'idle' | 'loading' | 'ready' | 'offline';
+  readonly status: 'idle' | 'loading' | 'ready' | 'offline' | 'failed';
   readonly query: string;
   readonly results: readonly PlaceResult[];
 }
@@ -38,8 +39,11 @@ export function useDestinationSearch(query: string): PlaceSearchState {
     const timer = setTimeout(() => {
       services.searchPlaces(q, controller.signal).then(
         (results) => setAnswer({ status: 'ready', query: q, results }),
-        () => {
-          if (!controller.signal.aborted) setAnswer({ status: 'offline', query: q, results: [] });
+        (error: unknown) => {
+          if (controller.signal.aborted) return;
+          // `fetch` rejects with a TypeError when the request never reached the server.
+          const status = error instanceof TypeError ? 'offline' : 'failed';
+          setAnswer({ status, query: q, results: [] });
         },
       );
     }, SEARCH_DEBOUNCE_MS);

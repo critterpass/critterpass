@@ -348,6 +348,10 @@ msgstr "Bạn đi chứ?"
 msgid "proposal.objection.asked"
 msgstr "Đã hỏi, không nêu tên bạn"
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.loadingBack"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.done"
 msgstr "Về lại đề xuất"
@@ -412,13 +416,9 @@ msgstr "Đổi đặt chỗ trên {supplier}; chúng tôi không bao giờ đổ
 msgid "proposal.turn.answered.change"
 msgstr "Đổi câu trả lời"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.failedSub"
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.failed.connection"
 msgstr "Kiểm tra kết nối rồi thử lại nhé."
-
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failedSub"
-msgstr "Kiểm tra kết nối rồi thử lại."
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.confirmed"
@@ -435,6 +435,10 @@ msgstr "Chưa chốt được"
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.failed"
 msgstr "Chưa chốt được"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.send.failed"
+msgstr "Chưa gửi được đề xuất"
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.crew"
@@ -662,6 +666,10 @@ msgstr "Đây là một việc phải làm của nhóm."
 msgid "proposal.why.taste"
 msgstr "Hợp với những gì bạn chọn ở phần cái này hay cái kia, nên {guideName} đưa vào."
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.missing.line"
+msgstr "Có thể đã có bản mới thay thế, hoặc máy này chưa nhận được."
+
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
 msgid "proposal.alone.inviteBody"
 msgstr "Hiện chỉ có mình bạn đi {destination}, nên chưa có ai để gửi kế hoạch. Mời bạn bè, rồi gửi khi họ đã vào nhóm."
@@ -719,6 +727,10 @@ msgstr "Chốt danh sách nhóm?"
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.titleAlone"
 msgstr "Chốt kế hoạch?"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.locked"
+msgstr "Đã chốt"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.lockedIn"
@@ -952,6 +964,10 @@ msgstr "Nói là có thể"
 msgid "proposal.share.saved"
 msgstr "Tiết kiệm"
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.applyingOffline"
+msgstr "Đã lưu. Có mạng lại là áp dụng."
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothingOther"
 msgstr "Cứ nói trong chat nhóm, hoặc nói với {organiser}. Bạn vẫn có thể từ từ quyết định."
@@ -1082,6 +1098,10 @@ msgstr "Nói cho {organiser} biết phần nào. Mở kế hoạch và ghi chú 
 msgid "proposal.out.title"
 msgstr "Báo cả nhóm là bạn không đi được?"
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.failed.refused"
+msgstr "Chưa được. Thử lại sau chút nhé."
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.cost"
 msgstr "Chi phí"
@@ -1162,6 +1182,10 @@ msgstr "Họ vẫn nhận được ảnh và bản tổng kết"
 msgid "proposal.build.alreadySent"
 msgstr "Đề xuất này đã gửi đi rồi."
 
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.missing.title"
+msgstr "Đề xuất này không có ở đây"
+
 #. placeholder {0}: ticket.from
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.notAFlightFrom"
@@ -1182,10 +1206,6 @@ msgstr "Đề xuất chuyến đi"
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.board.refusedSub"
-msgstr "Thử lại sau chút nhé."
-
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.failedSub"
 msgstr "Thử lại sau chút nhé."
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx

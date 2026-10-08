@@ -5,7 +5,6 @@
  * the place to the crew's destination vote with PLAN A REUNION and goes Home where that vote lives,
  * and shares the memory with the crew's signatures.
  */
-import { resolveMemberStyle } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import * as Crypto from 'expo-crypto';
 import { router } from 'expo-router';
@@ -17,19 +16,18 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
-import { memberName } from '@/ui/people/member-name';
-import { ShareImageSheet } from '@/ui/share-image/ShareImageSheet';
+import { goBackOr } from '@/lib/navigation/back';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { reactMemoryCommand, startReunionCommand } from '../commands';
 import { useLiveRows } from '../data/live-rows';
 import { readMediaUrl } from '../data/read-url';
-import { fetchStroke } from '../signature/stroke-store';
-import { deviceShareDeps } from '../summary/share-card';
 import { guideOf, whereNextHref } from '../summary/summary-screen';
 import { memoryBody, memoryTitle } from './memory-copy';
 import { memoryMoment, reactionChips } from './memory-model';
-import { renderMemoryCard } from './memory-share';
+import { MemoryShareSheet } from './memory-share-sheet';
 import { MemoryView } from './memory-view';
 import { ReactionSheet, type MemoryReaction } from './reaction-sheet';
 import { useMemory } from './use-memory';
@@ -49,14 +47,27 @@ function useSignedUrl(mediaKey: string | null): string | null {
   return url !== null && url.key === mediaKey ? url.url : null;
 }
 
-async function photoBytes(url: string | null): Promise<Uint8Array | null> {
-  if (url === null) return null;
-  try {
-    const response = await fetch(url);
-    return response.ok ? new Uint8Array(await response.arrayBuffer()) : null;
-  } catch {
-    return null;
-  }
+/** The memory is still being read (a wait that can be left), or is not on this phone. */
+function MemoryAbsent({ loaded }: { readonly loaded: boolean }) {
+  const { t } = useLingui();
+  const backLabel = t({ id: 'recap.link.back', message: 'Home' });
+  return loaded ? (
+    <ScreenMissing
+      backLabel={backLabel}
+      title={t({ id: 'recap.memory.missing.title', message: 'This memory isn’t here' })}
+      line={t({
+        id: 'recap.memory.missing.line',
+        message: 'It may have been removed, or this phone hasn’t got it yet.',
+      })}
+      testID="memory-missing"
+    />
+  ) : (
+    <ScreenLoading
+      backLabel={backLabel}
+      label={t({ id: 'recap.memory.loading', message: 'Loading the memory' })}
+      testID="memory-waiting"
+    />
+  );
 }
 
 function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly tripId: string }) {
@@ -77,7 +88,7 @@ function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly trip
     [data.reactions, data.live, data.viewerId],
   );
 
-  if (data.memory === null) return <SessionWaiting testID="memory-waiting" />;
+  if (data.memory === null) return <MemoryAbsent loaded={data.loaded} />;
   const memory = data.memory;
   const place = data.trip?.place ?? null;
   const eyebrow = t({ id: 'recap.memory.eyebrow', message: 'One year ago today' });
@@ -134,7 +145,7 @@ function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly trip
         guideKind={guideSticker(guide).kind}
         guideName={guideName}
         reactions={chips}
-        onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        onClose={() => goBackOr()}
         onReact={() => setReacting(true)}
         onReunion={data.inCrew && place !== null ? () => void onReunion() : undefined}
         reunionPending={reunion.pending}
@@ -148,37 +159,14 @@ function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly trip
         />
       ) : null}
       {sharing ? (
-        <ShareImageSheet
-          visible
+        <MemoryShareSheet
+          guideKind={guideSticker(guide).kind}
+          eyebrow={eyebrow}
+          title={title}
+          body={body}
+          photoUrl={photoUrl}
+          signers={data.signers}
           onClose={() => setSharing(false)}
-          altText={`${title}. ${body}`}
-          formats={['story', 'post']}
-          render={async (format) => {
-            const [photo, strokes] = await Promise.all([
-              photoBytes(photoUrl),
-              Promise.all(
-                data.signers.map((s) =>
-                  s.strokeKey === null ? Promise.resolve(null) : fetchStroke(s.strokeKey),
-                ),
-              ),
-            ]);
-            return renderMemoryCard(
-              {
-                guideKind: guideSticker(guide).kind,
-                eyebrow,
-                title,
-                body,
-                photo,
-                signers: data.signers.map((signer, index) => ({
-                  name: memberName(signer.name),
-                  colour: signer.colour ?? resolveMemberStyle(index).color,
-                  stroke: strokes[index] ?? null,
-                })),
-              },
-              format,
-            );
-          }}
-          deps={deviceShareDeps()}
         />
       ) : null}
     </>
@@ -190,8 +178,9 @@ const MEMORY_TRIP_SQL = 'SELECT trip_id FROM memories WHERE id = ?';
 
 /** A link without its trip (an older push) finds the trip from a memory already on the phone. */
 function MemoryOfTrip({ memoryId }: { readonly memoryId: string }) {
-  const trip = useLiveRows<{ trip_id: string }>(MEMORY_TRIP_SQL, [memoryId], ['memories']).rows[0];
-  if (trip === undefined) return <SessionWaiting testID="memory-waiting" />;
+  const trips = useLiveRows<{ trip_id: string }>(MEMORY_TRIP_SQL, [memoryId], ['memories']);
+  const trip = trips.rows[0];
+  if (trip === undefined) return <MemoryAbsent loaded={trips.loaded} />;
   return <Memory memoryId={memoryId} tripId={trip.trip_id} />;
 }
 

@@ -129,6 +129,7 @@ export function PhotoScreen() {
         d.avatar === null
           ? { ...d, avatar: { kind: 'critter', form_id: guideFormId('tokek') } }
           : d,
+        'photo',
       ),
     );
     if (next.step !== 'photo') router.push(routeForStep(next.step));

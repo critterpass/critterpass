@@ -69,20 +69,34 @@ export function services(
   };
 }
 
-/** The api at the transport: each command name answers its recorded response. */
+/**
+ * The api at the transport: each command name answers its recorded response. A list is answered in
+ * order, one per call, and its last response repeats.
+ */
 export function recordedApi(
-  answers: Readonly<Record<string, TransportResponse>>,
+  answers: Readonly<Record<string, TransportResponse | readonly TransportResponse[]>>,
 ): SyncTransport & { readonly sent: { path: string; body: unknown }[] } {
   const sent: { path: string; body: unknown }[] = [];
+  const calls = new Map<string, number>();
   return {
     sent,
     postJson(path, body) {
       sent.push({ path, body });
       const cmd = path.split('/').at(-1) ?? '';
-      return Promise.resolve(answers[cmd] ?? { status: 503, body: null });
+      const recorded = answers[cmd];
+      if (!Array.isArray(recorded)) {
+        return Promise.resolve((recorded as TransportResponse | undefined) ?? UNREACHABLE);
+      }
+      const call = calls.get(cmd) ?? 0;
+      calls.set(cmd, call + 1);
+      const list = recorded as readonly TransportResponse[];
+      return Promise.resolve(list[Math.min(call, list.length - 1)] ?? UNREACHABLE);
     },
   };
 }
+
+/** The server could not be reached. */
+export const UNREACHABLE: TransportResponse = { status: 503, body: null };
 
 export function applied(result: unknown): TransportResponse {
   return { status: 200, body: { status: 'applied', result } };

@@ -29,6 +29,11 @@ export function phoneProblemLine(problem: PhoneProblem, retryS: number | null): 
         id: 'onboarding.phone.sendFailed',
         message: 'The code didn’t send. Check your signal and try again.',
       });
+    case 'verify_failed':
+      return t({
+        id: 'onboarding.phone.verifyFailed',
+        message: 'We couldn’t check that code. Check your signal and try again.',
+      });
     case 'wrong_code':
       return t({ id: 'onboarding.phone.wrong', message: 'That code doesn’t match. Try again.' });
     case 'expired':
