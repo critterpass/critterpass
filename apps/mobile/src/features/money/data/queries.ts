@@ -39,8 +39,13 @@ export const TRIPS_TABLES = ['trips', 'destinations', 'trip_participants'];
 export const TRIP_CREW_SQL = 'SELECT crew_id FROM trips WHERE id = ?';
 export const TRIP_CREW_TABLES = ['trips'];
 
+/**
+ * Who holds a seat on the trip, read from `rsvp`: `holds_seat` is generated on the server and
+ * does not reach the device, so it cannot tell a seat given up (`out`) from one held.
+ */
 export const PARTICIPANTS_SQL = `SELECT user_id FROM trip_participants
-  WHERE trip_id = ? AND coalesce(holds_seat, 1) = 1 ORDER BY created_at, user_id`;
+  WHERE trip_id = ? AND coalesce(rsvp, '') NOT IN ('out', 'waitlisted')
+  ORDER BY created_at, user_id`;
 export const PARTICIPANTS_TABLES = ['trip_participants'];
 
 export const EXPENSES_SQL = `SELECT id, payer_id, amount_minor, currency, fx_snapshot_id,

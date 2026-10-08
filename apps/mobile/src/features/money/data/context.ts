@@ -1,7 +1,7 @@
 /**
  * Which crew and trip Money shows, and who is in it. Money follows the crew the member chose on
  * Home; within it, the trip under way, else the next one, else the latest one that ended. The
- * split members are the trip's seated participants, falling back to the crew's active members.
+ * split members are the crew's active members seated on the trip, else all its active members.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import type { CrewRow, MemberRow, TripRow } from './queries';
@@ -136,13 +136,19 @@ export function toTrip(row: TripRow, crew: CrewRow | null): MoneyTrip {
   };
 }
 
-/** Who an expense splits between by default: seated participants, else active crew members. */
+/**
+ * Who a new expense can name, as payer or with a share: the crew's active members who hold a seat
+ * on the trip (the server refuses anyone else), else every active member while the trip's seats
+ * have not synced. Someone who left the crew is never offered; the expenses, shares and balances
+ * they already have are read from `members` and stay as they were.
+ */
 export function splitMembers(
   members: readonly MoneyMember[],
   participantIds: readonly string[],
 ): MoneyMember[] {
-  const seated = members.filter((member) => participantIds.includes(member.userId));
-  return seated.length > 0 ? seated : members.filter((member) => member.active);
+  const active = members.filter((member) => member.active);
+  const seated = active.filter((member) => participantIds.includes(member.userId));
+  return seated.length > 0 ? seated : active;
 }
 
 export function memberName(members: readonly MoneyMember[], userId: string): string {
