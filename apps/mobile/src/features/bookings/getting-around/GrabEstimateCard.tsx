@@ -71,7 +71,7 @@ export function GrabEstimateCard({
     <Stack gap="12" testID={testID ?? `getting-around-ride-${state}`}>
       <Row gap="12" align="center">
         <View style={styles.badge}>
-          <Icon name="car" size={30} decorative />
+          <Icon name="car" size={30} color={theme.semantic.text.onAccent} decorative />
         </View>
         <Stack gap="2" style={{ flex: 1 }}>
           <Text variant="title">{title}</Text>
@@ -123,6 +123,7 @@ export function GrabEstimateCard({
               <PillButton
                 size="sm"
                 tone="cream"
+                block
                 label={app.label}
                 onPress={app.onPress}
                 testID={`getting-around-open-${app.key}`}
