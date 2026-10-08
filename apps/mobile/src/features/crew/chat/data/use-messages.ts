@@ -15,13 +15,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
 import {
+  CHAT_SYNC_WINDOW,
   deviceChatHistoryApi,
   fetchOlder,
   forgetOlder,
   keepOlder,
+  localReactions,
   readOlder,
   useOlderMessages,
   type ChatHistoryApi,
+  type OlderReaction,
   type OlderStatus,
 } from './older-messages';
 import {
@@ -39,6 +42,9 @@ export { keepTimeline, loadTimeline, MESSAGE_WINDOW, type Timeline } from './tim
 const EVERY_LOCAL_MESSAGE = Number.MAX_SAFE_INTEGER - 1;
 
 const TABLES = ['messages', 'users', 'commands', 'rejected_commands', 'user_settings'];
+/** Read as well once the rows that can leave the phone are on screen, for the reactions they take. */
+const TABLES_WITH_REACTIONS = [...TABLES, 'message_reactions'];
+const NO_REACTIONS: readonly OlderReaction[] = [];
 
 export interface MessagesState extends Omit<Timeline, 'firstSeq' | 'muted'> {
   /** False until the first local read lands (the skeleton shows meanwhile). */
@@ -61,7 +67,7 @@ export function useMessages(
   const older = useOlderMessages(crewId);
   // What was fetched lives as long as the screen does.
   useEffect(() => () => forgetOlder(crewId), [crewId]);
-  const shown = useRef<Timeline>(EMPTY_TIMELINE);
+  const shown = useRef({ timeline: EMPTY_TIMELINE, reactions: NO_REACTIONS });
   const [limit, setLimit] = useState(MESSAGE_WINDOW);
   const [state, setState] = useState<{
     timeline: Timeline;
@@ -72,18 +78,27 @@ export function useMessages(
   useEffect(() => {
     if (me === null) return undefined;
     const controller = new AbortController();
+    // A window this deep reaches the oldest rows the phone holds: the ones a new message pushes out.
+    const leaving = limit >= CHAT_SYNC_WINDOW;
+    const read = async () => {
+      // Reactions are read before the rows, so a row found here still had the reactions found here.
+      const reactions = leaving
+        ? await localReactions(db, crewId).catch(() => NO_REACTIONS)
+        : NO_REACTIONS;
+      return { timeline: await loadTimeline(db, crewId, me, limit), reactions };
+    };
     const load = () =>
-      loadTimeline(db, crewId, me, limit).then(
-        (timeline) => {
+      read().then(
+        ({ timeline, reactions }) => {
           if (controller.signal.aborted) return;
           // With older pages on screen or on their way, a row leaving the phone's window stays in
           // the timeline: the page being fetched ends just below it.
           const held = readOlder(crewId);
           if (held.messages.length > 0 || held.status === 'loading') {
-            const gone = leftWindow(shown.current, timeline);
-            if (gone.length > 0) keepOlder(crewId, gone);
+            const gone = leftWindow(shown.current.timeline, timeline);
+            if (gone.length > 0) keepOlder(crewId, gone, shown.current.reactions);
           }
-          shown.current = timeline;
+          shown.current = { timeline, reactions };
           setState((previous) => {
             const kept = keepTimeline(previous.timeline, timeline);
             // A reload that changed nothing on screen re-renders nothing.
@@ -100,7 +115,11 @@ export function useMessages(
     void load();
     db.onChange(
       { onChange: () => load() },
-      { tables: TABLES, throttleMs: 30, signal: controller.signal },
+      {
+        tables: leaving ? TABLES_WITH_REACTIONS : TABLES,
+        throttleMs: 30,
+        signal: controller.signal,
+      },
     );
     return () => controller.abort();
   }, [db, crewId, me, limit]);

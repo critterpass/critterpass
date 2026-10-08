@@ -4,8 +4,9 @@
  * scrolls past the top, and held here in memory for as long as the chat screen is open. Nothing
  * fetched is written to the synced tables: closing the chat forgets it.
  *
- * Pages hold their reactions too. A reaction to, or the deletion of, a message outside the window
- * never syncs back, so what the member did is applied to the held copy at once.
+ * Pages hold their reactions too, and a message kept after it left the phone keeps the reactions
+ * it had. A reaction to, or the deletion of, a message outside the window never syncs back, so
+ * what the member did is applied to the held copy at once.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, routes and wire values, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
@@ -198,14 +199,40 @@ export async function fetchOlder(
   });
 }
 
+/** Every reaction the phone holds for the crew, in the shape a page carries its own. */
+export function localReactions(
+  db: AbstractPowerSyncDatabase,
+  crewId: string,
+): Promise<OlderReaction[]> {
+  return db.getAll<OlderReaction>(
+    `SELECT r.message_id, r.emoji, r.user_id, u.display_name
+       FROM message_reactions r LEFT JOIN users u ON u.id = r.user_id
+      WHERE r.crew_id = ? ORDER BY r.created_at, r.id`,
+    [crewId],
+  );
+}
+
 /**
  * Messages the phone just let go of (a new message pushed them out of the window) while older
- * pages are on screen: they stay in the timeline, between those pages and the phone's own rows.
+ * pages are on screen: they stay in the timeline, between those pages and the phone's own rows,
+ * with the reactions they had (`reactions`: what the phone held before they left).
  */
-export function keepOlder(crewId: string, messages: readonly ChatMessage[]): void {
+export function keepOlder(
+  crewId: string,
+  messages: readonly ChatMessage[],
+  reactions: readonly OlderReaction[] = [],
+): void {
   const current = readOlder(crewId);
   const next = merged(current.messages, messages);
-  if (next !== current.messages) write(crewId, { ...current, messages: next });
+  if (next === current.messages) return;
+  const known = new Set(current.messages.map((message) => message.id));
+  const fresh = new Set(messages.map((message) => message.id).filter((id) => !known.has(id)));
+  const theirs = reactions.filter((reaction) => fresh.has(reaction.message_id));
+  write(crewId, {
+    ...current,
+    messages: next,
+    reactions: theirs.length === 0 ? current.reactions : [...current.reactions, ...theirs],
+  });
 }
 
 /** The member's own reaction to an older message, as they just set it. */

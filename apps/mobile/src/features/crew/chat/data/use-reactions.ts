@@ -2,7 +2,8 @@
  * Reactions per message for one crew: each emoji with its count, who reacted (for the sheet) and
  * whether the signed-in member is among them. `toggle` states the outcome it shows (`on`), so a
  * replayed offline queue lands the same way the member saw it. Messages older than the phone keeps
- * bring their reactions with their page (`older-messages.ts`).
+ * bring their reactions with their page, and one that left the phone while the chat was open keeps
+ * the reactions it had (`older-messages.ts`).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
@@ -104,8 +105,14 @@ export function useReactions(crewId: string, me: string | null, window: number) 
     me === null ? null : [crewId, crewId, window],
     TABLES,
   ).rows;
-  const older = useOlderMessages(crewId).reactions;
-  const rows = useMemo(() => (older.length === 0 ? local : [...older, ...local]), [older, local]);
+  const older = useOlderMessages(crewId);
+  const rows = useMemo(() => {
+    if (older.messages.length === 0) return local;
+    // A message held above the phone's rows shows the reactions held with it: the rows it had on
+    // the phone leave a moment after it does, and are not counted twice meanwhile.
+    const held = new Set(older.messages.map((message) => message.id));
+    return [...older.reactions, ...local.filter((row) => !held.has(row.message_id))];
+  }, [older.messages, older.reactions, local]);
   // Grouped once per change of the rows, holding on to what the last grouping already had.
   const [held, setHeld] = useState<{
     readonly rows: readonly Row[] | null;

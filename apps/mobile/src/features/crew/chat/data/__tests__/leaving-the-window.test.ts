@@ -2,7 +2,8 @@
  * The phone's window moving under an open chat, on the real local-first stack with the api answered
  * from pages in the route's own shape. A new message pushes the oldest row off the phone: with
  * older pages asked for or on screen, that row stays in the timeline, so the page above it joins on
- * without a gap whether it lands, or fails and is asked for again.
+ * without a gap whether it lands, or fails and is asked for again; and it keeps the reactions it
+ * had, the member's own still theirs to take back.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
@@ -12,6 +13,7 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { outsideAct } from '@/lib/test-support/settle';
 
 import {
   CHAT_SYNC_WINDOW,
@@ -20,6 +22,7 @@ import {
   type ChatHistoryPage,
 } from '../older-messages';
 import { MESSAGE_WINDOW, useMessages } from '../use-messages';
+import { useReactions } from '../use-reactions';
 
 jest.mock(
   '@powersync/common',
@@ -68,11 +71,17 @@ async function phone(from: number, to: number): Promise<TestLocalFirst> {
 
 /** One sync step: message `arrives` reaches the phone and pushes `leaves` out of its window. */
 function slide(stack: TestLocalFirst, arrives: number, leaves: number): Promise<void> {
-  return stack.db.writeTransaction(async (tx) => {
-    await tx.execute('DELETE FROM messages WHERE id = ?', [id(leaves)]);
-    await tx.execute(INSERT_MESSAGE, message(arrives));
-  });
+  return outsideAct(() =>
+    stack.db.writeTransaction(async (tx) => {
+      await tx.execute('DELETE FROM messages WHERE id = ?', [id(leaves)]);
+      await tx.execute(INSERT_MESSAGE, message(arrives));
+    }),
+  );
 }
+
+const react = (seq: number, uid: string) => [`r-${String(seq)}-${uid}`, id(seq), CREW, uid];
+const INSERT_REACTION = `INSERT INTO message_reactions (id, message_id, crew_id, user_id, emoji,
+    created_at) VALUES (?, ?, ?, ?, '🔥', '2026-09-28T10:00:00.000000Z')`;
 
 /** A message row as `GET /v1/crews/{crew_id}/chat/messages` sends it. */
 function wire(seq: number): ChatHistoryPage['messages'][number] {
@@ -173,5 +182,73 @@ describe('a row leaving the phone while the page above it is on its way', () => 
     await waitFor(() => expect(result.current.olderStatus).toBe('idle'));
 
     expect(seqs(result)).toEqual(range(FIRST - 2, LAST + 1));
+  });
+});
+
+describe('the reactions of a row that left the phone', () => {
+  const FIRST = 5;
+  const LAST = FIRST + CHAT_SYNC_WINDOW - 1;
+
+  it('stay on it, the member’s own still theirs', async () => {
+    const stack = await phone(FIRST, LAST);
+    for (const seq of [FIRST, FIRST + 1]) {
+      await stack.db.execute(INSERT_REACTION, react(seq, MAYA));
+      await stack.db.execute(INSERT_REACTION, react(seq, stack.uid));
+    }
+    const server = slowServer();
+    const { result } = await renderHook(
+      () => {
+        const timeline = useMessages(CREW, stack.uid, server.api);
+        return { timeline, reactions: useReactions(CREW, stack.uid, timeline.window) };
+      },
+      { wrapper: stack.wrapper },
+    );
+    const chat = {
+      get current() {
+        return result.current.timeline;
+      },
+    };
+    const groups = (seq: number) => result.current.reactions.groups.get(id(seq));
+    /** A message arrives with a reaction of its own; `leaves` and its reactions go with the sync. */
+    const slideWithReactions = (arrives: number, leaves: number) =>
+      outsideAct(() =>
+        stack.db.writeTransaction(async (tx) => {
+          await tx.execute('DELETE FROM message_reactions WHERE message_id = ?', [id(leaves)]);
+          await tx.execute('DELETE FROM messages WHERE id = ?', [id(leaves)]);
+          await tx.execute(INSERT_MESSAGE, message(arrives));
+          await tx.execute(INSERT_REACTION, react(arrives, MAYA));
+        }),
+      );
+    await waitFor(() => expect(chat.current.loaded).toBe(true));
+    await reachTop(chat, CHAT_SYNC_WINDOW);
+    await waitFor(() => expect(groups(FIRST)).toMatchObject([{ count: 2, mine: true }]));
+
+    // One row leaves while the page above it is on its way, the next with that page on screen.
+    await act(() => chat.current.loadOlder());
+    await waitFor(() => expect(chat.current.olderStatus).toBe('loading'));
+    await slideWithReactions(LAST + 1, FIRST);
+    await waitFor(() => expect(groups(LAST + 1)).toBeDefined());
+    await act(() => server.answers[0]?.(pageBelow(FIRST)));
+    await waitFor(() => expect(chat.current.olderStatus).toBe('idle'));
+    await slideWithReactions(LAST + 2, FIRST + 1);
+    // The phone's own reaction rows have caught up with the sync by the time the new one shows.
+    await waitFor(() => expect(groups(LAST + 2)).toBeDefined());
+
+    expect(seqs(chat)).toEqual(range(FIRST - 2, LAST + 2));
+    for (const seq of [FIRST, FIRST + 1]) {
+      expect(groups(seq)).toMatchObject([{ emoji: '🔥', count: 2, mine: true }]);
+    }
+
+    // Theirs to take back: the tap sends "off" and the count drops at once.
+    await act(() => result.current.reactions.toggle(id(FIRST), '🔥'));
+    await waitFor(() =>
+      expect(groups(FIRST)).toMatchObject([{ emoji: '🔥', count: 1, mine: false }]),
+    );
+    const sent = await stack.db.getAll<{ envelope: string }>(
+      "SELECT envelope FROM commands WHERE cmd = 'react_message' ORDER BY seq",
+    );
+    expect(sent.map((row) => (JSON.parse(row.envelope) as { payload: unknown }).payload)).toEqual([
+      { message_id: id(FIRST), emoji: '🔥', on: false },
+    ]);
   });
 });
