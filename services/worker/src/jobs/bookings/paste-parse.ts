@@ -23,6 +23,7 @@ import {
 } from '@cp/domain';
 import type { FlightSnapshot } from '@cp/suppliers';
 import type pg from 'pg';
+import { z } from 'zod';
 
 import { defineJob, type JobDefinition } from '../../boss';
 import {
@@ -39,6 +40,7 @@ import {
   readPastedFlight,
 } from './flight-number-paste';
 import { isAllowListed, safeFetch, type SafeFetchDeps } from './safe-fetch';
+import { failUnreadableImport } from './unreadable-import';
 
 /** Flights with a number departing between two local dates; `[]` when the budget is spent. */
 export type FlightScheduleLookup = (
@@ -250,11 +252,23 @@ export async function parseImport(
   });
 }
 
-export function importParseJob(deps: ImportParseDeps): JobDefinition<ImportParseJob> {
+/** Only the candidate id is required up front, so a malformed job can still fail its candidate. */
+const queuedImportSchema = z.looseObject({ candidate_id: z.uuid() });
+
+export function importParseJob(
+  deps: ImportParseDeps,
+): JobDefinition<z.output<typeof queuedImportSchema>> {
   return defineJob({
     queue: BOOKINGS_QUEUES.importParse,
-    schema: importParseJobSchema,
+    schema: queuedImportSchema,
     singletonKey: (data) => data.candidate_id,
-    handler: async (data, ctx) => ({ outcome: await parseImport(ctx.pool, deps, data) }),
+    handler: async (data, ctx) => {
+      const job = importParseJobSchema.safeParse(data);
+      if (!job.success) {
+        ctx.logger.warn({ candidate_id: data.candidate_id }, 'import.parse payload unreadable');
+        return { outcome: await failUnreadableImport(ctx.pool, data.candidate_id) };
+      }
+      return { outcome: await parseImport(ctx.pool, deps, job.data) };
+    },
   });
 }

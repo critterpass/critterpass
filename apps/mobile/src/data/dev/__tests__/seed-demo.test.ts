@@ -4,14 +4,7 @@
  * not arrived in time, and surfaces the api's refusal. The api is a recorded response at the
  * network boundary.
  */
-// The real PowerSync common package, loaded in a Node realm (Jest cannot parse its ESM build).
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 
 import {
   openTestLocalFirst,

@@ -3,16 +3,6 @@
  * local-first stack: counts and options from synced rows, an ask queued on this phone showing as
  * asked at once, and "Freed it" / words queuing `answer_availability_ask` while offline.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   router: { back: jest.fn(), canGoBack: () => true, replace: jest.fn() },

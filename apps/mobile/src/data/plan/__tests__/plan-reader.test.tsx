@@ -3,14 +3,8 @@
  * and, for the overview, an organiser's unproposed draft while the trip has no current version yet
  * (a member never sees it). The crew comes in join order, the active members marked apart.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';

@@ -3,10 +3,6 @@
  * card details and says exactly what the server's rows say, and a plan billed by the other store
  * gets no buttons that would open the wrong one.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

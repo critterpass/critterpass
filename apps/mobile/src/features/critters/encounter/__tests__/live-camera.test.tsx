@@ -4,19 +4,12 @@
  * refused permission, or a camera error. The camera module is
  * a native boundary Jest can't run, so it is stood in for per case.
  */
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 let mockRealDevice = true;
 jest.mock('expo-device', () => ({
   get isDevice() {
     return mockRealDevice;
   },
 }));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, render, screen, waitFor } from '@testing-library/react-native';

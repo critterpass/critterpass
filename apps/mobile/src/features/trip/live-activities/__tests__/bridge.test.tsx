@@ -4,17 +4,6 @@
  * out once through the command queue, and an encounter filling its ring starts the critter-nearby
  * activity.
  */
-// The bridge reaches the encounter engine through the critters area, whose data layer loads the
-// PowerSync SDK: route it to the Node build, as every test over the local-first stack does.
-// The critters area draws stickers with Skia, whose native renderer does not exist under Jest.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react-native';

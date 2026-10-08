@@ -15,13 +15,6 @@ import type { PlaceCandidate } from '../match-places';
 import type { FetchPlaces } from '../server-name-search';
 import { useTripPlaceSearch } from '../use-trip-place-search';
 
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-
 const BALI = '0199a3f0-0000-7000-8000-00000000b001';
 const TRIP = '0199a3f0-0000-7000-8000-00000000f001';
 const BILLY = '0199a3f0-0000-7000-8000-0000000000b1';

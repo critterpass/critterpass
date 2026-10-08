@@ -5,7 +5,7 @@
  */
 import path from 'node:path';
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import { DATABASE_KEY_BYTES, DATABASE_KEY_ITEM, loadOrCreateDatabaseKey } from '../encryption-key';
 import { insertQueuedCommand } from '../queue-store';
@@ -19,12 +19,6 @@ import {
   tempDatabaseDir,
   TEST_DB_FILENAME,
 } from '../test-support/open-node-database';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 const dirs: string[] = [];
 function freshDir(): string {

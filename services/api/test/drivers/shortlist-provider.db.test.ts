@@ -153,6 +153,33 @@ describe('shortlist_provider', () => {
     expect(await provider(providerId)).toMatchObject({ added_by: member.uid });
   });
 
+  it('replaces the whole offer on a second add, not only its price', async () => {
+    const changed = await harness.run(member, 'shortlist_provider', {
+      provider_id: providerId,
+      trip_id: crew.tripId,
+      supplier: 'viator',
+      product_id: '7781P3',
+      price_minor: 21_500,
+      currency: 'USD',
+      price_unit: 'group',
+      included_hours: 8,
+      seats: null,
+    });
+    expect(resultOf(changed)).toEqual({ provider_id: providerId });
+    expect(await terms(providerId)).toMatchObject([
+      {
+        status: 'shortlisted',
+        seats: null,
+        price_minor: 21_500,
+        currency: 'USD',
+        price_unit: 'group',
+        included_hours: 8,
+        supplier_ref: 'viator:7781P3',
+      },
+    ]);
+    expect(await provider(providerId)).toMatchObject({ name: 'Viator tour', added_by: member.uid });
+  });
+
   it('refuses an id that is already another trip’s driver, leaving theirs alone', async () => {
     const elsewhere = await buildSetupCrew(harness, 1);
     const theirs = generateUuidV7();

@@ -1,6 +1,3 @@
-// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../../../../ui/test-support/skia-double'));
 // `<Sticker>` rasterises critter art through Skia's JSI host, which Jest cannot run; its own suite
 // covers the real pipeline. Here it is a plain view.
 jest.mock('@/ui/sticker/Sticker', () => {
@@ -10,16 +7,6 @@ jest.mock('@/ui/sticker/Sticker', () => {
 });
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- FlashList cannot run under Jest; see the double's header
 jest.mock('@shopify/flash-list', () => require('../../test-support/flash-list-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { replace: () => undefined },
-}));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';

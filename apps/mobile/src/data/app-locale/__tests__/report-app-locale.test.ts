@@ -3,7 +3,7 @@
  * when the person switches language, never twice for the same language, and through the offline
  * queue (the real local database; nothing here needs the network).
  */
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 
 import {
   openTestLocalFirst,
@@ -16,13 +16,6 @@ import {
   type AppLocaleSource,
   type ReportedLocaleStore,
 } from '../report-app-locale';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const UID = '0198c1d2-0000-7000-8000-00000000a001';
 

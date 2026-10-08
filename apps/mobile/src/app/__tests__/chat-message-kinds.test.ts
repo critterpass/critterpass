@@ -4,9 +4,6 @@
  * card registrations the root layout loads, and checks each kind has a renderer (text and system
  * rows the chat draws itself). A kind posted with a bound parameter is a member's own message.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 // The device's session and database open native SQLite; only the card registrations run here.
 jest.mock('@/data/app-session/device-session', () => ({
   sessionHeaders: () => Promise.resolve({}),
@@ -14,12 +11,6 @@ jest.mock('@/data/app-session/device-session', () => ({
 jest.mock('@/data/powersync/db', () => ({}));
 // The store's SDK is never called here.
 jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { MEMBER_MESSAGE_TYPES, MESSAGE_TYPES } from '@cp/domain';

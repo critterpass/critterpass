@@ -5,18 +5,8 @@
  * it loads, a preview that never starts) the illustrated scene and the critter still show, and
  * the camera is let go. The camera package is the native boundary, stood in for per case.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 // A real phone: emulators never load the camera (live-camera.test covers that).
 jest.mock('expo-device', () => ({ isDevice: true }));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 jest.mock('react-native-nitro-modules', () => ({
   NitroModules: { hasHybridObject: () => true },
 }));

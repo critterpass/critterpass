@@ -3,14 +3,8 @@
  * says so, today's stops know whether they are over, on now or next, and the day opens and closes
  * at the stay.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import type { PlanCheckIssue } from '@cp/domain';
 import { i18n } from '@lingui/core';
 

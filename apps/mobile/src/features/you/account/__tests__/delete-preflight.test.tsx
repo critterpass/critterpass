@@ -3,10 +3,6 @@
  * that owes you, a line for what you owe, the store that keeps billing, and the instant-erase
  * warning for a pass with no way back in.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 
 import type { DeletionPreflight } from '@cp/domain';
 import { describe, expect, it, jest } from '@jest/globals';

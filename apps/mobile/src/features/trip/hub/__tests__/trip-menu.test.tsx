@@ -2,20 +2,6 @@
  * The trip menu over the real local-first stack, with the api doubled at the transport: who is
  * offered which ending (delete, call off, leave), what confirming sends, and where it lands.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { push: jest.fn(), navigate: jest.fn(), replace: jest.fn(), back: jest.fn() },
-}));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

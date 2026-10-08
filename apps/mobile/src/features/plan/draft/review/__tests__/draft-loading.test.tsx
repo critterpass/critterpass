@@ -2,8 +2,6 @@
  * The private draft while it loads: its back shows from the first frame (named for the trip once
  * the trip row is on the phone), and a slow load brings in the trip guide's line.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, screen } from '@testing-library/react-native';

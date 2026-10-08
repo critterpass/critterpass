@@ -3,7 +3,7 @@
  * server (online only) and shows at once from its answer, a second one the same day says so, the
  * synced row shows on its own, and CANCEL hides it and queues `cancel_queued_question`.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
@@ -15,14 +15,6 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport } from '@/data/powersync/transport';
 
 import { useQueuedQuestion } from '../use-queued-question';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
 configure({ asyncUtilTimeout: 5000 });
 

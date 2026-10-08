@@ -1,7 +1,6 @@
 /** A tapped Approve / Reject on a change set's push reads as that decision on that change set. */
-jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import type * as Notifications from 'expo-notifications';
 
 import { changesetReplyOf, handleChangesetReply } from '../notification-actions';

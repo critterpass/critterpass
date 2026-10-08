@@ -4,7 +4,7 @@
  * sign-out hooks, and a database found holding another uid's data is wiped before it is reused.
  */
 import { DomainError } from '@cp/domain';
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import { column, type AbstractPowerSyncDatabase } from '@powersync/common';
 
 import { confirmMerge } from '../../auth/merge';
@@ -22,12 +22,6 @@ import {
   tempDatabaseDir,
 } from '../test-support/open-node-database';
 import { enqueue, queueWith, stopQueues } from '../test-support/queue-fixtures';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 const OLD_UID = '0190f5a4-0000-7000-8000-00000000000a';
 const NEW_UID = '0190f5a4-0000-7000-8000-00000000000b';

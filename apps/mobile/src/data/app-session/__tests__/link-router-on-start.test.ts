@@ -4,20 +4,13 @@
  * and `join_codes` on the real database); stopping the session takes both away again.
  */
 import { generateUuidV7 } from '@cp/domain';
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 
 import { clearPendingLink, setOnboardingComplete } from '../../../lib/links/pending';
 import { resetLinkRouterForTests, routeIncomingUrl } from '../../../lib/links/router';
 import { resetOnSignOutHooksForTests } from '../../auth/sign-out-hooks';
 import { waitUntil } from '../../realtime/test-support/lifecycle';
 import { sessionHarness, type SessionHarness } from '../test-support/session-deps';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const INVITE_URL = 'https://critterpass.app/i/BAX6XA';
 

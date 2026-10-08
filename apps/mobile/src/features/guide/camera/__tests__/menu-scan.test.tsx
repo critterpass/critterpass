@@ -3,10 +3,6 @@
  * lines only; each way it stops short lands in its own state; stickers sit on the lines the guide
  * named and nowhere else; and the advisory line is on screen whenever a dietary flag is.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';

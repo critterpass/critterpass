@@ -5,7 +5,7 @@
  */
 import { readFileSync } from 'node:fs';
 
-import { afterAll, beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 
 import { openTestLocalFirst, TEST_DEVICE } from '../../powersync/test-support/local-first-fixture';
 import { nodeFetch } from '../../powersync/test-support/node-realm';
@@ -15,13 +15,6 @@ import { startApiHarness, type ApiHarness } from '../../powersync/test-support/s
 import { createFetchTransport } from '../../powersync/transport';
 import { drainExtensionOutbox } from '../drain-extension-outbox';
 import { fileOutbox, SWIFT_STORE_FIXTURE } from '../test-support/file-outbox';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const fixture = JSON.parse(readFileSync(SWIFT_STORE_FIXTURE, 'utf8')) as {
   actions: [{ op_id: string; payload: { crew_id: string } }];

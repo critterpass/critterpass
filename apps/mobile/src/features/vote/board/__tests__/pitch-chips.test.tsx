@@ -3,20 +3,9 @@
  * event the guide named at length ("Hội An full-moon lantern night (14th of the lunar month)") ends
  * in an ellipsis inside the card instead of wrapping its chip onto a second line.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 jest.mock('../fade-section', () => ({
   FadeSection: ({ children }: { children: unknown }) => children,
 }));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';

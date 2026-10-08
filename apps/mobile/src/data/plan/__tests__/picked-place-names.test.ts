@@ -3,7 +3,7 @@
  * server-found place never in the phone's catalogue) still names its stop, and the plan's own
  * record of a place wins once it arrives. Phones hold these rows; nothing writes them now.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import {
   openTestLocalFirst,
@@ -13,13 +13,6 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { placeNamesOf } from '../plan-model';
 import { VERSION_PLACES_SQL } from '../queries';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const VERSION = '0199a3f0-0000-7000-8000-0000000000e1';
 const PICKED = '0199a3f0-0000-7000-8000-0000000000f1';

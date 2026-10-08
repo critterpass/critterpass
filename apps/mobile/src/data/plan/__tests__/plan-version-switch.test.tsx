@@ -3,14 +3,8 @@
  * plan: while the new version's rows arrive, the plan read before stays on screen, loaded, and then
  * the new one takes its place. Over the real local database.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import {
