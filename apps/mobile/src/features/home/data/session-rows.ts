@@ -4,15 +4,12 @@
  * numbered past the member's `last_read_seq`, the same rule the chat itself applies).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 
 import { useLiveRows } from './watch-query';
 
-const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';
-
 export function useOwnerUid(): string | null {
-  const { rows } = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], ['local_state']);
-  return rows[0]?.value ?? null;
+  return useSessionUid();
 }
 
 const UNREAD_SQL = `SELECT count(*) AS n FROM messages m

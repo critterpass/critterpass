@@ -12,7 +12,7 @@ import { useMemo } from 'react';
 import { dataOf } from '@/data/travel-data/freshness';
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
-import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { useDestinationSeason } from '@/data/travel-data/shared-content';
 
 import { PICK_KIND_ORDER } from './category';
@@ -165,14 +165,9 @@ export function useSeasonMonths(destinationId: string | null): readonly SeasonMo
   return dataOf(useDestinationSeason(destinationId))?.months ?? NO_MONTHS;
 }
 
-const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';
-const UID_TABLES = ['local_state'];
-
 /** The signed-in uid as the local database knows it; null until bound. */
 export function useMyUid(): string | null {
-  return (
-    useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES).rows[0]?.value ?? null
-  );
+  return useSessionUid();
 }
 
 export interface Viewer {

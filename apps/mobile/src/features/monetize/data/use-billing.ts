@@ -30,10 +30,7 @@ import {
 import type { SendResult } from '@/data/commands/client';
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
-import { useLiveRows } from '@/data/plan/live-rows';
-import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
-
-import { OWNER_SQL, OWNER_TABLES } from './billing-rows';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 
 /** A command the server refused or that never reached it, with the wire code. */
 export class CommandRefused extends Error {
@@ -59,8 +56,7 @@ export const fulfilPurchaseCommand = defineClientCommand<FulfilPurchasePayload>(
 
 /** The signed-in uid as the local database knows it; null until bound. */
 export function useOwnerUid(): string | null {
-  const { rows } = useLiveRows<{ value: string }>(OWNER_SQL, [OWNER_UID_KEY], OWNER_TABLES);
-  return rows[0]?.value ?? null;
+  return useSessionUid();
 }
 
 /** The store for the signed-in person; `null` when there is none to buy from. */

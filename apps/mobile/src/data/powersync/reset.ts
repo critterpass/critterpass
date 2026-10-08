@@ -10,6 +10,7 @@ import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
 import { registerOnSignOut } from '../auth/sign-out-hooks';
 import { OWNER_UID_KEY } from './local-tables';
+import { noteSessionUid } from './session-uid-store';
 
 export interface ResettableQueue {
   reset(): void;
@@ -26,6 +27,7 @@ export async function resetLocalData(
 ): Promise<void> {
   queue?.reset();
   await db.disconnectAndClear({ clearLocal: true });
+  noteSessionUid(db, null);
   await db.execute('DELETE FROM local_private');
 }
 
@@ -47,6 +49,7 @@ export async function bindLocalOwner(
     OWNER_UID_KEY,
     uid,
   ]);
+  noteSessionUid(db, uid);
 }
 
 /** Wires `resetLocalData` into the auth layer's sign-out/merge hooks (runs once per install). */
