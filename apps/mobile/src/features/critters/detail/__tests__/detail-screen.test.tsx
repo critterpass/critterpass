@@ -66,7 +66,10 @@ function GuideLook() {
   return <Text testID="guide-look">{skin?.rarity ?? 'classic'}</Text>;
 }
 
-async function renderDetail(critterId: string): Promise<TestLocalFirst> {
+async function renderDetail(
+  critterId: string,
+  waitFor_ = 'critters-detail',
+): Promise<TestLocalFirst> {
   const stack = await openTestLocalFirst({ holdUploads: true });
   stacks.push(stack);
   await seedCritters(stack.db, stack.uid, { tokekFound: true });
@@ -85,7 +88,7 @@ async function renderDetail(critterId: string): Promise<TestLocalFirst> {
       </SafeAreaProvider>
     </I18nProvider>,
   );
-  await waitFor(() => expect(screen.getByTestId('critters-detail')).toBeTruthy());
+  await waitFor(() => expect(screen.getByTestId(waitFor_)).toBeTruthy());
   return stack;
 }
 
@@ -115,6 +118,12 @@ describe('critter detail', () => {
         { guide_id: GUIDE, form_id: TOKEK_COMMON },
       ]),
     );
+  });
+
+  it('says a critter that is not on this phone is not here, with a way back', async () => {
+    await renderDetail('0192f000-0000-7000-8000-0000000cffff', 'critters-detail-missing');
+    expect(screen.queryByTestId('critters-detail')).toBeNull();
+    expect(screen.getByTestId('critters-detail-missing-back')).toBeTruthy();
   });
 
   it('never picks a locked form', async () => {

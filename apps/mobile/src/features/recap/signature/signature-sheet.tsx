@@ -23,7 +23,8 @@ export interface SignatureSheetProps {
   readonly name: string;
   readonly onClose: () => void;
   /** Saves the uploaded stroke as the traveller's signature (`save_signature`). */
-  readonly onSaved: (mediaId: string) => Promise<unknown>;
+  /** Saves the signature; false when it did not go through (the caller has said why). */
+  readonly onSaved: (mediaId: string) => Promise<boolean>;
   readonly upload?: typeof uploadStroke;
 }
 
@@ -58,7 +59,10 @@ export function SignatureSheet({
       });
       return;
     }
-    await onSaved(mediaId);
+    if (!(await onSaved(mediaId))) {
+      setSaving(false);
+      return;
+    }
     feedback.emit('success');
     onClose();
   }

@@ -34,6 +34,10 @@ msgstr "Everyone settled up on {place}, to the last payment."
 msgid "stickers.how.settledNoPlace"
 msgstr "Everyone settled up, to the last payment."
 
+#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
+msgid "stickers.detail.missingLine"
+msgstr "It may have been removed, or this phone hasn’t got it yet."
+
 #: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
 msgid "stickers.shelf.empty"
 msgstr "Settle a trip to the last payment or level up your crew to earn one."
@@ -49,3 +53,7 @@ msgstr "Special sticker"
 #: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
 msgid "stickers.shelf.title"
 msgstr "Stickers"
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
+msgid "stickers.detail.missingTitle"
+msgstr "This sticker isn’t here"

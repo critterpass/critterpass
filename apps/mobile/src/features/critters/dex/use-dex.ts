@@ -29,6 +29,10 @@ import {
   FORMS_TABLES,
   ME_SQL,
   ME_TABLES,
+  SET_CRITTERS_SQL,
+  SET_FORMS_SQL,
+  SET_FORMS_TABLES,
+  SET_SQL,
   SETS_SQL,
   SETS_TABLES,
   TRIPS_SQL,
@@ -53,7 +57,7 @@ import {
   type SpawnPoiRow,
   type SpawnSqlRow,
 } from '../data/spawn-rows';
-import { buildDex, type DexInput, type DexModel } from './dex-model';
+import { buildDex, buildSet, type DexInput, type DexModel, type SetModel } from './dex-model';
 
 export interface DexData {
   readonly loaded: boolean;
@@ -151,4 +155,51 @@ export function useDexRows(): DexData {
     uid,
     crewId,
   ]);
+}
+
+export interface SetData {
+  /** False until the set's own row has been read. */
+  readonly loaded: boolean;
+  /** Null once loaded when no such set is on this phone. */
+  readonly set: SetModel | null;
+}
+
+/** One set's page: only that set's rows, and no crew channel of its own. */
+export function useSet(setId: string): SetData {
+  const uid = useOwnerUid();
+  const mine = uid === null ? null : [uid];
+  const sets = useLiveRows<SetRow>(SET_SQL, [setId], SETS_TABLES);
+  const critters = useLiveRows<CritterRow>(SET_CRITTERS_SQL, [setId], CRITTERS_TABLES);
+  const forms = useLiveRows<FormRow>(SET_FORMS_SQL, [setId], SET_FORMS_TABLES);
+  const windows = useLiveRows<WindowRow>(WINDOWS_SQL, [], WINDOWS_TABLES);
+  const entries = useLiveRows<EntryRow>(ENTRIES_SQL, mine, ENTRIES_TABLES);
+  const me = useLiveRows<MeRow>(ME_SQL, mine, ME_TABLES);
+  const row = sets.rows[0];
+  const meRow = me.rows[0] ?? null;
+  return useMemo(
+    () => ({
+      loaded: sets.loaded && critters.loaded && entries.loaded,
+      set:
+        row === undefined
+          ? null
+          : buildSet(row, {
+              critters: critters.rows,
+              forms: forms.rows,
+              entries: entries.rows,
+              windows: windows.rows,
+              me: meRow,
+            }),
+    }),
+    [
+      sets.loaded,
+      critters.loaded,
+      entries.loaded,
+      row,
+      critters.rows,
+      forms.rows,
+      entries.rows,
+      windows.rows,
+      meRow,
+    ],
+  );
 }

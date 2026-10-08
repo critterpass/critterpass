@@ -29,6 +29,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport } from '@/data/powersync/transport';
 
+import type { ApiRead, SetupServices } from '../../data/services';
 import { ALEX, DEV, JORDAN, MAYA, RIN, TRIP_ID, WINSTON } from '../../scenes/fixtures';
 import { apiReads, K_ANON, renderBudget, seedBudget } from '../test-support/budget-harness';
 
@@ -347,5 +348,46 @@ describe('member', () => {
     expect(await screen.findByText(/^✓ Under all 6 maxes$/iu)).toBeTruthy();
     expect(screen.queryByText(/1,234/u)).toBeNull();
     expect(screen.getByTestId('budget-own-max')).toBeTruthy();
+  });
+
+  it('keeps what is being typed when the saved default arrives late', async () => {
+    stack = await openTestLocalFirst({ uid: DEV, holdUploads: true });
+    await seedBudget(stack, { people: SIX, aggregate: BANDED });
+    let arrive: (read: ApiRead) => void = () => undefined;
+    const late = new Promise<ApiRead>((resolve) => {
+      arrive = resolve;
+    });
+    const reads = apiReads({});
+    const services: SetupServices = {
+      ...reads,
+      getJson: (path) =>
+        path.startsWith('/v1/me/private/budget_default') ? late : reads.getJson(path),
+    };
+    await renderBudget(stack, services, { organiser: false });
+    await screen.findByTestId('budget-member-entry');
+    await fireEvent.press(screen.getByLabelText('7'));
+    await act(async () => {
+      arrive({ kind: 'ok', body: { amount_minor: 120_000, currency: 'USD' } });
+      await late;
+    });
+    expect(screen.getByTestId('budget-member-entry')).toBeTruthy();
+    expect(screen.queryByLabelText(/1,200/u)).toBeNull();
+    expect(screen.getByLabelText(/^\$7(\.00)?$/u)).toBeTruthy();
+  });
+});
+
+describe('the organiser’s own max', () => {
+  it('can be left without saving, and the typed pick is still there', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    await seedBudget(stack, { people: SIX, aggregate: BANDED });
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    await fireEvent.changeText(await screen.findByTestId('budget-typed'), '900');
+    await fireEvent.press(screen.getByTestId('budget-own-max-change'));
+    expect(await screen.findByTestId('budget-member-entry')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('budget-member-cancel'));
+
+    expect((await screen.findByTestId('budget-typed')).props.value).toBe('900');
+    const queued = await stack.db.getAll("SELECT id FROM commands WHERE cmd = 'submit_budget_max'");
+    expect(queued).toHaveLength(0);
   });
 });

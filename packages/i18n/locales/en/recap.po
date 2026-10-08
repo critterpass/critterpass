@@ -243,7 +243,15 @@ msgstr "{value, plural, one {{name}, # ride sorted} other {{name}, # rides sorte
 
 #: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.votes"
-msgstr "{votes} votes"
+msgstr "{votes, plural, one {# vote} other {# votes}}"
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.winner"
+msgstr "{votes, plural, one {MVP · # vote} other {MVP · # votes}}"
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.yours"
+msgstr "{votes, plural, one {Your vote · # vote} other {Your vote · # votes}}"
 
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.reactChip"
@@ -317,10 +325,6 @@ msgstr "Building the recap again"
 msgid "recap.receipt.cheapest"
 msgstr "Cheapest day"
 
-#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
-msgid "recap.memory.close"
-msgstr "Close"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.failed"
 msgstr "Couldn't ask for it again"
@@ -340,6 +344,10 @@ msgstr "Couldn't send that reaction"
 #: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
 msgid "recap.signature.failed"
 msgstr "Couldn't send your signature. Try again with signal."
+
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareFailed"
+msgstr "Couldn’t share this card"
 
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.stopFailed"
@@ -426,6 +434,8 @@ msgid "recap.award.goodCompany"
 msgstr "Good company"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/route-missing.tsx
 msgid "recap.link.back"
 msgstr "Home"
 
@@ -444,6 +454,10 @@ msgstr "In full"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.crew"
 msgstr "in the crew album"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.missing.line"
+msgstr "It may have been removed, or this phone hasn’t got it yet."
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.missingLine"
@@ -469,6 +483,14 @@ msgstr "Keep my name"
 msgid "recap.story.theme.pon"
 msgstr "koto and rain"
 
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.loading"
+msgstr "Loading the memory"
+
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.loading"
+msgstr "Loading the story"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.loading"
 msgstr "Loading your recap"
@@ -488,10 +510,6 @@ msgstr "Me"
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.receipt.eyebrow"
 msgstr "Money, wrapped"
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.winner"
-msgstr "MVP · {votes} votes"
 
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.offline"
@@ -546,6 +564,10 @@ msgstr "One tap. You can change it until everyone has voted."
 msgid "recap.memory.eyebrow"
 msgstr "One year ago today"
 
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.notReady.action"
+msgstr "Open the recap"
+
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.other"
 msgstr "Other"
@@ -593,6 +615,10 @@ msgstr "React"
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.reactTitle"
 msgstr "React to the memory"
+
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.back"
+msgstr "Recap"
 
 #: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.remind"
@@ -774,6 +800,10 @@ msgstr "The recap"
 msgid "recap.summary.failed.title"
 msgstr "The recap didn't come together"
 
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.notReady.line"
+msgstr "The recap is still being put together. Its page shows where it is."
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.receipt"
 msgstr "The receipt"
@@ -790,6 +820,10 @@ msgstr "The route"
 msgid "recap.story.label.stamp"
 msgstr "The stamp"
 
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.story.notReady.title"
+msgstr "The story isn’t ready yet"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.transfer"
 msgstr "the transfer"
@@ -805,6 +839,10 @@ msgstr "The trip, the recap"
 #: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.closed"
 msgstr "The vote is closed. The gold edge is the MVP."
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.missing.title"
+msgstr "This memory isn’t here"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.gone"
@@ -913,7 +951,3 @@ msgstr "Your signature"
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.yourTrip"
 msgstr "Your trip"
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.yours"
-msgstr "Your vote · {votes} votes"

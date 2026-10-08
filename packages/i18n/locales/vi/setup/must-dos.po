@@ -159,6 +159,7 @@ msgstr "Bốc thăm"
 msgid "setup.addMustDo.more.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr "Việc phải làm"
@@ -199,13 +200,25 @@ msgstr "Xoá"
 msgid "setup.mustDos.seeDraft"
 msgstr "Xem bản nháp"
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.seeTrip"
+msgstr "Xem chuyến đi"
+
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pending"
 msgstr "Có mạng sẽ gửi"
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.doneLineMember"
+msgstr "Xong phần chuẩn bị. {guideName} đang lên lịch cùng {organiser}."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.doneLine"
 msgstr "Xong phần chuẩn bị. {guideName} bắt đầu lên lịch từ đây."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.plannedLine"
+msgstr "Phần chuẩn bị đã xong và lịch trình đã có."
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.unavailable"

@@ -34,6 +34,10 @@ msgstr "Cả nhóm đã thanh toán sòng phẳng chuyến {place}, đến kho�
 msgid "stickers.how.settledNoPlace"
 msgstr "Cả nhóm đã thanh toán sòng phẳng, đến khoản cuối cùng."
 
+#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
+msgid "stickers.detail.missingLine"
+msgstr "Có thể nó đã bị xoá, hoặc máy này chưa tải về."
+
 #: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
 msgid "stickers.shelf.empty"
 msgstr "Thanh toán sòng phẳng một chuyến đến khoản cuối, hoặc lên cấp nhóm, để nhận sticker."
@@ -49,3 +53,7 @@ msgstr "Sticker đặc biệt"
 #: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
 msgid "stickers.shelf.title"
 msgstr "Sticker"
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
+msgid "stickers.detail.missingTitle"
+msgstr "Sticker này không có ở đây"

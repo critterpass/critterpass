@@ -68,7 +68,18 @@ export interface BudgetViewProps {
   readonly onCheaperDates: () => void;
   /** The organiser's own max row. */
   readonly ownMax?: ReactNode;
+  /** The pick, when the step keeps it (it then outlives this view); else the view keeps its own. */
+  readonly pick?: BudgetPick | undefined;
+  readonly onPick?: ((pick: BudgetPick) => void) | undefined;
 }
+
+/** What the organiser has picked so far: the knob's amount once moved, and the typed text. */
+export interface BudgetPick {
+  readonly picked: number | null;
+  readonly typed: string;
+}
+
+export const EMPTY_PICK: BudgetPick = { picked: null, typed: '' };
 
 const useStyles = makeStyles((th) => ({
   notice: { padding: th.space['16'], gap: th.space['10'] },
@@ -114,15 +125,15 @@ export function BudgetView(props: BudgetViewProps) {
   const locale = useLocale();
   // Until the organiser moves the knob it follows the suggested start, which moves as prices and
   // the step arrive; after that it is theirs. Either way it sits on the track it is shown on.
-  const [picked, setTarget] = useState<number | null>(null);
-  const [typed, setTyped] = useState('');
+  const [ownPick, setOwnPick] = useState<BudgetPick>(EMPTY_PICK);
+  const { picked, typed } = props.pick ?? ownPick;
+  const setPick = props.onPick ?? setOwnPick;
   // An amount typed above the end of the track stretches it (where no band limits the pick).
   const track = props.track === null ? null : widenTrack(props.track, band, picked);
   const target = track === null ? 0 : snap(picked ?? props.initialTarget, track);
   const onTyped = (text: string) => {
-    setTyped(text);
     const amount = typedAmountMinor(text, currency);
-    if (amount !== null) setTarget(amount);
+    setPick({ picked: amount ?? picked, typed: text });
   };
   const shake = useShake(lock.kind === 'over_band' ? lock.attempt : 0);
   const over = isOverBand(band, target);
@@ -198,31 +209,10 @@ export function BudgetView(props: BudgetViewProps) {
           track={track}
           currency={currency}
           target={target}
-          onTarget={(next) => {
-            setTyped('');
-            setTarget(next);
-          }}
+          onTarget={(next) => setPick({ picked: next, typed: '' })}
         />
       )}
-      {track === null ? null : (
-        <TextField
-          label={
-            band.of <= 1
-              ? t({ id: 'setup.budget.typed.labelAlone', message: 'Or type an amount' })
-              : t({ id: 'setup.budget.typed.label', message: 'Or type an amount, each' })
-          }
-          value={typed}
-          onChangeText={onTyped}
-          keyboardType="number-pad"
-          returnKeyType="done"
-          leading={<Text variant="title">{currencySymbol(locale, currency)}</Text>}
-          message={t({
-            id: 'setup.budget.typed.hint',
-            message: `Rounds to steps of ${money(locale, track.stepMinor, currency)}.`,
-          })}
-          testID="budget-typed"
-        />
-      )}
+      {/* Why the button is dimmed, and the ways out, before anything that can scroll under it. */}
       {infeasible && track !== null ? (
         <Card style={styles.notice} testID="budget-infeasible">
           <Text variant="title">
@@ -250,12 +240,31 @@ export function BudgetView(props: BudgetViewProps) {
             />
             <InlineAction
               label={t({ id: 'setup.budget.infeasible.hostels', message: 'Mix in hostels' })}
-              onPress={() => setTarget(track.minMinor)}
+              onPress={() => setPick({ picked: track.minMinor, typed })}
               testID="budget-infeasible-hostels"
             />
           </Row>
         </Card>
       ) : null}
+      {track === null ? null : (
+        <TextField
+          label={
+            band.of <= 1
+              ? t({ id: 'setup.budget.typed.labelAlone', message: 'Or type an amount' })
+              : t({ id: 'setup.budget.typed.label', message: 'Or type an amount, each' })
+          }
+          value={typed}
+          onChangeText={onTyped}
+          keyboardType="number-pad"
+          returnKeyType="done"
+          leading={<Text variant="title">{currencySymbol(locale, currency)}</Text>}
+          message={t({
+            id: 'setup.budget.typed.hint',
+            message: `Rounds to steps of ${money(locale, track.stepMinor, currency)}.`,
+          })}
+          testID="budget-typed"
+        />
+      )}
       <BreakdownBars state={barsState} target={target} currency={currency} />
       {/* Her own max is for fitting a crew's pick; alone, the pick is hers already. */}
       {band.of <= 1 ? null : (props.ownMax ?? null)}
