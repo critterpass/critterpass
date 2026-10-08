@@ -3,8 +3,9 @@
  * and `liveQuery` shares one such watcher and one result between everything reading the same
  * `(db, sql, params, tables)`. The shared result changes identity only when its content does: equal
  * rows keep the previous array, and unchanged rows keep their objects inside a changed one, so
- * memoised readers hold. A query nobody reads any more is released a moment later, so a screen
- * that remounts or hands over to the next one picks its rows up without a new read.
+ * memoised readers hold. A reader never gets rows read before it arrived: it waits for a read made
+ * after it subscribed (one read for everyone arriving together), then shares the result. A query
+ * nobody reads any more keeps its watcher a moment longer, for a screen that remounts.
  */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
@@ -17,11 +18,15 @@ export const RELEASE_AFTER_MS = 250;
 const CHANGE_THROTTLE_MS = 30;
 
 interface Watch {
-  stop(): void;
-  reload(): void;
+  readonly stop: () => void;
+  /** Starts a read and returns its number; reads are numbered in the order they start. */
+  readonly read: () => number;
+  /** The number of the newest read started. */
+  readonly started: () => number;
 }
 
 /**
+ * Follows `tables` and reads on every change (and whenever asked), numbering reads from `after`.
  * A read that finishes after a newer one has answered is dropped: with several read connections
  * they can land out of order, and the newer one already saw everything the older one did.
  */
@@ -30,12 +35,13 @@ function startWatch<Row>(
   sql: string,
   params: readonly unknown[],
   tables: readonly string[],
-  onRows: (rows: Row[]) => void,
-  onError: (error: unknown) => void,
+  onRows: (rows: Row[], read: number) => void,
+  onError: (error: unknown, read: number) => void,
+  after = 0,
 ): Watch {
   const controller = new AbortController();
-  let started = 0;
-  let answered = 0;
+  let started = after;
+  let answered = after;
   const current = (mine: number): boolean => {
     if (controller.signal.aborted || mine < answered) return false;
     answered = mine;
@@ -46,19 +52,25 @@ function startWatch<Row>(
     const mine = started;
     return db.getAll<Row>(sql, [...params]).then(
       (rows) => {
-        if (current(mine)) onRows(rows);
+        if (current(mine)) onRows(rows, mine);
       },
       (error: unknown) => {
-        if (current(mine)) onError(error);
+        if (current(mine)) onError(error, mine);
       },
     );
   };
-  void load();
   db.onChange(
     { onChange: () => load() },
     { tables: [...tables], throttleMs: CHANGE_THROTTLE_MS, signal: controller.signal },
   );
-  return { stop: () => controller.abort(), reload: () => void load() };
+  return {
+    stop: () => controller.abort(),
+    read: () => {
+      void load();
+      return started;
+    },
+    started: () => started,
+  };
 }
 
 /**
@@ -74,7 +86,16 @@ export function watchQuery<Row>(
   onRows: (rows: Row[]) => void,
   onError: (error: unknown) => void = () => undefined,
 ): () => void {
-  return startWatch<Row>(db, sql, params, tables, onRows, onError).stop;
+  const watch = startWatch<Row>(
+    db,
+    sql,
+    params,
+    tables,
+    (rows) => onRows(rows),
+    (error) => onError(error),
+  );
+  watch.read();
+  return watch.stop;
 }
 
 function sameRow(a: unknown, b: unknown): boolean {
@@ -135,9 +156,15 @@ export interface LiveQueryState<Row> {
   readonly retry: () => void;
 }
 
-export interface LiveQuery<Row> {
+/** One component's view of a shared query. */
+export interface LiveQueryReader<Row> {
+  /** The shared state, once a read made after this reader subscribed has answered. */
   readonly getState: () => LiveQueryState<Row>;
   readonly subscribe: (listener: () => void) => () => void;
+}
+
+export interface LiveQuery<Row> {
+  readonly reader: () => LiveQueryReader<Row>;
 }
 
 /** The state of a query that is not running (a value it depends on is not known yet). */
@@ -171,44 +198,73 @@ function createLiveQuery<Row>(
   const listeners = new Set<() => void>();
   let watch: Watch | null = null;
   let releasing: ReturnType<typeof setTimeout> | undefined;
-  const retry = () => watch?.reload();
+  /** Reads numbered so far (across watchers), the newest answered, and whether one is due. */
+  let numbered = 0;
+  let answered = 0;
+  let readDue = false;
+  const retry = () => void watch?.read();
   let state: LiveQueryState<Row> = { ...IDLE_QUERY, retry };
 
-  const set = (next: Omit<LiveQueryState<Row>, 'retry'>) => {
-    state = { ...next, retry };
+  // Every answer is announced, changed or not: a reader waiting for its first read hears it,
+  // and one whose state object is the same as before does not re-render.
+  const announce = (read: number) => {
+    answered = read;
     listeners.forEach((listener) => listener());
   };
-  const onRows = (rows: Row[]) => {
+  const onRows = (rows: Row[], read: number) => {
     const next = reconcileRows(state.rows, rows);
-    if (state.answered && !state.failed && next === state.rows) return;
-    set({ rows: next, answered: true, failed: false, error: undefined });
+    if (!state.answered || state.failed || next !== state.rows) {
+      state = { rows: next, answered: true, failed: false, error: undefined, retry };
+    }
+    announce(read);
   };
-  const onError = (error: unknown) => {
+  const onError = (error: unknown, read: number) => {
     // One failure is one change: the same read failing again on every table change is not news.
-    if (!state.failed) set({ rows: state.rows, answered: state.answered, failed: true, error });
+    if (!state.failed) state = { ...state, failed: true, error };
+    announce(read);
   };
 
-  const getState = () => state;
+  /** Asks for a read made from now on, shared by everyone asking in the same tick; its number. */
+  const readSoon = (following: Watch): number => {
+    if (!readDue) {
+      readDue = true;
+      void Promise.resolve().then(() => {
+        readDue = false;
+        watch?.read();
+      });
+    }
+    return following.started() + 1;
+  };
   const releaseSoon = () => {
     clearTimeout(releasing);
     releasing = setTimeout(() => {
       if (listeners.size > 0) return;
+      numbered = watch?.started() ?? numbered;
       watch?.stop();
       watch = null;
-      if (shared.get(key)?.getState === getState) shared.delete(key);
+      if (shared.get(key) === query) shared.delete(key);
     }, RELEASE_AFTER_MS);
   };
+
   const query: LiveQuery<Row> = {
-    getState,
-    subscribe: (listener) => {
-      listeners.add(listener);
-      clearTimeout(releasing);
-      // Released between a render and its commit: this reader brings it back.
-      if (!shared.has(key)) shared.set(key, query);
-      watch ??= startWatch<Row>(db, sql, bound, tables, onRows, onError);
-      return () => {
-        listeners.delete(listener);
-        if (listeners.size === 0) releaseSoon();
+    reader: () => {
+      let from: number | null = null;
+      return {
+        getState: () => (from !== null && answered >= from ? state : IDLE_QUERY),
+        subscribe: (listener) => {
+          clearTimeout(releasing);
+          // Released between a render and its commit: this reader brings it back.
+          if (!shared.has(key)) shared.set(key, query);
+          const stopped = watch === null;
+          watch ??= startWatch<Row>(db, sql, bound, tables, onRows, onError, numbered);
+          // A reader that only re-subscribes (a remount in place) keeps what it was shown.
+          if (from === null || stopped) from = readSoon(watch);
+          listeners.add(listener);
+          return () => {
+            listeners.delete(listener);
+            if (listeners.size === 0) releaseSoon();
+          };
+        },
       };
     },
   };
@@ -217,7 +273,7 @@ function createLiveQuery<Row>(
   return query;
 }
 
-/** The shared live query for `(db, sql, params, tables)`; it reads only while subscribed to. */
+/** The shared live query for `(db, sql, params, tables)`; it reads only while it has readers. */
 export function liveQuery<Row>(
   db: AbstractPowerSyncDatabase,
   sql: string,

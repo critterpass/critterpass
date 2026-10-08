@@ -2,8 +2,9 @@
  * The app's live-query hook: `useLiveRows(sql, params, tables)` reads a local query and follows its
  * tables. Every component reading the same query shares one watcher and one result
  * (`live-query-store.ts`), and what the hook returns keeps its identity until the rows really
- * change, so a table change that leaves a query's answer alone re-renders nobody. `null` params
- * skip the query (something it depends on is not known yet).
+ * change, so a table change that leaves a query's answer alone re-renders nobody. A component is
+ * not loaded until a read made after it mounted has answered. `null` params skip the query
+ * (something it depends on is not known yet).
  *
  * `useLiveRows` reports a failed read as loaded with `failed`; `useQuietLiveRows` keeps waiting (or
  * keeps what it had) instead. Feature hooks with another shape derive it with `liveView`.
@@ -56,18 +57,18 @@ export function useLiveQueryStateOn<Row>(
 ): LiveQueryState<Row> {
   const key =
     db === null || sql === null || params === null ? null : liveQueryKey(sql, params, tables);
-  const query = useMemo(
+  const reader = useMemo(
     () =>
       db === null || sql === null || params === null || key === null
         ? null
-        : liveQuery<Row>(db, sql, params, tables, key),
+        : liveQuery<Row>(db, sql, params, tables, key).reader(),
     // `sql`, `params` and `tables` are folded into `key`.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [db, key],
   );
   return useSyncExternalStore<LiveQueryState<Row>>(
-    query?.subscribe ?? noSubscription,
-    query?.getState ?? idleState,
+    reader?.subscribe ?? noSubscription,
+    reader?.getState ?? idleState,
   );
 }
 

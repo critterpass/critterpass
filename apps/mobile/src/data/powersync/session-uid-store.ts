@@ -13,6 +13,8 @@ const OWNER_SQL = 'SELECT value FROM local_state WHERE id = ?';
 
 interface OwnerStore {
   uid: string | null;
+  /** The session said so (kept between readers); otherwise the uid was only read from the row. */
+  fromSession: boolean;
   readonly listeners: Set<() => void>;
   stop: (() => void) | null;
   /** Owner-row reads started, and the newest one this store has taken (or passed over). */
@@ -25,7 +27,14 @@ const stores = new WeakMap<AbstractPowerSyncDatabase, OwnerStore>();
 function storeFor(db: AbstractPowerSyncDatabase): OwnerStore {
   let store = stores.get(db);
   if (store === undefined) {
-    store = { uid: null, listeners: new Set(), stop: null, started: 0, settled: 0 };
+    store = {
+      uid: null,
+      fromSession: false,
+      listeners: new Set(),
+      stop: null,
+      started: 0,
+      settled: 0,
+    };
     stores.set(db, store);
   }
   return store;
@@ -41,6 +50,7 @@ function set(store: OwnerStore, uid: string | null): void {
 export function noteSessionUid(db: AbstractPowerSyncDatabase, uid: string | null): void {
   const store = storeFor(db);
   store.settled = store.started;
+  store.fromSession = true;
   set(store, uid);
 }
 
@@ -58,7 +68,9 @@ function followOwnerRow(db: AbstractPowerSyncDatabase, store: OwnerStore): () =>
       (row) => {
         if (controller.signal.aborted || mine <= store.settled) return;
         store.settled = mine;
-        set(store, row?.value ?? null);
+        const uid = row?.value ?? null;
+        if (uid !== store.uid) store.fromSession = false;
+        set(store, uid);
       },
       () => undefined,
     );
@@ -83,5 +95,7 @@ export function subscribeSessionUid(
     if (store.listeners.size > 0) return;
     store.stop?.();
     store.stop = null;
+    // A uid only read from the row is read again by the next reader, never assumed.
+    if (!store.fromSession) store.uid = null;
   };
 }

@@ -158,7 +158,13 @@ describe('sync status store', () => {
     expect(phaseRenders).toBe(whileConnecting);
 
     // The sync stream reports as it does on a device: connected and synced, then a later
-    // checkpoint that only moves the last sync time.
+    // checkpoint that only moves the last sync time. No sync service runs here, so the test hands
+    // the report to the database's status listeners itself (a channel its public type leaves out).
+    const statusChannel = stack.db as unknown as {
+      iterateListeners(
+        report: (listener: { statusChanged?: (status: SyncStatus) => void }) => void,
+      ): void;
+    };
     const report = async (lastSyncedAt: Date) => {
       const status = {
         connected: true,
@@ -169,7 +175,7 @@ describe('sync status store', () => {
       } as SyncStatus;
       await act(() => {
         Object.assign(stack.db, { currentStatus: status });
-        stack.db.iterateListeners((listener) => listener.statusChanged?.(status));
+        statusChannel.iterateListeners((listener) => listener.statusChanged?.(status));
       });
     };
     await report(new Date('2026-09-27T10:00:00Z'));

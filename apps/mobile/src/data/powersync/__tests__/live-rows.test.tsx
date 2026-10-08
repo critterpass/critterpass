@@ -130,7 +130,7 @@ describe('reconcileRows', () => {
   });
 
   it('tells apart rows that differ only in a null or in their columns', () => {
-    const previous = [{ id: 'a', n: null as number | null }];
+    const previous: Array<Record<string, unknown>> = [{ id: 'a', n: null }];
     expect(reconcileRows(previous, [{ id: 'a', n: 0 }])[0]).toEqual({ id: 'a', n: 0 });
     expect(reconcileRows(previous, [{ id: 'a', n: null, extra: 1 }])).not.toBe(previous);
   });
@@ -189,59 +189,80 @@ describe('useLiveRows', () => {
     expect(before[1]).toEqual({ id: 'note:b', value: 'two' });
   });
 
-  it('shares one watcher and one result between readers, and stops reading once they leave', async () => {
+  it('shares one watcher, one read and one result between readers, and stops once they leave', async () => {
     const stack = await open();
     await write(stack.db, 'note:a', 'one');
     const { db, seen } = observeReads(stack.db);
     const wrapper = wrapperFor(stack, db);
-    const read = () => useLiveRows<NoteRow>(NOTES_SQL, NOTES, TABLES);
-    const one = await renderHook(read, { wrapper });
-    const two = await renderHook(read, { wrapper });
-    await waitFor(() => expect(two.result.current.loaded).toBe(true));
+    const useNotes = () => useLiveRows<NoteRow>(NOTES_SQL, NOTES, TABLES);
+    // Two readers arriving together, as two components of one screen do.
+    const pair = await renderHook(() => ({ one: useNotes(), two: useNotes() }), { wrapper });
+    await waitFor(() => expect(pair.result.current.two.loaded).toBe(true));
     await readsSettled(seen, 1);
 
     expect(seen).toMatchObject({ reads: 1, watchers: 1 });
-    expect(two.result.current).toBe(one.result.current);
+    expect(pair.result.current.two).toBe(pair.result.current.one);
 
     await act(() => write(stack.db, 'note:a', 'again'));
-    await waitFor(() => expect(one.result.current.rows[0]?.value).toBe('again'));
+    await waitFor(() => expect(pair.result.current.one.rows[0]?.value).toBe('again'));
     await readsSettled(seen, 2);
     expect(seen).toMatchObject({ reads: 2, watchers: 1 });
-    expect(two.result.current.rows).toBe(one.result.current.rows);
+    expect(pair.result.current.two.rows).toBe(pair.result.current.one.rows);
 
-    // One reader leaving changes nothing for the other.
-    await one.unmount();
-    await act(() => write(stack.db, 'note:a', 'third'));
-    await waitFor(() => expect(two.result.current.rows[0]?.value).toBe('third'));
+    // A reader arriving later reads for itself once, on the same watcher, and gets the same rows.
+    const late = await renderHook(useNotes, { wrapper });
+    await waitFor(() => expect(late.result.current.loaded).toBe(true));
     await readsSettled(seen, 3);
+    expect(seen).toMatchObject({ reads: 3, watchers: 1 });
+    expect(late.result.current.rows).toBe(pair.result.current.one.rows);
 
-    await two.unmount();
+    // One reader leaving changes nothing for the others.
+    await late.unmount();
+    await act(() => write(stack.db, 'note:a', 'third'));
+    await waitFor(() => expect(pair.result.current.two.rows[0]?.value).toBe('third'));
+    await readsSettled(seen, 4);
+
+    await pair.unmount();
     await pause(RELEASE_AFTER_MS + 100);
     await write(stack.db, 'note:a', 'unseen');
     await pause(200);
-    expect(seen).toMatchObject({ reads: 3, watchers: 1 });
+    expect(seen).toMatchObject({ reads: 4, watchers: 1 });
 
     // The next reader starts a watcher of its own and reads what is there now.
-    const three = await renderHook(read, { wrapper });
-    await waitFor(() => expect(three.result.current.rows[0]?.value).toBe('unseen'));
+    const next = await renderHook(useNotes, { wrapper });
+    await waitFor(() => expect(next.result.current.rows[0]?.value).toBe('unseen'));
     expect(seen.watchers).toBe(2);
   });
 
-  it('hands a reader that arrives a moment after the last one left the rows already read', async () => {
+  it('never shows a reader rows that were read before it arrived', async () => {
     const stack = await open();
-    await write(stack.db, 'note:a', 'one');
-    const { db, seen } = observeReads(stack.db);
-    const wrapper = wrapperFor(stack, db);
-    const read = () => useLiveRows<NoteRow>(NOTES_SQL, NOTES, TABLES);
-    const one = await renderHook(read, { wrapper });
-    await waitFor(() => expect(one.result.current.loaded).toBe(true));
-    const rows = one.result.current.rows;
-    await one.unmount();
+    await write(stack.db, 'note:a', 'before');
+    const useNotes = () => useLiveRows<NoteRow>(NOTES_SQL, NOTES, TABLES);
+    const first = await renderHook(useNotes, { wrapper: stack.wrapper });
+    await waitFor(() => expect(first.result.current.loaded).toBe(true));
 
-    const two = await renderHook(read, { wrapper });
-    expect(two.result.current.loaded).toBe(true);
-    expect(two.result.current.rows).toBe(rows);
-    expect(seen).toMatchObject({ reads: 1, watchers: 1 });
+    // A write, then a screen that opens before the first reader has heard of it.
+    await stack.db.execute('UPDATE local_state SET value = ? WHERE id = ?', ['after', 'note:a']);
+    const shown: string[] = [];
+    const second = await renderHook(
+      () => {
+        const live = useNotes();
+        if (live.loaded) shown.push(live.rows[0]?.value ?? 'none');
+        return live;
+      },
+      { wrapper: stack.wrapper },
+    );
+    await waitFor(() => expect(second.result.current.loaded).toBe(true));
+    expect(shown[0]).toBe('after');
+
+    // The same holds for a reader that comes back within the moment its query is kept.
+    await first.unmount();
+    await second.unmount();
+    await stack.db.execute('UPDATE local_state SET value = ? WHERE id = ?', ['later', 'note:a']);
+    const back = await renderHook(useNotes, { wrapper: stack.wrapper });
+    expect(back.result.current.loaded).toBe(false);
+    await waitFor(() => expect(back.result.current.loaded).toBe(true));
+    expect(back.result.current.rows[0]?.value).toBe('later');
   });
 
   it('drops a read that answers after a newer one has', async () => {
@@ -249,7 +270,7 @@ describe('useLiveRows', () => {
     await write(stack.db, 'note:a', 'old');
     const { db, seen, releases } = observeReads(stack.db);
     seen.hold = true;
-    const query = liveQuery<NoteRow>(db, NOTES_SQL, NOTES, TABLES);
+    const query = liveQuery<NoteRow>(db, NOTES_SQL, NOTES, TABLES).reader();
     const stop = query.subscribe(() => undefined);
 
     // The first read saw `old`; the second, started by the write, saw `new`.
