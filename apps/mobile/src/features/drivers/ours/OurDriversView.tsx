@@ -9,10 +9,14 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useActiveGuide } from '@/lib/navigation/active-guide';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { EmptyState } from '@/ui/states/EmptyState';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -53,6 +57,13 @@ export function OurDriversView(props: OurDriversViewProps) {
   const date = (iso: string) =>
     format.date(locale, new Date(iso), { day: 'numeric', month: 'short' });
   const crew = props.crewSize;
+  const { guideId } = useActiveGuide();
+  const guide = guideSticker(guideId);
+  const empty = props.drivers.length === 0;
+  // The note about nudging only means something while an invite is waiting on a driver.
+  const waiting = props.drivers.some(
+    (driver) => ourDriverState(driver, props.now).kind === 'waiting',
+  );
   return (
     <Scaffold testID="drivers-ours">
       <ScrollView
@@ -69,17 +80,30 @@ export function OurDriversView(props: OurDriversViewProps) {
         <Text variant="displayXl">
           {upper(t({ id: 'drivers.ours.title', message: 'Our drivers' }), locale)}
         </Text>
-        <Text variant="body" color={theme.semantic.text.secondary}>
-          {t({
-            id: 'drivers.ours.intro',
-            message: `Drivers this crew used. The ones who haven't confirmed are only visible to you ${crew}.`,
-          })}
-        </Text>
-        {props.drivers.length === 0 ? (
-          <Text variant="body" testID="drivers-ours-empty">
-            {t({ id: 'drivers.ours.empty', message: 'No drivers on this trip yet.' })}
+        {empty ? (
+          <EmptyState
+            guide={guideId}
+            guideName={guide.name}
+            sticker={<Sticker kind={guide.kind} name={guide.name} pose="sleep" size={120} />}
+            title={t({ id: 'drivers.ours.emptyTitle', message: 'No drivers yet' })}
+            line={t({
+              id: 'drivers.ours.emptyLine',
+              message: 'Ride with someone on this trip and they land here for the crew.',
+            })}
+            action={{
+              label: t({ id: 'drivers.ours.directory', message: 'Drivers other crews loved' }),
+              onPress: props.onDirectory,
+            }}
+            testID="drivers-ours-empty"
+          />
+        ) : (
+          <Text variant="body" color={theme.semantic.text.secondary}>
+            {t({
+              id: 'drivers.ours.intro',
+              message: `Drivers this crew used. The ones who haven't confirmed are only visible to you ${crew}.`,
+            })}
           </Text>
-        ) : null}
+        )}
         {props.drivers.map((driver) => {
           const state = ourDriverState(driver, props.now);
           const days = driver.day_numbers
@@ -235,18 +259,22 @@ export function OurDriversView(props: OurDriversViewProps) {
             </Stack>
           );
         })}
-        <Text variant="caption" color={theme.semantic.text.secondary}>
-          {t({
-            id: 'drivers.ours.noChase',
-            message: "I won't chase him. One nudge from you is plenty.",
-          })}
-        </Text>
-        <PillButton
-          variant="secondary"
-          label={t({ id: 'drivers.ours.directory', message: 'Drivers other crews loved' })}
-          onPress={props.onDirectory}
-          testID="drivers-ours-directory"
-        />
+        {waiting ? (
+          <Text variant="caption" color={theme.semantic.text.secondary}>
+            {t({
+              id: 'drivers.ours.noChase',
+              message: "I won't chase him. One nudge from you is plenty.",
+            })}
+          </Text>
+        ) : null}
+        {empty ? null : (
+          <PillButton
+            variant="secondary"
+            label={t({ id: 'drivers.ours.directory', message: 'Drivers other crews loved' })}
+            onPress={props.onDirectory}
+            testID="drivers-ours-directory"
+          />
+        )}
       </ScrollView>
     </Scaffold>
   );

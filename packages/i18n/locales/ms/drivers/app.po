@@ -811,7 +811,7 @@ msgid "drivers.find.noDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
+msgid "drivers.ours.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
@@ -1053,6 +1053,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoke"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx

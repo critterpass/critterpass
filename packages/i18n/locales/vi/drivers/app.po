@@ -815,8 +815,8 @@ msgid "drivers.find.noDays"
 msgstr "Kế hoạch chưa có ngày nào. Bạn vẫn có thể tìm tài xế trước."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr ""
+msgid "drivers.ours.emptyTitle"
+msgstr "Chưa có tài xế nào"
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
 msgid "drivers.compare.askPriceHint"
@@ -1058,6 +1058,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoke"
 msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr "Đi xe với ai trong chuyến này thì họ sẽ hiện ở đây cho cả nhóm."
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"

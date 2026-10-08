@@ -816,8 +816,8 @@ msgid "drivers.find.noDays"
 msgstr "No days in the plan yet. You can still line a driver up."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "No drivers on this trip yet."
+msgid "drivers.ours.emptyTitle"
+msgstr "No drivers yet"
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
 msgid "drivers.compare.askPriceHint"
@@ -1059,6 +1059,10 @@ msgstr "Report this?"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoke"
 msgstr "Revoke link"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr "Ride with someone on this trip and they land here for the crew."
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"

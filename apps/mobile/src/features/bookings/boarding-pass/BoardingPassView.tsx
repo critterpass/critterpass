@@ -39,6 +39,8 @@ const useStyles = makeStyles((t) => ({
     padding: t.space['12'],
   },
   cell: { flex: 1, minWidth: 0 },
+  // The note sits in the middle of the room under the title, not hard against it.
+  missingBlock: { flex: 1, justifyContent: 'center', paddingBottom: t.space['32'] + t.space['32'] },
   missing: { textAlign: 'center' },
 }));
 
@@ -76,15 +78,18 @@ export function BoardingPassView(props: BoardingPassViewProps) {
         <Text variant="body">{props.subtitle}</Text>
       </Stack>
       {qr === null ? (
-        <Stack gap="16" align="center" testID="bookings-pass-missing">
-          <Sticker kind={tokek.kind} name={guide.name} size={120} pose="think" />
-          <Text variant="bodyLg" style={styles.missing}>
-            {t({
-              id: 'bookings.pass.missing',
-              message: 'No boarding pass on this phone yet. Scan it at check-in and it lands here.',
-            })}
-          </Text>
-        </Stack>
+        <View style={styles.missingBlock}>
+          <Stack gap="16" align="center" testID="bookings-pass-missing">
+            <Sticker kind={tokek.kind} name={guide.name} size={120} pose="think" />
+            <Text variant="bodyLg" style={styles.missing}>
+              {t({
+                id: 'bookings.pass.missing',
+                message:
+                  'No boarding pass on this phone yet. Scan it at check-in and it lands here.',
+              })}
+            </Text>
+          </Stack>
+        </View>
       ) : (
         <View
           style={styles.code}
