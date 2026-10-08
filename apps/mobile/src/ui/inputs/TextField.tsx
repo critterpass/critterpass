@@ -55,7 +55,7 @@ const useStyles = makeStyles((t) => ({
     borderWidth: t.ring.input.idle.widthPt,
     backgroundColor: t.semantic.bg.raised,
     paddingStart: t.space['14'],
-    paddingEnd: t.space['4'],
+    paddingEnd: t.space['14'],
     alignItems: 'center',
   },
   input: {
