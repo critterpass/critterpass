@@ -412,6 +412,77 @@ describe('chat sync window', () => {
     expect(await flags()).toEqual(before);
   });
 
+  it('slides a long-lived crew with a read of the window’s index, never a scan of every message', async () => {
+    const { crewId } = harness.fixture;
+    interface PlanNode {
+      readonly 'Node Type': string;
+      readonly 'Index Name'?: string;
+      readonly 'Plan Rows': number;
+      readonly Plans?: readonly PlanNode[];
+    }
+    const nodes = (node: PlanNode): PlanNode[] => [node, ...(node.Plans ?? []).flatMap(nodes)];
+    const client = await harness.db.pool.connect();
+    /** How the plan reads `messages`: each scan, the index it uses and the rows it expects. */
+    const reads = async (statement: string) => {
+      const { rows } = await client.query<{ 'QUERY PLAN': [{ Plan: PlanNode }] }>(statement);
+      return nodes(rows[0]!['QUERY PLAN'][0].Plan)
+        .filter((node) => node['Node Type'].endsWith('Scan'))
+        .filter((node) => node['Node Type'] !== 'Bitmap Heap Scan')
+        .map((node) => ({
+          scan: node['Node Type'].replace(/^(Bitmap Index|Index Only|Index) Scan$/, 'index read'),
+          index: node['Index Name'] ?? null,
+          rows: node['Plan Rows'],
+        }));
+    };
+    const shape = (plan: Awaited<ReturnType<typeof reads>>) =>
+      plan.map(({ scan, index }) => ({ scan, index }));
+    try {
+      await client.query('BEGIN');
+      // Five thousand messages and more in one crew, the latest 1,000 of them inside the window.
+      await client.query('SET LOCAL ROLE app_system');
+      await client.query(
+        `INSERT INTO messages (crew_id, sender_kind, type, body)
+         SELECT $1, 'system', 'system', 'line ' || n FROM generate_series(1, 4000) n`,
+        [crewId],
+      );
+      await client.query('RESET ROLE');
+      await client.query('ANALYZE messages');
+      const { rows: counter } = await client.query<{ last_seq: string }>(
+        'SELECT last_seq FROM crew_chat_counters WHERE crew_id = $1',
+        [crewId],
+      );
+      const nextSeq = Number(counter[0]!.last_seq) + 1;
+
+      // The trigger's own statement, as the crew's next send runs it.
+      const { rows: source } = await client.query<{ prosrc: string }>(
+        `SELECT prosrc FROM pg_proc WHERE oid = 'app.slide_chat_sync_window()'::regprocedure`,
+      );
+      const slide =
+        /UPDATE messages SET in_sync_window = false\s+WHERE [^;]*?(?=\s+RETURNING)/.exec(
+          source[0]!.prosrc,
+        )?.[0];
+      expect(slide).toBeDefined();
+      const planned = (crew: string, seq: string) =>
+        slide!.replaceAll('NEW.crew_id', crew).replaceAll('NEW.seq', seq);
+
+      const windowIndexRead = [{ scan: 'index read', index: 'messages_sync_window_idx' }];
+      // With the send's values in hand, and as the plan a session settles on for any send.
+      const custom = await reads(
+        `EXPLAIN (FORMAT JSON) ${planned(`'${crewId}'::uuid`, `${String(nextSeq)}::bigint`)}`,
+      );
+      const generic = await reads(
+        `EXPLAIN (GENERIC_PLAN, FORMAT JSON) ${planned('$1::uuid', '$2::bigint')}`,
+      );
+      expect(
+        { custom: shape(custom), generic: shape(generic) },
+        JSON.stringify({ custom, generic }),
+      ).toEqual({ custom: windowIndexRead, generic: windowIndexRead });
+    } finally {
+      await client.query('ROLLBACK');
+      client.release();
+    }
+  });
+
   it('reverses cleanly, and a member can still react afterwards', async () => {
     const { crewId, actors } = harness.fixture;
     const client = await harness.db.pool.connect();
