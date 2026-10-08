@@ -791,6 +791,10 @@ msgstr ""
 msgid "motion.motionLab.showToast"
 msgstr ""
 
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.showLongToast"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.sight"
 msgstr ""
@@ -951,6 +955,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.PLAN_VERSION_CONFLICT"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoLongToastTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts

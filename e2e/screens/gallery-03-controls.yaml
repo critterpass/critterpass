@@ -30,3 +30,17 @@ appId: app.critterpass.dev
     env:
       COMPONENT: 'Avatar'
 - takeScreenshot: 10-avatars
+# Further down the same page: avatars that draw a member's chosen face from their user id.
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-by uid.*'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: 10-avatars-by-uid
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'Amount'
+- takeScreenshot: 10-amount-column

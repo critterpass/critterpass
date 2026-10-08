@@ -791,6 +791,10 @@ msgstr "Share"
 msgid "motion.motionLab.showToast"
 msgstr "show toast"
 
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.showLongToast"
+msgstr "show two-line toast"
+
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.sight"
 msgstr "Sight"
@@ -952,6 +956,10 @@ msgstr "The picture didn't draw."
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.PLAN_VERSION_CONFLICT"
 msgstr "The plan changed while you were editing. Take a look and try again."
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoLongToastTitle"
+msgstr "The trip is full. You're number 3 in line for a seat."
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.K_ANON_UNAVAILABLE"
