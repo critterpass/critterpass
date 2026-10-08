@@ -193,6 +193,18 @@ export const WHEN_SCENES: readonly SetupScene[] = [
     name: 'when-lock-failed',
     render: () => <When m={whenModel({ failure: 'offline' })} />,
   },
+  {
+    name: 'when-locked',
+    render: () => (
+      <When
+        m={whenModel({
+          mode: 'locked',
+          locked: { start: '2027-04-02', end: '2027-04-09' },
+          canChange: true,
+        })}
+      />
+    ),
+  },
   { name: 'when-week-picker', render: () => <Picker /> },
   {
     name: 'when-picker-range',

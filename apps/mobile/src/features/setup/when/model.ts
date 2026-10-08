@@ -169,6 +169,8 @@ export function heatStep(free: number, total: number): number {
 }
 
 export type WhenMode =
+  /** The dates are decided: the locked range, read-only but for the organiser's change. */
+  | 'locked'
   /** A window the whole crew can make: lock it (3c-3). */
   | 'best'
   /** Nothing fits everyone: up to three ways out (3c-4). */
@@ -193,7 +195,9 @@ export function whenMode(
   options: readonly WindowOption[],
   synced: number,
   earliest: string | null = null,
+  locked = false,
 ): WhenMode {
+  if (locked) return 'locked';
   if (options.some((option) => option.kind === 'best')) {
     return suggestedBest(options, earliest) === null ? 'pick' : 'best';
   }
@@ -201,8 +205,11 @@ export function whenMode(
   return synced === 0 ? 'empty' : 'computing';
 }
 
-/** The month to open on: the best window's, else the first month with anyone free. */
-export function initialMonth(months: readonly HeatMonth[], best: WindowOption | null): number {
+/** The month to open on: the best (or locked) window's, else the first month with anyone free. */
+export function initialMonth(
+  months: readonly HeatMonth[],
+  best: { readonly start: string } | null,
+): number {
   if (best !== null) {
     const index = months.findIndex((month) => month.key === best.start.slice(0, 7));
     if (index >= 0) return index;

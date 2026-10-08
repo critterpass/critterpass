@@ -4,6 +4,7 @@
  * trade-off) and "ask {name} first" when the blocker only has a maybe block. The guide's pick
  * wears the pick tag; the selected card is outlined in yellow. Cards deal in one after another.
  * An ask shows its progress on its card: asked and waiting, freed, can't move it, no answer.
+ * Members read the same cards; only the organiser's are buttons.
  */
 import { formatNarrowCurrency } from '@cp/cost-engine';
 import { t } from '@lingui/core/macro';
@@ -39,6 +40,7 @@ const useStyles = makeStyles((th) => ({
     paddingHorizontal: th.space['14'],
     paddingVertical: th.space['12'],
   },
+  readOnly: { borderColor: 'transparent' },
   body: { flex: 1, gap: th.space['2'] },
   trailing: { alignItems: 'flex-end', gap: th.space['6'] },
   pick: {
@@ -160,7 +162,8 @@ interface CardProps {
   readonly option: WindowOption;
   readonly index: number;
   readonly selected: boolean;
-  readonly onSelect: () => void;
+  /** Null for a member: the card is read, not picked. */
+  readonly onSelect: (() => void) | null;
   readonly people: OptionPeople;
 }
 
@@ -181,6 +184,63 @@ function OptionCard({ option, index, selected, onSelect, people }: CardProps) {
     option.kind === 'full_crew' && option.priceDeltaMinor !== null && option.currency !== null
       ? deltaLabel(locale, option.priceDeltaMinor, option.currency)
       : null;
+  const face = (
+    <Row align="center" gap="12">
+      <View style={styles.body}>
+        <Text variant="title">{title}</Text>
+        <Text variant="bodySm" color={theme.semantic.text.secondary}>
+          {line}
+        </Text>
+      </View>
+      <Stack style={styles.trailing}>
+        {pick === null ? null : (
+          <View style={styles.pick}>
+            <Text variant="label" color={theme.semantic.text.onAccent}>
+              {pick}
+            </Text>
+          </View>
+        )}
+        {option.kind === 'partial' && pick === null ? (
+          <AvatarStack
+            members={free.map((member) => ({
+              key: member.uid,
+              name: member.name,
+              joinIndex: member.joinIndex,
+            }))}
+            size="sm"
+            max={5}
+          />
+        ) : null}
+        {delta === null ? null : (
+          <Text
+            variant="title"
+            color={
+              (option.priceDeltaMinor ?? 0) < 0
+                ? theme.semantic.state.success
+                : theme.semantic.state.warning
+            }
+          >
+            {delta}
+          </Text>
+        )}
+      </Stack>
+    </Row>
+  );
+  const spoken = [title, line, pick].filter(Boolean).join(', ');
+  if (onSelect === null) {
+    return (
+      <Animated.View style={deal}>
+        <View
+          accessible
+          accessibilityLabel={spoken}
+          testID={`window-option-${option.kind}`}
+          style={[styles.card, styles.readOnly]}
+        >
+          {face}
+        </View>
+      </Animated.View>
+    );
+  }
   return (
     <Animated.View style={deal}>
       <PressScale
@@ -188,7 +248,7 @@ function OptionCard({ option, index, selected, onSelect, people }: CardProps) {
         disabled={closed}
         widthClass="wide"
         accessibilityRole="radio"
-        accessibilityLabel={[title, line, pick].filter(Boolean).join(', ')}
+        accessibilityLabel={spoken}
         accessibilityState={{ checked: selected, disabled: closed }}
         testID={`window-option-${option.kind}`}
         style={[
@@ -196,46 +256,7 @@ function OptionCard({ option, index, selected, onSelect, people }: CardProps) {
           { borderColor: selected ? theme.semantic.action.primary : 'transparent' },
         ]}
       >
-        <Row align="center" gap="12">
-          <View style={styles.body}>
-            <Text variant="title">{title}</Text>
-            <Text variant="bodySm" color={theme.semantic.text.secondary}>
-              {line}
-            </Text>
-          </View>
-          <Stack style={styles.trailing}>
-            {pick === null ? null : (
-              <View style={styles.pick}>
-                <Text variant="label" color={theme.semantic.text.onAccent}>
-                  {pick}
-                </Text>
-              </View>
-            )}
-            {option.kind === 'partial' && pick === null ? (
-              <AvatarStack
-                members={free.map((member) => ({
-                  key: member.uid,
-                  name: member.name,
-                  joinIndex: member.joinIndex,
-                }))}
-                size="sm"
-                max={5}
-              />
-            ) : null}
-            {delta === null ? null : (
-              <Text
-                variant="title"
-                color={
-                  (option.priceDeltaMinor ?? 0) < 0
-                    ? theme.semantic.state.success
-                    : theme.semantic.state.warning
-                }
-              >
-                {delta}
-              </Text>
-            )}
-          </Stack>
-        </Row>
+        {face}
       </PressScale>
     </Animated.View>
   );
@@ -244,20 +265,21 @@ function OptionCard({ option, index, selected, onSelect, people }: CardProps) {
 export interface WindowOptionsProps {
   readonly options: readonly WindowOption[];
   readonly selectedId: string | null;
-  readonly onSelect: (id: string) => void;
+  /** Null when the options are only to be read (a member). */
+  readonly onSelect: ((id: string) => void) | null;
   readonly people: OptionPeople;
 }
 
 export function WindowOptions({ options, selectedId, onSelect, people }: WindowOptionsProps) {
   return (
-    <Stack gap="10" accessibilityRole="radiogroup">
+    <Stack gap="10" accessibilityRole={onSelect === null ? 'list' : 'radiogroup'}>
       {options.map((option, index) => (
         <OptionCard
           key={option.id}
           option={option}
           index={index}
           selected={option.id === selectedId}
-          onSelect={() => onSelect(option.id)}
+          onSelect={onSelect === null ? null : () => onSelect(option.id)}
           people={people}
         />
       ))}

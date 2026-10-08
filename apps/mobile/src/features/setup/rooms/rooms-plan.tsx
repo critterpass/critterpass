@@ -116,30 +116,8 @@ export function RoomsPlanCards({
 
   return (
     <Stack gap="12">
-      {plan.stays.map((stay, index) => (
-        <StayCard
-          key={stay.key}
-          index={index}
-          stay={stay}
-          firstStayType={firstType}
-          dates={stayDates(plan, index, tripStart)}
-          mirrored={mirroredStay(index)}
-          people={people}
-          me={me}
-          editable={editable && !plan.locked}
-          selectedUid={selected}
-          rejected={rejected?.stayKey === stay.key ? rejected : null}
-          freeCancelUntil={plan.bookingId !== null ? plan.freeCancelUntil : null}
-          onSelect={select}
-          onMoveHere={moveHere}
-          onLift={() => impact('peel')}
-          onDrop={drop}
-          onMeasure={(stayKey, roomKey, rect) => rects.current.set(`${stayKey}|${roomKey}`, rect)}
-          onSeparate={
-            editable && index > 0 ? (separate) => onSeparate(stay.key, separate) : undefined
-          }
-        />
-      ))}
+      {/* What needs the organiser first: people with no room yet and a refused move sit above the
+          cards, where the step's button cannot cover them. */}
       {waiting.length > 0 && waitingStay !== undefined ? (
         <View
           style={[styles.waiting, { borderColor: theme.semantic.border.decorative }]}
@@ -175,6 +153,30 @@ export function RoomsPlanCards({
           {fullName}
         </Text>
       )}
+      {plan.stays.map((stay, index) => (
+        <StayCard
+          key={stay.key}
+          index={index}
+          stay={stay}
+          firstStayType={firstType}
+          dates={stayDates(plan, index, tripStart)}
+          mirrored={mirroredStay(index)}
+          people={people}
+          me={me}
+          editable={editable && !plan.locked}
+          selectedUid={selected}
+          rejected={rejected?.stayKey === stay.key ? rejected : null}
+          freeCancelUntil={plan.bookingId !== null ? plan.freeCancelUntil : null}
+          onSelect={select}
+          onMoveHere={moveHere}
+          onLift={() => impact('peel')}
+          onDrop={drop}
+          onMeasure={(stayKey, roomKey, rect) => rects.current.set(`${stayKey}|${roomKey}`, rect)}
+          onSeparate={
+            editable && index > 0 ? (separate) => onSeparate(stay.key, separate) : undefined
+          }
+        />
+      ))}
     </Stack>
   );
 }

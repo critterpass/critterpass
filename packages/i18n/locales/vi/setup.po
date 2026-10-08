@@ -47,15 +47,24 @@ msgstr "Chi phí"
 msgid "setup.push.notMovable"
 msgstr "Không dời được"
 
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.close"
+msgstr "Đóng"
+
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
 msgstr "Đã dời được"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.back.home"
+msgstr "Trang chủ"
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr "Chuyến đi sẽ hiện ra khi điện thoại đồng bộ xong. Thử lại sau chút nhé."
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr "Đang tải phần chuẩn bị"
 
@@ -106,6 +115,10 @@ msgstr "Khi nào"
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.rooms"
 msgstr "Ai ngủ phòng nào"
+
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.notYours"
+msgstr "Bạn không tham gia phần chuẩn bị của chuyến này nên không có gì cần làm ở đây."
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.answer"

@@ -56,7 +56,7 @@ import {
   WINSTON,
 } from '../../scenes/fixtures';
 import { moveGuest } from '../model';
-import { RoomsStep, toggleChip } from '../rooms-step';
+import { nothingToDecide, RoomsStep, toggleChip } from '../rooms-step';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -326,6 +326,18 @@ describe('a stay pick the server refused after it was queued', () => {
 });
 
 describe('rooms rules', () => {
+  it('keeps the stay pick for a trip of one where stays are priced, and passes where none is', () => {
+    const solo = {
+      loaded: true,
+      isOrganiser: true,
+      onRooms: true,
+      hasPlan: false,
+      skippable: true,
+    };
+    expect(nothingToDecide({ ...solo, stayCount: 2 })).toBe(false);
+    expect(nothingToDecide({ ...solo, stayCount: 0 })).toBe(true);
+  });
+
   it('keeps "don’t care" on its own', () => {
     expect(toggleChip(['early_bird'], 'dont_care')).toEqual(['dont_care']);
     expect(toggleChip(['dont_care'], 'snorer')).toEqual(['snorer']);
