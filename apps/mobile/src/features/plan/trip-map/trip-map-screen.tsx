@@ -5,7 +5,7 @@
  * at in any of the plan's views, else today during the trip, else the first day with stops), reads
  * that day's legs, opens a tapped stop's sheet over the map and SHARE over it.
  */
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
@@ -42,6 +42,7 @@ export function TripMapScreen({
   const [sharing, setSharing] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const editor = useDayEditing(data.plan);
+  const focused = useIsFocused();
   const known = model.days.some((entry) => entry.dayNo === chosen) ? chosen : null;
   const dayNo =
     known ??
@@ -65,6 +66,7 @@ export function TripMapScreen({
         onDayNo={setChosen}
         route={route}
         initialSnap={sheet}
+        focused={focused}
         onShare={() => setSharing(true)}
         onOpenDay={(n) => {
           setChosen(n);

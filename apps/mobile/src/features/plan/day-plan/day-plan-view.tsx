@@ -88,6 +88,8 @@ export interface DayPlanViewProps {
   readonly onOpenMap: () => void;
   readonly onOpenStop: (stableId: string) => void;
   readonly onAdd: () => void;
+  /** False while another screen covers the day: its mini-map's camera waits. @default true */
+  readonly focused?: boolean | undefined;
   /** Opens a day trip's area page (change or remove the day trip), by the area's id. */
   readonly onOpenArea?: ((areaId: string) => void) | undefined;
 }
@@ -221,6 +223,7 @@ export function DayPlanView(props: DayPlanViewProps) {
             model={model}
             day={day}
             order={props.order}
+            active={props.focused ?? true}
             caption={stopsLine(day.stops.length, route.legs)}
             onOpen={props.onOpenMap}
           />

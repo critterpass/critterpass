@@ -8,7 +8,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids, route params and toast ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useState } from 'react';
 
 import { estimateLeg } from '@/data/legs/day-legs';
@@ -63,6 +63,7 @@ export function DayPlanScreen({
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(plan.versionId, day);
   const editor = useDayEditing(plan);
+  const focused = useIsFocused();
   const search = useScreenHref('7d-1', {
     tripId,
     scope: 'day',
@@ -139,6 +140,7 @@ export function DayPlanScreen({
         }
         onBack={backToTrip}
         backTo={back.target}
+        focused={focused}
         // Back to day-of when it is underneath (the day was opened from it), else onto it.
         onDayOf={dayOf === undefined ? undefined : () => router.dismissTo(dayOf)}
         onAllDays={() => router.push(tripPlanRoutes.days(tripId, dayNo))}
