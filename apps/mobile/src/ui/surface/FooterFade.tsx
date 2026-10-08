@@ -12,15 +12,18 @@ import { useSurfaceBackground } from './Scaffold';
  */
 export const FOOTER_FADE_PT = tokens.space['24'];
 
-/** Bands the fade is drawn with: 12 steps of 2 pt read as a smooth ramp at phone densities. */
-const BANDS = 12;
-const BAND_PT = FOOTER_FADE_PT / BANDS;
+/**
+ * The page colour with no opacity. A gradient from plain `transparent` (transparent black) would
+ * pass through grey on the way, so the fade starts from the page colour itself at zero alpha.
+ */
+function clear(color: string): string {
+  return /^#[0-9a-f]{6}$/i.test(color) ? `${color}00` : 'transparent';
+}
 
 const useStyles = makeStyles(() => ({
   // In flow, pulled up over the end of whatever sits above it: a view drawn outside its parent's
   // bounds can be clipped on Android, so the fade overlaps its sibling instead.
   fade: { height: FOOTER_FADE_PT, marginTop: -FOOTER_FADE_PT, alignSelf: 'stretch' },
-  band: { height: BAND_PT },
 }));
 
 export interface FooterFadeProps {
@@ -38,17 +41,22 @@ export function FooterFade({ color, testID }: FooterFadeProps) {
   const theme = useTheme();
   const surface = useSurfaceBackground();
   const background = color ?? surface ?? theme.semantic.bg.base;
-  // Solid bands of rising opacity rather than a native gradient, so the ramp draws the same on every
-  // platform and version.
+  // One native gradient: stacked bands of rising opacity showed as stripes on device.
   return (
-    <View pointerEvents="none" testID={testID} style={styles.fade}>
-      {Array.from({ length: BANDS }, (_, index) => (
-        <View
-          // eslint-disable-next-line lingui/no-unlocalized-strings -- a React key
-          key={`band-${String(index)}`}
-          style={[styles.band, { backgroundColor: background, opacity: (index + 1) / BANDS }]}
-        />
-      ))}
-    </View>
+    <View
+      pointerEvents="none"
+      testID={testID}
+      style={[
+        styles.fade,
+        {
+          backgroundImage: [
+            {
+              type: 'linear-gradient',
+              colorStops: [{ color: clear(background) }, { color: background }],
+            },
+          ],
+        },
+      ]}
+    />
   );
 }
