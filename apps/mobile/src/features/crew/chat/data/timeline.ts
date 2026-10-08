@@ -33,6 +33,7 @@ export const MESSAGE_WINDOW = 200;
 const MESSAGE_COLUMNS = [
   'id',
   'crew_id',
+  'trip_id',
   'seq',
   'sender_kind',
   'sender_id',

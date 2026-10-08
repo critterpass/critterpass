@@ -90,6 +90,7 @@ function wire(seq: number): ChatHistoryPage['messages'][number] {
   return {
     id: id(seq),
     crew_id: CREW,
+    trip_id: null,
     seq,
     sender_kind: 'user',
     sender_id: MAYA,

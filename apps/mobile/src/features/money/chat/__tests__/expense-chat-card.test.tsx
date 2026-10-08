@@ -160,6 +160,21 @@ describe('expense card in crew chat', () => {
     });
   });
 
+  it('opens a message read from the api, which the phone holds no row for, in the trip it carries', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    await seedExpense(stack, { payer: MAYA, description: 'lunch', splitMode: 'equal' });
+    await renderChat(
+      <ExpenseChatCard message={{ ...message(EXPENSE), tripId: 't-1' }} mine={false} />,
+      stack,
+    );
+    await fireEvent.press(await screen.findByTestId(`chat-expense-view-${EXPENSE}`));
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/money/expense/[id]',
+      params: { id: EXPENSE, trip: 't-1' },
+    });
+  });
+
   it('names the viewer when they paid and leaves out what an untitled expense was for', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
     await seedCrew(stack);

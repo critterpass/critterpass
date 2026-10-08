@@ -50,6 +50,7 @@ export function parseAttachments(value: string | null | undefined): StoredAttach
 export interface MessageRow {
   readonly id: string;
   readonly crew_id: string;
+  readonly trip_id: string | null;
   readonly seq: number;
   readonly sender_kind: 'user' | 'guide' | 'system';
   readonly sender_id: string | null;
@@ -76,6 +77,8 @@ export type DeliveryStatus = 'sent' | 'sending' | 'uploaded' | 'failed';
 export interface ChatMessage {
   readonly id: string;
   readonly crewId: string;
+  /** The trip a card's message belongs to; a message built without its row carries none. */
+  readonly tripId?: string | null;
   /** Null until the server has numbered it (a local send). */
   readonly seq: number | null;
   readonly senderKind: 'user' | 'guide' | 'system';
@@ -105,6 +108,7 @@ export function fromRow(row: MessageRow): ChatMessage {
   return {
     id: row.id,
     crewId: row.crew_id,
+    tripId: row.trip_id ?? null,
     seq: Number(row.seq),
     senderKind: row.sender_kind,
     senderId: row.sender_id,
@@ -139,6 +143,7 @@ function sameList(a: readonly unknown[], b: readonly unknown[]): boolean {
 export function sameMessage(a: ChatMessage, b: ChatMessage): boolean {
   return (
     a.id === b.id &&
+    (a.tripId ?? null) === (b.tripId ?? null) &&
     a.seq === b.seq &&
     a.status === b.status &&
     a.body === b.body &&

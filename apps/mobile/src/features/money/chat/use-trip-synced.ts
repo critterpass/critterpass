@@ -9,6 +9,7 @@
 import { useEffect, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import type { ChatMessage } from '@/features/crew';
 import { TRIP_STREAM_TTL_S } from '@/data/powersync/use-trip-streams';
 
 import { useLiveRows } from '../data/live-rows';
@@ -23,14 +24,17 @@ export interface ExpenseTrip {
   readonly synced: boolean;
 }
 
-export function useExpenseTrip(messageId: string): ExpenseTrip {
+export function useExpenseTrip(message: Pick<ChatMessage, 'id' | 'tripId'>): ExpenseTrip {
   const { db } = useLocalFirst();
-  const message = useLiveRows<{ trip_id: string | null }>(
+  // The message says which trip it is for; one built without its row is looked up on the phone
+  // (a message read from the api, older than the phone keeps, has no row there).
+  const carried = message.tripId ?? null;
+  const local = useLiveRows<{ trip_id: string | null }>(
     MESSAGE_TRIP_SQL,
-    [messageId],
+    carried === null ? [message.id] : null,
     ['messages'],
   );
-  const tripId = message.rows[0]?.trip_id ?? null;
+  const tripId = carried ?? local.rows[0]?.trip_id ?? null;
   const [synced, setSynced] = useState<string | null>(null);
   useEffect(() => {
     if (tripId === null) return undefined;
@@ -54,5 +58,9 @@ export function useExpenseTrip(messageId: string): ExpenseTrip {
       held?.unsubscribe();
     };
   }, [db, tripId]);
-  return { tripId, known: message.loaded, synced: tripId !== null && synced === tripId };
+  return {
+    tripId,
+    known: carried !== null || local.loaded,
+    synced: tripId !== null && synced === tripId,
+  };
 }

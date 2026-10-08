@@ -164,6 +164,28 @@ describe('older chat pages', () => {
     expect(readOlder(CREW).messages).toEqual([]);
   });
 
+  it('carries each message’s trip, from a page as from the phone’s own row', async () => {
+    const stack = await phone(5, 5);
+    await stack.db.execute("UPDATE messages SET trip_id = 't-new' WHERE id = ?", [id(5)]);
+    const api: ChatHistoryApi = () =>
+      Promise.resolve({
+        messages: [wire(4, MAYA, { trip_id: 't-old' })],
+        reactions: [],
+        has_more: false,
+      });
+    const { result } = await renderHook(() => useMessages(CREW, stack.uid, api), {
+      wrapper: stack.wrapper,
+    });
+    await waitFor(() => expect(result.current.loaded).toBe(true));
+    await act(() => result.current.loadOlder());
+    await waitFor(() => expect(result.current.messages).toHaveLength(2));
+    // What a proposal or expense card reads to find its trip.
+    expect(result.current.messages.map((m) => [m.seq, m.tripId])).toEqual([
+      [4, 't-old'],
+      [5, 't-new'],
+    ]);
+  });
+
   it('asks the server nothing when the phone holds the first message', async () => {
     const stack = await phone(1, 3);
     const { api, calls } = server();
