@@ -33,7 +33,7 @@ import { DayGone } from './day-gone';
 import { DayPlanView } from './day-plan-view';
 import { refusalLine } from './refusal';
 import type { Travel } from './reschedule';
-import { useReorder } from './use-reorder';
+import { dropResult, useReorder } from './use-reorder';
 
 export function DayPlanScreen({
   tripId,
@@ -133,7 +133,7 @@ export function DayPlanScreen({
                 onDrop: async () => {
                   const dropped = await reorder.drop();
                   if (dropped.kind === 'refused') refuse(refusalLine(dropped.refusal));
-                  return dropped.kind === 'sent';
+                  return dropResult(dropped);
                 },
               }
         }

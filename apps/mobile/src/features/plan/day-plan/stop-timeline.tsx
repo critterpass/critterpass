@@ -2,8 +2,9 @@
  * The day plan's timeline (7b-1): the day's stops with their legs, free time and the guide's notes
  * under the stops an issue names. Long-press lifts a stop and dragging moves the others out of the
  * way (a tick per stop crossed, the mini-map redrawing the order); letting go hands the order to
- * the reorder, which times the day again or refuses with a reason (the stop springs back). Screen
- * readers get Move up and Move down instead.
+ * the reorder, which times the day again or refuses with a reason (the stop springs back). A
+ * member's order goes to the crew as a suggestion: the stop springs back too, since the plan has
+ * not changed. Screen readers get Move up and Move down instead.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useLayoutEffect } from 'react';
@@ -52,12 +53,23 @@ export function TravelEdge({ line, testID }: { readonly line: string; readonly t
   );
 }
 
+/**
+ * How a drop ended: `moved` when the plan has the new order (the rows re-render in it), `sent`
+ * when it went to the crew and the plan is as it was, `back` when nothing was sent.
+ */
+export type DropResult = 'moved' | 'sent' | 'back';
+
+/** Only a drop the plan took leaves the stop where it was let go; every other one springs back. */
+export function springsBack(result: DropResult): boolean {
+  return result !== 'moved';
+}
+
 export interface TimelineDrag {
   /** True when the stop may be lifted; false refuses (the caller says why). */
   readonly onLift: (index: number) => boolean;
   readonly onCross: (index: number) => void;
-  /** Settles the drop; resolves true when the order changed. */
-  readonly onDrop: () => Promise<boolean>;
+  /** Settles the drop. */
+  readonly onDrop: () => Promise<DropResult>;
 }
 
 interface Shared {
@@ -176,9 +188,9 @@ function Block({
     drag?.onCross(to);
   };
   const drop = () => {
-    void drag?.onDrop().then((moved) => {
-      impact(moved ? 'snap' : 'error');
-      if (!moved) release();
+    void drag?.onDrop().then((result) => {
+      impact(result === 'back' ? 'error' : 'snap');
+      if (springsBack(result)) release();
     });
   };
   const pan = Gesture.Pan()
