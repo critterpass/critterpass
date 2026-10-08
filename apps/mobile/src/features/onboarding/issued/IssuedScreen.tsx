@@ -5,9 +5,9 @@
  * until the server's number arrives. 3a-7's sheet rises over this same page.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { BackHandler, StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -221,6 +221,15 @@ function uuidV7Ms(id: string): number {
 export function IssuedScreen() {
   useTrackStep('issued');
   useNoBackByDesign();
+  // An issued pass is no longer a draft: Android's back button stays on this page while it is in
+  // front (the swipe is off in the stack's options), so nothing after it is skipped on the way
+  // forward again.
+  const focused = useIsFocused();
+  useEffect(() => {
+    if (!focused) return undefined;
+    const held = BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () => held.remove();
+  }, [focused]);
   const analytics = useAnalytics();
   const first = useRef(true);
   const draft = usePassDraft();
