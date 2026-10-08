@@ -52,12 +52,20 @@ export interface HubFacility {
   readonly distanceM: number | null;
 }
 
+export interface HubLine {
+  readonly number: string;
+  /** The curated label, in English. */
+  readonly label: string;
+  readonly service: EmergencyLine['service'];
+}
+
 export interface HubModel {
   readonly coverage: 'full' | 'limited';
   readonly placeLabel: string | null;
-  readonly general: { readonly number: string; readonly label: string };
+  /** `service` says which kind of line it is, so the screen can name it in the reader's language. */
+  readonly general: HubLine;
   /** Tourist police, else police: the side tile. */
-  readonly side: { readonly number: string; readonly label: string } | null;
+  readonly side: HubLine | null;
   readonly lines: readonly EmergencyLine[];
   readonly facility: HubFacility | null;
   readonly phrase: HelpPhrase | null;
@@ -144,8 +152,12 @@ export function buildHubModel(input: HelpLocalInput, context: HelpContext | null
   return {
     coverage,
     placeLabel: context?.place_label ?? null,
-    general: { number: numbers.general, label: generalLine?.label ?? '' },
-    side: side === null ? null : { number: side.number, label: side.label },
+    general: {
+      number: numbers.general,
+      label: generalLine?.label ?? '',
+      service: generalLine?.service ?? 'general',
+    },
+    side: side === null ? null : { number: side.number, label: side.label, service: side.service },
     lines: numbers.lines,
     facility: nearestMedical(facilities),
     phrase: hubPhrase(country, phrases),

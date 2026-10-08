@@ -23,6 +23,7 @@ import { PhraseCard } from '@/ui/trip/PhraseCard';
 
 import { HelpHero, type HelpHeroProps } from './help-hero';
 import type { HubFacility, HubModel } from './help-model';
+import { serviceLabel } from './service-label';
 import { ShareControls, type ShareControlsProps } from './share-controls';
 import { distanceIn } from '@/lib/i18n/formats';
 
@@ -98,7 +99,7 @@ export function HelpView(props: HelpViewProps) {
               label:
                 model.coverage === 'limited'
                   ? t({ id: 'safety.help.limitedLabel', message: 'Emergency, from any mobile' })
-                  : model.general.label,
+                  : serviceLabel(model.general.service, model.general.label),
               onCall: () => props.onCall(general),
             }}
             {...(model.side === null
@@ -106,7 +107,7 @@ export function HelpView(props: HelpViewProps) {
               : {
                   secondary: {
                     number: model.side.number,
-                    label: model.side.label,
+                    label: serviceLabel(model.side.service, model.side.label),
                     onCall: () => props.onCall(model.side?.number ?? general),
                   },
                 })}
