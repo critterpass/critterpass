@@ -5,9 +5,9 @@
  * decorative ring and a muted pill, so both read clearly on the raised sheet. A quiet "Crew
  * settings" link closes each crew card.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { useContext, useEffect, useState, type ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { upper } from '@cp/i18n';
 
@@ -19,6 +19,7 @@ import { Card } from '@/ui/cards/Card';
 import { Icon } from '@/ui/icons/Icon';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { AvatarStack } from '@/ui/people/AvatarStack';
+import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
@@ -47,6 +48,7 @@ const useStyles = makeStyles((th) => ({
   divider: { height: 1, backgroundColor: th.color.divider, marginVertical: th.space['6'] },
   preview: { flexDirection: 'row', alignItems: 'center', gap: th.space['8'] },
   previewText: { flex: 1 },
+  links: { flexDirection: 'row', flexWrap: 'wrap', columnGap: th.space['20'] },
   start: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -167,6 +169,8 @@ export interface CrewSheetCardProps {
   readonly onPress: () => void;
   /** Opens this crew's settings: a quiet link at the card's foot, apart from the card's tap. */
   readonly onSettings: () => void;
+  /** Opens the invite composer for this crew: the other link at the card's foot. */
+  readonly onInvite: () => void;
 }
 
 export function CrewSheetCard({
@@ -177,15 +181,24 @@ export function CrewSheetCard({
   active,
   onPress,
   onSettings,
+  onInvite,
 }: CrewSheetCardProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { unread, last } = useChat(crewId);
   const vote = useVoteLine(crewId);
   const line = vote === null ? detail : `${detail} · ${vote}`;
-  const membersLabel = t({ id: 'crew.sheet.members', message: `${members.length} members` });
+  const membersLabel = t({
+    id: 'crew.sheet.members',
+    message: plural(members.length, { one: '# member', other: '# members' }),
+  });
   const unreadLabel =
-    unread > 0 ? t({ id: 'crew.sheet.unreadSpoken', message: `${unread} new messages` }) : null;
+    unread > 0
+      ? t({
+          id: 'crew.sheet.unreadSpoken',
+          message: plural(unread, { one: '# new message', other: '# new messages' }),
+        })
+      : null;
   const label = [name, line, membersLabel, unreadLabel].filter(Boolean).join(', ');
   return (
     <Card
@@ -213,11 +226,18 @@ export function CrewSheetCard({
         {line}
       </Text>
       {last === null ? null : <Preview last={last} />}
-      <TextLink
-        label={t({ id: 'crew.sheet.settings', message: 'Crew settings' })}
-        onPress={onSettings}
-        testID={`crew-card-settings-${crewId}`}
-      />
+      <View style={styles.links}>
+        <TextLink
+          label={t({ id: 'crew.sheet.invite', message: 'Invite friends' })}
+          onPress={onInvite}
+          testID={`crews-invite-${crewId}`}
+        />
+        <TextLink
+          label={t({ id: 'crew.sheet.settings', message: 'Crew settings' })}
+          onPress={onSettings}
+          testID={`crew-card-settings-${crewId}`}
+        />
+      </View>
     </Card>
   );
 }
@@ -232,9 +252,9 @@ export function StartCrewCard({ onPress }: { readonly onPress: () => void }): Re
     message: 'Name it and share the code. The guide comes with the first trip.',
   });
   return (
-    <Pressable
+    <PressScale
       testID="crews-start"
-      accessibilityRole="button"
+      widthClass="wide"
       accessibilityLabel={`${title}. ${body}`}
       onPress={onPress}
       style={styles.start}
@@ -252,6 +272,6 @@ export function StartCrewCard({ onPress }: { readonly onPress: () => void }): Re
           {body}
         </Text>
       </View>
-    </Pressable>
+    </PressScale>
   );
 }

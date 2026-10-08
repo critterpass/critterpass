@@ -6,7 +6,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Pressable } from 'react-native';
+import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -14,6 +14,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useSwipeDeck } from '@/motion/gestures/swipe-deck';
 import { guideSticker } from '@/ui/avatar/guides';
 import { GuideLine } from '@/ui/people/GuideLine';
+import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import type { TipRow } from './data/home-queries';
@@ -36,10 +37,16 @@ export function TipStrip({ tip }: TipStripProps) {
     onSwiped: () => void dismiss.send({ tip_id: tip.id }),
     accessibilityLabel: t({ id: 'home.tip.dismiss', message: 'Dismiss tip' }),
   });
-  const open = () => {
-    const href = tip.place_id === null ? undefined : homeRoutes.destination(tip.place_id);
-    if (href !== undefined) router.push(href);
-  };
+  const href = tip.place_id === null ? undefined : homeRoutes.destination(tip.place_id);
+  const line = (
+    <GuideLine
+      guide={guide}
+      name={sticker.name}
+      bubble
+      line={tip.text}
+      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={TIP_STICKER} />}
+    />
+  );
   return (
     <GestureDetector gesture={swipe.gesture}>
       <Animated.View
@@ -48,15 +55,19 @@ export function TipStrip({ tip }: TipStripProps) {
         accessibilityActions={[...swipe.accessibilityActions]}
         onAccessibilityAction={swipe.onAccessibilityAction}
       >
-        <Pressable testID="home-tip" accessibilityRole="button" onPress={open}>
-          <GuideLine
-            guide={guide}
-            name={sticker.name}
-            bubble
-            line={tip.text}
-            sticker={<Sticker kind={sticker.kind} name={sticker.name} size={TIP_STICKER} />}
-          />
-        </Pressable>
+        {href === undefined ? (
+          // A tip about no place opens nothing, so it is not a button.
+          <View testID="home-tip">{line}</View>
+        ) : (
+          <PressScale
+            testID="home-tip"
+            widthClass="wide"
+            accessibilityLabel={`${sticker.name}: ${tip.text}`}
+            onPress={() => router.push(href)}
+          >
+            {line}
+          </PressScale>
+        )}
       </Animated.View>
     </GestureDetector>
   );

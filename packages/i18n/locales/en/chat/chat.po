@@ -151,9 +151,9 @@ msgstr "Add to the chat"
 msgid "chat.report.alsoMute"
 msgstr "Also mute {senderName}"
 
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.back"
-msgstr "Back"
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.loneLine"
+msgstr "Bring your friends in. Plans, photos and votes all land here."
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.harassment"
@@ -259,6 +259,14 @@ msgstr "Guide"
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.hate"
 msgstr "Hate"
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.invite"
+msgstr "Invite friends"
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.loneTitle"
+msgstr "It’s only you in here so far"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx
 msgid "chat.list.jumpToLatest"

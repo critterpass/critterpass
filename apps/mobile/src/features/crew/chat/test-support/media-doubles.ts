@@ -115,6 +115,8 @@ export interface PlayerDouble {
   at: number;
   /** Seconds long; 0 until "loaded". */
   duration: number;
+  /** The chat let go of it. */
+  released: boolean;
 }
 
 export interface DeviceDouble extends ChatMediaServices {
@@ -185,7 +187,14 @@ export function deviceDouble(
       return file;
     },
     createPlayer(url) {
-      const state: PlayerDouble = { url, rate: 1, playing: false, at: 0, duration: NOTE_SECONDS };
+      const state: PlayerDouble = {
+        url,
+        rate: 1,
+        playing: false,
+        at: 0,
+        duration: NOTE_SECONDS,
+        released: false,
+      };
       players.push(state);
       return {
         play: () => {
@@ -199,7 +208,10 @@ export function deviceDouble(
         },
         position: () => ({ current: state.at, duration: state.duration }),
         playing: () => state.playing,
-        release: () => undefined,
+        release: () => {
+          state.playing = false;
+          state.released = true;
+        },
       };
     },
     openSettings: () => undefined,
