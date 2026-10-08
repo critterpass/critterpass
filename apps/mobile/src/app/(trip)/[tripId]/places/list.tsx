@@ -1,6 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { LocalFirstGate } from '@/features/explore';
+import { tripExploreLinks } from '@/features/explore/trip-explore/links';
+import { goBackOr } from '@/lib/navigation/back';
 import {
   carryParams,
   parseFilter,
@@ -27,7 +29,7 @@ export default function TripPlacesListRoute() {
         results={resultsFrom(params)}
         onLeaveResults={() => router.setParams({ results: '', chips: '' })}
         onMap={() => router.replace(placesRoutes.map(params.tripId, carryParams(filter, params)))}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        onBack={() => goBackOr(tripExploreLinks.hub(params.tripId))}
       />
     </LocalFirstGate>
   );

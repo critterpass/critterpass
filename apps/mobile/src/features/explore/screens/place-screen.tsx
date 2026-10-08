@@ -3,8 +3,8 @@
  * and offline states while it is not. Partner offers are opened on their own screen and never read
  * here.
  */
-import { router } from 'expo-router';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useTripFacts } from '../place-queries';
 import { PlaceDetailScreen } from '../place-detail/place-detail-screen';
 import { PlaceUnavailable } from '../place-detail/place-unavailable';
@@ -17,10 +17,7 @@ export interface PlaceScreenProps {
   readonly tripId?: string | undefined;
 }
 
-const goBack = () => {
-  if (router.canGoBack()) router.back();
-  else router.replace('/');
-};
+const goBack = () => goBackOr();
 
 export function PlaceScreen(props: PlaceScreenProps) {
   const trip = props.tripId ?? null;
