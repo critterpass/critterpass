@@ -124,7 +124,9 @@ appId: app.critterpass.dev
     visibilityPercentage: 100
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-join-under-way-split-with-friend
-# SAVE is the footer's button; the expense is then the latest one, with everyone's share.
+# SAVE is the footer's button. The seeded ride was paid at an exact time today and a new expense
+# is dated by its day, so "Latest" can still be the ride: the new one is found in the full list by
+# the amount this flow typed.
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
@@ -133,13 +135,17 @@ appId: app.critterpass.dev
     timeout: 30000
 - scrollUntilVisible:
     element:
-      id: 'money-latest-row'
+      id: 'money-history-link'
     direction: DOWN
     timeout: 15000
     visibilityPercentage: 100
     centerElement: true
 - tapOn:
-    id: 'money-latest-row'
+    id: 'money-history-link'
+- extendedWaitUntil:
+    visible: '.*600[.,]000.*'
+    timeout: 20000
+- tapOn: '.*600[.,]000.*'
 - extendedWaitUntil:
     visible:
       id: 'money-detail-amount'
