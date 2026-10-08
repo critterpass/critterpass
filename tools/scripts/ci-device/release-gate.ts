@@ -5,7 +5,7 @@
  *     --blob-url <url> [--out report.md] [--run-url <url>] [--commit <sha>]
  *
  * Reads every downloaded shard artifact (`device-<platform>-shard-<n>/`): each flow's JUnit report
- * (pass or fail, duration, the failing step), its recorded segments (`videos/<flow>/seg-*.mp4`,
+ * (pass, pass on retry or fail, duration, the failing step), its recorded segments (`videos/<flow>/seg-*.mp4`,
  * from run-shard.ts --video) and, when it failed, the screen at that moment (`failures/<flow>.png`).
  * Into --media/<platform>/ it writes `<flow>.mp4` (the segments joined, 360 px wide), `<flow>.gif`
  * (a sped-up preview, a minute at most) and `<flow>-failure.png`, all with ffmpeg. The markdown
@@ -26,6 +26,7 @@ import {
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+import { reportedOutcome } from './flow-attempts';
 import { planFromEnv, readShards, type ShardPlan } from './run-summary';
 import { segmentFiles } from './screen-video';
 
@@ -38,28 +39,27 @@ export interface GateFlow {
   /** The flow's name in the report: `e2e__happy__money` → `money`. */
   readonly name: string;
   readonly passed: boolean;
+  /** Passed on its second run; `failure` then holds what the first run failed on. */
+  readonly retried?: boolean;
   readonly seconds: number;
   readonly failure?: string;
   readonly shardDir: string;
 }
 
 /** Pass or fail, duration and the failure message of one Maestro JUnit report. */
-export function parseJunit(xml: string): { passed: boolean; seconds: number; failure?: string } {
+export function parseJunit(xml: string): {
+  passed: boolean;
+  retried?: boolean;
+  seconds: number;
+  failure?: string;
+} {
   const time = /<testcase\b[^>]*\btime="([\d.]+)"/.exec(xml)?.[1];
-  const failure = /<(failure|error)\b[^>]*?(?:\/>|>([\s\S]*?)<\/\1>)/.exec(xml);
   const seconds = Math.round(Number(time ?? 0));
-  if (!failure) return { passed: true, seconds };
-  const message = unescapeXml(failure[2] ?? '').trim() || 'failed';
-  return { passed: false, seconds, failure: message };
-}
-
-function unescapeXml(text: string): string {
-  return text
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&amp;/g, '&');
+  const { outcome, failure } = reportedOutcome(xml);
+  if (outcome === 'passed') return { passed: true, seconds };
+  const message = failure === undefined ? {} : { failure };
+  if (outcome === 'passed on retry') return { passed: true, retried: true, seconds, ...message };
+  return { passed: false, seconds, ...message };
 }
 
 export function flowName(slug: string): string {
@@ -102,7 +102,9 @@ export function readGateFlows(root: string, plan: ShardPlan = new Map()): GateFl
         const result = parseJunit(readFileSync(path.join(junit, file), 'utf8'));
         const log = path.join(shardDir, 'maestro', slug, 'maestro.log');
         const step =
-          result.failure && existsSync(log) ? failedStep(readFileSync(log, 'utf8')) : undefined;
+          result.failure && !result.passed && existsSync(log)
+            ? failedStep(readFileSync(log, 'utf8'))
+            : undefined;
         // Assertions name their element already; other failures (a driver timeout) need the step.
         const bare =
           result.failure === undefined ||
@@ -114,6 +116,7 @@ export function readGateFlows(root: string, plan: ShardPlan = new Map()): GateFl
           name: flowName(slug),
           shardDir,
           passed: result.passed,
+          ...(result.retried ? { retried: true } : {}),
           seconds: result.seconds,
           ...(failure === undefined ? {} : { failure }),
         };
@@ -211,11 +214,13 @@ export function formatGateReport(
   options: GateReportOptions,
 ): string {
   const failed = rows.filter((row) => !row.flow.passed);
+  const retried = rows.filter((row) => row.flow.retried).length;
+  const onRetry = retried > 0 ? `, ${String(retried)} of them on a retry` : '';
   const verdict =
     rows.length === 0
       ? '**No flow ran.**'
       : failed.length === 0
-        ? `**Pass**: all ${String(rows.length)} flow runs passed.`
+        ? `**Pass**: all ${String(rows.length)} flow runs passed${onRetry}.`
         : `**Fail**: ${String(failed.length)} of ${String(rows.length)} flow runs failed.`;
   const from = [
     options.commit ? `commit \`${options.commit}\`` : '',
@@ -232,12 +237,14 @@ export function formatGateReport(
   for (const { flow, media } of rows) {
     const preview = media.gif ? `<img src="${options.rawUrl}/${media.gif}" width="120">` : '';
     const video = media.mp4 ? `[MP4](${options.blobUrl}/${media.mp4})` : 'none';
-    const step = flow.failure ? `\`${cell(flow.failure).slice(0, 300)}\`` : '';
+    const said = flow.failure ? `\`${cell(flow.failure).slice(0, 300)}\`` : '';
+    const step = flow.retried && said ? `first run: ${said}` : said;
+    const result = flow.retried ? 'pass (on retry)' : flow.passed ? 'pass' : '**FAIL**';
     const shot = media.failureShot
       ? `<br><img src="${options.rawUrl}/${media.failureShot}" width="120">`
       : '';
     out.push(
-      `| \`${flow.name}\` | ${flow.platform} | ${flow.passed ? 'pass' : '**FAIL**'} | ${duration(flow.seconds)} | ${preview} | ${video} | ${step}${shot} |`,
+      `| \`${flow.name}\` | ${flow.platform} | ${result} | ${duration(flow.seconds)} | ${preview} | ${video} | ${step}${shot} |`,
     );
   }
   out.push('');

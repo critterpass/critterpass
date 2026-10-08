@@ -32,8 +32,19 @@ describe('parseShardArgs', () => {
       out: '/repo/out',
       env: ['JS_COMMIT'],
       video: false,
+      flowTimeoutMinutes: 90,
       flows: ['/repo/e2e/a.yaml', '/repo/e2e/b.yaml', '/repo/e2e/c.yaml'],
     });
+  });
+
+  it('takes the flow time limit in minutes, and an empty one as the default', () => {
+    const base = ['--platform', 'ios', '--device', 'x', '--out', 'o'];
+    expect(
+      parseShardArgs([...base, '--flow-timeout', '20', 'a.yaml'], '/').flowTimeoutMinutes,
+    ).toBe(20);
+    expect(parseShardArgs([...base, '--flow-timeout', '', 'a.yaml'], '/').flowTimeoutMinutes).toBe(
+      90,
+    );
   });
 
   it('requires a platform, a device, an output directory and flows', () => {
