@@ -421,8 +421,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       # The Xcode of EAS's `latest` iOS image, which the e2e-test profile builds on.
       - run: sudo xcode-select -s /Applications/Xcode_26.6.app
+      # Both platforms: the two checks below read the iOS and the Android project.
       - name: Expo prebuild
-        run: pnpm --filter @cp/mobile exec expo prebuild --platform ios --clean --no-install
+        run: pnpm --filter @cp/mobile exec expo prebuild --clean --no-install
+      # What no other job checks in the generated projects: the link hosts each platform claims,
+      # and every permission and usage string the app primes. This job runs for every change to a
+      # config plugin or the app config, which is what writes them.
+      - name: Link claims and permissions in the generated projects
+        run: |
+          pnpm tsx tools/scripts/check-links-manifest.ts
+          pnpm tsx tools/scripts/check-permissions-manifest.ts
       # Pods only: Xcode keys DerivedData on file timestamps, which every checkout and install
       # resets, so a restored DerivedData would rebuild everything anyway.
       - uses: actions/cache@v6

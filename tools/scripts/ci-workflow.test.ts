@@ -338,6 +338,26 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
     }
   });
 
+  it('checks link claims and permissions on the prebuilt projects of every config change', () => {
+    const runs = (workflow.jobs['ios-native']?.steps ?? []).map((step) => step.run ?? '');
+    const prebuild = runs.findIndex((run) => /expo prebuild --clean --no-install$/.test(run));
+    const checks = runs.findIndex(
+      (run) =>
+        run.includes('check-links-manifest.ts') && run.includes('check-permissions-manifest.ts'),
+    );
+    // Both scripts read both platforms' projects, so the prebuild names no platform.
+    expect(prebuild).toBeGreaterThanOrEqual(0);
+    expect(checks).toBeGreaterThan(prebuild);
+    // The job runs whenever something that writes those projects changes.
+    for (const file of [
+      'apps/mobile/app.config.ts',
+      'apps/mobile/plugins/with-location-permissions.ts',
+      'apps/mobile/modules/cp-notifications/plugin/with-communication-notifications.ts',
+    ]) {
+      expect(suitesFor(dryRun, changed(file)).flags.ios_native, file).toBe(true);
+    }
+  });
+
   it('gives every gate an output, and every job a flag that exists', () => {
     // A misspelt output reads as empty, and a job gated on it would be skipped without a word.
     const text = readFileSync(path.join(repoRoot, '.github/workflows/ci.yml'), 'utf8');
