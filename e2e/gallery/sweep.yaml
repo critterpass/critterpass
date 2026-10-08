@@ -927,15 +927,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-SilhouetteSlot'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-en-SilhouetteSlot
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Skeleton'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -1022,6 +1013,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-StoryPlayer
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-Tag'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-Tag
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -2072,15 +2072,6 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
-      id: 'gallery-detail-SilhouetteSlot'
-    timeout: 15000
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: sweep-vi-SilhouetteSlot
-- tapOn:
-    id: 'gallery-next'
-- extendedWaitUntil:
-    visible:
       id: 'gallery-detail-Skeleton'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2167,6 +2158,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-StoryPlayer
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-Tag'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-Tag
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:

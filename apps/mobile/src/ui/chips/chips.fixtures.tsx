@@ -14,6 +14,7 @@ import { InfoPill } from './InfoPill';
 import { QuickActionChip } from './QuickActionChip';
 import type { ChipStatus } from './StatusChip';
 import { StatusChip } from './StatusChip';
+import { Tag } from './Tag';
 import { TierLabel } from './TierLabel';
 
 const noop = () => undefined;
@@ -97,6 +98,22 @@ registerFixture('StatusChip', 'every status', () => (
       <StatusChip key={status} status={status} />
     ))}
   </Row>
+));
+registerFixture('Tag', 'tones, sizes and icon', () => (
+  <Stack gap="8">
+    <Row gap="8" wrap>
+      <Tag label="BOOKED" tone="success" />
+      <Tag label="CLASH" tone="urgent" />
+      <Tag label="RAIN" tone="info" />
+      <Tag label="VOTE" tone="quiet" />
+      <Tag label="TOO FAR" color={tokens.color.orange} />
+    </Row>
+    <Row gap="8" wrap>
+      <Tag label="BOOKED" tone="success" size="sm" />
+      <Tag label="ENDED" size="sm" />
+      <Tag label="9 OFFLINE" tone="success" icon="check" />
+    </Row>
+  </Stack>
 ));
 registerFixture('CountBadge', 'counts', () => (
   <Row gap="12">
