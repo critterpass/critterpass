@@ -32,7 +32,7 @@ function RollingDigit({
       <Animated.View style={style}>
         {DIGITS.map((d) => (
           <View key={d} style={{ height, justifyContent: 'center' }}>
-            <Text variant="title" style={{ fontVariant: ['tabular-nums'] }}>
+            <Text variant="title" tabular>
               {d}
             </Text>
           </View>

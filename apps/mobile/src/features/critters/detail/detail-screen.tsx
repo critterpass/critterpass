@@ -7,8 +7,6 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { toast } from '@/motion';
-import { tierWord } from '@/ui/critters/tier';
-import { ShareImageSheet } from '@/ui/share-image/ShareImageSheet';
 
 import { artKind } from '../art-kind';
 import { unknownName } from '../critters-copy';
@@ -16,7 +14,8 @@ import { useCrewSightings } from '../data/crew-sightings';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import type { EntryRow } from '../data/queries';
 import { whereRoute } from '../routes';
-import { shareAlt, shareLine, skinReverted, skinToast, undo } from './detail-copy';
+import { CritterShare } from './critter-share';
+import { skinReverted, skinToast, undo } from './detail-copy';
 import {
   buildDetail,
   CRITTER_SQL,
@@ -31,7 +30,6 @@ import {
 } from './detail-model';
 import { DetailView } from './detail-view';
 import { useGuideSkinControl } from './guide-skin';
-import { deviceShareDeps, renderCritterCard } from './share-card';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- SQL, never copy.
 const ME_NAME_SQL = 'SELECT display_name FROM users WHERE id = ?';
@@ -82,24 +80,13 @@ export function DetailScreen({ critterId }: { readonly critterId: string }) {
         onWhere={(formId) => router.push(whereRoute(formId))}
       />
       {sharing === null ? null : (
-        <ShareImageSheet
-          visible
+        <CritterShare
+          kind={artKind(model.key)}
+          seed={model.seed}
+          city={model.city}
+          form={sharing}
+          name={nameOf(sharing)}
           onClose={() => setSharing(null)}
-          altText={shareAlt(nameOf(sharing), model.city)}
-          formats={['post', 'story']}
-          render={(format) =>
-            renderCritterCard(
-              {
-                kind: artKind(model.key),
-                seed: model.seed,
-                form: sharing.spec,
-                name: nameOf(sharing),
-                line: shareLine(tierWord(sharing.rarity), model.city),
-              },
-              format,
-            )
-          }
-          deps={deviceShareDeps()}
         />
       )}
     </>

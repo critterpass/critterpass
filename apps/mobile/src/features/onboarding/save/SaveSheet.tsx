@@ -2,9 +2,11 @@
  * 3a-7 "Save your pass · Keep it safe": the sheet rises over the finished pass. Apple, Google or a
  * phone number link this device's anonymous pass to an account; after sign-in the pass gets its
  * SAVED tick. "Not now" is a real option: signing in is asked again at purchase, invites or a
- * second device.
+ * second device. Dragging the sheet away is "Not now" too, except while a sign-in is still working:
+ * then its answer decides, so an account that links a moment later is still recorded on the pass.
  */
 import { t } from '@lingui/core/macro';
+import { useEffect, useRef } from 'react';
 import { Platform, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -81,10 +83,21 @@ export function SaveSheet(props: SaveSheetProps) {
   const { state } = props;
   const working = state.kind === 'working' ? state.provider : null;
   const busy = working !== null || state.kind === 'merging';
+  const { onNotNow } = props;
+  const leftWhileBusy = useRef(false);
+  useEffect(() => {
+    if (busy || !leftWhileBusy.current) return;
+    leftWhileBusy.current = false;
+    // Saved (or switched) is the page's to act on; any other answer is the "Not now" that was asked.
+    if (state.kind !== 'saved' && state.kind !== 'switched') onNotNow();
+  }, [busy, state.kind, onNotNow]);
   return (
     <Sheet
       detents={['fit']}
-      onDismiss={props.onNotNow}
+      onDismiss={() => {
+        if (busy) leftWhileBusy.current = true;
+        else onNotNow();
+      }}
       accessibilityLabel={t({ id: 'onboarding.save.eyebrow', message: 'Save your pass' })}
       testID="save-sheet"
     >

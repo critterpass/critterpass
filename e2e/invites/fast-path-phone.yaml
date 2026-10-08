@@ -1,0 +1,103 @@
+appId: app.critterpass.dev
+---
+# A friend joins with a code and saves the pass with a phone number: the number is verified on the
+# phone page, the app comes back to the issued pass and takes the seat, and the crew manifest
+# (3a-13) stamps in. Never the permissions page, never Home without the crew. Nothing is seeded:
+# 1. the staging test number (+65 9123 4567) is freed, but only from an account these flows made
+#    (its crew is the marker "CP Test Sign-out"); any other holder stops the flow before anything
+#    is erased;
+# 2. the organiser (a new account) starts the crew "CP Test Sign-out" and keeps its code;
+# 3. the friend (a fresh install) types the code, fills in the pass, issues it and saves it with
+#    the test number: the manifest shows them in the crew;
+# 4. Home carries the crew, and the friend's account is erased again, leaving the number free.
+# Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: ../onboarding/subflows/free-test-number.yaml
+
+# The organiser: a new account, a crew and its code.
+- runFlow:
+    file: ../happy/subflows/crew-with-code.yaml
+    env:
+      CREW: 'CP Test Sign-out'
+
+# The friend's phone: nothing of the organiser's account left on it.
+- runFlow: ../happy/subflows/fresh-install.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-invite-code'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-invite-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'invite-code-join'
+# A code carries no name or home: the sheet that asks for them opens by itself.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-name'
+    timeout: 20000
+- tapOn:
+    id: 'invite-edit-name'
+- inputText: 'Mai'
+- tapOn:
+    id: 'invite-edit-home'
+- inputText: 'Sing'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-SIN'
+    timeout: 10000
+- tapOn:
+    id: 'invite-edit-home-SIN'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-picked'
+    timeout: 10000
+- tapOn:
+    id: 'invite-edit-done'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-pass-issue'
+    timeout: 10000
+- tapOn:
+    id: 'invite-pass-issue'
+- extendedWaitUntil:
+    visible:
+      id: 'save-phone'
+    timeout: 20000
+- tapOn:
+    id: 'save-phone'
+- runFlow: ../you/subflows/phone-sign-in.yaml
+# Verified: the phone page claps and goes back to the pass, which takes the seat.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-newcomer'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-3a-13-manifest-after-phone-save
+- assertNotVisible:
+    id: 'permissions-primer'
+
+# Home carries the crew they joined.
+- tapOn:
+    id: 'invite-manifest-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew-name'
+    timeout: 30000
+- assertVisible: '(?i).*cp test sign-out.*'
+- waitForAnimationToEnd
+- takeScreenshot: en-home-after-invited-phone-save
+
+# The number is free again for the next run.
+- runFlow: ../you/subflows/guard-test-number.yaml
+- runFlow: ../you/subflows/start-fresh.yaml

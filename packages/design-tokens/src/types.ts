@@ -131,6 +131,12 @@ export interface SizeTokens {
   readonly minTouchTarget: Infer<'cpSizeGroup'>;
 }
 
+/** How far a whole control or item fades for a state, as an opacity from 0 to 1. */
+export interface OpacityTokens {
+  readonly disabled: number;
+  readonly pending: number;
+}
+
 export interface RadiusTokens {
   readonly xs: number;
   readonly sm: number;
@@ -303,6 +309,7 @@ export interface Tokens {
   readonly space: SpaceTokens;
   readonly size: SizeTokens;
   readonly radius: RadiusTokens;
+  readonly opacity: OpacityTokens;
   readonly ring: RingTokens;
   readonly shadow: ShadowTokens;
   readonly texture: TextureTokens;

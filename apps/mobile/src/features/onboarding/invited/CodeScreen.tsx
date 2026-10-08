@@ -32,8 +32,14 @@ import { FoundCrewCard } from './FoundCrewCard';
 import { InviteProblem, type InviteProblemKind } from './InviteProblem';
 import { useInviteServices } from './invite-services';
 import { inviteSession } from './invite-session';
-import { acceptInvite, problemCardOf, wrongCodeToastId, type JoinProblem } from './join';
-import { INVITED_ROUTES } from './routes';
+import {
+  acceptInvite,
+  canRetryJoin,
+  problemCardOf,
+  wrongCodeToastId,
+  type JoinProblem,
+} from './join';
+import { HANDOFF_ROUTES, INVITED_ROUTES, withoutSeatRoute } from './routes';
 import { ticketProblem } from './ticket-model';
 import { useInvitePreview } from './use-invite-preview';
 
@@ -59,7 +65,7 @@ export function CodeScreen() {
   const [busy, setBusy] = useState(false);
   const code = typed.length === CODE_LENGTH ? normalizeJoinCode(typed) : null;
   const target = useMemo(() => (code === null ? null : { kind: 'invite' as const, code }), [code]);
-  const { model } = useInvitePreview(target);
+  const { model, retry } = useInvitePreview(target);
 
   useEffect(() => {
     if (code !== null) inviteSession.open(code, null, services.now());
@@ -115,12 +121,13 @@ export function CodeScreen() {
         : null;
 
   const join = () => {
-    if (code === null) return;
+    if (code === null || busy) return;
     if (!isOnboardingComplete() || localFirst === null) {
       router.push(INVITED_ROUTES.pass);
       return;
     }
     setBusy(true);
+    setJoinProblem(null);
     void acceptInvite(localFirst.commands, { code })
       .then((outcome) => {
         if (outcome.kind === 'joined') {
@@ -133,7 +140,27 @@ export function CodeScreen() {
 
   const crew = model.crewName ?? '';
   const inviter = model.inviterFirstName ?? '';
-  const joinable = found && problem === null;
+  // A join that never arrived (or was told to wait) keeps JOIN: pressing it sends the same code again.
+  const joinable =
+    found && (problem === null || (joinProblem !== null && canRetryJoin(joinProblem)));
+  // The one way forward on the card, for the states JOIN cannot help with.
+  const problemAction =
+    joinProblem !== null
+      ? undefined
+      : problem === 'offline'
+        ? {
+            label: t({ id: 'onboarding.invite.problem.retry', message: 'Try again' }),
+            onPress: retry,
+          }
+        : problem === 'referral'
+          ? {
+              label:
+                withoutSeatRoute() === HANDOFF_ROUTES.home
+                  ? t({ id: 'onboarding.invite.pass.home', message: 'Go home' })
+                  : t({ id: 'onboarding.invite.problem.startPass', message: 'Make my pass' }),
+              onPress: () => router.replace(withoutSeatRoute()),
+            }
+          : undefined;
   return (
     // The join footer pads the bottom inset itself and rides the keyboard; without it, the screen does.
     <Scaffold
@@ -199,6 +226,7 @@ export function CodeScreen() {
             kind={problem}
             inviterFirstName={model.inviterFirstName}
             crewName={model.crewName}
+            {...(problemAction === undefined ? {} : { action: problemAction })}
           />
         ) : found ? (
           <FoundCrewCard model={model} />

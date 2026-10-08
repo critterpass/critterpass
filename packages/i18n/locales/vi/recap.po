@@ -56,16 +56,16 @@ msgstr "{count, plural, other {Tắt # liên kết. Sau đó liên kết không 
 msgid "recap.link.critters"
 msgstr "{critters, plural, other {Tìm thấy # critter}}"
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-msgid "recap.link.days"
-msgstr "{days, plural, other {# ngày}}"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.value"
 msgstr "{days, plural, other {# ngày}}"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.cover.days"
+msgstr "{days, plural, other {# ngày}}"
+
+#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+msgid "recap.link.days"
 msgstr "{days, plural, other {# ngày}}"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
@@ -181,12 +181,12 @@ msgstr "{place},\n"
 msgid "recap.memory.title"
 msgstr "{place}, một năm sau"
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-msgid "recap.link.title"
-msgstr "{place}, tổng kết"
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitle"
+msgstr "{place}, tổng kết"
+
+#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+msgid "recap.link.title"
 msgstr "{place}, tổng kết"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
@@ -329,17 +329,9 @@ msgstr "Chưa yêu cầu lại được"
 msgid "recap.link.failed"
 msgstr "Chưa tạo được liên kết"
 
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.shareFailed"
-msgstr "Chưa mở được bảng chia sẻ"
-
 #: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 msgid "recap.memory.reunionFailed"
 msgstr "Chưa đề xuất được buổi họp mặt"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.saveFailed"
-msgstr "Chưa lưu được. Kiểm tra quyền truy cập Ảnh nhé"
 
 #: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 msgid "recap.memory.reactFailed"
@@ -384,10 +376,6 @@ msgstr "Ngày {from}"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.route.days"
 msgstr "Ngày {from}–{to}"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.drawing"
-msgstr "Đang vẽ ảnh"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.driver"
@@ -574,10 +562,6 @@ msgstr "Đã trả"
 msgid "recap.story.theme.paco"
 msgstr "sáo pan và charango"
 
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.format"
-msgstr "Khổ ảnh"
-
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
 msgstr "Đang đề xuất họp mặt với nhóm"
@@ -593,10 +577,6 @@ msgstr "Dự kiến"
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.watch"
 msgstr "Xem lại câu chuyện"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.post"
-msgstr "Bài đăng"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.priciest"
@@ -622,14 +602,6 @@ msgstr "Nhắc tôi"
 msgid "recap.story.remindIn"
 msgstr "Nhắc tôi vào {month}"
 
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.save"
-msgstr "Lưu vào Ảnh"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.saved"
-msgstr "Đã lưu vào Ảnh"
-
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.lineLabel"
 msgstr "Nói gì đó"
@@ -645,10 +617,6 @@ msgstr "Thanh toán"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.lastDay"
 msgstr "trả xong vào ngày cuối"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.share"
-msgstr "Chia sẻ"
 
 #: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
 msgid "recap.share.link"
@@ -722,10 +690,6 @@ msgstr "vẫn còn phải thanh toán"
 msgid "recap.share.stop"
 msgstr "Dừng chia sẻ"
 
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.story"
-msgstr "Story"
-
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.linkOff"
 msgstr "Đang tắt liên kết tổng kết"
@@ -789,10 +753,6 @@ msgstr "Bé đã trốn mất"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.gotAway"
 msgstr "Bé đã trốn mất"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.failed"
-msgstr "Ảnh chưa vẽ được."
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.planner"
@@ -874,16 +834,12 @@ msgstr "Tổng kết chuyến đi"
 msgid "recap.link.eyebrowWhen"
 msgstr "Tổng kết chuyến đi · {month}"
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-msgid "recap.link.retry"
-msgstr "Thử lại"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.retry"
-msgstr "Thử lại"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+msgid "recap.link.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts

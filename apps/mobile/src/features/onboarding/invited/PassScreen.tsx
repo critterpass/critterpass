@@ -2,22 +2,21 @@
  * 3a-12 "Your pass, three taps": the pass the inviter half-filled (marked FROM {INVITER}'S
  * CONTACTS), 1 a face, 2 how you travel (chips, prefilled from the tags the inviter confirmed), 3
  * ISSUE MY PASS. Issuing plays the pass page's stamp slam, the save sheet rises over it, and saving
- * (or "Not now") takes the seat. A code joiner gets the same page without prefill: the sheet that
+ * (or "Not now") takes the seat. A join that could not be sent keeps the code and is sent again
+ * from the same page; onboarding is finished only once the seat is taken or given up. A code joiner gets the same page without prefill: the sheet that
  * asks for a name and a home opens by itself, and until both are there the button asks for the
  * missing one instead of issuing.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { router, useIsFocused } from 'expo-router';
+import { useEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { guideFormId, guideOfForm, homeBaseFor, type TasteTag } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
-import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { clearPendingLink } from '@/lib/links/pending';
 import { AvatarPicker, guideSticker, type GuideAvatarId } from '@/ui/avatar';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine } from '@/ui/people/GuideLine';
@@ -28,7 +27,6 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { airportDataset, onboardingQuiz } from '../content';
-import { markOnboardingComplete } from '../flow-controller/completion';
 import { ensureDraft, updateDraft, usePassDraft } from '../flow-controller/draft-store';
 import { IssuedPage } from '../issued/IssuedScreen';
 import { OnboardingPassCard } from '../pass-view';
@@ -36,12 +34,12 @@ import { SaveSheet } from '../save/SaveSheet';
 import { useSaveFlow } from '../save/use-save-flow';
 import { EditPassSheet } from './EditPassSheet';
 import { TravelChips } from './TravelChips';
-import { InviteProblem } from './InviteProblem';
-import { inviteSession, useInviteSession } from './invite-session';
-import { acceptInvite, problemCardOf, type JoinProblem } from './join';
+import { useInviteSession } from './invite-session';
 import { missingPassPart, passAskLabel } from './pass-missing';
 import { answersForTags, applyPrefill, prefillOf } from './pass-prefill';
-import { HANDOFF_ROUTES, INVITED_ROUTES } from './routes';
+import { PassJoinProblem } from './PassJoinProblem';
+import { HANDOFF_ROUTES } from './routes';
+import { useSeatJoin } from './use-seat-join';
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -63,7 +61,6 @@ export function PassScreen() {
   const theme = useTheme();
   const locale = useLocale();
   const analytics = useAnalytics();
-  const localFirst = useContext(LocalFirstContext);
   const session = useInviteSession();
   const draft = usePassDraft() ?? ensureDraft();
   const prefill = useMemo(() => prefillOf(session.preview), [session.preview]);
@@ -71,8 +68,11 @@ export function PassScreen() {
   const [selected, setSelected] = useState<TasteTag[]>(() => [...prefill.tags]);
   const [editing, setEditing] = useState(false);
   const [issued, setIssued] = useState(false);
-  const [problem, setProblem] = useState<JoinProblem | null>(null);
   const save = useSaveFlow();
+  // The phone page is pushed over this one: the sheet goes while it is up, and the seat is taken
+  // once this page is back in front with the pass saved.
+  const focused = useIsFocused();
+  const { joining, problem, join, giveUp } = useSeatJoin();
   const inviter = session.preview?.inviter_first_name ?? '';
 
   useEffect(() => {
@@ -117,54 +117,47 @@ export function PassScreen() {
     setIssued(true);
   };
 
-  const join = async () => {
-    const code = session.code;
-    if (code === null || localFirst === null) {
-      setProblem('offline');
-      return;
-    }
-    const outcome = await acceptInvite(localFirst.commands, {
-      code,
-      ...(session.seat === null ? {} : { seat: session.seat }),
-    });
-    updateDraft((d) => ({ ...d, step: 'saved' }));
-    markOnboardingComplete();
-    clearPendingLink();
-    if (outcome.kind === 'joined') {
-      inviteSession.setJoined(outcome.result);
-      router.replace(INVITED_ROUTES.manifest);
-    } else setProblem(outcome.problem);
-  };
-
+  const saved = save.state.kind === 'saved';
   useEffect(() => {
-    // Saving happens in the auth sheet; the seat is taken once it reports success.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (save.state.kind === 'saved') void join();
-    // Joins once the pass is saved.
+    // Saved with Apple, Google or a number verified on the phone page: the seat is taken next.
+    if (!issued || !saved || !focused) return;
+    updateDraft((d) => ({ ...d, saved: true }));
+    void join();
+    // Joins once the pass is saved and this page is the one in front.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [save.state.kind]);
+  }, [issued, saved, focused]);
 
   if (problem !== null) {
     return (
-      <Scaffold variant="dark" edges={['top', 'bottom']} testID="invite-pass-problem">
-        <InviteProblem
-          kind={problemCardOf(problem)}
-          inviterFirstName={inviter || null}
-          crewName={session.preview?.crew_name ?? null}
-          action={{
-            label: t({ id: 'onboarding.invite.pass.home', message: 'Go home' }),
-            onPress: () => router.replace(HANDOFF_ROUTES.home),
-          }}
-        />
-      </Scaffold>
+      <PassJoinProblem
+        problem={problem}
+        inviterFirstName={inviter || null}
+        crewName={session.preview?.crew_name ?? null}
+        onRetry={() => void join()}
+        onHome={giveUp}
+      />
     );
   }
 
   if (issued) {
     return (
       <>
-        <IssuedPage choreography saved={save.state.kind === 'saved'} />
-        {save.state.kind === 'saved' ? null : (
+        <IssuedPage
+          choreography
+          saved={saved}
+          footer={
+            joining ? (
+              <PillButton
+                label={t({ id: 'onboarding.invite.ticket.take', message: 'Take the seat' })}
+                onPress={() => undefined}
+                loading
+                block
+                testID="invite-pass-joining"
+              />
+            ) : null
+          }
+        />
+        {saved || joining || !focused ? null : (
           <SaveSheet
             state={save.state}
             onApple={() => void save.apple()}

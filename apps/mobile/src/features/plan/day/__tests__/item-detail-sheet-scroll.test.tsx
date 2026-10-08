@@ -95,4 +95,48 @@ describe('plan item sheet', () => {
     });
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it('opens a stop to read on a plan that cannot be edited: no time field, move, skip, remove or save', async () => {
+    const actions: ItemDetailActions = {
+      onSave: noop,
+      onMoveToDay: noop,
+      onRemove: noop,
+      onSkipForMe: noop,
+      onOpenPlace: noop,
+      onOpenMaps: noop,
+      onClose: noop,
+    };
+    const ui = (readOnly: boolean) => (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider initialMetrics={METRICS}>
+          <I18nProvider i18n={i18n}>
+            <ThemeProvider>
+              <ScreenJoltProvider>
+                <ItemDetailSheet
+                  item={WALK}
+                  dayNos={[1, 2, 3]}
+                  members={LAB_MEMBERS}
+                  canApply
+                  readOnly={readOnly}
+                  actions={actions}
+                />
+              </ScreenJoltProvider>
+            </ThemeProvider>
+          </I18nProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    );
+    const editable = await render(ui(false));
+    for (const id of ['plan-item-move-2', 'plan-item-skip', 'plan-item-remove', 'plan-item-save']) {
+      expect(editable.queryByTestId(id)).not.toBeNull();
+    }
+    await editable.unmount();
+    resetPresenterForTests();
+
+    const screen = await render(ui(true));
+    expect(screen.queryByTestId('plan-item-time')).not.toBeNull();
+    for (const id of ['plan-item-move-2', 'plan-item-skip', 'plan-item-remove', 'plan-item-save']) {
+      expect(screen.queryByTestId(id)).toBeNull();
+    }
+  });
 });

@@ -32,7 +32,10 @@ export interface TextFieldProps extends Omit<
   readonly labelHidden?: boolean;
   /** Shows a clear button while the field has text. @default true */
   readonly clearable?: boolean;
-  /** A multiline field stops growing at this many lines and scrolls inside. Unset: it grows. */
+  /**
+   * More than one makes the field multiline: it stops growing at this many lines and scrolls
+   * inside. Unset on a `multiline` field: it grows.
+   */
   readonly maxLines?: number;
   readonly testID?: string;
 }
@@ -105,6 +108,7 @@ export function TextField({
       <Row gap="10" style={[styles.field, { borderColor: ringColour(theme, status, focused) }]}>
         {leading}
         <TextInput
+          {...(maxLines !== undefined && maxLines > 1 ? { multiline: true } : {})}
           {...inputProps}
           testID={testID}
           value={value}

@@ -207,7 +207,7 @@ msgstr "Breakfast is a lifestyle"
 msgid "onboarding.tag.thrifty"
 msgstr "Budget hacker"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr "By continuing you agree to the Terms and the Privacy Policy."
@@ -262,12 +262,12 @@ msgstr "Coffee"
 msgid "onboarding.tag.coffee"
 msgstr "Coffee stops"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr "Continue with Apple"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.google"
 msgstr "Continue with Google"
@@ -402,12 +402,14 @@ msgstr "GIVEN NAME · PRÉNOM"
 msgid "onboarding.quiz.pace.left.label"
 msgstr "Go go go"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
-msgid "onboarding.invite.manifest.home"
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.pass.home"
 msgstr "Go home"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-msgid "onboarding.invite.pass.home"
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.home"
 msgstr "Go home"
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
@@ -536,6 +538,7 @@ msgstr "Local"
 msgid "onboarding.photo.real.review"
 msgstr "Looking good. Until it’s checked, your crew sees your initials."
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.startPass"
 msgstr "Make my pass"
@@ -577,6 +580,7 @@ msgstr "Nature"
 msgid "onboarding.home.far"
 msgstr "Nearest is {0}. {farLine}"
 
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 msgid "onboarding.name.next"
 msgstr "Next"
@@ -654,7 +658,7 @@ msgstr "Open your pass"
 msgid "onboarding.taste.or"
 msgstr "or"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.or"
 msgstr "or"
 
@@ -866,6 +870,7 @@ msgstr "SYNCING"
 msgid "onboarding.photo.real.camera"
 msgstr "Take a photo"
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.ticket.take"
 msgstr "Take the seat"
@@ -1023,6 +1028,12 @@ msgstr "Treat yourself"
 msgid "onboarding.photo.real.retry"
 msgstr "Try again"
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.retry"
 msgstr "Try again"
@@ -1089,6 +1100,10 @@ msgstr "Verification code"
 msgid "onboarding.phone.unsupported"
 msgstr "We can’t send codes to that country yet. Use Apple or Google instead."
 
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.verifyFailed"
+msgstr "We couldn’t check that code. Check your signal and try again."
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.noSubject"
 msgstr "We couldn’t find you in this one, so it’s a circle crop."
@@ -1097,7 +1112,7 @@ msgstr "We couldn’t find you in this one, so it’s a circle crop."
 msgid "onboarding.photo.real.body"
 msgstr "We cut you out like a sticker, right on your phone. Your crew sees it once it’s checked."
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.neverPost"
 msgstr "We never post anything for you."
 
