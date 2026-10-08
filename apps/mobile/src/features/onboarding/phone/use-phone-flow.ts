@@ -1,6 +1,8 @@
 /**
  * The phone sign-in steps (3a-8): number → code sent (WhatsApp or SMS) → verify, with the resend
  * wait growing 30 → 60 → 120 s, and every answer the OTP routes give turned into a named problem.
+ * A wrong code empties the boxes for the next try; a check that never reached the server keeps the
+ * code, so it can be checked again as it is.
  * A verified number (or one that already has a pass) goes to the save flow. A returning sign-in
  * ("I already have a pass") signs in to the account that holds the number instead of saving it to
  * the pass this phone is on; a number nobody holds is saved here, as a new pass would.
@@ -21,6 +23,7 @@ export type PhoneProblem =
   | 'country_unsupported'
   | 'rate_limited'
   | 'send_failed'
+  | 'verify_failed'
   | 'wrong_code'
   | 'expired'
   | 'too_many';
@@ -101,6 +104,7 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
         return;
       case 'invalid_code':
         setStatus('invalid');
+        setCode('');
         setProblem({ kind: 'wrong_code', retryS: null });
         return;
       case 'rate_limited':
@@ -110,12 +114,13 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
       case 'no_account':
       case 'error':
         setStatus('idle');
-        setProblem({ kind: 'send_failed', retryS: null });
+        setProblem({ kind: 'verify_failed', retryS: null });
     }
   };
 
   const verify = async (entered: string) => {
-    if (sent === null) return;
+    if (sent === null || busy) return;
+    setProblem(null);
     if (returning !== undefined) {
       await signInAgain(sent.e164, entered, returning.onSignedIn);
       return;
@@ -137,6 +142,7 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
         return;
       case 'invalid_code':
         setStatus('invalid');
+        setCode('');
         setProblem({ kind: 'wrong_code', retryS: null });
         return;
       case 'expired_code':
@@ -149,7 +155,7 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
         return;
       case 'error':
         setStatus('idle');
-        setProblem({ kind: 'send_failed', retryS: null });
+        setProblem({ kind: 'verify_failed', retryS: null });
     }
   };
 
@@ -180,6 +186,8 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
     setCode: (next: string) => {
       setCode(next);
       if (status === 'invalid') setStatus('idle');
+      // A code being typed again answers the line about the last one.
+      if (problem?.kind === 'wrong_code' || problem?.kind === 'verify_failed') setProblem(null);
     },
     status,
     problem,

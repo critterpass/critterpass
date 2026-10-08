@@ -77,6 +77,21 @@ describe('3a-4 this or that', () => {
     expect(screen.getByTestId('taste-counter')).toHaveTextContent('2 OF 6');
   });
 
+  it('keeps undo and skip out of an answer that is still landing', async () => {
+    await renderOnboarding(<TasteScreen />);
+    jest.useFakeTimers();
+    await activate(screen.getAllByTestId('taste-card-left')[0]!);
+    // The card is in the air: its answer is the only thing written when it lands.
+    await activate(screen.getByTestId('taste-skip'));
+    await activate(screen.getByTestId('taste-undo'));
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      await Promise.resolve();
+    });
+    expect(readDraft()!.answers).toEqual([{ q_id: onboardingQuiz()[0]!.id, value: 'left' }]);
+    jest.useRealTimers();
+  });
+
   it('summarises an all-skipped quiz and can start over', async () => {
     await renderOnboarding(<TasteScreen />);
     for (let i = 0; i < 6; i++) await activate(screen.getByTestId('taste-skip'));

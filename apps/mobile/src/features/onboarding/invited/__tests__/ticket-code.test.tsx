@@ -46,6 +46,7 @@ import {
   renderInvited,
   services,
   TRIP_ID,
+  UNREACHABLE,
 } from '../test-support/fast-path';
 
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
@@ -79,6 +80,15 @@ describe('3a-10 invite ticket', () => {
     await activate(screen.getByTestId('invite-take-seat'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/invite/pass');
     expect(inviteSession.read().code).toBe('BATH6X');
+  });
+
+  it('sends “Just look around first” to the pass flow, or Home for someone with a pass', async () => {
+    await renderInvited(<TicketScreen />, { services: services(found()) });
+    await activate(await screen.findByTestId('invite-look-around'));
+    expect(router.replace).toHaveBeenLastCalledWith('/onboarding');
+    setOnboardingComplete(true);
+    await activate(screen.getByTestId('invite-look-around'));
+    expect(router.replace).toHaveBeenLastCalledWith('/');
   });
 
   it('never names anyone on a forwarded or generic link', async () => {
@@ -174,6 +184,42 @@ describe('3a-11 join with a code', () => {
     expect(screen.getByText('2 already in. Tokek is guiding.')).toBeTruthy();
     await activate(screen.getByTestId('invite-code-join'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/invite/pass');
+  });
+
+  it('keeps JOIN after a join that could not be sent, and joins on the next press', async () => {
+    setOnboardingComplete(true);
+    const joined = {
+      crew_id: CREW_ID,
+      trip_id: TRIP_ID,
+      invite_id: null,
+      joined: true,
+      seated: true,
+      waitlisted: false,
+      waitlist_position: null,
+      forwarded: false,
+    };
+    const api = recordedApi({ accept_invite: [UNREACHABLE, applied(joined)] });
+    stack = await openTestLocalFirst({ transport: api });
+    await renderInvited(<CodeScreen />, { services: services(found()), stack });
+    await fireEvent.changeText(screen.getByTestId('invite-code-boxes'), 'BATH6X');
+    await activate(await screen.findByTestId('invite-code-join'));
+    expect(await screen.findByTestId('invite-problem-offline')).toBeTruthy();
+    await activate(screen.getByTestId('invite-code-join'));
+    await waitFor(() => expect(router.replace).toHaveBeenCalledWith('/onboarding/invite/manifest'));
+    expect(api.sent.filter((sent) => sent.path.endsWith('accept_invite'))).toHaveLength(2);
+  });
+
+  it('asks for the crew again from the offline card, without retyping the code', async () => {
+    let online = false;
+    const svc = services(() => (online ? found() : { status: 'unavailable' }));
+    await renderInvited(<CodeScreen />, { services: svc });
+    await fireEvent.changeText(screen.getByTestId('invite-code-boxes'), 'BATH6X');
+    await screen.findByTestId('invite-problem-offline');
+    expect(screen.queryByTestId('invite-code-join')).toBeNull();
+    online = true;
+    await activate(screen.getByRole('button', { name: /try again/iu }));
+    expect(await screen.findByTestId('invite-found-card')).toBeTruthy();
+    expect(screen.getByTestId('invite-code-join')).toBeTruthy();
   });
 
   it('says a wrong code is wrong', async () => {
