@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { Scaffold } from '@/ui/surface/Scaffold';
 
 import { BoardingPassView } from '../boarding-pass/BoardingPassView';
 import { toWalletBooking, splitWallet, stackOrder, type WalletBooking } from '../data/model';
@@ -154,20 +155,43 @@ function DetailScene({ id }: { readonly id: string }) {
   );
 }
 
+/** The paper the pass rises on in the app. */
+function PaperPage({ children }: { readonly children: ReactNode }) {
+  return (
+    <Scaffold variant="paper" edges={['top', 'bottom']} testID="bookings-pass">
+      {children}
+    </Scaffold>
+  );
+}
+
+function PassMissingScene() {
+  return (
+    <PaperPage>
+      <BoardingPassView
+        title="SQ 938 · SIN → DPS"
+        subtitle={dayDate(useLocale(), '2026-10-12T09:05:00+08:00', LAB_TZ)}
+        payload={null}
+        fields={[]}
+      />
+    </PaperPage>
+  );
+}
+
 function PassScene() {
   const { t } = useLingui();
   return (
-    <BoardingPassView
-      title="SQ 938 · SIN → DPS"
-      subtitle={dayDate(useLocale(), '2026-10-12T09:05:00+08:00', LAB_TZ)}
-      payload={LAB_PASS}
-      fields={[
-        { key: 'seat', label: t({ id: 'bookings.flight.seat', message: 'Seat' }), value: '34A' },
-        { key: 'gate', label: t({ id: 'bookings.flight.gate', message: 'Gate' }), value: 'B7' },
-        { key: 'ref', label: t({ id: 'bookings.card.ref', message: 'Ref' }), value: 'K7PQ2Z' },
-      ]}
-      onClose={noop}
-    />
+    <PaperPage>
+      <BoardingPassView
+        title="SQ 938 · SIN → DPS"
+        subtitle={dayDate(useLocale(), '2026-10-12T09:05:00+08:00', LAB_TZ)}
+        payload={LAB_PASS}
+        fields={[
+          { key: 'seat', label: t({ id: 'bookings.flight.seat', message: 'Seat' }), value: '34A' },
+          { key: 'gate', label: t({ id: 'bookings.flight.gate', message: 'Gate' }), value: 'B7' },
+          { key: 'ref', label: t({ id: 'bookings.card.ref', message: 'Ref' }), value: 'K7PQ2Z' },
+        ]}
+      />
+    </PaperPage>
   );
 }
 
@@ -263,13 +287,5 @@ export const WALLET_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'detail-activity': () => <DetailScene id="b-trek" />,
   ...FORM_SCENES,
   pass: () => <PassScene />,
-  'pass-missing': () => (
-    <BoardingPassView
-      title="SQ 938 · SIN → DPS"
-      subtitle="Mon 12 Oct"
-      payload={null}
-      fields={[]}
-      onClose={noop}
-    />
-  ),
+  'pass-missing': () => <PassMissingScene />,
 };

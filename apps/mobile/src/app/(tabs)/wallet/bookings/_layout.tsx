@@ -9,9 +9,13 @@ import { useTheme } from '@/ui/theme';
 
 import { getOcr } from '../../../../../modules/cp-ocr';
 
+/** A booking opened cold from a link keeps the stack under it, so back lands on Bookings. */
+// eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, not copy
+export const unstable_settings = { initialRouteName: 'index' };
+
 /**
  * The BOOKINGS half of the Wallet tab: the stack, a booking, adding one and the archive push
- * inside the tab (they keep the tab bar); the boarding pass covers it full screen.
+ * inside the tab (they keep the tab bar); the boarding pass rises over it as a modal route.
  */
 export default function BookingsLayout() {
   const { motion } = useTheme();
