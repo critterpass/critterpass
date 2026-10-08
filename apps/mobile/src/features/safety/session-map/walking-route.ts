@@ -52,10 +52,10 @@ export function frame(from: Point | null, to: Point): { centre: Point; zoom: num
   return { centre: { lat: (from.lat + to.lat) / 2, lng: (from.lng + to.lng) / 2 }, zoom };
 }
 
-/** Walking directions to `to` in the phone's maps app (Apple Maps on iOS, Google Maps elsewhere). */
-export function walkingDirectionsUrl(to: Point, platform: 'ios' | 'android'): string {
+/** Walking directions to `to` in the maps app this phone was told to use. */
+export function walkingDirectionsUrl(to: Point, app: 'apple' | 'google'): string {
   const at = `${to.lat.toFixed(6)},${to.lng.toFixed(6)}`;
-  return platform === 'ios'
+  return app === 'apple'
     ? `https://maps.apple.com/?daddr=${at}&dirflg=w`
     : `https://www.google.com/maps/dir/?api=1&destination=${at}&travelmode=walking`;
 }

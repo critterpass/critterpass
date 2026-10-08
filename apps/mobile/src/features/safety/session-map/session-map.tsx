@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { Linking, Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { chosenMapsApp, mapsAppFor } from '@/features/go';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -151,7 +152,11 @@ export function SessionMapView({ map, senderName: name, onClose: close }: Sessio
                   void Linking.openURL(
                     walkingDirectionsUrl(
                       sender,
-                      Platform.OS === PLATFORM.ios ? PLATFORM.ios : PLATFORM.android,
+                      // The app picked in Settings on iPhone; Google Maps on Android.
+                      mapsAppFor(
+                        Platform.OS === PLATFORM.ios ? PLATFORM.ios : PLATFORM.android,
+                        chosenMapsApp(),
+                      ),
                     ),
                   )
                 }
