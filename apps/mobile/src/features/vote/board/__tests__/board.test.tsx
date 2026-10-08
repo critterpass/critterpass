@@ -149,6 +149,34 @@ describe('destination board', () => {
     expect((posted[0]?.body as { payload: unknown }).payload).toEqual({ poll_id: POLL });
   });
 
+  it('says the final needs signal when the server cannot be reached', async () => {
+    stack = await openTestLocalFirst({
+      holdUploads: true,
+      transport: { postJson: () => Promise.reject(new Error('offline')) },
+    });
+    await seedCrew(stack);
+    await seedBoard(stack, { createdBy: stack.uid });
+    await renderVote(<Board me={stack.uid} />, stack);
+    await until(() => screen.queryByTestId('board-go-to-final') !== null);
+    await fireEvent.press(screen.getByTestId('board-go-to-final'));
+    await until(() => toastQueue.getCurrent() !== null);
+    expect(toastQueue.getCurrent()?.id).toBe('vote-final-needs-signal');
+    expect(screen.getByTestId('board-go-to-final')).toBeTruthy();
+  });
+
+  it('asks before taking a place off the board, and queues the removal once', async () => {
+    const s = await open();
+    await seedBoard(s, { createdBy: s.uid });
+    await renderVote(<Board me={s.uid} />, s);
+    await until(() => screen.queryByTestId('board-sticker-0') !== null);
+    await fireEvent(screen.getByTestId('board-sticker-0'), 'longPress');
+    await until(() => screen.queryByTestId('board-remove-confirm') !== null);
+    expect(await queued(s, 'remove_candidate')).toEqual([]);
+    await fireEvent.press(screen.getByText(/^remove$/i));
+    await until(() => screen.queryByTestId('board-remove-confirm') === null);
+    expect(await queued(s, 'remove_candidate')).toHaveLength(1);
+  });
+
   it('lets the organiser lock in the only place on the board and reveals it', async () => {
     const posted: { path: string; body: unknown }[] = [];
     stack = await openTestLocalFirst({

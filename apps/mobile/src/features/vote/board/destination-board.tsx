@@ -15,12 +15,15 @@ import { useWindowDimensions, View, type LayoutChangeEvent } from 'react-native'
 import Animated from 'react-native-reanimated';
 
 import { useCommand } from '@/data/commands/use-command';
-import { toast, useLoop } from '@/motion';
+import { useLoop } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { Row } from '@/ui/layout/Row';
+import { Sheet } from '@/ui/sheet/Sheet';
+import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -48,6 +51,12 @@ const useStyles = makeStyles((th) => ({
     borderRadius: th.radius.cardBig,
     overflow: 'hidden',
     padding: th.space['8'],
+  },
+  // The title starts under the sheet's close button.
+  confirm: {
+    paddingHorizontal: th.space['20'],
+    paddingTop: th.space['32'],
+    paddingBottom: th.space['24'],
   },
   dot: {
     width: th.space['8'],
@@ -106,7 +115,9 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
   const [measured, setMeasured] = useState<number | null>(null);
   // Until the board has laid out, assume the page's inner width (screen less its gutters).
   const width = measured ?? screen.width - theme.space['20'] * 2 - theme.space['8'] * 2;
+  const { report } = useCommandFeedback();
   const [tied, setTied] = useState<readonly string[] | null>(null);
+  const [removing, setRemoving] = useState<{ id: string; name: string } | null>(null);
   const landing = useRef<ComponentRef<typeof View>>(null);
   useEffect(() => registerBoardLanding(landing), []);
   const onLayout = (event: LayoutChangeEvent) =>
@@ -123,20 +134,23 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
       poll_id: poll.id,
       ...(pick === undefined ? {} : { pick: [...pick] }),
     });
-    if (result.kind !== 'rejected') {
-      setTied(null);
+    const detail =
+      result.kind === 'rejected'
+        ? (result.detail as { reason?: string; tied_option_ids?: string[] } | undefined)
+        : undefined;
+    if (detail?.reason === 'needs_pick') {
+      setTied(detail.tied_option_ids ?? []);
       return;
     }
-    const detail = result.detail as { reason?: string; tied_option_ids?: string[] } | undefined;
-    if (detail?.reason === 'needs_pick') setTied(detail.tied_option_ids ?? []);
-    else
-      toast.show({
-        id: 'vote-final-failed',
-        title: t({
-          id: 'vote.board.finalFailed',
-          message: "The final didn't start. Try again in a moment.",
-        }),
-      });
+    // Starting the final needs the server: only its yes moves on; no signal and a refusal say so.
+    const outcome = report(result, {
+      id: 'vote-final',
+      refused: t({
+        id: 'vote.board.finalFailed',
+        message: "The final didn't start. Try again in a moment.",
+      }),
+    });
+    if (outcome === 'done') setTied(null);
   };
 
   // One place on the board: its name for LOCK IN.
@@ -148,31 +162,27 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
 
   const lockIn = async () => {
     const result = await close.send({ poll_id: poll.id });
-    if (result.kind === 'applied') {
-      router.push(voteRoutes.reveal(poll.id));
-      return;
-    }
-    toast.show({
-      id: 'vote-lock-in-failed',
-      title: t({
+    const outcome = report(result, {
+      id: 'vote-lock-in',
+      refused: t({
         id: 'vote.board.lockInFailed',
         message: "That didn't lock in. Try again in a moment.",
       }),
     });
+    if (outcome === 'done') router.push(voteRoutes.reveal(poll.id));
   };
 
   const askRemove = (optionId: string, name: string, proposedBy: string | null) => {
     if (!(organiser || proposedBy === me)) return;
-    toast.show({
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
-      id: `vote-remove-${optionId}`,
-      title: t({ id: 'vote.board.removeTitle', message: `Take ${name} off the board?` }),
-      action: {
-        label: t({ id: 'vote.board.remove', message: 'Remove' }),
-        onPress: () => void remove.send({ poll_id: poll.id, option_id: optionId }),
-      },
-    });
+    setRemoving({ id: optionId, name });
   };
+  const confirmRemove = () => {
+    if (removing === null) return;
+    // Closing the sheet first means a second tap has nothing left to send.
+    setRemoving(null);
+    void remove.send({ poll_id: poll.id, option_id: removing.id });
+  };
+  const removingName = removing?.name ?? '';
 
   if (options.length === 0) {
     const guide = guideSticker('tokek');
@@ -261,6 +271,7 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
             kind="choice"
             label={upper(t({ id: 'vote.board.lockIn', message: `Lock in ${only}` }), i18n.locale)}
             onPress={() => void lockIn()}
+            disabled={close.pending}
             testID="board-lock-in"
           />
         </Row>
@@ -271,6 +282,7 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
             kind="choice"
             label={upper(t({ id: 'vote.board.goToFinal', message: 'Go to final' }), i18n.locale)}
             onPress={() => void goToFinal()}
+            disabled={advance.pending}
             testID="board-go-to-final"
           />
         </Row>
@@ -282,6 +294,36 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
           onPick={(id) => void goToFinal([id])}
           onClose={() => setTied(null)}
         />
+      )}
+      {removing === null ? null : (
+        <Sheet
+          detents={['fit']}
+          onDismiss={() => setRemoving(null)}
+          accessibilityLabel={t({
+            id: 'vote.board.removeTitle',
+            message: `Take ${removingName} off the board?`,
+          })}
+          testID="board-remove"
+        >
+          <View style={styles.confirm}>
+            <ConfirmSheet
+              title={t({
+                id: 'vote.board.removeTitle',
+                message: `Take ${removingName} off the board?`,
+              })}
+              consequences={[
+                t({
+                  id: 'vote.board.removeVotes',
+                  message: 'Its votes go with it, and its pitch goes back in the deck.',
+                }),
+              ]}
+              confirmLabel={t({ id: 'vote.board.remove', message: 'Remove' })}
+              onConfirm={confirmRemove}
+              onCancel={() => setRemoving(null)}
+              testID="board-remove-confirm"
+            />
+          </View>
+        </Sheet>
       )}
     </Stack>
   );
