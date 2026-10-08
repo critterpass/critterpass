@@ -5,7 +5,6 @@
  * nameless line, and only in a crew of four or more). All three belong to recipients only.
  */
 import { withSystem } from '@cp/db';
-import { generateUuidV7 } from '@cp/domain';
 import type { PgBoss } from 'pg-boss';
 import pino from 'pino';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';

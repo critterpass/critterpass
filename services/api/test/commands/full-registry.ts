@@ -53,7 +53,7 @@ export function buildFullCommandRegistry(): CommandRegistry {
   );
   registerFeatureRoutes(new OpenAPIHono<AppEnv>(), {
     env,
-    doors: { pool, registry: commands, sessions: async () => null, redis, logger },
+    doors: { pool, registry: commands, sessions: () => Promise.resolve(null), redis, logger },
     auth: {} as AuthModule['auth'],
     keyring,
     links,
