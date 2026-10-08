@@ -11,6 +11,7 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 import { Text } from '../text/Text';
 import { BackButton, canGoBack } from './BackButton';
+import { useIsTabRoot } from './tab-root';
 import { makeStyles, MIN_TOUCH_TARGET } from '../theme';
 
 /** Scroll distance over which the large title hands over to the compact header title. */
@@ -58,21 +59,25 @@ export interface LargeTitleProps {
   readonly collapse?: SharedValue<number> | undefined;
   /** Whether the compact title is showing (for screen readers, which ignore opacity). */
   readonly collapsed?: boolean | undefined;
-  /** Leading slot; defaults to a back button whenever there is a screen to go back to. */
+  /** Leading slot; defaults to a back button on every screen that is not a tab's root. */
   readonly start?: ReactNode;
   readonly end?: ReactNode;
 }
 
 /**
  * Screen header: a condensed h1 that collapses into a small centred title as content scrolls
- * (3n-6), with a start slot (a back button on any pushed screen unless one is given) and an end slot
- * (pills). The compact title truncates between the slots, so they never overlap.
+ * (3n-6), with a start slot (a back button on any screen but a tab's root, unless one is given: a
+ * screen opened cold goes back to Home) and an end slot (pills). The compact title truncates between
+ * the slots, so they never overlap.
  */
 export function LargeTitle({ title, collapse, collapsed = false, start, end }: LargeTitleProps) {
   const styles = useStyles();
   const reduced = useReducedImpactMotion();
   const fallback = useSharedValue(0);
   const progress = collapse ?? fallback;
+  const tabRoot = useIsTabRoot();
+  // Outside a navigator (the gallery, a test) there is only a back button when there is a way back.
+  const showBack = tabRoot === undefined ? canGoBack() : !tabRoot;
 
   const compactStyle = useAnimatedStyle(() => ({ opacity: progress.value }));
   const largeStyle = useAnimatedStyle(() => ({
@@ -83,7 +88,7 @@ export function LargeTitle({ title, collapse, collapsed = false, start, end }: L
   return (
     <View>
       <View style={styles.bar}>
-        <View style={styles.side}>{start ?? (canGoBack() ? <BackButton /> : null)}</View>
+        <View style={styles.side}>{start ?? (showBack ? <BackButton /> : null)}</View>
         <Animated.View
           style={[styles.compact, compactStyle]}
           accessibilityElementsHidden={!collapsed}
