@@ -402,12 +402,14 @@ msgstr "GIVEN NAME · PRÉNOM"
 msgid "onboarding.quiz.pace.left.label"
 msgstr "Go go go"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
-msgid "onboarding.invite.manifest.home"
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.pass.home"
 msgstr "Go home"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-msgid "onboarding.invite.pass.home"
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.home"
 msgstr "Go home"
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
@@ -536,6 +538,7 @@ msgstr "Local"
 msgid "onboarding.photo.real.review"
 msgstr "Looking good. Until it’s checked, your crew sees your initials."
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.startPass"
 msgstr "Make my pass"
@@ -866,6 +869,7 @@ msgstr "SYNCING"
 msgid "onboarding.photo.real.camera"
 msgstr "Take a photo"
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.ticket.take"
 msgstr "Take the seat"
@@ -1019,10 +1023,16 @@ msgstr "Treat yourself"
 msgid "onboarding.tag.splurge"
 msgstr "Treat yourself"
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.retry"
+msgstr "Try again"
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
 msgstr "Try again"
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.retry"
 msgstr "Try again"
@@ -1088,6 +1098,10 @@ msgstr "Verification code"
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
 msgid "onboarding.phone.unsupported"
 msgstr "We can’t send codes to that country yet. Use Apple or Google instead."
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.verifyFailed"
+msgstr "We couldn’t check that code. Check your signal and try again."
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.noSubject"

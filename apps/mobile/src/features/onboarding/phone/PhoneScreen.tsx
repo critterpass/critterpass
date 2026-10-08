@@ -240,6 +240,14 @@ export function PhoneScreen() {
                 {phoneProblemLine(problem.kind, problem.retryS)}
               </Text>
             ) : null}
+            {problem?.kind === 'verify_failed' ? (
+              <InlineAction
+                label={t({ id: 'onboarding.phone.retry', message: 'Try again' })}
+                onPress={() => void phone.verify(code)}
+                disabled={busy}
+                testID="phone-verify-retry"
+              />
+            ) : null}
             {flow.state.kind === 'error' ? (
               <Text variant="bodySm" color={theme.color.pink} testID="phone-save-error">
                 {saveErrorLine(flow.state.reason)}

@@ -291,6 +291,38 @@ describe('3a-8 phone sign-in', () => {
     expect(screen.getByTestId('phone-send')).toBeTruthy();
   });
 
+  it('empties the boxes after a wrong code, so the next six digits are checked', async () => {
+    const answers: VerifyOtpOutcome[] = [{ kind: 'invalid_code' }, { kind: 'verified' }];
+    const verifyOtp = jest.fn(() => Promise.resolve(answers.shift() ?? { kind: 'verified' }));
+    await sendCode(withAuth({ verifyOtp }));
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '000000');
+    await flush();
+    expect(screen.getByTestId('phone-problem')).toHaveTextContent(/doesn’t match/u);
+    expect(screen.getByLabelText('Verification code')).toHaveProp('value', '');
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await flush();
+    expect(verifyOtp).toHaveBeenLastCalledWith(expect.objectContaining({ code: '419203' }));
+    expect(screen.queryByTestId('phone-problem')).toBeNull();
+    expect(readDraft()?.saved).toBe(true);
+  });
+
+  it('checks the same code again when the check never reached the server', async () => {
+    const answers: VerifyOtpOutcome[] = [{ kind: 'error', code: 'NETWORK' }, { kind: 'verified' }];
+    const verifyOtp = jest.fn(() => Promise.resolve(answers.shift() ?? { kind: 'verified' }));
+    await sendCode(withAuth({ verifyOtp }));
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await flush();
+    // Not the line about a code that was never sent: the code arrived, the check did not.
+    expect(screen.getByTestId('phone-problem')).toHaveTextContent(/couldn’t check that code/u);
+    expect(screen.getByLabelText('Verification code')).toHaveProp('value', '419203');
+    await activate(screen.getByTestId('phone-verify-retry'));
+    await flush();
+    expect(verifyOtp).toHaveBeenCalledTimes(2);
+    expect(verifyOtp).toHaveBeenLastCalledWith(expect.objectContaining({ code: '419203' }));
+    expect(screen.queryByTestId('phone-problem')).toBeNull();
+    expect(readDraft()?.saved).toBe(true);
+  });
+
   it('tells a returning user when Google sign-in stops, instead of just resetting the button', async () => {
     jest.mocked(useLocalSearchParams).mockReturnValue({ mode: 'returning' });
     const { services, reported } = googleStopping('SIGN_IN_CANCELLED');

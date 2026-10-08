@@ -402,12 +402,14 @@ msgstr "TÊN · PRÉNOM"
 msgid "onboarding.quiz.pace.left.label"
 msgstr "Đi đi đi"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
-msgid "onboarding.invite.manifest.home"
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.pass.home"
 msgstr "Về trang chủ"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-msgid "onboarding.invite.pass.home"
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.home"
 msgstr "Về trang chủ"
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
@@ -536,6 +538,7 @@ msgstr "Địa phương"
 msgid "onboarding.photo.real.review"
 msgstr "Đẹp lắm. Cho tới khi ảnh được duyệt, cả nhóm sẽ thấy chữ cái đầu tên bạn."
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.startPass"
 msgstr "Làm pass của tôi"
@@ -866,6 +869,7 @@ msgstr "ĐANG ĐỒNG BỘ"
 msgid "onboarding.photo.real.camera"
 msgstr "Chụp ảnh"
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.ticket.take"
 msgstr "Nhận chỗ"
@@ -1019,10 +1023,16 @@ msgstr "Chiều bản thân"
 msgid "onboarding.tag.splurge"
 msgstr "Tự thưởng"
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.retry"
+msgstr "Thử lại"
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
 msgstr "Thử lại"
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.problem.retry"
 msgstr "Thử lại"
@@ -1088,6 +1098,10 @@ msgstr "Mã xác minh"
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
 msgid "onboarding.phone.unsupported"
 msgstr "Chúng tôi chưa gửi mã tới quốc gia này được. Hãy dùng Apple hoặc Google."
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.verifyFailed"
+msgstr "Chưa kiểm tra được mã đó. Kiểm tra sóng rồi thử lại nhé."
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.noSubject"
