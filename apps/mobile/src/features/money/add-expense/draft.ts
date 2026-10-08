@@ -7,15 +7,10 @@
  * - CUSTOM: per-member amounts that must add up to the total exactly ("left to assign").
  */
 /* eslint-disable lingui/no-unlocalized-strings -- split modes and reasons are wire values, never copy. */
-import {
-  computeExpenseShares,
-  currencyExponent,
-  displayDecimals,
-  isKnownCurrency,
-  type Share,
-} from '@cp/cost-engine';
+import { computeExpenseShares, type Share } from '@cp/cost-engine';
 import type { AddExpensePayload, ExpenseCategory } from '@cp/domain';
 
+import { digitsToMinor, minorToDigits } from '@/ui/inputs/amount-digits';
 import type { KeypadKey } from '@/ui/inputs/Keypad';
 import { categoryFromWords } from './suggest';
 
@@ -158,17 +153,12 @@ export function draftReducer(draft: ExpenseDraft, action: DraftAction): ExpenseD
 
 /** Display units → ISO minor units (IDR shows whole rupiah but stores sen). */
 export function unitsToMinor(digits: string, currency: string): bigint {
-  const units = BigInt(digits === '' ? '0' : digits);
-  if (!isKnownCurrency(currency)) return units;
-  return units * 10n ** BigInt(currencyExponent(currency) - displayDecimals(currency));
+  return digitsToMinor(digits, currency);
 }
 
 /** ISO minor units → the digits the keypad would have typed. */
 export function minorToUnits(amountMinor: bigint, currency: string): string {
-  if (amountMinor <= 0n) return '';
-  if (!isKnownCurrency(currency)) return amountMinor.toString();
-  const scale = 10n ** BigInt(currencyExponent(currency) - displayDecimals(currency));
-  return (amountMinor / scale).toString();
+  return minorToDigits(amountMinor, currency);
 }
 
 export function amountMinorOf(draft: ExpenseDraft): bigint {

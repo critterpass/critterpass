@@ -3,23 +3,26 @@
  * amount, how the payee gets paid (revealed online only, never stored: a QR for PayNow, PromptPay,
  * VietQR or DuitNow, bank details with COPY, a Wise link, cash) and MARK PAID with the method and,
  * for a part payment, the amount, which reads as money in the payment's currency while it is
- * typed. The payee sees REQUEST / NUDGE / CONFIRM / DISPUTE.
+ * typed; MARK PAID stays in a footer above the keyboard. The payee sees REQUEST / NUDGE / CONFIRM /
+ * DISPUTE, each held while an answer is on its way.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- field names and method ids are wire values. */
 import type { PaymentMethod, RevealedPayoutMethod } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
+import { AmountField } from '@/ui/inputs/AmountField';
 import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { Amount } from '@/ui/money/Amount';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -28,15 +31,21 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { useMoneyDisplay } from '@/data/money';
 
 import { formatAmount, formatAmountShown } from '../format';
-import { AmountPaidField } from './AmountPaidField';
+import { amountPaidDigits } from './amount-paid';
 import type { SettleRowModel } from './model';
 import { useStatusLabel } from './PaymentRow';
 import { usePayoutKindLabel } from './payout-labels';
 import { payoutQr } from './payout-qr';
 import { PayoutQr } from './PayoutQr';
+import { MONEY_ROUTES } from '../routes';
 
 const useStyles = makeStyles((t) => ({
-  content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
+  content: {
+    paddingHorizontal: t.size.gutter,
+    gap: t.space['16'],
+    paddingTop: t.space['8'],
+    paddingBottom: t.space['32'],
+  },
   chips: { gap: t.space['8'], flexWrap: 'wrap' },
 }));
 
@@ -131,7 +140,6 @@ function Method({ method, row, toName, onCopy, onOpen }: MethodProps) {
 export function PaymentDetail(props: PaymentDetailProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const locale = useLocale();
   useMoneyDisplay();
   const { t } = useLingui();
@@ -153,24 +161,25 @@ export function PaymentDetail(props: PaymentDetailProps) {
     'cash',
     'other',
   ].filter((value, index, all) => all.indexOf(value) === index) as PaymentMethod[];
+  const paying = row.role === 'payer' && row.actions.includes('pay');
   return (
     <Scaffold variant="dark" testID="money-payment">
-      <ScrollView
-        contentContainerStyle={[
-          styles.content,
-          { paddingBottom: insets.bottom + theme.space['32'] },
-        ]}
+      <KeyboardScrollView
+        contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <BackEyebrow label={upper(t({ id: 'money.pay.back', message: 'Settle up' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'money.pay.back', message: 'Settle up' }), locale)}
+          fallback={MONEY_ROUTES.settle}
+        />
         <Text variant="h1" accessibilityRole="header">
           {upper(title, locale)}
         </Text>
         <Row gap="12" align="center">
           <PrivateContent>
-            <Text variant="displayXl" testID="money-payment-amount">
+            <Amount variant="displayXl" testID="money-payment-amount">
               {formatAmountShown(row.amountMinor, row.currency, locale)}
-            </Text>
+            </Amount>
           </PrivateContent>
           <Text variant="label" color={theme.semantic.text.secondary}>
             {statusLabel(row)}
@@ -181,7 +190,7 @@ export function PaymentDetail(props: PaymentDetailProps) {
             {row.note}
           </Text>
         )}
-        {row.role === 'payer' && row.actions.includes('pay') ? (
+        {paying ? (
           <>
             {props.reveal.kind === 'ok' ? (
               props.reveal.methods.map((method) => (
@@ -235,22 +244,21 @@ export function PaymentDetail(props: PaymentDetailProps) {
                   />
                 ))}
               </Row>
-              <AmountPaidField
+              <AmountField
+                label={t({ id: 'money.pay.amount', message: 'Amount paid' })}
                 digits={props.amountDigits}
-                amountMinor={row.amountMinor}
                 currency={row.currency}
-                valid={props.amountValid}
+                locale={locale}
                 onDigits={props.onAmount}
+                maxDigits={amountPaidDigits(row.amountMinor, row.currency).length}
+                {...(props.amountValid ? {} : { status: 'error' as const })}
+                message={t({
+                  id: 'money.pay.amountHint',
+                  message: 'Paying part of it? The rest stays open.',
+                })}
+                testID="money-pay-amount"
               />
             </Stack>
-            <PillButton
-              label={upper(t({ id: 'money.pay.markPaid', message: 'Mark paid' }), locale)}
-              onPress={props.onMarkPaid}
-              disabled={!props.amountValid}
-              loading={props.busy}
-              block
-              testID="money-pay-mark"
-            />
           </>
         ) : null}
         {row.role === 'payer' && row.status === 'marked_paid' ? (
@@ -286,6 +294,7 @@ export function PaymentDetail(props: PaymentDetailProps) {
                 label={upper(t({ id: 'money.pay.nudge', message: `Nudge ${payer}` }), locale)}
                 onPress={props.onNudge}
                 variant="secondary"
+                disabled={props.busy}
                 block
                 testID="money-pay-nudge"
               />
@@ -295,13 +304,26 @@ export function PaymentDetail(props: PaymentDetailProps) {
                 label={upper(t({ id: 'money.pay.dispute', message: "It didn't arrive" }), locale)}
                 onPress={props.onDispute}
                 variant="tertiary"
+                disabled={props.busy}
                 block
                 testID="money-pay-dispute"
               />
             ) : null}
           </Stack>
         ) : null}
-      </ScrollView>
+      </KeyboardScrollView>
+      {paying ? (
+        <KeyboardFooter>
+          <PillButton
+            label={upper(t({ id: 'money.pay.markPaid', message: 'Mark paid' }), locale)}
+            onPress={props.onMarkPaid}
+            disabled={!props.amountValid}
+            loading={props.busy}
+            block
+            testID="money-pay-mark"
+          />
+        </KeyboardFooter>
+      ) : null}
     </Scaffold>
   );
 }
