@@ -3,7 +3,9 @@
  * from pages in the route's own shape. A new message pushes the oldest row off the phone: with
  * older pages asked for or on screen, that row stays in the timeline, so the page above it joins on
  * without a gap whether it lands, or fails and is asked for again; and it keeps the reactions it
- * had, the member's own still theirs to take back.
+ * had, the member's own still theirs to take back. A phone that was away for more than a window
+ * comes back to rows that no longer join on to what is held: the held pages go, and scrolling up
+ * reads from the new edge.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
@@ -250,5 +252,35 @@ describe('the reactions of a row that left the phone', () => {
     expect(sent.map((row) => (JSON.parse(row.envelope) as { payload: unknown }).payload)).toEqual([
       { message_id: id(FIRST), emoji: '🔥', on: false },
     ]);
+  });
+});
+
+describe('a phone that was away for more than a window', () => {
+  it('forgets the pages it held and reads on from its new oldest message', async () => {
+    const stack = await phone(5, 7);
+    const server = slowServer();
+    const { result } = await renderHook(() => useMessages(CREW, stack.uid, server.api), {
+      wrapper: stack.wrapper,
+    });
+    await waitFor(() => expect(result.current.loaded).toBe(true));
+    await act(() => result.current.loadOlder());
+    await act(() => server.answers[0]?.(pageBelow(5)));
+    await waitFor(() => expect(seqs(result)).toEqual(range(3, 7)));
+
+    // Everything the phone held is behind the window now; what came between was never on it.
+    await outsideAct(() =>
+      stack.db.writeTransaction(async (tx) => {
+        await tx.execute('DELETE FROM messages WHERE crew_id = ?', [CREW]);
+        for (const seq of range(2000, 2002)) await tx.execute(INSERT_MESSAGE, message(seq));
+      }),
+    );
+    await waitFor(() => expect(seqs(result)).toEqual(range(2000, 2002)));
+    expect(result.current.hasOlder).toBe(true);
+
+    await act(() => result.current.loadOlder());
+    await waitFor(() => expect(server.calls).toHaveLength(2));
+    expect(server.calls[1]).toEqual([CREW, 2000, OLDER_PAGE]);
+    await act(() => server.answers[1]?.(pageBelow(2000)));
+    await waitFor(() => expect(seqs(result)).toEqual(range(1998, 2002)));
   });
 });

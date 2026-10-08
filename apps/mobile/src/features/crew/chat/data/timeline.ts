@@ -233,6 +233,15 @@ export function keepTimeline(previous: Timeline, next: Timeline): Timeline {
 }
 
 /**
+ * The phone was away for more than a window: the rows it holds now start beyond the end of the
+ * ones it held before, and the messages between were never on it. Nothing held from before joins
+ * on to the new rows.
+ */
+export function movedApart(previous: Timeline, next: Timeline): boolean {
+  return previous.lastSeq > 0 && next.firstSeq > previous.lastSeq + 1;
+}
+
+/**
  * Rows the phone held a moment ago and has now let go of because newer messages pushed them out
  * of its window (never one that moderation hid: that one is still inside the window by `seq`).
  */

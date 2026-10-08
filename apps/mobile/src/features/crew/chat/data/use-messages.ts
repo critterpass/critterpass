@@ -33,6 +33,7 @@ import {
   leftWindow,
   loadTimeline,
   MESSAGE_WINDOW,
+  movedApart,
   type Timeline,
 } from './timeline';
 
@@ -94,7 +95,11 @@ export function useMessages(
           // With older pages on screen or on their way, a row leaving the phone's window stays in
           // the timeline: the page being fetched ends just below it.
           const held = readOlder(crewId);
-          if (held.messages.length > 0 || held.status === 'loading') {
+          if (movedApart(shown.current.timeline, timeline)) {
+            // What is held no longer joins on to the phone's rows: scrolling up reads on from
+            // the new oldest message instead of showing the two as one run.
+            forgetOlder(crewId);
+          } else if (held.messages.length > 0 || held.status === 'loading') {
             const gone = leftWindow(shown.current.timeline, timeline);
             if (gone.length > 0) keepOlder(crewId, gone, shown.current.reactions);
           }
