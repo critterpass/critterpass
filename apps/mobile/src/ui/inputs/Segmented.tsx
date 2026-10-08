@@ -25,6 +25,8 @@ export interface SegmentedProps<Value extends string> {
    * @default 'cream'
    */
   readonly selectedTone?: 'cream' | 'yellow';
+  /** The `snap` a change of segment fires; off for a host that answers with its own cue. @default true */
+  readonly feedback?: boolean;
   readonly testID?: string;
 }
 
@@ -68,6 +70,7 @@ export function Segmented<Value extends string>({
   label,
   caption,
   selectedTone = 'cream',
+  feedback = true,
   testID,
 }: SegmentedProps<Value>) {
   const styles = useStyles();
@@ -90,6 +93,8 @@ export function Segmented<Value extends string>({
           <PressScale
             key={segment.value}
             onPress={() => onChange(segment.value)}
+            // Tapping the segment already chosen changes nothing, so it stays silent.
+            feedback={feedback && !selected ? 'snap' : undefined}
             widthClass="narrow"
             accessibilityRole="radio"
             accessibilityLabel={

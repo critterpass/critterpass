@@ -5,7 +5,7 @@ export type { PhysicalSpring } from './easing';
 export { bezierEasing, isPhysicalSpring, springConfig } from './easing';
 export { SOUND_CUE_IDS } from './impact';
 export type { SoundCueId } from './impact';
-export { feedback, impact, useFeedbackPrefs } from './feedback';
+export { feedback, impact, useFeedbackPrefs, withTapFeedback } from './feedback';
 export type { FeedbackPrefsControls, FeedbackPrefsSnapshot } from './feedback';
 export { music } from './music';
 export type { GuideId, ThemeInfo } from './music';
