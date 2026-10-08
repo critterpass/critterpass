@@ -1,5 +1,6 @@
 /** One way to find a driver (6a-2): a colour card with its doodle, title, one line and an arrow. */
 import { Icon } from '@/ui/icons/Icon';
+import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { PressScale } from '@/ui/press/PressScale';
@@ -38,7 +39,7 @@ export function SourceCard(props: {
             {props.body}
           </Text>
         </Stack>
-        <Icon name="arrow" size={20} color={theme.color.ink['950']} decorative />
+        <StraightArrow direction="forward" color={theme.color.ink['950']} />
       </Row>
     </PressScale>
   );
