@@ -2,7 +2,8 @@
  * One payment (undesigned; built from the settle row, cards and settings rows). The payer sees the
  * amount, how the payee gets paid (revealed online only, never stored: a QR for PayNow, PromptPay,
  * VietQR or DuitNow, bank details with COPY, a Wise link, cash) and MARK PAID with the method and,
- * for a part payment, the amount. The payee sees REQUEST / NUDGE / CONFIRM / DISPUTE.
+ * for a part payment, the amount, which reads as money in the payment's currency while it is
+ * typed. The payee sees REQUEST / NUDGE / CONFIRM / DISPUTE.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- field names and method ids are wire values. */
 import type { PaymentMethod, RevealedPayoutMethod } from '@cp/domain';
@@ -17,7 +18,6 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
-import { TextField } from '@/ui/inputs/TextField';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -28,6 +28,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { useMoneyDisplay } from '@/data/money';
 
 import { formatAmount, formatAmountShown } from '../format';
+import { AmountPaidField } from './AmountPaidField';
 import type { SettleRowModel } from './model';
 import { useStatusLabel } from './PaymentRow';
 import { usePayoutKindLabel } from './payout-labels';
@@ -51,6 +52,7 @@ export interface PaymentDetailProps {
   readonly toName: string;
   readonly reveal: RevealState;
   readonly method: PaymentMethod;
+  /** The amount paid as keypad digits in the currency's own units ("18640" is US$186.40). */
   readonly amountDigits: string;
   readonly amountValid: boolean;
   readonly busy: boolean;
@@ -233,17 +235,12 @@ export function PaymentDetail(props: PaymentDetailProps) {
                   />
                 ))}
               </Row>
-              <TextField
-                label={t({ id: 'money.pay.amount', message: 'Amount paid' })}
-                value={props.amountDigits}
-                onChangeText={(text) => props.onAmount(text.replace(/\D/gu, ''))}
-                keyboardType="number-pad"
-                {...(props.amountValid ? {} : { status: 'error' as const })}
-                message={t({
-                  id: 'money.pay.amountHint',
-                  message: 'Paying part of it? The rest stays open.',
-                })}
-                testID="money-pay-amount"
+              <AmountPaidField
+                digits={props.amountDigits}
+                amountMinor={row.amountMinor}
+                currency={row.currency}
+                valid={props.amountValid}
+                onDigits={props.onAmount}
               />
             </Stack>
             <PillButton
