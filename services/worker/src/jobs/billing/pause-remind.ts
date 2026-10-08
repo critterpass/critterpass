@@ -10,7 +10,7 @@ import {
   withSystem,
   type ScheduledJobData,
 } from '@cp/db';
-import { BILLING_PUSH, BILLING_QUEUES, pauseReminderDue } from '@cp/domain';
+import { BILLING_PUSH, BILLING_QUEUES, membershipLink, pauseReminderDue } from '@cp/domain';
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
@@ -99,7 +99,7 @@ export function registerPauseReminderPush(): void {
         body: BILLING_PUSH.resumeBody,
         vars: { date: formatResumeDate(resumeAt) },
         sender: DEFAULT_SETUP_GUIDE,
-        deepLink: '/you/plan',
+        deepLink: membershipLink(),
         collapseVars: { subscription_id: str(routed, 'subscription_id') ?? '' },
       });
     },

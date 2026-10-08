@@ -4,11 +4,13 @@
  * and any live body from them and its synced rows, in the reader's language.
  */
 import {
+  crewChatLink,
+  crewInviteLink,
   guideActionResolveKey,
   INBOX_KIND,
+  type InboxAction,
   NUDGE_INBOX_TTL_MS,
   nudgeResolveKey,
-  type InboxAction,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -50,7 +52,7 @@ function registerMemberJoined(): void {
         crewId,
         actorId: joiner,
         data: { crew_id: crewId, user_id: joiner },
-        deepLink: crewId === null ? null : `/crew/${crewId}/chat`,
+        deepLink: crewId === null ? null : crewChatLink(crewId),
       });
     },
   });
@@ -85,7 +87,7 @@ function registerInviteOpened(): void {
         crewId,
         actorId: null,
         data: { join_code_id: codeId, channel: str(event, 'channel') },
-        deepLink: crewId === null ? null : `/crew/${crewId}/invite`,
+        deepLink: crewId === null ? null : crewInviteLink(crewId),
       };
     },
   });

@@ -3,7 +3,7 @@
  * crewmate asked, in the target's language. BUDGET class: over budget or in quiet hours it waits
  * for the roundup, and a target without a push token gets only the inbox item.
  */
-import { NUDGE_PUSH_BODY, NUDGE_PUSH_TITLE, nudgeReasonSchema } from '@cp/domain';
+import { inboxLink, NUDGE_PUSH_BODY, NUDGE_PUSH_TITLE, nudgeReasonSchema } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type NotificationSender } from '../notify/register';
@@ -58,7 +58,7 @@ export function registerNudgeNotifications(): void {
         sender,
         crewId: event.crewId,
         tripId: event.tripId,
-        deepLink: '/inbox',
+        deepLink: inboxLink(),
         needsYou: true,
       };
     },

@@ -5,7 +5,7 @@
  * hides their collection), and N-30 a month before a legendary window (the place line, never the
  * unfound legendary's name). The trip's guide speaks when there is one.
  */
-import { CRITTER_PUSH } from '@cp/domain';
+import { CRITTER_PUSH, legendariesLink, passLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type NotificationSender } from '../notify/register';
@@ -67,7 +67,7 @@ export function registerCritterPushes(): void {
         vars: { place: await place(tx, event.tripId), critter },
         sender: await tripGuide(tx, event.tripId),
         tripId: event.tripId,
-        deepLink: '/pass',
+        deepLink: passLink(),
       };
     },
   });
@@ -101,7 +101,7 @@ export function registerCritterPushes(): void {
         sender: await tripGuide(tx, event.tripId),
         crewId: event.crewId,
         tripId: event.tripId,
-        deepLink: '/pass',
+        deepLink: passLink(),
       };
     },
   });
@@ -121,7 +121,7 @@ export function registerCritterPushes(): void {
         body: CRITTER_PUSH.legendaryBody,
         vars: { place: line },
         sender: DEFAULT_SETUP_GUIDE,
-        deepLink: '/critters/legendaries',
+        deepLink: legendariesLink(),
       };
     },
   });

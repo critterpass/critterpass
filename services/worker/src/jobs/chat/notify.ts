@@ -7,7 +7,7 @@
  * sender hears nothing from them. Pushes collapse per crew and thread by crew; the `cp.chat`
  * category offers REPLY (sends through `send_message`) and READ (`mark_read` up to this `seq`).
  */
-import { defaultCrewNotifyLevel, type MessageType } from '@cp/domain';
+import { crewChatLink, defaultCrewNotifyLevel, type MessageType } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -139,7 +139,7 @@ export function registerChatNotifications(): void {
         },
         crewId: message.crewId,
         threadId: message.crewId,
-        deepLink: `/crew/${message.crewId}/chat`,
+        deepLink: crewChatLink(message.crewId),
         ctx: { crew_id: message.crewId, message_id: message.messageId, seq: message.seq },
         collapseVars: { crew_id: message.crewId },
       };

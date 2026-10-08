@@ -6,12 +6,14 @@
  */
 import { loadPollState } from '@cp/db';
 import {
+  changeReviewLink,
   CHANGESET_APPLIED_BODY,
   CHANGESET_APPLIED_TITLE,
   CHANGESET_KEPT_BODY,
   CHANGESET_KEPT_TITLE,
   CHANGESET_NEEDS_YES_BODY,
   CHANGESET_NEEDS_YES_TITLE,
+  tripPlanLink,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -89,7 +91,7 @@ export function registerPlanPushes(): void {
         sender: trip.guide,
         crewId: trip.crewId,
         tripId: facts.tripId,
-        deepLink: `/trip/${facts.tripId}/review/${facts.changeSetId}`,
+        deepLink: changeReviewLink(facts.tripId, facts.changeSetId),
         ctx: { change_set_id: facts.changeSetId, poll_id: facts.pollId, trip_id: facts.tripId },
         needsYou: true,
         collapseVars: { change_set_id: facts.changeSetId },
@@ -119,7 +121,7 @@ export function registerPlanPushes(): void {
           sender: trip.guide,
           crewId: trip.crewId,
           tripId: facts.tripId,
-          deepLink: `/trip/${facts.tripId}/plan`,
+          deepLink: tripPlanLink(facts.tripId),
           ctx: { change_set_id: facts.changeSetId, trip_id: facts.tripId },
           collapseVars: { change_set_id: facts.changeSetId },
         };

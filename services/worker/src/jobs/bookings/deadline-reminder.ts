@@ -10,7 +10,7 @@ import {
   withSystem,
   type ScheduledJobData,
 } from '@cp/db';
-import { BOOKING_PUSH, BOOKINGS_QUEUES, deadlineStillOpen } from '@cp/domain';
+import { BOOKING_PUSH, bookingLink, BOOKINGS_QUEUES, deadlineStillOpen } from '@cp/domain';
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
@@ -102,7 +102,7 @@ export function registerDeadlinePush(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: `/wallet/bookings/${bookingId ?? ''}`,
+        deepLink: bookingLink(bookingId ?? ''),
         collapseVars: { booking_id: bookingId ?? '' },
       };
     },

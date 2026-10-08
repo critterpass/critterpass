@@ -14,11 +14,13 @@
  * change (UNDO) and a fare drop.
  */
 import {
+  crewChatLink,
+  crewInviteLink,
   guideActionResolveKey,
   INBOX_KIND,
+  type InboxAction,
   NUDGE_INBOX_TTL_MS,
   nudgeResolveKey,
-  type InboxAction,
 } from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -110,7 +112,7 @@ function demoItems(
       needsYou: false,
       actorId: members.jordan,
       data: { crew_id: crewId, user_id: members.jordan },
-      deepLink: `/crew/${crewId}/chat`,
+      deepLink: crewChatLink(crewId),
       minutesAgo: 60 * 26,
     },
     {
@@ -119,7 +121,7 @@ function demoItems(
       needsYou: false,
       actorId: null,
       data: { join_code_id: null, channel: 'whatsapp' },
-      deepLink: `/crew/${crewId}/invite`,
+      deepLink: crewInviteLink(crewId),
       minutesAgo: 60 * 5,
     },
     {
@@ -194,7 +196,7 @@ function demoItems(
           },
         },
       ],
-      deepLink: `/crew/${crewId}/chat`,
+      deepLink: crewChatLink(crewId),
       minutesAgo: 25,
     });
   }

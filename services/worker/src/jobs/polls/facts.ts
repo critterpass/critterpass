@@ -3,7 +3,7 @@
  * trip's guide, the live answers, the deep link and the result line.
  */
 import { loadPollState, tallyOf, type PollState } from '@cp/db';
-import { INLINE_POLL_OPTIONS_MAX, type InboxAction } from '@cp/domain';
+import { crewChatLink, type InboxAction, INLINE_POLL_OPTIONS_MAX, voteLink } from '@cp/domain';
 import type pg from 'pg';
 
 import type { FanoutEvent } from '../inbox/fanout';
@@ -80,8 +80,8 @@ export function inlineVotes(state: PollState): InboxAction[] {
 
 export function deepLink(state: PollState): string {
   return state.poll.kind === 'destination'
-    ? `/vote/${state.poll.id}`
-    : `/crew/${state.poll.crew_id}/chat`;
+    ? voteLink(state.poll.id)
+    : crewChatLink(state.poll.crew_id);
 }
 
 export function pollData(state: PollState, guide: NotificationSender): Record<string, unknown> {

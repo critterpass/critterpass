@@ -10,10 +10,13 @@
  */
 import { withUser } from '@cp/db';
 import {
+  appLinkSchemeUrl,
   DomainError,
+  mailboxConnectedLink,
   mailboxProviderSchema,
   type MailboxConnectionWire,
   type MailboxProvider,
+  type OAuthReturn,
 } from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
@@ -94,20 +97,19 @@ export function registerMailboxRoutes(app: OpenAPIHono<AppEnv>, deps: MailboxRou
   app.get('/v1/mailbox/oauth/:provider/callback', async (c) => {
     const provider = providerOf(c.req.param('provider'));
     const query = callbackQuery.parse(c.req.query());
-    const back = new URL(`${deps.config?.appScheme ?? 'critterpass'}://wallet/mailbox/connected`);
-    back.searchParams.set('provider', provider);
     const live =
       query.state !== undefined && (await peekMailboxState(deps.store, query.state, provider));
-    if (!live || query.code === undefined || query.error !== undefined) {
-      back.searchParams.set('status', query.error === 'access_denied' ? 'denied' : 'failed');
-    } else {
-      back.searchParams.set('status', 'authorized');
-      back.searchParams.set('state', query.state ?? '');
-      back.searchParams.set('code', query.code);
-    }
+    const outcome: OAuthReturn =
+      !live || query.code === undefined || query.error !== undefined
+        ? { status: query.error === 'access_denied' ? 'denied' : 'failed' }
+        : { status: 'authorized', state: query.state ?? '', code: query.code };
+    const back = appLinkSchemeUrl(
+      deps.config?.appScheme ?? 'critterpass',
+      mailboxConnectedLink(provider, outcome),
+    );
     c.header('Cache-Control', 'no-store');
     c.header('Referrer-Policy', 'no-referrer');
-    return c.redirect(back.toString(), 302);
+    return c.redirect(back, 302);
   });
 
   app.get('/v1/mailbox/connections', async (c) => {

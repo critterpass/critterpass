@@ -9,6 +9,7 @@ import {
   VOTE_FINAL_BODY,
   VOTE_NEEDED_BODY,
   VOTE_NEEDED_TITLE,
+  voteRevealLink,
   WINNER_BODY,
   WINNER_TITLE,
 } from '@cp/domain';
@@ -140,7 +141,7 @@ export function registerPushes(): void {
         sender: facts.guide,
         crewId: facts.state.poll.crew_id,
         tripId: facts.state.poll.trip_id,
-        deepLink: `/vote/${facts.state.poll.id}/reveal`,
+        deepLink: voteRevealLink(facts.state.poll.id),
         ctx: { poll_id: facts.state.poll.id },
         collapseVars: { poll_id: facts.state.poll.id },
       };
