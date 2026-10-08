@@ -75,7 +75,9 @@ const useStyles = makeStyles((th) => ({
     paddingHorizontal: th.space['20'],
     paddingTop: th.space['8'],
     paddingBottom: th.space['12'],
+    gap: th.space['8'],
   },
+  waiting: { textAlign: 'center' },
 }));
 
 export interface DropoutViewProps {
@@ -88,6 +90,9 @@ export interface DropoutViewProps {
   readonly share: { readonly after: string; readonly before: string; readonly each: string } | null;
   readonly keepInChat: boolean;
   readonly resolved: boolean;
+  /** This phone has sent the apply and the server has not answered it yet. */
+  readonly applying: boolean;
+  readonly offline: boolean;
   readonly onBack: () => void;
   readonly onKeep: (keep: boolean) => void;
   readonly onApply: () => void;
@@ -208,12 +213,28 @@ export function DropoutView(props: DropoutViewProps) {
             {t({ id: 'proposal.dropout.applied', message: 'Applied. Shares are re-priced.' })}
           </Text>
         ) : (
-          <PillButton
-            label={t({ id: 'proposal.dropout.apply', message: 'Apply changes' })}
-            onPress={props.onApply}
-            sheen
-            testID="dropout-apply"
-          />
+          <>
+            <PillButton
+              label={t({ id: 'proposal.dropout.apply', message: 'Apply changes' })}
+              onPress={props.onApply}
+              loading={props.applying}
+              sheen={!props.applying}
+              testID="dropout-apply"
+            />
+            {props.applying && props.offline ? (
+              <Text
+                variant="caption"
+                color={theme.semantic.text.secondary}
+                style={styles.waiting}
+                testID="dropout-applying"
+              >
+                {t({
+                  id: 'proposal.dropout.applyingOffline',
+                  message: 'Saved. It applies when you’re back online.',
+                })}
+              </Text>
+            ) : null}
+          </>
         )}
       </View>
     </Scaffold>

@@ -42,6 +42,8 @@ const dropout = (locale: string, resolved: boolean) => (
     share={dropoutShare(locale, { before: 4_200_000, after: 4_550_000, delta: 350_000 }, 'VND')}
     keepInChat
     resolved={resolved}
+    applying={false}
+    offline={false}
     onBack={noop}
     onKeep={noop}
     onApply={noop}
