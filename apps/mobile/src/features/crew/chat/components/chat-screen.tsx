@@ -286,7 +286,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
           onReply={setReplyTo}
           onEdit={(message) => {
             setEditing(message);
-            composer.current?.prefill(message.body);
+            composer.current?.beginEdit(message.body);
           }}
         />
       )}

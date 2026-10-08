@@ -14,7 +14,7 @@ import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import type { GuideAvatarId } from '@/ui/avatar';
 import { guideSticker } from '@/ui/avatar/guides';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -55,7 +55,8 @@ const useStyles = makeStyles((th) => ({
     gap: th.space['8'],
   },
   done: { alignSelf: 'center' },
-  art: { alignSelf: 'center', marginTop: th.space['24'] },
+  // On the text's own edge: one alignment for the page.
+  art: { alignSelf: 'flex-start', marginTop: th.space['24'] },
 }));
 
 // A route path, never copy.
@@ -184,7 +185,7 @@ export function CrewCreated({
           </>
         )}
         <View style={styles.done}>
-          <InlineAction
+          <TextLink
             label={t({ id: 'crew.start.done', message: 'Done' })}
             onPress={returnHome}
             testID="start-crew-done"

@@ -27,6 +27,11 @@ import {
 export interface ChatComposerHandle {
   /** Puts `text` in the field (the empty chat's "Say hi"). */
   prefill(text: string): void;
+  /**
+   * Puts a message's text in the field to be edited, keeping what was being typed aside: it is
+   * back in the field once the edit is saved or cancelled.
+   */
+  beginEdit(text: string): void;
 }
 
 export interface ChatComposerProps {
@@ -71,7 +76,19 @@ export const ChatComposer = forwardRef<ChatComposerHandle, ChatComposerProps>(
     const [text, setText] = useState('');
     const [picked, setPicked] = useState<readonly MentionCandidate[]>([]);
     const [problem, setProblem] = useState<string | null>(null);
-    useImperativeHandle(ref, () => ({ prefill: (value) => setText(value) }), []);
+    // What was in the field when an edit began.
+    const [aside, setAside] = useState('');
+    useImperativeHandle(
+      ref,
+      () => ({
+        prefill: (value) => setText(value),
+        beginEdit: (value) => {
+          setAside(text);
+          setText(value);
+        },
+      }),
+      [text],
+    );
 
     const query = activeMentionQuery(text);
     const matches = useMemo(
@@ -111,7 +128,8 @@ export const ChatComposer = forwardRef<ChatComposerHandle, ChatComposerProps>(
         props.onEdit?.(props.editing.id, draft.body.trim());
         props.editing.onCancel();
       }
-      setText('');
+      setText(props.editing === undefined ? '' : aside);
+      setAside('');
       setPicked([]);
       setProblem(null);
     };
@@ -139,7 +157,8 @@ export const ChatComposer = forwardRef<ChatComposerHandle, ChatComposerProps>(
               kind="ghost"
               label={t({ id: 'chat.composer.cancelEdit', message: 'Cancel edit' })}
               onPress={() => {
-                setText('');
+                setText(aside);
+                setAside('');
                 props.editing?.onCancel();
               }}
             />
