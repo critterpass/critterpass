@@ -12,6 +12,7 @@ import { Linking } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { feedback, toast } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 
@@ -56,7 +57,9 @@ export function SosScreen() {
   const respond = useCommand(respondSosCommand);
   const resolve = useCommand(resolveSosCommand);
   const trigger = useCommand(triggerSosCommand);
+  const { report } = useCommandFeedback();
   const acked = useRef(false);
+  const resending = useRef(false);
   // 3k-10 is a takeover: the design draws no back control (the system back gesture still works).
   useNoBackByDesign();
   const model = sos.model;
@@ -101,7 +104,7 @@ export function SosScreen() {
       model={model}
       general={general}
       senderPhone={sos.senderPhone}
-      busy={respond.pending || resolve.pending}
+      busy={respond.pending || resolve.pending || trigger.pending}
       onGoing={() => {
         void respond.send({ sos_id: sosId, state: 'coming' }).then((result) => {
           if (result.kind === 'rejected') return feedback.emit('error');
@@ -125,11 +128,23 @@ export function SosScreen() {
       }}
       onSafe={() => void resolve.send({ sos_id: sosId })}
       onSendAgain={() => {
-        if (tripId === null) return;
+        if (tripId === null || resending.current) return;
+        resending.current = true;
         const fresh = generateUuidV7();
         void trigger
           .send({ trip_id: tripId, sos_id: fresh, confirm_of: sosId })
-          .then(() => router.replace(safetyRoutes.sos(fresh, true)));
+          .then((result) => {
+            const outcome = report(result, {
+              offlineCapable: true,
+              refused: t({ id: 'safety.sos.resendFailed', message: "Your SOS didn't go out." }),
+            });
+            if (outcome === 'done' || outcome === 'queued') {
+              router.replace(safetyRoutes.sos(fresh, true));
+            } else resending.current = false;
+          })
+          .catch(() => {
+            resending.current = false;
+          });
       }}
       onMap={() => router.push(safetyRoutes.map(sosId))}
       onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}
