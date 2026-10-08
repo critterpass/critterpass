@@ -5,17 +5,9 @@
  * refusal of a write made while online is then cleared; one that waited with no signal stays for
  * the trip's "didn't go through" list.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { generateUuidV7, type AddExpensePayload } from '@cp/domain';
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { renderHook, waitFor } from '@testing-library/react-native';
