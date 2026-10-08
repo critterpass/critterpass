@@ -1,4 +1,5 @@
 /** The account's server state and whether the pass is saved, read once when a screen opens. */
+import { useIsFocused } from 'expo-router';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
 import type { AccountRead } from './account-api';
@@ -31,10 +32,16 @@ export function accountRows(read: AccountRead | null): AccountRowsState {
   return read.kind === 'signed_out' ? 'none' : 'unreachable';
 }
 
-/** `null` until known. A session that cannot be read counts as unsaved: the warning shows. */
+/**
+ * `null` until known. A session that cannot be read counts as unsaved: the warning shows. Read
+ * again each time the screen comes back to the front: the pass can be saved from a page pushed
+ * over it, and the warning must not outlive that.
+ */
 export function usePassSaved(services: AccountServices): boolean | null {
   const [saved, setSaved] = useState<boolean | null>(null);
+  const focused = useIsFocused();
   useEffect(() => {
+    if (!focused) return undefined;
     let live = true;
     void services
       .passSaved()
@@ -45,7 +52,7 @@ export function usePassSaved(services: AccountServices): boolean | null {
     return () => {
       live = false;
     };
-  }, [services]);
+  }, [services, focused]);
   return saved;
 }
 
