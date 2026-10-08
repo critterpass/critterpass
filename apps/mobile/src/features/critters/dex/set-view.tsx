@@ -1,7 +1,8 @@
 /**
  * One place set (3l-8): the set's name and count, a bar with one segment per critter (lit once
  * found), and every critter as a cell. Locked cells show the city and "???", never the critter;
- * the four corner dots are its forms, lit in their tier colour. Found cells open the critter.
+ * the four corner dots are its forms, lit in their tier colour. Found cells open the critter; a
+ * locked one opens where to find it.
  */
 import { upper } from '@cp/i18n';
 import { useState } from 'react';
@@ -19,6 +20,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { unknownName } from '../critters-copy';
+import { PASS_TAB } from '../routes';
 import { CellArt } from './cell-art';
 import { gridTileWidth } from './grid';
 import { backToDex, homeSetEyebrow, lockedCell, pendingLabel } from './dex-copy';
@@ -47,7 +49,8 @@ function Cell({
 }: {
   readonly cell: CritterCell;
   readonly width: number;
-  readonly onOpen: () => void;
+  /** Absent when the cell leads nowhere (a locked critter with no form to look for). */
+  readonly onOpen: (() => void) | undefined;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -56,9 +59,9 @@ function Cell({
   const label = cell.found ? `${name}, ${cell.city}` : lockedCell(cell.city);
   return (
     <PressScale
-      accessibilityRole={cell.found ? 'button' : 'image'}
+      accessibilityRole={onOpen === undefined ? 'image' : 'button'}
       accessibilityLabel={label}
-      {...(cell.found ? { onPress: onOpen } : {})}
+      {...(onOpen === undefined ? {} : { onPress: onOpen })}
       style={[styles.cell, width > 0 ? { width } : { opacity: 0 }]}
       testID={`critters-set-cell-${cell.no}`}
     >
@@ -100,9 +103,11 @@ function Cell({
 export interface SetViewProps {
   readonly set: SetModel | null;
   readonly onOpenCritter: (critterId: string) => void;
+  /** Where to find a critter not found yet, by the first form still to find. */
+  readonly onOpenWhere?: (formId: string) => void;
 }
 
-export function SetView({ set, onOpenCritter }: SetViewProps) {
+export function SetView({ set, onOpenCritter, onOpenWhere }: SetViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
@@ -117,7 +122,11 @@ export function SetView({ set, onOpenCritter }: SetViewProps) {
         style={{ flex: 1 }}
       >
         <View style={styles.body}>
-          <BackEyebrow label={upper(backToDex(), locale)} testID="critters-set-back" />
+          <BackEyebrow
+            label={upper(backToDex(), locale)}
+            fallback={PASS_TAB}
+            testID="critters-set-back"
+          />
           {set === null ? null : (
             <>
               <Stack gap="2">
@@ -174,7 +183,13 @@ export function SetView({ set, onOpenCritter }: SetViewProps) {
                     key={cell.id}
                     cell={cell}
                     width={gridTileWidth(gridWidth, gridGap)}
-                    onOpen={() => onOpenCritter(cell.id)}
+                    onOpen={
+                      cell.found
+                        ? () => onOpenCritter(cell.id)
+                        : cell.nextFormId === null || onOpenWhere === undefined
+                          ? undefined
+                          : () => onOpenWhere(cell.nextFormId ?? '')
+                    }
                   />
                 ))}
               </Row>

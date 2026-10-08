@@ -34,7 +34,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { ApiRead, SetupServices } from '../../data/services';
 import { DEV, kyotoTrip, MAYA, sceneFrame, TRIP_ID, WINSTON } from '../../scenes/fixtures';
 import { AddMustDoSheet } from '../add-must-do-sheet';
-import { MustDosStep } from '../must-dos-step';
+import { draftStateOf, MustDosStep } from '../must-dos-step';
 import { MUST_DOS_SCENES } from '../scenes';
 import {
   renderPlain,
@@ -92,6 +92,21 @@ describe('adding a must-do', () => {
     await renderWith(stack, api.value, step(DEV));
     expect(await screen.findByText(/ramen crawl/i)).toBeTruthy();
     expect(screen.getByText(/sends when you’re back online/i)).toBeTruthy();
+  });
+});
+
+describe('a finished setup', () => {
+  it('leads the organiser to the draft, and everyone to the trip once the plan is out', () => {
+    const at = (status: string, isOrganiser: boolean, step = 'done') =>
+      draftStateOf({ step, status, isOrganiser });
+    expect(at('setup', true, 'must_dos')).toBeNull();
+    expect(at('drafting', true)).toBe('writing');
+    expect(at('draft_review', true)).toBe('ready');
+    // A member has no draft to open; the plan, once proposed, is theirs to open too.
+    expect(at('drafting', false)).toBeNull();
+    expect(at('proposed', false)).toBe('planned');
+    expect(at('confirmed', true)).toBe('planned');
+    expect(at('cancelled', true)).toBeNull();
   });
 });
 

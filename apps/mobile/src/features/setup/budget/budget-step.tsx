@@ -2,7 +2,8 @@
  * The budget step, connected: synced rows for the crew-level row and the price inputs, the band
  * route re-read on mount and on every budget hint, the member's own max from their own device, and
  * the commands. The organiser gets the sweet-spot view (with a row for their own max); everyone
- * else gets the write-only form. The knob's step is the server's (the band read's, or the one a
+ * else gets the write-only form; opened from the organiser's row or a member's "change", the form
+ * can be left as it was and the knob keeps its place. The knob's step is the server's (the band read's, or the one a
  * refused lock answers with, which is taken up and the lock sent once more).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, api paths and wire codes, never copy. */
@@ -23,7 +24,7 @@ import { useLiveRows } from '../data/rows';
 import { useSetupServices } from '../data/services';
 import { useSetupHints } from '../data/use-setup-channel';
 import type { StepProps } from '../shell/frame';
-import { BudgetView, type LockState } from './budget-view';
+import { BudgetView, EMPTY_PICK, type BudgetPick, type LockState } from './budget-view';
 import { useBudgetInputs } from './data/use-budget-inputs';
 import { saveOwnMax, useOwnMax } from './data/private-max';
 import { datesLabel } from './labels';
@@ -82,6 +83,9 @@ export function BudgetStep({ trip, shell }: StepProps) {
   const [lock, setLock] = useState<LockState>({ kind: 'idle' });
   const [attempts, setAttempts] = useState(0);
   const [editing, setEditing] = useState(false);
+  // The organiser's pick lives here, so it is still there after a visit to their own max.
+  const [pick, setPick] = useState<BudgetPick>(EMPTY_PICK);
+  const rereadFit = own.rereadFit;
 
   const readBand = useCallback(() => {
     void services
@@ -97,7 +101,10 @@ export function BudgetStep({ trip, shell }: StepProps) {
   }, [services, trip.tripId]);
   useEffect(readBand, [readBand]);
   useSetupHints(trip.tripId, (hint) => {
-    if (hint === null || hint.type === 'budget.band' || hint.type === 'budget.count') readBand();
+    if (hint === null || hint.type === 'budget.band' || hint.type === 'budget.count') {
+      readBand();
+      rereadFit();
+    }
   });
 
   const row = fresh ?? inputs.aggregate;
@@ -132,7 +139,9 @@ export function BudgetStep({ trip, shell }: StepProps) {
     const state = !own.loaded ? 'loading' : own.set && !editing ? 'set' : 'entry';
     return (
       <PrivateMaxView
-        key={`${state}:${prefillMinor ?? ''}`}
+        // Keyed by the state alone: a saved default that arrives late prefills an empty keypad,
+        // it never restarts one being typed on.
+        key={state}
         shell={shell}
         dates={dates}
         model={{
@@ -149,6 +158,7 @@ export function BudgetStep({ trip, shell }: StepProps) {
           counts,
         }}
         onChange={() => setEditing(true)}
+        onCancel={editing ? () => setEditing(false) : undefined}
         onSave={(amountMinor, entry, everyTrip) => {
           const value = { amountMinor, currency: entry };
           void submit
@@ -158,7 +168,9 @@ export function BudgetStep({ trip, shell }: StepProps) {
               currency: entry,
               source: 'entered',
             })
-            .then(() => saveOwnMax(db, trip.tripId, value, new Date(services.now())));
+            .then(() => saveOwnMax(db, trip.tripId, value, new Date(services.now())))
+            // The fit shown was for the old max: it is read again for this one.
+            .then(() => rereadFit(true));
           if (everyTrip) void usual.send({ amount_minor: amountMinor, currency: entry });
           setEditing(false);
         }}
@@ -183,6 +195,8 @@ export function BudgetStep({ trip, shell }: StepProps) {
           : initialTarget(band, track, inputs.lockedTargetMinor, unpriced ? days : undefined)
       }
       lock={lock}
+      pick={pick}
+      onPick={setPick}
       ownMax={<OwnMaxRow set={own.set} onChange={() => setEditing(true)} />}
       onLock={(target) => {
         const attempt = attempts + 1;

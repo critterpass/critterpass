@@ -44,10 +44,6 @@ msgstr ""
 msgid "setup.budget.stay.apartment"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
 #: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
 msgid "setup.budget.member.change"
@@ -110,6 +106,10 @@ msgid "setup.budget.stay.hotel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.keep"
+msgstr "このままにする"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
 msgid "setup.budget.member.loading"
 msgstr ""
 
@@ -123,10 +123,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.infeasible.hostels"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.never"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx

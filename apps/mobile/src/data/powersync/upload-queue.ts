@@ -6,6 +6,12 @@
  * or any other failure → the whole batch waits. Retries back off exponentially with jitter, and a
  * newer op never overtakes an older one. `SESSION_REVOKED` stops everything and hands over to the
  * sign-out hooks, which wipe the database.
+ *
+ * A batch the server refuses for good (a 4xx whose error says `retryable: false`; a missing session
+ * and a rate limit are not refusals) is never sent again on a timer: the same request can only get
+ * the same answer. `PAYLOAD_TOO_LARGE` is answered with half the batch; any other refusal, or one op
+ * too large on its own, holds the queue with its ops still in line and the code in `refused`, until
+ * `retryNow` (connectivity or foreground) or an explicit `flush` asks once more.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is SQL, a route path, a wire code or a developer-facing error, never copy. */
@@ -18,6 +24,7 @@ import {
   type QueuedCommandRow,
 } from './queue-store';
 import { wireError, type SyncTransport } from './transport';
+import { isRefusal, isRejected, results, type UploadResult } from './upload-responses';
 
 /** Server caps (services/api `MAX_SYNC_BATCH_OPS`, 1 MB body limit), with headroom on bytes. */
 export const MAX_BATCH_OPS = 500;
@@ -44,6 +51,11 @@ export interface UploadQueueState {
   /** The backoff chosen for the pending retry, in ms. */
   readonly retryDelayMs: number | null;
   readonly lastError: string | null;
+  /**
+   * The code of the refusal that holds the queue: nothing is retried on a timer and nothing queued
+   * behind it is sent. Null while the queue is sending, backing off or empty.
+   */
+  readonly refused: string | null;
 }
 
 export interface UploadQueueOptions {
@@ -55,34 +67,17 @@ export interface UploadQueueOptions {
   readonly now?: () => number;
 }
 
-interface UploadResult {
-  readonly status: 'applied' | 'rejected' | 'duplicate';
-  readonly code?: string;
-  readonly detail?: unknown;
-}
-
 type AttemptOutcome =
   | { readonly kind: 'progress' }
   | { readonly kind: 'empty' }
   | { readonly kind: 'retry'; readonly error: string; readonly retryAfterMs?: number }
+  | { readonly kind: 'refused'; readonly error: string }
   | { readonly kind: 'revoked' }
   | { readonly kind: 'stale' };
 
 export function backoffDelayMs(failures: number, policy: BackoffPolicy): number {
   const full = Math.min(policy.maxMs, policy.baseMs * 2 ** Math.max(0, failures - 1));
   return Math.round(full / 2 + policy.random() * (full / 2));
-}
-
-function isRejected(result: UploadResult): boolean {
-  // A duplicate that carries a code replays an op the server originally rejected.
-  return (
-    result.status === 'rejected' || (result.status === 'duplicate' && result.code !== undefined)
-  );
-}
-
-function results(body: unknown): UploadResult[] {
-  const list = (body as { results?: unknown } | null)?.results;
-  return Array.isArray(list) ? (list as UploadResult[]) : [];
 }
 
 export function createUploadQueue(options: UploadQueueOptions) {
@@ -97,6 +92,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
     nextRetryAt: null,
     retryDelayMs: null,
     lastError: null,
+    refused: null,
   };
   let state = idle;
   const listeners = new Set<(next: UploadQueueState) => void>();
@@ -106,12 +102,15 @@ export function createUploadQueue(options: UploadQueueOptions) {
   let timer: ReturnType<typeof setTimeout> | null = null;
   let recovered = false;
   let stopped = false;
+  // Halved each time the server says a batch is too large; full again once a batch gets through.
+  let batchOps = maxOps;
 
   const SUCCESS: Partial<UploadQueueState> = {
     failures: 0,
     nextRetryAt: null,
     retryDelayMs: null,
     lastError: null,
+    refused: null,
   };
 
   function setState(patch: Partial<UploadQueueState>) {
@@ -166,7 +165,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
     const rows = await db.getAll<QueuedCommandRow>(
       `SELECT id, seq, cmd, envelope, summary, status, attempts FROM commands
         WHERE status != 'done' ORDER BY seq LIMIT ?`,
-      [maxOps],
+      [batchOps],
     );
     const batch: QueuedCommandRow[] = [];
     let bytes = 0;
@@ -207,6 +206,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
       await settleBatch(batch, outcomes, 'MISSING_RESULT', () => {
         if (outcomes.length > 0 && gen === generation) setState(SUCCESS);
       });
+      if (outcomes.length > 0) batchOps = maxOps;
       return outcomes.length > 0
         ? { kind: 'progress' }
         : { kind: 'retry', error: 'MISSING_RESULT' };
@@ -220,6 +220,14 @@ export function createUploadQueue(options: UploadQueueOptions) {
       await settleBatch(batch, results(detail).slice(0, firstUnprocessed), code);
     } else {
       await db.writeTransaction((tx) => requeueCommands(tx, ids, code));
+    }
+    if (isRefusal(response.status, error)) {
+      if (code !== 'PAYLOAD_TOO_LARGE' || batch.length === 1) {
+        return { kind: 'refused', error: code };
+      }
+      // A smaller batch is a different request: the older half goes first, at once.
+      batchOps = Math.floor(batch.length / 2);
+      return { kind: 'progress' };
     }
     const retryAfterS = (error?.detail as { retry_after_s?: unknown } | undefined)?.retry_after_s;
     return {
@@ -244,6 +252,19 @@ export function createUploadQueue(options: UploadQueueOptions) {
       nextRetryAt: now() + delay,
       retryDelayMs: delay,
       lastError: outcome.error,
+      refused: null,
+    });
+  }
+
+  /** Holds the queue where it is: its ops stay in line and no timer sends them again. */
+  function hold(code: string) {
+    clearTimer();
+    setState({
+      failures: state.failures + 1,
+      nextRetryAt: null,
+      retryDelayMs: null,
+      lastError: code,
+      refused: code,
     });
   }
 
@@ -262,6 +283,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
         if (outcome.kind === 'progress') continue;
         if (outcome.kind === 'empty') setState(SUCCESS);
         if (outcome.kind === 'retry') scheduleRetry(outcome);
+        if (outcome.kind === 'refused') hold(outcome.error);
         if (outcome.kind === 'revoked') {
           generation += 1;
           setState({ sending: false });
@@ -290,7 +312,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
     clearTimer();
     running = run().finally(() => {
       running = null;
-      if (rerun && timer === null && !stopped) {
+      if (rerun && timer === null && state.refused === null && !stopped) {
         rerun = false;
         void flush();
       }
@@ -301,9 +323,9 @@ export function createUploadQueue(options: UploadQueueOptions) {
 
   return {
     flush,
-    /** A new op was queued: send it now unless a backoff is pending. */
+    /** A new op was queued: send it now unless a backoff is pending or a refusal holds the queue. */
     schedule(): void {
-      if (timer === null) void flush();
+      if (timer === null && state.refused === null) void flush();
     },
     /** Connectivity came back or the app returned to the foreground: skip any pending backoff. */
     async retryNow(): Promise<void> {
@@ -317,6 +339,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
       generation += 1;
       clearTimer();
       recovered = false;
+      batchOps = maxOps;
       setState(idle);
     },
     /**

@@ -29,6 +29,13 @@ const useStyles = makeStyles((th) => ({
     justifyContent: 'center',
     overflow: 'hidden',
   },
+  // A day button is drawn the size of a day (touch slop makes up the target), so the picker's
+  // grid, bands and outline match the read-only calendar's.
+  press: {
+    height: th.space['32'] + th.space['8'],
+    minHeight: th.space['32'] + th.space['8'],
+    minWidth: 0,
+  },
   fill: { position: 'absolute', top: 0, bottom: 0, start: 0, end: 0 },
   closed: { opacity: 0.4 },
 }));
@@ -127,6 +134,7 @@ export function HeatCell({ day, total, band, label, onPress, closed = false }: H
     <PressScale
       onPress={onPress}
       widthClass="narrow"
+      style={styles.press}
       accessibilityLabel={label}
       accessibilityState={{ selected: inBand }}
       testID={`heat-pick-${day.date}`}

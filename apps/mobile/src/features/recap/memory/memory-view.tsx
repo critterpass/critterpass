@@ -23,7 +23,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLoop } from '@/motion';
 import { bezierEasing } from '@/motion/easing';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Row } from '@/ui/layout/Row';
@@ -32,6 +31,7 @@ import { Tag } from '@/ui/plan/ActionPill';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
+import { CloseButton } from '@/ui/sheet/CloseButton';
 import { Text } from '@/ui/text/Text';
 import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -184,13 +184,7 @@ export function MemoryView(props: MemoryViewProps) {
             align="center"
           >
             <Tag label={props.eyebrow} color={theme.color.yellow} />
-            <IconButton
-              label={t({ id: 'recap.memory.close', message: 'Close' })}
-              glyph={<Text variant="h3">✕</Text>}
-              surface="onPhoto"
-              onPress={props.onClose}
-              testID="memory-close"
-            />
+            <CloseButton onPress={props.onClose} testID="memory-close" />
           </Row>
         </View>
         <View style={styles.body}>

@@ -4,6 +4,7 @@
  * set's own page (3l-8).
  */
 import { upper } from '@cp/i18n';
+import { memo } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -33,6 +34,8 @@ const useStyles = makeStyles((th) => ({
     paddingVertical: th.space['10'],
     paddingHorizontal: th.space['14'],
   },
+  // Drawn inside the row's own box, so outlining it never moves the list.
+  landed: { outlineWidth: th.space['2'], outlineColor: th.semantic.action.primary },
 }));
 
 function Art({ cell, size }: { readonly cell: CritterCell; readonly size: number }) {
@@ -47,6 +50,7 @@ function Art({ cell, size }: { readonly cell: CritterCell; readonly size: number
       found={cell.found}
       gold={cell.gold}
       glyph={false}
+      breathe={false}
       testID={`critters-cell-${cell.no}`}
     />
   );
@@ -55,9 +59,12 @@ function Art({ cell, size }: { readonly cell: CritterCell; readonly size: number
 export function HomeSetCard({
   set,
   onOpen,
+  landed = false,
 }: {
   readonly set: SetModel;
   readonly onOpen: (id: string) => void;
+  /** A critter just landed here: the card is outlined for a moment. */
+  readonly landed?: boolean;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -69,7 +76,7 @@ export function HomeSetCard({
       accessibilityRole="button"
       accessibilityLabel={`${set.name}, ${count}`}
       widthClass="wide"
-      style={styles.card}
+      style={[styles.card, landed ? styles.landed : null]}
       testID="critters-home-set"
     >
       <Row justify="space-between" align="baseline">
@@ -87,12 +94,15 @@ export function HomeSetCard({
   );
 }
 
-export function PlaceRow({
+export const PlaceRow = memo(function PlaceRow({
   set,
   onOpen,
+  landed = false,
 }: {
   readonly set: SetModel;
   readonly onOpen: (id: string) => void;
+  /** A critter just landed here: the row is outlined for a moment. */
+  readonly landed?: boolean;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -104,7 +114,7 @@ export function PlaceRow({
       accessibilityRole="button"
       accessibilityLabel={`${set.name}, ${count}`}
       widthClass="wide"
-      style={styles.row}
+      style={[styles.row, landed ? styles.landed : null]}
       testID={`critters-set-${set.rank ?? set.country}`}
     >
       <Row gap="10" align="center">
@@ -129,4 +139,4 @@ export function PlaceRow({
       </Row>
     </PressScale>
   );
-}
+});

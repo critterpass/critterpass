@@ -159,6 +159,7 @@ msgstr ""
 msgid "setup.addMustDo.more.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr ""
@@ -199,13 +200,25 @@ msgstr ""
 msgid "setup.mustDos.seeDraft"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.seeTrip"
+msgstr "Ver el viaje"
+
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.doneLineMember"
+msgstr "Preparación lista. {guideName} está armando el viaje con {organiser}."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.doneLine"
 msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.plannedLine"
+msgstr "La preparación terminó y el plan está hecho."
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.unavailable"

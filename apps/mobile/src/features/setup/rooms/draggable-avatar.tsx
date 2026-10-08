@@ -30,6 +30,8 @@ const useStyles = makeStyles((th) => ({
     borderColor: 'transparent',
   },
   picked: { borderColor: th.ring.focus.color },
+  // The touch target is taller than the avatar: the avatar sits in its middle, on the row's line.
+  press: { alignItems: 'center', justifyContent: 'center' },
 }));
 
 export interface DraggableAvatarProps {
@@ -116,6 +118,7 @@ export function DraggableAvatar({
             accessibilityLabel={label}
             accessibilityState={{ selected }}
             widthClass="narrow"
+            style={styles.press}
             testID={`setup-rooms-person-${uid}`}
           >
             {face}

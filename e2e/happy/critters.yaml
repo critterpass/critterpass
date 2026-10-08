@@ -2,9 +2,10 @@ appId: app.critterpass.dev
 ---
 # Release gate: the Critterdex for a brand-new traveller. A fresh account (onboarded through the
 # app, no crew, no trip) opens the PASS tab: the catalogue has synced from staging, nothing is
-# found yet, FOUND says so, and a ranked place opens its set page with every critter still a
-# silhouette. With a home set, Explore at home is turned on through the api and is still on after
-# a relaunch.
+# found yet (the guide says how critters are met), FOUND says so, and a ranked place opens its set
+# page with every critter still a silhouette; back from it, the dex is where it was left. A link
+# to a critter that does not exist says so, with a way back. With a home set, Explore at home is
+# turned on through the api and is still on after a relaunch.
 - runFlow:
     file: subflows/fresh-account.yaml
 - tapOn:
@@ -17,6 +18,11 @@ appId: app.critterpass.dev
     text: 'YOUR CRITTERDEX'
 - assertNotVisible:
     id: 'critters-here-now'
+- assertVisible:
+    id: 'critters-dex-first-hint'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-2-pass-nothing-found
 - tapOn:
     text: 'FOUND'
 - extendedWaitUntil:
@@ -38,12 +44,56 @@ appId: app.critterpass.dev
     timeout: 10000
 - assertVisible:
     id: 'critters-set-back'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-8-set-nothing-found
 - tapOn:
     id: 'critters-set-back'
+# The dex is where it was left: the place that was opened is still on screen, with no scrolling.
 - extendedWaitUntil:
     visible:
-      id: 'critters-dex-header'
+      id: 'critters-set-1'
     timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-2-pass-after-set-return
+# The same after another tab has been in front.
+- tapOn:
+    id: 'tab-home'
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-set-1'
+    timeout: 10000
+- takeScreenshot: en-3l-2-pass-after-tab-switch
+# A critter this phone does not have: "not here", and back to the dex.
+- openLink: critterpass-dev://critters/0192f000-0000-7000-8000-00000000dead
+- extendedWaitUntil:
+    visible:
+      id: 'critters-detail-missing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-3-critter-missing
+- tapOn:
+    id: 'critters-detail-missing-back'
+- extendedWaitUntil:
+    visible:
+      id: 'tab-pass'
+    timeout: 10000
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-dex-header'
+    commands:
+      - tapOn:
+          id: 'tab-pass'
+- scrollUntilVisible:
+    element:
+      id: 'critters-dex-header'
+    direction: UP
+    timeout: 20000
 - runFlow:
     when:
       visible:

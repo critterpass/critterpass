@@ -299,6 +299,30 @@ describe('unread', () => {
 });
 
 describe('reactions', () => {
+  it('reads only the reactions on the newest messages the timeline has loaded', async () => {
+    const stack = await open();
+    await seed(stack);
+    const [oldest, middle, newest] = [
+      await synced(stack, 1, MAYA, 'first'),
+      await synced(stack, 2, LEO, 'second'),
+      await synced(stack, 3, MAYA, 'third'),
+    ];
+    for (const [index, message] of [oldest, middle, newest].entries()) {
+      await stack.db.execute(
+        `INSERT INTO message_reactions (id, message_id, crew_id, user_id, emoji, created_at)
+         VALUES (?, ?, ?, ?, '🔥', ?)`,
+        [`window-${index}`, message, CREW, LEO, String(index)],
+      );
+    }
+
+    const loaded = await loadReactions(stack.db, CREW, stack.uid, 2);
+    expect([...loaded.keys()].sort()).toEqual([middle, newest].sort());
+
+    // Loading an older window brings its reactions with it.
+    const wider = await loadReactions(stack.db, CREW, stack.uid, 3);
+    expect([...wider.keys()].sort()).toEqual([oldest, middle, newest].sort());
+  });
+
   it('groups per emoji with who reacted, and toggles with an explicit outcome', async () => {
     const stack = await open();
     await seed(stack);

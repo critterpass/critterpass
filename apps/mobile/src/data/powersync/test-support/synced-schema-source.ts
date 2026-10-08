@@ -2,7 +2,7 @@
  * Renders `../synced-tables.generated.ts` from the Drizzle schema: one PowerSync table per table in
  * the `powersync` publication allow-list, plus each table a stream fills by alias (`FROM place_cards
  * AS pois` keeps the phone's `pois` table while `pois` itself is not published), one column per
- * Drizzle column. Run as its own Node
+ * Drizzle column, and the local indexes listed in `./local-indexes`. Run as its own Node
  * process (`tsx`), never bundled: the app may not import `@cp/db` (server-only, lint-enforced), so
  * the server package is loaded by file path at generation time only.
  *
@@ -19,6 +19,8 @@ import { writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+
+import { LOCAL_INDEXES, type LocalIndex } from './local-indexes';
 
 interface DrizzleColumn {
   readonly name: string;
@@ -91,6 +93,29 @@ function columnSpec(column: DrizzleColumn): string {
   return type === 'text' ? column.name : `${column.name}:${type}`;
 }
 
+/** Every listed index, by table; an index on a table or column the phone does not hold is an error. */
+function indexesByTable(
+  tables: readonly DrizzleTableConfig[],
+  indexes: readonly LocalIndex[],
+): Map<string, LocalIndex[]> {
+  const byTable = new Map<string, LocalIndex[]>();
+  for (const index of indexes) {
+    const label = `${index.table}.${index.name}`;
+    const table = tables.find((candidate) => candidate.name === index.table);
+    if (table === undefined) throw new Error(`index ${label}: the table is not synced`);
+    const unknown = index.columns.filter((name) => !table.columns.some((c) => c.name === name));
+    if (index.columns.length === 0 || unknown.length > 0) {
+      throw new Error(`index ${label}: unknown or missing columns ${unknown.join(', ')}`);
+    }
+    const listed = byTable.get(index.table) ?? [];
+    if (listed.some((other) => other.name === index.name)) {
+      throw new Error(`index ${label}: listed twice`);
+    }
+    byTable.set(index.table, [...listed, index]);
+  }
+  return byTable;
+}
+
 function render(tables: readonly DrizzleTableConfig[]): string {
   const lines = [
     '/**',
@@ -99,7 +124,8 @@ function render(tables: readonly DrizzleTableConfig[]): string {
     ' * src/data/powersync/test-support/synced-schema-source.ts --write`; the synced-schema test',
     " * fails whenever this file and the server schema disagree. Each value lists the table's columns",
     ' * (`name` = text, `name:integer`, `name:real`); PowerSync adds `id` itself, and streams alias',
-    ' * another key to `id` where a table has none.',
+    ' * another key to `id` where a table has none. The indexes come from',
+    ' * test-support/local-indexes.ts, which says what each one is for.',
     ' */',
     '/* eslint-disable lingui/no-unlocalized-strings -- column lists, never rendered copy. */',
     'export const SYNCED_TABLE_COLUMNS = {',
@@ -111,7 +137,24 @@ function render(tables: readonly DrizzleTableConfig[]): string {
       .join(' ');
     lines.push(`  ${table.name}: '${spec}',`);
   }
-  lines.push('} as const;', '');
+  lines.push(
+    '} as const;',
+    '',
+    '/** Local indexes per table: index name → its columns, in order. */',
+    'export const SYNCED_TABLE_INDEXES: Partial<',
+    '  Record<keyof typeof SYNCED_TABLE_COLUMNS, Readonly<Record<string, readonly string[]>>>',
+    '> = {',
+  );
+  const indexes = indexesByTable(tables, LOCAL_INDEXES);
+  for (const table of tables) {
+    const listed = indexes.get(table.name);
+    if (listed === undefined) continue;
+    const entries = listed.map(
+      (index) => `${index.name}: [${index.columns.map((name) => `'${name}'`).join(', ')}]`,
+    );
+    lines.push(`  ${table.name}: { ${entries.join(', ')} },`);
+  }
+  lines.push('};', '');
   return lines.join('\n');
 }
 
