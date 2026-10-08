@@ -34,6 +34,10 @@ msgstr ""
 msgid "stickers.how.settledNoPlace"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
+msgid "stickers.detail.missingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
 msgid "stickers.shelf.empty"
 msgstr ""
@@ -48,4 +52,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
 msgid "stickers.shelf.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
+msgid "stickers.detail.missingTitle"
 msgstr ""

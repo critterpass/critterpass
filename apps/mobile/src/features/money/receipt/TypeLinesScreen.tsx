@@ -4,14 +4,14 @@
  */
 import { generateUuidV7 } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { feedback } from '@/motion';
-import { toast } from '@/motion/island-toast';
+import { goBackOr } from '@/lib/navigation/back';
+import { useCommandFeedback } from '@/motion/island-toast';
 
 import { pressKey } from '../add-expense/draft';
+import { MONEY_FALLBACK } from '../components/screen-states';
 import { addExpenseCommand } from '../data/commands';
 import type { MoneyContext } from '../data/use-money-context';
 import { MemberPicker } from './MemberPicker';
@@ -28,7 +28,12 @@ export function TypeLinesScreen({
   readonly receiptId: string | null;
 }) {
   const { t } = useLingui();
+  const { report } = useCommandFeedback();
   const add = useCommand(addExpenseCommand);
+  // The typed receipt is one expense: its id is made once and its command goes out once, however
+  // often SPLIT IT is tapped.
+  const [expenseId] = useState(() => generateUuidV7());
+  const taken = useRef(false);
   const [lines, setLines] = useState<readonly TypedLine[]>(() => prefillLines(parsed));
   const [focus, setFocus] = useState<string | null>(lines[lines.length - 1]?.id ?? null);
   const [picker, setPicker] = useState<string | null>(null);
@@ -51,23 +56,24 @@ export function TypeLinesScreen({
       members: ids,
       payerId,
       totalMinor,
-      expenseId: generateUuidV7(),
+      expenseId,
       tripId: ctx.trip.id,
       fxSnapshotId: null,
       merchant: parsed?.merchant ?? null,
     });
-    if (payload === null) return;
-    const result = await add.send(payload);
-    if (result.kind === 'rejected' || result.kind === 'unavailable') {
-      feedback.emit('error');
+    if (payload === null || taken.current) return;
+    taken.current = true;
+    // Queued counts: the expense is on the phone and sends by itself.
+    const outcome = report(await add.send(payload), {
+      id: 'money-typed',
+      offlineCapable: true,
+      done: t({ id: 'money.typeLines.added', message: 'Split. Balances re-count.' }),
+    });
+    if (outcome === 'refused' || outcome === 'needs-signal') {
+      taken.current = false;
       return;
     }
-    feedback.emit('success');
-    toast.show({
-      id: 'money-typed',
-      title: t({ id: 'money.typeLines.added', message: 'Split. Balances re-count.' }),
-    });
-    router.back();
+    goBackOr(MONEY_FALLBACK);
   }
 
   const pickerLine = lines.find((line) => line.id === picker) ?? null;

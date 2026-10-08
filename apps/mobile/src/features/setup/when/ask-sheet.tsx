@@ -5,12 +5,12 @@
  * is). Answers queue offline (`answer_availability_ask`).
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
 import { useState } from 'react';
 
 import type { AskAnswer } from '@cp/domain';
 
 import { useCommand } from '@/data/commands/use-command';
+import { goBackOr } from '@/lib/navigation/back';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
@@ -23,7 +23,9 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { answerAvailabilityAskCommand } from '../data/commands';
 import { useSetupTrip, type SetupTrip } from '../data/setup-trip';
 import { useMe } from '../data/use-me';
+import { setupRoutes } from '../routes';
 import { GuideNote, guideName } from '../shell/guide-note';
+import { SetupSheetWaiting } from '../shell/sheet-waiting';
 
 const FREED: AskAnswer = 'freed';
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
@@ -153,12 +155,12 @@ export function AskSheet({
       busy={answer.pending}
       onAnswer={(value) => send({ answer: value })}
       onWords={(text) => send({ text })}
-      onDismiss={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onDismiss={() => goBackOr(setupRoutes.step(trip.tripId, 'when'))}
     />
   );
 }
 
-/** Loads the trip's facts, then the sheet (nothing while the trip is still syncing). */
+/** Loads the trip's facts, then the sheet (a skeleton until then; a way out when it is not here). */
 export function AskSheetScreen({
   tripId,
   askId,
@@ -170,6 +172,15 @@ export function AskSheetScreen({
 }) {
   const me = useMe();
   const trip = useSetupTrip(tripId, me);
-  if (trip === undefined || trip === null) return null;
+  if (trip === undefined || trip === null) {
+    return (
+      <SetupSheetWaiting
+        state={trip === undefined ? 'loading' : 'missing'}
+        title={t({ id: 'setup.ask.title', message: 'About your maybe days' })}
+        onDismiss={() => goBackOr(setupRoutes.step(tripId, 'when'))}
+        testID="ask-sheet-waiting"
+      />
+    );
+  }
   return <AskSheet trip={trip} askId={askId} answered={answered} />;
 }

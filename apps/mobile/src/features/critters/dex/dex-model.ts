@@ -48,6 +48,8 @@ export interface CritterCell {
   readonly form: FormSpec | null;
   /** Unfound, and only ever met in a legendary window: its silhouette is gold. */
   readonly gold: boolean;
+  /** The first form still to find (lowest tier first), for "where to find it"; null when all are owned. */
+  readonly nextFormId: string | null;
 }
 
 export interface SetModel {
@@ -153,6 +155,11 @@ function cellsFor(input: DexInput): Map<string, CritterCell> {
       .filter((f): f is FormRow => f !== undefined)
       .sort((a, b) => RARITY_ORDER.indexOf(b.rarity) - RARITY_ORDER.indexOf(a.rarity))[0];
     const found = verified.length > 0;
+    const owned = new Set(verified.map((e) => e.form_id));
+    const next = (formsOf.get(critter.id) ?? [])
+      .map((id) => formsById.get(id))
+      .filter((f): f is FormRow => f !== undefined && !owned.has(f.id))
+      .sort((a, b) => RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity))[0];
     cells.set(critter.id, {
       id: critter.id,
       key: critter.key,
@@ -166,6 +173,7 @@ function cellsFor(input: DexInput): Map<string, CritterCell> {
       lit,
       form: best === undefined ? null : formSpec(best),
       gold: !found && goldCritters.has(critter.id),
+      nextFormId: next?.id ?? null,
     });
   }
   return cells;
@@ -200,27 +208,42 @@ function legendaryOnDates(input: DexInput, cells: Map<string, CritterCell>) {
   return null;
 }
 
+function setModelOf(
+  set: SetRow,
+  cells: ReadonlyMap<string, CritterCell>,
+  homeSetId: string | null,
+): SetModel {
+  const members = [...cells.values()]
+    .filter((cell) => cell.setId === set.id)
+    .sort((a, b) => a.no - b.no);
+  return {
+    id: set.id,
+    name: set.name,
+    rank: set.rank,
+    country: set.country,
+    found: members.filter((c) => c.found).length,
+    total: members.length,
+    home: set.id === homeSetId,
+    cells: members,
+  };
+}
+
+/** What one set's page reads: the set's own row, its critters and their forms, and the viewer. */
+export type SetInput = Pick<DexInput, 'critters' | 'forms' | 'entries' | 'windows' | 'me'>;
+
+/** One set on its own (3l-8), from the rows of that set only. */
+export function buildSet(set: SetRow, input: SetInput): SetModel {
+  const cells = cellsFor({ ...input, sets: [set], trips: [], crewCounts: [] });
+  return setModelOf(set, cells, homeSetFor(input.me?.home_country ?? null, [set])?.id ?? null);
+}
+
 export function buildDex(input: DexInput): DexModel {
   const cells = cellsFor(input);
   const homeSet = homeSetFor(input.me?.home_country ?? null, input.sets);
   const hereTrip = input.trips.find((t) => t.status === 'in_trip' && t.critter_set_id !== null);
   const hereSetId = hereTrip?.critter_set_id ?? null;
   const legendary = legendaryOnDates(input, cells);
-  const setModel = (set: SetRow): SetModel => {
-    const members = [...cells.values()]
-      .filter((cell) => cell.setId === set.id)
-      .sort((a, b) => a.no - b.no);
-    return {
-      id: set.id,
-      name: set.name,
-      rank: set.rank,
-      country: set.country,
-      found: members.filter((c) => c.found).length,
-      total: members.length,
-      home: set.id === homeSet?.id,
-      cells: members,
-    };
-  };
+  const setModel = (set: SetRow): SetModel => setModelOf(set, cells, homeSet?.id ?? null);
   const byId = new Map(input.sets.map((set) => [set.id, set]));
   const sections = dexSections({
     sets: input.sets,
@@ -304,28 +327,8 @@ function emptyCell(setId: string): CritterCell {
     lit: [],
     form: null,
     gold: false,
+    nextFormId: null,
   };
 }
 
-/** The sets and cells a filter and a place search leave (sets with nothing left drop out). */
-export function filterSets(
-  sets: readonly SetModel[],
-  filter: DexFilter,
-  near: ReadonlySet<string>,
-  query: string,
-): SetModel[] {
-  const q = query.trim().toLocaleLowerCase();
-  return sets
-    .map((set) => {
-      const placeHit = q === '' || set.name.toLocaleLowerCase().includes(q);
-      const cells = set.cells.filter(
-        (cell) =>
-          (filter === 'all' ||
-            (filter === 'found' && (cell.found || cell.pending)) ||
-            (filter === 'near' && near.has(cell.id))) &&
-          (placeHit || cell.city.toLocaleLowerCase().includes(q)),
-      );
-      return { ...set, cells };
-    })
-    .filter((set) => set.cells.length > 0);
-}
+export { filterSets, setOfCritter } from './dex-filter';

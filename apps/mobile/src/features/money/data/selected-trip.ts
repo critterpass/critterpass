@@ -1,6 +1,7 @@
 /**
  * The trip the member picked on Balances, shared by every money screen for the session (the
- * default pick is the trip under way, so this is only set when they switch).
+ * default pick is the trip under way, so this is only set when they switch). A screen opened for
+ * one trip (a chat card, the guide's camera) passes that trip to `useMoneyContext` beside it.
  */
 import { useSyncExternalStore } from 'react';
 

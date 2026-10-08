@@ -37,7 +37,8 @@ import {
   type MemberRow,
   type TripRow,
 } from '../hub/data/queries';
-import { TODAY, tripDayRoute } from '../hub/routes';
+import { forecastHref } from '../hub/hub-disruptions';
+import { TODAY, tripDayRoute, tripHubRoute, tripOfflineRoute } from '../hub/routes';
 import {
   addPackingItemCommand,
   checkPackingItemCommand,
@@ -193,6 +194,11 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
           : undefined
       }
       forecast={forecast === null ? null : forecastLabel(forecast.tempC, forecast.atTheTop, locale)}
+      backFallback={tripHubRoute(tripId)}
+      onOffline={() => router.push(tripOfflineRoute(tripId))}
+      onForecast={
+        tripRow?.destination_id == null ? undefined : () => router.push(forecastHref(tripId))
+      }
       leaveBy={leaveBy}
       now={now}
       guideName={guideName}

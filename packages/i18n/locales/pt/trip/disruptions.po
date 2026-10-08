@@ -403,6 +403,10 @@ msgstr ""
 msgid "trip.disruptions.late.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.queued"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.seat.notConfirmed"
 msgstr ""
@@ -441,6 +445,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.tellCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
@@ -492,6 +500,7 @@ msgid "trip.disruptions.late.told"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/screen.tsx
 msgid "trip.disruptions.flight.backTo"
 msgstr ""
 

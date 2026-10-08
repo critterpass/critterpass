@@ -67,6 +67,8 @@ export interface TripMapViewProps {
   readonly onDayNo: (dayNo: number) => void;
   readonly route: DayRoute;
   readonly initialSnap?: MapSheetSnap | undefined;
+  /** False while another screen covers the map: its camera waits. @default true */
+  readonly focused?: boolean | undefined;
   readonly onShare: () => void;
   readonly onOpenDay: (dayNo: number) => void;
   readonly onBack: () => void;
@@ -147,6 +149,9 @@ export function TripMapView(props: TripMapViewProps) {
     // Room for a pin and its number inside the part of the map that shows.
     covered: { top: clear.top + PIN_ROOM, bottom: clear.bottom + PIN_ROOM },
     bounds,
+    active: props.focused ?? true,
+    // A pin or a row she picked moves the camera to it: no later check pulls it back to the day.
+    holdKey: picked === null ? null : `${picked.kind}:${picked.id}`,
   });
   // The map opens already on the day's stops: the first fit can be lost while the style loads.
   const [opening] = useState(() => {

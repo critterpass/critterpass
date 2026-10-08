@@ -99,6 +99,12 @@ describe('dates step model', () => {
     expect(whenMode([], 0)).toBe('empty');
   });
 
+  it('is the locked layout once the dates are decided, whatever the options say', () => {
+    const best = toOption({ ...OPTION, kind: 'best', free_count: 6 });
+    expect(whenMode([best], 6, null, true)).toBe('locked');
+    expect(whenMode([], 0, null, true)).toBe('locked');
+  });
+
   it('never puts forward a week that starts before the earliest day worth suggesting', () => {
     const soon = toOption({ ...OPTION, kind: 'best', start_date: '2027-04-02' });
     expect(whenMode([soon], 1, '2027-04-04')).toBe('pick');

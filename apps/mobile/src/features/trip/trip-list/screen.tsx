@@ -1,7 +1,8 @@
 /**
  * The TRIPS tab's root: with one trip it is that trip's hub; with more it is the trip switcher,
- * one row per trip not archived ("Bali · in progress", "Kyoto · voting"), called-off trips in their
- * own group at the foot; with none, a way back to Home to start one.
+ * one row per trip not archived: under way, coming up, then being planned ("Bali · in progress",
+ * "Kyoto · voting"), with trips that are over and trips called off in their own groups at the foot.
+ * With no trip ahead, a way back to Home to start one.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and route paths, never copy. */
 import { router } from 'expo-router';
@@ -23,7 +24,8 @@ export const MY_TRIPS_SQL = `SELECT t.id, t.status, t.start_date, t.end_date,
   WHERE t.status <> 'archived'
     AND (t.id IN (SELECT trip_id FROM trip_participants WHERE user_id = ?1)
       OR t.crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = ?1 AND status = 'active'))
-  ORDER BY CASE t.status WHEN 'in_trip' THEN 0 WHEN 'pre_trip' THEN 1 WHEN 'cancelled' THEN 3 ELSE 2 END,
+  ORDER BY CASE t.status WHEN 'in_trip' THEN 0 WHEN 'pre_trip' THEN 1 WHEN 'post_trip' THEN 3
+      WHEN 'cancelled' THEN 4 ELSE 2 END,
     coalesce(t.start_date, '9999'), t.created_at`;
 const TABLES = ['trips', 'destinations', 'guides', 'trip_participants', 'crew_members'];
 

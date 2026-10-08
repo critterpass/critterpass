@@ -49,10 +49,15 @@ import {
 } from './range';
 
 const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
+  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['16'], gap: th.space['10'] },
   chips: { flexWrap: 'wrap', gap: th.space['8'] },
   summary: { gap: th.space['4'] },
-  footer: { paddingHorizontal: th.space['20'], paddingTop: th.space['8'], gap: th.space['8'] },
+  footer: {
+    paddingHorizontal: th.space['20'],
+    paddingTop: th.space['8'],
+    paddingBottom: th.space['8'],
+    gap: th.space['10'],
+  },
 }));
 
 export interface WeekPickerProps {
@@ -214,6 +219,7 @@ export function WeekPicker({
             today={today}
             onSelectDay={(date) => setPick((current) => tapDay(current, date, ghost))}
             onDrag={onDrag}
+            flat
             testID="picker"
           />
         </Stack>
@@ -269,10 +275,12 @@ export function WeekPicker({
             {failure}
           </Text>
         )}
-        {picked !== null && problem === null ? (
+        {/* A range too long to lock keeps its button, dimmed, so the sheet's end does not jump. */}
+        {picked !== null ? (
           <PillButton
             label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}
             loading={busy}
+            disabled={problem !== null}
             onPress={() => onLock(picked.start, picked.end)}
             testID="picker-lock"
           />

@@ -189,6 +189,21 @@ describe('inbox', () => {
     expect(await queued(s, 'mark_inbox_read')).toEqual([{ all: true }]);
   });
 
+  it('marks what is unread, and offers mark-all-read only while something is', async () => {
+    const s = await open();
+    const { joined, moved } = await seedEarlier(s);
+    await renderHome(<InboxScreen />, s);
+    await until(() => screen.queryByTestId(`inbox-unread-${joined}`) !== null);
+    expect(screen.getByTestId('inbox-mark-all-read')).toBeTruthy();
+    // Neither row has anywhere to go: plain lines, not buttons that do nothing.
+    expect(screen.getByTestId(`inbox-row-${joined}`).props.accessibilityRole).toBeUndefined();
+
+    await s.db.execute("UPDATE inbox_items SET read_at = '2026-09-28T10:00:00Z'");
+    await until(() => screen.queryByTestId(`inbox-unread-${joined}`) === null);
+    expect(screen.queryByTestId(`inbox-unread-${moved}`)).toBeNull();
+    expect(screen.queryByTestId('inbox-mark-all-read')).toBeNull();
+  });
+
   it('filters to the crew and to the guides', async () => {
     const s = await open();
     await seedNudge(s);

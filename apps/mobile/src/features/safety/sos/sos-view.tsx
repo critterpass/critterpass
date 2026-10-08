@@ -68,6 +68,7 @@ function Pair({ primary, secondary }: { readonly primary: Cta; readonly secondar
           label={secondary.label}
           variant="secondary"
           block
+          disabled={secondary.disabled ?? false}
           onPress={secondary.onPress}
           testID={secondary.testID}
         />
@@ -84,6 +85,7 @@ function Actions(props: SosViewProps) {
   const ok: Cta = {
     label: t({ id: 'safety.sos.imOk', message: "I'm OK" }),
     onPress: props.onOk,
+    disabled: props.busy,
     testID: 'sos-ok',
   };
   if (model.state === 'resolved') {
@@ -103,6 +105,7 @@ function Actions(props: SosViewProps) {
         primary={{
           label: t({ id: 'safety.sos.sendNow', message: 'Send now' }),
           onPress: props.onSendAgain,
+          disabled: props.busy,
           testID: 'sos-send-now',
         }}
         secondary={ok}

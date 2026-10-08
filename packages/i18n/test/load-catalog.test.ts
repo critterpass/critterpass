@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
+import type { Messages } from '@lingui/core';
+
+import { catalogRegistry } from '../src/catalog-registry/index';
 import type { CatalogRegistry } from '../src/load-catalog';
 import { loadAllCatalogs, loadCatalog } from '../src/load-catalog';
 
@@ -44,5 +47,34 @@ describe('loadAllCatalogs', () => {
 
   it('resolves an empty object for an unregistered locale', async () => {
     await expect(loadAllCatalogs('xx-XX', fixtureRegistry)).resolves.toEqual({});
+  });
+
+  it('lets a later area win a shared id, as merging one area after another always has', async () => {
+    const registry: CatalogRegistry = {
+      en: {
+        first: () => Promise.resolve({ shared: 'first', 'first.only': 'a' }),
+        second: () => Promise.resolve({ shared: 'second', 'second.only': 'b' }),
+      },
+    };
+    await expect(loadAllCatalogs('en', registry)).resolves.toEqual({
+      shared: 'second',
+      'first.only': 'a',
+      'second.only': 'b',
+    });
+  });
+
+  it('holds every message of every compiled area of a locale, each with its own text', async () => {
+    const areas = Object.values(catalogRegistry['vi'] ?? {});
+    expect(areas.length).toBeGreaterThan(50);
+    const catalogs = await Promise.all(areas.map((load) => load()));
+    const expected: Messages = {};
+    for (const catalog of catalogs) {
+      for (const [id, message] of Object.entries(catalog)) expected[id] = message;
+    }
+
+    const merged = await loadAllCatalogs('vi');
+
+    expect(Object.keys(merged).length).toBe(Object.keys(expected).length);
+    expect(merged).toEqual(expected);
   });
 });

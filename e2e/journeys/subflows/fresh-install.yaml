@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# A fresh install on the splash, so the flow's account is its own and nothing an earlier flow on
+# this device left (keychain, storage, an open link dialog) carries over.
+# The keychain outlives a cleared install on iOS: without this the new pass would sign back in to
+# the account an earlier flow made.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - clearKeychain
+- launchApp:
+    clearState: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000

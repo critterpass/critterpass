@@ -144,6 +144,8 @@ export function PlaceDetailScreen({
   const otherDays = pick({ pick: 'day' });
   const ready = profile?.status === 'ready' ? profile : null;
 
+  // Destination pages are opened by id from Explore's own lists: the same ref finds the open one.
+  const planAt = row.destination_id ?? row.destination_slug;
   const press = () => {
     if (cta.kind === 'add') {
       const href = pick({ dayId: cta.day.day_id, start: cta.day.start });
@@ -160,9 +162,8 @@ export function PlaceDetailScreen({
       router.push(otherDays);
       return undefined;
     }
-    if (tripId === null && row.destination_slug !== null) {
-      router.push(exploreRoutes.destination(row.destination_slug));
-    }
+    // Back to the destination's page when it is underneath, never a second copy over this place.
+    if (tripId === null && planAt !== null) router.dismissTo(exploreRoutes.destination(planAt));
     return undefined;
   };
   const share = () => {
@@ -267,10 +268,11 @@ export function PlaceDetailScreen({
             : ctaLabel(cta),
         tone: cta.kind === 'inPlan' ? 'green' : 'yellow',
         disabled:
-          tripId !== null &&
-          cta.kind !== 'add' &&
-          cta.kind !== 'inPlan' &&
-          !(cta.kind === 'noFit' && otherDays !== undefined),
+          tripId === null
+            ? planAt === null
+            : cta.kind !== 'add' &&
+              cta.kind !== 'inPlan' &&
+              !(cta.kind === 'noFit' && otherDays !== undefined),
         busy: tripId !== null && cta.kind === 'loading',
         onPress: press,
       }}

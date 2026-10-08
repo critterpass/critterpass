@@ -141,6 +141,41 @@ describe('timeline', () => {
     expect(result.current.hasOlder).toBe(false);
   });
 
+  it('keeps the message objects of rows a reload did not change', async () => {
+    const stack = await open();
+    await seed(stack);
+    await synced(stack, 1, MAYA, 'first');
+    const second = await synced(stack, 2, LEO, 'second');
+    const { result } = await renderHook(() => useMessages(CREW, stack.uid), {
+      wrapper: stack.wrapper,
+    });
+    await waitFor(() => expect(result.current.messages).toHaveLength(2));
+    const [first, edited] = result.current.messages;
+
+    // A new message lands: the two already shown are the same objects, so their rows stay put.
+    await synced(stack, 3, MAYA, 'third');
+    await waitFor(() => expect(result.current.messages).toHaveLength(3));
+    expect(result.current.messages[0]).toBe(first);
+    expect(result.current.messages[1]).toBe(edited);
+
+    // An edit replaces that one message only.
+    const before = result.current.messages;
+    await stack.db.execute(
+      "UPDATE messages SET body = 'second, edited', edited_at = '1' WHERE id = ?",
+      [second],
+    );
+    await waitFor(() => expect(result.current.messages[1]?.body).toBe('second, edited'));
+    expect(result.current.messages[0]).toBe(first);
+    expect(result.current.messages[1]).not.toBe(edited);
+    expect(result.current.messages[2]).toBe(before[2]);
+
+    // A change to a watched table that leaves the timeline alone hands back the same list.
+    const held = result.current.messages;
+    await stack.db.execute("UPDATE users SET display_name = 'Me Again' WHERE id = ?", [stack.uid]);
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    expect(result.current.messages).toBe(held);
+  });
+
   it('leaves out muted crewmates but never the member’s own messages', async () => {
     const stack = await open();
     await seed(stack);
@@ -264,6 +299,30 @@ describe('unread', () => {
 });
 
 describe('reactions', () => {
+  it('reads only the reactions on the newest messages the timeline has loaded', async () => {
+    const stack = await open();
+    await seed(stack);
+    const [oldest, middle, newest] = [
+      await synced(stack, 1, MAYA, 'first'),
+      await synced(stack, 2, LEO, 'second'),
+      await synced(stack, 3, MAYA, 'third'),
+    ];
+    for (const [index, message] of [oldest, middle, newest].entries()) {
+      await stack.db.execute(
+        `INSERT INTO message_reactions (id, message_id, crew_id, user_id, emoji, created_at)
+         VALUES (?, ?, ?, ?, '🔥', ?)`,
+        [`window-${index}`, message, CREW, LEO, String(index)],
+      );
+    }
+
+    const loaded = await loadReactions(stack.db, CREW, stack.uid, 2);
+    expect([...loaded.keys()].sort()).toEqual([middle, newest].sort());
+
+    // Loading an older window brings its reactions with it.
+    const wider = await loadReactions(stack.db, CREW, stack.uid, 3);
+    expect([...wider.keys()].sort()).toEqual([oldest, middle, newest].sort());
+  });
+
   it('groups per emoji with who reacted, and toggles with an explicit outcome', async () => {
     const stack = await open();
     await seed(stack);
@@ -273,7 +332,7 @@ describe('reactions', () => {
        VALUES ('r1', ?, ?, ?, '🔥', '1'), ('r2', ?, ?, ?, '🔥', '2'), ('r3', ?, ?, ?, '👍', '3')`,
       [message, CREW, MAYA, message, CREW, stack.uid, message, CREW, LEO],
     );
-    const groups = await loadReactions(stack.db, CREW, stack.uid);
+    const groups = await loadReactions(stack.db, CREW, stack.uid, 200);
     expect(groups.get(message)).toEqual([
       {
         emoji: '🔥',
@@ -287,7 +346,7 @@ describe('reactions', () => {
       { emoji: '👍', count: 1, mine: false, users: [{ uid: LEO, name: 'Leo' }] },
     ]);
 
-    const { result } = await renderHook(() => useReactions(CREW, stack.uid), {
+    const { result } = await renderHook(() => useReactions(CREW, stack.uid, 200), {
       wrapper: stack.wrapper,
     });
     await waitFor(() => expect(result.current.groups.size).toBe(1));

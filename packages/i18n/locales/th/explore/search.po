@@ -282,6 +282,10 @@ msgstr ""
 msgid "search.link.end.dayFailed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.incomplete"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.busy"
 msgstr ""
@@ -505,6 +509,10 @@ msgstr ""
 msgid "search.offline.banner"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.offline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.notDays"
 msgstr ""
@@ -721,6 +729,10 @@ msgstr ""
 msgid "search.row.kind.stay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.gathering"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.sun"
 msgstr ""
@@ -743,6 +755,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-paste.tsx
 msgid "search.paste.notLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.unavailable"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/plain-close.tsx
@@ -769,8 +785,16 @@ msgstr ""
 msgid "search.offline.works.plan"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.arriving"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
@@ -782,6 +806,7 @@ msgid "search.none.related"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
 #: ../../apps/mobile/src/features/explore/search/plain-close.tsx
 msgid "search.link.retry"
 msgstr ""

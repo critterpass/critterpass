@@ -37,11 +37,14 @@ export function PriceLine({
   price,
   currency,
   member,
+  solo = false,
 }: {
   readonly guide: GuideId;
   readonly price: PerPerson;
   readonly currency: string;
   readonly member: boolean;
+  /** A trip for one: the stay's price is theirs alone, nothing is split. */
+  readonly solo?: boolean | undefined;
 }) {
   const styles = useStyles();
   const sticker = guideSticker(guide);
@@ -50,7 +53,8 @@ export function PriceLine({
   const each = t({ id: 'setup.rooms.price.each', message: ' each' });
   const equal = price.low === price.high;
   let line: string;
-  if (member) line = t({ id: 'setup.rooms.price.mine', message: 'Your share of the rooms:' });
+  if (solo) line = t({ id: 'setup.rooms.price.solo', message: 'Your stay comes to' });
+  else if (member) line = t({ id: 'setup.rooms.price.mine', message: 'Your share of the rooms:' });
   else if (equal)
     line = t({ id: 'setup.rooms.price.equal', message: 'Every room splits the same way.' });
   else
@@ -79,7 +83,7 @@ export function PriceLine({
           {member && price.mine !== null ? (
             amount(price.mine, '', 'setup-rooms-price-mine')
           ) : equal ? (
-            amount(price.low, each, 'setup-rooms-price-each')
+            amount(price.low, solo ? '' : each, 'setup-rooms-price-each')
           ) : (
             <>
               {amount(price.low, '', 'setup-rooms-price-low')}

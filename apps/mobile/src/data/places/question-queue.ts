@@ -82,8 +82,11 @@ export function createQuestionQueue(storage: QueueStorage, now: () => number = D
       return entry;
     },
     /**
-     * The oldest queued question (for that trip and thread, when given; one with no thread yet goes
-     * to the trip's), marked sending; null when none.
+     * The oldest queued question the caller may send, marked sending; null when none. A question
+     * bound to a thread (asked in a private guide thread) is only ever taken by a caller naming
+     * that thread: a caller with no thread takes only unbound questions, so it can never send
+     * someone's private question into whichever thread it prefers. A caller naming a thread also
+     * takes unbound questions (they go to its thread). `tripId`, when given, must match.
      */
     take(
       filter: { readonly threadId?: string; readonly tripId?: string | null } = {},
@@ -92,9 +95,7 @@ export function createQuestionQueue(storage: QueueStorage, now: () => number = D
         (entry) =>
           entry.state === 'queued' &&
           (filter.tripId === undefined || entry.tripId === filter.tripId) &&
-          (filter.threadId === undefined ||
-            entry.threadId === null ||
-            entry.threadId === filter.threadId),
+          (entry.threadId === null || entry.threadId === filter.threadId),
       );
       if (next === undefined) return null;
       const taken: QueuedQuestion = {

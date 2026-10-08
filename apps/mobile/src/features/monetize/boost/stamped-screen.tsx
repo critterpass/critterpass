@@ -1,7 +1,7 @@
 /** Stamped (4b-5) over the trip's synced boost row. */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, a command name and Intl option values, never copy. */
 import { format } from '@cp/i18n';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 
@@ -15,6 +15,7 @@ import { triggerConfetti } from '@/motion/patterns/confetti';
 import { memberFirstName } from '@/ui/people/member-name';
 
 import { shareText } from '../boost-card/boost-card-model';
+import { closePurchaseModals } from '../close-modals';
 import {
   CARD_SHARES_SQL,
   CARD_SHARES_TABLES,
@@ -105,7 +106,7 @@ export function StampedScreen() {
         : {})}
       told={told || asked}
       telling={pending}
-      onDone={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onDone={closePurchaseModals}
     />
   );
 }

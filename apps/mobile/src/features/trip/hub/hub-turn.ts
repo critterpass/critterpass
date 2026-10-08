@@ -43,12 +43,23 @@ export interface PlanTileOverride {
   readonly href: Href | undefined;
 }
 
+/** The PLAN tile while the crew still votes on the place: a fact, with no plan to open. */
+export function planTileWhileVoting(): PlanTileOverride {
+  return {
+    value: t({ id: 'trip.hub.tile.notYet', message: 'Not yet' }),
+    caption: t({ id: 'trip.hub.tile.afterVote', message: 'After the vote' }),
+    href: undefined,
+  };
+}
+
 /** The PLAN tile before a plan has gone out; null once the crew's plan is the thing to show. */
 export function planTileBeforeSend(
   turn: TripTurnView | null,
   draftHref: Href | undefined,
 ): PlanTileOverride | null {
   switch (turn?.kind) {
+    case 'vote':
+      return planTileWhileVoting();
     case 'setup':
       return {
         value: t({ id: 'trip.hub.tile.notYet', message: 'Not yet' }),

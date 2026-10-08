@@ -403,6 +403,10 @@ msgstr "Hoàn tiền tuỳ theo chính sách đặt chỗ."
 msgid "trip.disruptions.late.title"
 msgstr "Trễ {minutes} phút"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.queued"
+msgstr "Đã lưu. Sẽ gửi khi có sóng."
+
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.seat.notConfirmed"
 msgstr "Chỗ cho {date} chưa được xác nhận. Chỗ cũ vẫn được giữ."
@@ -442,6 +446,10 @@ msgstr "Báo {vendor} rằng hôm nay chuyến bay không hạ cánh?"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.tellCrew"
 msgstr "Báo cả nhóm"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.failed"
+msgstr "Chưa thay đổi được gì. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.detail.rebook"
@@ -492,6 +500,7 @@ msgid "trip.disruptions.late.told"
 msgstr "Đã báo cho người đang chờ."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/screen.tsx
 msgid "trip.disruptions.flight.backTo"
 msgstr "Chuyến đi"
 

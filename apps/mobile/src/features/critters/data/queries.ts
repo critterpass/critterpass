@@ -24,6 +24,19 @@ export interface SetRow {
   readonly guide_slug: string | null;
 }
 
+/** One set's own row, for its page. */
+export const SET_SQL = `SELECT id, code, name, country, rank, set_group, destination_id,
+    hero_critter_key, guide_slug
+  FROM critter_sets WHERE id = ?`;
+
+/** One set's critters and their forms, for its page. */
+export const SET_CRITTERS_SQL = `SELECT id, key, set_id, no, city, canonical_seed FROM critters
+  WHERE set_id = ? ORDER BY no`;
+export const SET_FORMS_SQL = `SELECT f.id, f.key, f.critter_id, f.rarity, f.palette, f.pose, f.edge,
+    f.requirement_copy, f.xp
+  FROM critter_forms f JOIN critters c ON c.id = f.critter_id WHERE c.set_id = ?`;
+export const SET_FORMS_TABLES = ['critter_forms', 'critters'];
+
 export const CRITTERS_SQL = `SELECT id, key, set_id, no, city, canonical_seed FROM critters
   ORDER BY no`;
 export const CRITTERS_TABLES = ['critters'];

@@ -5,11 +5,11 @@
  * so, and the way back is always the same button.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
+import { goBackOr } from '@/lib/navigation/back';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -106,6 +106,6 @@ export function CalendarConnectedScreen({ result }: { readonly result: OAuthRetu
       () => setOutcome('failed'),
     );
   }, [result, send]);
-  const done = () => (router.canGoBack() ? router.back() : router.replace('/'));
+  const done = () => goBackOr();
   return <CalendarConnectedView outcome={outcome} onDone={done} />;
 }

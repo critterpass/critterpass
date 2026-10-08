@@ -19,8 +19,7 @@ msgstr "{dates}, {cost} each. Fix anything before the crew sees it."
 msgid "planDraft.review.subNoCost"
 msgstr "{dates}. No cost estimate yet. Fix anything before the crew sees it."
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
-#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.review.back"
 msgstr "{destination} setup"
 
@@ -82,11 +81,11 @@ msgstr "{wd} · Nothing booked, on purpose"
 
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.whenDays"
-msgstr "{when} · {days} days"
+msgstr "{when} · {days, plural, one {# day} other {# days}}"
 
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.whenDaysCost"
-msgstr "{when} · {days} days · {cost} each"
+msgstr "{when} · {days, plural, one {# day} other {# days}} · {cost} each"
 
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.redraftAny"
@@ -104,9 +103,13 @@ msgstr "A redraft you put back"
 msgid "planDraft.review.changeDay"
 msgstr "Ask {guideName} to change a day"
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.loading.back"
 msgstr "Back"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
+msgid "planDraft.drafting.back"
+msgstr "Back to setup"
 
 #: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
 msgid "planDraft.member.back"
@@ -216,7 +219,7 @@ msgstr "Keeping a redrafted day"
 msgid "planDraft.leftOut.line"
 msgstr "Left out: {name}."
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+#: ../../apps/mobile/src/features/plan/draft/review/draft-copy.ts
 msgid "planDraft.loading.label"
 msgstr "Loading your draft"
 

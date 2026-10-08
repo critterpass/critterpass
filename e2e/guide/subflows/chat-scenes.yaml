@@ -38,3 +38,69 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: chat-sent, READY: guide-plan-outcome, SHOT: '${PREFIX}-3j-1-sent' }
+# A long thread opens on its latest page, at the end; "Earlier messages" sits at its top and adds a
+# page above without moving the line being read.
+- scrollUntilVisible:
+    element:
+      id: 'guide-lab-chat-long-thread'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+- tapOn:
+    id: 'guide-lab-chat-long-thread'
+- extendedWaitUntil:
+    visible: 'Answer 40.*'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PREFIX}-3j-1-long-thread-end
+- scrollUntilVisible:
+    element:
+      id: 'guide-earlier'
+    direction: UP
+    timeout: 60000
+- takeScreenshot: ${PREFIX}-3j-1-long-thread-earlier
+- tapOn:
+    id: 'guide-earlier'
+- waitForAnimationToEnd:
+    timeout: 3000
+# Question 26 opened the latest page: it is still on screen with a page added above it.
+- extendedWaitUntil:
+    visible: 'Question 26.*'
+    timeout: 10000
+- takeScreenshot: ${PREFIX}-3j-1-long-thread-earlier-added
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 0%, 50%
+          end: 85%, 50%
+          duration: 800
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'guide-lab-chat-long-thread'
+    commands:
+      - runFlow: ../../home/subflows/open-dev-tools.yaml
+      - runFlow: open-lab.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'guide-lab-chat-long-thread'
+          direction: DOWN
+          timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'guide-lab-chat-long-thread'
+    timeout: 10000
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-stopped, READY: guide-retry, SHOT: '${PREFIX}-3j-1-stopped' }

@@ -9,7 +9,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { renderUi } from '@/ui/test-support/render';
 import { ConsentSheet } from '../help/consent-sheet';
-import { consentOf, onOpen, pendingShare, shareView } from '../help/share-policy';
+import {
+  consentOf,
+  markShareStopped,
+  onOpen,
+  pendingShare,
+  shareView,
+  unmarkShareStopped,
+} from '../help/share-policy';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -62,5 +69,13 @@ describe('Help share indicator', () => {
       minutesLeft: 30,
     });
     expect(shareView(synced, null, Date.parse('2026-10-02T09:31:00Z'))).toBeNull();
+  });
+
+  it('hides a share stopped on this phone while its row is still here, and shows it again when the stop was refused', () => {
+    const synced = [{ id: 'share-stopped', ends_at: '2026-10-02T09:30:00Z' }];
+    markShareStopped('share-stopped');
+    expect(shareView(synced, null, now)).toBeNull();
+    unmarkShareStopped('share-stopped');
+    expect(shareView(synced, null, now)).toMatchObject({ shareId: 'share-stopped' });
   });
 });

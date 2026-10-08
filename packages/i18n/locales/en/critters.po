@@ -198,6 +198,10 @@ msgstr "Also has it"
 msgid "critters.legendary.any"
 msgstr "Any"
 
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.back"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr "Back to the classic look"
@@ -243,6 +247,10 @@ msgstr "Cancelled a legendary reminder"
 msgid "critters.dex.pending"
 msgstr "Checking"
 
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.mapsFailed"
+msgstr "Couldn’t open your maps app"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.body"
 msgstr "Critter {number} in the {place} set."
@@ -258,6 +266,10 @@ msgstr "Critters come out at real places. Walk to a spot on your plan and stay a
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundBody"
 msgstr "Critters only show up where they live. Your first one hatches when you land."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.firstHint"
+msgstr "Critters turn up at real places. Stay a few minutes where one lives and it comes out."
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.day"
@@ -407,6 +419,14 @@ msgstr "Legendary"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
 msgstr "Legendary on your dates"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.loading"
+msgstr "Loading the critter"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.loadingSet"
+msgstr "Loading the set"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.look"
@@ -631,6 +651,10 @@ msgstr "Where to find it"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.whereToFindTier"
 msgstr "Where to find the {tier} form"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterLabel"
+msgstr "Which critters"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"

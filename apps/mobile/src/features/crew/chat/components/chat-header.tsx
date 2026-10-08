@@ -6,16 +6,16 @@
 import { plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { createElement } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Icon } from '@/ui/icons/Icon';
-import { useBackAffordance } from '@/ui/qa/back-affordance';
-import { StraightArrow } from '@/ui/icons/StraightArrow';
+import { PressScale } from '@/ui/press/PressScale';
+import { BackButton } from '@/ui/shell/BackButton';
 import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Row, Stack, Text, useTheme } from '@/ui';
-import { makeStyles, MIN_TOUCH_TARGET } from '@/ui/theme';
+import { makeStyles } from '@/ui/theme';
 
-import { crewSettingsRoute } from '../../crews-sheet/routes';
+import { CREW_ROUTES, crewSettingsRoute } from '../../crews-sheet/routes';
 import { chatHeaderBadge, chatMapTarget } from '../slots';
 
 export function peopleLine(count: number, guideName: string | null): string {
@@ -39,12 +39,6 @@ const useStyles = makeStyles((th) => ({
     paddingVertical: th.space['8'],
   },
   titles: { flex: 1 },
-  back: {
-    width: MIN_TOUCH_TARGET,
-    height: MIN_TOUCH_TARGET,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 }));
 
 export function ChatHeader({
@@ -62,26 +56,13 @@ export function ChatHeader({
   const theme = useTheme();
   const map = chatMapTarget();
   const Badge = chatHeaderBadge();
-  useBackAffordance();
   const title = crewName ?? t({ id: 'chat.header.fallbackTitle', message: 'Crew chat' });
   return (
     <Row style={styles.bar} testID="chat-header">
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={t({ id: 'chat.header.back', message: 'Back' })}
-        onPress={() => router.back()}
-        hitSlop={theme.space['4']}
-        style={styles.back}
-        testID="chat-back"
-      >
-        <StraightArrow
-          direction="back"
-          size={theme.space['20']}
-          color={theme.semantic.text.primary}
-        />
-      </Pressable>
-      <Pressable
-        accessibilityRole="button"
+      <BackButton fallback={CREW_ROUTES.home} testID="chat-back" />
+      <PressScale
+        widthClass="wide"
+        accessibilityLabel={title}
         accessibilityHint={t({ id: 'chat.header.openSettings', message: 'Opens crew settings' })}
         onPress={() => router.push(crewSettingsRoute(crewId))}
         style={styles.titles}
@@ -97,7 +78,7 @@ export function ChatHeader({
             </Text>
           ) : null}
         </Stack>
-      </Pressable>
+      </PressScale>
       {Badge === null ? null : createElement(Badge, { crewId })}
       {map === null ? null : (
         <View>

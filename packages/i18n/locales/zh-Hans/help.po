@@ -100,12 +100,12 @@ msgstr "哼"
 msgid "help.feedback.topic.guideChat"
 msgstr "向导聊天"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.back"
-msgstr "帮助"
-
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
+msgstr "帮助"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
 msgstr "帮助"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
@@ -119,6 +119,10 @@ msgstr "帮助与反馈"
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
 msgstr "帮助中心"
+
+#: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
+msgid "help.shake.hidden"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
@@ -343,6 +347,10 @@ msgstr "这张图片太大,发不出去。试试截图吧。"
 msgid "help.ideas.offline"
 msgstr "重新联网后即可打开公告板。"
 
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.articlesOffline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "这篇文章还没上线"
@@ -429,6 +437,10 @@ msgstr "你的留言"
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
 msgstr "你给团队的留言"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.notSaved"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"

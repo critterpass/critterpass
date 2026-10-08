@@ -198,6 +198,10 @@ msgstr ""
 msgid "critters.legendary.any"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr ""
@@ -243,6 +247,10 @@ msgstr ""
 msgid "critters.dex.pending"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.mapsFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.body"
 msgstr ""
@@ -257,6 +265,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.firstHint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
@@ -406,6 +418,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.loadingSet"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -630,6 +650,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.whereToFindTier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts

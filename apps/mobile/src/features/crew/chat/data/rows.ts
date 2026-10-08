@@ -129,3 +129,55 @@ export function fromRow(row: MessageRow): ChatMessage {
     status: 'sent',
   };
 }
+
+function sameList(a: readonly unknown[], b: readonly unknown[]): boolean {
+  if (a.length !== b.length) return false;
+  return a.length === 0 || JSON.stringify(a) === JSON.stringify(b);
+}
+
+/** Two reads of one message that show the same thing. */
+export function sameMessage(a: ChatMessage, b: ChatMessage): boolean {
+  return (
+    a.id === b.id &&
+    a.seq === b.seq &&
+    a.status === b.status &&
+    a.body === b.body &&
+    a.edited === b.edited &&
+    a.deleted === b.deleted &&
+    a.senderName === b.senderName &&
+    a.refName === b.refName &&
+    a.createdAt === b.createdAt &&
+    a.type === b.type &&
+    a.senderKind === b.senderKind &&
+    a.senderId === b.senderId &&
+    a.guideId === b.guideId &&
+    a.refKind === b.refKind &&
+    a.refId === b.refId &&
+    a.replyToId === b.replyToId &&
+    a.mentionsGuide === b.mentionsGuide &&
+    a.failureCode === b.failureCode &&
+    sameList(a.mentions, b.mentions) &&
+    sameList(a.attachments, b.attachments)
+  );
+}
+
+/**
+ * `next` with every message that reads the same as before swapped for the object already held, so
+ * a memoised row whose message did not change is not drawn again. When nothing changed at all the
+ * previous list itself comes back.
+ */
+export function keepUnchanged(
+  previous: readonly ChatMessage[],
+  next: readonly ChatMessage[],
+): readonly ChatMessage[] {
+  if (previous.length === 0) return next;
+  const held = new Map(previous.map((message) => [message.id, message]));
+  let changed = previous.length !== next.length;
+  const kept = next.map((message, index) => {
+    const before = held.get(message.id);
+    const same = before !== undefined && sameMessage(before, message);
+    if (!same || previous[index] !== before) changed = true;
+    return same ? before : message;
+  });
+  return changed ? kept : previous;
+}

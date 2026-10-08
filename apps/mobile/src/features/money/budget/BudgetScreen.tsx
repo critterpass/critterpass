@@ -1,24 +1,26 @@
 /**
  * The trip budget from synced rows (expenses, the budget plan, plan items) through the engine's
  * forecast; it re-counts as soon as a new expense syncs. An organiser sets the crew's target here
- * (`set_trip_budget`, online).
+ * (`set_trip_budget`, online: with no signal the sheet stays open and says so), typed in whole
+ * units of the crew's currency and read as money while it is typed.
  */
-import { currencyExponent, forecast, isKnownCurrency } from '@cp/cost-engine';
+import { forecast } from '@cp/cost-engine';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
+import { amountText, digitsToMinor } from '@/data/money/amount-digits';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { feedback } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextField } from '@/ui/inputs/TextField';
+import { AmountField } from '@/ui/inputs/AmountField';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { makeStyles } from '@/ui/theme';
 
 import { fxContextOf } from '../add-expense/preview';
-import { MoneyLoading, MoneyNoTrip } from '../balances/BalancesScreen';
+import { MoneyNoTripScreen, MoneyScreenLoading } from '../components/screen-states';
 import { setTripBudgetCommand } from '../data/commands';
 import { useLiveRows } from '../data/live-rows';
 import {
@@ -58,9 +60,7 @@ function SetBudgetSheet({
   const [digits, setDigits] = useState('');
   const title = t({ id: 'money.budget.set', message: 'Set a crew budget' });
   // Whole units of the currency: a crew target never needs cents.
-  const amount =
-    BigInt(digits === '' ? '0' : digits) *
-    10n ** BigInt(isKnownCurrency(currency) ? currencyExponent(currency) : 0);
+  const amount = digitsToMinor(digits, currency, 'whole');
   return (
     <Sheet
       detents={['fit']}
@@ -70,11 +70,12 @@ function SetBudgetSheet({
       testID="money-budget-sheet"
     >
       <View style={styles.body}>
-        <TextField
+        <AmountField
           label={t({ id: 'money.budget.target', message: `Crew total in ${currency}` })}
-          value={digits}
-          onChangeText={(text) => setDigits(text.replace(/\D/gu, ''))}
-          keyboardType="number-pad"
+          digits={digits}
+          shown={amountText(digits, currency, locale, 'whole')}
+          placeholder={amountText('0', currency, locale, 'whole')}
+          onDigits={setDigits}
           testID="money-budget-target"
         />
         <PillButton
@@ -94,6 +95,7 @@ export function BudgetScreen() {
   const ctx = useMoneyContext(useSelectedTrip());
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
   const { t } = useLingui();
+  const { report } = useCommandFeedback();
   const save = useCommand(setTripBudgetCommand);
   const [sheet, setSheet] = useState(false);
   const trip = ctx.trip;
@@ -130,8 +132,10 @@ export function BudgetScreen() {
     return { today: input.today, forecast: forecast(input) };
   }, [trip, currency, budget.rows, rows.expenses, plan.rows, fxRows.rows, local]);
 
-  if (ctx.status === 'loading' || !rows.loaded) return <MoneyLoading />;
-  if (trip === null || model === null) return <MoneyNoTrip crew={ctx.crew !== null} />;
+  if (ctx.status === 'loading' || (ctx.status === 'ready' && !rows.loaded)) {
+    return <MoneyScreenLoading />;
+  }
+  if (trip === null || model === null) return <MoneyNoTripScreen crew={ctx.crew !== null} />;
   const place = trip.destinationName ?? '';
   const tripId = trip.id;
   return (
@@ -156,9 +160,13 @@ export function BudgetScreen() {
             busy={save.pending}
             onClose={() => setSheet(false)}
             onSave={(amount) => {
+              if (save.pending) return;
               void save.send({ trip_id: tripId, target_minor: Number(amount) }).then((result) => {
-                feedback.emit(result.kind === 'applied' ? 'success' : 'error');
-                if (result.kind === 'applied') setSheet(false);
+                const outcome = report(result, {
+                  id: 'money-budget',
+                  done: t({ id: 'money.budget.saved', message: 'Budget set.' }),
+                });
+                if (outcome === 'done') setSheet(false);
               });
             }}
           />

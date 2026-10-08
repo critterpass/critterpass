@@ -27,9 +27,12 @@ appId: app.critterpass.dev
     timeout: 20000
 - scrollUntilVisible:
     element:
-      id: 'money-pay-mark'
+      id: 'money-pay-amount'
     direction: DOWN
     timeout: 20000
+# MARK PAID stays in the footer, under the field.
+- assertVisible:
+    id: 'money-pay-mark'
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${PREFIX}-money-payment-payer-amount

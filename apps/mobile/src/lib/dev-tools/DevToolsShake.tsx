@@ -4,7 +4,8 @@
  * accelerometer; the sensor is also released while the app is in the background.
  *
  * The same builds apply a downloaded update on their own at a safe moment (lib/updates): it
- * mounts here, behind the same gate, so production keeps the default.
+ * mounts here, behind the same gate, so production keeps the default. So does the launch argument
+ * device flows start a cleared install with (./start-as-launch.tsx).
  */
 import { router, useNavigationContainerRef, useSegments } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -19,6 +20,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { UpdateApplier } from '../updates/UpdateApplier';
 import { INITIAL_SHAKE_STATE, stepShake, type ShakeState } from './shake';
+import { StartAsLaunch } from './start-as-launch';
 import { devToolsAvailable } from './variant';
 
 const DEV_TOOLS_ROUTE = '/(dev)';
@@ -32,6 +34,7 @@ export function DevToolsShake() {
     <>
       <ShakeWhileActive />
       <UpdateApplier />
+      <StartAsLaunch />
     </>
   );
 }
