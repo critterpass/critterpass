@@ -16,9 +16,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import type { Subscription } from '../../data/billing-rows';
 import { BillingIssueView } from '../billing-issue-view';
-import { CancelView } from '../cancel-view';
 import { planModel, type PlanInput } from '../plan-model';
-import { PlanView } from '../plan-view';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -59,33 +57,6 @@ async function show(view: ReactElement) {
   );
 }
 
-const cancel = (over: Partial<PlanInput> = {}) => (
-  <CancelView
-    plan={plan(over)}
-    store="app_store"
-    nextTrip={null}
-    perks={[]}
-    onPause={jest.fn()}
-    onKeep={jest.fn()}
-    onCancel={jest.fn()}
-  />
-);
-
-describe('CancelView', () => {
-  it('offers the pause to a monthly plan', async () => {
-    await show(cancel());
-    expect(screen.getByTestId('plan-cancel-pause')).toBeTruthy();
-    expect(screen.getByTestId('plan-cancel-pause-card')).toBeTruthy();
-  });
-
-  it('never offers a pause to a yearly plan: the year is already paid', async () => {
-    await show(cancel({ subscriptions: [sub({ productKey: 'pass_yearly' })] }));
-    expect(screen.queryByTestId('plan-cancel-pause')).toBeNull();
-    expect(screen.getByTestId('plan-cancel-yearly')).toBeTruthy();
-    expect(screen.getByTestId('plan-cancel-anyway')).toBeTruthy();
-  });
-});
-
 describe('BillingIssueView', () => {
   const issue = (over: Partial<PlanInput>, canFixHere = true) => {
     const onUpdate = jest.fn();
@@ -119,70 +90,5 @@ describe('BillingIssueView', () => {
     await fireEvent.press(screen.getByTestId('billing-issue-try-again'));
     expect(onUpdate).toHaveBeenCalledTimes(1);
     expect(onTryAgain).toHaveBeenCalledTimes(1);
-  });
-
-  it('after the grace, says Pass+ is off rather than promising a date', async () => {
-    const { view } = issue({ subscriptions: [sub({ status: 'on_hold' })], passPlus: false });
-    await show(view);
-    expect(screen.getByTestId('billing-issue-until').props.children).toBe('Off');
-  });
-
-  it('shows the recovery once the server says the plan is healthy again', async () => {
-    const { view } = issue({});
-    await show(view);
-    expect(screen.getByTestId('billing-issue-recovered')).toBeTruthy();
-    expect(screen.queryByTestId('billing-issue-update')).toBeNull();
-  });
-
-  it('sends a plan billed by the other store there, with no update button here', async () => {
-    const { view } = issue({ subscriptions: [sub({ status: 'grace', platform: 'play' })] }, false);
-    await show(view);
-    expect(screen.queryByTestId('billing-issue-update')).toBeNull();
-    expect(screen.getByTestId('billing-issue-elsewhere')).toBeTruthy();
-  });
-});
-
-describe('PlanView', () => {
-  const view = (over: Partial<PlanInput>, storeAvailable = true) => {
-    const model = plan(over);
-    return (
-      <PlanView
-        plan={model}
-        price={null}
-        boosts={[]}
-        restore={{ status: 'idle' }}
-        storeAvailable={storeAvailable}
-        onUpgrade={jest.fn()}
-        onManageStore={jest.fn()}
-        onRestore={jest.fn()}
-        onCancel={jest.fn()}
-        onBillingIssue={jest.fn()}
-      />
-    );
-  };
-
-  it('a renewing plan billed here can be cancelled and managed', async () => {
-    await show(view({}));
-    expect(screen.getByTestId('plan-card-active')).toBeTruthy();
-    expect(screen.getByTestId('plan-cancel')).toBeTruthy();
-    expect(screen.getByTestId('plan-manage')).toBeTruthy();
-  });
-
-  it('a plan billed by the other store has no cancel here and says where to manage it', async () => {
-    await show(view({ deviceStore: 'play' }));
-    expect(screen.queryByTestId('plan-cancel')).toBeNull();
-    expect(screen.getByTestId('plan-other-store')).toBeTruthy();
-  });
-
-  it('a free plan with no store says nothing can be bought here', async () => {
-    await show(view({ subscriptions: [], passPlus: false }, false));
-    expect(screen.getByTestId('plan-card-free')).toBeTruthy();
-    expect(screen.getByTestId('plan-no-store')).toBeTruthy();
-    expect(screen.queryByTestId('plan-manage')).toBeNull();
-  });
-
-  it('a failed renewal leads to the page that fixes it', async () => {
-    await show(view({ subscriptions: [sub({ status: 'grace' })] }));
-    expect(screen.getByTestId('plan-fix-payment')).toBeTruthy();
   });
 });

@@ -17,11 +17,9 @@ import {
   useDragDismiss,
 } from '../drag-dismiss';
 import { snapMinutes, SNAP_MINUTES, useDragSnap } from '../drag-snap';
-import { commitsEdgeSwipe, EDGE_SWIPE_COMMIT_DISTANCE_PT, useEdgeSwipeBack } from '../edge-swipe';
 import { HOLD_FILL_MS, useHoldFill } from '../hold-fill';
 import { LONG_PRESS_DURATION_MS, useLongPress } from '../long-press';
 import { PRESS_CANCEL_DISTANCE_PT, PRESS_MAX_DURATION_MS, usePress } from '../press';
-import { useReorder } from '../reorder';
 import {
   commitsSlideToConfirm,
   SLIDE_TO_CONFIRM_COMMIT_FRACTION,
@@ -50,12 +48,6 @@ describe('commit thresholds', () => {
     expect(commitsSlideToConfirm(SLIDE_TO_CONFIRM_COMMIT_FRACTION)).toBe(true);
     expect(commitsSlideToConfirm(1)).toBe(true);
     expect(commitsSlideToConfirm(SLIDE_TO_CONFIRM_COMMIT_FRACTION - 0.01)).toBe(false);
-  });
-
-  it('edge-swipe commits on distance OR velocity, not either alone below threshold', () => {
-    expect(commitsEdgeSwipe(EDGE_SWIPE_COMMIT_DISTANCE_PT + 1, 0)).toBe(true);
-    expect(commitsEdgeSwipe(0, 0.6)).toBe(true);
-    expect(commitsEdgeSwipe(50, 0.1)).toBe(false);
   });
 
   it('drag-dismiss commits on distance OR velocity, not either alone below threshold', () => {
@@ -185,22 +177,6 @@ describe('every gesture hook exposes an accessibility action (docs/design-system
     expect(onSwiped).toHaveBeenCalledWith('right');
   });
 
-  it('useReorder', async () => {
-    const onReorder = jest.fn();
-    const { result } = await renderHook(() =>
-      useReorder({
-        index: 1,
-        itemCount: 5,
-        itemHeightPt: 48,
-        onReorder,
-        accessibilityLabel: 'Reorder',
-      }),
-    );
-    expect(result.current.accessibilityActions.length).toBeGreaterThan(0);
-    result.current.onAccessibilityAction({ nativeEvent: { actionName: 'moveDown' } } as never);
-    expect(onReorder).toHaveBeenCalledWith(1, 2);
-  });
-
   it('useSlideToConfirm', async () => {
     const onConfirm = jest.fn();
     const { result } = await renderHook(() =>
@@ -209,16 +185,6 @@ describe('every gesture hook exposes an accessibility action (docs/design-system
     expect(result.current.accessibilityActions.length).toBeGreaterThan(0);
     result.current.onAccessibilityAction({ nativeEvent: { actionName: 'activate' } } as never);
     expect(onConfirm).toHaveBeenCalledTimes(1);
-  });
-
-  it('useEdgeSwipeBack', async () => {
-    const onBack = jest.fn();
-    const { result } = await renderHook(() =>
-      useEdgeSwipeBack({ onBack, accessibilityLabel: 'Back' }),
-    );
-    expect(result.current.accessibilityActions.length).toBeGreaterThan(0);
-    result.current.onAccessibilityAction({ nativeEvent: { actionName: 'escape' } } as never);
-    expect(onBack).toHaveBeenCalledTimes(1);
   });
 
   it('useDragDismiss', async () => {

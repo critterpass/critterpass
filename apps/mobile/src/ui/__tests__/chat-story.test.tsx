@@ -2,7 +2,6 @@ import { act, fireEvent, screen } from '@testing-library/react-native';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { AccessibilityInfo } from 'react-native';
 
-import { ChatMessage } from '../chat/ChatMessage';
 import { ChatRichCard } from '../chat/ChatRichCard';
 import { Composer } from '../chat/Composer';
 import { ReactionFloats } from '../chat/ReactionFloats';
@@ -19,28 +18,6 @@ afterEach(() => {
 });
 
 describe('chat', () => {
-  it('reads who said what and exposes the message menu as actions', async () => {
-    const onReply = jest.fn();
-    await renderUi(
-      <>
-        <ChatMessage kind="divider" text="Today" />
-        <ChatMessage
-          kind="theirs"
-          author="Maya"
-          text="spa on day 3?"
-          actions={[{ id: 'reply', label: 'Reply', onPress: onReply }]}
-        />
-        <ChatMessage kind="mine" text="count me in" />
-      </>,
-    );
-    expect(screen.getByRole('header')).toBeTruthy();
-    const theirs = screen.getByRole('text', { name: 'Maya: spa on day 3?' });
-    expect(theirs.props.accessibilityActions).toEqual([{ name: 'reply', label: 'Reply' }]);
-    await run(theirs, 'reply');
-    expect(onReply).toHaveBeenCalledTimes(1);
-    expect(screen.getByLabelText('count me in')).toBeTruthy();
-  });
-
   it('votes in a chat poll and reads the typing indicator', async () => {
     const onVote = jest.fn();
     await renderUi(

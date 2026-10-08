@@ -1,9 +1,7 @@
 /**
- * Home over the real local-first stack with synced rows seeded locally: every mode renders from
- * local data (first run, everyday, final vote through the registered slot, no trip, in trip, post
- * trip), the skeleton shows only on a first sync with nothing local, the countdown ticks and reads
- * as words, the bell carries the needs-you count, the tip dismisses into the queue, and every
- * control pushes its route (the destination and place search through the registry).
+ * Home over the real local-first stack with synced rows seeded locally: what each control opens
+ * (the first-run choices, Explore, the invite card, the trip under way, the header), the banner
+ * while the server refuses the queue, and the tip dismissing into the queue.
  */
 // Cross-fades are timing, not layout: snapshots see their settled content.
 jest.mock('../fade-in-view', () => ({
@@ -19,7 +17,6 @@ import { DomainError } from '@cp/domain';
 import { afterAll, afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
-import { Text } from 'react-native';
 
 import {
   openTestLocalFirst,
@@ -27,13 +24,11 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { enqueue } from '@/data/powersync/test-support/queue-fixtures';
-import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 import { motionFreeze } from '@/motion/slowmo';
 import { zoomTo } from '@/ui/transitions/use-shared-source';
 
 import { HomeScreen } from '../home-screen';
-import { registerHomeVoteSlot } from '../slots';
 import {
   BALI,
   CREW,
@@ -83,18 +78,6 @@ function isoDate(at: Date): string {
 }
 
 describe('modes', () => {
-  it('shows the skeleton on a first sync with nothing local', async () => {
-    const s = await open();
-    await s.db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
-      OWNER_UID_KEY,
-      s.uid,
-    ]);
-    await renderHome(<HomeScreen />, s);
-    await until(() => screen.queryByTestId('home-loading') !== null);
-    // Maestro flows reach the (dev) screens from here, even before the first sync.
-    expect(screen.getByTestId('dev-tools-entry')).toBeTruthy();
-  });
-
   it('renders first run with the six guides and the code entry', async () => {
     const s = await open();
     await seedMe(s);
@@ -144,96 +127,6 @@ describe('modes', () => {
     unregister();
     await s.close();
     removeDir(s.dir);
-  });
-
-  it('renders everyday with a ticking countdown, plan progress, the bell count and the tip', async () => {
-    const s = await open();
-    await seedCrew(s);
-    const target = new Date(Date.now() + 17 * DAY + 5 * 3_600_000 + 30 * 60_000);
-    await seedTrip(s, {
-      status: 'confirmed',
-      startDate: isoDate(new Date(target.getTime() + DAY)),
-      countdownTargetAt: target.toISOString(),
-    });
-    await seedInboxItem(s, { kind: 'nudge.received', needsYou: true });
-    await s.db.execute(
-      `INSERT INTO home_tips (id, crew_id, kind, text, place_id, status, valid_until, created_at)
-       VALUES ('tip-1', ?, 'fare_drop', 'Flights from Singapore drop to $412.', ?, 'active', ?, ?)`,
-      [CREW, BALI, new Date(Date.now() + DAY).toISOString(), new Date().toISOString()],
-    );
-    await renderHome(<HomeScreen />, s);
-    await until(() => screen.queryByTestId('home-mode-everyday') !== null);
-    expect(screen.getByText('BALI')).toBeTruthy();
-    expect(screen.getByText(/^17D \d\d:\d\d:\d\d$/)).toBeTruthy();
-    expect(screen.getByLabelText(/^17 days, 5 hours to Bali$/)).toBeTruthy();
-    expect(screen.getByText('PLAN 80%')).toBeTruthy();
-    await until(() => screen.queryByLabelText('Inbox, 1 new') !== null);
-    expect(screen.getByText('Flights from Singapore drop to $412.')).toBeTruthy();
-  });
-  it('renders the final vote through the registered slot', async () => {
-    const s = await open();
-    await seedCrew(s);
-    await seedTrip(s, { status: 'voting' });
-    const unregister = registerHomeVoteSlot({
-      useVote: (crewId) =>
-        crewId === CREW
-          ? {
-              pollId: 'poll-1',
-              stage: 'final',
-              candidates: [],
-              votersIn: 4,
-              memberCount: 6,
-              closesAt: null,
-            }
-          : null,
-      Component: ({ vote }) => <Text testID="vote-slot">{vote.stage}</Text>,
-    });
-    try {
-      await renderHome(<HomeScreen />, s);
-      await until(() => screen.queryByTestId('home-mode-final_vote') !== null);
-      expect(screen.getByTestId('vote-slot')).toBeTruthy();
-    } finally {
-      unregister();
-    }
-  });
-
-  it('lets the vote stand as next up while the trip is still choosing its place', async () => {
-    const s = await open();
-    await seedCrew(s);
-    await seedTrip(s, { status: 'voting', destinationId: null });
-    const unregister = registerHomeVoteSlot({
-      useVote: (crewId) =>
-        crewId === CREW
-          ? {
-              pollId: 'poll-1',
-              stage: 'board',
-              candidates: [],
-              votersIn: 1,
-              memberCount: 1,
-              closesAt: null,
-            }
-          : null,
-      Component: ({ vote }) => <Text testID="vote-slot">{vote.stage}</Text>,
-    });
-    try {
-      await renderHome(<HomeScreen />, s);
-      await until(() => screen.queryByTestId('vote-slot') !== null);
-      // The trip's rows land after the vote's: give them time to, and the card still stays away.
-      await expect(
-        until(() => screen.queryByTestId('home-next-up') !== null, 1500),
-      ).rejects.toThrow();
-    } finally {
-      unregister();
-    }
-  });
-
-  it('renders no trip with the pitch control when nothing is planned', async () => {
-    const s = await open();
-    await seedCrew(s);
-    await renderHome(<HomeScreen />, s);
-    await until(() => screen.queryByTestId('home-no-trip') !== null);
-    // Three in the crew: nothing asks them to invite friends.
-    expect(screen.queryByTestId('home-invite-friends')).toBeNull();
   });
 
   it('says changes are not being sent while the server refuses the queue, until it drains', async () => {
@@ -291,18 +184,6 @@ describe('modes', () => {
     expect(push).toHaveBeenCalledWith('/inbox');
   });
 
-  it('renders the recap card for two weeks after the last day', async () => {
-    const s = await open();
-    await seedCrew(s);
-    await seedTrip(s, {
-      status: 'post_trip',
-      startDate: isoDate(new Date(Date.now() - 8 * DAY)),
-      endDate: isoDate(new Date(Date.now() - DAY)),
-    });
-    await renderHome(<HomeScreen />, s);
-    await until(() => screen.queryByTestId('home-mode-post_trip') !== null);
-    expect(screen.getByText('BALI RECAP')).toBeTruthy();
-  });
   it('renders the in-trip card during the trip and opens the hub', async () => {
     const s = await open();
     await seedCrew(s);

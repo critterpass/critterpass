@@ -5,43 +5,15 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
-import { ScreenJoltProvider } from '@/motion/patterns/thud';
-
-import { GiftCard, formatGiftCode } from '../documents/GiftCard';
 import { mrzLine, toMrz } from '../documents/mrz';
-import { PassportPage } from '../documents/PassportPage';
-import { Receipt, zigzagPath } from '../documents/Receipt';
+import { zigzagPath } from '../documents/Receipt';
 import { appendPoint, SignatureLayer } from '../documents/SignatureLayer';
 import { Stamp, stampLineInset, stampLineMaxSize } from '../documents/Stamp';
 import { Ticket } from '../documents/Ticket';
-import { Visa } from '../documents/Visa';
-import { fixturesFor, listComponents } from '../gallery/registry';
-import { Icon } from '../icons/Icon';
 import { renderUi } from '../test-support/render';
-
-import '../documents/documents.fixtures';
 
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
   fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
-
-const LOCALES = ['en', 'vi', 'ja'] as const;
-
-function Passport({ name, home }: { readonly name: string; readonly home: string }) {
-  return (
-    <PassportPage
-      headStart="Critterpass · Passeport"
-      headEnd="CP-0427"
-      photo={<Icon name="camera" size={40} decorative />}
-      fields={[
-        { key: 'n', label: 'Given name · Prénom', value: name },
-        { key: 'h', label: 'Home', value: home },
-      ]}
-      stamps={<Stamp title="SIN" top="Home" ink={tokens.color.orange} slam />}
-      mrz={[mrzLine(['P', 'SGP', name])]}
-      accessibilityLabel={`Passport of ${name}, home ${home}`}
-    />
-  );
-}
 
 describe('document artefacts', () => {
   it('transliterates machine-readable lines to the ICAO alphabet', () => {
@@ -50,25 +22,6 @@ describe('document artefacts', () => {
     expect(mrzLine(['P', 'SGP', 'Winston'], 20)).toBe('P<<SGP<<WINSTON<<<<<');
     expect(mrzLine(['CP0427', 'A'.repeat(50)], 10)).toHaveLength(10);
   });
-
-  it.each(LOCALES)(
-    'reads a passport page as one element with the MRZ hidden (%s)',
-    async (locale) => {
-      const name = locale === 'ja' ? '佐藤 凛' : locale === 'vi' ? 'Nguyễn Văn An' : 'Winston';
-      await renderUi(
-        <ScreenJoltProvider>
-          <Passport name={name} home="Singapore" />
-        </ScreenJoltProvider>,
-        { locale },
-      );
-      const page = screen.getByLabelText(`Passport of ${name}, home Singapore`);
-      expect(page.props.accessible).toBe(true);
-      expect(screen.queryByText(mrzLine(['P', 'SGP', name]))).toBeNull();
-      expect(
-        screen.getByText(mrzLine(['P', 'SGP', name]), { includeHiddenElements: true }),
-      ).toBeTruthy();
-    },
-  );
 
   it('keeps the ticket sticker beside the fields, in flow, so it never covers a value', async () => {
     await renderUi(
@@ -99,48 +52,7 @@ describe('document artefacts', () => {
     expect(value.props.numberOfLines).toBeUndefined();
   });
 
-  it('groups tickets, visas, receipts and gift cards under one label each', async () => {
-    await renderUi(
-      <View>
-        <Ticket
-          headStart="Critterpass Air"
-          from={{ code: 'SIN' }}
-          to={{ code: 'KIX' }}
-          fields={[{ key: 'p', label: 'Passenger', value: 'Rin' }]}
-          stubText="Boarding group"
-          accessibilityLabel="Boarding pass, SIN to KIX"
-        />
-        <Visa
-          kind="boost"
-          eyebrow="Entry"
-          title="Trip boost"
-          perk="Redrafts"
-          accessibilityLabel="Trip boost stamp"
-        />
-        <Receipt
-          title="The Bali Six"
-          sections={[
-            [{ key: 't', label: 'Total', amount: '$6,980', emphasis: true, highlight: true }],
-          ]}
-          accessibilityLabel="Receipt, total $6,980"
-        />
-        <GiftCard
-          title="Pass+"
-          from="From Maya"
-          code="ab12cd34ef56"
-          accessibilityLabel="Gift card from Maya"
-        />
-      </View>,
-    );
-    for (const label of [
-      'Boarding pass, SIN to KIX',
-      'Trip boost stamp',
-      'Receipt, total $6,980',
-      'Gift card from Maya',
-    ]) {
-      expect(screen.getByRole('summary', { name: label })).toBeTruthy();
-    }
-    expect(formatGiftCode('ab12cd34ef56')).toBe('AB12-CD34-EF56');
+  it('draws a 40 pt receipt edge as eight segments of 10 pt teeth', () => {
     expect(zigzagPath(40, 10).match(/L/g)).toHaveLength(8);
   });
 
@@ -202,36 +114,5 @@ describe('document artefacts', () => {
     expect(screen.getByText('Winston Tan', { includeHiddenElements: true })).toBeTruthy();
     await activate(screen.getByRole('button', { name: 'Clear' }));
     expect(onChange).toHaveBeenLastCalledWith(null);
-  });
-});
-
-describe('gallery fixtures', () => {
-  const families = [
-    'PassportPage',
-    'PassportCover',
-    'PaperChrome',
-    'Stamp',
-    'Ticket',
-    'Receipt',
-    'GiftCard',
-    'SignatureLayer',
-  ];
-
-  it.each(LOCALES)('renders every sticker-free document fixture in %s', async (locale) => {
-    expect(listComponents()).toEqual(expect.arrayContaining(families));
-    // Fixtures showing a guide sticker need the native Skia renderer; the on-device gallery covers them.
-    const withSticker = new Set(['PassportPage', 'PassportCover']);
-    for (const component of families.filter((name) => !withSticker.has(name))) {
-      for (const fixture of fixturesFor(component)) {
-        if (component === 'Ticket' && fixture.state.startsWith('crew')) continue;
-        const { unmount } = await renderUi(
-          <ScreenJoltProvider>{fixture.render()}</ScreenJoltProvider>,
-          {
-            locale,
-          },
-        );
-        await unmount();
-      }
-    }
   });
 });

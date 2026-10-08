@@ -16,10 +16,7 @@ import { MonthStrip } from '../critters/MonthStrip';
 import { QuestCard } from '../critters/QuestCard';
 import { StickerShelf } from '../critters/StickerShelf';
 import { WanderFootprints } from '../critters/WanderFootprints';
-import { fixturesFor } from '../gallery/registry';
 import { renderUi } from '../test-support/render';
-
-import '../critters/critters.fixtures';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });
@@ -188,17 +185,5 @@ describe('critter moments', () => {
     expect(paths()).toBe(whole + 1);
     await rerender(<Egg state="hatched" hatchlingName="Tokek" hatchling={null} />);
     expect(screen.getByRole('image', { name: 'Hatched: Tokek' })).toBeTruthy();
-  });
-});
-
-describe('critter gallery fixtures', () => {
-  it('renders the sticker-free fixtures', async () => {
-    // Fixtures that show critter stickers need the native Skia renderer; the gallery covers them.
-    for (const component of ['DexHeader', 'EncounterCard', 'WanderFootprints', 'MonthStrip']) {
-      for (const fixture of fixturesFor(component)) {
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

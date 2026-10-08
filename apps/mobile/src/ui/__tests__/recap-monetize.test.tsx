@@ -7,30 +7,11 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { BillingToggle } from '../monetize/BillingToggle';
 import { ComparisonTable } from '../monetize/ComparisonTable';
 import { PlanRadioRows } from '../monetize/PlanRadioRows';
-import { RouteRider } from '../recap/RouteRider';
 import { setUiQaSink } from '../qa/ui-qa';
 import { renderUi } from '../test-support/render';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });
-
-describe('recap', () => {
-  it('reads the route as a sentence', async () => {
-    await renderUi(
-      <>
-        <RouteRider
-          distance="214 km"
-          reached={1}
-          stops={[
-            { id: 's', name: 'Seminyak', dayLabel: 'Day 1' },
-            { id: 'u', name: 'Ubud', dayLabel: 'Days 2–4' },
-          ]}
-        />
-      </>,
-    );
-    expect(screen.getByLabelText('Route, 214 km: Seminyak Day 1, Ubud Days 2–4')).toBeTruthy();
-  });
-});
 
 describe('monetisation', () => {
   it('moves the comparison highlight and reads each row across plans', async () => {

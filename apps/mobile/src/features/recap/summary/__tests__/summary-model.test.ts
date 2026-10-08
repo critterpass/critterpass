@@ -52,4 +52,33 @@ describe('recap page model', () => {
     const chips = buildSummaryModel(input({ awards })).awards;
     expect(chips.map((chip) => chip.kind)).toEqual(['treasurer', 'best_find']);
   });
+
+  it('keeps the money tile and the crew name off a solo trip', () => {
+    const recap = readRecap(recapRow({ stats: { ...STATS, travellers: 1 } }));
+    const model = buildSummaryModel(input({ recap }));
+    expect(model.solo).toBe(true);
+    expect(model.crewName).toBeNull();
+    expect(model.tiles.map((tile) => tile.id)).not.toContain('owed');
+  });
+
+  it('marks a viewer who sat the trip out, and nobody who travelled', () => {
+    expect(buildSummaryModel(input({ viewerIn: false })).dropout).toBe(true);
+    expect(buildSummaryModel(input()).dropout).toBe(false);
+  });
+
+  it('badges a late re-run of the receipt as late expenses and carries what is still owed', () => {
+    const recap = readRecap(
+      recapRow({
+        version: 2,
+        changed_sections: '["receipt"]',
+        receipt: { ...RECEIPT, outstanding_minor: 4_200, settled: false, settled_on: null },
+      }),
+    );
+    const model = buildSummaryModel(input({ recap }));
+    expect(model.updated).toBe('expenses');
+    expect(model.tiles.find((tile) => tile.id === 'owed')).toMatchObject({
+      outstandingMinor: 4_200,
+      settled: false,
+    });
+  });
 });

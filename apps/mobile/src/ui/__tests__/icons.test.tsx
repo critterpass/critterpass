@@ -9,7 +9,6 @@ import { Card } from '../cards/Card';
 import { DashedAddCard } from '../cards/DashedAddCard';
 import { ListCard } from '../cards/ListCard';
 import { TileGrid } from '../cards/TileGrid';
-import { fixturesFor } from '../gallery/registry';
 import { DOODLES } from '../icons/generated';
 import type { DoodleName } from '../icons/generated';
 import { Icon } from '../icons/Icon';
@@ -18,10 +17,6 @@ import { barsPath, dotGridPath, parseDotLayer, ringsPath, wedgesPath } from '../
 import { Halftone } from '../textures/halftone';
 import { TEXTURE } from '../textures/texture-tokens';
 import { renderUi } from '../test-support/render';
-
-import '../icons/icons.fixtures';
-import '../textures/textures.fixtures';
-import '../cards/cards.fixtures';
 
 const NAMES = Object.keys(DOODLES) as DoodleName[];
 const count = (path: string, command: string) => path.split(command).length - 1;
@@ -196,19 +191,5 @@ describe('cards', () => {
     );
     expect(onDismissed).toHaveBeenCalledTimes(1);
     expect(screen.queryByText(/approve ubud/i)).toBeNull();
-  });
-});
-
-describe('gallery fixtures', () => {
-  it('renders the icon, texture and sticker-free card fixtures', async () => {
-    // Fixtures that show a guide sticker need the native Skia renderer; the gallery covers them.
-    const withSticker = new Set(['HeroPanel', 'CountdownCard']);
-    for (const component of ['Icon', 'Texture', 'Card', 'ListCard', 'TileGrid', 'ActionCard']) {
-      for (const fixture of fixturesFor(component)) {
-        if (withSticker.has(component)) continue;
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

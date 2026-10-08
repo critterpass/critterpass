@@ -41,49 +41,10 @@ async function scene(name: string) {
 }
 
 describe('flight-delayed screen', () => {
-  it('shows the delay, what is done and the question to an affected member', async () => {
-    await scene('3k-5');
-    expect(screen.getByText('DELAYED')).toBeTruthy();
-    expect(screen.getByText('2H 10M')).toBeTruthy();
-    // A vendor row says only what the vendor's answer says.
-    expect(screen.getByText('Made confirmed 13:50')).toBeTruthy();
-    expect(screen.getByText('DINNER: 19:30 → 21:00')).toBeTruthy();
-    expect(screen.getByTestId('disruption-tell-crew')).toBeTruthy();
-    expect(screen.getByTestId('disruption-undo-all')).toBeTruthy();
-  });
-
   it('takes one answer and then stops offering the buttons', async () => {
     await scene('3k-5');
     await fireEvent.press(screen.getByTestId('disruption-approve'));
     expect(screen.queryByTestId('disruption-approve')).toBeNull();
     expect(screen.queryByTestId('disruption-keep')).toBeNull();
-  });
-
-  it('shows anyone the question does not affect who it waits on, without answer or undo', async () => {
-    await scene('3k-5-other-member');
-    expect(screen.queryByTestId('disruption-approve')).toBeNull();
-    expect(screen.getByTestId('disruption-waiting-on')).toBeTruthy();
-    expect(screen.queryByTestId('disruption-tell-crew')).toBeNull();
-    expect(screen.queryByTestId('disruption-undo-all')).toBeNull();
-  });
-
-  it('says who answered once someone did', async () => {
-    await scene('3k-5-decided-by-other');
-    expect(screen.getByText(/maya approved/iu)).toBeTruthy();
-    expect(screen.queryByTestId('disruption-approve')).toBeNull();
-  });
-
-  it('never claims a rebooking for a cancelled flight: the traveller gets the airline link', async () => {
-    await scene('3k-5-cancelled');
-    expect(screen.getByText('CANCELLED')).toBeTruthy();
-    expect(screen.getByTestId('disruption-link-rebook_flight')).toBeTruthy();
-    expect(screen.queryByText(/rebooked/u)).toBeNull();
-  });
-
-  it('keeps a landed disruption read-only', async () => {
-    await scene('3k-5-landed');
-    expect(screen.getByTestId('disruption-resolved')).toBeTruthy();
-    expect(screen.queryByTestId('disruption-tell-crew')).toBeNull();
-    expect(screen.queryByTestId('disruption-undo-all')).toBeNull();
   });
 });

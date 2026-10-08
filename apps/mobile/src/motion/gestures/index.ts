@@ -6,8 +6,6 @@ export type {
 } from './drag-dismiss';
 export { snapMinutes, SNAP_MINUTES, useDragSnap } from './drag-snap';
 export type { DragSnapAnimatedStyle, UseDragSnapOptions } from './drag-snap';
-export { commitsEdgeSwipe, edgeSwipe, useEdgeSwipeBack } from './edge-swipe';
-export type { EdgeSwipeAnimatedStyle, UseEdgeSwipeBackOptions } from './edge-swipe';
 export { HOLD_DRAIN_MS, HOLD_FILL_LEGENDARY_MS, HOLD_FILL_MS, useHoldFill } from './hold-fill';
 export type { HoldFillAnimatedStyle, UseHoldFillOptions } from './hold-fill';
 export { LONG_PRESS_DURATION_MS, useLongPress } from './long-press';

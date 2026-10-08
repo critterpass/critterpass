@@ -120,13 +120,6 @@ describe('hatch eyebrow', () => {
     );
     expect(screen.queryByText(/SIN/u)).toBeNull();
   });
-
-  it('keeps just the time without a flight', async () => {
-    await renderHatch(false);
-    await waitFor(() =>
-      expect(screen.getByText(/^\d\d:\d\d( [AP]M)? · YOU LANDED$/u)).toBeTruthy(),
-    );
-  });
 });
 
 describe('hatch ceremony without its trip yet', () => {

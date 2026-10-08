@@ -11,11 +11,9 @@ import { toUIWorklet } from '../../test-support/ui-runtime';
 import type { GestureHookResult } from '../shared';
 import { useDragDismiss } from '../drag-dismiss';
 import { useDragSnap } from '../drag-snap';
-import { useEdgeSwipeBack } from '../edge-swipe';
 import { useHoldFill } from '../hold-fill';
 import { useLongPress } from '../long-press';
 import { usePress } from '../press';
-import { useReorder } from '../reorder';
 import { useSlideToConfirm } from '../slide-to-confirm';
 import { useSwipeDeck } from '../swipe-deck';
 
@@ -65,21 +63,9 @@ const HOOKS: readonly (readonly [string, HookUnderTest])[] = [
         accessibilityLabel: 'Time',
       }),
   ],
-  ['useEdgeSwipeBack', () => useEdgeSwipeBack({ onBack: noop, accessibilityLabel: 'Back' })],
   ['useHoldFill', () => useHoldFill({ onComplete: noop, accessibilityLabel: 'Hold to hatch' })],
   ['useLongPress', () => useLongPress({ onLongPress: noop, accessibilityLabel: 'Options' })],
   ['usePress', () => usePress({ onPress: noop, accessibilityLabel: 'Confirm' })],
-  [
-    'useReorder',
-    () =>
-      useReorder({
-        index: 1,
-        itemCount: 4,
-        itemHeightPt: 56,
-        onReorder: noop,
-        accessibilityLabel: 'Move',
-      }),
-  ],
   [
     'useSlideToConfirm',
     () => useSlideToConfirm({ onConfirm: noop, accessibilityLabel: 'Slide to pay' }),

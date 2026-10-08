@@ -46,6 +46,10 @@ jobs:
       # change would otherwise reach main and fail the next change that touches tools/scripts.
       - name: No in-app links written by hand in services
         run: pnpm --filter @cp/scripts exec vitest run server-link-literals.test.ts
+      # Read the app's source for the same reason: a test of code no screen runs, or a component
+      # test that only renders, would otherwise reach main with an app-only change.
+      - name: App tests cover code a screen runs, through an interaction
+        run: pnpm --filter @cp/scripts exec vitest run mobile-test-reachability.test.ts mobile-test-interaction.test.ts
       # The content factory starts Testcontainers Postgres from its `test` script, so that suite
       # runs in this job: when it is affected, pull the suites' images and build the test Postgres
       # image before turbo starts everything else on this runner (the database job explains why).
