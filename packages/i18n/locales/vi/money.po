@@ -329,15 +329,15 @@ msgstr "Chép"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedTitle"
-msgstr ""
+msgstr "Chưa mở được ảnh đó"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
 msgid "money.scan.commitOffline"
-msgstr ""
+msgstr "Chưa kết nối được với CritterPass. Có mạng rồi bấm CHIA LUÔN lại nhé."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableTitle"
-msgstr ""
+msgstr "Chưa đọc được hoá đơn này"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
 msgid "money.budget.target"
@@ -849,7 +849,7 @@ msgstr "Đã nhắc"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.retake"
-msgstr ""
+msgstr "Chụp lại"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retake"
@@ -890,7 +890,7 @@ msgstr "Quét hoá đơn"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedLine"
-msgstr ""
+msgstr "Quét hoá đơn, chọn ảnh khác, hoặc tự gõ vào. Chưa có gì được thêm."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
@@ -1008,7 +1008,7 @@ msgstr "Chưa gửi được. Kiểm tra kết nối rồi thử lại."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
 msgid "money.scan.evenRefused"
-msgstr ""
+msgstr "Chưa được. Thử lại, hoặc tự gõ vào."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedTitle"
@@ -1016,7 +1016,7 @@ msgstr "Chưa tải lên được"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
 msgid "money.scan.commitRefused"
-msgstr ""
+msgstr "Phần chia đó chưa được ghi. Thử lại, hoặc tự gõ vào."
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.amount"
@@ -1064,7 +1064,7 @@ msgstr "Khoản chi này đã bị xoá"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.slowLine"
-msgstr ""
+msgstr "Lần này lâu hơn bình thường. Chờ tiếp, hoặc tự gõ vào."
 
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 msgid "money.pay.goneTitle"
@@ -1129,7 +1129,7 @@ msgstr "Nhập {amount} trong ứng dụng ngân hàng."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeIt"
-msgstr ""
+msgstr "Tự gõ vào"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
@@ -1137,7 +1137,7 @@ msgstr "Tự gõ vào"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableLine"
-msgstr ""
+msgstr "Tự gõ vào, hoặc chụp lại cho phẳng và đủ sáng. Chưa có gì được thêm."
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx

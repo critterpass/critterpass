@@ -118,7 +118,7 @@ msgstr "Thêm"
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.allow"
-msgstr ""
+msgstr "Cho phép"
 
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.respond"
@@ -289,7 +289,7 @@ msgstr "Nếu mất hộ chiếu, hãy liên hệ {name}."
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.dnd"
-msgstr ""
+msgstr "Trong chế độ Không làm phiền, SOS của bạn đồng hành sẽ im lặng. Hãy cho nó reo xuyên qua."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepInsurance"
@@ -371,11 +371,11 @@ msgstr "Không có ai khác trong chuyến đi để báo"
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.notifications"
-msgstr ""
+msgstr "Thông báo đang tắt, nên SOS của bạn đồng hành không tới được bạn."
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.fullScreen"
-msgstr ""
+msgstr "Trên máy đang khoá, SOS chỉ hiện thành một biểu ngữ nhỏ. Hãy cho nó chiếm toàn màn hình."
 
 #: ../../apps/mobile/src/features/safety/help/help-screen.tsx
 msgid "safety.share.extendedQueued"

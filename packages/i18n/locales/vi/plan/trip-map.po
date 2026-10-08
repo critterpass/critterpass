@@ -180,7 +180,7 @@ msgstr "Biển"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.boat"
-msgstr ""
+msgstr "Tàu thuyền"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.booked"
@@ -188,7 +188,7 @@ msgstr "Đã đặt"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.bus"
-msgstr ""
+msgstr "Xe buýt"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.car"
@@ -279,7 +279,7 @@ msgstr "Lấp chỗ trống"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.flight"
-msgstr ""
+msgstr "Chuyến bay"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.food"
@@ -514,11 +514,11 @@ msgstr "Quá xa"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.tour"
-msgstr ""
+msgstr "Tour"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.train"
-msgstr ""
+msgstr "Tàu hoả"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.vote"

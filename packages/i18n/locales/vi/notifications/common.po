@@ -9,7 +9,7 @@ msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.storm_start_body"
-msgstr ""
+msgstr "{action}"
 
 #: ../domain/src/planning/templates.ts
 msgid "notifications.check.ask_member.body"
@@ -25,7 +25,7 @@ msgstr "{asker} muốn đổi kế hoạch"
 
 #: ../domain/src/billing/templates.ts
 msgid "notifications.billing.boost_title"
-msgstr ""
+msgstr "{buyer} đã Boost {place}"
 
 #: ../domain/src/disruptions/templates.ts
 msgid "notifications.disruption.late_body_waiting"
@@ -145,7 +145,7 @@ msgstr "Bản nháp của {guide} đã xong"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.storm_start_title"
-msgstr ""
+msgstr "{headline}"
 
 #: ../domain/src/disruptions/templates.ts
 msgid "notifications.disruption.needs_yes_title"
@@ -337,11 +337,11 @@ msgstr "{place} thắng với {score}. Vào xem kết quả nào."
 
 #: ../domain/src/recap/templates.ts
 msgid "notifications.recap.anniversary.body"
-msgstr ""
+msgstr "{place}, tròn một năm. Còn nhớ không?"
 
 #: ../domain/src/recap/templates.ts
 msgid "notifications.recap.ready.title"
-msgstr ""
+msgstr "{place}, tổng kết"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.vote_start_body"
@@ -415,7 +415,7 @@ msgstr "{sender} đã đặt điểm hẹn: {place}, {time}."
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.ride_start_title"
-msgstr ""
+msgstr "{service} · {route}"
 
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.text"
@@ -471,7 +471,7 @@ msgstr "Vừa có một chỗ trống"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.ride_start_body"
-msgstr ""
+msgstr "Còn khoảng {eta} phút nữa là tới. Giá cước có trên màn hình khóa."
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.title"
@@ -595,7 +595,7 @@ msgstr "Giờ là {first} hoặc {second}. Phiếu của bạn quyết định."
 
 #: ../domain/src/billing/templates.ts
 msgid "notifications.billing.boost_body"
-msgstr ""
+msgstr "Đã bật cho cả nhóm. Chi tiết có trong chat nhóm."
 
 #: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.trip_confirmed.title_no_dates"
@@ -687,11 +687,11 @@ msgstr "Đang tới đây. Còn {minutes} phút."
 
 #: ../domain/src/recap/templates.ts
 msgid "notifications.recap.anniversary.title"
-msgstr ""
+msgstr "Ngày này một năm trước"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.storm_plain_action"
-msgstr ""
+msgstr "Mở CritterPass để xem kế hoạch."
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.needs_yes_body"
@@ -707,7 +707,7 @@ msgstr "Mở chuyến đi để xem thay đổi."
 
 #: ../domain/src/billing/templates.ts
 msgid "notifications.billing.resume_body"
-msgstr ""
+msgstr "Pass+ vẫn tắt cho đến khi bạn bật lại. Mở Gói của bạn để dùng tiếp."
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.pickup"
@@ -767,7 +767,7 @@ msgstr "Có người đã chuyển tiếp một đặt chỗ từ địa chỉ n
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.critter_start_title"
-msgstr ""
+msgstr "Có ai đó đang trốn gần đây"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.stay"
@@ -775,11 +775,11 @@ msgstr "Chỗ ở"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.critter_start_body"
-msgstr ""
+msgstr "Ở lại {place} thêm chút nữa để gặp bạn ấy."
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.critter_start_body_plain"
-msgstr ""
+msgstr "Ở yên đây thêm chút nữa để gặp bạn ấy."
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.followup_title"
@@ -855,7 +855,7 @@ msgstr "Xem chuyến đi rồi báo cả nhóm bạn có đi không nhé."
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.storm_plain_headline"
-msgstr ""
+msgstr "Đang theo dõi thời tiết"
 
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.hatched.body"
@@ -887,7 +887,7 @@ msgstr "Bản nháp {place} của bạn đã xong. Hiện chỉ mình bạn xem 
 
 #: ../domain/src/recap/templates.ts
 msgid "notifications.recap.ready.body"
-msgstr ""
+msgstr "Bản tổng kết {place} của bạn đã sẵn sàng. Vào xem cả nhóm đã làm những gì nhé."
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.trip_day.briefing_body"
@@ -915,7 +915,7 @@ msgstr "Việc chia sẻ vị trí với cả nhóm sẽ dừng sau 10 phút."
 
 #: ../domain/src/billing/templates.ts
 msgid "notifications.billing.resume_title"
-msgstr ""
+msgstr "Thời gian tạm dừng Pass+ của bạn kết thúc vào {date}"
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.done_title"
