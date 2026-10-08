@@ -2,22 +2,8 @@
  * A problem report's screenshot never shows a booking's confirmation code, price, voucher or
  * policy number: with the mask up they sit under a cover, while the booking's name stays readable.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
 jest.mock('@shopify/flash-list', () => require('@/features/money/test-support/flash-list-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { replace: () => undefined, back: () => undefined, push: () => undefined },
-}));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';

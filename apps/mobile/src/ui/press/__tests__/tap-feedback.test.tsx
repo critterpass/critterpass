@@ -8,9 +8,6 @@ jest.mock('@/motion/impact', () => {
   return { ...(actual as object), impact: jest.fn() };
 });
 jest.mock('../../../../modules/cp-haptics', () => ({ play: jest.fn() }));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';

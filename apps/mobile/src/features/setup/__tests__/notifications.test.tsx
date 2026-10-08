@@ -5,15 +5,6 @@
  * from the last response, and each reply is sent once even when both paths see it. The OS
  * notification centre is the boundary; the command goes through the real client and queue.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-jest.mock('expo-router', () => ({ useIsFocused: () => true, router: { push: jest.fn() } }));
 jest.mock('expo-notifications', () => ({
   setNotificationCategoryAsync: jest.fn(() => Promise.resolve()),
   addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),

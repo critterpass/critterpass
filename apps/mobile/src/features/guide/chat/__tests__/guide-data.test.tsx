@@ -3,15 +3,8 @@
  * guide, the GROUP and JUST ME threads with their saved answers, the thread voice mode asks in,
  * and today's meter.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';

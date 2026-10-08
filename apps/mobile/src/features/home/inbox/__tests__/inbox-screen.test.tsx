@@ -4,20 +4,10 @@
  * answer coming back with a toast, an item settled on another surface leaving live, UNDO rows,
  * mark-all-read that never resolves, the CREW and GUIDES filters, and Tokek opening one eye.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 // Cross-fades are timing, not layout: snapshots see their settled content.
 jest.mock('../../fade-in-view', () => ({
   FadeInView: ({ children }: { children: unknown }) => children,
 }));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },

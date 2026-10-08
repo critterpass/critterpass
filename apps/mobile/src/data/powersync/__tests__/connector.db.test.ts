@@ -5,16 +5,7 @@
  * unprocessed op with exponential backoff, and every op applied exactly once.
  */
 import { generateUuidV7 } from '@cp/domain';
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  jest,
-} from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
 import { nodeFetch } from '../test-support/node-realm';
@@ -35,12 +26,6 @@ import {
   stopQueues,
 } from '../test-support/queue-fixtures';
 import { startApiHarness, type ApiHarness } from '../test-support/start-api-harness';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 let api: ApiHarness;
 let db: AbstractPowerSyncDatabase;

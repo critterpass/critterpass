@@ -2,7 +2,7 @@
  * The queued list is read from the encrypted database itself, so it survives the app being killed
  * and reopened, in the original order and with its summaries; the hook follows every change.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 
 import { defineClientCommand } from '../../commands/summaries';
@@ -12,13 +12,6 @@ import {
 } from '../../powersync/test-support/local-first-fixture';
 import { removeDir } from '../../powersync/test-support/open-node-database';
 import { listQueuedCommands, useQueuedCommands } from '../use-queued-commands';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const uploadPhotos = defineClientCommand({
   name: 'register_photo',

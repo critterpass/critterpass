@@ -6,16 +6,6 @@
  * synced crew rows with the newcomer ringed, unnamed waiting seats, the waitlist copy and the
  * link-open-to-manifest timing.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 // A page is in front until another is pushed over it; `mockOver` is that page's count.
 const mockOver = { pages: 0 };
 jest.mock('expo-router', () => ({

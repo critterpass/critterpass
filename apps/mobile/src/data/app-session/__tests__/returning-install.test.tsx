@@ -20,13 +20,6 @@ import {
   type SessionHarness,
 } from '../test-support/session-deps';
 
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-
 let harnesses: SessionHarness[] = [];
 
 function harness(options: Parameters<typeof sessionHarness>[0]): SessionHarness {

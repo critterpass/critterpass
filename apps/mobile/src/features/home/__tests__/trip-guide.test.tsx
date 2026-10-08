@@ -2,14 +2,8 @@
  * The guide the shell shows: the Home crew's trip under way, else its next locked-in trip, else
  * the default. The selection is pure; the hook reads it from the local database's synced rows.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 

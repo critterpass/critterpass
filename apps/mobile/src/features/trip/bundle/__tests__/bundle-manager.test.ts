@@ -4,14 +4,8 @@
  * map waits when the phone is nearly full; and a download cut off resumes with what is missing.
  * The api and the file system are the recorded boundary; the saved state is the real database.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import {
   openTestLocalFirst,

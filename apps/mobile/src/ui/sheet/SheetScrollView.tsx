@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ComponentRef, Ref } from 'react';
 import { ScrollView } from 'react-native';
 import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import type { Gesture } from 'react-native-gesture-handler';
@@ -7,7 +7,9 @@ import { GestureDetector } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 
 type NativeGesture = ReturnType<typeof Gesture.Native>;
-type ScrollViewProps = ComponentProps<typeof ScrollView>;
+type ScrollViewProps = ComponentProps<typeof ScrollView> & {
+  readonly ref?: Ref<ComponentRef<typeof ScrollView>>;
+};
 
 interface SheetScrollContextValue {
   readonly scroll: NativeGesture;

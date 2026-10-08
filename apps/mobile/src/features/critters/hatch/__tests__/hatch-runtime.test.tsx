@@ -3,12 +3,6 @@
  * hasn't played here opens 3l-1 once, at a calm moment on a tab root, and never over a boarding
  * pass, a sheet or a flow in progress.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 let mockPathname = '/pass';
 jest.mock('expo-router', () => ({
   usePathname: () => mockPathname,

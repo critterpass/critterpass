@@ -4,12 +4,6 @@
  * edit that puts the draft back (the server is never asked to take a draft edit back), a removed
  * stop comes back whole, and a member, who has no plan to see yet, sends nothing.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';

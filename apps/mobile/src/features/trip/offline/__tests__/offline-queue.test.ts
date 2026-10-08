@@ -4,14 +4,8 @@
  * reads what it read before the tap (the pack list's query, an optimistic overlay row); a chat
  * message can have its text changed; anything already uploading is left alone.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { markCommandsDone } from '@/data/powersync/queue-store';

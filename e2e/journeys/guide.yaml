@@ -24,10 +24,6 @@ appId: app.critterpass.dev
 - inputText: 'What should we pack for rain in Ubud?'
 - tapOn:
     id: 'guide-composer-send'
-- extendedWaitUntil:
-    visible:
-      id: 'guide-question'
-    timeout: 15000
 # The answer streams in: the live answer once its first words arrive, or its saved copy once it has
 # synced. A short answer can finish streaming before the flow looks, so either is enough.
 - extendedWaitUntil:
@@ -38,6 +34,13 @@ appId: app.critterpass.dev
     id: 'guide-error'
 - hideKeyboard
 - waitForAnimationToEnd
+# The thread follows the answer to its end, so over the keyboard a long answer pushes the question
+# off the top; it is back once the keyboard is down, or one scroll up.
+- scrollUntilVisible:
+    element:
+      id: 'guide-question'
+    direction: UP
+    timeout: 10000
 - takeScreenshot: en-journey-guide-answer
 # Just me, then Group.
 - assertVisible:

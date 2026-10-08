@@ -13,7 +13,6 @@ jest.mock('expo-constants', () => ({
     },
   },
 }));
-jest.mock('expo-router', () => ({ Link: ({ children }: { children: unknown }) => children }));
 
 import { describe, expect, it, jest } from '@jest/globals';
 

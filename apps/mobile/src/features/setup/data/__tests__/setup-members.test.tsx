@@ -5,12 +5,6 @@
  * The skips the steps offer follow from this count, and the server refuses a skip it does not
  * agree with.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { isSkippable } from '@cp/domain';

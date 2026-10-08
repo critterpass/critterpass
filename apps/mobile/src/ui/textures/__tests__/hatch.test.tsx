@@ -2,10 +2,8 @@
  * The hatch waits for its block's size, then shows one image of it; where Skia has no raster
  * surface (here, Skia's Jest stand-in) it falls back to drawing the stripes live, never to nothing.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { hatchImageKey } from '../hatch-image';

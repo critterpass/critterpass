@@ -4,18 +4,11 @@
  * saved list; offline, each read answers from its last good copy. The browse body is shaped as the
  * api's `searchPlaces` answers it (services/api/src/places/search.ts).
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import { placeCache, placePath, readPlace } from '@/data/places/place-read';
 import {

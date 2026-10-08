@@ -20,6 +20,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { VoteServicesProvider, type VoteServices } from '../data/vote-services';
 import { replayServices } from './replay-services';
+import { pause } from '@/lib/test-support/settle';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -74,7 +75,7 @@ export function renderVote(
 export async function until(check: () => boolean, timeoutMs = 15_000, label = ''): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await pause(100);
     if (check()) return;
     if (Date.now() > deadline)
       throw new Error(`timed out waiting for the screen to settle ${label}`);
@@ -83,7 +84,7 @@ export async function until(check: () => boolean, timeoutMs = 15_000, label = ''
 
 /** Lets entrance motion finish before a layout snapshot. */
 export function settleMotion(ms = 700): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return pause(ms);
 }
 
 /** Me, Maya and Jordan in one crew, with Kyoto, Lisbon and Bali in the catalogue. */

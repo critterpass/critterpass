@@ -6,7 +6,7 @@
  * what services/api returns), at the transport boundary.
  */
 import { DomainError, type ErrorCode } from '@cp/domain';
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
 import { createSyncConnector } from '../connector';
@@ -27,12 +27,6 @@ import {
 } from '../test-support/queue-fixtures';
 import type { SyncTransport, TransportResponse } from '../transport';
 import { backoffDelayMs, HOLD_AFTER_REFUSED_ALONE } from '../upload-queue';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 const UID = '0190f5a4-0000-7000-8000-00000000aaaa';
 

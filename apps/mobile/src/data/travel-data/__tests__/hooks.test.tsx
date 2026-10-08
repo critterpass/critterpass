@@ -3,7 +3,7 @@
  * weather straight from the synced trip pack (encrypted local database) without asking the api;
  * and the api's `missing` answer when nothing covers the place.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 
@@ -17,13 +17,6 @@ import { recordedReader } from '../test-support/recorded-reader';
 import { useCrowds } from '../useCrowds';
 import { useFares } from '../useFares';
 import { useWeather } from '../useWeather';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const stacks: TestLocalFirst[] = [];
 

@@ -3,7 +3,7 @@
  * table the way the `me` sync stream delivers them (no PowerSync service runs in unit tests);
  * everything downstream — overlays, queue, rejected list — is the real code on a real database.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import {
   OVERLAY_CREWS,
@@ -16,13 +16,6 @@ import { listQueuedCommands } from '../../status/use-queued-commands';
 import { listRejectedCommands } from '../../status/use-rejected-commands';
 import { reconcileOnce, startReconcile } from '../reconcile';
 import { defineTestCommand } from '../test-support/test-command';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const createCrew = defineTestCommand<{ crew_id: string }>({
   name: 'create_test_crew',

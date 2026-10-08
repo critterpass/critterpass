@@ -1,10 +1,3 @@
-// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../../test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('../../sticker/Sticker', () => require('../../avatar/test-support/sticker-double'));
-jest.mock('expo-router', () => ({ useIsFocused: () => true, router: { back: () => undefined } }));
-
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { ReactElement } from 'react';

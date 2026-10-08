@@ -1,3 +1,5 @@
+jest.unmock('expo-router');
+
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';

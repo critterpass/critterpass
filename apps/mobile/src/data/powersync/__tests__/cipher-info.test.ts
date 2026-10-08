@@ -3,16 +3,10 @@
  * realm opens a real encrypted file with SQLite3 Multiple Ciphers, which is not SQLCipher and
  * answers neither pragma, so it must read as such rather than as a SQLCipher build.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import { describeCipher, readDatabaseCipherInfo } from '../cipher-info';
 import { openNodeDatabase, removeDir, tempDatabaseDir } from '../test-support/open-node-database';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 const dirs: string[] = [];
 

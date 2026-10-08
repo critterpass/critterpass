@@ -3,10 +3,8 @@
  * screen reader (and the iPhone hierarchy) finds, named after the guide. Inside an accessible
  * wrapper it was folded away on iOS, so nothing could tell the picture had arrived.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { render, screen, waitFor, within } from '@testing-library/react-native';
 
 import { guideSticker } from '@/ui/avatar/guides';

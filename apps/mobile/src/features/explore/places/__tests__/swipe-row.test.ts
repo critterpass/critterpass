@@ -3,7 +3,7 @@
  * standing laid over the synced places until they show it, undo putting the row back with the
  * opposite command, and both commands waiting in the offline queue on a real local database.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import {
@@ -25,14 +25,6 @@ import {
   type Pending,
   type PendingAction,
 } from '../swipe-actions';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
 const TRIP = '0190f5a4-0000-7000-8000-00000000a001';
 const TIRTA = '0190f5a4-0000-7000-8000-00000000b001';

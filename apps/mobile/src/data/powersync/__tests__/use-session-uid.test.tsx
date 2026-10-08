@@ -3,7 +3,7 @@
  * on its first render, and it follows the database's owner through a wipe and the next sign-in. A
  * database whose owner row was written before this process read it is followed from the row.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 
 import { OWNER_UID_KEY } from '../local-tables';
@@ -11,12 +11,6 @@ import { bindLocalOwner, resetLocalData } from '../reset';
 import { openTestLocalFirst, type TestLocalFirst } from '../test-support/local-first-fixture';
 import { removeDir } from '../test-support/open-node-database';
 import { useSessionUid } from '../use-session-uid';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 const ANA = '0199a1b2-0000-7000-8000-00000000000a';
 const BINH = '0199a1b2-0000-7000-8000-00000000000b';

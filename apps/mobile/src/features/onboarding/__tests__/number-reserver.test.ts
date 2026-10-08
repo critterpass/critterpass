@@ -3,14 +3,8 @@
  * refusal, and after a transient failure only on the backoff timer or when the device is back
  * online, however many draft edits ask in between.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import type { SendResult } from '@/data/commands/client';
 import { createNetworkState } from '@/data/status/network';

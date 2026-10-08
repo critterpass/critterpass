@@ -3,8 +3,8 @@
  * to sit at that foot, outside the scrolling fields. Laid out after the fields instead, it ran on
  * under the keyboard on an iPhone and only a sliver of it showed while the name was typed.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../../../../ui/test-support/skia-double'));
+
+jest.unmock('expo-router');
 
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

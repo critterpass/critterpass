@@ -1,4 +1,7 @@
-import { beforeAll, describe, expect, it } from '@jest/globals';
+jest.unmock('@shopify/react-native-skia');
+jest.unmock('@/ui/sticker/Sticker');
+
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 
 import type { SkiaEngine } from '@cp/critter-art/skia';
 
