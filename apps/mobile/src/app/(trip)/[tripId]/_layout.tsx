@@ -4,6 +4,7 @@ import { Stack } from 'expo-router/js-stack';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { isTripId } from '@/features/trip/access/trip-access';
 import { useTripAccess } from '@/features/trip/access/use-trip-access';
+import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
@@ -25,17 +26,12 @@ export default function TripIdLayout() {
   if (trip === null || access === 'missing') return <NotFoundScreen />;
   return (
     <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-      {/* Add to plan rises as a sheet over the screen that opened it. */}
-      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
-      <Stack.Screen name="add/[placeId]" options={modalGroupOptions()} />
-      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
-      <Stack.Screen name="search/link" options={modalGroupOptions()} />
-      {/* Fill a gap rises as a sheet over the trip map. */}
-      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
-      <Stack.Screen name="check/gap" options={modalGroupOptions()} />
-      {/* Picking a driver's days rises as a sheet over the comparison. */}
-      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
-      <Stack.Screen name="drivers/pick" options={modalGroupOptions()} />
+      {/* Add to plan, paste a link, fill a gap and pick a driver's days rise as sheets over the
+          screen that opened them. */}
+      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a navigator's path, never copy. */}
+      {sheetScreens('(trip)/[tripId]').map((name) => (
+        <Stack.Screen key={name} name={name} options={modalGroupOptions()} />
+      ))}
     </Stack>
   );
 }

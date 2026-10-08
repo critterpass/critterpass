@@ -15,10 +15,13 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+# The gallery entry sits below the first screenful of the list.
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-gallery'
-    timeout: 10000
+    direction: DOWN
+    timeout: 20000
+    speed: 20
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:

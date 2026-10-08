@@ -19,6 +19,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'undesigned-states 3i-5 "Payment detail (payee), disputed": one payment, its pink note and the actions its state allows',
   ],
   [
+    'shell-edge-to-edge',
+    'developer gallery tab demo: a heading, one line and the tab bar, drawn to check the screen runs edge to edge',
+  ],
+  [
     'money-payment-payee-request',
     'undesigned-states 3i-5 "Payment detail (payee), waiting to be paid": who owes, the amount, the pending tag and REQUEST IT',
   ],

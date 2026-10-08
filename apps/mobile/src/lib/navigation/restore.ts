@@ -3,6 +3,7 @@ import { useEffect, useRef, useSyncExternalStore } from 'react';
 import { createMMKV } from 'react-native-mmkv';
 
 import { useSessionGate, type SessionGateState } from './gates';
+import { restorableState } from './restore-filter';
 
 /** Navigation state older than this is not restored on a cold start (plan decision: 30 min). */
 export const RESTORE_WINDOW_MS = 30 * 60 * 1000;
@@ -191,8 +192,9 @@ export interface NavigationPersistenceOptions {
 }
 
 /**
- * Saves the root navigation state on every change of a signed-in session and, once per cold
- * start, restores the saved one when it is fresh (< 30 min), from this build, the launch wasn't a
+ * Saves the root navigation state on every change of a signed-in session (cut at the first sheet or
+ * one-shot screen, see restore-filter.ts) and, once per cold start, restores the saved one when it
+ * is fresh (< 30 min), from this build, the launch wasn't a
  * link (bare or not: the link router owns those), the session's local database is open and the person is
  * still on the launch screen; an account switch saves nothing more. `launchUrl` is `undefined` while still being read; restore waits for
  * it.
@@ -237,10 +239,16 @@ export function useNavigationPersistence({
       // A signed-out launch has no use for the screens of the session that was there before.
       if (gate !== 'ready') clearSavedNavigation();
       if (decision === 'skip' || saved === undefined) return;
+      // A state saved before an update applied in place may still end on a sheet.
+      const restorable = restorableState(saved.state);
+      if (restorable === undefined) {
+        clearSavedNavigation();
+        return;
+      }
       // After the first frame: the root navigator only accepts actions once it has mounted.
       requestAnimationFrame(() => {
         try {
-          navigationRef.reset(saved.state as Parameters<RootRef['reset']>[0]);
+          navigationRef.reset(restorable as Parameters<RootRef['reset']>[0]);
         } catch {
           clearSavedNavigation();
         }
@@ -252,7 +260,11 @@ export function useNavigationPersistence({
       // A signed-out or first-run session saves nothing: its screens are not a place to return to.
       if (!decided.current || gate !== 'ready' || accountSwitched) return;
       const state = navigationRef.getRootState();
-      if (state) writeSavedNavigation({ savedAt: now(), build, state });
+      if (!state) return;
+      // Only places to come back to are saved: never a sheet, a rise or a one-shot screen.
+      const restorable = restorableState(state);
+      if (restorable === undefined) clearSavedNavigation();
+      else writeSavedNavigation({ savedAt: now(), build, state: restorable });
     });
   }, [navigationRef, build, launchUrl, now, gate, ready]);
 }
