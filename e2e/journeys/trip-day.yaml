@@ -1,0 +1,193 @@
+appId: app.critterpass.dev
+---
+# Journey: the trip day. A new account starts as the `trip_today` scenario (a crew of six on a
+# locked three-day Đà Nẵng trip that started today). TRIPS opens the hub on the day; its next row
+# opens the day-of screen, where the account says I'M UP when there is an early start, adds
+# "Sunscreen" to its pack list and ticks it through the api. A flight that left this morning,
+# typed into the wallet by hand, offers I LANDED in its details, and the tap settles it. A relaunch
+# comes back to the app, the hub opens from TRIPS, and the day-of screen still has the tick.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow: subflows/pass-trip-welcome.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- runFlow: subflows/pass-trip-welcome.yaml
+- assertVisible:
+    id: 'trip-hub-header-in'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-trip-day-hub
+# Today's page: the hub's Today row when nothing of today is ahead, else its next stop.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-today'
+    commands:
+      - tapOn:
+          id: 'trip-hub-today'
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day'
+    commands:
+      - tapOn:
+          id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'trip-day-to-today'
+          timeout: 15000
+- assertVisible:
+    id: 'trip-day-hero-.*'
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-im-up'
+    commands:
+      - tapOn:
+          id: 'trip-day-im-up'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'trip-day-im-up'
+          timeout: 15000
+- runFlow: subflows/pass-trip-welcome.yaml
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-trip-day-day-of
+# The pack list.
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-pack-add'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'trip-day-pack-add'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-pack-input'
+    timeout: 10000
+- tapOn:
+    id: 'trip-day-pack-input'
+- inputText: 'Sunscreen'
+- pressKey: Enter
+# The chip is found by the item the flow typed: Android shows its text, iOS reads it whole.
+- extendedWaitUntil:
+    visible:
+      text: 'SUNSCREEN|Sunscreen, just you'
+    timeout: 10000
+- tapOn:
+    text: 'SUNSCREEN|Sunscreen, just you'
+- runFlow: subflows/sunscreen-packed.yaml
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-trip-day-packed
+# I LANDED: this morning's flight, typed in by hand, has left, so its details offer it.
+- evalScript: ${output.today = new Date(Date.now() + 7 * 3600000).toISOString().slice(0, 10)}
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: subflows/open-bookings.yaml
+- runFlow:
+    file: subflows/add-booking-by-hand.yaml
+    env:
+      KIND: flight
+      FLIGHT: '9G 950'
+      FROM: 'SGN'
+      TO: 'DAD'
+      DAY: ${output.today}
+      TIME: '00:05'
+      LANDS: '01:30'
+- scrollUntilVisible:
+    element: '.*9G ?950.*'
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- tapOn: '.*9G ?950.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-flight'
+    timeout: 15000
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'bookings-detail-landed'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'bookings-detail-landed'
+# Landed: the flight no longer offers it.
+- extendedWaitUntil:
+    notVisible:
+      id: 'bookings-detail-landed'
+    timeout: 30000
+- runFlow: subflows/pass-trip-welcome.yaml
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-trip-day-landed
+# A relaunch: the app comes back signed in, and TRIPS opens the hub.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 60000
+- runFlow: subflows/pass-trip-welcome.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-in'
+    timeout: 30000
+- runFlow: subflows/pass-trip-welcome.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-today'
+    commands:
+      - tapOn:
+          id: 'trip-hub-today'
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day'
+    commands:
+      - tapOn:
+          id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- scrollUntilVisible:
+    element:
+      text: 'SUNSCREEN|Sunscreen, just you'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+- runFlow: subflows/sunscreen-packed.yaml
+- takeScreenshot: en-journey-trip-day-after-relaunch

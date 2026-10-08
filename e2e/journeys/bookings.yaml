@@ -1,0 +1,133 @@
+appId: app.critterpass.dev
+---
+# Journey: the crew's bookings on a trip that is on. A new account starts as the `trip_today`
+# scenario (a crew of six on a locked Đà Nẵng trip that started today, its stay already in the
+# wallet). WALLET opens on Money and its switch opens Bookings. Add a booking's PASTE takes the
+# flight home's confirmation, the guide reads it into a candidate and ADD files it; the flight card
+# opens its details with the reference. An activity typed in by hand is in the wallet at once, and
+# deleting it from its details takes it out of the wallet.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow: subflows/pass-trip-welcome.yaml
+- runFlow: subflows/open-bookings.yaml
+- assertVisible:
+    id: 'bookings-wallet-ready'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-bookings-wallet
+# Tomorrow and the trip's last day in Vietnam.
+- evalScript: ${var now = new Date(Date.now() + 7 * 3600000); output.nextDay = new Date(now.getTime() + 86400000).toISOString().slice(0, 10); output.lastDay = new Date(now.getTime() + 2 * 86400000).toISOString().slice(0, 10)}
+- evalScript: ${output.paste = 'Flight booking confirmed. Booking reference K7Q2PX. Passenger WINSTON. Flight 9G 957 from Da Nang (DAD) to Ho Chi Minh City (SGN) on ' + output.lastDay + ', departs 19:40, arrives 21:05.'}
+- evalScript: ${output.pasteEnd = '.*arrives 21:05.*'}
+# Add a booking, PASTE.
+- scrollUntilVisible:
+    element:
+      id: 'bookings-add'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    # Clear of the tab bar's guide button, which sits over the foot of the page.
+    centerElement: true
+- tapOn:
+    id: 'bookings-add'
+- extendedWaitUntil:
+    visible:
+      id: 'tile-paste'
+    timeout: 15000
+- tapOn:
+    id: 'tile-paste'
+- runFlow: subflows/paste-booking.yaml
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-bookings-candidate
+- tapOn:
+    id: 'bookings-candidate-.*-add'
+- extendedWaitUntil:
+    notVisible:
+      id: 'bookings-candidate-.*-add'
+    timeout: 20000
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-ready'
+    timeout: 15000
+# The flight card (found by the flight the flow pasted), then its details with the reference.
+- scrollUntilVisible:
+    element: '.*9G ?957.*'
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- tapOn: '.*9G ?957.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-flight'
+    timeout: 15000
+- assertNotVisible:
+    id: 'bookings-flight-pass'
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- assertVisible: '.*K7Q2PX.*'
+# The details sit in the Wallet tab: their last rows end above the tab bar and its guide button.
+- scrollUntilVisible:
+    element:
+      id: 'bookings-detail-delete'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-bookings-flight-detail
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-ready'
+    timeout: 15000
+# By hand: a cable car ride tomorrow, in the wallet before the server has answered.
+- runFlow:
+    file: subflows/add-booking-by-hand.yaml
+    env:
+      KIND: activity
+      TITLE: 'Ba Na cable car'
+      DAY: ${output.nextDay}
+      TIME: '09:00'
+      SHOT: en-journey-bookings-by-hand
+- extendedWaitUntil:
+    visible: '(?i).*ba na cable car.*'
+    timeout: 10000
+# Delete it from its details.
+- tapOn: '(?i).*ba na cable car.*'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- assertVisible: '(?i).*ba na cable car.*'
+- scrollUntilVisible:
+    element:
+      id: 'bookings-detail-delete'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'bookings-detail-delete'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-delete-confirm-confirm'
+    timeout: 10000
+- tapOn:
+    id: 'bookings-delete-confirm-confirm'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-.*'
+    timeout: 20000
+- assertNotVisible: '(?i).*ba na cable car.*'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-bookings-after-delete

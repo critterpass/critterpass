@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# From any tab: WALLET, then its BOOKINGS half (the tab opens on Money). Ends on the wallet's
+# bookings, in whatever state it is in.
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'wallet-switch'
+    timeout: 60000
+- runFlow: pass-trip-welcome.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'bookings-wallet-.*'
+    commands:
+      - tapOn:
+          id: 'wallet-switch-bookings'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-(ready|empty)'
+    timeout: 30000

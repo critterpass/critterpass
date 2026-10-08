@@ -1,0 +1,40 @@
+appId: app.critterpass.dev
+---
+# From any tab: TRIPS, the hub's PLAN tile, and the day plan (PLAN opens on the trip map or on the
+# day; the map's peek opens the day).
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- runFlow: pass-trip-welcome.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    # Clear of the tab bar, which takes a tap on a tile half under it.
+    centerElement: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map|day-plan'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 60000
+      - tapOn:
+          id: 'trip-map-peek-open-day-pill'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 30000
