@@ -15,6 +15,7 @@ import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
+import { pause } from '@/lib/test-support/settle';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -55,7 +56,7 @@ export function renderHome(ui: ReactElement, stack: TestLocalFirst) {
 export async function until(check: () => boolean, timeoutMs = 15_000): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await pause(100);
     if (check()) return;
     if (Date.now() > deadline) throw new Error('timed out waiting for the screen to settle');
   }
@@ -63,7 +64,7 @@ export async function until(check: () => boolean, timeoutMs = 15_000): Promise<v
 
 /** Lets entrance fades and slides finish before a layout snapshot (they run on real timers). */
 export function settleMotion(): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, 700));
+  return pause(700);
 }
 
 /** Me (Winston) bound as the owner, with my own user row synced. */
