@@ -2,7 +2,8 @@
  * The rooms step (3c-6) as a pure view: the organiser's plan with drag and tap-to-move, the
  * per-person price in the guide's voice, LOOKS GOOD; a member's read-only plan with their own room
  * ringed, their room wishes and "Ask to swap"; and the states around it (no dates yet, picking
- * the stay, the stay gone, waiting for the organiser, a skippable one-room trip).
+ * the stay, the stay gone, waiting for the organiser, a skippable one-room trip). A trip for one
+ * keeps the step as a stay pick, in words for one. What went wrong sits above the plan.
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
@@ -99,7 +100,11 @@ export function RoomsView({
   const organiser: SetupMember | undefined = trip.members.find((member) => member.organiser);
   const people = new Map(trip.members.map((member) => [member.uid, member]));
   const plan = model.plan;
-  const title = t({ id: 'setup.rooms.title', message: 'Who sleeps where?' });
+  // A trip for one has no rooms to share out: the step is where the stay is picked.
+  const solo = trip.isSolo || trip.members.length < 2;
+  const title = solo
+    ? t({ id: 'setup.rooms.titleSolo', message: 'Where will you stay?' })
+    : t({ id: 'setup.rooms.title', message: 'Who sleeps where?' });
   const editable = trip.isOrganiser;
 
   let line: string;
@@ -117,17 +122,26 @@ export function RoomsView({
             id: 'setup.rooms.stayGone',
             message: 'That stay isn’t on offer for these dates any more. Pick another.',
           })
-        : t({
-            id: 'setup.rooms.pickStay',
-            message: `Pick where you’ll stay and ${guide} splits the rooms.`,
-          })
+        : solo
+          ? t({
+              id: 'setup.rooms.pickStaySolo',
+              message: 'Pick the kind of place you’d like. It sets what the stay costs.',
+            })
+          : t({
+              id: 'setup.rooms.pickStay',
+              message: `Pick where you’ll stay and ${guide} splits the rooms.`,
+            })
       : t({
           id: 'setup.rooms.waitingStay',
           message: `${organiser?.name ?? ''} is picking the stay. The rooms show up here.`,
         });
     body = editable ? <StayPicker stays={model.stays} onPick={actions.onPickStay} /> : null;
   } else {
-    line = editable ? organiserLine(guide, traitsOf(plan)) : memberLine(organiser?.name ?? '');
+    line = solo
+      ? t({ id: 'setup.rooms.line.solo', message: 'That’s your stay for the trip.' })
+      : editable
+        ? organiserLine(guide, traitsOf(plan))
+        : memberLine(organiser?.name ?? '');
     body = (
       <RoomsPlanCards
         plan={plan}
@@ -211,8 +225,13 @@ export function RoomsView({
       footer={footer}
       testID="setup-rooms"
     >
+      {notice === null ? null : (
+        <Text variant="bodySm" color={theme.semantic.state.warning} testID="setup-rooms-notice">
+          {notice}
+        </Text>
+      )}
       {body}
-      {model.skippable && editable && !noStays ? (
+      {model.skippable && editable && !noStays && !solo ? (
         <Text variant="bodySm" color={theme.semantic.text.secondary} testID="setup-rooms-even">
           {t({
             id: 'setup.rooms.evenSplit',
@@ -226,13 +245,9 @@ export function RoomsView({
           price={model.price}
           currency={model.currency}
           member={!editable}
+          solo={solo}
         />
       ) : null}
-      {notice === null ? null : (
-        <Text variant="bodySm" color={theme.semantic.state.warning} testID="setup-rooms-notice">
-          {notice}
-        </Text>
-      )}
       {!editable && trip.startDate !== null ? (
         <MemberRoomTools chips={model.myChips} onToggleChip={actions.onToggleChip} />
       ) : null}
