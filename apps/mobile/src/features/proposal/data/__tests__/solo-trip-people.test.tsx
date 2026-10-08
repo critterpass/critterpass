@@ -5,12 +5,6 @@
  * it. A crew trip counts the whole active crew, and a crewmate who takes a seat on a solo trip
  * makes it a trip to send.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react-native';

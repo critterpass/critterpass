@@ -4,6 +4,8 @@
  * launch screen has gone, and says it again for the next such link: the address keeps the params
  * of the first, so only the routing time tells the two apart.
  */
+jest.unmock('expo-router');
+
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';

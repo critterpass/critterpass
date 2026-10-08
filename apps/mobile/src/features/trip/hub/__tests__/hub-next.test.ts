@@ -1,5 +1,3 @@
-jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
-
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { router } from 'expo-router';

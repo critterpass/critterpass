@@ -5,16 +5,8 @@
  * tap again (a keypad opened with nothing under it used to stay up). SAVE on an edit sends once
  * too and returns to the expense.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
+
+jest.unmock('expo-router');
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

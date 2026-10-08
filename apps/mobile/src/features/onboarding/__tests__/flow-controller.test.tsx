@@ -3,17 +3,8 @@
  * session gate and hands over a link that waited for the pass, and the pass reaches the server
  * through the real offline command queue (nothing listens on the test transport: offline).
  */
-// Skia's native renderer does not exist under Jest; see ui/test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import { render, renderHook, waitFor, act } from '@testing-library/react-native';
 
 import type { PassDraft, PassDraftStep } from '@cp/domain';

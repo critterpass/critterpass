@@ -3,7 +3,7 @@
  * cannot be reached, keeps each file's key as its upload lands, and goes into the command queue
  * once, with every key, when the last file is up.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import {
   openTestLocalFirst,
@@ -18,14 +18,6 @@ import {
   saveOutboxItem,
   type OutboxPorts,
 } from '../feedback/outbox';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
 const TICKET = '0199a3f0-0000-7000-8000-00000000f001';
 const DEVICE = {

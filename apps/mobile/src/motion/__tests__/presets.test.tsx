@@ -1,5 +1,3 @@
-jest.mock('expo-router', () => ({ useIsFocused: jest.fn(() => true) }));
-
 import { act, renderHook } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { useIsFocused } from 'expo-router';

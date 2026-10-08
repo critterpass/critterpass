@@ -3,8 +3,8 @@
  * as a fixed "Name, category and day", a screen reader never told the traveller what they had typed
  * (and the iPhone hierarchy, which flows read, held no name either).
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../../../../ui/test-support/skia-double'));
+
+jest.unmock('expo-router');
 
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

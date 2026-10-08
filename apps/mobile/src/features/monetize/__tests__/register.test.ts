@@ -11,17 +11,9 @@ jest.mock('expo-router', () => ({
 }));
 
 // The other areas' own imports open native modules; only the registrations run here.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 jest.mock('@/data/powersync/db', () => ({}));
 // The store's SDK is never called here.
 jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { router } from 'expo-router';
@@ -34,6 +26,7 @@ import { WaitlistSheet } from '@/features/crew/seat-limit/WaitlistSheet';
 import { redraftBoost } from '@/features/plan/draft/boost-slot';
 import { seatBoost } from '@/features/proposal/crowd/boost-slot';
 /* eslint-enable boundaries/dependencies */
+
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import '../register';

@@ -6,18 +6,12 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import { LOCAL_TABLE_NAMES } from '../local-tables';
 import { buildAppSchema, parseColumnSpec } from '../schema';
 import { SYNCED_TABLE_COLUMNS } from '../synced-tables.generated';
 import { openNodeDatabase, removeDir, tempDatabaseDir } from '../test-support/open-node-database';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 const GENERATOR = path.join(__dirname, '../test-support/synced-schema-source.ts');
 const GENERATED = path.join(__dirname, '../synced-tables.generated.ts');

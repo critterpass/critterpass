@@ -5,12 +5,6 @@
  * is still on its way up, answers once the restored plan has reached this phone, and says so when
  * the plan has moved on or there is no signal.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';

@@ -13,6 +13,8 @@ module.exports = {
     // `src/motion/gestures`' hooks run their real Pan/LongPress/Tap logic under Jest.
     require.resolve('react-native-gesture-handler/jestSetup'),
   ],
+  // The doubles nearly every suite needs (Skia, Sticker, expo-router, the PowerSync Node realm).
+  setupFilesAfterEnv: [...(jestExpoPreset.setupFilesAfterEnv ?? []), '<rootDir>/jest.setup.ts'],
   // Whichever suite runs first in a cold Jest worker pays the one-off transform of React Native's
   // renderer inside its first render; on a two-core CI runner that alone can exceed half a minute.
   testTimeout: 60_000,

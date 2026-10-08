@@ -11,12 +11,6 @@ import { openTestLocalFirst, type TestLocalFirst } from '../test-support/local-f
 import { removeDir } from '../test-support/open-node-database';
 import { TRIP_STREAM_TTL_S, TRIP_STREAMS, useTripStreams } from '../use-trip-streams';
 
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
-
 const TRIP_A = '0199a6f0-0000-7000-8000-00000000d001';
 const TRIP_B = '0199a6f0-0000-7000-8000-00000000d002';
 const TRIP_C = '0199a6f0-0000-7000-8000-00000000d003';

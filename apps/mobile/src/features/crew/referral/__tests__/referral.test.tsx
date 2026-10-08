@@ -4,21 +4,8 @@
  * stamps, and friends listed by status only (a voided referral is not listed, and no activity of
  * theirs is ever shown).
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
-  useLocalSearchParams: jest.fn(() => ({})),
-}));
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { fireEvent, screen, waitFor, within } from '@testing-library/react-native';
 
 import {

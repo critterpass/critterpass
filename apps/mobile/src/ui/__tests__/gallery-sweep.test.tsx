@@ -1,12 +1,7 @@
-// Fixture modules import Skia and expo-router, whose native halves do not exist under Jest.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-double'));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
-
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import { fixturesFor, listComponents } from '../gallery/registry';
 import { STATE_GROUPS } from '../gallery/state-groups';

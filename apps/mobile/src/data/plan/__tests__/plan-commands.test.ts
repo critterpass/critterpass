@@ -3,14 +3,8 @@
  * needs the server's answer gets it from the online form of the same command, while the offline
  * form waits in the queue.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import type { ApplyPlanOpsPayload, CreateChangesetPayload, PlanOp } from '@cp/domain';
 

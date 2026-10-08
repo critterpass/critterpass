@@ -3,13 +3,6 @@
  * the person's own consent row stands (a withdrawn one asks again), a yes opens voice at once and
  * queues `set_consent` for `ai_voice`, and nothing of voice mode mounts before that.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { configure, fireEvent, screen, waitFor } from '@testing-library/react-native';

@@ -3,8 +3,6 @@
  * and Save hand that same picture on; a picture that fails to draw offers another go, and a failed
  * hand-off says so. The renderer and the phone's share and photo modules are the boundaries.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 jest.mock('@/motion/use-loop', () => ({ useLoop: () => ({}) }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';

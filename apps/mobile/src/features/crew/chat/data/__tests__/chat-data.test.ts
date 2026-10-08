@@ -5,7 +5,7 @@
  * that RETRY queues again; unread counts and the read marker key on `seq`; reactions group per
  * emoji and toggle with an explicit outcome; muted crewmates drop out of the timeline, at once when muted on this device.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import {
@@ -20,14 +20,6 @@ import { useMessageActions } from '../use-message-actions';
 import { loadTimeline, useMessages } from '../use-messages';
 import { draftProblem, useSendMessage } from '../use-send-message';
 import { MARK_READ_DEBOUNCE_MS, unreadCount, useMarkRead } from '../use-unread-count';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
 // Live queries on the encrypted database settle slower on CI runners than on a laptop.
 configure({ asyncUtilTimeout: 5000 });

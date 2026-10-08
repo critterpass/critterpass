@@ -4,14 +4,8 @@
  * the crew's plan moved under or took out comes back as a clash, and a layer I dropped leaves no
  * mark.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import type { PlanState } from '@cp/domain';
 import { i18n } from '@lingui/core';
 

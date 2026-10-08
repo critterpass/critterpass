@@ -3,7 +3,7 @@
  * PowerSync database, upload queue and connectivity source — including a real connection attempt
  * to a sync endpoint that refuses it.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import type { SyncStatus } from '@powersync/common';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 
@@ -21,13 +21,6 @@ import {
   useSyncStatus,
   type SyncStatusInput,
 } from '../use-sync-status';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 function sync(overrides: Partial<SyncStatusInput> & { downloading?: boolean }): SyncStatusInput {
   const { downloading = false, ...rest } = overrides;

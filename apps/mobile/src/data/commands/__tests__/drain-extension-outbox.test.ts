@@ -7,7 +7,7 @@ import { copyFileSync, mkdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { generateUuidV7, setReadinessPayloadSchema } from '@cp/domain';
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 
 import { resetOnSignOutHooksForTests, runOnSignOutHooks } from '../../auth/sign-out-hooks';
 import {
@@ -28,13 +28,6 @@ import {
   SWIFT_STORE_FIXTURE,
   type FileOutbox,
 } from '../test-support/file-outbox';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 interface FixtureAction {
   op_id: string;

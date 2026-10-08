@@ -5,14 +5,8 @@
  * balance at zero. A crew with no money yet shows the viewer's home currency, which is what the
  * server settles a crew of one in.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { renderHook, waitFor } from '@testing-library/react-native';

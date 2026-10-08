@@ -2,6 +2,8 @@
  * "A sheet is up" for whatever may interrupt the person (lib/interaction/busy) means a sheet on the
  * screen they are looking at: one left open on a screen underneath does not count.
  */
+jest.unmock('expo-router');
+
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';

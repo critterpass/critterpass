@@ -3,15 +3,8 @@
  * flight, the departure airport of its leg (placed from the bundled airport list); and nothing
  * when neither can be placed, so the leave-by push opens the day as it did before GO.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
 import { leaveByGoRoute, routeForTap, type PushTap } from '@/data/push/routing';
