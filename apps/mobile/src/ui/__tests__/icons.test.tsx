@@ -172,9 +172,6 @@ describe('cards', () => {
       </Card>,
     );
     const button = screen.getByRole('button', { name: 'Open Bali' });
-    expect(button.props.style).toEqual(
-      expect.arrayContaining([expect.objectContaining({ minHeight: 44, minWidth: 44 })]),
-    );
     await fireEvent(button, 'accessibilityAction', activate);
     expect(onPress).toHaveBeenCalledTimes(1);
   });

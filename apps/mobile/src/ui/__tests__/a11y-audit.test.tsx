@@ -26,6 +26,7 @@ jest.mock('../sticker/Sticker', () => {
 });
 
 import { afterAll, beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { act } from '@testing-library/react-native';
 import { AccessibilityInfo, Pressable, StyleSheet, View } from 'react-native';
 import * as reanimated from 'react-native-reanimated';
 
@@ -300,12 +301,45 @@ function audit(root: Node | Node[] | null, scale: number): Issue[] {
   return issues;
 }
 
+/** A width wide enough that a control without a fixed width never gains side slop from it. */
+const STRETCHED_WIDTH = 320;
+
+/**
+ * Hands every control that measures itself (PressScale tops its touch target up to 44 pt from its
+ * laid-out size) the smallest size the audit can guarantee for it, as the first native layout
+ * would, so the audit checks the slop the control then carries.
+ */
+async function layOutControls(root: Node | Node[] | null): Promise<void> {
+  const measuring: { node: Node; height: number; width: number }[] = [];
+  const visit = (node: Node) => {
+    if (isInteractive(node) && typeof node.props.onLayout === 'function') {
+      const width = styleOf(node).width;
+      measuring.push({
+        node,
+        height: minimumHeight(node),
+        width: typeof width === 'number' ? width : STRETCHED_WIDTH,
+      });
+    }
+    childNodes(node).forEach(visit);
+  };
+  (Array.isArray(root) ? root : root ? [root] : []).forEach(visit);
+  await act(async () => {
+    for (const { node, height, width } of measuring) {
+      (node.props.onLayout as (event: unknown) => void)({
+        nativeEvent: { layout: { x: 0, y: 0, width, height } },
+      });
+    }
+    await Promise.resolve();
+  });
+}
+
 async function auditFixture(fixture: Fixture, scale: number): Promise<Issue[]> {
   const result = await renderUi(
     <ThemeProvider fontScale={scale}>
       <ScreenJoltProvider>{fixture.render()}</ScreenJoltProvider>
     </ThemeProvider>,
   );
+  await layOutControls(result.toJSON());
   const issues = audit(result.toJSON(), scale);
   await result.unmount();
   return issues;

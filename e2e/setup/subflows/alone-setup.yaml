@@ -179,6 +179,20 @@ appId: app.critterpass.dev
     id: 'budget-under-all'
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-budget-alone
+# The typed amount opens a number pad: the field and the footer stay above it.
+- runFlow:
+    when:
+      visible:
+        id: 'budget-typed'
+    commands:
+      - tapOn:
+          id: 'budget-typed'
+      - waitForAnimationToEnd
+      - assertVisible:
+          id: 'budget-typed'
+      - takeScreenshot: ${SHOTS}-budget-number-pad
+      - hideKeyboard
+      - waitForAnimationToEnd
 - tapOn:
     id: 'budget-lock'
 

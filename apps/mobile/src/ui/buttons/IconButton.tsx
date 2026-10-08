@@ -16,7 +16,7 @@ export interface IconButtonProps {
   readonly icon?: DoodleName;
   /** Any glyph when no doodle fits (✕, ⌫, a sticker). */
   readonly glyph?: ReactNode;
-  /** Diameter, 40–56 pt; the touch target never drops below 44 (48 dp). @default 44 */
+  /** Diameter it is drawn at; under 44 pt the touch target reaches 44 (48 dp) through slop. @default 44 */
   readonly size?: number;
   /** @default 'dark' */
   readonly surface?: IconButtonSurface;
@@ -67,8 +67,6 @@ export function IconButton({
         {
           width: diameter,
           height: diameter,
-          minWidth: diameter,
-          minHeight: diameter,
           borderRadius: diameter / 2,
           ...(bg ? { backgroundColor: bg } : {}),
           opacity: disabled ? theme.opacity.disabled : 1,
