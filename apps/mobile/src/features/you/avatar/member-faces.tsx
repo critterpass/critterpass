@@ -192,7 +192,6 @@ export function facePropsOf(face: MemberFace, url: string | null, diameter: numb
 /** A member's avatar row; the viewer's own is the one they just picked until it syncs back. */
 function rowOf(store: Store, uid: string, pending: PendingAvatar | null): AvatarRow | undefined {
   if (pending === null || uid !== store.viewer) return store.rows.get(uid);
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
   return { user_id: uid, ...pending, moderation_status: 'pending' };
 }
 

@@ -208,7 +208,7 @@ export function CrewPlansScreen({ destination, tripId }: CrewPlansScreenProps) {
             >
               <View style={styles.rowHead}>
                 <Text variant="title" numberOfLines={2} style={{ flex: 1 }}>
-                  {planTitle(plan).toUpperCase()}
+                  {planTitle(plan)}
                 </Text>
                 <Text variant="label">{ratingLabel(plan)}</Text>
               </View>
@@ -251,7 +251,7 @@ function PickCard({
           <InfoPill>{t({ id: 'community.browse.pick', message: 'Picked for you' })}</InfoPill>
           <Text variant="label">{ratingLabel(plan)}</Text>
         </View>
-        <Text variant="displayXl">{planTitle(plan).toUpperCase()}</Text>
+        <Text variant="displayXl">{planTitle(plan)}</Text>
         <Text variant="body">{crewLine(plan, locale)}</Text>
         <Row gap="6" wrap>
           {Array.from({ length: Math.min(plan.days_count, 10) }, (_, index) => (

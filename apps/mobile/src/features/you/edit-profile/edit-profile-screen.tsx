@@ -11,6 +11,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -131,7 +132,7 @@ export function EditProfileScreen() {
       if (changes.profile?.name !== undefined) {
         putPendingEdits<PendingMe>(PENDING_ME, { name: changes.profile.name });
       }
-      router.back();
+      goBackOr(YOU_ROUTES.profile);
     } catch {
       setProblem(saveProblemText('UNAVAILABLE', null));
     } finally {
@@ -214,7 +215,7 @@ export function EditProfileScreen() {
         saving={saving}
         problem={problem}
         onSave={() => void save()}
-        onBack={() => (dirty ? setLeaving(true) : router.back())}
+        onBack={() => (dirty ? setLeaving(true) : goBackOr(YOU_ROUTES.profile))}
       />
       {editing === 'name' && draft !== null ? (
         <NameSheet
@@ -271,7 +272,7 @@ export function EditProfileScreen() {
           mode="button"
           onConfirm={() => {
             setLeaving(false);
-            router.back();
+            goBackOr(YOU_ROUTES.profile);
           }}
           onCancel={() => setLeaving(false)}
           testID="you-edit-discard"

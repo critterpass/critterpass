@@ -5,7 +5,6 @@
  */
 import { airportDataset } from '@cp/content/airports';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Keyboard } from 'react-native';
 
@@ -92,7 +91,7 @@ export function PastTripScreen({
           if (draft === null) return;
           if (existing !== undefined) pastTrips.remove(existing.id);
           pastTrips.add(draft);
-          router.back();
+          goBackOr(YOU_ROUTES.stamps);
         }}
         {...(existing === undefined
           ? {}

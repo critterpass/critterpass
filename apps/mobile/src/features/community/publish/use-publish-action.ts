@@ -25,7 +25,6 @@ export function usePublishAction(onChanged: () => void): PublishAction {
     setBusy(true);
     void send()
       .then((result) => {
-        // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
         if (report(result, { done, id: 'community-publish' }) === 'done') onChanged();
       })
       .finally(() => {
