@@ -88,7 +88,7 @@ function paymentPush(
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: facts.trip_id,
-        deepLink: `/wallet/money/payment/${paymentId ?? ''}`,
+        deepLink: `/money/payment/${paymentId ?? ''}`,
         ctx: { payment_id: paymentId, actions },
         collapseVars: { payment_id: paymentId ?? '' },
       };
@@ -145,7 +145,7 @@ export function registerMoneyPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: `/wallet/money/expense/${str(routed, 'expense_id') ?? ''}`,
+        deepLink: `/money/expense/${str(routed, 'expense_id') ?? ''}`,
         classContext: { small: true },
       };
     },
@@ -192,7 +192,7 @@ export function registerMoneyPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: facts.trip_id,
-        deepLink: `/wallet/money/payment/${facts.id}`,
+        deepLink: `/money/payment/${facts.id}`,
         ctx: { payment_id: facts.id, actions: ['MARK_PAID'] },
       };
     },
@@ -213,7 +213,7 @@ export function registerMoneyPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: '/wallet/money/settle',
+        deepLink: '/money/settle',
         ctx: { reward: 'settled', granted_at: str(routed, 'granted_at') },
       }),
     // Once per member per trip, whichever confirm cleared it.

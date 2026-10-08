@@ -149,7 +149,8 @@ export function registerSafetyNotifications(): void {
         vars: { sender: facts.name, crew: facts.crew },
         sender: memberSender(facts),
         tripId: facts.tripId,
-        deepLink: `/help/${facts.tripId}/session/${sessionId}`,
+        // The crew map draws the sharer: a Help share's fixes go out on the trip's location channel.
+        deepLink: `/map/${facts.tripId}`,
         ctx: { trip_id: facts.tripId, session_id: sessionId, share_id: str(event, 'share_id') },
       };
     },

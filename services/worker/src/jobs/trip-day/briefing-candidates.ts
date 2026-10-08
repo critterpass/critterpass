@@ -254,7 +254,7 @@ async function crewFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draf
       facts: { amount, direction: owed ? 'owed to you' : 'you owe' },
       template: owed ? `The crew owes you ${amount}.` : `You owe ${amount} to the crew.`,
       target_user_ids: [],
-      deep_link: '/money',
+      deep_link: '/wallet/money',
       dedupe_key: `balance:${scope.localDate}`,
     });
   }
@@ -275,12 +275,12 @@ async function crewFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draf
       facts: { question: vote.question },
       template: `Your vote is still open: ${vote.question}`.slice(0, 140),
       target_user_ids: [],
-      deep_link: `/polls/${vote.id}`,
+      deep_link: `/vote/${vote.id}`,
       dedupe_key: `vote:${vote.id}`,
     });
   }
-  const answered = await tx.query<{ id: string }>(
-    `SELECT id FROM queued_guide_questions
+  const answered = await tx.query<{ id: string; thread_id: string }>(
+    `SELECT id, thread_id FROM queued_guide_questions
       WHERE user_id = $1 AND trip_id = $2 AND status = 'answered' AND answered_at > $3::timestamptz - interval '24 hours'
       ORDER BY answered_at DESC LIMIT 1`,
     [scope.userId, scope.tripId, scope.now],
@@ -294,7 +294,7 @@ async function crewFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draf
       facts: {},
       template: 'The guide answered the question you queued.',
       target_user_ids: [],
-      deep_link: '/guide',
+      deep_link: `/guide/${question.thread_id}`,
       dedupe_key: `queued:${question.id}`,
     });
   }
