@@ -2,7 +2,8 @@
  * A member's budget step (undesigned; from the 3n-2 "Budget max" row and the keypad pattern): the
  * private max, in their own currency, typed once and sent write-only. Nobody sees it: not the
  * organiser, not the guide. Once in, the screen shows only "Set ✓ · change" and the member's own
- * fit against the organiser's target; the value itself comes back only into their own change form.
+ * fit against the organiser's target; the value itself comes back only into their own change form,
+ * which can be left without saving ("Keep it as it is").
  */
 import type { FxContext } from '@cp/cost-engine';
 import type { OwnFitState } from '@cp/domain';
@@ -47,6 +48,8 @@ export interface PrivateMaxViewProps {
   readonly model: PrivateMaxModel;
   readonly onSave: (amountMinor: number, currency: string, everyTrip: boolean) => void;
   readonly onChange: () => void;
+  /** Leaves a change form opened from a max already dealt with; absent on a first entry. */
+  readonly onCancel?: (() => void) | undefined;
 }
 
 /** Digits the keypad amount shows at full size inside the card. */
@@ -54,6 +57,8 @@ const FIT_DIGITS = 7;
 
 const useStyles = makeStyles((th) => ({
   card: { padding: th.space['16'], gap: th.space['12'] },
+  // The amount alone, so the whole keypad stays above the step's button under a two-line title.
+  entry: { paddingVertical: th.space['12'], paddingHorizontal: th.space['16'] },
   row: { gap: th.space['8'] },
   grow: { flex: 1 },
 }));
@@ -75,11 +80,25 @@ function fitLine(fit: OwnFitState | null): string | null {
   }
 }
 
-export function PrivateMaxView({ shell, dates, model, onSave, onChange }: PrivateMaxViewProps) {
+export function PrivateMaxView({
+  shell,
+  dates,
+  model,
+  onSave,
+  onChange,
+  onCancel,
+}: PrivateMaxViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
   const [digits, setDigits] = useState(model.prefill === null ? '' : String(model.prefill));
+  // A saved default that arrives after the form opened fills the keypad only while it is untouched.
+  const [touched, setTouched] = useState(false);
+  const [seenPrefill, setSeenPrefill] = useState(model.prefill);
+  if (model.prefill !== seenPrefill) {
+    setSeenPrefill(model.prefill);
+    if (!touched && model.prefill !== null) setDigits(String(model.prefill));
+  }
   const [everyTrip, setEveryTrip] = useState(false);
   const whole = digits === '' ? 0 : Number(digits);
   const amountMinor = whole * 10 ** fractionDigits(model.entryCurrency);
@@ -158,24 +177,24 @@ export function PrivateMaxView({ shell, dates, model, onSave, onChange }: Privat
       line={line}
       testID="budget-member-entry"
       footer={
-        <PillButton
-          label={t({ id: 'setup.budget.member.save', message: 'Save my max' })}
-          onPress={() => onSave(amountMinor, model.entryCurrency, everyTrip)}
-          disabled={whole === 0}
-          testID="budget-member-save"
-        />
+        <>
+          <PillButton
+            label={t({ id: 'setup.budget.member.save', message: 'Save my max' })}
+            onPress={() => onSave(amountMinor, model.entryCurrency, everyTrip)}
+            disabled={whole === 0}
+            testID="budget-member-save"
+          />
+          {onCancel === undefined ? null : (
+            <TextLink
+              label={t({ id: 'setup.budget.member.keep', message: 'Keep it as it is' })}
+              onPress={onCancel}
+              testID="budget-member-cancel"
+            />
+          )}
+        </>
       }
     >
-      <Card style={styles.card}>
-        <Text variant="eyebrow">
-          {t({ id: 'setup.budget.member.eyebrow', message: 'Budget max' })}
-        </Text>
-        <Text variant="bodySm" color={theme.semantic.text.secondary}>
-          {t({
-            id: 'setup.budget.member.never',
-            message: 'Never shown to anyone, guides included',
-          })}
-        </Text>
+      <Card style={styles.entry}>
         {/* Long amounts (dong, rupiah) scale down to stay inside the card. */}
         <View style={{ transform: [{ scale: Math.min(1, FIT_DIGITS / String(whole).length) }] }}>
           <KeypadAmount
@@ -186,7 +205,12 @@ export function PrivateMaxView({ shell, dates, model, onSave, onChange }: Privat
           />
         </View>
       </Card>
-      <Keypad onKey={(key) => setDigits((current) => applyKey(current, key, 9))} />
+      <Keypad
+        onKey={(key) => {
+          setTouched(true);
+          setDigits((current) => applyKey(current, key, 9));
+        }}
+      />
       <Row justify="space-between" align="center" style={styles.row}>
         <Text variant="rowTitle" style={styles.grow}>
           {everyTripLabel}
