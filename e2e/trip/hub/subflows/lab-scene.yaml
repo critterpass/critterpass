@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# From the trip day lab's list: opens ${SCENE}, waits for ${SCREEN}, takes the screenshot ${SHOT}
+# and goes back to the list.
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'trip-day-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${SCREEN}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'trip-day-scene-back'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-${SCENE}'
+    timeout: 15000

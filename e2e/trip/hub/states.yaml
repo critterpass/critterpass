@@ -1,0 +1,145 @@
+appId: app.critterpass.dev
+---
+# The hub's states outside the trip's own phases, in English then Vietnamese, from the trip day
+# lab's fixed-data scenes (apps/mobile/src/app/(dev)/trip-day-lab.tsx): the crew still voting (no
+# plan to open), a trip called off, no signal on a day that is not a trip day, open disruptions as
+# rows, and the trip list. Then the real route to a trip this account cannot read: the "not here"
+# page with its way back to the trip list.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-voting'
+      SCREEN: 'trip-hub-header-planning'
+      SHOT: 'en-3k-1-voting'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-called-off'
+      SCREEN: 'trip-hub-called-off'
+      SHOT: 'en-3k-1-called-off'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-offline-pill'
+      SCREEN: 'trip-hub-offline-pill'
+      SHOT: 'en-3k-1-offline-pill'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-disruption'
+      SCREEN: 'trip-hub-disruption-d1'
+      SHOT: 'en-3k-1-disruption'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 'trips-switcher'
+      SCREEN: 'trip-list'
+      SHOT: 'en-trips-switcher'
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+# The gallery sits below the developer tools' demo data and labs: scroll to it.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../../onboarding/subflows/back.yaml
+# Going back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-voting'
+      SCREEN: 'trip-hub-header-planning'
+      SHOT: 'vi-3k-1-voting'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-called-off'
+      SCREEN: 'trip-hub-called-off'
+      SHOT: 'vi-3k-1-called-off'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-offline-pill'
+      SCREEN: 'trip-hub-offline-pill'
+      SHOT: 'vi-3k-1-offline-pill'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3k-1-disruption'
+      SCREEN: 'trip-hub-disruption-d1'
+      SHOT: 'vi-3k-1-disruption'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 'trips-switcher'
+      SCREEN: 'trip-list'
+      SHOT: 'vi-trips-switcher'
+# A trip that is not this account's: a real onboarding, then its link.
+- runFlow: ../../happy/subflows/fresh-account.yaml
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://trips/0190f0a0-0000-7000-8000-00000000dead
+- extendedWaitUntil:
+    visible:
+      id: 'trip-missing'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-trips-missing-trip
+- tapOn:
+    id: 'trip-missing-back'
+- assertNotVisible:
+    id: 'trip-missing'
