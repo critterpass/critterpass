@@ -1,5 +1,5 @@
 /**
- * The trip hub (3k-1) over synced rows: the phase header and countdown (1 Hz), the next thing, the
+ * The trip hub (3k-1) over synced rows: the phase header and its countdown, the next thing, the
  * guide's briefing with its chips, the PLAN / BOOKINGS / MONEY tiles plus registered ones, and the
  * crew's ticker. Offline, the header gives way to the offline card.
  */
@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNow } from '@/lib/time/use-now';
 import { VisitConsentRow } from '@/ui/permission-primer';
 import { useTripTurnView } from '@/features/home';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
@@ -44,15 +45,6 @@ function todayComplete(data: string): boolean {
   }
 }
 
-function useNow(everyMs: number): Date {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), everyMs);
-    return () => clearInterval(timer);
-  }, [everyMs]);
-  return now;
-}
-
 /** Opens `href`; Home is another tab, switched to rather than pushed onto this tab's stack. */
 function go(href: Href | undefined): (() => void) | undefined {
   if (href === undefined) return undefined;
@@ -68,10 +60,15 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const me = useOwnerUid();
   const locale = useLocale();
   const { t } = useLingui();
-  const now = useNow(1000);
+  // The screen reads the clock once a minute; the header counts its own seconds. The moment the
+  // countdown's target passes is read too, so the phase turns over on time.
+  const tick = useNow(60_000);
+  const [reached, setReached] = useState<Date | null>(null);
+  const now = reached !== null && reached.getTime() > tick.getTime() ? reached : tick;
   const minute = Math.floor(now.getTime() / 60_000);
   const minuteIso = useMemo(() => new Date(minute * 60_000).toISOString(), [minute]);
-  const tzGuess = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // The phone's own zone, read again each minute (it changes when the phone lands somewhere).
+  const tzGuess = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, [minute]);
   const tripTz = useLiveRows<{ tz: string | null }>(
     'SELECT coalesce(t.tz, d.tz) AS tz FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = ?',
     [tripId],
@@ -144,6 +141,16 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
           flights,
           now,
         );
+
+  const targetMs =
+    header.phase === 'pre' || header.phase === 'travel' ? header.target.getTime() : null;
+  useEffect(() => {
+    if (targetMs === null) return undefined;
+    const left = targetMs - Date.now();
+    if (left <= 0 || left >= 60_000) return undefined;
+    const timer = setTimeout(() => setReached(new Date()), left);
+    return () => clearTimeout(timer);
+  }, [targetMs, minute]);
 
   const entries = hubEntries({
     header,
@@ -250,7 +257,6 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     <HubView
       state={rows.loaded && trip !== null ? 'ready' : 'loading'}
       header={header}
-      now={now}
       startDate={trip?.start_date ?? null}
       endDate={trip?.end_date ?? null}
       going={rows.going}

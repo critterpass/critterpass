@@ -19,6 +19,7 @@ import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
 import { dayRoute, LateEntry, saidLateRoute, useDayReading } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNow } from '@/lib/time/use-now';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
 
@@ -55,7 +56,7 @@ import {
   pickLeaveBy,
   withPlanRows,
 } from './day-of-data';
-import { dayEyebrow, forecastLabel } from './day-of-copy';
+import { dayEyebrow, forecastLabel, ringCounting } from './day-of-copy';
 import { DayOfView } from './day-of-view';
 import {
   buildPackChips,
@@ -73,19 +74,15 @@ const WEATHER_SQL = `SELECT elevation_m, hourly FROM weather_snapshots
 const tomorrowOf = (date: string) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
 
-function useNow(everyMs: number): Date {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), everyMs);
-    return () => clearInterval(timer);
-  }, [everyMs]);
-  return now;
-}
-
 export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonly date: string }) {
   const me = useOwnerUid();
   const locale = useLocale();
-  const now = useNow(1000);
+  // A minute clock for the day; seconds only while the leave-by ring is counting down. The later
+  // of the two is the time, so it never steps back when the seconds stop.
+  const [counting, setCounting] = useState(false);
+  const minuteNow = useNow(60_000);
+  const secondNow = useNow(1000, { enabled: counting });
+  const now = secondNow.getTime() > minuteNow.getTime() ? secondNow : minuteNow;
   const sync = useSyncStatus();
   const alarm = useAlarmState();
   const [sheet, setSheet] = useState<AlarmSheetKind | null>(null);
@@ -138,6 +135,8 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const { send: sendRemove } = useCommand(removePackingItemCommand);
 
   const leaveBy = pickLeaveBy(leaveBys.views);
+  const ringCounts = ringCounting(leaveBy, now);
+  useEffect(() => setCounting(ringCounts), [ringCounts]);
   const guideName = tripRow?.guide_name ?? guideSticker(guideOr(tripRow?.guide_slug)).name;
   const dayNo = items.rows[0]?.day_no ?? null;
   const forecast = forecastFor(weather.rows, leaveBy?.startsAt ?? null);
