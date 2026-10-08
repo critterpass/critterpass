@@ -218,13 +218,16 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
   it('never keeps a suite from a change turbo would run it for', () => {
     // Turbo's --affected runs a package's tasks for a change in its folder or in a package it
     // depends on: each of those must open the suite's gate too.
-    const suiteOf = { '@cp/api': 'api', '@cp/worker': 'worker', '@cp/db': 'db 1/3' };
+    const suiteOf = { '@cp/api': 'api', '@cp/worker': 'worker' };
     for (const [name, leg] of Object.entries(suiteOf)) {
       for (const dir of folders(name)) {
         const suites = suitesFor(dryRun, changed(`${dir}/package.json`));
         expect(legs(suites), `${name} builds on ${dir}`).toContain(leg);
       }
     }
+    // @cp/db's suite follows its own folder and domain's source (the next case).
+    expect(folders('@cp/db')).toEqual(['packages/db', 'packages/domain']);
+    expect(legs(suitesFor(dryRun, changed('packages/db/package.json')))).toContain('db 1/3');
     for (const dir of folders('@cp/mobile')) {
       const suites = suitesFor(dryRun, changed(`${dir}/package.json`));
       expect(suites.flags.app_tests, `the app builds on ${dir}`).toBe(true);
@@ -235,6 +238,24 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
     for (const name of ['@cp/api', '@cp/worker', '@cp/db', '@cp/mobile']) {
       expect(folders(name).filter((dir) => dir.startsWith('infra/'))).toEqual([]);
     }
+  });
+
+  it("runs @cp/db's suite for any domain source, not for domain's own tests", () => {
+    // The suite imports domain values throughout (privacy classes, the statuses its constraints
+    // mirror, poll, purge and realtime rules), so every source file of domain counts.
+    for (const file of ['packages/domain/src/privacy.ts', 'packages/domain/src/money/index.ts']) {
+      expect(legs(suitesFor(dryRun, changed(file))), file).toEqual(everyLeg);
+    }
+    const tests = suitesFor(dryRun, [
+      ...changed(
+        'packages/domain/test/errors.test.ts',
+        'packages/domain/src/paywall/governor.test.ts',
+        'packages/domain/src/links/__tests__/grammar.test.ts',
+      ),
+      { path: 'packages/domain/src/removed.test.ts', exists: false },
+    ]);
+    // The api and the worker still build on the whole package.
+    expect(legs(tests)).toEqual(['api', 'worker', 'other packages']);
   });
 
   it('compiles natively for native sources and leaves everything else to the fingerprint', () => {

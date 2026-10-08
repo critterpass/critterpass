@@ -49,13 +49,17 @@ export interface ChangedFile {
 /** Files turbo hashes into every task on its own; turbo.json's globalDependencies come from the dry run. */
 const ALWAYS_GLOBAL = ['package.json', 'pnpm-lock.yaml', 'turbo.json'];
 
-/** `**` crosses folders, `*` stays inside one; dotfiles match like any other name. */
+const GLOB_PARTS = new Map([
+  ['**/', '(?:.*/)?'],
+  ['**', '.*'],
+  ['*', '[^/]*'],
+]);
+
+/** `**` crosses folders (none included), `*` stays inside one; dotfiles match like any name. */
 export function matchesGlob(file: string, glob: string): boolean {
   const source = glob
-    .split(/(\*\*|\*)/)
-    .map((part) =>
-      part === '**' ? '.*' : part === '*' ? '[^/]*' : part.replace(/[.+?^${}()|[\]\\]/g, '\\$&'),
-    )
+    .split(/(\*\*\/|\*\*|\*)/)
+    .map((part) => GLOB_PARTS.get(part) ?? part.replace(/[.+?^${}()|[\]\\]/g, '\\$&'))
     .join('');
   return new RegExp(`^${source}$`).test(file);
 }
