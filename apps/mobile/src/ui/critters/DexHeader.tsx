@@ -98,6 +98,7 @@ export function DexHeader<Value extends string>({
         value={filter}
         onChange={onFilter}
         label={filterLabel ?? yourDex}
+        {...(testID === undefined ? {} : { testID: `${testID}-filter` })}
       />
     </Stack>
   );

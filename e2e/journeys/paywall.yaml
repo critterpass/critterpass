@@ -1,0 +1,95 @@
+appId: app.critterpass.dev
+---
+# Journey: the way to Pass+. A new account starts as the `everyday` scenario (the Bali demo crew,
+# on the free plan). Its profile opens from the PASS tab's face; Settings has the plan chip, which
+# opens Your plan on the free plan; SEE PASS+ rises the paywall with the Pass+ visa and its button;
+# "What's in each" opens the comparison, and closing it comes back to the paywall, which closes
+# back onto Your plan. Nothing is bought: the build's only store is the real one (RevenueCat over
+# Google Play or the App Store), so the journey stops before the store's sheet.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: everyday
+# You: the profile, from the PASS tab's face.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 60000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+# Settings: the plan chip in the header.
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings-plan'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-paywall-settings
+- tapOn:
+    id: 'you-settings-plan'
+# Your plan, on the free plan.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-card-free'
+    timeout: 20000
+- assertVisible:
+    id: 'plan-summary'
+- scrollUntilVisible:
+    element:
+      id: 'plan-upgrade'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-paywall-your-plan
+- tapOn:
+    id: 'plan-upgrade'
+# The paywall: the visa and the button that would open the store's sheet (never tapped here).
+- extendedWaitUntil:
+    visible:
+      id: 'paywall-visa'
+    timeout: 20000
+- assertVisible:
+    id: 'paywall-buy'
+- assertVisible:
+    id: 'paywall-restore'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-paywall-paywall
+# What's in each: the comparison rises over the paywall (its link is in the paywall's footer).
+- tapOn:
+    id: 'paywall-compare'
+- extendedWaitUntil:
+    visible:
+      id: 'compare-table'
+    timeout: 20000
+- assertVisible:
+    id: 'compare-buy-pass'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-paywall-whats-in-each
+# Back: the comparison closes onto the paywall, and the paywall onto Your plan.
+- tapOn:
+    id: 'compare-rise-close'
+- extendedWaitUntil:
+    notVisible:
+      id: 'compare-table'
+    timeout: 15000
+- assertVisible:
+    id: 'paywall-buy'
+- tapOn:
+    id: 'paywall-rise-close'
+- extendedWaitUntil:
+    notVisible:
+      id: 'paywall-buy'
+    timeout: 15000
+- assertVisible:
+    id: 'plan-card-free'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-paywall-back-on-your-plan

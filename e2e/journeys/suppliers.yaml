@@ -1,0 +1,89 @@
+appId: app.critterpass.dev
+env:
+  # A word Đà Nẵng answers with a place that sells tickets (food, markets and stays have no offers).
+  PLACE_QUERY: 'museum'
+---
+# Journey: an activity's partner link. A new account starts as the `trip_today` scenario (a locked
+# Đà Nẵng trip with its plan of real places; offers open only inside a trip, from a place's page).
+# The day plan's search opens a museum's page, whose "Tickets and tours" card opens where to book
+# it: one card per partner and the commission line. OPEN KLOOK records the click with the api and
+# only then hands the link to the browser, so the app leaving the screen is the click being taken.
+# Back in the app the card has no error (a click the api refused, or a partner that is off, says
+# so on the card and opens nothing).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow: subflows/pass-trip-welcome.yaml
+- runFlow: subflows/open-day-plan.yaml
+# A place's page, from the day's search.
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-add'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'day-plan-add'
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+- tapOn:
+    id: 'search-field'
+- inputText: ${PLACE_QUERY}
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-[0-9]+'
+    timeout: 60000
+- hideKeyboard
+- tapOn:
+    id: 'search-row-[0-9]+'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail-name'
+    timeout: 30000
+- runFlow: subflows/pass-trip-welcome.yaml
+# The activity card: "Tickets and tours", near the foot of the page.
+- scrollUntilVisible:
+    element:
+      id: 'explore-offers-open'
+    direction: DOWN
+    timeout: 60000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-suppliers-activity-card
+- tapOn:
+    id: 'explore-offers-open'
+# Where to book it: a card per partner, each a plain link, and the commission line.
+- extendedWaitUntil:
+    visible:
+      id: 'supplier-open-klook'
+    timeout: 30000
+- assertVisible:
+    id: 'supplier-offer-klook'
+- assertVisible:
+    id: 'supplier-disclosure'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-suppliers-offers
+- tapOn:
+    id: 'supplier-open-klook'
+# The browser takes over once the click is on the server.
+- extendedWaitUntil:
+    notVisible:
+      id: 'supplier-open-klook'
+    timeout: 30000
+# Back to the app without restarting it: the offers are where they were, with no error on the card.
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible:
+      id: 'supplier-open-klook'
+    timeout: 30000
+- assertNotVisible:
+    id: 'supplier-offer-error'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-suppliers-after-click

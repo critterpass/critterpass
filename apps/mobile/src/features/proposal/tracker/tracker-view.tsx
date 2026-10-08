@@ -140,7 +140,8 @@ export function TrackerView(props: TrackerViewProps) {
         </View>
         <View style={styles.list}>
           {props.rows.map((row, index) => (
-            <View key={row.uid}>
+            // The row's reply is in its id, so a device flow reads a status without reading copy.
+            <View key={row.uid} collapsable={false} testID={`tracker-reply-${row.status}`}>
               {index > 0 ? <View style={styles.divider} /> : null}
               <Pressable
                 style={styles.row}
