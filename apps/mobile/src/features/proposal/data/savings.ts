@@ -8,6 +8,8 @@
 import { costStateFromRows, skipOptions, type CostComponentRow } from '@cp/planner';
 import { useMemo } from 'react';
 
+import { seatHeldSql } from '@/data/trips/seat-sql';
+
 import { useLiveRows } from './rows';
 
 export interface Saving {
@@ -36,8 +38,8 @@ interface ComponentRow {
 const COMPONENTS_SQL = `SELECT component_key, kind, unit, member_ids, amount_minor, currency, source,
     seen_at, origin, label
   FROM cost_components WHERE trip_id = ? ORDER BY component_key`;
-const SEATED_SQL = `SELECT user_id FROM trip_participants WHERE trip_id = ? AND holds_seat = 1
-  ORDER BY user_id`;
+const SEATED_SQL = `SELECT user_id FROM trip_participants WHERE trip_id = ?
+  AND ${seatHeldSql()} ORDER BY user_id`;
 
 function memberIds(value: string | null): string[] | null {
   if (value === null || value === '') return null;

@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 
 import { dayItems } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
+import { seatHeldSql } from '@/data/trips/seat-sql';
 import { isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
@@ -26,7 +27,7 @@ export interface DriverDay {
 }
 
 const TRIP_SQL = `SELECT d.country, d.name AS area, t.local_currency,
-    (SELECT count(*) FROM trip_participants p WHERE p.trip_id = t.id AND p.holds_seat = 1) AS people
+    (SELECT count(*) FROM trip_participants p WHERE p.trip_id = t.id AND ${seatHeldSql('p')}) AS people
   FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = ?`;
 const TRIP_TABLES = ['trips', 'destinations', 'trip_participants'];
 

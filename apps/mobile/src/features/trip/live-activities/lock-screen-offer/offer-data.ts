@@ -5,6 +5,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useMemo } from 'react';
 
+import { seatHeldSql } from '@/data/trips/seat-sql';
+
 import { useLiveRows } from '../../hub/data/live-rows';
 import type { OfferFacts } from './offer-model';
 
@@ -18,7 +20,7 @@ const MEETUP_TABLES = ['meetups'] as const;
 
 const CREW_SQL = `SELECT u.display_name
   FROM trip_participants p LEFT JOIN users u ON u.id = p.user_id
-  WHERE p.trip_id = ? AND p.holds_seat = 1 ORDER BY p.created_at, p.user_id`;
+  WHERE p.trip_id = ? AND ${seatHeldSql('p')} ORDER BY p.created_at, p.user_id`;
 const CREW_TABLES = ['trip_participants', 'users'] as const;
 
 function firstName(name: string | null): string | null {
