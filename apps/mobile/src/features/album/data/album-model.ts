@@ -155,8 +155,56 @@ export function personSections(
     .filter((section) => section.photos.length > 0);
 }
 
-export interface UploadSummary {
-  /** Photos of this person still on the way up (on this device). */
-  readonly uploading: number;
-  readonly failed: number;
+/**
+ * The segment the album opens on, decided once its photos have loaded: the guide's and crew's
+ * picks when there are any, else everything. Null while loading, so the choice is never made on an
+ * album that only looks empty.
+ */
+export function openingSegment(loaded: boolean, picks: number): AlbumSegment | null {
+  if (!loaded) return null;
+  return picks > 0 ? 'best' : 'all';
+}
+
+export type GridItem =
+  | { readonly kind: 'header'; readonly key: string; readonly title: string }
+  | {
+      readonly kind: 'feature' | 'wide' | 'even';
+      readonly key: string;
+      readonly row: MasonryRow;
+      /** The position of the row's first photo in its section (fallback colours cycle on it). */
+      readonly start: number;
+    };
+
+/** Sections flattened for a recycling list: each one's title, then its masonry rows. */
+export function gridItems(
+  sections: readonly {
+    readonly key: string;
+    readonly title: string;
+    readonly photos: readonly AlbumPhoto[];
+  }[],
+): GridItem[] {
+  const items: GridItem[] = [];
+  for (const section of sections) {
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- list keys, never copy.
+    items.push({ kind: 'header', key: `h:${section.key}`, title: section.title });
+    let start = 0;
+    for (const row of masonryRows(section.photos)) {
+      const photos = rowPhotos(row);
+      items.push({
+        kind: row.kind,
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- list keys, never copy.
+        key: `r:${section.key}:${photos[0]?.id ?? String(start)}`,
+        row,
+        start,
+      });
+      start += photos.length;
+    }
+  }
+  return items;
+}
+
+export function rowPhotos(row: MasonryRow): readonly AlbumPhoto[] {
+  if (row.kind === 'feature') return [row.large, ...row.small];
+  if (row.kind === 'wide') return [row.wide, row.small];
+  return row.photos;
 }

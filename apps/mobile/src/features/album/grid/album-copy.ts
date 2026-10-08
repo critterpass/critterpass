@@ -1,18 +1,12 @@
 /**
  * The album's computed lines: a day section's name ("Day 4 · Batur sunrise", the date when the
- * plan has no such day) and the upload banner ("Uploading 12 photos from today.").
+ * plan has no such day) and the upload banner ("Uploading 12 of 50 photos.").
  */
 import { format } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
 import type { DaySection } from '../data/album-model';
-
-export interface UploadCounts {
-  readonly uploading: number;
-  readonly waiting: number;
-  readonly failed: number;
-  readonly skipped: number;
-}
+import type { UploadCounts } from '../upload/upload-summary';
 
 export function dayLabel(section: DaySection, locale: string): string {
   if (section.date === null) {
@@ -35,14 +29,14 @@ export function dayLabel(section: DaySection, locale: string): string {
 
 /** The banner over the grid while this device has photos going up, waiting or failed. */
 export function uploadBanner(counts: UploadCounts): { readonly line: string } | null {
-  const { uploading, waiting, failed, skipped } = counts;
+  const { uploading, waiting, failed, skipped, total, position } = counts;
   if (uploading > 0) {
     return {
       line: t({
-        id: 'album.upload.uploading',
-        message: plural(uploading, {
-          one: 'Uploading # photo.',
-          other: 'Uploading # photos.',
+        id: 'album.upload.progress',
+        message: plural(total, {
+          one: 'Uploading your photo.',
+          other: `Uploading ${position} of # photos.`,
         }),
       }),
     };

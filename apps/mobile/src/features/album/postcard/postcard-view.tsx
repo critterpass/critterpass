@@ -6,14 +6,16 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { Pressable, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
+import { SecondaryText } from '@/ui/cards/SecondaryText';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import type { GuideId } from '@/ui/people/GuideLine';
+import { PressScale } from '@/ui/press/PressScale';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -30,6 +32,10 @@ export interface PostcardViewProps {
   readonly signature: string;
   readonly guide: GuideId;
   readonly sending: boolean;
+  /** "Done" is saving the traveller's changes before it leaves. */
+  readonly closing?: boolean;
+  /** The printed order is on its way to the server. */
+  readonly mailingPending?: boolean;
   /** "Sent to Mai, Jon and Ana": the last send, when there was one. */
   readonly sentLine: string | null;
   /** Null when the crew is only the sender (nobody to send to). */
@@ -51,7 +57,8 @@ const useStyles = makeStyles((t) => ({
     paddingHorizontal: t.space['8'],
     paddingVertical: t.space['2'],
   },
-  mail: { minHeight: 44 },
+  mail: { minHeight: 44, justifyContent: 'center' },
+  mailLabel: { flex: 1 },
 }));
 
 export function PostcardView(props: PostcardViewProps) {
@@ -80,6 +87,7 @@ export function PostcardView(props: PostcardViewProps) {
           <PillButton
             label={t({ id: 'album.postcard.close', message: 'Done' })}
             onPress={props.onClose}
+            loading={props.closing === true}
             size="sm"
             variant="tertiary"
             testID="postcard-close"
@@ -111,7 +119,7 @@ export function PostcardView(props: PostcardViewProps) {
           label={t({ id: 'album.postcard.send', message: 'Send to the crew' })}
           onPress={props.onSend}
           loading={props.sending}
-          disabled={!props.canSend}
+          disabled={!props.canSend || props.closing === true}
           block
           size="lg"
           testID="postcard-send"
@@ -121,19 +129,32 @@ export function PostcardView(props: PostcardViewProps) {
             {props.sentLine}
           </Text>
         )}
-        <Pressable
+        {props.canSend ? null : (
+          <SecondaryText variant="body" testID="postcard-solo">
+            {t({
+              id: 'album.postcard.solo',
+              message: 'Nobody else is on this trip yet, so there is no one to send it to.',
+            })}
+          </SecondaryText>
+        )}
+        <PressScale
           onPress={props.onMail}
+          disabled={props.mailingPending === true}
+          widthClass="wide"
           accessibilityRole="button"
           accessibilityLabel={t({
             id: 'album.postcard.mail',
             message: 'Mail a real one to each of you',
           })}
+          accessibilityState={{ busy: props.mailingPending === true }}
           style={styles.mail}
           testID="postcard-mail"
         >
-          <Row justify="space-between" align="center">
-            <Text variant="body">
-              {t({ id: 'album.postcard.mail', message: 'Mail a real one to each of you' })}
+          <Row justify="space-between" align="center" gap="8">
+            <Text variant="body" singleLine={false} style={styles.mailLabel}>
+              {props.mailingPending === true
+                ? t({ id: 'album.postcard.mailing', message: 'Ordering the prints…' })
+                : t({ id: 'album.postcard.mail', message: 'Mail a real one to each of you' })}
             </Text>
             <View style={styles.badge}>
               <Text variant="label" color={theme.color.ink['950']}>
@@ -141,7 +162,7 @@ export function PostcardView(props: PostcardViewProps) {
               </Text>
             </View>
           </Row>
-        </Pressable>
+        </PressScale>
         {props.mailing}
       </ScrollView>
     </Scaffold>

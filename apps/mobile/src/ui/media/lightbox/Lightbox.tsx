@@ -4,7 +4,7 @@
  * sits at the top; an item's caption and credit sit at the bottom, and a credit is always shown.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -34,6 +34,12 @@ export interface LightboxProps {
   /** The item it opens on. @default 0 */
   readonly initialIndex?: number;
   readonly onClose: () => void;
+  /**
+   * A set's own controls for the item on screen (an album's actions), in place of the caption and
+   * credit. It is drawn over the whole viewer and places itself (a bar at the foot, a sheet over
+   * everything); touches outside what it draws still reach the pictures.
+   */
+  readonly footer?: (index: number) => ReactNode;
   readonly testID?: string;
 }
 
@@ -88,7 +94,13 @@ const useStyles = makeStyles((t) => ({
   waiting: { alignItems: 'center', justifyContent: 'center' },
 }));
 
-export function Lightbox({ items, initialIndex = 0, onClose, testID = 'lightbox' }: LightboxProps) {
+export function Lightbox({
+  items,
+  initialIndex = 0,
+  onClose,
+  footer,
+  testID = 'lightbox',
+}: LightboxProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
@@ -282,7 +294,11 @@ export function Lightbox({ items, initialIndex = 0, onClose, testID = 'lightbox'
             )}
             <CloseButton onPress={onClose} testID={`${testID}-close`} />
           </View>
-          {lines === null || (lines.caption === null && lines.credit === null) ? null : (
+          {footer !== undefined ? (
+            <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+              {footer(clampIndex(index, count))}
+            </View>
+          ) : lines === null || (lines.caption === null && lines.credit === null) ? null : (
             <View
               style={[styles.foot, { paddingBottom: insets.bottom + theme.space['12'] }]}
               onLayout={(event) => setFootHeight(event.nativeEvent.layout.height)}

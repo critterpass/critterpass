@@ -76,6 +76,23 @@ export function saveStep(
     : { kind: 'edit', payload: { postcard_id: saved.id, patch } };
 }
 
+/**
+ * What to write when the composer is closed: the traveller's changes, so "Done" never drops them.
+ * A postcard nobody touched is not created just by looking at it.
+ */
+export function closeStep(
+  tripId: string,
+  newId: string,
+  saved: SavedPostcard | null,
+  start: PostcardDraft,
+  draft: PostcardDraft,
+): SaveStep {
+  const untouched =
+    start.format === draft.format && start.photoId === draft.photoId && start.note === draft.note;
+  if (saved === null && untouched) return { kind: 'none' };
+  return saveStep(tripId, newId, saved, draft);
+}
+
 export function recipientsOf(
   people: readonly { readonly id: string }[],
   me: string | null,

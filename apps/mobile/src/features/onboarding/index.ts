@@ -2,6 +2,7 @@
 export { tagWords, type TagWords } from './taste/tag-labels';
 export { clearPassDraft } from './flow-controller/draft-store';
 export { regionName } from './region-names';
+export { CountryPicker } from './phone/CountryPicker';
 export { TasteQuiz } from './taste/TasteQuiz';
 export { RealPhotoSheet } from './photo/RealPhotoSheet';
 export { useRealPhoto } from './photo/use-real-photo';

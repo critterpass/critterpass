@@ -94,13 +94,16 @@ export class BackgroundUploadQueue implements AlbumUploads {
     this.emit();
   }
 
-  clearSettled(): void {
+  clearSettled(tripId?: string): void {
+    let cleared = false;
     for (const [id, entry] of this.entries) {
+      if (tripId !== undefined && entry.record.tripId !== tripId) continue;
       if (entry.record.state === 'done' || entry.record.state === 'duplicate') {
         this.entries.delete(id);
+        cleared = true;
       }
     }
-    this.emit();
+    if (cleared) this.emit();
   }
 
   /** The system reported bytes sent for a transfer. */
@@ -326,6 +329,7 @@ export class BackgroundUploadQueue implements AlbumUploads {
     if (persist) this.persist();
     this.snapshot = [...this.entries.values()].map((entry) => ({
       id: entry.record.id,
+      tripId: entry.record.tripId,
       uri: entry.record.photo.uri,
       state: entry.record.state,
       progress: entry.progress,

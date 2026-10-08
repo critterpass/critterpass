@@ -1,36 +1,45 @@
-/* eslint-disable lingui/no-unlocalized-strings -- wire values, formats and ids, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- item kinds and ids, never copy. */
 /**
- * One album photo full screen (undesigned; built from the album's parts): a pager across the
- * photos in view, pinch to zoom, who took it, when, and the day, then the actions: pick or unpick,
- * "I'm in this", save to Photos (add-only), share, report, and delete for the uploader or an
- * organiser.
+ * One album photo full screen (undesigned; the app's shared viewer with the album's bar at its
+ * foot): swipe across the photos in view, pinch or double-tap to zoom, drag down to put it away.
+ * The bar says who took it and when, who is in it, and carries the actions in one row: pick or
+ * unpick, "I'm in this", save to Photos (add-only), share, and delete (the uploader or an
+ * organiser) or report. A photo that could not be loaded says so and offers another try.
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
-import { FlatList, Image, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { useMemo, type ReactNode } from 'react';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { Row } from '@/ui/layout/Row';
-import { Stack } from '@/ui/layout/Stack';
-import { CloseButton } from '@/ui/sheet/CloseButton';
+import { TextLink } from '@/ui/buttons/TextLink';
+import { Lightbox } from '@/ui/media/lightbox/Lightbox';
+import { indexOfKey, type LightboxItem } from '@/ui/media/lightbox/lightbox-model';
 import { Text } from '@/ui/text/Text';
-import { useTheme } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { AlbumPhoto } from '../data/album-model';
-import { useAlbumReadUrl } from '../grid/album-media';
+import type { ViewerUrls } from './use-viewer-urls';
 
 export interface PhotoViewerProps {
   readonly photos: readonly AlbumPhoto[];
   readonly startId: string;
+  readonly urls: ViewerUrls;
   readonly me: string | null;
   readonly organiser: boolean;
   readonly nameOf: (uid: string) => string;
+  /** The names of the travellers who said they are in the photo. */
+  readonly namesIn: (photoId: string) => readonly string[];
   readonly isMeIn: (photoId: string) => boolean;
   readonly busy: 'save' | 'share' | null;
+  /** What the last action did ("Saved to Photos"), said in the bar: a toast would sit under the viewer. */
+  readonly notice: string | null;
+  /** Sheets the actions open (confirm a delete or a report), over the whole viewer. */
+  readonly overlay?: ReactNode;
   readonly onClose: () => void;
+  readonly onRetryPicture: () => void;
   readonly onPick: (photo: AlbumPhoto, picked: boolean) => void;
   readonly onMeIn: (photo: AlbumPhoto, on: boolean) => void;
   readonly onSave: (photo: AlbumPhoto) => void;
@@ -39,102 +48,103 @@ export interface PhotoViewerProps {
   readonly onDelete: (photo: AlbumPhoto) => void;
 }
 
-function Page({ photo, width, height }: { photo: AlbumPhoto; width: number; height: number }) {
-  const url = useAlbumReadUrl(photo.displayKey ?? photo.thumbKey);
-  const { t } = useLingui();
-  const theme = useTheme();
-  return (
-    <ScrollView
-      style={{ width, height, backgroundColor: theme.semantic.bg.raised }}
-      maximumZoomScale={3}
-      minimumZoomScale={1}
-      centerContent
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-    >
-      {url === null ? null : (
-        <Image
-          source={{ uri: url }}
-          resizeMode="contain"
-          style={{ width, height }}
-          accessibilityLabel={t({ id: 'album.viewer.photo', message: 'Photo' })}
-        />
-      )}
-    </ScrollView>
-  );
-}
+const useStyles = makeStyles((t) => ({
+  bar: {
+    position: 'absolute',
+    start: 0,
+    end: 0,
+    bottom: 0,
+    paddingTop: t.space['12'],
+    gap: t.space['8'],
+    backgroundColor: t.color.scrim.hex,
+  },
+  lines: { paddingHorizontal: t.size.gutter, gap: t.space['2'] },
+  actions: { paddingHorizontal: t.size.gutter, gap: t.space['8'] },
+}));
 
 export function PhotoViewer(props: PhotoViewerProps) {
   const { t } = useLingui();
   const theme = useTheme();
+  const styles = useStyles();
   const locale = useLocale();
   const insets = useSafeAreaInsets();
-  const { width, height } = useWindowDimensions();
-  const start = Math.max(
-    0,
-    props.photos.findIndex((photo) => photo.id === props.startId),
+  const { photos, urls } = props;
+  const items = useMemo<LightboxItem[]>(
+    () =>
+      photos.map((photo) => ({
+        key: photo.id,
+        kind: 'image',
+        uri: urls.get(photo.id) ?? null,
+      })),
+    [photos, urls],
   );
-  const [index, setIndex] = useState(start);
-  const photo = props.photos[index];
-  const when = photo?.takenAt ?? photo?.createdAt ?? null;
-  const uploader = photo === undefined ? '' : props.nameOf(photo.uploaderId);
-  const time =
-    when === null
-      ? ''
-      : format.date(locale, new Date(when), {
-          weekday: 'short',
-          hour: 'numeric',
-          minute: '2-digit',
-        });
 
-  return (
-    <View
-      style={[StyleSheet.absoluteFill, { backgroundColor: theme.semantic.bg.base }]}
-      testID="album-viewer"
-    >
-      <FlatList
-        data={props.photos}
-        horizontal
-        pagingEnabled
-        initialScrollIndex={start}
-        getItemLayout={(_, i) => ({ length: width, offset: width * i, index: i })}
-        keyExtractor={(item) => item.id}
-        onMomentumScrollEnd={(event) =>
-          setIndex(Math.round(event.nativeEvent.contentOffset.x / Math.max(1, width)))
-        }
-        renderItem={({ item }) => <Page photo={item} width={width} height={height} />}
-      />
-      <CloseButton
-        onPress={props.onClose}
-        style={{ position: 'absolute', top: insets.top + theme.space['8'], end: theme.space['16'] }}
-        testID="album-viewer-close"
-      />
-      {photo === undefined ? null : (
-        <Stack
-          gap="10"
-          padding="16"
-          style={{
-            position: 'absolute',
-            start: 0,
-            end: 0,
-            bottom: insets.bottom,
-            backgroundColor: theme.color.scrim.hex,
-          }}
+  const bar = (index: number) => {
+    const photo = photos[index];
+    if (photo === undefined) return props.overlay ?? null;
+    const when = photo.takenAt ?? photo.createdAt;
+    const uploader = props.nameOf(photo.uploaderId);
+    const time = format.date(locale, new Date(when), {
+      weekday: 'short',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+    const names = format.list(locale, [...props.namesIn(photo.id)]);
+    const meIn = props.isMeIn(photo.id);
+    const failed = urls.get(photo.id) === null;
+    return (
+      <>
+        <View
+          style={[styles.bar, { paddingBottom: insets.bottom + theme.space['12'] }]}
+          testID="album-viewer-bar"
         >
-          <Text variant="body">
-            {when === null
-              ? uploader
-              : t({
-                  id: 'album.viewer.byline',
-                  message: `${uploader} · ${time}`,
-                })}
-          </Text>
-          <Row gap="8" wrap>
+          <View style={styles.lines}>
+            <Text variant="body" testID="album-viewer-byline">
+              {t({ id: 'album.viewer.byline', message: `${uploader} · ${time}` })}
+            </Text>
+            {names.length === 0 ? null : (
+              <Text
+                variant="caption"
+                color={theme.semantic.text.secondary}
+                singleLine={false}
+                numberOfLines={2}
+                testID="album-viewer-who"
+              >
+                {t({ id: 'album.viewer.who', message: `In this photo: ${names}` })}
+              </Text>
+            )}
+            {failed ? (
+              <>
+                <Text variant="caption" singleLine={false} testID="album-viewer-failed">
+                  {t({
+                    id: 'album.viewer.failed',
+                    message: "Couldn't load this photo. Check your connection.",
+                  })}
+                </Text>
+                <TextLink
+                  label={t({ id: 'album.viewer.retry', message: 'Try again' })}
+                  onPress={props.onRetryPicture}
+                  testID="album-viewer-retry"
+                />
+              </>
+            ) : null}
+            {props.notice === null ? null : (
+              <Text variant="caption" singleLine={false} testID="album-viewer-notice">
+                {props.notice}
+              </Text>
+            )}
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.actions}
+            keyboardShouldPersistTaps="handled"
+          >
             <PillButton
               label={
                 photo.isPick
-                  ? t({ id: 'album.viewer.picked', message: '★ Picked' })
-                  : t({ id: 'album.viewer.pick', message: '☆ Pick' })
+                  ? t({ id: 'album.viewer.pickOn', message: 'Picked' })
+                  : t({ id: 'album.viewer.pickOff', message: 'Pick' })
               }
               onPress={() => props.onPick(photo, !photo.isPick)}
               size="sm"
@@ -143,19 +153,20 @@ export function PhotoViewer(props: PhotoViewerProps) {
             />
             <PillButton
               label={
-                props.isMeIn(photo.id)
-                  ? t({ id: 'album.viewer.meIn', message: "✓ I'm in this" })
-                  : t({ id: 'album.viewer.meOut', message: "I'm in this" })
+                meIn
+                  ? t({ id: 'album.who.me', message: "I'm in this" })
+                  : t({ id: 'album.viewer.meOff', message: 'Add me' })
               }
-              onPress={() => props.onMeIn(photo, !props.isMeIn(photo.id))}
+              onPress={() => props.onMeIn(photo, !meIn)}
               size="sm"
-              variant="secondary"
+              {...(meIn ? { tone: 'yellow' as const } : { variant: 'secondary' as const })}
               testID="album-viewer-me"
             />
             <PillButton
               label={t({ id: 'album.viewer.save', message: 'Save' })}
               onPress={() => props.onSave(photo)}
               loading={props.busy === 'save'}
+              disabled={props.busy !== null}
               size="sm"
               variant="secondary"
               testID="album-viewer-save"
@@ -164,6 +175,7 @@ export function PhotoViewer(props: PhotoViewerProps) {
               label={t({ id: 'album.viewer.share', message: 'Share' })}
               onPress={() => props.onShare(photo)}
               loading={props.busy === 'share'}
+              disabled={props.busy !== null}
               size="sm"
               variant="secondary"
               testID="album-viewer-share"
@@ -185,9 +197,20 @@ export function PhotoViewer(props: PhotoViewerProps) {
                 testID="album-viewer-report"
               />
             )}
-          </Row>
-        </Stack>
-      )}
-    </View>
+          </ScrollView>
+        </View>
+        {props.overlay}
+      </>
+    );
+  };
+
+  return (
+    <Lightbox
+      items={items}
+      initialIndex={indexOfKey(items, props.startId)}
+      onClose={props.onClose}
+      footer={bar}
+      testID="album-viewer"
+    />
   );
 }
