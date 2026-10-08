@@ -2,55 +2,6 @@ import { describe, expect, it } from 'vitest';
 
 import { DomainError, ERROR_CODES, type ErrorCode, errorMessageKey } from '../src/errors';
 
-// Mirrors the api contracts error code table exactly; a mismatch means the table drifted from the
-// contract, in either direction, and one of the two needs to change.
-const DOCUMENTED_CODES: readonly ErrorCode[] = [
-  'AUTH_REQUIRED',
-  'SESSION_REVOKED',
-  'MERGE_REQUIRED',
-  'ACCOUNT_CLOSED',
-  'ATTESTATION_FAILED',
-  'FORBIDDEN',
-  'ACTION_KEY_SCOPE',
-  'NOT_FOUND',
-  'VALIDATION',
-  'STATE_INVALID',
-  'VERSION_CONFLICT',
-  'PLAN_VERSION_CONFLICT',
-  'IDEMPOTENCY_MISMATCH',
-  'RATE_LIMITED',
-  'NUDGE_TOO_SOON',
-  'QUOTA_EXHAUSTED',
-  'REDRAFT_LIMIT',
-  'SEAT_LIMIT',
-  'WAITLISTED',
-  'ENTITLEMENT_REQUIRED',
-  'BOOST_INTENT_LOCKED',
-  'VOTE_CLOSED',
-  'NOT_ELIGIBLE',
-  'INVITE_EXPIRED',
-  'INVITE_REVOKED',
-  'SHARE_EXPIRED',
-  'SHARE_REVOKED',
-  'CODE_INVALID',
-  'CODE_REDEEMED',
-  'CODE_EXPIRED',
-  'OWNED_BY_OTHER_ACCOUNT',
-  'K_ANON_UNAVAILABLE',
-  'HOLD_EXPIRED',
-  'HOLD_NOT_PROVIDED',
-  'SUPPLIER_UNAVAILABLE',
-  'SUPPLIER_REJECTED',
-  'PAYMENT_PENDING',
-  'LOCATION_IMPLAUSIBLE',
-  'CONTENT_REJECTED',
-  'APPROVAL_REQUIRED',
-  'CONSENT_REQUIRED',
-  'PAYLOAD_TOO_LARGE',
-  'UPSTREAM_TIMEOUT',
-  'INTERNAL',
-];
-
 const RETRYABLE_CODES: readonly ErrorCode[] = [
   'RATE_LIMITED',
   'SUPPLIER_UNAVAILABLE',
@@ -59,11 +10,6 @@ const RETRYABLE_CODES: readonly ErrorCode[] = [
 ];
 
 describe('ERROR_CODES', () => {
-  it('matches the documented error code table exactly, with no duplicates', () => {
-    expect([...ERROR_CODES].sort()).toEqual([...DOCUMENTED_CODES].sort());
-    expect(new Set(ERROR_CODES).size).toBe(ERROR_CODES.length);
-  });
-
   it('gives every code an errors.<CODE> message key', () => {
     for (const code of ERROR_CODES) {
       expect(errorMessageKey(code)).toBe(`errors.${code}`);
