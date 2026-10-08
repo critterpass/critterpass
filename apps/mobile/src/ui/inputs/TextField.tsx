@@ -10,6 +10,7 @@ import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
 import type { Theme } from '../theme';
 import { makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from '../theme';
+import { useNumberPadDone } from './NumberPadDone';
 import { useInputFont } from './use-input-font';
 
 export type FieldStatus = 'idle' | 'valid' | 'error';
@@ -87,6 +88,7 @@ export function TextField({
   const theme = useTheme();
   const font = useInputFont('input');
   const [focused, setFocused] = useState(false);
+  const numberPad = useNumberPadDone(inputProps);
   // The face's natural line is about 1.35 em; the input's own vertical padding sits around it.
   const capped =
     maxLines === undefined
@@ -110,6 +112,9 @@ export function TextField({
         <TextInput
           {...(maxLines !== undefined && maxLines > 1 ? { multiline: true } : {})}
           {...inputProps}
+          {...(numberPad.inputAccessoryViewID === undefined
+            ? {}
+            : { inputAccessoryViewID: numberPad.inputAccessoryViewID })}
           testID={testID}
           value={value}
           onChangeText={onChangeText}
@@ -142,6 +147,7 @@ export function TextField({
           </PressScale>
         ) : null}
       </Row>
+      {numberPad.accessory}
       {message ? (
         <View accessibilityLiveRegion={status === 'error' ? 'polite' : 'none'}>
           <Text variant="bodySm" color={messageColour}>
