@@ -179,6 +179,28 @@ appId: app.critterpass.dev
     id: 'budget-under-all'
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-budget-alone
+# The typed amount opens a number pad; on iPhone it carries a Done key that puts it away.
+- runFlow:
+    when:
+      visible:
+        id: 'budget-typed'
+    commands:
+      - tapOn:
+          id: 'budget-typed'
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOTS}-budget-number-pad
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - tapOn:
+                id: 'number-pad-done'
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - hideKeyboard
+      - waitForAnimationToEnd
 - tapOn:
     id: 'budget-lock'
 
