@@ -2,7 +2,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import type { TripRow } from '../data/queries';
-import { pickTrip } from '../data/use-wallet-context';
+import { pickTrip } from '../data/pick-trip';
 
 const trip = (id: string, status: string, start: string): TripRow => ({
   id,
