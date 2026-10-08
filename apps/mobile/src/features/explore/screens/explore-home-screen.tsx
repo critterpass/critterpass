@@ -7,7 +7,7 @@ import { tokens } from '@cp/design-tokens';
 import { router, useIsFocused } from 'expo-router';
 import { useMemo } from 'react';
 
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 
 import { ExploreHomeView } from '../components/explore-home-view';
 import { useOfflinePackFiles } from '../data/use-offline-pack';
@@ -21,7 +21,7 @@ export function ExploreHomeScreen() {
   const saved = useSaved();
   const focused = useIsFocused();
   const packFiles = useOfflinePackFiles(focused);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const cards = useMemo(
     () =>
       destinationCards(
@@ -37,7 +37,7 @@ export function ExploreHomeScreen() {
     <ExploreHomeView
       cards={cards}
       loading={!destinations.loaded}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       savedCount={saved.rows.length}
       onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
       onOpen={(card) => router.push(exploreRoutes.destination(card.id))}

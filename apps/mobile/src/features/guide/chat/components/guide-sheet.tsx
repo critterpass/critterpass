@@ -13,7 +13,7 @@ import type { GuideThreadMode } from '@cp/domain';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideColour } from '@/ui/avatar/guides';
 
@@ -123,12 +123,12 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
   const mode: GuideThreadMode = chosen ?? (shared ? 'group' : 'private');
   useTripStreams(trip?.tripId ?? null);
   const thread = useGuideThread(mode, trip?.tripId ?? null, context.uid);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const turn = useGuideTurn({
     threadId: thread.threadId,
     mode,
     tripId: trip?.tripId ?? null,
-    online: sync.phase !== 'offline',
+    online: syncPhase !== 'offline',
   });
   const rate = useCommand(rateGuideAnswerCommand);
   // A question handed over from search (`q`) waits in the composer for the person to send.
