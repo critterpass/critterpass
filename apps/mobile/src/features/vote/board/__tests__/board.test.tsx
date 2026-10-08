@@ -237,6 +237,16 @@ describe('pitch sheet', () => {
     expect(screen.queryByTestId('pitch-results')).toBeNull();
   });
 
+  it('says when no place matches what was typed', async () => {
+    const s = await open();
+    await seedBoard(s);
+    await renderVote(<PitchSheet crewId={CREW} />, s, replayServices({ results: [] }));
+    await fireEvent.changeText(screen.getByTestId('pitch-search'), 'morrocco');
+    await until(() => screen.queryByTestId('pitch-no-results') !== null);
+    expect(screen.queryByTestId('pitch-results')).toBeNull();
+    expect(screen.queryByTestId('pitch-add')).toBeNull();
+  });
+
   it('streams the pitch section by section, then adds the place with its pitch', async () => {
     const s = await open();
     await seedBoard(s);
