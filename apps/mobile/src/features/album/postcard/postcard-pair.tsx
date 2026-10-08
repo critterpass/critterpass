@@ -9,7 +9,7 @@ import { tokens } from '@cp/design-tokens';
 import type { POSTCARD_FORMATS } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
-import { Image, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -30,7 +30,7 @@ import { Text } from '@/ui/text/Text';
 import { paperColours } from '@/ui/documents/paper-colours';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { useAlbumReadUrl } from '../grid/album-media';
+import { AlbumImage } from '../grid/album-image';
 
 export type PostcardFormat = (typeof POSTCARD_FORMATS)[number];
 
@@ -90,7 +90,6 @@ export function PostcardPair(props: PostcardPairProps) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
-  const url = useAlbumReadUrl(props.photoKey);
   const art = guideSticker(props.guide);
   const turn = useSharedValue(reduced ? 1 : 0);
   const bounce = useSharedValue(0);
@@ -141,7 +140,7 @@ export function PostcardPair(props: PostcardPairProps) {
           accessibilityLabel={t({ id: 'album.postcard.front', message: 'Choose the photo' })}
           testID="postcard-front"
         >
-          {url === null ? null : <Image source={{ uri: url }} style={styles.fill} />}
+          <AlbumImage mediaKey={props.photoKey} />
           <View style={styles.greeting}>
             <Text variant="voicePostcard" color={theme.color.paper.bright}>
               {t({ id: 'album.postcard.greetings', message: 'Greetings from' })}
@@ -175,7 +174,9 @@ export function PostcardPair(props: PostcardPairProps) {
             <Text variant="voice" color={theme.color.paper.ink}>
               {props.note.length > 0
                 ? `${props.note} — ${props.signature}`
-                : t({ id: 'album.postcard.noteEmpty', message: 'Tap to write a note…' })}
+                : props.onBack === undefined
+                  ? ''
+                  : t({ id: 'album.postcard.noteEmpty', message: 'Tap to write a note…' })}
             </Text>
           </Pressable>
           <View style={styles.divider} />

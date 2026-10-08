@@ -15,8 +15,11 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { useScreenHref } from '@/lib/navigation/screen-registry';
+import { goBackOr } from '@/lib/navigation/back';
+import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
 import { guideIdOr } from '@/ui/avatar/guides';
 
 import {
@@ -32,6 +35,7 @@ import { useMailing } from '../mailing/use-mailing';
 import { albumHttp } from '../upload/device-upload';
 import {
   clampNote,
+  closeStep,
   initialDraft,
   recipientsOf,
   saveStep,
@@ -48,6 +52,7 @@ const SAVED_SQL = `
    ORDER BY updated_at DESC LIMIT 1`;
 const RECAP_SQL = 'SELECT cards FROM recaps WHERE trip_id = ?';
 const PAYWALL_SCREEN = '4e-1';
+const RECAP_SCREEN = '3m-1';
 
 function recapNote(cards: unknown): string | null {
   try {
@@ -64,7 +69,10 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const locale = useLocale();
+  const { report } = useCommandFeedback();
   const album = useAlbum(tripId);
+  const [closing, setClosing] = useState(false);
+  const recapHref = hrefFor(RECAP_SCREEN, { tripId }) ?? '/';
   const me = album.me;
   const savedRows = useLiveRows<{
     id: string;
@@ -107,7 +115,16 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
   }
   const draft = edited ?? start;
 
-  if (draft === null) return null;
+  if (draft === null || start === null) {
+    return (
+      <ScreenLoading
+        backLabel={t({ id: 'album.postcard.backLabel', message: 'Recap' })}
+        fallback={recapHref}
+        label={t({ id: 'album.postcard.loading', message: 'Loading your postcard' })}
+        testID="postcard-loading"
+      />
+    );
+  }
   const nameOf = (uid: string) =>
     album.people.find((person) => person.id === uid)?.name ||
     t({ id: 'album.formerTraveller', message: 'A former traveller' });
@@ -127,7 +144,27 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
     return step.kind === 'create' ? newId : step.payload.postcard_id;
   }
 
+  /** "Done": the traveller's changes are kept (they wait on the phone without signal), then back. */
+  async function onClose() {
+    if (closing || draft === null || start === null) return;
+    const newId = randomUUID();
+    const step = closeStep(tripId, newId, saved, start, draft);
+    if (step.kind === 'none') return goBackOr(recapHref);
+    setClosing(true);
+    const result =
+      step.kind === 'create' ? await create.send(step.payload) : await edit.send(step.payload);
+    setClosing(false);
+    const outcome = report(result, {
+      id: 'album-postcard',
+      offlineCapable: true,
+      done: t({ id: 'album.postcard.kept', message: 'Postcard saved' }),
+      refused: t({ id: 'album.postcard.saveFailed', message: "Couldn't save the postcard" }),
+    });
+    if (outcome !== 'refused') goBackOr(recapHref);
+  }
+
   async function onSend() {
+    if (send.pending) return;
     const id = await persist();
     if (id === null)
       return failed(t({ id: 'album.postcard.saveFailed', message: "Couldn't save the postcard" }));
@@ -137,14 +174,22 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
       setSentTo(recipients);
       return;
     }
-    failed(
-      result.kind === 'unavailable'
-        ? t({ id: 'album.postcard.sendOffline', message: 'Saved. It sends when you have signal' })
-        : t({ id: 'album.postcard.sendFailed', message: "Couldn't send it. Try again" }),
-    );
+    if (result.kind === 'unavailable') {
+      // The postcard itself is kept; sending is the traveller's to do again, so no error cue.
+      toast.show({
+        id: 'album-postcard',
+        title: t({
+          id: 'album.postcard.sendLater',
+          message: 'Saved. Send it when you have signal',
+        }),
+      });
+      return;
+    }
+    failed(t({ id: 'album.postcard.sendFailed', message: "Couldn't send it. Try again" }));
   }
 
   async function onMail() {
+    if (mail.pending) return;
     if (!passPlus) {
       if (paywall !== undefined) router.push(paywall);
       else
@@ -214,7 +259,9 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
         note={draft.note}
         signature={myName.slice(0, 1).toUpperCase()}
         guide={guideIdOr(album.trip?.guideSlug)}
-        sending={send.pending || create.pending || edit.pending}
+        sending={!closing && (send.pending || create.pending || edit.pending)}
+        closing={closing}
+        mailingPending={mail.pending}
         sentLine={sentLine}
         canSend={recipients.length > 0}
         mailing={<MailingStatus mailing={mailing} notice={notice} nameOf={nameOf} />}
@@ -223,7 +270,7 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
         onNote={() => setSheet('note')}
         onSend={() => void onSend()}
         onMail={() => void onMail()}
-        onClose={() => router.back()}
+        onClose={() => void onClose()}
       />
       {sheet === 'note' ? (
         <NoteSheet
