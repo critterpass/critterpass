@@ -23,6 +23,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { CollapsingHeader } from '../settings/collapsing-header';
 import { AlwaysNote } from './always-note';
 import { BUDGET_MAX, type CrewChatMode, type PingPrefs } from './ping-prefs';
 
@@ -172,7 +173,7 @@ export function PingSettingsView(props: PingSettingsViewProps) {
         stickyHeaderIndices={[0]}
         contentContainerStyle={{ paddingBottom: theme.space['32'] }}
       >
-        <View style={{ backgroundColor: theme.semantic.bg.base }}>
+        <CollapsingHeader collapse={collapse}>
           <LargeTitle
             title={t({ id: 'you.pings.title', message: 'How much we ping' })}
             collapse={collapse}
@@ -185,7 +186,7 @@ export function PingSettingsView(props: PingSettingsViewProps) {
               />
             }
           />
-        </View>
+        </CollapsingHeader>
         <View style={styles.content}>
           <Card style={styles.budget} testID="you-pings-budget">
             {/* The level keeps its words whole: beside the label while they fit, under it when a
