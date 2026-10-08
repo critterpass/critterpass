@@ -3,7 +3,7 @@ appId: app.critterpass.dev
 # Journey: the trip day. A new account starts as the `trip_today` scenario (a crew of six on a
 # locked three-day Đà Nẵng trip that started today). TRIPS opens the hub on the day; its next row
 # opens the day-of screen, where the account says I'M UP when there is an early start, adds
-# "Sunscreen" to its pack list and ticks it through the api. A flight that left this morning,
+# "Sunscreen" to its pack list and ticks it through the api. A flight that left two hours ago,
 # typed into the wallet by hand, offers I LANDED in its details, and the tap settles it. A relaunch
 # comes back to the app, the hub opens from TRIPS, and the day-of screen still has the tick.
 - runFlow:
@@ -13,6 +13,8 @@ appId: app.critterpass.dev
 - runFlow: subflows/pass-trip-welcome.yaml
 - tapOn:
     id: 'tab-trips'
+    # The hub never settles for Maestro: without a limit the tap waits minutes.
+    waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
       id: 'trip-hub-header-.*'
@@ -96,8 +98,10 @@ appId: app.critterpass.dev
 - runFlow: subflows/sunscreen-packed.yaml
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-trip-day-packed
-# I LANDED: this morning's flight, typed in by hand, has left, so its details offer it.
-- evalScript: ${output.today = new Date(Date.now() + 7 * 3600000).toISOString().slice(0, 10)}
+# I LANDED: a flight typed in by hand that left two hours ago (Vietnam time, never before 00:01
+# today). Its details offer I LANDED once it has left; it stays in the stack until six hours after
+# it lands (then it is a past booking), so it lands an hour before now.
+- evalScript: ${var now = new Date(Date.now() + 7 * 3600000); var mins = now.getUTCHours() * 60 + now.getUTCMinutes(); var hhmm = function (m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); }; output.today = now.toISOString().slice(0, 10); output.departs = hhmm(Math.max(1, mins - 120)); output.lands = hhmm(Math.max(2, mins - 60))}
 - runFlow: ../onboarding/subflows/back.yaml
 - runFlow: subflows/open-bookings.yaml
 - runFlow:
@@ -108,8 +112,8 @@ appId: app.critterpass.dev
       FROM: 'SGN'
       TO: 'DAD'
       DAY: ${output.today}
-      TIME: '00:05'
-      LANDS: '01:30'
+      TIME: ${output.departs}
+      LANDS: ${output.lands}
 - scrollUntilVisible:
     element: '.*9G ?950.*'
     direction: DOWN
@@ -150,9 +154,13 @@ appId: app.critterpass.dev
     visible:
       id: 'tab-trips'
     timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 3000
 - runFlow: subflows/pass-trip-welcome.yaml
 - tapOn:
     id: 'tab-trips'
+    # The hub never settles for Maestro: without a limit the tap waits minutes.
+    waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
       id: 'trip-hub-header-in'

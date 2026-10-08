@@ -4,6 +4,8 @@ appId: app.critterpass.dev
 # day; the map's peek opens the day).
 - tapOn:
     id: 'tab-trips'
+    # The hub never settles for Maestro: without a limit the tap waits minutes.
+    waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
       id: 'trip-hub-header-.*'

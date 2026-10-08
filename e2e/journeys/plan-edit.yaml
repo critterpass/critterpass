@@ -8,8 +8,8 @@ env:
 # Journey: editing the plan of a trip that is on. A new account starts as the `trip_today`
 # scenario (a locked three-day Đà Nẵng trip, its plan of editorial places). TRIPS → PLAN opens day
 # 1; its add bar searches "cafe", Add to plan puts the first place it can add on the day; the
-# stop's sheet moves it to day 2, and day 2 shows it. A place page's ♡ saves another place and
-# Ideas lists it. After a relaunch, day 2 still has the moved stop. The stop and the idea are found
+# stop's sheet moves it to day 2. A place page's ♡ saves another place and Ideas lists it. After
+# a relaunch, day 2 has the moved stop. The stop and the idea are found
 # by the names the app showed when they were picked.
 - runFlow:
     file: ../_shared/start-as.yaml
@@ -94,7 +94,6 @@ env:
     timeout: 30000
     visibilityPercentage: 100
     centerElement: true
-- waitForAnimationToEnd
 - takeScreenshot: en-journey-plan-edit-added
 # Its sheet moves it to day 2 (the first start that works on day 2 is taken when offered).
 - tapOn:
@@ -152,21 +151,6 @@ env:
     visible:
       id: 'day-plan'
     timeout: 15000
-# Day 2 has it.
-- scrollUntilVisible:
-    element:
-      id: 'day-plan-day-chips-2'
-    direction: UP
-    timeout: 15000
-- tapOn:
-    id: 'day-plan-day-chips-2'
-- scrollUntilVisible:
-    element:
-      text: '(?iu).*${output.added}.*'
-    direction: DOWN
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: en-journey-plan-edit-moved
 # A place page: ♡ saves it, and Ideas lists it.
 - scrollUntilVisible:
     element:
@@ -242,16 +226,39 @@ env:
       text: '(?iu).*${output.saved}.*'
     direction: DOWN
     timeout: 30000
-- waitForAnimationToEnd
 - takeScreenshot: en-journey-plan-edit-ideas
-# A relaunch: the app opens on a tab, and the plan opens again from TRIPS with the stop on day 2.
+# Ideas, all days and the day plan are pushed over the tabs: back out to the tab bar.
+- tapOn:
+    id: 'plan-ideas-back'
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 3000
+# A relaunch, then the plan opens again from TRIPS: day 2 has the moved stop. The app can bring
+# back a screen pushed over the tabs a moment after they show, so the tab bar is awaited again.
 - stopApp
 - launchApp
 - extendedWaitUntil:
     visible:
       id: 'tab-trips'
     timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 3000
 - runFlow: subflows/pass-trip-welcome.yaml
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 3000
 - runFlow: subflows/open-day-plan.yaml
 - tapOn:
     id: 'day-plan-day-chips-2'

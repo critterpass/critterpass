@@ -2,6 +2,8 @@ appId: app.critterpass.dev
 ---
 # Once a trip is on, two pages can rise over the screen a flow is on: the trip's welcome (its egg)
 # and the visit history offer. Each is put away when it is up, so the next step finds its screen.
+# The hub under them never settles for Maestro (its taps waited minutes for the screen to stop
+# moving), so these taps wait half a second at most.
 - runFlow:
     when:
       visible:
@@ -9,6 +11,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'critters-hatch-later'
+          waitToSettleTimeoutMs: 500
       - waitForAnimationToEnd
 - runFlow:
     when:
@@ -17,4 +20,5 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'visit-consent-decline'
+          waitToSettleTimeoutMs: 500
       - waitForAnimationToEnd
