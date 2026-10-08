@@ -23,6 +23,7 @@ import { facePropsOf, useMemberFaces } from './member-faces';
 import type { AvatarRing, MemberFace } from './member-face';
 import { useOwnedForms } from './owned-forms';
 import { AvatarView, type AvatarTab } from './avatar-view';
+import { choiceOnTab } from './tab-choice';
 
 export const setAvatarCommand = defineClientCommand<SetAvatarPayload>({
   name: 'set_avatar',
@@ -116,7 +117,10 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
         }
         face={facePropsOf(shown, shown.kind === 'photo' ? shownUri : null, diameter)}
         tab={tab ?? tabOf(current)}
-        onTab={setTab}
+        onTab={(next) => {
+          setTab(next);
+          setChoice((picked) => choiceOnTab(next, current.kind, picked));
+        }}
         guide={shown.kind === 'guide' ? shown.guide : null}
         onGuide={(guide) => setChoice({ kind: 'guide', guide })}
         forms={forms}
