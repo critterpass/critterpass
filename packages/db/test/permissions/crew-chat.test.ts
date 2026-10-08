@@ -412,13 +412,22 @@ describe('chat sync window', () => {
     expect(await flags()).toEqual(before);
   });
 
-  it('reverses cleanly', async () => {
+  it('reverses cleanly, and a member can still react afterwards', async () => {
+    const { crewId, actors } = harness.fixture;
     const client = await harness.db.pool.connect();
     try {
       await client.query('BEGIN');
+      // The reaction trigger goes back to copying the crew alone: it must not read a dropped column.
       await client.query(`
         DROP TRIGGER messages_slide_sync_window ON messages;
         DROP FUNCTION app.slide_chat_sync_window();
+        CREATE OR REPLACE FUNCTION app.message_reaction_crew() RETURNS trigger
+        LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+        BEGIN
+          SELECT m.crew_id INTO NEW.crew_id FROM messages m WHERE m.id = NEW.message_id;
+          RETURN NEW;
+        END;
+        $$;
         DROP INDEX messages_sync_window_idx;
         ALTER TABLE message_reactions DROP COLUMN in_sync_window;
         ALTER TABLE messages DROP COLUMN in_sync_window;
@@ -428,6 +437,14 @@ describe('chat sync window', () => {
           WHERE table_schema = 'public' AND column_name = 'in_sync_window'`,
       );
       expect(rows).toEqual([{ n: 0 }]);
+      await client.query('SET LOCAL ROLE app_user');
+      await client.query("SELECT set_config('app.uid', $1, true)", [actors.member]);
+      const reacted = await client.query<{ crew_id: string }>(
+        `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '🧭')
+         RETURNING crew_id`,
+        [recentId, actors.member],
+      );
+      expect(reacted.rows).toEqual([{ crew_id: crewId }]);
     } finally {
       await client.query('ROLLBACK');
       client.release();
