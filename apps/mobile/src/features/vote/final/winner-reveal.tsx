@@ -8,6 +8,7 @@
  * drops the confetti and fades the finished screen in. A place the organiser locked in before
  * anyone voted is not a vote that was won or missed: it shows as locked in, with no score.
  */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
@@ -135,10 +136,14 @@ export function WinnerRevealView({ poll, me, settled = false }: WinnerRevealView
       score={upper(score, i18n.locale)}
       tallySummary={[
         `${winnerName}. ${score}`,
-        ...(lockedIn ? [] : poll.options).map(
-          (option) =>
-            `${nameOf(option, places)}, ${t({ id: 'vote.showdown.votes', message: `${option.votes} votes` })}`,
-        ),
+        ...(lockedIn ? [] : poll.options).map((option) => {
+          const votes = option.votes;
+          const count = t({
+            id: 'vote.showdown.count',
+            message: plural(votes, { one: '# vote', other: '# votes' }),
+          });
+          return `${nameOf(option, places)}, ${count}`;
+        }),
       ].join('; ')}
       rows={rows}
       notes={

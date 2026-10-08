@@ -8,6 +8,7 @@
  * way the crew leans gets a word from the guide. Once the poll closes the reveal takes over.
  */
 import { tokens } from '@cp/design-tokens';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -146,10 +147,14 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
     poll.closesAt === null ? null : deadlineParts(i18n.locale, poll.closesAt, new Date());
   // The tally card speaks for the bottom side, whose voters it shows (the top side's are under its
   // chips), and says who is still to vote.
-  const votesLine = t({
-    id: 'vote.showdown.tally',
-    message: `${second.votes} votes · ${lines.toGo ?? ''}`,
-  });
+  const votes = second.votes;
+  const votesLine = [
+    t({ id: 'vote.showdown.count', message: plural(votes, { one: '# vote', other: '# votes' }) }),
+    lines.toGo,
+  ]
+    .filter((part) => part !== null)
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a separator, never copy.
+    .join(' · ');
   return (
     <View style={styles.screen} testID="showdown">
       <View
@@ -238,7 +243,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           <Text variant="label" color={theme.semantic.action.primary} numberOfLines={2}>
             {upper(votesLine, i18n.locale)}
           </Text>
-          {poll.myOptionId === null ? (
+          {poll.canVote && poll.myOptionId === null ? (
             <Text variant="bodySm" testID="showdown-hint">
               {t({ id: 'vote.showdown.hint', message: "You haven't voted yet. Tap a side." })}
             </Text>
