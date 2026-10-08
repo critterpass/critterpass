@@ -1,8 +1,9 @@
 /**
  * The encounter over the session's engine and synced rows: the live scene while the ring fills
  * (a legendary gets its own layer), wandered off with the next quiet window from the crowd
- * forecast, and befriended, whose ADD TO YOUR PASS lands it on the PASS tab with a thud. Befriending
- * works offline; the entry shows as pending until the server verifies it.
+ * forecast, and befriended, whose ADD TO YOUR PASS lands it on the PASS tab with a thud and shows
+ * the set it joined. Befriending works offline; the entry shows as pending until the server
+ * verifies it. Leaving the live scene keeps the encounter running; the PASS tab's banner leads back.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- rule kinds, screen ids, toast keys and Intl options, never copy. */
 import { format } from '@cp/i18n';
@@ -12,7 +13,8 @@ import { useState } from 'react';
 import { dataOf } from '@/data/travel-data/freshness';
 import { useCrowdForecasts } from '@/data/travel-data/shared-content';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { hrefFor } from '@/lib/navigation/screen-registry';
+import { goBackOr } from '@/lib/navigation/back';
+import { openInTabs } from '@/lib/navigation/open-in-tabs';
 import { impact, toast } from '@/motion';
 import { tierWord } from '@/ui/critters/tier';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
@@ -20,7 +22,8 @@ import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { useCrewSightings } from '../data/crew-sightings';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { deviceTimeZone } from '../hatch/hatch-model';
-import { passRoute } from '../routes';
+import { ME_SQL, ME_TABLES, type MeRow } from '../data/queries';
+import { crewChatRoute, PASS_TAB, passRoute } from '../routes';
 import { useEncounter } from '../engine/use-encounter';
 import {
   crewChip,
@@ -47,6 +50,8 @@ import { REMIND_BEFORE_MS, scheduleQuietReminder } from './quiet-reminder';
 import { clockOption } from '@/lib/i18n/formats';
 
 const LEGENDARY_KINDS = new Set(['window', 'co_presence']);
+const TRIP_CREW_SQL = 'SELECT crew_id FROM trips WHERE id = ?';
+const TRIP_CREW_TABLES = ['trips'];
 
 export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: string }) {
   useNoBackByDesign();
@@ -62,7 +67,17 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
   const forecastRows = dataOf(useCrowdForecasts(candidate?.spot.poiId ?? null))?.curves ?? [];
   const crew = useCrewSightings(candidate?.rule.critter_id ?? '');
   const [now] = useState(() => Date.now());
-  const back = () => (router.canGoBack() ? router.back() : router.replace(passRoute()));
+  // The crew a find is shared with: the trip's, or the active one for a critter met at home.
+  const tripId = candidate?.tripId ?? null;
+  const tripCrew = useLiveRows<{ crew_id: string | null }>(
+    TRIP_CREW_SQL,
+    tripId === null ? null : [tripId],
+    TRIP_CREW_TABLES,
+  ).rows[0]?.crew_id;
+  const activeCrew = useLiveRows<MeRow>(ME_SQL, uid === null ? null : [uid], ME_TABLES).rows[0]
+    ?.active_crew_id;
+  const crewId = tripCrew ?? activeCrew ?? null;
+  const back = () => goBackOr(PASS_TAB);
 
   const art = candidate === null ? null : spawnArt(candidate.rule, formRow);
   if (candidate === null || art === null || snapshot.phase === 'none') {
@@ -80,7 +95,6 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
     });
 
   if (snapshot.phase === 'befriended') {
-    const crewHref = hrefFor('3g-1', {});
     return (
       <EncounterView
         kind="befriended"
@@ -93,9 +107,9 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
           dismiss();
           impact('thud.heavy');
           toast.show({ id: `critters-landed-${candidate.rule.form_id}`, title: onYourPass() });
-          router.replace(passRoute(candidate.rule.critter_id));
+          openInTabs(passRoute(candidate.rule.critter_id));
         }}
-        onShare={crewHref === undefined ? null : () => router.push(crewHref)}
+        onShare={crewId === null ? null : () => router.push(crewChatRoute(crewId))}
       />
     );
   }
@@ -144,6 +158,7 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
         dismiss();
         back();
       }}
+      onLeave={back}
     />
   );
 }

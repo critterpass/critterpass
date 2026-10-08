@@ -198,6 +198,10 @@ msgstr "Cũng có"
 msgid "critters.legendary.any"
 msgstr "Ngày"
 
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr "Về lại diện mạo cũ"
@@ -243,6 +247,10 @@ msgstr "Đã huỷ một lời nhắc huyền thoại"
 msgid "critters.dex.pending"
 msgstr "Đang kiểm tra"
 
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.mapsFailed"
+msgstr "Không mở được ứng dụng bản đồ"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.body"
 msgstr "Bạn nhỏ {number} trong bộ {place}."
@@ -258,6 +266,10 @@ msgstr "Bạn nhỏ xuất hiện ở những nơi có thật. Hãy đến một
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundBody"
 msgstr "Bạn nhỏ chỉ xuất hiện ở nơi chúng sống. Bạn đầu tiên sẽ nở khi bạn hạ cánh."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.firstHint"
+msgstr "Critter xuất hiện ở những nơi có thật. Ở lại vài phút tại nơi nó sống là nó sẽ ló ra."
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.day"
@@ -407,6 +419,14 @@ msgstr "Huyền thoại"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
 msgstr "Huyền thoại trong ngày đi của bạn"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.loading"
+msgstr "Đang tải critter"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.loadingSet"
+msgstr "Đang tải bộ sưu tập"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.look"
@@ -631,6 +651,10 @@ msgstr "Tìm nó ở đâu"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.whereToFindTier"
 msgstr "Tìm dạng {tier} ở đâu"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterLabel"
+msgstr "Xem critter nào"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"

@@ -9,11 +9,14 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useActiveGuide } from '@/lib/navigation/active-guide';
+import { guideSticker } from '@/ui/avatar/guides';
 import { DexHeader } from '@/ui/critters/DexHeader';
 import { LegendaryBanner } from '@/ui/critters/LegendaryBanner';
 import { SearchField } from '@/ui/inputs/SearchField';
 import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
 import { Stack } from '@/ui/layout/Stack';
+import { GuideLine } from '@/ui/people/GuideLine';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -33,18 +36,20 @@ import {
   emptyNear,
   emptySearch,
   exploreAtHome,
+  filterGroupLabel,
   filterLabels,
+  firstCritterHint,
   legendaryEyebrow,
   legendaryTitle,
   placesLabel,
-  rankGroup,
   searchLabel,
 } from './dex-copy';
-import { filterSets, type DexFilter, type DexModel, type SetModel } from './dex-model';
-import { EncounterBanner, type EncounterBannerModel } from './encounter-banner';
+import { filterSets, setOfCritter, type DexFilter, type DexModel } from './dex-model';
+import { withGroups, type Item } from './dex-groups';
 import { HereNowCard } from './here-now';
 import { ProfileEntry, type DexProfileEntry } from './profile-entry';
 import { HomeSetCard, PlaceRow } from './set-rows';
+import { useLanded } from './use-landed';
 
 export type { DexProfileEntry } from './profile-entry';
 
@@ -72,8 +77,14 @@ export interface DexViewProps {
   readonly onOpenLegendaries: () => void;
   /** NEAR ME's map of the trip's critter spots, above the matching sets. */
   readonly nearMap?: ReactNode;
-  /** An encounter under way, with a way back into it. */
-  readonly encounter?: EncounterBannerModel | null;
+  /** The banner of an encounter under way (it follows the encounter itself), with a way back in. */
+  readonly encounterBanner?: ReactNode;
+  /**
+   * A critter that has just been added to the pass: the list scrolls to its set and outlines the
+   * row for a moment, then calls `onLandedShown`.
+   */
+  readonly landed?: string | null;
+  readonly onLandedShown?: () => void;
   /** A find the server could not confirm, told once until dismissed. */
   readonly slippedAway?: SlippedAway | null;
   readonly onDismissSlipped?: () => void;
@@ -85,37 +96,10 @@ export interface DexViewProps {
   readonly profile?: DexProfileEntry | undefined;
 }
 
-type Item =
-  | { readonly kind: 'group'; readonly key: string; readonly label: string }
-  | { readonly kind: 'set'; readonly key: string; readonly set: SetModel };
-
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter },
   gap: { height: th.space['10'] },
 }));
-
-/** Place sets in rank groups of ten ("Rank 1–10 · five cities each"), unranked last. */
-function withGroups(sets: readonly SetModel[], grouped: boolean): Item[] {
-  const items: Item[] = [];
-  let group = -1;
-  for (const set of sets) {
-    const g = set.rank === null ? Number.MAX_SAFE_INTEGER : Math.floor((set.rank - 1) / 10);
-    if (grouped && g !== group && set.rank !== null) {
-      group = g;
-      const members = sets.filter((s) => s.rank !== null && Math.floor((s.rank - 1) / 10) === g);
-      const sizes = new Set(members.map((s) => s.total));
-      const [only] = [...sizes];
-      items.push({
-        kind: 'group',
-        // eslint-disable-next-line lingui/no-unlocalized-strings -- a list key, never copy.
-        key: `group-${g}`,
-        label: rankGroup(g * 10 + 1, g * 10 + 10, sizes.size === 1 ? (only ?? null) : null),
-      });
-    }
-    items.push({ kind: 'set', key: set.id, set });
-  }
-  return items;
-}
 
 function Empty({ copy }: { readonly copy: { title: string; body: string } }) {
   const theme = useTheme();
@@ -136,7 +120,16 @@ export function DexView(props: DexViewProps) {
   const theme = useTheme();
   const locale = useLocale();
   const inset = useTabBarInset();
+  const { guideId } = useActiveGuide();
   const { model, filter, query } = props;
+  const landed = props.state === 'ready' ? (props.landed ?? null) : null;
+  const landedSet = landed === null ? null : (setOfCritter(model, landed)?.id ?? null);
+  const { list, shown: landedShown } = useLanded<Item>(
+    landedSet === null ? null : landed,
+    landedSet === null ? -1 : withGroups(model.places, true).findIndex((i) => i.key === landedSet),
+    props.onLandedShown,
+  );
+  const landedSetId = landedShown ? landedSet : null;
   if (props.state === 'loading') {
     return (
       <Scaffold variant="dark" edges={['top']} testID="critters-dex-loading">
@@ -171,6 +164,7 @@ export function DexView(props: DexViewProps) {
         filters={filterLabels().map((f) => ({ ...f, label: upper(f.label, locale) }))}
         filter={filter}
         onFilter={props.onFilter}
+        filterLabel={filterGroupLabel()}
         {...(props.profile === undefined ? {} : { end: <ProfileEntry entry={props.profile} /> })}
         testID="critters-dex-header"
       />
@@ -184,13 +178,21 @@ export function DexView(props: DexViewProps) {
       {filter === 'near' ? props.nearMap : null}
       {narrowed ? null : (
         <>
+          {model.found === 0 && model.total > 0 ? (
+            <GuideLine
+              guide={guideId}
+              name={guideSticker(guideId).name}
+              line={firstCritterHint()}
+              testID="critters-dex-first-hint"
+            />
+          ) : null}
           {props.slippedAway == null ? null : (
             <SlippedAwayCard
               slipped={props.slippedAway}
               onDismiss={props.onDismissSlipped ?? (() => undefined)}
             />
           )}
-          {props.encounter == null ? null : <EncounterBanner banner={props.encounter} />}
+          {props.encounterBanner}
           {props.egg === null ? null : (
             <EggCard
               egg={props.egg}
@@ -236,7 +238,11 @@ export function DexView(props: DexViewProps) {
           )}
           {model.home === null ? null : (
             <Stack gap="8">
-              <HomeSetCard set={model.home} onOpen={props.onOpenSet} />
+              <HomeSetCard
+                set={model.home}
+                onOpen={props.onOpenSet}
+                landed={model.home.id === landedSetId}
+              />
               {props.exploreAtHome === null ? null : (
                 <SettingsGroup
                   rows={[
@@ -264,7 +270,9 @@ export function DexView(props: DexViewProps) {
   return (
     <Scaffold variant="dark" edges={['top']} testID="critters-dex">
       <FlashList
+        ref={list}
         data={items}
+        extraData={landedSetId}
         keyExtractor={(item) => item.key}
         getItemType={(item) => item.kind}
         contentContainerStyle={{
@@ -283,7 +291,11 @@ export function DexView(props: DexViewProps) {
           ) : narrowed && item.set.home ? (
             <HomeSetCard set={item.set} onOpen={props.onOpenSet} />
           ) : (
-            <PlaceRow set={item.set} onOpen={props.onOpenSet} />
+            <PlaceRow
+              set={item.set}
+              onOpen={props.onOpenSet}
+              landed={item.set.id === landedSetId}
+            />
           )
         }
         testID="critters-dex-list"

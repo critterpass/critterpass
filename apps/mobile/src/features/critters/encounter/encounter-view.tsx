@@ -60,6 +60,8 @@ export type EncounterViewProps =
       readonly onTap: () => void;
       readonly onRemind: () => void;
       readonly onBack: () => void;
+      /** Leaves the live scene with the encounter still running. */
+      readonly onLeave?: () => void;
       /** The live camera behind the scene (the illustration shows when it can't run). */
       readonly camera?: ReactNode;
     }
@@ -75,6 +77,7 @@ export type EncounterViewProps =
     };
 
 const useStyles = makeStyles((th) => ({
+  header: { paddingHorizontal: th.size.gutter },
   sceneWrap: { flex: 1 },
   card: { paddingHorizontal: th.space['12'], paddingBottom: th.space['12'] },
   empty: { flex: 1, padding: th.size.gutter, gap: th.space['12'], justifyContent: 'center' },
@@ -88,7 +91,7 @@ export function EncounterView(props: EncounterViewProps) {
     const copy = nothingHere();
     return (
       <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-encounter-nothing">
-        <View style={{ paddingHorizontal: theme.size.gutter }}>
+        <View style={styles.header}>
           <BackEyebrow
             label={upper(backToDay(), locale)}
             onPress={props.onBack}
@@ -127,6 +130,15 @@ export function EncounterView(props: EncounterViewProps) {
   const name = art.name === null ? null : upper(art.name, locale);
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID={`critters-encounter-${props.phase}`}>
+      {wandered || props.onLeave === undefined ? null : (
+        <View style={styles.header}>
+          <BackEyebrow
+            label={upper(backToDay(), locale)}
+            onPress={props.onLeave}
+            testID="critters-encounter-leave"
+          />
+        </View>
+      )}
       <View style={styles.sceneWrap}>
         <EncounterScene
           mode={upper(wandered ? encounterOver() : modeLabel(props.legendary), locale)}

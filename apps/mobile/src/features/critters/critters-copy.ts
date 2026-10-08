@@ -19,6 +19,20 @@ export function unknownName(): string {
   return t({ id: 'critters.unknownName', message: '???' });
 }
 
+/** The back control of a page reached from more than one place (a set, a critter, the dex). */
+export function backLabel(): string {
+  return t({ id: 'critters.back', message: 'Back' });
+}
+
+export function loadingCritter(): string {
+  return t({ id: 'critters.loading', message: 'Loading the critter' });
+}
+
+/** A hand-off to the maps app that did not open. */
+export function mapsFailed(): string {
+  return t({ id: 'critters.mapsFailed', message: 'Couldn’t open your maps app' });
+}
+
 /** "Oct 14, 10:42" in the viewer's locale. */
 export function foundAt(iso: string, locale: string): string {
   return format.date(locale, new Date(iso), {
