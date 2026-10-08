@@ -25,6 +25,7 @@ import type { PerkLine } from '../perks/perk-copy';
 import { PaywallLinks, PaywallRestore } from './paywall-links';
 import type { BillingPeriod, PaywallModel } from './paywall-model';
 import { Disclosure, usePhaseLine, useRestoreLine } from './purchase-copy';
+import { useWholeBlockBelow } from './use-whole-block-below';
 
 export interface PaywallViewProps {
   readonly model: PaywallModel;
@@ -70,6 +71,7 @@ export function PaywallView(props: PaywallViewProps) {
   const locale = useLocale();
   const phaseLine = usePhaseLine();
   const restoreLine = useRestoreLine();
+  const terms = useWholeBlockBelow();
   const { model } = props;
   const { offer, monthly, yearly, boost, phase } = model;
   const holder = props.holder.trim();
@@ -115,7 +117,11 @@ export function PaywallView(props: PaywallViewProps) {
 
   return (
     <View style={styles.root} testID="paywall">
-      <ScrollView style={styles.root} contentContainerStyle={styles.content}>
+      <ScrollView
+        style={styles.root}
+        contentContainerStyle={styles.content}
+        onLayout={terms.onViewport}
+      >
         <VisaPaywall
           chrome={t({ id: 'monetize.paywall.chrome', message: 'VISAS · VISAS · VISAS' })}
           page={t({ id: 'monetize.paywall.page', message: 'PAGE 07' })}
@@ -203,15 +209,17 @@ export function PaywallView(props: PaywallViewProps) {
           testID="paywall-page"
         />
         {phase === 'subscribed' ? null : (
-          <Disclosure
-            kind="subscription"
-            price={offer?.priceString}
-            period={model.period}
-            store={props.store}
-            onTerms={props.onTerms}
-            onPrivacy={props.onPrivacy}
-            testID="paywall-disclosure"
-          />
+          <View style={{ marginTop: terms.push }} onLayout={terms.onBlock}>
+            <Disclosure
+              kind="subscription"
+              price={offer?.priceString}
+              period={model.period}
+              store={props.store}
+              onTerms={props.onTerms}
+              onPrivacy={props.onPrivacy}
+              testID="paywall-disclosure"
+            />
+          </View>
         )}
       </ScrollView>
       {phase === 'subscribed' ? null : <PaywallRestore onPress={props.onRestore} />}

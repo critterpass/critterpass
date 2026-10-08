@@ -111,14 +111,13 @@ export function AskSheetView({
                 onChangeText={(next) => setWords(next.slice(0, 500))}
                 testID="ask-words"
               />
-              {words.trim() === '' ? null : (
-                <InlineAction
-                  label={t({ id: 'setup.ask.send', message: 'Send' })}
-                  onPress={() => onWords(words.trim())}
-                  disabled={busy}
-                  testID="ask-send"
-                />
-              )}
+              {/* Always there, so the field reads as something to send; live once there are words. */}
+              <InlineAction
+                label={t({ id: 'setup.ask.send', message: 'Send' })}
+                onPress={() => onWords(words.trim())}
+                disabled={busy || words.trim() === ''}
+                testID="ask-send"
+              />
             </>
           )}
         </Stack>

@@ -90,10 +90,6 @@ msgid "bookings.candidate.seats"
 msgstr "{seats, plural, other {# chỗ}}"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
-msgid "bookings.flight.source"
-msgstr "{source} · {at}"
-
-#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.crewMany"
 msgstr "{who} cũng đi chuyến này."
 
@@ -914,6 +910,10 @@ msgstr "Nhập cả hai giờ theo giờ {zoneCity} ({zoneOffset})."
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.zones"
 msgstr "Nhập giờ cất cánh theo giờ {zoneCity} ({zoneOffset}) và giờ hạ cánh theo giờ {arrCity} ({arrOffset})."
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.updated"
+msgstr "Cập nhật lúc {at}"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"

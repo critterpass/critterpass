@@ -47,8 +47,8 @@ export function useCoTravellerLine(): (names: readonly string[]) => string {
   };
 }
 
-/** "AeroAPI · 09:12": who last reported the status, and when. */
-export function useSourceLine(): (source: string, at: string) => string {
+/** "Updated 09:12": when the status was last reported. The data vendor is never named. */
+export function useUpdatedLine(): (at: string) => string {
   const { t } = useLingui();
-  return (source, at) => t({ id: 'bookings.flight.source', message: `${source} · ${at}` });
+  return (at) => t({ id: 'bookings.flight.updated', message: `Updated ${at}` });
 }

@@ -144,6 +144,14 @@ msgstr "附上设备信息"
 msgid "help.article.missingBody"
 msgstr "下次联网时,它会随帮助中心一起更新。"
 
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.ideas.open"
@@ -433,6 +441,10 @@ msgstr "你给公告板的点子"
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
 msgstr "你的留言"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"

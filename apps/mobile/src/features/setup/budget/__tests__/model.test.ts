@@ -10,6 +10,7 @@ import {
   initialTarget,
   isUnpriced,
   money,
+  moneyAffixes,
   snap,
   trackOf,
   typedAmountMinor,
@@ -146,6 +147,36 @@ describe('budget amounts', () => {
           )) as unknown as typeof Intl.NumberFormat,
       );
     expect(money('en', 135_000, 'USD')).toBe('$1,350');
+  });
+});
+
+describe('one way of writing an amount per locale', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('keeps the short symbol where the runtime writes the long one for Vietnamese', () => {
+    const Real = Intl.NumberFormat;
+    jest
+      .spyOn(Intl, 'NumberFormat')
+      .mockImplementation(
+        ((locale?: string | string[], options?: Intl.NumberFormatOptions) =>
+          new Real(
+            locale,
+            options?.currencyDisplay === 'narrowSymbol'
+              ? { ...options, currencyDisplay: 'symbol' }
+              : options,
+          )) as unknown as typeof Intl.NumberFormat,
+      );
+    expect(money('vi', 80_000, 'USD').replace(/\s/gu, ' ')).toBe('800 $');
+  });
+
+  it('gives the rolling total the same symbol side as the written amounts', () => {
+    expect(moneyAffixes('en', 'USD')).toEqual({ prefix: '$', suffix: '' });
+    const vi = moneyAffixes('vi', 'USD');
+    expect(vi.prefix).toBe('');
+    expect(vi.suffix.trim()).toBe('$');
+    expect(`${vi.prefix}1.350${vi.suffix}`).toBe(money('vi', 135_000, 'USD'));
   });
 });
 

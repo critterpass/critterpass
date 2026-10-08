@@ -1,40 +1,23 @@
 /**
  * LOG IT (3h-3): keeps the ride on the leg and, with what it cost, splits it between the people
  * who rode as a crew expense (`log_ride`, works offline). Without an amount only the ride is kept.
- * The amount is typed as text and read with the engine's exponent for the currency, until the
- * wallet's shared amount field takes over this input.
+ * The amount is typed in the wallet's shared amount field, so it reads as money while typed.
  */
-import {
-  currencyExponent,
-  currencySymbol,
-  displayDecimals,
-  isKnownCurrency,
-} from '@cp/cost-engine';
 import { generateUuidV7, type LogRidePayload, type RideProvider } from '@cp/domain';
-import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { amountText, digitsToMinor } from '@/data/money/amount-digits';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextField } from '@/ui/inputs/TextField';
+import { AmountField } from '@/ui/inputs/AmountField';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
 import { logRideCommand } from '../supplier/data/commands';
-
-/** "60.000" or "60,5" in the currency's major units → minor units; null when not a number. */
-export function toMinor(text: string, currency: string): number | null {
-  const cleaned = text.replace(/[\s.](?=\d{3}(\D|$))/gu, '').replace(',', '.');
-  if (cleaned.trim() === '') return null;
-  const value = Number(cleaned);
-  if (!Number.isFinite(value) || value <= 0) return null;
-  const exponent = isKnownCurrency(currency) ? currencyExponent(currency) : 2;
-  return Math.round(value * 10 ** exponent);
-}
 
 export interface LogRideParams {
   readonly tripId: string;
@@ -50,20 +33,15 @@ export function LogRideSheet({ params }: { readonly params: LogRideParams }) {
   const { t } = useLingui();
   const locale = useLocale();
   const log = useCommand(logRideCommand);
-  const [amount, setAmount] = useState('');
+  const [digits, setDigits] = useState('');
   const [done, setDone] = useState<'split' | 'kept' | null>(null);
   const [failed, setFailed] = useState(false);
   // One ride and one expense per sheet: a second tap or a retry sends the same ids again.
   const [ids] = useState(() => ({ ride: generateUuidV7(), expense: generateUuidV7() }));
-  const minor = params.currency === '' ? null : toMinor(amount, params.currency);
-  const invalid = amount.trim() !== '' && minor === null;
+  // Nothing typed, or zero: only the ride is kept.
+  const typed = params.currency === '' ? 0 : Number(digitsToMinor(digits, params.currency));
+  const minor = typed > 0 ? typed : null;
   const people = params.attendees.length;
-  // The currency as every other screen writes it ("Rp", not "IDR").
-  const known = isKnownCurrency(params.currency);
-  const shown = {
-    unit: known ? currencySymbol(params.currency) : params.currency,
-    decimals: known ? displayDecimals(params.currency) : 2,
-  };
 
   const save = async () => {
     if (log.pending) return;
@@ -105,21 +83,12 @@ export function LogRideSheet({ params }: { readonly params: LogRideParams }) {
   }
   return (
     <Stack gap="16" testID="supplier-log-ride">
-      <TextField
-        label={t({ id: 'suppliers.log.amount', message: `What it cost (${shown.unit})` })}
-        placeholder={format.number(locale, 0, { minimumFractionDigits: shown.decimals })}
-        value={amount}
-        onChangeText={setAmount}
-        keyboardType="decimal-pad"
-        status={invalid ? 'error' : 'idle'}
-        {...(invalid
-          ? {
-              message: t({
-                id: 'suppliers.log.invalid',
-                message: 'That doesn’t look like an amount',
-              }),
-            }
-          : {})}
+      <AmountField
+        label={t({ id: 'suppliers.log.cost', message: 'What it cost' })}
+        digits={digits}
+        shown={amountText(digits, params.currency, locale)}
+        placeholder={amountText('0', params.currency, locale)}
+        onDigits={setDigits}
         testID="supplier-log-ride-amount"
       />
       <Text variant="caption" color={theme.semantic.text.secondary}>
@@ -134,7 +103,6 @@ export function LogRideSheet({ params }: { readonly params: LogRideParams }) {
         label={t({ id: 'suppliers.log.save', message: 'Log it' })}
         onPress={() => void save()}
         loading={log.pending}
-        disabled={invalid}
         testID="supplier-log-ride-save"
       />
       {failed ? (

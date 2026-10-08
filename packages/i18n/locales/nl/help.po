@@ -144,6 +144,14 @@ msgstr "Apparaatinfo meesturen"
 msgid "help.article.missingBody"
 msgstr "Komt met het helpcentrum mee zodra je weer online bent."
 
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.ideas.open"
@@ -433,6 +441,10 @@ msgstr "Je idee voor het bord"
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
 msgstr "Je bericht"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"

@@ -140,13 +140,14 @@ export function RouteMap({
         {car ? (
           <ViewAnnotation lngLat={[car.lng, car.lat]} anchor="center">
             <View style={styles.car} collapsable={false}>
-              <Icon name="car" size={28} decorative />
+              {/* Dark ink on the yellow dot: the dark screen's own ink is cream and vanishes on it. */}
+              <Icon name="car" size={28} color={tokens.semantic.text.onAccent} decorative />
             </View>
           </ViewAnnotation>
         ) : null}
         <ViewAnnotation lngLat={[to.lng, to.lat]} anchor="bottom">
           <View style={styles.pin} collapsable={false}>
-            <Icon name="pin" size={16} decorative />
+            <Icon name="pin" size={16} color={tokens.semantic.text.onAccent} decorative />
             <Text variant="label" color={tokens.semantic.text.onAccent} numberOfLines={1}>
               {to.label}
             </Text>

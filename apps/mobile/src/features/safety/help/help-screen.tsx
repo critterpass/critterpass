@@ -22,6 +22,7 @@ import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { BOOKINGS_ROUTES, pickPolicy, useInsurancePolicies } from '@/features/bookings';
+import { HELP_ROUTES } from '@/features/help';
 
 import {
   extendHelpShareCommand,
@@ -240,6 +241,7 @@ export function HelpScreen() {
         onShowPhrase={() => setShowIt(true)}
         onSos={tripId === null ? null : () => router.push(safetyRoutes.send(tripId))}
         onInsurance={() => router.push(BOOKINGS_ROUTES.insurance)}
+        onHelpCentre={() => router.push(HELP_ROUTES.hub)}
       />
       {asking ? <ConsentSheet crewName={crewName} onAnswer={answer} /> : null}
       {showIt && phrase !== null ? (

@@ -606,6 +606,10 @@ msgstr "Chữ cái đầu"
 msgid "you.avatar.tab.initials"
 msgstr "Chữ cái đầu"
 
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.inviteFriends"
+msgstr "Mời bạn bè"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.available"
 msgstr "Là của bạn nếu bạn lưu."
@@ -1456,6 +1460,10 @@ msgstr "Hướng dẫn viên của bạn"
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
 msgid "you.currency.chosen"
 msgstr "Tiền nhà hiện tại của bạn"
+
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.inviteFriendsLine"
+msgstr "Liên kết của bạn và những ai đã tham gia"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.pass"

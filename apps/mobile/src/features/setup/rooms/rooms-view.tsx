@@ -245,7 +245,11 @@ export function RoomsView({
               })}
         </Text>
       ) : null}
-      {plan !== null && model.price !== null && model.currency !== null ? (
+      {/* A stay that went away has no price to speak of: the line returns with the next pick. */}
+      {plan !== null &&
+      !model.stayUnavailable &&
+      model.price !== null &&
+      model.currency !== null ? (
         <PriceLine
           guide={trip.guide}
           price={model.price}
