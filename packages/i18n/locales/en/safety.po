@@ -51,6 +51,10 @@ msgstr "{n, plural, one {SOS sent to your one crewmate} other {SOS sent to all #
 msgid "safety.help.open24"
 msgstr "{name} · Open 24h"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.knowsQueued"
+msgstr "{name} hears you're coming the moment you have signal."
+
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.safeTitle"
 msgstr "{name} is safe"
@@ -372,6 +376,10 @@ msgstr "Notifications are off, so a crewmate’s SOS cannot reach you."
 msgid "safety.sosAccess.fullScreen"
 msgstr "On a locked phone an SOS shows as a small banner. Let it take the full screen."
 
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.extendedQueued"
+msgstr "One more hour, once you have signal"
+
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
 msgstr "Open"
@@ -428,6 +436,10 @@ msgstr "Sending the SOS to the crew"
 msgid "safety.pending.sentTitle"
 msgstr "Sending your SOS to the crew"
 
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.sending"
+msgstr "Sending…"
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.settings"
 msgstr "Settings"
@@ -463,6 +475,10 @@ msgstr "Sharing anyway, for Help"
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.extendShare"
 msgstr "Sharing for another hour"
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.extended"
+msgstr "Sharing for one more hour"
 
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.startShare"
@@ -528,6 +544,14 @@ msgstr "Stop"
 msgid "safety.share.stop"
 msgstr "Stop"
 
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.stoppedQueued"
+msgstr "Stopped here. Your crew hears the moment you have signal."
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.stopped"
+msgstr "Stopped sharing"
+
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.stopShare"
 msgstr "Stopping your Help share"
@@ -539,6 +563,14 @@ msgstr "Telling the crew you are OK"
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youSafeTitle"
 msgstr "The crew knows you are OK"
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.asked"
+msgstr "The desk has been asked"
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.askedQueued"
+msgstr "The desk is asked the moment you have signal"
 
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.straight"
@@ -572,9 +604,17 @@ msgstr "Walking directions"
 msgid "safety.help.where"
 msgstr "You're on {placeLabel}. {guideName} has the numbers and the words."
 
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.checklist.shared"
+msgstr "Your crew can see where you are"
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.activeCrew"
 msgstr "Your crew can see where you are"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.resolvedQueued"
+msgstr "Your crew hears the all-clear the moment you have signal."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youTitle"
@@ -584,6 +624,10 @@ msgstr "Your crew is on it"
 msgid "safety.share.overrideLine"
 msgstr "Your crew map share stays paused; this one stops in an hour."
 
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.checklist.shareQueued"
+msgstr "Your crew sees where you are the moment you have signal"
+
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.driverMessage"
 msgstr "Your guide can draft a message to your driver; you send it."
@@ -591,6 +635,14 @@ msgstr "Your guide can draft a message to your driver; you send it."
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepLiveYou"
 msgstr "Your location stays live until you are safe"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.resendFailed"
+msgstr "Your SOS didn't go out."
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.failed"
+msgstr "Your SOS didn't go out. Slide to try again, or call {general}."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.staleQuestion"

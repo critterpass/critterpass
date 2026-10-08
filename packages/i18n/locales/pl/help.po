@@ -100,12 +100,12 @@ msgstr "Grr"
 msgid "help.feedback.topic.guideChat"
 msgstr "Czat z przewodnikiem"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.back"
-msgstr "Pomoc"
-
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
+msgstr "Pomoc"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
 msgstr "Pomoc"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
@@ -119,6 +119,10 @@ msgstr "Pomoc i opinie"
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
 msgstr "Centrum pomocy"
+
+#: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
+msgid "help.shake.hidden"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
@@ -343,6 +347,10 @@ msgstr "To zdjęcie jest za duże, by je wysłać. Spróbuj zrobić zrzut ekranu
 msgid "help.ideas.offline"
 msgstr "Tablica otworzy się, gdy wrócisz online."
 
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.articlesOffline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "Tego artykułu jeszcze nie ma"
@@ -429,6 +437,10 @@ msgstr "Twoja wiadomość"
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
 msgstr "Twoja wiadomość do ludzi"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.notSaved"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"

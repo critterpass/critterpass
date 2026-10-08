@@ -51,6 +51,10 @@ msgstr ""
 msgid "safety.help.open24"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.knowsQueued"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.safeTitle"
 msgstr ""
@@ -110,6 +114,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
 msgid "safety.action.addPolicy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.allow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/commands.ts
@@ -278,6 +286,10 @@ msgstr ""
 msgid "safety.step.embassy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.dnd"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepInsurance"
 msgstr ""
@@ -356,6 +368,18 @@ msgstr ""
 msgid "safety.sos.stepSentNobody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.notifications"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
+msgid "safety.sosAccess.fullScreen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.extendedQueued"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
 msgstr ""
@@ -412,6 +436,10 @@ msgstr ""
 msgid "safety.pending.sentTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.sending"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.settings"
 msgstr ""
@@ -446,6 +474,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.extendShare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.extended"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/commands.ts
@@ -512,6 +544,14 @@ msgstr ""
 msgid "safety.share.stop"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.stoppedQueued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.stopped"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.stopShare"
 msgstr ""
@@ -522,6 +562,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youSafeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.askedQueued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
@@ -556,8 +604,16 @@ msgstr ""
 msgid "safety.help.where"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.checklist.shared"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.activeCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.resolvedQueued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
@@ -568,12 +624,24 @@ msgstr ""
 msgid "safety.share.overrideLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.checklist.shareQueued"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.driverMessage"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepLiveYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.resendFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx

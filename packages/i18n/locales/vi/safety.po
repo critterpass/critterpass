@@ -51,6 +51,10 @@ msgstr "{n, plural, one {Đã gửi SOS cho người bạn đồng hành duy nh�
 msgid "safety.help.open24"
 msgstr "{name} · Mở cửa 24/7"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.knowsQueued"
+msgstr "{name} sẽ biết bạn đang đến ngay khi bạn có sóng."
+
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.safeTitle"
 msgstr "{name} đã an toàn"
@@ -372,6 +376,10 @@ msgstr ""
 msgid "safety.sosAccess.fullScreen"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.extendedQueued"
+msgstr "Thêm một giờ nữa, khi bạn có sóng"
+
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
 msgstr "Mở"
@@ -428,6 +436,10 @@ msgstr "Đang gửi SOS cho cả nhóm"
 msgid "safety.pending.sentTitle"
 msgstr "Đang gửi SOS cho cả nhóm"
 
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.sending"
+msgstr "Đang gửi…"
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.settings"
 msgstr "Cài đặt"
@@ -463,6 +475,10 @@ msgstr "Vẫn chia sẻ, cho Trợ giúp"
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.extendShare"
 msgstr "Chia sẻ thêm một giờ"
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.extended"
+msgstr "Chia sẻ thêm một giờ nữa"
 
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.startShare"
@@ -528,6 +544,14 @@ msgstr "Dừng"
 msgid "safety.share.stop"
 msgstr "Dừng"
 
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.stoppedQueued"
+msgstr "Đã dừng trên máy này. Nhóm sẽ biết ngay khi bạn có sóng."
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.stopped"
+msgstr "Đã dừng chia sẻ"
+
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.stopShare"
 msgstr "Đang dừng chia sẻ Trợ giúp"
@@ -539,6 +563,14 @@ msgstr "Đang báo cả nhóm là bạn ổn"
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youSafeTitle"
 msgstr "Cả nhóm đã biết bạn ổn"
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.asked"
+msgstr "Đã nhờ bàn hỗ trợ"
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.askedQueued"
+msgstr "Bàn hỗ trợ sẽ được nhờ ngay khi bạn có sóng"
 
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.straight"
@@ -572,9 +604,17 @@ msgstr "Chỉ đường đi bộ"
 msgid "safety.help.where"
 msgstr "Bạn đang ở {placeLabel}. {guideName} có sẵn số điện thoại và câu nói cần dùng."
 
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.checklist.shared"
+msgstr "Nhóm của bạn thấy được bạn đang ở đâu"
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.activeCrew"
 msgstr "Cả nhóm đang thấy bạn ở đâu"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.resolvedQueued"
+msgstr "Nhóm sẽ nhận tin bạn đã ổn ngay khi bạn có sóng."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youTitle"
@@ -584,6 +624,10 @@ msgstr "Cả nhóm đang lo cho bạn"
 msgid "safety.share.overrideLine"
 msgstr "Chia sẻ trên bản đồ nhóm vẫn tạm dừng; chia sẻ này dừng sau một giờ."
 
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.checklist.shareQueued"
+msgstr "Nhóm sẽ thấy bạn đang ở đâu ngay khi bạn có sóng"
+
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.driverMessage"
 msgstr "Hướng dẫn viên có thể soạn tin nhắn cho tài xế; bạn tự gửi."
@@ -591,6 +635,14 @@ msgstr "Hướng dẫn viên có thể soạn tin nhắn cho tài xế; bạn t�
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepLiveYou"
 msgstr "Vị trí của bạn được chia sẻ cho tới khi bạn an toàn"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.resendFailed"
+msgstr "SOS của bạn chưa gửi đi được."
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.failed"
+msgstr "SOS của bạn chưa gửi đi được. Trượt để thử lại, hoặc gọi {general}."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.staleQuestion"
