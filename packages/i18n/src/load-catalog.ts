@@ -26,7 +26,7 @@ export function loadCatalog(
 
 /**
  * Loads every catalog registered for a locale and merges them into one message map. The mobile app
- * bundles every area for the active locale up front rather than lazily per screen; ids are unique
+ * bundles every app area for the active locale up front rather than lazily per screen; ids are unique
  * per the `area.screen.element` convention, so merging never overwrites one area's message with
  * another's.
  */
@@ -36,5 +36,9 @@ export async function loadAllCatalogs(
 ): Promise<Messages> {
   const loaders = Object.values(registry[locale] ?? {});
   const catalogs = await Promise.all(loaders.map((load) => load()));
-  return catalogs.reduce<Messages>((merged, catalog) => ({ ...merged, ...catalog }), {});
+  // One target filled in one pass: spreading the growing map into a fresh object per area copied it
+  // once per catalog, which grows with the square of the message count on the launch path.
+  const merged: Messages = {};
+  for (const catalog of catalogs) Object.assign(merged, catalog);
+  return merged;
 }

@@ -14,6 +14,7 @@ import type { ReactNode } from 'react';
 import { loadAllCatalogs, shippedLocaleCodes, sourceLocale } from '@cp/i18n';
 
 import { pickDeviceLocale } from './device-locale';
+import { loadIntlLocaleData } from './intl-polyfills';
 import { persistedLocale } from './set-locale';
 
 let initialActivation: Promise<void> | undefined;
@@ -28,10 +29,16 @@ function ensureInitialLocale(): Promise<void> {
   initialActivation ??= (async () => {
     const locale = persistedLocale() ?? pickDeviceLocale(shippedLocaleCodes) ?? sourceLocale;
     const messages = await loadAllCatalogs(locale);
+    loadIntlLocaleData(locale);
     i18n.loadAndActivate({ locale, messages });
   })();
   return initialActivation;
 }
+
+// Started as this module loads, before the root layout's first render, rather than in an effect
+// after its first commit: the catalogs are read while the rest of the startup work runs, and
+// `useI18nReady` only waits for the same promise.
+void ensureInitialLocale();
 
 /**
  * True once the app's initial locale has finished activating. `apps/mobile/src/app/_layout.tsx`
