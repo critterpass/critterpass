@@ -7,7 +7,6 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../../src/tx';
-import { expectCrewLedgerTable } from '../helpers/money-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -21,10 +20,6 @@ afterAll(async () => {
 });
 
 describe('payments', () => {
-  it('is crew-visible, read-only and synced with the crew', async () => {
-    await expectCrewLedgerTable(harness, 'payments');
-  });
-
   it('shows a former member the payments that name them, and only those', async () => {
     const { actors, crewId } = harness.fixture;
     await withSystem(harness.db.pool, (tx) =>

@@ -5,7 +5,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem } from '../../src/tx';
-import { expectCrewReadOnly } from '../helpers/setup-privacy';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -19,10 +18,6 @@ afterAll(async () => {
 });
 
 describe('date_window_options', () => {
-  it('is crew-visible, read-only and synced with the trip', async () => {
-    await expectCrewReadOnly(harness, 'date_window_options');
-  });
-
   it('carries an ask outcome only with the member it concerns', async () => {
     const { tripId } = harness.fixture;
     await expect(

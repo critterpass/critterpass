@@ -2,8 +2,9 @@
  * Fixed-code phone numbers through a real Better Auth instance (Testcontainers Postgres + Redis):
  * a staging test number and the App Review number verify with their fixed code and never reach a
  * provider, a wrong code is still refused, production ignores test numbers, and every other number
- * keeps its delivered random code. The WhatsApp channel is a capturing double at the network
- * boundary, as in otp.db.test.ts.
+ * keeps its delivered random code. A test number also skips the checks that only guard sending
+ * (the per-number send limit and the pumping defences), and nothing else. The WhatsApp channel is
+ * a capturing double at the network boundary, as in otp.db.test.ts.
  */
 import {
   startPostgres,
@@ -94,12 +95,18 @@ const STAGING: FixedCodeEnv = {
   OTP_REVIEW_CODE: '135790',
 };
 
-async function post(module: AuthModule, path: string, body: unknown, cookie: string) {
+async function post(
+  module: AuthModule,
+  path: string,
+  body: unknown,
+  cookie: string,
+  headers: Record<string, string> = {},
+) {
   return module.handler(
     new Request(`http://localhost:8787/api/auth${path}`, {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: { 'content-type': 'application/json', cookie },
+      headers: { 'content-type': 'application/json', cookie, ...headers },
     }),
   );
 }
@@ -227,6 +234,114 @@ describe('fixed-code phone numbers', { timeout: 60_000 }, () => {
     expect(verify.status).toBe(400);
     expect(sent).toEqual([REAL_NUMBER]);
     expect(uses).toEqual([]);
+  });
+});
+
+/** Asks for `times` codes from one pass; every one must be answered. Returns the pass. */
+async function sendCodes(
+  module: AuthModule,
+  phoneNumber: string,
+  times: number,
+  headers: Record<string, string> = {},
+): Promise<{ cookie: string; uid: string }> {
+  const pass = await anonymous(module);
+  for (let i = 0; i < times; i += 1) {
+    const send = await post(
+      module,
+      '/phone-number/send-otp',
+      { phoneNumber },
+      pass.cookie,
+      headers,
+    );
+    expect(send.status).toBe(200);
+  }
+  return pass;
+}
+
+/** The seconds a refused send says to wait, after checking it was refused as rate limited. */
+async function retryAfterOf(refused: Response): Promise<number> {
+  expect(refused.status).toBe(429);
+  const body = (await refused.json()) as {
+    error: { code: string; detail: { retry_after_s: number } };
+  };
+  expect(body.error.code).toBe('RATE_LIMITED');
+  return body.error.detail.retry_after_s;
+}
+
+/** Three sends in a row use up a number's own allowance; this is the answer to the fourth. */
+async function fourthSend(module: AuthModule, phoneNumber: string): Promise<Response> {
+  const { cookie } = await sendCodes(module, phoneNumber, 3);
+  return post(module, '/phone-number/send-otp', { phoneNumber }, cookie);
+}
+
+describe('fixed-code numbers and the code send limits', { timeout: 60_000 }, () => {
+  it('lets a test number ask for a code again and again and still sign in with the fixed code', async () => {
+    authModule = buildModule(STAGING);
+    // Past the per-number limit (3 in 10 minutes) and the prefix breaker (10 sends, no sign-in).
+    const { cookie, uid } = await sendCodes(authModule, TEST_NUMBER, 12);
+    const verify = await post(
+      authModule,
+      '/phone-number/verify',
+      { phoneNumber: TEST_NUMBER, code: '246810', updatePhoneNumber: true },
+      cookie,
+    );
+    expect(verify.status).toBe(200);
+    const body = (await verify.json()) as { user: { id: string; phoneNumber: string } };
+    expect(body.user).toMatchObject({ id: uid, phoneNumber: TEST_NUMBER });
+    expect(sent).toEqual([]);
+
+    // Nothing was sent, so those requests did not count against the real numbers beside it.
+    const neighbour = '+6591239999';
+    await sendCodes(authModule, neighbour, 1);
+    expect(sent).toEqual([neighbour]);
+  });
+
+  it('answers a test number from a country no code is sent to', async () => {
+    const abroad = '+8613800000001';
+    authModule = buildModule({ ...STAGING, OTP_TEST_NUMBERS: abroad });
+    const { verify } = await sendAndVerify(authModule, abroad, '246810');
+    expect(verify.status).toBe(200);
+    expect(sent).toEqual([]);
+  });
+
+  it('still refuses the fourth code in ten minutes for an ordinary number', async () => {
+    authModule = buildModule(STAGING);
+    const retryAfter = await retryAfterOf(await fourthSend(authModule, REAL_NUMBER));
+    expect(retryAfter).toBeGreaterThan(0);
+    expect(retryAfter).toBeLessThanOrEqual(600);
+    expect(sent).toEqual([REAL_NUMBER, REAL_NUMBER, REAL_NUMBER]);
+  });
+
+  it('still refuses the fourth code in ten minutes for the App Review number', async () => {
+    authModule = buildModule(STAGING);
+    const retryAfter = await retryAfterOf(await fourthSend(authModule, REVIEW_NUMBER));
+    expect(retryAfter).toBeGreaterThan(0);
+    expect(retryAfter).toBeLessThanOrEqual(600);
+    expect(uses.map((use) => use.kind)).toEqual(['review', 'review', 'review']);
+  });
+
+  it('limits a listed test number like any other number in production', async () => {
+    authModule = buildModule({ ...STAGING, APP_ENV: 'production' });
+    const retryAfter = await retryAfterOf(await fourthSend(authModule, TEST_NUMBER));
+    expect(retryAfter).toBeGreaterThan(0);
+    // Production treats it as an ordinary number: each allowed request was really delivered.
+    expect(sent).toEqual([TEST_NUMBER, TEST_NUMBER, TEST_NUMBER]);
+    expect(uses).toEqual([]);
+  });
+
+  it('still stops a test number at the per-device limit', async () => {
+    authModule = buildModule(STAGING);
+    const device = { 'x-cp-install-id': 'install-under-test' };
+    const { cookie } = await sendCodes(authModule, TEST_NUMBER, 5, device);
+    const sixth = await post(
+      authModule,
+      '/phone-number/send-otp',
+      { phoneNumber: TEST_NUMBER },
+      cookie,
+      device,
+    );
+    // Longer than the ten-minute per-number window: only the hourly device window answers this.
+    expect(await retryAfterOf(sixth)).toBeGreaterThan(600);
   });
 });
 

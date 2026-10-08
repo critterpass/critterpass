@@ -130,3 +130,31 @@ export async function expectCrewReadOnly(harness: StreamHarness, table: string):
     expect(synced.get(table)?.length ?? 0, `${table} streamed to ${kind}`).toBe(0);
   }
 }
+
+/**
+ * A table the app reads through a route and never syncs: app_user holds SELECT and nothing more
+ * (a write is refused before any row or constraint is looked at), the replication role cannot read
+ * it, and it is in no publication and no sync stream. Who may read which row is the matrix's job.
+ */
+export async function expectReadOnlyOffSync(harness: StreamHarness, table: string): Promise<void> {
+  const { rows: grants } = await harness.db.pool.query<{ privilege_type: string }>(
+    `SELECT privilege_type FROM information_schema.role_table_grants
+      WHERE table_schema = 'public' AND table_name = $1 AND grantee = 'app_user'`,
+    [table],
+  );
+  expect(grants, `${table} grants to app_user`).toEqual([{ privilege_type: 'SELECT' }]);
+  await expect(
+    withUser(harness.db.pool, harness.fixture.actors.organiser, randomUUID(), (tx) =>
+      tx.query(`INSERT INTO ${table} DEFAULT VALUES`),
+    ),
+  ).rejects.toThrow(/permission denied/i);
+  await expect(asRole(harness.db.pool, 'powersync_repl', `SELECT 1 FROM ${table}`)).rejects.toThrow(
+    /permission denied/i,
+  );
+  const { rows } = await harness.db.pool.query(
+    'SELECT pubname FROM pg_publication_tables WHERE tablename = $1',
+    [table],
+  );
+  expect(rows, `${table} publications`).toEqual([]);
+  expect(streamedTables(harness).has(table), `${table} in a sync stream`).toBe(false);
+}

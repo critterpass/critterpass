@@ -84,6 +84,23 @@ describe('content catalogue as app_user', () => {
         ),
       ),
     ).rejects.toThrow(/permission denied/i);
+    // The write is refused for want of a grant, before any row or constraint is looked at.
+    for (const table of [
+      'critter_sets',
+      'critters',
+      'critter_forms',
+      'legendary_windows',
+      'spawn_rules',
+      'phrase_cards',
+      'emergency_numbers',
+      'facilities',
+      'help_articles',
+    ]) {
+      await expect(
+        asMember((tx) => tx.query(`INSERT INTO ${table} DEFAULT VALUES`)),
+        table,
+      ).rejects.toThrow(/permission denied/i);
+    }
   });
 
   it('has no access to releases, names or hours proposals', async () => {
