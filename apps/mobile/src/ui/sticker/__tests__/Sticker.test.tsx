@@ -1,3 +1,5 @@
+jest.unmock('@/ui/sticker/Sticker');
+
 import path from 'node:path';
 import { TextDecoder, TextEncoder } from 'node:util';
 

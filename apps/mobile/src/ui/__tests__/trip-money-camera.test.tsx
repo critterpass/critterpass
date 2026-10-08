@@ -1,8 +1,3 @@
-// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-double'));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
-
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 

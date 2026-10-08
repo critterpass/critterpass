@@ -2,11 +2,6 @@
  * What the paywall lets someone do in each state: buy only with a store price, never pay twice
  * for a charge the server has not confirmed, and always see the renewal terms beside the button.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

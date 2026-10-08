@@ -3,12 +3,6 @@
  * fifteen minutes, nothing at all in a binary without the App Group module, and the placed
  * widgets go to the server through the command queue.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { readFileSync } from 'node:fs';
 import path from 'node:path';

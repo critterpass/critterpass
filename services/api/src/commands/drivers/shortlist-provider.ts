@@ -2,6 +2,8 @@
  * `shortlist_provider {provider_id, trip_id, supplier, product_id, label, price, …}`: ADD TO
  * COMPARE on a private tour (6f-1). Only the product id, a short label for the column and the price
  * shown are kept; the supplier's title, photos and ratings are fetched per view and never stored.
+ * Adding the same column again replaces the whole offer with the one now on screen, so the price is
+ * never left beside seats, hours or a product it was not quoted for.
  */
 import { DomainError, shortlistProviderPayloadSchema } from '@cp/domain';
 
@@ -31,7 +33,9 @@ export const shortlistProviderCommand = defineCommand({
       }
       await tx.query(
         `INSERT INTO providers (id, trip_id, kind, name, added_by)
-         VALUES ($1, $2, 'driver', $3, $4) ON CONFLICT (id) DO NOTHING`,
+         VALUES ($1, $2, 'driver', $3, $4)
+         ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name
+           WHERE providers.name <> EXCLUDED.name`,
         [payload.provider_id, payload.trip_id, LABEL[payload.supplier], ctx.uid],
       );
       await tx.query(
@@ -40,7 +44,9 @@ export const shortlistProviderCommand = defineCommand({
          VALUES ($1, $2, 'private_tour', $3, $4, $5, $6, $7,
            '{"fuel":"yes","parking":"yes"}', true, $8, '{price}')
          ON CONFLICT (provider_id) DO UPDATE SET status = 'shortlisted',
-           price_minor = EXCLUDED.price_minor, currency = EXCLUDED.currency`,
+           seats = EXCLUDED.seats, price_minor = EXCLUDED.price_minor,
+           currency = EXCLUDED.currency, price_unit = EXCLUDED.price_unit,
+           included_hours = EXCLUDED.included_hours, supplier_ref = EXCLUDED.supplier_ref`,
         [
           payload.provider_id,
           payload.trip_id,

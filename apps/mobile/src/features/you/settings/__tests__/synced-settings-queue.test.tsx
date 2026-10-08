@@ -3,14 +3,8 @@
  * offline queue as `set_settings` with only the changed column, and a row synced from another
  * phone shows without reopening Settings. The Help share answer queues `set_consent` likewise.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';

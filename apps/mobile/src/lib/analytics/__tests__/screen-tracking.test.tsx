@@ -1,3 +1,5 @@
+jest.unmock('expo-router');
+
 import { describe, expect, it, jest } from '@jest/globals';
 import { act } from '@testing-library/react-native';
 import { router } from 'expo-router';

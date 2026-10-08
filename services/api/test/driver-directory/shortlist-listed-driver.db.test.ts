@@ -149,6 +149,41 @@ describe('shortlist_listed_driver', () => {
     expect(dbCrypto.decryptField(String(drivers[0]!['contact_enc']), keyring)).toBe(PHONE);
   });
 
+  it('answers a second add with the driver the trip already has, back on the shortlist', async () => {
+    const [first] = await tripDrivers();
+    const terms = () =>
+      q<Record<string, unknown>>(
+        `SELECT provider_id, source, status, area, languages, car, seats,
+                price_minor, confirmed_fields
+           FROM provider_terms WHERE trip_id = $1`,
+        [tripId],
+      );
+    // The shortlist reads a driver through his terms: what his listing says, and no price.
+    expect(await terms()).toEqual([
+      {
+        provider_id: first?.['id'],
+        source: 'crews',
+        status: 'shortlisted',
+        area: 'Ubud',
+        languages: [],
+        car: 'Toyota Avanza',
+        seats: 6,
+        price_minor: null,
+        confirmed_fields: [],
+      },
+    ]);
+    await q("UPDATE provider_terms SET status = 'archived' WHERE provider_id = $1", [
+      first?.['id'],
+    ]);
+
+    const again = await shortlist(organiser, listed);
+    expect(again.status, JSON.stringify(again.body)).toBe(200);
+    expect(again.body['result']).toEqual({ provider_id: first?.['id'] });
+    // Still one driver, added by whoever added him first.
+    expect(await tripDrivers()).toEqual([first]);
+    expect(await terms()).toMatchObject([{ provider_id: first?.['id'], status: 'shortlisted' }]);
+  });
+
   it('keeps the trip’s copy once he pauses his listing, and adds him no more', async () => {
     await q("UPDATE driver_listings SET status = 'paused' WHERE id = $1", [listed]);
     const refused = await shortlist(organiser, listed);

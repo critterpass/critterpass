@@ -1,7 +1,6 @@
 /** An erased member's avatar is a plain circle read as "Former member", never an empty initial. */
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 
 import { renderUi } from '../../test-support/render';

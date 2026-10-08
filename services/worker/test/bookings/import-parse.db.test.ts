@@ -3,10 +3,17 @@
  * traveller already has in the wallet is proposed as that booking's barcode and seat; a pasted
  * link off the supplier allow-list is read as text, so without a model it becomes "add it by hand".
  */
+import type { JobWithMetadata } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { runAttempt } from '../../src/boss';
 import { exponentOf } from '../../src/jobs/bookings';
-import { parseImport, type ImportParseDeps } from '../../src/jobs/bookings/paste-parse';
+import {
+  importParseJob,
+  parseImport,
+  type ImportParseDeps,
+} from '../../src/jobs/bookings/paste-parse';
+import { silent } from '../helpers/jobs-harness';
 import { startSetupWorld, type SetupWorld } from '../setup/setup-fixture';
 
 let world: SetupWorld;
@@ -79,6 +86,30 @@ describe('import.parse', () => {
         url: 'http://169.254.169.254/latest/meta-data',
       }),
     ).toBe('failed');
+    const [candidate] = await world.q<{ status: string; failure_reason: string }>(
+      'SELECT status, failure_reason FROM import_candidates WHERE id = $1',
+      [id],
+    );
+    expect(candidate).toEqual({ status: 'failed', failure_reason: 'unreadable' });
+  });
+
+  it('fails the candidate as unreadable when its queued text is longer than the parser reads', async () => {
+    const id = await parsing(world.members[0] as string, 'scan');
+    const result = await runAttempt(
+      importParseJob(deps),
+      {
+        id: 'long-scan',
+        name: 'import.parse',
+        data: { candidate_id: id, kind: 'scan', text: 'A'.repeat(20_001) },
+        retryCount: 0,
+        retryLimit: 3,
+        signal: new AbortController().signal,
+        output: null,
+      } as unknown as JobWithMetadata<unknown>,
+      { pool: world.harness.pool, boss: undefined as never, logger: silent },
+      () => undefined,
+    );
+    expect(result).toMatchObject({ status: 'completed', output: { outcome: 'failed' } });
     const [candidate] = await world.q<{ status: string; failure_reason: string }>(
       'SELECT status, failure_reason FROM import_candidates WHERE id = $1',
       [id],

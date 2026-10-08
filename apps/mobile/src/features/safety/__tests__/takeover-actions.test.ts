@@ -1,5 +1,3 @@
-jest.mock('expo-router', () => ({ router: { push: () => undefined } }));
-
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { NotificationResponse } from 'expo-notifications';
 

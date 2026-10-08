@@ -3,16 +3,6 @@
  * someone else's, never one already answered) until the saved reply syncs, a spent meter becomes
  * the hint, and an offer needs an explicit confirm before a slot is claimed.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { configure, fireEvent, renderHook, screen, waitFor } from '@testing-library/react-native';

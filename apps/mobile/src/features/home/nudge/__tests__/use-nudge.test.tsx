@@ -4,12 +4,6 @@
  * the guide, the crewmate and the hour, the share sheet for a crewmate without the app, the pair
  * cooldown, and app opens counted once per local hour.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

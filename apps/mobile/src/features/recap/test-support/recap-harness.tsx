@@ -35,6 +35,7 @@ import {
   RECAP,
   TRIP,
 } from '../dev/recap-fixtures';
+import { pause } from '@/lib/test-support/settle';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -130,7 +131,7 @@ export async function queued(
 export async function until(check: () => boolean, timeoutMs = 15_000): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await pause(100);
     if (check()) return;
     if (Date.now() > deadline) throw new Error('timed out waiting for the recap page');
   }

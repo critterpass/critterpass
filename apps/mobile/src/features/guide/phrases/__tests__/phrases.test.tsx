@@ -3,8 +3,6 @@
  * missing, and a card whose audio can't be reached, or has none, is read in the phone's voice. A
  * card that offers practice carries the link, and so does its SHOW mode.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 const mockPush = jest.fn();
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,

@@ -2,6 +2,8 @@
  * Done on the start-a-crew screen goes back to the Home under it: Home stays the stack's root, so
  * it has no way "back" into the finished form.
  */
+jest.unmock('expo-router');
+
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
@@ -20,8 +22,6 @@ import { returnHome } from '../StartCrewScreen';
 // Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 jest.mock('@/ui/sticker/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;

@@ -4,7 +4,7 @@
  * query share one watcher, a read that lands late is dropped, and a failed read is an answer with
  * a retry.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 import { createElement, type ReactNode } from 'react';
@@ -15,12 +15,6 @@ import { useLiveRows, useQuietLiveRows } from '../live-rows';
 import { openTestLocalFirst, type TestLocalFirst } from '../test-support/local-first-fixture';
 import { removeDir } from '../test-support/open-node-database';
 import { eventually } from '../test-support/queue-fixtures';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 interface NoteRow {
   id: string;

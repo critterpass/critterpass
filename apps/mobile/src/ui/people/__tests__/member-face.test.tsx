@@ -2,9 +2,8 @@
  * An avatar given a member's user id draws the face that member chose, through the provider at the
  * app root; without an id, without a chosen face or outside the provider it keeps the initial.
  */
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 import { View } from 'react-native';

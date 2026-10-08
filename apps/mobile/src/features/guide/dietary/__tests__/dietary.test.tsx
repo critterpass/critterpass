@@ -4,15 +4,8 @@
  * stopping withdraws the consent (which deletes the crew's flags), and the consent row decides
  * whether sharing must ask first.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>(
-      '../../../../data/powersync/test-support/node-realm',
-    ).powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import type { PrivateDietaryWire } from '@cp/domain';

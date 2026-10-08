@@ -4,16 +4,7 @@ import { renderHook } from '@testing-library/react-native';
 import { useRegisteredHubTiles } from '@/features/trip';
 import { isScreenRegistered } from '@/lib/navigation/screen-registry';
 
-// The critters runtime's own imports open native modules; only the registrations run here.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 jest.mock('@/data/powersync/db', () => ({}));
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 // Loading the critters runtime pulls in most of the app's modules: a wide budget for slow runners.
 describe('crew quests registration', () => {

@@ -3,12 +3,6 @@
  * thank the buyer once, the buyer gets neither, a refunded boost offers nothing, and the stamp
  * offers TELL THE CREW only to a buyer with a crew to tell, once.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
-// Idle loops ask the router whether their screen is focused.
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

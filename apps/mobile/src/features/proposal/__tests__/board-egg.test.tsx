@@ -1,12 +1,3 @@
-// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
-// The pass is drawn outside a route tree here: it is the focused screen.
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
-
 // This package's reanimated stand-in has no layout-animation builders; the pass needs one. The
 // builder is an inert marker, and the stand-in's `Animated.View` is a plain `View`, so a view's
 // `entering` prop shows whether it was given an entering animation.

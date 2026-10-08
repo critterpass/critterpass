@@ -1,6 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
-import type { ReactNode } from 'react';
+import type { ComponentRef, ReactNode, Ref } from 'react';
 import { TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
 
@@ -37,6 +37,8 @@ export interface TextFieldProps extends Omit<
    * inside. Unset on a `multiline` field: it grows.
    */
   readonly maxLines?: number;
+  /** The input itself, for a form that moves focus from one field to the next. */
+  readonly inputRef?: Ref<ComponentRef<typeof TextInput>>;
   readonly testID?: string;
 }
 
@@ -78,6 +80,7 @@ export function TextField({
   labelHidden = false,
   clearable = true,
   maxLines,
+  inputRef,
   testID,
   onFocus,
   onBlur,
@@ -110,6 +113,7 @@ export function TextField({
         <TextInput
           {...(maxLines !== undefined && maxLines > 1 ? { multiline: true } : {})}
           {...inputProps}
+          ref={inputRef}
           testID={testID}
           value={value}
           onChangeText={onChangeText}

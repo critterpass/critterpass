@@ -3,8 +3,6 @@
  * hold stops every step with the bar and a release carries both on from the same instant, and a
  * card's own length (the route's 9 s) is what the bar waits for before the next card.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
 import { act, screen } from '@testing-library/react-native';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';

@@ -5,19 +5,12 @@
  * the previous uid.
  */
 import { generateUuidV7 } from '@cp/domain';
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import { resetOnSignOutHooksForTests, runOnSignOutHooks } from '../../auth/sign-out-hooks';
 import { waitUntil } from '../../realtime/test-support/lifecycle';
 import type { AppSession } from '../start-app-session';
 import { memoryLastUid, sessionHarness, type SessionHarness } from '../test-support/session-deps';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 let harness: SessionHarness | undefined;
 

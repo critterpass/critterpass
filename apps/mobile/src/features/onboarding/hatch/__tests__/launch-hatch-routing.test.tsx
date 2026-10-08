@@ -1,8 +1,7 @@
+jest.unmock('expo-router');
 // Skia's native renderer does not exist under Jest; see ui/avatar/test-support/skia-double for the stand-in.
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/avatar/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 
 /**
  * A cold start from a notification tap is never held up by the later-launch beat: the navigator

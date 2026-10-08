@@ -3,14 +3,8 @@
  * a stop whose place the phone doesn't hold; an "about" estimate between two placed stops; and no
  * leg rather than a wrong one when neither is known.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import type { DayItem } from '@/data/plan/plan-model';
 

@@ -3,14 +3,8 @@
  * The OS is the boundary: the calendar reader and the permission port are doubles, the day
  * reduction itself runs natively (modules/cp-calendar tests cover it).
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import type { PermissionKind } from '@cp/domain';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
