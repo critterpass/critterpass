@@ -88,11 +88,11 @@ appId: app.critterpass.dev
           visible:
             id: 'album-upload'
           timeout: 15000
-# Back to the hub the album was opened from.
+# Back to the hub the album was opened from, where it was left: scrolled to the Photos tile.
 - back
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub-header-.*'
+      id: 'trip-hub-tile-album'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-3k-1-hub-after-album
