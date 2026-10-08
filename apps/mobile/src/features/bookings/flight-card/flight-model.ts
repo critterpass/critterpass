@@ -29,6 +29,8 @@ export interface FlightView {
   readonly to: string;
   readonly departsAt: string;
   readonly arrivesAt: string | null;
+  /** The printed departure, when the time shown has moved off it (struck beside the new one). */
+  readonly wasDepartingAt: string | null;
   readonly chip: FlightChip;
   readonly delayMin: number;
   readonly boardsAt: string | null;
@@ -91,12 +93,15 @@ export function flightView(
     leg.status_source === 'manual' || leg.status_source === 'schedule' || leg.status_source === null
       ? null
       : (SOURCE_NAMES[leg.status_source] ?? null);
+  const departsAt = leg.act_dep_at ?? leg.est_dep_at ?? leg.sched_dep_at;
   return {
     bookingId: booking.id,
     number: `${leg.carrier} ${leg.flight_no}`,
     from: leg.dep_airport,
     to: last.arr_airport,
-    departsAt: leg.act_dep_at ?? leg.est_dep_at ?? leg.sched_dep_at,
+    departsAt,
+    wasDepartingAt:
+      Date.parse(departsAt) === Date.parse(leg.sched_dep_at) ? null : leg.sched_dep_at,
     arrivesAt: last.act_arr_at ?? last.est_arr_at ?? last.sched_arr_at,
     chip: chipOf(leg, options.gateChanged === true),
     delayMin: leg.delay_min ?? 0,
@@ -118,6 +123,13 @@ export function flightView(
     ),
     legs: booking.segments.length,
   };
+}
+
+/** Statuses the traveller must not miss: drawn as a filled tag, not the quiet label. */
+export function needsAttention(chip: FlightChip): boolean {
+  return (
+    chip === 'cancelled' || chip === 'diverted' || chip === 'delayed' || chip === 'gate_change'
+  );
 }
 
 /** "I landed" is offered once the flight should have left, until it has landed or was cancelled. */

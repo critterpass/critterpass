@@ -10,6 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { InfoPill } from '@/ui/chips/InfoPill';
 import { DocField } from '@/ui/documents/DocField';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
@@ -20,11 +21,19 @@ import { Barcode } from '@/ui/textures/barcode';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clock, dayDate } from '../format';
-import type { FlightView } from './flight-model';
+import { needsAttention, type FlightView } from './flight-model';
 import { useChipLabel, useCoTravellerLine, useSourceLine } from './labels';
 import { useWalletGuide } from '../data/wallet-guide';
 
 const TILE = 76;
+
+/** The states in which the boarding ping is still to come. */
+const WAITING_TO_BOARD: ReadonlySet<FlightView['chip']> = new Set([
+  'scheduled',
+  'on_time',
+  'delayed',
+  'gate_change',
+]);
 
 const useStyles = makeStyles((t) => ({
   code: { flexShrink: 1 },
@@ -44,6 +53,9 @@ const useStyles = makeStyles((t) => ({
     overflow: 'hidden',
   },
   tileBars: { flex: 1 },
+  struck: { textDecorationLine: 'line-through' },
+  // A cancelled flight's times and gate no longer hold: they stay readable, but step back.
+  off: { opacity: t.opacity.pending },
   body: { flex: 1, minWidth: 0 },
 }));
 
@@ -83,12 +95,9 @@ export function FlightCard({
     {
       key: 'boards',
       label: t({ id: 'bookings.flight.boards', message: 'Boards' }),
-      value:
-        boards === ''
-          ? '—'
-          : view.boardingEstimated
-            ? t({ id: 'bookings.flight.boardsEst', message: `${boards} est.` })
-            : boards,
+      // An estimate is marked with a tilde: a word beside the time does not fit the column in
+      // every language.
+      value: boards === '' ? '—' : view.boardingEstimated ? `~${boards}` : boards,
     },
     { key: 'gate', label: t({ id: 'bookings.flight.gate', message: 'Gate' }), value: view.gate },
     { key: 'seat', label: t({ id: 'bookings.flight.seat', message: 'Seat' }), value: view.seat },
@@ -96,7 +105,7 @@ export function FlightCard({
   ];
   const lines = [
     crewLine(coTravellers),
-    mine && view.chip !== 'landed' && view.chip !== 'cancelled'
+    mine && WAITING_TO_BOARD.has(view.chip)
       ? t({ id: 'bookings.flight.ping', message: `${guideName} pings you when boarding opens.` })
       : null,
     mine && !hasPass
@@ -107,31 +116,67 @@ export function FlightCard({
       : null,
   ].filter((line): line is string => line !== null && line !== '');
   const status = chipLabel(view.chip, view.delayMin);
+  const alert = needsAttention(view.chip);
+  const cancelled = view.chip === 'cancelled';
+  const was = clock(locale, view.wasDepartingAt, tz);
   return (
     <Stack gap="14" testID={testID}>
       <Row justify="space-between" align="center" gap="8">
         <Text variant="label" numberOfLines={1} style={styles.code}>
           {upper(`${view.number} · ${dayDate(locale, view.departsAt, tz)}`, locale)}
         </Text>
-        <Text variant="label" testID={testID === undefined ? undefined : `${testID}-status`}>
-          {upper(status, locale)}
-        </Text>
+        {alert ? (
+          <InfoPill nowrap {...(testID === undefined ? {} : { testID: `${testID}-status` })}>
+            {upper(status, locale)}
+          </InfoPill>
+        ) : (
+          <Text variant="label" testID={testID === undefined ? undefined : `${testID}-status`}>
+            {upper(status, locale)}
+          </Text>
+        )}
       </Row>
-      <Row justify="space-between" align="center" gap="8">
+      <Row justify="space-between" align="center" gap="8" style={cancelled ? styles.off : null}>
         <Stack style={styles.code}>
           <Text variant="displayHero">{view.from}</Text>
-          <Text variant="body">{clock(locale, view.departsAt, tz)}</Text>
+          <Row gap="6" align="center">
+            <Text variant="body" style={cancelled ? styles.struck : null}>
+              {clock(locale, view.departsAt, tz)}
+            </Text>
+            {was === '' || cancelled ? null : (
+              <Text
+                variant="bodySm"
+                style={styles.struck}
+                testID={testID === undefined ? undefined : `${testID}-was`}
+              >
+                {was}
+              </Text>
+            )}
+          </Row>
         </Stack>
         <Icon name="plane" size={40} color={ink} decorative />
         <Stack align="flex-end" style={styles.code}>
           <Text variant="displayHero">{view.to}</Text>
-          <Text variant="body">{clock(locale, view.arrivesAt, tz)}</Text>
+          <Text variant="body" style={cancelled ? styles.struck : null}>
+            {clock(locale, view.arrivesAt, tz)}
+          </Text>
         </Stack>
       </Row>
-      <Row gap="8">
+      <Row gap="8" align="flex-start" style={cancelled ? styles.off : null}>
         {cells.map((cell) => (
           <View key={cell.key} style={styles.cell}>
-            <DocField label={upper(cell.label, locale)} value={upper(cell.value ?? '—', locale)} />
+            {cell.key === 'gate' && view.chip === 'gate_change' && cell.value != null ? (
+              <Stack gap="2">
+                <Text variant="monoData" color={ink}>
+                  {upper(cell.label, locale)}
+                </Text>
+                <InfoPill nowrap>{upper(cell.value, locale)}</InfoPill>
+              </Stack>
+            ) : (
+              <DocField
+                label={upper(cell.label, locale)}
+                value={upper(cell.value ?? '—', locale)}
+              />
+            )}
           </View>
         ))}
       </Row>
