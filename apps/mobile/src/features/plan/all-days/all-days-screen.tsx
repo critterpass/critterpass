@@ -6,6 +6,8 @@
  * plan underneath (or in place of this screen), so hops between the views never pile up.
  */
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -84,11 +86,7 @@ export function AllDaysScreen({
         gettingThere={gettingThere.state}
         onRetryGettingThere={gettingThere.retry}
         onBack={() =>
-          router.canGoBack()
-            ? router.back()
-            : router.replace(
-                from === null ? tripPlanRoutes.map(tripId) : tripPlanRoutes.day(tripId, from),
-              )
+          goBackOr(from === null ? tripPlanRoutes.map(tripId) : tripPlanRoutes.day(tripId, from))
         }
         onShare={() => setSharing(true)}
         onOpenDay={(dayNo) => {

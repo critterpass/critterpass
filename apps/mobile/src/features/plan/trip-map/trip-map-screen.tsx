@@ -6,6 +6,8 @@
  * that day's legs, opens a tapped stop's sheet over the map and SHARE over it.
  */
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
@@ -68,10 +70,7 @@ export function TripMapScreen({
           setChosen(n);
           router.push(tripPlanRoutes.day(tripId, n));
         }}
-        onBack={() => {
-          if (router.canGoBack()) router.back();
-          else router.replace(hrefFor('3k-1', { tripId }) ?? '/');
-        }}
+        onBack={() => goBackOr(hrefFor('3k-1', { tripId }) ?? '/')}
         onOpenStop={setOpenId}
         onOpenPlace={(placeId) => {
           const place = hrefFor('7e-1', { placeId, tripId });

@@ -7,6 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, ids and screen ids, never copy. */
 import { generateStableId, visitMinutes, type GapIdea, type PlanOp } from '@cp/domain';
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useEffect, useMemo, useState } from 'react';
 import { resolveMemberStyle, tokens } from '@cp/design-tokens';
 
@@ -21,6 +23,7 @@ import { toast } from '@/motion/island-toast';
 
 import { fixerPaths, readGapIdeas, useFixerRead } from '../data/fixer-api';
 import { useCheckContext } from '../data/use-check-context';
+import { tripPlanRoutes } from '../../hub/routes';
 import { compactMoney, dayTag } from '../format';
 import * as copy from './gap-copy';
 import { GapView, type GapIdeaView } from './gap-view';
@@ -213,7 +216,7 @@ export function GapSheet({ tripId, dayId: givenDayId, dayNo, start, end }: GapSh
         busy,
         onPress: () => {
           if (chosen === null || chosen.kind === 'stay') {
-            router.back();
+            goBackOr(tripPlanRoutes.hub(tripId));
             return;
           }
           setBusy(true);
@@ -221,7 +224,7 @@ export function GapSheet({ tripId, dayId: givenDayId, dayNo, start, end }: GapSh
             setBusy(false);
             if (outcome.kind === 'unavailable') return;
             toast.show({ id: 'plan-gap-added', title: copy.addedToast(freeIds.length) });
-            router.back();
+            goBackOr(tripPlanRoutes.hub(tripId));
           });
         },
       }}

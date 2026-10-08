@@ -5,12 +5,15 @@
  * pin's stop opened in its sheet over the map, so closing it returns to the map she was on.
  */
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { ItemSheetHost } from '../day/item-sheet-host';
 import { useDayEditing } from '../day/use-day-editing';
+import { tripPlanRoutes } from '../hub/routes';
 import { useChosenDay } from '../trip-map/chosen-day';
 import { legTravel } from './reschedule';
 import { useDayRoute } from '../trip-map/day-route';
@@ -45,7 +48,7 @@ export function DayMapScreen({
         onDayNo={setDayNo}
         route={route}
         versionId={data.plan.versionId}
-        onBack={() => router.back()}
+        onBack={() => goBackOr(tripPlanRoutes.day(tripId, dayNo))}
         onOpenStop={setOpenId}
         onOpenPlace={(placeId) => {
           const place = hrefFor('7e-1', { placeId, tripId });

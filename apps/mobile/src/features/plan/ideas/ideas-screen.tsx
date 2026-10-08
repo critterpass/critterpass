@@ -8,6 +8,8 @@
  */
 import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { generateUuidV7 } from '@cp/domain';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -265,9 +267,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
           </>
         }
         scrolls={drag.dragging === null}
-        onBack={() =>
-          router.canGoBack() ? router.back() : router.replace(planRoutes.plan(tripId))
-        }
+        onBack={() => goBackOr(planRoutes.plan(tripId))}
         onMap={mapHref === undefined ? null : () => router.push(mapHref)}
       />
       {open === null ? null : (

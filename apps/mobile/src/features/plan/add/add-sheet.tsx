@@ -9,7 +9,9 @@
  * the queue sends later.
  */
 import { generateStableId } from '@cp/domain';
-import { router, useRootNavigationState } from 'expo-router';
+import { useRootNavigationState } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 
 import { useLocalFit } from '@/data/fit/local-fit';
@@ -19,6 +21,7 @@ import { useDayEditing } from '@/features/plan/day/use-day-editing';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';
 
+import { tripPlanRoutes } from '../hub/routes';
 import { usePlanGuide } from '../plan-guide';
 import { AddBlock } from './add-block';
 import { addSubmission } from './add-submit';
@@ -66,10 +69,11 @@ export interface AddSheetProps {
   readonly afterStableId?: string | undefined;
 }
 
-const close = () => (router.canGoBack() ? router.back() : undefined);
 const WAITING_TIME = '··:··';
 
 export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddSheetProps) {
+  // Opened by a link with nothing under it, the sheet closes onto the trip's plan.
+  const close = () => goBackOr(tripPlanRoutes.hub(tripId));
   const locale = useLocale();
   // The crew's plan, or an organiser's own draft before there is one.
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });

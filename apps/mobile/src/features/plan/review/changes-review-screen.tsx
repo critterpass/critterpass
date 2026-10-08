@@ -10,6 +10,8 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useMemo, useState } from 'react';
 
 import type { SendResult } from '@/data/commands/client';
@@ -199,7 +201,7 @@ export function ChangesReviewScreen({
       backLabel={
         ideas ? backIdeasLabel() : row?.trigger === 'check' ? backCheckLabel() : backPlainLabel()
       }
-      onBack={() => (router.canGoBack() ? router.back() : router.replace(planRoutes.plan(tripId)))}
+      onBack={() => goBackOr(planRoutes.plan(tripId))}
       onlyYou={editable ? onlyYouLabel() : null}
       title={
         ideas

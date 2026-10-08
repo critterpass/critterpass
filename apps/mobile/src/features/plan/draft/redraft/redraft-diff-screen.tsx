@@ -5,7 +5,8 @@
  * gives the redraft back, as does one that failed or could not beat the day.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -75,10 +76,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
       });
   const dayNo = result?.day_no ?? day;
   const n = dayNo ?? 0;
-  const back = () => {
-    if (router.canGoBack()) router.back();
-    else router.replace(draftRoutes.review(tripId));
-  };
+  const back = () => goBackOr(draftRoutes.review(tripId));
   const boost = redraftBoost();
   const spent = trip.quota.limit !== null && trip.quota.used >= trip.quota.limit;
   const onKeep = () => {

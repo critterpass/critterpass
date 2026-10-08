@@ -1,7 +1,7 @@
 /**
  * The plan editor as the day screens use it: change reasons in the member's words, the conflict
- * and locked-item toasts ("Maya moved this too"), and one toast for every edit that went through,
- * saying what changed with UNDO (an organiser's) or that it went to the crew (a member's).
+ * and locked-item toasts ("Maya moved this too"), and one toast for every edit: what changed with
+ * UNDO (an organiser's), that it went to the crew (a member's), or that nothing was saved.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- lock kinds and toast ids, never copy (every line is worded through `t`). */
 import type { PlanOp, PlanPush } from '@cp/domain';
@@ -95,7 +95,17 @@ export function useDayEditing(plan: TripPlan) {
         ...(options.confirmLocked === undefined ? {} : { confirmLocked: options.confirmLocked }),
         ...(options.pushed === undefined ? {} : { pushed: options.pushed }),
       });
-      if (outcome.kind === 'unavailable' || ops.length === 0) return outcome;
+      if (ops.length === 0) return outcome;
+      if (outcome.kind === 'unavailable') {
+        // Nothing was sent (the plan is not on this phone yet, or it is not hers to change).
+        impact('error');
+        toast.show({
+          id: 'plan-edit-unavailable',
+          title: t({ id: 'plan.day.unavailableToast', message: 'Couldn’t save that' }),
+          subtitle: t({ id: 'plan.day.unavailableLine', message: 'Nothing changed. Try again.' }),
+        });
+        return outcome;
+      }
       const tripId = before.trip?.id ?? '';
       const words = describeEdit(ops, {
         state: before.state,
