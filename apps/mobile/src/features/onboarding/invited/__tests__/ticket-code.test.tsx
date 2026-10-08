@@ -81,6 +81,15 @@ describe('3a-10 invite ticket', () => {
     expect(inviteSession.read().code).toBe('BATH6X');
   });
 
+  it('sends “Just look around first” to the pass flow, or Home for someone with a pass', async () => {
+    await renderInvited(<TicketScreen />, { services: services(found()) });
+    await activate(await screen.findByTestId('invite-look-around'));
+    expect(router.replace).toHaveBeenLastCalledWith('/onboarding');
+    setOnboardingComplete(true);
+    await activate(screen.getByTestId('invite-look-around'));
+    expect(router.replace).toHaveBeenLastCalledWith('/');
+  });
+
   it('never names anyone on a forwarded or generic link', async () => {
     await renderInvited(<TicketScreen />, { services: services(found()) });
     expect(await screen.findByText('A SEAT IN THE BALI SIX')).toBeTruthy();

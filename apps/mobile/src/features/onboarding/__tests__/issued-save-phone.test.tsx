@@ -13,7 +13,7 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
   useLocalSearchParams: jest.fn(() => ({})),
   Link: ({ children }: { children: unknown }) => children,
   Redirect: () => null,
@@ -157,6 +157,28 @@ describe('3a-7 save your pass', () => {
     await flush();
     expect(screen.getByTestId('save-error')).toHaveTextContent(/Google sign-in didn’t finish/u);
     expect(reported).toEqual([{ flow: 'link_google', code: 'SIGN_IN_CANCELLED' }]);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  it('goes back to where it was opened for someone who already has a pass', async () => {
+    jest.useFakeTimers();
+    setOnboardingComplete(true);
+    await renderOnboarding(<SaveScreen />);
+    await activate(screen.getByTestId('save-google'));
+    await flush();
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      await Promise.resolve();
+    });
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  it('returns from “Not now” without walking a finished pass through permissions', async () => {
+    setOnboardingComplete(true);
+    await renderOnboarding(<SaveScreen />);
+    await activate(screen.getByTestId('save-not-now'));
+    expect(router.back).toHaveBeenCalledTimes(1);
     expect(router.replace).not.toHaveBeenCalled();
   });
 
