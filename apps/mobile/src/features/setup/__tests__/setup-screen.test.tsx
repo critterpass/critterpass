@@ -31,7 +31,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { TRIP_ID } from '../scenes/fixtures';
 import { SetupScreen } from '../shell/setup-screen';
-import { doneSteps, landingStep, openableSteps, stepFromSlug } from '../shell/steps';
+import { doneSteps, landingStep, openableSteps, shownStep, stepFromSlug } from '../shell/steps';
 import { renderSetup, seedKyoto } from '../test-support/setup-harness';
 
 // Real encrypted databases and queues: CI runners are about three times slower than a laptop.
@@ -54,6 +54,16 @@ describe('setup step machine', () => {
     expect(landingStep('done')).toBe('must_dos');
     expect(stepFromSlug('must-dos')).toBe('must_dos');
     expect(stepFromSlug('nope')).toBeNull();
+  });
+
+  it('shows the step setup is on for a link to one it has not reached, unless this phone moved there', () => {
+    const never = () => false;
+    expect(shownStep('rooms', 'when', never)).toBe('when');
+    expect(shownStep('must_dos', 'rooms', never)).toBe('rooms');
+    expect(shownStep('when', 'rooms', never)).toBe('when');
+    expect(shownStep(null, 'done', never)).toBe('must_dos');
+    // The phone's own move is drawn while the trip's synced row catches up.
+    expect(shownStep('budget', 'when', (step) => step === 'budget')).toBe('budget');
   });
 });
 
@@ -98,13 +108,39 @@ describe('setup screen', () => {
     });
   });
 
+  it('opens the step setup is on when a push links to one the crew has not reached', async () => {
+    stack = await openTestLocalFirst();
+    await seedKyoto(stack, { as: 'organiser', step: 'when' });
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" />, { stack });
+
+    await waitFor(() =>
+      expect(router.replace).toHaveBeenCalledWith({
+        pathname: '/[tripId]/setup/[step]',
+        params: { tripId: TRIP_ID, step: 'when' },
+      }),
+    );
+    // The step ahead is never drawn, so its actions cannot be tapped.
+    expect(screen.getByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
+    expect(screen.queryByTestId('must-dos-screen')).toBeNull();
+  });
+
   it('puts the organiser back on the step the server holds when a step move is refused', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'rooms' });
-    // The app had moved on to must-dos; the server then refused the move and stayed on rooms.
+    // Rooms has nothing to decide here, so the app moves on to must-dos by itself.
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step="rooms" />, { stack });
+    await waitFor(() =>
+      expect(router.replace).toHaveBeenCalledWith({
+        pathname: '/[tripId]/setup/[step]',
+        params: { tripId: TRIP_ID, step: 'must-dos' },
+      }),
+    );
+    await screen.unmount();
+    jest.mocked(router.replace).mockClear();
     await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" />, { stack });
-    await screen.findByTestId('setup-step-must_dos');
+    await screen.findByTestId('must-dos-screen');
     expect(router.replace).not.toHaveBeenCalled();
+    // The server then refused the move and stayed on rooms.
     await stack.db.execute(
       `INSERT INTO rejected_commands (id, cmd, code, detail, rejected_at)
        VALUES ('op-1', 'set_setup_step', 'STATE_INVALID', ?, '2026-10-01T10:55:07Z')`,

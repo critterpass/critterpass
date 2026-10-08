@@ -44,6 +44,9 @@ export function stepTitle(step: WizardStep): string {
 const useStyles = makeStyles((th) => ({
   row: { gap: th.space['6'] },
   cell: { flex: 1 },
+  // The chip's own height, so a tappable chip gains touch slop instead of a taller box that would
+  // sit it higher than the chips beside it.
+  press: { height: th.space['32'] + th.space['8'], minHeight: th.space['32'] + th.space['8'] },
   chip: {
     height: th.space['32'] + th.space['8'],
     borderRadius: th.radius.md,
@@ -112,6 +115,7 @@ function Chip({ step, index, state, onPress }: ChipProps) {
     <View style={styles.cell}>
       <PressScale
         onPress={onPress}
+        style={styles.press}
         accessibilityLabel={spoken}
         accessibilityState={{ selected: state === 'active' }}
         testID={`setup-step-${step}`}

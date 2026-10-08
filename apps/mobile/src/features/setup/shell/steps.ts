@@ -39,3 +39,21 @@ export function openableSteps(current: TripSetupStep): ReadonlySet<WizardStep> {
   open.add(landingStep(current));
   return open;
 }
+
+/**
+ * The step to draw for the one the address asks for. A link or push to a step setup has not
+ * reached shows the step setup is on instead, so nobody acts on a step ahead of the crew. A step
+ * this phone has just moved to itself is shown as asked: the trip's synced row follows a moment
+ * later.
+ */
+export function shownStep(
+  asked: WizardStep | null,
+  current: TripSetupStep,
+  movedHere: (step: WizardStep) => boolean,
+): WizardStep {
+  const held = landingStep(current);
+  if (asked === null || openableSteps(current).has(asked) || movedHere(asked)) {
+    return asked ?? held;
+  }
+  return held;
+}

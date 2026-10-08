@@ -4,20 +4,22 @@
  * Organisers run each step; members see the same steps read-only with their own part, and a line
  * saying who is running setup (live: "is setting up" while the organiser has it open). When the
  * server refuses a step move the app had already made, the organiser is put back on the step the
- * server holds, with a line saying why.
+ * server holds, with a line saying why. A link to a step setup has not reached opens the step it
+ * is on.
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useEffect, useMemo, type ReactNode } from 'react';
-import { View } from 'react-native';
 
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import { goBackOr } from '@/lib/navigation/back';
 import { EmptyState } from '@/ui/states/EmptyState';
-import { Skeleton } from '@/ui/states/Skeleton';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { useTheme } from '@/ui/theme';
 
 import { BudgetStep } from '../budget';
 import { useMe } from '../data/use-me';
@@ -31,7 +33,7 @@ import { setupRoutes } from '../routes';
 import { WhenStep } from '../when';
 import type { ShellFrame, StepProps } from './frame';
 import { guideName } from './guide-note';
-import { doneSteps, landingStep, openableSteps, type WizardStep } from './steps';
+import { doneSteps, landingStep, openableSteps, shownStep, type WizardStep } from './steps';
 
 const STEP_VIEWS: Readonly<Record<WizardStep, (props: StepProps) => ReactNode>> = {
   when: WhenStep,
@@ -40,9 +42,11 @@ const STEP_VIEWS: Readonly<Record<WizardStep, (props: StepProps) => ReactNode>> 
   must_dos: MustDosStep,
 };
 
-const useStyles = makeStyles((th) => ({
-  loading: { flex: 1, padding: th.space['20'], gap: th.space['16'] },
-}));
+/**
+ * Steps this phone moved to itself in this session, per trip (`{tripId}:{step}`): they are drawn
+ * as asked while the trip's synced row catches up, where a step reached by link is not.
+ */
+const movedTo = new Set<string>();
 
 /** The member's line under the step's copy: who runs setup, and whether they have it open now. */
 export function MemberStatus({ trip, here }: { readonly trip: SetupTrip; readonly here: boolean }) {
@@ -79,7 +83,6 @@ export function SetupScreen({
   readonly tripId: string;
   readonly step: WizardStep | null;
 }) {
-  const styles = useStyles();
   const services = useSetupServices();
   const me = useMe();
   // The trip's own streams: its destination's places (the must-do examples and the offline
@@ -91,10 +94,15 @@ export function SetupScreen({
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a command name, never copy
   const refusal = useRefusedCommand('set_setup_step');
   const current = trip?.step ?? 'when';
-  const viewing = step ?? landingStep(current);
   const held = landingStep(current);
-  // A refused move left the app a step ahead of the server: back to the step the server holds.
-  const ahead = trip != null && refusal.refused && !openableSteps(current).has(viewing);
+  // A refused move left the app a step ahead of the server, or a link asked for a step setup has
+  // not reached: back to the step the server holds.
+  const viewing = shownStep(
+    step,
+    current,
+    (asked) => !refusal.refused && movedTo.has(`${tripId}:${asked}`),
+  );
+  const ahead = trip != null && step !== null && viewing !== step;
   useEffect(() => {
     if (ahead) router.replace(setupRoutes.step(tripId, held));
   }, [ahead, tripId, held]);
@@ -110,12 +118,12 @@ export function SetupScreen({
       openable: openableSteps(trip.step),
       onSelectStep: (next) => {
         refusal.acknowledge();
+        movedTo.add(`${tripId}:${next}`);
         router.replace(setupRoutes.step(tripId, next));
       },
       onBack: () => {
         refusal.acknowledge();
-        if (router.canGoBack()) router.back();
-        else router.replace('/');
+        goBackOr();
       },
       sync: {
         offline: sync.phase === 'offline',
@@ -131,36 +139,27 @@ export function SetupScreen({
     };
   }, [trip, viewing, tripId, sync.phase, sync.lastSyncedAt, present, services, refusal]);
 
+  const backLabel = t({ id: 'setup.back.home', message: 'Home' });
   if (trip === undefined) {
     return (
-      <Scaffold variant="dark" edges={['top', 'bottom']} testID="setup-loading">
-        <View style={styles.loading}>
-          <Skeleton
-            preset="card"
-            repeat={3}
-            label={t({ id: 'setup.loading', message: 'Loading trip setup' })}
-          />
-        </View>
-      </Scaffold>
+      <ScreenLoading
+        backLabel={backLabel}
+        label={t({ id: 'setup.loading', message: 'Loading trip setup' })}
+        testID="setup-loading"
+      />
     );
   }
   if (trip === null || frame === null) {
     return (
-      <Scaffold variant="dark" edges={['top', 'bottom']} testID="setup-missing">
-        <EmptyState
-          guide="tokek"
-          guideName="Tokek"
-          title={t({ id: 'setup.missing.title', message: 'This trip isn’t here yet' })}
-          line={t({
-            id: 'setup.missing.line',
-            message: 'It shows up once your phone has synced. Try again in a moment.',
-          })}
-          action={{
-            label: t({ id: 'setup.missing.home', message: 'Back home' }),
-            onPress: () => router.replace('/'),
-          }}
-        />
-      </Scaffold>
+      <ScreenMissing
+        backLabel={backLabel}
+        title={t({ id: 'setup.missing.title', message: 'This trip isn’t here yet' })}
+        line={t({
+          id: 'setup.missing.line',
+          message: 'It shows up once your phone has synced. Try again in a moment.',
+        })}
+        testID="setup-missing"
+      />
     );
   }
   // Setup starts once the vote has a winner: before that the api refuses every setup change, so
