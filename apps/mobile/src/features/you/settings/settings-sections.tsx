@@ -11,6 +11,7 @@ import { useMapsAppRow, type MapsApp } from '@/features/go';
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Segmented } from '@/ui/inputs/Segmented';
 
+import { useAccountRows, type AccountRowsState } from './account-rows';
 import { helpRows } from './help-rows';
 import { PINGS_ROW_LINE, PINGS_ROW_TITLE } from '../ping-settings/copy';
 import type { CrewChatMode } from '../ping-settings/ping-prefs';
@@ -44,12 +45,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly storeName: string;
   /** Ideas open to votes on the idea board, from its synced rows; null until known. */
   readonly ideasToVote: number | null;
-  /**
-   * The account rows always show for a signed-in person. They can be used once the server has
-   * answered for the account (`ready`); until then (`checking`) or with no way to reach it
-   * (`unreachable`, which says so) they are disabled. `none`: no account to sign out of.
-   */
-  readonly account: 'ready' | 'checking' | 'unreachable' | 'none';
+  /** How the ACCOUNT rows are drawn (`account-rows`). */
+  readonly account: AccountRowsState;
   /** Download my data: its line, and whether a tap does something now. */
   readonly dataExport: { readonly line: string; readonly enabled: boolean };
 }
@@ -115,10 +112,7 @@ export function useSettingsSections(
     onChange,
   });
 
-  const accountOff =
-    values.account === 'unreachable'
-      ? t({ id: 'you.settings.needsConnection', message: 'Needs a connection' })
-      : undefined;
+  const accountRows = useAccountRows(values.account, values.dataExport, handlers);
   const rows: Readonly<Record<string, SettingsRow | null>> = {
     chattiness: {
       key: 'chattiness',
@@ -278,41 +272,7 @@ export function useSettingsSections(
         : null,
     widgets: widgetsRow(handlers.onWidgets),
     ...helpRows(values, handlers),
-    'download-data':
-      values.account === 'none'
-        ? null
-        : {
-            key: 'download-data',
-            kind: 'value',
-            title: t({ id: 'you.settings.downloadData', message: 'Download my data' }),
-            subtitle: accountOff ?? values.dataExport.line,
-            value: '',
-            disabled: values.account !== 'ready' || !values.dataExport.enabled,
-            onPress: handlers.onDataExport,
-          },
-    'sign-out':
-      values.account === 'none'
-        ? null
-        : {
-            key: 'sign-out',
-            kind: 'value',
-            title: t({ id: 'you.settings.signOut', message: 'Sign out' }),
-            ...(accountOff === undefined ? {} : { subtitle: accountOff }),
-            value: '',
-            disabled: values.account !== 'ready',
-            onPress: handlers.onSignOut,
-          },
-    'delete-account':
-      values.account === 'none'
-        ? null
-        : {
-            key: 'delete-account',
-            kind: 'destructive',
-            title: t({ id: 'you.settings.deleteAccount', message: 'Delete account' }),
-            ...(accountOff === undefined ? {} : { subtitle: accountOff }),
-            disabled: values.account !== 'ready',
-            onPress: handlers.onDeleteAccount,
-          },
+    ...accountRows,
   };
 
   const titles: Readonly<Record<SettingsSectionId, string>> = {

@@ -2,6 +2,7 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
 import type { AccountRead } from './account-api';
+import type { AccountRowsState } from '../settings/account-rows';
 import type { AccountServices } from './account-services';
 
 /**
@@ -24,9 +25,7 @@ export function useAccountRead(services: AccountServices, online = true): Accoun
 }
 
 /** How Settings draws the account rows for an account read (see `SettingsValues.account`). */
-export function accountRows(
-  read: AccountRead | null,
-): 'ready' | 'checking' | 'unreachable' | 'none' {
+export function accountRows(read: AccountRead | null): AccountRowsState {
   if (read === null) return 'checking';
   if (read.kind === 'ok') return 'ready';
   return read.kind === 'signed_out' ? 'none' : 'unreachable';

@@ -15,6 +15,7 @@ import { triggerConfetti } from '@/motion/patterns/confetti';
 import { memberFirstName } from '@/ui/people/member-name';
 
 import { shareText } from '../boost-card/boost-card-model';
+import { closePurchaseModals } from '../close-modals';
 import {
   CARD_SHARES_SQL,
   CARD_SHARES_TABLES,
