@@ -64,13 +64,20 @@ export function createFetchTransport(options: FetchTransportOptions): SyncTransp
 export interface WireError {
   readonly code: string;
   readonly detail?: unknown;
+  /** The server's own word on whether sending the same request again can help. */
+  readonly retryable?: boolean;
 }
 
-/** The `{error: {code, detail?}}` envelope of a non-2xx api response, when it has one. */
+/** The `{error: {code, retryable, detail?}}` envelope of a non-2xx api response, when it has one. */
 export function wireError(body: unknown): WireError | null {
   if (typeof body !== 'object' || body === null || !('error' in body)) return null;
   const { error } = body;
   if (typeof error !== 'object' || error === null || !('code' in error)) return null;
-  const { code, detail } = error as { code: unknown; detail?: unknown };
-  return typeof code === 'string' ? { code, detail } : null;
+  const { code, detail, retryable } = error as {
+    code: unknown;
+    detail?: unknown;
+    retryable?: unknown;
+  };
+  if (typeof code !== 'string') return null;
+  return { code, detail, ...(typeof retryable === 'boolean' ? { retryable } : {}) };
 }
