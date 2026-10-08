@@ -9,6 +9,7 @@ import {
   CATALOGS,
   DEPLOY_CONFIG,
   GATES,
+  NIGHTLY_SUITES,
   suitesFor,
   type ChangedFile,
   type DryRun,
@@ -165,7 +166,8 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
     );
     expect(db.flags.app_tests).toBe(false);
     expect(legs(db)).toEqual(everyLeg);
-    expect(db.databaseLegs[2]).toMatchObject({ tasks: '@cp/db#test', args: '-- --shard=1/3' });
+    expect(db.databaseLegs[2]?.tasks).toBe('@cp/db#test');
+    expect(db.databaseLegs[2]?.args).toMatch(/^-- --shard=1\/3 /);
   });
 
   it('runs every suite for a file turbo hashes into every task, or when the base is unknown', () => {
@@ -270,6 +272,30 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
     ]);
     // The api and the worker still build on the whole package.
     expect(legs(tests)).toEqual(['api', 'worker', 'other packages']);
+  });
+
+  it('leaves the nightly suites out of the database legs, and runs each one nightly', () => {
+    const suites = suitesFor(dryRun, changed('pnpm-lock.yaml'));
+    const nightly = parse(
+      readFileSync(path.join(repoRoot, '.github/workflows/nightly.yml'), 'utf8'),
+    ) as {
+      jobs: { suites: { strategy: { matrix: { include: { task: string; files: string }[] } } } };
+    };
+    const scheduled = nightly.jobs.suites.strategy.matrix.include;
+    expect(scheduled).toHaveLength(Object.keys(NIGHTLY_SUITES).length);
+
+    for (const [name, files] of Object.entries(NIGHTLY_SUITES)) {
+      const dir = folders(name)[0] ?? '';
+      const run = scheduled.find((entry) => entry.task.startsWith(`${name}#`));
+      // A suite left out of every pull request and run nowhere would be skipped silently.
+      expect(run?.files.split(' '), name).toEqual(files);
+      const packageLegs = suites.databaseLegs.filter((leg) => leg.tasks === run?.task);
+      expect(packageLegs.length, name).toBeGreaterThan(0);
+      for (const file of files) {
+        expect(existsSync(path.join(repoRoot, dir, file)), `${dir}/${file}`).toBe(true);
+        for (const leg of packageLegs) expect(leg.args, leg.suite).toContain(`--exclude ${file}`);
+      }
+    }
   });
 
   it('compiles natively for native sources and leaves everything else to the fingerprint', () => {

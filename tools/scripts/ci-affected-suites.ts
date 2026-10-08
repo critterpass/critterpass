@@ -135,6 +135,22 @@ export type GateName = keyof typeof gates;
 /** One gate per job-level `if` of ci.yml; the key is the output's name. */
 export const GATES: Record<GateName, Gate> = gates;
 
+/**
+ * Suites that run on the nightly schedule (.github/workflows/nightly.yml) instead of on every
+ * pull request: a random seed, wall-clock asserts on a shared runner, or minutes for one case.
+ * The database legs leave them out by these paths, relative to the package; `pnpm test` and
+ * `pnpm test:db` in the package still run them.
+ */
+export const NIGHTLY_SUITES = {
+  '@cp/db': ['test/fuzz/rls-fuzz.test.ts'],
+  '@cp/api': ['test/obs/bundle-traces.db.test.ts'],
+  '@cp/worker': ['test/jobs/ai/redraft.db.test.ts', 'test/safety/sos-latency.db.test.ts'],
+} as const;
+
+function withoutNightly(name: keyof typeof NIGHTLY_SUITES): string {
+  return NIGHTLY_SUITES[name].map((file) => `--exclude ${file}`).join(' ');
+}
+
 /** @cp/db's suite starts a Postgres per file, one file at a time: three runners take a third each. */
 const DB_SHARDS = 3;
 
@@ -204,7 +220,7 @@ export function suitesFor(dryRun: DryRun, changed: readonly ChangedFile[] | null
     databaseLegs.push({
       suite: 'api',
       tasks: '@cp/api#test:db',
-      args: '',
+      args: `-- ${withoutNightly('@cp/api')}`,
       ffmpeg: false,
     });
   }
@@ -212,7 +228,7 @@ export function suitesFor(dryRun: DryRun, changed: readonly ChangedFile[] | null
     databaseLegs.push({
       suite: 'worker',
       tasks: '@cp/worker#test:db',
-      args: '',
+      args: `-- ${withoutNightly('@cp/worker')}`,
       ffmpeg: true,
     });
   }
@@ -222,7 +238,7 @@ export function suitesFor(dryRun: DryRun, changed: readonly ChangedFile[] | null
       databaseLegs.push({
         suite: `db ${shard}/${DB_SHARDS}`,
         tasks: '@cp/db#test',
-        args: `-- --shard=${shard}/${DB_SHARDS}`,
+        args: `-- --shard=${shard}/${DB_SHARDS} ${withoutNightly('@cp/db')}`,
         ffmpeg: false,
       });
     }
