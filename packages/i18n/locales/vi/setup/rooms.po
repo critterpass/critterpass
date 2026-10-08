@@ -142,7 +142,7 @@ msgstr "Cần có sóng để chốt phòng."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.lock"
-msgstr "Ổn rồi"
+msgstr "Được đấy"
 
 #: ../../apps/mobile/src/features/setup/rooms/room-row.tsx
 msgid "setup.rooms.a11y.moveHere"
