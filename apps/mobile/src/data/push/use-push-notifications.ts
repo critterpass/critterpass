@@ -6,14 +6,18 @@
  * null where the platform has none.
  */
 import * as Notifications from 'expo-notifications';
-import { router, usePathname } from 'expo-router';
+import { usePathname } from 'expo-router';
 import { useEffect, useRef } from 'react';
+
+import { openLink } from '@/lib/navigation/open-in-tabs';
 
 import { activeConversationOf, foregroundBehavior, shouldPresentInForeground } from './foreground';
 import { isBackgroundAction } from './notification-actions';
 import { createTapRouter, tapFromNotification, type PushTap } from './routing';
 
-const tapRouter = createTapRouter({ navigate: (href) => router.push(href) });
+// A tap that lands on a trip, the wallet or the pass opens inside the tabs already under the
+// current page, never as a second copy of them on top of it.
+const tapRouter = createTapRouter({ navigate: openLink });
 
 /** Opens a push's link, once per notification (a background button with nothing to send uses it). */
 export function openPushTap(tap: PushTap | null): void {

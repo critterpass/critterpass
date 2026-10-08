@@ -10,6 +10,7 @@ import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -30,7 +31,6 @@ const useStyles = makeStyles((t) => ({
     paddingTop: t.space['32'],
     gap: t.space['12'],
   },
-  footer: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['8'] },
 }));
 
 export function MailboxConnectedView({
@@ -76,7 +76,7 @@ export function MailboxConnectedView({
     },
   };
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID={`bookings-mailbox-${outcome}`}>
+    <Scaffold variant="dark" testID={`bookings-mailbox-${outcome}`}>
       <View style={styles.content}>
         <Text variant="h1" accessibilityRole="header">
           {copy[outcome].title}
@@ -85,14 +85,15 @@ export function MailboxConnectedView({
           {copy[outcome].line}
         </Text>
       </View>
-      <View style={styles.footer}>
+      {/* The page sits in the Wallet tab: the footer stands above the tab bar and its guide button. */}
+      <KeyboardFooter testID="bookings-mailbox-footer">
         <PillButton
           label={t({ id: 'bookings.mailboxDone.back', message: 'Back to bookings' })}
           onPress={onDone}
           disabled={outcome === 'connecting'}
           testID="bookings-mailbox-back"
         />
-      </View>
+      </KeyboardFooter>
     </Scaffold>
   );
 }

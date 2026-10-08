@@ -1,6 +1,8 @@
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
+import type { Href } from 'expo-router';
 import { I18nManager, Pressable, View } from 'react-native';
+
+import { goBackOr } from '@/lib/navigation/back';
 
 import { useBackAffordance } from '../qa/back-affordance';
 import { useSurfaceTone } from '../surface/Scaffold';
@@ -50,8 +52,10 @@ function BackArrow({ color }: { readonly color: string }) {
 export interface BackEyebrowProps {
   /** The parent section, e.g. "Profile" (uppercased at render). */
   readonly label: string;
-  /** Defaults to going back one screen. */
+  /** Defaults to going back one screen, or to `fallback` when nothing is under this one. */
   readonly onPress?: (() => void) | undefined;
+  /** Where back lands when this screen was opened cold (a link, a push tap). @default Home */
+  readonly fallback?: Href | undefined;
   /**
    * Ink for the arrow and label. Defaults to the surface's: secondary text on dark screens, the
    * on-accent ink on a colour surface (a showdown half, a hero), paper ink on paper.
@@ -61,7 +65,13 @@ export interface BackEyebrowProps {
 }
 
 /** "← SECTION" back affordance of pushed screens (docs/design-system.md §2.1). */
-export function BackEyebrow({ label, onPress, color, testID = 'back-eyebrow' }: BackEyebrowProps) {
+export function BackEyebrow({
+  label,
+  onPress,
+  fallback,
+  color,
+  testID = 'back-eyebrow',
+}: BackEyebrowProps) {
   const { t } = useLingui();
   const styles = useStyles();
   const theme = useTheme();
@@ -80,7 +90,7 @@ export function BackEyebrow({ label, onPress, color, testID = 'back-eyebrow' }: 
       testID={testID}
       accessibilityRole="button"
       accessibilityLabel={t({ id: 'common.shell.backTo', message: `Back to ${section}` })}
-      onPress={onPress ?? (() => router.back())}
+      onPress={onPress ?? (() => goBackOr(fallback))}
       style={styles.button}
     >
       <BackArrow color={ink} />
