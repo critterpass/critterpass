@@ -49,11 +49,18 @@ const PINCH_OUT = 0.8;
 const useStyles = makeStyles((t) => ({
   fill: { flex: 1 },
   scroll: { paddingHorizontal: t.size.gutter, gap: t.space['14'] },
-  head: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
-  headStart: { flex: 1, alignItems: 'flex-start' },
-  titleRow: { flexDirection: 'row', alignItems: 'flex-end', gap: t.space['12'] },
-  title: { flex: 1, minWidth: 0 },
-  dateCol: { alignItems: 'flex-end', gap: t.space['4'] },
+  // The pills drop to a second line when the back label and the crew leave them no room.
+  head: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: t.space['8'] },
+  headStart: { flexGrow: 1, alignItems: 'flex-start' },
+  titleBlock: { gap: t.space['4'] },
+  // The date and the day trip's area sit above the title: beside it, a long area name squeezed
+  // the title to a word per line.
+  dateRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    columnGap: t.space['8'],
+  },
   // On its own line: beside the title it took the title's room ("RIVER LIGHTS AND EAS…").
   rain: { alignItems: 'flex-start' },
 }));
@@ -81,6 +88,8 @@ export interface DayPlanViewProps {
   readonly onOpenMap: () => void;
   readonly onOpenStop: (stableId: string) => void;
   readonly onAdd: () => void;
+  /** Opens a day trip's area page (change or remove the day trip), by the area's id. */
+  readonly onOpenArea?: ((areaId: string) => void) | undefined;
 }
 
 export function DayPlanView(props: DayPlanViewProps) {
@@ -115,6 +124,10 @@ export function DayPlanView(props: DayPlanViewProps) {
   const titles = new Map(day.stops.map((stop) => [stop.stableId, stop.title]));
   // A day trip opens and ends with how to get there; a day whose link is gone shows no line.
   const travel = day.area?.link == null ? undefined : travelLine(day.area.link);
+  const areaId = day.area?.id;
+  const openArea = props.onOpenArea;
+  const onTravel =
+    areaId === undefined || openArea === undefined ? undefined : () => openArea(areaId);
   const n = day.dayNo;
   // Pinching out zooms out to all days.
   const allDays = props.onAllDays;
@@ -164,17 +177,8 @@ export function DayPlanView(props: DayPlanViewProps) {
             onSelect={props.onSelectDay}
             testID="day-plan-day-chips"
           />
-          <View style={styles.titleRow}>
-            <Text
-              variant="h1"
-              style={styles.title}
-              numberOfLines={TITLE_LINES}
-              singleLine={false}
-              testID="day-plan-title"
-            >
-              {day.theme ?? t({ id: 'plan.dayPlan.dayTitle', message: `Day ${n}` })}
-            </Text>
-            <View style={styles.dateCol}>
+          <View style={styles.titleBlock}>
+            <View style={styles.dateRow}>
               {day.date === null ? null : (
                 <Text variant="eyebrow" color={theme.semantic.text.secondary}>
                   {withArea(dateLine(locale, day.date), day)}
@@ -184,6 +188,14 @@ export function DayPlanView(props: DayPlanViewProps) {
                 {dayOfTrip(n, model.days.length)}
               </Text>
             </View>
+            <Text
+              variant="h1"
+              numberOfLines={TITLE_LINES}
+              singleLine={false}
+              testID="day-plan-title"
+            >
+              {day.theme ?? t({ id: 'plan.dayPlan.dayTitle', message: `Day ${n}` })}
+            </Text>
           </View>
           {props.rain === null ? null : (
             <View style={styles.rain}>
@@ -215,7 +227,7 @@ export function DayPlanView(props: DayPlanViewProps) {
           {rows.length === 0 && (day.mine ?? []).length === 0 ? (
             <>
               {travel === undefined ? null : (
-                <TravelEdge line={travel} testID="day-plan-travel-out" />
+                <TravelEdge line={travel} onPress={onTravel} testID="day-plan-travel-out" />
               )}
               <Text variant="body" color={theme.semantic.text.secondary}>
                 {t({
@@ -230,6 +242,7 @@ export function DayPlanView(props: DayPlanViewProps) {
               stay={stayRows(locale, day, route)}
               mine={mineRows(locale, day)}
               travel={travel}
+              onTravel={onTravel}
               drag={props.drag}
               context={{
                 tripId: model.tripId,

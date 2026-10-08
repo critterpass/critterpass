@@ -22,6 +22,8 @@ import { tokens } from '@cp/design-tokens';
 
 import { isPhysicalSpring, springConfig } from '@/motion/easing';
 import { impact } from '@/motion/feedback';
+import { Icon } from '@/ui/icons/Icon';
+import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -38,18 +40,49 @@ const spring = isPhysicalSpring(tokens.motion.spring.snappy)
 const useStyles = makeStyles((t) => ({
   list: { gap: t.space['4'] },
   travel: { paddingVertical: t.space['8'], paddingHorizontal: t.space['4'] },
+  travelLink: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
+  travelText: { flexShrink: 1 },
 }));
 
-/** The link between the stay's city and the day's area, as a quiet line at an edge of the day. */
-export function TravelEdge({ line, testID }: { readonly line: string; readonly testID: string }) {
+/**
+ * The link between the stay's city and the day's area, as a quiet line at an edge of the day. With
+ * `onPress` it opens the area's page, where the day trip is changed or taken off.
+ */
+export function TravelEdge({
+  line,
+  onPress,
+  testID,
+}: {
+  readonly line: string;
+  readonly onPress?: (() => void) | undefined;
+  readonly testID: string;
+}) {
   const styles = useStyles();
   const theme = useTheme();
+  const text = (
+    <Text variant="bodySm" color={theme.semantic.text.secondary} style={styles.travelText}>
+      {line}
+    </Text>
+  );
+  if (onPress === undefined) {
+    return (
+      <View style={styles.travel} testID={testID}>
+        {text}
+      </View>
+    );
+  }
   return (
-    <View style={styles.travel} testID={testID}>
-      <Text variant="bodySm" color={theme.semantic.text.secondary}>
-        {line}
-      </Text>
-    </View>
+    <PressScale
+      widthClass="wide"
+      accessibilityRole="link"
+      accessibilityLabel={line}
+      onPress={onPress}
+      style={[styles.travel, styles.travelLink]}
+      testID={testID}
+    >
+      {text}
+      <Icon name="arrow" size={16} decorative color={theme.semantic.text.secondary} />
+    </PressScale>
   );
 }
 
@@ -261,6 +294,7 @@ export function StopTimeline({
   stay,
   mine,
   travel,
+  onTravel,
 }: {
   readonly rows: readonly StopRow[];
   readonly context: StopListContext;
@@ -271,6 +305,8 @@ export function StopTimeline({
   readonly mine?: readonly { readonly time: string; readonly stop: DayItem }[] | undefined;
   /** A day trip's way there and back ("about 3 h 30 by train each way"): opens and ends the day. */
   readonly travel?: string | undefined;
+  /** Opens the day trip's area page from either travel line. */
+  readonly onTravel?: (() => void) | undefined;
 }) {
   const styles = useStyles();
   const shared = useShared();
@@ -284,7 +320,9 @@ export function StopTimeline({
   }, [order]);
   return (
     <View style={styles.list} testID="day-plan-timeline">
-      {travel === undefined ? null : <TravelEdge line={travel} testID="day-plan-travel-out" />}
+      {travel === undefined ? null : (
+        <TravelEdge line={travel} onPress={onTravel} testID="day-plan-travel-out" />
+      )}
       {stay?.leave == null ? null : <StayEdge kind="leave" edge={stay.leave} />}
       {rows.map((row, index) => (
         <Block
@@ -298,7 +336,9 @@ export function StopTimeline({
         />
       ))}
       {stay?.back == null ? null : <StayEdge kind="back" edge={stay.back} />}
-      {travel === undefined ? null : <TravelEdge line={travel} testID="day-plan-travel-back" />}
+      {travel === undefined ? null : (
+        <TravelEdge line={travel} onPress={onTravel} testID="day-plan-travel-back" />
+      )}
       <MineList rows={mine ?? []} />
     </View>
   );

@@ -153,6 +153,10 @@ export function DayPlanScreen({
         onAdd={() => {
           if (search !== undefined) router.push(search);
         }}
+        onOpenArea={(areaId) => {
+          const area = hrefFor('day-trip', { tripId, destinationId: areaId });
+          if (area !== undefined) router.push(area);
+        }}
       />
       {open === null ? null : (
         <ItemSheetHost

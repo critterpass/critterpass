@@ -41,6 +41,9 @@ const useStyles = makeStyles((th) => ({
   header: {
     paddingHorizontal: th.space['20'],
     flexDirection: 'row',
+    // A long back label pushes the pill to its own line; neither is squeezed.
+    flexWrap: 'wrap',
+    columnGap: th.space['8'],
     alignItems: 'center',
     justifyContent: 'space-between',
     minHeight: th.space['32'] + th.space['12'],
