@@ -26,10 +26,14 @@ import type { TripMapSheetProps } from './sheet-props';
 import { useWayOut } from './use-ways-out';
 import { GuideSticker } from './guide-sticker';
 
+/** The least width the head's date line keeps beside the crew and the pill. */
+const HEAD_TEXT_ROOM = 120;
+
 const useStyles = makeStyles((t) => ({
   body: { gap: t.space['12'] },
-  headRow: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
-  headDate: { flex: 1, minWidth: 0 },
+  headRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: t.space['8'] },
+  // Room for a few words: with less, the pills drop to the next line instead of squeezing it.
+  headDate: { flexGrow: 1, flexShrink: 1, flexBasis: HEAD_TEXT_ROOM, minWidth: 0 },
   titleText: { gap: t.space['2'] },
   title: { flexShrink: 1 },
 }));
@@ -82,7 +86,7 @@ export function PeekSheet(
               name: member.name,
               joinIndex: member.joinIndex,
             }))}
-            max={5}
+            max={3}
             size="sm"
             testID="trip-map-going"
           />

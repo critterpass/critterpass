@@ -35,10 +35,6 @@ msgstr ""
 msgid "planDraft.dayCard.stops"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.step.balance"
 msgstr ""

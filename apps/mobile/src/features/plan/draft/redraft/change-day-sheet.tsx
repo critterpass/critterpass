@@ -24,6 +24,7 @@ import { draftRoutes } from '../routes';
 import { BoostOffer } from './boost-offer';
 import { ChangeDayView } from './change-day-view';
 import { outcomeLine } from './outcome-copy';
+import { DraftSheetWaiting } from './sheet-waiting';
 import { useSendRedraft } from './use-send-redraft';
 
 export interface ChangeDaySheetProps {
@@ -59,7 +60,14 @@ export function ChangeDaySheet({ tripId, initialDay, free }: ChangeDaySheetProps
   const redraft = useSendRedraft(tripId, trip?.draftVersionId ?? null, 0, () =>
     forgetChangeDayAsk(tripId),
   );
-  if (trip === undefined || trip === null || draft.review === null) return null;
+  if (trip === undefined || trip === null || draft.review === null) {
+    return (
+      <DraftSheetWaiting
+        tripId={tripId}
+        gone={trip === null || (trip !== undefined && draft.loaded)}
+      />
+    );
+  }
 
   const gate = redraftGate(trip.quota, free);
   const boost = redraftBoost();
