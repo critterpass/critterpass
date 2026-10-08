@@ -264,6 +264,10 @@ msgstr "Onde você vai ficar?"
 msgid "setup.rooms.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr "Você também pode seguir sem escolher."
+
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
 msgstr ""

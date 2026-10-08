@@ -264,6 +264,10 @@ msgstr ""
 msgid "setup.rooms.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
 msgstr ""

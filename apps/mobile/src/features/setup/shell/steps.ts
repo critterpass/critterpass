@@ -42,9 +42,9 @@ export function openableSteps(current: TripSetupStep): ReadonlySet<WizardStep> {
 
 /**
  * The step to draw for the one the address asks for. A link or push to a step setup has not
- * reached shows the step setup is on instead, so nobody acts on a step ahead of the crew. A step
- * this phone has just moved to itself is shown as asked: the trip's synced row follows a moment
- * later.
+ * reached shows the step setup is on instead, so nobody acts on a step ahead of the crew; the
+ * asked step shows once the trip's row says setup is there. A step this phone has just moved to
+ * itself is shown as asked: the trip's synced row follows a moment later.
  */
 export function shownStep(
   asked: WizardStep | null,

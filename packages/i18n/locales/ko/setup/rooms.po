@@ -264,6 +264,10 @@ msgstr "어디에 묵을까요?"
 msgid "setup.rooms.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr "고르지 않고 넘어가도 돼요."
+
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
 msgstr ""

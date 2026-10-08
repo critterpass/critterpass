@@ -231,12 +231,18 @@ export function RoomsView({
         </Text>
       )}
       {body}
-      {model.skippable && editable && !noStays && !solo ? (
+      {model.skippable && editable && !noStays ? (
         <Text variant="bodySm" color={theme.semantic.text.secondary} testID="setup-rooms-even">
-          {t({
-            id: 'setup.rooms.evenSplit',
-            message: 'One room for everyone, so the stay splits evenly. You can skip this step.',
-          })}
+          {solo
+            ? t({
+                id: 'setup.rooms.soloSkip',
+                message: 'You can also go on without picking one.',
+              })
+            : t({
+                id: 'setup.rooms.evenSplit',
+                message:
+                  'One room for everyone, so the stay splits evenly. You can skip this step.',
+              })}
         </Text>
       ) : null}
       {plan !== null && model.price !== null && model.currency !== null ? (

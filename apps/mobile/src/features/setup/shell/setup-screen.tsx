@@ -95,14 +95,15 @@ export function SetupScreen({
   const refusal = useRefusedCommand('set_setup_step');
   const current = trip?.step ?? 'when';
   const held = landingStep(current);
-  // A refused move left the app a step ahead of the server, or a link asked for a step setup has
-  // not reached: back to the step the server holds.
+  // A link that asks for a step setup has not reached draws the step it is on, and the asked one
+  // as soon as the trip's row says setup is there (a push can beat the sync that follows it).
   const viewing = shownStep(
     step,
     current,
     (asked) => !refusal.refused && movedTo.has(`${tripId}:${asked}`),
   );
-  const ahead = trip != null && step !== null && viewing !== step;
+  // A refused move left the app a step ahead of the server: back to the step the server holds.
+  const ahead = trip != null && refusal.refused && step !== null && viewing !== step;
   useEffect(() => {
     if (ahead) router.replace(setupRoutes.step(tripId, held));
   }, [ahead, tripId, held]);

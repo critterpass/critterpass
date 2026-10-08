@@ -52,8 +52,10 @@ export function WhenStep({ trip, shell }: StepProps) {
   const [chosen, setChosen] = useState<string | null>(null);
   const [failure, setFailure] = useState<WhenFailure | null>(null);
 
+  // Decided means setup has moved past this step: dates on a trip still on it are only a start,
+  // and the step keeps its lock so setup can move on.
   const locked =
-    trip.startDate !== null && trip.endDate !== null
+    trip.step !== 'when' && trip.startDate !== null && trip.endDate !== null
       ? { start: trip.startDate, end: trip.endDate }
       : null;
   // The locked days are drawn even where nobody shared a day in their month.

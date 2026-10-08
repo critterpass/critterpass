@@ -108,20 +108,18 @@ describe('setup screen', () => {
     });
   });
 
-  it('opens the step setup is on when a push links to one the crew has not reached', async () => {
+  it('draws the step setup is on for a push to one not reached, then the asked one once it is', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'when' });
     await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" />, { stack });
 
-    await waitFor(() =>
-      expect(router.replace).toHaveBeenCalledWith({
-        pathname: '/[tripId]/setup/[step]',
-        params: { tripId: TRIP_ID, step: 'when' },
-      }),
-    );
-    // The step ahead is never drawn, so its actions cannot be tapped.
-    expect(screen.getByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
+    // The step ahead is not drawn, so its actions cannot be tapped.
+    expect(await screen.findByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
     expect(screen.queryByTestId('must-dos-screen')).toBeNull();
+    // The push beat the sync: the trip's row arrives and the step asked for opens.
+    await stack.db.execute(`UPDATE trips SET setup_step = 'must_dos' WHERE id = ?`, [TRIP_ID]);
+    expect(await screen.findByTestId('must-dos-screen')).toBeTruthy();
+    expect(router.replace).not.toHaveBeenCalled();
   });
 
   it('puts the organiser back on the step the server holds when a step move is refused', async () => {

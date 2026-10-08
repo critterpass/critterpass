@@ -264,6 +264,10 @@ msgstr "Bạn sẽ ở đâu?"
 msgid "setup.rooms.title"
 msgstr "Ai ngủ đâu?"
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr "Bạn cũng có thể đi tiếp mà không cần chọn."
+
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
 msgstr "Mong muốn về phòng"

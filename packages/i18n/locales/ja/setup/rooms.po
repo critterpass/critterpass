@@ -264,6 +264,10 @@ msgstr "どこに泊まる？"
 msgid "setup.rooms.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr "選ばずに進むこともできます。"
+
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
 msgstr ""

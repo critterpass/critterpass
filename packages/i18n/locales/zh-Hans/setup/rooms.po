@@ -264,6 +264,10 @@ msgstr "你想住哪里？"
 msgid "setup.rooms.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.soloSkip"
+msgstr "也可以不选，直接继续。"
+
 #: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
 msgid "setup.rooms.wishes"
 msgstr ""
