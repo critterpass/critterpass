@@ -13,8 +13,11 @@
  * `--env NAME` forwards that environment variable to every flow as `-e NAME=value` when it is set.
  * `--video` records the screen during each flow into `videos/<flow>/` (./screen-video);
  * `SAVE_HIERARCHY=true` saves each Android flow's last screen (./screen-hierarchy).
+ * A failed flow runs once more on a relaunched app and a flow past `--flow-timeout <minutes>` is
+ * stopped (./flow-attempts): "passed on retry" and "timed out" are in the log, the job summary
+ * and the flow's JUnit report, and the first failure's files are kept in `first-failure/`.
  */
-import { spawn, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import {
   appendFileSync,
   copyFileSync,
@@ -29,8 +32,21 @@ import { parseArgs } from 'node:util';
 
 import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-flow-shots';
 import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
-import type { DevicePlatform } from './plan-shards';
+import { adb, captureFailure, relaunchApp, startRunnerActions } from './device-state';
 import { recordFlowMeasurements } from './encode-totals';
+import {
+  attemptResult,
+  flowOutcome,
+  flowTimeoutMinutes,
+  junitFailure,
+  keepFirstFailure,
+  markPassedOnRetry,
+  RESULT_CELL,
+  shouldRetry,
+  timedOutJunit,
+  type AttemptResult,
+} from './flow-attempts';
+import type { DevicePlatform } from './plan-shards';
 import { saveHierarchy } from './screen-hierarchy';
 import { appBackground, scanScreenshots, SCREEN_CHECKS_LOG, writeFindings } from './screen-scan';
 import { startScreenRecorder } from './screen-video';
@@ -44,6 +60,8 @@ export interface ShardOptions {
   out: string;
   env: string[];
   video: boolean;
+  /** Minutes one flow may run before it is stopped. */
+  flowTimeoutMinutes: number;
   flows: string[];
 }
 
@@ -57,6 +75,7 @@ export function parseShardArgs(argv: string[], baseDir: string): ShardOptions {
       out: { type: 'string' },
       env: { type: 'string', multiple: true },
       video: { type: 'boolean', default: false },
+      'flow-timeout': { type: 'string' },
     },
   });
   const { platform, device, out } = values;
@@ -71,6 +90,7 @@ export function parseShardArgs(argv: string[], baseDir: string): ShardOptions {
     out: path.resolve(baseDir, out),
     env: values.env ?? [],
     video: values.video,
+    flowTimeoutMinutes: flowTimeoutMinutes(values['flow-timeout']),
     flows: flows.map((flow) => path.resolve(baseDir, flow)),
   };
 }
@@ -103,75 +123,90 @@ export function annotation(level: 'error' | 'warning', title: string, message: s
   return `::${level} title=${escape(title).replace(/[:,]/g, ' ')}::${escape(message)}`;
 }
 
-function adb(serial: string, args: string[]): string {
-  const result = spawnSync('adb', ['-s', serial, ...args], {
-    encoding: 'utf8',
-    maxBuffer: 64 * 1024 * 1024,
-  });
-  return result.status === 0 ? result.stdout : '';
+/** One Maestro run of one flow, stopped at the time limit; its report goes to `junit/<slug>.xml`. */
+function runAttempt(options: ShardOptions, flow: string, slug: string, envArgs: string[]) {
+  const dir = path.join(options.out, 'maestro', slug);
+  const junit = path.join(options.out, 'junit', `${slug}.xml`);
+  mkdirSync(dir, { recursive: true });
+  const recorder = options.video
+    ? startScreenRecorder(options.platform, options.device, path.join(options.out, 'videos', slug))
+    : undefined;
+  const started = Date.now();
+  const ended = spawnSync(
+    MAESTRO,
+    [
+      ...['--device', options.device, 'test', flow, '--format', 'junit', '--output', junit],
+      ...['--test-output-dir', dir, '--debug-output', dir, '--flatten-debug-output'],
+      ...envArgs,
+    ],
+    {
+      cwd: dir,
+      stdio: 'inherit',
+      env: { ...process.env, MAESTRO_DRIVER_STARTUP_TIMEOUT: '360000' },
+      timeout: options.flowTimeoutMinutes * 60_000,
+    },
+  );
+  recorder?.stop();
+  const seconds = Math.round((Date.now() - started) / 1000);
+  const result = attemptResult(ended);
+  if (result === 'timed out')
+    writeFileSync(junit, timedOutJunit(slug, seconds, options.flowTimeoutMinutes));
+  if (result !== 'passed') captureFailure(options.platform, options.device, options.out, slug);
+  return { result, seconds, junit };
 }
 
-/** Runs the flows; returns the failed ones. Screenshots from passing and failing flows are kept. */
+/**
+ * Runs the flows; returns the ones that failed or timed out, and the ones that passed only on
+ * their retry. Screenshots from passing and failing flows are kept.
+ */
 export function runShard(options: ShardOptions): {
   failed: string[];
+  retried: string[];
   uiQa: Map<string, UiQaReport[]>;
 } {
   if (!existsSync(MAESTRO)) throw new Error(`Maestro not found at ${MAESTRO}`);
-  const work = path.join(options.out, 'maestro');
   const shots = path.join(options.out, 'screenshots');
-  for (const dir of [work, shots, path.join(options.out, 'junit')])
-    mkdirSync(dir, { recursive: true });
+  for (const dir of [shots, path.join(options.out, 'junit')]) mkdirSync(dir, { recursive: true });
   const envArgs = maestroEnvArgs(options.env, process.env);
   const failed: string[] = [];
+  const retried: string[] = [];
   const uiQa = new Map<string, UiQaReport[]>();
   const results: FlowScreens[] = options.flows.map((flow) => {
     const slug = flowSlug(flow, REPO_ROOT);
-    const dir = path.join(work, slug);
-    mkdirSync(dir, { recursive: true });
     const label = path.relative(REPO_ROOT, flow);
     if (options.platform === 'android') adb(options.device, ['logcat', '-c']);
     console.log(`::group::${label}`);
-    const recorder = options.video
-      ? startScreenRecorder(
-          options.platform,
-          options.device,
-          path.join(options.out, 'videos', slug),
-        )
-      : undefined;
-    const started = Date.now();
-    const result = spawnSync(
-      MAESTRO,
-      [
-        '--device',
-        options.device,
-        'test',
-        flow,
-        '--format',
-        'junit',
-        '--output',
-        path.join(options.out, 'junit', `${slug}.xml`),
-        '--test-output-dir',
-        dir,
-        '--debug-output',
-        dir,
-        '--flatten-debug-output',
-        ...envArgs,
-      ],
-      {
-        cwd: dir,
-        stdio: 'inherit',
-        env: { ...process.env, MAESTRO_DRIVER_STARTUP_TIMEOUT: '360000' },
-      },
-    );
-    recorder?.stop();
+    let attempt = runAttempt(options, flow, slug, envArgs);
+    const attempts: AttemptResult[] = [attempt.result];
+    let seconds = attempt.seconds;
+    if (shouldRetry(attempts)) {
+      const firstFailure = existsSync(attempt.junit)
+        ? (junitFailure(readFileSync(attempt.junit, 'utf8')) ?? 'failed')
+        : 'failed';
+      console.log(`FAIL ${label} (${String(seconds)}s): running it once more on a relaunched app`);
+      keepFirstFailure(options.out, slug);
+      relaunchApp(options.platform, options.device, flow);
+      attempt = runAttempt(options, flow, slug, envArgs);
+      attempts.push(attempt.result);
+      seconds += attempt.seconds;
+      if (attempt.result === 'passed' && existsSync(attempt.junit))
+        writeFileSync(
+          attempt.junit,
+          markPassedOnRetry(readFileSync(attempt.junit, 'utf8'), firstFailure),
+        );
+    }
     console.log('::endgroup::');
-    const seconds = Math.round((Date.now() - started) / 1000);
-    const passed = result.status === 0;
-    console.log(`${passed ? 'PASS' : 'FAIL'} ${label} (${String(seconds)}s)`);
-    if (!passed) {
+    const outcome = flowOutcome(attempts);
+    console.log(`${outcome.toUpperCase()} ${label} (${String(seconds)}s)`);
+    if (outcome === 'failed' || outcome === 'timed out') {
       failed.push(label);
-      console.log(annotation('error', `Maestro flow failed (${options.platform})`, label));
-      captureFailure(options, slug);
+      console.log(annotation('error', `Maestro flow ${outcome} (${options.platform})`, label));
+    } else if (outcome === 'passed on retry') {
+      retried.push(label);
+      const note = `${label}: the first run failed (first-failure/ in the shard's artifact)`;
+      console.log(
+        annotation('warning', `Maestro flow passed on retry (${options.platform})`, note),
+      );
     }
     if (options.platform === 'ios') {
       recordFlowUiQa(uiQa, flow, (appId) => pullUiQaLog(options.device, appId));
@@ -180,10 +215,10 @@ export function runShard(options: ShardOptions): {
       recordFlowMeasurements(options.out, slug, (args) => adb(options.device, args));
       saveHierarchy(MAESTRO, options.device, path.join(options.out, 'hierarchy', `${slug}.json`));
     }
-    summary(`| ${passed ? 'pass' : '**fail**'} | \`${label}\` | ${String(seconds)}s |`);
+    summary(`| ${RESULT_CELL[outcome]} | \`${label}\` | ${String(seconds)}s |`);
     // With --test-output-dir, `takeScreenshot` writes to its `screenshots/` folder; Maestro's own
     // `screenshot-❌-…` failure images are left out.
-    const taken = path.join(dir, 'screenshots');
+    const taken = path.join(options.out, 'maestro', slug, 'screenshots');
     mkdirSync(taken, { recursive: true });
     const names = flowScreenshotNames(flow, taken).filter((name) => !isMaestroFailureShot(name));
     return { flow, dir: taken, names };
@@ -191,33 +226,7 @@ export function runShard(options: ShardOptions): {
   for (const { from, to } of planCopies(results, shots)) {
     if (existsSync(from)) copyFileSync(from, to);
   }
-  return { failed, uiQa };
-}
-
-/** The device's screen and the app's recent log after a failed flow, into `<out>/failures/`. */
-function captureFailure(options: ShardOptions, slug: string): void {
-  const dir = path.join(options.out, 'failures');
-  mkdirSync(dir, { recursive: true });
-  const save = (file: string, command: string, args: string[]) => {
-    const result = spawnSync(command, args, { maxBuffer: 256 * 1024 * 1024 });
-    if (result.status === 0) writeFileSync(path.join(dir, file), result.stdout);
-  };
-  if (options.platform === 'android') {
-    save(`${slug}.png`, 'adb', ['-s', options.device, 'exec-out', 'screencap', '-p']);
-    save(`${slug}.logcat.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-b', 'all']);
-    save(`${slug}.crash.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-b', 'crash']);
-  } else {
-    spawnSync('xcrun', [
-      'simctl',
-      'io',
-      options.device,
-      'screenshot',
-      path.join(dir, `${slug}.png`),
-    ]);
-    const predicate = 'process BEGINSWITH "CritterPass" OR subsystem == "com.facebook.react.log"';
-    const logArgs = ['simctl', 'spawn', options.device, 'log', 'show', '--last', '10m'];
-    save(`${slug}.log.txt`, 'xcrun', [...logArgs, '--style', 'compact', '--predicate', predicate]);
-  }
+  return { failed, retried, uiQa };
 }
 
 function summary(line: string): void {
@@ -225,34 +234,18 @@ function summary(line: string): void {
   if (file) appendFileSync(file, `${line}\n`);
 }
 
-/** Serves ./runner-actions (push fixtures, network off/on) to the flows while they run. */
-function startRunnerActions(options: ShardOptions): () => void {
-  const child = spawn(
-    process.execPath,
-    [
-      ...process.execArgv,
-      path.join(import.meta.dirname, 'runner-actions.ts'),
-      '--platform',
-      options.platform,
-      '--device',
-      options.device,
-    ],
-    { stdio: 'inherit', env: process.env },
-  );
-  return () => child.kill();
-}
-
 function main(): void {
   const options = parseShardArgs(process.argv.slice(2), process.cwd());
   summary(`### ${options.platform} shard\n\n| result | flow | time |\n| --- | --- | --- |`);
-  const stopActions = startRunnerActions(options);
+  const stopActions = startRunnerActions(options.platform, options.device);
   let shard: ReturnType<typeof runShard>;
   try {
     shard = runShard(options);
   } finally {
     stopActions();
   }
-  const { failed, uiQa } = shard;
+  const { failed, retried, uiQa } = shard;
+  if (retried.length > 0) console.log(`Passed on retry: ${retried.join(', ')}`);
   for (const [flow, reports] of uiQa) {
     for (const report of reports)
       console.log(annotation('error', `ui-qa ${report.code}`, `${flow}: ${report.line}`));
@@ -282,7 +275,7 @@ function main(): void {
     console.log('screen checks: no findings');
   }
   if (failed.length > 0) {
-    console.error(`Maestro flow(s) failed: ${failed.join(', ')}`);
+    console.error(`Maestro flow(s) failed or timed out: ${failed.join(', ')}`);
     process.exitCode = 1;
   }
 }

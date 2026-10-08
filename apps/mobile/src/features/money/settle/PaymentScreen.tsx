@@ -12,7 +12,6 @@ import { useCommand } from '@/data/commands/use-command';
 import { feedback } from '@/motion';
 import { toast } from '@/motion/island-toast';
 
-import { minorToUnits, unitsToMinor } from '../add-expense/draft';
 import { MoneyLoading } from '../balances/BalancesScreen';
 import { buildBalances } from '../balances/model';
 import {
@@ -26,6 +25,7 @@ import { useSelectedTrip } from '../data/selected-trip';
 import { useMoneyServices } from '../data/services';
 import { useMoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
+import { amountPaidDigits, amountPaidMinor, isAmountPaidValid } from './amount-paid';
 import { settleRows } from './model';
 import { PaymentDetail, type RevealState } from './PaymentDetail';
 
@@ -97,9 +97,9 @@ export function PaymentScreen({ id }: { readonly id: string }) {
   if (row === null) return <MoneyLoading />;
   const tripId = ctx.trip.id;
   const name = (uid: string) => ctx.members.find((member) => member.userId === uid)?.name ?? '';
-  const amountDigits = digits ?? minorToUnits(row.amountMinor, row.currency);
-  const paid = unitsToMinor(amountDigits, row.currency);
-  const amountValid = paid > 0n && paid <= row.amountMinor;
+  const amountDigits = digits ?? amountPaidDigits(row.amountMinor, row.currency);
+  const paid = amountPaidMinor(amountDigits, row.amountMinor, row.currency);
+  const amountValid = isAmountPaidValid(paid, row.amountMinor);
 
   const done = (title: string) => {
     feedback.emit('success');

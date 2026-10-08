@@ -70,7 +70,7 @@ export interface RevealStageProps {
   readonly notes?: ReactNode;
   /** The losing guide and its line. */
   readonly consolation: { readonly guide: RevealGuide; readonly line: string } | null;
-  /** The organiser's button, or the line saying who has the setup. */
+  /** The organiser's button, or the line saying who has the setup over the way out. */
   readonly action: ReactNode;
   /** "Lisbon goes back in the deck for next time". */
   readonly backInDeck: string | null;
@@ -111,20 +111,22 @@ function clamp(value: number, low: number, high: number): number {
 }
 
 /**
- * The organiser's call to action as the render draws it on the winner's colour: an ink pill with
- * the label in the action yellow.
+ * The reveal's call to action as the render draws it on the winner's colour: an ink pill with the
+ * label in the action yellow. The organiser's is SET UP; everyone else's leaves the reveal.
  */
 export function RevealAction({
   label,
   onPress,
+  testID = 'reveal-set-up',
 }: {
   readonly label: string;
   readonly onPress: () => void;
+  readonly testID?: string | undefined;
 }) {
   const styles = useStyles();
   return (
     <View style={styles.action}>
-      <PillButton variant="tertiary" label={label} onPress={onPress} testID="reveal-set-up" />
+      <PillButton variant="tertiary" label={label} onPress={onPress} testID={testID} />
     </View>
   );
 }

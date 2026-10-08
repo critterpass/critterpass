@@ -2,9 +2,17 @@
  * Custom-scheme links (`critterpass://…`) used by notifications, widgets, Live Activities and other
  * extensions, which open the app directly and never go through the web. The part after `://` is
  * either a link-grammar path (`critterpass://i/ABC234`) or an in-app route
- * (`critterpass://trip/<id>/day/2`), which maps to the generic `app` kind.
+ * (`critterpass://trip/<id>/day/2`), which maps to the generic `app` kind and keeps its query
+ * (`critterpass://wallet/mailbox/connected?provider=gmail&status=connected`). The fragment, and
+ * the query of any other kind, is not part of the link.
  */
-import { LINK_GRAMMAR_PATH_PREFIXES, linkPath, parseLinkPath, type LinkTarget } from './grammar';
+import {
+  LINK_GRAMMAR_PATH_PREFIXES,
+  LINK_PATH_PREFIXES,
+  linkPath,
+  parseLinkPath,
+  type LinkTarget,
+} from './grammar';
 import { LINK_ENVIRONMENT_CONFIG, LINK_ENVIRONMENTS, type LinkEnvironment } from './hosts';
 
 export const APP_SCHEMES: readonly string[] = LINK_ENVIRONMENTS.map(
@@ -19,11 +27,15 @@ export function parseSchemeUrl(input: string): LinkTarget | null {
   if (match === null) return null;
   const scheme = (match[1] ?? '').toLowerCase();
   if (!APP_SCHEMES.includes(scheme)) return null;
-  const rest = (match[2] ?? '').split(/[?#]/)[0] ?? '';
+  const body = (match[2] ?? '').split('#')[0] ?? '';
+  const cut = body.indexOf('?');
+  const rest = cut === -1 ? body : body.slice(0, cut);
+  const query = cut === -1 ? '' : body.slice(cut);
   const path = `/${rest.replace(/^\/+/, '')}`;
   const first = path.split('/')[1] ?? '';
+  if (first === LINK_PATH_PREFIXES.app) return parseLinkPath(`${path}${query}`);
   if (LINK_GRAMMAR_PATH_PREFIXES.includes(first)) return parseLinkPath(path);
-  return parseLinkPath(`/app${path}`);
+  return parseLinkPath(`/app${path}${query}`);
 }
 
 export function buildSchemeUrl(target: LinkTarget, env: LinkEnvironment): string {
@@ -31,6 +43,8 @@ export function buildSchemeUrl(target: LinkTarget, env: LinkEnvironment): string
   // An in-app route is written bare unless its first segment would read as a link kind.
   const bareAppRoute =
     target.kind === 'app' && !LINK_GRAMMAR_PATH_PREFIXES.includes(target.path.split('/')[0] ?? '');
-  const path = bareAppRoute ? `/${target.path}` : linkPath(target);
+  const path = bareAppRoute
+    ? linkPath(target).slice(`/${LINK_PATH_PREFIXES.app}`.length)
+    : linkPath(target);
   return `${scheme}:/${path}`;
 }
