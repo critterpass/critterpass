@@ -10,7 +10,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { lateStep } from '@/features/plan';
 import { useGuideText } from '@/lib/i18n/guide-text';
 import { getLocationEngine } from '@/lib/location/use-location-status';
@@ -69,7 +69,7 @@ export function RunningLateScreen({ id }: { readonly id: string }) {
 export function KnownLateScreen({ id }: { readonly id: string }) {
   const me = useOwnerUid();
   const words = useGuideText();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const late = useLiveRows<LateRowData>(LATE_SQL, [id], ['disruptions']);
   const row = late.rows[0] ?? null;
   const place = useLiveRows<PlaceRow>(
@@ -92,7 +92,7 @@ export function KnownLateScreen({ id }: { readonly id: string }) {
   const choose = useCommand(chooseLateOptionCommand);
   const [sending, setSending] = useState(false);
   const fix = getLocationEngine()?.recentFixes().at(-1) ?? null;
-  const offline = sync.phase === 'offline';
+  const offline = syncPhase === 'offline';
   const map =
     place === undefined || offline ? null : (
       <LateMap place={place} you={fix} destinationSlug={trip?.destination_slug ?? null} />

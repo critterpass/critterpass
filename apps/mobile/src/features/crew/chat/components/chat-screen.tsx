@@ -9,7 +9,7 @@ import { createElement, useCallback, useContext, useMemo, useRef, useState } fro
 import { View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { KeyboardFooter } from '@/ui';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -65,8 +65,8 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   const timeline = useMessages(crewId, me);
   const { send, retry, discard } = useSendMessage(crewId);
   const markSeen = useMarkRead(crewId, info.lastReadSeq);
-  const sync = useSyncStatus();
-  const mediaControls = useMediaControls(crewId, sync.phase !== 'offline');
+  const syncPhase = useSyncPhase();
+  const mediaControls = useMediaControls(crewId, syncPhase !== 'offline');
   const composer = useRef<ChatComposerHandle>(null);
   const reactions = useReactions(crewId, me);
   const { edit } = useMessageActions(crewId);
@@ -175,7 +175,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
             people={info.members.length}
             guideName={guideName}
           />
-          {sync.phase === 'offline' ? <OfflineBanner waiting={waiting} /> : null}
+          {syncPhase === 'offline' ? <OfflineBanner waiting={waiting} /> : null}
           <View style={styles.root}>
             {!timeline.loaded || me === null ? (
               <ChatSkeleton />

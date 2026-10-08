@@ -8,7 +8,7 @@ import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { EmptyState } from '@/ui/states/EmptyState';
@@ -85,7 +85,7 @@ export function BalancesScreen() {
   useReceiptQueueDrain(useMoneyServices());
   const ctx = useMoneyContext(selected);
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const { t } = useLingui();
   const [sheet, setSheet] = useState<'currency' | 'trip' | null>(null);
   const currency = ctx.crew?.settlementCurrency ?? 'USD';
@@ -152,7 +152,7 @@ export function BalancesScreen() {
           latest={items[0] ?? null}
           empty={items.length === 0 && rows.ledger.length === 0}
           solo={isSolo(ctx.uid ?? '', ctx.members, model.lines)}
-          offline={sync.phase === 'offline'}
+          offline={syncPhase === 'offline'}
           tripLabel={ctx.trips.length > 1 ? tripLabel(trip, fallbackTrip) : null}
           onTrip={() => setSheet('trip')}
           onCurrency={() => setSheet('currency')}

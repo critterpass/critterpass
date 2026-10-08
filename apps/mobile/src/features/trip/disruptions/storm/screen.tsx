@@ -11,7 +11,7 @@ import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
 
 import { useLiveRows, useOwnerUid } from '../../hub/data/live-rows';
@@ -45,7 +45,7 @@ interface TripRow {
 
 export function StormScreen({ pollId }: { readonly pollId: string }) {
   const me = useOwnerUid();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const words = useGuideText();
   const storm = useLiveRows<StormRowData>(STORM_SQL, [pollId], ['disruptions']);
   const row = storm.rows[0] ?? null;
@@ -98,7 +98,7 @@ export function StormScreen({ pollId }: { readonly pollId: string }) {
       tz={trip?.tz ?? 'UTC'}
       guide={guide}
       guideName={guideName(guide, trip?.guide_name)}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       people={people}
       booker={booker}
       sending={sending}

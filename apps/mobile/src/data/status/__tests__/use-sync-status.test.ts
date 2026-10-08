@@ -4,6 +4,7 @@
  * to a sync endpoint that refuses it.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import type { SyncStatus } from '@powersync/common';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 
 import { createSyncConnector } from '../../powersync/connector';
@@ -16,6 +17,7 @@ import { enqueue, eventually } from '../../powersync/test-support/queue-fixtures
 import {
   createSyncStatusStore,
   deriveSyncStatus,
+  useSyncPhase,
   useSyncStatus,
   type SyncStatusInput,
 } from '../use-sync-status';
@@ -133,5 +135,56 @@ describe('sync status store', () => {
     await waitFor(() => expect(result.current.phase).toBe('offline'));
     await act(() => stack.network.set(true));
     await waitFor(() => expect(result.current.phase).toBe('connecting'));
+  });
+
+  it('does not re-render a phase reader for an upload or a checkpoint that keeps the phase', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    const full = await renderHook(() => useSyncStatus(), { wrapper: stack.wrapper });
+    let phaseRenders = 0;
+    const phase = await renderHook(
+      () => {
+        phaseRenders += 1;
+        return useSyncPhase();
+      },
+      { wrapper: stack.wrapper },
+    );
+    expect(phase.result.current).toBe('connecting');
+    const whileConnecting = phaseRenders;
+
+    // An upload attempt: `uploading` flips and a retry is scheduled; the phase stays.
+    await enqueue(stack.db, stack.uid, 'create_test_crew', {});
+    await act(() => stack.value.queue.flush());
+    await waitFor(() => expect(full.result.current.nextUploadRetryAt).not.toBeNull());
+    expect(phaseRenders).toBe(whileConnecting);
+
+    // The sync stream reports as it does on a device: connected and synced, then a later
+    // checkpoint that only moves the last sync time.
+    const report = async (lastSyncedAt: Date) => {
+      const status = {
+        connected: true,
+        connecting: false,
+        hasSynced: true,
+        lastSyncedAt,
+        dataFlowStatus: { downloading: false, uploading: false },
+      } as SyncStatus;
+      await act(() => {
+        Object.assign(stack.db, { currentStatus: status });
+        stack.db.iterateListeners((listener) => listener.statusChanged?.(status));
+      });
+    };
+    await report(new Date('2026-09-27T10:00:00Z'));
+    await waitFor(() => expect(phase.result.current).toBe('online'));
+    const whileOnline = phaseRenders;
+    expect(whileOnline).toBe(whileConnecting + 1);
+
+    await report(new Date('2026-09-27T10:00:30Z'));
+    await waitFor(() =>
+      expect(full.result.current.lastSyncedAt).toEqual(new Date('2026-09-27T10:00:30Z')),
+    );
+    expect(phase.result.current).toBe('online');
+    expect(phaseRenders).toBe(whileOnline);
+
+    await full.unmount();
+    await phase.unmount();
   });
 });

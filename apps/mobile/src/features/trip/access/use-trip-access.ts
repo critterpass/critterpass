@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { TRIP_STREAM_TTL_S } from '@/data/powersync/use-trip-streams';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 
 import { watchQuery } from '../hub/data/live-rows';
 import { tripAccess, type TripAccess } from './trip-access';
@@ -18,7 +18,7 @@ interface Seen {
 /** Live access to one trip id; `null` (no trip id in the route) is always `checking`. */
 export function useTripAccess(tripId: string | null): TripAccess {
   const { db } = useLocalFirst();
-  const online = useSyncStatus().phase === 'online';
+  const online = useSyncPhase() === 'online';
   const [seen, setSeen] = useState<Seen>({ tripId, hasRow: null, streamSynced: false });
 
   useEffect(() => {

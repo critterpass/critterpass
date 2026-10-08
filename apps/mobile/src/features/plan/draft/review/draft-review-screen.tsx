@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
@@ -35,7 +35,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);
   const locale = useLocale();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const restore = useCommand(restoreDraftVersionCommand);
   const [history, setHistory] = useState(false);
   // The day she last opened: Change a day starts there, not on day 1.
@@ -140,7 +140,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
         locale={locale}
         model={draft.review}
         quota={trip.quota}
-        offline={sync.phase === 'offline'}
+        offline={syncPhase === 'offline'}
         openRedraft={
           open === null
             ? null
