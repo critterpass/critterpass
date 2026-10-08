@@ -56,16 +56,16 @@ msgstr ""
 msgid "recap.link.critters"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-msgid "recap.link.days"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.value"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.cover.days"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+msgid "recap.link.days"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
@@ -180,12 +180,12 @@ msgstr ""
 msgid "recap.memory.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-msgid "recap.link.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+msgid "recap.link.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
@@ -533,6 +533,10 @@ msgid "recap.signature.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcardDetail"
+msgstr "写真1枚とひとこと、クルーへ"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.rateDetail"
 msgstr ""
 
@@ -560,6 +564,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.paco"
 msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photos"
+msgstr "写真"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
@@ -608,6 +616,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 msgid "recap.memory.send"
 msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcard"
+msgstr "ポストカードを送る"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -725,6 +737,10 @@ msgstr ""
 msgid "recap.link.goneLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photosDetail"
+msgstr "クルーのアルバムとベスト"
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.explorer"
 msgstr ""
@@ -833,12 +849,12 @@ msgstr ""
 msgid "recap.link.eyebrowWhen"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-msgid "recap.link.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+msgid "recap.link.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
