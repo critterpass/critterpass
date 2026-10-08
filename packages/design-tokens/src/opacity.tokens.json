@@ -1,0 +1,14 @@
+{
+  "opacity": {
+    "disabled": {
+      "$type": "number",
+      "$value": 0.4,
+      "$description": "A control that cannot be used right now"
+    },
+    "pending": {
+      "$type": "number",
+      "$value": 0.55,
+      "$description": "Something sent from this phone that the server has not confirmed yet"
+    }
+  }
+}
