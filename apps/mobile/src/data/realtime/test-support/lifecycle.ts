@@ -3,6 +3,7 @@
  * React Native's `AppState`, and polling waits for real network effects.
  */
 import type { AppStateSource } from '../client';
+import { pause } from '@/lib/test-support/settle';
 
 export interface Lifecycle extends AppStateSource {
   emit(state: string): void;
@@ -27,7 +28,7 @@ export function lifecycle(initial = 'active'): Lifecycle {
 }
 
 export function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return pause(ms);
 }
 
 /** Polls `condition` every 20 ms until it holds, failing after `timeoutMs`. */

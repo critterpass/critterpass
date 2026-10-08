@@ -12,7 +12,6 @@ jest.mock('@shopify/react-native-skia', () => {
   return { Canvas: passthrough, Group: passthrough, Circle: passthrough };
 });
 jest.mock('../feedback', () => ({ impact: jest.fn() }));
-jest.mock('expo-router', () => ({ useIsFocused: jest.fn(() => true) }));
 
 import { act, render, renderHook, screen, waitFor } from '@testing-library/react-native';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';

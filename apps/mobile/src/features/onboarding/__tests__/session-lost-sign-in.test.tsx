@@ -2,7 +2,6 @@
  * When a start keeps unsent changes because the session is gone, the session gate opens the
  * returning sign-in once, however many layouts ask the gate.
  */
-jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook } from '@testing-library/react-native';

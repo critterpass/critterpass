@@ -3,10 +3,6 @@
  * critter on its own (not a timed or crew-together one, not another place's, and only the quest's
  * set when it names one), how far it is, and GO for directions in the maps app.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

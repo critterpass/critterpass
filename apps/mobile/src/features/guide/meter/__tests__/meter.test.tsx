@@ -2,9 +2,6 @@
  * The guide meter: the chip on the free, boosted and Pass+ meters, the 4b-1 limit card with its
  * actions and hint, and the countdown, which comes from `reset_at` alone.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';

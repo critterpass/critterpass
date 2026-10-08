@@ -3,9 +3,6 @@
  * navigates inside them, so a second tab navigator is never stacked; from inside the tabs it only
  * navigates. A link of unknown shape takes that path only when the tabs own it.
  */
-jest.mock('expo-router', () => ({
-  router: { dismissTo: jest.fn(), navigate: jest.fn(), push: jest.fn() },
-}));
 jest.mock('expo-router/build/global-state/navigationRef', () => ({
   navigationRef: { isReady: jest.fn(() => true), getRootState: jest.fn() },
 }));

@@ -4,8 +4,6 @@
  * a 375 pt phone's card, and moving the knob never changes the size. The device's text measuring
  * is the boundary here: glyph widths are fed in as a fraction of each glyph's own font size.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';

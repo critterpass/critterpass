@@ -3,10 +3,8 @@
  * own `go.` host, an offline tap still opens the bridge, and a partner that isn't set up opens
  * nothing. The catalogue's English matches the copy rules word for word.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import { SUB_ID_PATTERN, SUPPLIER_COPY_EN, type RecordSupplierClickPayload } from '@cp/domain';
 

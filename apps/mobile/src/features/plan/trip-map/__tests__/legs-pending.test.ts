@@ -5,14 +5,8 @@
  * While it lasts no estimate is printed as a figure; a stored leg is shown as it is; and after it
  * the estimate comes back marked "about".
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { i18n } from '@lingui/core';
 
 import { routeOf } from '../day-route';

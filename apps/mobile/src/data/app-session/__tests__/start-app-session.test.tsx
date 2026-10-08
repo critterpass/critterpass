@@ -4,7 +4,7 @@
  * stand-ins are the api (an in-memory session) and the OS lifecycle; realtime dials a port nothing
  * listens on.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
@@ -14,13 +14,6 @@ import { useRealtimeClient } from '../../realtime/use-channel';
 import { AppSessionRoot } from '../AppSessionRoot';
 import { startAppSession, type AppSession } from '../start-app-session';
 import { memoryLastUid, sessionHarness, type SessionHarness } from '../test-support/session-deps';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 let harnesses: SessionHarness[] = [];
 

@@ -3,10 +3,8 @@
  * plan, the journey is an estimate by elapsed time, the phrase is in the drivers' language, and the
  * ride card shows Grab's estimate only when Grab gave one: never a driver or a booked car.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import type { RideQuoteResult, SupplierCopy } from '@cp/domain';
 import type { MessageDescriptor } from '@lingui/core';

@@ -4,7 +4,7 @@
  * how the online path maps an error envelope's `retryable` flag onto `rejected` / `unavailable`.
  * The transport is the only double: it records the body and answers like the api would.
  */
-import { afterAll, beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 
 import { commandEnvelopeSchema, generateUuidV7, startPassPayloadSchema } from '@cp/domain';
 
@@ -19,13 +19,6 @@ import type { SyncTransport, TransportResponse } from '../../powersync/transport
 import { createCommandClient } from '../client';
 import { deviceTimeZone } from '../device';
 import { defineClientCommand } from '../summaries';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const START_PASS = defineClientCommand<{ pass_id: string }>({ name: 'start_pass', offline: false });
 

@@ -3,9 +3,6 @@
  * screen, never on another screen, over a ceremony or a sheet, or while typing, and once. The engine is the real one over a
  * stand-in for the native session.
  */
-// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../../test-support/skia-double'));
 let mockPathname = '/pass';
 jest.mock('expo-router', () => ({
   usePathname: () => mockPathname,

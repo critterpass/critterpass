@@ -3,14 +3,8 @@
  * plan's current version leaves it (a pinned idea by its own name and spot), a place I hid leaves
  * it for me only, and a removed idea is gone. Read from the real local database.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';

@@ -3,19 +3,13 @@
  * offline window stay subscribed with no screen open, a trip moving into the window is picked up,
  * and trips outside it are left to the screens that show them.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { waitFor } from '@testing-library/react-native';
 
 import { localToday, startOfflineTripHolds } from '../offline-trip-holds';
 import { openTestLocalFirst, type TestLocalFirst } from '../test-support/local-first-fixture';
 import { removeDir } from '../test-support/open-node-database';
 import { TRIP_STREAMS } from '../use-trip-streams';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
 
 /** The holds read the date they are given, never the real clock. */
 const TODAY = '2026-10-05';

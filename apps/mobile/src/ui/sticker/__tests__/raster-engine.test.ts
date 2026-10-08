@@ -4,6 +4,8 @@
  * Skia's native module is stood in for by a real CanvasKit (WASM Skia) behind the same calls, so a
  * refactor that routes stickers back to GPU surfaces fails here.
  */
+jest.unmock('@/ui/sticker/Sticker');
+
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 
 import type { SkiaEngine } from '@cp/critter-art/skia';

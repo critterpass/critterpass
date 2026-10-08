@@ -2,6 +2,8 @@
  * `/` must open the HOME tab, not the dev group's index (both live at `/`), including while the
  * other tabs' areas have not shipped their route files yet.
  */
+jest.unmock('expo-router');
+
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';

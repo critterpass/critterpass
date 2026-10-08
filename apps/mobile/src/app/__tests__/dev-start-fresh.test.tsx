@@ -1,6 +1,3 @@
-// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 const mockStartFresh =
   jest.fn<(options: { leaveAccountOnServer: boolean }) => Promise<Record<string, unknown>>>();
 jest.mock('@/lib/dev-tools/start-fresh', () => ({

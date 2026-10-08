@@ -23,12 +23,6 @@ import {
   tempDatabaseDir,
 } from '../test-support/open-node-database';
 
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../test-support/node-realm').powersyncCommon,
-);
-
 const OLD_UID = '0190f5a4-0000-7000-8000-00000000000a';
 const UID = '0190f5a4-0000-7000-8000-00000000000b';
 const OPTIONS = {

@@ -2,7 +2,7 @@
  * The command client's offline path on a real encrypted database: one local transaction queues the
  * envelope, its summary and its optimistic overlay rows; nothing is half-written on failure.
  */
-import { describe, expect, it, jest, afterEach } from '@jest/globals';
+import { describe, expect, it, afterEach } from '@jest/globals';
 
 import { listQueuedCommands } from '../../status/use-queued-commands';
 import { removeDir } from '../../powersync/test-support/open-node-database';
@@ -16,13 +16,6 @@ import { getOrCreateInstallId } from '../../push/register';
 import { loadOrCreateDeviceId } from '../device';
 import { summaryOrName } from '../summaries';
 import { defineTestCommand } from '../test-support/test-command';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 const createCrew = defineTestCommand({
   name: 'create_test_crew',

@@ -1,7 +1,3 @@
-// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-double'));
-jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 // The sticker's pixels come from native Skia, which Jest lacks; its own suite renders them with
 // CanvasKit. Here it keeps the same accessible element (size, role, label) so the audit sees what
 // VoiceOver sees around every sticker.

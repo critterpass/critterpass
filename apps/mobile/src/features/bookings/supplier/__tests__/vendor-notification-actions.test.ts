@@ -2,9 +2,8 @@
  * SEND on a message-to-a-place push approves the text the desk holds, once, and only while that
  * draft still waits for a yes; the app opens on the trip's messages either way.
  */
-jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import type { VendorThreadView } from '@cp/domain';
 import type * as Notifications from 'expo-notifications';
 

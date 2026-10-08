@@ -4,7 +4,7 @@
  * push module and the api transport are the stand-ins (native and network boundaries); the
  * session itself starts on a real database.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { render, waitFor } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
@@ -13,13 +13,6 @@ import type { RegisterDeviceEnvelope } from '../../push/register';
 import type { PushLifecycleDeps } from '../../push/use-push-lifecycle';
 import { AppSessionRoot } from '../AppSessionRoot';
 import { sessionHarness, type SessionHarness } from '../test-support/session-deps';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 let harness: SessionHarness | undefined;
 

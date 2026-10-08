@@ -1,6 +1,8 @@
+jest.unmock('expo-router');
+
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { beforeAll, describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Slot } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import { Text } from 'react-native';

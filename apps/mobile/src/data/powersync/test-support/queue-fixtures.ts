@@ -8,6 +8,7 @@ import { generateUuidV7 } from '@cp/domain';
 import { insertQueuedCommand } from '../queue-store';
 import type { SyncTransport } from '../transport';
 import { createUploadQueue, type BackoffPolicy, type UploadQueue } from '../upload-queue';
+import { outsideAct } from '@/lib/test-support/settle';
 
 /** Deterministic, fast backoff: 20 ms doubling to 400 ms, always the full delay. */
 export const TEST_BACKOFF: BackoffPolicy = { baseMs: 20, maxMs: 400, random: () => 1 };
@@ -80,8 +81,10 @@ export async function commandRows(db: AbstractPowerSyncDatabase) {
 /** Polls `check` until it returns true (real timers; the queue's backoff is tens of ms). */
 export async function eventually(check: () => Promise<boolean>, timeoutMs = 10_000): Promise<void> {
   const deadline = Date.now() + timeoutMs;
-  while (!(await check())) {
-    if (Date.now() > deadline) throw new Error('condition not met in time');
-    await new Promise((resolve) => setTimeout(resolve, 20));
-  }
+  await outsideAct(async () => {
+    while (!(await check())) {
+      if (Date.now() > deadline) throw new Error('condition not met in time');
+      await new Promise((resolve) => setTimeout(resolve, 20));
+    }
+  });
 }

@@ -3,14 +3,8 @@
  * comment and my +1 are queued with the wire shape the api's comment commands take and show on
  * the thread at once, and undoing the guide's change queues `undo_guide_action`.
  */
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import {

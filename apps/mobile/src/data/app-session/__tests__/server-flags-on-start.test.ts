@@ -2,7 +2,7 @@
  * App start asks the api for the account's flags (`GET /v1/config/bootstrap`) and asks again on
  * every return to the foreground; an offline launch keeps the last answer, and sign-out forgets it.
  */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import {
   applyServerFlags,
@@ -13,13 +13,6 @@ import bootstrap from '../../../lib/analytics/test-support/config-bootstrap.json
 import { resetOnSignOutHooksForTests, runOnSignOutHooks } from '../../auth/sign-out-hooks';
 import { waitUntil } from '../../realtime/test-support/lifecycle';
 import { memoryLastUid, sessionHarness, type SessionHarness } from '../test-support/session-deps';
-
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('../../powersync/test-support/node-realm')
-      .powersyncCommon,
-);
 
 let harness: SessionHarness | undefined;
 

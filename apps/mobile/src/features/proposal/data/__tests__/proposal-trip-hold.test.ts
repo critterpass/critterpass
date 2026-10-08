@@ -15,16 +15,6 @@ import { TRIP_STREAMS } from '@/data/powersync/use-trip-streams';
 
 import { holdProposalTrip } from '../proposal';
 
-jest.mock('@shopify/react-native-skia', () =>
-  jest.requireActual<object>('@/ui/test-support/skia-double'),
-);
-jest.mock(
-  '@powersync/common',
-  () =>
-    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
-      .powersyncCommon,
-);
-
 const CREW = '0199a6f0-0000-7000-8000-00000000c001';
 const PROPOSED = '0199a6f0-0000-7000-8000-00000000e001';
 const REVIEW = '0199a6f0-0000-7000-8000-00000000e002';
