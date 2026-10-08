@@ -4,6 +4,8 @@
  * and a member sends to the crew; "Send it to the crew first" asks the crew either way.
  */
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useEffect, useMemo, useState } from 'react';
 import { selectOrdinal, t } from '@lingui/core/macro';
 
@@ -116,13 +118,13 @@ export function LessDrivingScreen({
           ? t({ id: 'plan.check.lessDriving.applied', message: 'New order, less driving' })
           : t({ id: 'plan.check.toast.sent', message: 'Sent to the crew' }),
     });
-    router.back();
+    goBackOr(checkRoutes.check(tripId));
   };
 
   return (
     <LessDrivingView
       backLabel={date === null ? '' : dayTag(date)}
-      onBack={() => router.back()}
+      onBack={() => goBackOr(checkRoutes.check(tripId))}
       state={answer === null ? 'loading' : answer.found ? 'ready' : 'none'}
       before={driveTitle(answer?.beforeMin ?? 0)}
       after={driveTitle(shown)}

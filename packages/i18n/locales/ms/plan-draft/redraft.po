@@ -23,11 +23,11 @@ msgstr ""
 msgid "planDraft.last.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinkingAny"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
 msgid "planDraft.diff.thinking"
 msgstr ""
 
@@ -130,6 +130,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.summaryPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
+msgid "planDraft.diff.thinkingOffline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
@@ -255,6 +259,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
 msgid "planDraft.change.dropped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-thinking.tsx
+msgid "planDraft.diff.thinkingSlow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts

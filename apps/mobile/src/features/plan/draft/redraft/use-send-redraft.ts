@@ -26,7 +26,11 @@ export function useSendRedraft(
   const request = useCommand(requestRedraftCommand);
   const [outcome, setOutcome] = useState<RedraftOutcome | null>(null);
   const send = async (ask: RedraftAsk) => {
-    if (baseVersion === null) return;
+    // No draft to redraft against (it has not synced, or it is gone): the sheet says it did not go.
+    if (baseVersion === null) {
+      setOutcome({ kind: 'failed' });
+      return;
+    }
     setOutcome(null);
     const note = ask.note.trim();
     const result = await request.send({

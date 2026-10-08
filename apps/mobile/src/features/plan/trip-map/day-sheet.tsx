@@ -28,10 +28,14 @@ import type { TripMapSheetProps } from './sheet-props';
 import { StopList } from './stop-list';
 import { buildStopRows, mineRows, stayRows } from './stop-rows';
 
+/** The least width the head's date line keeps beside its pills. */
+const HEAD_TEXT_ROOM = 120;
+
 const useStyles = makeStyles((t) => ({
   body: { gap: t.space['12'] },
-  head: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
-  headText: { flex: 1, minWidth: 0 },
+  head: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: t.space['8'] },
+  // Room for a few words: with less, the pills drop to the next line instead of squeezing it.
+  headText: { flexGrow: 1, flexShrink: 1, flexBasis: HEAD_TEXT_ROOM, minWidth: 0 },
   title: { gap: t.space['2'] },
 }));
 

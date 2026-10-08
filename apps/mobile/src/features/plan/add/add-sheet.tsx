@@ -8,8 +8,11 @@
  * for later" keeps it in the trip's Ideas instead. Offline it still adds from the last fit, which
  * the queue sends later.
  */
+import { upper } from '@cp/i18n';
 import { generateStableId } from '@cp/domain';
-import { router, useRootNavigationState } from 'expo-router';
+import { useRootNavigationState } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 
 import { useLocalFit } from '@/data/fit/local-fit';
@@ -19,6 +22,7 @@ import { useDayEditing } from '@/features/plan/day/use-day-editing';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';
 
+import { tripPlanRoutes } from '../hub/routes';
 import { usePlanGuide } from '../plan-guide';
 import { AddBlock } from './add-block';
 import { addSubmission } from './add-submit';
@@ -66,10 +70,11 @@ export interface AddSheetProps {
   readonly afterStableId?: string | undefined;
 }
 
-const close = () => (router.canGoBack() ? router.back() : undefined);
 const WAITING_TIME = '··:··';
 
 export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddSheetProps) {
+  // Opened by a link with nothing under it, the sheet closes onto the trip's plan.
+  const close = () => goBackOr(tripPlanRoutes.hub(tripId));
   const locale = useLocale();
   // The crew's plan, or an organiser's own draft before there is one.
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
@@ -236,7 +241,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
 
   return (
     <AddSheetView
-      name={(subject?.name ?? '').toUpperCase()}
+      name={upper(subject?.name ?? '', locale)}
       line={words.line}
       days={chips(dayGrades(server.fit))}
       dayNo={nowhere ? null : (choice?.dayNo ?? null)}
@@ -254,7 +259,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
             leave={choice === null || waiting ? null : leaveLine(shown, choice.startMin)}
             time={waiting ? WAITING_TIME : time}
             length={lengthLabel(length)}
-            name={(subject?.name ?? '').toUpperCase()}
+            name={upper(subject?.name ?? '', locale)}
             detail={blockDetail(shown)}
             editingTime={editingTime}
             onTime={() => setEditingTime((open) => !open)}

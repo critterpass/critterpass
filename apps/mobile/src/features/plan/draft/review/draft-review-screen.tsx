@@ -12,11 +12,14 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 
+import { draftBackLabel } from './draft-copy';
 import { restoreDraftVersionCommand } from '../data/commands';
+import { useDecidedRedrafts } from '../data/decided-redrafts';
 import { isBeingDrafted, isDraftRetired } from '../data/draft-stage';
 import { useDraftTrip } from '../data/draft-trip';
 import { roomiestDay } from '../data/fit-day';
@@ -34,6 +37,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);
+  const decided = useDecidedRedrafts();
   const locale = useLocale();
   const syncPhase = useSyncPhase();
   const restore = useCommand(restoreDraftVersionCommand);
@@ -51,8 +55,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
     else if (drafting) router.replace(draftRoutes.drafting(tripId));
   }, [drafting, focused, retired, tripId]);
 
-  const back = () =>
-    router.canGoBack() ? router.back() : router.replace(draftRoutes.setup(tripId) ?? '/');
+  const back = () => goBackOr(draftRoutes.setup(tripId) ?? '/');
   if (trip === undefined || trip === null || !draft.loaded || drafting || retired) {
     return (
       <DraftLoading
@@ -67,16 +70,15 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   }
   if (!trip.isOrganiser)
     return (
-      <MemberPlanning
-        trip={trip}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-      />
+      <MemberPlanning trip={trip} onBack={() => goBackOr(hrefFor('plan-hub', { tripId }) ?? '/')} />
     );
   if (draft.review === null) {
     return (
       <NoDraft
         guide={trip.guide}
         failed={draft.lastDraftJob?.status === 'failed'}
+        backLabel={draftBackLabel(trip.destinationName)}
+        onBack={back}
         onDraft={() => router.replace(draftRoutes.drafting(tripId))}
       />
     );
@@ -95,7 +97,9 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const propose = hrefFor('3f-1', { tripId });
   const day = draftRoutes.day(tripId, 1);
-  const open = draft.openRedraft;
+  // A redraft she has kept or put back is not offered again while that waits to send.
+  const open =
+    draft.openRedraft === null || decided.has(draft.openRedraft.id) ? null : draft.openRedraft;
   const review = draft.review;
   const fitIn = (titles: readonly string[]) => {
     const what = titles.join(', ');

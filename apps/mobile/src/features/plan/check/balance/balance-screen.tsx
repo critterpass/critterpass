@@ -5,7 +5,9 @@
  * goes back to the plan check.
  */
 import { generateStableId, generateUuidV7, type PlanOp } from '@cp/domain';
-import { Redirect, router } from 'expo-router';
+import { Redirect } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -135,7 +137,7 @@ export function BalanceScreen({ tripId }: { readonly tripId: string }) {
   return (
     <BalanceView
       backLabel={backTripLabel()}
-      onBack={() => router.back()}
+      onBack={() => goBackOr(checkRoutes.check(tripId))}
       onlyYou={copy.onlyYouLabel()}
       title={copy.balanceTitle()}
       summary={balance === null ? '' : copy.balanceSummary(balance.mustDosIn, balance.even)}
