@@ -96,8 +96,9 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
   const repoRoot = path.resolve(import.meta.dirname, '../..');
   let dryRun: DryRun;
 
+  // The dry run the changes job feeds the script, on this checkout. Four seconds on its own; in
+  // CI it hashes the repo beside three other turbo tasks and this package's other test files.
   beforeAll(() => {
-    // The dry run the changes job feeds the script, on this checkout.
     const result = spawnSync(
       'pnpm',
       ['turbo', 'run', 'test', 'test:db', 'build', '--dry-run=json'],
@@ -107,8 +108,9 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
         maxBuffer: 256 * 1024 * 1024,
       },
     );
+    expect(result.status, result.stderr).toBe(0);
     dryRun = JSON.parse(result.stdout) as DryRun;
-  });
+  }, 180_000);
 
   /** Files as a diff lists them. They must exist here: turbo lists only real files as inputs. */
   function changed(...files: string[]): ChangedFile[] {
