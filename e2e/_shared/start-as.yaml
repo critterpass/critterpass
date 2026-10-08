@@ -1,0 +1,57 @@
+appId: app.critterpass.dev
+---
+# Starts a flow on Home as a brand-new account that already holds one of the api's seed scenarios,
+# in seconds: no onboarding screens, no seed button, no trip built by hand.
+#
+#   ${SCENARIO}  everyday | inbox | caught_up | vote | vote_final (the Bali demo world), or
+#                trip_today | trip_tomorrow | draft_ready | crew_with_code (a Vietnamese crew's own)
+#   ${LANG}      en (default) or vi
+#
+# The install is cleared and launched with the request as a launch argument; the dev build's
+# "Start as" screen (apps/mobile/src/app/(dev)/start-as.tsx) signs a new account in, issues its
+# pass, asks the api for the scenario and waits for its rows. It ends on one of two ids:
+# `start-as-ready`, or `start-as-failed` with one line naming the step that failed (no account,
+# seed refused, rows not synced, network), so a broken start fails here at once with a readable
+# screenshot. The crew's join code, from the scenarios that answer one, is left in
+# ${output.crewCode}. Needs an api with DEV_SEED_ENABLED on.
+- evalScript: "${output.startAsLang = typeof LANG === 'undefined' || LANG === '' ? 'en' : LANG}"
+- evalScript: "${output.startAsRequest = 'cp_start_as=' + SCENARIO + '&cp_lang=' + output.startAsLang}"
+- evalScript: "${output.crewCode = ''}"
+# The keychain outlives a cleared install on iOS: without this the old account would sign back in.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - clearKeychain
+- launchApp:
+    clearState: true
+    arguments:
+      cp_install_referrer: ${output.startAsRequest}
+# The screen names what it was asked for as soon as it opens.
+- extendedWaitUntil:
+    visible:
+      id: 'start-as-request'
+    timeout: 90000
+# Account, pass, seed and sync each have their own limit in the app (data/dev/start-as.ts); this
+# wait only has to outlast their sum.
+- extendedWaitUntil:
+    visible:
+      id: 'start-as-(ready|failed)'
+    timeout: 150000
+- assertVisible:
+    id: 'start-as-ready'
+- runFlow:
+    when:
+      visible:
+        id: 'start-as-code'
+    commands:
+      - copyTextFrom:
+          id: 'start-as-code'
+      # iOS copies a spoken label: the code is its last six characters.
+      - evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-as-ready'
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 30000

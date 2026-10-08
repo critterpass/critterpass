@@ -3,7 +3,9 @@
  * on staging so device testing never lands on empty states: a crew with four fake crewmates, a
  * confirmed trip three weeks out, a started plan, chat, a tip and an inbox for the chosen
  * scenario (`{"scenario": "everyday" | "inbox" | "caught_up" | "vote" | "vote_final"}`, default
- * `everyday`); the vote scenarios add the crew's destination vote (./demo-vote.ts).
+ * `everyday`); the vote scenarios add the crew's destination vote (./demo-vote.ts). The start
+ * scenarios (`trip_today`, `trip_tomorrow`, `draft_ready`, `crew_with_code`: ./scenarios.ts) build
+ * their own crew instead of the demo world.
  *
  * Mounted only when APP_ENV is not production and DEV_SEED_ENABLED is on; the handler refuses on
  * production again whatever mounted it. Idempotent: the crew and trip are built once per caller,
@@ -28,6 +30,7 @@ import { registerLiveMapSeed } from './demo-live-map';
 import { ensureDemoDinner, ensureUndoableGuideAction } from './demo-plan';
 import { ensureDemoVote } from './demo-vote';
 import { ensureDemoWorld } from './demo-world';
+import { seedStartScenario, startScenarioSchema } from './scenarios';
 
 export interface DevRouteDeps {
   readonly appEnv: 'local' | 'staging' | 'production';
@@ -38,7 +41,9 @@ export interface DevRouteDeps {
   readonly clock?: () => Date;
 }
 
-const bodySchema = z.object({ scenario: demoScenarioSchema.default('everyday') }).strict();
+const bodySchema = z
+  .object({ scenario: z.union([demoScenarioSchema, startScenarioSchema]).default('everyday') })
+  .strict();
 
 /** A reseed per flow run is plenty; this only stops a runaway loop. */
 const SEED_PER_UID_RULE = { windowSeconds: 60, max: 10 };
@@ -86,11 +91,15 @@ export function registerDevRoutes(app: OpenAPIHono<AppEnv>, deps: DevRouteDeps):
     if (deps.appEnv === 'production') {
       throw new DomainError('FORBIDDEN', { reason: 'not_in_production' });
     }
-    const { uid } = await requireCommandSession(deps.sessions, c.req.raw.headers);
+    const { uid, isAnonymous } = await requireCommandSession(deps.sessions, c.req.raw.headers);
     await enforceUidRateLimit(deps.redis, 'dev_seed', uid, SEED_PER_UID_RULE);
     const raw: unknown = await c.req.json().catch(() => ({}));
     const { scenario } = bodySchema.parse(raw ?? {});
-    const result = await seedDemoFor(deps.pool, uid, scenario, deps.clock?.() ?? new Date());
+    const now = deps.clock?.() ?? new Date();
+    const start = startScenarioSchema.safeParse(scenario);
+    const result = start.success
+      ? await seedStartScenario(deps.pool, { uid, isAnonymous, now }, start.data)
+      : await seedDemoFor(deps.pool, uid, demoScenarioSchema.parse(scenario), now);
     deps.logger.info({ scenario, created: result.created }, 'demo world seeded');
     return c.json(result);
   });

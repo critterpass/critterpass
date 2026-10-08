@@ -1,0 +1,105 @@
+appId: app.critterpass.dev
+---
+# Journey: a fresh install makes a new account on staging through the real screens (the one journey
+# that does not start with _shared/start-as.yaml). Name, guide avatar, six this-or-thats and a home
+# airport go to the api; the pass is issued with its stamp; Home opens with no crew yet; and the
+# session survives a relaunch (the app does not start over).
+- runFlow: subflows/fresh-install.yaml
+- runFlow: ../onboarding/subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+# The nearest airports are offered first; search only when Ho Chi Minh City is not among them.
+- runFlow:
+    when:
+      visible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-row-SGN'
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-search'
+      - inputText: 'Sing'
+      - extendedWaitUntil:
+          visible:
+            id: 'home-row-SIN'
+          # The airport search answers from the api; a simulator on a busy runner can take a while.
+          timeout: 30000
+      - tapOn:
+          id: 'home-row-SIN'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+# The pass is issued: the stamp lands on it with the name typed on the name page.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'issued-stamp'
+    timeout: 10000
+- assertVisible: '.*WINSTON.*'
+- tapOn:
+    id: 'onboarding-issued-save'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'save-not-now'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- tapOn:
+    id: 'permissions-primer-later'
+# Home, with no crew yet: start one or join with a code.
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- assertVisible:
+    id: 'home-join-code'
+# The account is kept: a relaunch opens Home again, not the splash.
+- stopApp
+- launchApp
+# A slow iOS simulator can still be bringing the process up when launchApp returns, and Maestro
+# takes an app it cannot read yet for a crash. The wait for the first screen is looked at again
+# rather than the app launched again: an app that really died stays down and still fails here.
+- retry:
+    maxRetries: 2
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'home-first-run'
+          timeout: 30000
+- assertNotVisible:
+    id: 'onboarding-open'
