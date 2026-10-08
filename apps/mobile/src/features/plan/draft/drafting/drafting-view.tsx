@@ -50,7 +50,6 @@ const useStyles = makeStyles((th) => ({
   },
   head: { alignItems: 'center', gap: th.space['8'] },
   centred: { textAlign: 'center' },
-  marquee: { marginHorizontal: -th.space['20'] },
   footer: {
     paddingHorizontal: th.space['20'],
     paddingBottom: th.space['8'],
@@ -240,12 +239,10 @@ export function DraftingView({
             </Text>
           </View>
           {phase.kind === 'blocked' ? null : <TaskList rows={rows} />}
-          {working ? (
-            <View style={styles.marquee}>
-              <DayMarquee days={dayCards} />
-            </View>
-          ) : null}
         </ScrollView>
+        {/* Under the scroll, in its own space above the buttons: a day card is never cut in half
+            by the footer on a short screen. */}
+        {working ? <DayMarquee days={dayCards} /> : null}
         <View style={styles.footer}>
           <DraftingFooter phase={phase} onRetry={onRetry} onCancel={onCancel} onBack={onBack} />
         </View>
