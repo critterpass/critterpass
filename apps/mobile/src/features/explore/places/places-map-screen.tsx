@@ -9,7 +9,7 @@ import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 
 import { RegionPackCardView } from '../components/region-pack-card';
 import { useOfflinePack } from '../data/use-offline-pack';
@@ -52,7 +52,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
   // Saves made in the list a moment ago count here before they have synced.
   const places = usePendingPlaces(tripId, data.places, data.uid);
   const weekdays = useMemo(() => weekdaysOf(data.days, i18n.locale), [data.days, i18n.locale]);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const pack = useOfflinePack(data.destinationId ?? '', data.destinationSlug ?? '');
   // Add to plan shows its + only once its screen is on this phone.
   const canAdd = useCanAddToPlan(tripId);
@@ -88,7 +88,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
       guide={guideFor(data.guideSlug)}
       stay={data.stay}
       tz={data.tz}
-      canDraw={sync.phase !== 'offline' || pack.uri !== null}
+      canDraw={syncPhase !== 'offline' || pack.uri !== null}
       localRegionUri={pack.uri}
       pack={
         downloaded ? null : (

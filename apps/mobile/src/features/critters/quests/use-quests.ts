@@ -4,9 +4,10 @@
  * as rows arrive.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { useGuideText } from '@/lib/i18n/guide-text';
+import { useNow } from '@/lib/time/use-now';
 
 import { useLiveRows, useOwnerUid } from './live-rows';
 import {
@@ -69,18 +70,9 @@ export interface QuestsData {
   readonly guideName: string | null;
 }
 
-/** The time now, refreshed every half minute (quests close at their deadline). */
-function useNow(): Date {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 30_000);
-    return () => clearInterval(timer);
-  }, []);
-  return now;
-}
-
 export function useQuests(tripId: string | null): QuestsData {
-  const now = useNow();
+  // Refreshed every half minute: quests close at their deadline.
+  const now = useNow(30_000);
   const viewerId = useOwnerUid();
   const byTrip = tripId === null ? null : [tripId];
   const trip = useLiveRows<TripRow>(TRIP_SQL, byTrip, ['trips', 'crews', 'destinations', 'guides']);

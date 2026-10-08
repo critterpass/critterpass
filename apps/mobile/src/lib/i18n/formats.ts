@@ -49,14 +49,25 @@ export function clockOption(formats: Formats = current): { hour12?: boolean } {
   return formats.time === null ? {} : { hour12: formats.time === '12h' };
 }
 
+const clockFormats = new Map<string, Intl.DateTimeFormat>();
+
 /** A clock time in the chosen 12/24-hour style ("14:30", "2:30 PM"), in `timeZone` when given. */
 export function clockText(locale: string, at: Date, timeZone?: string): string {
-  return new Intl.DateTimeFormat(locale, {
-    hour: '2-digit',
-    minute: '2-digit',
-    ...clockOption(),
-    ...(timeZone === undefined ? {} : { timeZone }),
-  }).format(at);
+  // One formatter per language, clock style and zone, built once: building one is slow on Android.
+  // With no zone given it writes in the phone's, so the phone's offset is part of the key.
+  const zone = timeZone ?? `@${String(at.getTimezoneOffset())}`;
+  const key = `${locale}|${current.time ?? ''}|${zone}`;
+  let formatter = clockFormats.get(key);
+  if (formatter === undefined) {
+    formatter = new Intl.DateTimeFormat(locale, {
+      hour: '2-digit',
+      minute: '2-digit',
+      ...clockOption(),
+      ...(timeZone === undefined ? {} : { timeZone }),
+    });
+    clockFormats.set(key, formatter);
+  }
+  return formatter.format(at);
 }
 
 export const METERS_PER_MILE = 1609.344;

@@ -20,6 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNow } from '@/lib/time/use-now';
 import { useThemeSettings } from '@/lib/theme';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -44,7 +45,8 @@ import { countdownClock, type HubHeader } from './hub-model';
 
 export interface PhaseHeaderProps {
   readonly header: HubHeader;
-  readonly now: Date;
+  /** A fixed clock for the countdown (design scenes); left out, the header reads its own. */
+  readonly now?: Date;
   readonly startDate: string | null;
   readonly endDate: string | null;
   readonly going: number;
@@ -96,9 +98,16 @@ function day(locale: string, date: string, options: Intl.DateTimeFormatOptions):
 }
 
 /** The phase's label and value: the countdown, the day of the trip, or home since. */
-function usePhaseLine(header: HubHeader, now: Date): { label: string; value: string } | null {
+function usePhaseLine(
+  header: HubHeader,
+  fixedNow: Date | undefined,
+): { label: string; value: string } | null {
   const locale = useLocale();
   const { t } = useLingui();
+  // The one part of the hub that needs seconds, and only while there is something to count to.
+  const counting = header.phase === 'pre' || header.phase === 'travel';
+  const ticking = useNow(1000, { enabled: counting && fixedNow === undefined });
+  const now = fixedNow ?? ticking;
   const dayUnit = t({ id: 'trip.hub.dayUnit', message: 'D' });
   if (header.phase === 'pre' || header.phase === 'travel') {
     const label =

@@ -6,7 +6,6 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { ListCard } from '@/ui/cards/ListCard';
@@ -38,18 +37,12 @@ export interface ArchiveViewProps {
 export function ArchiveView({ past, tz, onOpen }: ArchiveViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const locale = useLocale();
   const { t } = useLingui();
   const meta = useDeckMeta();
   return (
-    <Scaffold variant="dark" testID="bookings-archive">
-      <ScrollView
-        contentContainerStyle={[
-          styles.content,
-          { paddingBottom: insets.bottom + theme.space['32'] },
-        ]}
-      >
+    <Scaffold variant="dark" clearTabBar testID="bookings-archive">
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
         <BackEyebrow label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)} />
         <Text variant="h1" accessibilityRole="header">
           {upper(t({ id: 'bookings.archive.title', message: 'Past bookings' }), locale)}

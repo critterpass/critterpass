@@ -421,6 +421,10 @@ msgstr ""
 msgid "common.shell.fabHelp"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.back"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
 msgstr ""
@@ -472,6 +476,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.toast"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/plan/DiffRow.tsx
@@ -576,6 +584,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
 msgid "common.recap.mvp"
+msgstr ""
+
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.needsSignal"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
@@ -917,6 +929,10 @@ msgstr ""
 msgid "errors.CODE_INVALID"
 msgstr ""
 
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.refused"
+msgstr ""
+
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.IDEMPOTENCY_MISMATCH"
 msgstr ""
@@ -991,6 +1007,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.NOT_ELIGIBLE"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.title"
 msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts

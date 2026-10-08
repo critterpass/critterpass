@@ -13,7 +13,7 @@ import { Image, Linking, StyleSheet } from 'react-native';
 import { useLingui } from '@lingui/react/macro';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -131,13 +131,13 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
   const [order, setOrder] = useState<MenuOrder | null>(null);
   const context = useGuideContext(tripId);
   const trip = context.trip;
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const [state, setState] = useState(MENU_AIMING);
   const camera = useMemo(() => (recognize === null ? null : menuCameraModule()), [recognize]);
   const capture = useRef<(() => Promise<string | null>) | null>(null);
   const controller = useRef<MenuScanController | null>(null);
   const live = useRef({ online: true, tripId: trip?.tripId ?? null });
-  const online = sync.phase !== 'offline';
+  const online = syncPhase !== 'offline';
   const liveTripId = trip?.tripId ?? null;
   useEffect(() => {
     live.current = { online, tripId: liveTripId };

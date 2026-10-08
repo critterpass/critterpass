@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
@@ -43,7 +43,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   useTripStreams(tripId);
   const { t } = useLingui();
   const me = useOwnerUid();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const data = useRecapSummary(tripId);
   const retry = useCommand(retryRecapCommand);
   const [sharing, setSharing] = useState(false);
@@ -100,7 +100,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
         guide={guide}
         guideName={guideName}
         unit={unit}
-        offline={sync.phase === 'offline'}
+        offline={syncPhase === 'offline'}
         retrying={retry.pending}
         onRetry={() => void onRetry()}
         onShare={() => setSharing(true)}

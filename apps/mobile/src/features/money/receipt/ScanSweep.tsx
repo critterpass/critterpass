@@ -8,6 +8,7 @@ import { tokens } from '@cp/design-tokens';
 import { useEffect, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -17,6 +18,7 @@ import Animated, {
   type SharedValue,
 } from 'react-native-reanimated';
 
+import { useScreenActive } from '@/lib/time/use-screen-active';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -99,12 +101,14 @@ export function ScanSweep({
   const styles = useStyles();
   const reduced = useReducedImpactMotion();
   const progress = useSharedValue(reduced ? 1 : 0);
+  // The line sweeps only while the scan is the screen in front.
+  const visible = useScreenActive();
   useEffect(() => {
     if (reduced) {
       progress.value = 1;
-      return;
+      return undefined;
     }
-    if (!sweeping) return;
+    if (!sweeping || !visible) return undefined;
     const linear = { duration: SWEEP_MS, easing: Easing.linear };
     progress.value = 0;
     progress.value = stutter
@@ -116,8 +120,9 @@ export function ScanSweep({
           withTiming(1, linear),
         )
       : withRepeat(withTiming(1, linear), -1, false);
+    return () => cancelAnimation(progress);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- progress is a stable shared value.
-  }, [sweeping, stutter, reduced]);
+  }, [sweeping, stutter, reduced, visible]);
   const sweepStyle = useAnimatedStyle(() => ({
     top: `${progress.value * 100}%`,
     opacity: sweeping && !reduced ? 1 : 0,

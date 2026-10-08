@@ -9,7 +9,7 @@ import { toLocalWallTime } from '@cp/domain';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
 
 import { useLiveRows } from '../../hub/data/live-rows';
@@ -39,7 +39,7 @@ interface TripRow {
 }
 
 export function ForecastScreen({ tripId }: { readonly tripId: string }) {
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const words = useGuideText();
   const tripRows = useLiveRows<TripRow>(TRIP_SQL, [tripId], ['trips', 'destinations', 'guides']);
   const trip = tripRows.rows[0];
@@ -66,7 +66,7 @@ export function ForecastScreen({ tripId }: { readonly tripId: string }) {
       place={trip?.place ?? ''}
       tz={tz}
       guide={guideOr(trip?.guide_slug)}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       themeFor={(date) => {
         const day = days.find((d) => d.date === date);
         return day === undefined ? null : words('plan_day', day, 'theme');

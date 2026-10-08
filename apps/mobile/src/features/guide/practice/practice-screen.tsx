@@ -13,7 +13,7 @@ import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 
 import { useLiveQuery } from '../chat/data/live-rows';
@@ -100,7 +100,7 @@ export function PracticeScreen(props: PracticeScreenProps) {
 function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScreenProps) {
   const context = useGuideContext(tripId);
   const consent = useVoiceConsent();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const record = useCommand(recordPhrasePracticeCommand);
   const base = language === null ? null : (language.split('-')[0] ?? language).toLowerCase();
   const cards = useLiveQuery<CardRow>(CARDS_SQL, [base], ['phrase_cards']);
@@ -113,7 +113,7 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
   const [justLearned, setJustLearned] = useState<readonly string[]>([]);
   const controller = useRef<PracticeController | null>(null);
   const live = useRef({ online: true, tripId: context.trip?.tripId ?? null, send: record.send });
-  const online = sync.phase !== 'offline';
+  const online = syncPhase !== 'offline';
   const liveTripId = context.trip?.tripId ?? null;
   const send = record.send;
   useEffect(() => {

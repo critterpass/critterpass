@@ -2,13 +2,15 @@
  * Time and day formatting for the timeline, in the viewer's locale and zone. Intl option values
  * below are API keys, never copy.
  */
+import { dateTimeFormat } from '@cp/i18n';
+
 import { clockOption } from '@/lib/i18n/formats';
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 
 const DAY_MS = 86_400_000;
 
 export function timeOf(iso: string, locale: string, timeZone?: string): string {
-  return new Intl.DateTimeFormat(locale, {
+  return dateTimeFormat(locale, {
     hour: '2-digit',
     ...clockOption(),
     minute: '2-digit',
@@ -22,13 +24,13 @@ export function daysBetween(day: string, today: string): number {
 }
 
 export function weekdayOf(day: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale, { weekday: 'long', timeZone: 'UTC' }).format(
+  return dateTimeFormat(locale, { weekday: 'long', timeZone: 'UTC' }).format(
     new Date(`${day}T12:00:00Z`),
   );
 }
 
 export function shortDateOf(day: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale, {
+  return dateTimeFormat(locale, {
     weekday: 'short',
     day: 'numeric',
     month: 'short',

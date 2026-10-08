@@ -15,7 +15,7 @@ import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { dataOf } from '@/data/travel-data/freshness';
 
 import { useExploreDestination } from '../data/use-explore-destination';
@@ -70,8 +70,8 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
   const guide = guideFor(trip?.guide_slug ?? row?.guide_slug);
   // The curated cover; a destination without one shows a pick's photo, credited.
   const photo = heroAt(useDestinationMedia(slug).items) ?? coverMedia(data?.cover);
-  const sync = useSyncStatus();
-  const online = sync.phase !== 'offline';
+  const syncPhase = useSyncPhase();
+  const online = syncPhase !== 'offline';
 
   const { ideas } = useTripIdeas(tripId);
   const ideaPlaces = useMemo(

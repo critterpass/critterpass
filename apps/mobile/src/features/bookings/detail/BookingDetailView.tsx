@@ -7,7 +7,6 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -61,7 +60,6 @@ export interface BookingDetailViewProps {
 export function BookingDetailView(props: BookingDetailViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const locale = useLocale();
   const { t } = useLingui();
   const { name: guideName } = useWalletGuide();
@@ -123,13 +121,8 @@ export function BookingDetailView(props: BookingDetailViewProps) {
       trailing: null,
     }));
   return (
-    <Scaffold variant="dark" testID="bookings-detail">
-      <ScrollView
-        contentContainerStyle={[
-          styles.content,
-          { paddingBottom: insets.bottom + theme.space['32'] },
-        ]}
-      >
+    <Scaffold variant="dark" clearTabBar testID="bookings-detail">
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
         <BackEyebrow label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)} />
         <Row gap="8" align="center">
           <InfoPill variant="outline" icon={booking.icon}>
