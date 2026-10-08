@@ -4,7 +4,6 @@
  * reminded today" is said only when the server refuses for that reason. Marking paid may wait in
  * the offline queue, so a queued mark counts as done.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- wire error codes and toast keys, never copy. */
 import { useLingui } from '@lingui/react/macro';
 
 import type { CommandFeedbackCopy } from '@/motion/island-toast';

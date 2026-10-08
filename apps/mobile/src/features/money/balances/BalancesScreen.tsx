@@ -91,16 +91,15 @@ const SYNCING_ROWS = 5;
 
 /** True once `active` has held for `ms` without a break. */
 function useHeldFor(active: boolean, ms: number): boolean {
-  const [held, setHeld] = useState(false);
+  // One token per stretch of `active`: a timer that fired for an earlier stretch counts for nothing.
+  const stretch = useMemo(() => ({ active }), [active]);
+  const [held, setHeld] = useState<object | null>(null);
   useEffect(() => {
-    if (!active) {
-      setHeld(false);
-      return undefined;
-    }
-    const timer = setTimeout(() => setHeld(true), ms);
+    if (!stretch.active) return undefined;
+    const timer = setTimeout(() => setHeld(stretch), ms);
     return () => clearTimeout(timer);
-  }, [active, ms]);
-  return active && held;
+  }, [stretch, ms]);
+  return active && held === stretch;
 }
 
 /**

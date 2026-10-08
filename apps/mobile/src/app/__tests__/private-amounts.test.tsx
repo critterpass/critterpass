@@ -8,9 +8,7 @@ jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-do
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
 jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- FlashList cannot run under Jest; see the double's header
-jest.mock('@shopify/flash-list', () =>
-  require('@/features/crew/chat/test-support/flash-list-double'),
-);
+jest.mock('@shopify/flash-list', () => require('@/features/money/test-support/flash-list-double'));
 jest.mock(
   '@powersync/common',
   () =>

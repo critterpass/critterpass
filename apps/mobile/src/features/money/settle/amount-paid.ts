@@ -2,7 +2,7 @@
  * The "Amount paid" field of a payment (`AmountField`): it starts with the full amount and a part
  * can be typed over it. What is sent stays exact minor units, with no float on the way.
  */
-import { digitsToMinor, minorToDigits } from '@/ui/inputs/amount-digits';
+import { digitsToMinor, minorToDigits } from '@/data/money/amount-digits';
 
 /** The digits of the full amount, which the field starts with. */
 export function amountPaidDigits(amountMinor: bigint, currency: string): string {

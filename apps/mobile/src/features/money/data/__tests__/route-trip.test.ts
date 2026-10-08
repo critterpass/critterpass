@@ -4,6 +4,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
+import { tripParam } from '../../routes';
 import { crewForRoute, tripForRoute } from '../context';
 import type { CrewRow, TripRow } from '../queries';
 
@@ -52,5 +53,13 @@ describe('the trip a money screen shows', () => {
     expect(crewForRoute(crews, 'home', 'other')?.id).toBe('other');
     expect(crewForRoute(crews, 'home', null)?.id).toBe('home');
     expect(crewForRoute(crews, 'home', 'not-mine')?.id).toBe('home');
+  });
+
+  it('reads the trip a route was opened with under either param name, else follows Balances', () => {
+    expect(tripParam('bali')).toBe('bali');
+    expect(tripParam(undefined, 'kyoto')).toBe('kyoto');
+    expect(tripParam('bali', 'kyoto')).toBe('bali');
+    expect(tripParam(undefined, undefined)).toBeNull();
+    expect(tripParam('', '')).toBeNull();
   });
 });

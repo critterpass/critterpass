@@ -27,9 +27,18 @@ function forTrip(tripId: string | null | undefined): { trip?: string } {
   return tripId === null || tripId === undefined || tripId === '' ? {} : { trip: tripId };
 }
 
-/** The `trip` a money route was opened with, or null when it follows Balances. */
-export function tripParam(value: string | string[] | undefined): string | null {
-  return typeof value === 'string' && value !== '' ? value : null;
+/**
+ * The trip a money route was opened for, or null when it follows Balances. Money's own links write
+ * `trip`; a caller that pushes the path with the registry's `tripId` param is read the same way.
+ */
+export function tripParam(
+  trip: string | string[] | undefined,
+  tripId?: string | string[] | undefined,
+): string | null {
+  for (const value of [trip, tripId]) {
+    if (typeof value === 'string' && value !== '') return value;
+  }
+  return null;
 }
 
 export function expenseRoute(id: string, tripId?: string | null): Href {
@@ -48,7 +57,7 @@ export function paymentRoute(id: string, tripId?: string | null): Href {
 function tripScreen(pathname: '/money/add' | '/money/scan' | '/money/settle'): ScreenRoute {
   return (params) => {
     const trip = forTrip(params['tripId']);
-    return trip.trip === undefined ? pathname : ({ pathname, params: trip } as Href);
+    return trip.trip === undefined ? pathname : { pathname, params: trip };
   };
 }
 

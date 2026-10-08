@@ -10,7 +10,7 @@
 import { computeExpenseShares, type Share } from '@cp/cost-engine';
 import type { AddExpensePayload, ExpenseCategory } from '@cp/domain';
 
-import { digitsToMinor, minorToDigits } from '@/ui/inputs/amount-digits';
+import { digitsToMinor, minorToDigits } from '@/data/money/amount-digits';
 import type { KeypadKey } from '@/ui/inputs/Keypad';
 import { categoryFromWords } from './suggest';
 

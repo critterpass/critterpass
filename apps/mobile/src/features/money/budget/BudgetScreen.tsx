@@ -11,10 +11,10 @@ import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
+import { amountText, digitsToMinor } from '@/data/money/amount-digits';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useCommandFeedback } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { digitsToMinor } from '@/ui/inputs/amount-digits';
 import { AmountField } from '@/ui/inputs/AmountField';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { makeStyles } from '@/ui/theme';
@@ -73,9 +73,8 @@ function SetBudgetSheet({
         <AmountField
           label={t({ id: 'money.budget.target', message: `Crew total in ${currency}` })}
           digits={digits}
-          currency={currency}
-          locale={locale}
-          unit="whole"
+          shown={amountText(digits, currency, locale, 'whole')}
+          placeholder={amountText('0', currency, locale, 'whole')}
           onDigits={setDigits}
           testID="money-budget-target"
         />

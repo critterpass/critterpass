@@ -61,7 +61,7 @@ msgstr "{guideName} reads it when you're back online. You can close this."
 msgid "money.scan.aimLine"
 msgstr "{guideName} snaps it when the paper is flat and still, then reads every line."
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodCard.tsx
 msgid "money.pay.qrLabel"
 msgstr "{label} for {toName}"
 
@@ -323,7 +323,7 @@ msgstr "Converts once this phone has a rate"
 msgid "money.pay.copied"
 msgstr "Copied"
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodCard.tsx
 msgid "money.pay.copy"
 msgstr "Copy"
 
@@ -487,7 +487,7 @@ msgstr "Getting your saved details…"
 msgid "money.scan.glare"
 msgstr "Glare"
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodCard.tsx
 msgid "money.pay.cash"
 msgstr "Hand it over in person."
 
@@ -738,7 +738,7 @@ msgstr "Only an organiser can switch it."
 msgid "money.scan.settings"
 msgstr "Open Settings"
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodCard.tsx
 msgid "money.pay.openWise"
 msgstr "Open Wise"
 
@@ -1123,7 +1123,7 @@ msgstr "Trip over"
 msgid "money.scan.failedLine"
 msgstr "Try again, or type it in. Nothing was added."
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodCard.tsx
 msgid "money.pay.typeAmount"
 msgstr "Type {amount} in your bank app."
 

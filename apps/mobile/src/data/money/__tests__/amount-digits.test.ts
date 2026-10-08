@@ -1,30 +1,10 @@
 /**
  * The digits behind a typed amount: read in the currency's own units for a currency with no
- * decimals, two and three, shown as money while typed, and turned into exact minor units.
+ * decimals, two and three, written as money, and turned into exact minor units.
  */
 import { describe, expect, it } from '@jest/globals';
 
-import {
-  amountText,
-  digitsAfterEdit,
-  digitsToMinor,
-  minorToDigits,
-  type AmountUnit,
-} from '../inputs/amount-digits';
-
-/** Types `keys` one at a time at the end of the field, as the number pad does. */
-function type(keys: string, currency: string, locale: string, unit: AmountUnit = 'display') {
-  return [...keys].reduce((digits, key) => {
-    const shown = amountText(digits, currency, locale, unit);
-    return digitsAfterEdit(digits, shown, `${shown}${key}`);
-  }, '');
-}
-
-/** One press of delete at the end of the field. */
-function erase(digits: string, currency: string, locale: string): string {
-  const shown = amountText(digits, currency, locale);
-  return digitsAfterEdit(digits, shown, shown.slice(0, -1));
-}
+import { amountText, digitsToMinor, minorToDigits } from '../amount-digits';
 
 const plain = (text: string) => text.replace(/\s/gu, ' ');
 
@@ -66,17 +46,7 @@ describe('amount digits', () => {
     expect(amountText('', 'USD', 'en')).toBe('');
   });
 
-  it('reads each digit typed at the right of the amount, cents and fils included', () => {
-    expect(amountText(type('100', 'USD', 'en'), 'USD', 'en')).toBe('US$1.00');
-    expect(digitsToMinor(type('10000', 'USD', 'en'), 'USD')).toBe(10_000n);
-    expect(digitsToMinor(type('500000', 'VND', 'vi'), 'VND')).toBe(500_000n);
-    expect(plain(amountText(type('5250', 'KWD', 'en'), 'KWD', 'en'))).toBe('KWD 5.250');
-    expect(digitsToMinor(type('5250', 'KWD', 'en'), 'KWD')).toBe(5_250n);
-    expect(digitsToMinor(type('200000', 'IDR', 'id'), 'IDR')).toBe(20_000_000n);
-  });
-
-  it('types whole units for a figure that never needs cents', () => {
-    expect(type('7440', 'USD', 'en', 'whole')).toBe('7440');
+  it('reads whole units for a figure that never needs cents', () => {
     expect(amountText('7440', 'USD', 'en', 'whole')).toBe('US$7,440');
     expect(plain(amountText('7440', 'USD', 'vi', 'whole'))).toBe('7.440 US$');
     expect(digitsToMinor('7440', 'USD', 'whole')).toBe(744_000n);
@@ -85,21 +55,5 @@ describe('amount digits', () => {
     expect(plain(amountText('300', 'KWD', 'en', 'whole'))).toBe('KWD 300');
     expect(digitsToMinor('300', 'KWD', 'whole')).toBe(300_000n);
     expect(minorToDigits(744_050n, 'USD', 'whole')).toBe('7440');
-  });
-
-  it('deletes a digit even when the symbol or a group mark is the last character', () => {
-    expect(erase('1250000', 'VND', 'vi')).toBe('125000');
-    expect(erase('18640', 'USD', 'de')).toBe('1864');
-    expect(erase('18640', 'USD', 'en')).toBe('1864');
-    expect(erase('5', 'USD', 'en')).toBe('');
-    expect(erase('', 'USD', 'en')).toBe('');
-  });
-
-  it('takes a pasted amount, drops leading zeros and stops at the longest amount it holds', () => {
-    expect(digitsAfterEdit('18640', 'US$186.40', '50.00')).toBe('5000');
-    expect(digitsAfterEdit('', '', '007')).toBe('7');
-    expect(digitsAfterEdit('1234567890', 'US$12,345,678.90', 'US$12,345,678.901')).toBe(
-      '1234567890',
-    );
   });
 });

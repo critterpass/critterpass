@@ -6,7 +6,7 @@
 import { generateUuidV7 } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { Redirect, router } from 'expo-router';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Image, Linking } from 'react-native';
 
 import type { SendResult } from '@/data/commands/client';
@@ -21,6 +21,7 @@ import { addExpenseCommand, commitReceiptCommand } from '../data/commands';
 import { selectTrip, useSelectedTrip } from '../data/selected-trip';
 import { useMoneyServices } from '../data/services';
 import { useMoneyContext } from '../data/use-money-context';
+import { useSendOnce } from '../data/use-send-once';
 import { MONEY_ROUTES } from '../routes';
 import { MemberPicker } from './MemberPicker';
 import { receiptView, toCommitPayload } from './review-model';
@@ -64,7 +65,7 @@ export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: s
   // repeat whose first answer was lost is refused as committed, which counts as done).
   const [expenseId] = useState(() => generateUuidV7());
   // SPLIT EVENLY is the same receipt's expense: taken by the first tap and kept once it is out.
-  const evenTaken = useRef(false);
+  const even = useSendOnce();
   const scene = useReviewScene({
     ctx,
     scan,
@@ -136,8 +137,7 @@ export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: s
   }
 
   async function onEven() {
-    if (scene.parsed?.total_minor == null || ctx.trip === null || evenTaken.current) return;
-    evenTaken.current = true;
+    if (scene.parsed?.total_minor == null || ctx.trip === null || !even.take()) return;
     const result = await add.send({
       expense_id: expenseId,
       trip_id: ctx.trip.id,
@@ -161,7 +161,7 @@ export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: s
         message: "That didn't go through. Try again, or type it in.",
       }),
     });
-    if (!went) evenTaken.current = false;
+    if (!went) even.release();
   }
 
   const photoUri =
