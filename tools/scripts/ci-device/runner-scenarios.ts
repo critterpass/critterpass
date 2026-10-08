@@ -13,8 +13,10 @@
  *   build under test (`E2E_API_BASE_URL`): `trip-day` (../seed-trip-day.ts: five travellers join
  *   the crew behind `code`, and `up` of them say they are up for the day), `trip-pack`
  *   (../seed-trip-pack.ts: one more traveller joins and adds the shared pack item `label`, or
- *   removes it, per `action`) and `live-map` (../live-map-sim/by-code.ts: crewmates join the crew
- *   behind `code` and keep walking on `trip`). It answers 202 at once; `/scenario-output?name=…`
+ *   removes it, per `action`), `live-map` (../live-map-sim/by-code.ts: crewmates join the crew
+ *   behind `code` and keep walking on `trip`) and `friend` (./scenario-friend.ts: one friend of the
+ *   crew behind `code` joins, says IN or OUT to the sent proposal, or votes in the open poll, per
+ *   `action`). It answers 202 at once; `/scenario-output?name=…`
  *   then answers 202 while the script sets up, 200 with its JSON line once it has, and 500 if it
  *   failed. A `live-map` sim keeps running (posting fixes) until the shard ends.
  */
@@ -59,6 +61,10 @@ export const SCENARIOS: Readonly<Record<string, ScenarioScript>> = {
       '--label',
       required(query, 'label'),
     ],
+  },
+  friend: {
+    file: 'ci-device/scenario-friend.ts',
+    args: (query) => ['--code', required(query, 'code'), '--action', required(query, 'action')],
   },
   'live-map': {
     file: 'live-map-sim/by-code.ts',

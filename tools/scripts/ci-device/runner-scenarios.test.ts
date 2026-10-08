@@ -125,6 +125,18 @@ describe('runner scenarios', () => {
     });
   });
 
+  it('starts the friend of a crew with the action asked for, the next call replacing the last', () => {
+    const { ctx, spawned } = setup('android');
+    expect(handleAction('/scenario?name=friend&code=K7M2QX&action=join', ctx).status).toBe(202);
+    expect(spawned[0]?.args.at(-7)).toMatch(/ci-device\/scenario-friend\.ts$/);
+    expect(spawned[0]?.args.slice(-4)).toEqual(['--code', 'K7M2QX', '--action', 'join']);
+    expect(handleAction('/scenario?name=friend&code=K7M2QX&action=board', ctx).status).toBe(202);
+    expect(spawned[0]?.child.killed).toBe(true);
+    expect(spawned[1]?.args.slice(-2)).toEqual(['--action', 'board']);
+    // Without an action there is nothing to do.
+    expect(handleAction('/scenario?name=friend&code=K7M2QX', ctx).status).toBe(500);
+  });
+
   it('reports a scenario that exits before it is set up, and refuses bad requests', () => {
     const { ctx, spawned } = setup('ios');
     handleAction('/scenario?name=live-map&code=K7M2QX&trip=t1&poi=p1', ctx);
