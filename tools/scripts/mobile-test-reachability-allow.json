@@ -1,0 +1,54 @@
+[
+  {
+    "file": "apps/mobile/src/data/dev/__tests__/start-as.test.ts",
+    "reason": "The start-as developer command every e2e journey begins with: a break here stops all device runs."
+  },
+  {
+    "file": "apps/mobile/src/data/powersync/__tests__/sqlcipher-native-config.test.ts",
+    "reason": "Contract with the native build: the SQLCipher flag in both package.json files, without which iOS links plain SQLite."
+  },
+  {
+    "file": "apps/mobile/src/data/push/__tests__/android-channels.test.ts",
+    "reason": "Contract with the native notifications module: it creates exactly the channels the worker sends to."
+  },
+  {
+    "file": "apps/mobile/src/data/push/__tests__/push-fixtures.test.ts",
+    "reason": "Contract with the worker: the notification fixtures the e2e flows post match what the worker sends."
+  },
+  {
+    "file": "apps/mobile/src/features/plan/draft/__tests__/copy-claims.test.ts",
+    "reason": "Claims guard over the drafting copy: no line says anything was booked or held before the crew saw the plan."
+  },
+  {
+    "file": "apps/mobile/src/features/proposal/__tests__/copy-claims.test.ts",
+    "reason": "Claims guard over the proposal copy: nothing is said to be held, and no line reports who opened or watched what."
+  },
+  {
+    "file": "apps/mobile/src/features/trip/live-activities/__tests__/activity-attributes.test.ts",
+    "reason": "Contract with the Swift widget extension: the attributes the app sends match the Swift source."
+  },
+  {
+    "file": "apps/mobile/src/features/trip/live-activities/__tests__/drawn-kinds.test.ts",
+    "reason": "Contract with the Swift widget extension: every activity kind the app starts is drawn there."
+  },
+  {
+    "file": "apps/mobile/src/features/trip/live-activities/__tests__/lock-screen-outbox.test.ts",
+    "reason": "Contract with the Swift widget extension: the app drains the App Group outbox the lock-screen buttons write."
+  },
+  {
+    "file": "apps/mobile/src/features/home/widget-gallery/__tests__/widget-snapshot-sync.test.ts",
+    "reason": "Contract with the Swift widgets: the snapshot the app writes against the Swift source, read through a test-only source reader."
+  },
+  {
+    "file": "apps/mobile/src/lib/i18n/app-locales.test.ts",
+    "reason": "Contract with the server: every language the app ships is one the server accepts."
+  },
+  {
+    "file": "apps/mobile/src/ui/__tests__/gallery-sweep.test.tsx",
+    "reason": "Generates the e2e gallery sweep flows from the component registry and fails when the committed flows drift."
+  },
+  {
+    "file": "apps/mobile/src/features/you/dev/__tests__/lab-scenes.test.tsx",
+    "reason": "Renders the profile lab scenes the device sweep opens; left as it is while that suite is reworked."
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "file": "apps/mobile/src/data/app-session/__tests__/push-on-start.test.tsx",
+    "reason": "Drives app state changes through the AppState listener and asserts each device registration sent."
+  },
+  {
+    "file": "apps/mobile/src/data/app-session/__tests__/merge-restart.test.tsx",
+    "reason": "Restarts the session on the real local database and asserts which account and rows remain."
+  },
+  {
+    "file": "apps/mobile/src/features/critters/where/__tests__/where-screen.test.tsx",
+    "reason": "Reads synced rows on the real database: an unverified critter's name must never reach the screen."
+  },
+  {
+    "file": "apps/mobile/src/features/guide/camera/__tests__/menu-scan.test.tsx",
+    "reason": "Drives the scan controller directly (stills, retakes, offline) and asserts what is sent to the route."
+  },
+  {
+    "file": "apps/mobile/src/features/launch/__tests__/deferred-link-gate.test.tsx",
+    "reason": "Asserts the gate's effects on first and later launches: the link opened and the splash released."
+  },
+  {
+    "file": "apps/mobile/src/features/home/__tests__/dev-tools-entry-variants.test.tsx",
+    "reason": "Proves the developer tools entry stays out of staging and production variants."
+  },
+  {
+    "file": "apps/mobile/src/features/setup/__tests__/notifications.test.tsx",
+    "reason": "Feeds notification responses in and asserts the queued answer on the real database."
+  },
+  {
+    "file": "apps/mobile/src/features/trip/live-activities/__tests__/bridge.test.tsx",
+    "reason": "Emits native module events and asserts the commands queued on the real database."
+  },
+  {
+    "file": "apps/mobile/src/features/trip/hub/__tests__/hub-view.test.tsx",
+    "reason": "Render check of the hub per trip phase from its lab scenes; left as it is while that suite is reworked."
+  },
+  {
+    "file": "apps/mobile/src/features/you/dev/__tests__/lab-scenes.test.tsx",
+    "reason": "Renders the profile lab scenes the device sweep opens; left as it is while that suite is reworked."
+  },
+  {
+    "file": "apps/mobile/src/ui/people/__tests__/member-face.test.tsx",
+    "reason": "Which face a member's avatar draws (chosen critter, photo, initial, handed-in) has no model beside it."
+  },
+  {
+    "file": "apps/mobile/src/ui/sticker/__tests__/Sticker.test.tsx",
+    "reason": "Drives draw progress by re-rendering with a real CanvasKit engine and asserts the cache writes."
+  },
+  {
+    "file": "apps/mobile/src/lib/analytics/__tests__/flags.test.tsx",
+    "reason": "Drives the flag hook through a probe component: default when unreachable, bootstrap value, exposure."
+  },
+  {
+    "file": "apps/mobile/src/ui/__tests__/gallery-sweep.test.tsx",
+    "reason": "Generates the e2e gallery sweep flows from the component registry; it renders nothing."
+  }
+]
