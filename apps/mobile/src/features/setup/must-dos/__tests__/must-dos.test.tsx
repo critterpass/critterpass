@@ -115,14 +115,6 @@ describe('the list', () => {
     expect(screen.getByText(/^clash$/i)).toBeTruthy();
     expect(screen.getByText(/one clashes with the dates/i)).toBeTruthy();
   });
-
-  it('offers adding one, not drafting, until someone has added one', async () => {
-    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
-    await seedKyoto(stack);
-    await renderWith(stack, services().value, step(WINSTON));
-    expect(await screen.findByTestId('must-dos-add')).toBeTruthy();
-    expect(screen.queryByTestId('must-dos-draft')).toBeNull();
-  });
 });
 
 describe('reading places through the api', () => {

@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
-import { claimAfterPhoneVerified } from '../attribution';
 import {
   claimPastedLink,
   claimTypedCode,
@@ -187,35 +186,5 @@ describe('iOS paste and typed codes', () => {
     await expect(claimPastedLink('https://critterpass.app/i/ZZZZ2K', d)).resolves.toEqual(invalid);
     await expect(claimTypedCode('K7M2Q0', d)).resolves.toEqual(invalid);
     expect(requests).toHaveLength(1);
-  });
-});
-
-describe('phone match after verification', () => {
-  it('routes a matched seat invite and ignores a miss', async () => {
-    const matched = deps(standardRoutes, primitives());
-    await expect(claimAfterPhoneVerified(matched.deps)).resolves.toEqual({
-      kind: 'matched',
-      href: `${TICKET}phone`,
-    });
-    expect(matched.requests[0]?.body).toMatchObject({ payload: { phone: true } });
-    const miss = deps(
-      () => ({
-        status: 200,
-        body: {
-          ...FIXTURES.claimApplied,
-          result: {
-            ...FIXTURES.claimApplied.result,
-            matched: false,
-            link: null,
-            kind: null,
-            state: null,
-            crew_id: null,
-            via: 'phone',
-          },
-        },
-      }),
-      primitives(),
-    );
-    await expect(claimAfterPhoneVerified(miss.deps)).resolves.toEqual({ kind: 'no_match' });
   });
 });

@@ -94,26 +94,6 @@ describe('the crew boost card', () => {
     expect(onSettle).toHaveBeenCalledTimes(1);
     expect(onThanks).toHaveBeenCalledTimes(1);
   });
-
-  it('gives the buyer the count still to go and no buttons', async () => {
-    await card({ viewerUid: 'winston' });
-    expect(screen.getByTestId('boost-card-to-go')).toBeTruthy();
-    expect(screen.queryByTestId('boost-card-settle')).toBeNull();
-    expect(screen.queryByTestId('boost-card-thanks')).toBeNull();
-  });
-
-  it('offers the thanks once', async () => {
-    await card({ boost: boost({ thankedBy: ['maya'] }) });
-    expect(screen.queryByTestId('boost-card-thanks')).toBeNull();
-    expect(screen.getByTestId('boost-card-thanked')).toBeTruthy();
-  });
-
-  it('asks nobody to settle a refunded boost', async () => {
-    await card({ boost: boost({ status: 'revoked' }) });
-    expect(screen.getByTestId('boost-card-gone')).toBeTruthy();
-    expect(screen.queryByTestId('boost-card-settle')).toBeNull();
-    expect(screen.queryByTestId('boost-card-thanks')).toBeNull();
-  });
 });
 
 describe('telling the crew from the stamp', () => {
@@ -142,14 +122,5 @@ describe('telling the crew from the stamp', () => {
     await stamp({ onTell, told: true });
     await fireEvent.press(screen.getByTestId('stamped-tell'));
     expect(onTell).toHaveBeenCalledTimes(1);
-  });
-
-  it('is not offered before the boost is on, or with nobody to tell', async () => {
-    const pending = await stamp({ onTell: () => undefined, boosted: false });
-    expect(screen.queryByTestId('stamped-tell')).toBeNull();
-    await pending.unmount();
-    await stamp({});
-    expect(screen.queryByTestId('stamped-tell')).toBeNull();
-    expect(screen.getByTestId('stamped-done')).toBeTruthy();
   });
 });

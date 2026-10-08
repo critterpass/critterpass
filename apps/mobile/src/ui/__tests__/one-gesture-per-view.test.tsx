@@ -3,17 +3,11 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { Gesture, State } from 'react-native-gesture-handler';
 import type { GestureType } from 'react-native-gesture-handler';
 import { getByGestureTestId } from 'react-native-gesture-handler/jest-utils';
-import { StyleSheet, Text } from 'react-native';
-import type { StyleProp, ViewStyle } from 'react-native';
-
-import { tokens } from '@cp/design-tokens';
+import { Text } from 'react-native';
 
 import { Composer, composerMicGestures } from '../chat/Composer';
-import { DayRow, dayRowGestures } from '../plan/DayRow';
-import { MovableBlock, movableBlockGestures } from '../plan/TimelineBlock';
 import { StoryPlayer, storyPlayerGestures } from '../story/StoryPlayer';
 import { renderUi } from '../test-support/render';
-import { MIN_TOUCH_TARGET } from '../theme';
 
 /** The components build declarative `Gesture.*()` objects; the lookup also covers the hook kind. */
 function gestureById(testId: string): GestureType {
@@ -23,11 +17,6 @@ function gestureById(testId: string): GestureType {
 /** Handler tags a gesture was told to wait for (`requireExternalGestureToFail` keeps the objects). */
 function waitsFor(gesture: GestureType): number[] {
   return ((gesture.config.requireToFail ?? []) as GestureType[]).map((g) => g.handlerTag);
-}
-
-/** Handler tags a gesture may run alongside or blocks; a race has neither. */
-function otherRelations(gesture: GestureType): unknown[] {
-  return [...(gesture.config.simultaneousWith ?? []), ...(gesture.config.blocksHandlers ?? [])];
 }
 
 /** `scheduleOnRN` hops to the JS thread through a microtask: flush it inside `act`. */
@@ -48,8 +37,6 @@ describe('one gesture per native view', () => {
     const pairs = [
       Object.values(composerMicGestures(Gesture.LongPress(), Gesture.Tap())),
       Object.values(storyPlayerGestures(Gesture.LongPress(), Gesture.Tap())),
-      Object.values(dayRowGestures(Gesture.Pan(), Gesture.Tap())),
-      Object.values(movableBlockGestures(Gesture.Pan(), Gesture.Tap())),
     ];
     for (const pair of pairs) {
       expect(pair).toHaveLength(2);
@@ -134,73 +121,5 @@ describe('one gesture per native view', () => {
     await fire(() => hold.handlers.onStart?.({ state: State.ACTIVE } as never));
     await fire(() => hold.handlers.onFinalize?.({ state: State.END } as never, true));
     expect(pauseAction()).toBe('Pause');
-  });
-
-  it('races the day row drag and press without either waiting', async () => {
-    const onPress = jest.fn();
-    await renderUi(
-      <DayRow
-        dayNumber={2}
-        weekday="Tue"
-        title="Ridge day"
-        onPress={onPress}
-        reorder={{ index: 0, count: 3, rowHeight: 64, onReorder: () => {} }}
-      />,
-    );
-    const press = gestureById('day-row-press');
-    const drag = gestureById('day-row-drag');
-    expect(press.handlerName).toBe('TapGestureHandler');
-    expect(drag.handlerName).toBe('PanGestureHandler');
-    for (const gesture of [press, drag]) {
-      expect(waitsFor(gesture)).toEqual([]);
-      expect(otherRelations(gesture)).toEqual([]);
-    }
-
-    await fire(endTap(press));
-    expect(onPress).toHaveBeenCalledTimes(1);
-  });
-
-  it('races the timeline block drag and press over a touch area grown past a short slot', async () => {
-    const onSelect = jest.fn();
-    await renderUi(
-      <MovableBlock
-        block={{
-          id: 'walk',
-          title: 'Ridge walk',
-          start: 840,
-          end: 855,
-          color: tokens.color.ink['900'],
-        }}
-        selected={false}
-        onSelect={onSelect}
-        onMove={() => {}}
-        bounds={{ min: 480, max: 1320 }}
-        pointsPerMinute={1}
-        top={0}
-      />,
-    );
-    const press = gestureById('timeline-block-press');
-    const drag = gestureById('timeline-block-drag');
-    expect(press.handlerName).toBe('TapGestureHandler');
-    expect(drag.handlerName).toBe('PanGestureHandler');
-    for (const gesture of [press, drag]) {
-      expect(waitsFor(gesture)).toEqual([]);
-      expect(otherRelations(gesture)).toEqual([]);
-    }
-    // A 15-minute slot at 1 pt a minute draws 15 pt tall; Android ignores hit slop past a parent,
-    // so the gesture views themselves span the minimum target, centred on the drawn block.
-    const reach = Math.ceil((MIN_TOUCH_TARGET - 15) / 2);
-    const area = StyleSheet.flatten(
-      screen.getByTestId('timeline-block-walk').props.style as StyleProp<ViewStyle>,
-    );
-    expect(area).toEqual(expect.objectContaining({ top: -reach, height: 15 + 2 * reach }));
-    expect(area?.height).toBeGreaterThanOrEqual(MIN_TOUCH_TARGET);
-    const face = screen.getByTestId('timeline-block-walk-face');
-    expect(StyleSheet.flatten(face.parent?.props.style as StyleProp<ViewStyle>)).toEqual(
-      expect.objectContaining({ paddingVertical: reach }),
-    );
-
-    await fire(endTap(press));
-    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 });

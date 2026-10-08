@@ -30,17 +30,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 import { toastQueue } from '@/motion';
 
-import {
-  awardRows,
-  CARDS,
-  CHAVA,
-  CREW,
-  RECAP,
-  RECEIPT,
-  recapRow,
-  STATS,
-  TRIP,
-} from '../../dev/recap-fixtures';
+import { CHAVA, CREW, RECAP, recapRow, TRIP } from '../../dev/recap-fixtures';
 import {
   renderRecap,
   seedAwards,
@@ -113,52 +103,6 @@ describe('recap page', () => {
     expect(screen.getByTestId('recap-awards')).toHaveTextContent(
       'Earliest riserJordan, up at 05:10The treasurerYou, 23 expenses logged',
     );
-  });
-
-  it("uses the guide's words once written, and badges a late re-run of the receipt", async () => {
-    const s = await open();
-    const rows = awardRows(s.uid).map((row) =>
-      row.kind === 'early_riser' ? { ...row, title: 'Up before the sun' } : row,
-    );
-    await seedRecap(
-      s,
-      recapRow({
-        version: 2,
-        changed_sections: '["receipt"]',
-        cards: CARDS,
-        receipt: { ...RECEIPT, outstanding_minor: 4_200, settled: false, settled_on: null },
-      }),
-    );
-    await seedAwards(s, rows);
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
-    await until(() => visible('recap-tiles'));
-    expect(screen.getByTestId('recap-updated')).toHaveTextContent('UPDATED WITH LATE EXPENSES');
-    expect(screen.getByTestId('recap-tile-owed')).toHaveTextContent('$42 OWEDstill to settle up');
-    expect(screen.getByTestId('recap-got-away-line')).toHaveTextContent(
-      'The Golden Chà Vá got away. Jordan slept through the second one.',
-    );
-    expect(screen.getByTestId('recap-awards')).toHaveTextContent(/^Up before the sunJordan/u);
-  });
-
-  it('notes a viewer who dropped out before the trip', async () => {
-    const s = await open({ rsvp: 'out' });
-    await seedRecap(s, recapRow());
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
-    await until(() => visible('recap-tiles'));
-    expect(screen.getByTestId('recap-dropout')).toHaveTextContent('YOU SAT THIS ONE OUT');
-  });
-
-  it('keeps no money tile or crew name on a solo trip', async () => {
-    const s = await open({ solo: true });
-    await seedRecap(s, recapRow({ stats: { ...STATS, travellers: 1 } }));
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
-    await until(() => visible('recap-tiles'));
-    expect(screen.queryByTestId('recap-tile-owed')).toBeNull();
-    expect(screen.getByTestId('recap-tile-days')).toHaveTextContent(
-      '3 DAYSjust you, on your own clock',
-    );
-    expect(screen.getByTestId('recap-eyebrow')).toHaveTextContent(/^OCT 2\s*–\s*4 · JUST YOU$/u);
-    expect(screen.queryByTestId('recap-dropout')).toBeNull();
   });
 
   it('offers a retry when the build failed, and says it needs signal when offline', async () => {

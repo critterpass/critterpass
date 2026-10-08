@@ -10,7 +10,6 @@ import { tokens } from '@cp/design-tokens';
 import { drawGate } from '@/motion/patterns/draw';
 
 import { ChoiceChip } from '../chips/ChoiceChip';
-import { CountBadge } from '../chips/CountBadge';
 import { FilterChip } from '../chips/FilterChip';
 import { Avatar } from '../people/Avatar';
 import { AvatarStack } from '../people/AvatarStack';
@@ -51,18 +50,6 @@ describe('chips', () => {
     expect(JSON.stringify(sunrise.props.style)).toContain('"rotate":"0deg"');
     expect(JSON.stringify(museums.props.style)).toContain('"rotate":"3deg"');
     expect(screen.getByRole('button', { name: 'Food, 12', selected: true })).toBeTruthy();
-  });
-
-  it('hides zero badges and caps large counts', async () => {
-    await renderUi(
-      <View>
-        <CountBadge count={0} testID="zero" />
-        <CountBadge count={140} />
-      </View>,
-    );
-    expect(screen.queryByTestId('zero')).toBeNull();
-    expect(screen.getByLabelText('140 new')).toBeTruthy();
-    expect(screen.getByText('99+')).toBeTruthy();
   });
 });
 

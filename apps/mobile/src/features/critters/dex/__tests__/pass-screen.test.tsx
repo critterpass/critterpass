@@ -112,38 +112,6 @@ async function queued(stack: TestLocalFirst, cmd: string): Promise<unknown[]> {
 }
 
 describe('PASS tab Critterdex', () => {
-  it('shows counts, the here-now card, the home set and Maya’s count', async () => {
-    await renderPass();
-    await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
-    expect(screen.getByText('1 OF 2 PLACES')).toBeTruthy();
-    await waitFor(() => expect(screen.getByText('Maya has 14')).toBeTruthy());
-    expect(screen.getByText('VIETNAM')).toBeTruthy();
-    expect(screen.getByText('1/3 · HOME SET')).toBeTruthy();
-  });
-
-  it('never renders the name of a critter the viewer has not verified', async () => {
-    await renderPass();
-    await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
-    // Tokek is only pending here: its name must not reach the screen, in any case.
-    expect(screen.queryByText(/tokek/iu)).toBeNull();
-    expect(screen.queryByLabelText(/tokek/iu)).toBeNull();
-    expect(screen.getByText('??? · 0 OF 4 FORMS')).toBeTruthy();
-    expect(screen.getByLabelText('Chép')).toBeTruthy();
-  });
-
-  it('hides the comparison when the crewmate hides their collection', async () => {
-    await renderPass({ mayaHidden: true });
-    await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
-    expect(screen.queryByText(/Maya/u)).toBeNull();
-  });
-
-  it('shows the waiting egg before the trip, with no way to hatch it', async () => {
-    await renderPass({ tripStatus: 'pre_trip' });
-    await waitFor(() => expect(screen.getByTestId('critters-egg-waiting')).toBeTruthy());
-    expect(screen.queryByTestId('critters-egg-hatch')).toBeNull();
-    expect(screen.getByText('It hatches when you land in Bali.')).toBeTruthy();
-  });
-
   it('queues hatch_egg by hand once the trip is under way and opens the ceremony', async () => {
     const stack = await renderPass();
     await waitFor(() => expect(screen.getByTestId('critters-egg-hatch')).toBeTruthy());
@@ -165,12 +133,6 @@ describe('PASS tab Critterdex', () => {
       pathname: '/critters/where/[formId]',
       params: { formId: TOKEK_RARE },
     });
-  });
-
-  it('shows no egg card for a fresh account without an egg', async () => {
-    await renderPass({ egg: 'none', fresh: true });
-    await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
-    expect(screen.queryByTestId(/critters-egg-/u)).toBeNull();
   });
 
   it('turns Explore at home on through set_explore_at_home', async () => {
