@@ -421,6 +421,10 @@ msgstr "freeze"
 msgid "common.shell.fabHelp"
 msgstr "Trợ giúp"
 
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.back"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
 msgstr "Quay lại"
@@ -473,6 +477,10 @@ msgstr "Hộp thư, {inbox} tin mới"
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.toast"
 msgstr "Island toast"
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.line"
+msgstr ""
 
 #: ../../apps/mobile/src/ui/plan/DiffRow.tsx
 msgid "common.plan.keepChange"
@@ -577,6 +585,10 @@ msgstr "Chuyển lên"
 #: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
 msgid "common.recap.mvp"
 msgstr "MVP"
+
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.needsSignal"
+msgstr ""
 
 #: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
 msgid "common.story.next"
@@ -909,6 +921,10 @@ msgstr "Mã này đã hết hạn."
 msgid "errors.CODE_INVALID"
 msgstr "Mã chưa đúng. Hãy kiểm tra rồi thử lại."
 
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.refused"
+msgstr ""
+
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.IDEMPOTENCY_MISMATCH"
 msgstr "Thao tác chưa thực hiện được. Hãy thử lại."
@@ -976,6 +992,10 @@ msgstr "Lời mời này đã bị huỷ. Hãy xin lời mời mới."
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.NOT_ELIGIBLE"
 msgstr "Bạn chưa dùng được mục này."
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.title"
+msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.ACTION_KEY_SCOPE"
