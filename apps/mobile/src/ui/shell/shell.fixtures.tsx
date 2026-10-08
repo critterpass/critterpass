@@ -14,9 +14,9 @@ import { LargeTitle } from './LargeTitle';
 
 const noop = () => {};
 const CREW = [
-  { initial: 'M', color: tokens.color.pink },
-  { initial: 'A', color: tokens.color.blue },
-  { initial: 'J', color: tokens.color.yellow },
+  { name: 'Maya', joinIndex: 0 },
+  { name: 'Arjun', joinIndex: 1 },
+  { name: 'Jo', joinIndex: 2 },
 ];
 
 registerFixture('BackEyebrow', 'default', () => <BackEyebrow label="Profile" onPress={noop} />);
@@ -87,11 +87,7 @@ registerFixture('HomeHeader', 'long crew name, five faces', () => (
   <HomeHeader
     name="Khanh"
     crewName="Bali demo crew for the long weekend"
-    members={[
-      ...CREW,
-      { initial: 'R', color: tokens.color.orange },
-      { initial: 'D', color: tokens.color.blue },
-    ]}
+    members={[...CREW, { name: 'Rin', joinIndex: 3 }, { name: 'Dev', joinIndex: 4 }]}
     unreadChat={12}
     unreadInbox={4}
     onOpenProfile={noop}

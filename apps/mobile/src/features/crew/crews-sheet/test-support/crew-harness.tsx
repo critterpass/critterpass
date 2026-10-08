@@ -13,6 +13,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
+import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 import type { SyncTransport, TransportResponse } from '@/data/powersync/transport';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
@@ -90,8 +91,17 @@ export function recordingServices(uid: string): RecordingServices {
   return services;
 }
 
-export function renderWithCrew(ui: ReactElement, stack: TestLocalFirst, services: CrewServices) {
+export async function renderWithCrew(
+  ui: ReactElement,
+  stack: TestLocalFirst,
+  services: CrewServices,
+) {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
+  // As the session does when it binds the database: the signed-in uid is its owner.
+  await stack.db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
+    OWNER_UID_KEY,
+    stack.uid,
+  ]);
   return render(
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>

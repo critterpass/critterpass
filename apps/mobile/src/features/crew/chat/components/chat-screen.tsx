@@ -4,11 +4,20 @@
  * offline show at once and send when the phone is back; the read marker follows the member to the
  * bottom of the timeline.
  */
-import { useLocalSearchParams } from 'expo-router';
-import { createElement, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import {
+  createElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { KeyboardFooter } from '@/ui';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
@@ -19,30 +28,29 @@ import { guideColour } from '@/ui/avatar/guides';
 import type { ChatMessage } from '../data/rows';
 import { useChatInfo } from '../data/use-chat-info';
 import { useMessages } from '../data/use-messages';
-import { useMyUid } from '../data/use-my-uid';
 import { useMessageActions } from '../data/use-message-actions';
 import { useReactions } from '../data/use-reactions';
 import { useSendMessage } from '../data/use-send-message';
 import '../media/register';
 import { useMediaControls } from '../media/use-media-controls';
+import { voicePlayback } from '../media/voice-playback';
+import { crewInviteRoute } from '../../crews-sheet/routes';
 import { firstName, useChatTyping } from '../data/use-typing';
 import { useMarkRead } from '../data/use-unread-count';
 import { chatComposerHint } from '../slots';
 import { ReplyQuote } from '../cards/reply-quote';
-import { Bubble } from './bubble';
 import { ChatOverlays, type ChatOverlay } from './chat-overlays';
 import { ChatHeader } from './chat-header';
 import { ChatComposer, FormerMemberBar, type ChatComposerHandle } from './composer';
-import { dayKey } from './timeline-rows';
-import { buildTimelineRows } from './timeline-rows';
+import { buildTimelineRows, dayKey, type TimelineRow } from './timeline-rows';
 import { ChatStart } from './chat-start';
 import { EmptyChat, guideIdOf } from './empty-chat';
 import type { MentionCandidate } from './mention-picker';
 import { MessageList } from './message-list';
-import { ReactionChips } from './reactions-sheet';
+import { MessageRow, NO_REACTIONS, type MessageRowHandlers } from './message-row';
 import { OfflineBanner } from './offline-banner';
 import { ChatSkeleton } from './skeleton';
-import { TypingRow } from './typing-dots';
+import { TypingRow, useGuideReplying } from './typing-dots';
 
 const useStyles = makeStyles(() => ({ root: { flex: 1 } }));
 
@@ -58,21 +66,35 @@ export function ChatScreen() {
   return <CrewChat crewId={crewId} />;
 }
 
+/**
+ * Nothing to read yet: only system rows, and no photo or voice note of this device on its way up
+ * (an upload in flight, or one that was refused, is content: it shows its progress and its Retry).
+ */
+export function chatIsEmpty(messages: readonly ChatMessage[], pendingUploads: number): boolean {
+  return pendingUploads === 0 && messages.every((message) => message.senderKind === 'system');
+}
+
 export function CrewChat({ crewId }: { readonly crewId: string }) {
   const styles = useStyles();
-  const me = useMyUid();
+  const me = useSessionUid();
   const info = useChatInfo(crewId, me);
   const timeline = useMessages(crewId, me);
   const { send, retry, discard } = useSendMessage(crewId);
   const markSeen = useMarkRead(crewId, info.lastReadSeq);
   const syncPhase = useSyncPhase();
-  const mediaControls = useMediaControls(crewId, syncPhase !== 'offline');
   const composer = useRef<ChatComposerHandle>(null);
-  const reactions = useReactions(crewId, me);
+  const reactions = useReactions(crewId, me, timeline.window);
   const { edit } = useMessageActions(crewId);
   const [overlay, setOverlay] = useState<ChatOverlay>(null);
   const [replyTo, setReplyTo] = useState<ChatMessage | null>(null);
   const [editing, setEditing] = useState<ChatMessage | null>(null);
+  const clearReply = useCallback(() => setReplyTo(null), []);
+  const mediaControls = useMediaControls(crewId, syncPhase !== 'offline', {
+    replyTo: replyTo?.id ?? null,
+    onQueued: clearReply,
+  });
+  // A note still playing stops with the chat.
+  useEffect(() => () => voicePlayback.stop(), []);
   const byId = useMemo(
     () => new Map(timeline.messages.map((message) => [message.id, message])),
     [timeline.messages],
@@ -123,46 +145,57 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   const waiting = timeline.messages.filter((message) => message.status === 'sending').length;
   const Hint = chatComposerHint();
 
+  const guideReplying = useGuideReplying(timeline.messages, info.guide !== null, timeline.loaded);
+
+  // One set of handlers for every row, the same on every render: a row is drawn again only when
+  // its own message changes.
+  const toggleReaction = reactions.toggle;
+  const handlers = useMemo<MessageRowHandlers>(
+    () => ({
+      onRetry: (message) => void retry(message),
+      onDiscard: (message) => void discard(message),
+      onActions: (message) => setOverlay({ kind: 'actions', message }),
+      onReply: setReplyTo,
+      onToggleReaction: (messageId, emoji) => void toggleReaction(messageId, emoji),
+      onShowReactions: (message) => setOverlay({ kind: 'reactions', message }),
+    }),
+    [retry, discard, toggleReaction],
+  );
+  const groups = reactions.groups;
   const renderMessage = useCallback(
-    (row: { message: ChatMessage; first: boolean; last: boolean }) => (
-      <Bubble
-        message={row.message}
-        mine={row.message.senderKind === 'user' && row.message.senderId === me}
-        first={row.first}
-        last={row.last}
-        joinIndex={joinIndex.get(row.message.senderId ?? '') ?? -1}
+    ({ message, first, last }: Extract<TimelineRow, { kind: 'message' }>) => (
+      <MessageRow
+        message={message}
+        mine={message.senderKind === 'user' && message.senderId === me}
+        first={first}
+        last={last}
+        joinIndex={joinIndex.get(message.senderId ?? '') ?? -1}
         guideColor={guideColor}
-        animate={openedAt !== null && (row.message.seq === null || row.message.seq > openedAt)}
-        onRetry={() => void retry(row.message)}
-        onDiscard={() => void discard(row.message)}
-        {...(row.message.status === 'sent' && !former
-          ? {
-              onActions: () => setOverlay({ kind: 'actions', message: row.message }),
-              onReply: () => setReplyTo(row.message),
-            }
-          : {})}
-        {...(row.message.replyToId === null
-          ? {}
-          : {
-              quote: (
-                <ReplyQuote
-                  message={byId.get(row.message.replyToId)}
-                  onDark={row.message.senderId !== me}
-                />
-              ),
-            })}
-        reactions={
-          <ReactionChips
-            groups={reactions.groups.get(row.message.id) ?? []}
-            onToggle={(emoji) => {
-              if (!former) void reactions.toggle(row.message.id, emoji);
-            }}
-            onShowAll={() => setOverlay({ kind: 'reactions', message: row.message })}
-          />
-        }
+        animate={openedAt !== null && (message.seq === null || message.seq > openedAt)}
+        readOnly={former}
+        repliedTo={message.replyToId === null ? undefined : byId.get(message.replyToId)}
+        reactions={groups.get(message.id) ?? NO_REACTIONS}
+        handlers={handlers}
       />
     ),
-    [me, joinIndex, guideColor, openedAt, retry, discard, former, byId, reactions],
+    [me, joinIndex, guideColor, openedAt, former, byId, groups, handlers],
+  );
+  const lone = info.loaded && info.members.length === 1 && !former;
+  const footer = useMemo(
+    () => (
+      <>
+        {mediaControls.uploads}
+        <TypingRow names={typing.names} guideTyping={guideReplying} guideColor={guideColor} />
+      </>
+    ),
+    [mediaControls.uploads, typing.names, guideReplying, guideColor],
+  );
+  const header = useMemo(
+    () =>
+      timeline.hasOlder ? null : (
+        <ChatStart guideSlug={info.guide?.slug ?? null} crewName={info.crewName} />
+      ),
+    [timeline.hasOlder, info.guide?.slug, info.crewName],
   );
 
   return (
@@ -179,28 +212,20 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
           <View style={styles.root}>
             {!timeline.loaded || me === null ? (
               <ChatSkeleton />
-            ) : timeline.messages.every((message) => message.senderKind === 'system') && !former ? (
+            ) : chatIsEmpty(timeline.messages, mediaControls.pending) && !former ? (
               <EmptyChat
                 guideSlug={info.guide?.slug ?? null}
                 guideName={guideName ?? 'Tokek'}
                 onSayHi={() => composer.current?.prefill('👋 ')}
+                {...(lone ? { onInvite: () => router.push(crewInviteRoute(crewId)) } : {})}
               />
             ) : (
               <MessageList
                 rows={rows}
                 today={today}
                 renderMessage={renderMessage}
-                header={
-                  timeline.hasOlder ? null : (
-                    <ChatStart guideSlug={info.guide?.slug ?? null} crewName={info.crewName} />
-                  )
-                }
-                footer={
-                  <>
-                    {mediaControls.uploads}
-                    <TypingRow names={typing.names} />
-                  </>
-                }
+                header={header}
+                footer={footer}
                 onLoadOlder={timeline.loadOlder}
                 onSeenLatest={markSeen}
               />
@@ -230,7 +255,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
                         replyTo: {
                           id: replyTo.id,
                           preview: <ReplyQuote message={replyTo} />,
-                          onCancel: () => setReplyTo(null),
+                          onCancel: clearReply,
                         },
                       })}
                   {...(editing === null
@@ -261,7 +286,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
           onReply={setReplyTo}
           onEdit={(message) => {
             setEditing(message);
-            composer.current?.prefill(message.body);
+            composer.current?.beginEdit(message.body);
           }}
         />
       )}

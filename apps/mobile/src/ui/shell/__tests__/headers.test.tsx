@@ -2,6 +2,7 @@ import { act, fireEvent } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import type * as ReactNativeModule from 'react-native';
 import type { StyleProp, TextStyle } from 'react-native';
 
@@ -67,6 +68,10 @@ describe('HeaderPill', () => {
   });
 });
 
+/** A press the way assistive tech makes it (the press gesture itself needs a native runtime). */
+const activate = (element: Parameters<typeof fireEvent>[0]) =>
+  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+
 describe('HomeHeader', () => {
   it('announces unread counts and routes each control', async () => {
     const handlers = {
@@ -76,19 +81,21 @@ describe('HomeHeader', () => {
       onOpenInbox: jest.fn(),
     };
     const screen = await renderWithI18n(
-      <HomeHeader
-        name="Winston"
-        crewName="The Bali Six"
-        members={[{ initial: 'M', color: 'pink' }]}
-        unreadChat={5}
-        unreadInbox={3}
-        {...handlers}
-      />,
+      <GestureHandlerRootView>
+        <HomeHeader
+          name="Winston"
+          crewName="The Bali Six"
+          members={[]}
+          unreadChat={5}
+          unreadInbox={3}
+          {...handlers}
+        />
+      </GestureHandlerRootView>,
     );
-    await fireEvent.press(screen.getByRole('button', { name: 'Crew chat, 5 new' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Inbox, 3 new' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'The Bali Six, switch crew' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Hey Winston' }));
+    await activate(screen.getByRole('button', { name: 'Crew chat, 5 new' }));
+    await activate(screen.getByRole('button', { name: 'Inbox, 3 new' }));
+    await activate(screen.getByRole('button', { name: 'The Bali Six, switch crew' }));
+    await activate(screen.getByRole('button', { name: 'Hey Winston' }));
     expect(handlers.onOpenChat).toHaveBeenCalled();
     expect(handlers.onOpenInbox).toHaveBeenCalled();
     expect(handlers.onSwitchCrew).toHaveBeenCalled();
@@ -98,15 +105,17 @@ describe('HomeHeader', () => {
 
   it('drops the counts once everything is read', async () => {
     const screen = await renderWithI18n(
-      <HomeHeader
-        name="Winston"
-        crewName="The Bali Six"
-        members={[]}
-        onOpenProfile={jest.fn()}
-        onSwitchCrew={jest.fn()}
-        onOpenChat={jest.fn()}
-        onOpenInbox={jest.fn()}
-      />,
+      <GestureHandlerRootView>
+        <HomeHeader
+          name="Winston"
+          crewName="The Bali Six"
+          members={[]}
+          onOpenProfile={jest.fn()}
+          onSwitchCrew={jest.fn()}
+          onOpenChat={jest.fn()}
+          onOpenInbox={jest.fn()}
+        />
+      </GestureHandlerRootView>,
     );
     expect(screen.getByRole('button', { name: 'Inbox' })).toBeTruthy();
     expect(screen.queryByTestId('home-header-inbox-badge')).toBeNull();

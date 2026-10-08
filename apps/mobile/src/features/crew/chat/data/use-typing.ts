@@ -26,13 +26,13 @@ export function useChatTyping(
 ): ChatTyping {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a channel namespace, not copy.
   const { typing, notifyTyping } = useTyping('crew_chat', crewId);
-  const names = useMemo(
-    () =>
-      typing.flatMap((uid) => {
-        const name = firstName(namesByUid.get(uid));
-        return name === null ? [] : [name];
-      }),
-    [typing, namesByUid],
-  );
-  return { names, notifyTyping };
+  // Every typing event hands over a new list; the names keep theirs until someone starts or stops.
+  const key = typing
+    .flatMap((uid) => {
+      const name = firstName(namesByUid.get(uid));
+      return name === null ? [] : [name];
+    })
+    .join('\n');
+  const names = useMemo(() => (key === '' ? [] : key.split('\n')), [key]);
+  return useMemo(() => ({ names, notifyTyping }), [names, notifyTyping]);
 }

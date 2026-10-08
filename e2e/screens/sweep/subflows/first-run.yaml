@@ -16,6 +16,14 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3b-5-first-ever
 - runFlow: home.yaml
+# Home before the first crew: the slim header keeps "Your crews" and the inbox in reach.
+- runFlow:
+    when:
+      visible:
+        id: 'home-first-run-header'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: ${LANG}-3b-1-first-run-header
 - runFlow:
     file: open-link.yaml
     env:

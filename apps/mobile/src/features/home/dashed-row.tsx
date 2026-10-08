@@ -3,8 +3,9 @@
  * the Explore entry). A round mark, a title and one line of what is behind it.
  */
 import type { ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
+import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
@@ -47,7 +48,13 @@ export function DashedRow({ testID, title, body, mark, onPress }: DashedRowProps
   const styles = useStyles();
   const theme = useTheme();
   return (
-    <Pressable testID={testID} accessibilityRole="button" onPress={onPress} style={styles.row}>
+    <PressScale
+      testID={testID}
+      widthClass="wide"
+      accessibilityLabel={`${title}. ${body}`}
+      onPress={onPress}
+      style={styles.row}
+    >
       <View style={styles.mark}>{mark}</View>
       <View style={styles.copy}>
         <Text variant="title">{title}</Text>
@@ -55,6 +62,6 @@ export function DashedRow({ testID, title, body, mark, onPress }: DashedRowProps
           {body}
         </Text>
       </View>
-    </Pressable>
+    </PressScale>
   );
 }

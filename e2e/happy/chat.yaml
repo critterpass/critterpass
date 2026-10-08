@@ -30,6 +30,7 @@ appId: app.critterpass.dev
     notVisible:
       text: 'Sending'
     timeout: 30000
+- takeScreenshot: en-3g-1-chat-sent
 # Back to Home (on Android the first back may only close the keyboard).
 - runFlow: ../onboarding/subflows/back.yaml
 - runFlow:
