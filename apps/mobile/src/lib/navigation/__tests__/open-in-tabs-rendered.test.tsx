@@ -52,7 +52,9 @@ async function go(action: () => void) {
   await act(async () => {});
 }
 
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
 describe('openInTabs in a rendered app', () => {
   it('navigates without dismissing on a tab screen', async () => {
