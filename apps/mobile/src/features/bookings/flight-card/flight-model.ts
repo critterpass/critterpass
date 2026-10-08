@@ -132,6 +132,11 @@ export function needsAttention(chip: FlightChip): boolean {
   );
 }
 
+/** Boarding has not opened yet, so the boarding ping is still to come. */
+export function awaitsBoarding(chip: FlightChip): boolean {
+  return chip === 'scheduled' || chip === 'on_time' || chip === 'delayed' || chip === 'gate_change';
+}
+
 /** "I landed" is offered once the flight should have left, until it has landed or was cancelled. */
 export function canReportLanded(view: FlightView, now: number): boolean {
   if (view.chip === 'landed' || view.chip === 'cancelled') return false;

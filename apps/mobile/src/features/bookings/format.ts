@@ -69,11 +69,10 @@ export function dateTime(locale: string, iso: string | null | undefined, tz?: st
  * price reads as it does in Money (the runtime's own currency data prints the code on iPhone).
  */
 export function price(locale: string, minor: number, currency: string): string {
-  if (!isKnownCurrency(currency)) {
-    return `${currency} ${format.number(locale, minor / 10 ** currencyDigits(currency))}`;
-  }
+  const code: string = currency;
+  if (!isKnownCurrency(code)) return `${currency} ${format.number(locale, minor / 100)}`;
   return formatMoney(
-    { amountMinor: BigInt(Math.round(minor)), currency },
+    { amountMinor: BigInt(Math.round(minor)), currency: code },
     { locale, mode: 'local' },
   );
 }

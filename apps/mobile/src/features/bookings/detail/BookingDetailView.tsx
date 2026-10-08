@@ -61,6 +61,8 @@ export interface BookingDetailViewProps {
   readonly onLanded: () => void;
   readonly onEdit: () => void;
   readonly onDelete: () => void;
+  /** Opens the supplier's own cancel (refund quote first); null when it was not booked in the app. */
+  readonly onSupplierCancel?: (() => void) | null | undefined;
 }
 
 export function BookingDetailView(props: BookingDetailViewProps) {
@@ -252,6 +254,24 @@ export function BookingDetailView(props: BookingDetailViewProps) {
             />
             <SettingsGroup
               rows={[
+                ...(props.onSupplierCancel == null
+                  ? []
+                  : [
+                      {
+                        key: 'supplier-cancel',
+                        kind: 'value' as const,
+                        title: t({
+                          id: 'bookings.detail.supplierCancel',
+                          message: 'Cancel with Viator',
+                        }),
+                        subtitle: t({
+                          id: 'bookings.detail.supplierCancelSub',
+                          message: 'You see the refund before anything is cancelled.',
+                        }),
+                        value: '',
+                        onPress: props.onSupplierCancel,
+                      },
+                    ]),
                 {
                   key: 'delete',
                   kind: 'destructive',

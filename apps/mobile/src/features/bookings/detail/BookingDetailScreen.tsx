@@ -34,6 +34,7 @@ import { BookingDetailView, type DetailDoc } from './BookingDetailView';
 import { BookingMissing } from './BookingMissing';
 import { WalletGuideProvider } from '../data/wallet-guide';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
+import { cancelRoute } from '../supplier/routes';
 import { useFormats } from '@/lib/i18n/formats';
 
 const useConfirmStyles = makeStyles((th) => ({
@@ -112,6 +113,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
           .filter(Boolean)
           .join(' · ');
   const entry = wallet.entries.get(booking.id);
+  const orderId = booking.supplierOrderId;
   const docs: DetailDoc[] = wallet.attachments
     .filter((doc) => doc.booking_id === booking.id)
     .map((doc, index) => ({
@@ -152,7 +154,6 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
               booking.kind === 'flight'
                 ? shareFlight.send({ booking_id: booking.id, visible: next })
                 : share.send({ booking_id: booking.id, visibility: next ? 'crew' : 'personal' });
-            // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast key, not copy
             void sent.then((result) =>
               report(result, { offlineCapable: true, id: 'bookings-share' }),
             );
@@ -173,6 +174,11 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
           }}
           onEdit={() => router.push(editBookingRoute(booking.id))}
           onDelete={() => setConfirming(true)}
+          onSupplierCancel={
+            booking.mine && orderId !== null && booking.status !== 'cancelled'
+              ? () => router.push(cancelRoute(orderId, booking.title))
+              : null
+          }
         />
         {confirming ? (
           <DeleteConfirm

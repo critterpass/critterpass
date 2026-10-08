@@ -66,6 +66,8 @@ export interface GettingAround {
   readonly country: string | null;
   readonly tz: string;
   readonly localCurrency: string | null;
+  /** What the crew settles in: a ride's cost is typed in it when the trip has no local currency. */
+  readonly crewCurrency: string;
   readonly leg: LegChoice;
   readonly transfer: TransferBooking | null;
   readonly quote: QuoteState;
@@ -243,6 +245,7 @@ export function useGettingAround(
     country: trip.rows[0]?.country ?? null,
     tz,
     localCurrency: trip.rows[0]?.local_currency ?? null,
+    crewCurrency: context.crewCurrency,
     leg,
     transfer,
     quote,

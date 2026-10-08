@@ -10,7 +10,6 @@ import { useTheme } from '@/ui/theme';
 import { getOcr } from '../../../../../modules/cp-ocr';
 
 /** A booking opened cold from a link keeps the stack under it, so back lands on Bookings. */
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, not copy
 export const unstable_settings = { initialRouteName: 'index' };
 
 /**

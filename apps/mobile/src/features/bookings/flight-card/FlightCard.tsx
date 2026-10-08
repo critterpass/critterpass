@@ -21,19 +21,11 @@ import { Barcode } from '@/ui/textures/barcode';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clock, dayDate } from '../format';
-import { needsAttention, type FlightView } from './flight-model';
+import { awaitsBoarding, needsAttention, type FlightView } from './flight-model';
 import { useChipLabel, useCoTravellerLine, useSourceLine } from './labels';
 import { useWalletGuide } from '../data/wallet-guide';
 
 const TILE = 76;
-
-/** The states in which the boarding ping is still to come. */
-const WAITING_TO_BOARD: ReadonlySet<FlightView['chip']> = new Set([
-  'scheduled',
-  'on_time',
-  'delayed',
-  'gate_change',
-]);
 
 const useStyles = makeStyles((t) => ({
   code: { flexShrink: 1 },
@@ -105,7 +97,7 @@ export function FlightCard({
   ];
   const lines = [
     crewLine(coTravellers),
-    mine && WAITING_TO_BOARD.has(view.chip)
+    mine && awaitsBoarding(view.chip)
       ? t({ id: 'bookings.flight.ping', message: `${guideName} pings you when boarding opens.` })
       : null,
     mine && !hasPass
