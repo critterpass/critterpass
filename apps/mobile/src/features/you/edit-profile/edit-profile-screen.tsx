@@ -8,8 +8,8 @@
 import { airportDataset } from '@cp/content/airports';
 import type { SetHomeAirportPayload, UpdateProfilePayload } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { router, usePreventRemove } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 import { goBackOr } from '@/lib/navigation/back';
 import { defineClientCommand } from '@/data/commands/summaries';
@@ -101,6 +101,9 @@ export function EditProfileScreen() {
   const username = useUsernameState(saved, draft);
   const [editing, setEditing] = useState<Editing>(null);
   const [leaving, setLeaving] = useState(false);
+  // Saved or discarded: the screen may go. Until then a swipe back or the system back with unsaved
+  // changes asks first, exactly as the eyebrow does.
+  const [free, setFree] = useState(false);
   const [saving, setSaving] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
   const online = useCommand(updateProfileOnline);
@@ -132,13 +135,21 @@ export function EditProfileScreen() {
       if (changes.profile?.name !== undefined) {
         putPendingEdits<PendingMe>(PENDING_ME, { name: changes.profile.name });
       }
-      goBackOr(YOU_ROUTES.profile);
+      setFree(true);
     } catch {
       setProblem(saveProblemText('UNAVAILABLE', null));
     } finally {
       setSaving(false);
     }
   };
+
+  usePreventRemove(dirty && !free, () => setLeaving(true));
+  useEffect(() => {
+    if (!free) return undefined;
+    // After the guard above has let go of the screen.
+    const timer = setTimeout(() => goBackOr(YOU_ROUTES.profile), 0);
+    return () => clearTimeout(timer);
+  }, [free]);
 
   const avatar = model?.avatar ?? { kind: 'initials' as const };
   const worn = useWornForm(avatar.kind === 'form' ? avatar.formId : null);
@@ -272,7 +283,7 @@ export function EditProfileScreen() {
           mode="button"
           onConfirm={() => {
             setLeaving(false);
-            goBackOr(YOU_ROUTES.profile);
+            setFree(true);
           }}
           onCancel={() => setLeaving(false)}
           testID="you-edit-discard"
