@@ -2,7 +2,8 @@
  * The winner reveal (3c-2): the winner's colour takes the screen, its name stamps down while the
  * guide hops in front of the turning rays and confetti fires once; the tally card follows, the
  * losing guide takes it well, and the organiser gets "SET UP KYOTO" while everyone else learns who
- * has the setup and gets "BACK HOME". Opening it files `mark_reveal_seen`, so each person sees it once on any device.
+ * has the setup and gets "BACK HOME". Opening it files `mark_reveal_seen`, so each person sees it
+ * play once on any device; opened again it is the finished result.
  * Viewers who missed the vote or whose pick lost get their own line; reduced motion stills the rays,
  * drops the confetti and fades the finished screen in. A place the organiser locked in before
  * anyone voted is not a vote that was won or missed: it shows as locked in, with no score.
@@ -14,8 +15,11 @@ import { useEffect, useRef } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
 import { guideSticker } from '@/ui/avatar/guides';
+import { goBackOr } from '@/lib/navigation/back';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { AvatarStack } from '@/ui/people/AvatarStack';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
@@ -30,12 +34,20 @@ import { guideOr, money, upper } from '../format';
 import { pollScore } from '../poll/poll-result';
 import { voteRoutes } from '../routes';
 import { RevealAction, RevealStage } from './reveal-stage';
+import { REVEAL_MS } from './reveal-timeline';
 
 function nameOf(option: PollOptionView, places: ReturnType<typeof usePlaces>): string {
   return (option.refId === null ? undefined : places.get(option.refId)?.name) ?? option.label;
 }
 
-export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readonly me: string }) {
+export interface WinnerRevealViewProps {
+  readonly poll: PollView;
+  readonly me: string;
+  /** A result opened again: the finished screen, with no stamp, thud or confetti. */
+  readonly settled?: boolean | undefined;
+}
+
+export function WinnerRevealView({ poll, me, settled = false }: WinnerRevealViewProps) {
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const places = usePlaces(poll.id);
@@ -46,15 +58,15 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
   const fired = useRef(false);
   const send = seen.send;
   useEffect(() => {
-    if (fired.current) return;
+    if (fired.current || settled) return;
     fired.current = true;
     void send({ poll_id: poll.id });
-  }, [poll.id, send]);
+  }, [poll.id, send, settled]);
 
   const media = useDestinationsMedia([...places.values()].flatMap((p) => (p.slug ? [p.slug] : [])));
   const winner = poll.options.find((option) => option.winner);
   const loser = poll.options.find((option) => !option.winner);
-  if (winner === undefined) return null;
+  if (winner === undefined) return <RevealMissing />;
   const winnerPlace = winner.refId === null ? undefined : places.get(winner.refId);
   const winnerName = nameOf(winner, places);
   const loserName = loser === undefined ? null : nameOf(loser, places);
@@ -78,10 +90,7 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
       ? t({ id: 'vote.reveal.lockedByOrganiser', message: 'The organiser picked it' })
       : t({ id: 'vote.reveal.lockedBy', message: `${organiserName} picked it` });
   // The reveal draws no back control and takes no back gesture: its action is the only way out.
-  const leave = () => {
-    if (router.canGoBack()) router.back();
-    else router.replace('/');
-  };
+  const leave = () => goBackOr();
   const setUp = () => {
     const href = poll.tripId === null ? undefined : voteRoutes.tripSetup(poll.tripId);
     if (href === undefined) leave();
@@ -103,6 +112,7 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
   }));
   return (
     <RevealStage
+      holdAt={settled ? REVEAL_MS.end : undefined}
       colour={colour}
       photo={winnerPlace?.slug === undefined ? null : heroAt(media.get(winnerPlace.slug) ?? [])}
       eyebrow={upper(
@@ -228,23 +238,44 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
   );
 }
 
+/** A result that is not on this phone. */
+function RevealMissing() {
+  const { t } = useLingui();
+  return (
+    <ScreenMissing
+      backLabel={t({ id: 'vote.reveal.back', message: 'Home' })}
+      title={t({ id: 'vote.reveal.missingTitle', message: 'This result isn’t here' })}
+      line={t({
+        id: 'vote.reveal.missingLine',
+        message: 'The vote may have been removed, or this phone hasn’t got it yet.',
+      })}
+      testID="reveal-missing"
+    />
+  );
+}
+
 /**
- * The reveal plays once: a reveal this user has already seen (a cold start restoring this screen,
- * or another device having shown it) leaves for where the user came from instead of replaying.
+ * The reveal plays once: a reveal this user has already seen (a link from the trip or the inbox, a
+ * cold start restoring this screen, another device having shown it) opens as the finished result
+ * instead of replaying. While the poll is still being read, or its close has not reached this phone
+ * yet, it waits under a back control; a poll that is not here says so.
  */
 export function WinnerRevealScreen({ pollId }: { readonly pollId: string }) {
   // The reveal (3c-2) ends the vote on its call to action; the design draws no back control.
   useNoBackByDesign();
+  const { t } = useLingui();
   const me = useMyUid();
-  const { poll } = usePoll(pollId, me);
+  const { poll, loaded } = usePoll(pollId, me);
   const seenBefore = useRevealSeenOnOpen(pollId, me);
-  useEffect(() => {
-    if (seenBefore !== true) return;
-    if (router.canGoBack()) router.back();
-    else router.replace('/');
-  }, [seenBefore]);
-  if (poll === null || me === null || poll.status !== 'closed' || seenBefore !== false) {
-    return null;
+  if (poll !== null && me !== null && poll.status === 'closed' && seenBefore !== null) {
+    return <WinnerRevealView poll={poll} me={me} settled={seenBefore} />;
   }
-  return <WinnerRevealView poll={poll} me={me} />;
+  if (loaded && me !== null && poll === null) return <RevealMissing />;
+  return (
+    <ScreenLoading
+      backLabel={t({ id: 'vote.reveal.back', message: 'Home' })}
+      label={t({ id: 'vote.reveal.loading', message: 'Loading the result' })}
+      testID="reveal-loading"
+    />
+  );
 }

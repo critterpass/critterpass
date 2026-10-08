@@ -25,6 +25,8 @@ import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
@@ -117,7 +119,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
   }, [poll.status, poll.id]);
   const [first, second] = poll.options;
-  if (first === undefined || second === undefined) return null;
+  if (first === undefined || second === undefined) return <ShowdownMissing />;
   const placeOf = (option: PollOptionView) =>
     option.refId === null ? undefined : places.get(option.refId);
   const vote = (option: PollOptionView, direction: 1 | -1) => async () => {
@@ -252,9 +254,35 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   );
 }
 
+/** A final that is not on this phone, or has fewer than two places left to choose between. */
+function ShowdownMissing() {
+  const { t } = useLingui();
+  return (
+    <ScreenMissing
+      backLabel={t({ id: 'vote.showdown.back', message: 'Next trip · final' })}
+      title={t({ id: 'vote.showdown.missingTitle', message: 'This vote isn’t here' })}
+      line={t({
+        id: 'vote.showdown.missingLine',
+        message: 'It may be over, or this phone hasn’t got it yet.',
+      })}
+      testID="showdown-missing"
+    />
+  );
+}
+
 export function ShowdownScreen({ pollId }: { readonly pollId: string }) {
+  const { t } = useLingui();
   const me = useMyUid();
-  const { poll } = usePoll(pollId, me);
-  if (poll === null) return null;
-  return <ShowdownView poll={poll} />;
+  const { poll, loaded } = usePoll(pollId, me);
+  if (poll !== null) return <ShowdownView poll={poll} />;
+  if (!loaded || me === null) {
+    return (
+      <ScreenLoading
+        backLabel={t({ id: 'vote.showdown.back', message: 'Next trip · final' })}
+        label={t({ id: 'vote.showdown.loading', message: 'Loading the vote' })}
+        testID="showdown-loading"
+      />
+    );
+  }
+  return <ShowdownMissing />;
 }
