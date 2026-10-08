@@ -1,0 +1,136 @@
+appId: app.critterpass.dev
+---
+# Journey: the crew's destination vote, from a pitch to the reveal. A new account starts as the
+# `vote` scenario (the Bali demo crew's open vote, organised by the account: Kyoto and Lisbon two
+# ballots each from the crewmates, Iceland and Mexico City none). It pitches Cusco (the guide's
+# pitch streams in), the board gains it as its fifth sticker and the account votes for it; GO TO
+# FINAL takes the top two (the ballot on Cusco is dropped), the account's ballot in the 2–2 final
+# is the last one, the vote closes and the winner is revealed. The reveal has no back: its one
+# action is the way out, which for the organiser opens the trip's setup.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: vote
+# The board sits on Home under the countdown.
+- scrollUntilVisible:
+    element:
+      id: 'board-pitch'
+    timeout: 20000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-vote-board
+- tapOn:
+    id: 'board-pitch'
+# The sheet's root id isn't in iOS's accessibility tree; its search field is.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 10000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'cusco'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-result-0'
+# The guide's pitch streams in; ADD TO THE VOTE turns on when it ends (its quote is optional).
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-card'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
+    timeout: 60000
+- takeScreenshot: en-journey-vote-pitch
+- tapOn:
+    id: 'pitch-add'
+- runFlow:
+    when:
+      notVisible:
+        id: 'destination-board'
+    file: ../onboarding/subflows/back.yaml
+# Stickers follow the options' order: the four seeded places, then Cusco. A tap votes for it, and
+# the sticker reads as the account's own (selected).
+- scrollUntilVisible:
+    element:
+      id: 'board-sticker-4'
+    timeout: 20000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-sticker-4'
+- extendedWaitUntil:
+    visible:
+      id: 'board-sticker-4'
+      selected: true
+    timeout: 15000
+# The board reflows as the vote lands; a tap that caught the pitch card instead is backed out of.
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'pitch-search'
+          file: ../onboarding/subflows/back.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'board-go-to-final'
+          timeout: 20000
+          visibilityPercentage: 100
+          centerElement: true
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'board-go-to-final'
+      - extendedWaitUntil:
+          visible:
+            id: 'final-split'
+          timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'final-split-open'
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 15000
+- assertVisible:
+    id: 'showdown-half-0'
+- assertVisible:
+    id: 'showdown-half-1'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-vote-showdown
+# The account's ballot is the last one: the vote closes and the reveal takes over.
+- tapOn:
+    id: 'showdown-half-0'
+- extendedWaitUntil:
+    visible:
+      id: 'winner-reveal'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-stamp'
+    timeout: 15000
+- assertVisible:
+    id: 'reveal-tally'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-vote-reveal
+# The way out: the organiser's SET UP opens the trip's setup.
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-title'
+    timeout: 30000
+- assertNotVisible:
+    id: 'winner-reveal'

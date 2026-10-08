@@ -58,6 +58,7 @@ export function TileGrid({ tiles, columns = 2 }: TileGridProps) {
                   {...(tile.onPress ? { onPress: tile.onPress } : {})}
                   accessibilityLabel={label}
                   style={styles.tile}
+                  testID={`tile-${tile.key}`}
                 >
                   <Stack gap="8" flex={1} justify="space-between">
                     {tile.art ??

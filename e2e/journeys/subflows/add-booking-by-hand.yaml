@@ -1,0 +1,112 @@
+appId: app.critterpass.dev
+---
+# From the wallet's bookings (with at least one booking): Add a booking, "Or type it in by hand",
+# and the form for ${KIND} (`flight` or `activity`) on ${DAY} (YYYY-MM-DD) at ${TIME}.
+#   flight:   ${FLIGHT} from ${FROM} to ${TO}, landing ${LANDS}
+#   activity: ${TITLE}
+# Saved; it ends on the wallet. ${SHOT}, when set, names a screenshot of the filled form.
+- scrollUntilVisible:
+    element:
+      id: 'bookings-add'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    # Clear of the tab bar's guide button, which sits over the foot of the page.
+    centerElement: true
+- tapOn:
+    id: 'bookings-add'
+- extendedWaitUntil:
+    visible:
+      id: 'tile-paste'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'bookings-add-by-hand'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'bookings-add-by-hand'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-form-add'
+    timeout: 15000
+- tapOn:
+    id: 'bookings-form-kind-${KIND}'
+- runFlow:
+    when:
+      true: ${KIND == 'flight'}
+    commands:
+      # The kind's tap can leave the form scrolled with the keyboard up and the flight field above
+      # the fold, where a tap lands on the screen behind: each field is brought into view first.
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-flight'
+          direction: UP
+          timeout: 10000
+          centerElement: true
+      - tapOn:
+          id: 'bookings-form-flight'
+      - inputText: ${FLIGHT}
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-from'
+          direction: DOWN
+          timeout: 10000
+          centerElement: true
+      - tapOn:
+          id: 'bookings-form-from'
+      - inputText: ${FROM}
+      - tapOn:
+          id: 'bookings-form-to'
+      - inputText: ${TO}
+- runFlow:
+    when:
+      true: ${KIND == 'activity'}
+    commands:
+      - tapOn:
+          id: 'bookings-form-title'
+      - inputText: ${TITLE}
+- runFlow:
+    file: pick-booking-day.yaml
+    env:
+      DAY: ${DAY}
+- tapOn:
+    id: 'bookings-form-time'
+- inputText: ${TIME}
+- runFlow:
+    when:
+      true: ${KIND == 'flight'}
+    commands:
+      # With the keyboard up the form's scroll ends above the SAVE footer, and a field behind the
+      # footer still counts as visible: the tap would save the form instead. The keyboard goes
+      # first on iOS.
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - hideKeyboard
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-arrive'
+          direction: DOWN
+          timeout: 10000
+          centerElement: true
+      - tapOn:
+          id: 'bookings-form-arrive'
+      - inputText: ${LANDS}
+      - assertVisible:
+          id: 'bookings-form-zone'
+- runFlow:
+    when:
+      true: ${typeof SHOT !== 'undefined' && SHOT !== ''}
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOT}
+- tapOn:
+    id: 'bookings-form-save'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-.*'
+    timeout: 30000

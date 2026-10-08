@@ -1,0 +1,147 @@
+appId: app.critterpass.dev
+---
+# Journey: crew chat. A new account starts as the `everyday` scenario (the Bali demo crew of five
+# with its chat). The chat opens from Home's header with the crewmates' messages; a message goes
+# out and the api takes it (its actions offer reactions only once it is sent); a reply to it
+# carries its quote; a poll from the "+" menu posts its card and the account's vote marks its
+# option; and an @mention picks a crewmate from the suggestions and goes out with the name.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: everyday
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'chat-message-.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-chat-open
+# A message.
+- tapOn:
+    id: 'chat-composer-field'
+- inputText: 'landing at six'
+- tapOn:
+    id: 'chat-composer-send'
+- extendedWaitUntil:
+    visible: '.*landing at six.*'
+    timeout: 10000
+- assertNotVisible:
+    id: 'chat-failed-.*'
+- hideKeyboard
+# Its actions: the reaction bar is drawn only for a message the api has taken.
+- longPressOn: '.*landing at six.*'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-actions-panel'
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'chat-reaction-bar'
+    timeout: 30000
+# A reply.
+- tapOn:
+    id: 'settings-row-reply'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-replying'
+    timeout: 5000
+- tapOn:
+    id: 'chat-composer-field'
+- inputText: 'gate B4'
+- tapOn:
+    id: 'chat-composer-send'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-reply-quote'
+    timeout: 10000
+- assertNotVisible:
+    id: 'chat-replying'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-chat-reply
+# A poll from the "+" menu.
+- tapOn:
+    id: 'chat-composer-attach'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-attach-panel'
+    timeout: 5000
+- tapOn:
+    id: 'settings-row-poll'
+- extendedWaitUntil:
+    visible:
+      id: 'new-poll-panel'
+    timeout: 10000
+- tapOn:
+    id: 'new-poll-question'
+- inputText: 'Dinner tonight?'
+- tapOn:
+    id: 'new-poll-option-0'
+- inputText: 'Tacos'
+- tapOn:
+    id: 'new-poll-option-1'
+- inputText: 'Ramen'
+# POST sits under the keyboard: return closes it on iOS (it keeps it up through hideKeyboard).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - pressKey: Enter
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'new-poll-post'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'new-poll-post'
+- extendedWaitUntil:
+    visible:
+      id: 'poll-option-0'
+    timeout: 15000
+- tapOn:
+    id: 'poll-option-0'
+- extendedWaitUntil:
+    visible:
+      id: 'poll-option-0'
+      selected: true
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-chat-poll
+# A mention: "@" lists the guide first, then the crewmates; the first crewmate is picked.
+- tapOn:
+    id: 'chat-composer-field'
+- inputText: '@'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-mentions'
+    timeout: 10000
+- tapOn:
+    id: 'chat-mention-.*'
+    index: 1
+- extendedWaitUntil:
+    notVisible:
+      id: 'chat-mentions'
+    timeout: 5000
+- inputText: 'bring the map'
+- tapOn:
+    id: 'chat-composer-send'
+- extendedWaitUntil:
+    visible: '@.*bring the map.*'
+    timeout: 10000
+- assertNotVisible:
+    id: 'chat-failed-.*'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-chat-mention

@@ -306,11 +306,23 @@ only (a label is used where a control has no id, never text that comes from stag
 | `onboarding` | fresh install, real UI | name → avatar → taste → home → pass issued → Home → the session survives a relaunch             |
 | `home`       | start as `inbox`       | countdown, tip and bell → inbox → answer the card → UNDO the guide's change → TRIPS, WALLET, PASS |
 | `money`      | start as `trip_today`  | add ₫450,000 split by share → its detail → Settle up → request a payment → confirm it arrived    |
+| `vote`       | start as `vote`        | pitch Cusco → it joins the board → vote for it → GO TO FINAL → the last ballot → reveal → SET UP |
+| `chat`       | start as `everyday`    | send → it is taken (reactions offered) → reply with its quote → a poll and a vote → an @mention  |
+| `bookings`   | start as `trip_today`  | WALLET → BOOKINGS → paste the flight home → ADD → its details → an activity by hand → delete it  |
+| `trip-day`   | start as `trip_today`  | TRIPS hub → day-of → I'M UP → pack list tick → a flight typed in → I LANDED → relaunch → tick kept |
+| `plan-edit`  | start as `trip_today`  | PLAN → day 1 → search → add a stop → move it to day 2 → a place saved to Ideas → relaunch keeps it |
+| `guide`      | start as `everyday`    | guide button → ask → streamed answer → JUST ME has its own thread → GROUP brings it back          |
 
 ```sh
 gh workflow run device.yml --ref <branch> -f platform=android -f mode=flows -f shards=2 \
   -f flows="e2e/journeys/onboarding.yaml e2e/journeys/home.yaml"
 ```
+
+Shared controls answer under their owner's id: a `Composer`'s field, "+" and send are
+`<id>-field`, `<id>-attach` and `<id>-send`; a `Segmented` option is `<id>-<value>`
+(`wallet-switch-bookings`, `guide-modes-private`); a `ConfirmSheet`'s buttons are `<id>-confirm` and
+`<id>-cancel`; a `SettingsGroup` row is `settings-row-<key>` (the chat's `settings-row-reply`,
+`settings-row-poll`); a `TileGrid` tile is `tile-<key>` (`tile-paste`).
 
 A new journey starts with `_shared/start-as.yaml` (only `onboarding` walks the real screens),
 brings other people in through the runner's `friend` and `trip-day` scenarios, and adds a seed

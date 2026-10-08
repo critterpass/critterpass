@@ -1,0 +1,60 @@
+appId: app.critterpass.dev
+---
+# Journey: ask the guide. A new account starts as the `everyday` scenario (the Bali demo crew's
+# confirmed trip, guided by Tokek). The guide button opens the sheet over Home, the question goes
+# to the turn route and the answer streams in. With a crew on the trip the sheet has GROUP and
+# JUST ME: Just me is its own thread (the group's question and answer are not in it), and Group
+# brings them back. Needs the staging api's guide model key and answers left on the free meter
+# (a new account starts at 0 of 30).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: everyday
+- tapOn:
+    id: 'guide-fab'
+# The sheet's root id isn't in iOS's accessibility tree; its composer is.
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-guide-open
+- tapOn:
+    id: 'guide-composer-field'
+- inputText: 'What should we pack for rain in Ubud?'
+- tapOn:
+    id: 'guide-composer-send'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-question'
+    timeout: 15000
+# The answer streams in: the live answer once its first words arrive, or its saved copy once it has
+# synced. A short answer can finish streaming before the flow looks, so either is enough.
+- extendedWaitUntil:
+    visible:
+      id: 'guide-answer-(live|[0-9a-f-]{36})'
+    timeout: 90000
+- assertNotVisible:
+    id: 'guide-error'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-guide-answer
+# Just me, then Group.
+- assertVisible:
+    id: 'guide-modes'
+- tapOn:
+    id: 'guide-modes-private'
+- extendedWaitUntil:
+    notVisible:
+      id: 'guide-question'
+    timeout: 5000
+- assertNotVisible:
+    id: 'guide-answer-(live|[0-9a-f-]{36})'
+- takeScreenshot: en-journey-guide-just-me
+- tapOn:
+    id: 'guide-modes-group'
+# The group thread opens at its end: its answer shows, the question sits above it.
+- extendedWaitUntil:
+    visible:
+      id: 'guide-answer-(live|[0-9a-f-]{36})'
+    timeout: 20000

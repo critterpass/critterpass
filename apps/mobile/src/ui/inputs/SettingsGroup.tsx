@@ -223,7 +223,8 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
               }
             : {})}
           style={[styles.row, { flexDirection: 'row', gap: theme.space['12'] }, dim]}
-          testID={row.testID}
+          // A row's own id wins; every other row is addressed by its key.
+          testID={row.testID ?? `settings-row-${row.key}`}
         >
           {content}
         </PressScale>

@@ -101,6 +101,7 @@ export function Segmented<Value extends string>({
               segment.badge ? `${segment.label}, ${segment.badge}` : segment.label
             }
             accessibilityState={{ checked: selected }}
+            {...(testID === undefined ? {} : { testID: `${testID}-${segment.value}` })}
             style={[
               styles.segment,
               selected
