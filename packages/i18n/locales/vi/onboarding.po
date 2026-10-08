@@ -207,7 +207,7 @@ msgstr "Bữa sáng là một lối sống"
 msgid "onboarding.tag.thrifty"
 msgstr "Cao thủ tiết kiệm"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr "Khi tiếp tục, bạn đồng ý với Điều khoản và Chính sách quyền riêng tư."
@@ -262,12 +262,12 @@ msgstr "Cà phê"
 msgid "onboarding.tag.coffee"
 msgstr "Ghé quán cà phê"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr "Tiếp tục với Apple"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.google"
 msgstr "Tiếp tục với Google"
@@ -580,6 +580,7 @@ msgstr "Thiên nhiên"
 msgid "onboarding.home.far"
 msgstr "Sân bay gần nhất {0}. {farLine}"
 
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 msgid "onboarding.name.next"
 msgstr "Tiếp"
@@ -657,7 +658,7 @@ msgstr "Mở pass của bạn"
 msgid "onboarding.taste.or"
 msgstr "hay"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.or"
 msgstr "hoặc"
 
@@ -1023,12 +1024,12 @@ msgstr "Chiều bản thân"
 msgid "onboarding.tag.splurge"
 msgstr "Tự thưởng"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
-msgid "onboarding.phone.retry"
-msgstr "Thử lại"
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
@@ -1111,7 +1112,7 @@ msgstr "Không tìm thấy bạn trong ảnh này, nên ảnh được cắt tr�
 msgid "onboarding.photo.real.body"
 msgstr "Chúng tôi cắt hình bạn như một nhãn dán, ngay trên điện thoại. Cả nhóm sẽ thấy sau khi ảnh được duyệt."
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.neverPost"
 msgstr "Chúng tôi không bao giờ đăng gì thay bạn."
 

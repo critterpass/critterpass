@@ -207,7 +207,7 @@ msgstr ""
 msgid "onboarding.tag.thrifty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr ""
@@ -262,12 +262,12 @@ msgstr ""
 msgid "onboarding.tag.coffee"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.google"
 msgstr ""
@@ -580,6 +580,7 @@ msgstr ""
 msgid "onboarding.home.far"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 msgid "onboarding.name.next"
 msgstr ""
@@ -657,7 +658,7 @@ msgstr ""
 msgid "onboarding.taste.or"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.or"
 msgstr ""
 
@@ -1023,12 +1024,12 @@ msgstr ""
 msgid "onboarding.tag.splurge"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
-msgid "onboarding.phone.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
@@ -1111,7 +1112,7 @@ msgstr ""
 msgid "onboarding.photo.real.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 msgid "onboarding.phone.neverPost"
 msgstr ""
 
