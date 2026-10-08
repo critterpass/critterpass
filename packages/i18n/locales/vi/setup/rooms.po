@@ -177,6 +177,10 @@ msgid "setup.rooms.wishesMissing"
 msgstr "Chọn cái nào hợp với bạn. Không ai thấy đâu; chỉ dùng để xếp phòng."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.pickStaySolo"
+msgstr "Chọn kiểu chỗ ở bạn thích. Nó quyết định tiền ở của chuyến đi."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.pickStay"
 msgstr "Chọn chỗ ở rồi {guide} sẽ chia phòng."
 
@@ -228,6 +232,10 @@ msgstr "Chỗ ở này hiện chưa có giá cho chuyến đi nên chưa đượ
 msgid "setup.rooms.stayGone"
 msgstr "Chỗ ở đó không còn cho những ngày này. Chọn chỗ khác nhé."
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.line.solo"
+msgstr "Đây là chỗ ở của bạn cho chuyến đi."
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.traitIn.couple"
 msgstr "cặp đôi"
@@ -249,6 +257,10 @@ msgid "setup.rooms.stay.villa"
 msgstr "Biệt thự"
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.titleSolo"
+msgstr "Bạn sẽ ở đâu?"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.title"
 msgstr "Ai ngủ đâu?"
 
@@ -259,3 +271,7 @@ msgstr "Mong muốn về phòng"
 #: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
 msgid "setup.rooms.price.mine"
 msgstr "Phần tiền phòng của bạn:"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.solo"
+msgstr "Tiền ở của bạn:"

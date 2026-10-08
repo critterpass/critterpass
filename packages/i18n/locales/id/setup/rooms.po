@@ -177,6 +177,10 @@ msgid "setup.rooms.wishesMissing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.pickStaySolo"
+msgstr "Pilih jenis penginapan yang kamu mau. Itu menentukan biaya menginapnya."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.pickStay"
 msgstr ""
 
@@ -228,6 +232,10 @@ msgstr ""
 msgid "setup.rooms.stayGone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.line.solo"
+msgstr "Ini penginapanmu untuk trip ini."
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.traitIn.couple"
 msgstr ""
@@ -249,6 +257,10 @@ msgid "setup.rooms.stay.villa"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.titleSolo"
+msgstr "Mau menginap di mana?"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.title"
 msgstr ""
 
@@ -259,3 +271,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
 msgid "setup.rooms.price.mine"
 msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.solo"
+msgstr "Biaya menginapmu:"

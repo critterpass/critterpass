@@ -47,8 +47,16 @@ msgstr ""
 msgid "setup.push.notMovable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.close"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.back.home"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
@@ -56,6 +64,7 @@ msgid "setup.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr ""
 
@@ -105,6 +114,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.rooms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.notYours"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
