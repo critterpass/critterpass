@@ -1,5 +1,8 @@
 import { afterAll, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook } from '@testing-library/react-native';
+import { NavigationContext } from 'expo-router/react-navigation';
+import { createElement, type ContextType, type ReactNode } from 'react';
+import { AppState, type AppStateStatus } from 'react-native';
 
 import { E2E_IDLE_LOOP_MS, idleLoopBudgetMs, useIdleLoopRunning } from '../idle-pause';
 
@@ -50,5 +53,58 @@ describe('useIdleLoopRunning', () => {
     await rerender({ active: true });
     await advance(999);
     expect(result.current).toBe(true);
+  });
+
+  it('rests a loop while its screen is covered and plays it again when it is back', async () => {
+    let focused = true;
+    const listeners = { focus: new Set<() => void>(), blur: new Set<() => void>() };
+    const navigation = {
+      isFocused: () => focused,
+      addListener: (type: 'focus' | 'blur', listener: () => void) => {
+        listeners[type].add(listener);
+        return () => listeners[type].delete(listener);
+      },
+    } as unknown as NonNullable<ContextType<typeof NavigationContext>>;
+    const focus = (next: boolean) =>
+      act(() => {
+        focused = next;
+        for (const listener of listeners[next ? 'focus' : 'blur']) listener();
+        return Promise.resolve();
+      });
+    const wrapper = ({ children }: { children: ReactNode }) =>
+      createElement(NavigationContext.Provider, { value: navigation }, children);
+
+    const { result } = await renderHook(() => useIdleLoopRunning(true, null), { wrapper });
+    expect(result.current).toBe(true);
+    await focus(false);
+    expect(result.current).toBe(false);
+    await focus(true);
+    expect(result.current).toBe(true);
+  });
+
+  it('rests a loop while the app is in the background', async () => {
+    const appListeners: ((state: AppStateStatus) => void)[] = [];
+    const spy = jest.spyOn(AppState, 'addEventListener').mockImplementation((_type, listener) => {
+      appListeners.push(listener as (state: AppStateStatus) => void);
+      return { remove: () => undefined } as ReturnType<typeof AppState.addEventListener>;
+    });
+    const app = (state: AppStateStatus) =>
+      act(() => {
+        for (const listener of appListeners) listener(state);
+        return Promise.resolve();
+      });
+
+    const { result } = await renderHook(() => useIdleLoopRunning(true, null));
+    expect(result.current).toBe(true);
+    await app('background');
+    expect(result.current).toBe(false);
+    await app('active');
+    expect(result.current).toBe(true);
+    spy.mockRestore();
+  });
+
+  it('never runs a loop nobody asked for, however visible', async () => {
+    const { result } = await renderHook(() => useIdleLoopRunning(false, null));
+    expect(result.current).toBe(false);
   });
 });

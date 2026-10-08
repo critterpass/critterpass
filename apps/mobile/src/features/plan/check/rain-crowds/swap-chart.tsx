@@ -9,6 +9,7 @@ import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   LinearTransition,
   useAnimatedStyle,
   useSharedValue,
@@ -16,6 +17,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -86,11 +88,12 @@ function BlockView({
   readonly style: object;
 }) {
   const opacity = useSharedValue(1);
-  const on = pulse && block.inTheWay && !reducedMotion;
+  const on = useIdleLoopRunning(pulse && block.inTheWay && !reducedMotion);
   useEffect(() => {
     opacity.value = on
       ? withRepeat(withTiming(0.45, { duration: tokens.motion.duration.extra }), -1, true)
       : 1;
+    return () => cancelAnimation(opacity);
   }, [on, opacity]);
   const fade = useAnimatedStyle(() => ({ opacity: opacity.value }));
   return (

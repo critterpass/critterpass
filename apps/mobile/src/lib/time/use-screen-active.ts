@@ -30,7 +30,8 @@ export function useAppActive(): boolean {
     const subscription = AppState.addEventListener('change', (state) =>
       setActive(state === 'active'),
     );
-    return () => subscription.remove();
+    // Optional: a test double for `AppState` may hand back nothing to remove.
+    return () => subscription?.remove();
   }, []);
   return active;
 }
