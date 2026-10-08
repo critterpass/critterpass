@@ -142,6 +142,7 @@ export function BriefingRow({ line, first, onAct }: BriefingRowProps) {
             disabled={acted && line.action !== 'open'}
             onPress={() => onAct(line)}
             widthClass="narrow"
+            hitSlop={theme.space['8']}
             testID={`trip-briefing-chip-${line.action}`}
             style={[styles.chip, { backgroundColor: tone.bg }]}
           >

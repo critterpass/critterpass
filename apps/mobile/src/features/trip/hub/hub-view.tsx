@@ -17,6 +17,7 @@ import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { useTabBarInset } from '@/ui/shell/TabBar';
+import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -57,6 +58,10 @@ export interface HubViewProps {
   readonly crewSize?: number | undefined;
   /** What comes next in this phase, one compact row each. */
   readonly entries: readonly HubNext[];
+  /** The trip's open disruptions, one row each, above everything else under the header. */
+  readonly disruptions?: readonly HubNext[];
+  /** No signal on a day that is not a trip day: the hub stays, with the pill above its rows. */
+  readonly offlinePill?: boolean;
   readonly briefing: BriefingState;
   readonly onAct: (line: BriefingLine) => void;
   readonly tiles: readonly { key: string; node: ReactNode }[];
@@ -158,8 +163,12 @@ export function HubView(props: HubViewProps) {
               />
             </Row>
           )}
+          {props.offlinePill === true ? <OfflinePill testID="trip-hub-offline-pill" /> : null}
           {props.offlineCard}
           {props.offlineConflicts}
+          {props.disruptions?.map((row) => (
+            <NextRow key={row.testID} next={row} />
+          ))}
           {props.offlineCard !== undefined
             ? null
             : props.entries.map((entry) => <NextRow key={entry.testID} next={entry} />)}

@@ -116,6 +116,10 @@ msgstr ""
 msgid "trip.hub.tile.noBookings"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.afterVote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.allOffline"
 msgstr ""
@@ -156,8 +160,16 @@ msgstr ""
 msgid "trip.list.calledOff"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.calledOff"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.cancelledGroup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
+msgid "trip.hub.disruption.closure"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
@@ -168,11 +180,15 @@ msgstr ""
 msgid "trip.list.booked"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-screen-rows.tsx
+msgid "trip.hub.chat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.dayUnit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.dayOf"
 msgstr ""
 
@@ -216,12 +232,20 @@ msgstr ""
 msgid "trip.hub.swipeDetailIdeas"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-screen-rows.tsx
+msgid "trip.hub.chatDetail"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.explore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.firstDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
+msgid "trip.hub.disruption.flight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
@@ -236,7 +260,7 @@ msgstr ""
 msgid "trip.list.home"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.homeSince"
 msgstr ""
 
@@ -244,7 +268,7 @@ msgstr ""
 msgid "trip.list.inProgress"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.landIn"
 msgstr ""
 
@@ -268,7 +292,7 @@ msgstr ""
 msgid "trip.menu.leaveConfirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.leavingIn"
 msgstr ""
 
@@ -336,6 +360,10 @@ msgstr ""
 msgid "trip.briefing.nudgedSome"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.rateDetail"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.draftPrivate"
 msgstr ""
@@ -348,12 +376,20 @@ msgstr ""
 msgid "trip.menu.cancelBoost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.sharePlanDetail"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.owed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.packTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.pastGroup"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
@@ -366,6 +402,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.planning"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
+msgid "trip.hub.disruption.late"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -400,6 +444,10 @@ msgstr ""
 msgid "trip.list.settingUp"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.sharePlan"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
 msgid "trip.menu.leaveMoney"
 msgstr ""
@@ -412,6 +460,10 @@ msgstr ""
 msgid "trip.hub.tile.planComingPlain"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
+msgid "trip.hub.disruption.storm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.swipe"
 msgstr ""
@@ -421,7 +473,7 @@ msgstr ""
 msgid "trip.hub.switch"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.takeOff"
 msgstr ""
 
@@ -490,7 +542,7 @@ msgid "trip.briefing.today"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.today"
 msgstr ""
 
@@ -502,6 +554,14 @@ msgstr ""
 msgid "trip.hub.tomorrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleted"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.voting"
 msgstr ""
@@ -510,7 +570,11 @@ msgstr ""
 msgid "trip.hub.cta.vote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
+msgid "trip.hub.disruption.weather"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.wheelsUp"
 msgstr ""
 
@@ -520,6 +584,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.openDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.left"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
