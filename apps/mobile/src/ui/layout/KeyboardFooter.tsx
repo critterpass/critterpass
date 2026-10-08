@@ -1,14 +1,13 @@
 import { BottomTabBarHeightContext } from 'expo-router/js-tabs';
 import { useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Dimensions, Keyboard, Platform, StyleSheet, TextInput, View } from 'react-native';
-import type { KeyboardEvent, StyleProp, ViewStyle } from 'react-native';
+import { Keyboard, Platform, StyleSheet, TextInput, View } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
@@ -65,36 +64,6 @@ function keyboardCover(
   }
   if (trusted.value === 0) return 0;
   return state === KEYBOARD_UNREPORTED ? Math.max(openAtMount, height) : height;
-}
-
-/**
- * How far the keyboard UIKit is about to show covers the screen, from its will-change notice. That
- * frame includes an input accessory view (the number pads' Done bar); Reanimated's own keyboard
- * reading on iOS watches the keyboard's host view and does not follow a keyboard that carries one,
- * so on iPhone the footer stands on whichever of the two is higher.
- */
-function iosKeyboardCover(event: KeyboardEvent): number {
-  return Math.max(0, Dimensions.get('screen').height - event.endCoordinates.screenY);
-}
-
-/** The cover from UIKit's keyboard notices, animated over the keyboard's own duration (iOS only). */
-function useIosKeyboardCover() {
-  const cover = useSharedValue(0);
-  useEffect(() => {
-    if (Platform.OS !== 'ios') return undefined;
-    const move = (to: number, event: KeyboardEvent) => {
-      cover.value = withTiming(to, { duration: event.duration ?? 0 });
-    };
-    const changes = Keyboard.addListener('keyboardWillChangeFrame', (event) =>
-      move(iosKeyboardCover(event), event),
-    );
-    const hides = Keyboard.addListener('keyboardWillHide', (event) => move(0, event));
-    return () => {
-      changes.remove();
-      hides.remove();
-    };
-  }, [cover]);
-  return cover;
 }
 
 export interface KeyboardFooterProps {
@@ -158,13 +127,8 @@ export function KeyboardFooter({ children, inset = 'gutter', style, testID }: Ke
   }, [openAtMount, home]);
   const gap = theme.space['8'];
 
-  const uikit = useIosKeyboardCover();
-
   const cover = useDerivedValue(() =>
-    Math.max(
-      keyboardCover(keyboard.state.value, keyboard.height.value, openAtMount, trusted),
-      uikit.value,
-    ),
+    keyboardCover(keyboard.state.value, keyboard.height.value, openAtMount, trusted),
   );
 
   const lift = useAnimatedStyle(() => {
