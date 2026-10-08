@@ -4,7 +4,7 @@
  * ours), one recent tip shown with crew size and month only, MESSAGE ON WHATSAPP, Add to shortlist
  * and a quiet Report.
  */
-import { upper } from '@cp/i18n';
+import { format, upper } from '@cp/i18n';
 import type { DriverDirectoryDetail } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
@@ -52,7 +52,7 @@ export function DetailView(props: DetailViewProps) {
   const car = useVehicleLine(driver);
   const listedYear = driver.listed_at.slice(0, 4);
   const month = (iso: string) =>
-    new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(new Date(iso));
+    format.date(locale, new Date(iso), { month: 'long', year: 'numeric' });
   const loved = driver.crews_loved ?? 0;
   const rated = driver.crews_rated ?? 0;
   const crewSize = driver.tip?.crew_size ?? 0;
@@ -80,7 +80,13 @@ export function DetailView(props: DetailViewProps) {
   );
   return (
     <Scaffold testID="drivers-detail">
-      <ScrollView contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: 48 }}>
+      <ScrollView
+        contentContainerStyle={{
+          padding: theme.space['20'],
+          gap: theme.space['16'],
+          paddingBottom: theme.space['32'] + theme.space['16'],
+        }}
+      >
         <BackEyebrow
           label={t({ id: 'drivers.detail.back', message: "Crews' drivers" })}
           onPress={props.onBack}

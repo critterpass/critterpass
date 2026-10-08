@@ -36,7 +36,7 @@ export const PARTICIPANTS_TABLES = ['trip_participants'];
 export const BOOKINGS_SQL = `SELECT id, trip_id, owner_id, type, title, starts_at, ends_at, tz,
     location, traveller_ids, price_minor, currency, paid_by, source, supplier, supplier_ref,
     free_cancel_until, cancel_policy_text, status, visibility, flight_crew_visible, details,
-    barcode_format, version
+    barcode_format, supplier_order_id, version
   FROM bookings WHERE trip_id = ? AND deleted_at IS NULL
   ORDER BY coalesce(starts_at, created_at), id`;
 export const BOOKINGS_TABLES = ['bookings'];
@@ -127,6 +127,8 @@ export interface BookingRow {
   readonly source: string;
   readonly supplier: string | null;
   readonly supplier_ref: string | null;
+  /** The in-app order behind a booking made with a supplier; absent on every other booking. */
+  readonly supplier_order_id?: string | null;
   readonly free_cancel_until: string | null;
   readonly cancel_policy_text: string | null;
   readonly status: string;

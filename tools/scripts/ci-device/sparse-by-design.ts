@@ -11,12 +11,20 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'undesigned-states 3h-2 "Mailbox footnote and sheet": the sign-in return page is a status line and BACK TO BOOKINGS',
   ],
   [
+    'bookings-boarding-pass-missing',
+    'undesigned-states 3h-1 "No boarding pass": the full-screen pass opened without one is the flight, the guide and one line',
+  ],
+  [
     'must-dos-empty',
     'undesigned-states 3c-7 "Must-dos step, an empty list": with none yet the step is its title, the guide\'s line and ADD YOUR MUST-DO',
   ],
   [
     'money-payment-disputed',
     'undesigned-states 3i-5 "Payment detail (payee), disputed": one payment, its pink note and the actions its state allows',
+  ],
+  [
+    'shell-edge-to-edge',
+    'developer gallery tab demo: a heading, one line and the tab bar, drawn to check the screen runs edge to edge',
   ],
   [
     'money-payment-payee-request',

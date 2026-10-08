@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 
 import type { GuideId } from '@/ui/people/GuideLine';
 
+import { currencyDigits, price as formatPrice } from '../format';
 import { useSupplierCopy } from './copy';
 import type { WireOffer } from './data/api';
 import type { PartnerLinkOutcome } from './data/partner-link';
@@ -76,10 +77,11 @@ export function useOfferCards() {
       ...clockOption(),
     });
     const price = offer.priceFrom
-      ? i18n.number(offer.priceFrom.amount, {
-          style: 'currency',
-          currency: offer.priceFrom.currency,
-        })
+      ? formatPrice(
+          i18n.locale,
+          offer.priceFrom.amount * 10 ** currencyDigits(offer.priceFrom.currency),
+          offer.priceFrom.currency,
+        )
       : null;
     return {
       key: offer.productCode,

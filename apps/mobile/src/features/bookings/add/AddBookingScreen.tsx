@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { goBackOr } from '@/lib/navigation/back';
 import { toast } from '@/motion';
 
 import {
@@ -114,6 +115,20 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
           }),
         }),
       );
+    } else {
+      toast.show({
+        id: 'bookings-address-missing',
+        title:
+          context.status === 'no_trip'
+            ? t({
+                id: 'bookings.add.noTrip',
+                message: 'Bookings land in a trip. Start one with the crew and they show up here.',
+              })
+            : t({
+                id: 'bookings.add.noAddressToast',
+                message: 'The crew’s address isn’t on this phone yet. Scan or paste for now.',
+              }),
+      });
     }
   };
 
@@ -159,9 +174,7 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
           mailboxConnected={mailbox.status.kind === 'connected'}
           noTrip={context.status === 'no_trip'}
           tz={context.trip?.tz ?? undefined}
-          onBack={() =>
-            router.canGoBack() ? router.back() : router.replace(BOOKINGS_ROUTES.wallet)
-          }
+          onBack={() => goBackOr(BOOKINGS_ROUTES.wallet)}
           onChannel={onChannel}
           onCopy={(address) => services.copy(address)}
           onSplit={(id, next) => setSplits((current) => ({ ...current, [id]: next }))}
@@ -172,16 +185,17 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
             const booking = view?.booking ?? null;
             // A flight number that matched no schedule opens the flight form.
             const flightOnly = view?.failureReason === 'flight_not_found';
+            // The confirmation stays in the list until the hand-typed booking is saved.
+            const candidate = view === undefined ? {} : { candidate: id };
             router.push(
               addByHandRoute(
                 booking !== null
-                  ? { kind: booking.kind, title: booking.title }
+                  ? { kind: booking.kind, title: booking.title, ...candidate }
                   : flightOnly
-                    ? { kind: 'flight' }
-                    : {},
+                    ? { kind: 'flight', ...candidate }
+                    : candidate,
               ),
             );
-            if (view !== undefined) onIgnore(id);
           }}
           onTypeIn={() => router.push(addByHandRoute())}
           onMailbox={() => setSheet('mailbox')}

@@ -1,8 +1,9 @@
 appId: app.critterpass.dev
 ---
 # Find a driver on a real account: the staging demo crew's Bali trip, opened from the drivers lab.
-# The hub offers private tours, finding one yourself and Tokek's post; the post is built from the
-# trip and never leaves the phone until it is copied.
+# The hub offers private tours, finding one yourself, Tokek's post, the drivers our crews used and
+# the crew's own drivers; the post is built from the trip and never leaves the phone until it is
+# copied.
 - runFlow:
     file: ../happy/subflows/fresh-account.yaml
     env:
@@ -29,6 +30,48 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'drivers-find-found'
 - takeScreenshot: en-6a-2-find-a-driver
+# The directory and the crew's own drivers are entered from here.
+- scrollUntilVisible:
+    element:
+      id: 'drivers-find-ours'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 15000
+- waitForAnimationToEnd
+- assertVisible:
+    id: 'drivers-find-directory'
+- takeScreenshot: en-6a-2-find-a-driver-end
+- tapOn:
+    id: 'drivers-find-ours'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-ours'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-6g-3-our-drivers
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-find'
+    timeout: 15000
+- tapOn:
+    id: 'drivers-find-directory'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-directory'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-6e-1-directory
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-find'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'drivers-find-ask'
+    direction: UP
+    timeout: 15000
 - tapOn:
     id: 'drivers-find-ask'
 - extendedWaitUntil:

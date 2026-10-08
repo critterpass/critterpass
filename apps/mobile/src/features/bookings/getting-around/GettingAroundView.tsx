@@ -54,6 +54,8 @@ export interface GettingAroundViewProps {
 }
 
 const MAP_HEIGHT = 380;
+/** The back button and route title over the map's top edge. */
+const TITLE_ROW = 56;
 
 const useStyles = makeStyles((t) => ({
   header: {
@@ -113,7 +115,7 @@ export function GettingAroundView(props: GettingAroundViewProps) {
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + theme.space['32'] }}>
         <View>
           {props.map ? (
-            <RouteMap {...props.map} height={MAP_HEIGHT} />
+            <RouteMap {...props.map} height={MAP_HEIGHT} topCover={insets.top + TITLE_ROW} />
           ) : (
             <View style={{ height: insets.top + 64 }} />
           )}
@@ -123,6 +125,7 @@ export function GettingAroundView(props: GettingAroundViewProps) {
               <Text
                 variant="label"
                 style={{ flexShrink: 1, textAlign: 'right' }}
+                numberOfLines={2}
                 testID="getting-around-header"
               >
                 {upper(props.header, locale)}

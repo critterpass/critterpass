@@ -39,7 +39,12 @@ export interface RouteMapProps {
   /** 0–1 along the line while an estimated journey runs; null before and after. */
   readonly carShare: number | null;
   readonly height: number;
+  /** What sits over the map's top edge (status bar and the screen's title row), in points. */
+  readonly topCover?: number | undefined;
 }
+
+/** The destination pin's own height above its point, with room to breathe. */
+const PIN_CLEARANCE = 56;
 
 const useStyles = makeStyles((t) => ({
   map: { backgroundColor: tokens.color.map.base, overflow: 'hidden' },
@@ -70,7 +75,14 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
-export function RouteMap({ from, to, destinationSlug, carShare, height }: RouteMapProps) {
+export function RouteMap({
+  from,
+  to,
+  destinationSlug,
+  carShare,
+  height,
+  topCover = 0,
+}: RouteMapProps) {
   const styles = useStyles();
   const style = useMemo((): StyleSpecification => {
     const region =
@@ -109,7 +121,11 @@ export function RouteMap({ from, to, destinationSlug, carShare, height }: RouteM
         <Camera
           initialViewState={
             bounds
-              ? { bounds, padding: { top: 90, bottom: 40, left: 50, right: 50 } }
+              ? {
+                  bounds,
+                  // The pin and its label land under the title row, never behind it.
+                  padding: { top: topCover + PIN_CLEARANCE, bottom: 40, left: 50, right: 50 },
+                }
               : { center: [to.lng, to.lat], zoom: 14 }
           }
         />

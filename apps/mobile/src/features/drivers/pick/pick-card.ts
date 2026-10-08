@@ -69,7 +69,7 @@ export function pickTermsLine(terms: DriverPickTerms | null, locale: string): st
   if (terms === null || price === null) {
     return t({ id: 'drivers.card.noPrice', message: 'Price not said' });
   }
-  const hours = terms.included_hours === null ? null : hoursFigure(terms.included_hours);
+  const hours = terms.included_hours === null ? null : hoursFigure(terms.included_hours, locale);
   const priced = (() => {
     switch (terms.price_unit) {
       case 'day':

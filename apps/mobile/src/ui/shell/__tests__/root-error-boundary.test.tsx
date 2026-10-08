@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { readSavedNavigation, writeSavedNavigation } from '@/lib/navigation/restore';
 
-import { RootErrorBoundary } from '../RootErrorBoundary';
+import { GroupErrorBoundary, RootErrorBoundary } from '../RootErrorBoundary';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -54,5 +54,22 @@ describe('RootErrorBoundary', () => {
     );
 
     expect(readSavedNavigation()).toBeUndefined();
+  });
+
+  // A group rendered again starts on its first screen (voice mode for the sheets), which nobody
+  // asked for: its panel offers the way out only.
+  it('offers no retry on a group boundary', async () => {
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    const retry = jest.fn(() => Promise.resolve());
+
+    const { getByTestId, queryByTestId } = await render(
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <GroupErrorBoundary error={new Error('render failed')} retry={retry} />
+      </SafeAreaProvider>,
+    );
+
+    expect(getByTestId('shell-error-home')).toBeTruthy();
+    expect(queryByTestId('shell-error-retry')).toBeNull();
+    expect(retry).not.toHaveBeenCalled();
   });
 });

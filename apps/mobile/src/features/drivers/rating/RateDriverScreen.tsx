@@ -8,8 +8,12 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { goBackOr } from '@/lib/navigation/back';
 import { feedback, toast } from '@/motion';
-import { SessionWaiting } from '@/ui/states/SessionWaiting';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
+
+import { LoadFailedScreen } from '../shared/load-failed';
 
 import { rateDriverCommand } from '../ours/commands';
 import { driverRoutes } from '../ours/routes';
@@ -24,18 +28,46 @@ export function RateDriverScreen({
   readonly providerId: string;
 }) {
   const { t } = useLingui();
-  const { data } = useOurDrivers(tripId);
+  const { data, offline, failed, reload } = useOurDrivers(tripId);
   const rate = useCommand(rateDriverCommand);
   const [verdict, setVerdict] = useState<DriverVerdict | null>(null);
   const [tags, setTags] = useState<readonly DriverTag[]>([]);
   const [tip, setTip] = useState('');
   const [saved, setSaved] = useState(false);
   const driver = data?.drivers.find((row) => row.provider_id === providerId);
-  if (driver === undefined) return <SessionWaiting testID="drivers-rate-loading" />;
+  const backLabel = t({ id: 'drivers.rate.back', message: 'Our drivers' });
+  const parent = driverRoutes.ours(tripId);
+  if (data === null) {
+    return offline || failed ? (
+      <LoadFailedScreen
+        backLabel={backLabel}
+        fallback={parent}
+        offline={offline}
+        onRetry={reload}
+        testID="drivers-rate-failed"
+      />
+    ) : (
+      <ScreenLoading backLabel={backLabel} fallback={parent} testID="drivers-rate-loading" />
+    );
+  }
+  if (driver === undefined) {
+    return (
+      <ScreenMissing
+        backLabel={backLabel}
+        fallback={parent}
+        title={t({ id: 'drivers.rate.missingTitle', message: 'Not one of this trip’s drivers' })}
+        line={t({
+          id: 'drivers.rate.missingLine',
+          message: 'You can rate the drivers this crew rode with on this trip.',
+        })}
+        testID="drivers-rate-missing"
+      />
+    );
+  }
 
   const chosen = verdict ?? driver.my_verdict;
   async function onSave() {
-    if (chosen === null) return;
+    if (chosen === null || rate.pending) return;
     const result = await rate.send({
       trip_id: tripId,
       provider_id: providerId,
@@ -71,7 +103,7 @@ export function RateDriverScreen({
       tip={tip}
       saving={rate.pending}
       saved={saved}
-      onBack={() => router.back()}
+      onBack={() => goBackOr(parent)}
       onVerdict={(next) => {
         setVerdict(next);
         setSaved(false);

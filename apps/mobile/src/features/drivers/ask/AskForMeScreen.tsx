@@ -15,9 +15,8 @@ import {
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import * as Clipboard from 'expo-clipboard';
-import { router } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -25,6 +24,8 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { TextField } from '@/ui/inputs/TextField';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
@@ -35,7 +36,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { dayMonthLabel } from '../shared/format';
-import { splitDays } from '../shared/routes';
+import { driversRoute, splitDays } from '../shared/routes';
 import { useDriverDays } from '../shared/use-driver-days';
 
 const useStyles = makeStyles((t) => ({
@@ -79,13 +80,13 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
   const ink = theme.color.paper.ink;
   return (
     <Scaffold variant="dark" testID="drivers-ask">
-      <ScrollView
+      <KeyboardScrollView
         contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}
         keyboardShouldPersistTaps="handled"
       >
         <BackEyebrow
           label={upper(t({ id: 'drivers.back.find', message: 'Find a driver' }), locale)}
-          onPress={() => router.back()}
+          fallback={driversRoute(tripId)}
         />
         <Row gap="12" align="center">
           <Sticker kind={sticker.kind} name={sticker.name} pose="point" size={64} />
@@ -115,7 +116,10 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
                   { value: 'id', label: 'ID' },
                 ]}
                 value={lang}
-                onChange={setLang}
+                onChange={(next) => {
+                  setCopied(false);
+                  setLang(next);
+                }}
                 label={t({ id: 'drivers.ask.language', message: 'Language of the post' })}
                 testID="drivers-ask-lang"
               />
@@ -142,7 +146,11 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
               <TextField
                 label={t({ id: 'drivers.ask.edit', message: 'Change this part' })}
                 value={edits[editing] ?? (editing === 'budget' ? '' : values[editing])}
-                onChangeText={(text) => setEdits((prev) => ({ ...prev, [editing]: text }))}
+                onChangeText={(text) => {
+                  // The post changed: what was copied is no longer what is shown.
+                  setCopied(false);
+                  setEdits((prev) => ({ ...prev, [editing]: text }));
+                }}
                 onSubmitEditing={() => setEditing(null)}
                 autoFocus
                 testID="drivers-ask-edit"
@@ -155,20 +163,6 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
                 testID="drivers-ask-budget"
               />
             ) : null}
-            <PillButton
-              label={
-                copied
-                  ? t({ id: 'drivers.ask.copied', message: 'Copied' })
-                  : t({ id: 'drivers.ask.copy', message: 'Copy post' })
-              }
-              tone="ink"
-              block
-              onPress={() => {
-                setEditing(null);
-                void Clipboard.setStringAsync(askPostText(segments)).then(() => setCopied(true));
-              }}
-              testID="drivers-ask-copy"
-            />
           </Stack>
         </View>
         <GuideLine
@@ -180,7 +174,21 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
           })}
           sticker={<Sticker kind={sticker.kind} name={sticker.name} pose="wave" size={44} />}
         />
-      </ScrollView>
+      </KeyboardScrollView>
+      <KeyboardFooter>
+        <PillButton
+          label={
+            copied
+              ? t({ id: 'drivers.ask.copied', message: 'Copied' })
+              : t({ id: 'drivers.ask.copy', message: 'Copy post' })
+          }
+          onPress={() => {
+            setEditing(null);
+            void Clipboard.setStringAsync(askPostText(segments)).then(() => setCopied(true));
+          }}
+          testID="drivers-ask-copy"
+        />
+      </KeyboardFooter>
     </Scaffold>
   );
 }

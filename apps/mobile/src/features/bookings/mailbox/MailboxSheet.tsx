@@ -81,15 +81,29 @@ export function MailboxSheet(props: MailboxSheetProps) {
               })}
             </Text>
           ) : (
-            <LockedTeaser
-              plan="passPlus"
-              perk={t({
-                id: 'bookings.mailbox.perk',
-                message: `${guideName} finds new bookings in your inbox every morning`,
-              })}
-              onPress={props.onPaywall}
-              testID="bookings-mailbox-locked"
-            />
+            <Stack gap="12" testID="bookings-mailbox-locked">
+              <LockedTeaser
+                plan="passPlus"
+                perk={t({
+                  id: 'bookings.mailbox.perk',
+                  message: `${guideName} finds new bookings in your inbox every morning`,
+                })}
+                onPress={props.onPaywall}
+                testID="bookings-mailbox-locked-teaser"
+              />
+              <Text variant="body" color={secondary}>
+                {t({
+                  id: 'bookings.mailbox.promise',
+                  message:
+                    'Read-only, confirmations only. I look at senders and subjects around your trip dates and open only the bookings.',
+                })}
+              </Text>
+              <PillButton
+                label={t({ id: 'bookings.mailbox.seePass', message: 'See Pass+' })}
+                onPress={props.onPaywall}
+                testID="bookings-mailbox-see-pass"
+              />
+            </Stack>
           )
         ) : null}
         {status.kind === 'choose' ? (

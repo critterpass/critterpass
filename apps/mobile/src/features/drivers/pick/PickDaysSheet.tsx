@@ -166,7 +166,7 @@ export function PickDaysSheet(props: {
             ? ''
             : t({
                 id: 'drivers.pick.window',
-                message: `${day.window.start}–${day.window.end} · ${hoursFigure(day.hours)} hours`,
+                message: `${day.window.start}–${day.window.end} · ${hoursFigure(day.hours, locale)} hours`,
               });
         return {
           date: day.date,
@@ -196,7 +196,7 @@ export function PickDaysSheet(props: {
           ? null
           : t({
               id: 'drivers.pick.overtime',
-              message: `${dayLabel(long.date, locale)} is ${hoursFigure(long.hours)} hours. ${name}'s price covers ${hoursFigure(card.included_hours)}.`,
+              message: `${dayLabel(long.date, locale)} is ${hoursFigure(long.hours, locale)} hours. ${name}'s price covers ${hoursFigure(card.included_hours, locale)}.`,
             })
       }
       quote={terms === null ? null : pickTermsLine(terms, locale)}

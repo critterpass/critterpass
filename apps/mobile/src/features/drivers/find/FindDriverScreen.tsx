@@ -1,10 +1,10 @@
 /**
  * Find a driver (6a-2): the legs (pre-picked from the day's card; + DAY adds more), then where the
  * driver comes from: a private tour (Klook, Viator), one the crew found themselves, or Tokek's
- * post to ask in the local groups. One shortlist per trip across every source, with COMPARE. The
- * crews' drivers row joins when the drivers directory exists (undesigned-states.md).
+ * post to ask in the local groups, or the drivers our crews used. One shortlist per trip across
+ * every source, with COMPARE; "Our drivers" under the sources opens the crew's own (rate, invite).
  */
-import { upper } from '@cp/i18n';
+import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -12,14 +12,14 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
-import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { AvatarStack } from '@/ui/people/AvatarStack';
-import { PressScale } from '@/ui/press/PressScale';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -27,13 +27,13 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { dayLabel } from '../shared/format';
-import { driversRoute, splitDays } from '../shared/routes';
+import { driverRoutes, driversRoute, splitDays, tripRoute } from '../shared/routes';
 import { useDriverDays } from '../shared/use-driver-days';
 import { useDrivers } from '../shared/use-drivers';
+import { SourceCard } from './source-card';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
-  source: { borderRadius: t.radius.lg, padding: t.space['16'] },
   ask: {
     borderRadius: t.radius.lg,
     padding: t.space['16'],
@@ -46,42 +46,10 @@ const useStyles = makeStyles((t) => ({
     borderRadius: t.radius.lg,
     backgroundColor: t.semantic.bg.raised,
     padding: t.space['12'],
-    alignItems: 'center',
+    gap: t.space['10'],
   },
+  names: { flex: 1, minWidth: 0 },
 }));
-
-function SourceCard(props: {
-  readonly title: string;
-  readonly body: string;
-  readonly color: string;
-  readonly icon: 'ticket' | 'chat' | 'car';
-  readonly onPress: () => void;
-  readonly testID: string;
-}) {
-  const styles = useStyles();
-  const theme = useTheme();
-  return (
-    <PressScale
-      accessibilityLabel={`${props.title}, ${props.body}`}
-      onPress={props.onPress}
-      style={[styles.source, { backgroundColor: props.color }]}
-      testID={props.testID}
-    >
-      <Row gap="12" align="center">
-        <Icon name={props.icon} size={28} color={theme.color.ink['950']} decorative />
-        <Stack gap="2" style={{ flex: 1 }}>
-          <Text variant="title" color={theme.color.ink['950']}>
-            {props.title}
-          </Text>
-          <Text variant="bodySm" color={theme.color.ink['950']}>
-            {props.body}
-          </Text>
-        </Stack>
-        <Icon name="arrow" size={20} color={theme.color.ink['950']} decorative />
-      </Row>
-    </PressScale>
-  );
-}
 
 export function FindDriverScreen({ tripId, days: initial }: { tripId: string; days?: string }) {
   const styles = useStyles();
@@ -90,7 +58,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
   const plan = useDriverDays(tripId);
-  const { state } = useDrivers(tripId);
+  const { state, refresh } = useDrivers(tripId);
   const [picked, setPicked] = useState<ReadonlySet<string>>(() => new Set(splitDays(initial)));
   const [adding, setAdding] = useState(false);
   const chosen = plan.days.filter((day) => picked.has(day.date));
@@ -109,6 +77,10 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
     });
   const sticker = guideSticker(plan.guide.id);
   const shown = adding ? plan.days : chosen;
+  // "+ Day" only while a day is left to add; with no days at all the row says why.
+  const canAdd = !adding && plan.days.length > chosen.length;
+  const shortlistFailed =
+    state.kind === 'error' || (state.kind === 'offline' && state.data === null);
   return (
     <Scaffold variant="dark" testID="drivers-find">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
@@ -122,7 +94,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
                 }),
             locale,
           )}
-          onPress={() => router.back()}
+          onPress={() => goBackOr(tripRoute(tripId))}
         />
         <Text variant="h1" designSize={52} accessibilityRole="header">
           {upper(t({ id: 'drivers.find.title', message: 'Find a driver' }), locale)}
@@ -150,15 +122,29 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
               testID={`drivers-find-leg-${day.date}`}
             />
           ))}
-          {adding ? null : (
+          {canAdd ? (
             <ChoiceChip
               label={upper(t({ id: 'drivers.find.addDay', message: '+ Day' }), locale)}
               selected={false}
               onPress={() => setAdding(true)}
               testID="drivers-find-add-day"
             />
-          )}
+          ) : null}
         </Row>
+        {plan.days.length > 0 ? null : (
+          <Text
+            variant="bodySm"
+            color={theme.semantic.text.secondary}
+            testID="drivers-find-no-days"
+          >
+            {plan.loaded
+              ? t({
+                  id: 'drivers.find.noDays',
+                  message: 'No days in the plan yet. You can still line a driver up.',
+                })
+              : t({ id: 'drivers.find.loadingDays', message: 'Reading the plan’s days…' })}
+          </Text>
+        )}
         <SourceCard
           title={upper(t({ id: 'drivers.find.tours', message: 'Book a private tour' }), locale)}
           body={t({
@@ -204,31 +190,80 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
             />
           </Row>
         </View>
+        <SourceCard
+          title={upper(
+            t({ id: 'drivers.find.directory', message: 'Drivers our crews used' }),
+            locale,
+          )}
+          body={t({
+            id: 'drivers.find.directoryBody',
+            message: 'Listed drivers, rated by crews who rode with them',
+          })}
+          color={theme.color.yellow}
+          icon="car"
+          onPress={() =>
+            router.push(driverRoutes.directory(tripId, plan.area === '' ? undefined : plan.area))
+          }
+          testID="drivers-find-directory"
+        />
+        <TextLink
+          label={t({ id: 'drivers.find.ours', message: 'Our drivers: rate or invite one' })}
+          onPress={() => router.push(driverRoutes.ours(tripId))}
+          testID="drivers-find-ours"
+        />
+        {shortlistFailed ? (
+          <Row gap="8" align="center" testID="drivers-find-shortlist-failed">
+            <Text variant="bodySm" color={theme.semantic.text.secondary} style={styles.names}>
+              {state.kind === 'offline'
+                ? t({
+                    id: 'drivers.find.shortlistOffline',
+                    message: 'No signal: your shortlist shows when you’re back online.',
+                  })
+                : t({
+                    id: 'drivers.find.shortlistFailed',
+                    message: 'Your shortlist didn’t load.',
+                  })}
+            </Text>
+            <TextLink
+              label={t({ id: 'drivers.load.retry', message: 'Try again' })}
+              onPress={() => void refresh()}
+              testID="drivers-find-shortlist-retry"
+            />
+          </Row>
+        ) : null}
       </ScrollView>
       {shortlist.length === 0 ? null : (
-        <Row gap="12" style={[styles.foot, { marginBottom: insets.bottom + theme.space['8'] }]}>
-          <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-            {upper(t({ id: 'drivers.find.shortlist', message: 'Shortlist' }), locale)}
-          </Text>
-          <AvatarStack
-            members={shortlist.map((driver, index) => ({
-              key: driver.id,
-              name: driver.name,
-              joinIndex: index + 2,
-            }))}
-            size="sm"
-          />
-          <Text variant="bodySm" style={{ flex: 1 }} numberOfLines={2}>
-            {shortlist.map((driver) => driver.name).join(', ')}
-          </Text>
+        <View style={[styles.foot, { marginBottom: insets.bottom + theme.space['8'] }]}>
+          <Row gap="10" align="center">
+            <AvatarStack
+              members={shortlist.map((driver, index) => ({
+                key: driver.id,
+                name: driver.name,
+                joinIndex: index + 2,
+              }))}
+              size="sm"
+            />
+            <Stack gap="2" style={styles.names}>
+              <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+                {upper(t({ id: 'drivers.find.shortlist', message: 'Shortlist' }), locale)}
+              </Text>
+              <Text variant="bodySm" numberOfLines={1}>
+                {format.list(
+                  locale,
+                  shortlist.map((driver) => driver.name),
+                )}
+              </Text>
+            </Stack>
+          </Row>
           <PillButton
             label={t({ id: 'drivers.find.compare', message: 'Compare' })}
             tone="yellow"
             size="sm"
+            block
             onPress={() => router.push(driversRoute(tripId, 'compare', daysParam))}
             testID="drivers-find-compare"
           />
-        </Row>
+        </View>
       )}
     </Scaffold>
   );

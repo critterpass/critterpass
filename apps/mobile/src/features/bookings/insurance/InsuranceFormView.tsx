@@ -16,6 +16,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
+import { BOOKINGS_ROUTES } from '@/features/bookings/routes';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 const useStyles = makeStyles((t) => ({
@@ -63,7 +64,10 @@ export function InsuranceFormView(props: InsuranceFormViewProps) {
   return (
     <Scaffold variant="dark" testID="bookings-insurance-form">
       <KeyboardScrollView contentContainerStyle={styles.content}>
-        <BackEyebrow label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)} />
+        <BackEyebrow
+          label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)}
+          fallback={BOOKINGS_ROUTES.wallet}
+        />
         <Text variant="h1" accessibilityRole="header">
           {upper(t({ id: 'bookings.insurance.title', message: 'Travel insurance' }), locale)}
         </Text>

@@ -4,9 +4,9 @@ appId: app.critterpass.dev
 # with its data, never "That didn't load". A cold start restores the saved screen only once the
 # session's local database is open, so the screen has something to read.
 #
-# Three screens that read the local database as they mount: a booking's details (the flight pasted
-# by e2e/happy/bookings.yaml on a fresh account with the demo trip), the trip's money, and the
-# guide sheet.
+# Two screens that read the local database as they mount: a booking's details (the flight pasted
+# by e2e/happy/bookings.yaml on a fresh account with the demo trip) and the trip's money. A sheet
+# is never reopened: closed on the guide sheet, the app comes back on Home, the screen under it.
 - runFlow: ../happy/bookings.yaml
 - stopApp
 - launchApp
@@ -56,8 +56,12 @@ appId: app.critterpass.dev
 - launchApp
 - extendedWaitUntil:
     visible:
-      id: 'guide-composer'
+      id: 'guide-fab'
     timeout: 60000
-- waitForAnimationToEnd
-- takeScreenshot: reopen-guide-sheet
+# The restore runs once the session is up; give it its moment before looking for the sheet.
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertNotVisible:
+    id: 'guide-composer'
+- takeScreenshot: reopen-under-guide-sheet
 - assertNotVisible: '(?i)that didn.t load'
