@@ -12,10 +12,11 @@
  * | `/plan/{id}` | plan (member plan deep link, trip id) | id |
  * | `/g/{slug}` | guide | slug |
  * | `/locals/{slug}` | locals | slug |
- * | `/app/{path}` | app (generic in-app route) | path |
+ * | `/app/{path}[?{search}]` | app (generic in-app route, with the route's own query) | path, search? |
  *
  * Optional query `c` carries the share channel (`?c=wa`), used for "Opened from WhatsApp".
  */
+import { appSearchOf } from './app-search';
 import { normalizeJoinCode } from './codes';
 import { ALL_LINK_HOSTS } from './hosts';
 import { isSeatTokenShape } from './seat-token';
@@ -42,7 +43,12 @@ export type LinkTarget =
   | { readonly kind: 'plan'; readonly id: string }
   | { readonly kind: 'guide'; readonly slug: string }
   | { readonly kind: 'locals'; readonly slug: string }
-  | { readonly kind: 'app'; readonly path: string }
+  | {
+      readonly kind: 'app';
+      readonly path: string;
+      /** The route's own query in canonical form, without the `?` (`provider=gmail&status=ok`). */
+      readonly search?: string;
+    }
   | { readonly kind: 'recap_share'; readonly token: string };
 
 export interface ParsedLink {
@@ -134,8 +140,32 @@ function single(rest: readonly string[]): string | null {
   return rest.length === 1 ? (rest[0] ?? null) : null;
 }
 
-/** Parses a link path (`/i/ABC234`, trailing slash allowed) into its target, or null. */
-export function parseLinkPath(pathname: string): LinkTarget | null {
+/**
+ * Parses a link path (`/i/ABC234`, trailing slash allowed) into its target, or null. An in-app
+ * route keeps its query (`/app/setup/calendar/connected?status=connected`); no other kind has one.
+ */
+export function parseLinkPath(path: string): LinkTarget | null {
+  const cut = path.indexOf('?');
+  if (cut === -1) return parsePathname(path);
+  const target = parsePathname(path.slice(0, cut));
+  return target?.kind === 'app' ? withAppSearch(target, path.slice(cut)) : parsePathname(path);
+}
+
+function withAppSearch(
+  target: Extract<LinkTarget, { kind: 'app' }>,
+  rawSearch: string,
+): LinkTarget {
+  const search = appSearchOf(rawSearch);
+  return search === undefined ? target : { ...target, search };
+}
+
+/** The target of a parsed URL: its path, and for an in-app route its query. */
+function targetOfUrl(url: URL): LinkTarget | null {
+  const target = parsePathname(url.pathname);
+  return target?.kind === 'app' ? withAppSearch(target, url.search) : target;
+}
+
+function parsePathname(pathname: string): LinkTarget | null {
   const segments = pathname.split('/').filter((segment) => segment.length > 0);
   const decoded = segments.map(decodeSegment);
   if (decoded.some((segment) => segment === null)) return null;
@@ -202,7 +232,7 @@ export function parseLink(input: string, options: ParseLinkOptions = {}): Parsed
   const trimmed = input.trim();
   if (trimmed.startsWith('/')) {
     const url = new URL(trimmed, 'https://link.invalid');
-    const target = parseLinkPath(url.pathname);
+    const target = targetOfUrl(url);
     return target === null
       ? null
       : { target, host: null, channel: parseChannel(url.searchParams.get('c')) };
@@ -218,12 +248,15 @@ export function parseLink(input: string, options: ParseLinkOptions = {}): Parsed
   }
   const host = url.hostname.toLowerCase();
   if (!(options.hosts ?? ALL_LINK_HOSTS).includes(host)) return null;
-  const target = parseLinkPath(url.pathname);
+  const target = targetOfUrl(url);
   if (target === null) return null;
   return { target, host, channel: parseChannel(url.searchParams.get('c')) };
 }
 
-/** Path of a target, e.g. `/i/ABC234/<seat>`; the canonical form `parseLinkPath` reads back. */
+/**
+ * Path of a target, e.g. `/i/ABC234/<seat>`, with an in-app route's query; the canonical form
+ * `parseLinkPath` reads back.
+ */
 export function linkPath(target: LinkTarget): string {
   const prefix = LINK_PATH_PREFIXES[target.kind];
   switch (target.kind) {
@@ -242,7 +275,9 @@ export function linkPath(target: LinkTarget): string {
     case 'locals':
       return `/${prefix}/${target.slug}`;
     case 'app':
-      return `/${prefix}/${target.path}`;
+      return target.search === undefined
+        ? `/${prefix}/${target.path}`
+        : `/${prefix}/${target.path}?${target.search}`;
   }
 }
 
@@ -252,6 +287,8 @@ export interface BuildLinkOptions {
 }
 
 export function buildLink(target: LinkTarget, options: BuildLinkOptions): string {
-  const query = options.channel === undefined ? '' : `?c=${options.channel}`;
-  return `https://${options.host.toLowerCase()}${linkPath(target)}${query}`;
+  const path = linkPath(target);
+  const query =
+    options.channel === undefined ? '' : `${path.includes('?') ? '&' : '?'}c=${options.channel}`;
+  return `https://${options.host.toLowerCase()}${path}${query}`;
 }

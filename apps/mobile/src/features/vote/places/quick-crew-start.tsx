@@ -10,7 +10,7 @@ import { useIsFocused } from 'expo-router';
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
 import { Stack } from '@/ui/layout/Stack';
@@ -39,8 +39,8 @@ export function defaultCrewName(label: string): string {
 function OfflineLine({ testID }: { readonly testID: string }) {
   const { t } = useLingui();
   const theme = useTheme();
-  const sync = useSyncStatus();
-  if (sync.phase !== 'offline') return null;
+  const syncPhase = useSyncPhase();
+  if (syncPhase !== 'offline') return null;
   return (
     <Text variant="bodySm" color={theme.semantic.text.secondary} testID={`${testID}-offline`}>
       {t({

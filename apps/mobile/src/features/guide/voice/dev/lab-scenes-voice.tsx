@@ -6,6 +6,7 @@
  * step that comes before the first use (its yes opens voice mode, as on the device).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { router } from 'expo-router';
 import { useState, type ReactNode } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 
@@ -64,7 +65,8 @@ function Scene({
       onTalk={noop}
       onSend={noop}
       onInterrupt={noop}
-      onType={noop}
+      // The ✕ leaves the scene, as it leaves voice mode on the device.
+      onType={() => router.back()}
       onOpenSettings={noop}
     />
   );

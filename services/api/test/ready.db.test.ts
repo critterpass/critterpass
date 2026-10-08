@@ -18,7 +18,11 @@ let redis: RedisClientType;
 let redisStopped = false;
 
 beforeAll(async () => {
-  [postgres, redisContainer] = await Promise.all([startPostgres(), startRedis()]);
+  // A Redis container of its own: the last test stops it to see /ready report the outage.
+  [postgres, redisContainer] = await Promise.all([
+    startPostgres(),
+    startRedis({ ownContainer: true }),
+  ]);
   pool = new pg.Pool({
     connectionString: postgres.getConnectionUri(),
     connectionTimeoutMillis: 2000,

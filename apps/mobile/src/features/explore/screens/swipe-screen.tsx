@@ -11,7 +11,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
@@ -52,7 +52,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const readsLocal = useReadsLocalNames(session.row?.destination_id);
   const crew = useTripCrew(tripId);
   const planned = usePlannedPlaces(tripId);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const [whyOpen, setWhyOpen] = useState(false);
   const [stamped, setStamped] = useState<ReadonlySet<string>>(new Set());
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
@@ -194,7 +194,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
       done={state.done}
       total={state.total}
       matchCount={matches.length}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       stage={stage}
       whyOpen={whyOpen}
       onWhy={setWhyOpen}

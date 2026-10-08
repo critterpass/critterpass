@@ -1,11 +1,11 @@
 /**
- * Shared set-up for suites that drive real pg-boss runtimes against one migrated Testcontainers
- * Postgres per file: start/stop runtimes, fast-retry queue specs, and a polling `until`.
+ * Shared set-up for suites that drive real pg-boss runtimes against a migrated Testcontainers
+ * Postgres database per file: start/stop runtimes, fast-retry queue specs, and a polling `until`.
  */
 import { randomUUID } from 'node:crypto';
 
 import { resetJobProducerForTests, runMigrations } from '@cp/db';
-import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
+import { startPostgres, type StartedPostgreSqlContainer, type StartOptions } from '@cp/db/testing';
 import pg from 'pg';
 import type { PgBoss } from 'pg-boss';
 
@@ -36,8 +36,8 @@ export interface JobsHarness {
   close(): Promise<void>;
 }
 
-export async function startJobsHarness(): Promise<JobsHarness> {
-  const postgres = await startPostgres();
+export async function startJobsHarness(options: StartOptions = {}): Promise<JobsHarness> {
+  const postgres = await startPostgres(options);
   const pool = new pg.Pool({ connectionString: postgres.getConnectionUri(), max: 8 });
   await runMigrations(pool);
   const running = new Set<PgBoss>();

@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -59,7 +59,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
     ['bookings'],
   );
   const locale = useLocale();
-  const offline = useSyncStatus().phase === 'offline';
+  const offline = useSyncPhase() === 'offline';
   const fixes = useFixesToMake(tripId);
   const checkHref = useScreenHref('7h-1', { tripId });
   const create = useCommand(createProposalCommand);

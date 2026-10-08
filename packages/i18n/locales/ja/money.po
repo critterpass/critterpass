@@ -208,7 +208,7 @@ msgstr ""
 msgid "money.settle.nudgeLater"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/AmountPaidField.tsx
 msgid "money.pay.amount"
 msgstr ""
 
@@ -751,7 +751,7 @@ msgstr ""
 msgid "money.pay.titlePay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/AmountPaidField.tsx
 msgid "money.pay.amountHint"
 msgstr ""
 

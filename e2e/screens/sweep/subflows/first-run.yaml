@@ -76,9 +76,10 @@ appId: app.critterpass.dev
       visible:
         id: 'crews-start'
     commands:
-      # Choosing the crew closes the sheet onto Home (the sheet has no close button).
+      # Choosing the crew closes the sheet onto Home (the sheet has no close button). The card,
+      # not its "Crew settings" link (`crew-card-settings-<id>`), which opens another screen.
       - tapOn:
-          id: 'crew-card-.*'
+          id: 'crew-card-(?!settings-).*'
       - extendedWaitUntil:
           notVisible:
             id: 'crews-start'

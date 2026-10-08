@@ -14,7 +14,7 @@ import { useTripAreas } from '@/data/areas/use-trip-areas';
 import { useCommand } from '@/data/commands/use-command';
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { EmptyState } from '@/ui/states/EmptyState';
@@ -46,7 +46,7 @@ export function AreaScreen({ tripId, destinationId }: AreaScreenProps) {
   const locale = useLocale();
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
   const areas = useTripAreas(tripId, plan.dayRows);
-  const online = useSyncStatus().phase !== 'offline';
+  const online = useSyncPhase() !== 'offline';
   const setArea = useCommand(setDayAreaCommand);
   const clearArea = useCommand(clearDayAreaCommand);
   const [picking, setPicking] = useState(false);

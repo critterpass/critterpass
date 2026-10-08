@@ -13,7 +13,7 @@ import { useMemo, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { goHref, useGoOffer } from '@/features/go';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useOwnerUid } from '../hub/data/live-rows';
 import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
@@ -83,7 +83,7 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const minuteNow = useNow(60_000);
   const secondNow = useNow(1000, { enabled: counting });
   const now = secondNow.getTime() > minuteNow.getTime() ? secondNow : minuteNow;
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const alarm = useAlarmState();
   const [sheet, setSheet] = useState<AlarmSheetKind | null>(null);
   const trip = useLiveRows<TripRow>(TRIP_SQL, me === null ? null : [me, tripId], TRIP_TABLES);
@@ -232,7 +232,7 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
           : undefined
       }
       onDayPlan={planDayNo === null ? undefined : () => router.push(dayRoute(tripId, planDayNo))}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       alarmNote={
         note === null
           ? null

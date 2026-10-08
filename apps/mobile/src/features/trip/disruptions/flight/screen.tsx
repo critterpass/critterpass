@@ -10,7 +10,7 @@ import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion';
@@ -65,7 +65,7 @@ export function FlightDisruptionScreen({ id }: { readonly id: string }) {
   const me = useOwnerUid();
   const locale = useLocale();
   const words = useGuideText();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const disruption = useLiveRows<DisruptionRowData>(DISRUPTION_SQL, [id], ['disruptions']);
   const row = disruption.rows[0] ?? null;
   const segment = useLiveRows<SegmentRow>(SEGMENT_SQL, row?.ref_id == null ? null : [row.ref_id], [
@@ -128,7 +128,7 @@ export function FlightDisruptionScreen({ id }: { readonly id: string }) {
       guide={guide}
       guideName={guideLabel}
       tz={trip?.tz ?? 'UTC'}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       joinIndex={joinIndex}
       telling={telling}
       onAnswer={(actionId, decision) =>

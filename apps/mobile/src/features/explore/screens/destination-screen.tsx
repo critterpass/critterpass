@@ -12,7 +12,7 @@ import { EmptyState } from '@/ui/states/EmptyState';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { dataOf } from '@/data/travel-data/freshness';
 
@@ -61,7 +61,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   const { row } = useDestinationRow(destination);
   const viewer = useViewer();
   const crews = useMyCrews(viewer.uid);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const [month, setMonth] = useState<number | null>(null);
   const [mode, setMode] = useState<ActionsMode>('actions');
 
@@ -213,7 +213,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
         photo,
       }}
       loading={base.status === 'loading' && bars.length === 0}
-      offline={sync.phase === 'offline'}
+      offline={syncPhase === 'offline'}
       months={
         bars.length === 0
           ? null

@@ -11,7 +11,7 @@ import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -49,7 +49,7 @@ export function SoloConfirm({
   const styles = useStyles();
   const { t, i18n } = useLingui();
   const create = useCommand(createTripCommand);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const [waiting, setWaiting] = useState<{ opId: string; tripId: string } | null>(null);
   const outcome = useOpOutcome(waiting?.opId ?? null);
 
@@ -89,11 +89,11 @@ export function SoloConfirm({
     if (outcome?.kind === 'rejected') {
       settled.current = waiting.opId;
       refuse(waiting.opId);
-    } else if (outcome?.kind === 'applied' || sync.phase === 'offline') {
+    } else if (outcome?.kind === 'applied' || syncPhase === 'offline') {
       settled.current = waiting.opId;
       open(waiting.tripId);
     }
-  }, [open, outcome, refuse, sync.phase, waiting]);
+  }, [open, outcome, refuse, syncPhase, waiting]);
   const busy = create.pending || (waiting !== null && outcome?.kind !== 'rejected');
 
   const start = async () => {

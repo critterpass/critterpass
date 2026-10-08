@@ -7,7 +7,7 @@ import { distanceM } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 
 import { deviceGoApi, type GoApi } from './data/api';
 import { locateForGo } from './data/locate';
@@ -45,7 +45,7 @@ export function useGoPreview(
 ): GoPreviewData {
   const { db } = useLocalFirst();
   const remote = useRemoteGoPlace();
-  const online = useSyncStatus().phase !== 'offline';
+  const online = useSyncPhase() !== 'offline';
   const [loaded, setLoaded] = useState<{ key: string; place: GoPlace | null } | null>(null);
   const [locate, setLocate] = useState<LocateState>({ kind: 'locating' });
   const [answers, setAnswers] = useState<{

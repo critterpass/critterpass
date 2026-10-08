@@ -12,7 +12,7 @@ import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { coarsePosition } from '@/lib/location/geocode';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -45,7 +45,7 @@ export function SosSendScreen() {
   const asked = typeof params.tripId === 'string' && params.tripId !== '' ? params.tripId : null;
   const hub = useHelpHub(deviceHelpApi, asked);
   const tripId = hub.tripId;
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const trigger = useCommand(triggerSosCommand);
   const [preset, setPreset] = useState<SosPreset | null>(null);
   const [text, setText] = useState('');
@@ -80,7 +80,7 @@ export function SosSendScreen() {
         : { fix: { lat: at.lat, lng: at.lng, acc: 100, at: new Date().toISOString() } }),
       ...(hub.model.placeLabel === null ? {} : { place_label: hub.model.placeLabel.slice(0, 120) }),
     });
-    if (sync.phase === 'offline' && phones.length > 0) {
+    if (syncPhase === 'offline' && phones.length > 0) {
       const link = mapsLink(at);
       const body =
         link === null

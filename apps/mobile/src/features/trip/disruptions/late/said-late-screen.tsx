@@ -11,7 +11,7 @@ import { router } from 'expo-router';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useSaidLate } from '@/features/plan';
 import { getLocationEngine } from '@/lib/location/use-location-status';
 import { toast } from '@/motion';
@@ -40,7 +40,7 @@ export function SaidLateScreen(props: {
   readonly known: (disruptionId: string) => ReactNode;
 }) {
   const { tripId, stableId, minutes } = props;
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const said = useSaidLate(tripId, stableId, minutes);
   const report = useCommand(reportRunningLateCommand);
   const [sending, setSending] = useState(false);
@@ -78,7 +78,7 @@ export function SaidLateScreen(props: {
   }
   const fix = getLocationEngine()?.recentFixes().at(-1) ?? null;
   const map =
-    stop.place === null || sync.phase === 'offline' ? null : (
+    stop.place === null || syncPhase === 'offline' ? null : (
       <LateMap
         place={{ id: stableId, name: stop.title, lat: stop.place.lat, lng: stop.place.lng }}
         you={fix}
