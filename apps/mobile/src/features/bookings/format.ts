@@ -3,6 +3,7 @@
  * 03:30 pickup reads 03:30 wherever the phone is), falling back to the trip's, then the device's.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
+import { currencyExponent, formatMoney, isKnownCurrency } from '@cp/cost-engine';
 import { format } from '@cp/i18n';
 import { clockOption } from '@/lib/i18n/formats';
 
@@ -63,25 +64,21 @@ export function dateTime(locale: string, iso: string | null | undefined, tz?: st
   });
 }
 
-/** "$228", "Rp 450,000": whole units unless the amount has cents. */
+/**
+ * "US$228.00", "Rp 450.000": the shared money formatter's symbol and decimals, so a booking's
+ * price reads as it does in Money (the runtime's own currency data prints the code on iPhone).
+ */
 export function price(locale: string, minor: number, currency: string): string {
-  const digits = currencyDigits(currency);
-  const units = minor / 10 ** digits;
-  return format.number(locale, units, {
-    style: 'currency',
-    currency,
-    maximumFractionDigits: Number.isInteger(units) ? 0 : digits,
-    minimumFractionDigits: Number.isInteger(units) ? 0 : digits,
-  });
+  if (!isKnownCurrency(currency)) {
+    return `${currency} ${format.number(locale, minor / 10 ** currencyDigits(currency))}`;
+  }
+  return formatMoney(
+    { amountMinor: BigInt(Math.round(minor)), currency },
+    { locale, mode: 'local' },
+  );
 }
 
+/** Decimal places of a currency's minor unit, from the engine's table (2 for one it lacks). */
 export function currencyDigits(currency: string): number {
-  try {
-    return (
-      new Intl.NumberFormat('en', { style: 'currency', currency }).resolvedOptions()
-        .maximumFractionDigits ?? 2
-    );
-  } catch {
-    return 2;
-  }
+  return isKnownCurrency(currency) ? currencyExponent(currency) : 2;
 }
