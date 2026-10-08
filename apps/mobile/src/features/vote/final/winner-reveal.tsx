@@ -2,7 +2,7 @@
  * The winner reveal (3c-2): the winner's colour takes the screen, its name stamps down while the
  * guide hops in front of the turning rays and confetti fires once; the tally card follows, the
  * losing guide takes it well, and the organiser gets "SET UP KYOTO" while everyone else learns who
- * has the setup. Opening it files `mark_reveal_seen`, so each person sees it once on any device.
+ * has the setup and gets "BACK HOME". Opening it files `mark_reveal_seen`, so each person sees it once on any device.
  * Viewers who missed the vote or whose pick lost get their own line; reduced motion stills the rays,
  * drops the confetti and fades the finished screen in. A place the organiser locked in before
  * anyone voted is not a vote that was won or missed: it shows as locked in, with no score.
@@ -77,10 +77,14 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
     : organiserName === null
       ? t({ id: 'vote.reveal.lockedByOrganiser', message: 'The organiser picked it' })
       : t({ id: 'vote.reveal.lockedBy', message: `${organiserName} picked it` });
+  // The reveal draws no back control and takes no back gesture: its action is the only way out.
+  const leave = () => {
+    if (router.canGoBack()) router.back();
+    else router.replace('/');
+  };
   const setUp = () => {
-    if (poll.tripId === null) return;
-    const href = voteRoutes.tripSetup(poll.tripId);
-    if (href === undefined) router.back();
+    const href = poll.tripId === null ? undefined : voteRoutes.tripSetup(poll.tripId);
+    if (href === undefined) leave();
     else router.replace(href);
   };
   const rows = (lockedIn ? [] : poll.options).map((option) => ({
@@ -190,19 +194,26 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
             onPress={setUp}
           />
         ) : (
-          <Text
-            variant="body"
-            color={ink}
-            style={{ textAlign: 'center' }}
-            testID="reveal-setup-with"
-          >
-            {organiserName === null
-              ? t({
-                  id: 'vote.reveal.setupWithOrganiser',
-                  message: 'The organiser sets it up next.',
-                })
-              : t({ id: 'vote.reveal.setupWith', message: `Setup is with ${organiserName}.` })}
-          </Text>
+          <>
+            <Text
+              variant="body"
+              color={ink}
+              style={{ textAlign: 'center' }}
+              testID="reveal-setup-with"
+            >
+              {organiserName === null
+                ? t({
+                    id: 'vote.reveal.setupWithOrganiser',
+                    message: 'The organiser sets it up next.',
+                  })
+                : t({ id: 'vote.reveal.setupWith', message: `Setup is with ${organiserName}.` })}
+            </Text>
+            <RevealAction
+              label={upper(t({ id: 'vote.reveal.backHome', message: 'Back home' }), i18n.locale)}
+              onPress={leave}
+              testID="reveal-back-home"
+            />
+          </>
         )
       }
       backInDeck={
@@ -222,7 +233,7 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
  * or another device having shown it) leaves for where the user came from instead of replaying.
  */
 export function WinnerRevealScreen({ pollId }: { readonly pollId: string }) {
-  // The reveal (3c-2) ends the vote on its SET UP call to action; the design draws no back control.
+  // The reveal (3c-2) ends the vote on its call to action; the design draws no back control.
   useNoBackByDesign();
   const me = useMyUid();
   const { poll } = usePoll(pollId, me);
