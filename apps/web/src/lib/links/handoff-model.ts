@@ -56,9 +56,18 @@ export function channelOf(url: URL): LinkChannel | null {
     : null;
 }
 
-/** The link target of a page URL (`/i/…`, `/j/…`, …), or null when the path is not a valid link. */
+/**
+ * The link target of a page URL (`/i/…`, `/j/…`, …), or null when the path is not a valid link.
+ * An in-app route (`/app/…`) keeps its own query, which the screen reads as its params; the
+ * page's "open" flag is not part of it.
+ */
 export function targetOf(url: URL): LinkTarget | null {
-  return parseLinkPath(url.pathname);
+  const target = parseLinkPath(url.pathname);
+  if (target?.kind !== 'app') return target;
+  const query = new URLSearchParams(url.search);
+  query.delete(OPEN_TAP_PARAM);
+  const search = query.toString();
+  return search === '' ? target : parseLinkPath(`${url.pathname}?${search}`);
 }
 
 export function decideHandoff(input: {
@@ -97,7 +106,7 @@ export function decideHandoff(input: {
           packageName: context.config.appId,
           fallbackUrl: playStoreHref,
         })
-      : `https://${context.otherHost}${path}${platform === 'ios' ? `?${OPEN_TAP_PARAM}=1` : ''}`;
+      : `https://${context.otherHost}${path}${platform === 'ios' ? `${path.includes('?') ? '&' : '?'}${OPEN_TAP_PARAM}=1` : ''}`;
 
   return {
     kind: 'render',

@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import { appleAppSiteAssociation, assetLinks, parseCertFingerprints } from './association';
 import { expiresIn, handoffCopy } from './handoff-copy';
-import { decideHandoff } from './handoff-model';
+import { decideHandoff, targetOf } from './handoff-model';
 import { clearLinkSwitchesCache, fetchLinkSwitches } from './link-settings';
 import { fetchLinkPreview } from './resolver-fetch';
 import { playStoreUrl } from './store-url';
@@ -80,6 +80,49 @@ describe('decideHandoff', () => {
     });
     expect(decision.kind === 'render' && decision.model.openInAppHref).toBe(
       'https://critterpass.app/i/K7M2QX?open=1',
+    );
+  });
+
+  it('keeps the query of an in-app route on every way into the app', () => {
+    const page = new URL(
+      'https://critterpass.app/app/recap/t1/postcard?postcard_id=p1&c=wa&open=1#top',
+    );
+    const target = targetOf(page);
+    expect(target).toEqual({ kind: 'app', path: 'recap/t1/postcard', search: 'postcard_id=p1' });
+    expect(targetOf(new URL('https://critterpass.app/app/pass?open=1'))).toEqual({
+      kind: 'app',
+      path: 'pass',
+    });
+    // Only an in-app route has a query of its own.
+    expect(targetOf(new URL('https://critterpass.app/i/K7M2QX?c=wa&open=1'))).toEqual({
+      kind: 'invite',
+      code: 'K7M2QX',
+    });
+    if (target === null) throw new Error('no target');
+
+    const shown = (userAgent: string) => {
+      const decision = decideHandoff({
+        url: new URL('https://critterpass.app/app/recap/t1/postcard?postcard_id=p1'),
+        userAgent,
+        context,
+        target,
+        preview: { status: 'unavailable' },
+      });
+      if (decision.kind !== 'render') throw new Error(decision.kind);
+      return decision.model;
+    };
+    const ios = shown(IOS);
+    expect(ios.path).toBe('/app/recap/t1/postcard?postcard_id=p1');
+    expect(ios.canonicalLink).toBe('https://critterpass.app/app/recap/t1/postcard?postcard_id=p1');
+    expect(ios.openInAppHref).toBe(
+      'https://go.critterpass.app/app/recap/t1/postcard?postcard_id=p1&open=1',
+    );
+    const android = shown(TIKTOK_ANDROID);
+    expect(android.openInAppHref).toMatch(
+      /^intent:\/\/go\.critterpass\.app\/app\/recap\/t1\/postcard\?postcard_id=p1#Intent;/u,
+    );
+    expect(new URL(android.playStoreHref).searchParams.get('referrer')).toBe(
+      `cp_link=${encodeURIComponent('/app/recap/t1/postcard?postcard_id=p1')}`,
     );
   });
 
