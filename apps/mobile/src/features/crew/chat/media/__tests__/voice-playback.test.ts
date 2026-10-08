@@ -15,7 +15,8 @@ const note = (key: string): StoredAttachment =>
 
 beforeEach(() => {
   clearReadUrlCache();
-  jest.useFakeTimers();
+  // Read URLs are batched on a microtask: only the playback tick runs on the fake clock.
+  jest.useFakeTimers({ doNotFake: ['queueMicrotask'] });
 });
 afterEach(() => {
   jest.useRealTimers();

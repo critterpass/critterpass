@@ -45,8 +45,8 @@ describe('the grid list', () => {
     const a = Array.from({ length: 7 }, (_, n) => photo(n));
     const b = [photo(20), photo(21)];
     const items = gridItems([
-      { key: 'd1', title: 'Day 1', photos: a },
-      { key: 'd2', title: 'Day 2', photos: b },
+      { key: 'day-1', title: 'Day 1', photos: a },
+      { key: 'day-2', title: 'Day 2', photos: b },
     ]);
     expect(items.map((item) => item.kind)).toEqual([
       'header',
