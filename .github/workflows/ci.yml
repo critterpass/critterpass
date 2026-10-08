@@ -70,9 +70,8 @@ jobs:
           pnpm turbo run lint typecheck build $tests --affected --continue --concurrency=4
 
   app-tests:
-    # The app's Jest suite, split across runners: on one it took 12 to 16 minutes. Turbo still
-    # decides whether the app is affected; the `app` filter of the changes job only spares the
-    # runners when the change cannot reach it.
+    # The app's Jest suite, split across runners: on one it took 12 to 16 minutes. The changes job
+    # decides whether the app is reached, so a shard never starts to learn it has nothing to run.
     name: app tests (${{ matrix.shard }}/${{ strategy.job-total }})
     needs: changes
     if: needs.changes.outputs.app_tests == 'true'
@@ -85,7 +84,6 @@ jobs:
         shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v7
-        with: { fetch-depth: 0, filter: 'blob:none' }
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with: { node-version: 26, cache: pnpm }
@@ -96,104 +94,41 @@ jobs:
       # The arguments after `--` reach Jest and are part of turbo's task hash, so each shard is
       # cached on its own.
       - run: >-
-          pnpm turbo run test --affected --filter=@cp/mobile --
+          pnpm turbo run test --filter=@cp/mobile --
           --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
   database:
     # One runner per suite: every database test file starts its own Postgres (often Redis too), and
-    # the api, worker and app suites sharing a runner starved each other's container starts.
+    # the api, worker and app suites sharing a runner starved each other's container starts. The
+    # legs come from the changes job (tools/scripts/ci-affected-suites.ts): only suites the change
+    # reaches get a runner, and @cp/db's suite, 20 minutes on one, is split over three.
     name: database suites (${{ matrix.suite }})
     needs: changes
+    if: needs.changes.outputs.database_legs != '[]'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - suite: api
-            task: test:db
-            filter: '--filter=@cp/api'
-            server: true
-          - suite: worker
-            task: test:db
-            filter: '--filter=@cp/worker'
-            server: true
-          # @cp/db's own suite is its `test` script: every file starts a Postgres, one file at a
-          # time, 20 minutes on a runner of its own (in the lint/typecheck/test job it took that
-          # job from 12 minutes to 30). Three runners take a third of the files each.
-          - suite: db 1/3
-            task: test
-            filter: '--filter=@cp/db'
-            shard: '-- --shard=1/3'
-            server: true
-          - suite: db 2/3
-            task: test
-            filter: '--filter=@cp/db'
-            shard: '-- --shard=2/3'
-            server: true
-          - suite: db 3/3
-            task: test
-            filter: '--filter=@cp/db'
-            shard: '-- --shard=3/3'
-            server: true
-          # Every other package with a test:db script (the app's suites today), so a package that
-          # gains the script runs here without a new leg.
-          - suite: other packages
-            task: test:db
-            filter: '--filter=!@cp/api --filter=!@cp/worker'
-    env:
-      # Turbo counts the api and worker suites as affected by any change in a package they depend
-      # on, message catalogs included: the worker depends on @cp/i18n, and nearly every app change
-      # touches packages/i18n/locales. No database test reads a catalog (the unit tests cover the
-      # server's strings), so the server legs run only when the change reaches past the catalogs:
-      # the `server` filter of the changes job. Turbo's --affected still decides after that.
-      RUN_SUITE: ${{ !matrix.server || needs.changes.outputs.server_suites == 'true' }}
+        include: ${{ fromJSON(needs.changes.outputs.database_legs) }}
     steps:
-      - if: env.RUN_SUITE != 'true'
-        run: echo 'Skipped. Nothing this suite runs has changed (message catalogs do not count).'
       - uses: actions/checkout@v7
-        if: env.RUN_SUITE == 'true'
-        with: { fetch-depth: 0, filter: 'blob:none' }
       - uses: pnpm/action-setup@v6
-        if: env.RUN_SUITE == 'true'
       - uses: actions/setup-node@v7
-        if: env.RUN_SUITE == 'true'
         with: { node-version: 26, cache: pnpm }
-      - if: env.RUN_SUITE == 'true'
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       # Only the builds the suites depend on come from cache: turbo.json never caches test:db
       # (@cp/db's `test` is cached like any other package's).
       - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
-        if: env.RUN_SUITE == 'true'
         with:
           cache-prefix: turbo-node26_
-      - name: Suites to run
-        id: suites
-        if: env.RUN_SUITE == 'true'
-        env:
-          TASK: ${{ matrix.task }}
-          FILTER: ${{ matrix.filter }}
-          # The app's database suites start the api's own test harness by its path, which turbo
-          # does not see, so they also run for every change that reaches the server suites.
-          WITH_APP: ${{ matrix.suite == 'other packages' && needs.changes.outputs.server_suites == 'true' }}
-        run: |
-          set -o pipefail
-          tasks=$(pnpm turbo run "$TASK" --affected $FILTER --dry-run=json |
-            jq -r --arg task "$TASK" '[.tasks[] | select(.task == $task and .command != "<NONEXISTENT>") | .taskId] | join(" ")')
-          if [ "$WITH_APP" = true ] && [[ " $tasks " != *' @cp/mobile#test:db '* ]]; then
-            tasks="$tasks @cp/mobile#test:db"
-          fi
-          tasks=$(echo $tasks)
-          echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
-          echo "Suites: ${tasks:-none here is affected by this change}"
       # The worker's media and voice-note suites run the real ffmpeg, as the worker image does.
       - name: Install ffmpeg
-        if: steps.suites.outputs.tasks != '' && matrix.suite == 'worker'
+        if: matrix.ffmpeg
         timeout-minutes: 12
         run: tools/scripts/install-ffmpeg.sh
       # The suites' images come from Docker Hub, which now and then answers 500 or stalls: pull
       # them first, three tries each, so a hiccup costs a retry instead of a suite.
       - name: Pull the suites' images
-        if: steps.suites.outputs.tasks != ''
         timeout-minutes: 12
         run: pnpm exec tsx tools/scripts/test-images.ts --pull
       # Each test file's worker builds the Postgres image; all but the first build come from
@@ -201,156 +136,54 @@ jobs:
       # once inside their beforeAll hooks and run out of hook time. Build it once here instead,
       # with the suites' own helper so their builds find every layer cached.
       - name: Build the test Postgres image
-        if: steps.suites.outputs.tasks != ''
         timeout-minutes: 10
         env:
           DEBUG: testcontainers:build # the build log, which Testcontainers otherwise drops
           TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
         run: pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
-      # A shard's arguments reach the test runner and are part of turbo's task hash.
-      - if: steps.suites.outputs.tasks != ''
-        run: pnpm turbo run ${{ steps.suites.outputs.tasks }} --continue ${{ matrix.shard }}
+      # The leg's arguments (a shard) reach the test runner and are part of turbo's task hash.
+      - name: Suites
+        env:
+          TASKS: ${{ matrix.tasks }}
+          ARGS: ${{ matrix.args }}
+        run: pnpm turbo run $TASKS --continue $ARGS
 
   changes:
+    # Which suites this change can reach, decided once for every gated job below: a job whose flag
+    # is false is skipped, it does not start a runner to find that out.
+    name: changes
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
     outputs:
-      mobile: ${{ steps.filter.outputs.mobile }}
-      critter_art: ${{ steps.filter.outputs.critter_art }}
-      critter_macos: ${{ steps.filter.outputs.critter_macos }}
-      services: ${{ steps.filter.outputs.services }}
-      synced_schema: ${{ steps.filter.outputs.synced_schema }}
-      ai_evals: ${{ steps.filter.outputs.ai_evals }}
-      lockfile: ${{ steps.filter.outputs.lockfile }}
-      sync_e2e: ${{ steps.filter.outputs.sync_e2e }}
-      ios_native: ${{ steps.filter.outputs.ios_native }}
-      android_native: ${{ steps.filter.outputs.android_native }}
-      admin_e2e: ${{ steps.filter.outputs.admin_e2e }}
-      app_tests: ${{ steps.suites.outputs.app }}
-      server_suites: ${{ steps.suites.outputs.server }}
+      app_tests: ${{ steps.suites.outputs.app_tests }}
+      database_legs: ${{ steps.suites.outputs.database_legs }}
+      service_images: ${{ steps.suites.outputs.service_images }}
+      mobile: ${{ steps.suites.outputs.mobile }}
+      critter_art: ${{ steps.suites.outputs.critter_art }}
+      critter_macos: ${{ steps.suites.outputs.critter_macos }}
+      synced_schema: ${{ steps.suites.outputs.synced_schema }}
+      ai_evals: ${{ steps.suites.outputs.ai_evals }}
+      lockfile: ${{ steps.suites.outputs.lockfile }}
+      sync_e2e: ${{ steps.suites.outputs.sync_e2e }}
+      admin_e2e: ${{ steps.suites.outputs.admin_e2e }}
+      ios_native: ${{ steps.suites.outputs.ios_native }}
+      android_native: ${{ steps.suites.outputs.android_native }}
+      native_fingerprint: ${{ steps.suites.outputs.native_fingerprint }}
     steps:
+      # History without file contents: the diff with the base needs commits and trees only.
       - uses: actions/checkout@v7
-      - uses: dorny/paths-filter@v4
-        id: filter
-        with:
-          filters: |
-            mobile:
-              - 'apps/mobile/**'
-              - 'tools/scripts/check-release-bundle.ts'
-            critter_art:
-              - 'packages/critter-art/src/core/**'
-              - 'packages/critter-art/src/kinds/**'
-              - 'packages/critter-art/src/data/**'
-              - 'packages/critter-art/src/forms/**'
-              - 'packages/critter-art/src/backends/canvas2d/**'
-              - 'packages/critter-art/golden/**'
-              - 'packages/critter-art/package.json'
-              - 'design/**'
-            critter_macos:
-              - 'packages/critter-art/**'
-              - 'packages/critter-bake/**'
-              - 'apps/mobile/assets/fonts/**'
-              - 'apps/mobile/plugins/**'
-              - 'apps/mobile/app.config.ts'
-              - 'apps/mobile/generated/critter-art/**'
-              - 'apps/mobile/targets/**'
-              - 'apps/mobile/jest.config.js'
-              - 'design/**'
-              - '.github/workflows/ci.yml'
-            synced_schema:
-              - 'packages/db/src/schema/**'
-              - 'packages/db/src/publication.ts'
-              - 'infra/powersync/**'
-              - 'apps/mobile/src/data/powersync/**'
-            services:
-              - 'services/api/**'
-              - 'services/worker/**'
-              - 'packages/**'
-              - 'pnpm-lock.yaml'
-              - 'pnpm-workspace.yaml'
-              - 'package.json'
-              - '.github/workflows/ci.yml'
-            ai_evals:
-              - 'packages/ai/**'
-              - 'packages/domain/src/ai/**'
-              - 'packages/domain/src/guide-actions/**'
-              - '.github/workflows/ai-evals.yml'
-            lockfile:
-              - 'pnpm-lock.yaml'
-              - '.github/workflows/osv.yml'
-            sync_e2e:
-              - 'apps/mobile/src/data/**'
-              - 'services/api/src/**'
-              - 'services/worker/src/**'
-              - 'packages/db/**'
-              - 'packages/domain/**'
-              - 'infra/docker-compose.yml'
-              - 'infra/docker/postgres/**'
-              - 'infra/powersync/**'
-              - 'infra/centrifugo/**'
-              - 'tools/scripts/sync-e2e/**'
-              - 'pnpm-lock.yaml'
-              - '.github/workflows/sync-e2e.yml'
-            ios_native:
-              - 'apps/mobile/modules/*/ios/**'
-              - 'apps/mobile/modules/*/expo-module.config.json'
-              - 'apps/mobile/targets/**'
-              - 'apps/mobile/plugins/**'
-              - 'apps/mobile/app.config.ts'
-              - 'apps/mobile/package.json'
-              - 'pnpm-lock.yaml'
-              - '.github/workflows/ci.yml'
-            android_native:
-              - 'apps/mobile/modules/*/android/**'
-              - 'apps/mobile/modules/*/expo-module.config.json'
-              - 'apps/mobile/modules/*/package.json'
-              - 'apps/mobile/plugins/**'
-              - 'apps/mobile/modules/*/plugin/**'
-              - 'apps/mobile/app.config.ts'
-              - 'apps/mobile/package.json'
-              - 'pnpm-lock.yaml'
-              - '.github/workflows/ci.yml'
-            admin_e2e:
-              - 'apps/admin/**'
-              - 'packages/db/seed/**'
-              - 'services/api/src/admin/**'
-              - 'packages/domain/src/admin/**'
-              - 'packages/db/migrations/**'
-              - 'infra/docker/postgres/**'
-              - 'pnpm-lock.yaml'
-              - '.github/workflows/ci.yml'
-      # Which suites a change can reach. Turbo's --affected still decides inside each job; these
-      # only keep runners from starting for a change that cannot matter to them. A step of its own
-      # because an exclusion (`!`) needs this quantifier, which applies to every filter of a step.
-      - uses: dorny/paths-filter@v4
+        with: { fetch-depth: 0, filter: 'blob:none' }
+      - uses: actions/setup-node@v7
+        with: { node-version: 26 }
+      # No install: turbo reads the workspace from the manifests and the lockfile, and the script
+      # uses Node built-ins only. One dry run lists every test, test:db and build task with the
+      # files turbo hashes for it; the script sets the flags from that list and the diff.
+      - name: Suites this change reaches
         id: suites
-        with:
-          predicate-quantifier: some-with-excludes
-          filters: |
-            # What turbo counts as a change to every package: its own defaults and turbo.json's
-            # globalDependencies.
-            every_package: &every_package
-              - 'package.json'
-              - 'pnpm-lock.yaml'
-              - 'pnpm-workspace.yaml'
-              - 'turbo.json'
-              - 'tsconfig.base.json'
-              - 'eslint.config.js'
-              - '.github/workflows/ci.yml'
-            app:
-              - *every_package
-              - 'apps/mobile/**'
-              - 'packages/**'
-            # The api and worker database suites: server code, and every package but its message
-            # catalogs, which no database test reads.
-            server:
-              - *every_package
-              - 'services/**'
-              - 'infra/**'
-              - 'packages/**'
-              - '!packages/i18n/locales/**'
+        run: |
+          set -o pipefail
+          turbo=$(sed -n 's/^ *turbo: *//p' pnpm-workspace.yaml)
+          npx --yes "turbo@$turbo" run test test:db build --dry-run=json > "$RUNNER_TEMP/tasks.json"
+          node tools/scripts/ci-affected-suites.ts "$RUNNER_TEMP/tasks.json"
 
   critter-art-golden:
     name: critter art golden (Chromium + Node parity)
@@ -449,7 +282,7 @@ jobs:
     # that breaks a deploy fails its pull request instead of the next deploy.
     name: service images build (${{ matrix.service }})
     needs: changes
-    if: needs.changes.outputs.services == 'true'
+    if: needs.changes.outputs.service_images == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -480,14 +313,21 @@ jobs:
     name: secret scan
     runs-on: ubuntu-latest
     steps:
+      # The commits and trees of every branch, the files of none but this checkout. A full fetch
+      # also downloads every branch's files (the screenshots branch alone holds every device run's
+      # images and videos): minutes to scan a handful of commits.
       - uses: actions/checkout@v7
-        with: { fetch-depth: 0 }
+        with: { fetch-depth: 0, filter: 'blob:none' }
       - name: gitleaks
         env:
           # A pull request scans only its own commits, so a finding on another branch never fails it;
-          # a push to main scans main's full history, so nothing unscanned lands there.
-          LOG_OPTS: ${{ github.event_name == 'pull_request' && format('origin/{0}..{1}', github.base_ref, github.event.pull_request.head.sha) || 'HEAD' }}
+          # a push to main scans the commits it added, each of which a pull request scanned before.
+          # Main's full history is scanned weekly (nightly.yml).
+          LOG_OPTS: ${{ github.event_name == 'pull_request' && format('origin/{0}..{1}', github.base_ref, github.event.pull_request.head.sha) || format('{0}..{1}', github.event.before, github.sha) }}
         run: |
+          # The file contents those commits' diffs need, fetched here in a few batches: gitleaks
+          # reads the same diffs with the same git command inside its container.
+          git log -p -U0 $LOG_OPTS > /dev/null
           docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
             git /repo --redact --no-banner --exit-code 1 --log-opts="$LOG_OPTS"
 
@@ -510,14 +350,64 @@ jobs:
     if: github.event_name == 'pull_request' && needs.changes.outputs.sync_e2e == 'true'
     uses: ./.github/workflows/sync-e2e.yml
 
+  # The native compiles below run for a change to native sources, config plugins or the app config
+  # (the ios_native and android_native flags), and otherwise only when the native fingerprint moved:
+  # the hash expo-updates bakes into a build as its runtime version, which device runs and updates
+  # match builds by. A dependency bump that leaves it alone cannot change what the compilers see.
+  native-fingerprint:
+    name: native fingerprint (base against this change)
+    needs: changes
+    if: needs.changes.outputs.native_fingerprint == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      ios: ${{ steps.compare.outputs.ios }}
+      android: ${{ steps.compare.outputs.android }}
+    env:
+      APP_VARIANT: development
+    steps:
+      - uses: actions/checkout@v7
+        with: { path: head }
+      - uses: actions/checkout@v7
+        with:
+          path: base
+          ref: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - uses: pnpm/action-setup@v6
+        with: { package_json_file: head/package.json }
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm, cache-dependency-path: head/pnpm-lock.yaml }
+      # The fingerprint hashes the native modules as installed, so each side needs its own install.
+      - run: pnpm install --frozen-lockfile
+        working-directory: head
+      - run: pnpm install --frozen-lockfile
+        working-directory: base
+        continue-on-error: true
+      - name: Compare
+        id: compare
+        run: |
+          # Without pnpm's NODE_PATH, which adds `web` to the Expo config and so changes the hash.
+          fingerprint() {
+            (cd "$1/apps/mobile" && env -u NODE_PATH ./node_modules/.bin/expo-updates \
+              fingerprint:generate --platform "$2" | jq -er .hash)
+          }
+          for platform in ios android; do
+            ours=$(fingerprint head "$platform") || ours=''
+            theirs=$(fingerprint base "$platform") || theirs=''
+            # A side that cannot be hashed counts as a change: when in doubt the compile runs.
+            if [ -n "$ours" ] && [ "$ours" = "$theirs" ]; then moved=false; else moved=true; fi
+            echo "$platform: base ${theirs:-unknown}, this change ${ours:-unknown}, moved=$moved"
+            echo "$platform=$moved" >> "$GITHUB_OUTPUT"
+          done
+
   # Compiles the iOS app the way the e2e-test EAS profile does (development variant, simulator SDK)
   # so a native compile error (Swift 6 concurrency in a local module, a target or a config plugin)
   # fails its pull request instead of a paid EAS build. Swift language modes come from the generated
   # project and each module's podspec, exactly as on EAS.
   ios-native:
     name: iOS native compile (simulator, development variant)
-    needs: changes
-    if: needs.changes.outputs.ios_native == 'true'
+    needs: [changes, native-fingerprint]
+    # `!cancelled()`: a skipped fingerprint job would otherwise skip this one too.
+    if: ${{ !cancelled() && (needs.changes.outputs.ios_native == 'true' || needs.native-fingerprint.outputs.ios == 'true') }}
     runs-on: macos-26
     timeout-minutes: 60
     env:
@@ -531,8 +421,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       # The Xcode of EAS's `latest` iOS image, which the e2e-test profile builds on.
       - run: sudo xcode-select -s /Applications/Xcode_26.6.app
+      # Both platforms: the two checks below read the iOS and the Android project.
       - name: Expo prebuild
-        run: pnpm --filter @cp/mobile exec expo prebuild --platform ios --clean --no-install
+        run: pnpm --filter @cp/mobile exec expo prebuild --clean --no-install
+      # What no other job checks in the generated projects: the link hosts each platform claims,
+      # and every permission and usage string the app primes. This job runs for every change to a
+      # config plugin or the app config, which is what writes them.
+      - name: Link claims and permissions in the generated projects
+        run: |
+          pnpm tsx tools/scripts/check-links-manifest.ts
+          pnpm tsx tools/scripts/check-permissions-manifest.ts
       # Pods only: Xcode keys DerivedData on file timestamps, which every checkout and install
       # resets, so a restored DerivedData would rebuild everything anyway.
       - uses: actions/cache@v6
@@ -572,8 +470,8 @@ jobs:
   # of a paid EAS build. arm64-v8a only, like every EAS Android build of the app.
   android-native:
     name: Android native compile (debug, unit tests)
-    needs: changes
-    if: needs.changes.outputs.android_native == 'true'
+    needs: [changes, native-fingerprint]
+    if: ${{ !cancelled() && (needs.changes.outputs.android_native == 'true' || needs.native-fingerprint.outputs.android == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -672,6 +570,7 @@ jobs:
       - ai-evals
       - osv
       - sync-e2e
+      - native-fingerprint
       - ios-native
       - android-native
       - admin-e2e
