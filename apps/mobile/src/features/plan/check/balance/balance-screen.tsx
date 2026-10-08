@@ -5,7 +5,7 @@
  * goes back to the plan check.
  */
 import { generateStableId, generateUuidV7, type PlanOp } from '@cp/domain';
-import { Redirect, router } from 'expo-router';
+import { Redirect } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
