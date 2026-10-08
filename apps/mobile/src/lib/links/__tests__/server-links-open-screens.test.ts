@@ -1,14 +1,16 @@
 /**
  * Every in-app link the server sends opens a screen. The server writes links only through the
  * builders in `@cp/domain`; a sample of each goes through the app's own handling here, both ways a
- * link arrives (a push tap or an OAuth return under the app's scheme; an inbox row or a briefing
- * line as a bare path), and has to land on a route file under `src/app`.
+ * link arrives (a push tap or an OAuth return as a URL under the app's scheme through the link
+ * router; an inbox row or a briefing line as a bare path), and has to land on a route file under
+ * `src/app`.
  */
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
 
 import {
   APP_LINK_SAMPLES,
+  appLinkSchemeUrl,
   appRoutePattern,
   currentAppPath,
   FORMER_APP_LINK_SAMPLES,
@@ -17,11 +19,8 @@ import {
 } from '@cp/domain';
 import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 
-import { routeForTap } from '@/data/push/routing';
-import { tripLinkTarget } from '@/features/plan/overview/routes';
-
 import { clearPendingLink, setOnboardingComplete } from '../pending';
-import { resetLinkRouterForTests } from '../router';
+import { resetLinkRouterForTests, routeIncomingUrl } from '../router';
 
 const APP_DIR = path.resolve(__dirname, '../../../app');
 
@@ -38,9 +37,11 @@ const routes = routeFiles()
 
 /**
  * `/trip/<trip id>/…` is not a screen: three route files forward it to the trip's own
- * `/<trip id>/…`. A link through them opens a screen only when what it is forwarded to is one.
+ * `/<trip id>/…` with the rest of the path and the query. A link through them opens a screen only
+ * when what it is forwarded to is one.
  */
 const FORWARDERS = '(trip)/trip/';
+const FORWARDED = /^\/trip(?=\/[^/]+\/)/u;
 const screens = routes.filter((route) => !route.file.startsWith(FORWARDERS));
 
 /** The screen file an in-app href opens, following a forwarder to where it lands; else null. */
@@ -48,15 +49,11 @@ function screenOf(href: string): string | null {
   const route = matchAppRoute(routes, href);
   if (route === null) return null;
   if (!route.file.startsWith(FORWARDERS)) return route.file;
-  const url = new URL(href, 'https://app.invalid');
-  const [, tripId = '', ...rest] = url.pathname.split('/').filter((segment) => segment !== '');
-  const forwarded = tripLinkTarget(tripId, rest, Object.fromEntries(url.searchParams));
-  return matchAppRoute(screens, forwarded)?.file ?? null;
+  return matchAppRoute(screens, href.replace(FORWARDED, ''))?.file ?? null;
 }
 
 /** A push tap, and an OAuth return: the link under the app's scheme through the link router. */
-const tapped = (link: string) =>
-  routeForTap({ nid: null, deeplink: link, type: null, crewId: null });
+const tapped = (link: string) => routeIncomingUrl(appLinkSchemeUrl('critterpass', link));
 /** An inbox row or a briefing line: the bare path, former shapes read as today's. */
 const pressed = (link: string) => currentAppPath(link);
 
