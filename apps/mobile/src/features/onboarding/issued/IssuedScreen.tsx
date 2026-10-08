@@ -2,7 +2,9 @@
  * 3a-6 "Your pass is ready": everything answered comes together on one page. The pass drops in,
  * ISSUED slams down with a thud and confetti, then the first stamp, HOME, lands beside it and
  * Tokek hops in. Issued on the device first: offline it shows the placeholder number and SYNCING
- * until the server's number arrives. 3a-7's sheet rises over this same page.
+ * until the server's number arrives. 3a-7's sheet rises over this same page. Seen again once the
+ * pass is saved (back from the permissions page), it carries its SAVED tick and leads on instead of
+ * offering to save again.
  */
 import { t } from '@lingui/core/macro';
 import { router, useIsFocused } from 'expo-router';
@@ -246,21 +248,31 @@ export function IssuedScreen() {
       duration_ms: Math.max(0, new Date(draft.issued_at).getTime() - uuidV7Ms(draft.pass_id)),
     });
   }, [analytics, choreography, draft]);
+  const saved = draft?.saved === true;
   return (
     <IssuedPage
       choreography={choreography}
+      saved={saved}
       footer={
-        <>
+        saved ? (
           <PillButton
-            label={t({ id: 'onboarding.issued.save', message: 'Save my pass' })}
-            onPress={() => router.push(ONBOARDING_ROUTES.save)}
-            sheen
-            testID="onboarding-issued-save"
+            label={t({ id: 'onboarding.name.next', message: 'Next' })}
+            onPress={() => router.push(ONBOARDING_ROUTES.permissions)}
+            testID="onboarding-issued-next"
           />
-          <Text variant="bodySm" color={undefined}>
-            {t({ id: 'onboarding.issued.saveNote', message: 'Takes ten seconds. No password.' })}
-          </Text>
-        </>
+        ) : (
+          <>
+            <PillButton
+              label={t({ id: 'onboarding.issued.save', message: 'Save my pass' })}
+              onPress={() => router.push(ONBOARDING_ROUTES.save)}
+              sheen
+              testID="onboarding-issued-save"
+            />
+            <Text variant="bodySm" color={undefined}>
+              {t({ id: 'onboarding.issued.saveNote', message: 'Takes ten seconds. No password.' })}
+            </Text>
+          </>
+        )
       }
     />
   );

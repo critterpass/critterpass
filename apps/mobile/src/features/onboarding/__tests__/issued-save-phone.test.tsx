@@ -83,6 +83,15 @@ describe('3a-6 pass issued', () => {
     expect(router.push).toHaveBeenCalledWith('/onboarding/save');
   });
 
+  it('leads on instead of offering to save again once the pass is saved', async () => {
+    updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
+    await renderOnboarding(<IssuedScreen />);
+    expect(screen.getByTestId('pass-saved-tick')).toBeTruthy();
+    expect(screen.queryByTestId('onboarding-issued-save')).toBeNull();
+    await activate(screen.getByTestId('onboarding-issued-next'));
+    expect(router.push).toHaveBeenCalledWith('/onboarding/permissions');
+  });
+
   it('shows the reserved number once it is on the pass', async () => {
     updateDraft((d) => ({ ...d, number: 'CP-0427' }));
     await renderOnboarding(<IssuedScreen />);
@@ -180,6 +189,29 @@ describe('3a-7 save your pass', () => {
     await activate(screen.getByTestId('save-not-now'));
     expect(router.back).toHaveBeenCalledTimes(1);
     expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  it('waits for a sign-in still working when the sheet is closed, and records the account', async () => {
+    jest.useFakeTimers();
+    let answer: (outcome: { kind: 'linked' }) => void = () => undefined;
+    const linkGoogle = () => new Promise<{ kind: 'linked' }>((resolve) => (answer = resolve));
+    await renderOnboarding(<SaveScreen />, { services: withAuth({ linkGoogle }) });
+    await activate(screen.getByTestId('save-google'));
+    await fireEvent.press(screen.getByTestId('save-sheet-scrim', { includeHiddenElements: true }));
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      await Promise.resolve();
+    });
+    // Closing the sheet is not "Not now" while Google is still answering.
+    expect(router.replace).not.toHaveBeenCalled();
+    answer({ kind: 'linked' });
+    await flush();
+    expect(readDraft()?.saved).toBe(true);
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      await Promise.resolve();
+    });
+    expect(router.replace).toHaveBeenCalledWith('/onboarding/permissions');
   });
 
   it('lets the user skip saving for now', async () => {
