@@ -108,6 +108,7 @@ import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
+import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
 import { ShakeToReport } from '@/features/help/shake/ShakeListener';
@@ -281,7 +282,7 @@ export default function RootLayout() {
                     <OverlayHost />
                     <PrimerSheetHost />
                     <SharedGrowHost />
-                    <IslandToast Text={Text} />
+                    <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />
                     <DevToolsShake />
                     <ShakeToReport />
                     <LaunchHatch revealed={prewarmed && linksReady} />

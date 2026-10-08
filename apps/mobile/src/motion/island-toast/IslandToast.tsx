@@ -2,24 +2,13 @@ import { t } from '@lingui/core/macro';
 import { useEffect, useState } from 'react';
 import type { ComponentType } from 'react';
 import { AccessibilityInfo, StyleSheet, View } from 'react-native';
-import type {
-  AccessibilityActionEvent,
-  NativeSyntheticEvent,
-  StyleProp,
-  TextLayoutEventData,
-  TextStyle,
-} from 'react-native';
+import type { AccessibilityActionEvent, StyleProp, TextLayoutEvent, TextStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { tokens } from '@cp/design-tokens';
-
-// The report helpers are plain functions with no component in them, so motion stays below the
-// component library.
-import { isTruncated } from '@/ui/qa/text-layout-check';
-import { reportUiQa, UI_QA_ENABLED } from '@/ui/qa/ui-qa';
 
 import { bezierEasing } from '../easing';
 import { REDUCED_IMPACT_FADE_MS, useReducedImpactMotion } from '../patterns/shared';
@@ -46,7 +35,7 @@ export interface ToastTextProps {
   readonly variant: 'rowTitle' | 'bodySm' | 'buttonSm';
   readonly numberOfLines?: number;
   readonly style?: StyleProp<TextStyle>;
-  readonly onTextLayout?: (event: NativeSyntheticEvent<TextLayoutEventData>) => void;
+  readonly onTextLayout?: (event: TextLayoutEvent) => void;
   readonly children: string;
 }
 
@@ -56,6 +45,11 @@ export interface IslandToastProps {
    * it in rather than this module importing it.
    */
   readonly Text: ComponentType<ToastTextProps>;
+  /**
+   * The title as it was laid out, line by line: the app root hands in the UI QA check that reports
+   * a title still cut on its lines (copy to shorten, or to split into a subtitle).
+   */
+  readonly onTitleLayout?: (title: string, lines: readonly { readonly text: string }[]) => void;
 }
 
 /** Accessibility action names (the labels screen readers read come from the toast and catalog). */
@@ -78,7 +72,7 @@ const ACTIVATE = [{ name: ACTIVATE_ACTION }];
  * button handled by the gesture system would otherwise fire as well, and cancel the toast's own).
  * Its buttons are gestures too, run alongside that one.
  */
-export function IslandToast({ Text }: IslandToastProps) {
+export function IslandToast({ Text, onTitleLayout }: IslandToastProps) {
   const current = useToastQueue();
   // The last toast stays on screen, still taking its touches, while it leaves.
   const [leaving, setLeaving] = useState<typeof current>(null);
@@ -217,14 +211,7 @@ export function IslandToast({ Text }: IslandToastProps) {
                 variant="rowTitle"
                 numberOfLines={titleLineLimit(toast)}
                 style={styles.onPill}
-                onTextLayout={(event) => {
-                  // A title that still loses words is copy to shorten or split into a subtitle.
-                  // Android reports the lines as drawn; iOS hands back the last line whole.
-                  if (UI_QA_ENABLED && isTruncated(event.nativeEvent.lines, toast.title)) {
-                    // eslint-disable-next-line lingui/no-unlocalized-strings -- a report code and detail, never shown to a user
-                    reportUiQa('TEXT_TRUNCATED', toast.title.slice(0, 40), 'toast title');
-                  }
-                }}
+                onTextLayout={(event) => onTitleLayout?.(toast.title, event.nativeEvent.lines)}
               >
                 {toast.title}
               </Text>
@@ -308,7 +295,7 @@ const styles = StyleSheet.create({
     color: tokens.color.paper.bright,
   },
   subtitle: {
-    color: tokens.color.ink['150'],
+    color: tokens.color.ink['100'],
   },
   dismissGlyph: {
     color: tokens.color.ink['200'],

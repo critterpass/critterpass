@@ -98,29 +98,35 @@ export function usePress({
     ) {
       tap.hitSlop({ top: slopTop, bottom: slopBottom, left: slopLeft, right: slopRight });
     }
-    return tap
-      .onBegin(() => {
-        'worklet';
-        scale.value = withTiming(targetScale, { duration: PRESS_DOWN_MS, easing: pressEasing });
-      })
-      .onEnd(() => {
-        'worklet';
-        // docs/design-system.md §5 Reduce Motion: "impacts fade 150 ms, no jolt/shake" — the release
-        // overshoot bounce is exactly that kind of jolt, so reduced motion settles straight to 1.
-        scale.value = reduced
-          ? withTiming(1, { duration: PRESS_DOWN_MS })
-          : withSequence(
-              withTiming(OVERSHOOT_SCALE, { duration: RELEASE_MS * 0.45 }),
-              withTiming(1, { duration: RELEASE_MS * 0.55 }),
-            );
-        scheduleOnRN(fireOnPress);
-      })
-      .onFinalize((_event, success) => {
-        'worklet';
-        // A cancelled press (moved past 8 pt, or disabled) settles back with no overshoot — `onEnd`
-        // above already handles the successful case's release animation.
-        if (!success) scale.value = withTiming(1, { duration: PRESS_DOWN_MS });
-      });
+    return (
+      tap
+        .onBegin(() => {
+          'worklet';
+          // eslint-disable-next-line react-hooks/immutability -- a Reanimated shared value's `.value` setter, not React state.
+          scale.value = withTiming(targetScale, { duration: PRESS_DOWN_MS, easing: pressEasing });
+        })
+        // eslint-disable-next-line react-hooks/refs -- the handler is read when the press lands, never during render.
+        .onEnd(() => {
+          'worklet';
+          // docs/design-system.md §5 Reduce Motion: "impacts fade 150 ms, no jolt/shake" — the release
+          // overshoot bounce is exactly that kind of jolt, so reduced motion settles straight to 1.
+          // eslint-disable-next-line react-hooks/immutability -- a Reanimated shared value's `.value` setter, not React state.
+          scale.value = reduced
+            ? withTiming(1, { duration: PRESS_DOWN_MS })
+            : withSequence(
+                withTiming(OVERSHOOT_SCALE, { duration: RELEASE_MS * 0.45 }),
+                withTiming(1, { duration: RELEASE_MS * 0.55 }),
+              );
+          scheduleOnRN(fireOnPress);
+        })
+        .onFinalize((_event, success) => {
+          'worklet';
+          // A cancelled press (moved past 8 pt, or disabled) settles back with no overshoot — `onEnd`
+          // above already handles the successful case's release animation.
+          // eslint-disable-next-line react-hooks/immutability -- a Reanimated shared value's `.value` setter, not React state.
+          if (!success) scale.value = withTiming(1, { duration: PRESS_DOWN_MS });
+        })
+    );
   }, [
     disabled,
     targetScale,
