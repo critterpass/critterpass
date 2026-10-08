@@ -867,6 +867,10 @@ msgstr "Pass+ is billed by the App Store. Deleting doesn’t cancel it, so cance
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.planLabel"
+msgstr "Pass+, your plan"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
 msgstr "Passport"

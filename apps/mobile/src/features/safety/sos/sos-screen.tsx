@@ -78,6 +78,7 @@ export function SosScreen() {
         sent={params.sent === '1'}
         general={hub.model.general.number}
         onCallGeneral={() => dial(hub.model.general.number)}
+        onClose={() => goBackOr()}
       />
     );
   }

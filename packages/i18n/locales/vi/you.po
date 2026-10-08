@@ -867,6 +867,10 @@ msgstr "Pass+ được tính tiền qua App Store. Xoá tài khoản không hu�
 msgid "you.delete.passPlus"
 msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.planLabel"
+msgstr "Pass+, gói của bạn"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
 msgstr ""

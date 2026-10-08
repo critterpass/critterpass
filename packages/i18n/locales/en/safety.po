@@ -173,6 +173,7 @@ msgstr "Calling and texting still work without it."
 msgid "safety.send.cancel"
 msgstr "Cancel"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
 msgstr "Close"

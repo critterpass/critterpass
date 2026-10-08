@@ -173,6 +173,7 @@ msgstr "Không có nó, bạn vẫn gọi điện và nhắn tin được."
 msgid "safety.send.cancel"
 msgstr "Huỷ"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
 msgstr "Đóng"

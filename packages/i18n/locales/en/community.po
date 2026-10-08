@@ -532,11 +532,13 @@ msgstr "This plan was taken down"
 msgid "community.filter.rating"
 msgstr "Top rated"
 
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.back.trip"
 msgstr "Trip"
 
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx

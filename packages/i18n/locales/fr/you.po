@@ -867,6 +867,10 @@ msgstr ""
 msgid "you.delete.passPlus"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.planLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
 msgstr ""
@@ -1044,10 +1048,6 @@ msgstr ""
 msgid "you.settings.feedback"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
-msgid "you.appIcon.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.back"
 msgstr ""
@@ -1062,6 +1062,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 msgid "you.language.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx

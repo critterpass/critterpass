@@ -173,6 +173,7 @@ msgstr ""
 msgid "safety.send.cancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
 msgstr ""
