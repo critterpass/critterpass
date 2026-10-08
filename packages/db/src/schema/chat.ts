@@ -60,12 +60,17 @@ export const messages = pgTable(
     deletedAt: instant('deleted_at'),
     /** Hidden by moderation for everyone; filtered out of RLS and the stream. */
     hiddenAt: instant('hidden_at'),
+    /** Among the crew's latest 1,000 by `seq`: the rows the stream sends to a phone. */
+    inSyncWindow: boolean('in_sync_window').notNull().default(true),
     createdAt: instant('created_at').notNull().defaultNow(),
     updatedAt: instant('updated_at').notNull().defaultNow(),
   },
   (table) => [
     unique('messages_crew_seq_key').on(table.crewId, table.seq),
     index('messages_crew_seq_desc_idx').on(table.crewId, table.seq.desc()),
+    index('messages_sync_window_idx')
+      .on(table.crewId, table.seq)
+      .where(sql`${table.inSyncWindow}`),
   ],
 );
 
@@ -86,6 +91,8 @@ export const messageReactions = pgTable(
       .notNull()
       .references(() => users.id),
     emoji: text('emoji').notNull(),
+    /** Copied from the message by trigger, and moved with it when it leaves the window. */
+    inSyncWindow: boolean('in_sync_window').notNull().default(true),
     createdAt: instant('created_at').notNull().defaultNow(),
   },
   (table) => [

@@ -671,10 +671,10 @@ streams:
         SELECT crew_id FROM crew_members
         WHERE user_id = auth.user_id() AND status = 'former' AND keep_in_chat = true
     queries:
-      - SELECT * FROM messages WHERE crew_id IN my_crews AND hidden_at IS NULL
-      - SELECT * FROM messages WHERE crew_id IN kept_chats AND hidden_at IS NULL
-      - SELECT * FROM message_reactions WHERE crew_id IN my_crews
-      - SELECT * FROM message_reactions WHERE crew_id IN kept_chats
+      - SELECT * FROM messages WHERE crew_id IN my_crews AND hidden_at IS NULL AND in_sync_window = true
+      - SELECT * FROM messages WHERE crew_id IN kept_chats AND hidden_at IS NULL AND in_sync_window = true
+      - SELECT * FROM message_reactions WHERE crew_id IN my_crews AND in_sync_window = true
+      - SELECT * FROM message_reactions WHERE crew_id IN kept_chats AND in_sync_window = true
   catalog:
     auto_subscribe: true
     queries:

@@ -3,6 +3,7 @@
  * `crew_chat_counters` (system only), the `crew_chat` sync stream and the guide's `llm.chat_window`.
  * Active members read and write; a former member who kept the chat reads but cannot write; removed
  * members and outsiders see nothing; moderation-hidden rows vanish for app_user and the stream.
+ * The stream sends only a crew's latest 1,000 messages and their reactions; RLS still reads the rest.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -301,6 +302,136 @@ describe('llm.chat_window', () => {
         tx.query('SELECT body FROM messages LIMIT 1'),
       ),
     ).rejects.toThrow(/permission denied/i);
+  });
+});
+
+describe('chat sync window', () => {
+  const WINDOW = 1000;
+  let recentId: string;
+
+  async function flags(): Promise<{ inside: number; lowestInside: number; lastSeq: number }> {
+    const { rows } = await asSystem<{ inside: number; lowest: string; last: string }>(
+      `SELECT count(*) FILTER (WHERE in_sync_window)::int AS inside,
+              min(seq) FILTER (WHERE in_sync_window) AS lowest, max(seq) AS last
+         FROM messages WHERE crew_id = $1`,
+      [harness.fixture.crewId],
+    );
+    return {
+      inside: rows[0]!.inside,
+      lowestInside: Number(rows[0]!.lowest),
+      lastSeq: Number(rows[0]!.last),
+    };
+  }
+
+  beforeAll(async () => {
+    const { crewId, actors } = harness.fixture;
+    await as(
+      actors.organiser,
+      `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '🌊')`,
+      [visibleId, actors.organiser],
+    );
+    await asSystem(
+      `INSERT INTO messages (crew_id, sender_kind, type, body)
+       SELECT $1, 'system', 'system', 'line ' || n FROM generate_series(1, $2::int) n`,
+      [crewId, WINDOW],
+    );
+    recentId = await send(actors.member, 'still on the phone');
+  });
+
+  it('keeps exactly the latest 1,000 by seq inside, whatever was sent before', async () => {
+    const { inside, lowestInside, lastSeq } = await flags();
+    expect(inside).toBe(WINDOW);
+    expect(lowestInside).toBe(lastSeq - WINDOW + 1);
+    const { rows } = await asSystem<{ in_sync_window: boolean }>(
+      'SELECT in_sync_window FROM messages WHERE id = ANY($1::uuid[])',
+      [[visibleId, hiddenId, pollId]],
+    );
+    expect(rows.map((row) => row.in_sync_window)).toEqual([false, false, false]);
+  });
+
+  it('takes a message’s reactions out with it, and a later reaction to it never comes in', async () => {
+    const { actors } = harness.fixture;
+    await as(
+      actors.member,
+      `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '🙌')`,
+      [visibleId, actors.member],
+    );
+    await as(
+      actors.organiser,
+      `INSERT INTO message_reactions (message_id, user_id, emoji) VALUES ($1, $2, '👋')`,
+      [recentId, actors.organiser],
+    );
+    const { rows } = await asSystem<{ emoji: string; in_sync_window: boolean }>(
+      `SELECT emoji, in_sync_window FROM message_reactions
+        WHERE message_id = ANY($1::uuid[]) AND emoji IN ('🌊', '🙌', '👋') ORDER BY emoji`,
+      [[visibleId, recentId]],
+    );
+    expect(Object.fromEntries(rows.map((row) => [row.emoji, row.in_sync_window]))).toEqual({
+      '🌊': false,
+      '🙌': false,
+      '👋': true,
+    });
+  });
+
+  it('syncs the window and its reactions only, while members still read older rows', async () => {
+    const { actors } = harness.fixture;
+    for (const rows of [
+      await harness.rows('crew_chat', 'member'),
+      await evaluateStream(harness.db.pool, harness.config, 'crew_chat', { userId: former }),
+    ]) {
+      const messages = rows.get('messages') ?? [];
+      expect(messages).toHaveLength(WINDOW);
+      const ids = new Set(messages.map((row) => row['id']));
+      expect(ids.has(recentId)).toBe(true);
+      expect(ids.has(visibleId)).toBe(false);
+      const reacted = (rows.get('message_reactions') ?? []).map((row) => row['message_id']);
+      expect(reacted).toContain(recentId);
+      expect(reacted.every((id) => ids.has(id))).toBe(true);
+    }
+    const older = await as(actors.member, 'SELECT id FROM messages WHERE id = $1', [visibleId]);
+    expect(older.rows).toHaveLength(1);
+  });
+
+  it('is not the member’s to set, and a deleted message keeps its place in it', async () => {
+    const { actors } = harness.fixture;
+    await expect(
+      as(actors.member, 'UPDATE messages SET in_sync_window = true WHERE id = $1', [visibleId]),
+    ).rejects.toThrow(/permission denied/i);
+    await expect(
+      as(
+        actors.member,
+        `INSERT INTO message_reactions (message_id, user_id, emoji, in_sync_window)
+         VALUES ($1, $2, '👀', true)`,
+        [visibleId, actors.member],
+      ),
+    ).rejects.toThrow(/permission denied/i);
+    const before = await flags();
+    await as(actors.member, "UPDATE messages SET deleted_at = now(), body = '' WHERE id = $1", [
+      recentId,
+    ]);
+    expect(await flags()).toEqual(before);
+  });
+
+  it('reverses cleanly', async () => {
+    const client = await harness.db.pool.connect();
+    try {
+      await client.query('BEGIN');
+      await client.query(`
+        DROP TRIGGER messages_slide_sync_window ON messages;
+        DROP FUNCTION app.slide_chat_sync_window();
+        DROP INDEX messages_sync_window_idx;
+        ALTER TABLE message_reactions DROP COLUMN in_sync_window;
+        ALTER TABLE messages DROP COLUMN in_sync_window;
+      `);
+      const { rows } = await client.query<{ n: number }>(
+        `SELECT count(*)::int AS n FROM information_schema.columns
+          WHERE table_schema = 'public' AND column_name = 'in_sync_window'`,
+      );
+      expect(rows).toEqual([{ n: 0 }]);
+    } finally {
+      await client.query('ROLLBACK');
+      client.release();
+    }
   });
 });
 
