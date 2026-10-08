@@ -6,6 +6,7 @@
  * into the `notifications/common` catalog, and rendered in each recipient's locale by the router; the guide-voice rewrite may restyle guide-sent copy. Deep
  * links are in-app routes; the app resolves them against its own scheme.
  */
+import { crewChatLink, crewsLink, seatOfferLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { crewAudience } from '../notify/audience';
@@ -71,7 +72,7 @@ export function registerInviteNotifications(): void {
         sender: await tripGuide(tx, tripId),
         tripId,
         crewId: event.crewId,
-        deepLink: `/crew?seat_offer=${payloadId(event, 'offer_id') ?? ''}`,
+        deepLink: seatOfferLink(payloadId(event, 'offer_id') ?? ''),
         needsYou: true,
         ...(expiresAt === null ? {} : { expiresAt: new Date(expiresAt) }),
       };
@@ -101,7 +102,7 @@ export function registerInviteNotifications(): void {
         vars: { inviter, crew: await crewName(tx, event.crewId) },
         sender: { kind: 'member', id: inviterId ?? 'critterpass', name: inviter },
         crewId: event.crewId,
-        deepLink: '/crew',
+        deepLink: crewsLink(),
         // LATER on the push sets this invite aside without opening the app.
         ctx: { invite_id: payloadId(event, 'invite_id') },
         needsYou: true,
@@ -126,7 +127,7 @@ export function registerInviteNotifications(): void {
         vars: { crew: await crewName(tx, event.crewId) },
         sender: await tripGuide(tx, payloadId(event, 'trip_id')),
         crewId: event.crewId,
-        deepLink: '/crew',
+        deepLink: crewsLink(),
       };
     },
   });
@@ -164,7 +165,7 @@ export function registerInviteNotifications(): void {
         vars: { name, crew: await crewName(tx, event.crewId) },
         sender: { kind: 'member', id: joiner, name },
         crewId: event.crewId,
-        deepLink: `/crew/${event.crewId ?? ''}/chat`,
+        deepLink: crewChatLink(event.crewId ?? ''),
       };
     },
   });

@@ -3,7 +3,7 @@
  * change, a cancellation or a diversion (N-14, ALWAYS) and boarding (N-41, ALWAYS). Bodies carry the
  * flight, the route and the new time or gate; the source and time stay on the card.
  */
-import { BOOKING_PUSH } from '@cp/domain';
+import { boardingPassLink, BOOKING_PUSH, bookingLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -84,7 +84,7 @@ export function registerFlightPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: `/wallet/bookings/${str(routed, 'booking_id') ?? ''}`,
+        deepLink: bookingLink(str(routed, 'booking_id') ?? ''),
         collapseVars: { flight_id: str(routed, 'segment_id') ?? '' },
       };
     },
@@ -104,7 +104,7 @@ export function registerFlightPushes(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: routed.crewId,
         tripId: routed.tripId,
-        deepLink: `/wallet/bookings/pass/${str(routed, 'booking_id') ?? ''}`,
+        deepLink: boardingPassLink(str(routed, 'booking_id') ?? ''),
         collapseVars: { flight_id: str(routed, 'segment_id') ?? '' },
       };
     },

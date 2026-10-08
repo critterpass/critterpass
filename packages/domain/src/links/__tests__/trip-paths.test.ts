@@ -1,15 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { currentAppPath, tripDayOfPath, tripDayPath, tripHubPath } from '../trip-paths';
+import { FORMER_APP_LINK_SAMPLES } from '../app-link-samples';
+import { currentAppPath, tripDayOfPath } from '../trip-paths';
 
 const TRIP = '0b8f6c1e-58f1-4a53-9d0e-6a8c8f0f4a11';
 
-describe('trip hub and day paths', () => {
-  it('builds the paths of the screens in the trips tab', () => {
-    expect(tripHubPath(TRIP)).toBe(`/trips/${TRIP}`);
-    expect(tripDayPath(TRIP, '2026-10-17')).toBe(`/trips/${TRIP}/day/2026-10-17`);
-  });
-
+describe('former paths of links already sent', () => {
   it('reads the hub shapes of rows already sent as the same screens', () => {
     expect(currentAppPath(`/hub/${TRIP}`)).toBe(`/trips/${TRIP}`);
     expect(currentAppPath(`/hub/${TRIP}/`)).toBe(`/trips/${TRIP}`);
@@ -29,6 +25,14 @@ describe('trip hub and day paths', () => {
     expect(currentAppPath(`/polls/${id}`)).toBe(`/vote/${id}`);
     expect(currentAppPath('/guide')).toBe('/guide/new');
     expect(currentAppPath(`/polls/${id}?from=briefing`)).toBe(`/vote/${id}?from=briefing`);
+  });
+
+  it('has a sample of every former path, each read as the link that replaced it', () => {
+    expect(FORMER_APP_LINK_SAMPLES.length).toBeGreaterThanOrEqual(9);
+    for (const { former, current } of FORMER_APP_LINK_SAMPLES) {
+      expect(currentAppPath(former)).toBe(current);
+      expect(currentAppPath(current)).toBe(current);
+    }
   });
 
   it('leaves every other path alone, the offline pages under hub included', () => {

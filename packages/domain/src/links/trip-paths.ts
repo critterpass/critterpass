@@ -1,22 +1,27 @@
 /**
- * In-app paths of a trip's hub and its day-of screen, as notifications, inbox rows and briefing
- * lines link them, and the former paths of every screen a link was once written for. Pushes
- * already delivered and rows already written keep the path they were sent with, so
- * `currentAppPath` reads each former shape as the screen it names today.
+ * The former paths of the screens a link was once written for. Pushes already delivered and rows
+ * already written keep the path they were sent with, so `currentAppPath` reads each former shape
+ * as the screen `app-links.ts` names today.
  */
+import {
+  crewMapLink,
+  expenseLink,
+  guideThreadLink,
+  moneyLink,
+  paymentLink,
+  settleLink,
+  tripDayLink,
+  tripHubLink,
+  voteLink,
+} from './app-links';
+
 const TRIP_ID = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
 const DAY = '\\d{4}-\\d{2}-\\d{2}|today';
 const TRIP_DAY = new RegExp(`^/(?:hub|trips)/(${TRIP_ID})/day/(${DAY})/?$`, 'iu');
 
-export function tripHubPath(tripId: string): string {
-  return `/trips/${tripId}`;
-}
-
-export function tripDayPath(tripId: string, localDate: string): string {
-  return `/trips/${tripId}/day/${localDate}`;
-}
-
 const ID = '[^/?#]+';
+/** The guide's current thread, where a link names none. */
+const NEW_THREAD = 'new';
 
 /**
  * Former path shapes and the path of the same screen today. Trip hub and day links were written
@@ -26,15 +31,15 @@ const ID = '[^/?#]+';
  * current one).
  */
 const FORMER_PATHS: readonly (readonly [RegExp, (...parts: string[]) => string])[] = [
-  [new RegExp(`^/hub/(${TRIP_ID})/day/(${DAY})/?$`, 'iu'), tripDayPath],
-  [new RegExp(`^/hub/(${TRIP_ID})/?$`, 'iu'), tripHubPath],
-  [new RegExp(`^/wallet/money/payment/(${ID})/?$`, 'u'), (id) => `/money/payment/${id}`],
-  [new RegExp(`^/wallet/money/expense/(${ID})/?$`, 'u'), (id) => `/money/expense/${id}`],
-  [/^\/wallet\/money\/settle\/?$/u, () => '/money/settle'],
-  [new RegExp(`^/help/(${ID})/session/${ID}/?$`, 'u'), (tripId) => `/map/${tripId}`],
-  [/^\/money\/?$/u, () => '/wallet/money'],
-  [new RegExp(`^/polls/(${ID})/?$`, 'u'), (pollId) => `/vote/${pollId}`],
-  [/^\/guide\/?$/u, () => '/guide/new'],
+  [new RegExp(`^/hub/(${TRIP_ID})/day/(${DAY})/?$`, 'iu'), tripDayLink],
+  [new RegExp(`^/hub/(${TRIP_ID})/?$`, 'iu'), tripHubLink],
+  [new RegExp(`^/wallet/money/payment/(${ID})/?$`, 'u'), paymentLink],
+  [new RegExp(`^/wallet/money/expense/(${ID})/?$`, 'u'), expenseLink],
+  [/^\/wallet\/money\/settle\/?$/u, settleLink],
+  [new RegExp(`^/help/(${ID})/session/${ID}/?$`, 'u'), crewMapLink],
+  [/^\/money\/?$/u, moneyLink],
+  [new RegExp(`^/polls/(${ID})/?$`, 'u'), voteLink],
+  [/^\/guide\/?$/u, () => guideThreadLink(NEW_THREAD)],
 ];
 
 /**

@@ -7,11 +7,16 @@
  */
 import { formatMoney, money } from '@cp/cost-engine';
 import {
-  localSchedule,
-  toLocalWallTime,
-  tripDayPath,
-  tripHubPath,
+  bookingLink,
   type BriefingCandidate,
+  guideThreadLink,
+  localSchedule,
+  moneyLink,
+  toLocalWallTime,
+  tripCheckLink,
+  tripDayLink,
+  tripHubLink,
+  voteLink,
 } from '@cp/domain';
 import { joinNames } from '@cp/planner';
 import type pg from 'pg';
@@ -87,7 +92,7 @@ async function leaveBys(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
         facts: line.facts,
         template: line.template,
         target_user_ids: [],
-        deep_link: tripDayPath(scope.tripId, scope.localDate),
+        deep_link: tripDayLink(scope.tripId, scope.localDate),
         dedupe_key: `leave_by:${row.id}`,
       },
     ];
@@ -138,7 +143,7 @@ async function dayFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
       facts: { time, title: item.title },
       template: `First up: ${item.title} at ${time}.`.slice(0, 140),
       target_user_ids: [],
-      deep_link: tripHubPath(scope.tripId),
+      deep_link: tripHubLink(scope.tripId),
       dedupe_key: `first:${scope.localDate}`,
     });
   }
@@ -168,7 +173,7 @@ async function dayFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
       facts: { flight: flight.flight, time, route: flight.route },
       template: `${flight.flight} (${flight.route}) leaves at ${time}.`.slice(0, 140),
       target_user_ids: [],
-      deep_link: `/wallet/bookings/${flight.booking_id}`,
+      deep_link: bookingLink(flight.booking_id),
       dedupe_key: `flight:${flight.id}`,
     });
   }
@@ -189,7 +194,7 @@ async function dayFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
       facts: { title: booking.title, deadline },
       template: `Free cancellation on ${booking.title} ends ${deadline}.`.slice(0, 140),
       target_user_ids: [],
-      deep_link: `/wallet/bookings/${booking.id}`,
+      deep_link: bookingLink(booking.id),
       dedupe_key: `free_cancel:${booking.id}`,
     });
   }
@@ -224,7 +229,7 @@ async function planFixes(tx: pg.PoolClient, scope: CandidateScope): Promise<Draf
           ? "One thing on today's plan needs fixing."
           : `${fixes} things on today's plan need fixing.`,
       target_user_ids: [],
-      deep_link: `/${scope.tripId}/check`,
+      deep_link: tripCheckLink(scope.tripId),
       dedupe_key: `plan_fix:${scope.localDate}`,
     },
   ];
@@ -254,7 +259,7 @@ async function crewFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draf
       facts: { amount, direction: owed ? 'owed to you' : 'you owe' },
       template: owed ? `The crew owes you ${amount}.` : `You owe ${amount} to the crew.`,
       target_user_ids: [],
-      deep_link: '/wallet/money',
+      deep_link: moneyLink(),
       dedupe_key: `balance:${scope.localDate}`,
     });
   }
@@ -275,7 +280,7 @@ async function crewFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draf
       facts: { question: vote.question },
       template: `Your vote is still open: ${vote.question}`.slice(0, 140),
       target_user_ids: [],
-      deep_link: `/vote/${vote.id}`,
+      deep_link: voteLink(vote.id),
       dedupe_key: `vote:${vote.id}`,
     });
   }
@@ -294,7 +299,7 @@ async function crewFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draf
       facts: {},
       template: 'The guide answered the question you queued.',
       target_user_ids: [],
-      deep_link: `/guide/${question.thread_id}`,
+      deep_link: guideThreadLink(question.thread_id),
       dedupe_key: `queued:${question.id}`,
     });
   }

@@ -8,6 +8,7 @@
  * sender wrote (their words may describe their health): the body is the preset's line or the plain
  * one, and the words are read in the app, from the session.
  */
+import { crewMapLink, sosLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -150,7 +151,7 @@ export function registerSafetyNotifications(): void {
         sender: memberSender(facts),
         tripId: facts.tripId,
         // The crew map draws the sharer: a Help share's fixes go out on the trip's location channel.
-        deepLink: `/map/${facts.tripId}`,
+        deepLink: crewMapLink(facts.tripId),
         ctx: { trip_id: facts.tripId, session_id: sessionId, share_id: str(event, 'share_id') },
       };
     },
@@ -216,7 +217,7 @@ export function registerSafetyNotifications(): void {
           vars: { sender: facts.name, crew: facts.crew },
           sender: memberSender(facts),
           tripId: facts.tripId,
-          deepLink: `/sos/${sosId}`,
+          deepLink: sosLink(sosId),
           threadId: `sos:${sosId}`,
           ctx: { trip_id: facts.tripId, sos_id: sosId, sender_id: facts.senderId },
           needsYou: true,
@@ -264,7 +265,7 @@ export function registerSafetyNotifications(): void {
         vars: { sender: facts.name, crew: facts.crew },
         sender: memberSender(facts),
         tripId: facts.tripId,
-        deepLink: `/sos/${sosId}`,
+        deepLink: sosLink(sosId),
         threadId: `sos:${sosId}`,
         ctx: { trip_id: facts.tripId, sos_id: sosId },
         collapseVars: { sos_id: sosId },

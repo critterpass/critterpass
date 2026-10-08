@@ -5,7 +5,7 @@
  * are looking at it), nor one only they can send from their own WhatsApp, nor one already answered
  * by the time the push is routed.
  */
-import { VENDOR_PUSH } from '@cp/domain';
+import { supplierMessagesLink, VENDOR_PUSH } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -56,7 +56,7 @@ export function registerVendorNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: draft.crew_id,
         tripId,
-        deepLink: `/supplier/messages?tripId=${encodeURIComponent(tripId)}`,
+        deepLink: supplierMessagesLink(tripId),
         needsYou: true,
         ctx: {
           draft_id: str(routed, 'message_id') ?? '',
