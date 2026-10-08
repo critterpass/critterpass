@@ -57,14 +57,6 @@ export function PressScale({
   children,
   testID,
 }: PressScaleProps) {
-  const press = usePress({
-    disabled: disabled || !onPress,
-    accessibilityLabel,
-    ...(widthClass ? { widthClass } : {}),
-    ...(onPress
-      ? { onPress: feedback === undefined ? onPress : () => withTapFeedback(feedback, onPress) }
-      : {}),
-  });
   // A control drawn below the minimum (a 40 pt pill) keeps its look and gains invisible slop instead.
   const drawn: ViewStyle = StyleSheet.flatten(style) ?? {};
   const drawnHeight = typeof drawn.height === 'number' ? drawn.height : drawn.minHeight;
@@ -72,9 +64,17 @@ export function PressScale({
     typeof drawnHeight === 'number' ? drawnHeight : undefined,
     typeof drawn.width === 'number' ? drawn.width : undefined,
   );
-  const gesture = slop ? press.gesture.hitSlop(slop) : press.gesture;
+  const press = usePress({
+    disabled: disabled || !onPress,
+    accessibilityLabel,
+    hitSlop: slop,
+    ...(widthClass ? { widthClass } : {}),
+    ...(onPress
+      ? { onPress: feedback === undefined ? onPress : () => withTapFeedback(feedback, onPress) }
+      : {}),
+  });
   return (
-    <GestureDetector gesture={gesture}>
+    <GestureDetector gesture={press.gesture}>
       <Animated.View
         testID={testID}
         hitSlop={slop}

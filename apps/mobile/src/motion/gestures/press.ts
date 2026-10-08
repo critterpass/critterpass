@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Gesture } from 'react-native-gesture-handler';
 import {
   useAnimatedStyle,
@@ -35,12 +36,23 @@ export const PRESS_CANCEL_DISTANCE_PT = 8;
  */
 export const PRESS_MAX_DURATION_MS = 60 * 60 * 1000;
 
+const pressEasing = bezierEasing(tokens.motion.easing.press);
+
+/** Invisible touch padding around a control drawn under the minimum target. */
+export interface PressHitSlop {
+  readonly top: number;
+  readonly bottom: number;
+  readonly left: number;
+  readonly right: number;
+}
+
 export interface UsePressOptions {
   /** @default 'medium' */
   readonly widthClass?: PressWidthClass;
   readonly disabled?: boolean;
   readonly onPress?: () => void;
   readonly accessibilityLabel?: string;
+  readonly hitSlop?: PressHitSlop | undefined;
 }
 
 export interface PressAnimatedStyle {
@@ -53,40 +65,73 @@ export function usePress({
   disabled = false,
   onPress,
   accessibilityLabel,
+  hitSlop,
 }: UsePressOptions = {}): GestureHookResult {
   const reduced = useReducedImpactMotion();
   const scale = useSharedValue(1);
-  const pressEasing = bezierEasing(tokens.motion.easing.press);
   const targetScale = PRESS_SCALE_BY_WIDTH[widthClass];
 
-  const fireOnPress = () => onPress?.();
+  // The handler is read when the press lands, so a new function on every render of the host (an
+  // inline arrow) never rebuilds the gesture.
+  const latestOnPress = useRef(onPress);
+  useEffect(() => {
+    latestOnPress.current = onPress;
+  });
+  const fireOnPress = useCallback(() => latestOnPress.current?.(), []);
+  const slopTop = hitSlop?.top;
+  const slopBottom = hitSlop?.bottom;
+  const slopLeft = hitSlop?.left;
+  const slopRight = hitSlop?.right;
 
-  const gesture = Gesture.Tap()
-    .enabled(!disabled)
-    .maxDistance(PRESS_CANCEL_DISTANCE_PT)
-    .maxDuration(PRESS_MAX_DURATION_MS)
-    .onBegin(() => {
-      'worklet';
-      scale.value = withTiming(targetScale, { duration: PRESS_DOWN_MS, easing: pressEasing });
-    })
-    .onEnd(() => {
-      'worklet';
-      // docs/design-system.md §5 Reduce Motion: "impacts fade 150 ms, no jolt/shake" — the release
-      // overshoot bounce is exactly that kind of jolt, so reduced motion settles straight to 1.
-      scale.value = reduced
-        ? withTiming(1, { duration: PRESS_DOWN_MS })
-        : withSequence(
-            withTiming(OVERSHOOT_SCALE, { duration: RELEASE_MS * 0.45 }),
-            withTiming(1, { duration: RELEASE_MS * 0.55 }),
-          );
-      scheduleOnRN(fireOnPress);
-    })
-    .onFinalize((_event, success) => {
-      'worklet';
-      // A cancelled press (moved past 8 pt, or disabled) settles back with no overshoot — `onEnd`
-      // above already handles the successful case's release animation.
-      if (!success) scale.value = withTiming(1, { duration: PRESS_DOWN_MS });
-    });
+  // One gesture for as long as what it depends on stays the same: a list row that re-renders keeps
+  // the gesture its detector already holds.
+  const gesture = useMemo(() => {
+    const tap = Gesture.Tap()
+      .enabled(!disabled)
+      .maxDistance(PRESS_CANCEL_DISTANCE_PT)
+      .maxDuration(PRESS_MAX_DURATION_MS);
+    if (
+      slopTop !== undefined &&
+      slopBottom !== undefined &&
+      slopLeft !== undefined &&
+      slopRight !== undefined
+    ) {
+      tap.hitSlop({ top: slopTop, bottom: slopBottom, left: slopLeft, right: slopRight });
+    }
+    return tap
+      .onBegin(() => {
+        'worklet';
+        scale.value = withTiming(targetScale, { duration: PRESS_DOWN_MS, easing: pressEasing });
+      })
+      .onEnd(() => {
+        'worklet';
+        // docs/design-system.md §5 Reduce Motion: "impacts fade 150 ms, no jolt/shake" — the release
+        // overshoot bounce is exactly that kind of jolt, so reduced motion settles straight to 1.
+        scale.value = reduced
+          ? withTiming(1, { duration: PRESS_DOWN_MS })
+          : withSequence(
+              withTiming(OVERSHOOT_SCALE, { duration: RELEASE_MS * 0.45 }),
+              withTiming(1, { duration: RELEASE_MS * 0.55 }),
+            );
+        scheduleOnRN(fireOnPress);
+      })
+      .onFinalize((_event, success) => {
+        'worklet';
+        // A cancelled press (moved past 8 pt, or disabled) settles back with no overshoot — `onEnd`
+        // above already handles the successful case's release animation.
+        if (!success) scale.value = withTiming(1, { duration: PRESS_DOWN_MS });
+      });
+  }, [
+    disabled,
+    targetScale,
+    reduced,
+    scale,
+    fireOnPress,
+    slopTop,
+    slopBottom,
+    slopLeft,
+    slopRight,
+  ]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -97,7 +142,7 @@ export function usePress({
     animatedStyle,
     accessibilityActions: [{ name: 'activate', label: accessibilityLabel }],
     onAccessibilityAction: (event) => {
-      if (event.nativeEvent.actionName === 'activate') onPress?.();
+      if (event.nativeEvent.actionName === 'activate') fireOnPress();
     },
   };
 }
