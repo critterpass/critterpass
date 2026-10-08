@@ -6,12 +6,13 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Modal } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useOwnerUid } from '../hub/data/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNow } from '@/lib/time/use-now';
 import { impact } from '@/motion/feedback';
 
 import { setAlarmPort, type AlarmPort } from './alarm-port';
@@ -23,7 +24,7 @@ import type { LeaveByView } from '../leave-by/model';
 import { tripDayRoute } from '../hub/routes';
 import { LEAVE_BY_CATEGORY, LEAVE_BY_CATEGORY_NO_SNOOZE, leaveByDataOf } from './alarm-backends';
 import { alarmText } from './alarm-copy';
-import { dueAlarm } from './alarm-plan';
+import { alarmWatched, dueAlarm } from './alarm-plan';
 import { alarmStore, useAlarmState } from './alarm-store';
 import { InAppAlarm } from './in-app-alarm';
 import { useAlarmSync } from './use-alarm-sync';
@@ -31,6 +32,7 @@ import { useJourneyCheck } from '../disruptions/late/use-journey-check';
 
 export const SNOOZE_MS = 5 * 60 * 1000;
 const RING_EVERY_MS = 6000;
+const RING_CHECK_MS = 5000;
 
 function useNotificationActions(
   up: (leaveById: string, source: 'notification') => void,
@@ -77,15 +79,6 @@ function useNotificationActions(
   }, [up, snooze]);
 }
 
-function useNow(everyMs: number): Date {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), everyMs);
-    return () => clearInterval(timer);
-  }, [everyMs]);
-  return now;
-}
-
 export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | null }) {
   setAlarmPort(alarmPort);
   useLiveActivityRegistration();
@@ -96,7 +89,14 @@ export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | 
   const { status, snoozedUntil, silenced } = useAlarmState();
   const { send: sendReadiness } = useCommand(setReadinessCommand);
   const { send: sendSnooze } = useCommand(snoozeLeaveByCommand);
-  const now = useNow(5000);
+  // The app's own alarm screen needs a clock only while a leave-by of mine could ring today. The
+  // rows are read again every minute, so the watch starts within a minute of a day before it.
+  const candidates = useMemo(
+    () => views.filter((view) => !silenced.has(view.id)),
+    [views, silenced],
+  );
+  const watching = status.mode !== 'native' && alarmWatched(candidates, new Date(), snoozedUntil);
+  const now = useNow(RING_CHECK_MS, { enabled: watching, anyScreen: true });
   const services = useMemo(() => deviceTripDayServices(), []);
   // A leave-by window opening saves that day again (the phone may be about to lose signal).
   useDayBundlePrefetch(
@@ -133,13 +133,7 @@ export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | 
   }, [alarmPort]);
 
   const ringing: LeaveByView | null =
-    status.mode === 'native'
-      ? null
-      : dueAlarm(
-          views.filter((view) => !silenced.has(view.id)),
-          now,
-          snoozedUntil,
-        );
+    status.mode === 'native' ? null : dueAlarm(candidates, now, snoozedUntil);
   const ringingId = ringing?.id ?? null;
   useEffect(() => {
     if (ringingId === null) return undefined;

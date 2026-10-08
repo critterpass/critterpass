@@ -20,7 +20,7 @@ import {
 } from '../../day-of/dev/bali-day';
 import type { AlarmBackend, AlarmMode } from '../alarm-backends';
 import type { AlarmText } from '../alarm-copy';
-import { desiredAlarms, diffAlarms, dueAlarm, type HeldAlarm } from '../alarm-plan';
+import { alarmWatched, desiredAlarms, diffAlarms, dueAlarm, type HeldAlarm } from '../alarm-plan';
 import { syncAlarms } from '../alarm-sync';
 
 const TEXT: AlarmText = {
@@ -140,5 +140,20 @@ describe('leave-by alarm sync', () => {
     expect(dueAlarm([baturLeaveBy({ now: ringing, up: [] })], ringing)?.id).toBe(LEAVE_BY);
     expect(dueAlarm([baturLeaveBy({ now: ringing, up: [WINSTON] })], ringing)).toBeNull();
     expect(dueAlarm([baturLeaveBy({ up: [] })], AT_0248)).toBeNull();
+  });
+
+  it("keeps the app's alarm clock running from a day before the alarm until the leave-by", () => {
+    const ringing = new Date('2026-10-14T19:02:00Z');
+    const twoDaysBefore = new Date('2026-10-12T19:02:00Z');
+    const gone = new Date('2026-10-14T19:10:00Z');
+    expect(alarmWatched([baturLeaveBy({ up: [] })], AT_0248)).toBe(true);
+    expect(alarmWatched([baturLeaveBy({ now: ringing, up: [] })], ringing)).toBe(true);
+    expect(alarmWatched([baturLeaveBy({ now: ringing, up: [WINSTON] })], ringing)).toBe(false);
+    expect(alarmWatched([baturLeaveBy({ now: twoDaysBefore, up: [] })], twoDaysBefore)).toBe(false);
+    expect(alarmWatched([baturLeaveBy({ now: gone, up: [] })], gone)).toBe(false);
+    expect(alarmWatched([], AT_0248)).toBe(false);
+    // A snoozed alarm is watched until it rings again.
+    const snoozed = new Map([[LEAVE_BY, new Date('2026-10-14T19:07:00Z')]]);
+    expect(alarmWatched([baturLeaveBy({ now: ringing, up: [] })], ringing, snoozed)).toBe(true);
   });
 });
