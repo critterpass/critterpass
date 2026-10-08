@@ -5,17 +5,20 @@
  * gives the redraft back, as does one that failed or could not beat the day.
  */
 import { t } from '@lingui/core/macro';
-
-import { goBackOr } from '@/lib/navigation/back';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { impact, toast } from '@/motion';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
 import { redraftBoost } from '../boost-slot';
 import { keepRedraftCommand, revertRedraftCommand } from '../data/commands';
+import { useDecidedRedrafts } from '../data/decided-redrafts';
 import { useDraftTrip } from '../data/draft-trip';
 import { useTakenOut } from '../data/left-out';
 import {
@@ -32,6 +35,8 @@ import { RedraftDiffView } from './redraft-diff-view';
 
 /** The guide's thinking beat lasts at least this long, however fast the job was. */
 export const THINKING_BEAT_MS = 900;
+/** A redraft still thinking after this long says so, and that she can leave. */
+const SLOW_AFTER_MS = 45_000;
 
 export interface RedraftDiffScreenProps {
   readonly tripId: string;
@@ -43,15 +48,23 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const redraft = useRedraft(tripId, redraftId);
+  // Kept or put back on this phone already, even if the server has not heard yet.
+  const decided = useDecidedRedrafts().has(redraftId);
   const locale = useLocale();
   const keep = useCommand(keepRedraftCommand);
   const revert = useCommand(revertRedraftCommand);
   const [beatDone, setBeatDone] = useState(false);
   const [off, setOff] = useState<ReadonlySet<string>>(new Set());
   const [leaving, setLeaving] = useState(false);
+  const [slow, setSlow] = useState(false);
+  const offline = useSyncPhase() === 'offline';
   useEffect(() => {
     const timer = setTimeout(() => setBeatDone(true), THINKING_BEAT_MS);
-    return () => clearTimeout(timer);
+    const late = setTimeout(() => setSlow(true), SLOW_AFTER_MS);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(late);
+    };
   }, []);
   const result = redraft.result;
   const cards = useMemo(
@@ -64,14 +77,32 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
     [result, cards, off],
   );
   const gone = useTakenOut(result?.base_version_id ?? null, result?.candidate_version_id ?? null);
-  if (trip === undefined || trip === null || !redraft.loaded) return null;
+  const backLabel = t({ id: 'planDraft.loading.back', message: 'Back' });
+  if (trip === null) {
+    return (
+      <ScreenMissing
+        backLabel={backLabel}
+        fallback={draftRoutes.review(tripId)}
+        testID="redraft-missing"
+      />
+    );
+  }
+  if (trip === undefined || !redraft.loaded) {
+    return (
+      <ScreenLoading
+        backLabel={backLabel}
+        fallback={draftRoutes.review(tripId)}
+        testID="redraft-loading"
+      />
+    );
+  }
 
   const phase = leaving
     ? 'ready'
     : redraftPhase({
         status: redraft.status,
         outcome: result?.outcome ?? null,
-        settled: redraft.settled,
+        settled: decided ? 'committed' : redraft.settled,
         beatDone,
       });
   const dayNo = result?.day_no ?? day;
@@ -109,6 +140,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
       locale={locale}
       tz={trip.tz}
       phase={phase}
+      wait={offline ? 'offline' : slow ? 'slow' : 'working'}
       dayNo={dayNo}
       summary={locale.startsWith('en') ? (result?.summary ?? null) : null}
       clash={clash}

@@ -15,6 +15,7 @@ import { Icon } from '@/ui/icons/Icon';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { HeaderPill } from '@/ui/shell/HeaderPills';
+import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -29,6 +30,9 @@ import { LeftOutRows } from '../review/coverage-strip';
 
 const STICKER = 84;
 const THINKING = 150;
+
+/** How the wait for a redraft is going: as usual, past the usual time, or with no signal. */
+export type RedraftWait = 'working' | 'slow' | 'offline';
 
 export type DiffPhase = 'thinking' | 'ready' | 'identical' | 'failed' | 'settled';
 
@@ -68,6 +72,8 @@ export interface RedraftDiffViewProps {
   readonly locale: string;
   readonly tz: string;
   readonly phase: DiffPhase;
+  /** While thinking: slow or offline adds a line saying so. @default 'working' */
+  readonly wait?: RedraftWait | undefined;
   readonly dayNo: number | null;
   /** The guide's own summary (written in English: passed only to a reader of English). */
   readonly summary: string | null;
@@ -87,8 +93,17 @@ export interface RedraftDiffViewProps {
   readonly onBoost: (() => void) | undefined;
 }
 
-function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: number | null }) {
+function Thinking({
+  guide,
+  dayNo,
+  wait,
+}: {
+  readonly guide: GuideId;
+  readonly dayNo: number | null;
+  readonly wait: RedraftWait;
+}) {
   const styles = useStyles();
+  const theme = useTheme();
   const info = guideSticker(guide);
   const guideName = info.name;
   const n = dayNo ?? 0;
@@ -101,6 +116,25 @@ function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: n
           : t({ id: 'planDraft.diff.thinking', message: `${guideName} is redrafting day ${n}` })}
       </Text>
       <TypingDots color={guideColour(guide)} />
+      {wait === 'offline' ? <OfflinePill /> : null}
+      {wait === 'working' ? null : (
+        <Text
+          variant="body"
+          color={theme.semantic.text.secondary}
+          style={styles.centred}
+          testID="redraft-thinking-line"
+        >
+          {wait === 'offline'
+            ? t({
+                id: 'planDraft.diff.thinkingOffline',
+                message: 'I can’t reach it without signal. It shows here once you’re back online.',
+              })
+            : t({
+                id: 'planDraft.drafting.slow',
+                message: 'Taking longer than usual. You can leave: I’ll tell you when it’s ready.',
+              })}
+        </Text>
+      )}
     </View>
   );
 }
@@ -160,7 +194,8 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
     </View>
   );
   let body;
-  if (phase === 'thinking') body = <Thinking guide={guide} dayNo={dayNo} />;
+  if (phase === 'thinking')
+    body = <Thinking guide={guide} dayNo={dayNo} wait={props.wait ?? 'working'} />;
   else if (phase === 'identical') {
     body = (
       <Outcome

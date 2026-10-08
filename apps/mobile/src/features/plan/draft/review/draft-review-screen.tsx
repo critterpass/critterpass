@@ -19,6 +19,7 @@ import { guideSticker } from '@/ui/avatar/guides';
 
 import { draftBackLabel } from '../back-label';
 import { restoreDraftVersionCommand } from '../data/commands';
+import { useDecidedRedrafts } from '../data/decided-redrafts';
 import { isBeingDrafted, isDraftRetired } from '../data/draft-stage';
 import { useDraftTrip } from '../data/draft-trip';
 import { roomiestDay } from '../data/fit-day';
@@ -36,6 +37,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);
+  const decided = useDecidedRedrafts();
   const locale = useLocale();
   const syncPhase = useSyncPhase();
   const restore = useCommand(restoreDraftVersionCommand);
@@ -95,7 +97,9 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const propose = hrefFor('3f-1', { tripId });
   const day = draftRoutes.day(tripId, 1);
-  const open = draft.openRedraft;
+  // A redraft she has kept or put back is not offered again while that waits to send.
+  const open =
+    draft.openRedraft === null || decided.has(draft.openRedraft.id) ? null : draft.openRedraft;
   const review = draft.review;
   const fitIn = (titles: readonly string[]) => {
     const what = titles.join(', ');
