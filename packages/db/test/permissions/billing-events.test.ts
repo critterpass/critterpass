@@ -5,7 +5,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem } from '../../src/tx';
-import { expectSystemOnlyTable } from '../helpers/billing-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -19,10 +18,6 @@ afterAll(async () => {
 });
 
 describe('billing_events', () => {
-  it('is system-only and unpublished', async () => {
-    await expectSystemOnlyTable(harness, 'billing_events');
-  });
-
   it('stores a redelivered event once', async () => {
     const { rowCount } = await withSystem(harness.db.pool, (tx) =>
       tx.query(

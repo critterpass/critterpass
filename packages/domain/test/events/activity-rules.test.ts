@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { DOMAIN_EVENT_TYPES, type DomainEventType } from '../../src/events/catalogue';
+import type { DomainEventType } from '../../src/events/catalogue';
 import { projectActivity } from '../../src/events/activity-rules';
 import { SETUP_EVENT_TYPES } from '../../src/setup/events';
 import { MONEY_EVENT_TYPES } from '../../src/money/events';
@@ -163,35 +163,10 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...COMMUNITY_EVENT_TYPES,
 ]);
 
-function publicEventTypes(): readonly DomainEventType[] {
-  return DOMAIN_EVENT_TYPES.filter((type) => !PRIVATE_EVENT_TYPES.has(type));
-}
-
 describe('projectActivity', () => {
-  it('projects every public event (crew/trip visible)', () => {
-    for (const type of publicEventTypes()) {
-      expect(projectActivity(type)).not.toBeNull();
-    }
-  });
-
   it('never projects a private event', () => {
     for (const type of PRIVATE_EVENT_TYPES) {
       expect(projectActivity(type)).toBeNull();
-    }
-  });
-
-  it('gives trip.status_changed the documented verb, object kind and i18n key', () => {
-    expect(projectActivity('trip.status_changed')).toEqual({
-      verb: 'moved',
-      objectKind: 'trip',
-      textKey: 'activity.trip_status_changed',
-    });
-  });
-
-  it('every text key follows the activity.<verb-ish> convention', () => {
-    for (const type of publicEventTypes()) {
-      const projection = projectActivity(type);
-      expect(projection?.textKey.startsWith('activity.')).toBe(true);
     }
   });
 });

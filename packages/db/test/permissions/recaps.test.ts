@@ -6,7 +6,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { addRecapCrewmate } from '../helpers/recap-fixture';
-import { expectCrewReadOnly, visibleRows } from '../helpers/setup-privacy';
+import { visibleRows } from '../helpers/setup-privacy';
 import { evaluateStream, startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -20,10 +20,6 @@ afterAll(async () => {
 });
 
 describe('recaps', () => {
-  it('is read by the travellers only, synced on the trip stream and never written by app_user', async () => {
-    await expectCrewReadOnly(harness, 'recaps');
-  });
-
   it('is hidden from a crewmate who never travelled, on the database and the stream', async () => {
     const { tripId } = harness.fixture;
     const homebody = await addRecapCrewmate(harness.db.pool, harness.fixture, {

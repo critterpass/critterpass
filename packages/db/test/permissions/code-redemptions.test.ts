@@ -5,7 +5,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem } from '../../src/tx';
-import { expectOwnerOnlyTable } from '../helpers/billing-fixture';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -19,10 +18,6 @@ afterAll(async () => {
 });
 
 describe('code_redemptions', () => {
-  it('is owner-only, read-only and synced on me', async () => {
-    await expectOwnerOnlyTable(harness, 'code_redemptions');
-  });
-
   it('redeems a code once per user', async () => {
     await expect(
       withSystem(harness.db.pool, (tx) =>

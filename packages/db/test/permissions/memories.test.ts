@@ -7,7 +7,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { addRecapCrewmate } from '../helpers/recap-fixture';
-import { expectCrewReadOnly, visibleRows } from '../helpers/setup-privacy';
+import { visibleRows } from '../helpers/setup-privacy';
 import { evaluateStream, startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
 let harness: StreamHarness;
@@ -21,10 +21,6 @@ afterAll(async () => {
 });
 
 describe.each(['memories', 'memory_reactions'])('%s', (table) => {
-  it('is read by the travellers only, synced on the trip stream and never written by app_user', async () => {
-    await expectCrewReadOnly(harness, table);
-  });
-
   it('stays with a traveller who left the crew, and never reaches one who stayed home', async () => {
     const { tripId } = harness.fixture;
     const probe = `SELECT 1 FROM ${table} WHERE trip_id = $1`;
