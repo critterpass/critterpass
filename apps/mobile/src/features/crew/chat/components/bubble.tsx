@@ -3,8 +3,7 @@
  * run, the tail corner on the last), the member's own on the right (yellow), the guide's lines in
  * its voice and colour, system rows as a centred caption, and a tombstone for deleted messages.
  * Own sends show their delivery state (a clock while sending; RETRY and DELETE once refused).
- * The body of every other message type is its registered card, so cards plug in without
- * touching this; a card that replies carries its quote on a strip above it.
+ * Every other message type draws its registered card, with a reply's quote on a strip above.
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
@@ -38,6 +37,8 @@ export interface BubbleProps {
   /** Crew join order of the sender (member colour); -1 when unknown. */
   readonly joinIndex: number;
   readonly guideColor?: string;
+  /** In place of the registered card, for a non-text message. */
+  readonly renderBody?: (message: ChatMessage) => ReactNode;
   /** Rise into place (a message that arrived while the chat was open). */
   readonly animate?: boolean;
   /** Opens the message's actions (long press, or the screen reader's "More actions"). */
@@ -130,7 +131,7 @@ export function Bubble(props: BubbleProps) {
   const who = author ?? t({ id: 'chat.message.you', message: 'You' });
   const spoken = t({ id: 'chat.message.spoken', message: `${who}, ${time}: ${text}` });
   const card = !deleted && message.type !== 'text';
-  const custom = card ? renderCard(message, mine) : null;
+  const custom = card ? (props.renderBody?.(message) ?? renderCard(message, mine)) : null;
   const a11yActions = [
     ...(props.onReply === undefined
       ? []

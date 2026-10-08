@@ -17,7 +17,9 @@ beforeEach(() => {
   clearReadUrlCache();
   jest.useFakeTimers();
 });
-afterEach(() => jest.useRealTimers());
+afterEach(() => {
+  jest.useRealTimers();
+});
 
 describe('voice playback', () => {
   it('shows progress on the playing note only', async () => {
