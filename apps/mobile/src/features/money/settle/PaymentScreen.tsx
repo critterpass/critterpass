@@ -1,19 +1,21 @@
 /**
  * One payment, wired up. The payer's view asks the api for the payee's payout details (online,
  * audited, kept in memory only) and marks paid through the offline queue (creating the payment
- * when nobody requested it yet). The payee requests, nudges, confirms or disputes online.
+ * when nobody requested it yet). The payee requests, nudges, confirms or disputes online: each
+ * answer is said (no signal, refused and why, or done), and "It didn't arrive" asks first, since it
+ * tells a crewmate their payment is disputed.
  */
 import { generateUuidV7, type PaymentMethod } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
+import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
-import { feedback } from '@/motion';
-import { toast } from '@/motion/island-toast';
+import { goBackOr } from '@/lib/navigation/back';
+import { toast, useCommandFeedback, type CommandFeedbackCopy } from '@/motion/island-toast';
 
-import { MoneyLoading } from '../balances/BalancesScreen';
 import { buildBalances } from '../balances/model';
+import { MoneyNoTripScreen, MoneyScreenLoading, PaymentGone } from '../components/screen-states';
 import {
   confirmPaidCommand,
   disputePaymentCommand,
@@ -25,15 +27,26 @@ import { useSelectedTrip } from '../data/selected-trip';
 import { useMoneyServices } from '../data/services';
 import { useMoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
+import { MONEY_ROUTES } from '../routes';
 import { amountPaidDigits, amountPaidMinor, isAmountPaidValid } from './amount-paid';
+import { useSettleCopy } from './command-copy';
+import { DisputeSheet } from './DisputeSheet';
 import { settleRows } from './model';
 import { PaymentDetail, type RevealState } from './PaymentDetail';
 
-export function PaymentScreen({ id }: { readonly id: string }) {
-  const ctx = useMoneyContext(useSelectedTrip());
+export function PaymentScreen({
+  id,
+  tripId: routeTripId = null,
+}: {
+  readonly id: string;
+  readonly tripId?: string | null;
+}) {
+  const ctx = useMoneyContext(useSelectedTrip(), routeTripId);
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
   const services = useMoneyServices();
   const { t } = useLingui();
+  const { report } = useCommandFeedback();
+  const copy = useSettleCopy();
   const mark = useCommand(markPaidCommand);
   const request = useCommand(requestPaymentCommand);
   const nudge = useCommand(nudgePaymentCommand);
@@ -42,6 +55,12 @@ export function PaymentScreen({ id }: { readonly id: string }) {
   const [reveal, setReveal] = useState<RevealState>({ kind: 'loading' });
   const [method, setMethod] = useState<PaymentMethod>('bank');
   const [digits, setDigits] = useState<string | null>(null);
+  const [disputing, setDisputing] = useState(false);
+  // A payment made here (a mark or a request with no payment yet) keeps one id however often its
+  // button is tapped, so a repeat can only name the same payment.
+  const [newPaymentId] = useState(() => generateUuidV7());
+  // Held from the tap that sends until its answer: one action at a time, none sent twice.
+  const sending = useRef(false);
   const currency = ctx.crew?.settlementCurrency ?? 'USD';
 
   const row = useMemo(() => {
@@ -93,100 +112,124 @@ export function PaymentScreen({ id }: { readonly id: string }) {
     };
   }, [isPayer, paymentId, services]);
 
-  if (ctx.status === 'loading' || !rows.loaded || ctx.trip === null) return <MoneyLoading />;
-  if (row === null) return <MoneyLoading />;
+  if (ctx.status === 'loading' || (ctx.status === 'ready' && !rows.loaded)) {
+    return <MoneyScreenLoading />;
+  }
+  if (ctx.trip === null) return <MoneyNoTripScreen crew={ctx.crew !== null} />;
+  if (row === null) return <PaymentGone />;
   const tripId = ctx.trip.id;
   const name = (uid: string) => ctx.members.find((member) => member.userId === uid)?.name ?? '';
   const amountDigits = digits ?? amountPaidDigits(row.amountMinor, row.currency);
   const paid = amountPaidMinor(amountDigits, row.amountMinor, row.currency);
   const amountValid = isAmountPaidValid(paid, row.amountMinor);
 
-  const done = (title: string) => {
-    feedback.emit('success');
-    toast.show({ id: 'money-payment', title });
-    router.back();
-  };
-  const failed = () => feedback.emit('error');
+  /** Sends one action, says what it did, and leaves for Settle up only when it went through. */
+  async function act(send: () => Promise<SendResult>, feedback: CommandFeedbackCopy) {
+    if (sending.current) return;
+    sending.current = true;
+    try {
+      const outcome = report(await send(), feedback);
+      if (outcome === 'done' || (outcome === 'queued' && feedback.offlineCapable === true)) {
+        goBackOr(MONEY_ROUTES.settle);
+      }
+    } finally {
+      sending.current = false;
+    }
+  }
 
-  async function onMarkPaid() {
-    if (row === null) return;
+  function onMarkPaid() {
+    if (row === null || !amountValid) return;
     const partial = paid < row.amountMinor ? { amount_minor: Number(paid) } : {};
-    const result = await mark.send(
-      row.paymentId === null
-        ? {
-            payment_id: generateUuidV7(),
-            method,
-            ...partial,
-            create: {
-              trip_id: tripId,
-              to_uid: row.toId,
-              amount_minor: Number(row.amountMinor),
-              currency: row.currency,
-            },
-          }
-        : { payment_id: row.paymentId, method, ...partial },
-      row.version === null ? undefined : { baseVersion: row.version },
+    void act(
+      () =>
+        mark.send(
+          row.paymentId === null
+            ? {
+                payment_id: newPaymentId,
+                method,
+                ...partial,
+                create: {
+                  trip_id: tripId,
+                  to_uid: row.toId,
+                  amount_minor: Number(row.amountMinor),
+                  currency: row.currency,
+                },
+              }
+            : { payment_id: row.paymentId, method, ...partial },
+          row.version === null ? undefined : { baseVersion: row.version },
+        ),
+      copy('markPaid'),
     );
-    if (result.kind === 'rejected' || result.kind === 'unavailable') return failed();
-    done(t({ id: 'money.pay.marked', message: 'Marked paid. They confirm when it lands.' }));
   }
 
-  async function onRequest() {
+  function onRequest() {
     if (row === null) return;
-    const result = await request.send({
-      payment_id: generateUuidV7(),
-      trip_id: tripId,
-      from_uid: row.fromId,
-      amount_minor: Number(row.amountMinor),
-      currency: row.currency,
-    });
-    if (result.kind !== 'applied') return failed();
-    const who = name(row.fromId);
-    done(t({ id: 'money.pay.requested', message: `Asked ${who} to pay.` }));
+    void act(
+      () =>
+        request.send({
+          payment_id: newPaymentId,
+          trip_id: tripId,
+          from_uid: row.fromId,
+          amount_minor: Number(row.amountMinor),
+          currency: row.currency,
+        }),
+      copy('request', name(row.fromId)),
+    );
   }
 
-  async function onSimple(kind: 'nudge' | 'confirm' | 'dispute') {
+  function onSimple(kind: 'nudge' | 'confirm' | 'dispute', note?: string) {
     if (row?.paymentId == null) return;
     const payload = { payment_id: row.paymentId };
-    const who = name(row.fromId);
-    const result =
-      kind === 'nudge'
-        ? await nudge.send(payload)
-        : kind === 'confirm'
-          ? await confirm.send(payload)
-          : await dispute.send(payload);
-    if (result.kind !== 'applied') return failed();
-    done(
-      kind === 'nudge'
-        ? t({ id: 'money.settle.nudged', message: `Nudged ${who}. Gently.` })
-        : kind === 'confirm'
-          ? t({ id: 'money.pay.confirmed', message: 'Confirmed. Balances re-count.' })
-          : t({ id: 'money.pay.disputed', message: `Told ${who} it didn't arrive.` }),
+    void act(
+      () =>
+        kind === 'nudge'
+          ? nudge.send(payload)
+          : kind === 'confirm'
+            ? confirm.send(payload)
+            : dispute.send(note === undefined || note === '' ? payload : { ...payload, note }),
+      copy(kind, name(row.fromId)),
     );
   }
 
   return (
-    <PaymentDetail
-      row={row}
-      fromName={name(row.fromId)}
-      toName={name(row.toId)}
-      reveal={paymentId === null ? { kind: 'unavailable' } : reveal}
-      method={method}
-      amountDigits={amountDigits}
-      amountValid={amountValid}
-      busy={mark.pending || request.pending || confirm.pending || dispute.pending}
-      onMethod={setMethod}
-      onAmount={setDigits}
-      onMarkPaid={() => void onMarkPaid()}
-      onRequest={() => void onRequest()}
-      onNudge={() => void onSimple('nudge')}
-      onConfirm={() => void onSimple('confirm')}
-      onDispute={() => void onSimple('dispute')}
-      onCopy={(text) => {
-        void services.copy(text);
-        toast.show({ id: 'money-copied', title: t({ id: 'money.pay.copied', message: 'Copied' }) });
-      }}
-      onOpen={(url) => void services.openUrl(url)}
-    />
+    <>
+      <PaymentDetail
+        row={row}
+        fromName={name(row.fromId)}
+        toName={name(row.toId)}
+        reveal={paymentId === null ? { kind: 'unavailable' } : reveal}
+        method={method}
+        amountDigits={amountDigits}
+        amountValid={amountValid}
+        busy={
+          mark.pending || request.pending || nudge.pending || confirm.pending || dispute.pending
+        }
+        onMethod={setMethod}
+        onAmount={setDigits}
+        onMarkPaid={onMarkPaid}
+        onRequest={onRequest}
+        onNudge={() => onSimple('nudge')}
+        onConfirm={() => onSimple('confirm')}
+        onDispute={() => setDisputing(true)}
+        onCopy={(text) => {
+          void services.copy(text);
+          toast.show({
+            id: 'money-copied',
+            title: t({ id: 'money.pay.copied', message: 'Copied' }),
+          });
+        }}
+        onOpen={(url) => void services.openUrl(url)}
+      />
+      {disputing ? (
+        <DisputeSheet
+          payerName={name(row.fromId)}
+          onCancel={() => setDisputing(false)}
+          onConfirm={(note) => {
+            setDisputing(false);
+            onSimple('dispute', note);
+          }}
+        />
+      ) : null}
+    </>
   );
 }

@@ -16,6 +16,7 @@ import {
 import { useAddLabels } from '../add-expense/labels';
 import { previewDraft } from '../add-expense/preview';
 import { MoneyLoading } from '../balances/BalancesScreen';
+import { ExpenseGone, PaymentGone } from '../components/screen-states';
 import { BalancesView } from '../balances/BalancesView';
 import { buildBalances } from '../balances/model';
 import { ExpenseDetailView } from '../expense-detail/ExpenseDetailView';
@@ -121,13 +122,29 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
   history: () => (
     <HistoryView
       items={LAB_HISTORY}
+      total={LAB_HISTORY.length}
       members={LAB_MEMBERS}
       crewCurrency="USD"
       filter={{ memberId: null, category: null }}
       onFilter={noop}
       onExpense={noop}
+      onAdd={noop}
     />
   ),
+  'history-none': () => (
+    <HistoryView
+      items={[]}
+      total={0}
+      members={[]}
+      crewCurrency="USD"
+      filter={{ memberId: null, category: null }}
+      onFilter={noop}
+      onExpense={noop}
+      onAdd={noop}
+    />
+  ),
+  'expense-gone': () => <ExpenseGone />,
+  'payment-gone': () => <PaymentGone />,
   expense: () => (
     <ExpenseDetailView
       item={LAB_LATEST}

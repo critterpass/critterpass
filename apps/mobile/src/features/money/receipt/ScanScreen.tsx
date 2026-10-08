@@ -13,13 +13,15 @@ import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useFlag } from '@/lib/analytics/flags';
+import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback, type CommandFeedbackCopy } from '@/motion/island-toast';
 
-import { MoneyLoading } from '../balances/BalancesScreen';
+import { MONEY_FALLBACK, MoneyNoTripScreen, MoneyScreenLoading } from '../components/screen-states';
 import { addExpenseCommand, commitReceiptCommand } from '../data/commands';
-import { useSelectedTrip } from '../data/selected-trip';
+import { selectTrip, useSelectedTrip } from '../data/selected-trip';
 import { useMoneyServices } from '../data/services';
 import { useMoneyContext } from '../data/use-money-context';
+import { useSendOnce } from '../data/use-send-once';
 import { MONEY_ROUTES } from '../routes';
 import { MemberPicker } from './MemberPicker';
 import { receiptView, toCommitPayload } from './review-model';
@@ -39,11 +41,11 @@ function alreadyCommitted(result: SendResult): boolean {
   );
 }
 
-export function ScanScreen() {
+export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: string | null }) {
   const services = useMoneyServices();
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a flag key, not copy
   const enabled = useFlag('money.receipts');
-  const ctx = useMoneyContext(useSelectedTrip());
+  const ctx = useMoneyContext(useSelectedTrip(), routeTripId);
   const trip =
     ctx.trip === null ? null : { id: ctx.trip.id, localCurrency: ctx.trip.localCurrency };
   const scan = useScan(services, trip);
@@ -62,6 +64,8 @@ export function ScanScreen() {
   // One receipt is one expense: its id is made once, and SPLIT IT is held while it goes out (a
   // repeat whose first answer was lost is refused as committed, which counts as done).
   const [expenseId] = useState(() => generateUuidV7());
+  // SPLIT EVENLY is the same receipt's expense: taken by the first tap and kept once it is out.
+  const even = useSendOnce();
   const scene = useReviewScene({
     ctx,
     scan,
@@ -72,28 +76,36 @@ export function ScanScreen() {
     onPicker: setPicker,
   });
 
-  if (!enabled || services.reader === null) return <Redirect href={MONEY_ROUTES.add} />;
-  if (ctx.status === 'loading' || ctx.uid === null) return <MoneyLoading />;
+  const addRoute = (name: string | null) => ({
+    pathname: MONEY_ROUTES.add,
+    params: {
+      ...(name === null ? {} : { name }),
+      ...(routeTripId === null ? {} : { trip: routeTripId }),
+    },
+  });
+  if (!enabled || services.reader === null) return <Redirect href={addRoute(null)} />;
+  if (ctx.status === 'loading' || ctx.uid === null) return <MoneyScreenLoading />;
+  if (ctx.trip === null) return <MoneyNoTripScreen crew={ctx.crew !== null} />;
   if (scan.state.step === 'typing') {
     return <TypeLinesScreen ctx={ctx} parsed={scene.parsed} receiptId={scan.state.receiptId} />;
   }
 
   // A step that went through says so and leaves for the balances; one that did not says so, and
   // what to do next, and the screen stays as it was.
-  const settle = (result: SendResult, copy: CommandFeedbackCopy) => {
+  const settle = (result: SendResult, copy: CommandFeedbackCopy): boolean => {
     const outcome = report(result, { ...copy, id: 'money-receipt' });
-    if (outcome === 'done' || (outcome === 'queued' && copy.offlineCapable === true)) {
+    const went = outcome === 'done' || (outcome === 'queued' && copy.offlineCapable === true);
+    if (went) {
+      // Balances shows the trip the receipt went to.
+      if (routeTripId !== null) selectTrip(routeTripId);
       router.dismissTo(MONEY_ROUTES.balances);
     }
+    return went;
   };
 
   // Typing it in starts from what the server read of the shop's name.
   const typeItIn = () =>
-    router.replace(
-      view.kind === 'unreadable' && view.merchant !== null
-        ? { pathname: MONEY_ROUTES.add, params: { name: view.merchant } }
-        : MONEY_ROUTES.add,
-    );
+    router.replace(addRoute(view.kind === 'unreadable' ? view.merchant : null));
 
   async function onCommit() {
     if (scene.parsed === null || scan.receipt === null || commit.pending) return;
@@ -125,9 +137,9 @@ export function ScanScreen() {
   }
 
   async function onEven() {
-    if (scene.parsed?.total_minor == null || ctx.trip === null) return;
+    if (scene.parsed?.total_minor == null || ctx.trip === null || !even.take()) return;
     const result = await add.send({
-      expense_id: generateUuidV7(),
+      expense_id: expenseId,
       trip_id: ctx.trip.id,
       amount_minor: scene.parsed.total_minor,
       currency: scene.parsed.currency,
@@ -141,7 +153,7 @@ export function ScanScreen() {
       description: scene.parsed.merchant ?? '',
       ...(scene.parsed.merchant === null ? {} : { merchant: scene.parsed.merchant }),
     });
-    settle(result, {
+    const went = settle(result, {
       done: t({ id: 'money.scan.splitEven', message: 'Split evenly. Balances re-count.' }),
       offlineCapable: true,
       refused: t({
@@ -149,6 +161,7 @@ export function ScanScreen() {
         message: "That didn't go through. Try again, or type it in.",
       }),
     });
+    if (!went) even.release();
   }
 
   const photoUri =
@@ -179,7 +192,7 @@ export function ScanScreen() {
           }
           lines={scene.sweepLines}
           onAutoSplit={() => setAutoSplit((on) => !on)}
-          onClose={() => router.back()}
+          onClose={() => goBackOr(MONEY_FALLBACK)}
           onScan={() => void scan.scan()}
           onPick={() => void scan.pick()}
           onType={typeItIn}
