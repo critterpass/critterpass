@@ -4,7 +4,11 @@ import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
+import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 import { SessionGate } from '@/ui/states/SessionGate';
+
+// A trip screen that fails is contained here: the tabs and the pages under it stay as they were.
+export { RootErrorBoundary as ErrorBoundary };
 
 /**
  * Trip-day stack (screens owned by the trip area); session-only. Its layouts and screens read the

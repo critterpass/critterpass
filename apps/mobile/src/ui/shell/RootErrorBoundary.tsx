@@ -8,6 +8,7 @@ import { Pressable, View } from 'react-native';
 
 import { sourceLocale } from '@cp/i18n';
 
+import { canGoBack, goBackOr } from '@/lib/navigation/back';
 import { clearSavedNavigation } from '@/lib/navigation/restore';
 import { ThemeProvider } from '@/lib/theme';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
@@ -48,30 +49,19 @@ const useErrorStyles = makeStyles((th) => ({
   },
 }));
 
-/**
- * The imperative router throws until navigation has rendered once, which is exactly when a render
- * error in the root layout's first pass reaches this boundary: there is nothing to go back to then.
- */
-function canGoBackSafely(): boolean {
-  try {
-    return router.canGoBack();
-  } catch {
-    return false;
-  }
-}
-
 function RecoveryPanel({ retry }: Pick<ErrorBoundaryProps, 'retry'>) {
   const styles = useErrorStyles();
   const theme = useTheme();
-  const canGoBack = canGoBackSafely();
+  // The imperative router throws until navigation has rendered once, which is exactly when a render
+  // error in the root layout's first pass reaches this boundary: there is nothing to go back to then.
   const options = [
-    ...(canGoBack
+    ...(canGoBack()
       ? [
           {
             key: 'back',
             title: t({ id: 'common.shell.errorBack', message: 'Go back' }),
             body: t({ id: 'common.shell.errorBackBody', message: 'Pick up where you were' }),
-            onPress: () => router.back(),
+            onPress: () => goBackOr(HOME_HREF),
           },
         ]
       : []),
@@ -124,13 +114,17 @@ function RecoveryPanel({ retry }: Pick<ErrorBoundaryProps, 'retry'>) {
 }
 
 /**
- * Root error boundary (undesigned; follows the 3i-4 "three ways forward" pattern): try again,
- * go back, or go home. Never shows the raw error. Wraps every route below the root layout.
+ * The app's error boundary (undesigned; follows the 3i-4 "three ways forward" pattern): try again,
+ * go back, or go home. Never shows the raw error. The root layout exports it for everything below
+ * it, and the tabs, the trip stack and the modal group export it again, so a screen that fails in
+ * one of them is contained there: the rest of the stack stays as it was, "Go back" returns to the
+ * screen under the group and "Try again" renders only that group again.
  *
- * Expo Router renders it in place of the root layout, so none of the layout's providers are above
- * it; only Expo Router's own SafeAreaProvider is. A boundary that throws while rendering takes a
- * release build down, so it mounts its own locale, theme settings and screen-jolt context. When the
- * layout failed before any locale was activated, it falls back to the source locale's own strings.
+ * Expo Router renders it in place of the layout that exports it; in place of the root layout none
+ * of the app's providers are above it, only Expo Router's own SafeAreaProvider. A boundary that
+ * throws while rendering takes a release build down, so it mounts its own locale, theme settings and
+ * screen-jolt context. When the layout failed before any locale was activated, it falls back to the
+ * source locale's own strings.
  *
  * It also drops the saved navigation state: that state still points at the screen that threw, and a
  * cold start inside the restore window would put the user straight back on this panel.
