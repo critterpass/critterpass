@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { registerFixture } from '../gallery/registry';
 import { Stack } from '../layout/Stack';
 import { Face } from '../plan/plan.fixtures';
+import { Amount } from './Amount';
 import { PayMethodChips } from './PayMethodChips';
 import { SettleRow } from './SettleRow';
 
@@ -27,6 +28,21 @@ function MethodsDemo() {
   );
 }
 
+registerFixture('Amount', 'a column that lines up, in row, card and hero type', () => (
+  <Stack gap="16">
+    <Stack gap="4" align="flex-end">
+      <Amount variant="rowTitle">$1,111.11</Amount>
+      <Amount variant="rowTitle">$92.10</Amount>
+      <Amount variant="rowTitle">$408.77</Amount>
+      <Amount variant="rowTitle">$1,000.00</Amount>
+    </Stack>
+    <Stack gap="4" align="flex-end">
+      <Amount variant="h3">Rp 1.111.111</Amount>
+      <Amount variant="h3">Rp 450.000</Amount>
+    </Stack>
+    <Amount variant="displayXl">$1,411.87</Amount>
+  </Stack>
+));
 registerFixture('SettleRow', 'three states', () => (
   <Stack gap="8">
     <SettleRow

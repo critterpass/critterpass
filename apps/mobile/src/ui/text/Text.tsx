@@ -89,6 +89,11 @@ export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'all
   readonly singleLine?: boolean | undefined;
   /** A short hugging label that widens its box to stay on one line (see one-line-width.ts). */
   readonly keepOneLine?: boolean | undefined;
+  /**
+   * Sets figures at one width each, so amounts line up in a column and a changing number keeps
+   * its width (amounts, times, counts). Variants whose token asks for it are tabular already.
+   */
+  readonly tabular?: boolean | undefined;
   readonly style?: StyleProp<TextStyle> | undefined;
 }
 
@@ -150,6 +155,7 @@ export function Text({
   designSize,
   singleLine: oneLineIntent,
   keepOneLine = false,
+  tabular = false,
   style,
   numberOfLines,
   onLayout,
@@ -234,7 +240,7 @@ export function Text({
     ...(font.fontFamily === 'system'
       ? { fontWeight: String(token.fontWeight) as TextStyle['fontWeight'] }
       : { fontFamily: font.fontFamily }),
-    ...(token.tabularNumerals ? { fontVariant: ['tabular-nums'] } : {}),
+    ...(tabular || token.tabularNumerals ? { fontVariant: ['tabular-nums'] } : {}),
     // Element children (e.g. `<Trans>`) can't be cased in JS; the platform transform covers them.
     ...(uppercase && transformed.hasElements ? { textTransform: 'uppercase' } : {}),
   };
