@@ -1,28 +1,23 @@
 /**
  * One photo in the album grid: its thumbnail (a signed read URL), the uploader's avatar chip in
- * the corner, a quick glint when it becomes a pick, and a small drop as it lands. Tap opens the
- * viewer; long-press shows who's in it.
+ * the corner and a quick glint when it becomes a pick. Tap opens the viewer; long-press shows
+ * who's in it. Memoised with handlers that take the photo's id, so a grid of hundreds redraws only
+ * the tiles whose photo changed.
  */
 import { tokens } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef } from 'react';
-import { Image, Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
-import Animated, {
-  FadeInUp,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { memo, useEffect, useRef } from 'react';
+import { Pressable, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { Avatar } from '@/ui/people/Avatar';
 import { degrees, makeStyles, useTheme } from '@/ui/theme';
 
 import type { AlbumPhoto } from '../data/album-model';
-import { useAlbumReadUrl } from './album-media';
+import { AlbumImage } from './album-image';
 
 const GLINT_MS = tokens.motion.duration.extra;
-const DROP_MS = tokens.motion.duration.base;
 
 export interface PhotoTileProps {
   readonly photo: AlbumPhoto;
@@ -30,9 +25,10 @@ export interface PhotoTileProps {
   readonly uploaderIndex: number;
   /** Fallback colour while the thumbnail loads. */
   readonly tint: string;
-  readonly onOpen: () => void;
-  readonly onWho: () => void;
-  readonly style?: StyleProp<ViewStyle>;
+  readonly width: number;
+  readonly height: number;
+  readonly onOpen: (photoId: string) => void;
+  readonly onWho: (photoId: string) => void;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -50,30 +46,32 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
-export function PhotoTile({
+export const PhotoTile = memo(function PhotoTile({
   photo,
   uploaderName,
   uploaderIndex,
   tint,
+  width,
+  height,
   onOpen,
   onWho,
-  style,
 }: PhotoTileProps) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
-  const url = useAlbumReadUrl(photo.thumbKey ?? photo.displayKey);
   const sweep = useSharedValue(-1);
-  const wasPick = useRef(photo.isPick);
+  // The photo this tile last showed: a recycled tile taking another photo never glints for it.
+  const shown = useRef({ id: photo.id, isPick: photo.isPick });
 
   useEffect(() => {
-    if (photo.isPick && !wasPick.current && !reduced) {
+    const before = shown.current;
+    if (before.id === photo.id && photo.isPick && !before.isPick && !reduced) {
       sweep.value = -1;
       sweep.value = withTiming(1, { duration: GLINT_MS });
     }
-    wasPick.current = photo.isPick;
+    shown.current = { id: photo.id, isPick: photo.isPick };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs.
-  }, [photo.isPick, reduced]);
+  }, [photo.id, photo.isPick, reduced]);
 
   const glint = useAnimatedStyle(() => ({
     opacity: sweep.value <= -1 || sweep.value >= 1 ? 0 : 1,
@@ -85,14 +83,11 @@ export function PhotoTile({
     : t({ id: 'album.tile.photo', message: `Photo from ${uploaderName}` });
 
   return (
-    <Animated.View
-      {...(reduced ? {} : { entering: FadeInUp.duration(DROP_MS) })}
-      style={[styles.tile, { backgroundColor: tint }, style]}
-    >
+    <View style={[styles.tile, { backgroundColor: tint, width, height }]}>
       <Pressable
         style={styles.fill}
-        onPress={onOpen}
-        onLongPress={onWho}
+        onPress={() => onOpen(photo.id)}
+        onLongPress={() => onWho(photo.id)}
         accessibilityRole="imagebutton"
         accessibilityLabel={label}
         accessibilityHint={t({
@@ -101,15 +96,21 @@ export function PhotoTile({
         })}
         testID={`album-photo-${photo.id}`}
       >
-        {url === null ? null : <Image source={{ uri: url }} style={styles.fill} />}
+        <AlbumImage mediaKey={photo.thumbKey ?? photo.displayKey} />
         <Animated.View pointerEvents="none" style={[styles.glint, glint]} />
         <View style={styles.chip}>
-          <Avatar name={uploaderName} joinIndex={uploaderIndex} size="sm" decorative />
+          <Avatar
+            name={uploaderName}
+            uid={photo.uploaderId}
+            joinIndex={uploaderIndex}
+            size="sm"
+            decorative
+          />
         </View>
         {photo.uploadState === 'pending' ? (
           <View style={[styles.fill, { backgroundColor: theme.color.scrim.hex }]} />
         ) : null}
       </Pressable>
-    </Animated.View>
+    </View>
   );
-}
+});

@@ -15,6 +15,8 @@ export type UploadState = 'uploading' | 'waiting' | 'failed' | 'done' | 'duplica
 
 export interface UploadItem {
   readonly id: string;
+  /** The trip whose album it is going to. */
+  readonly tripId: string;
   readonly uri: string;
   readonly state: UploadState;
   readonly progress: number;
@@ -33,8 +35,8 @@ export interface AlbumUploads {
   add(tripId: string, photos: readonly PickedAlbumPhoto[], known: ReadonlySet<string>): void;
   /** Sends every waiting photo again (and a failed one when `failed` is set). */
   resume(known: ReadonlySet<string>, failed?: boolean): void;
-  /** Forgets finished and skipped photos once the album shows them. */
-  clearSettled(): void;
+  /** Forgets finished and skipped photos (of one trip, when given) once the album shows them. */
+  clearSettled(tripId?: string): void;
 }
 
 export interface AlbumUploadPorts {
@@ -75,7 +77,7 @@ export class AlbumUploadQueue implements AlbumUploads {
     for (const photo of photos) {
       const id = this.ports.newId();
       this.entries.set(id, {
-        item: { id, uri: photo.uri, state: 'uploading', progress: 0 },
+        item: { id, tripId, uri: photo.uri, state: 'uploading', progress: 0 },
         photo,
         tripId,
       });
@@ -95,12 +97,17 @@ export class AlbumUploadQueue implements AlbumUploads {
     void this.drain(known);
   }
 
-  /** Forgets finished and skipped photos once the album shows them. */
-  clearSettled(): void {
+  /** Forgets finished and skipped photos (of one trip, when given) once the album shows them. */
+  clearSettled(tripId?: string): void {
+    let cleared = false;
     for (const [id, entry] of this.entries) {
-      if (entry.item.state === 'done' || entry.item.state === 'duplicate') this.entries.delete(id);
+      if (tripId !== undefined && entry.tripId !== tripId) continue;
+      if (entry.item.state === 'done' || entry.item.state === 'duplicate') {
+        this.entries.delete(id);
+        cleared = true;
+      }
     }
-    this.emit();
+    if (cleared) this.emit();
   }
 
   private async drain(known: ReadonlySet<string>): Promise<void> {
@@ -198,9 +205,9 @@ export function joinUploads(primary: AlbumUploads, fallback: AlbumUploads): Albu
       primary.resume(known, failed);
       fallback.resume(known, failed);
     },
-    clearSettled: () => {
-      primary.clearSettled();
-      fallback.clearSettled();
+    clearSettled: (tripId) => {
+      primary.clearSettled(tripId);
+      fallback.clearSettled(tripId);
     },
   };
 }

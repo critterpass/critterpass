@@ -1,54 +1,47 @@
 /**
- * The album screen's view of uploads: what is going up from this device for the trip, "+ UPLOAD"
- * (the system picker, then the queue), retrying failed ones, and picking waiting ones up again as
- * soon as the phone is back online or the app is back in front.
+ * The album screen's upload actions for a trip: "+ UPLOAD" (the system picker, then the queue),
+ * retrying failed ones, and picking waiting ones up again as soon as the phone is back online or
+ * the app is back in front. It does not follow the queue's progress: the banner does, on its own,
+ * so a progress tick never redraws the grid.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+/* eslint-disable lingui/no-unlocalized-strings -- SQL and ids, never copy. */
+import { useLingui } from '@lingui/react/macro';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { AppState } from 'react-native';
 
 import { useOnline } from '@/data/places/server-name-search';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { useLiveRows } from '@/data/plan/live-rows';
+import { useLiveRows } from '@/data/powersync/live-rows';
+import { feedback, toast } from '@/motion';
 
 import { albumUploadQueue, pickAlbumPhotos } from './device-upload';
-import type { UploadItem } from './upload-queue';
 
 const SHAS_SQL = 'SELECT sha256 FROM photos WHERE trip_id = ? AND deleted_at IS NULL';
+const TABLES = ['photos'] as const;
 
-export interface AlbumUploadView {
-  readonly items: readonly UploadItem[];
-  readonly uploading: number;
-  readonly waiting: number;
-  readonly failed: number;
-  readonly skipped: number;
-  /** The picker failed to open (not a refusal; trying again may work). */
-  readonly pickFailed: boolean;
+export interface AlbumUploadActions {
   readonly pick: () => void;
   readonly retry: () => void;
-  readonly dismissSettled: () => void;
 }
 
-export function useAlbumUpload(tripId: string): AlbumUploadView {
+export function useAlbumUpload(tripId: string): AlbumUploadActions {
+  const { t } = useLingui();
   const { commands } = useLocalFirst();
   const queue = albumUploadQueue(commands);
-  const items = useSyncExternalStore(queue.subscribe, queue.items);
   const online = useOnline();
-  const [pickFailed, setPickFailed] = useState(false);
-  const shas = useLiveRows<{ sha256: string }>(SHAS_SQL, [tripId], ['photos']).rows;
+  const shas = useLiveRows<{ sha256: string }>(SHAS_SQL, [tripId], TABLES).rows;
   const known = useMemo(() => new Set(shas.map((row) => row.sha256)), [shas]);
-
-  useEffect(() => {
-    if (online) queue.resume(known);
-    // Only a change in connectivity resumes; `known` is read at that moment.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [online, queue]);
-
-  // Back in front: transfers the system finished while the app was away are completed now.
   const latest = useRef(known);
   useEffect(() => {
     latest.current = known;
   }, [known]);
+
+  // Only a change in connectivity resumes; what the album holds is read at that moment.
+  useEffect(() => {
+    if (online) queue.resume(latest.current);
+  }, [online, queue]);
+
+  // Back in front: transfers the system finished while the app was away are completed now.
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (state) => {
       if (state === 'active') queue.resume(latest.current);
@@ -56,24 +49,27 @@ export function useAlbumUpload(tripId: string): AlbumUploadView {
     return () => subscription.remove();
   }, [queue]);
 
+  const picking = useRef(false);
   const pick = useCallback(() => {
-    setPickFailed(false);
-    void pickAlbumPhotos().then((outcome) => {
-      if (outcome.kind === 'picked') queue.add(tripId, outcome.photos, known);
-      if (outcome.kind === 'failed') setPickFailed(true);
-    });
-  }, [queue, tripId, known]);
+    if (picking.current) return;
+    picking.current = true;
+    void pickAlbumPhotos()
+      .then((outcome) => {
+        if (outcome.kind === 'picked') queue.add(tripId, outcome.photos, latest.current);
+        if (outcome.kind === 'failed') {
+          feedback.emit('error');
+          toast.show({
+            id: 'album-pick-failed',
+            title: t({ id: 'album.upload.pickFailed', message: "Couldn't open your photos" }),
+            subtitle: t({ id: 'album.upload.pickFailedLine', message: 'Try again in a moment' }),
+          });
+        }
+      })
+      .finally(() => {
+        picking.current = false;
+      });
+  }, [queue, tripId, t]);
 
-  const count = (state: UploadItem['state']) => items.filter((item) => item.state === state).length;
-  return {
-    items,
-    uploading: count('uploading'),
-    waiting: count('waiting'),
-    failed: count('failed'),
-    skipped: count('duplicate'),
-    pickFailed,
-    pick,
-    retry: () => queue.resume(known, true),
-    dismissSettled: () => queue.clearSettled(),
-  };
+  const retry = useCallback(() => queue.resume(latest.current, true), [queue]);
+  return useMemo(() => ({ pick, retry }), [pick, retry]);
 }

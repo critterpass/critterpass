@@ -27,7 +27,7 @@ export function AlbumTile({ tripId }: HubTileProps) {
     <HubTile
       tile={{
         key: 'album',
-        title: t({ id: 'album.tile.title', message: 'Photos' }),
+        title: t({ id: 'album.title', message: 'Photos' }),
         value:
           photos === 0
             ? t({ id: 'album.tile.none', message: 'Add' })

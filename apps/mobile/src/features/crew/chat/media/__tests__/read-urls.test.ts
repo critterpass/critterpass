@@ -3,6 +3,8 @@
  * for again, a URL is reused until it is about to expire, and a failed request fails every key
  * that was waiting on it.
  */
+import { beforeEach, describe, expect, it } from '@jest/globals';
+
 import type { MediaHttp } from '../media-services';
 import { clearReadUrlCache, readUrl } from '../read-urls';
 
@@ -11,14 +13,13 @@ const NOW = Date.parse('2026-10-08T10:00:00Z');
 function api(answer: (keys: string[]) => { status: number; body: unknown } | Error) {
   const calls: string[][] = [];
   const http: MediaHttp = {
-    postJson: async (_path, body) => {
+    postJson: (_path, body) => {
       const keys = (body as { media_keys: string[] }).media_keys;
       calls.push(keys);
       const result = answer(keys);
-      if (result instanceof Error) throw result;
-      return result;
+      return result instanceof Error ? Promise.reject(result) : Promise.resolve(result);
     },
-    put: async () => ({ status: 200, body: null, etag: null }),
+    put: () => Promise.resolve({ status: 200, body: null, etag: null }),
   };
   return { http, calls };
 }
@@ -66,7 +67,7 @@ describe('readUrl', () => {
         });
         return minted(keys);
       },
-      put: async () => ({ status: 200, body: null, etag: null }),
+      put: () => Promise.resolve({ status: 200, body: null, etag: null }),
     };
     const first = readUrl(http, 'a', NOW);
     await Promise.resolve();
