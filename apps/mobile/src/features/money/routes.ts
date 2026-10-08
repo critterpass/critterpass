@@ -33,7 +33,7 @@ function forTrip(tripId: string | null | undefined): { trip?: string } {
  */
 export function tripParam(
   trip: string | string[] | undefined,
-  tripId?: string | string[] | undefined,
+  tripId?: string | string[],
 ): string | null {
   for (const value of [trip, tripId]) {
     if (typeof value === 'string' && value !== '') return value;
