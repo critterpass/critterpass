@@ -30,6 +30,7 @@ import {
 } from '../abuse/rate-limits';
 import { maybeWriteAdminAudit } from './admin';
 import { fanOutSessionRevoked } from './guards';
+import { isTestNumber, type FixedCodeNumbers } from './otp/fixed-codes';
 
 export interface HooksDeps {
   readonly appPool: pg.Pool;
@@ -215,6 +216,8 @@ export interface RequestGuardsDeps {
   readonly attestation: AttestationDeps;
   readonly rateLimit: AbuseRateLimitDeps;
   readonly pumping: PumpingHookDeps;
+  /** A test number here (never in production) skips the per-number limit and pumping defences. */
+  readonly fixedCodes?: FixedCodeNumbers | undefined;
   /** Shared by session-revocation fan-out and the admin-audit write — both are plain `app_system` inserts against the same pool. */
   readonly appPool: pg.Pool;
 }
@@ -245,8 +248,9 @@ export function buildRequestBeforeHook(
       if (ctx.path === SEND_OTP_PATH) {
         const phoneNumber = readSendOtpPhoneNumber(ctx);
         const installId = ctx.headers?.get('x-cp-install-id') ?? undefined;
-        await enforceOtpSendRateLimit({ phoneNumber, installId }, deps.rateLimit);
-        await enforceOtpSendPumpingDefences(phoneNumber, deps.pumping);
+        const neverSent = isTestNumber(deps.fixedCodes, phoneNumber);
+        await enforceOtpSendRateLimit({ phoneNumber, installId, neverSent }, deps.rateLimit);
+        if (!neverSent) await enforceOtpSendPumpingDefences(phoneNumber, deps.pumping);
       }
       if (ctx.path === SIGN_OUT_PATH) {
         // Better Auth's /sign-out reads the cookie itself and never loads `ctx.context.session`, so
@@ -267,20 +271,21 @@ export function buildRequestBeforeHook(
 }
 
 /**
- * Records pumping bookkeeping after a `/phone-number/send-otp` call that the `before` hook above did
- * not already reject, and fans out session revocation (`rt_outbox` `session.revoked` + action-key
- * revocation, guards.ts) after `/sign-out`/`/revoke-session(s)` — Better Auth's own handler has
- * already deleted the session row by the time this runs; `ctx.context.session` still carries the
- * pre-deletion session, loaded by Better Auth's `sessionMiddleware` for the revoke endpoints and by
- * the `before` hook above for `/sign-out` (whose handler skips that middleware).
+ * Records pumping bookkeeping after a `/phone-number/send-otp` call the `before` hook above let
+ * through (never for a test number: nothing was sent), and fans out session revocation (`rt_outbox`
+ * `session.revoked` + action-key revocation, guards.ts) after `/sign-out`/`/revoke-session(s)` —
+ * Better Auth's handler has already deleted the session row by then; `ctx.context.session` still
+ * carries the pre-deletion session, loaded by Better Auth's `sessionMiddleware` for the revoke
+ * endpoints and by the `before` hook above for `/sign-out` (whose handler skips that middleware).
  */
 export function buildRequestAfterHook(
-  deps: Pick<RequestGuardsDeps, 'pumping' | 'appPool'>,
+  deps: Pick<RequestGuardsDeps, 'pumping' | 'appPool' | 'fixedCodes'>,
 ): NonNullable<NonNullable<BetterAuthOptions['hooks']>['after']> {
   return createAuthMiddleware(async (ctx) => {
-    if (ctx.path === SEND_OTP_PATH) {
+    const phoneNumber = ctx.path === SEND_OTP_PATH ? readSendOtpPhoneNumber(ctx) : undefined;
+    if (phoneNumber !== undefined && !isTestNumber(deps.fixedCodes, phoneNumber)) {
       try {
-        await recordOtpSendPumpingBookkeeping(readSendOtpPhoneNumber(ctx), deps.pumping);
+        await recordOtpSendPumpingBookkeeping(phoneNumber, deps.pumping);
       } catch (error) {
         throw toApiError(error);
       }

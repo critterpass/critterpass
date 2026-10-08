@@ -80,6 +80,14 @@ export function fixedCodeNumbersFromEnv(
   return { match: (phoneE164) => byNumber.get(phoneE164) };
 }
 
+/** Whether `phoneE164` is a test number here: answered with the fixed code, never sent a message. */
+export function isTestNumber(
+  numbers: FixedCodeNumbers | undefined,
+  phoneE164: string | undefined,
+): boolean {
+  return phoneE164 !== undefined && numbers?.match(phoneE164)?.kind === 'test';
+}
+
 interface VerificationWriter {
   updateVerificationByIdentifier(identifier: string, data: { value: string }): Promise<unknown>;
 }
