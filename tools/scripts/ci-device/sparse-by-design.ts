@@ -15,6 +15,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'undesigned-states 3i-5 "Payment detail (payee), disputed": one payment, its pink note and the actions its state allows',
   ],
   [
+    'money-payment-payee-request',
+    'undesigned-states 3i-5 "Payment detail (payee), waiting to be paid": who owes, the amount, the pending tag and REQUEST IT',
+  ],
+  [
     'gallery-rise',
     'developer gallery rise-demo route: a demo of the rise presentation, a heading and one line of help',
   ],
