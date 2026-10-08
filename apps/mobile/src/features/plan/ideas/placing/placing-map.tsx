@@ -7,6 +7,7 @@ import { tokens } from '@cp/design-tokens';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   FadeIn,
   useAnimatedStyle,
   useSharedValue,
@@ -16,6 +17,7 @@ import Animated, {
   ZoomIn,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useMotionMode } from '@/motion/motion-mode';
 import { Icon } from '@/ui/icons/Icon';
 import type { DoodleName } from '@/ui/icons/generated';
@@ -84,8 +86,12 @@ export function pinSpots(
 
 function HoppingGuide({ reduced }: { readonly reduced: boolean }) {
   const hop = useSharedValue(0);
+  const hopping = useIdleLoopRunning(!reduced);
   useEffect(() => {
-    if (reduced) return;
+    if (!hopping) {
+      hop.set(0);
+      return undefined;
+    }
     hop.set(
       withRepeat(
         withSequence(
@@ -95,7 +101,8 @@ function HoppingGuide({ reduced }: { readonly reduced: boolean }) {
         -1,
       ),
     );
-  }, [hop, reduced]);
+    return () => cancelAnimation(hop);
+  }, [hop, hopping]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: hop.value }] }));
   return (
     <Animated.View style={style}>

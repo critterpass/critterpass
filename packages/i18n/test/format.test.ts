@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { clearFormatterCache } from '../src/format/formatter-cache';
 import { format } from '../src/format/index';
 
 describe('format.number', () => {
@@ -93,9 +94,11 @@ describe('on a runtime without formatRange or compact notation (Hermes)', () => 
 
   afterEach(() => {
     vi.restoreAllMocks();
+    clearFormatterCache();
   });
 
   function hermes(): void {
+    clearFormatterCache();
     function DateTimeFormat(locale?: string | string[], options?: Intl.DateTimeFormatOptions) {
       const formatter = new RealDateTimeFormat(locale, options);
       return {

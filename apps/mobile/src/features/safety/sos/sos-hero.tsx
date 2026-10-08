@@ -17,7 +17,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { useMotionMode } from '@/motion';
+import { useIdleLoopRunning, useMotionMode } from '@/motion';
 import { UserAvatar } from '@/ui/avatar/Avatar';
 import { HeroPanel } from '@/ui/cards/HeroPanel';
 import { Row } from '@/ui/layout/Row';
@@ -59,7 +59,7 @@ export function SosHero({ model, words, message, distanceM }: SosHeroProps) {
   const [motionMode] = useMotionMode();
   const ink = theme.color.ink['950'];
   const opacity = useSharedValue(1);
-  const blink = model.waiting && motionMode === 'full';
+  const blink = useIdleLoopRunning(model.waiting && motionMode === 'full');
   useEffect(() => {
     if (!blink) {
       opacity.value = 1;

@@ -1,6 +1,8 @@
 import Constants from 'expo-constants';
 import { useEffect, useState } from 'react';
 
+import { useScreenActive } from '@/lib/time/use-screen-active';
+
 /** How long an idle loop plays on a settled screen in the e2e build before it rests. */
 export const E2E_IDLE_LOOP_MS = 1500;
 
@@ -17,11 +19,14 @@ export function idleLoopBudgetMs(isDev: boolean, appVariant: unknown): number | 
 const buildBudgetMs = idleLoopBudgetMs(__DEV__, Constants.expoConfig?.extra?.appVariant);
 
 /**
- * Whether an idle loop that wants to run (`active`) should still animate: always in shipped builds,
- * and only for the first `budgetMs` of each active stretch in the e2e build. The single switch every
- * perpetual loop (the loop presets, sheen, typing dots) goes through.
+ * Whether an idle loop that wants to run (`active`) should animate: only while the person can see
+ * it (its screen is focused and the app is in front; outside a navigator only the app's state
+ * counts), and in the e2e build only for the first `budgetMs` of each such stretch. The single
+ * switch every perpetual loop (the loop presets, sheen, typing dots) goes through.
  */
-export function useIdleLoopRunning(active: boolean, budgetMs = buildBudgetMs): boolean {
+export function useIdleLoopRunning(wanted: boolean, budgetMs = buildBudgetMs): boolean {
+  const visible = useScreenActive();
+  const active = wanted && visible;
   const [spent, setSpent] = useState(false);
 
   useEffect(() => {
