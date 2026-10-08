@@ -208,7 +208,7 @@ msgstr "All square. Everyone gets the Settled Tokek."
 msgid "money.settle.nudgeLater"
 msgstr "Already nudged today. Try tomorrow."
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/AmountPaidField.tsx
 msgid "money.pay.amount"
 msgstr "Amount paid"
 
@@ -751,7 +751,7 @@ msgstr "Paid in"
 msgid "money.pay.titlePay"
 msgstr "Pay {payee}"
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/AmountPaidField.tsx
 msgid "money.pay.amountHint"
 msgstr "Paying part of it? The rest stays open."
 

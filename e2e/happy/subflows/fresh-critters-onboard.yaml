@@ -80,7 +80,7 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'onboarding-issued-save'
-# Android closes the save sheet with back, the way e2e/onboarding/first-run-android.yaml does.
+# Android closes the save sheet with back.
 # On iOS the sheet is still rising right after the tap: "Not now" is tapped where it comes to
 # rest, not where it was on the way up.
 - runFlow:

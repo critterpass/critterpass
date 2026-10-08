@@ -276,6 +276,10 @@ msgstr "Ask for {0}"
 msgid "vote.guest.back"
 msgstr "Back"
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.backHome"
+msgstr "Back home"
+
 #. placeholder {0}: chip.months.map((m) => monthShort(locale, m)).join(' · ')
 #: ../../apps/mobile/src/features/vote/final/showdown-facts.tsx
 msgid "vote.showdown.best"
