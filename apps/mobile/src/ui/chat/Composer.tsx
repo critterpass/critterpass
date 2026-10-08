@@ -188,6 +188,8 @@ export function Composer({
           testID={testID === undefined ? undefined : `${testID}-field`}
           style={{
             minHeight: MIN_TOUCH_TARGET,
+            // A long message scrolls inside the field instead of pushing the thread off screen.
+            maxHeight: MIN_TOUCH_TARGET * 3,
             paddingVertical: theme.space['12'],
             color: theme.semantic.text.primary,
             fontSize: resolved.fontSize * font.sizeMultiplier,
