@@ -274,6 +274,9 @@ export function PlacesListView(props: PlacesListViewProps) {
         extraData={extra}
         keyExtractor={keyOf}
         getItemType={typeOf}
+        // A row saved by a swipe moves to the group at the top: the list stays where it is scrolled
+        // (at the top, on the new group), as it did before, instead of following the rows under it.
+        maintainVisibleContentPosition={{ disabled: true }}
         renderItem={renderRow}
         onEndReached={props.onLoadMore}
         onEndReachedThreshold={0.6}
