@@ -7,6 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { Pressable, View, useWindowDimensions } from 'react-native';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { Scaffold, Stack, Text, makeStyles } from '@/ui';
 import { TextLink } from '@/ui/buttons/TextLink';
 
@@ -39,8 +40,11 @@ export function ShowMode({
       <Pressable
         style={styles.body}
         accessibilityRole="button"
-        accessibilityLabel={t({ id: 'guide.phrase.close', message: 'Close' })}
-        onPress={() => router.back()}
+        // The phrase is what the screen is for: a screen reader says it, then how to leave.
+        accessibilityLabel={gloss === '' ? phrase : `${phrase}. ${gloss}`}
+        accessibilityLanguage={lang}
+        accessibilityHint={t({ id: 'guide.phrase.closeHint', message: 'Double tap to close' })}
+        onPress={() => goBackOr()}
       >
         <Stack gap="16">
           <Text

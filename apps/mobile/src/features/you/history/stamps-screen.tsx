@@ -2,6 +2,7 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
@@ -39,7 +40,7 @@ export function StampsScreen({ now = () => new Date() }: { readonly now?: () => 
       stamps={ordered}
       year={year}
       onYear={setYear}
-      onBack={() => router.back()}
+      onBack={() => goBackOr(YOU_ROUTES.profile)}
       onAddPastTrip={() => router.push(YOU_ROUTES.pastTrip)}
       openerFor={openerFor}
     />

@@ -103,7 +103,13 @@ export function InboxActionCard({
               <InlineAction
                 key={action.id}
                 testID={`inbox-action-${item.id}-${action.id}`}
-                label={renderer.actionLabel?.(action, item, ctx) ?? action.id}
+                label={
+                  renderer.actionLabel?.(action, item, ctx) ??
+                  // A nudge reads the same on every card that offers one.
+                  (action.command === 'send_nudge'
+                    ? t({ id: 'home.inbox.action.nudge', message: 'Nudge' })
+                    : action.id)
+                }
                 kind={kindOf(action, primary)}
                 selected={action.style === 'primary'}
                 disabled={handled}

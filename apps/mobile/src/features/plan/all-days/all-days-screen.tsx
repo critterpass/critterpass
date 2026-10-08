@@ -6,6 +6,8 @@
  * plan underneath (or in place of this screen), so hops between the views never pile up.
  */
 import { router } from 'expo-router';
+
+import { goBackOr } from '@/lib/navigation/back';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -18,7 +20,7 @@ import { makeStyles } from '@/ui/theme';
 
 import { refusalLine } from '../day-plan/refusal';
 import type { Travel } from '../day-plan/reschedule';
-import { announceEdit, useDayEditing } from '../day/use-day-editing';
+import { useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
 import { setChosenDay } from '../trip-map/chosen-day';
 import { ShareSheet } from '../trip-map/share-sheet';
@@ -84,11 +86,7 @@ export function AllDaysScreen({
         gettingThere={gettingThere.state}
         onRetryGettingThere={gettingThere.retry}
         onBack={() =>
-          router.canGoBack()
-            ? router.back()
-            : router.replace(
-                from === null ? tripPlanRoutes.map(tripId) : tripPlanRoutes.day(tripId, from),
-              )
+          goBackOr(from === null ? tripPlanRoutes.map(tripId) : tripPlanRoutes.day(tripId, from))
         }
         onShare={() => setSharing(true)}
         onOpenDay={(dayNo) => {
@@ -149,7 +147,7 @@ export function AllDaysScreen({
           onConfirm={() => {
             const plan = preview.plan;
             setPreview(null);
-            if (plan.ok) void editor.submit(plan.ops).then(announceEdit);
+            if (plan.ok) void editor.submit(plan.ops);
           }}
           onClose={() => setPreview(null)}
         />

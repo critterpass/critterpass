@@ -54,3 +54,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-4e-1-real
+# RESTORE answers beside the buttons, in view (nothing is bought: it only asks what the store
+# account already holds). With no store on the device, the line may not come.
+- tapOn:
+    id: 'paywall-restore'
+- extendedWaitUntil:
+    visible:
+      id: 'paywall-restore-line'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-4e-1-restore-answer

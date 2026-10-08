@@ -77,6 +77,10 @@ msgstr "It was sent a moment ago."
 msgid "trip.offline.alreadySending"
 msgstr "It's already on its way."
 
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.removeConfirmLine"
+msgstr "Its tickets and maps will need signal until you save it again."
+
 #: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
 msgid "trip.offline.lastSynced"
 msgstr "Last synced {lastSynced}"
@@ -193,6 +197,10 @@ msgstr "Still works"
 #: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
 msgid "trip.offline.removeTitle"
 msgstr "Take it off this phone"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.removeConfirmTitle"
+msgstr "Take this trip off this phone?"
 
 #: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
 msgid "trip.offline.reason.planChanged"

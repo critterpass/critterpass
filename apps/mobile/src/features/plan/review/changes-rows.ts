@@ -4,6 +4,7 @@
  * under NEEDS YOU with where SEE leads.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and op kinds, never copy. */
+import { upper } from '@cp/i18n';
 import type { FitReason } from '@cp/domain';
 import type { Href } from 'expo-router';
 
@@ -37,9 +38,9 @@ export function changeRows(input: {
       const day = input.days.find((d) => d.date === first);
       return {
         key: card.target,
-        dayTag: weekdayOf(first, input.locale).toUpperCase(),
+        dayTag: upper(weekdayOf(first, input.locale), input.locale),
         dayColor: dayTileColour(day?.dayNo ?? 1),
-        title: `→ ${driverPickName(card.driverPick.name).toUpperCase()}`,
+        title: `→ ${upper(driverPickName(card.driverPick.name), input.locale)}`,
         detail: driverPickDetail(card.driverPick, input.locale),
         accepted: card.accepted,
       };
@@ -58,9 +59,9 @@ export function changeRows(input: {
         : '';
     return {
       key: card.target,
-      dayTag: weekdayOf(date, input.locale).toUpperCase(),
+      dayTag: upper(weekdayOf(date, input.locale), input.locale),
       dayColor: dayTileColour(dayNo ?? 1),
-      title: `${mark} ${(side?.label ?? '').toUpperCase()}`,
+      title: `${mark} ${upper(side?.label ?? '', input.locale)}`,
       detail: [side?.time ?? '', was, why].filter((part) => part !== '').join(' · '),
       accepted: card.accepted,
     };
@@ -69,6 +70,7 @@ export function changeRows(input: {
 
 export function needsYouRows(input: {
   readonly left: readonly LeftForYou[];
+  readonly locale: string;
   readonly tripId: string;
   readonly explained: ReadonlySet<string>;
   readonly stopName: (stableId: string) => string | null;
@@ -82,7 +84,7 @@ export function needsYouRows(input: {
     const stop = idea.needsMove === null ? null : stopName(idea.needsMove);
     return {
       key: idea.ideaId,
-      name: idea.name.toUpperCase(),
+      name: upper(idea.name, input.locale),
       line: leftLine(idea, stopName),
       explainer: input.explained.has(idea.ideaId)
         ? needsMoveExplainer(stop, input.guideName)

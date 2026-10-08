@@ -10,6 +10,7 @@ import type { Href } from 'expo-router';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useTripAreas } from '@/data/areas/use-trip-areas';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
@@ -192,10 +193,7 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
           ? { kind: 'full' }
           : { kind: 'empty' };
 
-  const back = () => {
-    if (router.canGoBack()) router.back();
-    else router.replace(tripExploreLinks.hub(tripId) ?? '/');
-  };
+  const back = () => goBackOr(tripExploreLinks.hub(tripId));
 
   return (
     <TripExploreView

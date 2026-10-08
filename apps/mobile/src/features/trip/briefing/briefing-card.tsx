@@ -91,9 +91,12 @@ export function BriefingCard({ state, guide, guideName, onAct }: BriefingCardPro
           <Text variant="title" color={ink} style={{ flex: 1 }}>
             {upper(t({ id: 'trip.briefing.title', message: `${guideName}'s briefing` }), locale)}
           </Text>
-          <Text variant="bodySm" color={ink}>
-            {when}
-          </Text>
+          {/* With nothing written for today the body says when the next one comes. */}
+          {state.kind === 'none' ? null : (
+            <Text variant="bodySm" color={ink}>
+              {when}
+            </Text>
+          )}
         </Row>
         {state.kind === 'loading' ? (
           <Skeleton

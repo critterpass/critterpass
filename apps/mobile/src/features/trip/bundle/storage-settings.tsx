@@ -6,6 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and Intl option values, never copy. */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { useState, type ReactNode } from 'react';
 import { ScrollView } from 'react-native';
 
 import { savedMapAreas } from '@/data/areas/saved-map-areas';
@@ -16,14 +17,22 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Stack } from '@/ui/layout/Stack';
+import { Sheet } from '@/ui/sheet/Sheet';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
 import { useLiveRows } from '../hub/data/live-rows';
 import { AUTO_ID, AUTO_SQL, autoDownloadOn, PREFS_KIND } from './background-prefetch';
-import { BUNDLE_KIND, refreshTripDays, removeTripDays, type SavedDay } from './bundle-manager';
+import {
+  BUNDLE_KIND,
+  parseSavedDay,
+  refreshTripDays,
+  removeTripDays,
+  type SavedDay,
+} from './bundle-manager';
 import { useTripDayServices } from './services';
 
 const SAVED_SQL = `SELECT l.data, t.id AS trip_id, d.name AS destination_name
@@ -55,6 +64,8 @@ export interface StorageSettingsViewProps {
   readonly onAuto: (next: boolean) => void;
   readonly onSave: (tripId: string) => void;
   readonly onRemove: (tripId: string) => void;
+  /** The remove confirmation, over the whole page. */
+  readonly sheet?: ReactNode;
 }
 
 export function StorageSettingsView({
@@ -63,6 +74,7 @@ export function StorageSettingsView({
   onAuto,
   onSave,
   onRemove,
+  sheet,
 }: StorageSettingsViewProps) {
   const theme = useTheme();
   const locale = useLocale();
@@ -146,6 +158,7 @@ export function StorageSettingsView({
           )}
         </Stack>
       </ScrollView>
+      {sheet}
     </Scaffold>
   );
 }
@@ -154,6 +167,7 @@ export function StorageSettingsScreen() {
   const { db } = useLocalFirst();
   const { t } = useLingui();
   const services = useTripDayServices();
+  const [removing, setRemoving] = useState<string | null>(null);
   const saved = useLiveRows<{ data: string; trip_id: string; destination_name: string | null }>(
     SAVED_SQL,
     [BUNDLE_KIND],
@@ -176,7 +190,8 @@ export function StorageSettingsScreen() {
   const byTrip = new Map<string, SavedTrip>();
   const daysOf = new Map<string, SavedDay[]>();
   for (const row of saved) {
-    const day = JSON.parse(row.data) as SavedDay;
+    const day = parseSavedDay(row.data);
+    if (day === null) continue;
     const current = byTrip.get(row.trip_id);
     const kinds = new Set([...(current?.kinds ?? []), ...day.assets.map((asset) => asset.kind)]);
     const days = [...(daysOf.get(row.trip_id) ?? []), day];
@@ -224,7 +239,39 @@ export function StorageSettingsScreen() {
           )
           .catch(() => undefined);
       }}
-      onRemove={(tripId) => void removeTripDays(db, services, tripId)}
+      onRemove={setRemoving}
+      sheet={
+        removing === null ? null : (
+          <Sheet
+            detents={['fit']}
+            onDismiss={() => setRemoving(null)}
+            accessibilityLabel={t({
+              id: 'trip.offline.removeConfirmTitle',
+              message: 'Take this trip off this phone?',
+            })}
+            testID="trip-offline-remove-sheet"
+          >
+            <ConfirmSheet
+              title={t({
+                id: 'trip.offline.removeConfirmTitle',
+                message: 'Take this trip off this phone?',
+              })}
+              consequences={[
+                t({
+                  id: 'trip.offline.removeConfirmLine',
+                  message: 'Its tickets and maps will need signal until you save it again.',
+                }),
+              ]}
+              confirmLabel={t({ id: 'trip.offline.remove', message: 'Remove' })}
+              onConfirm={() => {
+                void removeTripDays(db, services, removing);
+                setRemoving(null);
+              }}
+              onCancel={() => setRemoving(null)}
+            />
+          </Sheet>
+        )
+      }
     />
   );
 }

@@ -15,6 +15,7 @@ export {
   type CommandName,
   type DevicePlatform,
 } from './envelope';
+export { COMMAND_NAMES, type RegisteredCommandName } from './names';
 export {
   commandClock,
   MAX_TRUSTED_CLIENT_SKEW_MS,

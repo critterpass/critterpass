@@ -4,12 +4,13 @@
  * offline queue.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- a command name, never copy. */
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { dropPendingEdits, putPendingEdits, usePendingEdits } from '../data/pending-edits';
 import {
   payloadFor,
   PREFS_SQL,
@@ -24,6 +25,8 @@ export const setNotificationPrefsCommand = defineClientCommand<SetNotificationPr
   name: 'set_notification_prefs',
   offline: true,
 });
+
+const PENDING_PINGS = 'pings';
 
 export interface PingPrefsControls {
   readonly prefs: PingPrefs;
@@ -40,23 +43,23 @@ export function usePingPrefs(): PingPrefsControls {
     PREFS_TABLES,
   );
   const { send } = useCommand(setNotificationPrefsCommand);
-  // What this screen changed, shown until the server's row says the same.
-  const [edits, setEdits] = useState<Partial<PingPrefs>>({});
-  const prefs = { ...prefsFromRow(rows[0]), ...edits };
+  // What this phone changed (here or in Settings), shown until the synced row says the same.
+  const row = rows[0];
+  const stored = useMemo(() => prefsFromRow(row), [row]);
+  const edits = usePendingEdits<PingPrefs>(PENDING_PINGS, loaded ? stored : null);
+  const prefs = { ...stored, ...edits };
 
   const change = useCallback(
     (next: Partial<PingPrefs>) => {
       const payload = payloadFor(next, prefs);
       if (Object.keys(payload).length === 0) return;
-      setEdits((previous) => ({ ...previous, ...next }));
-      void send(payload).catch(() => {
-        // Refused or unsendable: the queue reports it; the screen falls back to the stored row.
-        setEdits((previous) => {
-          const rest = { ...previous };
-          for (const key of Object.keys(next) as (keyof PingPrefs)[]) delete rest[key];
-          return rest;
-        });
-      });
+      const keys = Object.keys(next) as (keyof PingPrefs)[];
+      putPendingEdits<PingPrefs>(PENDING_PINGS, next);
+      // Refused or unsendable: the screen falls back to the stored row.
+      const undo = () => dropPendingEdits<PingPrefs>(PENDING_PINGS, keys);
+      void send(payload).then((result) => {
+        if (result.kind === 'rejected') undo();
+      }, undo);
     },
     // `prefs` is rebuilt every render; its fields only matter for the quiet-hours pair.
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -5,13 +5,15 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { isFeedbackCategory, isFeedbackMood } from '@cp/domain';
 import { format } from '@cp/i18n';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { useLiveRows } from '../data/live-rows';
+import { HELP_ROUTES } from '../routes';
 import { useFeedbackLabels } from './labels';
 import { SentView } from './SentView';
 
@@ -59,7 +61,7 @@ export function SentScreen() {
         month: 'short',
         year: 'numeric',
       })}
-      onDone={() => router.back()}
+      onDone={() => goBackOr(HELP_ROUTES.hub)}
     />
   );
 }

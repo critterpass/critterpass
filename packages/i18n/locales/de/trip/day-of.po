@@ -71,7 +71,7 @@ msgstr ""
 msgid "trip.dayOf.beThereBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
 msgid "trip.dayOf.doneTitle"
 msgstr ""
 
@@ -79,11 +79,15 @@ msgstr ""
 msgid "trip.dayOf.allUpDetail"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
 msgid "trip.dayOf.firstUp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.forecastLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
 msgid "trip.dayOf.freeDayTitle"
 msgstr ""
 
@@ -115,7 +119,7 @@ msgstr ""
 msgid "trip.dayOf.next"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
 msgid "trip.dayOf.nextUp"
 msgstr ""
 
@@ -127,7 +131,7 @@ msgstr ""
 msgid "trip.dayOf.pack.empty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
 msgid "trip.dayOf.freeDay"
 msgstr ""
 
@@ -167,6 +171,10 @@ msgstr ""
 msgid "trip.dayOf.pack.remove"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.removed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.exactAction"
 msgstr ""
@@ -187,7 +195,7 @@ msgstr ""
 msgid "trip.dayOf.queued.snooze"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
 msgid "trip.dayOf.done"
 msgstr ""
 
@@ -227,8 +235,16 @@ msgstr ""
 msgid "trip.alarm.note.deniedAction"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.undo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.soloUpDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.toOffline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts

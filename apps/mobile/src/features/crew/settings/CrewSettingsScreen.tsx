@@ -7,26 +7,25 @@
 import { t } from '@lingui/core/macro';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useContext, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
-import {
-  crewNameSchema,
-  DEFAULT_CREW_NOTIFY_LEVEL,
-  isCrewNotifyLevel,
-  type CrewNotifyLevel,
-} from '@cp/domain';
+import { DEFAULT_CREW_NOTIFY_LEVEL, isCrewNotifyLevel, type CrewNotifyLevel } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { toast } from '@/motion/island-toast';
+import { toast, useCommandFeedback } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
 import { TextField } from '@/ui/inputs/TextField';
 import { Toggle } from '@/ui/inputs/Toggle';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { ScreenMissing } from '@/ui/states/ScreenMissing';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
@@ -36,17 +35,18 @@ import {
   REMOVE_MEMBER,
   ROTATE_JOIN_CODE,
   SET_CREW_NOTIFY,
-  UPDATE_CREW,
   rowId,
 } from '../crews-sheet/crew-commands';
 import { useCrews } from '../crews-sheet/crew-data';
 import { useCrewServices } from '../crews-sheet/crew-services';
-import { useSessionUid } from '../crews-sheet/CrewsSheet';
-import { crewInviteRoute } from '../crews-sheet/routes';
+
+import { CREW_ROUTES, crewInviteRoute } from '../crews-sheet/routes';
 import { returnHome } from '../start-crew/StartCrewScreen';
 import { JoinQr } from '../invite-composer/JoinQr';
 import { qrChannelLink } from '../invite-composer/qr-path';
 import { MembersList } from '../members/MembersList';
+import { RotateCodeConfirm } from './rotate-code-confirm';
+import { useCrewRename } from './use-crew-rename';
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -74,8 +74,9 @@ export function CrewSettingsScreen() {
   const members = snapshot.members.filter((m) => m.crew_id === crewId);
   const me = members.find((m) => m.user_id === uid) ?? null;
   const code = snapshot.codes.find((c) => c.crew_id === crewId)?.code ?? null;
-  const [name, setName] = useState<string | null>(null);
   const [leaving, setLeaving] = useState(false);
+  const [rotating, setRotating] = useState(false);
+  const { report } = useCommandFeedback();
   const [keepChat, setKeepChat] = useState(false);
   const notify: CrewNotifyLevel =
     me?.notify_level != null && isCrewNotifyLevel(me.notify_level)
@@ -83,25 +84,42 @@ export function CrewSettingsScreen() {
       : DEFAULT_CREW_NOTIFY_LEVEL;
   const canManage = me?.role === 'organiser' || (crew?.created_by ?? null) === uid;
   const commands = localFirst?.commands ?? null;
+  const rename = useCrewRename(crewId, crew?.name ?? null, commands);
 
-  if (crew === null || commands === null) {
+  // Settings opens from the chat header, a crew card or a link: back says "Back", never one origin.
+  const backLabel = t({ id: 'crew.settings.backPlain', message: 'Back' });
+  if (commands === null || !snapshot.loaded) {
     return (
-      <Scaffold variant="dark" edges={['top', 'bottom']} testID="crew-settings-missing">
-        <View style={styles.content}>
-          <BackEyebrow label={t({ id: 'crew.settings.back', message: 'Crews' })} />
-          <Text variant="body">
-            {t({
-              id: 'crew.settings.missing',
-              message: 'This crew isn’t on your phone yet. It shows up once it syncs.',
-            })}
-          </Text>
-        </View>
-      </Scaffold>
+      <ScreenLoading
+        backLabel={backLabel}
+        fallback={CREW_ROUTES.home}
+        testID="crew-settings-loading"
+      />
+    );
+  }
+  if (crew === null) {
+    return (
+      <ScreenMissing
+        backLabel={backLabel}
+        fallback={CREW_ROUTES.home}
+        line={t({
+          id: 'crew.settings.missing',
+          message: 'This crew isn’t on your phone yet. It shows up once it syncs.',
+        })}
+        testID="crew-settings-missing"
+      />
     );
   }
 
-  const draftName = name ?? crew.name;
-  const renameValid = crewNameSchema.safeParse(draftName).success && draftName.trim() !== crew.name;
+  const rotate = () => {
+    setRotating(false);
+    void commands.send(ROTATE_JOIN_CODE, { crew_id: crewId }).then((sent) => {
+      report(sent, {
+        id: rowId('crew-rotate', crewId),
+        done: t({ id: 'crew.settings.rotated', message: 'New code ready' }),
+      });
+    });
+  };
   const failed = () =>
     toast.show({
       id: rowId('crew-settings-failed', crewId),
@@ -113,26 +131,26 @@ export function CrewSettingsScreen() {
 
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="crew-settings">
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <BackEyebrow label={t({ id: 'crew.settings.back', message: 'Crews' })} />
+      <KeyboardScrollView
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+      >
+        <BackEyebrow label={backLabel} fallback={CREW_ROUTES.home} />
         <Text variant="displayXl" accessibilityRole="header">
           {upper(crew.name, locale)}
         </Text>
         <TextField
           label={t({ id: 'crew.settings.name', message: 'Crew name' })}
-          value={draftName}
-          onChangeText={setName}
+          value={rename.value}
+          onChangeText={rename.onChange}
           testID="crew-settings-name"
         />
         <PillButton
           size="sm"
           label={t({ id: 'crew.settings.rename', message: 'Save name' })}
-          disabled={!renameValid}
-          onPress={() =>
-            void commands
-              .send(UPDATE_CREW, { crew_id: crewId, name: draftName })
-              .then(() => setName(null))
-          }
+          disabled={!rename.canSave}
+          loading={rename.saving}
+          onPress={rename.save}
           testID="crew-settings-rename"
         />
         <MembersList
@@ -168,11 +186,7 @@ export function CrewSettingsScreen() {
             size="sm"
             variant="secondary"
             label={t({ id: 'crew.settings.rotate', message: 'New code' })}
-            onPress={() =>
-              void commands.send(ROTATE_JOIN_CODE, { crew_id: crewId }).then((sent) => {
-                if (sent.kind !== 'applied') failed();
-              })
-            }
+            onPress={() => setRotating(true)}
             testID="crew-settings-rotate"
           />
         </View>
@@ -209,7 +223,10 @@ export function CrewSettingsScreen() {
           ]}
           testID="crew-settings-leave"
         />
-      </ScrollView>
+      </KeyboardScrollView>
+      {rotating ? (
+        <RotateCodeConfirm onConfirm={rotate} onCancel={() => setRotating(false)} />
+      ) : null}
       {leaving ? (
         <ConfirmSheet
           title={t({ id: 'crew.settings.leaveTitle', message: 'Leave this crew?' })}

@@ -12,8 +12,11 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'dev-tools-entry'
+# The list is several screens long and a labs entry can sit near its end: a fast fling and a budget
+# that covers the whole way up on a slow emulator.
 - scrollUntilVisible:
     element:
       id: 'dev-build-marker'
     direction: UP
-    timeout: 15000
+    timeout: 60000
+    speed: 90

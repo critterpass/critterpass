@@ -149,6 +149,10 @@ export function ProfileView(props: ProfileViewProps) {
                     <Pressable
                       onPress={props.onPlan}
                       accessibilityRole="button"
+                      accessibilityLabel={t({
+                        id: 'you.profile.planLabel',
+                        message: 'Pass+, your plan',
+                      })}
                       hitSlop={theme.space['8']}
                       testID="you-profile-plan"
                     >
@@ -161,6 +165,7 @@ export function ProfileView(props: ProfileViewProps) {
                   <Pressable
                     onPress={props.onGetPassPlus}
                     accessibilityRole="button"
+                    accessibilityLabel={t({ id: 'you.profile.getPassPlus', message: 'Get Pass+' })}
                     hitSlop={theme.space['8']}
                     testID="you-profile-get-pass-plus"
                   >

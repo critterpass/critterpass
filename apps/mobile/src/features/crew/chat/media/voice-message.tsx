@@ -79,7 +79,11 @@ export function VoiceMessage({ message, mine }: ChatCardProps) {
   const theme = useTheme();
   const media = useChatMedia();
   const voice = message.attachments.find((attachment) => attachment.kind === 'voice');
-  const { state, playedMs, durationMs, rate, toggle, cycleRate } = useVoicePlayback(media, voice);
+  const { state, playedMs, durationMs, rate, toggle, cycleRate } = useVoicePlayback(
+    media,
+    message.id,
+    voice,
+  );
   const playing = state === 'playing';
   const loading = state === 'loading';
   const failed = state === 'failed';

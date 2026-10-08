@@ -5,11 +5,13 @@
  * offline, the page says it posts when the phone is back, and the number arrives with the ticket.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- the ticket-number prefix and style values, never copy. */
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { deviceTier, patterns } from '@/motion';
 import { useMotionMode } from '@/motion/motion-mode';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -79,6 +81,7 @@ const useStyles = makeStyles((t) => ({
 
 export function SentView(props: SentViewProps) {
   const { t } = useLingui();
+  const locale = useLocale();
   const styles = useStyles();
   const theme = useTheme();
   const { width, height } = useWindowDimensions();
@@ -107,7 +110,7 @@ export function SentView(props: SentViewProps) {
         <Stack style={[styles.paper, { paddingTop: theme.space['32'] + theme.space['16'] }]}>
           <Row style={styles.topLine}>
             <Text variant="monoData" color={ink}>
-              {t({ id: 'help.sent.post', message: 'Post · Courrier' }).toUpperCase()}
+              {upper(t({ id: 'help.sent.post', message: 'Post · Courrier' }), locale)}
             </Text>
             <Text variant="monoData" color={ink} testID="feedback-ticket-no">
               {props.ticketNo === null ? '#CP-…' : `#CP-${String(props.ticketNo)}`}
@@ -116,7 +119,7 @@ export function SentView(props: SentViewProps) {
           <View style={styles.note} testID="feedback-pinned-note">
             <View style={styles.pin} />
             <Text variant="monoData" color={ink}>
-              {props.heading.toUpperCase()}
+              {upper(props.heading, locale)}
             </Text>
             {props.note === '' ? null : (
               <Text variant="voice" color={theme.color.ink['900']}>
@@ -131,15 +134,15 @@ export function SentView(props: SentViewProps) {
             {stamped ? (
               <Animated.View style={[styles.stamp, stamp]} testID="feedback-stamp">
                 <Text variant="label" color={theme.color.pink}>
-                  {t({ id: 'help.sent.hq', message: 'HQ · Post' }).toUpperCase()}
+                  {t({ id: 'help.sent.hq', message: 'HQ · Post' })}
                 </Text>
                 <Text variant="h3" color={theme.color.pink}>
                   {props.queued && props.ticketNo === null
-                    ? t({ id: 'help.sent.pinned', message: 'Pinned' }).toUpperCase()
-                    : t({ id: 'help.sent.received', message: 'Received' }).toUpperCase()}
+                    ? t({ id: 'help.sent.pinned', message: 'Pinned' })
+                    : t({ id: 'help.sent.received', message: 'Received' })}
                 </Text>
                 <Text variant="label" color={theme.color.pink}>
-                  {props.receivedOn.toUpperCase()}
+                  {props.receivedOn}
                 </Text>
               </Animated.View>
             ) : null}
@@ -148,7 +151,7 @@ export function SentView(props: SentViewProps) {
         <SurfaceToneProvider value="dark">
           <Stack style={styles.body}>
             <Text variant="h1" accessibilityRole="header">
-              {t({ id: 'help.sent.title', message: 'Pinned to the board' }).toUpperCase()}
+              {t({ id: 'help.sent.title', message: 'Pinned to the board' })}
             </Text>
             <Text variant="body" color={theme.semantic.text.secondary}>
               {props.queued && props.ticketNo === null
@@ -169,7 +172,7 @@ export function SentView(props: SentViewProps) {
             </Text>
             <PillButton
               variant="secondary"
-              label={t({ id: 'help.sent.done', message: 'Back to settings' }).toUpperCase()}
+              label={t({ id: 'help.sent.done', message: 'Back to settings' })}
               onPress={props.onDone}
               testID="feedback-sent-done"
             />

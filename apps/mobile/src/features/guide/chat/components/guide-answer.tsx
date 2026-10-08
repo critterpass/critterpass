@@ -1,7 +1,8 @@
 /**
  * One guide answer in the sheet: the persona's words in the guide's voice and colour, typed in word
- * by word while they stream, the web sources it cites as chips (tap opens the page), and a long
- * press for the answer's actions (copy, helpful, not helpful). While the guide thinks, typing dots;
+ * by word while they stream, the web sources it cites as chips (tap opens the page), and the
+ * answer's actions (copy, helpful, not helpful): shown under the latest answer, a long press away
+ * on earlier ones. While the guide thinks, typing dots;
  * a tool that takes a while gets a filler line so the wait reads as work.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -70,6 +71,8 @@ export interface GuideAnswerProps {
   /** Rates a saved answer; absent while it streams. */
   readonly onRate?: (verdict: 'up' | 'down') => void;
   readonly rating?: string | null;
+  /** The actions are shown without a long press (the latest answer). */
+  readonly actionsShown?: boolean;
   readonly testID?: string;
 }
 
@@ -80,11 +83,15 @@ export function GuideAnswer({
   sources = [],
   onRate,
   rating = null,
+  actionsShown = false,
   testID,
 }: GuideAnswerProps) {
   const { t } = useLingui();
   const theme = useTheme();
-  const [actions, setActions] = useState(false);
+  const [opened, setActions] = useState(false);
+  const [rated, setRated] = useState(false);
+  // A rated answer has had its say: the line under it replaces the chips.
+  const actions = opened || (actionsShown && !rated && rating === null && !streaming);
   const [copied, setCopied] = useState(false);
   // Brackets inside brackets (a gloss within a gloss) are shown, and copied, as one pair.
   const line = tidyGuideText(text);
@@ -122,6 +129,7 @@ export function GuideAnswer({
                 label={t({ id: 'guide.chat.helpful', message: 'Helpful' })}
                 onPress={() => {
                   onRate('up');
+                  setRated(true);
                   setActions(false);
                 }}
                 testID="guide-answer-up"
@@ -130,6 +138,7 @@ export function GuideAnswer({
                 label={t({ id: 'guide.chat.notHelpful', message: 'Not helpful' })}
                 onPress={() => {
                   onRate('down');
+                  setRated(true);
                   setActions(false);
                 }}
                 testID="guide-answer-down"

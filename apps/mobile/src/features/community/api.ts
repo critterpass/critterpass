@@ -113,9 +113,10 @@ export function useGuideNote(id: string, tripId: string | null) {
   );
 }
 
-export function useTripSharedPlan(tripId: string) {
+/** `null`: no trip to ask about (the read stays loading and asks nothing). */
+export function useTripSharedPlan(tripId: string | null) {
   return useRead<TripSharedPlan>(
-    `/v1/trips/${encodeURIComponent(tripId)}/shared-plan`,
+    tripId === null ? null : `/v1/trips/${encodeURIComponent(tripId)}/shared-plan`,
     tripSharedPlanSchema,
     false,
   );

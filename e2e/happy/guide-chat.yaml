@@ -34,3 +34,24 @@ appId: app.critterpass.dev
 - assertNotVisible:
     id: 'guide-error'
 - takeScreenshot: happy-guide-chat
+# With a crew on the trip the sheet has GROUP / JUST ME. Just me is its own thread: the group's
+# question and its answer are not carried over, and they are back on Group.
+- runFlow:
+    when:
+      visible:
+        id: 'guide-modes'
+    commands:
+      - tapOn: 'Just me'
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - assertNotVisible: 'What should we pack for rain in Ubud\?'
+      - assertNotVisible:
+          id: 'guide-answer-live'
+      - takeScreenshot: en-3j-1-just-me-after-group-turn
+      - tapOn: 'Group'
+      # The group thread opens at its end: its answer shows, the question sits above it.
+      - extendedWaitUntil:
+          visible:
+            id: 'guide-answer-(live|[0-9a-f-]{36})'
+          timeout: 20000
+      - takeScreenshot: en-3j-1-group-after-just-me

@@ -213,17 +213,6 @@ export function PaywallView(props: PaywallViewProps) {
             testID="paywall-disclosure"
           />
         )}
-        {restored === null ? null : (
-          <Text
-            variant="bodySm"
-            color={theme.semantic.text.secondary}
-            style={{ textAlign: 'center' }}
-            accessibilityLiveRegion="polite"
-            testID="paywall-restore-line"
-          >
-            {restored}
-          </Text>
-        )}
       </ScrollView>
       {phase === 'subscribed' ? null : <PaywallRestore onPress={props.onRestore} />}
       <Stack gap="12" style={styles.footer}>
@@ -260,7 +249,19 @@ export function PaywallView(props: PaywallViewProps) {
             testID="paywall-buy"
           />
         )}
-        {status === null ? null : (
+        {/* One status slot, in view beside the buttons: RESTORE's answer, else the purchase's. */}
+        {restored !== null ? (
+          <Text
+            variant="bodySm"
+            color={theme.semantic.text.secondary}
+            numberOfLines={2}
+            style={{ textAlign: 'center' }}
+            accessibilityLiveRegion="polite"
+            testID="paywall-restore-line"
+          >
+            {restored}
+          </Text>
+        ) : status === null ? null : (
           <Text
             variant="bodySm"
             color={
@@ -268,6 +269,7 @@ export function PaywallView(props: PaywallViewProps) {
                 ? theme.semantic.state.warning
                 : theme.semantic.text.secondary
             }
+            numberOfLines={2}
             style={{ textAlign: 'center' }}
             accessibilityLiveRegion="polite"
             testID={`paywall-phase-${phase}`}

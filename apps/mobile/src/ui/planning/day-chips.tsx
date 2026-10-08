@@ -4,14 +4,17 @@
  * colour; today carries a dot under it; the chosen day is filled (in its colour, or paper on the
  * add sheet) with a ring; a dot in the corner says how well a place fits that day (green, orange,
  * grey). While something is dragged over the row, the day under it glows: the drag itself belongs
- * to the screen, which passes the day it is over.
+ * to the screen, which passes the day it is over. The days share the row while they fit its
+ * measured width; a longer trip scrolls sideways and keeps the chosen day in view.
  */
 import { tokens } from '@cp/design-tokens';
+import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
 import { makeStyles, useTheme } from '../theme';
+import { chipsFit, useChipInView } from './chip-row-fit';
 import { fitDotColor, type FitGrade } from './fit-tone';
 
 export interface DayChip {
@@ -49,16 +52,18 @@ export interface DayChipsProps {
   readonly testID?: string | undefined;
 }
 
-/** Up to this many days share the row's width; more scroll sideways. */
-const FIT_IN_ROW = 8;
+/** Before the row is measured: up to this many days share its width on the narrowest phone. */
+const FIT_BEFORE_MEASURE = 7;
 const CHIP_HEIGHT = 50;
 const MIN_CHIP_WIDTH = 40;
+const SCROLLING_CHIP_WIDTH = 44;
+const CHIP_GAP = tokens.space['6'];
 
 const useStyles = makeStyles((t) => ({
-  row: { flexDirection: 'row', gap: t.space['6'] },
-  scroll: { gap: t.space['6'] },
+  row: { flexDirection: 'row', gap: CHIP_GAP },
+  scroll: { gap: CHIP_GAP },
   slot: { flex: 1, minWidth: MIN_CHIP_WIDTH },
-  slotScrolling: { width: 44 },
+  slotScrolling: { width: SCROLLING_CHIP_WIDTH },
   chip: {
     height: CHIP_HEIGHT,
     borderRadius: t.radius.md,
@@ -118,7 +123,20 @@ export function DayChips({
 }: DayChipsProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const scrolls = days.length > FIT_IN_ROW;
+  const [rowWidth, setRowWidth] = useState(0);
+  const scrolls =
+    rowWidth > 0
+      ? !chipsFit(days.length, rowWidth, MIN_CHIP_WIDTH, CHIP_GAP)
+      : days.length > FIT_BEFORE_MEASURE;
+  // A scrolling row keeps the chosen day in view: at once when it opens, gliding when it changes.
+  const scroller = useChipInView({
+    scrolls,
+    index: days.findIndex((day) => day.dayNo === selectedDayNo),
+    count: days.length,
+    rowWidth,
+    chipWidth: SCROLLING_CHIP_WIDTH,
+    gap: CHIP_GAP,
+  });
 
   const chips = days.map((day) => {
     const selected = day.dayNo === selectedDayNo;
@@ -202,16 +220,22 @@ export function DayChips({
 
   if (!scrolls) {
     return (
-      <View style={styles.row} testID={testID}>
+      <View
+        style={styles.row}
+        onLayout={(event) => setRowWidth(event.nativeEvent.layout.width)}
+        testID={testID}
+      >
         {chips}
       </View>
     );
   }
   return (
     <ScrollView
+      ref={scroller}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scroll}
+      onLayout={(event) => setRowWidth(event.nativeEvent.layout.width)}
       testID={testID}
     >
       {chips}

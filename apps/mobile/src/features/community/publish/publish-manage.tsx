@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
+import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -30,6 +31,8 @@ import {
 import { copiesLabel, ratingLabel } from '../copy';
 import { Preview, Toggles, useLinkCopy } from './publish-parts';
 import { canManage } from './publish-model';
+import { ConfirmTakeDown, linkDate, type Confirming } from './take-down-confirm';
+import { usePublishAction } from './use-publish-action';
 
 const CENTER = { alignItems: 'center' } as const;
 
@@ -48,7 +51,8 @@ export function Compose({
   const [toggles, setToggles] = useState<SharedPlanToggles>(
     data.plan?.toggles ?? DEFAULT_SHARED_PLAN_TOGGLES,
   );
-  const { send, pending } = useCommand(publishSharedPlan);
+  const { send } = useCommand(publishSharedPlan);
+  const action = usePublishAction(onChanged);
   const copyLink = useLinkCopy(tripId);
   return (
     <Stack gap="16" testID="share-plan-compose">
@@ -69,14 +73,23 @@ export function Compose({
       <PillButton
         tone="yellow"
         block
-        loading={pending}
+        loading={action.busy}
         label={t({ id: 'community.publish.cta', message: 'Publish to crew plans' })}
-        onPress={() => void send({ trip_id: tripId, toggles }).then(onChanged)}
+        onPress={() =>
+          action.run(
+            () => send({ trip_id: tripId, toggles }),
+            t({
+              id: 'community.publish.asked',
+              message: 'Asked. It goes out when everyone in the crew agrees.',
+            }),
+          )
+        }
         testID="share-plan-publish"
       />
       <View style={CENTER}>
         <TextLink
           label={t({ id: 'community.publish.link', message: 'Copy a read-only link instead' })}
+          disabled={action.busy}
           onPress={() => void copyLink()}
           testID="share-plan-link"
         />
@@ -104,6 +117,9 @@ export function Published({
   const { send: unpublish } = useCommand(unpublishSharedPlan);
   const { send: withdraw } = useCommand(withdrawPublishConsent);
   const { send: revoke } = useCommand(revokePlanLink);
+  const action = usePublishAction(onChanged);
+  const locale = useLocale();
+  const [confirming, setConfirming] = useState<Confirming | null>(null);
   const copyLink = useLinkCopy(tripId);
   const card = { rating_avg: plan.rating_avg, rating_count: plan.rating_count };
   const live = data.links.filter((link) => link.revoked_at === null);
@@ -131,31 +147,66 @@ export function Published({
         />
       ) : null}
       <TextLink
-        label={t({ id: 'community.publish.link', message: 'Copy a read-only link instead' })}
+        label={t({ id: 'community.published.link', message: 'Copy a read-only link' })}
         onPress={() => void copyLink()}
         testID="share-plan-link"
       />
-      {live.map((link) => (
-        <TextLink
-          key={link.id}
-          label={t({ id: 'community.published.revoke', message: 'Turn off a read-only link' })}
-          onPress={() => void revoke({ link_id: link.id }).then(onChanged)}
-          testID={`share-plan-revoke-${link.id}`}
-        />
-      ))}
+      {live.map((link) => {
+        const made = linkDate(link.created_at, locale);
+        return (
+          <TextLink
+            key={link.id}
+            label={t({
+              id: 'community.published.revokeDated',
+              message: `Turn off the link made ${made}`,
+            })}
+            disabled={action.busy}
+            onPress={() => setConfirming({ kind: 'revoke', linkId: link.id, made })}
+            testID={`share-plan-revoke-${link.id}`}
+          />
+        );
+      })}
       {manage ? (
         <PillButton
           variant="destructive"
           block
           label={t({ id: 'community.published.unpublish', message: 'Unpublish' })}
-          onPress={() => void unpublish({ shared_plan_id: planId }).then(onChanged)}
+          loading={action.busy}
+          onPress={() => setConfirming({ kind: 'unpublish' })}
           testID="share-plan-unpublish"
         />
       ) : (
         <TextLink
           label={t({ id: 'community.consent.withdraw', message: 'Take my yes back' })}
-          onPress={() => void withdraw({ shared_plan_id: planId }).then(onChanged)}
+          disabled={action.busy}
+          onPress={() => setConfirming({ kind: 'withdraw' })}
           testID="share-plan-withdraw"
+        />
+      )}
+      {confirming === null ? null : (
+        <ConfirmTakeDown
+          confirming={confirming}
+          onCancel={() => setConfirming(null)}
+          onConfirm={() => {
+            setConfirming(null);
+            if (confirming.kind === 'revoke') {
+              action.run(
+                () => revoke({ link_id: confirming.linkId }),
+                t({ id: 'community.published.revoked', message: 'That link is off.' }),
+              );
+            } else {
+              action.run(
+                () =>
+                  confirming.kind === 'unpublish'
+                    ? unpublish({ shared_plan_id: planId })
+                    : withdraw({ shared_plan_id: planId }),
+                t({
+                  id: 'community.published.unpublished',
+                  message: 'Taken down. Other crews no longer see it.',
+                }),
+              );
+            }
+          }}
         />
       )}
     </Stack>

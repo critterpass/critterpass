@@ -347,6 +347,10 @@ msgstr "That picture is too big to send. Try a screenshot instead."
 msgid "help.ideas.offline"
 msgstr "The board opens once you’re back online."
 
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.articlesOffline"
+msgstr "The help centre opens once you’re back online."
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "This article isn’t here yet"
@@ -433,6 +437,10 @@ msgstr "Your note"
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
 msgstr "Your note to the humans"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.notSaved"
+msgstr "Your note wasn’t saved. It’s still here: try again."
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"

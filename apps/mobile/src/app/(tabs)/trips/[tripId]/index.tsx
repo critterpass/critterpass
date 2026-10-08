@@ -1,5 +1,6 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { TRIPS_TAB } from '@/features/trip/hub/routes';
 import { TripHubScreen } from '@/features/trip/hub/screen';
 import { LocalFirstGate } from '@/features/trip/hub/local-first-gate';
@@ -10,10 +11,7 @@ export default function TripHubRoute() {
   if (typeof tripId !== 'string') return null;
   return (
     <LocalFirstGate>
-      <TripHubScreen
-        tripId={tripId}
-        onSwitch={router.canGoBack() ? () => router.back() : () => router.navigate(TRIPS_TAB)}
-      />
+      <TripHubScreen tripId={tripId} onSwitch={() => goBackOr(TRIPS_TAB)} />
     </LocalFirstGate>
   );
 }

@@ -52,6 +52,10 @@ msgstr "Back"
 msgid "go.preview.noFix"
 msgstr "Can’t find where you are yet. The route shows up as soon as your phone does."
 
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.startFailed"
+msgstr "Couldn’t open a maps app on this phone."
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.mapsApp"
 msgstr "Directions in"

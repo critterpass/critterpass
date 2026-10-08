@@ -5,8 +5,8 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { Fragment, type ReactNode } from 'react';
-import { I18nManager, ScrollView, View } from 'react-native';
+import type { ReactNode } from 'react';
+import { ScrollView, View } from 'react-native';
 
 import { guideSticker } from '@/ui/avatar';
 import { Card } from '@/ui/cards/Card';
@@ -14,16 +14,14 @@ import { SecondaryText } from '@/ui/cards/SecondaryText';
 import type { DoodleName } from '@/ui/icons/generated';
 import { Icon } from '@/ui/icons/Icon';
 import { SegmentBudget } from '@/ui/inputs/SegmentBudget';
-import { Toggle } from '@/ui/inputs/Toggle';
-import { Stack } from '@/ui/layout/Stack';
+import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { DeniedRow } from '@/ui/permission-primer/DeniedRow';
-import { PressScale } from '@/ui/press/PressScale';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { LargeTitle, useLargeTitleCollapse } from '@/ui/shell/LargeTitle';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import { AlwaysNote } from './always-note';
 import { BUDGET_MAX, type CrewChatMode, type PingPrefs } from './ping-prefs';
@@ -72,16 +70,6 @@ const useStyles = makeStyles((t) => ({
   },
   budgetLabel: { flexShrink: 0 },
   budgetLevel: BUDGET_LEVEL_STYLE,
-  group: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, overflow: 'hidden' },
-  row: {
-    minHeight: MIN_TOUCH_TARGET + t.space['12'],
-    paddingHorizontal: t.size.cardInner.max,
-    paddingVertical: t.space['10'],
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: t.space['12'],
-  },
-  divider: { height: 1, marginHorizontal: t.size.cardInner.max, backgroundColor: t.color.divider },
   tile: {
     width: TILE,
     height: TILE,
@@ -100,54 +88,6 @@ interface RowSpec {
   readonly control:
     | { readonly kind: 'toggle'; readonly value: boolean; readonly onChange: (v: boolean) => void }
     | { readonly kind: 'open'; readonly value?: string; readonly onPress: () => void };
-}
-
-function PingRow({ row }: { readonly row: RowSpec }) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const chevron = I18nManager.isRTL ? '‹' : '›';
-  const body = (
-    <>
-      {row.tile ? (
-        <View style={[styles.tile, { backgroundColor: row.tile.colour }]}>{row.tile.art}</View>
-      ) : null}
-      <Stack gap="2" flex={1}>
-        <Text variant="rowTitle">{row.title}</Text>
-        <SecondaryText>{row.subtitle}</SecondaryText>
-      </Stack>
-    </>
-  );
-  const label = [row.title, row.subtitle].join(', ');
-  if (row.control.kind === 'toggle') {
-    return (
-      <View style={styles.row} testID={`you-pings-${row.key}`}>
-        {body}
-        <Toggle
-          value={row.control.value}
-          onValueChange={row.control.onChange}
-          label={label}
-          testID={`you-pings-${row.key}-toggle`}
-        />
-      </View>
-    );
-  }
-  return (
-    <PressScale
-      onPress={row.control.onPress}
-      widthClass="wide"
-      accessibilityLabel={[label, row.control.value].filter(Boolean).join(', ')}
-      style={styles.row}
-      testID={`you-pings-${row.key}`}
-    >
-      {body}
-      <Text
-        variant="rowTitle"
-        color={row.control.value ? theme.semantic.action.primary : theme.semantic.text.secondary}
-      >
-        {row.control.value ? `${row.control.value} ${chevron}` : chevron}
-      </Text>
-    </PressScale>
-  );
 }
 
 export function PingSettingsView(props: PingSettingsViewProps) {
@@ -292,14 +232,38 @@ export function PingSettingsView(props: PingSettingsViewProps) {
               />
             ) : null}
           </Card>
-          <View style={styles.group}>
-            {rows.map((row, index) => (
-              <Fragment key={row.key}>
-                {index > 0 ? <View style={styles.divider} /> : null}
-                <PingRow row={row} />
-              </Fragment>
-            ))}
-          </View>
+          <SettingsGroup
+            rows={rows.map((row): SettingsRow => {
+              const base = {
+                key: row.key,
+                title: row.title,
+                subtitle: row.subtitle,
+                testID: `you-pings-${row.key}`,
+                ...(row.tile
+                  ? {
+                      leadingNode: (
+                        <View style={[styles.tile, { backgroundColor: row.tile.colour }]}>
+                          {row.tile.art}
+                        </View>
+                      ),
+                    }
+                  : {}),
+              };
+              return row.control.kind === 'toggle'
+                ? {
+                    ...base,
+                    kind: 'toggle',
+                    value: row.control.value,
+                    onChange: row.control.onChange,
+                  }
+                : {
+                    ...base,
+                    kind: 'value',
+                    value: row.control.value ?? '',
+                    onPress: row.control.onPress,
+                  };
+            })}
+          />
           <AlwaysNote>{props.systemLimits}</AlwaysNote>
         </View>
       </ScrollView>

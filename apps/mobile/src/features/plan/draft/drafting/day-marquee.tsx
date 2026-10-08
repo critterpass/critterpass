@@ -18,6 +18,9 @@ import { dayCardLabel } from './step-copy';
 
 const useStyles = makeStyles((th) => ({
   strip: { overflow: 'hidden', paddingVertical: th.space['8'] },
+  // A scroll view grows to share its column's free height unless told not to: the row keeps the
+  // height of its pills, and the checklist above keeps the rest of the screen.
+  still: { flexGrow: 0, paddingVertical: th.space['8'] },
   row: { flexDirection: 'row', gap: th.space['12'], paddingEnd: th.space['12'] },
   pill: {
     paddingHorizontal: th.space['20'],
@@ -69,7 +72,12 @@ export function DayMarquee({ days }: { readonly days: readonly DayCard[] }) {
   if (days.length === 0) return <View style={styles.strip} />;
   if (!moving) {
     return (
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} testID="drafting-days">
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.still}
+        testID="drafting-days"
+      >
         <View style={styles.row}>
           <Pills days={days} />
         </View>
