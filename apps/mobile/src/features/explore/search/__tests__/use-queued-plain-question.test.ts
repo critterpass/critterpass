@@ -61,4 +61,27 @@ describe('queued plain-words questions', () => {
     expect(queue.take({ threadId: THREAD })).toBeNull();
     expect(queue.take({ threadId: 'other' })?.id).toBe('q1');
   });
+
+  it('never hands a question bound to a thread to a sender that names no thread', () => {
+    const bound = () => {
+      const queue = createQuestionQueue(memory());
+      queue.enqueue({ id: 'private', tripId: TRIP, threadId: 'A', text: 'only for me' });
+      return queue;
+    };
+    expect(bound().take({ tripId: TRIP })).toBeNull();
+    expect(bound().take()).toBeNull();
+    expect(bound().take({ threadId: 'B', tripId: TRIP })).toBeNull();
+    expect(bound().take({ threadId: 'A' })?.id).toBe('private');
+  });
+
+  it('hands a question with no thread yet to any sender of its trip', () => {
+    const unbound = () => {
+      const queue = createQuestionQueue(memory());
+      queue.enqueue({ id: 'search', tripId: TRIP, threadId: null, text: 'coffee' });
+      return queue;
+    };
+    expect(unbound().take({ tripId: TRIP })?.id).toBe('search');
+    expect(unbound().take({ threadId: 'B', tripId: TRIP })?.threadId).toBe('B');
+    expect(unbound().take({ threadId: 'A' })?.id).toBe('search');
+  });
 });

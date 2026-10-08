@@ -15,6 +15,7 @@ import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-s
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { dataOf } from '@/data/travel-data/freshness';
+import { goBackOr } from '@/lib/navigation/back';
 
 import type { ActionsMode } from '../components/destination-actions';
 import { DestinationView } from '../components/destination-view';
@@ -152,8 +153,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   };
   const back = () => {
     if (mode !== 'actions') setMode('actions');
-    else if (router.canGoBack()) router.back();
-    else router.replace('/');
+    else goBackOr();
   };
 
   if (name === '' && base.status === 'missing') {

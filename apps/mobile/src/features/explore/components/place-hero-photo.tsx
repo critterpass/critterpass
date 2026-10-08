@@ -11,7 +11,7 @@
  */
 import { tokens } from '@cp/design-tokens';
 import type { PlaceMediaAsset } from '@cp/domain';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, PixelRatio, Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -68,13 +68,16 @@ export interface PlacePhotoProps {
 
 export function PlacePhoto({
   photo,
-  heroUrl,
+  heroUrl: liveUrl,
   heroCredit,
   category,
   accent,
   captionInset,
 }: PlacePhotoProps) {
   const styles = useStyles();
+  // A live photo that fails to load gives way to the kind's tile, and is not offered full screen.
+  const [failedUrl, setFailedUrl] = useState<string | null>(null);
+  const heroUrl = liveUrl == null || liveUrl === failedUrl ? null : liveUrl;
   const openLabel = useOpenPhotoLabel();
   const pixels = useWindowDimensions().width * PixelRatio.get();
   const items = heroPhotoItems({
@@ -123,6 +126,7 @@ export function PlacePhoto({
           style={styles.fill}
           resizeMode="cover"
           accessibilityIgnoresInvertColors
+          onError={() => setFailedUrl(heroUrl)}
           testID="explore-place-hero-live"
         />
       ) : photo === null ? (

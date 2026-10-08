@@ -4,13 +4,14 @@
  * display-only (D25), a pick asks for the open-data place behind it.
  */
 import { t } from '@lingui/core/macro';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { LivePlace, MorePlacesState } from '@/data/places/more-places';
 import type { PlaceCandidate } from '@/data/places/match-places';
 import type { SearchState } from '@/data/places/server-name-search';
 import { makeStyles, Text, useTheme } from '@/ui';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { AddButton, PhotoCredit, PlaceRow } from '@/ui/planning';
 import { Skeleton } from '@/ui/states/Skeleton';
 
@@ -28,11 +29,23 @@ import {
 const useStyles = makeStyles((th) => ({
   card: { borderRadius: th.radius.lg, backgroundColor: th.semantic.bg.raised, overflow: 'hidden' },
   section: { gap: th.space['8'] },
+  failed: {
+    gap: th.space['8'],
+    padding: th.space['16'],
+    borderRadius: th.radius.lg,
+    backgroundColor: th.semantic.bg.raised,
+  },
 }));
 
 export interface NameResultsProps {
   readonly rows: readonly PlaceCandidate[];
   readonly state: SearchState;
+  /** The server did not answer: the rows are only the phone's, and more can be asked for. */
+  readonly incomplete?: boolean | undefined;
+  /** Asks again after a failure. */
+  readonly onRetry?: (() => void) | undefined;
+  /** The "More places" row being looked up: it waits, and the others hold. */
+  readonly pickingLive?: string | null | undefined;
   readonly live: MorePlacesState;
   /** The places' photos by POI id, as they arrive. */
   readonly photos?: PlaceTilePhotos | undefined;
@@ -95,6 +108,9 @@ export function NameResults({
   context,
   addressFound = false,
   notFound,
+  incomplete = false,
+  onRetry,
+  pickingLive = null,
   ...props
 }: NameResultsProps) {
   const styles = useStyles();
@@ -135,6 +151,14 @@ export function NameResults({
       {notFound !== undefined && (sayMissed || (props.rows.length === 0 && state === 'none')) ? (
         <NameNotFound {...notFound} typed={asked} address={missed?.address} />
       ) : null}
+      {props.rows.length === 0 && state === 'arriving' ? (
+        <Text variant="body" color={theme.semantic.text.secondary} testID="search-name-arriving">
+          {t({
+            id: 'search.name.arriving',
+            message: "This trip's places are still arriving on this phone. Try again in a moment.",
+          })}
+        </Text>
+      ) : null}
       {heading === null ? null : (
         <Text variant="eyebrow" testID="search-name-below">
           {heading}
@@ -169,6 +193,22 @@ export function NameResults({
           })}
         </View>
       )}
+      {state === 'failed' || incomplete ? (
+        <View style={styles.failed} testID="search-name-failed">
+          <Text variant="body">
+            {rows.length === 0
+              ? t({ id: 'search.name.failed', message: "The search didn't go through." })
+              : t({ id: 'search.name.incomplete', message: "Couldn't reach more places." })}
+          </Text>
+          {onRetry === undefined ? null : (
+            <TextLink
+              label={t({ id: 'search.link.retry', message: 'Try again' })}
+              onPress={onRetry}
+              testID="search-name-retry"
+            />
+          )}
+        </View>
+      ) : null}
       {live.kind === 'done' && live.places.length > 0 ? (
         <View style={styles.section} testID="search-more-places">
           <Text variant="eyebrow">{t({ id: 'search.more.eyebrow', message: 'More places' })}</Text>
@@ -179,7 +219,11 @@ export function NameResults({
                 title={place.name}
                 meta={place.address ?? undefined}
                 icon="pin"
-                onPress={() => onPickLive(place)}
+                trailing={
+                  pickingLive === place.fsqPlaceId ? <ActivityIndicator size="small" /> : undefined
+                }
+                onPress={pickingLive === null ? () => onPickLive(place) : undefined}
+                testID={`search-more-${place.fsqPlaceId}`}
               />
             ))}
           </View>

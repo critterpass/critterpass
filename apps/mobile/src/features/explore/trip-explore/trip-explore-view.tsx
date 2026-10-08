@@ -18,6 +18,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { IconButton } from '@/ui/buttons/IconButton';
+import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Row } from '@/ui/layout/Row';
@@ -82,7 +84,11 @@ const useStyles = makeStyles((t) => ({
     paddingHorizontal: t.size.gutter,
     paddingBottom: t.space['8'],
     backgroundColor: t.semantic.bg.base,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: t.space['8'],
   },
+  pinnedSearch: { flex: 1, minWidth: 0 },
   body: { gap: t.space['20'], paddingTop: t.space['20'] },
   inset: { paddingHorizontal: t.size.gutter },
 }));
@@ -200,7 +206,14 @@ export function TripExploreView(props: TripExploreViewProps) {
           exiting={FadeOut.duration(tokens.motion.duration.fast)}
           style={[styles.pinned, { paddingTop: insets.top + theme.space['8'] }]}
         >
-          {search('explore-trip-search-pinned')}
+          {/* The hero's back has scrolled away: the pinned bar carries one too. */}
+          <IconButton
+            label={props.hero.backLabel}
+            glyph={<StraightArrow direction="back" color={theme.semantic.text.primary} />}
+            onPress={props.hero.onBack}
+            testID="explore-trip-back-pinned"
+          />
+          <View style={styles.pinnedSearch}>{search('explore-trip-search-pinned')}</View>
         </Animated.View>
       ) : null}
     </Scaffold>
