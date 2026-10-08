@@ -14,6 +14,34 @@ const config = getSentryExpoConfig(__dirname);
 // unparseable JS source file and fail the bundle rather than being resolved as a binary asset.
 config.resolver.assetExts = [...config.resolver.assetExts, 'ogg'];
 
+// Inline requires: a module imported by name is evaluated where its export is first used rather
+// than when the importing file loads, so screens and feature barrels the first frame never touches
+// stay unevaluated at launch. Side-effect imports (`import './x'`) keep running in order. Kept eager
+// (on top of Metro's own React/React Native list): the three feature registers the root layout
+// imports by name, whose screen registrations must run at launch with the other registers rather
+// than when the layout first renders their runtimes, and the i18n root, whose import starts the
+// locale load.
+const nonInlinedRequires = [
+  'React',
+  'react',
+  'react/jsx-dev-runtime',
+  'react/jsx-runtime',
+  'react-compiler-runtime',
+  'react-native',
+  '@/features/trip/hub/register',
+  '@/features/critters/register',
+  '@/features/safety/register',
+  '@/lib/i18n/I18nRoot',
+];
+const getTransformOptions = config.transformer.getTransformOptions;
+config.transformer.getTransformOptions = async (...args) => {
+  const options = getTransformOptions ? await getTransformOptions(...args) : {};
+  return {
+    ...options,
+    transform: { ...options.transform, inlineRequires: true, nonInlinedRequires },
+  };
+};
+
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
