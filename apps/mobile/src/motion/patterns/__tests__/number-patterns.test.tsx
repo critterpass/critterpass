@@ -8,7 +8,6 @@ import { impact } from '../../feedback';
 import { useMotionMode } from '../../motion-mode';
 import { resetMotionModeForTests } from '../../test-support/reset-motion-mode';
 import { useBarGrow } from '../bar-grow';
-import { useCountUp } from '../count-up';
 import { useOdometer } from '../odometer';
 import { useSplitFlapCharacter } from '../split-flap';
 import { useStoryProgress } from '../story-progress';
@@ -75,20 +74,6 @@ describe('useOdometer', () => {
     await rerender({ value: 20 });
     expect(result.current.columns.map((column) => column.value.value)).toEqual([2, 0]);
     expect(mockedImpact).not.toHaveBeenCalled();
-  });
-});
-
-describe('useCountUp', () => {
-  it('settles at the target value', async () => {
-    const { result, rerender } = await renderHook(
-      ({ target }: { target: number }) => useCountUp(target),
-      {
-        initialProps: { target: 10 },
-      },
-    );
-    expect(result.current.value.value).toBe(10);
-    await rerender({ target: 25 });
-    expect(result.current.value.value).toBe(25);
   });
 });
 

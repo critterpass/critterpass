@@ -1,28 +1,23 @@
 /* eslint-disable lingui/no-unlocalized-strings -- dev-gallery sample copy; fixture files are loaded only by the (dev) gallery and never ship. */
 import { useState } from 'react';
-import { View } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
 import { registerFixture } from '../gallery/registry';
 import { Icon } from '../icons/Icon';
-import { StatusChip } from '../chips/StatusChip';
 import { Stack } from '../layout/Stack';
 import { Sticker } from '../sticker/Sticker';
 import { GiftCard } from './GiftCard';
-import { ManifestCard } from './ManifestCard';
 import { mrzLine } from './mrz';
 import { PaperChrome } from './PaperChrome';
 import { PassportCover } from './PassportCover';
 import { PassportPage } from './PassportPage';
-import { Postcard } from './Postcard';
 import { Receipt } from './Receipt';
 import type { Signature } from './SignatureLayer';
 import { SignatureLayer } from './SignatureLayer';
 import { Stamp } from './Stamp';
 import { Ticket } from './Ticket';
 import { Visa } from './Visa';
-import { WalletStack } from './WalletStack';
 
 const { color } = tokens;
 
@@ -34,39 +29,6 @@ const MRZ = [
 function Signing() {
   const [value, setValue] = useState<Signature | null>(null);
   return <SignatureLayer name="Winston Tan" value={value} onChange={setValue} />;
-}
-
-function Wallet() {
-  const [selected, setSelected] = useState('flight');
-  return (
-    <WalletStack
-      selectedKey={selected}
-      onSelect={setSelected}
-      items={[
-        {
-          key: 'trek',
-          title: 'Batur sunrise trek',
-          meta: 'Oct 15 · 03:30',
-          tone: 'yellow',
-          icon: 'volcano',
-        },
-        {
-          key: 'boat',
-          title: 'Sanur → Penida',
-          meta: 'Oct 16 · 08:30',
-          tone: 'green',
-          icon: 'boat',
-        },
-        { key: 'villa', title: 'Villa Kayu Manis', meta: '5 nights', tone: 'pink', icon: 'bed' },
-        { key: 'flight', title: 'SQ 938', meta: 'Mon 12 Oct', tone: 'blue', icon: 'plane' },
-      ]}
-    >
-      <Stack gap="8">
-        <StatusChip status="booked" />
-        <Icon name="plane" size={40} decorative />
-      </Stack>
-    </WalletStack>
-  );
 }
 
 registerFixture('PassportPage', 'pass issued (3a-6)', () => (
@@ -203,40 +165,6 @@ registerFixture('Receipt', 'money wrapped (3m-6)', () => (
     accessibilityLabel="Receipt for the Bali Six, total $6,980, $1,163 each, balances paid in full"
   />
 ));
-registerFixture('Postcard', 'flip', () => (
-  <Postcard
-    front={
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: color.blue,
-        }}
-      >
-        <Icon name="temple" size={120} decorative />
-      </View>
-    }
-    caption="Greetings from"
-    place="Bali"
-    message="Temple at sunrise, then babi guling. Wish you were here."
-    from="Tokek & the Bali Six"
-    toLines={['Winston', 'Singapore']}
-    stamp={<Stamp title="DPS" ink={color.rust.darkened} size={56} />}
-  />
-));
-registerFixture('ManifestCard', 'crew on the flight', () => (
-  <ManifestCard
-    title="Crew manifest · SQ 938"
-    headEnd="4 of 6"
-    rows={[
-      { key: 'w', name: 'Winston', detail: '34A' },
-      { key: 'm', name: 'Maya', detail: '34B' },
-      { key: 'a', name: 'Alex', detail: '35C', trailing: <StatusChip status="maybe" /> },
-    ]}
-    accessibilityLabel="Crew manifest for SQ 938, 3 people"
-  />
-));
 registerFixture('GiftCard', 'pass+ gift', () => (
   <GiftCard
     title="Pass+ · 1 year"
@@ -247,5 +175,4 @@ registerFixture('GiftCard', 'pass+ gift', () => (
     accessibilityLabel="Gift card, Pass+ for 1 year, from Maya"
   />
 ));
-registerFixture('WalletStack', 'fanned bookings (3h-1)', () => <Wallet />);
 registerFixture('SignatureLayer', 'draw or type', () => <Signing />);

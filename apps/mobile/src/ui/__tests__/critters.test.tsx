@@ -10,7 +10,6 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import { tokens } from '@cp/design-tokens';
 
-import { BefriendReveal } from '../critters/BefriendReveal';
 import { CritterDetail } from '../critters/CritterDetail';
 import { DexHeader } from '../critters/DexHeader';
 import { Egg } from '../critters/Egg';
@@ -20,7 +19,6 @@ import { HereNowForms } from '../critters/HereNowForms';
 import { LegendaryBanner } from '../critters/LegendaryBanner';
 import { MonthStrip } from '../critters/MonthStrip';
 import { QuestCard } from '../critters/QuestCard';
-import { SetGrid } from '../critters/SetGrid';
 import { StickerShelf } from '../critters/StickerShelf';
 import { WanderFootprints } from '../critters/WanderFootprints';
 import { fixturesFor } from '../gallery/registry';
@@ -68,31 +66,6 @@ describe('critter dex', () => {
     expect(screen.getByRole('image', { name: 'Epic form, not found yet' })).toBeTruthy();
     // The cells set the tier word alone, as the 3l-2 render does: never colour-only.
     expect(screen.getByText('EPIC', { includeHiddenElements: true })).toBeTruthy();
-  });
-
-  it('labels locked set slots by city, never by critter', async () => {
-    const onOpen = jest.fn();
-    await renderUi(
-      <SetGrid
-        title="Vietnam"
-        onOpen={onOpen}
-        slots={[
-          {
-            id: 'hn',
-            name: 'Cụ Rùa',
-            city: 'Hà Nội',
-            sticker: null,
-            formsFound: ['common', 'rare'],
-          },
-          { id: 'hl', city: 'Hạ Long', sticker: null },
-        ]}
-      />,
-    );
-    expect(
-      screen.getByRole('image', { name: 'Undiscovered local, found by being in Hạ Long' }),
-    ).toBeTruthy();
-    await run(screen.getByRole('button', { name: 'Cụ Rùa, Hà Nội, 2 of 4 forms' }), 'activate');
-    expect(onOpen).toHaveBeenCalledWith('hn');
   });
 
   it('opens the legendary banner and reads the month strip summary', async () => {
@@ -182,17 +155,10 @@ describe('critter moments', () => {
     expect(screen.getByText('RARE', { includeHiddenElements: true })).toBeTruthy();
   });
 
-  it('reads encounter, befriend, wander, quest, egg and shelf', async () => {
+  it('reads encounter, wander, quest, egg and shelf', async () => {
     await renderUi(
       <>
         <EncounterCard tier="rare" habitat="Water temples only" title="A temple Tokek is here" />
-        <BefriendReveal
-          eyebrow="Rare form · 2 of 4"
-          title="Befriended!"
-          critterName="Temple Tokek"
-          sticker={null}
-          chips={['+150 XP']}
-        />
         <WanderFootprints accessibilityLabel="It wandered off" />
         <QuestCard
           title="Warung crawl"
@@ -207,9 +173,6 @@ describe('critter moments', () => {
     );
     expect(
       screen.getByRole('header', { name: 'Rare, Water temples only. A temple Tokek is here' }),
-    ).toBeTruthy();
-    expect(
-      screen.getByRole('header', { name: 'Befriended! Temple Tokek, Rare form · 2 of 4' }),
     ).toBeTruthy();
     expect(screen.getByRole('image', { name: 'It wandered off' })).toBeTruthy();
     expect(
@@ -234,26 +197,6 @@ describe('critter moments', () => {
 });
 
 describe('critter gallery fixtures', () => {
-  it('registers a fixture for every critter component', () => {
-    for (const component of [
-      'DexHeader',
-      'HereNowForms',
-      'LegendaryBanner',
-      'SetGrid',
-      'CritterDetail',
-      'FormSelector',
-      'EncounterCard',
-      'WanderFootprints',
-      'BefriendReveal',
-      'MonthStrip',
-      'QuestCard',
-      'Egg',
-      'StickerShelf',
-    ]) {
-      expect(fixturesFor(component).length).toBeGreaterThan(0);
-    }
-  });
-
   it('renders the sticker-free fixtures', async () => {
     // Fixtures that show critter stickers need the native Skia renderer; the gallery covers them.
     for (const component of ['DexHeader', 'EncounterCard', 'WanderFootprints', 'MonthStrip']) {

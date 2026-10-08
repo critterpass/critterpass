@@ -1,9 +1,7 @@
 import { t } from '@lingui/core/macro';
-import { View } from 'react-native';
 
-import { Text } from '../text/Text';
-import type { Theme } from '../theme';
-import { makeStyles, useTheme } from '../theme';
+import type { TagTone } from './Tag';
+import { Tag } from './Tag';
 
 export type ChipStatus =
   | 'booked'
@@ -55,51 +53,34 @@ export function statusWord(status: ChipStatus): string {
   }
 }
 
-function fillFor(theme: Theme, status: ChipStatus): { bg: string; fg: string } {
-  const onAccent = theme.semantic.text.onAccent;
+function toneFor(status: ChipStatus): TagTone {
   switch (status) {
     case 'booked':
     case 'in':
-      return { bg: theme.semantic.state.success, fg: onAccent };
+      return 'success';
     case 'vote':
     case 'live':
-      return { bg: theme.semantic.state.urgent, fg: onAccent };
+      return 'urgent';
     case 'boost':
-      return { bg: theme.semantic.brand.boost, fg: onAccent };
+      return 'boost';
     case 'maybe':
-      return { bg: theme.semantic.state.warning, fg: onAccent };
+      return 'warning';
     case 'planned':
-      return { bg: theme.semantic.state.info, fg: onAccent };
+      return 'info';
     case 'building':
-      return { bg: theme.semantic.action.primary, fg: onAccent };
+      return 'primary';
     case 'passPlus':
-      return { bg: theme.semantic.brand.passplus, fg: onAccent };
+      return 'passPlus';
     case 'unopened':
     case 'ended':
     case 'free':
-      return { bg: theme.semantic.bg.control, fg: theme.semantic.text.secondary };
+      return 'neutral';
   }
 }
 
-const useStyles = makeStyles((t) => ({
-  chip: {
-    alignSelf: 'flex-start',
-    borderRadius: t.radius.xs,
-    paddingHorizontal: t.space['6'],
-    paddingVertical: t.space['2'],
-  },
-}));
-
 /** A word status tag (never colour alone): Booked, Vote, In, Maybe, Planned, Pass+, … */
 export function StatusChip({ status, label, testID }: StatusChipProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const { bg, fg } = fillFor(theme, status);
   return (
-    <View testID={testID} style={[styles.chip, { backgroundColor: bg }]}>
-      <Text variant="label" color={fg}>
-        {label ?? statusWord(status)}
-      </Text>
-    </View>
+    <Tag label={label ?? statusWord(status)} tone={toneFor(status)} size="sm" testID={testID} />
   );
 }
