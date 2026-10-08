@@ -207,6 +207,7 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
           disabled={row.disabled}
           widthClass="wide"
           accessibilityLabel={label}
+          testID={`settings-row-${row.key}`}
           {...(row.kind === 'check'
             ? {
                 accessibilityRole: 'checkbox' as const,

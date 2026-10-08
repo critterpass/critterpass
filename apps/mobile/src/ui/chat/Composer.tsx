@@ -163,6 +163,7 @@ export function Composer({
     ? t({ id: 'common.chat.stopRecording', message: 'Stop and send voice message' })
     : t({ id: 'common.chat.recordVoice', message: 'Record a voice message' });
 
+  // The bar's controls are addressed under its own id (`chat-composer-field`, `-attach`, `-send`).
   return (
     <Row style={styles.bar} testID={testID}>
       {onAttach ? (
@@ -171,6 +172,7 @@ export function Composer({
           onPress={onAttach}
           widthClass="narrow"
           style={[styles.circle, { backgroundColor: fill }]}
+          testID={testID === undefined ? undefined : `${testID}-attach`}
         >
           <Text variant="h3">+</Text>
         </PressScale>
@@ -183,6 +185,7 @@ export function Composer({
           placeholderTextColor={theme.semantic.text.secondary}
           accessibilityLabel={placeholder}
           multiline
+          testID={testID === undefined ? undefined : `${testID}-field`}
           style={{
             minHeight: MIN_TOUCH_TARGET,
             paddingVertical: theme.space['12'],
@@ -208,6 +211,7 @@ export function Composer({
           onPress={onSend}
           widthClass="narrow"
           style={[styles.circle, { backgroundColor: theme.semantic.action.primary }]}
+          testID={testID === undefined ? undefined : `${testID}-send`}
         >
           <StraightArrow
             direction="up"

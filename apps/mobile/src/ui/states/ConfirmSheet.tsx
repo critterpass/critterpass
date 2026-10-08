@@ -71,13 +71,19 @@ export function ConfirmSheet({
           </Text>
         </Stack>
       ) : (
-        <PillButton variant="destructive" label={confirmLabel} onPress={onConfirm} />
+        <PillButton
+          variant="destructive"
+          label={confirmLabel}
+          onPress={onConfirm}
+          {...(testID === undefined ? {} : { testID: `${testID}-confirm` })}
+        />
       )}
       <PillButton
         variant="tertiary"
         label={t({ id: 'common.confirm.cancel', message: 'Cancel' })}
         onPress={onCancel}
         block
+        {...(testID === undefined ? {} : { testID: `${testID}-cancel` })}
       />
     </Stack>
   );
