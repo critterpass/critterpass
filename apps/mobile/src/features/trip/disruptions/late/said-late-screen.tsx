@@ -7,17 +7,18 @@
  * they arrive. Skipping it just for her is always there.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
-import { router } from 'expo-router';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useSaidLate } from '@/features/plan';
+import { goBackOr } from '@/lib/navigation/back';
 import { getLocationEngine } from '@/lib/location/use-location-status';
 import { toast } from '@/motion';
 
 import { useLiveRows } from '../../hub/data/live-rows';
 import { guideName, guideOr } from '../../hub/guide';
+import { tripDayRoute } from '../../hub/routes';
 import { reportRunningLateCommand } from '../../leave-by/commands';
 import { saidLateLines, saidPushDetail } from './copy';
 import { LateMap } from './late-map';
@@ -28,6 +29,15 @@ const OPEN_SQL = `SELECT id FROM disruptions
   WHERE trip_id = ? AND kind = 'running_late' AND status = 'open'
     AND json_extract(affected, '$.item_stable_ids[0]') = ?
   ORDER BY created_at DESC LIMIT 1`;
+
+/** The plan editor could not reach the plan: nothing moved. */
+function isUnavailable(outcome: unknown): boolean {
+  return (
+    typeof outcome === 'object' &&
+    outcome !== null &&
+    (outcome as { kind?: unknown }).kind === 'unavailable'
+  );
+}
 
 /** One report per stop and minutes while the app runs: opening the screen again tells nobody twice. */
 const reported = new Set<string>();
@@ -59,7 +69,7 @@ export function SaidLateScreen(props: {
 
   if (open !== undefined && stop?.alone === false) return props.known(open.id);
 
-  const back = () => (router.canGoBack() ? router.back() : router.replace('/'));
+  const back = () => goBackOr(tripDayRoute(tripId, null));
   const lines = saidLateLines();
   const guide = guideOr(said.guideSlug);
   const base = { guide, guideName: guideName(guide, null), sending, onBack: back };
@@ -103,15 +113,23 @@ export function SaidLateScreen(props: {
       map={map}
       details={{ push: saidPushDetail(stop.title, stop.to, stop.moves), skip: lines.skip }}
       onChoose={(choice) => {
+        if (sending) return;
         setSending(true);
-        const done =
+        // The push answers with the plan editor's outcome (which also says what moved, with undo).
+        const went =
           choice === 'push'
-            ? said.push()
-            : said.skip().then(() => toast.show({ id: 'late-skipped', title: lines.skipped }));
-        void done.finally(() => {
-          setSending(false);
-          back();
-        });
+            ? said.push().then((outcome) => outcome !== false && !isUnavailable(outcome))
+            : said.skip();
+        void went
+          .then((ok) => {
+            if (!ok) {
+              toast.show({ id: 'late-said-failed', title: lines.failed });
+              return;
+            }
+            if (choice !== 'push') toast.show({ id: 'late-skipped', title: lines.skipped });
+            back();
+          })
+          .finally(() => setSending(false));
       }}
     />
   );

@@ -5,12 +5,13 @@
 /* eslint-disable lingui/no-unlocalized-strings -- a command name, never copy. */
 import type { RequestCrewLockScreenPayload } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
+import { goBackOr } from '@/lib/navigation/back';
 
+import { tripHubRoute } from '../../hub/routes';
 import { lockScreenBoost } from './boost-slot';
 import { LockScreenOfferSheet } from './lock-screen-offer-sheet';
 import { useOfferData } from './offer-data';
@@ -44,8 +45,8 @@ export function LockScreenOfferScreen({ tripId }: { readonly tripId: string }) {
   }, [ask]);
 
   const close = useCallback(() => {
-    if (router.canGoBack()) router.back();
-  }, []);
+    goBackOr(tripHubRoute(tripId));
+  }, [tripId]);
   const paywall = lockScreenBoost();
   return (
     <LockScreenOfferSheet
