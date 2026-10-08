@@ -26,3 +26,20 @@ export function useChatUnread(crewId: string, uid: string): number {
   );
   return Number(rows[0]?.n ?? 0);
 }
+
+const OTHER_UNREAD_SQL = `SELECT 1 AS n FROM messages m
+  JOIN crew_members cm ON cm.crew_id = m.crew_id AND cm.user_id = ? AND cm.status = 'active'
+  WHERE m.crew_id <> ? AND m.sender_kind <> 'system' AND m.deleted_at IS NULL
+    AND (m.sender_id IS NULL OR m.sender_id <> ?)
+    AND m.seq > coalesce(cm.last_read_seq, 0)
+  LIMIT 1`;
+
+/** Whether any other crew the member is in has chat they have not read (the switcher's dot). */
+export function useOtherCrewsUnread(crewId: string, uid: string): boolean {
+  const { rows } = useLiveRows<{ n: number }>(
+    OTHER_UNREAD_SQL,
+    [uid, crewId, uid],
+    ['messages', 'crew_members'],
+  );
+  return rows.length > 0;
+}
