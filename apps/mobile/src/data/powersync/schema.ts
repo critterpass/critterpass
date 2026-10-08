@@ -8,7 +8,7 @@
 import { column, Schema, Table, type BaseColumnType, type ColumnsType } from '@powersync/common';
 
 import { LOCAL_TABLES, OVERLAY_TABLE_PREFIX, overlayTable } from './local-tables';
-import { SYNCED_TABLE_COLUMNS } from './synced-tables.generated';
+import { SYNCED_TABLE_COLUMNS, SYNCED_TABLE_INDEXES } from './synced-tables.generated';
 
 export type SyncedTableName = keyof typeof SYNCED_TABLE_COLUMNS;
 
@@ -35,7 +35,12 @@ export function parseColumnSpec(spec: string): ColumnsType {
 export function syncedTables(): Record<SyncedTableName, Table> {
   const tables = {} as Record<SyncedTableName, Table>;
   for (const [name, spec] of Object.entries(SYNCED_TABLE_COLUMNS)) {
-    tables[name as SyncedTableName] = new Table(parseColumnSpec(spec));
+    const indexes = Object.entries(SYNCED_TABLE_INDEXES[name as SyncedTableName] ?? {}).map(
+      ([index, columns]) => [index, [...columns]] as const,
+    );
+    tables[name as SyncedTableName] = new Table(parseColumnSpec(spec), {
+      indexes: Object.fromEntries(indexes),
+    });
   }
   return tables;
 }
