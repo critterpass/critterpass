@@ -282,6 +282,10 @@ msgstr "Chưa tìm thấy"
 msgid "search.link.end.dayFailed"
 msgstr "Chưa xếp được vào {day}"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.incomplete"
+msgstr "Chưa tìm được thêm địa điểm."
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.busy"
 msgstr "Lúc này chưa đọc được."
@@ -505,6 +509,10 @@ msgstr "{day} hết chỗ rồi"
 msgid "search.offline.banner"
 msgstr "Mất sóng · dùng những gì đã lưu"
 
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.offline"
+msgstr "Không có mạng. Thử lại khi có sóng."
+
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.notDays"
 msgstr "Trừ {days}"
@@ -721,6 +729,10 @@ msgstr "Spa và thư giãn"
 msgid "search.row.kind.stay"
 msgstr "Chỗ ở"
 
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.gathering"
+msgstr "Vẫn đang gom địa điểm ở đây. Thử lại sau giây lát."
+
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.sun"
 msgstr "CN"
@@ -744,6 +756,10 @@ msgstr "Đền chùa"
 #: ../../apps/mobile/src/features/explore/search/link-paste.tsx
 msgid "search.paste.notLink"
 msgstr "Đây chưa phải là link. Sao chép link bài đăng rồi dán vào đây."
+
+#: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
+msgid "search.more.unavailable"
+msgstr "Chưa mở được địa điểm đó."
 
 #: ../../apps/mobile/src/features/explore/search/plain-close.tsx
 msgid "search.plain.failed"
@@ -769,9 +785,17 @@ msgstr "Gần nhất là {name}, cách {away}."
 msgid "search.offline.works.plan"
 msgstr "Kế hoạch"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.failed"
+msgstr "Tìm kiếm chưa thực hiện được."
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr "Bài này đã ẩn hoặc bị xoá."
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.arriving"
+msgstr "Các địa điểm của chuyến đi vẫn đang tải về điện thoại này. Thử lại sau giây lát."
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.thu"
@@ -782,6 +806,7 @@ msgid "search.none.related"
 msgstr "Thử {term} xem"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
 #: ../../apps/mobile/src/features/explore/search/plain-close.tsx
 msgid "search.link.retry"
 msgstr "Thử lại"

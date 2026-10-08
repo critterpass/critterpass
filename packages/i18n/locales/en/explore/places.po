@@ -87,16 +87,6 @@ msgstr "{weekday} {dayOfMonth} · Day {dayNo} · {count}"
 msgid "places.length.minutes"
 msgstr "{whole} min"
 
-#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.list"
-msgstr "≡ List"
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.map"
-msgstr "◎ Map"
-
 #: ../../apps/mobile/src/features/explore/places/commands.ts
 msgid "places.queued.hide"
 msgstr "A hidden place"
@@ -130,12 +120,16 @@ msgid "places.group.beaches"
 msgstr "Beaches"
 
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.browse"
+msgstr "Biggest first"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.peek.trip"
 msgstr "Biggest first: what fits your days"
 
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.destination"
-msgstr "Biggest first: what the crew saved"
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.failed.line"
+msgstr "Check your connection, then try again."
 
 #: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
 msgid "places.card.closedToday"
@@ -185,6 +179,14 @@ msgstr "In the plan · {weekday}"
 msgid "places.label.inPlan"
 msgstr "In the plan · day {day}"
 
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.list"
+msgstr "List"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.map"
+msgstr "Map"
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.mon"
 msgstr "Mon"
@@ -206,6 +208,10 @@ msgid "places.sort.nearestMiddle"
 msgstr "Nearest to the middle of {destination}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.sort.nearestYou"
+msgstr "Nearest to you"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.nextDoor"
 msgstr "Next door"
 
@@ -220,6 +226,10 @@ msgstr "No places here"
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.peek.none"
 msgstr "No places in view"
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.mapOffline.title"
+msgstr "No signal for the map"
 
 #: ../../apps/mobile/src/features/explore/places/places-empty.tsx
 msgid "places.empty.planTitle"
@@ -289,9 +299,8 @@ msgstr "Show all {total}"
 msgid "places.empty.showAll"
 msgstr "Show all places"
 
-#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.showList"
 msgstr "Show as a list"
 
@@ -331,9 +340,21 @@ msgstr "Tap + on a place to put it on a day. Your stops are listed here by day."
 msgid "places.group.temples"
 msgstr "Temples"
 
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.mapOffline.line"
+msgstr "The map needs a connection or a download. Your places are in the list."
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.failed.title"
+msgstr "These places didn't load"
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.thu"
 msgstr "Thu"
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.failed.retry"
+msgstr "Try again"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.tue"

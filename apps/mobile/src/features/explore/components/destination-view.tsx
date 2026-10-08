@@ -6,15 +6,15 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TextLink } from '@/ui/buttons/TextLink';
 import { ListCard } from '@/ui/cards/ListCard';
 import { Icon } from '@/ui/icons/Icon';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { Row } from '@/ui/layout/Row';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
-import { FOOTER_FADE_PT, FooterFade } from '@/ui/surface/FooterFade';
+import { FOOTER_FADE_PT } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -64,13 +64,11 @@ const useStyles = makeStyles((t) => ({
     padding: t.space['16'],
     gap: t.space['12'],
   },
-  footer: { paddingHorizontal: t.size.gutter, paddingTop: t.space['8'] },
 }));
 
 export function DestinationView(props: DestinationViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
   const { hero, months } = props;
@@ -201,10 +199,10 @@ export function DestinationView(props: DestinationViewProps) {
           ) : null}
         </View>
       </ScrollView>
-      <FooterFade />
-      <View style={[styles.footer, { paddingBottom: insets.bottom + theme.space['12'] }]}>
+      {/* Rides above the keyboard: the crew-name field and its button stay in reach while typing. */}
+      <KeyboardFooter testID="explore-destination-footer">
         <DestinationActions {...props.actions} />
-      </View>
+      </KeyboardFooter>
     </Scaffold>
   );
 }

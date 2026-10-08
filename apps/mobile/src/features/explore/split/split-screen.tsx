@@ -14,6 +14,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { dataOf } from '@/data/travel-data/freshness';
 import { useTravelRead } from '@/data/travel-data/use-travel-read';
 import { impact, toast } from '@/motion';
+import { goBackOr } from '@/lib/navigation/back';
 
 import { guideFor } from '../format';
 import { usePlaceDetailContext } from '../place-detail/context';
@@ -212,7 +213,7 @@ export function SplitScreen({
               onPress: openChat,
             }
       }
-      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onBack={() => goBackOr()}
     />
   );
 }

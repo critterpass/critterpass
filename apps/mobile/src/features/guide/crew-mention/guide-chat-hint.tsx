@@ -2,7 +2,7 @@
  * The guide's live line above the crew chat composer (3g-1): its typing dots (the only bouncing
  * element), then its reply typing in word by word until the saved message takes over in the
  * list. A mention refused because today's free answers are spent shows one hint line with the
- * countdown instead.
+ * countdown instead, until the meter has answers again.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -15,11 +15,11 @@ import { Sticker } from '@/ui/sticker/Sticker';
 
 import { guideAvatarId } from '../chat/components/guide-header';
 import { useLiveQuery } from '../chat/data/live-rows';
-import { untilReset } from '../meter/meter-model';
-import { useMinute } from '../meter/use-guide-meter';
+import { isSpent, untilReset } from '../meter/meter-model';
+import { useGuideMeter, useMinute } from '../meter/use-guide-meter';
 import { useCrewGuideStreams, type LiveGuideReply } from './use-crew-guide-streams';
 
-const GUIDE_SQL = `SELECT g.slug, g.name FROM trips t JOIN guides g ON g.id = t.guide_id
+const GUIDE_SQL = `SELECT t.id, g.slug, g.name FROM trips t JOIN guides g ON g.id = t.guide_id
   WHERE t.crew_id = ? AND t.status NOT IN ('archived', 'cancelled')
   ORDER BY t.updated_at DESC LIMIT 1`;
 
@@ -101,7 +101,7 @@ export function GuideChatHintView(props: GuideChatHintViewProps) {
 
 /** Registered as crew chat's composer hint (see ../chat/register.ts). */
 export function GuideChatHint({ crewId }: { readonly crewId: string }) {
-  const guide = useLiveQuery<{ slug: string; name: string }>(
+  const guide = useLiveQuery<{ id: string; slug: string; name: string }>(
     GUIDE_SQL,
     [crewId],
     ['trips', 'guides'],
@@ -109,14 +109,17 @@ export function GuideChatHint({ crewId }: { readonly crewId: string }) {
   const streams = useCrewGuideStreams(crewId);
   const now = useMinute();
   const row = guide?.[0];
-  if (streams.replies.length === 0 && !streams.typing && streams.spent === null) return null;
+  // The refusal holds only while the meter is still spent: midnight, a pass or a boost lifts it.
+  const meter = useGuideMeter(row?.id ?? null, { live: null, spent: streams.spent });
+  const spent = streams.spent !== null && isSpent(meter) ? streams.spent : null;
+  if (streams.replies.length === 0 && !streams.typing && spent === null) return null;
   return (
     <GuideChatHintView
       slug={row?.slug ?? 'tokek'}
       guideName={row?.name ?? 'Tokek'}
       replies={streams.replies}
       typing={streams.typing}
-      spentResetAt={streams.spent === null ? undefined : streams.spent.resetAt}
+      spentResetAt={spent === null ? undefined : spent.resetAt}
       now={now}
     />
   );

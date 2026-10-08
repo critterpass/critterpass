@@ -3,7 +3,7 @@
  * run, the tail corner on the last), the member's own on the right (yellow), the guide's lines in
  * its voice and colour, system rows as a centred caption, and a tombstone for deleted messages.
  * Own sends show their delivery state (a clock while sending; RETRY and DELETE once refused).
- * The body of each message type comes from `renderBody`, so cards plug in without touching this.
+ * Every other message type draws its registered card, with a reply's quote on a strip above.
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
@@ -37,12 +37,10 @@ export interface BubbleProps {
   /** Crew join order of the sender (member colour); -1 when unknown. */
   readonly joinIndex: number;
   readonly guideColor?: string;
-  /** The viewer's zone for the time; the device zone when absent. */
-  readonly timeZone?: string;
+  /** In place of the registered card, for a non-text message. */
+  readonly renderBody?: (message: ChatMessage) => ReactNode;
   /** Rise into place (a message that arrived while the chat was open). */
   readonly animate?: boolean;
-  /** The message body for non-text types (cards, photos, voice notes). */
-  readonly renderBody?: (message: ChatMessage) => ReactNode;
   /** Opens the message's actions (long press, or the screen reader's "More actions"). */
   readonly onActions?: () => void;
   /** Starts a reply (swipe, or the screen reader's "Reply"). */
@@ -66,6 +64,14 @@ const useStyles = makeStyles((th) => ({
   // Cards get a slot of their own point width: inside the content-sized wrappers above, a card or
   // placeholder sized by percentages would otherwise collapse to an empty bubble.
   cardSlot: { maxWidth: '100%' },
+  cardQuote: {
+    alignSelf: 'flex-start',
+    marginBottom: th.space['4'],
+    paddingHorizontal: th.space['12'],
+    paddingVertical: th.space['8'],
+    borderRadius: th.radius.lg,
+    backgroundColor: th.semantic.bg.raised,
+  },
   avatarSlot: { width: th.size.avatar.lg, alignItems: 'center' },
   system: {
     alignSelf: 'center',
@@ -108,7 +114,7 @@ export function Bubble(props: BubbleProps) {
 
   const guide = message.senderKind === 'guide';
   const author = mine ? null : guide ? (message.senderName ?? null) : firstName(message.senderName);
-  const time = timeOf(message.createdAt, locale, props.timeZone);
+  const time = timeOf(message.createdAt, locale);
   const radii = mine ? theme.radius.chatBubble.mine : theme.radius.chatBubble.theirs;
   const [topStart = 0, topEnd = 0, bottomEnd = 0, bottomStart = 0] = radii;
   const tail = last
@@ -125,9 +131,7 @@ export function Bubble(props: BubbleProps) {
   const who = author ?? t({ id: 'chat.message.you', message: 'You' });
   const spoken = t({ id: 'chat.message.spoken', message: `${who}, ${time}: ${text}` });
   const card = !deleted && message.type !== 'text';
-  const custom = card
-    ? (props.renderBody ?? ((m: ChatMessage) => renderCard(m, mine)))(message)
-    : null;
+  const custom = card ? (props.renderBody?.(message) ?? renderCard(message, mine)) : null;
   const a11yActions = [
     ...(props.onReply === undefined
       ? []
@@ -196,6 +200,9 @@ export function Bubble(props: BubbleProps) {
                       })}
                 >
                   <PrivateContent>
+                    {custom !== null && props.quote !== undefined ? (
+                      <View style={styles.cardQuote}>{props.quote}</View>
+                    ) : null}
                     {custom ?? (
                       <Stack
                         gap="6"

@@ -12,7 +12,7 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { AttachMenu, type AttachChoice } from './attach-menu';
 import { useChatMedia } from './media-services';
 import { PendingUploads } from './pending-uploads';
-import { useUploadQueue } from './use-upload-queue';
+import { useUploadQueue, type UploadFile } from './use-upload-queue';
 import { useVoiceRecorder, VoiceRecorderBar, type FinishedNote } from './voice-recorder';
 
 export interface MediaControls {
@@ -27,11 +27,26 @@ export interface MediaControls {
   readonly bar: ReactNode;
   /** In the list footer: uploads in flight. */
   readonly uploads: ReactNode;
+  /** How many photo and voice messages of this device are still on their way (or were refused). */
+  readonly pending: number;
   /** The attach sheet, when open. */
   readonly sheet: ReactNode;
 }
 
-export function useMediaControls(crewId: string, online: boolean): MediaControls {
+export interface MediaReply {
+  /** The message being replied to: a photo or voice note sent now is a reply to it. */
+  readonly replyTo: string | null;
+  /** The photo or voice note is queued: the reply strip can go. */
+  readonly onQueued: () => void;
+}
+
+const NO_REPLY: MediaReply = { replyTo: null, onQueued: () => undefined };
+
+export function useMediaControls(
+  crewId: string,
+  online: boolean,
+  reply: MediaReply = NO_REPLY,
+): MediaControls {
   const media = useChatMedia();
   const { network } = useLocalFirst();
   const { items, queue, add } = useUploadQueue(crewId, media);
@@ -39,21 +54,26 @@ export function useMediaControls(crewId: string, online: boolean): MediaControls
   const [denied, setDenied] = useState<'library' | 'camera' | null>(null);
   const [failed, setFailed] = useState(false);
 
+  const { replyTo, onQueued } = reply;
+  const addMessage = useCallback(
+    async (files: readonly UploadFile[]) => {
+      await add({ body: '', files, ...(replyTo === null ? {} : { replyTo }) });
+      onQueued();
+    },
+    [add, replyTo, onQueued],
+  );
   const onFinished = useCallback(
     (note: FinishedNote) =>
-      void add({
-        body: '',
-        files: [
-          {
-            uri: note.uri,
-            kind: 'voice',
-            contentType: 'audio/mp4',
-            durationMs: note.durationMs,
-            peaks: note.peaks,
-          },
-        ],
-      }),
-    [add],
+      void addMessage([
+        {
+          uri: note.uri,
+          kind: 'voice',
+          contentType: 'audio/mp4',
+          durationMs: note.durationMs,
+          peaks: note.peaks,
+        },
+      ]),
+    [addMessage],
   );
   const recorder = useVoiceRecorder(media?.recorder ?? null, onFinished);
 
@@ -79,20 +99,19 @@ export function useMediaControls(crewId: string, online: boolean): MediaControls
     setDenied(null);
     setFailed(false);
     if (outcome.kind !== 'picked' || outcome.photos.length === 0) return;
-    await add({
-      body: '',
-      files: outcome.photos.slice(0, 10).map((photo) => ({
+    await addMessage(
+      outcome.photos.slice(0, 10).map((photo) => ({
         uri: photo.uri,
         kind: 'photo' as const,
         contentType: 'image/jpeg',
         w: photo.width,
         h: photo.height,
       })),
-    });
+    );
   };
 
   if (media === null) {
-    return { composer: { recording: false }, bar: null, uploads: null, sheet: null };
+    return { composer: { recording: false }, bar: null, uploads: null, pending: 0, sheet: null };
   }
   return {
     composer: {
@@ -112,6 +131,7 @@ export function useMediaControls(crewId: string, online: boolean): MediaControls
         onDismissDenied={recorder.dismissDenied}
       />
     ),
+    pending: items.length,
     uploads:
       items.length === 0 ? null : (
         <PendingUploads

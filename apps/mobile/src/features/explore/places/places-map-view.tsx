@@ -24,6 +24,7 @@ import { gatherDots } from './place-clusters';
 import { leadDay, type PlanRouteDay } from './plan-routes';
 import { PlacesCarousel } from './places-carousel';
 import { labelSubtitle } from './places-copy';
+import { MapOffline, PlacesFailed } from './places-empty';
 import { PlacesHeader } from './places-header';
 import { PlacesMapLayers } from './places-map-layers';
 import { placeCounts, type HubPlace, type PlacesFilter } from './places-model';
@@ -41,6 +42,11 @@ const HEADER_PT = 124;
 export interface PlacesMapViewProps {
   readonly inTrip: boolean;
   readonly loaded: boolean;
+  /** The places did not load and the phone holds none. */
+  readonly failed?: boolean | undefined;
+  readonly onRetry?: (() => void) | undefined;
+  /** The middle of the destination's places whatever is typed: the map stays when none match. */
+  readonly centre?: Point | null | undefined;
   readonly places: readonly HubPlace[];
   readonly crew: readonly CrewMember[];
   readonly routes: readonly PlanRouteDay[];
@@ -107,6 +113,8 @@ export function PlacesMapView(props: PlacesMapViewProps) {
       })),
     [byUid],
   );
+  // Dots gather by whole zoom steps: a pinch inside one step rebuilds nothing.
+  const zoomStep = Math.floor(region.zoom);
   // The plan's places are drawn as their days' routes, not as dots.
   const gathered = useMemo(() => {
     const dots = placeDots(
@@ -117,8 +125,8 @@ export function PlacesMapView(props: PlacesMapViewProps) {
         return member === undefined ? undefined : resolveMemberStyle(member.joinIndex).color;
       },
     );
-    return gatherDots(dots, Math.floor(region.zoom));
-  }, [places, filter, byUid, region.zoom]);
+    return gatherDots(dots, zoomStep);
+  }, [places, filter, byUid, zoomStep]);
   const counts = useMemo(() => placeCounts(places), [places]);
   const view = usePlacesInView({ places, filter, bounds: region.bounds, anchorId: null });
   // The cards are the places in view when the dot was tapped: the camera easing to each card
@@ -169,7 +177,7 @@ export function PlacesMapView(props: PlacesMapViewProps) {
   const lead = leadDay(props.routes, label.focusedId, props.today);
   const leadDayNo = filter === 'all' || filter === 'plan' ? lead : -1;
   const leadRoute = props.routes.find((day) => day.dayNo === lead);
-  const centre = focused ?? centreOf(places);
+  const centre = focused ?? centreOf(places) ?? props.centre ?? null;
   const carousel = focused !== null && entries.length > 0;
   const coveredBottom = insets.bottom + (carousel ? CARDS_PT : PEEK_PT);
   const saverNames =
@@ -217,7 +225,7 @@ export function PlacesMapView(props: PlacesMapViewProps) {
               }
             />
           </PlanningMapCanvas>
-        ) : props.loaded ? (
+        ) : !props.canDraw || (props.loaded && props.failed === true) ? (
           <View
             style={[
               StyleSheet.absoluteFill,
@@ -226,7 +234,11 @@ export function PlacesMapView(props: PlacesMapViewProps) {
             ]}
             testID="places-map-unavailable"
           >
-            {props.pack}
+            {props.canDraw ? (
+              <PlacesFailed guide={props.guide} onRetry={props.onRetry} />
+            ) : (
+              <MapOffline guide={props.guide} onList={props.onList} />
+            )}
           </View>
         ) : null}
       </View>
@@ -281,7 +293,6 @@ export function PlacesMapView(props: PlacesMapViewProps) {
             onSettle={label.settle}
             onOpen={props.onOpen}
             onAdd={props.onAdd}
-            onList={props.onList}
           />
         ) : (
           <PlacesPeek
@@ -291,7 +302,6 @@ export function PlacesMapView(props: PlacesMapViewProps) {
             onShowAll={framing.showAll}
             loading={!props.loaded}
             inTrip={props.inTrip}
-            onList={props.onList}
           />
         )}
       </View>

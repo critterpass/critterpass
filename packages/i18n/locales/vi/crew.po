@@ -12,9 +12,13 @@ msgstr ""
 msgid "crew.sheet.members"
 msgstr "{0} thành viên"
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.createdTitle"
 msgstr "{crew} đã sẵn sàng"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.inDays"
+msgstr "{place} sau {days} ngày nữa"
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.invitedBy"
@@ -27,10 +31,6 @@ msgstr "còn {left} · “mê chợ đêm, ghét dậy sớm”"
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.planning"
 msgstr "{place} · đang lên kế hoạch"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.inDays"
-msgstr "{place} sau {days} ngày nữa"
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.voteFinalLeader"
@@ -105,6 +105,15 @@ msgstr "Tất cả"
 msgid "crew.referral.at"
 msgstr "Khi đủ {0} con dấu"
 
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.backPlain"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.codeCopied"
 msgstr "Đã chép mã"
@@ -137,7 +146,7 @@ msgstr "Bìa pass"
 msgid "crew.composer.previewCrew"
 msgstr "Nhóm"
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeLabel"
 msgstr "Mã nhóm"
 
@@ -146,7 +155,7 @@ msgid "crew.composer.codeLabel"
 msgstr "Mã nhóm"
 
 #. placeholder {0}: code.split('').join(' ')
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeA11y"
 msgstr "Mã nhóm {0}"
 
@@ -178,15 +187,11 @@ msgstr "Nhãn dán của nhóm"
 msgid "crew.start.back"
 msgstr "Các nhóm"
 
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.back"
-msgstr "Các nhóm"
-
 #: ../../apps/mobile/src/features/crew/members/MembersList.tsx
 msgid "crew.members.ringDashed"
 msgstr "vòng nét đứt"
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.done"
 msgstr "Xong"
 
@@ -222,6 +227,14 @@ msgstr "Nếu rời nhóm, tôi vẫn đọc được lịch sử chat"
 msgid "crew.settings.leaveRoles"
 msgstr "Nếu bạn là người tổ chức duy nhất của một chuyến, thành viên lâu năm nhất sẽ thay bạn."
 
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.invite"
+msgstr "Mời bạn bè"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.invite"
+msgstr "Mời bạn bè"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.title"
 msgstr "Mời bạn bè"
@@ -234,9 +247,9 @@ msgstr "Mời thêm người"
 msgid "crew.composer.title"
 msgstr "Mời vào {crewName}"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.offline"
-msgstr "Lời mời sẽ gửi đi khi bạn có mạng"
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateNamed"
+msgstr "Lời mời bạn gửi riêng cho từng người vẫn dùng được."
 
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.offerBody"
@@ -247,7 +260,7 @@ msgid "crew.sheet.join"
 msgstr "Tham gia"
 
 #. placeholder {0}: services.inviteUrl(code)
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.shareMessage"
 msgstr "Vào nhóm {crew} trên CritterPass: {0} (mã {code})"
 
@@ -295,6 +308,10 @@ msgstr "Đã chép link"
 msgid "crew.composer.copied"
 msgstr "Đã chép link"
 
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateTitle"
+msgstr "Tạo mã mới?"
+
 #: ../../apps/mobile/src/features/crew/members/MembersList.tsx
 msgid "crew.members.member"
 msgstr "Thành viên"
@@ -326,6 +343,10 @@ msgstr "Bìa Navy"
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.rotate"
 msgstr "Mã mới"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rotated"
+msgstr "Đã có mã mới"
 
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
@@ -404,6 +425,10 @@ msgstr "Xoá {name}"
 msgid "crew.members.removeTitle"
 msgstr "Xoá {removingName} khỏi nhóm?"
 
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateConfirm"
+msgstr "Đổi mã"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.save"
 msgstr "Lưu pass của tôi"
@@ -416,7 +441,7 @@ msgstr "Lưu tên"
 msgid "crew.composer.signIn"
 msgstr "Lưu pass của bạn trước đã: lời mời chỉ gửi được từ tài khoản đã lưu."
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeBody"
 msgstr "Gửi mã này, hoặc đường link, cho người bạn muốn rủ. Mã dùng được trong 14 ngày."
 
@@ -436,7 +461,7 @@ msgstr "đã gửi một tin nhắn thoại"
 msgid "crew.referral.share"
 msgstr "Chia sẻ link của tôi"
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.share"
 msgstr "Chia sẻ mã"
 
@@ -472,13 +497,13 @@ msgstr "Vẫn đang xử lý. Mạng hơi chậm, có thể mất một lúc."
 msgid "crew.waitlist.take"
 msgstr "Nhận chỗ"
 
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.didNotGoThrough"
+msgstr "Chưa được. Kiểm tra sóng rồi thử lại nhé."
+
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.failed"
 msgstr "Chưa được. Thử lại khi có sóng nhé."
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.failed"
-msgstr "Chưa được. Có thể bạn đã ở trong mười nhóm rồi."
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.joinFailed"
@@ -488,11 +513,19 @@ msgstr "Lời mời này không còn tham gia được"
 msgid "crew.composer.failed"
 msgstr "Lời mời chưa gửi được. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/crew/settings/use-crew-rename.ts
+msgid "crew.settings.renameRefused"
+msgstr "Tên này chưa lưu được. Thử tên khác nhé."
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.missed"
 msgstr "Chỗ đó đã về tay người khác. Bạn vẫn đang trong hàng chờ."
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateOld"
+msgstr "Mã và liên kết bạn đã chia sẻ sẽ hết dùng được ngay."
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeComing"
 msgstr "Nhóm đã được lưu. Mã và đường dẫn mời đang tới…"
 
@@ -528,6 +561,10 @@ msgstr "Bạn ấy sẽ không còn thấy chat, kế hoạch và chi tiêu củ
 msgid "crew.composer.previewHead"
 msgstr "Bạn ấy sẽ thấy"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+msgid "crew.composer.notSynced"
+msgstr "Nhóm này chưa có trên điện thoại của bạn. Đồng bộ xong là mời được bạn bè."
+
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.missing"
 msgstr "Nhóm này chưa có trên điện thoại của bạn. Đồng bộ xong là hiện ra."
@@ -556,6 +593,10 @@ msgstr "WhatsApp"
 msgid "crew.composer.mode"
 msgstr "Mời ai"
 
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.you"
+msgstr "Bạn"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.back"
 msgstr "Bạn"
@@ -576,6 +617,14 @@ msgstr "Bạn đã vào {crewName}"
 msgid "crew.waitlist.taken"
 msgstr "Bạn có tên đi {place} rồi"
 
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.crewLimit"
+msgstr "Bạn đã ở trong mười nhóm rồi. Rời một nhóm để lập nhóm mới."
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.invited"
+msgstr "Bạn được mời"
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.next"
 msgstr "Bạn là người kế tiếp nhận chỗ đi {place}"
@@ -584,7 +633,11 @@ msgstr "Bạn là người kế tiếp nhận chỗ đi {place}"
 msgid "crew.waitlist.number"
 msgstr "Bạn đứng thứ {position} chờ chỗ đi {place}"
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.needsSignal"
+msgstr "Bạn đang ngoại tuyến. Có mạng lại rồi gửi lời mời nhé."
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeLater"
 msgstr "Mã sẽ đến khi bạn có mạng trở lại. Nhóm đã được lưu."
 

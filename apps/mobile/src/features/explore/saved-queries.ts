@@ -114,7 +114,11 @@ export function apiSubjects(
 }
 
 /** Saved places the phone has no row for, through the api; empty until they land. */
-function useApiSubjects(missing: readonly string[]): ReadonlyMap<string, SavedSubject> {
+function useApiSubjects(missing: readonly string[]): {
+  readonly subjects: ReadonlyMap<string, SavedSubject>;
+  /** The api has answered for these ids (or there was nothing to ask). */
+  readonly answered: boolean;
+} {
   const reader = useTravelDataReader();
   const key = JSON.stringify(missing);
   const [read, setRead] = useState<{ key: string; places: readonly PlaceWire[] } | null>(null);
@@ -136,7 +140,8 @@ function useApiSubjects(missing: readonly string[]): ReadonlyMap<string, SavedSu
     places.length === 0 ? null : [destinationIds],
     ['destinations'],
   ).rows;
-  return useMemo(() => apiSubjects(places, destinations), [places, destinations]);
+  const subjects = useMemo(() => apiSubjects(places, destinations), [places, destinations]);
+  return { subjects, answered: missing.length === 0 || read?.key === key };
 }
 
 const NO_PLACES: readonly PlaceWire[] = [];
@@ -163,6 +168,8 @@ export interface Saved {
   readonly rows: readonly SavedRow[];
   readonly lists: readonly SavedList[];
   readonly loaded: boolean;
+  /** Loaded, and the places only the api knows have been asked for and answered. */
+  readonly settled: boolean;
 }
 
 export function useSaved(): Saved {
@@ -192,7 +199,7 @@ export function useSaved(): Saved {
     const held = new Set(subjects.rows.map((row) => row.id));
     return (JSON.parse(refs) as string[]).filter((id) => !held.has(id));
   }, [subjects.loaded, subjects.rows, refs]);
-  const remote = useApiSubjects(missing);
+  const { subjects: remote, answered } = useApiSubjects(missing);
   const lists = useLiveRows<SavedList>(LISTS_SQL, uid === null ? null : [uid], LISTS_TABLES);
 
   const rows = useMemo(() => {
@@ -220,5 +227,6 @@ export function useSaved(): Saved {
     return applyQueue(synced, queue.rows.flatMap(queuedOp), known);
   }, [items.rows, queue.rows, subjects.rows, remote]);
 
-  return { rows, lists: lists.rows, loaded: items.loaded && subjects.loaded };
+  const loaded = items.loaded && subjects.loaded;
+  return { rows, lists: lists.rows, loaded, settled: loaded && answered };
 }

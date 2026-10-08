@@ -6,7 +6,7 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { impact } from '@/motion';
 import { GrowBar } from '@/ui/data/LinearBar';
@@ -38,7 +38,7 @@ const useStyles = makeStyles((t) => ({
     borderRadius: t.radius.xs + t.space['2'],
     borderColor: t.semantic.text.primary,
   },
-  legend: { flexDirection: 'row', gap: t.space['8'], paddingEnd: t.space['16'] },
+  legend: { flexDirection: 'row', flexWrap: 'wrap', gap: t.space['8'] },
   chip: {
     borderRadius: t.radius.sm,
     paddingHorizontal: t.space['10'],
@@ -120,35 +120,34 @@ export function MonthBars({ bars, legend, selected, onSelect }: MonthBarsProps) 
         })}
       </View>
       {legend.length === 0 ? null : (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={styles.legend}>
-            {legend.map((chip) => {
-              const month = monthName(locale, chip.month, 'short');
-              const label =
-                chip.kind === 'cheapest'
-                  ? t({ id: 'explore.months.cheapest', message: `${month} cheapest` })
-                  : `${month} ${guideWritten(chip.tag, locale)}`;
-              return (
-                <View
-                  key={`${chip.kind}-${String(chip.month)}`}
-                  style={[
-                    styles.chip,
-                    {
-                      backgroundColor: roleColour(
-                        theme,
-                        chip.kind === 'cheapest' ? 'cheapest' : 'peak',
-                      ),
-                    },
-                  ]}
-                >
-                  <Text variant="label" color={theme.semantic.text.onAccent} numberOfLines={1}>
-                    {upper(label, locale)}
-                  </Text>
-                </View>
-              );
-            })}
-          </View>
-        </ScrollView>
+        // The chips wrap onto a second line: a row that scrolled cut the last one at the card's edge.
+        <View style={styles.legend}>
+          {legend.map((chip) => {
+            const month = monthName(locale, chip.month, 'short');
+            const label =
+              chip.kind === 'cheapest'
+                ? t({ id: 'explore.months.cheapest', message: `${month} cheapest` })
+                : `${month} ${guideWritten(chip.tag, locale)}`;
+            return (
+              <View
+                key={`${chip.kind}-${String(chip.month)}`}
+                style={[
+                  styles.chip,
+                  {
+                    backgroundColor: roleColour(
+                      theme,
+                      chip.kind === 'cheapest' ? 'cheapest' : 'peak',
+                    ),
+                  },
+                ]}
+              >
+                <Text variant="label" color={theme.semantic.text.onAccent} numberOfLines={1}>
+                  {upper(label, locale)}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
       )}
     </View>
   );
