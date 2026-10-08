@@ -4,8 +4,9 @@
 #
 #   tools/scripts/ci-device/ios-device.sh <build url> <bundle dir> <out dir> "<flow.yaml …>"
 #
-# Env: DEVICE (default "iPhone 17"), APPEARANCE (light|dark), RECORD_VIDEO, TSX_VERSION, and whatever the flows
-# read (JS_COMMIT, OTP_TEST_CODE), forwarded to Maestro by run-shard.ts.
+# Env: DEVICE (default "iPhone 17"), APPEARANCE (light|dark), RECORD_VIDEO, TSX_VERSION, E2E_API_BASE_URL
+# (the api the pre-flight reaches), FLOW_TIMEOUT_MINUTES, and whatever the flows read (JS_COMMIT,
+# OTP_TEST_CODE), forwarded to Maestro by run-shard.ts.
 set -euo pipefail
 
 build_url=$1
@@ -45,8 +46,12 @@ xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --ba
   --cellularMode active --cellularBars 4 --wifiMode active --wifiBars 3 --dataNetwork wifi
 xcrun simctl install "$udid" "$app"
 
+# A simulator uses the Mac's network: the runner itself must reach the api before any flow runs.
+npx --yes "$tsx" "$here/network-preflight.ts" --platform ios --device "$udid" --url "${E2E_API_BASE_URL:-}"
+
 # RECORD_VIDEO=true records every flow (the release gate).
 video=$([ "${RECORD_VIDEO:-}" = true ] && echo --video || true)
 # shellcheck disable=SC2086 # the flow list is intentionally word-split
 npx --yes "$tsx" "$here/run-shard.ts" --platform ios --device "$udid" --out "$out_dir" \
-  --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME $video $flows
+  --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME \
+  --flow-timeout "${FLOW_TIMEOUT_MINUTES:-}" $video $flows

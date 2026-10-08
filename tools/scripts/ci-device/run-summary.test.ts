@@ -4,6 +4,7 @@ import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
+import { markPassedOnRetry, timedOutJunit } from './flow-attempts';
 import { formatSummary, readShards, shardPlan } from './run-summary';
 
 function shard(root: string, name: string, files: Record<string, string>): void {
@@ -39,6 +40,26 @@ describe('run summary', () => {
     expect(text).toContain('en-3c-1-showdown: EMPTY_SCREEN');
     expect(text).toContain('[ui-qa] HEADER_OVERLAP');
     expect(text).not.toContain('no result');
+  });
+
+  it('keeps a flow that passed on retry visible, and marks one stopped at the time limit', () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'run-summary-'));
+    shard(root, 'device-android-shard-1', {
+      'junit/e2e__happy__vote.xml': passed,
+      'junit/e2e__happy__money.xml': markPassedOnRetry(passed, 'Element not found: money-add'),
+    });
+    const flaky = formatSummary(readShards(root));
+    expect(flaky).not.toContain('Every flow passed');
+    expect(flaky).toContain('Flows failed: **0**');
+    expect(flaky).toContain('Flows passed on retry (the first run failed): **1**');
+    expect(flaky).toContain('`e2e/happy/money (android-shard-1)`');
+
+    shard(root, 'device-android-shard-2', {
+      'junit/e2e__happy__chat.xml': timedOutJunit('e2e__happy__chat', 5400, 90),
+    });
+    expect(formatSummary(readShards(root))).toContain(
+      '`e2e/happy/chat (android-shard-2, timed out)`',
+    );
   });
 
   it('says so when every planned flow ran and passed', () => {

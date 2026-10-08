@@ -15,8 +15,12 @@ x86_64 Google APIs image). No local simulator is involved.
 
 - **Manually:** Actions → device → Run workflow, or
   `gh workflow run device.yml -f platform=ios -f flows="e2e/smoke e2e/home"`.
-- **On a pull request:** add the `device-run` label. The run covers the full suite on Android in
-  `flows` mode and repeats on every push while the label stays. iOS runs are manual
+- **On a pull request:** add the `device-run` label. The run covers the three default journeys
+  (`e2e/happy/onboarding.yaml`, `vote.yaml` and `money.yaml`: the short, stable ones) on Android in
+  `flows` mode, one a shard, and repeats on every push while the label stays. It is not a required
+  check. There is no "full suite" run: every `e2e/<area>/*.yaml` on three shards was hundreds of
+  flows and never finished green, so an area's flows run when a dispatch names them, until the
+  journey set replaces these three. iOS runs are manual
   (`platform: ios` or `both`): GitHub gives the plan only a couple of macOS runners, so anything
   that isn't iOS-specific (safe areas, the keyboard, modal presentation) runs on Android. Pull
   requests from forks never run it.
@@ -24,12 +28,13 @@ x86_64 Google APIs image). No local simulator is involved.
 | Input        | Meaning                                                                                                                                               |
 | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `platform`   | `ios`, `android` or `both`.                                                                                                                           |
-| `flows`      | Flow files, folders or globs, separated by spaces or commas. Empty runs the full suite (every `e2e/<area>/*.yaml` except `_shared` and `spikes`).     |
+| `flows`      | Flow files, folders or globs, separated by spaces or commas. Empty runs the three default journeys (`e2e/happy/onboarding.yaml`, `vote.yaml`, `money.yaml`).     |
 | `mode`       | `flows` (pass/fail), `capture` (screenshots posted to `pr`) or `compare` (`pnpm screens:compare` sheets posted to `pr`).                              |
 | `pr`         | The pull request that gets the images in `capture` and `compare` modes.                                                                              |
 | `build_url`  | Artifact URL(s) to install instead of the fingerprint-matched e2e-test build: `.tar.gz` for iOS, `.apk` for Android, space-separated for both.       |
 | `shards`     | Parallel shards per platform (default 3).                                                                                                            |
 | `appearance` | `light` or `dark`.                                                                                                                                    |
+| `flow_timeout` | Minutes one flow may run before it is stopped and reported as timed out (default 90).                                                              |
 | `preset`     | `sweep` runs the UI sweep (below) in `compare` mode; with `pr` empty the images go to the "Nightly UI sweep" issue. `happy` runs the release gate (below). |
 
 Every shard uploads an artifact `device-<platform>-shard-<n>` with JUnit reports, Maestro's logs
@@ -124,6 +129,27 @@ The prepare job fails when the exported bundle does not carry the commit, and ev
 first runs `tools/scripts/ci-device/js-commit.yaml`, which reads the Developer tools build marker
 (`update:embedded js:<commit>`) to prove the app runs this run's JS.
 
+### Shards planned by time
+
+`tools/scripts/ci-device/plan-shards.ts` balances a run's shards by total flow time, not by count:
+the longest flow first, each to the shard with the least time so far. The times are the median
+minutes of each flow's passing Android runs in the release gate's reports, kept in
+`tools/scripts/ci-device/flow-durations.ts`; a flow with no row counts as five minutes. The plan
+step prints each shard's flows and their minutes.
+
+### One retry and a time limit per flow
+
+A flow that fails runs once more on a relaunched app (`tools/scripts/ci-device/flow-attempts.ts`).
+When the second run passes, the flow is reported as **passed on retry**, never as a plain pass: in
+the shard's log (a warning annotation), the job summary's table, the flow's JUnit report (an
+`outcome` property with the first failure's message) and the pull request or issue comment, so a
+flaky flow stays visible. The first run's JUnit report, Maestro output, failure screen, logs and
+video are kept under `first-failure/` in the shard's artifact. A second failure fails the shard.
+
+A flow that runs longer than 90 minutes (three times the longest median the release gate has
+recorded) is stopped and reported as **timed out**; it is not run again. Pass
+`-f flow_timeout=<minutes>` to a dispatch for a tighter or looser limit.
+
 ### Runner actions (push fixtures, network)
 
 A flow can't run a shell command, so each shard serves device actions on `127.0.0.1:7788` while
@@ -164,7 +190,10 @@ Android's hierarchy: assert on the panel under the map (`e2e/crew/live-map/share
 Each Android shard boots a fresh `system-images;android-35;google_apis;x86_64` emulator (Pixel 7
 profile, 4 cores, 4 GB, software GPU). Before the flows, `android-device.sh` waits for the package
 manager, turns off the lock screen, animations and the system "isn't responding" dialogs (a slow
-emulator often trips one in the launcher, and it covers the app), installs the APK with every
+emulator often trips one in the launcher, and it covers the app), checks that the emulator resolves
+and reaches the api (`network-preflight.ts`, with `E2E_API_BASE_URL`: it turns Wi-Fi and mobile data
+off and on once when the check fails, and a second failure ends the shard with "Device cannot reach
+the api" before any flow waits on data that cannot arrive), installs the APK with every
 runtime permission granted, and launches it once: a crash on start fails the shard at once, with
 the crash log printed and `failures/launch.*` in the artifact. The e2e-test profile builds
 `arm64-v8a` and `x86_64`, so the app runs natively; older arm64-only builds run through ARM
@@ -185,11 +214,11 @@ language, and the coverage report follows those files for their screenshots. The
 `subflows/<scenario>.yaml` and name each screenshot `<lang>-<design id>-<state>` (or a route name
 for screens without a design), so `compare` mode pairs it with its render. The top-level flows are
 generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts
---write`. The sweep is outside the full suite (`e2e/*/*.yaml`) and runs:
+--write`. The sweep runs:
 
 - on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
 - every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
-  on one iOS shard, posting the sheets, the check findings and the coverage report to the open
+  (without the Android-only `labs-*`) on one iOS shard, posting the sheets, the check findings and the coverage report to the open
   "Nightly UI sweep" issue.
 
 `sweep-coverage.ts` (no flags) prints the coverage report: the screens the app registers
@@ -241,8 +270,8 @@ the report (`tools/scripts/ci-device/release-gate.ts`): per flow and platform, p
 an inline GIF preview, a link to the MP4 and, when it failed, Maestro's failing step with the screen
 at that moment, plus the app's `[ui-qa]` reports. The media goes to the private repository's
 `screenshots` branch (the newest 30 runs are kept) and the report to one comment on the open
-"Release gate" issue, and to the job summary. Android runs one flow per shard (flows are
-independent); iOS uses the `shards` input.
+"Release gate" issue, and to the job summary. Android runs on ten shards (flows are independent);
+iOS uses the `shards` input.
 
 It runs daily on main (Android) and on demand. **Before submitting a build to TestFlight**, run it
 on both platforms with the new builds:

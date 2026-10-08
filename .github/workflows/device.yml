@@ -34,7 +34,7 @@ on:
         options: [ios, android, both]
         default: ios
       flows:
-        description: Flow files, directories or globs (space or comma separated); empty runs the full suite
+        description: Flow files, directories or globs (space or comma separated); empty runs the three default journeys (e2e/happy onboarding, vote, money)
         type: string
         default: ''
       mode:
@@ -64,6 +64,10 @@ on:
         type: choice
         options: [none, sweep, happy]
         default: none
+      flow_timeout:
+        description: Minutes one flow may run before it is stopped and reported as timed out; empty is 90
+        type: string
+        default: ''
       hierarchy:
         description: Save each Android flow's last screen as a view hierarchy (hierarchy/*.json in the shard artifact) for the accessibility scan; always on for the happy preset
         type: boolean
@@ -148,16 +152,18 @@ jobs:
           # so everything that isn't iOS-specific runs on Android.
           ios_flows='' ios_shards=''
           if [ "$EVENT" = pull_request ]; then
-            # A labelled pull request runs the full suite on Android, pass/fail only.
+            # A labelled pull request runs the three default journeys (plan-shards.ts DEFAULT_FLOWS)
+            # on Android, one a shard, pass/fail only.
             platform=android flows='' mode=flows pr=$PR_NUMBER build_url='' shards=3 appearance=light preset=none
           elif [ "$EVENT" = schedule ] && [ "$SCHEDULE" = '0 22 * * *' ]; then
             # Daily release gate: every happy-path flow on Android.
             platform=android flows='' mode=flows pr='' build_url='' shards=3 appearance=light preset=happy
           elif [ "$EVENT" = schedule ]; then
             # Nightly: the whole sweep on Android, and its English half on one iOS shard for what only
-            # iOS shows (safe areas, the keyboard, modal presentation).
+            # iOS shows (safe areas, the keyboard, modal presentation). The labs-* flows draw their
+            # scenes on Android only, so the iOS shard leaves them out.
             platform=both flows='' mode=compare pr='' build_url='' shards=7 appearance=light preset=sweep
-            ios_flows='e2e/screens/sweep/*-en.yaml' ios_shards=1
+            ios_flows='e2e/screens/sweep/!(labs-*)-en.yaml' ios_shards=1
           else
             platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
             shards=$IN_SHARDS appearance=$IN_APPEARANCE preset=$IN_PRESET
@@ -177,8 +183,8 @@ jobs:
           fi
           video=false
           if [ "$preset" = happy ]; then
-            # Flows are independent and each onboards its own account: one per Android shard (a
-            # shard boots in about three minutes, a flow takes longer), iOS keeps the shards input.
+            # Flows are independent and each onboards its own account: ten Android shards, balanced
+            # by recorded flow time (plan-shards.ts); iOS keeps the shards input.
             [ -z "$flows" ] && flows='e2e/happy/*.yaml'
             mode=flows video=true
             ios_shards=$shards shards=10
@@ -303,6 +309,8 @@ jobs:
           E2E_API_BASE_URL: ${{ vars.E2E_API_BASE_URL || 'https://api-staging-de92.up.railway.app' }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
+          # A failed flow runs once more; one past this many minutes is stopped (flow-attempts.ts).
+          FLOW_TIMEOUT_MINUTES: ${{ inputs.flow_timeout }}
         run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
       # Launch and first-screen timings from Maestro's own command log, into the shard's artifact
       # (perf/device-timings.json) and the job summary. Recorded only: it never fails a shard.
@@ -364,6 +372,8 @@ jobs:
           E2E_API_BASE_URL: ${{ vars.E2E_API_BASE_URL || 'https://api-staging-de92.up.railway.app' }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
+          # A failed flow runs once more; one past this many minutes is stopped (flow-attempts.ts).
+          FLOW_TIMEOUT_MINUTES: ${{ inputs.flow_timeout }}
           # View hierarchies for the accessibility scan: an artifact only, never a failure.
           SAVE_HIERARCHY: ${{ inputs.hierarchy == true || needs.prepare.outputs.video == 'true' }}
         with:

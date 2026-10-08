@@ -208,7 +208,7 @@ msgstr "Sòng phẳng rồi. Ai cũng nhận Tokek Sòng Phẳng."
 msgid "money.settle.nudgeLater"
 msgstr "Hôm nay nhắc rồi. Mai thử lại nhé."
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/AmountPaidField.tsx
 msgid "money.pay.amount"
 msgstr "Số tiền đã trả"
 
@@ -751,7 +751,7 @@ msgstr "Trả bằng"
 msgid "money.pay.titlePay"
 msgstr "Trả {payee}"
 
-#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/AmountPaidField.tsx
 msgid "money.pay.amountHint"
 msgstr "Trả một phần? Phần còn lại vẫn để ngỏ."
 

@@ -14,6 +14,7 @@ import {
   previewSpeed,
   readGateFlows,
 } from './release-gate';
+import { markPassedOnRetry } from './flow-attempts';
 import { shardPlan } from './run-summary';
 
 const pass = (name: string, time: number) =>
@@ -131,6 +132,28 @@ describe('release gate report', { timeout: 60_000 }, () => {
     expect(text).toContain(
       '| `money` | android | **FAIL** | 2m 5s | <img src="https://raw/run/android/money.gif" width="120"> | [MP4](https://blob/run/android/money.mp4) | `Element not found: Id matching regex: settle \\| confirm`<br><img src="https://raw/run/android/money-failure.png" width="120"> |',
     );
+  });
+
+  it('shows a flow that passed on retry as such, with what its first run failed on', () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'gate-retry-'));
+    write(
+      root,
+      'device-android-shard-1/junit/e2e__happy__money.xml',
+      markPassedOnRetry(pass('money', 200), 'Element not found: Id matching regex: money-add'),
+    );
+    write(root, 'device-android-shard-1/junit/e2e__happy__vote.xml', pass('vote', 180));
+    const flows = readGateFlows(root);
+    expect(flows.map((flow) => [flow.name, flow.passed, flow.retried ?? false])).toEqual([
+      ['money', true, true],
+      ['vote', true, false],
+    ]);
+    const text = formatGateReport(
+      flows.map((flow) => ({ flow, media: {} })),
+      { rawUrl: 'https://raw.example', blobUrl: 'https://blob.example' },
+    );
+    expect(text).toContain('**Pass**: all 2 flow runs passed, 1 of them on a retry.');
+    expect(text).toContain('| pass (on retry) | 3m 20s |');
+    expect(text).toContain('first run: `Element not found: Id matching regex: money-add`');
   });
 
   it('names the step a flow failed on from its Maestro log', () => {

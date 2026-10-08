@@ -3,8 +3,9 @@
  *
  *   tsx tools/scripts/ci-device/run-summary.ts <shards dir> [--coverage] [--out summary.md]
  *
- * Reads every downloaded shard artifact (`device-<platform>-shard-<n>/`): the flows that failed
- * (their JUnit reports), the screen-check findings (`screen-checks.log`) and the app's `[ui-qa]`
+ * Reads every downloaded shard artifact (`device-<platform>-shard-<n>/`): the flows that failed,
+ * timed out or passed only on their retry (their JUnit reports, ./flow-attempts), the screen-check
+ * findings (`screen-checks.log`) and the app's `[ui-qa]`
  * reports (`ui-qa.log`). With --coverage, appends the sweep coverage report.
  *
  * A shard that stops before its flows (the emulator never installed, the app crashed on launch)
@@ -16,6 +17,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+import { reportedOutcome } from './flow-attempts';
 import type { ShardMatrix } from './plan-shards';
 import { coverage, formatCoverage } from './sweep-coverage';
 
@@ -25,7 +27,12 @@ export interface ShardFindings {
   readonly shard: string;
   /** How many flows left a JUnit report. */
   readonly ran: number;
+  /** Flows that failed or timed out. */
   readonly failedFlows: string[];
+  /** The failed flows that were stopped at the flow time limit. */
+  readonly timedOut: string[];
+  /** Flows whose first run failed and second passed: flaky, and kept visible. */
+  readonly retried: string[];
   /** Planned flows with no report: the shard stopped before them, or Maestro wrote none. */
   readonly notRun: string[];
   readonly screenChecks: string[];
@@ -66,13 +73,21 @@ export function readShard(dir: string, planned: readonly string[] = []): ShardFi
   const junit = path.join(dir, 'junit');
   const reports = existsSync(junit) ? readdirSync(junit).filter((f) => f.endsWith('.xml')) : [];
   const ran = new Set(reports.map(flowName));
+  const outcomes = reports.map((file) => ({
+    flow: flowName(file),
+    outcome: reportedOutcome(readFileSync(path.join(junit, file), 'utf8')).outcome,
+  }));
+  const withOutcome = (...wanted: string[]) =>
+    outcomes
+      .filter(({ outcome }) => wanted.includes(outcome))
+      .map(({ flow }) => flow)
+      .sort();
   return {
     shard: path.basename(dir).replace(/^device-/, ''),
     ran: ran.size,
-    failedFlows: reports
-      .filter((file) => /<(failure|error)\b/.test(readFileSync(path.join(junit, file), 'utf8')))
-      .map(flowName)
-      .sort(),
+    failedFlows: withOutcome('failed', 'timed out'),
+    timedOut: withOutcome('timed out'),
+    retried: withOutcome('passed on retry'),
     notRun: planned.filter((flow) => !ran.has(flow)),
     screenChecks: lines(path.join(dir, 'screen-checks.log')),
     uiQa: lines(path.join(dir, 'ui-qa.log')),
@@ -91,7 +106,12 @@ export function readShards(root: string, plan: ShardPlan = new Map()): ShardFind
 }
 
 export function formatSummary(shards: readonly ShardFindings[]): string {
-  const failed = shards.flatMap((s) => s.failedFlows.map((flow) => `${flow} (${s.shard})`));
+  const failed = shards.flatMap((s) =>
+    s.failedFlows.map(
+      (flow) => `${flow} (${s.shard}${s.timedOut.includes(flow) ? ', timed out' : ''})`,
+    ),
+  );
+  const retried = shards.flatMap((s) => s.retried.map((flow) => `${flow} (${s.shard})`));
   // Without a plan, a shard that ran nothing is all that is known of its flows.
   const noResult = shards.flatMap((s) =>
     s.notRun.length > 0
@@ -113,12 +133,15 @@ export function formatSummary(shards: readonly ShardFindings[]): string {
     if (noResult.length) out.push('**No result**', '', ...list(noResult), '');
     return out.join('\n');
   }
-  if (failed.length + noResult.length + checks.length + uiQa.length === 0) {
+  if (failed.length + retried.length + noResult.length + checks.length + uiQa.length === 0) {
     out.push('Every flow passed, with no screen-check findings and no `[ui-qa]` reports.', '');
     return out.join('\n');
   }
   out.push(
     `- Flows failed: **${String(failed.length)}**`,
+    ...(retried.length
+      ? [`- Flows passed on retry (the first run failed): **${String(retried.length)}**`]
+      : []),
     ...(noResult.length
       ? [`- Flows with no result (their shard stopped first): **${String(noResult.length)}**`]
       : []),
@@ -127,6 +150,7 @@ export function formatSummary(shards: readonly ShardFindings[]): string {
     '',
   );
   if (failed.length) out.push('**Failed flows**', '', ...list(failed), '');
+  if (retried.length) out.push('**Passed on retry**', '', ...list(retried), '');
   if (noResult.length) out.push('**No result**', '', ...list(noResult), '');
   if (checks.length) out.push('**Screen checks**', '', block(checks), '');
   if (uiQa.length) out.push('**`[ui-qa]` reports**', '', block(uiQa), '');
