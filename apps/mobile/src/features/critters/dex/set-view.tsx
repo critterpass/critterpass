@@ -142,7 +142,8 @@ export function SetView({ set, onOpenCritter, onOpenWhere }: SetViewProps) {
                   <Text variant="displayXl" style={{ flex: 1 }}>
                     {upper(set.name, locale)}
                   </Text>
-                  <Row align="baseline">
+                  {/* The count never gives up its width to a long set name. */}
+                  <Row align="baseline" style={{ flexShrink: 0 }}>
                     <Text variant="h2" autoFit={false}>
                       {String(set.found)}
                     </Text>
