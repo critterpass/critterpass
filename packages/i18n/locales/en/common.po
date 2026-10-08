@@ -197,10 +197,6 @@ msgstr "Active: {active}"
 msgid "common.chat.addAttachment"
 msgstr "Add attachment"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.instagram"
-msgstr "Add to Story"
-
 #: ../../apps/mobile/src/ui/trip/EtaList.tsx
 msgid "common.trip.arrivesAt"
 msgstr "arrives {eta}"
@@ -283,10 +279,6 @@ msgstr "Clear"
 msgid "common.sheet.close"
 msgstr "Close"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.close"
-msgstr "Close"
-
 #: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
 msgid "common.chat.closeActions"
 msgstr "Close"
@@ -308,9 +300,13 @@ msgstr "Copy"
 msgid "common.trip.copyAddress"
 msgstr "Copy {0}"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.error"
-msgstr "Could not render this image."
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.shareFailed"
+msgstr "Couldn't open the share sheet"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.saveFailed"
+msgstr "Couldn't save it. Check Photos access"
 
 #: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
 msgid "common.home.chat"
@@ -359,6 +355,10 @@ msgstr "Done"
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.offlineUnavailable"
 msgstr "Download this region to use the map offline."
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.rendering"
+msgstr "Drawing the picture"
 
 #: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
 #: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
@@ -679,6 +679,10 @@ msgstr "Photo"
 msgid "common.shell.errorBackBody"
 msgstr "Pick up where you were"
 
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.format"
+msgstr "Picture shape"
+
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.place"
 msgstr "Place"
@@ -691,7 +695,7 @@ msgstr "Planned"
 msgid "common.story.play"
 msgstr "Play"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.format.post"
 msgstr "Post"
 
@@ -743,21 +747,17 @@ msgstr "Rejected"
 msgid "common.chat.removeAttachment"
 msgstr "Remove {label}"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.rendering"
-msgstr "Rendering share image"
-
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
-msgid "shareImage.retry"
-msgstr "Retry"
-
 #: ../../apps/mobile/src/ui/recap/RouteRider.tsx
 msgid "common.recap.route"
 msgstr "Route, {distance}: {route}"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.save"
 msgstr "Save to Photos"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.saved"
+msgstr "Saved to Photos"
 
 #: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
 msgid "common.camera.scanning"
@@ -779,7 +779,11 @@ msgstr "Sends when you're back"
 msgid "common.outbox.sent"
 msgstr "Sent"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.title"
+msgstr "Share"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.share"
 msgstr "Share"
 
@@ -871,7 +875,7 @@ msgstr "Stop and send voice message"
 msgid "common.trip.stopPhrase"
 msgstr "Stop reading aloud"
 
-#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.format.story"
 msgstr "Story"
 
@@ -940,6 +944,10 @@ msgstr "The booking partner turned this down. Check the details and try again."
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.HOLD_EXPIRED"
 msgstr "The hold ran out. Check the price and try again."
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.error"
+msgstr "The picture didn't draw."
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.PLAN_VERSION_CONFLICT"
@@ -1039,6 +1047,10 @@ msgstr "Trips"
 
 #: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorRetry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
+msgid "shareImage.retry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/ui/map/CpMap.tsx

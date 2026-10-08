@@ -5,7 +5,6 @@
  * the place to the crew's destination vote with PLAN A REUNION and goes Home where that vote lives,
  * and shares the memory with the crew's signatures.
  */
-import { resolveMemberStyle } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import * as Crypto from 'expo-crypto';
 import { router } from 'expo-router';
@@ -17,19 +16,15 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
-import { memberName } from '@/ui/people/member-name';
-import { ShareImageSheet } from '@/ui/share-image/ShareImageSheet';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { reactMemoryCommand, startReunionCommand } from '../commands';
 import { useLiveRows } from '../data/live-rows';
 import { readMediaUrl } from '../data/read-url';
-import { fetchStroke } from '../signature/stroke-store';
-import { deviceShareDeps } from '../summary/share-card';
 import { guideOf, whereNextHref } from '../summary/summary-screen';
 import { memoryBody, memoryTitle } from './memory-copy';
 import { memoryMoment, reactionChips } from './memory-model';
-import { renderMemoryCard } from './memory-share';
+import { MemoryShareSheet } from './memory-share-sheet';
 import { MemoryView } from './memory-view';
 import { ReactionSheet, type MemoryReaction } from './reaction-sheet';
 import { useMemory } from './use-memory';
@@ -47,16 +42,6 @@ function useSignedUrl(mediaKey: string | null): string | null {
     };
   }, [mediaKey]);
   return url !== null && url.key === mediaKey ? url.url : null;
-}
-
-async function photoBytes(url: string | null): Promise<Uint8Array | null> {
-  if (url === null) return null;
-  try {
-    const response = await fetch(url);
-    return response.ok ? new Uint8Array(await response.arrayBuffer()) : null;
-  } catch {
-    return null;
-  }
 }
 
 function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly tripId: string }) {
@@ -148,37 +133,14 @@ function Memory({ memoryId, tripId }: { readonly memoryId: string; readonly trip
         />
       ) : null}
       {sharing ? (
-        <ShareImageSheet
-          visible
+        <MemoryShareSheet
+          guideKind={guideSticker(guide).kind}
+          eyebrow={eyebrow}
+          title={title}
+          body={body}
+          photoUrl={photoUrl}
+          signers={data.signers}
           onClose={() => setSharing(false)}
-          altText={`${title}. ${body}`}
-          formats={['story', 'post']}
-          render={async (format) => {
-            const [photo, strokes] = await Promise.all([
-              photoBytes(photoUrl),
-              Promise.all(
-                data.signers.map((s) =>
-                  s.strokeKey === null ? Promise.resolve(null) : fetchStroke(s.strokeKey),
-                ),
-              ),
-            ]);
-            return renderMemoryCard(
-              {
-                guideKind: guideSticker(guide).kind,
-                eyebrow,
-                title,
-                body,
-                photo,
-                signers: data.signers.map((signer, index) => ({
-                  name: memberName(signer.name),
-                  colour: signer.colour ?? resolveMemberStyle(index).color,
-                  stroke: strokes[index] ?? null,
-                })),
-              },
-              format,
-            );
-          }}
-          deps={deviceShareDeps()}
         />
       ) : null}
     </>

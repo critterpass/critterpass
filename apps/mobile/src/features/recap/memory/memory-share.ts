@@ -10,7 +10,7 @@ import { tokens } from '@cp/design-tokens';
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 
 import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
-import type { ShareFormat } from '@/ui/share-image/ShareImageSheet';
+import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
 import { renderStickerImage } from '@/ui/sticker/export-png';
 import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
 
@@ -32,10 +32,6 @@ export interface MemoryShareCard {
   readonly signers: readonly MemoryShareSigner[];
 }
 
-const SIZE: Readonly<Record<ShareFormat, { readonly w: number; readonly h: number }>> = {
-  post: { w: 1080, h: 1350 },
-  story: { w: 1080, h: 1920 },
-};
 const MARGIN = 90;
 const STICKER_PT = 220;
 const SIGN = { w: 280, h: 110, gap: 30 };
@@ -67,7 +63,7 @@ export async function renderMemoryCard(
     bundledTypeface('Geist-500'),
     bundledTypeface('Borel-400'),
   ]);
-  const { w, h } = SIZE[format];
+  const { w, h } = SHARE_SIZE[format];
   const surface = Skia.Surface.MakeOffscreen(w, h) ?? Skia.Surface.Make(w, h);
   if (surface === null) throw new Error('memory card: no surface');
   const canvas = surface.getCanvas();
