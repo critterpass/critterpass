@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# On the phone page: the staging test number (+65 9123 4567, in the api's OTP_TEST_NUMBERS, never
+# sent a message) and its fixed code. The country is found by its dial code, so the step is the
+# same in either language. Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'phone-country'
+- extendedWaitUntil:
+    visible:
+      id: 'country-picker'
+    timeout: 10000
+- tapOn:
+    id: 'country-search'
+- inputText: '65'
+- extendedWaitUntil:
+    visible:
+      id: 'country-SG'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'country-SG'
+- extendedWaitUntil:
+    notVisible:
+      id: 'country-SG'
+    timeout: 10000
+- tapOn:
+    id: 'phone-number'
+- inputText: '91234567'
+- hideKeyboard
+- tapOn:
+    id: 'phone-send'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-sent'
+    timeout: 20000
+# The code field takes the keys as soon as the code is sent.
+- inputText: '${OTP_TEST_CODE}'

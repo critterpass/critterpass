@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# Leaves the staging test number free: the signed-in account is erased on the server (Developer
+# tools → Start fresh) and the app restarts at the splash. Erasing is allowed only for an account
+# these flows made, checked first (e2e/you/subflows/guard-test-number.yaml): a brand-new account on
+# the number (the name page) or one whose crew is the marker "CP Test Sign-out". Any other holder
+# stops the run before anything is erased. Run from Home or from the name page.
+- runFlow: ../../you/subflows/guard-test-number.yaml
+# A cold start by a screen link, then back to the tab bar and the entry on Home.
+- runFlow: ../../home/subflows/open-dev-tools.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-start-fresh'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'dev-nav-start-fresh'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-start-fresh-confirm-confirm'
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-start-fresh-confirm-confirm'
+# The sheet says so when the server cannot erase the account; the splash never comes then.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 90000

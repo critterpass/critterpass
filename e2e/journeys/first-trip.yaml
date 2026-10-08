@@ -1,0 +1,406 @@
+appId: app.critterpass.dev
+---
+# Journey: a first trip, from an empty Home to a locked plan. A new account whose home is Ho Chi
+# Minh City (so its crew settles in đồng) walks the real screens, with no seed scenario: none
+# leaves Home without a crew. START A CREW on Home; Đà Nẵng pitched and locked in; setup: three
+# days two weeks out, the budget in đồng, the rooms when there is something to decide, one must-do
+# typed by hand; DRAFT MY TRIP and the guide's draft (staging's AI, a few minutes); one day changed
+# and kept; BUILD THE PROPOSAL, which for a crew of one is LOCK IT IN; Home counts down to the
+# trip, and TRIPS opens its hub.
+- runFlow: subflows/fresh-install.yaml
+- runFlow:
+    file: ../home/subflows/onboard.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd
+
+# A crew, from Home.
+- tapOn:
+    id: 'home-start-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Di Da Nang'
+# START THE CREW rides on top of the keyboard.
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'start-crew-done'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-first-trip-crew
+
+# The place: pitched, then locked in by the organiser (one place on the board wins).
+- scrollUntilVisible:
+    element:
+      id: 'home-pitch'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-result-0'
+# ADD TO THE VOTE turns on once the guide's pitch has ended; its closing line is written by the AI
+# and sometimes left out, so the wait is on the card and the button.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-card'
+    timeout: 90000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
+    timeout: 90000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    direction: DOWN
+    timeout: 30000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+
+# When: three days. The first window the sheet suggests; when the account's calendar has not come
+# in yet there is none, and the first day two weeks out and the day two after are tapped by their
+# own ids (e2e/happy/subflows/pick-days.yaml turns the sheet to their month).
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    direction: DOWN
+    timeout: 30000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'picker-length-3'
+- runFlow:
+    when:
+      visible:
+        id: 'picker-best-0'
+    commands:
+      - tapOn:
+          id: 'picker-best-0'
+- runFlow:
+    when:
+      notVisible:
+        id: 'picker-best-0'
+    commands:
+      - evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 14 * 86400000).toISOString().slice(0, 10)}
+      - runFlow:
+          file: ../happy/subflows/pick-days.yaml
+          env:
+            PICK_DATE: ${output.pickDate}
+            PICK_DAYS: 3
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- assertVisible:
+    id: 'picker-length'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-first-trip-dates
+- tapOn:
+    id: 'picker-lock'
+
+# Budget, in đồng: the knob shows once the step is known, the split (or "no prices yet") once the
+# prices are read. LOOKS GOOD locks first time.
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+    optional: true
+- assertVisible:
+    id: 'budget-track'
+    text: '.*₫.*'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-first-trip-budget
+- tapOn:
+    id: 'budget-lock'
+
+# Rooms: a crew of one with no stay to pick has nothing to decide and setup goes straight on. Where
+# the step shows, the first stay is picked when there is a choice, and LOOKS GOOD accepts it.
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add|setup-rooms-lock'
+    timeout: 30000
+- assertNotVisible:
+    id: 'budget-lock-line'
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'setup-rooms-stay-option-.*'
+            notVisible:
+              id: 'setup-rooms-even'
+          commands:
+            - tapOn:
+                id: 'setup-rooms-stay-option-.*'
+                index: 0
+            - extendedWaitUntil:
+                visible:
+                  id: 'setup-rooms-room-.*'
+                timeout: 30000
+                optional: true
+      - waitForAnimationToEnd
+      - takeScreenshot: en-journey-first-trip-rooms
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          direction: DOWN
+          timeout: 10000
+          visibilityPercentage: 100
+      - tapOn:
+          id: 'setup-rooms-lock'
+
+# Must-dos: one typed by hand and kept as typed. The place search answers first (places, or none):
+# the keep row stops moving once it has.
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Marble Mountains at sunrise'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)marble mountains at sunrise.*'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-first-trip-must-dos
+# KEEP closed the sheet and its keyboard; the draft button is in the footer.
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'must-dos-draft'
+
+# The guide's draft: the job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen|draft-review'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- extendedWaitUntil:
+    visible:
+      id: 'draft-day-2'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-first-trip-draft
+
+# One day changed: day 2, "swap it out", redrafted by the guide and kept.
+- scrollUntilVisible:
+    element:
+      id: 'draft-change-day'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-2'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'change-day-2'
+- scrollUntilVisible:
+    element:
+      id: 'redraft-reason-swap_it_out'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'redraft-reason-swap_it_out'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-submit'
+      enabled: true
+    timeout: 10000
+- tapOn:
+    id: 'change-day-submit'
+# A plan with one free redraft left asks first; this account's first redraft normally goes ahead.
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-screen|last-redraft'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'last-redraft-use'
+    commands:
+      - tapOn:
+          id: 'last-redraft-use'
+# The redraft ends on its diff; "couldn't beat this day" or a failed redraft ends on the outcome
+# page instead, and the journey fails there with that page in the failure screenshot.
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-diff|redraft-outcome'
+    timeout: 300000
+- assertVisible:
+    id: 'redraft-diff'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-first-trip-day-changed
+- scrollUntilVisible:
+    element:
+      id: 'redraft-keep'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'redraft-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- extendedWaitUntil:
+    notVisible:
+      id: 'redraft-screen'
+    timeout: 15000
+
+# Lock: nobody to send a proposal to, so BUILD THE PROPOSAL offers LOCK IT IN (or invite first).
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+- waitForAnimationToEnd
+- tapOn:
+    id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'build-lock-alone'
+    timeout: 30000
+- assertVisible:
+    id: 'build-invite'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-first-trip-lock
+- scrollUntilVisible:
+    element:
+      id: 'build-lock-alone'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'build-lock-alone'
+# The trip is on: Home shows it as the next trip, counting down.
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 60000
+- runFlow: subflows/pass-trip-welcome.yaml
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-journey-first-trip-home-countdown
+
+# The trip's own screen: TRIPS opens its hub. The hub never settles for Maestro, so the taps here
+# wait half a second at most.
+- tapOn:
+    id: 'tab-trips'
+    waitToSettleTimeoutMs: 500
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 60000
+- runFlow: subflows/pass-trip-welcome.yaml
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-journey-first-trip-hub

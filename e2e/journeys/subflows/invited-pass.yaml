@@ -1,0 +1,41 @@
+appId: app.critterpass.dev
+---
+# The invited pass page (3a-12) up to ISSUE MY PASS in reach. A crew code or a crew link carries no
+# name and no home, so the sheet that asks for them opens by itself: "Mai", home Singapore, done.
+# An invite that carried both shows the pass at once, and nothing is typed.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-name'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'invite-edit-name'
+    commands:
+      - tapOn:
+          id: 'invite-edit-name'
+      - inputText: 'Mai'
+      - tapOn:
+          id: 'invite-edit-home'
+      - inputText: 'Sing'
+      - extendedWaitUntil:
+          visible:
+            id: 'invite-edit-home-SIN'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'invite-edit-home-SIN'
+      # Picking a home puts the keyboard away and brings the button back in reach.
+      - extendedWaitUntil:
+          visible:
+            id: 'invite-edit-home-picked'
+          timeout: 10000
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'invite-edit-done'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-pass-issue'
+    timeout: 15000
+- waitForAnimationToEnd
