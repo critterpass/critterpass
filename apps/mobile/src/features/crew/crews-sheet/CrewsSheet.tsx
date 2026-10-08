@@ -4,18 +4,21 @@
  * it the active one and closes the sheet, so Home switches to it. In-app invites answer JOIN or
  * LATER (kept under "Later" until they expire); JOIN WITH A CODE and START A CREW lead on.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { upper } from '@cp/i18n';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
+import { goBackOr } from '@/lib/navigation/back';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Sheet } from '@/ui/sheet/Sheet';
+import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -31,7 +34,7 @@ import {
   type CrewCardView,
   type InviteCardView,
 } from './crew-view';
-import { CREW_ROUTES, crewSettingsRoute } from './routes';
+import { CREW_ROUTES, crewInviteRoute, crewSettingsRoute } from './routes';
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], gap: th.space['12'], paddingBottom: th.space['32'] },
@@ -52,17 +55,11 @@ function statusLine(card: CrewCardView, locale: string, now: Date): string {
   const place = trip.place ?? t({ id: 'crew.sheet.somewhere', message: 'A trip' });
   const days = daysUntil(trip.start_date, now);
   if (days !== null && days > 0)
-    return t({ id: 'crew.sheet.inDays', message: `${place} in ${days} days` });
+    return t({
+      id: 'crew.sheet.inDays',
+      message: plural(days, { one: `${place} in # day`, other: `${place} in # days` }),
+    });
   return t({ id: 'crew.sheet.planning', message: `${place} · planning` });
-}
-
-export function useSessionUid(): string | null {
-  const services = useCrewServices();
-  const [uid, setUid] = useState<string | null>(null);
-  useEffect(() => {
-    void services.uid().then(setUid, () => undefined);
-  }, [services]);
-  return uid;
 }
 
 function InviteCard({
@@ -83,7 +80,9 @@ function InviteCard({
     <View style={styles.invite} testID={`crew-invite-${invite.id}`}>
       <Text variant="h3">{invite.crewName}</Text>
       <Text variant="bodySm" color={theme.semantic.text.secondary}>
-        {t({ id: 'crew.sheet.invitedBy', message: `${inviter} invited you` })}
+        {inviter === ''
+          ? t({ id: 'crew.sheet.invited', message: 'You’re invited' })
+          : t({ id: 'crew.sheet.invitedBy', message: `${inviter} invited you` })}
       </Text>
       <View style={styles.actions}>
         <PillButton
@@ -126,7 +125,7 @@ export function CrewsSheet() {
   const pick = (crewId: string) => {
     if (localFirst === null) return;
     void localFirst.commands.send(SET_ACTIVE_CREW, { crew_id: crewId });
-    router.back();
+    goBackOr(CREW_ROUTES.home);
   };
   const join = (invite: InviteCardView) => {
     if (localFirst === null) return;
@@ -187,8 +186,11 @@ export function CrewsSheet() {
             active={card.active}
             onPress={() => pick(card.id)}
             onSettings={() => router.push(crewSettingsRoute(card.id))}
+            onInvite={() => router.push(crewInviteRoute(card.id))}
           />
         ))}
+        {/* Until the first read answers, the crews are not "none": a placeholder holds their place. */}
+        {snapshot.loaded ? null : <Skeleton preset="card" testID="crews-loading" />}
         {open.map((invite) => (
           <InviteCard
             key={invite.id}
