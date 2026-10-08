@@ -9,28 +9,28 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.no"
-msgstr ""
+msgstr "–"
 
 #. placeholder {0}: boost.destination
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.boost"
-msgstr ""
+msgstr "Boost {0}"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.title"
-msgstr ""
+msgstr "{buyer} đã Boost {destination}"
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.eyebrow"
-msgstr ""
+msgstr "{destination} · Chỗ {seat}"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.titleNoBuyer"
-msgstr ""
+msgstr "{destination} đã được Boost"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.onYou"
-msgstr ""
+msgstr "{destination} đã được Boost"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.splitLineExact"
@@ -38,375 +38,375 @@ msgstr "Mỗi người {each}, ghi vào Công nợ như mọi khoản chi chung.
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.ended"
-msgstr ""
+msgstr "{kind} · đã kết thúc {until}"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.onUntil"
-msgstr ""
+msgstr "{kind} · bật đến {until}"
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.lockedBy"
-msgstr ""
+msgstr "{lockedBy} đang Boost chuyến này"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.oweLine"
-msgstr ""
+msgstr "{names} mỗi người nợ bạn {each}. Đã có trong Số dư."
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.owesLine"
-msgstr ""
+msgstr "{names} nợ bạn {each}. Đã có trong Số dư."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.monthly"
-msgstr ""
+msgstr "{price} mỗi tháng. Tự động gia hạn hằng tháng cho đến khi bạn huỷ. Quản lý hoặc huỷ bất cứ lúc nào trong {where}."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.yearly"
-msgstr ""
+msgstr "{price} mỗi năm. Tự động gia hạn hằng năm cho đến khi bạn huỷ. Quản lý hoặc huỷ bất cứ lúc nào trong {where}."
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.price"
-msgstr ""
+msgstr "{price}, hoặc {each} mỗi người"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.toGo"
-msgstr ""
+msgstr "Còn {remaining} nữa"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.settledDetail"
-msgstr ""
+msgstr "{settledNames} · còn {remaining} nữa"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.settled"
-msgstr ""
+msgstr "{window} · {done}/{of} đã thanh toán"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.unlimited"
-msgstr ""
+msgstr "∞"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.guide.boost"
-msgstr ""
+msgstr "∞ trong chuyến đi"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
 msgid "monetize.card.chip.redrafts"
-msgstr ""
+msgstr "∞ lượt soạn lại"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.yes"
-msgstr ""
+msgstr "✓"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.validMonth"
-msgstr ""
+msgstr "1 tháng"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.validYear"
-msgstr ""
+msgstr "12 tháng"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.seats.boost"
-msgstr ""
+msgstr "16"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.redrafts.free"
-msgstr ""
+msgstr "3 lượt mỗi chuyến"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.guide.free"
-msgstr ""
+msgstr "30 lượt mỗi ngày"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.seats.free"
-msgstr ""
+msgstr "6"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.once"
-msgstr ""
+msgstr "Một Boost dùng cho một chuyến đi, trả một lần. Không gia hạn."
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.endedLine"
-msgstr ""
+msgstr "Boost chỉ chạy trong lúc chuyến đi diễn ra, nên ở đây không có gì để mua."
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.icons.free"
-msgstr ""
+msgstr "Một vài"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.eyebrow.gift"
-msgstr ""
+msgstr "Quà tặng"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.aMonth"
-msgstr ""
+msgstr "Một tháng"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusPostcard"
-msgstr ""
+msgstr "Một bưu thiếp in từ mỗi chuyến đi"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.aYear"
-msgstr ""
+msgstr "Một năm"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.aYearPerMonth"
-msgstr ""
+msgstr "Một năm · {perMonth}/tháng"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.splitLineEach"
-msgstr ""
+msgstr "Mỗi người khoảng {each}, ghi vào Số dư như mọi khoản chi chung. Thanh toán cùng phần còn lại của chuyến đi."
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.admitted"
-msgstr ""
+msgstr "Đã nhập cảnh"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.after"
-msgstr ""
+msgstr "Sau chuyến đi"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.icons.pass"
-msgstr ""
+msgstr "Tất cả"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.recovered"
-msgstr ""
+msgstr "Ổn cả rồi"
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.waiting"
-msgstr ""
+msgstr "Sắp xong rồi"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.boostLine"
-msgstr ""
+msgstr "Đã trả rồi, không bị ảnh hưởng"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.allYearLine"
-msgstr ""
+msgstr "Mọi chuyến đi {crew} lên kế hoạch trong một năm, kèm Pass+ cho bạn. Gia hạn hằng năm."
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.inAppStore"
-msgstr ""
+msgstr "App Store"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.title"
-msgstr ""
+msgstr "Trước khi bạn đi"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.between"
-msgstr ""
+msgstr "Đang giữa hai chuyến đi?"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.managePlay"
-msgstr ""
+msgstr "Tính tiền qua Google Play. Quản lý ở đó."
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.manageAppStore"
-msgstr ""
+msgstr "Tính tiền qua App Store. Quản lý trên iPhone của bạn."
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.mailbox"
-msgstr ""
+msgstr "Đặt chỗ từ email"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusMailboxImport"
-msgstr ""
+msgstr "Đặt chỗ được lấy từ email của bạn"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.boost"
-msgstr ""
+msgstr "Boost"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.buy"
-msgstr ""
+msgstr "Boost"
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.boost"
-msgstr ""
+msgstr "Boost {destination}"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.title"
-msgstr ""
+msgstr "Boost {destination}"
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.boostPrice"
-msgstr ""
+msgstr "Boost {destination} · {price}"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 msgid "monetize.paywall.boostInstead"
-msgstr ""
+msgstr "Boost một chuyến đi thôi"
 
 #. placeholder {0}: offer.priceString
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.buyFor"
-msgstr ""
+msgstr "Boost với giá {0}"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-screen.tsx
 msgid "monetize.boost.sheet"
-msgstr ""
+msgstr "Boost chuyến đi này"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boosted-pill.tsx
 msgid "monetize.card.boostedPill"
-msgstr ""
+msgstr "Đã Boost"
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.done"
-msgstr ""
+msgstr "Đã Boost"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.stamp"
-msgstr ""
+msgstr "Đã Boost"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boosts"
-msgstr ""
+msgstr "Boost"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.anyway"
-msgstr ""
+msgstr "Vẫn huỷ"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.cancel"
-msgstr ""
+msgstr "Huỷ Pass+"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.change"
-msgstr ""
+msgstr "Đổi gói"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.checkAgain"
-msgstr ""
+msgstr "Kiểm tra lại"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.restore.busy"
-msgstr ""
+msgstr "Đang kiểm tra các giao dịch mua của bạn…"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.checking"
-msgstr ""
+msgstr "Đang kiểm tra…"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.covers"
-msgstr ""
+msgstr "Dùng cho"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.seats"
-msgstr ""
+msgstr "Số người trong nhóm"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.year"
-msgstr ""
+msgstr "Boost cả năm cho nhóm"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.boostSeats"
-msgstr ""
+msgstr "Nhóm tới 16 người"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.note"
-msgstr ""
+msgstr "Critter không bao giờ được đem bán."
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.done"
-msgstr ""
+msgstr "Xong"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.done"
-msgstr ""
+msgstr "Xong"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boost.endedTag"
-msgstr ""
+msgstr "Đã hết"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.ends"
-msgstr ""
+msgstr "Kết thúc {date}"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.entries"
-msgstr ""
+msgstr "Số lần nhập cảnh"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.chrome"
-msgstr ""
+msgstr "ENTRIES · ENTRÉES"
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.entry"
-msgstr ""
+msgstr "Nhập cảnh"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.boostEyebrow"
-msgstr ""
+msgstr "Nhập cảnh · Cho cả nhóm"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.everyCrew"
-msgstr ""
+msgstr "Mọi nhóm"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusIconStyles"
-msgstr ""
+msgstr "Mọi kiểu biểu tượng và ảnh đại diện"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.allYear"
-msgstr ""
+msgstr "Mọi chuyến đi, cả năm"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.square"
-msgstr ""
+msgstr "Mọi người đã sòng phẳng"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.finishing"
-msgstr ""
+msgstr "Đang hoàn tất"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.ftf"
-msgstr ""
+msgstr "Chuyến đầu miễn phí"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.firstTripFree"
-msgstr ""
+msgstr "Chuyến đầu miễn phí"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.fixPayment"
-msgstr ""
+msgstr "Sửa thanh toán"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.restore.passPlus"
-msgstr ""
+msgstr "Đã tìm thấy Pass+. Gói đã bật lại."
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.free"
-msgstr ""
+msgstr "Miễn phí"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.eyebrow.free"
-msgstr ""
+msgstr "Miễn phí"
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.body"
-msgstr ""
+msgstr "Nhóm miễn phí tối đa {cap} người. Boost {destination} thì {name} có chỗ, cùng mọi thứ khác mà Boost thêm cho cả nhóm."
 
 #: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
 msgid "monetize.chip.free"
-msgstr ""
+msgstr "Gói miễn phí ›"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.get"
-msgstr ""
+msgstr "Mua Pass+"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.resubscribe"
-msgstr ""
+msgstr "Mua lại Pass+"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.loading"
-msgstr ""
+msgstr "Đang lấy giá từ cửa hàng…"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.headline"
@@ -415,675 +415,675 @@ msgstr "Đi xa hơn\n"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.inPlay"
-msgstr ""
+msgstr "Google Play"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.play"
-msgstr ""
+msgstr "Google Play"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pausePlay"
-msgstr ""
+msgstr "Google Play có thể tạm dừng Pass+ tối đa ba tháng: không tính tiền trong lúc tạm dừng, và gói tự chạy lại."
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.guide"
-msgstr ""
+msgstr "Hướng dẫn viên: chat, giọng nói, camera"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.holder"
-msgstr ""
+msgstr "Người giữ"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.cover"
-msgstr ""
+msgstr "Tôi trả hết"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.icons"
-msgstr ""
+msgstr "Kiểu biểu tượng, ảnh đại diện"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.staysUntil"
-msgstr ""
+msgstr "Nếu bạn huỷ, Pass+ vẫn bật đến {until}. Boost là riêng và vẫn bật cho cả nhóm."
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.stays"
-msgstr ""
+msgstr "Nếu bạn huỷ, Pass+ vẫn bật đến hết thời gian bạn đã trả tiền. Boost là riêng và vẫn bật cho cả nhóm."
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.splitLine"
-msgstr ""
+msgstr "Khoản này chia {count} phần và mỗi phần ghi vào Số dư, như mọi khoản chi chung."
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.coverLine"
-msgstr ""
+msgstr "Đã bật cho cả nhóm, bạn trả."
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.doneLine"
-msgstr ""
+msgstr "Đã bật cho cả nhóm."
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.keep"
-msgstr ""
+msgstr "Giữ ở {cap} người"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.keep"
-msgstr ""
+msgstr "Giữ Pass+"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.liveMap"
-msgstr ""
+msgstr "Bản đồ nhóm trực tiếp"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
 msgid "monetize.card.chip.liveMap"
-msgstr ""
+msgstr "Bản đồ trực tiếp"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.manage"
-msgstr ""
+msgstr "Quản lý"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.line.monthly"
-msgstr ""
+msgstr "Hằng tháng"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.monthly"
-msgstr ""
+msgstr "Hằng tháng"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.eyebrow.monthly"
-msgstr ""
+msgstr "Hằng tháng"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.monthlyRenews"
-msgstr ""
+msgstr "Hằng tháng · gia hạn {date}"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-chat-card.tsx
 msgid "monetize.card.guideLine"
-msgstr ""
+msgstr "Hết phải đếm lượt rồi. Ai muốn soạn lại ngày nào không?"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusNoSponsored"
-msgstr ""
+msgstr "Không có gợi ý được tài trợ"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
 msgid "monetize.card.chip.sponsored"
-msgstr ""
+msgstr "Không có gợi ý được tài trợ"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.boostNoSponsored"
-msgstr ""
+msgstr "Không có gợi ý được tài trợ trong chuyến đi"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.none"
-msgstr ""
+msgstr "Không có"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.none"
-msgstr ""
+msgstr "Không có gì cần sửa"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.restore.nothing"
-msgstr ""
+msgstr "Không có gì để khôi phục trên tài khoản cửa hàng này."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.offTag"
-msgstr ""
+msgstr "Tắt"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.paymentFailed"
-msgstr ""
+msgstr "Tắt cho đến khi thanh toán thành công"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.onTag"
-msgstr ""
+msgstr "Bật"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boost.on"
-msgstr ""
+msgstr "Đang bật"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.covered"
-msgstr ""
+msgstr "{buyer} trả"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.thisTripLine"
-msgstr ""
+msgstr "Bật đến một tuần sau khi bạn hạ cánh"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.thisTripUntil"
-msgstr ""
+msgstr "Bật đến một tuần sau khi bạn hạ cánh, {until}"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.covers.boost"
-msgstr ""
+msgstr "Một chuyến đi, cả nhóm"
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.lockedLine"
-msgstr ""
+msgstr "Mỗi lúc chỉ một người trả được. Vài phút nữa xem lại nhé."
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.page"
-msgstr ""
+msgstr "TRANG 07"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.page"
-msgstr ""
+msgstr "TRANG 08"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.verifying"
-msgstr ""
+msgstr "Đã trả. Đang hoàn tất…"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.background"
-msgstr ""
+msgstr "Đã trả. Chúng tôi đang hoàn tất trong nền và gói sẽ tự bật."
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.passPlus"
-msgstr ""
+msgstr "Pass+"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.passPlus"
-msgstr ""
+msgstr "Pass+"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.pass"
-msgstr ""
+msgstr "Pass+"
 
 #: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
 msgid "monetize.chip.monthly"
-msgstr ""
+msgstr "Pass+ · Hằng tháng ›"
 
 #: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
 msgid "monetize.chip.yearly"
-msgstr ""
+msgstr "Pass+ · Hằng năm ›"
 
 #: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
 msgid "monetize.chip.passPlus"
-msgstr ""
+msgstr "Pass+ ›"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.expired"
-msgstr ""
+msgstr "Pass+ đã kết thúc"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.granted"
-msgstr ""
+msgstr "Pass+ đang bật"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.renews"
-msgstr ""
+msgstr "Pass+ tự động gia hạn cho đến khi bạn huỷ. Quản lý hoặc huỷ bất cứ lúc nào trong {where}."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.staysOn"
-msgstr ""
+msgstr "Pass+ vẫn bật đến"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.grantedUntil"
-msgstr ""
+msgstr "Pass+ đến {date}"
 
 #. placeholder {0}: offer.priceString
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.visaLabelPriced"
-msgstr ""
+msgstr "Visa Pass+, {0}, người giữ {holder}"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.visaLabel"
-msgstr ""
+msgstr "Visa Pass+, người giữ {holder}"
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.visaLabel"
-msgstr ""
+msgstr "Visa Pass+, người giữ {name}"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseInPlay"
-msgstr ""
+msgstr "Tạm dừng trong Google Play"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseTitle"
-msgstr ""
+msgstr "Tạm dừng thay vì huỷ"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseTill"
-msgstr ""
+msgstr "Tạm dừng đến {trip}"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseTitleTrip"
-msgstr ""
+msgstr "Tạm dừng đến {trip} thay vì huỷ"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.paused"
-msgstr ""
+msgstr "Đang tạm dừng"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.pausedUntil"
-msgstr ""
+msgstr "Tạm dừng đến {date}"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.payment"
-msgstr ""
+msgstr "Phương thức thanh toán"
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.pickIcon"
-msgstr ""
+msgstr "Chọn biểu tượng mới"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusReadOut"
-msgstr ""
+msgstr "Thông báo và điểm tin buổi tối được đọc thành tiếng"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.privacy"
-msgstr ""
+msgstr "Quyền riêng tư"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.noStore"
-msgstr ""
+msgstr "Chưa mua hàng được, nên ở đây không có gì để mua hay khôi phục."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.unavailable"
-msgstr ""
+msgstr "Chưa mua hàng được. Không khoản nào có thể bị trừ tiền từ đây."
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.redrafts"
-msgstr ""
+msgstr "Lượt soạn lại từ hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.renews"
-msgstr ""
+msgstr "Gia hạn {renews}"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.restore"
-msgstr ""
+msgstr "Khôi phục"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.restore"
-msgstr ""
+msgstr "Khôi phục giao dịch mua"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.see"
-msgstr ""
+msgstr "Xem Pass+"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.thanked"
-msgstr ""
+msgstr "Đã gửi ♥"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.back"
-msgstr ""
+msgstr "Cài đặt"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.settle"
-msgstr ""
+msgstr "Thanh toán {share}"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.settleLabel"
-msgstr ""
+msgstr "Thanh toán {share} với {buyer}"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.settledRow"
-msgstr ""
+msgstr "Đã thanh toán"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.settledMine"
-msgstr ""
+msgstr "Đã thanh toán ✓"
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.titleSix"
-msgstr ""
+msgstr "Bảy người là hơi đông"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.sponsored.free"
-msgstr ""
+msgstr "Có hiện"
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.locked"
-msgstr ""
+msgstr "Có người đang Boost chuyến này"
 
 #. placeholder {0}: props.seated.length
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.split"
-msgstr ""
+msgstr "Chia {0} phần"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.split"
-msgstr ""
+msgstr "chia {ways} phần"
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.split"
-msgstr ""
+msgstr "Chia {ways} phần"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.sponsored"
-msgstr ""
+msgstr "Gợi ý được tài trợ"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.tell"
-msgstr ""
+msgstr "Báo cho cả nhóm"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.terms"
-msgstr ""
+msgstr "Điều khoản"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.thanks"
-msgstr ""
+msgstr "Cảm ơn {buyer}"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.disclosure.appStore"
-msgstr ""
+msgstr "App Store"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseAppStore"
-msgstr ""
+msgstr "App Store không có tạm dừng. Thay vào đó hãy tắt tự động gia hạn ở đó: không tính tiền thêm nữa, và bạn bật lại Pass+ từ Gói của bạn trước khi bay."
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.splitPending"
-msgstr ""
+msgstr "Boost đã bật. Phần chia vẫn đang được ghi vào Số dư."
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.told"
-msgstr ""
+msgstr "Cả nhóm đã biết"
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.title"
-msgstr ""
+msgstr "Nhóm đã đủ người"
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.crewIn"
-msgstr ""
+msgstr "Cả nhóm đã vào"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.free"
-msgstr ""
+msgstr "Gói miễn phí"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.grace"
-msgstr ""
+msgstr "Lần thanh toán gần nhất không thành công"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.graceUntil"
-msgstr ""
+msgstr "Lần thanh toán gần nhất không thành công · bật đến {date}"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.boostLiveMap"
-msgstr ""
+msgstr "Bản đồ nhóm trực tiếp"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusNextFlight"
-msgstr ""
+msgstr "Tiện ích chuyến bay tiếp theo"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.title"
-msgstr ""
+msgstr "Thanh toán không thành công"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.recoveredLine"
-msgstr ""
+msgstr "Thanh toán đã thành công và Pass+ đang bật."
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.empty"
-msgstr ""
+msgstr "Chi tiết các gói chưa có trên máy này. Mở lại khi bạn có mạng nhé."
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.afterLine"
-msgstr ""
+msgstr "Kế hoạch, album, bản tổng kết và vệt đường trên bản đồ còn mãi. Soạn lại vô hạn và bản đồ trực tiếp tạm dừng cho đến lần Boost sau. Không ai bị đưa ra khỏi nhóm."
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.splitPending"
-msgstr ""
+msgstr "Phần chia vẫn đang được ghi vào Số dư."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.failed"
-msgstr ""
+msgstr "Cửa hàng không nhận khoản thanh toán. Không bị trừ tiền."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.noneLine"
-msgstr ""
+msgstr "Không có khoản thanh toán nào đang chờ bạn."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.restore.otherAccount"
-msgstr ""
+msgstr "Các giao dịch mua này thuộc về một tài khoản CritterPass khác. Đăng nhập vào tài khoản đó để dùng."
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.moved"
-msgstr ""
+msgstr "Boost này đã chuyển sang chuyến đi khác."
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
 msgid "monetize.card.revoked"
-msgstr ""
+msgstr "Boost này đã được hoàn tiền, nên đã tắt và không ai nợ phần nào."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.fixPlay"
-msgstr ""
+msgstr "Gói này tính tiền qua Google Play. Cập nhật thanh toán ở đó."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.fixAppStore"
-msgstr ""
+msgstr "Gói này tính tiền qua App Store. Cập nhật thanh toán trên iPhone của bạn."
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.thisTrip"
-msgstr ""
+msgstr "Chuyến này"
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.boosted"
-msgstr ""
+msgstr "Chuyến đi này đã được Boost"
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.ended"
-msgstr ""
+msgstr "Chuyến đi này đã kết thúc"
 
 #: ../../apps/mobile/src/features/monetize/register.ts
 msgid "monetize.card.label"
-msgstr ""
+msgstr "Boost chuyến đi"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.trip"
-msgstr ""
+msgstr "Trip Boost"
 
 #. placeholder {0}: boost.priceString
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.boostTitle"
-msgstr ""
+msgstr "Boost chuyến đi · {0}"
 
 #. placeholder {0}: boost.priceString
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.boostLabel"
-msgstr ""
+msgstr "Boost chuyến đi, {0} cho cả nhóm"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.cancelled"
-msgstr ""
+msgstr "Chuyến đi bị huỷ? Boost chuyển sang chuyến tới của bạn."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.tryAgain"
-msgstr ""
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.pauseInAppStore"
-msgstr ""
+msgstr "Tắt tự động gia hạn"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.turnBackOn"
-msgstr ""
+msgstr "Bật lại Pass+"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.unlimited"
-msgstr ""
+msgstr "Không giới hạn"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-chat-card.tsx
 msgid "monetize.card.chip.guideNamed"
-msgstr ""
+msgstr "{guideName} không giới hạn"
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
 msgid "monetize.card.chip.guide"
-msgstr ""
+msgstr "Hướng dẫn viên không giới hạn"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusGuideUnlimited"
-msgstr ""
+msgstr "Chat, giọng nói và camera với hướng dẫn viên không giới hạn"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.boostGuideUnlimited"
-msgstr ""
+msgstr "Hướng dẫn viên không giới hạn cho cả nhóm trong chuyến đi này"
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.boostRedrafts"
-msgstr ""
+msgstr "Soạn lại vô hạn"
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.boostedLine"
-msgstr ""
+msgstr "Soạn lại vô hạn, bản đồ trực tiếp và nhóm tới 16 người đã bật cho mọi người."
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
 msgid "monetize.card.chip.seats"
-msgstr ""
+msgstr "Tới 16 người"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.update"
-msgstr ""
+msgstr "Cập nhật thanh toán"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.valid"
-msgstr ""
+msgstr "Hiệu lực"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.visaEyebrow"
-msgstr ""
+msgstr "Visa · Cho bạn · Pour vous"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.chrome"
-msgstr ""
+msgstr "VISAS · VISAS · VISAS"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.freeLine"
-msgstr ""
+msgstr "Bình chọn, lên kế hoạch, chia tiền, bản đồ ngoại tuyến và mọi critter đều miễn phí."
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.note"
-msgstr ""
+msgstr "Bình chọn, chia tiền, bản đồ ngoại tuyến và mọi critter luôn miễn phí cho mọi người."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.pending"
-msgstr ""
+msgstr "Đang chờ phê duyệt. Chúng tôi sẽ hoàn tất khi giao dịch được duyệt; bạn có thể đóng trang này."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.restore.failed"
-msgstr ""
+msgstr "Chúng tôi chưa kiểm tra được các giao dịch mua của bạn. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.refused"
-msgstr ""
+msgstr "Chúng tôi chưa bắt đầu được giao dịch mua. Không bị trừ tiền; thử lại nhé."
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.waitingLine"
-msgstr ""
+msgstr "Chúng tôi vẫn đang xác nhận Pass+ với cửa hàng. Gói sẽ tự bật; không phải trả thêm gì."
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.lose"
-msgstr ""
+msgstr "Những gì bạn sẽ mất"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.title"
-msgstr ""
+msgstr "Mỗi gói có gì"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 msgid "monetize.paywall.compare"
-msgstr ""
+msgstr "Mỗi gói có gì ›"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.whoPays"
-msgstr ""
+msgstr "Ai trả"
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.whoPaysEyebrow"
-msgstr ""
+msgstr "Ai trả"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.cancelled"
-msgstr ""
+msgstr "Sẽ không gia hạn"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.worksIn"
-msgstr ""
+msgstr "Dùng trong"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.line.yearly"
-msgstr ""
+msgstr "Hằng năm"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.yearly"
-msgstr ""
+msgstr "Hằng năm"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.eyebrow.yearly"
-msgstr ""
+msgstr "Hằng năm"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.yearlyRenews"
-msgstr ""
+msgstr "Hằng năm · gia hạn {date}"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.covers.free"
-msgstr ""
+msgstr "Bạn"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.havePass"
-msgstr ""
+msgstr "Bạn đang có Pass+"
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.yourPlan"
-msgstr ""
+msgstr "Bạn đang có Pass+ · Gói của bạn"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.covers.pass"
-msgstr ""
+msgstr "Bạn, mọi nhóm"
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.title"
-msgstr ""
+msgstr "Bạn đã vào"
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.titleNamed"
-msgstr ""
+msgstr "Bạn đã vào, {name}"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.offline"
-msgstr ""
+msgstr "Bạn đang ngoại tuyến. Kết nối mạng để mua."
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.phase.verifyFailed"
-msgstr ""
+msgstr "Bạn đã trả tiền, nhưng chúng tôi chưa xác nhận được. Không phải trả thêm gì."
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.finishingLine"
-msgstr ""
+msgstr "Bạn đã trả tiền. Boost sẽ tự bật trong giây lát; bạn không cần làm gì thêm."
 
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.someone"
-msgstr ""
+msgstr "người bạn mời"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-banner.tsx
 msgid "monetize.issue.banner"
-msgstr ""
+msgstr "Thanh toán Pass+ của bạn cần được xem lại"
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.off"
-msgstr ""
+msgstr "Kỳ gia hạn Pass+ của bạn chưa được thanh toán, nên Pass+ tạm tắt. Gói sẽ bật lại ngay khi thanh toán thành công."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.grace"
-msgstr ""
+msgstr "Kỳ gia hạn Pass+ của bạn chưa được thanh toán. Mọi thứ vẫn bật trong lúc bạn xử lý với cửa hàng."
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-screen.tsx
 #: ../../apps/mobile/src/features/monetize/plan/cancel-screen.tsx
@@ -1093,16 +1093,16 @@ msgstr "Gói của bạn"
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.back"
-msgstr ""
+msgstr "Gói của bạn"
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.title"
-msgstr ""
+msgstr "Gói của bạn"
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
 msgid "monetize.restore.found"
-msgstr ""
+msgstr "Các giao dịch mua của bạn đã trở lại."
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.yearly"
-msgstr ""
+msgstr "Năm của bạn đã được trả tiền rồi, nên không có gì để tạm dừng. Huỷ chỉ dừng lần gia hạn tới."

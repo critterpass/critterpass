@@ -122,7 +122,7 @@ msgstr "Trung tâm trợ giúp"
 
 #: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
 msgid "help.shake.hidden"
-msgstr ""
+msgstr "Đã ẩn khỏi ảnh chụp màn hình: màn hình này có thông tin riêng tư."
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"

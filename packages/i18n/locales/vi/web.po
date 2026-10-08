@@ -9,27 +9,27 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat4"
-msgstr ""
+msgstr "???"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.rating"
-msgstr ""
+msgstr "{average} từ {count, plural, one {# đánh giá} other {# đánh giá}}"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.categoryPageTitle"
-msgstr ""
+msgstr "Mẹo {category} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.critters"
-msgstr ""
+msgstr "{count, plural, one {Đã tìm thấy # critter} other {Đã tìm thấy # critter}}"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.pageDescription"
-msgstr ""
+msgstr "{count, plural, one {# critter sống} other {# critter sống}} ở {place}, {area}. Tìm các bạn ấy trong chuyến đi của bạn cùng CritterPass."
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.count"
-msgstr ""
+msgstr "{count, plural, one {# critter chờ bạn tìm ở đây} other {# critter chờ bạn tìm ở đây}}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.seatsLeft"
@@ -45,19 +45,19 @@ msgstr "{count}/3 NGƯỜI BẠN ĐÃ ĐĂNG KÝ"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.days"
-msgstr ""
+msgstr "{days, plural, one {# ngày} other {# ngày}}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.days"
-msgstr ""
+msgstr "{days, plural, one {# ngày} other {# ngày}}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.headline"
-msgstr ""
+msgstr "{days, plural, one {# ngày} other {# ngày}} ở {place}"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.pageDescription"
-msgstr ""
+msgstr "{days, plural, one {# ngày} other {# ngày}} ở {place}: nhóm đã đi những đâu và đi bao xa."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.countdown"
@@ -65,31 +65,31 @@ msgstr "{days} NGÀY {hours}H {minutes}P {seconds}S"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.byline"
-msgstr ""
+msgstr "{guide}, {place}"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftTitle"
-msgstr ""
+msgstr "Bản nháp của {guide} · {shown}/{total, plural, one {# ngày} other {# ngày}}"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.pageTitle"
-msgstr ""
+msgstr "{headline} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageTitle"
-msgstr ""
+msgstr "{headline} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.distance"
-msgstr ""
+msgstr "{km} km"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.minShort"
-msgstr ""
+msgstr "{minutes} phút"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.minRead"
-msgstr ""
+msgstr "{minutes} phút đọc"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.guideCheering"
@@ -97,11 +97,11 @@ msgstr "{name} đang reo hò"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrowFrom"
-msgstr ""
+msgstr "{name} mời bạn"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.bodyFrom"
-msgstr ""
+msgstr "{name} muốn bạn vào CritterPass, ứng dụng lên kế hoạch đi chơi cho cả nhóm. Tải app bằng link này, và cả hai sẽ được đóng một dấu vào pass khi bạn lên kế hoạch xong chuyến đầu tiên."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.guideWaving"
@@ -109,7 +109,7 @@ msgstr "{name} đang vẫy tay"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.theirLink"
-msgstr ""
+msgstr "Link của {name}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.savingSeat"
@@ -117,23 +117,23 @@ msgstr "{name} đang giữ chỗ cho bạn ở {place}."
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.headline"
-msgstr ""
+msgstr "{place}, tổng kết"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.photoAlt"
-msgstr ""
+msgstr "{place}, {area}"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.passMonthly"
-msgstr ""
+msgstr "{price} mỗi tháng"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
-msgstr ""
+msgstr "{title} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.versionPageTitle"
-msgstr ""
+msgstr "{title} v{version} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.hatchedNumber"
@@ -141,11 +141,11 @@ msgstr "#{num} / {total} · {city}"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
-msgstr ""
+msgstr "© {year} CritterPass"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.estimateEach"
-msgstr ""
+msgstr "~{amount} mỗi người"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.askStatus"
@@ -153,43 +153,43 @@ msgstr "✓ ĐÃ CẬP NHẬT KẾ HOẠCH CHO 6 NGƯỜI"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Art"
-msgstr ""
+msgstr "$24"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyTotal"
-msgstr ""
+msgstr "$66"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.tier1"
-msgstr ""
+msgstr "1 dấu · Huy hiệu Tagalong"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteIstanbulCount"
-msgstr ""
+msgstr "1 phiếu"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalFound"
-msgstr ""
+msgstr "Đã tìm thấy 10 / {count}"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatUnread"
-msgstr ""
+msgstr "247 tin chưa đọc"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsStayMeta"
-msgstr ""
+msgstr "3 đêm · HRV-2291"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteStatus"
-msgstr ""
+msgstr "3/4 đã bình chọn · đóng tối nay"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.tier3"
-msgstr ""
+msgstr "3 dấu · Bìa Navy"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteHoiAnCount"
-msgstr ""
+msgstr "3 phiếu"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.swipeTally"
@@ -197,23 +197,23 @@ msgstr "5/6"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.fiveStamps"
-msgstr ""
+msgstr "5 dấu"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.tier5"
-msgstr ""
+msgstr "5 dấu · Bìa Collector"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.phoneTime"
-msgstr ""
+msgstr "9:41"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageDescription"
-msgstr ""
+msgstr "{days, plural, one {# ngày} other {# ngày}} của một nhóm ở {place}, theo từng ngày. Chép vào chuyến đi của bạn trên CritterPass."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLabel"
-msgstr ""
+msgstr "Một cuốn hộ chiếu CritterPass dán hình tắc kè Tokek và bốn thổ địa khác"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseTitle"
@@ -241,7 +241,7 @@ msgstr "XEM TRƯỚC MỘT CHÚT"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideTitle"
-msgstr ""
+msgstr "Ngó vào bên trong"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.drac"
@@ -253,15 +253,15 @@ msgstr "Một chú bồ câu đội mũ nồi, đang chờ bạn ở {place}."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassPostcard"
-msgstr ""
+msgstr "Một bưu thiếp in từ mỗi chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
-msgstr ""
+msgstr "Còn một chỗ trống"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Body"
-msgstr ""
+msgstr "Dấu được đóng khi bạn ấy đã tham gia và bình chọn, hoặc lên kế hoạch, cho chuyến đầu tiên."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
@@ -269,11 +269,11 @@ msgstr "Một chú chuột tàu điện ngầm, đang chờ bạn ở {place}."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.firstTripBody"
-msgstr ""
+msgstr "Một Trip Boost và Pass+ cho mọi người trong nhóm, đến một tuần sau khi chuyến đi kết thúc."
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.pageDescriptionNoPlace"
-msgstr ""
+msgstr "Một bản tổng kết chuyến đi trên CritterPass: nhóm đã đi những đâu và đi bao xa."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -281,7 +281,7 @@ msgstr "Một quả trứng đang lắc lư"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.distanceAbout"
-msgstr ""
+msgstr "Khoảng {km} km"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.admit"
@@ -289,27 +289,27 @@ msgstr "VÉ CHO: MỘT NHÓM"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalAdmit"
-msgstr ""
+msgstr "Vé cho: cả nhóm"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.all"
-msgstr ""
+msgstr "Tất cả"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.allLegal"
-msgstr ""
+msgstr "Tất cả chính sách"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.allTips"
-msgstr ""
+msgstr "Tất cả mẹo"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.membersLabel"
-msgstr ""
+msgstr "Đã vào: {names}"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freePrice"
-msgstr ""
+msgstr "Luôn miễn phí"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
@@ -317,23 +317,23 @@ msgstr "Một chú linh miêu Iberia, đang chờ bạn ở {place}."
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.morePlaces"
-msgstr ""
+msgstr "và {count, plural, one {# nơi khác} other {# nơi khác}}"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
-msgstr ""
+msgstr "Ứng dụng"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.appStore"
-msgstr ""
+msgstr "App Store"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideGuideTitle"
-msgstr ""
+msgstr "Hỏi chú tắc kè. Chỗ nào chú cũng đi rồi."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Title"
-msgstr ""
+msgstr "Hỏi thổ địa"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.askTitle"
@@ -341,7 +341,7 @@ msgstr "HỎI THỔ ĐỊA"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
-msgstr ""
+msgstr "Về trang đầu"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.notFound.home"
@@ -349,11 +349,11 @@ msgstr "VỀ TRANG ĐẦU"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
-msgstr ""
+msgstr "Bali"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem1"
-msgstr ""
+msgstr "Bánh mì Phượng"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planRowHike"
@@ -365,7 +365,7 @@ msgstr "ĐANG LÊN MÁY BAY"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalEyebrow"
-msgstr ""
+msgstr "Thẻ lên máy bay"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.boardingSoon"
@@ -373,27 +373,27 @@ msgstr "SẮP LÊN MÁY BAY"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
-msgstr ""
+msgstr "Đặt chỗ · ngoại tuyến · đã lưu hết"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassMailbox"
-msgstr ""
+msgstr "Đặt chỗ được lấy từ email của bạn"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.aside"
-msgstr ""
+msgstr "Mua trong ứng dụng. Trang web này không bán gì cả."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrow"
-msgstr ""
+msgstr "Rủ cả nhóm"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.bringYourCrew"
-msgstr ""
+msgstr "Rủ cả nhóm"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.pageTitle"
-msgstr ""
+msgstr "Rủ cả nhóm · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.bringCrew"
@@ -401,15 +401,15 @@ msgstr "RỦ CẢ NHÓM, KHỎI XẾP HÀNG"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.bylineBy"
-msgstr ""
+msgstr "{guide} viết, {place}"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.filterLabel"
-msgstr ""
+msgstr "Danh mục"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalName"
-msgstr ""
+msgstr "Chép"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.chooseDestination"
@@ -417,7 +417,7 @@ msgstr "Chọn điểm đến đầu tiên của bạn"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.cityGuides"
-msgstr ""
+msgstr "Cẩm nang thành phố"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseClassified"
@@ -429,7 +429,7 @@ msgstr "SƯU TẦM ĐẦY PASS"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.collector"
-msgstr ""
+msgstr "Bìa Collector"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.shareTitle"
@@ -449,7 +449,7 @@ msgstr "SẮP RA MẮT · iOS + ANDROID"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.rarity.common"
-msgstr ""
+msgstr "Phổ biến"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.confirmed"
@@ -469,11 +469,11 @@ msgstr "Đã chép"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
-msgstr ""
+msgstr "Đã sao chép"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.copied"
-msgstr ""
+msgstr "Đã sao chép"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copied"
@@ -481,7 +481,7 @@ msgstr "ĐÃ SAO CHÉP ✓"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copies"
-msgstr ""
+msgstr "{count, plural, one {# nhóm đã chép} other {# nhóm đã chép}}"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.copyCode"
@@ -489,15 +489,15 @@ msgstr "Sao chép"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
-msgstr ""
+msgstr "Sao chép"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyCta"
-msgstr ""
+msgstr "Chép vào chuyến đi của tôi"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.copyLink"
-msgstr ""
+msgstr "Sao chép link"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copyLink"
@@ -505,35 +505,35 @@ msgstr "SAO CHÉP LINK"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
-msgstr ""
+msgstr "Nhóm"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.crewCaptain"
-msgstr ""
+msgstr "Trưởng nhóm"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.crewOf"
-msgstr ""
+msgstr "Nhóm {size} người"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.crewOf"
-msgstr ""
+msgstr "Nhóm {size} người"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.eyebrow"
-msgstr ""
+msgstr "Kế hoạch của nhóm · {place}"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkBoostSeats"
-msgstr ""
+msgstr "Nhóm tới 16 người"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleTop"
-msgstr ""
+msgstr "Critter"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.brand"
-msgstr ""
+msgstr "CritterPass"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pageTitle"
@@ -545,11 +545,11 @@ msgstr "CRITTERPASS · SẮP LÊN MÁY BAY"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageTitle"
-msgstr ""
+msgstr "CritterPass · Đi chơi cả nhóm, lên kế hoạch cùng thổ địa"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.homeLink"
-msgstr ""
+msgstr "Trang chủ CritterPass"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pageDescription"
@@ -557,11 +557,11 @@ msgstr "CritterPass là ứng dụng lên kế hoạch đi chơi cho cả nhóm,
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
-msgstr ""
+msgstr "CritterPass là ứng dụng lên kế hoạch đi chơi cho cả nhóm trên iPhone và Android. Quẹt, bình chọn, lên kế hoạch và chia tiền cùng nhóm, có một thổ địa dẫn đường, mà thổ địa này lại là thú."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.pageDescription"
-msgstr ""
+msgstr "CritterPass miễn phí để lên kế hoạch. Pass+ và Trip Boost thêm các tiện ích, mua trong ứng dụng qua App Store hoặc Google Play."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.inTesting"
@@ -573,15 +573,15 @@ msgstr "CritterPass đang trong giai đoạn thử nghiệm. Hãy xin người m
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.openBody"
-msgstr ""
+msgstr "CritterPass lên kế hoạch đi chơi cả nhóm cùng thổ địa và biến mỗi chuyến thành một bản tổng kết như thế này. Bạn có đi chuyến này không? Mở trong app để xem trọn câu chuyện."
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
-msgstr ""
+msgstr "Mẹo từ CritterPass"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openBody"
-msgstr ""
+msgstr "Critter tự xuất hiện trong app, khi bạn đã tới nơi. Tìm thấy rồi thì bạn mới biết tên."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.hintCrack"
@@ -593,47 +593,47 @@ msgstr "RẮẮẮC!!"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.current"
-msgstr ""
+msgstr "Hiện hành"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.draftDay"
-msgstr ""
+msgstr "Ngày {n}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.day"
-msgstr ""
+msgstr "Ngày {n}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.daysTitle"
-msgstr ""
+msgstr "Theo từng ngày"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
-msgstr ""
+msgstr "Xoá tài khoản của bạn"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyDev"
-msgstr ""
+msgstr "Dev nợ bạn"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.docsLabel"
-msgstr ""
+msgstr "Tài liệu"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.appStoreBadge"
-msgstr ""
+msgstr "Tải về trên App Store"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.counselPending"
-msgstr ""
+msgstr "Bản nháp. Cần được rà soát pháp lý trước khi đăng."
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.draft"
-msgstr ""
+msgstr "Bản nháp: chỉ hiện trên staging."
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.aiDisclosure"
-msgstr ""
+msgstr "Soạn với sự trợ giúp của AI, rồi được những người từng đến đó kiểm tra và biên tập."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planBody"
@@ -641,11 +641,11 @@ msgstr "Kéo một hoạt động sang khung giờ khác, phần còn lại tron
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Body"
-msgstr ""
+msgstr "Kéo một hoạt động sang khung giờ khác, phần còn lại trong ngày tự dịch theo để nhường chỗ, cho cả nhóm cùng lúc."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4ArtUnit"
-msgstr ""
+msgstr "mỗi người"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.splitEach"
@@ -653,7 +653,7 @@ msgstr "MỖI NGƯỜI · CHIA 4"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsBody"
-msgstr ""
+msgstr "Mỗi điểm đến có một hướng dẫn viên riêng, với màu sắc và giọng nói riêng. Các bạn ấy rành nơi đó như người lớn lên ở đấy."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planEditing"
@@ -661,15 +661,15 @@ msgstr "ĐANG SỬA"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.rarity.epic"
-msgstr ""
+msgstr "Sử thi"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
-msgstr ""
+msgstr "Lỗi 404 · ngoài bản đồ"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampBottom"
-msgstr ""
+msgstr "Từ 2026"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.stampSub"
@@ -677,23 +677,23 @@ msgstr "TỪ 2026"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsTitle"
-msgstr ""
+msgstr "Mọi đặt chỗ. Mất sóng vẫn có."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideLocalBody"
-msgstr ""
+msgstr "Thành phố nào cũng có một critter chờ nở. Có {count} bạn để sưu tầm, và bạn phải tới tận nơi."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeFor"
-msgstr ""
+msgstr "Mọi nhóm, mọi chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeCritters"
-msgstr ""
+msgstr "Mọi critter và nhãn dán"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
-msgstr ""
+msgstr "Ngày nào cũng có kế hoạch. Kéo để đổi."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.referralBody"
@@ -701,7 +701,7 @@ msgstr "Cứ mỗi người bạn rủ đăng ký qua link, bạn tiến lên 10
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassIcons"
-msgstr ""
+msgstr "Mọi kiểu biểu tượng và ảnh đại diện"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.title"
@@ -709,11 +709,11 @@ msgstr "Thổ địa nào cũng nở ra từ một quả trứng"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsTitle"
-msgstr ""
+msgstr "Nơi nào cũng có thổ địa"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatTitle"
-msgstr ""
+msgstr "Chuyến đi nào cũng bắt đầu từ nhóm chat."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.swipeBody"
@@ -721,19 +721,19 @@ msgstr "Cả nhóm cùng quẹt qua danh sách gợi ý. Số phiếu cập nh�
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop1Body"
-msgstr ""
+msgstr "Cả nhóm cùng quẹt qua danh sách gợi ý. Số phiếu cập nhật trực tiếp, vài phút là chốt được điểm đến."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoteBody"
-msgstr ""
+msgstr "Ai cũng quẹt, ai cũng bình chọn, một nơi thắng."
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.indexLede"
-msgstr ""
+msgstr "Mọi điều CritterPass hứa với bạn, bằng lời dễ hiểu. Mỗi tài liệu giữ lại mọi phiên bản từng có."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.expiresIn"
-msgstr ""
+msgstr "Hết hạn sau {left}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseBrief"
@@ -741,7 +741,7 @@ msgstr "TÍNH NĂNG MỚI · v0.9"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.featured"
-msgstr ""
+msgstr "Nổi bật"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.label"
@@ -753,7 +753,7 @@ msgstr "GỌI LẦN CUỐI"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.findMyCrew"
-msgstr ""
+msgstr "Tìm nhóm của tôi"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.waveLeft"
@@ -765,15 +765,15 @@ msgstr "ĐỢT ĐẦU · {seats} CHỖ"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeFlights"
-msgstr ""
+msgstr "Theo dõi chuyến bay và thông báo lên máy bay"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
-msgstr ""
+msgstr "Chuyến bay, chỗ ở và vé trong cùng một ví, lấy về từ email của bạn."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerFollow"
-msgstr ""
+msgstr "Theo dõi"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.footer.follow"
@@ -781,31 +781,31 @@ msgstr "theo chân thổ địa →"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostFor"
-msgstr ""
+msgstr "Cho cả nhóm, một chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.passFor"
-msgstr ""
+msgstr "Cho bạn, trong mọi chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
-msgstr ""
+msgstr "Bốn chặng trên lộ trình"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeName"
-msgstr ""
+msgstr "Miễn phí"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalBody"
-msgstr ""
+msgstr "Miễn phí trên iPhone và Android. Lập một nhóm, hoặc vào nhóm bằng mã bạn bè gửi cho bạn."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.cardHeadline"
-msgstr ""
+msgstr "Lên kế hoạch miễn phí"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.title"
-msgstr ""
+msgstr "Lên kế hoạch miễn phí. Tiện ích thêm khi bạn muốn."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.from"
@@ -813,7 +813,7 @@ msgstr "TỪ"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsTitle"
-msgstr ""
+msgstr "Từ “đi đâu cũng được” đến lúc hạ cánh"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.quip"
@@ -821,7 +821,7 @@ msgstr "từ \"đi đâu cũng được\" đến lúc hạ cánh ↓"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalGate"
-msgstr ""
+msgstr "Cửa ✦ mọi nơi"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.gate"
@@ -837,31 +837,31 @@ msgstr "Tải CritterPass trên TestFlight"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"
-msgstr ""
+msgstr "Tải trên Google Play"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.getTheApp"
-msgstr ""
+msgstr "Tải ứng dụng"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.getTheApp"
-msgstr ""
+msgstr "Tải ứng dụng"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.getTheApp"
-msgstr ""
+msgstr "Tải ứng dụng"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openTitle"
-msgstr ""
+msgstr "Đi gặp các bạn ấy thôi"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.googlePlay"
-msgstr ""
+msgstr "Google Play"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.differentCode"
-msgstr ""
+msgstr "Bạn có mã khác?"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.groupChat"
@@ -869,7 +869,7 @@ msgstr "NHÓM CHAT"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTag"
-msgstr ""
+msgstr "Lên kế hoạch đi chơi nhóm"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.badgePlanner"
@@ -881,11 +881,11 @@ msgstr "Đi chơi cả nhóm, lên kế hoạch cùng thổ địa. Có điều,
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroLede"
-msgstr ""
+msgstr "Đi chơi cả nhóm, lên kế hoạch cùng thổ địa. Có điều, thổ địa ở đây lại là thú."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideAjo"
-msgstr ""
+msgstr "Khu nào cũng biết một quầy taco, và đặt sẵn trajinera trước khi bạn kịp hỏi."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.label"
@@ -897,51 +897,51 @@ msgstr "CHO NỞ QUẢ KHÁC"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.haveCode"
-msgstr ""
+msgstr "Bạn có mã?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsHello"
-msgstr ""
+msgstr "Xin chào, mình là"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteHoiAn"
-msgstr ""
+msgstr "Hội An"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanEyebrow"
-msgstr ""
+msgstr "Hội An · ngày 2/4"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsStay"
-msgstr ""
+msgstr "Hội An Riverside"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop1Art"
-msgstr ""
+msgstr "Hội An thắng"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.howTitle"
-msgstr ""
+msgstr "Cách hoạt động"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.howItWorks"
-msgstr ""
+msgstr "Cách hoạt động"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalCode"
-msgstr ""
+msgstr "Tôi có mã"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.join"
-msgstr ""
+msgstr "Tôi có mã"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat5"
-msgstr ""
+msgstr "Mình có kế hoạch rồi. Bình chọn trước thứ Sáu nhé?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat2"
-msgstr ""
+msgstr "ko biết, mày chọn đi"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.body"
@@ -949,19 +949,19 @@ msgstr "Trong app, trứng sẽ nở khi bạn hạ cánh ở một nơi mới. 
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeLabel"
-msgstr ""
+msgstr "Mã mời {spelled}"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbipCredit"
-msgstr ""
+msgstr "Định vị theo IP bởi DB-IP"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteIstanbul"
-msgstr ""
+msgstr "Istanbul"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideAsk"
-msgstr ""
+msgstr "Hội An đang mưa to. Có phương án B không?"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.askQuestion"
@@ -969,7 +969,7 @@ msgstr "Mưa to quá. Có phương án B không?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Art"
-msgstr ""
+msgstr "Mưa to quá. Có phương án B không?"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.label"
@@ -981,31 +981,31 @@ msgstr "VÀO DANH SÁCH CHỜ"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinTitle"
-msgstr ""
+msgstr "Tham gia bằng mã"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.joinWithCode"
-msgstr ""
+msgstr "Tham gia bằng mã"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinPageTitle"
-msgstr ""
+msgstr "Tham gia bằng mã · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.keepReading"
-msgstr ""
+msgstr "Đọc tiếp"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideTokek"
-msgstr ""
+msgstr "Biết ruộng bậc thang nào vắng lúc bình minh và warung nào làm babi guling ngon nhất."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guidePon"
-msgstr ""
+msgstr "Biết đền nào mở từ 6 giờ sáng, hàng ramen nào đáng xếp hàng, và chỗ nào hươu không trấn đồ của bạn."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideLocalTitle"
-msgstr ""
+msgstr "Hạ cánh ở nơi mới. Gặp một thổ địa."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.footer.language"
@@ -1013,15 +1013,15 @@ msgstr "Ngôn ngữ"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.language"
-msgstr ""
+msgstr "Ngôn ngữ"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem4"
-msgstr ""
+msgstr "Đi thuyền thả đèn"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalSpecies"
-msgstr ""
+msgstr "Cá chép đèn lồng · #005"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.swipeTag"
@@ -1029,35 +1029,35 @@ msgstr "PHỐ ĐÈN LỒNG"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem3"
-msgstr ""
+msgstr "Lớp làm đèn lồng"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsTickets"
-msgstr ""
+msgstr "Lớp làm đèn lồng × 4"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideAnswer"
-msgstr ""
+msgstr "Lớp làm đèn lồng lúc 2 giờ, ở trong nhà. Rồi ăn cao lầu ở Bà Bé, cách 6 phút."
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.indexTitle"
-msgstr ""
+msgstr "Pháp lý"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerLegal"
-msgstr ""
+msgstr "Pháp lý"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.rarity.legendary"
-msgstr ""
+msgstr "Huyền thoại"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbipLicence"
-msgstr ""
+msgstr "được cấp phép theo CC BY 4.0"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocals"
-msgstr ""
+msgstr "Thổ địa"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.statLocals"
@@ -1065,35 +1065,35 @@ msgstr "THỔ ĐỊA"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampTop"
-msgstr ""
+msgstr "Chỉ dành cho thổ địa"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyBody"
-msgstr ""
+msgstr "Ghi lại hoặc quét hoá đơn. Phần chia đã có sẵn cho bạn."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.madeOnTheRoad"
-msgstr ""
+msgstr "Làm ra trên đường đi"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.navLabel"
-msgstr ""
+msgstr "Chính"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyTitle"
-msgstr ""
+msgstr "Biến thành của bạn"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanMoving"
-msgstr ""
+msgstr "Maya đang dời mục này"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyMaya"
-msgstr ""
+msgstr "Maya nợ bạn"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.openMenu"
-msgstr ""
+msgstr "Menu"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.shareMessages"
@@ -1101,39 +1101,39 @@ msgstr "TIN NHẮN"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.money"
-msgstr ""
+msgstr "Tiền bạc"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyEyebrow"
-msgstr ""
+msgstr "Tiền · Hội An"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.more"
-msgstr ""
+msgstr "Thêm"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatBody"
-msgstr ""
+msgstr "Và phần lớn cũng kết thúc luôn ở đó. CritterPass thêm vào nhóm một hướng dẫn viên sống ngay tại điểm đến. Bạn ấy phác kế hoạch, trình bày với cả nhóm, và giữ cho ngày đi trôi chảy khi bạn đã hạ cánh."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroNew"
-msgstr ""
+msgstr "Mới · iOS + Android"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.voice"
-msgstr ""
+msgstr "thứ Năm nào cũng có bài mới"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalEyebrow"
-msgstr ""
+msgstr "Thổ địa mới · Hội An"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteEyebrow"
-msgstr ""
+msgstr "Chuyến tới · đang bình chọn"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.noCookies"
-msgstr ""
+msgstr "Ở đây không có cookie. Bọn mình đếm lượt xem trang mà không biết bạn là ai."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.empty"
@@ -1141,59 +1141,59 @@ msgstr "Chưa thấy nơi nào tên như vậy. Bạn thử cách viết khác n
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassNoSponsored"
-msgstr ""
+msgstr "Không có gợi ý được tài trợ"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkBoostNoSponsored"
-msgstr ""
+msgstr "Không có gợi ý được tài trợ trong chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
-msgstr ""
+msgstr "Không ai phải là người đi đòi tiền."
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.body"
-msgstr ""
+msgstr "Chưa gặp thì không ai biết các bạn ấy là ai. Đến đây cùng CritterPass, thổ địa sẽ tự ló mặt."
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.listTitle"
-msgstr ""
+msgstr "Chưa gặp"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.freeDay"
-msgstr ""
+msgstr "Chưa có gì cố định"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyBody"
-msgstr ""
+msgstr "Góc này của sổ tay chưa có gì. Các mẹo khác chỉ cách một lần chạm."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeOffline"
-msgstr ""
+msgstr "Bản đồ ngoại tuyến và kế hoạch"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem2"
-msgstr ""
+msgstr "Dạo phố cổ"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.placesTitle"
-msgstr ""
+msgstr "Trên đường đi"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.onTheTrip"
-msgstr ""
+msgstr "Trong chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.onThisPage"
-msgstr ""
+msgstr "Trên trang này"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.desktopTitle"
-msgstr ""
+msgstr "Đang dùng máy tính?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanBody"
-msgstr ""
+msgstr "Một kế hoạch theo từng ngày mà cả nhóm cùng sắp xếp được."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.note"
@@ -1201,35 +1201,35 @@ msgstr "Một email khi ra mắt. Cùng lắm là hai. Không bao giờ spam."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostPrice"
-msgstr ""
+msgstr "Mua một lần cho mỗi chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.openCta"
-msgstr ""
+msgstr "Mở trong CritterPass"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openCta"
-msgstr ""
+msgstr "Mở trong CritterPass"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.copyBody"
-msgstr ""
+msgstr "Mở kế hoạch này trong CritterPass để chép toàn bộ, hoặc chỉ những ngày bạn thích, vào chuyến đi của bạn."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.passYearly"
-msgstr ""
+msgstr "hoặc {price} mỗi năm"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
-msgstr ""
+msgstr "Hoặc thêm thẳng bạn ấy vào một nhóm. Cách nào cũng được tính."
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.askTitle"
-msgstr ""
+msgstr "Hoặc cứ hỏi thẳng hướng dẫn viên."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guidePaco"
-msgstr ""
+msgstr "Giữ nhịp cho bạn quen độ cao và biết lối mòn tới phế tích mà không ai khác đi."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.notFound.title"
@@ -1237,27 +1237,27 @@ msgstr "Không tìm thấy trang"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
-msgstr ""
+msgstr "Không tìm thấy trang"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTitleBottom"
-msgstr ""
+msgstr "Pass"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passNo"
-msgstr ""
+msgstr "Pass · Số 010"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.coverLabel"
-msgstr ""
+msgstr "Bìa pass"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.passName"
-msgstr ""
+msgstr "Pass+"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.cardPass"
-msgstr ""
+msgstr "Pass+ {price} mỗi tháng"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.pickPlace"
@@ -1265,7 +1265,7 @@ msgstr "Hãy chọn một nơi trong danh sách, hoặc xoá ô tìm kiếm."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassReadOut"
-msgstr ""
+msgstr "Thông báo và điểm tin buổi tối được đọc thành tiếng"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.results"
@@ -1273,7 +1273,7 @@ msgstr "Địa điểm"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
-msgstr ""
+msgstr "Địa điểm"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.statPlaces"
@@ -1281,11 +1281,11 @@ msgstr "ĐỊA ĐIỂM"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalTitle"
-msgstr ""
+msgstr "Lên kế hoạch chuyến đi. Gặp các thổ địa."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Title"
-msgstr ""
+msgstr "Cùng lên kế hoạch"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planTitle"
@@ -1293,23 +1293,23 @@ msgstr "CÙNG LÊN KẾ HOẠCH"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.plannedBy"
-msgstr ""
+msgstr "Lên kế hoạch bởi {names}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.planned"
-msgstr ""
+msgstr "Đã lên kế hoạch, chưa đi"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
-msgstr ""
+msgstr "Lên kế hoạch"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostPriceNote"
-msgstr ""
+msgstr "Giá hiển thị trên App Store và Google Play"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.footnote"
-msgstr ""
+msgstr "Giá tính bằng đô la Mỹ. App Store và Google Play hiển thị giá tại nơi bạn sống. Pass+ gia hạn cho đến khi bạn huỷ trong tài khoản cửa hàng của mình."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.footer.privacy"
@@ -1317,35 +1317,35 @@ msgstr "Quyền riêng tư"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
-msgstr ""
+msgstr "Quyền riêng tư"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.published"
-msgstr ""
+msgstr "Đăng ngày {date}"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.qrLabel"
-msgstr ""
+msgstr "Mã QR cho link này"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.questions"
-msgstr ""
+msgstr "Có thắc mắc về bất cứ điều gì ở đây? Viết cho {email} và một người thật sẽ trả lời."
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.rarity.rare"
-msgstr ""
+msgstr "Hiếm"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.readCurrent"
-msgstr ""
+msgstr "Đọc phiên bản hiện hành"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideLundi"
-msgstr ""
+msgstr "Đoán thời tiết giỏi hơn cả dự báo và lúc nào cũng nghĩ sẵn một hồ nước nóng cho buổi tối."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.finePrintTerms"
-msgstr ""
+msgstr "Điều khoản giới thiệu"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.remove"
@@ -1365,19 +1365,19 @@ msgstr "Quét hoá đơn, chia kiểu nào tuỳ bạn, rồi thanh toán cho nh
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Body"
-msgstr ""
+msgstr "Quét hoá đơn, chia kiểu nào tuỳ bạn, rồi thanh toán cho nhau. Khỏi ai phải ôm bảng tính."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.desktopBodyCrew"
-msgstr ""
+msgstr "Quét bằng camera điện thoại. App mở thẳng vào {crew}, hoặc mở cửa hàng nếu bạn chưa có app."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.desktopBody"
-msgstr ""
+msgstr "Quét bằng camera điện thoại. App mở thẳng link này, hoặc mở cửa hàng nếu bạn chưa có app."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
-msgstr ""
+msgstr "cuộn dọc theo lộ trình"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.placeholder"
@@ -1389,27 +1389,27 @@ msgstr "GHẾ"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyAll"
-msgstr ""
+msgstr "Xem tất cả mẹo"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.sendToChat"
-msgstr ""
+msgstr "Gửi vào nhóm chat"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Title"
-msgstr ""
+msgstr "Gửi link của bạn"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.body"
-msgstr ""
+msgstr "Gửi link của bạn. Khi một người bạn tham gia và lên kế hoạch chuyến đầu tiên, cả hai được đóng một dấu vào pass, và đủ dấu sẽ mở khoá bìa pass mới."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsFlight"
-msgstr ""
+msgstr "SGN → DAD"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.share"
-msgstr ""
+msgstr "Chia sẻ"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.share"
@@ -1417,27 +1417,27 @@ msgstr "CHIA SẺ LINK CỦA BẠN ↑"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.lede"
-msgstr ""
+msgstr "Những ghi chú ngắn, hữu ích về lên kế hoạch cùng bạn bè, chia chi phí và tận hưởng trọn một nơi. Viết cùng các hướng dẫn viên, được những người từng đến kiểm tra."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeHint"
-msgstr ""
+msgstr "Sáu chữ cái và chữ số từ người đã mời bạn."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.skipToContent"
-msgstr ""
+msgstr "Chuyển đến nội dung"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
-msgstr ""
+msgstr "rồi mình đi đâu đây"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.solo"
-msgstr ""
+msgstr "Chuyến đi một mình"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.solo"
-msgstr ""
+msgstr "Chuyến đi một mình"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.label"
@@ -1445,11 +1445,11 @@ msgstr "Đi nơi khác?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
-msgstr ""
+msgstr "Chia 4 · $24 mỗi người"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Title"
-msgstr ""
+msgstr "Chia tiền"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.splitTitle"
@@ -1457,19 +1457,19 @@ msgstr "CHIA TIỀN"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.finePrint"
-msgstr ""
+msgstr "Dấu và bìa chỉ để trang trí và không có giá trị quy đổi thành tiền. Critter vẫn chỉ có được khi đến tận nơi. Mỗi người bạn một dấu, và người bạn đó phải mới dùng CritterPass."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop"
-msgstr ""
+msgstr "Chặng {n}"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoteTitle"
-msgstr ""
+msgstr "Đừng lên kế hoạch đi chơi trong nhóm chat nữa."
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.terms"
-msgstr ""
+msgstr "Điều khoản gói đăng ký"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planRowSunset"
@@ -1477,11 +1477,11 @@ msgstr "Ngắm hoàng hôn ở Uluwatu"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideSwap"
-msgstr ""
+msgstr "Đổi vào"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop1Title"
-msgstr ""
+msgstr "Quẹt để chọn"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.swipeTitle"
@@ -1493,7 +1493,7 @@ msgstr "mất có 10 giây"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsVoice"
-msgstr ""
+msgstr "chạm một bạn để chào"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.hintTap"
@@ -1505,11 +1505,11 @@ msgstr "Chạm vào trứng"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.terms"
-msgstr ""
+msgstr "Điều khoản"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeError"
-msgstr ""
+msgstr "Mã này trông chưa đúng. Kiểm tra lại từng ký tự nhé."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.joinFailed"
@@ -1521,23 +1521,23 @@ msgstr "Email này trông chưa đúng lắm. Bạn kiểm tra lại giúp nhé?
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatName"
-msgstr ""
+msgstr "The Bali Six"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.eyebrow"
-msgstr ""
+msgstr "Sổ tay CritterPass"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.indexEyebrow"
-msgstr ""
+msgstr "Điều khoản chi tiết"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.indexPageTitle"
-msgstr ""
+msgstr "Điều khoản chi tiết · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.eyebrow"
-msgstr ""
+msgstr "Điều khoản chi tiết · cập nhật {date}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.final.title"
@@ -1549,23 +1549,23 @@ msgstr "Hướng dẫn viên phác kế hoạch và trả lời mọi câu hỏi
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
-msgstr ""
+msgstr "Hướng dẫn viên phác kế hoạch và trả lời mọi câu hỏi, nói hay nhắn đều được. Thứ Năm mưa à? Sẽ có ngay gợi ý đổi lịch."
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyTitle"
-msgstr ""
+msgstr "Các hướng dẫn viên vẫn đang viết"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkBoostLiveMap"
-msgstr ""
+msgstr "Bản đồ nhóm trực tiếp"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
-msgstr ""
+msgstr "Thổ địa"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.eyebrow"
-msgstr ""
+msgstr "Thổ địa · {area}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
@@ -1573,19 +1573,19 @@ msgstr "Thổ địa còn đang xếp vali."
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.pageTitle"
-msgstr ""
+msgstr "Thổ địa ở {place} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassNextFlight"
-msgstr ""
+msgstr "Tiện ích chuyến bay tiếp theo"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
-msgstr ""
+msgstr "Tấm pass"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.thePass"
-msgstr ""
+msgstr "Tấm pass"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.failed"
@@ -1593,11 +1593,11 @@ msgstr "Chưa tải được danh sách địa điểm. Bạn thử lại sau gi
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
-msgstr ""
+msgstr "Bản tóm tắt"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.headlineNoPlace"
-msgstr ""
+msgstr "Chuyến đi, tổng kết"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseBody"
@@ -1605,11 +1605,11 @@ msgstr "Vẫn còn vài thứ hay ho bọn mình chưa bật mí. Ai có tên tr
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Title"
-msgstr ""
+msgstr "Bạn ấy lên kế hoạch một chuyến"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Body"
-msgstr ""
+msgstr "Bạn ấy cũng bắt đầu với một dấu. Bìa mở khoá ở mốc 3 và 5 dấu."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.notFound.line"
@@ -1617,11 +1617,11 @@ msgstr "Trang này không nằm trên lộ trình. Thổ địa đã lục từn
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
-msgstr ""
+msgstr "Trang này không nằm trên lộ trình. Thổ địa đã lục từng con hẻm rồi. Về trang chủ, hoặc vào một nhóm bằng mã bạn bè gửi cho bạn."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Art"
-msgstr ""
+msgstr "T5 14"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.planDate"
@@ -1629,31 +1629,31 @@ msgstr "T5 14"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideChange"
-msgstr ""
+msgstr "T5 14: Đi biển → Lớp làm đèn lồng"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanDay"
-msgstr ""
+msgstr "Thứ Năm"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideSardi"
-msgstr ""
+msgstr "Canh giờ tàu điện để bạn khỏi xếp hàng và chọn miradouro ngắm hoàng hôn đẹp nhất."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.tips"
-msgstr ""
+msgstr "Mẹo"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.title"
-msgstr ""
+msgstr "Mẹo từ thổ địa"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.pageTitle"
-msgstr ""
+msgstr "Mẹo từ thổ địa · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.tldrTag"
-msgstr ""
+msgstr "Tóm tắt từ Tokek"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.to"
@@ -1661,19 +1661,19 @@ msgstr "ĐẾN"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbip"
-msgstr ""
+msgstr "Để gợi ý các sân bay gần bạn, chúng tôi tra thành phố gần đúng của địa chỉ mạng của bạn trong cơ sở dữ liệu IP-to-city miễn phí của DB-IP."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideName"
-msgstr ""
+msgstr "Tokek"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideGuideBody"
-msgstr ""
+msgstr "Tokek trả lời bằng tin nhắn, giọng nói hoặc camera, và có thể sửa lại kế hoạch cho bạn."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroVoice"
-msgstr ""
+msgstr "Tokek tìm được villa cho bạn rồi."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.rateLimited"
@@ -1685,51 +1685,51 @@ msgstr "TỔNG"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.travelled"
-msgstr ""
+msgstr "Đã đi"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostName"
-msgstr ""
+msgstr "Trip Boost"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.eyebrow"
-msgstr ""
+msgstr "Tổng kết chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.eyebrowWhen"
-msgstr ""
+msgstr "Tổng kết chuyến đi · {when}"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
-msgstr ""
+msgstr "Đi chơi vui hơn khi có người đi cùng"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinBody"
-msgstr ""
+msgstr "Nhập mã sáu ký tự bạn bè gửi cho bạn. Bọn mình tìm nhóm, rồi app đưa bạn vào thẳng."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
-msgstr ""
+msgstr "Thổ địa số {num} chưa được khám phá, phải tới tận nơi mới tìm thấy"
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.unknown"
-msgstr ""
+msgstr "Critter chưa rõ, {rarity}"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkPassGuide"
-msgstr ""
+msgstr "Chat, giọng nói và camera với hướng dẫn viên không giới hạn"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkBoostGuide"
-msgstr ""
+msgstr "Hướng dẫn viên không giới hạn cho cả nhóm trong chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.perkBoostRedrafts"
-msgstr ""
+msgstr "Soạn lại vô hạn"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.updated"
-msgstr ""
+msgstr "Cập nhật {date}: {summary}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.differentEmail"
@@ -1737,19 +1737,19 @@ msgstr "Dùng email khác"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.historyLine"
-msgstr ""
+msgstr "Phiên bản {version} · có hiệu lực từ {date}"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.history"
-msgstr ""
+msgstr "Lịch sử phiên bản"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsFlightMeta"
-msgstr ""
+msgstr "VN 128 · T5 06:40 · 14A"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freePlan"
-msgstr ""
+msgstr "Bình chọn, lên kế hoạch và chia tiền"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.waitlist"
@@ -1757,19 +1757,19 @@ msgstr "DANH SÁCH CHỜ · ĐỢT ĐẦU"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat3"
-msgstr ""
+msgstr "mình nói câu này từ tháng 3 rồi"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatVoice"
-msgstr ""
+msgstr "ai cũng từng ở trong nhóm chat này"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.pageTitle"
-msgstr ""
+msgstr "CritterPass giá bao nhiêu"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.eyebrow"
-msgstr ""
+msgstr "Giá bao nhiêu"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.title"
@@ -1777,7 +1777,7 @@ msgstr "Có gì đáng để chờ"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchTitle"
-msgstr ""
+msgstr "Hạ cánh là trứng nở"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.collectBody"
@@ -1785,7 +1785,7 @@ msgstr "Bạn hạ cánh ở đâu, thổ địa ở đó sẽ vào pass của b
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchBody"
-msgstr ""
+msgstr "Bạn hạ cánh ở đâu, thổ địa ở đó sẽ vào pass của bạn. Ở lại lâu một chút, sẽ còn nhiều bạn khác ló mặt."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.whereFirst"
@@ -1793,19 +1793,19 @@ msgstr "BẠN MUỐN ĐI ĐÂU TRƯỚC?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteTitle"
-msgstr ""
+msgstr "Đi đâu đây?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteWinning"
-msgstr ""
+msgstr "Đang dẫn"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.travelledBy"
-msgstr ""
+msgstr "Cùng {names}"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.title"
-msgstr ""
+msgstr "Rẽ nhầm rồi"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.swipeYes"
@@ -1813,7 +1813,7 @@ msgstr "CHỐT!"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Title"
-msgstr ""
+msgstr "Cả hai cùng được một dấu"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.quipTop"
@@ -1821,7 +1821,7 @@ msgstr "không mua được đâu."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passTitle"
-msgstr ""
+msgstr "Không mua được đâu. Phải đi mới có."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.quipBottom"
@@ -1833,11 +1833,11 @@ msgstr "BẠN XẾP THỨ {position}"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyOwed"
-msgstr ""
+msgstr "Bạn được nợ"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.olderVersion"
-msgstr ""
+msgstr "Bạn đang đọc phiên bản {version}, có hiệu lực từ {date}. Phiên bản hiện hành là {current}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.emailPlaceholder"
@@ -1845,11 +1845,11 @@ msgstr "ban@email.com"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinEyebrow"
-msgstr ""
+msgstr "Nhóm đang chờ bạn"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.firstTripTitle"
-msgstr ""
+msgstr "Chuyến đầu tiên của nhóm, bọn mình mời"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.emailLabel"
@@ -1861,19 +1861,19 @@ msgstr "hướng dẫn viên của bạn"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideRole"
-msgstr ""
+msgstr "Hướng dẫn viên của bạn · Hội An"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.yourCode"
-msgstr ""
+msgstr "Mã mời của bạn"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.yourLink"
-msgstr ""
+msgstr "Link của bạn"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
-msgstr ""
+msgstr "Link của bạn nằm trong app: Bạn → Mời bạn bè. Chia sẻ từ đó nhé."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.yourLocal"
@@ -1885,8 +1885,8 @@ msgstr "SỐ THỨ TỰ CỦA BẠN"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeKept"
-msgstr ""
+msgstr "Kế hoạch, album và bản tổng kết của bạn, được giữ lại sau chuyến đi"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
 msgid "web.recap.openTitle"
-msgstr ""
+msgstr "Chuyến tiếp theo là của bạn?"

@@ -9,276 +9,276 @@ msgstr ""
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.consent"
-msgstr ""
+msgstr "Khi đồng ý, bạn chấp nhận để CritterPass hiển thị các thông tin này, số WhatsApp của bạn và đánh giá của các nhóm đã đi cùng bạn cho du khách dùng ứng dụng. Bạn có thể tạm dừng hoặc gỡ bỏ tại đây bất cứ lúc nào."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.car"
-msgstr ""
+msgstr "Xe"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.change"
-msgstr ""
+msgstr "Sửa thông tin của tôi"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.intro"
-msgstr ""
+msgstr "Xem các thông tin bên dưới. Không ai thấy gì cho đến khi bạn đồng ý, và bạn có thể gỡ bỏ bất cứ lúc nào từ trang này."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.pausedBody"
-msgstr ""
+msgstr "Các nhóm không tìm thấy bạn trong lúc tạm dừng. Đánh giá của bạn vẫn còn."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.listedBody"
-msgstr ""
+msgstr "Các nhóm lên kế hoạch đi {area} có thể tìm thấy bạn và nhắn bạn qua WhatsApp. Quay lại liên kết này để thay đổi bất cứ điều gì."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.driver"
-msgstr ""
+msgstr "Tài xế"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.fairPrice"
-msgstr ""
+msgstr "Giá hợp lý"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.goodEnglish"
-msgstr ""
+msgstr "Tiếng Anh tốt"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.greatPhotos"
-msgstr ""
+msgstr "Chụp ảnh đẹp"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.hello"
-msgstr ""
+msgstr "Chào {name}. Một nhóm {size} người muốn giới thiệu bạn."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.pauseHint"
-msgstr ""
+msgstr "Ẩn đi khi bạn đã kín lịch"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.turnOff"
-msgstr ""
+msgstr "Ẩn đánh giá"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.dayTrips"
-msgstr ""
+msgstr "Tôi nhận chuyến đi trong ngày"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.expiredBody"
-msgstr ""
+msgstr "Lời mời dùng được trong 30 ngày. Không có gì được đưa lên danh sách. Hãy nhờ nhóm gửi lời mời mới."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.invalidBody"
-msgstr ""
+msgstr "Có thể liên kết đã bị huỷ hoặc thay thế. Hãy nhờ nhóm gửi liên kết mới."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.keep"
-msgstr ""
+msgstr "Giữ hồ sơ của tôi"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.knewTheSpots"
-msgstr ""
+msgstr "Rành các điểm đến"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.languages"
-msgstr ""
+msgstr "Ngôn ngữ"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.listMe"
-msgstr ""
+msgstr "Đưa tôi lên danh sách"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.listedBadge"
-msgstr ""
+msgstr "Đã lên danh sách"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.newCar"
-msgstr ""
+msgstr "Xe mới"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.declined"
-msgstr ""
+msgstr "Không sao"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.noThanks"
-msgstr ""
+msgstr "Không, cảm ơn"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.removedBody"
-msgstr ""
+msgstr "Không còn thông tin nào về bạn hiển thị trên CritterPass nữa."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.ratingsOff"
-msgstr ""
+msgstr "Tắt"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.ratingsOn"
-msgstr ""
+msgstr "Bật · {loved}/{rated} người rất thích"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.onTime"
-msgstr ""
+msgstr "Đúng giờ"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.open"
-msgstr ""
+msgstr "Mở hồ sơ của tôi"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.patient"
-msgstr ""
+msgstr "Kiên nhẫn"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.pause"
-msgstr ""
+msgstr "Tạm dừng hồ sơ của tôi"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.pausedBadge"
-msgstr ""
+msgstr "Đang tạm dừng"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.removeAsk"
-msgstr ""
+msgstr "Gỡ bỏ hẳn?"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.remove"
-msgstr ""
+msgstr "Gỡ hồ sơ của tôi"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.removeBody"
-msgstr ""
+msgstr "Gỡ hồ sơ và đánh giá của bạn khỏi CritterPass ngay lập tức. Các nhóm đã có số của bạn vẫn giữ số đó trong chuyến đi của họ."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tag.safeDriver"
-msgstr ""
+msgstr "Lái xe an toàn"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.save"
-msgstr ""
+msgstr "Lưu"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.saved"
-msgstr ""
+msgstr "Đã lưu."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.seats"
-msgstr ""
+msgstr "Số chỗ"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.sendCode"
-msgstr ""
+msgstr "Gửi mã cho tôi qua WhatsApp"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.areasHint"
-msgstr ""
+msgstr "Ngăn cách các nơi bằng dấu phẩy"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.resume"
-msgstr ""
+msgstr "Hiện lại hồ sơ của tôi"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.turnOn"
-msgstr ""
+msgstr "Hiện đánh giá"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.showRatings"
-msgstr ""
+msgstr "Hiện đánh giá và nhãn"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.failed"
-msgstr ""
+msgstr "Đã có lỗi. Thử lại nhé."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.codeExpired"
-msgstr ""
+msgstr "Mã đó đã hết hạn. Hãy gửi mã mới."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.wrongCode"
-msgstr ""
+msgstr "Mã đó chưa đúng. Thử lại nhé."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.code"
-msgstr ""
+msgstr "Mã"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.invalid"
-msgstr ""
+msgstr "Liên kết này không dùng được"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.expired"
-msgstr ""
+msgstr "Liên kết này đã tắt"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.bookmark"
-msgstr ""
+msgstr "Mỗi lần bạn thay đổi, trang này có một liên kết riêng mới. Hãy lưu lại."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.usedBody"
-msgstr ""
+msgstr "Để sửa hồ sơ, chúng tôi có thể gửi mã tới WhatsApp của bạn và mở lại."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.tooMany"
-msgstr ""
+msgstr "Thử quá nhiều lần. Chờ vài phút nhé."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.verified"
-msgstr ""
+msgstr "Đã xác minh"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.declinedBody"
-msgstr ""
+msgstr "Chúng tôi đã xoá lời mời. Không có thông tin nào về bạn hiển thị trên CritterPass."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.codeSent"
-msgstr ""
+msgstr "Chúng tôi đã gửi mã 6 chữ số tới {phone} qua WhatsApp."
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.preview"
-msgstr ""
+msgstr "Các nhóm sẽ thấy gì"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.price"
-msgstr ""
+msgstr "Điều bạn nói với các nhóm về giá"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.whatsapp"
-msgstr ""
+msgstr "WhatsApp"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.areas"
-msgstr ""
+msgstr "Nơi bạn chạy xe"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.yes"
-msgstr ""
+msgstr "Đồng ý, đưa tôi lên danh sách"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.removeYes"
-msgstr ""
+msgstr "Đồng ý, gỡ bỏ"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.used"
-msgstr ""
+msgstr "Bạn đã dùng liên kết này rồi"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.listedTitle"
-msgstr ""
+msgstr "Bạn đã lên danh sách, {name}"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.pageTitle"
-msgstr ""
+msgstr "Hồ sơ CritterPass của bạn"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.removed"
-msgstr ""
+msgstr "Hồ sơ của bạn đã được gỡ"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.pausedTitle"
-msgstr ""
+msgstr "Hồ sơ của bạn đang tạm dừng, {name}"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.name"
-msgstr ""
+msgstr "Tên của bạn"
 
 #: ../../apps/web/src/components/driver-claim/copy.ts
 msgid "driverClaim.priceHint"
-msgstr ""
+msgstr "Lời của bạn, ví dụ \"Rp 900k một ngày, gồm xăng và phí đỗ xe\""

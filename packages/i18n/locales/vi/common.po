@@ -423,7 +423,7 @@ msgstr "Trợ giúp"
 
 #: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
 msgid "common.missing.back"
-msgstr ""
+msgstr "Quay lại"
 
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
@@ -480,7 +480,7 @@ msgstr "Island toast"
 
 #: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
 msgid "common.missing.line"
-msgstr ""
+msgstr "Có thể mục này đã bị xoá, hoặc máy này chưa nhận được."
 
 #: ../../apps/mobile/src/ui/plan/DiffRow.tsx
 msgid "common.plan.keepChange"
@@ -588,7 +588,7 @@ msgstr "MVP"
 
 #: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
 msgid "motion.commandFeedback.needsSignal"
-msgstr ""
+msgstr "Cần có sóng. Thử lại khi bạn có mạng nhé."
 
 #: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
 msgid "common.story.next"
@@ -931,7 +931,7 @@ msgstr "Mã chưa đúng. Hãy kiểm tra rồi thử lại."
 
 #: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
 msgid "motion.commandFeedback.refused"
-msgstr ""
+msgstr "Chưa được."
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.IDEMPOTENCY_MISMATCH"
@@ -1011,7 +1011,7 @@ msgstr "Bạn chưa dùng được mục này."
 
 #: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
 msgid "common.missing.title"
-msgstr ""
+msgstr "Mục này không còn ở đây nữa"
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.ACTION_KEY_SCOPE"
