@@ -122,7 +122,7 @@ msgstr "Trung tâm trợ giúp"
 
 #: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
 msgid "help.shake.hidden"
-msgstr ""
+msgstr "Đã ẩn khỏi ảnh chụp màn hình: màn hình này có thông tin riêng tư."
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
@@ -143,6 +143,14 @@ msgstr "Kèm thông tin thiết bị"
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingBody"
 msgstr "Bài sẽ có cùng trung tâm trợ giúp lần tới khi bạn online."
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discard"
+msgstr "Rời đi"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardTitle"
+msgstr "Rời đi mà chưa gửi?"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
@@ -433,6 +441,10 @@ msgstr "Ý tưởng của bạn cho bảng"
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
 msgstr "Ghi chú của bạn"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardLine"
+msgstr "Ghi chú và ảnh kèm theo sẽ bị bỏ."
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"

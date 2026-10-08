@@ -16,6 +16,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { CollapsingHeader } from './collapsing-header';
 import { TokekFooter } from './tokek-footer';
 
 export interface SettingsSection {
@@ -65,7 +66,7 @@ export function SettingsView(props: SettingsViewProps) {
         stickyHeaderIndices={[0]}
         contentContainerStyle={{ paddingBottom: theme.space['32'] }}
       >
-        <View style={{ backgroundColor: theme.semantic.bg.base }}>
+        <CollapsingHeader collapse={collapse}>
           <LargeTitle
             title={t({ id: 'you.settings.title', message: 'Settings' })}
             collapse={collapse}
@@ -89,7 +90,7 @@ export function SettingsView(props: SettingsViewProps) {
                   ),
                 })}
           />
-        </View>
+        </CollapsingHeader>
         <View style={styles.content}>
           {drawn.map((section) => (
             <Fragment key={section.id}>

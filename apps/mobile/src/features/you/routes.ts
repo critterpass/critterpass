@@ -32,6 +32,8 @@ export const crewHref = (crewId: string): Href => ({
   params: { crewId },
 });
 export const NEW_CREW_ROUTE: Href = '/crew/new';
+/** The member's referral link and who joined with it (the crew area's screen), opened from Settings. */
+export const INVITE_FRIENDS_ROUTE: Href = '/crew/invite-friends';
 
 export const YOU_SCREENS: Readonly<Record<string, Href>> = {
   '3n-1': YOU_ROUTES.profile,

@@ -606,6 +606,10 @@ msgstr "Initials"
 msgid "you.avatar.tab.initials"
 msgstr "Initials"
 
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.inviteFriends"
+msgstr "Invite friends"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.available"
 msgstr "It’s yours if you save."
@@ -1456,6 +1460,10 @@ msgstr "Your guides"
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
 msgid "you.currency.chosen"
 msgstr "Your home currency now"
+
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.inviteFriendsLine"
+msgstr "Your link, and who joined with it"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.pass"

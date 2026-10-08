@@ -24,6 +24,14 @@ export function isRefusal(status: number, error: WireError | null): boolean {
   );
 }
 
+/**
+ * The refusal is about what the batch holds (its size, its shape), so part of the batch can get a
+ * different answer. Any other refusal is about the caller or the route: no op is at fault.
+ */
+export function isContentRefusal(code: string): boolean {
+  return code === 'PAYLOAD_TOO_LARGE' || code === 'VALIDATION';
+}
+
 export function results(body: unknown): UploadResult[] {
   const list = (body as { results?: unknown } | null)?.results;
   return Array.isArray(list) ? (list as UploadResult[]) : [];

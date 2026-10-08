@@ -34,7 +34,7 @@ const ROUTE_TRANSITIONS: readonly {
 ];
 
 /** In-place transitions, previewed from their gallery fixtures (tap each to replay). */
-const IN_PLACE_TRANSITIONS = ['Burst', 'Fold', 'Flip'] as const;
+const IN_PLACE_TRANSITIONS = ['Burst', 'Fold'] as const;
 
 /**
  * Shell demo: every navigation transition. A screen opened cold (a link, a notification) has

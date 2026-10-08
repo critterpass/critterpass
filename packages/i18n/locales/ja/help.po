@@ -144,6 +144,14 @@ msgstr "端末情報を含める"
 msgid "help.article.missingBody"
 msgstr "次にオンラインになったとき、ヘルプセンターと一緒に届きます。"
 
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.ideas.open"
@@ -433,6 +441,10 @@ msgstr "ボードへのアイデア"
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
 msgstr "あなたのメモ"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"

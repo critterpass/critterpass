@@ -31,7 +31,7 @@ msgstr "{0} có Pass+. Hỏi trong nhóm chat, {guideName} sẽ trả lời ở 
 #. placeholder {1}: meter.limit
 #: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
 msgid "guide.meter.count"
-msgstr "{0}/{1} hôm nay"
+msgstr "{0} trên {1} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
@@ -78,7 +78,7 @@ msgstr "{question} Thực đơn: {dishes}"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.count"
-msgstr "{used}/{limit} hôm nay"
+msgstr "{used} trên {limit} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.driver"

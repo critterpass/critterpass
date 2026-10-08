@@ -23,11 +23,11 @@ describe('SOS session map', () => {
     expect(frame({ lat: 15.88, lng: 108.33 }, sender).zoom).toBeLessThan(near.zoom);
   });
 
-  it("hands walking directions to the phone's maps app", () => {
-    expect(walkingDirectionsUrl(sender, 'ios')).toBe(
+  it('hands walking directions to the chosen maps app', () => {
+    expect(walkingDirectionsUrl(sender, 'apple')).toBe(
       'https://maps.apple.com/?daddr=16.061100,108.227200&dirflg=w',
     );
-    expect(walkingDirectionsUrl(sender, 'android')).toBe(
+    expect(walkingDirectionsUrl(sender, 'google')).toBe(
       'https://www.google.com/maps/dir/?api=1&destination=16.061100,108.227200&travelmode=walking',
     );
   });

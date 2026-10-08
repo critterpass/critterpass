@@ -64,7 +64,7 @@ msgstr "{days, plural, other {# ngày nữa}}"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.earnedCount"
-msgstr ""
+msgstr "{earnedUnlocked}/{earnedTotal}"
 
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.currency.homeChosenLine"
@@ -88,7 +88,7 @@ msgstr "{language} · giá theo {symbol} và tiền địa phương"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.lockedLine"
-msgstr ""
+msgstr "{lockedName} phải kiếm được trong một chuyến đi. Tìm thấy là mở khoá."
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.tripCoOrganiser"
@@ -108,7 +108,7 @@ msgstr "{place} hôm nay"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.counts"
-msgstr ""
+msgstr "{styleCount, plural, one {# kiểu · {earnedUnlocked} đã kiếm được} other {# kiểu · {earnedUnlocked} đã kiếm được}}"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.found"
@@ -128,7 +128,7 @@ msgstr "Một tiếng kêu khi hướng dẫn viên xuất hiện"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
 msgid "you.androidPermissions.dnd"
-msgstr ""
+msgstr "SOS của bạn đồng hành sẽ im lặng trong chế độ Không làm phiền. Cho phép nó reo xuyên qua."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
@@ -152,7 +152,7 @@ msgstr "Thêm các ngôn ngữ bạn nói"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
 msgid "you.androidPermissions.fullScreen"
-msgstr ""
+msgstr "Báo thức đang hiện dạng biểu ngữ. Cho phép toàn màn hình để đánh thức bạn trên màn hình khóa."
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
 msgid "you.stamps.allYears"
@@ -177,11 +177,11 @@ msgstr "Ứng dụng"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.appIcon"
-msgstr ""
+msgstr "Biểu tượng ứng dụng"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.title"
-msgstr ""
+msgstr "Biểu tượng ứng dụng"
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 msgid "you.language.appLanguage"
@@ -189,7 +189,7 @@ msgstr "Ngôn ngữ ứng dụng"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.appearance"
-msgstr ""
+msgstr "Giao diện"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
@@ -323,7 +323,7 @@ msgstr "Critter {0}"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.footer"
-msgstr ""
+msgstr "Biểu tượng critter phải có mặt mới kiếm được, và không cái nào mua được."
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.voices"
@@ -343,7 +343,7 @@ msgstr "Đàn bầu lo-fi"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.dark"
-msgstr ""
+msgstr "Tối"
 
 #: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.deleteAccount"
@@ -391,11 +391,11 @@ msgstr "Mỗi hướng dẫn viên có một giai điệu. Nhạc đổi khi b�
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.earned"
-msgstr ""
+msgstr "Đã kiếm được"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.earnedTitle"
-msgstr ""
+msgstr "Kiếm được trên đường"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
@@ -444,7 +444,7 @@ msgstr "Các khoản chi bạn đã thêm, để Số dư vẫn khớp"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.face"
-msgstr ""
+msgstr "Gương mặt"
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.sardi"
@@ -468,7 +468,7 @@ msgstr "Chuyển tiếp xác nhận đến địa chỉ của hội"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.free"
-msgstr ""
+msgstr "Miễn phí"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.fr"
@@ -592,7 +592,7 @@ msgstr "Phong cách đi của bạn"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.inUse"
-msgstr ""
+msgstr "Đang dùng"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.id"
@@ -605,6 +605,10 @@ msgstr "Chữ cái đầu"
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.tab.initials"
 msgstr "Chữ cái đầu"
+
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.inviteFriends"
+msgstr "Mời bạn bè"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.available"
@@ -677,7 +681,7 @@ msgstr "Báo thức giờ xuất phát"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
 msgid "you.androidPermissions.exactAlarm"
-msgstr ""
+msgstr "Báo thức giờ đi có thể reo trễ vài phút. Cho phép báo thức reo đúng giờ."
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
@@ -693,11 +697,11 @@ msgstr "Chỉ chữ, số, dấu chấm và gạch dưới."
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.light"
-msgstr ""
+msgstr "Sáng"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
 msgid "you.androidPermissions.promoted"
-msgstr ""
+msgstr "Cập nhật trực tiếp đang tắt, nên đếm ngược chuyến đi nằm trong bảng thông báo chứ không ở thanh trạng thái."
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.mode.local"
@@ -709,7 +713,7 @@ msgstr "Vị trí"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.locked"
-msgstr ""
+msgstr "Đã khoá"
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.manageSubscription"
@@ -767,7 +771,7 @@ msgstr "Không bao giờ hiện cho ai, kể cả hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.new"
-msgstr ""
+msgstr "Mới"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.dots"
@@ -796,7 +800,7 @@ msgstr "Thông báo"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
 msgid "you.androidPermissions.notifications"
-msgstr ""
+msgstr "Thông báo đang tắt, nên báo thức, SOS và bình chọn không tới được bạn."
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
@@ -849,7 +853,7 @@ msgstr "Pass"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passPlus"
-msgstr ""
+msgstr "Pass+"
 
 #: ../../apps/mobile/src/features/you/app-icon/lapse-revert.tsx
 msgid "you.appIcon.lapsed"
@@ -873,7 +877,7 @@ msgstr "Pass+, gói của bạn"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
-msgstr ""
+msgstr "Hộ chiếu"
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.editTitle"
@@ -901,7 +905,7 @@ msgstr "Chọn một loại, hoặc đặt sân bay nhà"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.appIconLine"
-msgstr ""
+msgstr "Chọn biểu tượng trên màn hình chính"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideLockscreenLine"
@@ -930,7 +934,7 @@ msgstr "Phát nhạc"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.pon"
-msgstr ""
+msgstr "Pon"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.pt"
@@ -1010,11 +1014,11 @@ msgstr "Làm lại"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.styleNote"
-msgstr ""
+msgstr "Giống biểu tượng trên cửa hàng"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.sardi"
-msgstr ""
+msgstr "Sardi"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
 msgid "you.edit.save"
@@ -1066,7 +1070,7 @@ msgstr "Cài đặt"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.back"
-msgstr ""
+msgstr "Cài đặt"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.back"
@@ -1086,11 +1090,11 @@ msgstr "Hãy thanh toán trước, nếu không {crew} sẽ giữ số này."
 
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.shakeToReportLine"
-msgstr ""
+msgstr "Lắc ở bất kỳ màn hình nào để báo lỗi kèm ảnh chụp màn hình"
 
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.shakeToReport"
-msgstr ""
+msgstr "Lắc để báo lỗi"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShare"
@@ -1196,7 +1200,7 @@ msgstr "Gửi thẳng đến đội ngũ"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.style"
-msgstr ""
+msgstr "Kiểu"
 
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.idea"
@@ -1216,7 +1220,7 @@ msgstr "Bạn muốn thêm gì, hãy cho chúng tôi biết"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.temple"
-msgstr ""
+msgstr "Đền"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.th"
@@ -1252,11 +1256,11 @@ msgstr "Nhóm giữ lại"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.failed"
-msgstr ""
+msgstr "Biểu tượng chưa đổi được. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.appearanceLine"
-msgstr ""
+msgstr "Biểu tượng theo giao diện của điện thoại."
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.stickersLine"
@@ -1264,7 +1268,7 @@ msgstr "Tiếng dán, tiếng đóng dấu, tiếng bóc"
 
 #: ../../apps/mobile/src/features/you/settings/widgets-row.ts
 msgid "you.settings.widgetsLine"
-msgstr ""
+msgstr "Chuyến đi trên màn hình chính"
 
 #: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
 msgid "you.profile.retakeTitle"
@@ -1293,7 +1297,7 @@ msgstr "Giờ và khoảng cách"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.tinted"
-msgstr ""
+msgstr "Phủ màu"
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.samplePlace"
@@ -1386,7 +1390,7 @@ msgstr "Vì sao bạn rời đi? Không bắt buộc"
 
 #: ../../apps/mobile/src/features/you/settings/widgets-row.ts
 msgid "you.settings.widgets"
-msgstr ""
+msgstr "Tiện ích"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.cooldown"
@@ -1456,6 +1460,10 @@ msgstr "Hướng dẫn viên của bạn"
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
 msgid "you.currency.chosen"
 msgstr "Tiền nhà hiện tại của bạn"
+
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.inviteFriendsLine"
+msgstr "Liên kết của bạn và những ai đã tham gia"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.pass"

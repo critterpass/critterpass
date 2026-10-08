@@ -1,0 +1,98 @@
+appId: app.critterpass.dev
+---
+# Journey: a friend who has just installed the app opens the crew's invite link and saves the pass
+# with a phone number. Nothing is seeded:
+# 1. the staging test number is freed (only from an account these flows made);
+# 2. the organiser, a new account through the real screens, starts the crew "CP Test Sign-out"
+#    from Home and its code is kept (the marker name is what lets the friend's account be erased
+#    at the end);
+# 3. the phone becomes a fresh install, the app is stopped, and the link starts it on the invite
+#    ticket, not on the splash;
+# 4. TAKE THE SEAT, the pass page asks for a name and a home, ISSUE MY PASS, and the pass is saved
+#    with the test number: the phone page goes back to the pass, which takes the seat, and the
+#    manifest shows the newcomer. Never the permissions page, never Home without the crew;
+# 5. Home carries the crew, and the friend's account is erased again, leaving the number free.
+# Uses the test number: never at the same time as `account` on another device.
+# Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: subflows/free-test-number.yaml
+
+# The organiser: a pass, then START A CREW on Home.
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow: subflows/start-marker-crew.yaml
+- assertTrue:
+    condition: ${output.crewCode.length == 6}
+    label: 'the new crew shows a six-character join code'
+
+# The friend's phone: a fresh install, opened by the link while the app is not running.
+- runFlow: subflows/fresh-install.yaml
+# The device's link opener can time out before the app is involved: the link is opened again then.
+- retry:
+    maxRetries: 2
+    commands:
+      - stopApp
+      - openLink: critterpass-dev://i/${output.crewCode}
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-take-seat'
+    timeout: 60000
+- assertVisible:
+    id: 'screen-onboarding-invite-ticket'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-invite-link-ticket
+- scrollUntilVisible:
+    element:
+      id: 'invite-take-seat'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'invite-take-seat'
+- runFlow: subflows/invited-pass.yaml
+- takeScreenshot: en-journey-invite-link-pass
+- tapOn:
+    id: 'invite-pass-issue'
+
+# Saved with the phone number: verified on the phone page, then back on the pass.
+- extendedWaitUntil:
+    visible:
+      id: 'save-phone'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'save-phone'
+- runFlow: subflows/test-number-sign-in.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-newcomer'
+    timeout: 90000
+- assertNotVisible:
+    id: 'permissions-primer-later'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-invite-link-manifest
+
+# Home carries the crew they joined (its name is the one this flow typed).
+- scrollUntilVisible:
+    element:
+      id: 'invite-manifest-plan'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'invite-manifest-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew-name'
+    timeout: 60000
+- extendedWaitUntil:
+    visible: '(?i).*cp test sign-out.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-invite-link-home
+
+# The number is free again for the next run.
+- runFlow: subflows/erase-test-account.yaml

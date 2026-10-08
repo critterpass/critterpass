@@ -8,8 +8,6 @@ export type { KeyboardScrollViewProps } from './layout/KeyboardScrollView';
 export { KeyboardScrollView } from './layout/KeyboardScrollView';
 export type { RowProps } from './layout/Row';
 export { Row } from './layout/Row';
-export type { SpacerProps } from './layout/Spacer';
-export { Spacer } from './layout/Spacer';
 export type { SpaceStep, StackProps } from './layout/Stack';
 export { Stack } from './layout/Stack';
 export type { ScaffoldProps, ScaffoldVariant, SurfaceTone } from './surface/Scaffold';

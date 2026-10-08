@@ -12,8 +12,6 @@ import { drawGate } from '@/motion/patterns/draw';
 import { ChoiceChip } from '../chips/ChoiceChip';
 import { CountBadge } from '../chips/CountBadge';
 import { FilterChip } from '../chips/FilterChip';
-import { StatChipRow } from '../chips/StatChipRow';
-import { TiltedSticker } from '../chips/TiltedSticker';
 import { Avatar } from '../people/Avatar';
 import { AvatarStack } from '../people/AvatarStack';
 import { CritterAvatar } from '../people/CritterAvatar';
@@ -60,15 +58,11 @@ describe('chips', () => {
       <View>
         <CountBadge count={0} testID="zero" />
         <CountBadge count={140} />
-        <StatChipRow stats={[{ key: 'c', value: '12', label: 'critters' }]} />
-        <TiltedSticker label="Kyoto" detail="3 votes" onPress={jest.fn()} />
       </View>,
     );
     expect(screen.queryByTestId('zero')).toBeNull();
     expect(screen.getByLabelText('140 new')).toBeTruthy();
     expect(screen.getByText('99+')).toBeTruthy();
-    expect(screen.getByLabelText('12 critters')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Kyoto, 3 votes' })).toBeTruthy();
   });
 });
 

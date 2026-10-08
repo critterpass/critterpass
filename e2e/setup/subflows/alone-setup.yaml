@@ -179,6 +179,20 @@ appId: app.critterpass.dev
     id: 'budget-under-all'
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-budget-alone
+# The typed amount opens a number pad: the field and the footer stay above it.
+- runFlow:
+    when:
+      visible:
+        id: 'budget-typed'
+    commands:
+      - tapOn:
+          id: 'budget-typed'
+      - waitForAnimationToEnd
+      - assertVisible:
+          id: 'budget-typed'
+      - takeScreenshot: ${SHOTS}-budget-number-pad
+      - hideKeyboard
+      - waitForAnimationToEnd
 - tapOn:
     id: 'budget-lock'
 
@@ -225,14 +239,16 @@ appId: app.critterpass.dev
 - takeScreenshot: ${SHOTS}-drafting-without-a-must-do
 
 # Crew chat: the place she locked in, with no vote drawn.
-- repeat:
-    while:
-      notVisible:
-        id: 'home-header-chat'
-    times: 6
-    commands:
-      - back
-      - waitForAnimationToEnd
+# Home by its link: the draft sits several screens deep, and the system back does nothing on iPhone.
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 30000
+- waitForAnimationToEnd
 - tapOn:
     id: 'home-header-chat'
 - extendedWaitUntil:

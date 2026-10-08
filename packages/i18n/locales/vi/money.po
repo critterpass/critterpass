@@ -329,15 +329,15 @@ msgstr "Chép"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedTitle"
-msgstr ""
+msgstr "Chưa mở được ảnh đó"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
 msgid "money.scan.commitOffline"
-msgstr ""
+msgstr "Chưa kết nối được với CritterPass. Có mạng rồi bấm CHIA LUÔN lại nhé."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableTitle"
-msgstr ""
+msgstr "Chưa đọc được hoá đơn này"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
 msgid "money.budget.target"
@@ -849,7 +849,7 @@ msgstr "Đã nhắc"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.retake"
-msgstr ""
+msgstr "Chụp lại"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retake"
@@ -890,7 +890,7 @@ msgstr "Quét hoá đơn"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedLine"
-msgstr ""
+msgstr "Quét hoá đơn, chọn ảnh khác, hoặc tự gõ vào. Chưa có gì được thêm."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
@@ -923,6 +923,10 @@ msgstr "Có người đã xoá nó. Số dư đã bỏ khoản này ra."
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.changePayer"
 msgstr "Người khác trả?"
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.someoneLeft"
+msgstr "Có người trong khoản này không còn trong chuyến đi. Hãy thêm lại mà không có họ."
 
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.body"
@@ -1002,13 +1006,17 @@ msgstr "Chạm vào một dòng để đổi người ăn."
 msgid "money.pay.disputeTitle"
 msgstr "Báo là chưa nhận được?"
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.other"
+msgstr "Chưa được."
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.error"
 msgstr "Chưa gửi được. Kiểm tra kết nối rồi thử lại."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
 msgid "money.scan.evenRefused"
-msgstr ""
+msgstr "Chưa được. Thử lại, hoặc tự gõ vào."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedTitle"
@@ -1016,7 +1024,7 @@ msgstr "Chưa tải lên được"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
 msgid "money.scan.commitRefused"
-msgstr ""
+msgstr "Phần chia đó chưa được ghi. Thử lại, hoặc tự gõ vào."
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.amount"
@@ -1038,9 +1046,17 @@ msgstr "Nhóm vẫn thấy nó trong lịch sử."
 msgid "money.detail.field.when"
 msgstr "ngày"
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.deleteExpense"
+msgstr "Khoản chi chưa được xoá"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.what"
 msgstr "tên"
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.markPaid"
+msgstr "Khoản này chưa được đánh dấu trả"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.split"
@@ -1064,7 +1080,7 @@ msgstr "Khoản chi này đã bị xoá"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.slowLine"
-msgstr ""
+msgstr "Lần này lâu hơn bình thường. Chờ tiếp, hoặc tự gõ vào."
 
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 msgid "money.pay.goneTitle"
@@ -1129,7 +1145,7 @@ msgstr "Nhập {amount} trong ứng dụng ngân hàng."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeIt"
-msgstr ""
+msgstr "Tự gõ vào"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
@@ -1137,7 +1153,7 @@ msgstr "Tự gõ vào"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableLine"
-msgstr ""
+msgstr "Tự gõ vào, hoặc chụp lại cho phẳng và đủ sáng. Chưa có gì được thêm."
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
@@ -1234,6 +1250,10 @@ msgstr "Bạn đã trả {amount}"
 msgid "money.chat.youPaidFor"
 msgstr "Bạn đã trả {amount} cho {what}"
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.youLeft"
+msgstr "Bạn không còn trong chuyến đi này."
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owed"
 msgstr "Bạn được nợ"
@@ -1242,3 +1262,11 @@ msgstr "Bạn được nợ"
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.settle.private"
 msgstr "Thông tin của bạn chỉ người trả tiền mới thấy."
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.editExpense"
+msgstr "Lần sửa khoản chi của bạn chưa được lưu"
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.addExpense"
+msgstr "Khoản chi của bạn chưa được thêm"

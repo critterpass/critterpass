@@ -8,13 +8,10 @@ import { PressScale } from '../press/PressScale';
 import { Stack } from '../layout/Stack';
 import { Text } from '../text/Text';
 import { BalanceBars } from './BalanceBars';
-import { CalendarHeatmap } from './CalendarHeatmap';
-import { Countdown } from './Countdown';
 import { CountUp } from './CountUp';
 import { DayBarsVsPlan } from './DayBarsVsPlan';
 import type { DaySpend } from './DayBarsVsPlan';
 import { Donut } from './Donut';
-import { HourlyCrowd } from './HourlyCrowd';
 import { LinearBar } from './LinearBar';
 import { MonthBars } from './MonthBars';
 import { Odometer } from './Odometer';
@@ -22,8 +19,6 @@ import { PollBars } from './PollBars';
 import { ProgressRing } from './ProgressRing';
 import { SegmentedProgress } from './SegmentedProgress';
 import { SplitFlap } from './SplitFlap';
-import { StreamText } from './StreamText';
-import { WeatherStrip } from './WeatherStrip';
 
 const { color } = tokens;
 
@@ -57,8 +52,6 @@ function SplitFlapDemo() {
     </Stack>
   );
 }
-
-const inMs = (ms: number) => new Date(Date.now() + ms);
 
 registerFixture('SegmentedProgress', 'two of four', () => (
   <SegmentedProgress total={4} done={2} label="Kyoto setup" />
@@ -119,19 +112,6 @@ registerFixture('MonthBars', 'best time to go', () => (
     }))}
   />
 ));
-registerFixture('HourlyCrowd', 'now marker', () => (
-  <HourlyCrowd
-    title="Crowds on Apr 3"
-    nowHour={7}
-    badgeLabel="Go before 7:30"
-    hours={[0.1, 0.2, 0.4, 0.7, 0.9, 0.95, 0.85, 0.8, 0.75, 0.6, 0.4, 0.3, 0.2, 0.15, 0.1].map(
-      (level, index) => ({
-        hour: 6 + index,
-        level,
-      }),
-    )}
-  />
-));
 registerFixture('BalanceBars', 'crew of six', () => (
   <BalanceBars
     owesHeading="Owes"
@@ -161,29 +141,6 @@ registerFixture('DayBarsVsPlan', 'day five of eight', () => (
       .concat([6, 7, 8].map((day) => ({ label: `D${day}`, plan: 0.1, amountLabel: 'not yet' })))}
   />
 ));
-registerFixture('WeatherStrip', 'rest of the trip', () => (
-  <WeatherStrip
-    days={[
-      { day: 'Wed', place: 'Ubud', temperature: '31°', rain: 0.1 },
-      { day: 'Thu', place: 'Batur', temperature: '30°', rain: 0.2 },
-      { day: 'Fri', place: 'Boat', temperature: '28°', rain: 0.7 },
-      { day: 'Sat', place: 'Free', temperature: '30°', rain: 0.2 },
-    ]}
-  />
-));
-registerFixture('CalendarHeatmap', 'April availability', () => (
-  <CalendarHeatmap
-    title="April 2027"
-    weekdays={['M', 'T', 'W', 'T', 'F', 'S', 'S']}
-    leadingBlanks={3}
-    total={6}
-    range={{ from: 2, to: 9 }}
-    rangeLabel="Apr 2–9 · all 6 free"
-    days={[
-      4, 6, 6, 6, 6, 6, 6, 6, 6, 5, 4, 3, 3, 2, 3, 4, 5, 5, 3, 2, 2, 3, 4, 4, 3, 2, 1, 2, 3, 4,
-    ].map((free, index) => ({ day: index + 1, free }))}
-  />
-));
 registerFixture('PollBars', 'final vote', () => (
   <PollBars
     question="Next trip"
@@ -193,23 +150,8 @@ registerFixture('PollBars', 'final vote', () => (
     ]}
   />
 ));
-registerFixture('Countdown', 'days away', () => (
-  <Countdown target={inMs(17 * 86_400_000 + 4 * 3_600_000)} label="Kyoto in" />
-));
-registerFixture('Countdown', 'turns urgent', () => (
-  <Countdown
-    target={inMs(75_000)}
-    units="ms"
-    label="Leave by"
-    urgentLabel="Leave now"
-    urgentBelowMs={60_000}
-  />
-));
 registerFixture('Odometer', 'rolling total', () => <OdometerDemo />);
 registerFixture('SplitFlap', 'gate change', () => <SplitFlapDemo />);
 registerFixture('CountUp', 'recap stat', () => (
   <CountUp value={128} accessibilityLabel="Kilometres walked" />
-));
-registerFixture('StreamText', 'guide line', () => (
-  <StreamText text="Keep going past the Yotsutsuji viewpoint. Most people turn back there." />
 ));

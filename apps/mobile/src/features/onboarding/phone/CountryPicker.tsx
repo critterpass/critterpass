@@ -63,6 +63,7 @@ export function CountryPicker({
           value={query}
           onChangeText={setQuery}
           label={t({ id: 'onboarding.phone.countrySearch', message: 'Search countries' })}
+          testID="country-search"
         />
         <FlatList
           style={styles.list}

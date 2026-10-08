@@ -15,6 +15,7 @@ jest.mock('@/ui/transitions/use-shared-source', () => ({
   zoomTo: jest.fn(() => Promise.resolve()),
 }));
 
+import { DomainError } from '@cp/domain';
 import { afterAll, afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
@@ -25,6 +26,7 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { enqueue } from '@/data/powersync/test-support/queue-fixtures';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 import { motionFreeze } from '@/motion/slowmo';
@@ -232,6 +234,38 @@ describe('modes', () => {
     await until(() => screen.queryByTestId('home-no-trip') !== null);
     // Three in the crew: nothing asks them to invite friends.
     expect(screen.queryByTestId('home-invite-friends')).toBeNull();
+  });
+
+  it('says changes are not being sent while the server refuses the queue, until it drains', async () => {
+    let down = true;
+    stack = await openTestLocalFirst({
+      holdUploads: true,
+      transport: {
+        postJson(_path, body) {
+          const refusal = new DomainError('FORBIDDEN');
+          const ids = (body as { ops: { op_id: string }[] }).ops.map((op) => op.op_id);
+          return Promise.resolve(
+            down
+              ? { status: refusal.http, body: refusal.toResponseBody() }
+              : {
+                  status: 200,
+                  body: { results: ids.map((id) => ({ op_id: id, status: 'applied' })) },
+                },
+          );
+        },
+      },
+    });
+    const s = stack;
+    await seedCrew(s);
+    await enqueue(s.db, s.uid, 'create_test_crew', {});
+    await s.value.queue.flush();
+    await renderHome(<HomeScreen />, s);
+    await until(() => screen.queryByTestId('home-sync-held') !== null);
+
+    down = false;
+    await s.value.queue.retryNow();
+    await until(() => screen.queryByTestId('home-sync-held') === null);
+    expect(screen.getByTestId('home-no-trip')).toBeTruthy();
   });
 
   it('gives a crew of one the way to invite friends', async () => {

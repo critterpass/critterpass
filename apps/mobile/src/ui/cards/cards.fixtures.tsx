@@ -11,11 +11,9 @@ import { makeStyles, useTheme } from '../theme';
 import { ActionCard } from './ActionCard';
 import { Card } from './Card';
 import { CountdownCard } from './CountdownCard';
-import { CrewCard } from './CrewCard';
 import { DashedAddCard } from './DashedAddCard';
 import { HeroPanel } from './HeroPanel';
 import { ListCard } from './ListCard';
-import { SuggestionCard } from './SuggestionCard';
 import { TileGrid } from './TileGrid';
 
 const noop = () => undefined;
@@ -175,31 +173,9 @@ registerFixture('CountdownCard', 'long destination', () => (
   <CountdownCard eyebrow="Next up · Mar 30" title="Reykjavík and the Golden Circle" tone="blue" />
 ));
 registerFixture('ActionCard', 'slides off when handled', () => <SlideOffDemo />);
-registerFixture('SuggestionCard', 'guide pick with actions', () => (
-  <SuggestionCard
-    eyebrow="Tokek's pick"
-    title="Sunrise at Mount Batur"
-    reason="Leave by 2 am, worth every yawn."
-    art={<Icon name="volcano" size={40} decorative />}
-    actions={<SampleAction label="Add to plan" onPress={noop} />}
-  />
-));
-registerFixture('SuggestionCard', 'tappable', () => (
-  <SuggestionCard title="Warung Babi Guling" reason="Two streets from your stay" onPress={noop} />
-));
 registerFixture('DashedAddCard', 'card', () => (
   <DashedAddCard label="Add a booking" onPress={noop} />
 ));
 registerFixture('DashedAddCard', 'circle pitch', () => (
   <DashedAddCard label="Pitch a place" shape="circle" size={110} onPress={noop} />
-));
-registerFixture('CrewCard', 'default', () => (
-  <CrewCard
-    name="The Bali Six"
-    detail="Bali · Oct 12–19"
-    membersLabel="6 members"
-    status={<Chip>Planning</Chip>}
-    statusLabel="Planning"
-    onPress={noop}
-  />
 ));

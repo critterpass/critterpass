@@ -11,7 +11,6 @@ import type { MessageDescriptor } from '@lingui/core';
 import { renderSupplierCopyEn } from '@cp/domain';
 
 import { KYOTO_TAXI_ESTIMATE } from '../../supplier/dev/fare-fixtures';
-import { toMinor } from '../LogRideSheet';
 import { chooseLeg, journeyProgress, nextTransfer, todaysStops, type PlanStop } from '../model';
 import { driverPhrase } from '../phrase';
 import { rideCard } from '../ride-card';
@@ -200,14 +199,5 @@ describe('the ride card', () => {
     );
     expect(card?.state).toBe('offline');
     expect(card?.detail).toMatch(/^At 10:10 Grab estimated .*90.*120/u);
-  });
-});
-
-describe('logging a ride', () => {
-  it('reads amounts in the currency’s own units', () => {
-    expect(toMinor('60.000', 'IDR')).toBe(6_000_000);
-    expect(toMinor('12,50', 'USD')).toBe(1250);
-    expect(toMinor('abc', 'USD')).toBeNull();
-    expect(toMinor('', 'USD')).toBeNull();
   });
 });

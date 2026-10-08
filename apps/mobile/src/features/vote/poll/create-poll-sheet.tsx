@@ -5,8 +5,10 @@
  */
 import { generateUuidV7, POLL_MAX_OPTIONS, POLL_MIN_OPTIONS } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import type { ComponentRef } from 'react';
 import { View } from 'react-native';
+import type { ScrollView, TextInput } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
@@ -90,6 +92,14 @@ export function CreatePollSheet({
     deadline: 'day',
     allowChange: true,
   });
+  // The question is field 0, the answers follow. The footer rides on the keyboard and covers the
+  // field under the one being typed in, so a field taking focus scrolls up until the one before it
+  // tops the form: the next field always shows, and return moves on to it.
+  const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
+  const inputs = useRef<(ComponentRef<typeof TextInput> | null)[]>([]);
+  const tops = useRef<number[]>([]);
+  const reveal = (field: number) =>
+    scroll.current?.scrollTo({ y: tops.current[Math.max(0, field - 1)] ?? 0, animated: true });
   const options = postableOptions(draft);
   const blocker = postBlocker(draft);
   const reason =
@@ -125,29 +135,59 @@ export function CreatePollSheet({
       accessibilityLabel={t({ id: 'vote.newPoll.title', message: 'New poll' })}
       testID="new-poll"
     >
-      <SheetScrollView keyboardShouldPersistTaps="handled">
+      <SheetScrollView ref={scroll} keyboardShouldPersistTaps="handled">
         <Stack style={styles.body}>
           <Text variant="h2" accessibilityRole="header">
             {t({ id: 'vote.newPoll.title', message: 'New poll' })}
           </Text>
-          <TextField
-            label={t({ id: 'vote.newPoll.question', message: 'Question' })}
-            value={draft.question}
-            onChangeText={(question) => setDraft((current) => ({ ...current, question }))}
-            maxLength={140}
-            autoFocus
-            testID="new-poll-question"
-          />
-          {draft.options.map((option, index) => (
+          <View
+            onLayout={(event) => {
+              tops.current[0] = event.nativeEvent.layout.y;
+            }}
+          >
             <TextField
-              key={index}
-              label={t({ id: 'vote.newPoll.option', message: `Answer ${index + 1}` })}
-              value={option}
-              onChangeText={(text) => setOption(index, text)}
-              maxLength={80}
-              testID={`new-poll-option-${index}`}
+              label={t({ id: 'vote.newPoll.question', message: 'Question' })}
+              value={draft.question}
+              onChangeText={(question) => setDraft((current) => ({ ...current, question }))}
+              maxLength={140}
+              autoFocus
+              returnKeyType="next"
+              submitBehavior="submit"
+              onSubmitEditing={() => inputs.current[1]?.focus()}
+              onFocus={() => reveal(0)}
+              testID="new-poll-question"
             />
-          ))}
+          </View>
+          {draft.options.map((option, index) => {
+            const last = index === draft.options.length - 1;
+            return (
+              <View
+                key={index}
+                onLayout={(event) => {
+                  tops.current[index + 1] = event.nativeEvent.layout.y;
+                }}
+              >
+                <TextField
+                  label={t({ id: 'vote.newPoll.option', message: `Answer ${index + 1}` })}
+                  value={option}
+                  onChangeText={(text) => setOption(index, text)}
+                  maxLength={80}
+                  inputRef={(input) => {
+                    inputs.current[index + 1] = input;
+                  }}
+                  {...(last
+                    ? {}
+                    : {
+                        returnKeyType: 'next' as const,
+                        submitBehavior: 'submit' as const,
+                        onSubmitEditing: () => inputs.current[index + 2]?.focus(),
+                      })}
+                  onFocus={() => reveal(index + 1)}
+                  testID={`new-poll-option-${index}`}
+                />
+              </View>
+            );
+          })}
           {draft.options.length < POLL_MAX_OPTIONS ? (
             <Row>
               <InlineAction

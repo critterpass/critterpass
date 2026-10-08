@@ -8,6 +8,7 @@ import { toLocalWallTime } from '@cp/domain';
 import { useEffect, useMemo, useState } from 'react';
 
 import { textArray } from '@/data/ideas/use-trip-ideas';
+import { seatHeldSql } from '@/data/trips/seat-sql';
 
 import { useLiveRows } from '../data/live-rows';
 import { planGaps, type PlanGap } from './plan-gaps';
@@ -31,7 +32,7 @@ const ITEMS_SQL = `SELECT i.stable_id, i.day_id, i.poi_id, coalesce(p.category, 
 const PLAN_TABLES = ['plan_days', 'plan_items', 'pois'];
 
 /** The trip's voters, as the server counts them: seat holders when two or more hold one. */
-const PEOPLE_SQL = `SELECT m.user_id, coalesce(p.holds_seat, 0) AS seat
+const PEOPLE_SQL = `SELECT m.user_id, ${seatHeldSql('p')} AS seat
   FROM trips t JOIN crew_members m ON m.crew_id = t.crew_id AND m.status = 'active'
     LEFT JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = m.user_id
   WHERE t.id = ? ORDER BY m.user_id`;
@@ -86,7 +87,7 @@ export function useNextGap(tripId: string): {
     versionId === null ? null : [versionId],
     PLAN_TABLES,
   );
-  const people = useLiveRows<{ user_id: string; seat: number }>(
+  const people = useLiveRows<{ user_id: string; seat: number | null }>(
     PEOPLE_SQL,
     [tripId],
     PEOPLE_TABLES,

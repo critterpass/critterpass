@@ -1,7 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 
-import { LocalFirstGate } from '@/features/explore';
 import { SearchScreen } from '@/features/explore/search/search-screen';
 import { deviceSearchServices } from '@/features/explore/search/data/device-search-services';
 import { SearchServicesProvider } from '@/features/explore/search/data/search-services';
@@ -21,17 +20,15 @@ export default function SearchRoute() {
   }>();
   const services = useMemo(() => deviceSearchServices(getOcr()), []);
   return (
-    <LocalFirstGate>
-      <SearchServicesProvider services={services}>
-        <SearchScreen
-          tripId={params.tripId ?? ''}
-          scope={scopeOf(params.scope)}
-          dayId={params.day_id}
-          poiId={params.poi_id}
-          near={params.near}
-          q={params.q}
-        />
-      </SearchServicesProvider>
-    </LocalFirstGate>
+    <SearchServicesProvider services={services}>
+      <SearchScreen
+        tripId={params.tripId ?? ''}
+        scope={scopeOf(params.scope)}
+        dayId={params.day_id}
+        poiId={params.poi_id}
+        near={params.near}
+        q={params.q}
+      />
+    </SearchServicesProvider>
   );
 }

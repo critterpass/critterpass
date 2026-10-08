@@ -149,15 +149,23 @@ describe('sheet routes outside (modal)', () => {
     expect(presented.get('(trip)')).toBe('page');
   });
 
-  it('turns the card into a pushed page while a page covers its sheet, and back', async () => {
+  it('keeps the card see-through while a page of the group covers its sheet', async () => {
     const app = await renderApp();
     await go(() => router.push('/crew'));
     await go(() => router.push('/crew/c1/settings'));
     expect(app.getPathname()).toBe('/crew/c1/settings');
-    expect(presented.get('crew')).toBe('page');
+    expect(presented.get('crew')).toBe('sheet');
 
     await go(() => router.back());
     expect(app.getPathname()).toBe('/crew');
     expect(presented.get('crew')).toBe('sheet');
+  });
+
+  it('turns the card into a pushed page once no sheet is left in the group', async () => {
+    const app = await renderApp();
+    await go(() => router.push('/crew'));
+    await go(() => router.replace('/crew/c1/settings'));
+    expect(app.getPathname()).toBe('/crew/c1/settings');
+    expect(presented.get('crew')).toBe('page');
   });
 });

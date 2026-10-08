@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Scaffold } from '@/ui/surface/Scaffold';
+import { RiseModal } from '@/ui/sheet/RiseModal';
 
 import { BoardingPassView } from '../boarding-pass/BoardingPassView';
 import { toWalletBooking, splitWallet, stackOrder, type WalletBooking } from '../data/model';
@@ -17,7 +17,7 @@ import { BookingDetailView } from '../detail/BookingDetailView';
 import { FlightCard } from '../flight-card/FlightCard';
 import { clock, dayDate, price } from '../format';
 import { flightView } from '../flight-card/flight-model';
-import { useChipLabel, useSourceLine } from '../flight-card/labels';
+import { useChipLabel, useUpdatedLine } from '../flight-card/labels';
 import { ArchiveView } from '../stack/ArchiveView';
 import { BookingBody } from '../stack/BookingBody';
 import { useDeckMeta } from '../stack/deck-meta';
@@ -129,7 +129,7 @@ function wallet(
 function DetailScene({ id }: { readonly id: string }) {
   const locale = useLocale();
   const chip = useChipLabel();
-  const source = useSourceLine();
+  const updated = useUpdatedLine();
   const booking = bookings().find((item) => item.id === id);
   if (booking === undefined) return null;
   const flight = booking.kind === 'flight';
@@ -141,7 +141,7 @@ function DetailScene({ id }: { readonly id: string }) {
       when={`${dayDate(locale, start, LAB_TZ)} ${clock(locale, start, LAB_TZ)}`}
       travellers={format.list(locale, flight ? ['Winston'] : LAB_MEMBERS.map((m) => m.name))}
       price={flight ? null : price(locale, 22800, 'USD')}
-      status={flight ? `${chip('on_time', 0)} · ${source('AeroAPI', '09:12')}` : null}
+      status={flight ? `${chip('on_time', 0)} · ${updated('09:12')}` : null}
       canReportLanded={false}
       docs={flight ? [] : [{ id: 'a1', label: 'Voucher.pdf', uri: 'file:///a1' }]}
       hasPass={flight}
@@ -155,12 +155,12 @@ function DetailScene({ id }: { readonly id: string }) {
   );
 }
 
-/** The paper the pass rises on in the app. */
+/** The same paper rise the pass opens in, close button included. */
 function PaperPage({ children }: { readonly children: ReactNode }) {
   return (
-    <Scaffold variant="paper" edges={['top', 'bottom']} testID="bookings-pass">
+    <RiseModal variant="paper" testID="bookings-pass">
       {children}
-    </Scaffold>
+    </RiseModal>
   );
 }
 

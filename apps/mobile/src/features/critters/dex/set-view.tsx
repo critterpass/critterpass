@@ -142,11 +142,18 @@ export function SetView({ set, onOpenCritter, onOpenWhere }: SetViewProps) {
                   <Text variant="displayXl" style={{ flex: 1 }}>
                     {upper(set.name, locale)}
                   </Text>
-                  <Row align="baseline">
-                    <Text variant="h2" autoFit={false}>
+                  {/* The count never gives up its width to a long set name, and each part widens
+                      to its glyphs: Android can draw "/11" wider than it measured it. */}
+                  <Row align="baseline" style={{ flexShrink: 0 }}>
+                    <Text variant="h2" autoFit={false} keepOneLine>
                       {String(set.found)}
                     </Text>
-                    <Text variant="h2" autoFit={false} color={theme.semantic.text.secondary}>
+                    <Text
+                      variant="h2"
+                      autoFit={false}
+                      keepOneLine
+                      color={theme.semantic.text.secondary}
+                    >
                       {`/${set.total}`}
                     </Text>
                   </Row>

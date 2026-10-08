@@ -10,7 +10,6 @@ import { ActionPill } from '../plan/ActionPill';
 import { Face } from '../plan/plan.fixtures';
 import { SilhouetteSlot } from '../sticker/SilhouetteSlot';
 import { Sticker } from '../sticker/Sticker';
-import { BefriendReveal } from './BefriendReveal';
 import { CritterDetail } from './CritterDetail';
 import { DexHeader } from './DexHeader';
 import { EncounterCard } from './EncounterCard';
@@ -21,10 +20,8 @@ import { HereNowForms } from './HereNowForms';
 import { LegendaryBanner } from './LegendaryBanner';
 import { MonthStrip } from './MonthStrip';
 import { QuestCard } from './QuestCard';
-import { SetGrid } from './SetGrid';
 import { StickerShelf } from './StickerShelf';
 import type { Tier } from './tier';
-import { tierColor } from './tier';
 import { WanderFootprints } from './WanderFootprints';
 
 const { color, tier: tiers } = tokens;
@@ -123,30 +120,6 @@ registerFixture('LegendaryBanner', 'on your dates', () => (
     onPress={noop}
   />
 ));
-registerFixture('SetGrid', 'home set grid', () => (
-  <SetGrid
-    title="Vietnam"
-    countLabel="3/10 · Home set"
-    onOpen={noop}
-    slots={[
-      { id: 'hn', name: 'Cụ Rùa', city: 'Hà Nội', sticker: gecko(48), formsFound: ['common'] },
-      { id: 'hl', city: 'Hạ Long', sticker: locked(48, 'Hạ Long') },
-      { id: 'sp', city: 'Sa Pa', sticker: locked(48, 'Sa Pa') },
-      { id: 'hue', name: 'Chép', city: 'Huế', sticker: gecko(48), formsFound: ['common', 'rare'] },
-    ]}
-  />
-));
-registerFixture('SetGrid', 'silhouette row', () => (
-  <SetGrid
-    variant="row"
-    title="#01 France"
-    countLabel="2/5 found"
-    slots={[
-      { id: 'p', city: 'Paris', sticker: locked(36, 'Paris') },
-      { id: 'l', city: 'Lyon', sticker: locked(36, 'Lyon') },
-    ]}
-  />
-));
 registerFixture('CritterDetail', 'temple Tokek', () => (
   <CritterDetail
     name="Temple Tokek"
@@ -183,17 +156,6 @@ registerFixture('EncounterCard', 'rare encounter', () => (
 ));
 registerFixture('WanderFootprints', 'wandered off', () => (
   <WanderFootprints accessibilityLabel="It wandered off toward the path" />
-));
-registerFixture('BefriendReveal', 'rare form', () => (
-  <BefriendReveal
-    eyebrow="Rare form · 2 of 4"
-    title="Befriended!"
-    critterName="Temple Tokek"
-    sticker={gecko(160)}
-    chips={['+150 XP', 'Temple Tokek', '2 in the crew']}
-    line="You stayed 11 minutes. It noticed."
-    color={tierColor('rare')}
-  />
 ));
 const MONTHS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
 const NAMES = [

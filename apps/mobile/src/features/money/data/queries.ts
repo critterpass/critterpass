@@ -3,6 +3,7 @@
  * every money screen renders offline; amounts are integers in minor units and stay exact.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
+import { seatHeldSql } from '@/data/trips/seat-sql';
 
 export const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';
 export const UID_TABLES = ['local_state'];
@@ -39,8 +40,9 @@ export const TRIPS_TABLES = ['trips', 'destinations', 'trip_participants'];
 export const TRIP_CREW_SQL = 'SELECT crew_id FROM trips WHERE id = ?';
 export const TRIP_CREW_TABLES = ['trips'];
 
+/** Who a new expense can name: the people holding a seat on the trip, in joining order. */
 export const PARTICIPANTS_SQL = `SELECT user_id FROM trip_participants
-  WHERE trip_id = ? AND coalesce(holds_seat, 1) = 1 ORDER BY created_at, user_id`;
+  WHERE trip_id = ? AND ${seatHeldSql()} ORDER BY created_at, user_id`;
 export const PARTICIPANTS_TABLES = ['trip_participants'];
 
 export const EXPENSES_SQL = `SELECT id, payer_id, amount_minor, currency, fx_snapshot_id,

@@ -606,10 +606,6 @@ msgstr "That didn't open. Try again."
 msgid "suppliers.log.failed"
 msgstr "That didn’t save. Try again."
 
-#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
-msgid "suppliers.log.invalid"
-msgstr "That doesn’t look like an amount"
-
 #: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.estimate.gone"
 msgstr "That estimate isn’t on this phone any more. Open the ride again to see it."
@@ -725,10 +721,9 @@ msgstr "Waiting for the operator"
 msgid "suppliers.disclosure.affiliate"
 msgstr "We may earn a commission. It never changes what {guide} recommends."
 
-#. placeholder {0}: shown.unit
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
-msgid "suppliers.log.amount"
-msgstr "What it cost ({0})"
+msgid "suppliers.log.cost"
+msgstr "What it cost"
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 msgid "suppliers.vendor.selfBody"

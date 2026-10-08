@@ -924,6 +924,10 @@ msgstr "Someone deleted it. The balances already left it out."
 msgid "money.review.changePayer"
 msgstr "Someone else paid?"
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.someoneLeft"
+msgstr "Someone in it is no longer on this trip. Add it again without them."
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.body"
 msgstr "Spend in any currency. Balances and settling up use this one, at the rate on the day each expense was added."
@@ -1002,6 +1006,10 @@ msgstr "Tap a line to change who had it."
 msgid "money.pay.disputeTitle"
 msgstr "Tell them it didn’t arrive?"
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.other"
+msgstr "That didn't go through"
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.error"
 msgstr "That didn't go through. Check your connection and try again."
@@ -1038,9 +1046,17 @@ msgstr "The crew still sees it in the history."
 msgid "money.detail.field.when"
 msgstr "the date"
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.deleteExpense"
+msgstr "The expense wasn't deleted"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.what"
 msgstr "the name"
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.markPaid"
+msgstr "The payment wasn't marked paid"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.split"
@@ -1234,6 +1250,10 @@ msgstr "You paid {amount}"
 msgid "money.chat.youPaidFor"
 msgstr "You paid {amount} for {what}"
 
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.youLeft"
+msgstr "You're no longer on this trip."
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owed"
 msgstr "You're owed"
@@ -1242,3 +1262,11 @@ msgstr "You're owed"
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.settle.private"
 msgstr "Your details are shared only with the person paying."
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.editExpense"
+msgstr "Your expense edit wasn't saved"
+
+#: ../../apps/mobile/src/features/money/data/refused-writes.ts
+msgid "money.refused.addExpense"
+msgstr "Your expense wasn't added"

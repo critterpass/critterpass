@@ -57,8 +57,8 @@ describe('Help hub model, offline', () => {
   it('leads Vietnam with the ambulance, police on the side, from synced rows only', () => {
     const model = buildHubModel(DA_NANG, null);
     expect(model.coverage).toBe('full');
-    expect(model.general).toEqual({ number: '115', label: 'Ambulance' });
-    expect(model.side).toEqual({ number: '113', label: 'Police' });
+    expect(model.general).toEqual({ number: '115', label: 'Ambulance', service: 'ambulance' });
+    expect(model.side).toEqual({ number: '113', label: 'Police', service: 'police' });
     expect(model.lines.map((line) => line.number)).toEqual(['113', '115', '114', '112', '111']);
     expect(model.placeLabel).toBeNull();
   });

@@ -15,6 +15,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 
 import { draftBackLabel } from './draft-copy';
@@ -41,6 +42,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
   const syncPhase = useSyncPhase();
   const restore = useCommand(restoreDraftVersionCommand);
+  const { report } = useCommandFeedback();
   const [history, setHistory] = useState(false);
   // The day she last opened: Change a day starts there, not on day 1.
   const [lastDay, setLastDay] = useState<number | null>(null);
@@ -86,12 +88,23 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
 
   const onRestore = (entry: HistoryEntry) => {
     setHistory(false);
-    void restore.send({ trip_id: tripId, version_id: entry.id });
-    toast.show({
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
-      id: `draft-restored-${entry.id}`,
-      title: t({ id: 'planDraft.history.restored', message: 'Earlier draft restored' }),
-      subtitle: t({ id: 'planDraft.history.restoredSub', message: 'Still only you can see it.' }),
+    if (restore.pending) return;
+    // Said once the send has answered: restored, kept to send with signal, or refused.
+    void restore.send({ trip_id: tripId, version_id: entry.id }).then((result) => {
+      const outcome = report(result, { id: 'draft-restore' });
+      if (outcome !== 'done' && outcome !== 'queued') return;
+      toast.show({
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
+        id: `draft-restored-${entry.id}`,
+        title:
+          outcome === 'done'
+            ? t({ id: 'planDraft.history.restored', message: 'Earlier draft restored' })
+            : t({
+                id: 'planDraft.history.restoreQueued',
+                message: 'Saved. The earlier draft comes back when you have signal',
+              }),
+        subtitle: t({ id: 'planDraft.history.restoredSub', message: 'Still only you can see it.' }),
+      });
     });
   };
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.

@@ -38,7 +38,7 @@ const BLINK_MS = 1400;
 
 const useStyles = makeStyles((t) => ({
   dot: { width: t.space['8'], height: t.space['8'], borderRadius: t.radius.pill },
-  copy: { maxWidth: '68%' },
+  words: { flex: 1 },
 }));
 
 function ShareIndicator({ hours }: { readonly hours: number }) {
@@ -93,29 +93,26 @@ export function HelpHero({
           message: `You're on ${placeLabel}. ${guideName} has the numbers and the words.`,
         });
   return (
-    <HeroPanel
-      tone="pink"
-      style={{ paddingTop: insets.top + theme.space['8'] }}
-      sticker={
-        guideSticker === null ? undefined : (
-          <Sticker kind={guideSticker.kind} name={guideSticker.name} size={96} pose="think" />
-        )
-      }
-      testID="help-hero"
-    >
+    <HeroPanel tone="pink" style={{ paddingTop: insets.top + theme.space['8'] }} testID="help-hero">
       <Stack gap="16">
         <Row justify="space-between" align="center">
           <BackEyebrow label={guideName} color={ink} onPress={onBack} testID="help-back" />
           {shareHours === null ? <View /> : <ShareIndicator hours={shareHours} />}
         </Row>
-        <Text variant="displayHero" color={ink} accessibilityRole="header">
-          {upper(t({ id: 'safety.help.title', message: 'Need a hand?' }), locale)}
-        </Text>
-        <View style={styles.copy}>
-          <Text variant="body" color={ink} testID="help-where">
-            {where}
-          </Text>
-        </View>
+        {/* The sticker stands beside the words, so a longer title grows the hero, never past it. */}
+        <Row gap="12" align="center">
+          <Stack gap="16" style={styles.words}>
+            <Text variant="displayHero" color={ink} accessibilityRole="header">
+              {upper(t({ id: 'safety.help.title', message: 'Need a hand?' }), locale)}
+            </Text>
+            <Text variant="body" color={ink} testID="help-where">
+              {where}
+            </Text>
+          </Stack>
+          {guideSticker === null ? null : (
+            <Sticker kind={guideSticker.kind} name={guideSticker.name} size={96} pose="think" />
+          )}
+        </Row>
       </Stack>
     </HeroPanel>
   );

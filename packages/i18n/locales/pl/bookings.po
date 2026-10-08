@@ -90,10 +90,6 @@ msgid "bookings.candidate.seats"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
-msgid "bookings.flight.source"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.crewMany"
 msgstr ""
 
@@ -913,6 +909,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.zones"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.updated"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx

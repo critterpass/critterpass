@@ -118,7 +118,11 @@ msgstr "Thêm"
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.allow"
-msgstr ""
+msgstr "Cho phép"
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.ambulance"
+msgstr "Cấp cứu"
 
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.respond"
@@ -182,6 +186,10 @@ msgstr "Đóng"
 msgid "safety.showIt.close"
 msgstr "Đóng câu nói"
 
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.coastGuard"
+msgstr "Cảnh sát biển"
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.seen"
 msgstr "Đã báo cả nhóm · {seen} người đã xem"
@@ -210,6 +218,10 @@ msgstr "Mọi người trong nhóm nhận được cảnh báo xuyên qua chế 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.falseAlarm"
 msgstr "Báo động nhầm: {name} vẫn ổn."
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.fire"
+msgstr "Cứu hỏa"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.freezeCards"
@@ -244,6 +256,10 @@ msgstr "Đang tới ✓"
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.back.help"
 msgstr "Trợ giúp"
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.centre"
+msgstr "Trợ giúp về ứng dụng"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
@@ -289,7 +305,7 @@ msgstr "Nếu mất hộ chiếu, hãy liên hệ {name}."
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.dnd"
-msgstr ""
+msgstr "Trong chế độ Không làm phiền, SOS của bạn đồng hành sẽ im lặng. Hãy cho nó reo xuyên qua."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepInsurance"
@@ -371,11 +387,11 @@ msgstr "Không có ai khác trong chuyến đi để báo"
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.notifications"
-msgstr ""
+msgstr "Thông báo đang tắt, nên SOS của bạn đồng hành không tới được bạn."
 
 #: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
 msgid "safety.sosAccess.fullScreen"
-msgstr ""
+msgstr "Trên máy đang khoá, SOS chỉ hiện thành một biểu ngữ nhỏ. Hãy cho nó chiếm toàn màn hình."
 
 #: ../../apps/mobile/src/features/safety/help/help-screen.tsx
 msgid "safety.share.extendedQueued"
@@ -400,6 +416,10 @@ msgstr "Bộ phận trực đang cùng bạn gọi phòng khám"
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.walkBack"
 msgstr "Hoặc đi bộ về điểm dừng gần nhất trong kế hoạch."
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.police"
+msgstr "Công an"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.policeNumber"
@@ -588,6 +608,10 @@ msgstr "Việc chia sẻ tự dừng sau một giờ. Khi tắt, Trợ giúp v�
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.ended"
 msgstr "SOS này đã kết thúc. Việc chia sẻ vị trí đã dừng."
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.touristPolice"
+msgstr "Cảnh sát du lịch"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.until"

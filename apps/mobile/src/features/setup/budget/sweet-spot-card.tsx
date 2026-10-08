@@ -21,7 +21,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { useAmountFace } from './amount-fit';
-import { currencySymbol, fractionDigits, money, snap, type BandView, type Track } from './model';
+import { fractionDigits, money, moneyAffixes, snap, type BandView, type Track } from './model';
 
 const KNOB = 32;
 
@@ -75,10 +75,10 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
   const span = Math.max(1, track.maxMinor - track.minMinor);
   const whole = Math.round(target / 10 ** fractionDigits(currency));
   const amount = money(locale, target, currency);
-  const symbol = currencySymbol(locale, currency);
+  const affixes = moneyAffixes(locale, currency);
   const fit = useAmountFace(
     locale,
-    symbol,
+    `${affixes.prefix}${affixes.suffix}`,
     Math.round(track.maxMinor / 10 ** fractionDigits(currency)),
   );
 
@@ -174,7 +174,8 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
         <Odometer
           key={fit.face}
           value={whole}
-          prefix={symbol}
+          prefix={affixes.prefix}
+          suffix={affixes.suffix}
           variant={fit.face}
           color={ink}
           accessibilityLabel={t({ id: 'setup.budget.card.amountA11y', message: 'Sweet spot each' })}

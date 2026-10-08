@@ -1,0 +1,121 @@
+appId: app.critterpass.dev
+---
+# Journey: a proposal and the replies to it. A new account starts as the `draft_ready` scenario (a
+# crew of one whose Đà Nẵng trip has its plan waiting in draft review). The runner's friend joins
+# the crew with its code, so Home's next step is to send the plan: its button opens the draft,
+# BUILD THE PROPOSAL builds it and SEND puts it out. "Who's in?" lists the friend with no reply;
+# the friend boards through the api and the tracker shows them in; the friend drops out and the
+# tracker shows them out, then offers the change list, which is applied.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: draft_ready
+# Runner: the friend signs up and joins the crew behind the code.
+- runFlow:
+    file: ../_shared/friend.yaml
+    env:
+      ACTION: join
+# With someone to send it to, the trip's step on Home is "send the plan".
+- extendedWaitUntil:
+    visible:
+      id: 'home-turn-send_plan'
+    timeout: 60000
+- scrollUntilVisible:
+    element:
+      id: 'home-turn-button'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-home-send-the-plan
+- tapOn:
+    id: 'home-turn-button'
+# The draft: BUILD THE PROPOSAL sits in the footer, above the home indicator.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-propose'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-draft
+- tapOn:
+    id: 'draft-propose'
+# The builder builds the proposal on open; SEND is live once it is built.
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+      enabled: true
+    timeout: 90000
+- assertVisible:
+    id: 'build-format-trailer'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-build
+- tapOn:
+    id: 'build-send'
+# Sent: the footer opens the tracker.
+- extendedWaitUntil:
+    visible:
+      id: 'sent-tracker'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-sent
+- tapOn:
+    id: 'sent-tracker'
+# The tracker: the organiser's row, and the friend's with no reply yet.
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-reply-no_reply'
+    timeout: 30000
+- assertVisible:
+    id: 'tracker-reply-organiser'
+# No capture here: two rows on an otherwise empty page; the next state is the tracker's capture.
+# Runner: the friend says IN to the sent proposal.
+- runFlow:
+    file: ../_shared/friend.yaml
+    env:
+      ACTION: board
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-reply-in'
+    timeout: 60000
+- assertNotVisible:
+    id: 'tracker-reply-no_reply'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-tracker-friend-in
+# Runner: the friend says they can't make it after all.
+- runFlow:
+    file: ../_shared/friend.yaml
+    env:
+      ACTION: drop-out
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-reply-out'
+    timeout: 60000
+- assertNotVisible:
+    id: 'tracker-reply-in'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-tracker-friend-out
+# The worker works out what changes without them; the friend's row then opens the change list (the
+# organiser's row never takes a tap, so the one enabled row is the friend's).
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-row-.*'
+      enabled: true
+    timeout: 120000
+- tapOn:
+    id: 'tracker-reply-out'
+- extendedWaitUntil:
+    visible:
+      id: 'dropout-changes'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-change-list
+# APPLY CHANGES is the footer's button.
+- tapOn:
+    id: 'dropout-apply'
+- extendedWaitUntil:
+    visible:
+      id: 'dropout-applied'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-proposal-changes-applied

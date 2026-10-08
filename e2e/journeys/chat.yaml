@@ -83,27 +83,9 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'new-poll-option-0'
 - inputText: 'Tacos'
-- tapOn:
-    id: 'new-poll-option-1'
+# Return moves from an answer to the next one; the footer rides on the keyboard, so POST is in reach.
+- pressKey: Enter
 - inputText: 'Ramen'
-# POST sits under the keyboard: return closes it on iOS (it keeps it up through hideKeyboard).
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - pressKey: Enter
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - hideKeyboard
-- scrollUntilVisible:
-    element:
-      id: 'new-poll-post'
-    direction: DOWN
-    timeout: 10000
-    visibilityPercentage: 100
-    centerElement: true
 - tapOn:
     id: 'new-poll-post'
 - extendedWaitUntil:
@@ -137,8 +119,10 @@ appId: app.critterpass.dev
 - inputText: 'bring the map'
 - tapOn:
     id: 'chat-composer-send'
+# iPhone reads a bubble as one label ("You, 4:03 PM: @Jordan bring the map"), so the text may not
+# start the string.
 - extendedWaitUntil:
-    visible: '@.*bring the map.*'
+    visible: '.*@.*bring the map.*'
     timeout: 10000
 - assertNotVisible:
     id: 'chat-failed-.*'

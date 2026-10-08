@@ -606,10 +606,6 @@ msgstr ""
 msgid "suppliers.log.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
-msgid "suppliers.log.invalid"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.estimate.gone"
 msgstr ""
@@ -725,9 +721,8 @@ msgstr ""
 msgid "suppliers.disclosure.affiliate"
 msgstr ""
 
-#. placeholder {0}: shown.unit
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
-msgid "suppliers.log.amount"
+msgid "suppliers.log.cost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx

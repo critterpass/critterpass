@@ -1,0 +1,163 @@
+appId: app.critterpass.dev
+---
+# Journey: a friend joins a trip that is under way. A new account starts as the `trip_today`
+# scenario: a crew of six on a locked Đà Nẵng trip that started today, so every seat is taken and
+# one more joiner would wait for a seat. The organiser frees one first, the way the app offers:
+# crew settings, remove the crewmate who joined last. The runner's friend then joins with the
+# crew's code and is seated on the trip at once: crew settings lists them, and a new ₫600,000
+# expense split by share has a row for them (the split lists only people who hold a seat).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow: subflows/pass-trip-welcome.yaml
+# Crew settings, from the chat's header.
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-crew-settings'
+    timeout: 30000
+- runFlow: subflows/pass-trip-welcome.yaml
+- tapOn:
+    id: 'chat-crew-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'crew-settings-name'
+    timeout: 30000
+# One "remove" row per crewmate: the fifth is the one who joined last.
+- scrollUntilVisible:
+    element:
+      id: 'settings-row-remove-.*'
+      index: 4
+    direction: DOWN
+    timeout: 30000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-join-under-way-full-crew
+- tapOn:
+    id: 'settings-row-remove-.*'
+    index: 4
+- extendedWaitUntil:
+    visible:
+      id: 'crew-remove-confirm-confirm'
+    timeout: 10000
+- tapOn:
+    id: 'crew-remove-confirm-confirm'
+# Removed: four crewmates are left, and their seat on the trip is free.
+- extendedWaitUntil:
+    notVisible:
+      id: 'settings-row-remove-.*'
+      index: 4
+    timeout: 30000
+# Runner: the friend signs up and joins the crew behind the code, while the trip is under way.
+- runFlow:
+    file: ../_shared/friend.yaml
+    env:
+      ACTION: join
+# The friend is in the crew: five crewmates again.
+- extendedWaitUntil:
+    visible:
+      id: 'settings-row-remove-.*'
+      index: 4
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-join-under-way-friend-in-crew
+# Back out to the tab bar: settings, then the chat.
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'chat-crew-settings'
+    timeout: 15000
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 15000
+# An expense on the trip.
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- runFlow: subflows/pass-trip-welcome.yaml
+- scrollUntilVisible:
+    element:
+      id: 'tile-add'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'tile-add'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'money-add-keypad-key-6'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn:
+    id: 'money-add-keypad-key-000'
+# BY SHARE lists one row per person who holds a seat on the trip, numbered by when they joined the
+# crew. The removed crewmate was the sixth (5) and holds no seat; the friend is the next to have
+# joined (6, or 5 on a phone that no longer has the removed crewmate's row), so a row with either
+# number is the friend's.
+- tapOn:
+    id: 'money-add-split-weights'
+- extendedWaitUntil:
+    visible:
+      id: 'money-split-shares'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'money-share-count-(5|6)'
+    direction: DOWN
+    timeout: 30000
+    # Not centred: with the keypad up, the middle of the screen is not the list's.
+    visibilityPercentage: 100
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-join-under-way-split-with-friend
+# SAVE is the footer's button. The seeded ride was paid at an exact time today and a new expense
+# is dated by its day, so "Latest" can still be the ride: the new one is found in the full list by
+# the amount this flow typed.
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'money-history-link'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'money-history-link'
+- extendedWaitUntil:
+    visible: '.*600[.,]000.*'
+    timeout: 20000
+- tapOn: '.*600[.,]000.*'
+- extendedWaitUntil:
+    visible:
+      id: 'money-detail-amount'
+    timeout: 20000
+- copyTextFrom:
+    id: 'money-detail-amount'
+- assertTrue: ${maestro.copiedText.replace(/[^0-9]/g, '').indexOf('600') === 0}
+- scrollUntilVisible:
+    element:
+      id: 'money-detail-shares'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-join-under-way-expense-shares
