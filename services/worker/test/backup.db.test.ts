@@ -29,7 +29,9 @@ let store: ObjectStore;
 
 beforeAll(async () => {
   [harness, s3] = await Promise.all([
-    startJobsHarness(),
+    // A container of its own: pg_dump and pg_restore run inside it against its `critterpass`
+    // database, and the restore goes into a database with a fixed name.
+    startJobsHarness({ ownContainer: true }),
     new GenericContainer(S3_IMAGE)
       .withEnvironment({ RUSTFS_ACCESS_KEY: ACCESS_KEY, RUSTFS_SECRET_KEY: SECRET_KEY })
       .withExposedPorts(9000)
