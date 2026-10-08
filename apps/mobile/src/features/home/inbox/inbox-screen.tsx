@@ -13,6 +13,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { openLink } from '@/lib/navigation/open-in-tabs';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { BackButton } from '@/ui/shell/BackButton';
 import { Row } from '@/ui/layout/Row';
@@ -110,7 +111,8 @@ function InboxContent() {
   const open = (item: InboxItem) => {
     actions.markRead(item);
     // Rows filed earlier name the trip hub and its day by their former paths.
-    if (item.deepLink !== null) router.push(currentAppPath(item.deepLink));
+    // A row about a trip, the wallet or the pass opens in the tabs under the inbox, not over it.
+    if (item.deepLink !== null) openLink(currentAppPath(item.deepLink));
   };
 
   const shownCards = cards.filter((item) => matches(item, active));
