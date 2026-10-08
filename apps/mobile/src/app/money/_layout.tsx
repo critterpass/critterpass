@@ -6,6 +6,7 @@ import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
 import { pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
+import { SessionGate } from '@/ui/states/SessionGate';
 import { useTheme } from '@/ui/theme';
 
 import { getOcr } from '../../../modules/cp-ocr';
@@ -19,7 +20,9 @@ export default function MoneyLayout() {
   const services = useMemo(() => deviceMoneyServices(getOcr()), []);
   return (
     <MoneyServicesProvider services={services}>
-      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
+      <SessionGate>
+        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
+      </SessionGate>
     </MoneyServicesProvider>
   );
 }

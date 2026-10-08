@@ -110,6 +110,7 @@ import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
 import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
+import { SessionDatabaseProvider } from '@/ui/states/SessionGate';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
 import { ShakeToReport } from '@/features/help/shake/ShakeListener';
 import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
@@ -196,6 +197,8 @@ function RootNavigator() {
   const navigationTheme = useMemo(() => inkNavigationTheme(color.ink['950']), [color.ink]);
   const [motionMode] = useMotionMode();
   const navigationRef = useNavigationContainerRef();
+  // The session-only groups hold their screens until the local database is open.
+  const databaseOpen = useContext(LocalFirstContext) !== null;
   const [launchUrl, setLaunchUrl] = useState<string | null | undefined>(undefined);
   useEffect(() => {
     Linking.getInitialURL()
@@ -208,10 +211,12 @@ function RootNavigator() {
   usePushNotifications(cpNotifications);
   return (
     <NavigationThemeProvider value={navigationTheme}>
-      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
-        <Stack.Screen name="(modal)" options={modalGroupOptions()} />
-      </Stack>
+      <SessionDatabaseProvider value={databaseOpen}>
+        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+          {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
+          <Stack.Screen name="(modal)" options={modalGroupOptions()} />
+        </Stack>
+      </SessionDatabaseProvider>
     </NavigationThemeProvider>
   );
 }

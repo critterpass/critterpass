@@ -1,23 +1,23 @@
-import { Redirect } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 
-import { useGateDecision } from '@/lib/navigation/gates';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
+import { SessionGate } from '@/ui/states/SessionGate';
 
-/** Trip-day stack (screens owned by the trip area); session-only, like the tabs. */
+/**
+ * Trip-day stack (screens owned by the trip area); session-only. Its layouts and screens read the
+ * local database as they mount, so nothing under it renders before the session is up.
+ */
 export default function TripLayout() {
-  const decision = useGateDecision();
   const { motion } = useTheme();
   const [motionMode] = useMotionMode();
 
-  if (decision.kind === 'wait') return null;
-  if (decision.kind === 'redirect') return <Redirect href={decision.href} />;
-
   return (
-    <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-      <Stack.Screen name="lock-screen-offer" options={modalGroupOptions()} />
-    </Stack>
+    <SessionGate>
+      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+        <Stack.Screen name="lock-screen-offer" options={modalGroupOptions()} />
+      </Stack>
+    </SessionGate>
   );
 }
