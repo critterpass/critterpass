@@ -10,9 +10,16 @@ import type { ReactNode } from 'react';
 
 import { questionQueue } from '@/data/places/question-queue';
 
-import { GuideStreamError, parseGuideFrames, refusal, type GuideFrame } from '../data/guide-frames';
+import {
+  GuideStreamError,
+  parseGuideFrames,
+  refusal,
+  type GuideFetch,
+  type GuideFrame,
+} from '../data/guide-frames';
 import { GuideServicesProvider, type GuideServices } from '../data/guide-services';
-import { applyTurnFrame, sourceLabel, THINKING } from '../data/turn-state';
+import { postGuideStream } from '../data/guide-stream-reader';
+import { applyTurnFrame, sourceLabel, THINKING, TURN_STOPPED } from '../data/turn-state';
 import { useGuideTurn, type TurnTarget } from '../data/use-guide-turn';
 import {
   quotaRefusal,
@@ -36,6 +43,8 @@ function target(overrides: Partial<TurnTarget> = {}): TurnTarget {
   return { threadId: THREAD, mode: 'group', tripId: TRIP, online: true, ...overrides };
 }
 
+const TURN = { url: 'https://api.test/v1/guide/threads/a/turns', headers: {}, body: {} };
+
 describe('guide stream frames', () => {
   it('reads whole frames and keeps a torn one for the next chunk', () => {
     const { frames, rest } = parseGuideFrames(
@@ -53,6 +62,37 @@ describe('guide stream frames', () => {
     expect(error.code).toBe('QUOTA_EXHAUSTED');
     expect(error.detail).toEqual({ used: 30 });
     expect(refusal(502, '<html>').code).toBeNull();
+  });
+
+  it('gives up on a stream that goes quiet, as a dropped connection', async () => {
+    const aborted: boolean[] = [];
+    const silent: GuideFetch = (_url, init) => {
+      init.signal?.addEventListener('abort', () => aborted.push(true));
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        text: () => Promise.resolve(''),
+        body: new ReadableStream<Uint8Array>({ start: () => undefined }),
+      });
+    };
+    await expect(
+      postGuideStream(silent, TURN, () => undefined, { quietMs: 20 }),
+    ).rejects.toMatchObject({ status: null, code: null });
+    expect(aborted).toEqual([true]);
+  });
+
+  it('stops a stream the moment the asker does', async () => {
+    const controller = new AbortController();
+    const silent: GuideFetch = () =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        text: () => Promise.resolve(''),
+        body: new ReadableStream<Uint8Array>({ start: () => undefined }),
+      });
+    const asked = postGuideStream(silent, TURN, () => undefined, { signal: controller.signal });
+    controller.abort();
+    await expect(asked).rejects.toBeInstanceOf(GuideStreamError);
   });
 });
 
@@ -292,6 +332,37 @@ describe('a JUST ME question', () => {
     expect(result.current.live).toBeNull();
     expect(result.current.threadId).toBe(GROUP_THREAD);
     expect(calls).toHaveLength(1);
+  });
+
+  it('can be stopped: what arrived stays, with a retry in the same thread', async () => {
+    const calls: ReplayCall[] = [];
+    const { services, held } = heldServices(calls);
+    const { result } = await renderHook(() => useGuideTurn(justMe()), { wrapper: wrap(services) });
+    await act(() => result.current.ask('Is my budget too low?'));
+    await act(async () => {
+      held[0]?.onFrame({ type: 'token', data: { text: 'Your budget' } });
+      await Promise.resolve();
+    });
+    await act(() => result.current.stop());
+    expect(held[0]?.signal.aborted).toBe(true);
+    expect(result.current.busy).toBe(false);
+    expect(result.current.live?.state).toMatchObject({
+      phase: 'error',
+      text: 'Your budget',
+      errorCode: TURN_STOPPED,
+      retryable: true,
+    });
+    // A token still in flight when it was stopped is not shown.
+    await act(async () => {
+      held[0]?.onFrame({ type: 'token', data: { text: ' is fine' } });
+      await Promise.resolve();
+    });
+    expect(result.current.live?.state.text).toBe('Your budget');
+    await act(() => result.current.retry());
+    expect(sentTo(calls, 'Is my budget too low?')).toEqual([
+      [PRIVATE_THREAD, 'private'],
+      [PRIVATE_THREAD, 'private'],
+    ]);
   });
 
   it('forgets the spent meter of the other mode', async () => {

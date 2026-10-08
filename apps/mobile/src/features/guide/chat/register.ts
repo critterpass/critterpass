@@ -21,7 +21,7 @@ import { GuideServicesProvider } from './data/guide-services';
 import { deviceGuideServices } from './data/guide-stream';
 
 export const guideRoutes = {
-  /** Food and access needs (from the guide sheet's "+", trip setup and You settings). */
+  /** Food and access needs (a quick action of the guide sheet, trip setup and You settings). */
   dietary: (): Href => '/guide/dietary',
   /**
    * Point and ask: the menu camera. Opened from the guide sheet it carries `from: 'guide'` and the

@@ -16,6 +16,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideColour } from '@/ui/avatar/guides';
+import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { rateGuideAnswerCommand } from '../data/guide-commands';
 import { useHandedQuestion } from '../data/handed-question';
@@ -107,8 +108,8 @@ export interface GuideSheetProps {
   readonly tripId: string | null;
   readonly initialMode?: GuideThreadMode;
   readonly useMeter?: GuideMeterHook;
-  /** "+" in the composer (the attach menu), when an area provides one. */
-  readonly onAttach?: () => void;
+  /** Opens Food and access needs: offered as the last quick action. */
+  readonly onDietary?: () => void;
 }
 
 /**
@@ -117,10 +118,15 @@ export interface GuideSheetProps {
  */
 export function GuideSheet(props: GuideSheetProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <OpenGuideSheet {...props} />;
+  return localFirst === null ? (
+    <SessionWaiting testID="guide-sheet-waiting" />
+  ) : (
+    <OpenGuideSheet {...props} />
+  );
 }
 
-function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: GuideSheetProps) {
+function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onDietary }: GuideSheetProps) {
+  const { t } = useLingui();
   const context = useGuideContext(tripId);
   const trip = context.trip;
   const shared = trip !== null && trip.crewSize > 1;
@@ -147,7 +153,18 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
   useHandedQuestion(setDraft);
   const color = guideColour(guideAvatarId(context.guideSlug));
   const modeLine = useModeLine(mode, trip);
-  const quickActions = useQuickActions(trip?.tripId ?? null, mode);
+  const flagged = useQuickActions(trip?.tripId ?? null, mode);
+  const quickActions: QuickAction[] =
+    onDietary === undefined
+      ? flagged
+      : [
+          ...flagged,
+          {
+            id: 'dietary',
+            label: t({ id: 'guide.quick.dietary', message: 'Food and access needs' }),
+            onPress: onDietary,
+          },
+        ];
   const nameRows = useLiveQuery<NameRow>(
     trip === null ? null : NAMES_SQL,
     [context.uid, trip?.crewId ?? null],
@@ -214,12 +231,13 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
           guideName={context.guideName}
           color={color}
           hasTrip={trip !== null}
+          loading={!context.ready || thread.loading}
           messages={thread.messages}
           {...(thread.showEarlier === undefined ? {} : { onEarlier: thread.showEarlier })}
           names={names}
           me={context.uid}
           live={turn.live}
-          waiting={turn.queued.map((question) => question.text)}
+          waiting={turn.queued}
           renderProposal={renderProposal}
           onPrompt={send}
           onRetry={turn.retry}
@@ -235,7 +253,14 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
       draft={draft}
       onDraft={setDraft}
       onSend={() => send(draft)}
-      {...(onAttach === undefined ? {} : { onAttach })}
+      {...(turn.busy
+        ? {
+            stop: {
+              label: t({ id: 'guide.composer.stop', message: 'Stop the answer' }),
+              onPress: turn.stop,
+            },
+          }
+        : {})}
       {...(voice === undefined ? {} : { onMic: () => router.push(voice) })}
       {...(voiceTalking === undefined ? {} : { onMicHold: () => router.push(voiceTalking) })}
     />

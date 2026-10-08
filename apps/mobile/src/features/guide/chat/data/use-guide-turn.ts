@@ -23,7 +23,7 @@ import {
   type QuestionScope,
 } from './guide-question-queue';
 import { useGuideServices } from './guide-services';
-import { applyTurnFrame, failTurn, THINKING, type TurnState } from './turn-state';
+import { applyTurnFrame, failTurn, THINKING, TURN_STOPPED, type TurnState } from './turn-state';
 
 export interface QuotaSpent {
   readonly used: number;
@@ -134,7 +134,10 @@ export function useGuideTurn(target: TurnTarget) {
           await services.streamTurn(
             thread,
             { text: question, thread_mode: asked.mode, context: { trip_id: asked.tripId } },
-            (frame) => update((state) => applyTurnFrame(state, frame)),
+            (frame) => {
+              // Nothing a stopped request still delivers is shown.
+              if (!controller.signal.aborted) update((state) => applyTurnFrame(state, frame));
+            },
             controller.signal,
           );
           update((state) => failTurn(state, 'AI_UNAVAILABLE', true));
@@ -201,5 +204,18 @@ export function useGuideTurn(target: TurnTarget) {
     if (liveQuestion !== null) void run(liveQuestion, scope);
   }, [liveQuestion, run, scope]);
 
-  return { threadId, live, queued, quota, busy, ask, retry };
+  /** Stops the answer being written; what arrived stays, with the retry. */
+  const stop = useCallback(() => {
+    abort.current?.abort();
+    setOwned((state) =>
+      state.live === null
+        ? state
+        : {
+            ...state,
+            live: { ...state.live, state: failTurn(state.live.state, TURN_STOPPED, true) },
+          },
+    );
+  }, []);
+
+  return { threadId, live, queued, quota, busy, ask, retry, stop };
 }

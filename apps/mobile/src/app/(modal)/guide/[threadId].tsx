@@ -7,6 +7,8 @@ import { useGuideMeterSlots } from '@/features/guide/meter/use-guide-meter-slots
 import { isUuid, threadModeOf, useThreadTarget } from '@/features/guide/chat/data/use-guide-thread';
 import { guideRoutes } from '@/features/guide/chat/register';
 
+const openDietary = () => router.push(guideRoutes.dietary());
+
 /**
  * The guide sheet (3j-1). `threadId` names a saved thread (a push, the inbox) or is `new` for the
  * context guide's thread; `tripId` and `mode` pick the trip and GROUP / JUST ME.
@@ -23,7 +25,7 @@ export default function GuideSheetRoute() {
         key={`${tripId ?? ''}:${mode ?? ''}`}
         tripId={tripId}
         useMeter={useGuideMeterSlots}
-        onAttach={() => router.push(guideRoutes.dietary())}
+        onDietary={openDietary}
         {...(mode === undefined ? {} : { initialMode: mode })}
       />
     </GuideServicesProvider>

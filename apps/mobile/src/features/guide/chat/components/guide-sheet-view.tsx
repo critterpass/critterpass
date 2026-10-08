@@ -43,7 +43,8 @@ export interface GuideSheetViewProps {
   readonly draft: string;
   readonly onDraft: (text: string) => void;
   readonly onSend: () => void;
-  readonly onAttach?: () => void;
+  /** An answer is being written: the composer's last button stops it. */
+  readonly stop?: { readonly label: string; readonly onPress: () => void };
   readonly onMic?: () => void;
   /** The microphone was held: voice mode opens already listening. Defaults to `onMic`. */
   readonly onMicHold?: () => void;
@@ -165,7 +166,7 @@ export function GuideSheetView(props: GuideSheetViewProps) {
               onChangeText={props.onDraft}
               onSend={props.onSend}
               placeholder={t({ id: 'guide.composer.placeholder', message: 'Ask, or hold to talk' })}
-              {...(props.onAttach === undefined ? {} : { onAttach: props.onAttach })}
+              {...(props.stop === undefined ? {} : { stop: props.stop })}
               {...(props.onMic === undefined
                 ? {}
                 : { onMicTap: props.onMic, onHoldStart: props.onMicHold ?? props.onMic })}
