@@ -14,6 +14,25 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/open-gallery-component.yaml
     env:
+      COMPONENT: 'ScreenLoading'
+- takeScreenshot: 12b-screen-loading
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'ScreenMissing'
+- takeScreenshot: 12c-screen-missing
+- scrollUntilVisible:
+    element:
+      id: 'screen-missing-own-secondary'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: 12d-screen-missing-two-actions
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
       COMPONENT: 'ConfirmSheet'
 - takeScreenshot: 13-confirm-sheet
 - runFlow:
