@@ -2,11 +2,14 @@ import { act, fireEvent, renderHook, waitFor } from '@testing-library/react-nati
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { AccessibilityInfo, Platform, StyleSheet, Text } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
+import type { ReactTestInstance } from 'react-test-renderer';
 import { GestureHandlerRootView, State } from 'react-native-gesture-handler';
 import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-handler/jest-utils';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
+import { setUiQaSink } from '@/ui/qa/ui-qa';
+
 import { IslandToast, LEAVE_MS } from '../IslandToast';
 import type { ToastTextProps } from '../IslandToast';
 import { HEADER_CLEARANCE_PT, hasDynamicIsland, ISLAND_GAP_PT, toastPlacement } from '../placement';
@@ -166,6 +169,46 @@ describe('toastPlacement', () => {
 });
 
 describe('IslandToast', () => {
+  it('gives a title on its own two lines, and one line each with a subtitle', async () => {
+    const view = await renderToast();
+    // The × is set in the same variant, after the title.
+    const title = () => view.getAllByTestId('toast-text-rowTitle')[0] as ReactTestInstance;
+    await act(() => {
+      toastQueue.show({ id: 'alone', title: 'The trip is full. You are number 3 in line.' });
+    });
+    expect(title().props.numberOfLines).toBe(2);
+    await act(() => {
+      toastQueue.dismiss();
+      toastQueue.show({ id: 'pair', title: 'Trip is full', subtitle: 'Number 3 in line' });
+    });
+    expect(title().props.numberOfLines).toBe(1);
+    expect(view.getByTestId('toast-text-bodySm').props.numberOfLines).toBe(1);
+  });
+
+  it('reports a title that still loses words on its two lines', async () => {
+    const reports: string[] = [];
+    setUiQaSink((line) => reports.push(line));
+    const view = await renderToast();
+    // The × is set in the same variant, after the title.
+    const title = () => view.getAllByTestId('toast-text-rowTitle')[0] as ReactTestInstance;
+    await act(() => {
+      toastQueue.show({ id: 'cut', title: 'One two three four five six seven eight nine ten' });
+    });
+    await fireEvent(title(), 'textLayout', {
+      nativeEvent: { lines: [{ text: 'One two three four ' }, { text: 'five six seven…' }] },
+    });
+    expect(reports).toEqual([
+      '[ui-qa] TEXT_TRUNCATED "One two three four five six seven eight " toast title',
+    ]);
+    await fireEvent(title(), 'textLayout', {
+      nativeEvent: {
+        lines: [{ text: 'One two three four five ' }, { text: 'six seven eight nine ten' }],
+      },
+    });
+    expect(reports).toHaveLength(1);
+    setUiQaSink(null);
+  });
+
   it('keeps Open and Dismiss beside the alert, so a folded Android alert node leaves them reachable', async () => {
     await act(() => {
       toastQueue.show({

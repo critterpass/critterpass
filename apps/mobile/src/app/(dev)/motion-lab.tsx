@@ -153,6 +153,30 @@ function ToastDemoButton() {
   );
 }
 
+/** A title with no subtitle, long enough to need its second line. */
+function LongToastDemoButton() {
+  const styles = useStyles();
+  return (
+    <Pressable
+      testID="show-long-toast-button"
+      onPress={() =>
+        toast.show({
+          id: `motion-lab-long-${Date.now()}`,
+          title: t({
+            id: 'motion.motionLab.demoLongToastTitle',
+            message: "The trip is full. You're number 3 in line for a seat.",
+          }),
+        })
+      }
+      style={styles.chip}
+    >
+      <ChipLabel>
+        <Trans id="motion.motionLab.showLongToast">show two-line toast</Trans>
+      </ChipLabel>
+    </Pressable>
+  );
+}
+
 /**
  * Exercises the whole motion runtime for manual QA and Maestro (`e2e/motion/motion-lab.yaml`):
  * every loop preset, every feedback cue, slowmo/motion-freeze and the island toast, at any motion
@@ -202,6 +226,7 @@ export default function MotionLabScreen() {
               <Trans id="motion.motionLab.toast">Island toast</Trans>
             </Text>
             <ToastDemoButton />
+            <LongToastDemoButton />
           </ScrollView>
           <IslandToast Text={Text} />
         </Scaffold>
