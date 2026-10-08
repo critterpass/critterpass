@@ -142,8 +142,14 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   // The trip-day card is for a day that is lived offline; any other day the hub only says so.
   const dayCard = noSignal && offlineCardPhase(header, now);
   const offlineCard = dayCard ? offlineNode : null;
+  const openOffline = offline?.onOpenOffline ?? null;
   const offlinePill =
-    noSignal && !dayCard && (offline.card.chip === 'offline' || offline.card.chip === 'weak');
+    noSignal &&
+    !dayCard &&
+    openOffline !== null &&
+    (offline.card.chip === 'offline' || offline.card.chip === 'weak')
+      ? { onPress: openOffline }
+      : null;
   const disruptions = useDisruptionRows(tripId, trip !== null && !calledOff);
 
   const targetMs =

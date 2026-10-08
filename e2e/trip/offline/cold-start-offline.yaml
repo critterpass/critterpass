@@ -2,9 +2,9 @@ appId: app.critterpass.dev
 ---
 # A returning install started with no network (Android: the runner turns Wi-Fi and data off; an iOS
 # simulator shares its host's network, so there the start is online): Home shows the trip that is
-# on the phone; on Android an expense added with no signal waits, and the trip hub's offline card
-# lists it in words (never the app's own bookkeeping); once the network is back the card lifts and
-# sync delivers a change
+# on the phone; on Android an expense added with no signal waits, the trip hub says there is no
+# signal and its offline page lists the expense in words (never the app's own bookkeeping); once
+# the network is back the pill lifts and sync delivers a change
 # made on the server (the demo seed's inbox card; `dev-seed-demo-done` only shows when it has
 # arrived on this phone).
 - runFlow:
@@ -84,21 +84,37 @@ appId: app.critterpass.dev
           timeout: 20000
       - tapOn:
           id: 'tab-trips'
+      # Weeks before the trip the hub keeps its header and says there is no signal; the pill opens
+      # the offline page, where the expense waits to send.
       - extendedWaitUntil:
           visible:
-            id: 'trip-offline-card'
+            id: 'trip-hub-offline-pill'
           timeout: 30000
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: en-3k-1-hub-cold-start-offline
+      - tapOn:
+          id: 'trip-hub-offline-pill'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-offline-page'
+          timeout: 15000
       - scrollUntilVisible:
           element:
             text: '(?i)expense: banh mi'
           timeout: 10000
       - waitForAnimationToEnd:
           timeout: 5000
-      - takeScreenshot: en-3k-1-hub-cold-start-offline
+      - takeScreenshot: en-3k-4-cold-start-offline
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-hub'
+          timeout: 15000
       - evalScript: "${http.post('http://127.0.0.1:7788/network?state=on', { body: '' }).status}"
       - extendedWaitUntil:
           notVisible:
-            id: 'trip-offline-card'
+            id: 'trip-hub-offline-pill'
           timeout: 60000
       - waitForAnimationToEnd:
           timeout: 5000

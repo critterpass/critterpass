@@ -312,6 +312,10 @@ msgstr "Chuyến tới"
 msgid "trip.hub.next"
 msgstr "Tiếp theo"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.offlineOpen"
+msgstr "Mất sóng. Xem những gì đã lưu và đang chờ gửi"
+
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.emptyTitle"
 msgstr "Chưa có chuyến nào"

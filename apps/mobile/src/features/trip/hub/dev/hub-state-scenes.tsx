@@ -57,7 +57,7 @@ export const HUB_STATE_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   // No signal weeks before the trip: the hub stays and says so.
-  '3k-1-offline-pill': () => <Hub overrides={{ offlinePill: true }} />,
+  '3k-1-offline-pill': () => <Hub overrides={{ offlinePill: { onPress: noop } }} />,
   // An open disruption stays one tap away after its push is gone.
   '3k-1-disruption': () => (
     <Hub

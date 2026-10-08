@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
+import { PressScale } from '@/ui/press/PressScale';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { OfflinePill } from '@/ui/states/OfflinePill';
@@ -60,8 +61,8 @@ export interface HubViewProps {
   readonly entries: readonly HubNext[];
   /** The trip's open disruptions, one row each, above everything else under the header. */
   readonly disruptions?: readonly HubNext[];
-  /** No signal on a day that is not a trip day: the hub stays, with the pill above its rows. */
-  readonly offlinePill?: boolean;
+  /** No signal on a day that is not a trip day: the hub stays, and the pill opens the offline page. */
+  readonly offlinePill?: { readonly onPress: () => void } | null;
   readonly briefing: BriefingState;
   readonly onAct: (line: BriefingLine) => void;
   readonly tiles: readonly { key: string; node: ReactNode }[];
@@ -163,7 +164,22 @@ export function HubView(props: HubViewProps) {
               />
             </Row>
           )}
-          {props.offlinePill === true ? <OfflinePill testID="trip-hub-offline-pill" /> : null}
+          {props.offlinePill == null ? null : (
+            <PressScale
+              accessibilityRole="button"
+              accessibilityLabel={t({
+                id: 'trip.hub.offlineOpen',
+                message: 'No signal. See what is saved and what is waiting to send',
+              })}
+              onPress={props.offlinePill.onPress}
+              hitSlop={theme.space['12']}
+              widthClass="narrow"
+              style={{ alignSelf: 'flex-start' }}
+              testID="trip-hub-offline-pill"
+            >
+              <OfflinePill />
+            </PressScale>
+          )}
           {props.offlineCard}
           {props.offlineConflicts}
           {props.disruptions?.map((row) => (

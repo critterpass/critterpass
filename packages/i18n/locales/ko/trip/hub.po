@@ -312,6 +312,10 @@ msgstr ""
 msgid "trip.hub.next"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.offlineOpen"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.emptyTitle"
 msgstr ""

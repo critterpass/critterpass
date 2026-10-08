@@ -312,6 +312,10 @@ msgstr "Next trip"
 msgid "trip.hub.next"
 msgstr "Next up"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.offlineOpen"
+msgstr "No signal. See what is saved and what is waiting to send"
+
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.emptyTitle"
 msgstr "No trips yet"
