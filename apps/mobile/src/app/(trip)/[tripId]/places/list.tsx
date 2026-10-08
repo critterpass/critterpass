@@ -1,6 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { LocalFirstGate } from '@/features/explore';
 import { tripExploreLinks } from '@/features/explore/trip-explore/links';
 import { goBackOr } from '@/lib/navigation/back';
 import {
@@ -21,16 +20,14 @@ export default function TripPlacesListRoute() {
   }>();
   const filter = parseFilter(params.filter);
   return (
-    <LocalFirstGate>
-      <PlacesListScreen
-        tripId={params.tripId}
-        filter={filter}
-        onFilter={(next) => router.setParams({ filter: next === 'all' ? '' : next })}
-        results={resultsFrom(params)}
-        onLeaveResults={() => router.setParams({ results: '', chips: '' })}
-        onMap={() => router.replace(placesRoutes.map(params.tripId, carryParams(filter, params)))}
-        onBack={() => goBackOr(tripExploreLinks.hub(params.tripId))}
-      />
-    </LocalFirstGate>
+    <PlacesListScreen
+      tripId={params.tripId}
+      filter={filter}
+      onFilter={(next) => router.setParams({ filter: next === 'all' ? '' : next })}
+      results={resultsFrom(params)}
+      onLeaveResults={() => router.setParams({ results: '', chips: '' })}
+      onMap={() => router.replace(placesRoutes.map(params.tripId, carryParams(filter, params)))}
+      onBack={() => goBackOr(tripExploreLinks.hub(params.tripId))}
+    />
   );
 }

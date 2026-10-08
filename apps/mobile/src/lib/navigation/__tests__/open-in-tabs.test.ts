@@ -14,7 +14,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { router } from 'expo-router';
 import { navigationRef } from 'expo-router/build/global-state/navigationRef';
 
-import { insideTabs, isTabHref, openInTabs, openLink } from '../open-in-tabs';
+import { insideTabs, isTabHref, openInTabs, openLink, type RootRoutes } from '../open-in-tabs';
 
 const mockRouter = jest.mocked(router);
 const mockRef = jest.mocked(navigationRef);
@@ -22,8 +22,11 @@ const mockRef = jest.mocked(navigationRef);
 const IN_TABS = { index: 0, routes: [{ name: '(tabs)' }] };
 const ON_A_PUSHED_PAGE = { index: 1, routes: [{ name: '(tabs)' }, { name: 'you' }] };
 
-function showing(state: { index: number; routes: { name: string }[] }) {
-  mockRef.getRootState.mockReturnValue(state as never);
+/** The root state as the router holds it: the root stack is the child of its `__root` wrapper. */
+const wrapped = (state: RootRoutes) => ({ index: 0, routes: [{ name: '__root', state }] });
+
+function showing(state: RootRoutes) {
+  mockRef.getRootState.mockReturnValue(wrapped(state) as never);
 }
 
 beforeEach(() => {
@@ -93,5 +96,11 @@ describe('insideTabs', () => {
     expect(insideTabs(IN_TABS)).toBe(true);
     expect(insideTabs(ON_A_PUSHED_PAGE)).toBe(false);
     expect(insideTabs(undefined)).toBe(false);
+  });
+
+  it('looks through the wrapper the router puts around the root stack', () => {
+    expect(insideTabs(wrapped(IN_TABS))).toBe(true);
+    expect(insideTabs(wrapped(ON_A_PUSHED_PAGE))).toBe(false);
+    expect(insideTabs({ index: 0, routes: [{ name: '__root' }] })).toBe(false);
   });
 });
