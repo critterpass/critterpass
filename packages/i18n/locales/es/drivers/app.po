@@ -22,6 +22,11 @@ msgstr ""
 msgid "drivers.replied.total"
 msgstr ""
 
+#. placeholder {0}: plan.people
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.people"
+msgstr "{0} personas"
+
 #. placeholder {0}: tips.length
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.tips"
@@ -39,8 +44,8 @@ msgid "drivers.leg.assigned"
 msgstr "{0} conduce este día"
 
 #. placeholder {0}: dayLabel(long.date, locale)
-#. placeholder {1}: hoursFigure(long.hours)
-#. placeholder {2}: hoursFigure(card.included_hours)
+#. placeholder {1}: hoursFigure(long.hours, locale)
+#. placeholder {2}: hoursFigure(card.included_hours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.overtime"
 msgstr "El {0} son {1} horas. El precio de {name} cubre {2}."
@@ -51,14 +56,9 @@ msgstr "El {0} son {1} horas. El precio de {name} cubre {2}."
 msgid "drivers.check.count"
 msgstr "{0} de {1} revisadas"
 
-#. placeholder {0}: plan.people
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
-msgid "drivers.compare.people"
-msgstr "{0} personas"
-
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
-#. placeholder {2}: hoursFigure(day.hours)
+#. placeholder {2}: hoursFigure(day.hours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.window"
 msgstr "{0}–{1} · {2} horas"
@@ -342,8 +342,13 @@ msgstr "Llamar"
 msgid "drivers.offline.note"
 msgstr "Las llamadas usan cobertura, no datos. El mensaje se envía cuando vuelvas a tener conexión."
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
@@ -498,6 +503,10 @@ msgstr ""
 msgid "drivers.ours.directory"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.directory"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.title"
 msgstr ""
@@ -591,6 +600,7 @@ msgstr "De WhatsApp"
 msgid "drivers.include.fuel"
 msgstr "Gasolina"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.back"
 msgstr ""
@@ -712,13 +722,25 @@ msgstr ""
 msgid "drivers.ours.listed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.directoryBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.since"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.loading"
 msgstr "Cargando la lista"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.loading"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.loading"
@@ -784,8 +806,12 @@ msgstr ""
 msgid "drivers.directory.emptyLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.noDays"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
+msgid "drivers.ours.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
@@ -795,6 +821,14 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.noRide"
 msgstr "Sin transporte"
+
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlistOffline"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -820,15 +854,19 @@ msgstr "No incl."
 msgid "drivers.leg.notNow"
 msgstr "Ahora no"
 
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.notOpened"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaid"
 msgstr "No lo dice"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "No lo ha dicho. Pregúntale por WhatsApp"
 
@@ -873,12 +911,17 @@ msgid "drivers.tours.openViator"
 msgstr "Abrir Viator"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.ours"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
@@ -923,7 +966,7 @@ msgstr ""
 msgid "drivers.ours.paused"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/pick-row.tsx
 msgid "drivers.compare.pick"
 msgstr "Elegir"
 
@@ -988,6 +1031,10 @@ msgstr ""
 msgid "drivers.add.read"
 msgstr "Leerlo"
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.loadingDays"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 msgid "drivers.report.confirm"
 msgstr ""
@@ -1006,6 +1053,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoke"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
@@ -1083,6 +1134,10 @@ msgstr ""
 msgid "drivers.compare.shows"
 msgstr "La muestra"
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.failedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.languages"
 msgstr "Habla"
@@ -1094,6 +1149,10 @@ msgstr "Habla"
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.supplierChecks"
 msgstr "Lo verifica el proveedor"
+
+#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+msgid "drivers.compare.more"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.taken"
@@ -1135,6 +1194,10 @@ msgstr "No se pudo enviar. Inténtalo de nuevo en un momento."
 msgid "drivers.pick.error.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.failedTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.error"
 msgstr "No se guardó. Comprueba la conexión y vuelve a intentarlo."
@@ -1161,6 +1224,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.until"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
@@ -1195,6 +1262,10 @@ msgstr ""
 msgid "drivers.detail.unavailable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.offlineLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedPickups"
 msgstr "Recogidas y ubicaciones de hoy"
@@ -1213,6 +1284,11 @@ msgstr "Viaje"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.trips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
@@ -1271,6 +1347,10 @@ msgstr "¿Qué trayectos?"
 msgid "drivers.ours.nudgeUsed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.late"
 msgstr "Volvéis tarde de {place}, y las apps de transporte casi no recogen allí de noche. Un conductor para la tarde es la vuelta segura."
@@ -1294,6 +1374,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.title"
 msgstr "Tu vuelta"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlistFailed"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.askedLine"

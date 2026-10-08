@@ -4,14 +4,16 @@
  * goes to full brightness while the code shows.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { RiseModal } from '@/ui/sheet/RiseModal';
 
 import { useWallet } from '../data/use-wallet';
 import { useWalletContext } from '../data/use-wallet-context';
 import { currentLeg } from '../flight-card/flight-model';
 import { dayDate, zoneOf } from '../format';
+import { BOOKINGS_ROUTES } from '../routes';
 import { BoardingPassView } from './BoardingPassView';
 import { useFullBrightness } from './use-full-brightness';
 import { WalletGuideProvider } from '../data/wallet-guide';
@@ -50,13 +52,19 @@ export function BoardingPassScreen({ bookingId }: { readonly bookingId: string }
   useFullBrightness(payload !== null);
   return (
     <WalletGuideProvider tripId={context.trip?.id ?? null}>
-      <BoardingPassView
-        title={title}
-        subtitle={dayDate(locale, leg?.sched_dep_at ?? booking?.startsAt, tz)}
-        payload={payload}
-        fields={fields}
-        onClose={() => router.back()}
-      />
+      <RiseModal
+        variant="paper"
+        onDismiss={() => goBackOr(BOOKINGS_ROUTES.wallet)}
+        accessibilityLabel={title}
+        testID="bookings-pass"
+      >
+        <BoardingPassView
+          title={title}
+          subtitle={dayDate(locale, leg?.sched_dep_at ?? booking?.startsAt, tz)}
+          payload={payload}
+          fields={fields}
+        />
+      </RiseModal>
     </WalletGuideProvider>
   );
 }

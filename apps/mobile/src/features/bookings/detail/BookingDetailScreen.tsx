@@ -10,7 +10,7 @@ import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { toast } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
 import { makeStyles } from '@/ui/theme';
@@ -34,6 +34,7 @@ import { BookingDetailView, type DetailDoc } from './BookingDetailView';
 import { BookingMissing } from './BookingMissing';
 import { WalletGuideProvider } from '../data/wallet-guide';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
+import { cancelRoute } from '../supplier/routes';
 import { useFormats } from '@/lib/i18n/formats';
 
 const useConfirmStyles = makeStyles((th) => ({
@@ -67,6 +68,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
   const share = useCommand(setBookingVisibilityCommand);
   const shareFlight = useCommand(setFlightCrewVisibilityCommand);
   const landed = useCommand(reportLandedCommand);
+  const { report } = useCommandFeedback();
   const [confirming, setConfirming] = useState(false);
   const booking = wallet.all.find((item) => item.id === bookingId);
   if (booking === undefined) return <BookingMissing loaded={wallet.loaded} />;
@@ -111,6 +113,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
           .filter(Boolean)
           .join(' · ');
   const entry = wallet.entries.get(booking.id);
+  const orderId = booking.supplierOrderId;
   const docs: DetailDoc[] = wallet.attachments
     .filter((doc) => doc.booking_id === booking.id)
     .map((doc, index) => ({
@@ -123,7 +126,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
     // The queued delete takes the booking out of the wallet's rows at once: leave for the wallet
     // first, so this screen never draws "not in the wallet" on the way out.
     const sent = del.send({ booking_id: booking.id, base_version: booking.version });
-    router.replace(BOOKINGS_ROUTES.wallet);
+    router.dismissTo(BOOKINGS_ROUTES.wallet);
     await sent;
   };
   return (
@@ -147,18 +150,22 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
             if (doc.uri !== null) void services.openUrl(doc.uri);
           }}
           onShare={(next) => {
-            if (booking.kind === 'flight') {
-              void shareFlight.send({ booking_id: booking.id, visible: next });
-            } else {
-              void share.send({ booking_id: booking.id, visibility: next ? 'crew' : 'personal' });
-            }
+            const sent =
+              booking.kind === 'flight'
+                ? shareFlight.send({ booking_id: booking.id, visible: next })
+                : share.send({ booking_id: booking.id, visibility: next ? 'crew' : 'personal' });
+            void sent.then((result) =>
+              report(result, { offlineCapable: true, id: 'bookings-share' }),
+            );
           }}
           onLanded={() => {
-            void landed.send({ booking_id: booking.id }).then(() =>
-              toast.show({
+            if (landed.pending) return;
+            void landed.send({ booking_id: booking.id }).then((result) =>
+              report(result, {
+                offlineCapable: true,
                 // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast key, not copy
                 id: `bookings-landed-${booking.id}`,
-                title: t({
+                done: t({
                   id: 'bookings.detail.landedToast',
                   message: `Welcome in. ${guideName} tells the crew.`,
                 }),
@@ -167,6 +174,11 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
           }}
           onEdit={() => router.push(editBookingRoute(booking.id))}
           onDelete={() => setConfirming(true)}
+          onSupplierCancel={
+            booking.mine && orderId !== null && booking.status !== 'cancelled'
+              ? () => router.push(cancelRoute(orderId, booking.title))
+              : null
+          }
         />
         {confirming ? (
           <DeleteConfirm

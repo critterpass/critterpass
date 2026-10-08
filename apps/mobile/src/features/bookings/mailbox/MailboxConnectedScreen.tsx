@@ -117,7 +117,7 @@ export function MailboxConnectedScreen({ result }: { readonly result: MailboxRet
     <WalletGuideProvider tripId={walletTrip}>
       <MailboxConnectedView
         outcome={outcome}
-        onDone={() => router.replace(BOOKINGS_ROUTES.wallet)}
+        onDone={() => router.dismissTo(BOOKINGS_ROUTES.wallet)}
       />
     </WalletGuideProvider>
   );

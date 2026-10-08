@@ -1,14 +1,9 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { Modal } from 'react-native';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { BoardingPassScreen } from '@/features/bookings/boarding-pass/BoardingPassScreen';
+import { boardingPassRoute } from '@/features/bookings/routes';
 
-/** The boarding pass or voucher, full screen over the tab bar. */
-export default function BoardingPassRoute() {
+/** The path links from the server still name: it opens the pass where it lives now. */
+export default function BoardingPassLinkRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return (
-    <Modal visible animationType="fade" onRequestClose={() => router.back()} statusBarTranslucent>
-      <BoardingPassScreen bookingId={id} />
-    </Modal>
-  );
+  return <Redirect href={boardingPassRoute(id)} />;
 }

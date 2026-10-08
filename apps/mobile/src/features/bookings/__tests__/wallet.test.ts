@@ -22,7 +22,14 @@ import {
 } from '../data/model';
 import { offlineBookingIds, type OfflineEntry } from '../data/offline';
 import { pendingAdds } from '../data/pending-adds';
-import { chipOf, flightView } from '../flight-card/flight-model';
+import {
+  awaitsBoarding,
+  chipOf,
+  flightView,
+  needsAttention,
+  type FlightChip,
+} from '../flight-card/flight-model';
+import { currencyDigits, price } from '../format';
 import { gateChanged } from '../flight-card/gate-memory';
 import { bannerOf } from '../stack/banner';
 
@@ -152,6 +159,31 @@ describe('flight card', () => {
     );
   });
 
+  it('keeps the printed departure beside a new one, and only then', () => {
+    expect(flightView(flight, LAB_SEGMENTS)?.wasDepartingAt).toBeNull();
+    const leg = flight.segments[0];
+    if (leg === undefined) throw new Error('the lab flight has a leg');
+    const moved = {
+      ...leg,
+      status: 'delayed',
+      delay_min: 25,
+      est_dep_at: '2026-10-12T09:30:00+08:00',
+    };
+    const view = flightView({ ...flight, segments: [moved] }, LAB_SEGMENTS);
+    expect(view?.departsAt).toBe('2026-10-12T09:30:00+08:00');
+    expect(view?.wasDepartingAt).toBe(leg.sched_dep_at);
+  });
+
+  it('marks the statuses a traveller must not miss and stops promising a boarding ping', () => {
+    const urgent: readonly FlightChip[] = ['cancelled', 'diverted', 'delayed', 'gate_change'];
+    const calm: readonly FlightChip[] = ['scheduled', 'on_time', 'boarding', 'departed', 'landed'];
+    expect(urgent.every((chip) => needsAttention(chip))).toBe(true);
+    expect(calm.some((chip) => needsAttention(chip))).toBe(false);
+    expect(awaitsBoarding('delayed')).toBe(true);
+    expect(awaitsBoarding('boarding')).toBe(false);
+    expect(awaitsBoarding('cancelled')).toBe(false);
+  });
+
   it('flags a gate that moved after it was first seen', () => {
     expect(gateChanged('leg-1', 'B7')).toBe(false);
     expect(gateChanged('leg-1', 'B7')).toBe(false);
@@ -193,5 +225,18 @@ describe('import banner', () => {
     expect(bannerOf(LAB_CANDIDATES, LAB_UID, names)).toEqual({ count: 2, member: 'Alex' });
     expect(bannerOf(LAB_CANDIDATES.slice(1), LAB_UID, names)).toEqual({ count: 1, member: null });
     expect(bannerOf([], LAB_UID, names)).toBeNull();
+  });
+});
+
+describe('booking prices', () => {
+  it('prints the shared symbol and the currency own decimals, never the bare code', () => {
+    expect(price('en', 22800, 'USD')).toBe('US$228.00');
+    expect(price('en', 45_000_000, 'IDR')).toMatch(/^Rp\s?450,000$/u);
+    expect(currencyDigits('JPY')).toBe(0);
+  });
+
+  it('still prints an amount for a currency the table lacks', () => {
+    expect(price('en', 12_50, 'XXA')).toBe('XXA 12.5');
+    expect(currencyDigits('XXA')).toBe(2);
   });
 });

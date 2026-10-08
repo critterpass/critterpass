@@ -4,14 +4,18 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, SQL and format options, never copy. */
 import type { DriverDirectoryList } from '@cp/domain';
+import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
+import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 
 import { fetchDirectory, lastDirectory } from '../ours/api';
 import { driverRoutes } from '../ours/routes';
+import { driversRoute } from '../shared/routes';
 import { DirectoryView } from './DirectoryView';
 import {
   areaChips,
@@ -38,6 +42,9 @@ export function DirectoryScreen({
   const [list, setList] = useState<DriverDirectoryList | null>(cached?.list ?? null);
   const [savedAt, setSavedAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(cached === null);
+  // A first read that did not come back, with nothing kept on the phone to show instead.
+  const [failure, setFailure] = useState<'offline' | 'error' | null>(null);
+  const [attempt, setAttempt] = useState(0);
   const [filters, setFilters] = useState<DirectoryFilters>({
     ...NO_FILTERS,
     areas: area === null ? [] : [area],
@@ -51,14 +58,17 @@ export function DirectoryScreen({
       if (outcome.kind === 'ok') {
         setList(outcome.value);
         setSavedAt(null);
+        setFailure(null);
       } else if (cached !== null) {
         setSavedAt(cached.fetchedAt);
+      } else {
+        setFailure(outcome.kind);
       }
     });
     return () => {
       live = false;
     };
-  }, [cached]);
+  }, [cached, attempt]);
 
   const drivers = list?.drivers ?? [];
   const shown = filterDirectory(drivers, filters);
@@ -67,9 +77,11 @@ export function DirectoryScreen({
   const time =
     savedAt === null
       ? null
-      : new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }).format(
-          new Date(savedAt),
-        );
+      : format.date(locale, new Date(savedAt), {
+          hour: '2-digit',
+          minute: '2-digit',
+          ...clockOption(),
+        });
   const toggle = (patch: Partial<DirectoryFilters>) => setFilters((f) => ({ ...f, ...patch }));
 
   return (
@@ -98,7 +110,13 @@ export function DirectoryScreen({
           : t({ id: 'drivers.directory.stale', message: `Offline. The list from ${time}.` })
       }
       loading={loading}
-      onBack={() => router.back()}
+      failure={list === null ? failure : null}
+      onRetry={() => {
+        setFailure(null);
+        setLoading(true);
+        setAttempt((n) => n + 1);
+      }}
+      onBack={() => goBackOr(driversRoute(tripId))}
       onOpen={(id) => router.push(driverRoutes.detail(tripId, id))}
     />
   );

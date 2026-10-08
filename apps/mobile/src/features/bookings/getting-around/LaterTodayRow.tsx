@@ -16,6 +16,8 @@ export interface LaterTodayRowProps {
   readonly detail: string | null;
   /** "Open Grab", or null where no ride app runs. */
   readonly openLabel: string | null;
+  /** The ride app's link is being fetched. */
+  readonly opening?: boolean | undefined;
   readonly onOpen: () => void;
   readonly onLog: () => void;
   readonly testID?: string;
@@ -26,6 +28,7 @@ export function LaterTodayRow({
   to,
   detail,
   openLabel,
+  opening = false,
   onOpen,
   onLog,
   testID,
@@ -48,7 +51,14 @@ export function LaterTodayRow({
       </Row>
       <Row gap="8" style={{ justifyContent: 'flex-end' }}>
         {openLabel ? (
-          <PillButton size="sm" tone="ink" label={openLabel} onPress={onOpen} block={false} />
+          <PillButton
+            size="sm"
+            tone="ink"
+            label={openLabel}
+            onPress={onOpen}
+            loading={opening}
+            block={false}
+          />
         ) : null}
         <PillButton
           size="sm"

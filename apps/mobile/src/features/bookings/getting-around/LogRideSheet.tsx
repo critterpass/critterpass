@@ -1,14 +1,23 @@
 /**
  * LOG IT (3h-3): keeps the ride on the leg and, with what it cost, splits it between the people
  * who rode as a crew expense (`log_ride`, works offline). Without an amount only the ride is kept.
+ * The amount is typed as text and read with the engine's exponent for the currency, until the
+ * wallet's shared amount field takes over this input.
  */
-import { currencyExponent, isKnownCurrency } from '@cp/cost-engine';
+import {
+  currencyExponent,
+  currencySymbol,
+  displayDecimals,
+  isKnownCurrency,
+} from '@cp/cost-engine';
 import { generateUuidV7, type LogRidePayload, type RideProvider } from '@cp/domain';
+import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
 import { Stack } from '@/ui/layout/Stack';
@@ -39,17 +48,28 @@ export interface LogRideParams {
 export function LogRideSheet({ params }: { readonly params: LogRideParams }) {
   const theme = useTheme();
   const { t } = useLingui();
+  const locale = useLocale();
   const log = useCommand(logRideCommand);
   const [amount, setAmount] = useState('');
   const [done, setDone] = useState<'split' | 'kept' | null>(null);
   const [failed, setFailed] = useState(false);
+  // One ride and one expense per sheet: a second tap or a retry sends the same ids again.
+  const [ids] = useState(() => ({ ride: generateUuidV7(), expense: generateUuidV7() }));
   const minor = params.currency === '' ? null : toMinor(amount, params.currency);
   const invalid = amount.trim() !== '' && minor === null;
   const people = params.attendees.length;
+  // The currency as every other screen writes it ("Rp", not "IDR").
+  const known = isKnownCurrency(params.currency);
+  const shown = {
+    unit: known ? currencySymbol(params.currency) : params.currency,
+    decimals: known ? displayDecimals(params.currency) : 2,
+  };
 
   const save = async () => {
+    if (log.pending) return;
+    setFailed(false);
     const payload: LogRidePayload = {
-      ride_id: generateUuidV7(),
+      ride_id: ids.ride,
       trip_id: params.tripId,
       leg_ref: params.legRef,
       provider: params.provider,
@@ -57,7 +77,7 @@ export function LogRideSheet({ params }: { readonly params: LogRideParams }) {
       ...(params.quoteId ? { quote_id: params.quoteId } : {}),
       ...(minor === null
         ? {}
-        : { amount_minor: minor, currency: params.currency, expense_id: generateUuidV7() }),
+        : { amount_minor: minor, currency: params.currency, expense_id: ids.expense }),
     };
     const result = await log.send(payload);
     if (result.kind === 'queued' || result.kind === 'applied')
@@ -86,7 +106,8 @@ export function LogRideSheet({ params }: { readonly params: LogRideParams }) {
   return (
     <Stack gap="16" testID="supplier-log-ride">
       <TextField
-        label={t({ id: 'suppliers.log.amount', message: `What it cost (${params.currency})` })}
+        label={t({ id: 'suppliers.log.amount', message: `What it cost (${shown.unit})` })}
+        placeholder={format.number(locale, 0, { minimumFractionDigits: shown.decimals })}
         value={amount}
         onChangeText={setAmount}
         keyboardType="decimal-pad"

@@ -29,6 +29,8 @@ export interface WalletBooking {
   readonly currency: string | null;
   readonly paidBy: string | null;
   readonly supplierRef: string | null;
+  /** The order to cancel with the supplier, when the booking was made in the app. */
+  readonly supplierOrderId: string | null;
   readonly freeCancelUntil: string | null;
   readonly cancelPolicyText: string | null;
   readonly status: string;
@@ -104,6 +106,7 @@ export function toWalletBooking(
     currency: row.currency,
     paidBy: row.paid_by,
     supplierRef: row.supplier_ref,
+    supplierOrderId: row.supplier_order_id ?? null,
     freeCancelUntil: row.free_cancel_until,
     cancelPolicyText: row.cancel_policy_text,
     status: row.status,

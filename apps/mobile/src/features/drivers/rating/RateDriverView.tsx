@@ -78,7 +78,13 @@ export function RateDriverView(props: RateDriverViewProps) {
     .join(' + ');
   return (
     <Scaffold testID="drivers-rate">
-      <ScrollView contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: 48 }}>
+      <ScrollView
+        contentContainerStyle={{
+          padding: theme.space['20'],
+          gap: theme.space['16'],
+          paddingBottom: theme.space['32'] + theme.space['16'],
+        }}
+      >
         <BackEyebrow
           label={t({ id: 'drivers.rate.back', message: 'Our drivers' })}
           onPress={props.onBack}

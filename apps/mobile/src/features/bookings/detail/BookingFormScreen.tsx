@@ -3,12 +3,15 @@
  * read) or correcting one. Both may wait in the offline queue; the card appears when it syncs.
  */
 import { generateUuidV7 } from '@cp/domain';
+import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { toast } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 
-import { addBookingCommand, editBookingCommand } from '../data/commands';
+import { addBookingCommand, editBookingCommand, resolveCandidateCommand } from '../data/commands';
 import { kindOf } from '../data/model';
 import { useWallet } from '../data/use-wallet';
 import { useWalletContext } from '../data/use-wallet-context';
@@ -37,15 +40,21 @@ export function BookingFormScreen({
   bookingId,
   kind,
   title,
+  candidateId,
 }: {
   readonly bookingId: string;
   readonly kind?: string | undefined;
   readonly title?: string | undefined;
+  /** The confirmation that could not be read: it leaves the list once this booking is saved. */
+  readonly candidateId?: string | undefined;
 }) {
+  const { t } = useLingui();
+  const { report } = useCommandFeedback();
   const context = useWalletContext();
   const wallet = useWallet(context.trip?.id ?? null, context.uid);
   const add = useCommand(addBookingCommand);
   const edit = useCommand(editBookingCommand);
+  const resolve = useCommand(resolveCandidateCommand);
   const adding = bookingId === NEW_BOOKING_ID;
   const booking = adding ? undefined : wallet.all.find((item) => item.id === bookingId);
   const tz = zoneOf(booking?.tz, context.trip?.tz) ?? deviceZone();
@@ -53,6 +62,8 @@ export function BookingFormScreen({
   const [tried, setTried] = useState(false);
   // The zone's offset as of opening the form (its name is for the traveller, not for the maths).
   const [openedAt] = useState(() => Date.now());
+  // One id for the booking this form adds, so a second tap never adds a second one.
+  const [newId] = useState(() => generateUuidV7());
   if (!adding && booking === undefined) return <BookingMissing loaded={wallet.loaded} />;
   const current: BookingDraft =
     draft ??
@@ -71,17 +82,37 @@ export function BookingFormScreen({
         if (problems.length === 0) router.back();
         return;
       }
-      await edit.send(payload, { baseVersion: booking.version });
-      router.back();
+      if (edit.pending) return;
+      const outcome = report(await edit.send(payload, { baseVersion: booking.version }), {
+        offlineCapable: true,
+        id: 'bookings-edit',
+      });
+      if (outcome === 'done' || outcome === 'queued') router.back();
       return;
     }
     const tripId = context.trip?.id;
-    if (tripId === undefined) return;
-    const bookingIdNew = generateUuidV7();
-    const payload = toAddPayload(current, { bookingId: bookingIdNew, tripId }, tz);
-    if (payload === null) return;
-    await add.send(payload);
-    router.replace(BOOKINGS_ROUTES.wallet);
+    if (tripId === undefined) {
+      toast.show({
+        id: 'bookings-form-no-trip',
+        title: t({
+          id: 'bookings.add.noTrip',
+          message: 'Bookings land in a trip. Start one with the crew and they show up here.',
+        }),
+      });
+      return;
+    }
+    const payload = toAddPayload(current, { bookingId: newId, tripId }, tz);
+    if (payload === null || add.pending) return;
+    const outcome = report(await add.send(payload), {
+      offlineCapable: true,
+      id: 'bookings-added-by-hand',
+      done: t({ id: 'bookings.add.addedToast', message: 'In the wallet.' }),
+    });
+    if (outcome !== 'done' && outcome !== 'queued') return;
+    if (candidateId !== undefined && candidateId !== '') {
+      void resolve.send({ candidate_id: candidateId, action: 'ignore' });
+    }
+    router.dismissTo(BOOKINGS_ROUTES.wallet);
   };
   return (
     <BookingFormView

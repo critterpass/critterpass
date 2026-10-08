@@ -6,9 +6,11 @@
 import { ALL_PARTNERS_OFF, rideAppsFor, supplierCopy } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
+import { toast } from '@/motion';
 
 import { clock, dateTime } from '../format';
 import { bookingRoute } from '../routes';
@@ -18,7 +20,7 @@ import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { rideAppName } from '../supplier/suppliers';
 import { RideBackCard } from '@/features/drivers';
 import { GettingAroundView } from './GettingAroundView';
-import type { Leg } from './model';
+import { localDay, type Leg } from './model';
 import { durationMessage } from './duration';
 import { driverPhrase, glossMessage } from './phrase';
 import { rideCard } from './ride-card';
@@ -38,11 +40,15 @@ export function GettingAroundScreen({
   const render = useSupplierCopy();
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [tick, setTick] = useState<number | null>(null);
+  // The later leg whose ride link is being fetched.
+  const [opening, setOpening] = useState<string | null>(null);
   useEffect(() => {
     if (startedAt === null) return undefined;
     const timer = setInterval(() => setTick(Date.now()), 5000);
     return () => clearInterval(timer);
   }, [startedAt]);
+  // The trip-local day changes once a day: not rebuilt on every journey tick.
+  const today = useMemo(() => localDay(new Date().toISOString(), data.tz), [data.tz]);
   const to = data.leg.to;
   const from = data.leg.from ?? data.here;
 
@@ -67,7 +73,7 @@ export function GettingAroundScreen({
         tripId: data.tripId ?? '',
         legRef,
         provider,
-        currency: data.localCurrency ?? '',
+        currency: data.localCurrency ?? data.crewCurrency,
         attendees: attendees.join(','),
         ...(quoteId ? { quoteId } : {}),
       }),
@@ -98,13 +104,32 @@ export function GettingAroundScreen({
           ),
         )
       : null,
+    opening: opening === leg.key,
     onOpen: () => {
-      if (data.tripId === null) return;
+      if (data.tripId === null || opening !== null) return;
+      setOpening(leg.key);
       void deviceSupplierApi
         .rideQuote({ tripId: data.tripId, toPoi: leg.to.poiId, fromPoi: leg.from.poiId })
         .then((outcome) => {
+          setOpening(null);
           const link = outcome.kind === 'ok' ? outcome.value.links[0] : undefined;
-          if (link) openRideLink(link);
+          if (link) {
+            openRideLink(link);
+            return;
+          }
+          toast.show({
+            id: 'getting-around-ride-link',
+            title:
+              outcome.kind === 'offline'
+                ? t({
+                    id: 'suppliers.later.openOffline',
+                    message: 'Needs signal to open the ride app with this trip.',
+                  })
+                : t({
+                    id: 'suppliers.later.openFailed',
+                    message: 'That ride didn’t open. Try again in a moment.',
+                  }),
+          });
         });
     },
     onLog: () => logLeg(leg.key, apps[0] ?? 'taxi', leg.to.attendeeIds),
@@ -114,14 +139,7 @@ export function GettingAroundScreen({
 
   return (
     <GettingAroundView
-      top={
-        data.tripId === null ? null : (
-          <RideBackCard
-            tripId={data.tripId}
-            date={new Intl.DateTimeFormat('en-CA', { timeZone: data.tz }).format(new Date())}
-          />
-        )
-      }
+      top={data.tripId === null ? null : <RideBackCard tripId={data.tripId} date={today} />}
       status={data.status}
       guide={guide}
       header={header}
@@ -195,7 +213,7 @@ export function GettingAroundScreen({
             }
       }
       later={later}
-      onBack={() => router.back()}
+      onBack={() => goBackOr()}
     />
   );
 }

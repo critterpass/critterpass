@@ -145,8 +145,8 @@ msgstr "Đặt ngay · chưa giữ chỗ"
 msgid "suppliers.offer.bookKlookLeft"
 msgstr "Đặt trên Klook · còn {left} chỗ"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/book.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.book.title"
 msgstr "Đặt qua Viator"
 
@@ -179,8 +179,8 @@ msgstr "Hủy trên {supplier} trước {date} để không mất phí"
 msgid "suppliers.cancel.confirm"
 msgstr "Hủy đặt chỗ"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/cancel.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.cancel.title"
 msgstr "Hủy với Viator"
 
@@ -371,8 +371,8 @@ msgstr "Ghi lại"
 msgid "suppliers.log.save"
 msgstr "Ghi lại"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/log-ride.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.log.title"
 msgstr "Ghi lại chuyến xe"
 
@@ -393,8 +393,8 @@ msgstr "Điểm hẹn: {meeting}"
 msgid "suppliers.vendor.textLabel"
 msgstr "Tin nhắn gửi {vendor}"
 
-#: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.vendor.draftTitle"
 msgstr "Nhắn cho một địa điểm"
 
@@ -402,8 +402,8 @@ msgstr "Nhắn cho một địa điểm"
 msgid "suppliers.vendor.listError"
 msgstr "Chưa tải được tin nhắn. Thử lại sau chút nhé."
 
-#: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
 msgid "suppliers.vendor.listTitle"
 msgstr "Tin nhắn với các địa điểm"
 
@@ -414,6 +414,10 @@ msgstr "Cần có sóng để tải tin nhắn với các địa điểm."
 #: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
 msgid "suppliers.fare.taxi"
 msgstr "Taxi đồng hồ"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+msgid "suppliers.later.openOffline"
+msgstr "Cần có mạng để mở ứng dụng gọi xe với chuyến này."
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
 msgid "suppliers.vendor.emptyTitle"
@@ -606,6 +610,14 @@ msgstr "Chưa lưu được. Thử lại nhé."
 msgid "suppliers.log.invalid"
 msgstr "Có vẻ đây không phải số tiền"
 
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
+msgid "suppliers.estimate.gone"
+msgstr "Ước tính đó không còn trên máy này. Hãy mở lại chuyến xe để xem."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+msgid "suppliers.later.openFailed"
+msgstr "Chưa mở được chuyến xe đó. Hãy thử lại sau giây lát."
+
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.offlineNone"
 msgstr "Thẻ bên dưới dùng được khi không có mạng: đưa cho tài xế nào cũng được."
@@ -713,7 +725,7 @@ msgstr "Đang chờ nhà tổ chức"
 msgid "suppliers.disclosure.affiliate"
 msgstr "Chúng tôi có thể nhận hoa hồng. Điều đó không bao giờ thay đổi gợi ý của {guide}."
 
-#. placeholder {0}: params.currency
+#. placeholder {0}: shown.unit
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
 msgid "suppliers.log.amount"
 msgstr "Chi phí ({0})"
@@ -726,13 +738,13 @@ msgstr "WhatsApp sẽ mở với nội dung này. Chọn cuộc trò chuyện v�
 msgid "suppliers.vendor.empty"
 msgstr "Khi bạn hỏi một địa điểm, nội dung và câu trả lời của họ sẽ hiện ở đây."
 
-#: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
-msgid "suppliers.estimate.title"
-msgstr "Vì sao có ước tính này"
-
 #: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
 msgid "suppliers.rides.whyEstimate"
+msgstr "Vì sao có ước tính này"
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/sheets.tsx
+msgid "suppliers.estimate.title"
 msgstr "Vì sao có ước tính này"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
