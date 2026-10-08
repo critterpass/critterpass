@@ -1,0 +1,123 @@
+{
+  "app_tests": {
+    "why": "The app's Jest shards. Turbo hashes all of infra/ into every test task, but the app reads none of its deploy and dashboard configuration.",
+    "tasks": ["@cp/mobile#test"],
+    "ignore": ["infra/cloudflare/**", "infra/monitoring/**", "infra/railway/**"]
+  },
+  "service_images": {
+    "why": "The api and worker images build from the repo root: their own code and every package they bundle (the build tasks), plus what only `docker build` and the image's install read.",
+    "tasks": ["@cp/api#build", "@cp/worker#build"],
+    "paths": [".dockerignore", ".npmrc", "patches/**", "apps/mobile/assets/fonts/**"]
+  },
+  "mobile": {
+    "why": "The release bundle check.",
+    "paths": ["apps/mobile/**", "tools/scripts/check-release-bundle.ts"]
+  },
+  "critter_art": {
+    "why": "The golden parity suite on macOS.",
+    "paths": [
+      "packages/critter-art/src/core/**",
+      "packages/critter-art/src/kinds/**",
+      "packages/critter-art/src/data/**",
+      "packages/critter-art/src/forms/**",
+      "packages/critter-art/src/backends/canvas2d/**",
+      "packages/critter-art/golden/**",
+      "packages/critter-art/package.json",
+      "design/**"
+    ]
+  },
+  "critter_macos": {
+    "why": "The macOS-only suites: real Chromium, share-card goldens, the config plugin's prebuild output.",
+    "paths": [
+      "packages/critter-art/**",
+      "packages/critter-bake/**",
+      "apps/mobile/assets/fonts/**",
+      "apps/mobile/plugins/**",
+      "apps/mobile/app.config.ts",
+      "apps/mobile/generated/critter-art/**",
+      "apps/mobile/targets/**",
+      "apps/mobile/jest.config.js",
+      "design/**",
+      ".github/workflows/ci.yml"
+    ]
+  },
+  "synced_schema": {
+    "why": "The app may not depend on @cp/db, so turbo never reruns its schema drift test for a server schema change.",
+    "paths": [
+      "packages/db/src/schema/**",
+      "packages/db/src/publication.ts",
+      "infra/powersync/**",
+      "apps/mobile/src/data/powersync/**"
+    ]
+  },
+  "ai_evals": {
+    "why": "The promptfoo suites.",
+    "paths": [
+      "packages/ai/**",
+      "packages/domain/src/ai/**",
+      "packages/domain/src/guide-actions/**",
+      ".github/workflows/ai-evals.yml"
+    ]
+  },
+  "lockfile": {
+    "why": "The dependency audit.",
+    "paths": ["pnpm-lock.yaml", ".github/workflows/osv.yml"]
+  },
+  "sync_e2e": {
+    "why": "The sync end-to-end run against the local stack.",
+    "paths": [
+      "apps/mobile/src/data/**",
+      "services/api/src/**",
+      "services/worker/src/**",
+      "packages/db/**",
+      "packages/domain/**",
+      "infra/docker-compose.yml",
+      "infra/docker/postgres/**",
+      "infra/powersync/**",
+      "infra/centrifugo/**",
+      "tools/scripts/sync-e2e/**",
+      "pnpm-lock.yaml",
+      ".github/workflows/sync-e2e.yml"
+    ]
+  },
+  "admin_e2e": {
+    "why": "The ops console Playwright suite: the console, and the server code and data it drives.",
+    "paths": [
+      "apps/admin/**",
+      "packages/db/seed/**",
+      "services/api/src/admin/**",
+      "packages/domain/src/admin/**",
+      "packages/db/migrations/**",
+      "infra/docker/postgres/**",
+      "pnpm-lock.yaml",
+      ".github/workflows/ci.yml"
+    ]
+  },
+  "ios_native": {
+    "why": "The iOS compile.",
+    "paths": [
+      "apps/mobile/modules/*/ios/**",
+      "apps/mobile/modules/*/expo-module.config.json",
+      "apps/mobile/targets/**",
+      "apps/mobile/plugins/**",
+      "apps/mobile/app.config.ts",
+      "apps/mobile/package.json",
+      "pnpm-lock.yaml",
+      ".github/workflows/ci.yml"
+    ]
+  },
+  "android_native": {
+    "why": "The Android compile and the modules' JVM tests.",
+    "paths": [
+      "apps/mobile/modules/*/android/**",
+      "apps/mobile/modules/*/expo-module.config.json",
+      "apps/mobile/modules/*/package.json",
+      "apps/mobile/plugins/**",
+      "apps/mobile/modules/*/plugin/**",
+      "apps/mobile/app.config.ts",
+      "apps/mobile/package.json",
+      "pnpm-lock.yaml",
+      ".github/workflows/ci.yml"
+    ]
+  }
+}

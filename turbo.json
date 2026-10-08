@@ -44,6 +44,7 @@
     "test:db": {
       "dependsOn": ["^build"],
       "outputs": [],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/infra/**"],
       "cache": false
     },
     "dev": {
