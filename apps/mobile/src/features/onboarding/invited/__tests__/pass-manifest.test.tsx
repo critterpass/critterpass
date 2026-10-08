@@ -25,7 +25,7 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, screen, waitFor, within } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
@@ -148,6 +148,8 @@ describe('3a-12 your pass, three taps', () => {
   }
 
   it('takes the seat once, with the code and the seat, after saving with a phone number', async () => {
+    // Generous waits: the phone page's clap is real time, and CI runs several times slower.
+    const slow = { timeout: 10_000 };
     openInvite();
     const api = recordedApi({ accept_invite: applied(JOINED) });
     stack = await openTestLocalFirst({ transport: api, holdUploads: true });
@@ -155,29 +157,32 @@ describe('3a-12 your pass, three taps', () => {
       services: services({ status: 'not_found' }),
       stack,
     });
-    await waitFor(() => expect(readDraft()?.home_iata).toBe('SIN'));
+    await waitFor(() => expect(readDraft()?.home_iata).toBe('SIN'), slow);
     await activate(screen.getByTestId('invite-pass-issue'));
-    await activate(await screen.findByTestId('save-phone'));
+    await activate(await screen.findByTestId('save-phone', {}, slow));
     expect(router.push).toHaveBeenCalledWith('/onboarding/phone');
 
-    await fireEvent.changeText(await screen.findByTestId('phone-number'), '91234567');
+    await fireEvent.changeText(await screen.findByTestId('phone-number', {}, slow), '91234567');
     await activate(screen.getByTestId('phone-send'));
-    await fireEvent.changeText(await screen.findByLabelText('Verification code'), '419203');
-    await waitFor(() => expect(readDraft()?.saved).toBe(true));
+    await fireEvent.changeText(
+      await screen.findByLabelText('Verification code', {}, slow),
+      '419203',
+    );
+    await waitFor(() => expect(readDraft()?.saved).toBe(true), slow);
     // The number is verified on the page above: nothing is sent until the pass page is back.
     const joins = () => api.sent.filter((s) => s.path.endsWith('accept_invite'));
     expect(joins()).toHaveLength(0);
 
-    await waitFor(() => expect(router.back).toHaveBeenCalledTimes(1), { timeout: 5000 });
-    await waitFor(() => expect(router.replace).toHaveBeenCalledWith('/onboarding/invite/manifest'));
-    await act(async () => {
-      await Promise.resolve();
-    });
+    await waitFor(() => expect(router.back).toHaveBeenCalledTimes(1), slow);
+    await waitFor(
+      () => expect(router.replace).toHaveBeenCalledWith('/onboarding/invite/manifest'),
+      slow,
+    );
     expect(joins()).toHaveLength(1);
     expect(joins()[0]?.body).toMatchObject({ payload: { code: 'BATH6X', seat: 'seat-token' } });
     expect(router.replace).not.toHaveBeenCalledWith('/onboarding/permissions');
     expect(isOnboardingComplete()).toBe(true);
-  }, 15_000);
+  }, 60_000);
 
   it('shows a refused join as its state', async () => {
     openInvite();
