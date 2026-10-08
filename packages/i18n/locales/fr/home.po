@@ -478,6 +478,10 @@ msgstr ""
 msgid "home.widgets.crewLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.held"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.inviteOpened"
 msgstr ""
@@ -603,13 +607,13 @@ msgstr ""
 msgid "home.inbox.closed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.today"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.today"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
-msgid "home.countdown.today"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx

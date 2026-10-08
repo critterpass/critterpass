@@ -2,6 +2,9 @@
  * Home's offline line under the trip's card: "Ready offline" once the trip's place cards and its
  * saved days are on the phone, else what is still on its way. Read from the phone alone (synced
  * plan and place rows, the saved day bundles), so it says the same in airplane mode.
+ *
+ * While the server refuses the upload queue the line says that instead, with or without a trip:
+ * changes made on this phone are not reaching the crew, which matters more than what is saved.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and table names, never copy. */
 import { toLocalWallTime, type HomeTripInput } from '@cp/domain';
@@ -71,20 +74,38 @@ export function OfflineLineRow({
   trip,
   now,
 }: {
-  readonly trip: HomeTripInput;
+  /** The trip whose card the line sits under; null when Home shows none. */
+  readonly trip: HomeTripInput | null;
   readonly now: Date;
 }) {
   const styles = useStyles();
   const theme = useTheme();
+  const { t } = useLingui();
   const copy = useLineCopy();
   const sync = useSyncStatus();
-  const places = useLiveRows<{ n: number }>(MISSING_PLACES_SQL, [trip.id], MISSING_PLACES_TABLES);
+  const places = useLiveRows<{ n: number }>(
+    MISSING_PLACES_SQL,
+    trip === null ? null : [trip.id],
+    MISSING_PLACES_TABLES,
+  );
   const saved = useLiveRows<{ data: string }>(
     SAVED_DAYS_SQL,
-    savedDaysParams(trip.id),
+    trip === null ? null : savedDaysParams(trip.id),
     SAVED_DAYS_TABLES,
   );
-  if (!places.loaded || !saved.loaded) return null;
+  if (sync.uploadHeld) {
+    return (
+      <Row gap="8" testID="home-sync-held">
+        <Text variant="caption" color={theme.semantic.text.secondary} style={styles.text}>
+          {t({
+            id: 'home.offline.held',
+            message: "Some changes can't be sent yet. We'll keep trying when the app is opened.",
+          })}
+        </Text>
+      </Row>
+    );
+  }
+  if (trip === null || !places.loaded || !saved.loaded) return null;
   const tz = trip.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   const line = offlineLineFor({
     today: toLocalWallTime(now, tz).date,

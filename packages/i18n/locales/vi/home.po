@@ -478,6 +478,10 @@ msgstr ""
 msgid "home.widgets.crewLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/offline-line.tsx
+msgid "home.offline.held"
+msgstr "Một số thay đổi chưa gửi được. Mở lại ứng dụng, chúng tôi sẽ thử gửi tiếp."
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.inviteOpened"
 msgstr "Có người đã mở lời mời của bạn"

@@ -1,8 +1,9 @@
 /**
  * Sync status transitions: the pure derivation across every phase, and the live store over a real
  * PowerSync database, upload queue and connectivity source — including a real connection attempt
- * to a sync endpoint that refuses it.
+ * to a sync endpoint that refuses it, and an upload queue the server refuses for good.
  */
+import { DomainError } from '@cp/domain';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import type { SyncStatus } from '@powersync/common';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
@@ -14,6 +15,7 @@ import {
 } from '../../powersync/test-support/local-first-fixture';
 import { removeDir } from '../../powersync/test-support/open-node-database';
 import { enqueue, eventually } from '../../powersync/test-support/queue-fixtures';
+import { HOLD_AFTER_REFUSED_ALONE } from '../../powersync/upload-queue';
 import {
   createSyncStatusStore,
   deriveSyncStatus,
@@ -41,7 +43,7 @@ function sync(overrides: Partial<SyncStatusInput> & { downloading?: boolean }): 
   };
 }
 
-const idleQueue = { sending: false, nextRetryAt: null };
+const idleQueue = { sending: false, nextRetryAt: null, refused: null };
 
 describe('deriveSyncStatus', () => {
   it('walks offline → connecting → catching up → online and back', () => {
@@ -78,7 +80,11 @@ describe('deriveSyncStatus', () => {
   });
 
   it('reports uploads and the next upload retry independently of the phase', () => {
-    const view = deriveSyncStatus(sync({}), false, { sending: true, nextRetryAt: 1234 });
+    const view = deriveSyncStatus(sync({}), false, {
+      ...idleQueue,
+      sending: true,
+      nextRetryAt: 1234,
+    });
     expect(view).toMatchObject({ phase: 'offline', uploading: true, nextUploadRetryAt: 1234 });
   });
 });
@@ -123,6 +129,50 @@ describe('sync status store', () => {
     );
     expect(store.getSnapshot().phase).toBe('connecting');
     expect(phases).toEqual(['offline', 'connecting']);
+    stop();
+  });
+
+  it('says uploads are held while the server refuses the queue, until it drains', async () => {
+    // The server turns every batch down for good, then recovers.
+    let down = true;
+    const applied: string[] = [];
+    stack = await openTestLocalFirst({
+      holdUploads: true,
+      transport: {
+        postJson(_path, body) {
+          if (down) {
+            const error = new DomainError('VALIDATION');
+            return Promise.resolve({ status: error.http, body: error.toResponseBody() });
+          }
+          const ids = (body as { ops: { op_id: string }[] }).ops.map((op) => op.op_id);
+          applied.push(...ids);
+          return Promise.resolve({
+            status: 200,
+            body: { results: ids.map((id) => ({ op_id: id, status: 'applied' })) },
+          });
+        },
+      },
+    });
+    const { queue } = stack.value;
+    const store = createSyncStatusStore(stack.db, queue, stack.network);
+    const held = [store.getSnapshot().uploadHeld];
+    const stop = store.subscribe(() => {
+      const { uploadHeld } = store.getSnapshot();
+      if (held.at(-1) !== uploadHeld) held.push(uploadHeld);
+    });
+
+    const ids: string[] = [];
+    for (let n = 0; n < HOLD_AFTER_REFUSED_ALONE + 1; n += 1) {
+      ids.push(await enqueue(stack.db, stack.uid, 'create_test_crew', {}));
+    }
+    await queue.flush();
+    expect(store.getSnapshot()).toMatchObject({ uploadHeld: true, nextUploadRetryAt: null });
+
+    down = false;
+    await queue.retryNow();
+    expect(store.getSnapshot().uploadHeld).toBe(false);
+    expect(applied).toEqual(ids.slice(HOLD_AFTER_REFUSED_ALONE - 1));
+    expect(held).toEqual([false, true, false]);
     stop();
   });
 
