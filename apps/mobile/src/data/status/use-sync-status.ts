@@ -2,7 +2,8 @@
  * Sync status for app chrome and the 3k-4 banner: `offline` (no network), `connecting` (network,
  * but the sync stream is not up yet or is reconnecting), `catching_up` (connected, still
  * downloading or never fully synced) and `online`; plus whether commands are uploading, when the
- * next upload retry is due, and when the last full sync finished.
+ * next upload retry is due, whether the server is refusing uploads so the queue waits, and when
+ * the last full sync finished.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is a status discriminant, never copy. */
@@ -19,6 +20,11 @@ export interface SyncStatusView {
   readonly phase: SyncPhase;
   readonly uploading: boolean;
   readonly nextUploadRetryAt: number | null;
+  /**
+   * The server refuses the queue's uploads for good, so every queued change waits (nothing is
+   * retried on a timer) until the queue is asked again and a batch gets through.
+   */
+  readonly uploadHeld: boolean;
   readonly lastSyncedAt: Date | null;
 }
 
@@ -30,7 +36,7 @@ export type SyncStatusInput = Pick<
 export function deriveSyncStatus(
   sync: SyncStatusInput,
   networkOnline: boolean,
-  queue: Pick<UploadQueueState, 'sending' | 'nextRetryAt'>,
+  queue: Pick<UploadQueueState, 'sending' | 'nextRetryAt' | 'refused'>,
 ): SyncStatusView {
   let phase: SyncPhase;
   if (!networkOnline) phase = 'offline';
@@ -41,6 +47,7 @@ export function deriveSyncStatus(
     phase,
     uploading: queue.sending,
     nextUploadRetryAt: queue.nextRetryAt,
+    uploadHeld: queue.refused !== null,
     lastSyncedAt: sync.lastSyncedAt ?? null,
   };
 }
@@ -50,6 +57,7 @@ function sameView(a: SyncStatusView, b: SyncStatusView): boolean {
     a.phase === b.phase &&
     a.uploading === b.uploading &&
     a.nextUploadRetryAt === b.nextUploadRetryAt &&
+    a.uploadHeld === b.uploadHeld &&
     a.lastSyncedAt?.getTime() === b.lastSyncedAt?.getTime()
   );
 }

@@ -151,7 +151,7 @@ function CrewHome({ view }: { readonly view: HomeView }) {
       !votingIsNextUp ? (
         <NextUpCard trip={home.nextTrip} />
       ) : null}
-      {shownTrip === null ? null : <OfflineLineRow trip={shownTrip} now={new Date()} />}
+      <OfflineLineRow trip={shownTrip} now={new Date()} />
       {home.mode === 'post_trip' && home.recentTrip !== null ? (
         <PostTripCard trip={home.recentTrip} />
       ) : null}
