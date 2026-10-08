@@ -29,10 +29,18 @@ jest.mock('@maplibre/maplibre-react-native', () => {
   };
 });
 let mockFocused = true;
+let mockParams: { landed?: string } = {};
 jest.mock('expo-router', () => ({
   useIsFocused: () => mockFocused,
   usePathname: () => '/pass',
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
+  useLocalSearchParams: () => mockParams,
+  router: {
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    setParams: jest.fn(),
+    canGoBack: () => false,
+  },
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
@@ -40,6 +48,7 @@ import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { configure, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import { StyleSheet, type ViewStyle } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -53,6 +62,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { PassScreen } from '../pass-screen';
 import {
+  CHEP,
   seedCritters,
   TOKEK_RARE,
   TRIP,
@@ -70,6 +80,7 @@ const stacks: TestLocalFirst[] = [];
 
 afterEach(async () => {
   mockFocused = true;
+  mockParams = {};
   for (const stack of stacks.splice(0)) {
     await stack.close();
     removeDir(stack.dir);
@@ -190,18 +201,29 @@ describe('PASS tab Critterdex', () => {
     expect(screen.queryByTestId('critters-here-now')).toBeNull();
   });
 
-  it('stops drawing the dex while another screen is in front, and draws it again on return', async () => {
+  it('keeps the dex where it was while another screen or tab is in front', async () => {
     const stack = await renderPass();
     await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
+    const list = screen.getByTestId('critters-dex-list');
     mockFocused = false;
     await screen.rerender(passTree(stack));
-    expect(screen.getByTestId('critters-dex-resting')).toBeTruthy();
-    expect(screen.queryByTestId('critters-dex')).toBeNull();
+    // The same list stays mounted (its scroll offset with it), not a resting placeholder.
+    expect(screen.getByTestId('critters-dex-list')).toBe(list);
     mockFocused = true;
     await screen.rerender(passTree(stack));
-    // The rows stayed loaded: the dex is back in the same render, with no loading state between.
-    expect(screen.getByTestId('critters-dex')).toBeTruthy();
-    expect(screen.getByText('HERE NOW · BALI')).toBeTruthy();
+    expect(screen.getByTestId('critters-dex-list')).toBe(list);
+  });
+
+  it('outlines the set a critter just landed in, then lets the landing go', async () => {
+    mockParams = { landed: CHEP };
+    await renderPass();
+    await waitFor(() => expect(screen.getByTestId('critters-home-set')).toBeTruthy());
+    const outlined = () =>
+      StyleSheet.flatten(screen.getByTestId('critters-home-set').props.style as ViewStyle)
+        .outlineWidth ?? 0;
+    await waitFor(() => expect(outlined()).toBeGreaterThan(0));
+    await waitFor(() => expect(router.setParams).toHaveBeenCalledWith({ landed: undefined }));
+    expect(outlined()).toBe(0);
   });
 
   it('says a find slipped away once the server revoked it, until OK', async () => {
