@@ -7,6 +7,8 @@
 import type { PostReceiptBody, RevealedPayoutMethod } from '@cp/domain';
 import { createContext, useContext, type ReactNode } from 'react';
 
+import { useRefusedMoneyWrites } from './use-refused-money-writes';
+
 export type ReaderStatus = 'ok' | 'unsupported_script' | 'no_text';
 export type ReaderQualityIssue = 'crumpled' | 'blurry' | 'glare' | 'cut_off';
 
@@ -87,7 +89,18 @@ export function MoneyServicesProvider({
   readonly services: MoneyServices;
   readonly children: ReactNode;
 }) {
-  return <MoneyServicesContext.Provider value={services}>{children}</MoneyServicesContext.Provider>;
+  return (
+    <MoneyServicesContext.Provider value={services}>
+      <RefusedMoneyWrites />
+      {children}
+    </MoneyServicesContext.Provider>
+  );
+}
+
+/** Every money screen sits under the provider, so a refused write is said on whichever is open. */
+function RefusedMoneyWrites() {
+  useRefusedMoneyWrites();
+  return null;
 }
 
 export function useMoneyServices(): MoneyServices {

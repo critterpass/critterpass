@@ -3,7 +3,9 @@
  * with its shares, IOUs to the payer, its chat card and a crew_money hint; someone outside the trip
  * cannot add one, and a split cannot name them. Only the creator, the payer or an organiser changes
  * an expense; a change reverses the old IOUs and writes new ones, a stale version is refused, and a
- * delete leaves the crew square. A settlement currency change is the organiser's and re-rates later.
+ * delete leaves the crew square. Someone removed from the crew cannot be named on a new expense, yet
+ * the expenses they shared can still be changed and keep their share. A settlement currency change
+ * is the organiser's and re-rates later.
  */
 import { generateUuidV7 } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -148,6 +150,71 @@ describe('changing an expense', () => {
     expect(await netsOf(harness, crew.crewId)).toEqual({});
     const again = await harness.run(crew.organiser, 'delete_expense', { expense_id: expenseId });
     expect(errorOf(again)).toMatchObject({ code: 'STATE_INVALID' });
+  });
+});
+
+describe('someone who has left the crew', () => {
+  it('cannot be named on a new expense, and stays on the ones they shared', async () => {
+    const leaver = crew.members[5]!;
+    const stayers = crew.members.filter((member) => member.uid !== leaver.uid);
+    const add = (id: string, members: readonly SignedIn[]) =>
+      harness.run(crew.organiser, 'add_expense', {
+        expense_id: id,
+        trip_id: crew.tripId,
+        amount_minor: 6_000,
+        currency: 'USD',
+        payer_uid: crew.organiser.uid,
+        split: { mode: 'weights', shares: members.map((m) => ({ user_id: m.uid, weight: 1 })) },
+        description: 'Boat',
+      });
+    const shared = generateUuidV7();
+    expect((await add(shared, crew.members)).status).toBe(200);
+
+    const removed = await harness.run(crew.organiser, 'remove_member', {
+      crew_id: crew.crewId,
+      uid: leaver.uid,
+    });
+    expect(removed.status, JSON.stringify(removed.body)).toBe(200);
+    const seat = await harness.pool.query<{ rsvp: string; holds_seat: boolean }>(
+      'SELECT rsvp, holds_seat FROM trip_participants WHERE trip_id = $1 AND user_id = $2',
+      [crew.tripId, leaver.uid],
+    );
+    expect(seat.rows[0]).toEqual({ rsvp: 'out', holds_seat: false });
+
+    // A new expense that still gives them a share is refused, naming them.
+    const named = await add(generateUuidV7(), crew.members);
+    expect(errorOf(named)).toMatchObject({
+      code: 'VALIDATION',
+      detail: { reason: 'not_in_trip', user_ids: [leaver.uid] },
+    });
+    const later = generateUuidV7();
+    expect((await add(later, stayers)).status).toBe(200);
+
+    // The expense they shared can still be changed, and keeps their share.
+    const renamed = await harness.run(crew.organiser, 'edit_expense', {
+      expense_id: shared,
+      base_version: 1,
+      patch: { description: 'Boat tickets' },
+    });
+    expect(resultOf(renamed)).toMatchObject({ expense_id: shared, version: 2 });
+    const share = await harness.pool.query<{ minor: string }>(
+      'SELECT computed_minor::text AS minor FROM expense_shares WHERE expense_id = $1 AND user_id = $2',
+      [shared, leaver.uid],
+    );
+    expect(share.rows).toEqual([{ minor: '1000' }]);
+
+    // An edit cannot add them to an expense they were never on.
+    const added = await harness.run(crew.organiser, 'edit_expense', {
+      expense_id: later,
+      base_version: 1,
+      patch: {
+        split: { mode: 'equal', shares: each(crew.members) },
+      },
+    });
+    expect(errorOf(added)).toMatchObject({
+      code: 'VALIDATION',
+      detail: { reason: 'not_in_trip', user_ids: [leaver.uid] },
+    });
   });
 });
 

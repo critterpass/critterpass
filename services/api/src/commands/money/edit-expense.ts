@@ -1,8 +1,9 @@
 /**
  * `edit_expense` and `delete_expense` (docs/api-contracts.md §4.9, offline). Whoever created or
- * paid the expense may change it, and so may an organiser. A stale `base_version` answers
- * `VERSION_CONFLICT` with the current version. A money change reverses the expense's ledger
- * entries and derives new ones; a delete hides the expense and reverses them.
+ * paid the expense may change it, and so may an organiser. The payer and the split are people who
+ * take part in the trip's money, or whom the expense already names (someone who has since left). A
+ * stale `base_version` answers `VERSION_CONFLICT` with the current version. A money change reverses
+ * the expense's ledger entries and derives new ones; a delete hides the expense and reverses them.
  */
 import {
   DomainError,
@@ -81,10 +82,16 @@ export const editExpenseCommand = defineCommand({
           : {}),
       })),
     };
-    requireAllInTrip(await tripMoneyMembers(tx, before.tripId), [
-      payerId,
-      ...split.shares.map((share) => share.user_id),
-    ]);
+    // Whoever the expense already names stays on it after leaving the crew, so an old expense can
+    // still be changed; an edit cannot add someone who has left.
+    requireAllInTrip(
+      [
+        ...(await tripMoneyMembers(tx, before.tripId)),
+        before.payerId,
+        ...before.shares.map((share) => share.userId),
+      ],
+      [payerId, ...split.shares.map((share) => share.user_id)],
+    );
     const spentAt = patch.spent_at === undefined ? before.spentAt : new Date(patch.spent_at);
     const localDate =
       patch.spent_at === undefined ? before.localDate : localDateIn(trip.tz, spentAt);
