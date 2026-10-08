@@ -8,11 +8,11 @@
  * button yet; ADD TO THE VOTE arrives with the picked place's pitch.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useRef, useState, type ComponentRef } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
+import { goBackOr } from '@/lib/navigation/back';
 import { toast } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -22,6 +22,7 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
+import { Skeleton } from '@/ui/states/Skeleton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
@@ -100,7 +101,7 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
   const addToVote = async () => {
     if (picked === null) return;
     if (onBoard) {
-      router.back();
+      goBackOr();
       return;
     }
     await add.send({
@@ -134,9 +135,11 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
       });
       await flyToBoard(card, sticker);
     }
-    router.back();
+    goBackOr();
   };
 
+  const searching = picked === null && query.trim().length > 0;
+  const asked = search.query;
   const cta = onBoard
     ? t({ id: 'vote.pitch.onBoard', message: 'Already on the board' })
     : t({ id: 'vote.pitch.add', message: 'Add to the vote' });
@@ -164,11 +167,35 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
     >
       <SheetScrollView keyboardShouldPersistTaps="handled">
         <Stack style={styles.body}>
-          {picked === null && query.length > 0 && search.status === 'ready' ? (
+          {searching && search.results.length > 0 ? (
             <ResultRows
               results={search.results}
               onPick={(place) => pick({ id: place.place_id, name: place.name })}
             />
+          ) : null}
+          {searching && search.status === 'loading' && search.results.length === 0 ? (
+            <Skeleton
+              preset="list"
+              repeat={3}
+              label={t({ id: 'vote.pitch.searching', message: 'Searching places' })}
+              testID="pitch-searching"
+            />
+          ) : null}
+          {searching && search.status === 'ready' && search.results.length === 0 ? (
+            <Text variant="body" testID="pitch-no-results">
+              {t({
+                id: 'vote.pitch.none',
+                message: `Nothing called “${asked}”. Check the spelling, or try the country.`,
+              })}
+            </Text>
+          ) : null}
+          {picked === null && search.status === 'failed' ? (
+            <Text variant="body" testID="pitch-search-failed">
+              {t({
+                id: 'vote.pitch.searchFailed',
+                message: "Search didn't answer. Try again in a moment.",
+              })}
+            </Text>
           ) : null}
           {picked === null && search.status === 'offline' ? (
             <Text variant="body" testID="pitch-offline">

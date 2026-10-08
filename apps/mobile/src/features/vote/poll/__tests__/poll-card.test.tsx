@@ -29,7 +29,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { ChatPollCard } from '../chat-poll-card';
-import { CreatePollSheet, postableOptions } from '../create-poll-sheet';
+import { CreatePollSheet, postableOptions, postBlocker } from '../create-poll-sheet';
 import {
   CREW,
   JORDAN,
@@ -196,6 +196,12 @@ describe('new poll sheet', () => {
         allowChange: true,
       }),
     ).toEqual(['a', 'b']);
+    // The line over the button names what is missing, in the order a person fills the sheet in.
+    const draft = { deadline: 'none', allowChange: true } as const;
+    expect(postBlocker({ ...draft, question: ' ', options: ['a', 'b'] })).toBe('question');
+    expect(postBlocker({ ...draft, question: 'Q', options: ['a', ' '] })).toBe('answers');
+    expect(postBlocker({ ...draft, question: 'Q', options: ['a', 'A '] })).toBe('same');
+    expect(postBlocker({ ...draft, question: 'Q', options: ['a', 'b'] })).toBeNull();
 
     const s = await open();
     const now = new Date('2026-10-01T00:00:00Z');
