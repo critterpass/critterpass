@@ -71,7 +71,7 @@ describe('formatter cache', () => {
 
 describe('cached helpers write what Intl writes', () => {
   const at = new Date(Date.UTC(2026, 9, 8, 14, 5));
-  const space = (text: string) => text.replace(/[  ]/g, ' ');
+  const space = (text: string) => text.replace(/[\u00a0\u202f]/g, ' ');
 
   it('a date', () => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' } as const;

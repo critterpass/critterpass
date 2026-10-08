@@ -8,7 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { generateUuidV7, toLocalWallTime } from '@cp/domain';
 import { router } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { goHref, useGoOffer } from '@/features/go';
@@ -136,7 +136,7 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
 
   const leaveBy = pickLeaveBy(leaveBys.views);
   const ringCounts = ringCounting(leaveBy, now);
-  useEffect(() => setCounting(ringCounts), [ringCounts]);
+  if (counting !== ringCounts) setCounting(ringCounts);
   const guideName = tripRow?.guide_name ?? guideSticker(guideOr(tripRow?.guide_slug)).name;
   const dayNo = items.rows[0]?.day_no ?? null;
   const forecast = forecastFor(weather.rows, leaveBy?.startsAt ?? null);

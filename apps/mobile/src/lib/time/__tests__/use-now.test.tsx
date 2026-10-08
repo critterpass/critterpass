@@ -48,8 +48,8 @@ describe('useNow', () => {
     jest.useFakeTimers({ now: START });
     appListeners = [];
     jest.spyOn(AppState, 'addEventListener').mockImplementation((_type, listener) => {
-      appListeners.push(listener as (state: AppStateStatus) => void);
-      return { remove: () => undefined } as ReturnType<typeof AppState.addEventListener>;
+      appListeners.push(listener);
+      return { remove: () => undefined };
     });
   });
   afterEach(() => {

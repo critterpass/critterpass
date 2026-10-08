@@ -46,8 +46,11 @@ export function useLiveMapScreen(tripId: string): LiveMapModel {
   const crew = useTripCrew(tripId, me);
   const live = useLiveFixes(tripId, me);
   const tick = useNow(TICK_MS);
-  // The services' own clock, read on each tick.
-  const now = useMemo(() => services.now(), [services, tick]);
+  // The services' own clock, read again on each tick.
+  const now = useMemo(() => {
+    void tick;
+    return services.now();
+  }, [services, tick]);
   const [ownFix, setOwnFix] = useState<OwnFix | null>(null);
   const [overlay, setOverlay] = useState<Overlay>({ kind: 'none' });
   const [pendingMeetup, setPendingMeetup] = useState<MeetupWire | null>(null);

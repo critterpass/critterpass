@@ -85,8 +85,8 @@ describe('useIdleLoopRunning', () => {
   it('rests a loop while the app is in the background', async () => {
     const appListeners: ((state: AppStateStatus) => void)[] = [];
     const spy = jest.spyOn(AppState, 'addEventListener').mockImplementation((_type, listener) => {
-      appListeners.push(listener as (state: AppStateStatus) => void);
-      return { remove: () => undefined } as ReturnType<typeof AppState.addEventListener>;
+      appListeners.push(listener);
+      return { remove: () => undefined };
     });
     const app = (state: AppStateStatus) =>
       act(() => {

@@ -68,7 +68,10 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const minute = Math.floor(now.getTime() / 60_000);
   const minuteIso = useMemo(() => new Date(minute * 60_000).toISOString(), [minute]);
   // The phone's own zone, read again each minute (it changes when the phone lands somewhere).
-  const tzGuess = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, [minute]);
+  const tzGuess = useMemo(() => {
+    void minute;
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }, [minute]);
   const tripTz = useLiveRows<{ tz: string | null }>(
     'SELECT coalesce(t.tz, d.tz) AS tz FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = ?',
     [tripId],
