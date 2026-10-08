@@ -144,6 +144,14 @@ msgstr "Inclure les infos de l’appareil"
 msgid "help.article.missingBody"
 msgstr "Il arrive avec le centre d’aide la prochaine fois que tu es en ligne."
 
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.ideas.open"
@@ -433,6 +441,10 @@ msgstr "Ton idée pour le tableau"
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.note"
 msgstr "Ta note"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.discardLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
