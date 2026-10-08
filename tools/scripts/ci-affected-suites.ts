@@ -182,6 +182,8 @@ export function suitesFor(dryRun: DryRun, changed: readonly ChangedFile[] | null
     flags[name] = reason !== undefined;
     if (reason !== undefined) reasons[name] = reason;
   }
+  // Both compiles already run: nothing left for the fingerprint to decide.
+  if (flags.ios_native && flags.android_native) flags.native_fingerprint = false;
 
   const without = (globs: readonly string[]) =>
     affectedTasks(

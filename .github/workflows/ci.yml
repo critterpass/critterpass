@@ -167,6 +167,7 @@ jobs:
       admin_e2e: ${{ steps.suites.outputs.admin_e2e }}
       ios_native: ${{ steps.suites.outputs.ios_native }}
       android_native: ${{ steps.suites.outputs.android_native }}
+      native_fingerprint: ${{ steps.suites.outputs.native_fingerprint }}
     steps:
       # History without file contents: the diff with the base needs commits and trees only.
       - uses: actions/checkout@v7
@@ -349,14 +350,64 @@ jobs:
     if: github.event_name == 'pull_request' && needs.changes.outputs.sync_e2e == 'true'
     uses: ./.github/workflows/sync-e2e.yml
 
+  # The native compiles below run for a change to native sources, config plugins or the app config
+  # (the ios_native and android_native flags), and otherwise only when the native fingerprint moved:
+  # the hash expo-updates bakes into a build as its runtime version, which device runs and updates
+  # match builds by. A dependency bump that leaves it alone cannot change what the compilers see.
+  native-fingerprint:
+    name: native fingerprint (base against this change)
+    needs: changes
+    if: needs.changes.outputs.native_fingerprint == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      ios: ${{ steps.compare.outputs.ios }}
+      android: ${{ steps.compare.outputs.android }}
+    env:
+      APP_VARIANT: development
+    steps:
+      - uses: actions/checkout@v7
+        with: { path: head }
+      - uses: actions/checkout@v7
+        with:
+          path: base
+          ref: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - uses: pnpm/action-setup@v6
+        with: { package_json_file: head/package.json }
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm, cache-dependency-path: head/pnpm-lock.yaml }
+      # The fingerprint hashes the native modules as installed, so each side needs its own install.
+      - run: pnpm install --frozen-lockfile
+        working-directory: head
+      - run: pnpm install --frozen-lockfile
+        working-directory: base
+        continue-on-error: true
+      - name: Compare
+        id: compare
+        run: |
+          # Without pnpm's NODE_PATH, which adds `web` to the Expo config and so changes the hash.
+          fingerprint() {
+            (cd "$1/apps/mobile" && env -u NODE_PATH ./node_modules/.bin/expo-updates \
+              fingerprint:generate --platform "$2" | jq -er .hash)
+          }
+          for platform in ios android; do
+            ours=$(fingerprint head "$platform") || ours=''
+            theirs=$(fingerprint base "$platform") || theirs=''
+            # A side that cannot be hashed counts as a change: when in doubt the compile runs.
+            if [ -n "$ours" ] && [ "$ours" = "$theirs" ]; then moved=false; else moved=true; fi
+            echo "$platform: base ${theirs:-unknown}, this change ${ours:-unknown}, moved=$moved"
+            echo "$platform=$moved" >> "$GITHUB_OUTPUT"
+          done
+
   # Compiles the iOS app the way the e2e-test EAS profile does (development variant, simulator SDK)
   # so a native compile error (Swift 6 concurrency in a local module, a target or a config plugin)
   # fails its pull request instead of a paid EAS build. Swift language modes come from the generated
   # project and each module's podspec, exactly as on EAS.
   ios-native:
     name: iOS native compile (simulator, development variant)
-    needs: changes
-    if: needs.changes.outputs.ios_native == 'true'
+    needs: [changes, native-fingerprint]
+    # `!cancelled()`: a skipped fingerprint job would otherwise skip this one too.
+    if: ${{ !cancelled() && (needs.changes.outputs.ios_native == 'true' || needs.native-fingerprint.outputs.ios == 'true') }}
     runs-on: macos-26
     timeout-minutes: 60
     env:
@@ -411,8 +462,8 @@ jobs:
   # of a paid EAS build. arm64-v8a only, like every EAS Android build of the app.
   android-native:
     name: Android native compile (debug, unit tests)
-    needs: changes
-    if: needs.changes.outputs.android_native == 'true'
+    needs: [changes, native-fingerprint]
+    if: ${{ !cancelled() && (needs.changes.outputs.android_native == 'true' || needs.native-fingerprint.outputs.android == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -511,6 +562,7 @@ jobs:
       - ai-evals
       - osv
       - sync-e2e
+      - native-fingerprint
       - ios-native
       - android-native
       - admin-e2e

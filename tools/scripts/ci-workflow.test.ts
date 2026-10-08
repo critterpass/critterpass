@@ -120,6 +120,7 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
 
   const screen = 'apps/mobile/src/app/_layout.tsx';
   const catalogs = ['packages/i18n/locales/en/album.po', 'packages/i18n/locales/vi/album.ts'];
+  const iosSource = 'apps/mobile/modules/cp-haptics/ios/CpHapticsModule.swift';
 
   it('starts only the app suites for a screen and its catalogs', () => {
     const suites = suitesFor(dryRun, changed(screen, 'e2e/README.md', ...catalogs));
@@ -166,7 +167,9 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
       expect(legs(suites), file).toEqual(everyLeg);
     }
     const unknown = suitesFor(dryRun, null);
-    expect(Object.values(unknown.flags).every(Boolean)).toBe(true);
+    // Both native compiles run, which leaves the fingerprint job nothing to decide.
+    const { native_fingerprint: _decided, ...flags } = unknown.flags;
+    expect(Object.values(flags).every(Boolean)).toBe(true);
     expect(legs(unknown)).toEqual(everyLeg);
   });
 
@@ -231,6 +234,46 @@ describe('suites a change reaches', { timeout: 60_000 }, () => {
     // one a gated suite builds on.
     for (const name of ['@cp/api', '@cp/worker', '@cp/db', '@cp/mobile']) {
       expect(folders(name).filter((dir) => dir.startsWith('infra/'))).toEqual([]);
+    }
+  });
+
+  it('compiles natively for native sources and leaves everything else to the fingerprint', () => {
+    const plugin = suitesFor(dryRun, changed('apps/mobile/plugins/with-links.ts')).flags;
+    // Both compiles run, so there is nothing left for the fingerprint job to decide.
+    expect(plugin).toMatchObject({ ios_native: true, android_native: true });
+    expect(plugin.native_fingerprint).toBe(false);
+
+    const swift = suitesFor(dryRun, changed(iosSource)).flags;
+    expect(swift).toMatchObject({ ios_native: true, android_native: false });
+    expect(swift.native_fingerprint).toBe(true);
+
+    // What can move the fingerprint without touching native sources: a dependency, a token the
+    // app config reads. No compile on the paths alone.
+    for (const files of [
+      ['pnpm-lock.yaml', 'pnpm-workspace.yaml', 'services/api/package.json'],
+      ['apps/mobile/package.json'],
+      ['packages/design-tokens/src/color.tokens.json'],
+      ['patches/@op-engineering__op-sqlite.patch'],
+    ]) {
+      const flags = suitesFor(dryRun, changed(...files)).flags;
+      expect(flags, files.join(' ')).toMatchObject({ ios_native: false, android_native: false });
+      expect(flags.native_fingerprint, files.join(' ')).toBe(true);
+    }
+    // The app's JS, its copy and server code cannot move it.
+    const js = suitesFor(
+      dryRun,
+      changed(screen, ...catalogs, 'services/api/src/routes/actions.ts'),
+    );
+    expect(js.flags.native_fingerprint).toBe(false);
+  });
+
+  it('runs a compile on either answer, and after a skipped fingerprint job', () => {
+    for (const platform of ['ios', 'android']) {
+      const job = workflow.jobs[`${platform}-native`];
+      expect(job?.needs).toEqual(['changes', 'native-fingerprint']);
+      expect(job?.if).toBe(
+        `\${{ !cancelled() && (needs.changes.outputs.${platform}_native == 'true' || needs.native-fingerprint.outputs.${platform} == 'true') }}`,
+      );
     }
   });
 

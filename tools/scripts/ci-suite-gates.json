@@ -94,30 +94,31 @@
     ]
   },
   "ios_native": {
-    "why": "The iOS compile.",
+    "why": "Native sources, config plugins and the app config always compile. Everything else that can change a native build (a dependency, a token the config reads) shows in the native fingerprint.",
     "paths": [
       "apps/mobile/modules/*/ios/**",
       "apps/mobile/modules/*/expo-module.config.json",
+      "apps/mobile/modules/*/plugin/**",
       "apps/mobile/targets/**",
       "apps/mobile/plugins/**",
-      "apps/mobile/app.config.ts",
-      "apps/mobile/package.json",
-      "pnpm-lock.yaml",
-      ".github/workflows/ci.yml"
+      "apps/mobile/app.config.ts"
     ]
   },
   "android_native": {
-    "why": "The Android compile and the modules' JVM tests.",
+    "why": "As ios_native, for the Android sources.",
     "paths": [
       "apps/mobile/modules/*/android/**",
       "apps/mobile/modules/*/expo-module.config.json",
       "apps/mobile/modules/*/package.json",
-      "apps/mobile/plugins/**",
       "apps/mobile/modules/*/plugin/**",
-      "apps/mobile/app.config.ts",
-      "apps/mobile/package.json",
-      "pnpm-lock.yaml",
-      ".github/workflows/ci.yml"
+      "apps/mobile/plugins/**",
+      "apps/mobile/app.config.ts"
     ]
+  },
+  "native_fingerprint": {
+    "why": "Whether the native fingerprint can have moved, so computing it for the base and for this change is worth two installs: the app outside its JS, a package it builds on, the lockfile and the other files turbo hashes into every task (a workflow change among them, so a broken fingerprint job fails the pull request that broke it), a dependency patch.",
+    "tasks": ["@cp/mobile#build"],
+    "paths": ["patches/**"],
+    "ignore": ["apps/mobile/src/**", "packages/i18n/locales/**"]
   }
 }
