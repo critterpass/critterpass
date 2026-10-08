@@ -18,6 +18,7 @@ import { useBrowsePhotos } from '../map-queries';
 import { withProfileTiles } from '../profile-photo';
 import type { PlacesFilter } from './places-model';
 import { PlacesMapView } from './places-map-view';
+import { forgetPlaces } from './places-resume';
 import { addToPlanHref, placeHref, searchHref, useCanAddToPlan } from './places-nav';
 import type { ResultsMode } from './routes';
 import { usePlaceFits, weekdaysOf } from './use-place-fits';
@@ -74,6 +75,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
   // A place whose photos live in its AI profile shows the first of them, from the browse.
   const profilePhotos = useBrowsePhotos(data.destinationId);
   const photos = useMemo(() => withProfileTiles(assets, profilePhotos), [assets, profilePhotos]);
+  const resumeKey = tripId ?? props.destination ?? undefined;
   return (
     <PlacesMapView
       inTrip={tripId !== null}
@@ -130,7 +132,12 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
         if (href !== undefined) router.push(href);
       }}
       onList={props.onList}
-      onBack={props.onBack}
+      onBack={() => {
+        // Leaving the places for good: the next visit starts afresh.
+        forgetPlaces(resumeKey);
+        props.onBack();
+      }}
+      resumeKey={resumeKey}
     />
   );
 }
