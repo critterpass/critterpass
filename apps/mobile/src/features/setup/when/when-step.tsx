@@ -2,10 +2,10 @@
  * The dates step, connected: counts and options from synced rows, this person's own calendar
  * (device sync, OAuth, or days by hand), and the organiser's actions — lock a window
  * (`lock_trip_dates`, needs signal; setup moves on to the budget) or ask the blocker privately
- * (`ask_availability`, queued offline; the organiser only ever learns the outcome).
+ * (`ask_availability`, queued offline; the organiser only ever learns the outcome). Once the dates
+ * are locked the step shows them; the organiser may change them while setup is still open.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes, never copy. */
-import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -16,7 +16,6 @@ import { syncRange } from '../calendar/sync-plan';
 import { useCalendarSync } from '../calendar/use-calendar-sync';
 import { askAvailabilityCommand, lockTripDatesCommand } from '../data/commands';
 import { useSetupServices } from '../data/services';
-import { setupRoutes } from '../routes';
 import type { StepProps } from '../shell/frame';
 import { guideName } from '../shell/guide-note';
 import {
@@ -53,7 +52,15 @@ export function WhenStep({ trip, shell }: StepProps) {
   const [chosen, setChosen] = useState<string | null>(null);
   const [failure, setFailure] = useState<WhenFailure | null>(null);
 
-  const months = heatMonths(data.summaries);
+  const locked =
+    trip.startDate !== null && trip.endDate !== null
+      ? { start: trip.startDate, end: trip.endDate }
+      : null;
+  // The locked days are drawn even where nobody shared a day in their month.
+  const months = heatMonths(
+    data.summaries,
+    locked === null ? undefined : { from: locked.start, to: locked.end },
+  );
   const total = crewSize(data.summaries, trip.members.length);
   const synced = syncedCount(data.summaries);
   // The picker spans the whole horizon, so the organiser can pick a week before anyone has shared.
@@ -63,12 +70,12 @@ export function WhenStep({ trip, shell }: StepProps) {
   );
   // A week that starts in the next few days is never put forward as the one to lock.
   const earliest = suggestFrom(horizon.from);
-  const mode = whenMode(data.options, synced, earliest);
+  const mode = whenMode(data.options, synced, earliest, locked !== null);
   const best = suggestedBest(data.options, earliest);
   const noFit = mode === 'no_fit' ? data.options.filter((option) => option.kind !== 'best') : [];
   const pick = noFit.find((option) => option.isPick) ?? noFit[0];
   const selectedId = chosen ?? pick?.id ?? null;
-  const startMonth = initialMonth(months, best);
+  const startMonth = initialMonth(months, locked ?? best);
   const pickerMonths = heatMonths(data.summaries, horizon);
 
   const onLock = (start: string, end: string) => {
@@ -76,7 +83,8 @@ export function WhenStep({ trip, shell }: StepProps) {
     void lock.send({ trip_id: trip.tripId, start, end }).then((sent) => {
       if (sent.kind === 'applied') {
         setOverlay(null);
-        router.replace(setupRoutes.step(trip.tripId, 'budget'));
+        // Changed dates leave the budget and rooms priced for the old ones: on to the budget.
+        shell.onSelectStep('budget');
       } else if (sent.kind === 'rejected' || sent.kind === 'unavailable') {
         setFailure(failureOf(sent.code));
       }
@@ -105,6 +113,10 @@ export function WhenStep({ trip, shell }: StepProps) {
         model={{
           isOrganiser: trip.isOrganiser,
           mode,
+          loading: !data.loaded,
+          locked,
+          // The server takes a change of dates only while setup is open.
+          canChange: trip.status === 'won' || trip.status === 'setup',
           place: trip.destinationName,
           guide: trip.guide,
           guideName: guideName(trip.guide),

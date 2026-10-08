@@ -116,4 +116,37 @@ describe('dates step view', () => {
     await fireEvent.press(screen.getByTestId('own-calendar-action'));
     expect(handlers.onConnect).toHaveBeenCalled();
   });
+
+  const LOCKED = { mode: 'locked', locked: { start: '2027-04-02', end: '2027-04-09' } } as const;
+
+  it('shows locked dates instead of offering to lock again; the organiser may change them', async () => {
+    const handlers = await show(whenModel({ ...LOCKED, canChange: true }));
+    expect(screen.getByTestId('setup-when-locked')).toBeTruthy();
+    expect(screen.queryByTestId('when-cta')).toBeNull();
+    expect(screen.getByLabelText('April 2, first day, 6 of 6 free')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('when-change-dates'));
+    expect(handlers.onPickWeek).toHaveBeenCalled();
+  });
+
+  it('gives no way to change locked dates to a member, or once setup has closed', async () => {
+    await show(whenModel({ ...LOCKED, canChange: true, me: DEV }), actions(), DEV);
+    expect(screen.getByTestId('setup-when-locked')).toBeTruthy();
+    expect(screen.queryByTestId('when-change-dates')).toBeNull();
+    await screen.unmount();
+    await show(whenModel({ ...LOCKED, canChange: false }));
+    expect(screen.queryByTestId('when-change-dates')).toBeNull();
+  });
+
+  it('draws nothing to act on until the step’s rows are read', async () => {
+    await show(whenModel({ mode: 'empty', loading: true, best: null, options: [], months: [] }));
+    expect(screen.getByTestId('setup-when-loading')).toBeTruthy();
+    expect(screen.queryByTestId('when-pick-week')).toBeNull();
+  });
+
+  it('shows a member the ways out as reading, not as choices', async () => {
+    await show(noFit({ isOrganiser: false }), actions(), DEV);
+    const card = screen.getByTestId('window-option-full_crew');
+    expect(card.props.accessibilityRole).toBeUndefined();
+    expect(card.props.accessibilityActions ?? []).toEqual([]);
+  });
 });
