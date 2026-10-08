@@ -1,6 +1,8 @@
 // Jest loads this file as CommonJS: the app package keeps Node's default module type for Metro and Babel.
 // Loaded directly (rather than `preset: 'jest-expo'`) so its `transform`/`transformIgnorePatterns`
 // can be extended below instead of replaced outright.
+const path = require('node:path');
+
 const jestExpoPreset = require('jest-expo/jest-preset');
 
 /** @type {import('jest').Config} */
@@ -13,6 +15,9 @@ module.exports = {
     // `src/motion/gestures`' hooks run their real Pan/LongPress/Tap logic under Jest.
     require.resolve('react-native-gesture-handler/jestSetup'),
   ],
+  // Babel's output for React Native and the app's own files, kept in a folder CI saves between runs
+  // (the `app tests` job in ci.yml); Jest's default sits in the runner's temp folder and is lost.
+  cacheDirectory: path.join(__dirname, 'node_modules/.cache/jest'),
   // The doubles nearly every suite needs (Skia, Sticker, expo-router, the PowerSync Node realm).
   setupFilesAfterEnv: [...(jestExpoPreset.setupFilesAfterEnv ?? []), '<rootDir>/jest.setup.ts'],
   // Whichever suite runs first in a cold Jest worker pays the one-off transform of React Native's

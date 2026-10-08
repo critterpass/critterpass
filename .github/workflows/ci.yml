@@ -95,6 +95,13 @@ jobs:
       - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
         with:
           cache-prefix: turbo-node26_
+      # Jest's transform cache (jest.config.js `cacheDirectory`): without it every runner runs Babel
+      # over React Native and the app's files again. One per shard, since each shard loads its own
+      # set of files; a new lockfile, Babel config or Jest config starts a fresh one.
+      - uses: actions/cache@v6
+        with:
+          path: apps/mobile/node_modules/.cache/jest
+          key: jest-transform-node26-${{ matrix.shard }}of${{ strategy.job-total }}-${{ hashFiles('pnpm-lock.yaml', 'apps/mobile/babel.config.js', 'apps/mobile/jest.config.js') }}
       # The arguments after `--` reach Jest and are part of turbo's task hash, so each shard is
       # cached on its own.
       - run: >-
