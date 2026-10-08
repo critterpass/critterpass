@@ -81,6 +81,7 @@ function Hub({ englishFallback = false, start = '' }) {
     <HubView
       guide="tokek"
       articles={ARTICLES.slice(0, 2)}
+      articlesLoaded
       englishFallback={englishFallback}
       query={query}
       onQuery={setQuery}

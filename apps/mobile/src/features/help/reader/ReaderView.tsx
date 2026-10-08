@@ -4,10 +4,12 @@
  * article), "Was this helpful?" (yes or no, counted only), and "Still stuck? Ask a human", which
  * opens send feedback with the article noted. An English article in another language says so.
  */
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { ScrollView, View } from 'react-native';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
@@ -16,6 +18,7 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
+import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -43,6 +46,8 @@ export interface ReaderViewProps {
 
 const useStyles = makeStyles((t) => ({
   content: { padding: t.size.gutter, paddingBottom: t.space['32'], gap: t.space['16'] },
+  // A heading belongs to what follows it: more room above than below.
+  heading: { marginTop: t.space['12'] },
   item: { flexDirection: 'row', gap: t.space['8'] },
   marker: { minWidth: t.space['16'] },
   itemText: { flex: 1 },
@@ -89,9 +94,12 @@ function Inlines({
 
 export function ReaderView(props: ReaderViewProps) {
   const { t } = useLingui();
+  const locale = useLocale();
   const styles = useStyles();
   const theme = useTheme();
   const { article } = props;
+  const body = article === null || article === 'missing' ? null : article.body_md;
+  const blocks = useMemo(() => (body === null ? [] : parseMarkdown(body)), [body]);
   return (
     <Scaffold variant="paper" edges={['top']} testID="help-article">
       <ScrollView contentContainerStyle={styles.content}>
@@ -100,7 +108,9 @@ export function ReaderView(props: ReaderViewProps) {
           onPress={props.onBack}
           testID="help-article-back"
         />
-        {article === null ? null : article === 'missing' ? (
+        {article === null ? (
+          <Skeleton preset="card" repeat={3} />
+        ) : article === 'missing' ? (
           <EmptyState
             guide="tokek"
             guideName={guideSticker('tokek').name}
@@ -124,10 +134,10 @@ export function ReaderView(props: ReaderViewProps) {
             <Text variant="bodyLg" color={theme.color.paper.muted}>
               {article.summary}
             </Text>
-            {parseMarkdown(article.body_md).map((block, index) => {
+            {blocks.map((block, index) => {
               if (block.kind === 'heading') {
                 return (
-                  <Text key={index} variant="h3" accessibilityRole="header">
+                  <Text key={index} variant="h3" accessibilityRole="header" style={styles.heading}>
                     {block.text}
                   </Text>
                 );
@@ -163,20 +173,20 @@ export function ReaderView(props: ReaderViewProps) {
               </Text>
               <Row gap="8">
                 <ChoiceChip
-                  label={t({ id: 'help.article.yes', message: 'Yes' }).toUpperCase()}
+                  label={upper(t({ id: 'help.article.yes', message: 'Yes' }), locale)}
                   selected={props.helpful === true}
                   onPress={() => props.onHelpful(true)}
                   testID="help-article-helpful-yes"
                 />
                 <ChoiceChip
-                  label={t({ id: 'help.article.no', message: 'No' }).toUpperCase()}
+                  label={upper(t({ id: 'help.article.no', message: 'No' }), locale)}
                   selected={props.helpful === false}
                   onPress={() => props.onHelpful(false)}
                   testID="help-article-helpful-no"
                 />
               </Row>
               {props.helpful === null ? null : (
-                <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                <Text variant="bodySm" color={theme.color.paper.muted}>
                   {t({
                     id: 'help.article.thanks',
                     message: 'Thanks. That helps us fix the words.',
@@ -189,7 +199,7 @@ export function ReaderView(props: ReaderViewProps) {
                 {t({ id: 'help.article.stuck', message: 'Still stuck?' })}
               </Text>
               <PillButton
-                label={t({ id: 'help.article.askHuman', message: 'Ask a human' }).toUpperCase()}
+                label={t({ id: 'help.article.askHuman', message: 'Ask a human' })}
                 onPress={props.onAskHuman}
                 testID="help-article-ask"
               />
