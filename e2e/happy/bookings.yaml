@@ -90,3 +90,13 @@ appId: app.critterpass.dev
       id: 'bookings-detail'
     timeout: 15000
 - assertVisible: '.*K7Q2PX.*'
+# The details sit in the Wallet tab: their last rows (EDIT, DELETE) end above the tab bar and its
+# guide button.
+- scrollUntilVisible:
+    element:
+      id: 'bookings-detail-delete'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: bookings-detail-end

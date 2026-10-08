@@ -9,7 +9,7 @@ import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { toast } from '@/motion';
 
 import { createTripCommand } from '../commands';
@@ -29,7 +29,7 @@ export function useSoloTrip(input: {
   const { t } = useLingui();
   const { placeId, placeName, crewId } = input;
   const create = useCommand(createTripCommand);
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   const [waiting, setWaiting] = useState<{ opId: string; tripId: string } | null>(null);
   const outcome = useOpOutcome(waiting?.opId ?? null);
 
@@ -67,11 +67,11 @@ export function useSoloTrip(input: {
     if (outcome?.kind === 'rejected') {
       settled.current = waiting.opId;
       refuse(waiting.opId);
-    } else if (outcome?.kind === 'applied' || sync.phase === 'offline') {
+    } else if (outcome?.kind === 'applied' || syncPhase === 'offline') {
       settled.current = waiting.opId;
       open(waiting.tripId);
     }
-  }, [open, outcome, refuse, sync.phase, waiting]);
+  }, [open, outcome, refuse, syncPhase, waiting]);
 
   const start = useCallback(() => {
     if (placeId === null) return;

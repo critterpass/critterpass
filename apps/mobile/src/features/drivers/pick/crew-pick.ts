@@ -15,6 +15,7 @@ import {
 import type { PickDay } from '@cp/planner';
 
 import type { SendResult } from '@/data/commands/client';
+import { commandOutcome } from '@/data/commands/outcome';
 
 /** Why the crew is asked, as the change set's reason key. */
 export const DRIVER_PICK_REASON = 'driver_pick';
@@ -109,8 +110,10 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/u;
 
 /** What went wrong with a pick (set directly or put to the crew); null when it went through. */
 export function pickErrorOf(result: SendResult): PickError | null {
-  if (result.kind === 'applied' || result.kind === 'queued') return null;
-  if (result.kind === 'unavailable') return { kind: 'needs_signal' };
+  const outcome = commandOutcome(result);
+  if (outcome === 'done' || outcome === 'queued') return null;
+  // Anything but a refusal here is a send that never reached the server.
+  if (result.kind !== 'rejected') return { kind: 'needs_signal' };
   const detail =
     typeof result.detail === 'object' && result.detail !== null
       ? (result.detail as { reason?: unknown; dates?: unknown })

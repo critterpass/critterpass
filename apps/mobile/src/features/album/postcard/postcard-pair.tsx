@@ -11,6 +11,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { Image, Pressable, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -19,6 +20,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -93,13 +95,18 @@ export function PostcardPair(props: PostcardPairProps) {
   const turn = useSharedValue(reduced ? 1 : 0);
   const bounce = useSharedValue(0);
 
+  const bouncing = useIdleLoopRunning(!reduced);
+
   useEffect(() => {
-    if (reduced) {
-      turn.value = 1;
+    turn.value = reduced ? 1 : withTiming(1, { duration: tokens.motion.duration.medium });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs.
+  }, [reduced]);
+
+  useEffect(() => {
+    if (!bouncing) {
       bounce.value = 0;
-      return;
+      return undefined;
     }
-    turn.value = withTiming(1, { duration: tokens.motion.duration.medium });
     bounce.value = withRepeat(
       withSequence(
         withDelay(BOUNCE_EVERY_MS, withTiming(1, { duration: tokens.motion.duration.instant })),
@@ -107,8 +114,9 @@ export function PostcardPair(props: PostcardPairProps) {
       ),
       -1,
     );
+    return () => cancelAnimation(bounce);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs.
-  }, [reduced]);
+  }, [bouncing]);
 
   const frontStyle = useAnimatedStyle(() => ({ transform: [{ scaleX: turn.value }] }));
   const backStyle = useAnimatedStyle(() => ({

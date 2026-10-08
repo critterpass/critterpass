@@ -1,5 +1,11 @@
 export type { DistanceUnit, TimeFormatOptions } from './format/index';
-export { format } from './format/index';
+export {
+  dateTimeFormat,
+  format,
+  listFormat,
+  numberFormat,
+  relativeTimeFormat,
+} from './format/index';
 export type { CatalogRegistry } from './load-catalog';
 export { loadAllCatalogs, loadCatalog } from './load-catalog';
 export type { LocalMarkupSpan } from './local-markup';

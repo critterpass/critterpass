@@ -421,6 +421,10 @@ msgstr "freeze"
 msgid "common.shell.fabHelp"
 msgstr "Get help"
 
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.back"
+msgstr "Go back"
+
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
 msgstr "Go back"
@@ -473,6 +477,10 @@ msgstr "Inbox, {inbox} new"
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.toast"
 msgstr "Island toast"
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.line"
+msgstr "It may have been removed, or this phone hasn’t got it yet."
 
 #: ../../apps/mobile/src/ui/plan/DiffRow.tsx
 msgid "common.plan.keepChange"
@@ -577,6 +585,10 @@ msgstr "Move up"
 #: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
 msgid "common.recap.mvp"
 msgstr "MVP"
+
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.needsSignal"
+msgstr "Needs signal. Try again when you’re back online."
 
 #: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
 msgid "common.story.next"
@@ -909,6 +921,10 @@ msgstr "That code has expired."
 msgid "errors.CODE_INVALID"
 msgstr "That code isn't right. Check it and try again."
 
+#: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
+msgid "motion.commandFeedback.refused"
+msgstr "That didn’t go through."
+
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.IDEMPOTENCY_MISMATCH"
 msgstr "That didn't go through. Try it again."
@@ -976,6 +992,10 @@ msgstr "This invite was cancelled. Ask for a new one."
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.NOT_ELIGIBLE"
 msgstr "This isn't available for you yet."
+
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.title"
+msgstr "This isn’t here any more"
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.ACTION_KEY_SCOPE"

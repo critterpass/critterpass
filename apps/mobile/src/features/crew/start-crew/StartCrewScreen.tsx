@@ -19,7 +19,7 @@ import {
 import { upper } from '@cp/i18n';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { AvatarPicker, type GuideAvatarId } from '@/ui/avatar';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -82,10 +82,10 @@ const useStyles = makeStyles((th) => ({
  */
 function CodePending() {
   const theme = useTheme();
-  const sync = useSyncStatus();
+  const syncPhase = useSyncPhase();
   return (
     <Text variant="body" color={theme.semantic.text.secondary} testID="start-crew-code-pending">
-      {sync.phase === 'offline'
+      {syncPhase === 'offline'
         ? t({
             id: 'crew.start.codeLater',
             message: 'Your code arrives once you’re back online. The crew is saved.',
