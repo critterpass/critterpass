@@ -74,4 +74,11 @@ export {
   type AppLinkSample,
   type FormerAppLinkSample,
 } from './app-link-samples';
+export {
+  appRoutePattern,
+  matchAppRoute,
+  ROUTE_PARAM,
+  ROUTE_REST,
+  type AppRoutePattern,
+} from './app-routes';
 export * from './trip-paths';
