@@ -120,6 +120,10 @@ msgstr "Add"
 msgid "safety.sosAccess.allow"
 msgstr "Allow"
 
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.ambulance"
+msgstr "Ambulance"
+
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.respond"
 msgstr "Answering an SOS"
@@ -182,6 +186,10 @@ msgstr "Close"
 msgid "safety.showIt.close"
 msgstr "Close the phrase"
 
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.coastGuard"
+msgstr "Coast guard"
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.seen"
 msgstr "Crew alerted · {seen} seen"
@@ -210,6 +218,10 @@ msgstr "Every crewmate gets an alert that comes through Do Not Disturb, with whe
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.falseAlarm"
 msgstr "False alarm: {name} is OK."
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.fire"
+msgstr "Fire"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.freezeCards"
@@ -401,6 +413,10 @@ msgstr "Ops desk is calling the clinic with you"
 msgid "safety.step.walkBack"
 msgstr "Or walk back to your last planned stop."
 
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.police"
+msgstr "Police"
+
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.policeNumber"
 msgstr "Report it to the police ({number}) and ask for a written report for your insurer."
@@ -588,6 +604,10 @@ msgstr "The share stops by itself after an hour. Off, Help still has every numbe
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.ended"
 msgstr "This SOS is over. The location share has stopped."
+
+#: ../../apps/mobile/src/features/safety/help/service-label.ts
+msgid "safety.service.touristPolice"
+msgstr "Tourist police"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.until"

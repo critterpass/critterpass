@@ -90,10 +90,6 @@ msgid "bookings.candidate.seats"
 msgstr "{seats, plural, one {# seat} other {# seats}}"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
-msgid "bookings.flight.source"
-msgstr "{source} · {at}"
-
-#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.crewMany"
 msgstr "{who} are on this flight."
 
@@ -914,6 +910,10 @@ msgstr "Type both times as {zoneCity} time ({zoneOffset})."
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.zones"
 msgstr "Type the departure as {zoneCity} time ({zoneOffset}) and the landing as {arrCity} time ({arrOffset})."
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.updated"
+msgstr "Updated {at}"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"
