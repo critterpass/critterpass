@@ -1,0 +1,90 @@
+appId: app.critterpass.dev
+---
+# Journey, in Vietnamese: a friend on a new phone joins a crew with its code. The organiser is a
+# new account that starts as the `crew_with_code` scenario (a crew of one with a live code), which
+# leaves the code; the phone then becomes a fresh install and reads in Vietnamese from the splash
+# on. "Got a code?", the code typed, the crew found and JOIN; the pass page asks for the name and
+# the home a code does not carry; ISSUE MY PASS, "Not now" on the save sheet, the crew manifest
+# with the newcomer on it, and Home with the crew in its header.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: crew_with_code
+- assertTrue:
+    condition: ${output.crewCode.length == 6}
+    label: 'the organiser crew answered a six-character join code'
+# The friend's phone: nothing of the organiser's account is left on it.
+- runFlow: subflows/fresh-install.yaml
+# Vietnamese for the running app (the gallery's choice is not saved: no relaunch from here on),
+# then two steps back to the splash.
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-invite-code'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: vi-journey-join-by-code-splash
+- tapOn:
+    id: 'onboarding-invite-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+# Once the code is found the keyboard makes way for the crew card, with JOIN under it.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 30000
+- assertNotVisible:
+    id: 'invite-code-wrong'
+- waitForAnimationToEnd
+- takeScreenshot: vi-journey-join-by-code-found
+- tapOn:
+    id: 'invite-code-join'
+# The pass: name and home asked for, then issued.
+- runFlow: subflows/invited-pass.yaml
+- takeScreenshot: vi-journey-join-by-code-pass
+- tapOn:
+    id: 'invite-pass-issue'
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'save-not-now'
+# The seat is taken: the manifest, with the newcomer's own card.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-newcomer'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: vi-journey-join-by-code-manifest
+- scrollUntilVisible:
+    element:
+      id: 'invite-manifest-plan'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+- tapOn:
+    id: 'invite-manifest-plan'
+# Home carries the crew they joined, not the "start or join a crew" first run.
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew-name'
+    timeout: 60000
+- assertNotVisible:
+    id: 'home-first-run'
+- waitForAnimationToEnd
+- takeScreenshot: vi-journey-join-by-code-home

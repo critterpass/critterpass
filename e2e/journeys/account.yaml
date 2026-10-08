@@ -1,0 +1,168 @@
+appId: app.critterpass.dev
+---
+# Journey: one account, saved, signed out, signed back in, deleted and restored. Nothing is seeded:
+# 1. the staging test number is freed (only from an account these flows made);
+# 2. a new account through the real screens starts the crew "CP Test Sign-out" from Home (the
+#    marker name is what lets the account be erased at the end);
+# 3. Settings → Sign out warns that the pass is not saved; "Save my pass first" saves it with the
+#    test number, and the same page then offers the plain sign-out;
+# 4. signed out, the phone is cleared and the app restarts at the splash; "I already have a pass"
+#    with the same number lands on Home with the crew back;
+# 5. Settings → Delete account → Continue → hold: the account is closed for 30 days; "Undo, keep
+#    my account" → sign in with the number → Restore my account: Home is back with the crew;
+# 6. the account is erased again, leaving the number free.
+# Uses the test number: never at the same time as `invite-link` on another device.
+# Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: subflows/free-test-number.yaml
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow: subflows/start-marker-crew.yaml
+
+# Sign out with an unsaved pass: the warning, and the pass saved from it.
+- runFlow:
+    file: subflows/open-settings.yaml
+    env:
+      ROW: sign-out
+- tapOn:
+    id: 'settings-row-sign-out'
+- extendedWaitUntil:
+    visible:
+      id: 'you-sign-out-warning'
+    timeout: 30000
+- assertNotVisible:
+    id: 'you-sign-out-confirm'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-account-unsaved-warning
+- tapOn:
+    id: 'you-sign-out-save'
+- extendedWaitUntil:
+    visible:
+      id: 'save-phone'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'save-phone'
+- runFlow: subflows/test-number-sign-in.yaml
+# Verified: the phone page and the save page go back to where they were opened, and the sign-out
+# page now knows the pass is saved.
+- extendedWaitUntil:
+    visible:
+      id: 'you-sign-out-confirm'
+    timeout: 90000
+- assertNotVisible:
+    id: 'you-sign-out-warning'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-account-saved
+
+# Signed out: the app restarts at the splash.
+- tapOn:
+    id: 'you-sign-out-confirm'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 90000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-journey-account-signed-out
+
+# Signed back in: the same account, with its crew. The splash can still be settling after the
+# restart and drop the tap.
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: 'onboarding-sign-in'
+      - extendedWaitUntil:
+          visible:
+            id: 'phone-number'
+          timeout: 10000
+- runFlow: subflows/test-number-sign-in.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew-name'
+    timeout: 90000
+- extendedWaitUntil:
+    visible: '(?i).*cp test sign-out.*'
+    timeout: 30000
+- assertNotVisible:
+    id: 'home-first-run'
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-account-signed-in
+
+# Deleted: closed for 30 days.
+- runFlow:
+    file: subflows/open-settings.yaml
+    env:
+      ROW: delete-account
+- tapOn:
+    id: 'settings-row-delete-account'
+- extendedWaitUntil:
+    visible:
+      id: 'you-delete-continue'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'you-delete-continue'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn:
+    id: 'you-delete-continue'
+- extendedWaitUntil:
+    visible:
+      id: 'you-delete-hold'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'you-delete-hold'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- longPressOn:
+    id: 'you-delete-hold'
+- extendedWaitUntil:
+    visible:
+      id: 'you-closed-closed'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-account-closed
+
+# Kept after all: closing signed the account out everywhere, so sign in again, then restore.
+- tapOn:
+    id: 'you-closed-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number|onboarding-sign-in'
+    timeout: 90000
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-sign-in'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - tapOn:
+          id: 'onboarding-sign-in'
+- runFlow: subflows/test-number-sign-in.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'you-closed-restore'
+    timeout: 90000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-account-restore-offer
+- tapOn:
+    id: 'you-closed-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew-name'
+    timeout: 90000
+- extendedWaitUntil:
+    visible: '(?i).*cp test sign-out.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-journey-account-restored
+
+# The number is free again for the next run.
+- runFlow: subflows/erase-test-account.yaml

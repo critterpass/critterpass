@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# From Home: the profile, then Settings, scrolled until the ACCOUNT row `settings-row-${ROW}` is
+# whole and clear of the bottom edge, and waited for until it can be used (the account rows are
+# off until the server has answered for the account).
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-profile'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'home-header-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 30000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'settings-row-${ROW}'
+    direction: DOWN
+    timeout: 60000
+    visibilityPercentage: 100
+    centerElement: true
+- extendedWaitUntil:
+    visible:
+      id: 'settings-row-${ROW}'
+      enabled: true
+    timeout: 60000
+- waitForAnimationToEnd
