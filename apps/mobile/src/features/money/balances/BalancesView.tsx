@@ -292,7 +292,7 @@ export function BalancesView(props: BalancesViewProps) {
                 <ExpenseListRow
                   item={props.latest}
                   crewCurrency={props.currency}
-                  onPress={() => props.onExpense(props.latest?.id ?? '')}
+                  onOpen={props.onExpense}
                   testID="money-latest-row"
                 />
               </View>
