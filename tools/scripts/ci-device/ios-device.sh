@@ -53,4 +53,5 @@ npx --yes "$tsx" "$here/network-preflight.ts" --platform ios --device "$udid" --
 video=$([ "${RECORD_VIDEO:-}" = true ] && echo --video || true)
 # shellcheck disable=SC2086 # the flow list is intentionally word-split
 npx --yes "$tsx" "$here/run-shard.ts" --platform ios --device "$udid" --out "$out_dir" \
-  --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME $video $flows
+  --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME \
+  --flow-timeout "${FLOW_TIMEOUT_MINUTES:-}" $video $flows

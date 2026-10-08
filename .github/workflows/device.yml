@@ -64,6 +64,10 @@ on:
         type: choice
         options: [none, sweep, happy]
         default: none
+      flow_timeout:
+        description: Minutes one flow may run before it is stopped and reported as timed out; empty is 90
+        type: string
+        default: ''
       hierarchy:
         description: Save each Android flow's last screen as a view hierarchy (hierarchy/*.json in the shard artifact) for the accessibility scan; always on for the happy preset
         type: boolean
@@ -303,6 +307,8 @@ jobs:
           E2E_API_BASE_URL: ${{ vars.E2E_API_BASE_URL || 'https://api-staging-de92.up.railway.app' }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
+          # A failed flow runs once more; one past this many minutes is stopped (flow-attempts.ts).
+          FLOW_TIMEOUT_MINUTES: ${{ inputs.flow_timeout }}
         run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
       # Launch and first-screen timings from Maestro's own command log, into the shard's artifact
       # (perf/device-timings.json) and the job summary. Recorded only: it never fails a shard.
@@ -364,6 +370,8 @@ jobs:
           E2E_API_BASE_URL: ${{ vars.E2E_API_BASE_URL || 'https://api-staging-de92.up.railway.app' }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
+          # A failed flow runs once more; one past this many minutes is stopped (flow-attempts.ts).
+          FLOW_TIMEOUT_MINUTES: ${{ inputs.flow_timeout }}
           # View hierarchies for the accessibility scan: an artifact only, never a failure.
           SAVE_HIERARCHY: ${{ inputs.hierarchy == true || needs.prepare.outputs.video == 'true' }}
         with:

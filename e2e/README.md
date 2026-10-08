@@ -124,6 +124,19 @@ The prepare job fails when the exported bundle does not carry the commit, and ev
 first runs `tools/scripts/ci-device/js-commit.yaml`, which reads the Developer tools build marker
 (`update:embedded js:<commit>`) to prove the app runs this run's JS.
 
+### One retry and a time limit per flow
+
+A flow that fails runs once more on a relaunched app (`tools/scripts/ci-device/flow-attempts.ts`).
+When the second run passes, the flow is reported as **passed on retry**, never as a plain pass: in
+the shard's log (a warning annotation), the job summary's table, the flow's JUnit report (an
+`outcome` property with the first failure's message) and the pull request or issue comment, so a
+flaky flow stays visible. The first run's JUnit report, Maestro output, failure screen, logs and
+video are kept under `first-failure/` in the shard's artifact. A second failure fails the shard.
+
+A flow that runs longer than 90 minutes (three times the longest median the release gate has
+recorded) is stopped and reported as **timed out**; it is not run again. Pass
+`-f flow_timeout=<minutes>` to a dispatch for a tighter or looser limit.
+
 ### Runner actions (push fixtures, network)
 
 A flow can't run a shell command, so each shard serves device actions on `127.0.0.1:7788` while

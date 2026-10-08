@@ -84,4 +84,5 @@ device am force-stop "$package"
 video=$([ "${RECORD_VIDEO:-}" = true ] && echo --video || true)
 # shellcheck disable=SC2086 # the flow list is intentionally word-split
 npx --yes "tsx@${TSX_VERSION:-4}" "$here/run-shard.ts" --platform android --device "$serial" \
-  --out "$out_dir" --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME $video $flows
+  --out "$out_dir" --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME \
+  --flow-timeout "${FLOW_TIMEOUT_MINUTES:-}" $video $flows
