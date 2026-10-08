@@ -5,7 +5,8 @@
  * the fragment dropped, and bounded in size. `c` is the share channel on every link and never a
  * route param. A query that does not fit is dropped whole; the route still opens.
  */
-const APP_SEARCH_MAX_LENGTH = 1024;
+/** Room for an OAuth return: a provider's authorization code alone can run past 2,000 characters. */
+const APP_SEARCH_MAX_LENGTH = 8192;
 const APP_SEARCH_MAX_PARAMS = 16;
 const APP_SEARCH_KEY_PATTERN = /^[A-Za-z0-9_.-]{1,64}$/;
 const CHANNEL_PARAM = 'c';

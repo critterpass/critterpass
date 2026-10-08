@@ -62,6 +62,13 @@ const appSearch = fc
   )
   .map((pairs) => pairs.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&'));
 
+/** 2,000 characters in the alphabets providers use for codes (base64 and base64url). */
+const CODE_ALPHABET = `${BASE64URL}/+=`;
+const LONG_CODE = Array.from(
+  { length: 2000 },
+  (_, index) => CODE_ALPHABET[(index * 7) % CODE_ALPHABET.length],
+).join('');
+
 const target: fc.Arbitrary<LinkTarget> = fc.oneof(
   fc.record({ kind: fc.constant('invite' as const), code }),
   fc.record({ kind: fc.constant('invite' as const), code, seat }),
@@ -225,9 +232,31 @@ describe('link grammar', () => {
     expect(parseSchemeUrl('critterpass://memory/m1?c=wa')).toEqual(bare);
     expect(parseSchemeUrl('critterpass://memory/m1?bad%ZZ=1')).toEqual(bare);
     expect(parseSchemeUrl('critterpass://memory/m1?na%20me=1')).toEqual(bare);
-    expect(parseSchemeUrl(`critterpass://memory/m1?trip=${'x'.repeat(1100)}`)).toEqual(bare);
+    expect(parseSchemeUrl(`critterpass://memory/m1?trip=${'x'.repeat(8200)}`)).toEqual(bare);
     const many = Array.from({ length: 17 }, (_, index) => `k${index}=1`).join('&');
     expect(parseSchemeUrl(`critterpass://memory/m1?${many}`)).toEqual(bare);
+  });
+
+  it('carries an OAuth return whole: a long authorization code arrives unchanged', () => {
+    // As the api's callback writes it: the provider's state and code go back in the query.
+    const back = new URL('critterpass://setup/calendar/connected');
+    back.searchParams.set('provider', 'outlook');
+    back.searchParams.set('status', 'authorized');
+    back.searchParams.set('state', 'st_4f-9a_Q');
+    back.searchParams.set('code', LONG_CODE);
+    const parsed = parseSchemeUrl(back.toString());
+    expect(parsed).toMatchObject({ kind: 'app', path: 'setup/calendar/connected' });
+    if (parsed?.kind !== 'app' || parsed.search === undefined) throw new Error('no query kept');
+    // Decoded once, as the screen's route params are.
+    const codeOf = (search: string) => new URLSearchParams(search).get('code');
+    expect(codeOf(parsed.search)).toBe(LONG_CODE);
+    expect(new URLSearchParams(parsed.search).get('state')).toBe('st_4f-9a_Q');
+    // The pending slot keeps the link as its path; a rebuilt scheme URL reads the same.
+    const stored = parseLinkPath(linkPath(parsed));
+    expect(stored).toEqual(parsed);
+    expect(parseSchemeUrl(buildSchemeUrl(parsed, 'production'))).toEqual(parsed);
+    const viaWeb = parseLink(`https://critterpass.app${linkPath(parsed)}`)?.target;
+    expect(viaWeb).toEqual(parsed);
   });
 
   it('leaves the query of every other kind out of the link', () => {

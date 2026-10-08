@@ -75,6 +75,21 @@ describe('routeIncomingUrl after onboarding', () => {
     await expect(routeIncomingUrl(url)).resolves.toBe(expected);
   });
 
+  it('hands an OAuth return its authorization code unchanged, however long', async () => {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_/+=';
+    const code = Array.from(
+      { length: 2000 },
+      (_, index) => alphabet[(index * 7) % alphabet.length],
+    ).join('');
+    const query = `provider=outlook&status=authorized&state=st_4f-9a_Q&code=${encodeURIComponent(code)}`;
+    const route = await routeIncomingUrl(`critterpass://wallet/mailbox/connected?${query}`);
+    expect(route).toBe(`/wallet/mailbox/connected?${query}`);
+    // Decoded once, as the screen's route params are.
+    const arrived = /[?&]code=([^&]*)/u.exec(route)?.[1] ?? '';
+    expect(decodeURIComponent(arrived)).toBe(code);
+    for (const mark of ['/', '+', '=', '-', '_']) expect(code).toContain(mark);
+  });
+
   it('sends a member to their crew Home instead of the invite', async () => {
     configureLinkRouter({ memberCrewForCode: (code) => (code === 'BAX6XA' ? CREW : null) });
     await expect(routeIncomingUrl('https://critterpass.app/i/BAX6XA')).resolves.toBe(
