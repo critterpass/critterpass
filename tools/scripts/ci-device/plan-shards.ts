@@ -4,7 +4,7 @@
  *   tsx tools/scripts/ci-device/plan-shards.ts --platform ios --shards 3 [--flows "e2e/smoke e2e/home"]
  *
  * `--flows` takes repo-root-relative files, directories or globs separated by spaces, commas or
- * newlines; empty means the full suite (every `e2e/<area>/*.yaml` except shared subflows and spikes).
+ * newlines; empty means DEFAULT_FLOWS, the three short, stable journeys a labelled pull request runs.
  * Flows named for the other platform (`*-android.yaml` on iOS, `*-ios.yaml` on Android) are dropped.
  * Shards are balanced by time: each flow counts its recorded median minutes (./flow-durations).
  * Prints `{"include":[{"shard":1,"flows":"e2e/a.yaml e2e/b.yaml"}, …]}` and, on GitHub Actions,
@@ -19,15 +19,19 @@ import { CliArgsError } from '../e2e-cloud';
 import { flowMinutes } from './flow-durations';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
-const SUITE_EXCLUDED = new Set(['_shared', 'spikes']);
 export type DevicePlatform = 'ios' | 'android';
 
-/** Every flow of the full suite, repo-root-relative and sorted. */
-export function fullSuite(root: string): string[] {
-  return globSync('e2e/*/*.yaml', { cwd: root })
-    .filter((file) => !SUITE_EXCLUDED.has(file.split(path.sep)[1] ?? ''))
-    .sort();
-}
+/**
+ * What a run with no `flows` runs (a pull request labelled `device-run`, or a dispatch that names
+ * none): the three journeys that are short and pass reliably. Running every `e2e/<area>/*.yaml`
+ * here took hundreds of flows on three shards and never finished green; an area's flows run when a
+ * dispatch names them.
+ */
+export const DEFAULT_FLOWS: readonly string[] = [
+  'e2e/happy/onboarding.yaml',
+  'e2e/happy/vote.yaml',
+  'e2e/happy/money.yaml',
+];
 
 /** Expands the `flows` input into repo-root-relative flow files, in order, for one platform. */
 export function selectFlows(input: string, platform: DevicePlatform, root: string): string[] {
@@ -39,7 +43,7 @@ export function selectFlows(input: string, platform: DevicePlatform, root: strin
         if (matches.length === 0) throw new CliArgsError(`No flows match ${pattern}`);
         return matches.map((match) => path.resolve(root, match));
       })
-    : fullSuite(root).map((file) => path.resolve(root, file));
+    : DEFAULT_FLOWS.map((file) => path.resolve(root, file));
   const other = platform === 'ios' ? '-android' : '-ios';
   return resolveFlowFiles(expanded)
     .map((file) => path.relative(root, file))

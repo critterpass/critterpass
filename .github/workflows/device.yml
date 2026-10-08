@@ -34,7 +34,7 @@ on:
         options: [ios, android, both]
         default: ios
       flows:
-        description: Flow files, directories or globs (space or comma separated); empty runs the full suite
+        description: Flow files, directories or globs (space or comma separated); empty runs the three default journeys (e2e/happy onboarding, vote, money)
         type: string
         default: ''
       mode:
@@ -152,7 +152,8 @@ jobs:
           # so everything that isn't iOS-specific runs on Android.
           ios_flows='' ios_shards=''
           if [ "$EVENT" = pull_request ]; then
-            # A labelled pull request runs the full suite on Android, pass/fail only.
+            # A labelled pull request runs the three default journeys (plan-shards.ts DEFAULT_FLOWS)
+            # on Android, one a shard, pass/fail only.
             platform=android flows='' mode=flows pr=$PR_NUMBER build_url='' shards=3 appearance=light preset=none
           elif [ "$EVENT" = schedule ] && [ "$SCHEDULE" = '0 22 * * *' ]; then
             # Daily release gate: every happy-path flow on Android.

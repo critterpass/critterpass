@@ -1,10 +1,12 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { DEFAULT_FLOW_MINUTES, flowMinutes } from './flow-durations';
-import { fullSuite, selectFlows, shardMatrix, shardMinutes, splitShards } from './plan-shards';
+import { DEFAULT_FLOWS, selectFlows, shardMatrix, shardMinutes, splitShards } from './plan-shards';
+
+const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 
 let root: string;
 
@@ -12,6 +14,10 @@ beforeAll(() => {
   root = mkdtempSync(path.join(tmpdir(), 'cp-shards-'));
   const files = [
     'e2e/smoke/app-launch.yaml',
+    'e2e/happy/onboarding.yaml',
+    'e2e/happy/vote.yaml',
+    'e2e/happy/money.yaml',
+    'e2e/happy/chat.yaml',
     'e2e/home/first-run.yaml',
     'e2e/home/nudge.yaml',
     'e2e/home/subflows/onboard.yaml',
@@ -33,19 +39,20 @@ beforeAll(() => {
 afterAll(() => rmSync(root, { recursive: true, force: true }));
 
 describe('selectFlows', () => {
-  it('runs every area flow for the full suite, without subflows, shared flows or spikes', () => {
-    expect(fullSuite(root)).toEqual([
-      'e2e/home/first-run.yaml',
-      'e2e/home/nudge.yaml',
-      'e2e/onboarding/first-run-android.yaml',
-      'e2e/onboarding/first-run-ios.yaml',
-      'e2e/smoke/app-launch.yaml',
-    ]);
+  it('runs the three default journeys, not every flow, when none is named', () => {
+    for (const platform of ['ios', 'android'] as const)
+      expect(selectFlows(' ', platform, root)).toEqual([
+        'e2e/happy/onboarding.yaml',
+        'e2e/happy/vote.yaml',
+        'e2e/happy/money.yaml',
+      ]);
+    expect(DEFAULT_FLOWS.filter((flow) => !existsSync(path.join(REPO_ROOT, flow)))).toEqual([]);
   });
 
   it('drops the flows named for the other platform', () => {
-    expect(selectFlows('', 'ios', root)).not.toContain('e2e/onboarding/first-run-android.yaml');
-    expect(selectFlows('', 'ios', root)).toContain('e2e/onboarding/first-run-ios.yaml');
+    expect(selectFlows('e2e/onboarding', 'ios', root)).toEqual([
+      'e2e/onboarding/first-run-ios.yaml',
+    ]);
     expect(selectFlows('e2e/onboarding', 'android', root)).toEqual([
       'e2e/onboarding/first-run-android.yaml',
     ]);

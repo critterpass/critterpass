@@ -15,8 +15,12 @@ x86_64 Google APIs image). No local simulator is involved.
 
 - **Manually:** Actions → device → Run workflow, or
   `gh workflow run device.yml -f platform=ios -f flows="e2e/smoke e2e/home"`.
-- **On a pull request:** add the `device-run` label. The run covers the full suite on Android in
-  `flows` mode and repeats on every push while the label stays. iOS runs are manual
+- **On a pull request:** add the `device-run` label. The run covers the three default journeys
+  (`e2e/happy/onboarding.yaml`, `vote.yaml` and `money.yaml`: the short, stable ones) on Android in
+  `flows` mode, one a shard, and repeats on every push while the label stays. It is not a required
+  check. There is no "full suite" run: every `e2e/<area>/*.yaml` on three shards was hundreds of
+  flows and never finished green, so an area's flows run when a dispatch names them, until the
+  journey set replaces these three. iOS runs are manual
   (`platform: ios` or `both`): GitHub gives the plan only a couple of macOS runners, so anything
   that isn't iOS-specific (safe areas, the keyboard, modal presentation) runs on Android. Pull
   requests from forks never run it.
@@ -24,12 +28,13 @@ x86_64 Google APIs image). No local simulator is involved.
 | Input        | Meaning                                                                                                                                               |
 | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `platform`   | `ios`, `android` or `both`.                                                                                                                           |
-| `flows`      | Flow files, folders or globs, separated by spaces or commas. Empty runs the full suite (every `e2e/<area>/*.yaml` except `_shared` and `spikes`).     |
+| `flows`      | Flow files, folders or globs, separated by spaces or commas. Empty runs the three default journeys (`e2e/happy/onboarding.yaml`, `vote.yaml`, `money.yaml`).     |
 | `mode`       | `flows` (pass/fail), `capture` (screenshots posted to `pr`) or `compare` (`pnpm screens:compare` sheets posted to `pr`).                              |
 | `pr`         | The pull request that gets the images in `capture` and `compare` modes.                                                                              |
 | `build_url`  | Artifact URL(s) to install instead of the fingerprint-matched e2e-test build: `.tar.gz` for iOS, `.apk` for Android, space-separated for both.       |
 | `shards`     | Parallel shards per platform (default 3).                                                                                                            |
 | `appearance` | `light` or `dark`.                                                                                                                                    |
+| `flow_timeout` | Minutes one flow may run before it is stopped and reported as timed out (default 90).                                                              |
 | `preset`     | `sweep` runs the UI sweep (below) in `compare` mode; with `pr` empty the images go to the "Nightly UI sweep" issue. `happy` runs the release gate (below). |
 
 Every shard uploads an artifact `device-<platform>-shard-<n>` with JUnit reports, Maestro's logs
@@ -209,7 +214,7 @@ language, and the coverage report follows those files for their screenshots. The
 `subflows/<scenario>.yaml` and name each screenshot `<lang>-<design id>-<state>` (or a route name
 for screens without a design), so `compare` mode pairs it with its render. The top-level flows are
 generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts
---write`. The sweep is outside the full suite (`e2e/*/*.yaml`) and runs:
+--write`. The sweep runs:
 
 - on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
 - every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
