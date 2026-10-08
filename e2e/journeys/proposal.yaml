@@ -68,8 +68,7 @@ appId: app.critterpass.dev
     timeout: 30000
 - assertVisible:
     id: 'tracker-reply-organiser'
-- waitForAnimationToEnd
-- takeScreenshot: en-journey-proposal-tracker-no-reply
+# No capture here: two rows on an otherwise empty page; the next state is the tracker's capture.
 # Runner: the friend says IN to the sent proposal.
 - runFlow:
     file: ../_shared/friend.yaml

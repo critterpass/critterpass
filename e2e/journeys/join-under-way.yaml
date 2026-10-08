@@ -23,7 +23,7 @@ appId: app.critterpass.dev
     id: 'chat-crew-settings'
 - extendedWaitUntil:
     visible:
-      id: 'crew-settings-code'
+      id: 'crew-settings-name'
     timeout: 30000
 # One "remove" row per crewmate: the fifth is the one who joined last.
 - scrollUntilVisible:

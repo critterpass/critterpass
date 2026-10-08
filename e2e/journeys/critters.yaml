@@ -55,15 +55,17 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: en-journey-critters-pass-after-hatch
-# FOUND keeps only the places with a critter of theirs: the trip's. Its row opens the set page.
+# FOUND keeps only the places with a critter of theirs: the set the hatched critter belongs to,
+# which is the account's home set here (home Ho Chi Minh City, a trip in Vietnam) and a ranked
+# place's set for a trip abroad. Its row opens the set page.
 - tapOn:
     id: 'critters-dex-header-filter-found'
 - extendedWaitUntil:
     visible:
-      id: 'critters-set-([0-9]+|[A-Za-z]{2})'
+      id: 'critters-home-set|critters-set-([0-9]+|[A-Za-z]{2})'
     timeout: 30000
 - tapOn:
-    id: 'critters-set-([0-9]+|[A-Za-z]{2})'
+    id: 'critters-home-set|critters-set-([0-9]+|[A-Za-z]{2})'
     index: 0
 - extendedWaitUntil:
     visible:
