@@ -5,11 +5,13 @@
  * with the real OS and app version, on by default. SEND IT stays off until there are a few words, or
  * a mood and a topic.
  */
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import type { FeedbackCategory, FeedbackMood } from '@cp/domain';
 import { Image, Pressable, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { patterns } from '@/motion';
 import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -153,6 +155,7 @@ function MoodCritter({
 
 export function FeedbackView(props: FeedbackViewProps) {
   const { t } = useLingui();
+  const locale = useLocale();
   const styles = useStyles();
   const theme = useTheme();
   const { draft } = props;
@@ -186,12 +189,12 @@ export function FeedbackView(props: FeedbackViewProps) {
           />
           <View style={styles.humans}>
             <Text variant="label">
-              {t({ id: 'help.feedback.toHumans', message: 'To the humans' }).toUpperCase()}
+              {t({ id: 'help.feedback.toHumans', message: 'To the humans' })}
             </Text>
           </View>
         </Row>
         <Text variant="h1" accessibilityRole="header">
-          {title.toUpperCase()}
+          {title}
         </Text>
         <Stack gap="8">
           <Text variant="eyebrow" accessibilityRole="header">
@@ -202,7 +205,7 @@ export function FeedbackView(props: FeedbackViewProps) {
               <MoodCritter
                 key={mood}
                 mood={mood}
-                label={moods[mood].toUpperCase()}
+                label={upper(moods[mood], locale)}
                 picked={draft.mood === mood}
                 onPress={() => props.onMood(mood)}
               />
@@ -217,7 +220,7 @@ export function FeedbackView(props: FeedbackViewProps) {
             {props.topics.map((topic) => (
               <ChoiceChip
                 key={topic}
-                label={topics[topic].toUpperCase()}
+                label={upper(topics[topic], locale)}
                 selected={draft.category === topic}
                 onPress={() => props.onTopic(topic)}
                 testID={`feedback-topic-${topic}`}
@@ -299,7 +302,7 @@ export function FeedbackView(props: FeedbackViewProps) {
       </KeyboardScrollView>
       <KeyboardFooter>
         <PillButton
-          label={t({ id: 'help.feedback.send', message: 'Send it' }).toUpperCase()}
+          label={t({ id: 'help.feedback.send', message: 'Send it' })}
           onPress={props.onSend}
           disabled={!props.canSend || props.sending}
           testID="feedback-send"

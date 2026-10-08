@@ -6,23 +6,28 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- a command name, never copy. */
 import { generateUuidV7, guideFormId, type AvatarChoice, type SetAvatarPayload } from '@cp/domain';
-import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { RealPhotoSheet, useRealPhoto } from '@/features/onboarding';
+import { goBackOr } from '@/lib/navigation/back';
 import { requestWithPrimer } from '@/lib/permissions';
+import { useCommandFeedback } from '@/motion/island-toast';
 import type { GuideAvatarId } from '@/ui/avatar/guides';
 import { sizeToken, useTheme } from '@/ui/theme';
 
 import { useOwnerUid } from '../data/live-rows';
+import { dropPendingEdits, putPendingEdits } from '../data/pending-edits';
+import { PENDING_ME, type PendingMe } from '../profile/pending-me';
 import { ProfileFace } from '../profile/profile-parts';
 import { useProfile } from '../profile/use-profile';
+import { YOU_ROUTES } from '../routes';
 import { facePropsOf, useMemberFaces } from './member-faces';
 import type { AvatarRing, MemberFace } from './member-face';
 import { useOwnedForms } from './owned-forms';
 import { AvatarView, type AvatarTab } from './avatar-view';
+import { choiceOnTab } from './tab-choice';
 
 export const setAvatarCommand = defineClientCommand<SetAvatarPayload>({
   name: 'set_avatar',
@@ -68,6 +73,7 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
   const [choice, setChoice] = useState<Choice | null>(null);
   const [tab, setTab] = useState<AvatarTab | null>(null);
   const { send } = useCommand(setAvatarCommand);
+  const { report } = useCommandFeedback();
   const forms = useOwnedForms();
   const real = useRealPhoto({
     photos,
@@ -116,7 +122,10 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
         }
         face={facePropsOf(shown, shown.kind === 'photo' ? shownUri : null, diameter)}
         tab={tab ?? tabOf(current)}
-        onTab={setTab}
+        onTab={(next) => {
+          setTab(next);
+          setChoice((picked) => choiceOnTab(next, current.kind, picked));
+        }}
         guide={shown.kind === 'guide' ? shown.guide : null}
         onGuide={(guide) => setChoice({ kind: 'guide', guide })}
         forms={forms}
@@ -133,10 +142,23 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
         canDone={choice !== null}
         onDone={() => {
           if (choice === null) return;
-          void send({ avatar_id: generateUuidV7(), choice: wireChoice(choice) });
-          router.back();
+          const wire = wireChoice(choice);
+          putPendingEdits<PendingMe>(PENDING_ME, {
+            avatar: {
+              kind: wire.kind,
+              form_id: wire.kind === 'critter' ? wire.form_id : null,
+              ring: choice.kind === 'form' ? choice.ring : null,
+              media_key: wire.kind === 'photo' ? wire.media_key : null,
+            },
+          });
+          const undo = () => dropPendingEdits<PendingMe>(PENDING_ME, ['avatar']);
+          void send({ avatar_id: generateUuidV7(), choice: wire }).then(
+            (result) => report(result, { offlineCapable: true }) === 'refused' && undo(),
+            undo,
+          );
+          goBackOr(YOU_ROUTES.profile);
         }}
-        onBack={() => router.back()}
+        onBack={() => goBackOr(YOU_ROUTES.profile)}
       />
       {photos === null ? null : (
         <RealPhotoSheet

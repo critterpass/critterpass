@@ -73,7 +73,7 @@ export function CrewPlansScreen({ destination, tripId }: CrewPlansScreenProps) {
   const locale = useLocale();
   const [selected, setSelected] = useState<ReadonlySet<FilterKey>>(new Set());
   const filters = useMemo(() => filtersOf(selected), [selected]);
-  const { state } = useSharedPlans(destination, tripId, filters);
+  const { state, reload } = useSharedPlans(destination, tripId, filters);
   const page = dataOf(state);
   const guide = guideSticker(null);
   const toggle = (key: FilterKey, group: readonly FilterKey[]) =>
@@ -113,7 +113,13 @@ export function CrewPlansScreen({ destination, tripId }: CrewPlansScreenProps) {
         }}
       >
         <Stack gap="12" style={styles.content}>
-          <BackEyebrow label={t({ id: 'community.back.explore', message: 'Explore' })} />
+          <BackEyebrow
+            label={
+              tripId === null
+                ? t({ id: 'community.back.explore', message: 'Explore' })
+                : t({ id: 'community.back.trip', message: 'Trip' })
+            }
+          />
           <Row gap="8" wrap>
             {page === null ? null : (
               <InfoPill testID="crew-plans-total">
@@ -164,6 +170,10 @@ export function CrewPlansScreen({ destination, tripId }: CrewPlansScreenProps) {
                 id: 'community.browse.offlineLine',
                 message: 'Open this once online and it stays here for later.',
               })}
+              action={{
+                label: t({ id: 'community.retry', message: 'Try again' }),
+                onPress: reload,
+              }}
               testID="crew-plans-missing"
             />
           ) : null}
@@ -208,7 +218,7 @@ export function CrewPlansScreen({ destination, tripId }: CrewPlansScreenProps) {
             >
               <View style={styles.rowHead}>
                 <Text variant="title" numberOfLines={2} style={{ flex: 1 }}>
-                  {planTitle(plan).toUpperCase()}
+                  {planTitle(plan)}
                 </Text>
                 <Text variant="label">{ratingLabel(plan)}</Text>
               </View>
@@ -251,7 +261,7 @@ function PickCard({
           <InfoPill>{t({ id: 'community.browse.pick', message: 'Picked for you' })}</InfoPill>
           <Text variant="label">{ratingLabel(plan)}</Text>
         </View>
-        <Text variant="displayXl">{planTitle(plan).toUpperCase()}</Text>
+        <Text variant="displayXl">{planTitle(plan)}</Text>
         <Text variant="body">{crewLine(plan, locale)}</Text>
         <Row gap="6" wrap>
           {Array.from({ length: Math.min(plan.days_count, 10) }, (_, index) => (

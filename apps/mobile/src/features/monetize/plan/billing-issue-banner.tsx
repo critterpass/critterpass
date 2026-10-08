@@ -10,7 +10,7 @@ import { ListCard } from '@/ui/cards/ListCard';
 import { MONETIZE_ROUTES } from '../routes';
 import { usePlanLine } from './plan-copy';
 import type { PlanModel } from './plan-model';
-import { usePlan } from './use-plan';
+import { useBillingIssue } from './use-billing-issue';
 
 export function BillingIssueBannerView(props: {
   readonly plan: PlanModel | null;
@@ -31,7 +31,7 @@ export function BillingIssueBannerView(props: {
 }
 
 export function BillingIssueBanner() {
-  const { plan } = usePlan();
+  const plan = useBillingIssue();
   return (
     <BillingIssueBannerView plan={plan} onPress={() => router.push(MONETIZE_ROUTES.billingIssue)} />
   );

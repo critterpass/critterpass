@@ -3,10 +3,12 @@ import { router } from 'expo-router';
 
 import { useProducts } from '@/data/billing';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { MONETIZE_ROUTES } from '../routes';
 import { PlanView } from './plan-view';
+import { useRecheckOnReturn } from './use-billing-issue';
 import { usePlan } from './use-plan';
 
 /* eslint-disable lingui/no-unlocalized-strings -- a design id and a wire value, never copy. */
@@ -17,6 +19,7 @@ const ENTRY = 'plan_page';
 export function PlanScreen() {
   const locale = useLocale();
   const { rows, store, plan, boosts, restore, recheck, manage } = usePlan();
+  useRecheckOnReturn(recheck);
   const products = useProducts(store, locale, rows.catalogue);
   const offers = products.status === 'ready' ? products.offers : {};
   const offer =
@@ -33,9 +36,7 @@ export function PlanScreen() {
       restore={restore}
       storeAvailable={store !== null}
       onBack={() => {
-        const settings = hrefFor(SETTINGS);
-        if (router.canGoBack()) router.back();
-        else if (settings !== undefined) router.replace(settings);
+        goBackOr(hrefFor(SETTINGS));
       }}
       onUpgrade={() => router.push({ pathname: MONETIZE_ROUTES.paywall, params: { entry: ENTRY } })}
       onManageStore={manage}

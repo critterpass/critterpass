@@ -347,6 +347,10 @@ msgstr "Ảnh này quá lớn để gửi. Hãy thử dùng ảnh chụp màn h�
 msgid "help.ideas.offline"
 msgstr "Bảng sẽ mở khi bạn online lại."
 
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.articlesOffline"
+msgstr "Trung tâm trợ giúp sẽ mở khi bạn có mạng trở lại."
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "Bài này chưa có ở đây"
@@ -433,6 +437,10 @@ msgstr "Ghi chú của bạn"
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
 msgstr "Ghi chú của bạn gửi đội ngũ"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.notSaved"
+msgstr "Ghi chú của bạn chưa được lưu. Nó vẫn còn ở đây: hãy thử lại."
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
