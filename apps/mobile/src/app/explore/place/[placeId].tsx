@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { LocalFirstGate, PlaceScreen } from '@/features/explore';
+import { PlaceScreen } from '@/features/explore';
 
 /** A place's page (7e-1). */
 export default function ExplorePlaceRoute() {
@@ -9,9 +9,5 @@ export default function ExplorePlaceRoute() {
     destinationId?: string;
     tripId?: string;
   }>();
-  return (
-    <LocalFirstGate>
-      <PlaceScreen placeId={placeId} destinationId={destinationId} tripId={tripId} />
-    </LocalFirstGate>
-  );
+  return <PlaceScreen placeId={placeId} destinationId={destinationId} tripId={tripId} />;
 }

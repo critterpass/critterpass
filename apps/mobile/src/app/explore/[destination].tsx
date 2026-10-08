@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { DestinationScreen, LocalFirstGate } from '@/features/explore';
+import { DestinationScreen } from '@/features/explore';
 
 /** A destination's guide page (7g-3; the guest guide's variant is 3b-8). */
 export default function ExploreDestinationRoute() {
@@ -9,9 +9,5 @@ export default function ExploreDestinationRoute() {
     tripId?: string;
     crewId?: string;
   }>();
-  return (
-    <LocalFirstGate>
-      <DestinationScreen destination={destination} tripId={tripId} crewId={crewId} />
-    </LocalFirstGate>
-  );
+  return <DestinationScreen destination={destination} tripId={tripId} crewId={crewId} />;
 }

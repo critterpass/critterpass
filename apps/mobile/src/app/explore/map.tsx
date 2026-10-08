@@ -2,7 +2,6 @@ import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { LocalFirstGate } from '@/features/explore';
 import { PlacesListScreen, PlacesMapScreen, type PlacesFilter } from '@/features/explore/places';
 
 /**
@@ -15,11 +14,7 @@ export default function ExploreMapRoute() {
     tripId?: string;
     placeId?: string;
   }>();
-  return (
-    <LocalFirstGate>
-      <DestinationPlaces destination={destination ?? ''} tripId={tripId} placeId={placeId} />
-    </LocalFirstGate>
-  );
+  return <DestinationPlaces destination={destination ?? ''} tripId={tripId} placeId={placeId} />;
 }
 
 /** The places map for a destination, with its list in place and a field that works offline. */
