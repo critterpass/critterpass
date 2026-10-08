@@ -73,6 +73,12 @@ const ROUTES = {
   when: named('when'),
   budget: named('budget'),
   draft: named('draft'),
+  // A sheet over the stack, and a screen that happens once.
+  '(modal)/_layout': function ModalGroup() {
+    return <Stack screenOptions={{ headerShown: false, presentation: 'transparentModal' }} />;
+  },
+  '(modal)/guide': named('guide sheet'),
+  'account-closed': named('account closed'),
 };
 
 // The same app with Home inside a group, as the tabs are: the group's navigator mounts inside the
@@ -267,6 +273,31 @@ describe('navigation restore', () => {
     });
     expect(second.getPathname()).toBe('/when');
     expect(screen.getByText('when')).toBeTruthy();
+  });
+
+  it('reopens the page under a sheet, never the sheet', async () => {
+    const first = await renderApp();
+    await navigate(() => router.push('/when'));
+    await navigate(() => router.push('/guide'));
+    expect(first.getPathname()).toBe('/guide');
+    await act(() => first.unmount());
+
+    const second = await renderApp();
+    expect(second.getPathname()).toBe('/when');
+    expect(screen.queryByText('guide sheet')).toBeNull();
+    await navigate(() => router.back());
+    expect(second.getPathname()).toBe('/');
+  });
+
+  it('opens Home when the only screen left was one that happens once', async () => {
+    const first = await renderApp();
+    await navigate(() => router.replace('/account-closed'));
+    expect(first.getPathname()).toBe('/account-closed');
+    expect(readSavedNavigation()).toBeUndefined();
+    await act(() => first.unmount());
+
+    const second = await renderApp();
+    expect(second.getPathname()).toBe('/');
   });
 
   it('never restores into a signed-out launch and saves nothing until sign-in', async () => {
