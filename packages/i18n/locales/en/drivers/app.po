@@ -44,8 +44,8 @@ msgid "drivers.leg.assigned"
 msgstr "{0} drives this day"
 
 #. placeholder {0}: dayLabel(long.date, locale)
-#. placeholder {1}: hoursFigure(long.hours)
-#. placeholder {2}: hoursFigure(card.included_hours)
+#. placeholder {1}: hoursFigure(long.hours, locale)
+#. placeholder {2}: hoursFigure(card.included_hours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.overtime"
 msgstr "{0} is {1} hours. {name}'s price covers {2}."
@@ -58,7 +58,7 @@ msgstr "{0} of {1} checked"
 
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
-#. placeholder {2}: hoursFigure(day.hours)
+#. placeholder {2}: hoursFigure(day.hours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.window"
 msgstr "{0}–{1} · {2} hours"
@@ -342,9 +342,14 @@ msgstr "Call"
 msgid "drivers.offline.note"
 msgstr "Calls use signal, not data. The message sends when you’re back online."
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.cancel"
 msgstr "Cancel invite"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelTitle"
+msgstr "Cancel this invite?"
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.cancel"
@@ -498,6 +503,10 @@ msgstr "Driver or guide’s first name"
 msgid "drivers.ours.directory"
 msgstr "Drivers other crews loved"
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.directory"
+msgstr "Drivers our crews used"
+
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.title"
 msgstr "Drivers our crews used"
@@ -591,6 +600,7 @@ msgstr "From WhatsApp"
 msgid "drivers.include.fuel"
 msgstr "Fuel"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.back"
 msgstr "Getting around"
@@ -717,13 +727,25 @@ msgstr "Link expires"
 msgid "drivers.ours.listed"
 msgstr "Listed"
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.directoryBody"
+msgstr "Listed drivers, rated by crews who rode with them"
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.since"
 msgstr "Listed since"
 
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.loading"
+msgstr "Loading the drivers"
+
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 msgid "drivers.compare.loading"
 msgstr "Loading the shortlist"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.loading"
+msgstr "Loading your drivers"
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.loading"
@@ -789,6 +811,10 @@ msgstr "No crew has brought back a driver here who asked to be listed."
 msgid "drivers.directory.emptyLine"
 msgstr "No crew has brought back a driver here who asked to be listed. Listed drivers cover {widenTo}."
 
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.noDays"
+msgstr "No days in the plan yet. You can still line a driver up."
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.empty"
 msgstr "No drivers on this trip yet."
@@ -800,6 +826,14 @@ msgstr "No one price yet. Ask him on WhatsApp"
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.noRide"
 msgstr "No ride"
+
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.offlineTitle"
+msgstr "No signal"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlistOffline"
+msgstr "No signal: your shortlist shows when you’re back online."
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -824,6 +858,10 @@ msgstr "Not incl."
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.notNow"
 msgstr "Not now"
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingTitle"
+msgstr "Not one of this trip’s drivers"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.notOpened"
@@ -878,6 +916,7 @@ msgid "drivers.tours.openViator"
 msgstr "Open Viator"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.back"
 msgstr "Our drivers"
@@ -885,6 +924,10 @@ msgstr "Our drivers"
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.title"
 msgstr "Our drivers"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.ours"
+msgstr "Our drivers: rate or invite one"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 msgid "drivers.report.line"
@@ -928,7 +971,7 @@ msgstr "Patient"
 msgid "drivers.ours.paused"
 msgstr "Paused"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/pick-row.tsx
 msgid "drivers.compare.pick"
 msgstr "Pick"
 
@@ -992,6 +1035,10 @@ msgstr "Rating opens after the trip, for members with a verified phone."
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.read"
 msgstr "Read it"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.loadingDays"
+msgstr "Reading the plan’s days…"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 msgid "drivers.report.confirm"
@@ -1088,6 +1135,10 @@ msgstr "Show {widenTo} too"
 msgid "drivers.compare.shows"
 msgstr "Shows it"
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.failedLine"
+msgstr "Something went wrong on the way."
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.languages"
 msgstr "Speaks"
@@ -1144,6 +1195,10 @@ msgstr "That didn’t go through. Try again in a moment."
 msgid "drivers.pick.error.failed"
 msgstr "That didn’t go through. Try again."
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.failedTitle"
+msgstr "That didn’t load"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 msgid "drivers.check.error"
 msgstr "That didn’t save. Check you’re online and try again."
@@ -1171,6 +1226,10 @@ msgstr "The link works until {expiresOn}. After that it switches off and nothing
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.until"
 msgstr "The link works until {untilOn}. After that it switches off and nothing is listed."
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelLine"
+msgstr "The link you sent stops working at once."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.message"
@@ -1204,6 +1263,10 @@ msgstr "This driver is no longer on the shortlist."
 msgid "drivers.detail.unavailable"
 msgstr "This driver's listing isn't available right now. He may have paused it."
 
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.offlineLine"
+msgstr "This needs a connection. Try again when you’re back online."
+
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.savedPickups"
 msgstr "Today’s pickups and pins"
@@ -1223,6 +1286,11 @@ msgstr "Trip"
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.trips"
 msgstr "Trips with crews"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
+msgid "drivers.load.retry"
+msgstr "Try again"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 msgid "drivers.unread.another"
@@ -1280,6 +1348,10 @@ msgstr "Which legs?"
 msgid "drivers.ours.nudgeUsed"
 msgstr "You already nudged him once."
 
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingLine"
+msgstr "You can rate the drivers this crew rode with on this trip."
+
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.why.late"
 msgstr "You come back late from {place}, and ride apps rarely pick up out there at night. A driver for the evening is the safe way back."
@@ -1303,6 +1375,10 @@ msgstr "Your report"
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.title"
 msgstr "Your ride back"
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+msgid "drivers.find.shortlistFailed"
+msgstr "Your shortlist didn’t load."
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.askedLine"

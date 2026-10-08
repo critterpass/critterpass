@@ -29,10 +29,6 @@ msgstr "{address}, copy the address"
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · paid by {payer}"
 
-#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
-msgid "bookings.flight.boardsEst"
-msgstr "{boards} est."
-
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.offline.a11y"
 msgstr "{count, plural, one {# booking ready without signal} other {# bookings ready without signal}}"
@@ -245,6 +241,7 @@ msgstr "Booking: {title}"
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
@@ -255,13 +252,19 @@ msgstr "Bookings"
 msgid "bookings.title"
 msgstr "Bookings"
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
 msgid "bookings.add.noTrip"
 msgstr "Bookings land in a trip. Start one with the crew and they show up here."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.call"
 msgstr "Call assistance"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.supplierCancel"
+msgstr "Cancel with Viator"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.cancelled"
@@ -338,11 +341,8 @@ msgstr "Delayed"
 msgid "bookings.flight.delayedBy"
 msgstr "Delayed {delayMin}m"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
-msgid "bookings.detail.delete"
-msgstr "Delete"
-
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.delete.confirm"
 msgstr "Delete booking"
 
@@ -498,6 +498,7 @@ msgid "bookings.candidate.ignore"
 msgstr "Ignore"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
 msgid "bookings.add.addedToast"
 msgstr "In the wallet."
 
@@ -789,6 +790,10 @@ msgstr "Seat"
 msgid "bookings.form.seat"
 msgstr "Seat"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.seePass"
+msgstr "See Pass+"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareBooking"
 msgstr "Shared with the crew"
@@ -844,6 +849,10 @@ msgstr "That didn't work. Try again with signal."
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.denied"
 msgstr "The camera is off for CritterPass. Turn it on in Settings, or paste instead."
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+msgid "bookings.add.noAddressToast"
+msgstr "The crew’s address isn’t on this phone yet. Scan or paste for now."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
@@ -961,6 +970,10 @@ msgstr "Who sees it"
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailboxRow.locked"
 msgstr "With Pass+"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.supplierCancelSub"
+msgstr "You see the refund before anything is cancelled."
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.landed"

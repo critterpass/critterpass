@@ -63,9 +63,14 @@ msgstr "Dodawanie kierowcy do podróży"
 msgid "drivers.rate.saved"
 msgstr "Odpowiedź zapisana"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.cancel"
 msgstr "Anuluj zaproszenie"
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.cancel"
@@ -134,6 +139,7 @@ msgstr "Znajdź kierowcę"
 msgid "drivers.verdict.fine"
 msgstr "W porządku"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.back"
 msgstr "Dojazdy"
@@ -190,6 +196,14 @@ msgstr "Na liście"
 msgid "drivers.detail.since"
 msgstr "Na liście od"
 
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+msgid "drivers.directory.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.loved"
 msgstr "Super"
@@ -242,6 +256,10 @@ msgstr "Nigdy więcej"
 msgid "drivers.ours.notClaimed"
 msgstr "Niepotwierdzony"
 
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.nudge"
 msgstr "Przypomnij"
@@ -283,6 +301,7 @@ msgid "drivers.ours.title"
 msgstr "Nasi kierowcy"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.back"
 msgstr "Nasi kierowcy"
@@ -359,6 +378,10 @@ msgstr "Link działa do {expiresOn}. Potem wygasa i nic nie zostaje opublikowane
 msgid "drivers.ours.until"
 msgstr "Link działa do {untilOn}. Potem wygasa i nic nie zostaje opublikowane."
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+msgid "drivers.ours.cancelLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.message"
 msgstr "Wiadomość · ty ją wysyłasz"
@@ -382,6 +405,10 @@ msgstr "Co mówi ekipom. To nie cena CritterPass."
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 msgid "drivers.ours.nudgeUsed"
 msgstr "Już raz mu przypomniałeś."
+
+#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+msgid "drivers.rate.missingLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.rate"
