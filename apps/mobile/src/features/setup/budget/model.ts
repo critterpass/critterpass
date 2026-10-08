@@ -15,6 +15,7 @@ import {
   narrowCurrencySymbol,
   planBreakdown,
   roundEstimate,
+  withCurrencySymbol,
 } from '@cp/cost-engine';
 import { BUDGET_K_MIN } from '@cp/domain';
 
@@ -270,14 +271,33 @@ export function fractionDigits(currency: string): number {
   }
 }
 
-/** "$1,350": whole units in the currency's own short symbol, as the locale places it. */
+/**
+ * "$1,350", "1.350 $": whole units in the currency's own short symbol, placed and grouped as the
+ * locale does. Some runtimes write a longer symbol for the same request ("US$"); it is swapped
+ * here so every amount on the setup steps reads the same way.
+ */
 export function money(locale: string, amountMinor: number, currency: string): string {
-  return formatNarrowCurrency(
+  const text = formatNarrowCurrency(
     locale,
     Math.round(amountMinor / 10 ** fractionDigits(currency)),
     currency,
     { maximumFractionDigits: 0 },
   );
+  return withCurrencySymbol(text, narrowCurrencySymbol(currency));
+}
+
+/**
+ * What `money` writes before and after the number, for amounts whose digits are drawn apart from
+ * their symbol (a rolling total): "$" before in English, " $" after in Vietnamese.
+ */
+export function moneyAffixes(
+  locale: string,
+  currency: string,
+): { readonly prefix: string; readonly suffix: string } {
+  const text = money(locale, 0, currency);
+  const at = text.indexOf('0');
+  if (at < 0) return { prefix: narrowCurrencySymbol(currency), suffix: '' };
+  return { prefix: text.slice(0, at), suffix: text.slice(at + 1) };
 }
 
 /** The currency's symbol ("$", "₫"). */
