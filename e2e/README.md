@@ -124,6 +124,14 @@ The prepare job fails when the exported bundle does not carry the commit, and ev
 first runs `tools/scripts/ci-device/js-commit.yaml`, which reads the Developer tools build marker
 (`update:embedded js:<commit>`) to prove the app runs this run's JS.
 
+### Shards planned by time
+
+`tools/scripts/ci-device/plan-shards.ts` balances a run's shards by total flow time, not by count:
+the longest flow first, each to the shard with the least time so far. The times are the median
+minutes of each flow's passing Android runs in the release gate's reports, kept in
+`tools/scripts/ci-device/flow-durations.ts`; a flow with no row counts as five minutes. The plan
+step prints each shard's flows and their minutes.
+
 ### One retry and a time limit per flow
 
 A flow that fails runs once more on a relaunched app (`tools/scripts/ci-device/flow-attempts.ts`).
@@ -257,8 +265,8 @@ the report (`tools/scripts/ci-device/release-gate.ts`): per flow and platform, p
 an inline GIF preview, a link to the MP4 and, when it failed, Maestro's failing step with the screen
 at that moment, plus the app's `[ui-qa]` reports. The media goes to the private repository's
 `screenshots` branch (the newest 30 runs are kept) and the report to one comment on the open
-"Release gate" issue, and to the job summary. Android runs one flow per shard (flows are
-independent); iOS uses the `shards` input.
+"Release gate" issue, and to the job summary. Android runs on ten shards (flows are independent);
+iOS uses the `shards` input.
 
 It runs daily on main (Android) and on demand. **Before submitting a build to TestFlight**, run it
 on both platforms with the new builds:

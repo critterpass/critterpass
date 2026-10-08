@@ -181,8 +181,8 @@ jobs:
           fi
           video=false
           if [ "$preset" = happy ]; then
-            # Flows are independent and each onboards its own account: one per Android shard (a
-            # shard boots in about three minutes, a flow takes longer), iOS keeps the shards input.
+            # Flows are independent and each onboards its own account: ten Android shards, balanced
+            # by recorded flow time (plan-shards.ts); iOS keeps the shards input.
             [ -z "$flows" ] && flows='e2e/happy/*.yaml'
             mode=flows video=true
             ios_shards=$shards shards=10

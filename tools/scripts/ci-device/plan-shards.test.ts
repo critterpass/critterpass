@@ -3,7 +3,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { fullSuite, selectFlows, shardMatrix, splitShards } from './plan-shards';
+import { DEFAULT_FLOW_MINUTES, flowMinutes } from './flow-durations';
+import { fullSuite, selectFlows, shardMatrix, shardMinutes, splitShards } from './plan-shards';
 
 let root: string;
 
@@ -60,10 +61,44 @@ describe('selectFlows', () => {
 });
 
 describe('splitShards', () => {
-  it('deals flows round-robin and never makes an empty shard', () => {
-    expect(splitShards(['a', 'b', 'c', 'd', 'e'], 3)).toEqual([['a', 'd'], ['b', 'e'], ['c']]);
-    expect(splitShards(['a', 'b'], 5)).toEqual([['a'], ['b']]);
-    expect(splitShards(['a', 'b'], 0)).toEqual([['a', 'b']]);
+  it('never makes an empty shard, and keeps equal flows in the order given', () => {
+    const equal = () => 5;
+    expect(splitShards(['a', 'b', 'c', 'd', 'e'], 3, equal)).toEqual([
+      ['a', 'd'],
+      ['b', 'e'],
+      ['c'],
+    ]);
+    expect(splitShards(['a', 'b'], 5, equal)).toEqual([['a'], ['b']]);
+    expect(splitShards(['a', 'b'], 0, equal)).toEqual([['a', 'b']]);
+  });
+
+  it('balances shards by total time instead of by count', () => {
+    const minutes: Record<string, number> = { long: 31, mid: 13, a: 4, b: 4, c: 3, d: 3, e: 3 };
+    const of = (flow: string) => minutes[flow] ?? 5;
+    const flows = ['a', 'long', 'b', 'mid', 'c', 'd', 'e'];
+    const shards = splitShards(flows, 2, of);
+    // The long flow has a shard to itself; dealt by turns it would share one with 10 more minutes.
+    expect(shards).toEqual([['long'], ['a', 'b', 'mid', 'c', 'd', 'e']]);
+    expect(shards.map((shard) => shardMinutes(shard, of))).toEqual([31, 30]);
+    expect(shards.flat().sort()).toEqual([...flows].sort());
+  });
+
+  it('uses the recorded medians, and a default for a flow with none', () => {
+    expect(flowMinutes('e2e/happy/fresh-join-under-way.yaml')).toBeGreaterThan(25);
+    expect(flowMinutes('e2e/somewhere/new-flow.yaml')).toBe(DEFAULT_FLOW_MINUTES);
+    const shards = splitShards(
+      [
+        'e2e/happy/fresh-join-under-way.yaml',
+        'e2e/happy/onboarding.yaml',
+        'e2e/happy/vote.yaml',
+        'e2e/happy/money.yaml',
+      ],
+      2,
+    );
+    expect(shards).toEqual([
+      ['e2e/happy/fresh-join-under-way.yaml'],
+      ['e2e/happy/onboarding.yaml', 'e2e/happy/vote.yaml', 'e2e/happy/money.yaml'],
+    ]);
   });
 
   it('builds a 1-based matrix with space-separated flows', () => {
