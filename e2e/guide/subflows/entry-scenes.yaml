@@ -30,7 +30,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${PREFIX}-3j-2-after-consent
-- back
+# Voice mode takes no back gesture on iPhone: its own ✕ is the way out on both platforms.
+- tapOn:
+    id: 'guide-voice-close'
 - extendedWaitUntil:
     visible:
       id: 'guide-lab-voice-consent'

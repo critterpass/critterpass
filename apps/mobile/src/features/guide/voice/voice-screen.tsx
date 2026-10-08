@@ -241,7 +241,12 @@ function OpenVoiceScreen({
         controller.current?.interrupted('tap');
         void controller.current?.talk();
       }}
-      onType={() => router.back()}
+      onType={() => {
+        // Listening and the reply stop now, not when the screen has finished sliding away.
+        controller.current?.dispose();
+        if (router.canGoBack()) router.back();
+        else router.replace('/');
+      }}
       onOpenSettings={() => void openPermissionSettings('microphone')}
     />
   );

@@ -4,7 +4,8 @@
  * text alongside the audio, with the changes the guide offers as cards. The footer sends those to
  * the group and holds the microphone, the one control that talks, sends and interrupts. Each way
  * a turn can stop short (no microphone, nothing heard, offline, the day's questions spent, a reply
- * that failed) has its own line where the reply would be.
+ * that failed) has its own line where the reply would be. The ✕ in the top row leaves in every
+ * state: the screen takes no back gesture.
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
@@ -15,6 +16,7 @@ import { upper } from '@cp/i18n';
 
 import { Row, Scaffold, Stack, Text, makeStyles, useTheme } from '@/ui';
 import { TextLink } from '@/ui/buttons/TextLink';
+import { CloseButton } from '@/ui/sheet/CloseButton';
 import { PermissionCard } from '@/ui/states/PermissionCard';
 
 import { VoiceFooter, type VoiceGroupSend } from './voice-footer';
@@ -38,7 +40,7 @@ export interface VoiceViewProps {
   readonly onTalk: () => void;
   readonly onSend: () => void;
   readonly onInterrupt: () => void;
-  /** Back to the guide sheet, to type instead. */
+  /** Back to the guide sheet: the ✕, and "Type instead" where talking cannot start. */
   readonly onType: () => void;
   readonly onOpenSettings?: () => void;
 }
@@ -51,6 +53,8 @@ const useStyles = makeStyles((t) => ({
     paddingBottom: t.space['24'],
     gap: t.space['24'],
   },
+  // Takes the room the status and the ✕ leave, and wraps there under a long guide name.
+  who: { flex: 1 },
   stage: { paddingTop: t.space['32'] },
   dot: {
     width: t.space['8'],
@@ -146,7 +150,9 @@ export function VoiceView(props: VoiceViewProps) {
     <Scaffold edges={['top', 'bottom']} testID="guide-voice">
       <ScrollView contentContainerStyle={styles.body}>
         <Row gap="12" align="center" justify="space-between">
-          <Text variant="eyebrow">{upper(who, i18n.locale)}</Text>
+          <Text variant="eyebrow" style={styles.who}>
+            {upper(who, i18n.locale)}
+          </Text>
           <Row gap="6" align="center" testID={`guide-voice-status-${state.phase}`}>
             <View style={styles.dot} />
             <Text
@@ -158,6 +164,7 @@ export function VoiceView(props: VoiceViewProps) {
               {status}
             </Text>
           </Row>
+          <CloseButton onPress={props.onType} testID="guide-voice-close" />
         </Row>
         <View style={styles.stage}>
           <VoiceStage
