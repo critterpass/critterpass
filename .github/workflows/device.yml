@@ -159,9 +159,10 @@ jobs:
             platform=android flows='' mode=flows pr='' build_url='' shards=3 appearance=light preset=happy
           elif [ "$EVENT" = schedule ]; then
             # Nightly: the whole sweep on Android, and its English half on one iOS shard for what only
-            # iOS shows (safe areas, the keyboard, modal presentation).
+            # iOS shows (safe areas, the keyboard, modal presentation). The labs-* flows draw their
+            # scenes on Android only, so the iOS shard leaves them out.
             platform=both flows='' mode=compare pr='' build_url='' shards=7 appearance=light preset=sweep
-            ios_flows='e2e/screens/sweep/*-en.yaml' ios_shards=1
+            ios_flows='e2e/screens/sweep/!(labs-*)-en.yaml' ios_shards=1
           else
             platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
             shards=$IN_SHARDS appearance=$IN_APPEARANCE preset=$IN_PRESET

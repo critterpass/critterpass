@@ -20,6 +20,9 @@ beforeAll(() => {
     'e2e/_shared/seed-demo.yaml',
     'e2e/spikes/map-offline.yaml',
     'e2e/critters/capture-perf.sh',
+    'e2e/screens/sweep/vote-en.yaml',
+    'e2e/screens/sweep/vote-vi.yaml',
+    'e2e/screens/sweep/labs-plan-en.yaml',
   ];
   for (const file of files) {
     mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
@@ -52,6 +55,12 @@ describe('selectFlows', () => {
     expect(
       selectFlows('e2e/smoke/app-launch.yaml, e2e/home\ne2e/home/*.yaml', 'ios', root),
     ).toEqual(['e2e/smoke/app-launch.yaml', 'e2e/home/first-run.yaml', 'e2e/home/nudge.yaml']);
+  });
+
+  it("leaves the lab sweeps out of the iPhone sweep's pattern", () => {
+    expect(selectFlows('e2e/screens/sweep/!(labs-*)-en.yaml', 'ios', root)).toEqual([
+      'e2e/screens/sweep/vote-en.yaml',
+    ]);
   });
 
   it('rejects inputs that name no flow', () => {

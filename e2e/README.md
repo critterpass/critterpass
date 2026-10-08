@@ -213,7 +213,7 @@ generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-
 
 - on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
 - every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
-  on one iOS shard, posting the sheets, the check findings and the coverage report to the open
+  (without the Android-only `labs-*`) on one iOS shard, posting the sheets, the check findings and the coverage report to the open
   "Nightly UI sweep" issue.
 
 `sweep-coverage.ts` (no flags) prints the coverage report: the screens the app registers
