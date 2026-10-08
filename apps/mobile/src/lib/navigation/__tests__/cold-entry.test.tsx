@@ -21,8 +21,6 @@ import {
   useNavigationPersistence,
   writeSavedNavigation,
 } from '../restore';
-import { registerScreens } from '../screen-registry';
-import { openWithBackStack } from '../synthesize-stack';
 
 // Imported last on purpose: the testing library registers its own Reanimated mock, which cannot
 // load under this app's Jest setup (jest.config.js); everything above already loaded the app's.
@@ -115,7 +113,12 @@ async function navigate(action: () => void) {
   await act(async () => {});
 }
 
-let unregister: () => void = () => {};
+/** Three pages deep, as a person gets there: Home, then When, Budget and the draft pushed in turn. */
+function openDraft() {
+  router.push('/when');
+  router.push('/budget');
+  router.push('/draft');
+}
 
 beforeEach(() => {
   launchUrl = null;
@@ -124,42 +127,16 @@ beforeEach(() => {
   gate.set({ status: 'ready' });
   clearSavedNavigation();
   resetAccountSwitchForTests();
-  unregister = registerScreens({
-    '3b-2': '/',
-    '3c-3': '/when',
-    '3c-5': '/budget',
-    '3c-9': '/draft',
-  });
 });
 
 afterEach(() => {
-  unregister();
   jest.useRealTimers();
-});
-
-describe('openWithBackStack', () => {
-  it('opens a screen cold and back walks its designed parents', async () => {
-    const app = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
-    expect(app.getPathname()).toBe('/draft');
-    await navigate(() => router.back());
-    expect(app.getPathname()).toBe('/budget');
-    await navigate(() => router.back());
-    expect(app.getPathname()).toBe('/when');
-    await navigate(() => router.back());
-    expect(app.getPathname()).toBe('/');
-  });
-
-  it('refuses an unregistered screen so the caller can fall back to home', async () => {
-    await renderApp();
-    expect(openWithBackStack('3k-10')).toBe(false);
-  });
 });
 
 describe('navigation restore', () => {
   it('restores the saved stack on a plain cold start within 30 minutes', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     expect(readSavedNavigation()?.build).toBe(BUILD);
     await act(() => first.unmount());
 
@@ -172,7 +149,7 @@ describe('navigation restore', () => {
 
   it('starts fresh once the saved state is 30 minutes old', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     await act(() => first.unmount());
 
     clock += RESTORE_WINDOW_MS;
@@ -183,7 +160,7 @@ describe('navigation restore', () => {
 
   it('leaves deep-link launches to the link router', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     await act(() => first.unmount());
 
     launchUrl = 'critterpass://p/kyoto';
@@ -193,7 +170,7 @@ describe('navigation restore', () => {
 
   it('opens Home for a bare app link, not the saved screens', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     await act(() => first.unmount());
 
     launchUrl = 'critterpass://';
@@ -204,7 +181,7 @@ describe('navigation restore', () => {
 
   it('opens Home after an account switch, not the screens of the account before', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     forgetNavigationForAccountSwitch();
     expect(readSavedNavigation()).toBeUndefined();
     // The switch restarts the app; a move before the restart is not saved either.
@@ -222,7 +199,7 @@ describe('navigation restore', () => {
 
   it('waits for the session database to open, then restores', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     await act(() => first.unmount());
 
     setSessionReady(false);
@@ -241,7 +218,7 @@ describe('navigation restore', () => {
 
   it('restores when the launch redirects and settles on its first screen before the database opens', async () => {
     const first = await renderApp(GROUPED_ROUTES);
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     await act(() => first.unmount());
 
     setSessionReady(false);
@@ -259,7 +236,7 @@ describe('navigation restore', () => {
 
   it('leaves a person who moved on before the database opened where they went', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     await act(() => first.unmount());
 
     setSessionReady(false);
@@ -302,7 +279,7 @@ describe('navigation restore', () => {
 
   it('never restores into a signed-out launch and saves nothing until sign-in', async () => {
     const first = await renderApp();
-    await navigate(() => openWithBackStack('3c-9'));
+    await navigate(openDraft);
     await act(() => first.unmount());
 
     gate.set({ status: 'onboarding' });

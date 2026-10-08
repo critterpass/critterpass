@@ -176,34 +176,3 @@ export function modalGroupOptions(): StackNavigationOptions {
     transitionSpec: { open: timing(0, linear), close: timing(0, linear) },
   };
 }
-
-/** Same-slot state swap: fade in 300, unfade 260 (reduced: 200 ms both ways). */
-export function fadeTransition(motion: ShellMotion, reduced: boolean): StackNavigationOptions {
-  const fade = motion.transition.fade;
-  const openMs = reduced ? REDUCED_CROSS_FADE_MS : legMs(fade, 'enter', 300);
-  const closeMs = reduced ? REDUCED_CROSS_FADE_MS : legMs(fade, 'back', 260);
-  const easing = reduced ? linear : bezier(motion.easing.standard);
-  return {
-    headerShown: false,
-    cardStyleInterpolator: forCrossFade,
-    transitionSpec: { open: timing(openMs, easing), close: timing(closeMs, easing) },
-    gestureEnabled: false,
-  };
-}
-
-/**
- * Route options for a zoom destination: the shared-grow overlay carries the spatial motion, so the
- * route itself only cross-fades in over the grow (560) and out over the unzoom (460).
- */
-export function zoomTransition(motion: ShellMotion, reduced: boolean): StackNavigationOptions {
-  const zoom = motion.transition.zoom;
-  const openMs = reduced ? REDUCED_CROSS_FADE_MS : legMs(zoom, 'enter', 560);
-  const closeMs = reduced ? REDUCED_CROSS_FADE_MS : legMs(zoom, 'back', 460);
-  const easing = reduced ? linear : bezier(motion.easing.standard);
-  return {
-    headerShown: false,
-    cardStyleInterpolator: forCrossFade,
-    transitionSpec: { open: timing(openMs, easing), close: timing(closeMs, easing) },
-    gestureEnabled: false,
-  };
-}
