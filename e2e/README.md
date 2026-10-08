@@ -221,28 +221,58 @@ The scripts live in `tools/scripts/ci-device/`.
 
 ## UI sweep
 
-`e2e/screens/sweep/` visits every user-facing screen and sheet the app can reach, in English and
-Vietnamese: one flow per demo seed scenario (`onboarding`, `first-run` for an account with no crew,
-then the `everyday`, `inbox`, `caught_up`, `vote` and `vote_final` seeds of
-`e2e/_shared/seed-demo.yaml`), with the keyboard up wherever a screen has a field. Screens no seed
-reaches are swept from their developer labs (`labs-*` scenarios, Android only): they run the areas'
-own `${PREFIX}` scene subflows, or `subflows/lab-scene.yaml` for one scene, with the sweep's
-language, and the coverage report follows those files for their screenshots. The steps live in
-`subflows/<scenario>.yaml` and name each screenshot `<lang>-<design id>-<state>` (or a route name
-for screens without a design), so `compare` mode pairs it with its render. The top-level flows are
-generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts
---write`. The sweep runs:
+`e2e/sweep/` visits every user-facing screen and sheet the app can draw, in English and Vietnamese.
+Its flows are **generated** from one manifest, `tools/scripts/ci-device/sweep-manifest.json`: edit
+the manifest (or a subflow), run `pnpm tsx tools/scripts/ci-device/sweep-flows.ts --write`, and
+commit both; `sweep-flows.test.ts` fails while they differ.
 
-- on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
-- every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
-  (without the Android-only `labs-*`) on one iOS shard, posting the sheets, the check findings and the coverage report to the open
+- **Seeds** (`seed-<name>-<lang>.yaml`): signed-in walks with the keyboard up wherever a screen has a
+  field. `onboarding` starts on the splash, `first-run` onboards an account with no crew, and
+  `everyday`, `inbox`, `caught-up`, `vote` and `vote-final` start through "start as"
+  (`e2e/_shared/start-as.yaml`) on the api's seed scenario. The steps live in
+  `subflows/seed-<name>.yaml`; the manifest lists the screenshots they take, and the test checks the
+  two agree.
+- **Labs** (`lab-<name>-<lang>.yaml`): one flow per Developer tools lab, for the screens no seed
+  reaches, drawn from fixtures. A manifest scene is one line, `row | ready | shot`: the list row's id
+  without the lab's `rows` prefix, an id only the drawn scene shows, and the screenshot's name. The
+  flow opens its lab from a fresh launch, through Developer tools from the top of the list
+  (`subflows/open-lab.yaml`), and each scene is one call to `subflows/lab-scene.yaml`. A scene that
+  does not come back to the list is backed out of, and failing that the lab is reopened from a
+  fresh launch, so a stuck scene costs its own screenshot, never the rest of the flow. To add a
+  screen: add its line to the lab (the area's lab scene list in the app names the row) and
+  regenerate; no new steps are written.
+
+Screenshots are named `<lang>-<design id>-<state>` (or a route name for a screen without a design),
+so `compare` mode pairs each with its render. The sweep runs:
+
+- on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=10 [-f pr=<n>]`
+  (about 680 screenshots a language: ten shards keep each to about an hour of flows, and a shard
+  job stops at two hours); one lab for a
+  pull request's sheets with `-f flows='e2e/sweep/lab-<name>-*.yaml' -f shards=1`;
+- every night on main (the `schedule` trigger): the whole sweep on Android, and the seed flows in
+  English on one iOS shard, posting the sheets, the summary and the coverage report to the open
   "Nightly UI sweep" issue.
 
-`sweep-coverage.ts` (no flags) prints the coverage report: the screens the app registers
-(`registerScreens`) and the routes under `apps/mobile/src/app` with no sweep screenshot. Every
-route is listed in its `ROUTE_SHOTS` table with the screenshots that show it, or why the sweep can't
-reach it. Gaps don't fail CI (other areas add screens at their own pace); they show in every sweep
-comment, so add the missing steps to the sweep when a new screen or route appears there.
+**When the sweep is red** (`tools/scripts/ci-device/sweep-result.ts`): a screen-check finding
+(SCREEN_FRAME, KEYBOARD_BAND, EMPTY_SCREEN), a `[ui-qa]` line, a lab that would not open (a failed
+`lab-*` flow), or more than 5% of the planned screenshots missing. A failed step is not red by
+itself: a seed flow that stops, or a scene whose row is not found, costs screenshots, and the run
+summary lists each as "not captured" with its failure screen in the shard's artifact
+(`failures/not-captured-<shot>.png` for a lab scene, `failures/<flow>.png` for a seed flow). The
+first three fail their shard; the 5% count needs every shard, so the publish job fails after it has
+posted the comment.
+
+**Coverage** (`pnpm tsx tools/scripts/ci-device/sweep-coverage.ts`, appended to every sweep comment)
+is derived, not kept by hand: the design ids the app registers with its screen registry
+(`registerScreens`, design id → route) against the design ids the manifest's screenshots are named
+for. It lists the registered ids with no screenshot and the routes under `apps/mobile/src/app` that
+no registering feature names a path for (screens without a design). `sweep-coverage.test.ts` fails
+when a registered id has neither a screenshot nor a line in the short `NO_SCREEN_BY_DESIGN` list
+there, so a new registered screen comes with its manifest line.
+
+`e2e/screens/sweep/` holds the hand-written sweep this replaced. Nothing runs its top-level flows
+any more; area flows still use some of its subflows (`start`, `back`, `home`, `open-link`,
+`lab-scene`, `open-dev-lab`).
 
 Section 7 planning screens (`7a-1` … `7i-2`) name shots `<lang>-7x-n-<state>` like every design id (`en-7b-1-day`, `vi-7f-1-add`); a state the design does not draw keeps the nearest 7x id plus a state suffix (`en-7b-1-member-suggest`), never an old `3d`/`3e` id.
 

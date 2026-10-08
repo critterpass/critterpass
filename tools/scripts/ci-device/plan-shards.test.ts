@@ -26,9 +26,10 @@ beforeAll(() => {
     'e2e/_shared/seed-demo.yaml',
     'e2e/spikes/map-offline.yaml',
     'e2e/critters/capture-perf.sh',
-    'e2e/screens/sweep/vote-en.yaml',
-    'e2e/screens/sweep/vote-vi.yaml',
-    'e2e/screens/sweep/labs-plan-en.yaml',
+    'e2e/sweep/seed-vote-en.yaml',
+    'e2e/sweep/seed-vote-vi.yaml',
+    'e2e/sweep/seed-trip-hub-en.yaml',
+    'e2e/sweep/lab-plan-views-en.yaml',
   ];
   for (const file of files) {
     mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
@@ -64,9 +65,9 @@ describe('selectFlows', () => {
     ).toEqual(['e2e/smoke/app-launch.yaml', 'e2e/home/first-run.yaml', 'e2e/home/nudge.yaml']);
   });
 
-  it("leaves the lab sweeps out of the iPhone sweep's pattern", () => {
-    expect(selectFlows('e2e/screens/sweep/!(labs-*)-en.yaml', 'ios', root)).toEqual([
-      'e2e/screens/sweep/vote-en.yaml',
+  it("keeps the iPhone sweep's pattern to the seed flows in English, without the Android one", () => {
+    expect(selectFlows('e2e/sweep/seed-!(trip-hub*)-en.yaml', 'ios', root)).toEqual([
+      'e2e/sweep/seed-vote-en.yaml',
     ]);
   });
 
