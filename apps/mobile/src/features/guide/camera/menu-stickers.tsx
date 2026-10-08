@@ -27,8 +27,8 @@ const useStyles = makeStyles((t) => ({
   frame: { width: '100%' },
   // Room under the menu for the crew chips of its last dish, which hang below its edge.
   hanging: { marginBottom: t.space['32'] * 2 },
-  // Only the still is cut to the menu's corners: stickers and chips may reach past its edges.
-  still: { borderRadius: t.radius.sm, overflow: 'hidden' },
+  // Only the still is clipped: stickers and chips may reach past its edges.
+  still: { overflow: 'hidden' },
   sticker: {
     position: 'absolute',
     alignSelf: 'flex-start',

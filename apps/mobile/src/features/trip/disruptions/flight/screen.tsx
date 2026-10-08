@@ -6,17 +6,19 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import type { DisruptionAction } from '@cp/domain';
-import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
+import { openInTabs } from '@/lib/navigation/open-in-tabs';
 import { toast } from '@/motion';
 
 import { useLiveRows, useOwnerUid } from '../../hub/data/live-rows';
 import { guideName, guideOr } from '../../hub/guide';
+import { tripHubRoute, TRIPS_TAB } from '../../hub/routes';
 import {
   announceDisruptionCommand,
   decideDisruptionActionCommand,
@@ -146,10 +148,10 @@ export function FlightDisruptionScreen({ id }: { readonly id: string }) {
           .send({ disruption_id: id, action_id: 'all' })
           .then(() => toast.show({ id: `disruption-undone-${id}`, title: toasts.undone }))
       }
-      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onBack={() => goBackOr(row === null ? TRIPS_TAB : tripHubRoute(row.trip_id))}
       onOpenLink={(link: DisruptionAction) => {
         if (link.kind === 'rebook_flight' && segment !== undefined) {
-          router.push({
+          openInTabs({
             pathname: '/(tabs)/wallet/bookings/[id]',
             params: { id: segment.booking_id },
           });

@@ -7,6 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
+import { HOME_FALLBACK } from '@/lib/navigation/back';
 import { guideSticker } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -21,7 +22,6 @@ import { SharedPlanScreen } from '../detail/detail-screen';
 import { usePlanLink } from './plan-link';
 
 const EMPTY_STICKER = 180;
-const HOME_ROUTE = '/';
 
 const useStyles = makeStyles((th) => ({
   content: { paddingHorizontal: th.size.gutter, paddingTop: th.space['12'], gap: th.space['16'] },
@@ -34,12 +34,21 @@ export function PlanLinkScreen({ token }: { readonly token: string }) {
   const guide = guideSticker(null);
   const sticker = <Sticker kind={guide.kind} name={guide.name} size={EMPTY_STICKER} pose="wave" />;
   if (state.kind === 'plan') {
-    return <SharedPlanScreen sharedPlanId={state.sharedPlanId} tripId={null} />;
+    return (
+      <SharedPlanScreen
+        sharedPlanId={state.sharedPlanId}
+        tripId={null}
+        backLabel={t({ id: 'community.back.home', message: 'Home' })}
+      />
+    );
   }
   return (
     <Scaffold testID={`plan-link-${state.kind}`}>
       <View style={styles.content}>
-        <BackEyebrow label={t({ id: 'community.back.home', message: 'Home' })} />
+        <BackEyebrow
+          label={t({ id: 'community.back.home', message: 'Home' })}
+          fallback={HOME_FALLBACK}
+        />
         <Text variant="displayHero" accessibilityRole="header">
           {t({ id: 'community.detail.heading', message: 'A crew plan' })}
         </Text>
@@ -60,7 +69,7 @@ export function PlanLinkScreen({ token }: { readonly token: string }) {
                 })}
                 action={{
                   label: t({ id: 'community.link.goneAction', message: 'Go to Home' }),
-                  onPress: () => router.navigate(HOME_ROUTE),
+                  onPress: () => router.navigate(HOME_FALLBACK),
                 }}
               />
             ) : (

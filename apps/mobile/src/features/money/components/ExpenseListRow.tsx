@@ -1,17 +1,20 @@
 /**
  * One expense in a money list (LATEST on Balances, the history): its category doodle, the title
- * in caps, "Rp 1.08M · Maya paid · Jordan left out", and the crew-currency amount on the right.
- * A row still waiting to upload carries the pending-sync treatment.
+ * in caps, "Rp 1.08M · Maya paid · Jordan left out", and the crew-currency amount on the right in
+ * tabular figures, so a column of rows lines up digit under digit. A row still waiting to upload
+ * carries the pending-sync treatment. Memoised: a list re-renders only the rows that changed.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { Pressable } from 'react-native';
+import { memo } from 'react';
 
 import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { Amount } from '@/ui/money/Amount';
+import { PressScale } from '@/ui/press/PressScale';
 import { PendingSync } from '@/ui/states/PendingSync';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
@@ -30,11 +33,17 @@ const useStyles = makeStyles((t) => ({
 export interface ExpenseListRowProps {
   readonly item: ExpenseItem;
   readonly crewCurrency: string;
-  readonly onPress: () => void;
+  /** Opens the expense; called with its id, so a list passes one handler to every row. */
+  readonly onOpen: (id: string) => void;
   readonly testID?: string;
 }
 
-export function ExpenseListRow({ item, crewCurrency, onPress, testID }: ExpenseListRowProps) {
+export const ExpenseListRow = memo(function ExpenseListRow({
+  item,
+  crewCurrency,
+  onOpen,
+  testID,
+}: ExpenseListRowProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
@@ -65,11 +74,11 @@ export function ExpenseListRow({ item, crewCurrency, onPress, testID }: ExpenseL
       : t({ id: 'money.row.pending', message: 'Waiting to sync' });
   return (
     <PendingSync pending={item.pending !== null} accessibilityLabel={pendingLabel}>
-      <Pressable
-        onPress={onPress}
-        accessibilityRole="button"
+      <PressScale
+        onPress={() => onOpen(item.id)}
         accessibilityLabel={[title, parts.join(', '), amount].join(', ')}
-        testID={testID}
+        widthClass="wide"
+        {...(testID === undefined ? {} : { testID })}
       >
         <Row align="flex-start" style={styles.row}>
           <Icon name={CATEGORY_ICON[item.category]} size={28} decorative />
@@ -84,15 +93,15 @@ export function ExpenseListRow({ item, crewCurrency, onPress, testID }: ExpenseL
             </PrivateContent>
           </Stack>
           <PrivateContent>
-            <Text
+            <Amount
               variant="rowTitle"
               style={item.pending === 'delete' ? { textDecorationLine: 'line-through' } : undefined}
             >
               {amount}
-            </Text>
+            </Amount>
           </PrivateContent>
         </Row>
-      </Pressable>
+      </PressScale>
     </PendingSync>
   );
-}
+});

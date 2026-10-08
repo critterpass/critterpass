@@ -1,7 +1,7 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { Slot, useNavigation } from 'expo-router';
+import { Slot, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { Animated, StyleSheet, Text } from 'react-native';
 import type * as ReactNativeModule from 'react-native';
@@ -74,6 +74,12 @@ function screenNamed(name: string) {
   };
 }
 
+/** The guide sheet's stand-in: it shows the trip it was opened for. */
+function GuideScreen() {
+  const { tripId } = useLocalSearchParams<{ tripId?: string }>();
+  return <Text>{`guide screen for ${tripId ?? 'no trip'}`}</Text>;
+}
+
 function TripsWithBadge() {
   const navigation = useNavigation();
   useEffect(() => {
@@ -99,14 +105,14 @@ const ROUTES = {
   '(tabs)/trips': TripsWithBadge,
   '(tabs)/wallet': screenNamed('wallet'),
   '(tabs)/pass': footerScreen('tab-footer'),
-  guide: screenNamed('guide'),
+  guide: GuideScreen,
   help: footerScreen('stack-footer'),
   welcome: screenNamed('welcome'),
 };
 
-async function renderShell() {
+async function renderShell(initialUrl = '/') {
   // `renderRouter` returns RNTL's render promise with the router helpers attached to it.
-  const pending = renderRouter(ROUTES, { initialUrl: '/' });
+  const pending = renderRouter(ROUTES, { initialUrl });
   const rendered = await pending;
   await act(async () => {});
   return { getPathname: () => pending.getPathname(), unmount: () => rendered.unmount() };
@@ -218,6 +224,25 @@ describe('GuideFab', () => {
       nativeEvent: { actionName: 'activate' },
     });
     expect(again.getPathname()).toBe('/guide');
+    unregister();
+  });
+
+  it('asks about the trip on screen, and about no trip in particular elsewhere', async () => {
+    const unregister = registerScreens({
+      '3j-1': (params) => ({ pathname: '/guide', params }),
+    });
+    const onTrip = await renderShell('/trips?tripId=trip-b');
+    await fireEvent(screen.getByTestId('guide-fab'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'activate' },
+    });
+    expect(screen.getByText('guide screen for trip-b')).toBeTruthy();
+
+    await act(() => onTrip.unmount());
+    await renderShell('/');
+    await fireEvent(screen.getByTestId('guide-fab'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'activate' },
+    });
+    expect(screen.getByText('guide screen for no trip')).toBeTruthy();
     unregister();
   });
 });

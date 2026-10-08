@@ -43,7 +43,7 @@ export function TasteScreen() {
         answers={draft.answers}
         onAnswersChange={(answers) => updateDraft((d) => ({ ...d, answers, taste_done: false }))}
         onDone={() => {
-          const next = updateDraft((d) => advanceDraft({ ...d, taste_done: true }));
+          const next = updateDraft((d) => advanceDraft({ ...d, taste_done: true }, 'taste'));
           if (next.step !== 'taste') router.push(routeForStep(next.step));
         }}
       />

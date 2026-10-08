@@ -112,8 +112,14 @@ export function AllDaysView(props: AllDaysViewProps) {
         </View>
         <Text variant="h1">
           {place === ''
-            ? t({ id: 'plan.allDays.titleDays', message: `${count} days` })
-            : t({ id: 'plan.allDays.title', message: `${place}, ${count} days` })}
+            ? t({
+                id: 'plan.allDays.titleDays',
+                message: plural(count, { one: '# day', other: '# days' }),
+              })
+            : t({
+                id: 'plan.allDays.title',
+                message: `${place}, ${plural(count, { one: '# day', other: '# days' })}`,
+              })}
         </Text>
         {line === null ? null : (
           <TokekNote

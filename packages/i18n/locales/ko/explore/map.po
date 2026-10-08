@@ -24,6 +24,18 @@ msgid "explore.pack.downloading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeConfirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.removeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.remove"
 msgstr ""
 

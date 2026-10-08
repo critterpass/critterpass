@@ -4,7 +4,7 @@
  * its editor, the keypad and ADD RP 450K. Pure: the screen owns the draft and the command.
  */
 import { tokens } from '@cp/design-tokens';
-import { format, upper } from '@cp/i18n';
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -34,8 +34,10 @@ import type { MoneyMember } from '../data/context';
 import { AmountEntry } from './AmountEntry';
 import type { ExpenseDraft, SplitEditorMode } from './draft';
 import { PayerPicker } from './PayerPicker';
+import { daysBackOf, useSpentDayLabel } from './spent-day';
 import { SplitEditorCustom } from './SplitEditorCustom';
 import { SplitEditorEvenly, SplitEditorShares } from './SplitEditorShares';
+import { MONEY_ROUTES } from '../routes';
 
 const SHAKE_PT = 6;
 
@@ -103,16 +105,16 @@ export function AddExpenseView(props: AddExpenseViewProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const categoryLabel = useCategoryLabel();
+  const dayLabel = useSpentDayLabel();
   const shake = useShake(props.shake);
   const detailsName =
     props.draft.description === ''
       ? t({ id: 'money.add.detailsTitle', message: 'What was it?' })
       : props.draft.description;
   const detailsCategory = categoryLabel(props.draft.category);
-  const detailsDay =
-    props.draft.spentAt === null
-      ? t({ id: 'money.add.today', message: 'Today' })
-      : format.date(locale, new Date(props.draft.spentAt), { weekday: 'short', day: 'numeric' });
+  const now = new Date();
+  const daysBack = daysBackOf(props.draft.spentAt, now);
+  const detailsDay = dayLabel(daysBack, now);
   // EVENLY splits between everyone; tapping EVENLY again shows who is in, to leave someone out.
   const [showWho, setShowWho] = useState(false);
   // BY SHARE and CUSTOM list a row per member under the split control: the page scrolls the
@@ -141,7 +143,10 @@ export function AddExpenseView(props: AddExpenseViewProps) {
         keyboardShouldPersistTaps="handled"
       >
         <Row justify="space-between" align="center">
-          <BackEyebrow label={upper(t({ id: 'money.back', message: 'Money' }), locale)} />
+          <BackEyebrow
+            label={upper(t({ id: 'money.back', message: 'Money' }), locale)}
+            fallback={MONEY_ROUTES.balances}
+          />
           {props.editing ? null : (
             <HeaderPill
               label={upper(t({ id: 'money.add.scanInstead', message: 'Scan instead' }), locale)}
@@ -186,7 +191,11 @@ export function AddExpenseView(props: AddExpenseViewProps) {
               {detailsName}
             </Text>
             <Text variant="label" color={theme.semantic.text.secondary}>
-              {upper(detailsCategory, locale)}
+              {upper(
+                // A back-dated expense says so before ADD; today's needs no day.
+                daysBack === 0 ? detailsCategory : `${detailsCategory} · ${detailsDay}`,
+                locale,
+              )}
             </Text>
           </Row>
         </Pressable>

@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # The forecast screen (3k-7). First the real route as a brand-new account sees it (a real onboarding, no demo
-# seed): with no such trip of theirs the screen has no forecast and says all is clear. Then every state from the disruptions lab's fixed data
+# seed): a trip that is not theirs has no forecast, and the screen says it is not here. Then every state from the disruptions lab's fixed data
 # (apps/mobile/src/app/(dev)/disruption-lab.tsx), in English and in Vietnamese, named
 # `<lang>-3k-7-<state>` so compare mode pairs each with its render.
 - runFlow: ../../happy/subflows/fresh-account.yaml
@@ -11,9 +11,9 @@ appId: app.critterpass.dev
       URL: critterpass-dev://forecast/0190f0a0-0000-7000-8000-00000000dead
 - extendedWaitUntil:
     visible:
-      id: 'forecast-no-days'
+      id: 'forecast-missing'
     timeout: 30000
-- takeScreenshot: en-3k-7-no-trip-fresh
+- takeScreenshot: en-3k-7-missing-trip
 - runFlow: ../../onboarding/subflows/back.yaml
 - runFlow:
     when:

@@ -1,14 +1,18 @@
 /**
  * A destination's offline pack: the offer to download it ("search works offline once it's on this
- * phone"), the download's progress, and once it is here its size with a way to remove it.
+ * phone"), the download's progress, and once it is here its size with a way to remove it (asked
+ * first: the region is a large download).
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { LinearBar } from '@/ui/data/LinearBar';
+import { Sheet } from '@/ui/sheet/Sheet';
+import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -110,15 +114,48 @@ export function RegionPackCard(props: {
   readonly destinationSlug: string;
   readonly destinationName: string;
 }) {
+  const { t } = useLingui();
   const pack = useOfflinePack(props.destinationId, props.destinationSlug);
+  const [removing, setRemoving] = useState(false);
+  const place = props.destinationName;
   return (
-    <RegionPackCardView
-      destinationName={props.destinationName}
-      status={pack.status}
-      progress={pack.progress}
-      bytes={pack.bytes}
-      onDownload={pack.download}
-      onRemove={pack.remove}
-    />
+    <>
+      <RegionPackCardView
+        destinationName={place}
+        status={pack.status}
+        progress={pack.progress}
+        bytes={pack.bytes}
+        onDownload={pack.download}
+        onRemove={() => setRemoving(true)}
+      />
+      {removing ? (
+        <Sheet
+          detents={['fit']}
+          onDismiss={() => setRemoving(false)}
+          testID="explore-pack-remove-sheet"
+        >
+          <ConfirmSheet
+            mode="button"
+            title={t({
+              id: 'explore.pack.removeTitle',
+              message: `Remove ${place} from this phone?`,
+            })}
+            consequences={[
+              t({
+                id: 'explore.pack.removeLine',
+                message: 'Its map and search will need a connection until you download it again.',
+              }),
+            ]}
+            confirmLabel={t({ id: 'explore.pack.removeConfirm', message: 'Remove' })}
+            onConfirm={() => {
+              setRemoving(false);
+              pack.remove();
+            }}
+            onCancel={() => setRemoving(false)}
+            testID="explore-pack-remove-confirm"
+          />
+        </Sheet>
+      ) : null}
+    </>
   );
 }

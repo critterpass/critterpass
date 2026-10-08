@@ -255,6 +255,9 @@ describe('start a crew', () => {
     expect(await screen.findByTestId('start-crew-code')).toHaveTextContent('H4RT7N');
     await activate(screen.getByTestId('start-crew-share'));
     expect(shared[0]).toContain('https://critterpass.app/i/H4RT7N');
+    // Inviting friends is the way on: the composer takes the finished page's place.
+    await activate(screen.getByTestId('start-crew-invite'));
+    expect(router.replace).toHaveBeenCalledWith(`/crew/${payload.crew_id}/invite`);
   });
 
   it('keeps the button off until the name is valid', async () => {
@@ -298,13 +301,37 @@ describe('crew settings', () => {
     await waitFor(async () =>
       expect(await queuedPayload('set_crew_notify')).toEqual({ crew_id: BALI, level: 'off' }),
     );
+    // The code friends may hold is replaced only after a yes.
     await activate(screen.getByTestId('crew-settings-rotate'));
+    expect(api.sent.some((s) => s.path.endsWith('rotate_join_code'))).toBe(false);
+    await activate(await screen.findByText(/^replace the code$/iu));
     await waitFor(() =>
       expect(api.sent.some((s) => s.path.endsWith('rotate_join_code'))).toBe(true),
     );
     await fireEvent.press(screen.getByText('Remove Maya'));
     await activate(await screen.findByText(/^remove$/iu));
     await waitFor(() => expect(api.sent.some((s) => s.path.endsWith('remove_member'))).toBe(true));
+  });
+
+  it('keeps a refused name in the field to be fixed', async () => {
+    stack = await openTestLocalFirst({ uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderCrew(<CrewSettingsScreen />);
+    await fireEvent.changeText(await screen.findByTestId('crew-settings-name'), 'Bali Bunch');
+    await activate(screen.getByTestId('crew-settings-rename'));
+    // Queued: the typed name stays while the answer is on its way, and cannot be sent twice.
+    await waitFor(async () => expect(await queuedPayload('update_crew')).toBeDefined());
+    await waitFor(() => expect(screen.getByTestId('crew-settings-rename')).toBeDisabled());
+    expect(screen.getByTestId('crew-settings-name')).toHaveProp('value', 'Bali Bunch');
+
+    // The server says no, as the upload queue records it.
+    await stack.db.execute(
+      `INSERT INTO rejected_commands (id, cmd, code, summary, rejected_at)
+       SELECT id, cmd, 'VALIDATION_FAILED', NULL, '2026-09-28T10:00:00Z' FROM commands
+        WHERE cmd = 'update_crew'`,
+    );
+    await waitFor(() => expect(screen.getByTestId('crew-settings-rename')).not.toBeDisabled());
+    expect(screen.getByTestId('crew-settings-name')).toHaveProp('value', 'Bali Bunch');
   });
 
   it('leaves the crew after confirming, keeping the chat when asked', async () => {

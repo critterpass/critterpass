@@ -8,6 +8,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { inboxActionSchema, type InboxAction } from '@cp/domain';
+import { useMemo } from 'react';
 
 import { PENDING_ACTS } from '../data/home-queries';
 import { useLiveRows } from '../data/watch-query';
@@ -205,5 +206,7 @@ export function useInboxItems(uid: string | null, limit: number) {
     uid === null ? null : [uid, limit],
     INBOX_TABLES,
   );
-  return { items: rows.map(toInboxItem), loaded };
+  // The rows keep their identity until the inbox changes: so do the items built from them.
+  const items = useMemo(() => rows.map(toInboxItem), [rows]);
+  return { items, loaded };
 }

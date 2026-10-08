@@ -79,6 +79,8 @@ describe('seedDemoData', () => {
     setTimeout(() => void deliver(), 100);
     await expect(pending).resolves.toEqual({
       crewId: SEEDED.crew_id,
+      tripId: SEEDED.trip_id,
+      code: null,
       created: true,
       synced: true,
     });
@@ -101,6 +103,27 @@ describe('seedDemoData', () => {
     await expect(seedDemoData(withVote, 'vote')).resolves.toMatchObject({ synced: true });
   });
 
+  it('waits for the crew alone when the scenario has no trip, and answers its join code', async () => {
+    const crewOnly = {
+      crew_id: SEEDED.crew_id,
+      scenario: 'crew_with_code',
+      created: true,
+      inbox_item_ids: [],
+      code: 'K7M2QX',
+    };
+    await local.db.execute('INSERT INTO crews (id, name) VALUES (?, ?)', [
+      SEEDED.crew_id,
+      'Code Crew',
+    ]);
+    await expect(seedDemoData(deps(200, crewOnly), 'crew_with_code')).resolves.toEqual({
+      crewId: SEEDED.crew_id,
+      tripId: null,
+      code: 'K7M2QX',
+      created: true,
+      synced: true,
+    });
+  });
+
   it('reports rows that have not synced in time', async () => {
     await expect(seedDemoData(deps(200, SEEDED))).resolves.toMatchObject({ synced: false });
   });
@@ -110,5 +133,18 @@ describe('seedDemoData', () => {
     await expect(seedDemoData(deps(404, refused))).rejects.toThrow(
       'seed-demo failed: HTTP 404 NOT_FOUND',
     );
+    const noPlaces = {
+      error: {
+        code: 'STATE_INVALID',
+        message: 'State invalid',
+        retryable: false,
+        detail: { reason: 'no_editorial_places' },
+      },
+    };
+    await expect(seedDemoData(deps(409, noPlaces), 'trip_today')).rejects.toMatchObject({
+      status: 409,
+      code: 'STATE_INVALID',
+      reason: 'no_editorial_places',
+    });
   });
 });

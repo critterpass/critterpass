@@ -7,7 +7,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { Fragment } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { patterns } from '@/motion';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -18,9 +18,12 @@ import { SecondaryText } from '@/ui/cards/SecondaryText';
 import { TileGrid, type Tile } from '@/ui/cards/TileGrid';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { SearchField } from '@/ui/inputs/SearchField';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine, type GuideId } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { Skeleton } from '@/ui/states/Skeleton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -40,6 +43,8 @@ export interface HubViewProps {
   readonly articles: readonly HubArticle[];
   /** The language has no articles yet: the English ones show under a note. */
   readonly englishFallback: boolean;
+  /** The articles have been read (there may be none: offline with no copy kept). */
+  readonly articlesLoaded: boolean;
   readonly query: string;
   readonly onQuery: (text: string) => void;
   readonly searching: boolean;
@@ -95,7 +100,7 @@ export function HubView(props: HubViewProps) {
   const tiles: Tile[] = [
     {
       key: 'report',
-      title: t({ id: 'help.hub.report', message: 'Report a problem' }).toUpperCase(),
+      title: t({ id: 'help.hub.report', message: 'Report a problem' }),
       ...(props.shakeToReport
         ? { caption: t({ id: 'help.hub.reportShake', message: 'Or shake any screen' }) }
         : {}),
@@ -105,7 +110,7 @@ export function HubView(props: HubViewProps) {
     },
     {
       key: 'feedback',
-      title: t({ id: 'help.hub.feedback', message: 'Send feedback' }).toUpperCase(),
+      title: t({ id: 'help.hub.feedback', message: 'Send feedback' }),
       caption: t({ id: 'help.hub.feedbackCaption', message: 'What you love, what bugs you' }),
       icon: 'chat',
       tone: 'yellow',
@@ -113,7 +118,7 @@ export function HubView(props: HubViewProps) {
     },
     {
       key: 'suggest',
-      title: t({ id: 'help.hub.suggest', message: 'Suggest a feature' }).toUpperCase(),
+      title: t({ id: 'help.hub.suggest', message: 'Suggest a feature' }),
       ...(props.ideasToVote === null || props.ideasToVote === 0
         ? {}
         : {
@@ -128,7 +133,7 @@ export function HubView(props: HubViewProps) {
     },
     {
       key: 'rate',
-      title: t({ id: 'help.hub.rate', message: 'Rate the app' }).toUpperCase(),
+      title: t({ id: 'help.hub.rate', message: 'Rate the app' }),
       caption: t({ id: 'help.hub.rateCaption', message: 'Takes ten seconds' }),
       icon: 'heart',
       tone: 'green',
@@ -139,7 +144,7 @@ export function HubView(props: HubViewProps) {
   const rows: readonly HubArticle[] = typing ? props.results : props.articles;
   return (
     <Scaffold variant="dark" edges={['top']} testID="help-hub">
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+      <KeyboardScrollView contentContainerStyle={styles.content}>
         <BackEyebrow
           label={t({ id: 'help.hub.back', message: 'Settings' })}
           onPress={props.onBack}
@@ -197,7 +202,16 @@ export function HubView(props: HubViewProps) {
                 </Card>
               ))}
             </Stack>
-          ) : rows.length > 0 ? (
+          ) : !props.articlesLoaded ? (
+            <Skeleton preset="lines" repeat={3} />
+          ) : rows.length === 0 ? (
+            <SecondaryText testID="help-articles-none">
+              {t({
+                id: 'help.hub.articlesOffline',
+                message: 'The help centre opens once you’re back online.',
+              })}
+            </SecondaryText>
+          ) : (
             <View style={styles.group}>
               {rows.map((article) => (
                 <ListCard
@@ -208,7 +222,7 @@ export function HubView(props: HubViewProps) {
                 />
               ))}
             </View>
-          ) : null}
+          )}
           {typing && !props.searching && rows.length === 0 ? (
             <Stack gap="8" testID="help-no-results">
               <Text variant="bodySm" color={theme.semantic.text.secondary}>
@@ -239,7 +253,9 @@ export function HubView(props: HubViewProps) {
                 })
               : t({ id: 'help.hub.footer', message: 'A human replies within two days.' })}
         </Text>
-      </ScrollView>
+      </KeyboardScrollView>
+      {/* Rides the keyboard up, so the list above ends at the keyboard and its last results scroll clear. */}
+      <KeyboardFooter>{null}</KeyboardFooter>
     </Scaffold>
   );
 }

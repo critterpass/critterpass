@@ -23,6 +23,9 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { toast } from '@/motion/island-toast';
+import { useInputFont } from '@/ui/inputs/use-input-font';
+
 import type { PackChip } from './packing-model';
 import { PEN_STRIKE_MS, PenStrike } from './pen-strike';
 
@@ -131,6 +134,23 @@ export function PackChips({ chips, onToggle, onAdd, onRemove }: PackChipsProps) 
   const { t } = useLingui();
   const [adding, setAdding] = useState(false);
   const [label, setLabel] = useState('');
+  const inputFont = useInputFont();
+  // The remove dot is small and one tap: the toast gives the item back.
+  const remove = (id: string) => {
+    const gone = chips.find((chip) => chip.id === id);
+    onRemove(id);
+    if (gone === undefined) return;
+    const name = gone.label;
+    toast.show({
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast key, never copy.
+      id: `pack-removed-${id}`,
+      title: t({ id: 'trip.dayOf.pack.removed', message: `Removed ${name}` }),
+      action: {
+        label: t({ id: 'trip.dayOf.pack.undo', message: 'Undo' }),
+        onPress: () => onAdd(name),
+      },
+    });
+  };
   const submit = () => {
     const trimmed = label.trim();
     if (trimmed !== '') onAdd(trimmed);
@@ -149,7 +169,7 @@ export function PackChips({ chips, onToggle, onAdd, onRemove }: PackChipsProps) 
       ) : null}
       <Row gap="8" wrap>
         {chips.map((chip) => (
-          <Chip key={chip.id} chip={chip} onToggle={onToggle} onRemove={onRemove} />
+          <Chip key={chip.id} chip={chip} onToggle={onToggle} onRemove={remove} />
         ))}
         {adding ? (
           <View
@@ -169,7 +189,8 @@ export function PackChips({ chips, onToggle, onAdd, onRemove }: PackChipsProps) 
               placeholder={t({ id: 'trip.dayOf.pack.placeholder', message: 'Headlamp' })}
               placeholderTextColor={theme.semantic.text.secondary}
               accessibilityLabel={t({ id: 'trip.dayOf.pack.addLabel', message: 'Add to pack' })}
-              style={styles.input}
+              allowFontScaling={false}
+              style={[styles.input, inputFont]}
               testID="trip-day-pack-input"
             />
           </View>

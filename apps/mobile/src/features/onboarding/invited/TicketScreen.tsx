@@ -29,7 +29,7 @@ import { InviteTicket } from './InviteTicket';
 import { useInviteServices } from './invite-services';
 import { inviteSession } from './invite-session';
 import { acceptInvite, problemCardOf, type JoinProblem } from './join';
-import { HANDOFF_ROUTES, INVITED_ROUTES } from './routes';
+import { HANDOFF_ROUTES, INVITED_ROUTES, withoutSeatRoute } from './routes';
 import { canTakeSeat, type TicketModel } from './ticket-model';
 import { useInvitePreview } from './use-invite-preview';
 
@@ -118,7 +118,7 @@ function Footer({
       />
       <InlineAction
         label={t({ id: 'onboarding.invite.ticket.lookAround', message: 'Just look around first' })}
-        onPress={() => router.replace(HANDOFF_ROUTES.passFlow)}
+        onPress={() => router.replace(withoutSeatRoute())}
         testID="invite-look-around"
       />
     </>
@@ -217,11 +217,14 @@ export function TicketScreen() {
                   }
                 : shownProblem === 'referral'
                   ? {
-                      label: t({
-                        id: 'onboarding.invite.problem.startPass',
-                        message: 'Make my pass',
-                      }),
-                      onPress: () => router.replace(HANDOFF_ROUTES.passFlow),
+                      label:
+                        withoutSeatRoute() === HANDOFF_ROUTES.home
+                          ? t({ id: 'onboarding.invite.pass.home', message: 'Go home' })
+                          : t({
+                              id: 'onboarding.invite.problem.startPass',
+                              message: 'Make my pass',
+                            }),
+                      onPress: () => router.replace(withoutSeatRoute()),
                     }
                   : {
                       label: t({

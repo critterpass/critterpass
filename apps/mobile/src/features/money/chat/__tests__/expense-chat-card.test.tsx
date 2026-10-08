@@ -15,7 +15,7 @@ jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { router } from 'expo-router';
@@ -104,16 +104,18 @@ async function seedExpense(
     splitMode: string;
     deleted?: boolean;
     sharers?: number;
+    amountMinor?: number;
   },
 ) {
   await s.db.execute(
     `INSERT INTO expenses (id, crew_id, trip_id, payer_id, amount_minor, currency, split_mode,
        category, description, merchant, deleted_at)
-     VALUES (?, ?, 't-1', ?, 90000, 'USD', ?, 'food', ?, NULL, ?)`,
+     VALUES (?, ?, 't-1', ?, ?, 'USD', ?, 'food', ?, NULL, ?)`,
     [
       EXPENSE,
       CREW,
       input.payer,
+      input.amountMinor ?? 90000,
       input.splitMode,
       input.description,
       input.deleted === true ? '2026-09-30T11:00:00Z' : null,
@@ -140,6 +142,30 @@ describe('expense card in crew chat', () => {
     expect(router.push).toHaveBeenCalledWith({
       pathname: '/money/expense/[id]',
       params: { id: EXPENSE },
+    });
+  });
+
+  it('shows the per-head share rounded as the split does, and opens it in its own trip', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    // US$2.00 between three is 66.67 cents each: 67, as the keypad says, never a cut-down 66.
+    await seedExpense(stack, {
+      payer: MAYA,
+      description: 'water',
+      splitMode: 'equal',
+      amountMinor: 200,
+    });
+    await stack.db.execute("INSERT INTO messages (id, trip_id) VALUES ('m-1', 't-1')");
+    await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
+    expect(await screen.findByText('Split 3 ways · US$0.67 each')).toBeTruthy();
+    // The card knows the message's trip: Money may be showing another one.
+    await waitFor(async () => {
+      jest.mocked(router.push).mockClear();
+      await fireEvent.press(screen.getByTestId(`chat-expense-view-${EXPENSE}`));
+      expect(router.push).toHaveBeenCalledWith({
+        pathname: '/money/expense/[id]',
+        params: { id: EXPENSE, trip: 't-1' },
+      });
     });
   });
 

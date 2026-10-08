@@ -100,12 +100,12 @@ msgstr "grr"
 msgid "help.feedback.topic.guideChat"
 msgstr "แชตกับไกด์"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.back"
-msgstr "ช่วยเหลือ"
-
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
+msgstr "ช่วยเหลือ"
+
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "help.ideas.back"
 msgstr "ช่วยเหลือ"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
@@ -119,6 +119,10 @@ msgstr "ช่วยเหลือและความคิดเห็น"
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.centre"
 msgstr "ศูนย์ช่วยเหลือ"
+
+#: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
+msgid "help.shake.hidden"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
@@ -343,6 +347,10 @@ msgstr "รูปนี้ใหญ่เกินกว่าจะส่งไ
 msgid "help.ideas.offline"
 msgstr "บอร์ดจะเปิดเมื่อคุณกลับมาออนไลน์"
 
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.articlesOffline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "บทความนี้ยังไม่มา"
@@ -429,6 +437,10 @@ msgstr "ข้อความของคุณ"
 #: ../../apps/mobile/src/features/help/feedback/commands.ts
 msgid "help.queued.feedback"
 msgstr "ข้อความของคุณถึงทีมงาน"
+
+#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+msgid "help.feedback.notSaved"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"

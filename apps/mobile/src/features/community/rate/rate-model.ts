@@ -23,6 +23,14 @@ export function verdictFor(card: RatingCard, verdict: PlaceVerdict, tip: string)
     : { poi_id: card.poi_id, verdict, tip: text };
 }
 
+/** What the card on screen starts with: its earlier answer when stepping back to correct it. */
+export function draftFor(card: RatingCard | undefined): {
+  readonly verdict: PlaceVerdict | null;
+  readonly tip: string;
+} {
+  return { verdict: card?.verdict ?? null, tip: card?.tip ?? '' };
+}
+
 /** The cards with the local answers applied, so a resumed or re-read stack shows them at once. */
 export function withAnswers(
   cards: readonly RatingCard[],

@@ -62,6 +62,10 @@ msgstr ""
 msgid "you.profile.stamp.inDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.earnedCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.currency.homeChosenLine"
 msgstr ""
@@ -82,6 +86,10 @@ msgstr ""
 msgid "you.settings.languageBoth"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.lockedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.tripCoOrganiser"
 msgstr ""
@@ -98,6 +106,10 @@ msgstr ""
 msgid "you.profile.crew.today"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.counts"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.found"
 msgstr ""
@@ -112,6 +124,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.voicesLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.dnd"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -132,6 +148,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 msgid "you.edit.languages.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.fullScreen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
@@ -155,8 +175,20 @@ msgstr ""
 msgid "you.settings.app"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.appIcon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 msgid "you.language.appLanguage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.appearance"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -289,6 +321,10 @@ msgstr ""
 msgid "you.avatar.formLabel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.footer"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.voices"
 msgstr ""
@@ -305,7 +341,11 @@ msgstr ""
 msgid "you.sound.theme.chava"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.dark"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.deleteAccount"
 msgstr ""
 
@@ -333,7 +373,7 @@ msgstr ""
 msgid "you.avatar.done"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.downloadData"
 msgstr ""
 
@@ -347,6 +387,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.musicLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.earned"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.earnedTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -394,6 +442,10 @@ msgstr ""
 msgid "you.delete.keeps.expenses"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.face"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.sardi"
 msgstr ""
@@ -412,6 +464,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
 msgid "you.settings.mailboxForward"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.free"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -534,6 +590,10 @@ msgstr ""
 msgid "you.profile.howYouTravel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.inUse"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.id"
 msgstr ""
@@ -548,6 +608,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.available"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -611,6 +675,10 @@ msgstr ""
 msgid "you.settings.leaveByAlarms"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.exactAlarm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
 msgstr ""
@@ -623,12 +691,24 @@ msgstr ""
 msgid "you.edit.username.chars"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.light"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.promoted"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.mode.local"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.locked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
@@ -673,12 +753,20 @@ msgstr ""
 msgid "you.edit.name"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
+msgid "you.settings.needsConnection"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.budgetMaxLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.new"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -704,6 +792,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.notifications"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
+msgid "you.androidPermissions.notifications"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
@@ -755,6 +847,14 @@ msgstr ""
 msgid "you.profile.backPass"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/lapse-revert.tsx
+msgid "you.appIcon.lapsed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.billedPlay"
 msgstr ""
@@ -765,6 +865,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.planLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.passport"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
@@ -792,6 +900,10 @@ msgid "you.currency.homeNone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.appIconLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideLockscreenLine"
 msgstr ""
 
@@ -814,6 +926,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.playMusic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.pon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -872,8 +988,16 @@ msgstr ""
 msgid "you.export.ready"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeConfirm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
@@ -882,6 +1006,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.retake"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.styleNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.sardi"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
@@ -932,6 +1064,10 @@ msgstr ""
 msgid "you.language.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.back"
 msgstr ""
@@ -948,6 +1084,14 @@ msgstr ""
 msgid "you.delete.owedLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.shakeToReportLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.shakeToReport"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShare"
 msgstr ""
@@ -956,7 +1100,7 @@ msgstr ""
 msgid "you.currency.showIn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.signOut"
 msgstr ""
 
@@ -1050,6 +1194,10 @@ msgstr ""
 msgid "you.settings.feedbackLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.style"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.idea"
 msgstr ""
@@ -1064,6 +1212,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.ideaLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
+msgid "you.appIcon.temple"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -1098,8 +1250,20 @@ msgstr ""
 msgid "you.delete.keeps"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.appearanceLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.stickersLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.widgetsLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
@@ -1125,6 +1289,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.row"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+msgid "you.appIcon.tinted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
@@ -1214,6 +1382,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/widgets-row.ts
+msgid "you.settings.widgets"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts

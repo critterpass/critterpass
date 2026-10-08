@@ -4,10 +4,12 @@
  * the team's note) and + SUGGEST AN IDEA held at the foot. The traveller's own ideas still in
  * review show under NEW as "Under review" without a vote box.
  */
+import { upper } from '@cp/i18n';
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -19,6 +21,7 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -99,6 +102,7 @@ function facesLine(names: readonly string[], t: ReturnType<typeof useLingui>['t'
 
 export function BoardView(props: BoardViewProps) {
   const { t } = useLingui();
+  const locale = useLocale();
   const styles = useStyles();
   const theme = useTheme();
   const chip = useStatusChip();
@@ -112,10 +116,13 @@ export function BoardView(props: BoardViewProps) {
             testID="help-ideas-back"
           />
           <InfoPill testID="help-ideas-votes-left">
-            {t({
-              id: 'help.ideas.votesLeft',
-              message: plural(props.votesLeft, { one: '# vote left', other: '# votes left' }),
-            }).toUpperCase()}
+            {upper(
+              t({
+                id: 'help.ideas.votesLeft',
+                message: plural(props.votesLeft, { one: '# vote left', other: '# votes left' }),
+              }),
+              locale,
+            )}
           </InfoPill>
         </Row>
         <Text variant="displayXl" accessibilityRole="header">
@@ -139,7 +146,9 @@ export function BoardView(props: BoardViewProps) {
               message: 'The board opens once you’re back online.',
             })}
           </SecondaryText>
-        ) : props.loaded && props.rows.length === 0 ? (
+        ) : !props.loaded ? (
+          <Skeleton preset="card" repeat={3} />
+        ) : props.rows.length === 0 ? (
           <SecondaryText>
             {props.tab === 'shipped'
               ? t({ id: 'help.ideas.noneShipped', message: 'Nothing shipped from here yet.' })
@@ -164,9 +173,9 @@ export function BoardView(props: BoardViewProps) {
                   )}
                   <View style={styles.body}>
                     <Stack gap="6">
-                      <Text variant="rowTitle">{row.title.toUpperCase()}</Text>
+                      <Text variant="rowTitle">{upper(row.title, locale)}</Text>
                       <Row gap="8" wrap>
-                        <StatusChip status={status} label={label.toUpperCase()} />
+                        <StatusChip status={status} label={upper(label, locale)} />
                         {row.faces.length > 0 ? (
                           <Row gap="6">
                             <AvatarStack

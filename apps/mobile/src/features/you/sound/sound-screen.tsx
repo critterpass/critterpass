@@ -4,14 +4,15 @@
  * sample at that level, tapping a theme card crossfades to it (700 ms) and pins it. Whatever this
  * screen started stops when it closes.
  */
-import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
+import { goBackOr } from '@/lib/navigation/back';
 import { useActiveGuide } from '@/lib/navigation/active-guide';
 import { useFeedbackPrefs } from '@/motion/feedback/prefs';
 import { music, musicEngine } from '@/motion/music';
 import { guidesOfSameCountry } from '@/ui/avatar/guides';
 
+import { YOU_ROUTES } from '../routes';
 import { SoundView } from './sound-view';
 import { themeToPlay, useThemeChoice } from './theme-choice';
 
@@ -90,7 +91,7 @@ export function SoundScreen() {
           follow();
           if (followed !== undefined) playTheme(followed);
         },
-        onBack: () => router.back(),
+        onBack: () => goBackOr(YOU_ROUTES.settings),
       }}
     />
   );

@@ -476,6 +476,10 @@ msgstr ""
 msgid "plan.tripMap.label.stop"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.suggested"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.swipe"
 msgstr ""

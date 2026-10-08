@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Once a trip is on, two pages can rise over the screen a flow is on: the trip's welcome (its egg)
+# and the visit history offer. Each is put away when it is up, so the next step finds its screen.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd

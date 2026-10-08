@@ -345,7 +345,7 @@ msgstr "Đàn bầu lo-fi"
 msgid "you.appIcon.dark"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.deleteAccount"
 msgstr "Xoá tài khoản"
 
@@ -373,7 +373,7 @@ msgstr "Xong"
 msgid "you.avatar.done"
 msgstr "Xong"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.downloadData"
 msgstr "Tải dữ liệu của tôi"
 
@@ -610,6 +610,10 @@ msgstr "Chữ cái đầu"
 msgid "you.edit.username.available"
 msgstr "Là của bạn nếu bạn lưu."
 
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeLine"
+msgstr "Con dấu của chuyến này sẽ rời khỏi hộ chiếu. Bạn có thể thêm lại chuyến đi sau."
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.ja"
 msgstr "Tiếng Nhật"
@@ -749,6 +753,10 @@ msgstr "Tắt mọi âm thanh 22:00–07:00 và trong đền chùa"
 msgid "you.edit.name"
 msgstr "Tên"
 
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
+msgid "you.settings.needsConnection"
+msgstr "Cần có kết nối"
+
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.offline"
 msgstr "Cần kết nối mạng. Thử lại sau giây lát."
@@ -858,6 +866,10 @@ msgstr "Pass+ được tính tiền qua App Store. Xoá tài khoản không hu�
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.planLabel"
+msgstr "Pass+, gói của bạn"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
@@ -976,9 +988,17 @@ msgstr "Tỷ giá ngày {day}"
 msgid "you.export.ready"
 msgstr "Tải về được đến {until}"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeConfirm"
+msgstr "Xoá"
+
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.remove"
 msgstr "Xoá chuyến này"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
+msgid "you.pastTrip.removeTitle"
+msgstr "Xoá chuyến đi này?"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restore"
@@ -1080,7 +1100,7 @@ msgstr "Chia sẻ vị trí khi mở Trợ giúp"
 msgid "you.currency.showIn"
 msgstr "Hiện giá theo"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/account-rows.ts
 msgid "you.settings.signOut"
 msgstr "Đăng xuất"
 

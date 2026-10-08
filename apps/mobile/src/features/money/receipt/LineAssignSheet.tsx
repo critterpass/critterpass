@@ -166,6 +166,7 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
                     max={5}
                     members={row.assignees.map((member) => ({
                       key: member.userId,
+                      uid: member.userId,
                       name: member.name,
                       joinIndex: member.joinIndex,
                     }))}

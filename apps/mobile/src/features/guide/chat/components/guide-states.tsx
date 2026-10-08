@@ -8,11 +8,14 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { Row, Stack, Text, useTheme } from '@/ui';
+import { Row, Stack, Text } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
-import { ChatMessage } from '@/ui/chat/ChatMessage';
 import { QuickActionChip } from '@/ui/chips/QuickActionChip';
+
+import type { WaitingQuestion } from '../data/guide-question-queue';
+import { TURN_STOPPED } from '../data/turn-state';
+import { QuestionBubble } from './question-bubble';
 
 export function EmptyThread({
   guideName,
@@ -40,10 +43,15 @@ export function EmptyThread({
   return (
     <Stack gap="12" testID="guide-empty">
       <Text variant="voice" color={color}>
-        {t({
-          id: 'guide.empty.greeting',
-          message: `Hi, I'm ${guideName}. Ask me anything about the trip, big or small.`,
-        })}
+        {hasTrip
+          ? t({
+              id: 'guide.empty.greeting',
+              message: `Hi, I'm ${guideName}. Ask me anything about the trip, big or small.`,
+            })
+          : t({
+              id: 'guide.empty.greetingNoTrip',
+              message: `Hi, I'm ${guideName}. Ask me where to go, when, or how to get a trip started.`,
+            })}
       </Text>
       <Row gap="8" wrap>
         {prompts.map((prompt, index) => (
@@ -76,6 +84,11 @@ export function useFailureLine(code: string | null): string {
       return t({
         id: 'guide.error.cannotCheck',
         message: "I couldn't check that just now, so I won't guess.",
+      });
+    case TURN_STOPPED:
+      return t({
+        id: 'guide.error.stopped',
+        message: 'Stopped there. Ask again whenever you like.',
       });
     case 'MODERATION_BLOCKED':
       return t({
@@ -128,21 +141,15 @@ export function WaitingQuestions({
   questions,
   color,
 }: {
-  readonly questions: readonly string[];
+  readonly questions: readonly WaitingQuestion[];
   readonly color: string;
 }) {
   const { t } = useLingui();
-  const theme = useTheme();
   if (questions.length === 0) return null;
   return (
     <Stack gap="8" testID="guide-offline-queue">
-      {questions.map((question, index) => (
-        <Stack key={`${index}-${question}`} gap="4">
-          <ChatMessage kind="theirs" text={question} />
-          <Text variant="caption" color={theme.semantic.text.tertiary}>
-            {t({ id: 'guide.offline.waiting', message: 'Waiting for a connection' })}
-          </Text>
-        </Stack>
+      {questions.map((question) => (
+        <QuestionBubble key={question.id} text={question.text} author={null} waiting />
       ))}
       <Text variant="voice" color={color}>
         {t({ id: 'guide.offline.line', message: "I'll answer when you're back online." })}

@@ -99,6 +99,7 @@ export function useTripDays(plan: TripPlan): {
         polls: polls.rows,
         issues: [...check.fixes, ...check.know],
         personal,
+        suggested: plan.proposed,
         areas,
       }),
     [plan, polls.rows, check.fixes, check.know, personal, areas],

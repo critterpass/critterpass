@@ -4,34 +4,34 @@
  * Tokek ceremony when your sticker for this trip arrives.
  */
 import { payoutKindsFor, type PayoutKind } from '@cp/domain';
-import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncStatus } from '@/data/status/use-sync-status';
-import { feedback } from '@/motion';
-import { toast } from '@/motion/island-toast';
+import { useCommandFeedback } from '@/motion/island-toast';
 
-import { MoneyLoading } from '../balances/BalancesScreen';
 import { buildBalances } from '../balances/model';
+import { MoneyNoTripScreen, MoneyScreenLoading } from '../components/screen-states';
 import { nudgePaymentCommand, remindAllPaymentsCommand } from '../data/commands';
 import { useSelectedTrip } from '../data/selected-trip';
 import { useMoneyServices } from '../data/services';
 import { useMoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
 import { MONEY_ROUTES, paymentRoute } from '../routes';
+import { useSettleCopy } from './command-copy';
 import { canRemind, openCount, planKey, settleRows, type SettleRowModel } from './model';
 import { SettleList } from './SettleList';
 import { useSettledCeremony } from './use-settled-ceremony';
 import { WalletGuideProvider } from '@/features/bookings';
 
-export function SettleScreen() {
-  const ctx = useMoneyContext(useSelectedTrip());
+export function SettleScreen({ tripId: routeTripId = null }: { readonly tripId?: string | null }) {
+  const ctx = useMoneyContext(useSelectedTrip(), routeTripId);
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
   const services = useMoneyServices();
   const sync = useSyncStatus();
-  const { t } = useLingui();
+  const { report } = useCommandFeedback();
+  const copy = useSettleCopy();
   const nudge = useCommand(nudgePaymentCommand);
   const remind = useCommand(remindAllPaymentsCommand);
   const [myKinds, setMyKinds] = useState<readonly PayoutKind[]>([]);
@@ -72,39 +72,21 @@ export function SettleScreen() {
     }
   }, [ctx, rows, currency]);
 
-  if (ctx.status === 'loading' || !rows.loaded || ctx.trip === null) return <MoneyLoading />;
+  if (ctx.status === 'loading' || (ctx.status === 'ready' && !rows.loaded)) {
+    return <MoneyScreenLoading />;
+  }
+  if (ctx.trip === null) return <MoneyNoTripScreen crew={ctx.crew !== null} />;
   const tripId = ctx.trip.id;
 
   async function onNudge(row: SettleRowModel) {
-    if (row.paymentId === null) return;
+    if (row.paymentId === null || nudge.pending) return;
     const who = ctx.members.find((member) => member.userId === row.fromId)?.name ?? '';
-    const result = await nudge.send({ payment_id: row.paymentId });
-    if (result.kind === 'applied') {
-      feedback.emit('success');
-      toast.show({
-        id: 'money-nudged',
-        title: t({ id: 'money.settle.nudged', message: `Nudged ${who}. Gently.` }),
-      });
-    } else {
-      toast.show({
-        id: 'money-nudged',
-        title: t({ id: 'money.settle.nudgeLater', message: 'Already nudged today. Try tomorrow.' }),
-      });
-    }
+    report(await nudge.send({ payment_id: row.paymentId }), copy('nudge', who));
   }
 
   async function onRemind() {
-    const result = await remind.send({ trip_id: tripId });
-    toast.show({
-      id: 'money-remind',
-      title:
-        result.kind === 'applied'
-          ? t({ id: 'money.settle.reminded', message: 'Reminded everyone who owes.' })
-          : t({
-              id: 'money.settle.remindLater',
-              message: 'Everyone got a reminder today already.',
-            }),
-    });
+    if (remind.pending) return;
+    report(await remind.send({ trip_id: tripId }), copy('remind'));
   }
 
   const onKind = () => router.push(MONEY_ROUTES.payoutMethods);
@@ -125,7 +107,9 @@ export function SettleScreen() {
         reminding={remind.pending}
         onKind={onKind}
         onNudge={(row) => void onNudge(row)}
-        onRow={(row) => router.push(paymentRoute(row.paymentId ?? planKey(row.fromId, row.toId)))}
+        onRow={(row) =>
+          router.push(paymentRoute(row.paymentId ?? planKey(row.fromId, row.toId), routeTripId))
+        }
         onRemind={() => void onRemind()}
       />
     </WalletGuideProvider>

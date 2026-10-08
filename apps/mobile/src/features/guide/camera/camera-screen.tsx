@@ -6,23 +6,29 @@
  * without a working camera says so and points back to typing.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- api paths, wire values and design ids, never copy. */
-import { router, useIsFocused } from 'expo-router';
+import { router } from 'expo-router';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Image, Linking, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
+import type { GuideThreadMode } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { goBackOr } from '@/lib/navigation/back';
+import { usePermission } from '@/lib/permissions';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/avatar/guides';
+import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { guideAvatarId } from '../chat/components/guide-header';
 import { GuideStreamError } from '../chat/data/guide-frames';
+import { handToSheet } from '../chat/data/handed-question';
 import { streamGuide } from '../chat/data/guide-stream';
 import { useGuideContext } from '../chat/data/use-guide-context';
 import { CameraView, type MenuFollowUp } from './camera-view';
+import { MenuCamera } from './menu-camera';
 import { showModeHref } from '../phrases/phrase-card';
 import { languagePair, useLanguageNames } from './menu-language';
 import { MenuOrderCard } from './menu-order-card';
@@ -45,7 +51,7 @@ import {
   type MenuScanPorts,
   type RecognisedStill,
 } from './menu-scan-controller';
-import { menuCameraModule, type VisionCamera } from './vision-camera';
+import { menuCameraModule } from './vision-camera';
 
 /** `POST /v1/camera/menu` as an event stream: the dishes as they arrive, closed by `done`. */
 async function readMenuOnServer(
@@ -70,62 +76,31 @@ async function readMenuOnServer(
   return fold.result();
 }
 
-/** The back camera with a photo output; hands the screen a way to take one still. */
-function MenuCamera({
-  camera,
-  onCapture,
-  onFailed,
-}: {
-  readonly camera: VisionCamera;
-  readonly onCapture: (capture: (() => Promise<string | null>) | null) => void;
-  readonly onFailed: (issue: 'no_camera' | 'camera_denied') => void;
-}) {
-  const focused = useIsFocused();
-  const { hasPermission, canRequestPermission, requestPermission } = camera.useCameraPermission();
-  const device = camera.useCameraDevice('back');
-  const photo = camera.usePhotoOutput({
-    targetResolution: camera.CommonResolutions.FHD_4_3,
-    qualityPrioritization: 'speed',
-  });
-  useEffect(() => {
-    // Asked here, in context: the person has just opened the menu camera.
-    if (canRequestPermission) void requestPermission().catch(() => onFailed('camera_denied'));
-  }, [canRequestPermission, requestPermission, onFailed]);
-  const refused = !hasPermission && !canRequestPermission;
-  useEffect(() => {
-    if (refused) onFailed('camera_denied');
-  }, [refused, onFailed]);
-  useEffect(() => {
-    onCapture(async () => {
-      const file = await photo.capturePhotoToFile({ enableShutterSound: false }, {});
-      return file.filePath.startsWith('file://') ? file.filePath : `file://${file.filePath}`;
-    });
-    return () => onCapture(null);
-  }, [photo, onCapture]);
-  if (!hasPermission || device === undefined) return null;
-  return (
-    <camera.Camera
-      style={StyleSheet.absoluteFill}
-      device={device}
-      isActive={focused}
-      outputs={[photo]}
-      onError={() => onFailed('no_camera')}
-    />
-  );
-}
-
 export interface CameraScreenProps {
   readonly tripId: string | null;
+  /** GROUP or JUST ME of the sheet the camera was opened from; null when it was not. */
+  readonly mode?: GuideThreadMode | null;
+  /** Opened from the guide sheet, which is still open underneath. */
+  readonly fromSheet?: boolean;
   /** The phone's text recognition; null in a build without it. */
   readonly recognize: ((uri: string) => Promise<RecognisedStill>) | null;
 }
 
 export function CameraScreen(props: CameraScreenProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <OpenCameraScreen {...props} />;
+  return localFirst === null ? (
+    <SessionWaiting testID="guide-camera-waiting" />
+  ) : (
+    <OpenCameraScreen {...props} />
+  );
 }
 
-function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
+function OpenCameraScreen({
+  tripId,
+  mode = null,
+  fromSheet = false,
+  recognize,
+}: CameraScreenProps) {
   const { t, i18n } = useLingui();
   const names = useLanguageNames();
   const [order, setOrder] = useState<MenuOrder | null>(null);
@@ -160,6 +135,18 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
     };
   }, [camera, recognize]);
 
+  // Allowed in Settings while the screen was open: the camera comes back without reopening it.
+  const permission = usePermission('camera');
+  const allowed = permission.report?.status === 'granted';
+  const issue = useRef(state.issue);
+  useEffect(() => {
+    issue.current = state.issue;
+  }, [state.issue]);
+  useEffect(() => {
+    // Once per grant: a camera that still cannot start says so again and stays said.
+    if (allowed && issue.current === 'camera_denied') controller.current?.retake();
+  }, [allowed]);
+
   const onCapture = useCallback((next: (() => Promise<string | null>) | null) => {
     capture.current = next;
   }, []);
@@ -172,15 +159,19 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
   const dishes = dishList(stickers);
   const reading = state.reading;
   const tripParams = trip === null ? {} : { tripId: trip.tripId };
+  const modeParams = mode === null ? {} : { mode };
   const askGuide = (question: string) => {
-    const sheet = hrefFor('3j-1', {
-      ...tripParams,
-      q: t({ id: 'guide.camera.askWithMenu', message: `${question} The menu: ${dishes}` }),
-    });
-    if (sheet !== undefined) router.push(sheet);
+    const q = t({ id: 'guide.camera.askWithMenu', message: `${question} The menu: ${dishes}` });
+    // The sheet the camera was opened from takes the question: back to it, not a second sheet.
+    if (fromSheet && handToSheet(q)) {
+      goBackOr();
+      return;
+    }
+    const sheet = hrefFor('3j-1', { ...tripParams, ...modeParams, q });
+    if (sheet !== undefined) router.replace(sheet);
   };
   const split = trip === null ? undefined : hrefFor('3i-2', tripParams);
-  const voice = hrefFor('3j-2', tripParams);
+  const voice = hrefFor('3j-2', { ...tripParams, ...modeParams });
   const crewSize = trip?.crewSize ?? 1;
   const leastSpicy = t({ id: 'guide.camera.leastSpicy', message: 'Least spicy?' });
   const orderFor =
@@ -197,7 +188,12 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
   const splitOrder =
     typeof split !== 'string'
       ? undefined
-      : () => router.push({ pathname: split, params: { name: orderExpenseName(ordered) } });
+      : () =>
+          router.push({
+            pathname: split,
+            // The expense is for the trip whose menu this is.
+            params: { ...tripParams, name: orderExpenseName(ordered) },
+          });
   const followUps: MenuFollowUp[] = [
     {
       id: 'least-spicy',
@@ -214,7 +210,10 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
           {
             id: 'split',
             label: t({ id: 'guide.camera.split', message: 'Split the bill' }),
-            onPress: () => router.push(split),
+            onPress: () =>
+              router.push(
+                typeof split === 'string' ? { pathname: split, params: tripParams } : split,
+              ),
           },
         ]),
   ];
@@ -274,8 +273,8 @@ function OpenCameraScreen({ tripId, recognize }: CameraScreenProps) {
       }}
       onAsk={askGuide}
       {...(voice === undefined ? {} : { onMic: () => router.push(voice) })}
-      onClose={() => router.back()}
-      onOpenSettings={() => void Linking.openSettings()}
+      onClose={() => goBackOr()}
+      onOpenSettings={() => void permission.openSettings()}
     />
   );
 }

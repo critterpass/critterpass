@@ -22,6 +22,18 @@ export type DropOutcome =
   | { readonly kind: 'refused'; readonly refusal: Refusal }
   | { readonly kind: 'sent'; readonly outcome: EditOutcome };
 
+/**
+ * What the timeline does with the lifted stop: it stays in its new place only when the plan took
+ * the order (an organiser's edit, applied or queued). A member's suggestion leaves the plan as it
+ * was, so the stop goes back to where the plan has it, as does an order that was refused or could
+ * not be sent.
+ */
+export function dropResult(dropped: DropOutcome): 'moved' | 'sent' | 'back' {
+  if (dropped.kind !== 'sent') return 'back';
+  if (dropped.outcome.kind === 'applied') return 'moved';
+  return dropped.outcome.kind === 'proposed' ? 'sent' : 'back';
+}
+
 export interface ReorderInput {
   /** The day's stops in their order. */
   readonly stops: readonly DayItem[];

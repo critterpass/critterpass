@@ -73,6 +73,8 @@ export interface BoardViewProps {
   readonly onBoard: () => void;
   readonly onMaybe: () => void;
   readonly onOut: () => void;
+  /** Leaves the pass without answering, back to the member's version. */
+  readonly onBack: () => void;
   readonly onDone: () => void;
 }
 
@@ -224,6 +226,13 @@ export function BoardView(props: BoardViewProps) {
                 label={t({ id: 'proposal.board.out', message: 'I can’t make it' })}
                 onPress={props.onOut}
                 testID="board-out"
+              />
+            </View>
+            <View style={styles.links}>
+              <TextLink
+                label={t({ id: 'proposal.board.done', message: 'Back to the proposal' })}
+                onPress={props.onBack}
+                testID="board-back"
               />
             </View>
           </>

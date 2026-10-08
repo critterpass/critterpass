@@ -229,11 +229,3 @@ export function announceChange(
     },
   });
 }
-
-/**
- * Kept for the screens that still call it after `submit`: the editor says how an edit went itself
- * (`announceChange`), so this adds nothing.
- */
-export function announceEdit(_outcome: EditOutcome): void {
-  // The editor has already announced it.
-}

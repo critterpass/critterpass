@@ -12,6 +12,10 @@ msgstr ""
 msgid "explore.saved.unknown"
 msgstr "{0, plural, one {# more saved place shows once its destination has been opened on this phone.} other {# more saved places show once their destinations have been opened on this phone.}}"
 
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.removedNamed"
+msgstr "{name} removed from Saved"
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.newList"
 msgstr "+ New list"
@@ -29,8 +33,13 @@ msgid "explore.saved.create"
 msgstr "Create list"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
 msgid "explore.saved.deleteList"
 msgstr "Delete list"
+
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.deleteTitle"
+msgstr "Delete the list \"{deletingName}\"?"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.destination"
@@ -52,6 +61,10 @@ msgstr "Explore"
 msgid "explore.saved.explore"
 msgstr "Explore"
 
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.deleteKeeps"
+msgstr "Its places stay in Saved."
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.move"
 msgstr "Move"
@@ -71,6 +84,10 @@ msgstr "Nothing saved yet"
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.remove"
 msgstr "Remove"
+
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.removed"
+msgstr "Removed from Saved"
 
 #: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.rename"
@@ -95,6 +112,10 @@ msgstr "Saved"
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyLine"
 msgstr "Tap the heart on a place or a destination and it lands here."
+
+#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
+msgid "explore.saved.undo"
+msgstr "Undo"
 
 #: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.nameTaken"

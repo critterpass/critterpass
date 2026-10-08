@@ -18,6 +18,7 @@ import { GuideSheetView, type QuickAction } from '../components/guide-sheet-view
 import type { PlanCardModel } from '../data/use-plan-card';
 import type { GuideTripContext } from '../data/use-guide-context';
 import type { SavedGuideMessage } from '../data/use-guide-thread';
+import type { WaitingQuestion } from '../data/guide-question-queue';
 import type { LiveTurn } from '../data/use-guide-turn';
 import type { GuideFrame } from '../data/guide-frames';
 import { applyTurnFrame, THINKING, type TurnState } from '../data/turn-state';
@@ -102,8 +103,9 @@ export interface LabSheetOptions {
   readonly mode?: 'group' | 'private';
   readonly guide?: { slug: string; name: string };
   readonly messages?: readonly SavedGuideMessage[];
+  readonly onEarlier?: () => void;
   readonly live?: LiveTurn | null;
-  readonly waiting?: readonly string[];
+  readonly waiting?: readonly WaitingQuestion[];
   readonly chip?: ReactNode;
   readonly footer?: ReactNode;
   readonly composer?: ReactNode;
@@ -119,6 +121,8 @@ export function LabSheet(options: LabSheetOptions) {
   const quick = useLabQuickActions();
   const mode = options.mode ?? 'group';
   const modeLine = useModeLine(mode, options.trip ?? LAB_TRIP);
+  const phase = options.live?.state.phase;
+  const busy = phase === 'thinking' || phase === 'streaming';
   return (
     <GuideSheetView
       header={
@@ -137,6 +141,7 @@ export function LabSheet(options: LabSheetOptions) {
           color={color}
           hasTrip
           messages={options.messages ?? []}
+          {...(options.onEarlier === undefined ? {} : { onEarlier: options.onEarlier })}
           names={LAB_NAMES}
           me={LAB_ME}
           live={options.live ?? null}
@@ -156,12 +161,13 @@ export function LabSheet(options: LabSheetOptions) {
           footer={options.footer}
         />
       }
+      topMessageId={options.messages?.[0]?.id ?? null}
+      {...(busy ? { stop: { label: 'Stop the answer', onPress: noop } } : {})}
       quickActions={options.quick === false ? [] : quick}
       {...(options.composer === undefined ? {} : { composerSlot: options.composer })}
       draft=""
       onDraft={noop}
       onSend={noop}
-      onAttach={noop}
       onMic={noop}
     />
   );
@@ -240,7 +246,10 @@ export const CHAT_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   'chat-offline': () => (
-    <LabSheet messages={RAIN_SAVED} waiting={['Is the cooking class still on if it floods?']} />
+    <LabSheet
+      messages={RAIN_SAVED}
+      waiting={[{ id: 'waiting-1', text: 'Is the cooking class still on if it floods?' }]}
+    />
   ),
   'chat-streamed-tool': () => <Replay question={PLACES_QUESTION} frames={PLACES_FRAMES} />,
   'chat-streamed-list': () => <Replay question={LIST_QUESTION} frames={LIST_FRAMES} />,

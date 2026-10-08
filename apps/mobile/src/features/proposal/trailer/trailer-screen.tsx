@@ -82,7 +82,14 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
   }, [empty, proposalId]);
 
   if (proposal == null || trip == null || version === null || version.slides.length === 0) {
-    return <ProposalLoading testID="trailer-loading" />;
+    return (
+      <ProposalLoading
+        // No version to play counts too: the trailer is one person's slides.
+        missing={proposal === null || trip === null || (trip != null && version === null)}
+        fallback={proposalRoutes.open(proposalId)}
+        testID="trailer-loading"
+      />
+    );
   }
   const info = guideSticker(trip.guide);
   /** "Day 2 · 06:00" for a slide about a plan stop; the progress segments already say which slide. */

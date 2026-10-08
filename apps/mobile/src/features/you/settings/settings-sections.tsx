@@ -11,6 +11,7 @@ import { useMapsAppRow, type MapsApp } from '@/features/go';
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Segmented } from '@/ui/inputs/Segmented';
 
+import { useAccountRows, type AccountRowsState } from './account-rows';
 import { helpRows } from './help-rows';
 import { PINGS_ROW_LINE, PINGS_ROW_TITLE } from '../ping-settings/copy';
 import type { CrewChatMode } from '../ping-settings/ping-prefs';
@@ -44,8 +45,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly storeName: string;
   /** Ideas open to votes on the idea board, from its synced rows; null until known. */
   readonly ideasToVote: number | null;
-  /** The server answered for this account: only then are the account rows offered. */
-  readonly account: boolean;
+  /** How the ACCOUNT rows are drawn (`account-rows`). */
+  readonly account: AccountRowsState;
   /** Download my data: its line, and whether a tap does something now. */
   readonly dataExport: { readonly line: string; readonly enabled: boolean };
 }
@@ -111,6 +112,7 @@ export function useSettingsSections(
     onChange,
   });
 
+  const accountRows = useAccountRows(values.account, values.dataExport, handlers);
   const rows: Readonly<Record<string, SettingsRow | null>> = {
     chattiness: {
       key: 'chattiness',
@@ -270,34 +272,7 @@ export function useSettingsSections(
         : null,
     widgets: widgetsRow(handlers.onWidgets),
     ...helpRows(values, handlers),
-    'download-data': values.account
-      ? {
-          key: 'download-data',
-          kind: 'value',
-          title: t({ id: 'you.settings.downloadData', message: 'Download my data' }),
-          subtitle: values.dataExport.line,
-          value: '',
-          disabled: !values.dataExport.enabled,
-          onPress: handlers.onDataExport,
-        }
-      : null,
-    'sign-out': values.account
-      ? {
-          key: 'sign-out',
-          kind: 'value',
-          title: t({ id: 'you.settings.signOut', message: 'Sign out' }),
-          value: '',
-          onPress: handlers.onSignOut,
-        }
-      : null,
-    'delete-account': values.account
-      ? {
-          key: 'delete-account',
-          kind: 'destructive',
-          title: t({ id: 'you.settings.deleteAccount', message: 'Delete account' }),
-          onPress: handlers.onDeleteAccount,
-        }
-      : null,
+    ...accountRows,
   };
 
   const titles: Readonly<Record<SettingsSectionId, string>> = {

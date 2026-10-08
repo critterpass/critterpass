@@ -5,6 +5,7 @@
  * the queue and the item is still open). Mark all read never resolves anything. An item the server
  * settles itself (a proposal, placed ideas) only opens its screen and stays until done there.
  */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -98,7 +99,10 @@ export function useInboxActions(): InboxActions {
           stillNeedYou > 0
             ? t({
                 id: 'home.inbox.markedRead',
-                message: `Marked read. The ${stillNeedYou} on top still need you.`,
+                message: plural(stillNeedYou, {
+                  one: 'Marked read. The one on top still needs you.',
+                  other: 'Marked read. The # on top still need you.',
+                }),
               })
             : t({ id: 'home.inbox.markedReadAll', message: 'Marked read.' }),
       });

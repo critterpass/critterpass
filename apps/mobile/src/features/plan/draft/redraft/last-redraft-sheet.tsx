@@ -6,6 +6,7 @@ import { useDraftTrip } from '../data/draft-trip';
 import { redraftBoost } from '../boost-slot';
 import { LastRedraftView } from './last-redraft-interstitial';
 import { outcomeLine } from './outcome-copy';
+import { DraftSheetWaiting } from './sheet-waiting';
 import { useSendRedraft } from './use-send-redraft';
 
 export interface LastRedraftSheetProps {
@@ -22,7 +23,9 @@ export function LastRedraftSheet({ tripId, day, reasons, note, free }: LastRedra
   const redraft = useSendRedraft(tripId, trip?.draftVersionId ?? null, 1, () =>
     forgetChangeDayAsk(tripId),
   );
-  if (trip === undefined || trip === null) return null;
+  if (trip === undefined || trip === null) {
+    return <DraftSheetWaiting tripId={tripId} gone={trip === null} />;
+  }
   const boost = redraftBoost();
   const limit = trip.quota.limit ?? trip.quota.used + 1;
   return (
