@@ -18,7 +18,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion';
 import { impact } from '@/motion/feedback';
 
-import { BUNDLE_KIND, savedDayId, type SavedDay } from '../bundle/bundle-manager';
+import { BUNDLE_KIND, parseSavedDay, savedDayId } from '../bundle/bundle-manager';
 import {
   DAY_ITEMS_SQL,
   DAY_ITEMS_TABLES,
@@ -131,7 +131,7 @@ export function useOffline(
     [BUNDLE_KIND, savedDayId(tripId, today)],
     ['local_private'],
   ).rows[0];
-  const day = saved === undefined ? null : (JSON.parse(saved.data) as SavedDay);
+  const day = saved === undefined ? null : parseSavedDay(saved.data);
 
   const surface = offlineSurface({ phase: state.phase, lifted, conflicts: conflicts.length });
   const quiet = surface !== 'full';

@@ -9,15 +9,18 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { commandOutcome } from '@/data/commands/outcome';
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { lateStep } from '@/features/plan';
 import { useGuideText } from '@/lib/i18n/guide-text';
+import { goBackOr } from '@/lib/navigation/back';
 import { getLocationEngine } from '@/lib/location/use-location-status';
-import { toast } from '@/motion';
+import { useCommandFeedback } from '@/motion/island-toast';
 
 import { useLiveRows, useOwnerUid } from '../../hub/data/live-rows';
 import { guideName, guideOr } from '../../hub/guide';
+import { tripDayRoute, TRIPS_TAB } from '../../hub/routes';
 import { chooseLateOptionCommand } from '../commands';
 import { lateLines } from './copy';
 import { LateMap } from './late-map';
@@ -90,6 +93,7 @@ export function KnownLateScreen({ id }: { readonly id: string }) {
     ['users'],
   ).rows;
   const choose = useCommand(chooseLateOptionCommand);
+  const { report } = useCommandFeedback();
   const [sending, setSending] = useState(false);
   const fix = getLocationEngine()?.recentFixes().at(-1) ?? null;
   const offline = syncPhase === 'offline';
@@ -108,13 +112,21 @@ export function KnownLateScreen({ id }: { readonly id: string }) {
       guide={guide}
       guideName={guideName(guide, trip?.guide_name)}
       sending={sending}
-      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      onBack={() => goBackOr(row === null ? TRIPS_TAB : tripDayRoute(row.trip_id, null))}
       onChoose={(option) => {
+        if (sending) return;
         setSending(true);
         void choose
           .send({ disruption_id: id, option_id: option })
-          .then(() => {
-            toast.show({ id: `late-chosen-${id}-${option}`, title: lateLines().told });
+          .then((sent) => {
+            // The choice may wait on the phone; only a sent one has told anybody.
+            const lines = lateLines();
+            const outcome = report(sent, {
+              done: commandOutcome(sent) === 'queued' ? lines.queued : lines.told,
+              offlineCapable: true,
+              id: `late-chosen-${id}`,
+            });
+            if (outcome !== 'done' && outcome !== 'queued') return;
             if (option === 'car' && row !== null && place !== undefined) {
               router.push({
                 pathname: '/(trip)/getting-around',

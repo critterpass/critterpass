@@ -7,11 +7,12 @@
  * it with fixed states.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
+import type { Href } from 'expo-router';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goBackOr } from '@/lib/navigation/back';
 import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -43,6 +44,8 @@ export interface GoPreviewViewProps {
   readonly onMode: (mode: GoMode) => void;
   readonly mapsApp: MapsApp;
   readonly onStart: () => void;
+  /** Where back lands when GO was opened cold (a push, a link): the trip's day; Home without one. */
+  readonly backFallback?: Href | undefined;
   readonly onRide: () => void;
   /** Looks for the phone's position again (offered when location is on and no fix came). */
   readonly onRetry?: (() => void) | undefined;
@@ -171,7 +174,7 @@ export function GoPreviewView(props: GoPreviewViewProps) {
           label={t({ id: 'go.preview.back', message: 'Back' })}
           surface="onPhoto"
           glyph={<StraightArrow direction="back" color={theme.semantic.text.primary} />}
-          onPress={() => router.back()}
+          onPress={() => goBackOr(props.backFallback)}
           testID="go-back"
         />
       </View>

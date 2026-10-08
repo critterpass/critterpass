@@ -77,6 +77,10 @@ msgstr "Nó vừa được gửi xong."
 msgid "trip.offline.alreadySending"
 msgstr "Nó đang được gửi đi rồi."
 
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.removeConfirmLine"
+msgstr "Vé và bản đồ của chuyến sẽ cần có sóng cho đến khi bạn lưu lại."
+
 #: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
 msgid "trip.offline.lastSynced"
 msgstr "Đồng bộ lần cuối {lastSynced}"
@@ -193,6 +197,10 @@ msgstr "Vẫn dùng được"
 #: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
 msgid "trip.offline.removeTitle"
 msgstr "Xóa khỏi máy này"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.removeConfirmTitle"
+msgstr "Xóa chuyến này khỏi máy?"
 
 #: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
 msgid "trip.offline.reason.planChanged"

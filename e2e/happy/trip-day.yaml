@@ -69,16 +69,34 @@ appId: app.critterpass.dev
             id: 'trip-hub'
           timeout: 15000
       - evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '' }).status}"
+      # Weeks before the trip the hub stays as it is and says there is no signal; the pill opens
+      # the offline page.
       - extendedWaitUntil:
           visible:
-            id: 'trip-offline-card'
+            id: 'trip-hub-offline-pill'
           timeout: 30000
+      - assertVisible:
+          id: 'trip-hub-header-pre'
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: en-3k-1-no-signal
+      - tapOn:
+          id: 'trip-hub-offline-pill'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-offline-page'
+          timeout: 15000
       - assertVisible:
           id: 'trip-offline-still-works'
       - assertNotVisible:
           id: 'trip-offline-sends'
+      - runFlow: ../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-hub'
+          timeout: 15000
       - evalScript: "${http.post('http://127.0.0.1:7788/network?state=on', { body: '' }).status}"
       - extendedWaitUntil:
           notVisible:
-            id: 'trip-offline-card'
+            id: 'trip-hub-offline-pill'
           timeout: 60000

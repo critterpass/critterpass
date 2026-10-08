@@ -6,3 +6,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
+msgid "trip.missing.line"
+msgstr "Có thể chuyến đã bị xóa, hoặc bạn không còn trong chuyến."
+
+#: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
+msgid "trip.missing.title"
+msgstr "Chuyến đi này không có ở đây"
+
+#: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
+msgid "trip.missing.back"
+msgstr "Chuyến đi"

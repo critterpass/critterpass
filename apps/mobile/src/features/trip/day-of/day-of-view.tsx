@@ -7,36 +7,29 @@
  * with fixed data.
  */
 import type { MediaAsset } from '@cp/domain';
-import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import type { Href } from 'expo-router';
 import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useLocale } from '@/lib/i18n/use-locale';
 import { GoButton } from '@/ui/buttons/GoButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { Card } from '@/ui/cards/Card';
-import { cardBackground } from '@/ui/cards/tone';
-import { Row } from '@/ui/layout/Row';
-import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Stack } from '@/ui/layout/Stack';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { OfflinePill } from '@/ui/states/OfflinePill';
-import { Skeleton } from '@/ui/states/Skeleton';
+import { ScreenLoading } from '@/ui/states/ScreenLoading';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { LeaveByHero } from '@/ui/trip/LeaveByHero';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { LeaveByView } from '../leave-by/model';
-import { heroCopy } from './day-of-copy';
 import type { DayLead } from './day-of-data';
+import { DayHero } from './day-of-hero';
 import { PackChips } from './pack-chips';
 import type { PackChip } from './packing-model';
-import { ReadinessFaces } from './readiness-row';
 import { DayTimeline, type DayTimelineEntry } from './timeline';
 
 export interface AlarmNote {
@@ -46,8 +39,14 @@ export interface AlarmNote {
 
 export interface DayOfViewProps {
   readonly state: 'loading' | 'ready';
+  /** Where back lands when the day was opened cold (a link, a restored launch): the trip's hub. */
+  readonly backFallback?: Href | undefined;
   readonly eyebrow: string;
   readonly forecast: string | null;
+  /** Opens the trip's forecast and watch list from the forecast line. */
+  readonly onForecast?: (() => void) | undefined;
+  /** Opens the trip's offline page: what is saved on this phone and what is waiting to send. */
+  readonly onOffline?: (() => void) | undefined;
   readonly leaveBy: LeaveByView | null;
   readonly now: Date;
   readonly guideName: string;
@@ -85,111 +84,9 @@ export interface DayOfViewProps {
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingTop: th.space['20'], gap: th.space['24'] },
-  quiet: {
-    borderTopStartRadius: 0,
-    borderTopEndRadius: 0,
-    borderBottomStartRadius: th.radius.heroBottom,
-    borderBottomEndRadius: th.radius.heroBottom,
-  },
   // The page's own pink under the status bar, so the clock never sits on scrolled content.
   statusBar: { position: 'absolute', top: 0, start: 0, end: 0, backgroundColor: th.color.pink },
 }));
-
-function Hero(props: DayOfViewProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const locale = useLocale();
-  const { t } = useLingui();
-  const view = props.leaveBy;
-  const lead = props.firstUp;
-  const backdrop = (
-    <MediaLayer
-      media={props.heroMedia}
-      surface="accent"
-      accent={cardBackground(theme, 'pink')}
-      lowData={props.mediaLowData ?? false}
-      creditAt="top"
-      testID="trip-day-hero-media"
-    />
-  );
-  if (view === null) {
-    return (
-      <Card
-        tone="pink"
-        halftone={!props.heroMedia}
-        style={styles.quiet}
-        testID="trip-day-hero-quiet"
-        backdrop={backdrop}
-      >
-        <Stack gap="10">
-          <Row justify="space-between">
-            <Text variant="eyebrow">{upper(props.eyebrow, locale)}</Text>
-            {props.forecast === null ? null : (
-              <Text variant="eyebrow">{upper(props.forecast, locale)}</Text>
-            )}
-          </Row>
-          {lead === null ? (
-            <Text variant="displayHero" autoFit>
-              {upper(t({ id: 'trip.dayOf.freeDayTitle', message: 'Free day' }), locale)}
-            </Text>
-          ) : lead.kind === 'done' ? (
-            <Text variant="displayHero" autoFit>
-              {upper(t({ id: 'trip.dayOf.doneTitle', message: 'Day done' }), locale)}
-            </Text>
-          ) : (
-            <>
-              <Text variant="eyebrow">
-                {upper(
-                  lead.kind === 'next'
-                    ? t({ id: 'trip.dayOf.nextUp', message: 'Next up' })
-                    : t({ id: 'trip.dayOf.firstUp', message: 'First up' }),
-                  locale,
-                )}
-              </Text>
-              <Text variant="displayHero" autoFit>
-                {lead.time}
-              </Text>
-            </>
-          )}
-          <Text variant="bodyLg" color={theme.semantic.text.onAccent}>
-            {lead === null
-              ? t({ id: 'trip.dayOf.freeDay', message: 'Nothing planned today. A free day.' })
-              : lead.kind === 'done'
-                ? t({ id: 'trip.dayOf.done', message: "That's everything on today's plan." })
-                : lead.title}
-          </Text>
-        </Stack>
-      </Card>
-    );
-  }
-  const copy = heroCopy(view, props.now, props.guideName, locale);
-  return (
-    <LeaveByHero
-      testID={`trip-day-hero-${view.phase}`}
-      backdrop={backdrop}
-      halftone={!props.heroMedia}
-      eyebrow={upper(props.eyebrow, locale)}
-      {...(props.forecast === null ? {} : { trailing: upper(props.forecast, locale) })}
-      label={upper(copy.label, locale)}
-      time={copy.time}
-      spokenTime={copy.spokenTime}
-      {...(copy.instructions === null ? {} : { instructions: copy.instructions })}
-      {...(copy.ring === null
-        ? {}
-        : {
-            ring: {
-              progress: view.ringFraction,
-              value: copy.ring.value,
-              caption: upper(copy.ring.caption, locale),
-              spoken: copy.ring.spoken,
-            },
-          })}
-      crew={<ReadinessFaces crew={view.crew} />}
-      crewLabel={upper(copy.readinessLabel, locale)}
-      {...(copy.readinessDetail === null ? {} : { crewDetail: copy.readinessDetail })}
-    />
-  );
-}
 
 export function DayOfView(props: DayOfViewProps) {
   const styles = useStyles();
@@ -198,13 +95,10 @@ export function DayOfView(props: DayOfViewProps) {
   const insets = useSafeAreaInsets();
   const inset = useTabBarInset();
   const view = props.leaveBy;
+  const back = t({ id: 'trip.dayOf.back', message: 'Trip' });
   if (props.state === 'loading') {
     return (
-      <Scaffold variant="dark" testID="trip-day-loading">
-        <View style={{ padding: theme.size.gutter, paddingTop: insets.top + theme.space['20'] }}>
-          <Skeleton preset="card" repeat={3} />
-        </View>
-      </Scaffold>
+      <ScreenLoading backLabel={back} fallback={props.backFallback} testID="trip-day-loading" />
     );
   }
   const canWake =
@@ -214,7 +108,12 @@ export function DayOfView(props: DayOfViewProps) {
     (view.phase === 'before' || view.phase === 'window' || view.phase === 'overdue');
   return (
     <Scaffold variant="dark" edges={[]} testID="trip-day">
-      <ScrollView contentContainerStyle={{ paddingBottom: inset + theme.space['32'] }}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: inset + theme.space['32'] }}
+        // The pack list's add field sits mid-page: the keyboard must not cover it.
+        automaticallyAdjustKeyboardInsets
+        keyboardShouldPersistTaps="handled"
+      >
         <View
           style={{
             paddingTop: insets.top + theme.space['8'],
@@ -223,12 +122,13 @@ export function DayOfView(props: DayOfViewProps) {
           }}
         >
           <BackEyebrow
-            label={t({ id: 'trip.dayOf.back', message: 'Trip' })}
+            label={back}
+            fallback={props.backFallback}
             color={theme.semantic.text.onAccent}
             testID="trip-day-back"
           />
         </View>
-        <Hero {...props} />
+        <DayHero {...props} />
         <View style={styles.body}>
           {props.offline ? <OfflinePill testID="trip-day-offline" /> : null}
           {props.onToday === undefined ? null : (
@@ -236,6 +136,16 @@ export function DayOfView(props: DayOfViewProps) {
               label={t({ id: 'trip.dayOf.toToday', message: 'Back to today' })}
               onPress={props.onToday}
               testID="trip-day-to-today"
+            />
+          )}
+          {props.onForecast === undefined ? null : (
+            <TextLink
+              label={t({
+                id: 'trip.dayOf.forecastLink',
+                message: 'Forecast and what we’re watching',
+              })}
+              onPress={props.onForecast}
+              testID="trip-day-forecast"
             />
           )}
           {view !== null && !view.viewerIn ? (
@@ -284,6 +194,13 @@ export function DayOfView(props: DayOfViewProps) {
               block
               onPress={props.onDayPlan}
               testID="trip-day-to-plan"
+            />
+          )}
+          {props.onOffline === undefined ? null : (
+            <TextLink
+              label={t({ id: 'trip.dayOf.toOffline', message: 'What works with no signal' })}
+              onPress={props.onOffline}
+              testID="trip-day-to-offline"
             />
           )}
           {props.onTomorrow === undefined ? null : (
