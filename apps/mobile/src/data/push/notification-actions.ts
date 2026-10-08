@@ -14,6 +14,7 @@ import {
   NOTIFICATION_CATEGORY_SPECS,
   type NotificationActionSpec,
   type NotificationCategory,
+  type RegisteredCommandName,
 } from '@cp/domain';
 
 import { cpBlocks, tapFromNotification, type NotificationLike, type PushTap } from './routing';
@@ -43,7 +44,7 @@ export interface ActionResponseLike {
 }
 
 export interface ActionCommand {
-  readonly name: string;
+  readonly name: RegisteredCommandName;
   /** May wait in the offline queue (the same choice the feature's own button makes). */
   readonly offline: boolean;
   readonly payload: Readonly<Record<string, unknown>>;
@@ -52,7 +53,10 @@ export interface ActionCommand {
 /** The commands that only run against the server; every other one may queue. */
 const ONLINE_ONLY = new Set(['confirm_paid', 'nudge_payment', 'defer_invite']);
 
-const command = (name: string, payload: Readonly<Record<string, unknown>>): ActionCommand => ({
+const command = (
+  name: RegisteredCommandName,
+  payload: Readonly<Record<string, unknown>>,
+): ActionCommand => ({
   name,
   offline: !ONLINE_ONLY.has(name),
   payload,
@@ -109,7 +113,11 @@ const REPLY_MAX = 4000;
 type Build = (ctx: Ctx, text: string) => ActionCommand | null;
 
 const withId =
-  (key: string, name: string, extra: Readonly<Record<string, unknown>> = {}): Build =>
+  (
+    key: string,
+    name: RegisteredCommandName,
+    extra: Readonly<Record<string, unknown>> = {},
+  ): Build =>
   (ctx) => {
     const id = uuid(ctx[key]);
     return id === null ? null : command(name, { [key]: id, ...extra });

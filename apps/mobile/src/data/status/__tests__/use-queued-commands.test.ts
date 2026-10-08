@@ -21,7 +21,7 @@ jest.mock(
 );
 
 const uploadPhotos = defineClientCommand({
-  name: 'upload_album_photos',
+  name: 'register_photo',
   offline: true,
   summarize: (payload: { count: number; album: string }) => ({
     id: 'album.queued.upload',
@@ -71,7 +71,7 @@ describe('queued commands', () => {
     expect(after).toEqual(before);
     expect(after.map((item) => [item.cmd, item.status, item.summary])).toEqual([
       [
-        'upload_album_photos',
+        'register_photo',
         'queued',
         {
           id: 'album.queued.upload',
