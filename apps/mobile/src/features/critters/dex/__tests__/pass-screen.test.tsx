@@ -220,7 +220,7 @@ describe('PASS tab Critterdex', () => {
     await waitFor(() => expect(screen.getByTestId('critters-home-set')).toBeTruthy());
     const outlined = () =>
       StyleSheet.flatten(screen.getByTestId('critters-home-set').props.style as ViewStyle)
-        .outlineWidth ?? 0;
+        ?.outlineWidth ?? 0;
     await waitFor(() => expect(outlined()).toBeGreaterThan(0));
     await waitFor(() => expect(router.setParams).toHaveBeenCalledWith({ landed: undefined }));
     expect(outlined()).toBe(0);
