@@ -50,6 +50,7 @@ import type { DevicePlatform } from './plan-shards';
 import { saveHierarchy } from './screen-hierarchy';
 import { appBackground, scanScreenshots, SCREEN_CHECKS_LOG, writeFindings } from './screen-scan';
 import { startScreenRecorder } from './screen-video';
+import { isNotCaptured, shardFailures } from './sweep-result';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 const MAESTRO = process.env.MAESTRO_BIN ?? path.join(homedir(), '.maestro/bin/maestro');
@@ -220,8 +221,14 @@ export function runShard(options: ShardOptions): {
     // `screenshot-❌-…` failure images are left out.
     const taken = path.join(options.out, 'maestro', slug, 'screenshots');
     mkdirSync(taken, { recursive: true });
-    const names = flowScreenshotNames(flow, taken).filter((name) => !isMaestroFailureShot(name));
-    return { flow, dir: taken, names };
+    const written = flowScreenshotNames(flow, taken).filter((name) => !isMaestroFailureShot(name));
+    // A sweep scene that never drew leaves the screen it had instead: evidence, not a screenshot.
+    for (const name of written.filter(isNotCaptured)) {
+      mkdirSync(path.join(options.out, 'failures'), { recursive: true });
+      const from = path.join(taken, `${name}.png`);
+      if (existsSync(from)) copyFileSync(from, path.join(options.out, 'failures', `${name}.png`));
+    }
+    return { flow, dir: taken, names: written.filter((name) => !isNotCaptured(name)) };
   });
   for (const { from, to } of planCopies(results, shots)) {
     if (existsSync(from)) copyFileSync(from, to);
@@ -274,8 +281,10 @@ function main(): void {
   } else {
     console.log('screen checks: no findings');
   }
-  if (failed.length > 0) {
-    console.error(`Maestro flow(s) failed or timed out: ${failed.join(', ')}`);
+  const { red, tolerated } = shardFailures(failed); // a failed sweep seed flow costs shots only
+  if (tolerated.length > 0) console.log(`Not captured, sweep flow failed: ${tolerated.join(', ')}`);
+  if (red.length > 0) {
+    console.error(`Maestro flow(s) failed or timed out: ${red.join(', ')}`);
     process.exitCode = 1;
   }
 }

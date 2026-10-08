@@ -6,20 +6,23 @@
  * Reads every downloaded shard artifact (`device-<platform>-shard-<n>/`): the flows that failed,
  * timed out or passed only on their retry (their JUnit reports, ./flow-attempts), the screen-check
  * findings (`screen-checks.log`) and the app's `[ui-qa]`
- * reports (`ui-qa.log`). With --coverage, appends the sweep coverage report.
+ * reports (`ui-qa.log`). With --coverage, appends the sweep coverage report. A run that planned
+ * UI sweep flows also gets the sweep's count of screenshots not captured and its verdict
+ * (./sweep-result); a red verdict is written to the step's `sweep_red` output.
  *
  * A shard that stops before its flows (the emulator never installed, the app crashed on launch)
  * uploads no report, and often no artifact at all. So the summary is checked against the plan: the
  * prepare job's shard matrices, read from IOS_MATRIX and ANDROID_MATRIX. A planned flow with no
  * report has no result, and is listed as such instead of being counted among the flows that passed.
  */
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { appendFileSync, existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
 import { reportedOutcome } from './flow-attempts';
 import type { ShardMatrix } from './plan-shards';
 import { coverage, formatCoverage } from './sweep-coverage';
+import { formatSweepResult, readSweepFiles, sweepResult, sweepVerdict } from './sweep-result';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 
@@ -157,6 +160,31 @@ export function formatSummary(shards: readonly ShardFindings[]): string {
   return out.join('\n');
 }
 
+/**
+ * The UI sweep's own count and verdict (./sweep-result), when the run planned sweep flows: the
+ * screenshots of the manifest each shard was to take against the ones it uploaded.
+ */
+export function sweepSection(
+  root: string,
+  shards: readonly ShardFindings[],
+  plan: ShardPlan,
+): { text: string; reasons: string[] } | undefined {
+  const result = sweepResult(
+    shards.map((shard) => ({
+      shard: shard.shard,
+      planned: plan.get(shard.shard) ?? [],
+      failedFlows: shard.failedFlows,
+      ...readSweepFiles(path.join(root, `device-${shard.shard}`)),
+    })),
+  );
+  if (!result) return undefined;
+  const reasons = sweepVerdict(result, {
+    screenChecks: shards.reduce((sum, shard) => sum + shard.screenChecks.length, 0),
+    uiQa: shards.reduce((sum, shard) => sum + shard.uiQa.length, 0),
+  });
+  return { text: formatSweepResult(result, reasons), reasons };
+}
+
 /** The plan this run's prepare job made, when the workflow passes it. */
 export function planFromEnv(env: NodeJS.ProcessEnv = process.env): ShardPlan {
   return shardPlan({ ios: env.IOS_MATRIX, android: env.ANDROID_MATRIX });
@@ -170,8 +198,14 @@ function main(): void {
   });
   const root = positionals[0];
   if (!root) throw new Error('Usage: run-summary <shards dir> [--coverage] [--out file]');
-  let text = formatSummary(readShards(path.resolve(root), planFromEnv()));
+  const shards = readShards(path.resolve(root), planFromEnv());
+  let text = formatSummary(shards);
+  const sweep = sweepSection(path.resolve(root), shards, planFromEnv());
+  if (sweep) text += `\n${sweep.text}`;
   if (values.coverage) text += `\n${formatCoverage(coverage(REPO_ROOT))}`;
+  // The publish job reads this after it has posted the summary, and fails on it.
+  if (sweep && sweep.reasons.length > 0 && process.env.GITHUB_OUTPUT)
+    appendFileSync(process.env.GITHUB_OUTPUT, `sweep_red=${sweep.reasons.join('; ')}\n`);
   if (values.out) writeFileSync(values.out, text);
   else console.log(text);
 }
