@@ -22,7 +22,13 @@ import {
 } from '../data/model';
 import { offlineBookingIds, type OfflineEntry } from '../data/offline';
 import { pendingAdds } from '../data/pending-adds';
-import { awaitsBoarding, chipOf, flightView, needsAttention } from '../flight-card/flight-model';
+import {
+  awaitsBoarding,
+  chipOf,
+  flightView,
+  needsAttention,
+  type FlightChip,
+} from '../flight-card/flight-model';
 import { currencyDigits, price } from '../format';
 import { gateChanged } from '../flight-card/gate-memory';
 import { bannerOf } from '../stack/banner';
@@ -169,10 +175,10 @@ describe('flight card', () => {
   });
 
   it('marks the statuses a traveller must not miss and stops promising a boarding ping', () => {
-    expect(['cancelled', 'diverted', 'delayed', 'gate_change'].every(needsAttention)).toBe(true);
-    expect(['scheduled', 'on_time', 'boarding', 'departed', 'landed'].some(needsAttention)).toBe(
-      false,
-    );
+    const urgent: readonly FlightChip[] = ['cancelled', 'diverted', 'delayed', 'gate_change'];
+    const calm: readonly FlightChip[] = ['scheduled', 'on_time', 'boarding', 'departed', 'landed'];
+    expect(urgent.every((chip) => needsAttention(chip))).toBe(true);
+    expect(calm.some((chip) => needsAttention(chip))).toBe(false);
     expect(awaitsBoarding('delayed')).toBe(true);
     expect(awaitsBoarding('boarding')).toBe(false);
     expect(awaitsBoarding('cancelled')).toBe(false);
