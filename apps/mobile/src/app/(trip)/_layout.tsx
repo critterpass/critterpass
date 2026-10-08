@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router/js-stack';
 
+import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
@@ -16,7 +17,11 @@ export default function TripLayout() {
   return (
     <SessionGate>
       <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-        <Stack.Screen name="lock-screen-offer" options={modalGroupOptions()} />
+        {/* The lock-screen offer rises over the screen that opened it. */}
+        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a navigator's path, never copy. */}
+        {sheetScreens('(trip)').map((name) => (
+          <Stack.Screen key={name} name={name} options={modalGroupOptions()} />
+        ))}
       </Stack>
     </SessionGate>
   );

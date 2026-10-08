@@ -94,6 +94,7 @@ import {
   sendMirrorThroughSession,
   trackPermissionEvent,
 } from '@/lib/permissions';
+import { SHEET_GROUPS, sheetGroupOptions } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { analyticsViolationBreadcrumb, initAppSentry, sentryDsnFromEnv } from '@/lib/observability';
 import { ThemeProvider } from '@/lib/theme';
@@ -191,7 +192,11 @@ function inkNavigationTheme(ink: string) {
   return { ...DarkTheme, colors: { ...DarkTheme.colors, background: ink, card: ink } };
 }
 
-/** Drill-down pushes by default; the `(modal)` group presents sheets and rises over the stack. */
+/**
+ * Drill-down pushes by default; the `(modal)` group presents sheets and rises over the stack, and so
+ * does a group while one of its own sheet routes is in front (the crews sheet, a new poll, place
+ * search).
+ */
 function RootNavigator() {
   const { motion, color } = useTheme();
   const navigationTheme = useMemo(() => inkNavigationTheme(color.ink['950']), [color.ink]);
@@ -215,6 +220,9 @@ function RootNavigator() {
         <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
           {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
           <Stack.Screen name="(modal)" options={modalGroupOptions()} />
+          {SHEET_GROUPS.map((name) => (
+            <Stack.Screen key={name} name={name} options={sheetGroupOptions} />
+          ))}
         </Stack>
       </SessionDatabaseProvider>
     </NavigationThemeProvider>

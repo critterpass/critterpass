@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router/js-stack';
 
+import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
@@ -13,8 +14,10 @@ export default function ExploreLayout() {
   return (
     <SessionGate>
       <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-        {/* A sheet over the page that opened it: it animates itself. */}
-        <Stack.Screen name="why-sponsored" options={modalGroupOptions()} />
+        {/* "Why sponsored" is a sheet over the page that opened it: it animates itself. */}
+        {sheetScreens('explore').map((name) => (
+          <Stack.Screen key={name} name={name} options={modalGroupOptions()} />
+        ))}
       </Stack>
     </SessionGate>
   );
