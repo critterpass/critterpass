@@ -1,0 +1,63 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-plan-views-lab
+  LIST: 'plan-views-lab-.*'
+---
+# UI sweep (en), lab scenes: the trip map, a day plan and all days.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-trip-map
+      READY: trip-map
+      SHOT: en-7a-1-trip-map
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-trip-map-day
+      READY: trip-map
+      SHOT: en-7a-2-trip-map-one-day
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-trip-map-whole-trip
+      READY: trip-map
+      SHOT: en-7a-3-trip-map-all-days
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-trip-map-nothing-saved
+      READY: trip-map
+      SHOT: en-7i-1-nothing-saved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-day-plan
+      READY: day-plan
+      SHOT: en-7b-1-day-plan
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-day-plan-map-open
+      READY: day-map
+      SHOT: en-7b-2-day-plan-map-open
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-all-days
+      READY: all-days
+      SHOT: en-7b-3-all-days
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-day-plan-today
+      READY: day-plan-timeline
+      SHOT: en-7b-1-day-plan-today-go
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-views-lab-trip-map-day-today
+      READY: trip-map-half
+      SHOT: en-7a-2-trip-map-today-go

@@ -1,0 +1,153 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-explore-lab
+  LIST: 'explore-lab-.*'
+---
+# UI sweep (vi), lab scenes: destinations, places, the crew split and the swipe deck.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-destination
+      READY: explore-months
+      SHOT: vi-7g-3-destination
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-place-detail
+      READY: place-detail-cta
+      SHOT: vi-7e-1-place
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-place-detail-member
+      READY: place-detail-cta
+      SHOT: vi-7e-1-member-suggests
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-place-detail-in-plan
+      READY: place-detail-cta
+      SHOT: vi-7e-1-in-plan
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-place-detail-split
+      READY: place-detail-split
+      SHOT: vi-7e-1-crew-split-chip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-place-detail-no-trip
+      READY: place-detail-cta
+      SHOT: vi-7e-1-no-trip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-place-detail-hours-unknown
+      READY: place-detail-fit-note
+      SHOT: vi-7e-1-hours-unknown
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-split
+      READY: split-suggest
+      SHOT: vi-7e-3-crew-split
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-places-map
+      READY: places-tiles-wait
+      SHOT: vi-7c-1-places-map
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-places-picked
+      READY: places-tiles-wait
+      SHOT: vi-7c-2-place-picked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-places-list
+      READY: places-suggests-0
+      SHOT: vi-7c-3-places-list
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe
+      READY: explore-swipe-card
+      SHOT: vi-7g-2-swipe
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-why
+      READY: explore-swipe-why-sheet
+      SHOT: vi-7g-2-why-this
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-solo
+      READY: explore-swipe-card
+      SHOT: vi-7g-2-solo
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-building
+      READY: explore-swipe-building
+      SHOT: vi-7g-2-building
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-ended
+      READY: explore-swipe-summary
+      SHOT: vi-7g-2-session-ended
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-offline
+      READY: explore-swipe-offline
+      SHOT: vi-7g-2-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-da-nang
+      READY: explore-swipe-card
+      SHOT: vi-7g-2-da-nang-long-names
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-photo
+      READY: explore-swipe-photo-credit
+      SHOT: vi-7g-2-place-photo
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-photo-generic
+      READY: explore-photo-generic
+      SHOT: vi-7g-2-generic-photo
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-idea-match
+      READY: explore-swipe-match-voters
+      SHOT: vi-7g-2-match
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-idea-summary
+      READY: explore-swipe-see-ideas
+      SHOT: vi-7g-2-deck-finished
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-swipe-idea-match-da-nang
+      READY: explore-swipe-match-voters
+      SHOT: vi-7g-2-match-long-names
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: explore-lab-trip-explore
+      READY: explore-trip-gap-when
+      SHOT: vi-7g-1-destination

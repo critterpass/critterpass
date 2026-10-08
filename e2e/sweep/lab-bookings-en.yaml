@@ -1,0 +1,213 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-bookings-lab
+  LIST: 'bookings-lab-.*'
+---
+# UI sweep (en), lab scenes: the wallet and adding a booking.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet
+      READY: bookings-stack
+      SHOT: en-3h-1-bookings
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-delayed
+      READY: bookings-flight
+      SHOT: en-bookings-flight-delayed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-gate-change
+      READY: bookings-flight
+      SHOT: en-bookings-flight-gate-change
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-boarding
+      READY: bookings-flight
+      SHOT: en-bookings-flight-boarding
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-cancelled
+      READY: bookings-flight
+      SHOT: en-bookings-flight-cancelled
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-landed
+      READY: bookings-flight
+      SHOT: en-bookings-flight-landed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-estimate
+      READY: bookings-flight
+      SHOT: en-bookings-flight-estimate
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-stay
+      READY: bookings-body
+      SHOT: en-bookings-activity-open
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-empty
+      READY: bookings-empty
+      SHOT: en-bookings-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-wallet-loading
+      READY: bookings-loading
+      SHOT: en-bookings-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-archive
+      READY: bookings-archive
+      SHOT: en-bookings-archive
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-detail-flight
+      READY: bookings-detail
+      SHOT: en-bookings-detail-flight
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-detail-activity
+      READY: bookings-detail
+      SHOT: en-bookings-detail-activity
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-edit
+      READY: bookings-form-edit
+      SHOT: en-bookings-edit
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-add-by-hand
+      READY: bookings-form-add
+      SHOT: en-bookings-add-by-hand
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-pass
+      READY: bookings-pass-code
+      SHOT: en-bookings-boarding-pass
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-pass-missing
+      READY: bookings-pass-missing
+      SHOT: en-bookings-boarding-pass-missing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-add
+      READY: bookings-candidate-c-boat
+      SHOT: en-3h-2-add-a-booking
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-add-assemble
+      READY: bookings-candidate-c-boat-add
+      SHOT: en-bookings-add-assembled
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-add-empty
+      READY: bookings-add-mailbox
+      SHOT: en-bookings-add-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-add-reading
+      READY: bookings-candidate-c-new-parsing
+      SHOT: en-bookings-add-reading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-add-failed
+      READY: bookings-candidate-c-failed-failed
+      SHOT: en-bookings-add-failed-duplicate
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-add-scan-denied
+      READY: bookings-scan-line
+      SHOT: en-bookings-add-scan-denied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-paste
+      READY: bookings-paste-field
+      SHOT: en-bookings-paste
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-paste-long
+      READY: bookings-paste-send
+      SHOT: en-bookings-paste-long
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-paste-offline
+      READY: bookings-paste-error
+      SHOT: en-bookings-paste-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-mailbox-soon
+      READY: bookings-mailbox-soon
+      SHOT: en-bookings-mailbox-soon
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-mailbox-locked
+      READY: bookings-mailbox-locked
+      SHOT: en-bookings-mailbox-locked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-mailbox-choose
+      READY: bookings-mailbox-choose
+      SHOT: en-bookings-mailbox-choose
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-mailbox-connected
+      READY: bookings-mailbox-connected
+      SHOT: en-bookings-mailbox-connected
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-mailbox-done
+      READY: bookings-mailbox-back
+      SHOT: en-bookings-mailbox-done
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-insurance-card
+      READY: bookings-insurance-card
+      SHOT: en-bookings-insurance-card
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-insurance-form
+      READY: bookings-insurance-form
+      SHOT: en-bookings-insurance-form
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: bookings-lab-insurance-form-offline
+      READY: bookings-insurance-error
+      SHOT: en-bookings-insurance-form-offline

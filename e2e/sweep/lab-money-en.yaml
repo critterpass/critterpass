@@ -1,0 +1,225 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-money-lab
+  LIST: 'money-lab-.*'
+---
+# UI sweep (en), lab scenes: money: expenses, scans, settling up and budgets.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-balances
+      READY: money-balances
+      SHOT: en-3i-1-balances
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-balances-owes
+      READY: money-balances
+      SHOT: en-money-balances-owes
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-balances-square
+      READY: money-balances
+      SHOT: en-money-balances-square
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-balances-empty
+      READY: money-empty
+      SHOT: en-money-balances-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-balances-solo
+      READY: money-solo
+      SHOT: en-money-balances-solo
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-balances-offline
+      READY: money-offline
+      SHOT: en-money-balances-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-balances-loading
+      READY: money-loading
+      SHOT: en-money-balances-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-history
+      READY: money-history
+      SHOT: en-money-history
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-history-none
+      READY: money-history-none
+      SHOT: en-money-history-none
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-expense-gone
+      READY: money-expense-gone
+      SHOT: en-money-expense-gone
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-payment-gone
+      READY: money-payment-gone
+      SHOT: en-money-payment-gone
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-expense
+      READY: money-expense-detail
+      SHOT: en-money-expense
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-add
+      READY: money-add
+      SHOT: en-3i-2-add
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-add-paid-by-alex
+      READY: money-add-keypad
+      SHOT: en-money-add-paid-by
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-add-by-share
+      READY: money-split-shares
+      SHOT: en-money-add-by-share
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-add-custom
+      READY: money-split-custom
+      SHOT: en-money-add-custom
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-add-dong
+      READY: money-add-keypad
+      SHOT: en-money-add-dong
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-review
+      READY: money-review
+      SHOT: en-3i-3-scan
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-assign-crowd
+      READY: money-member-done
+      SHOT: en-money-assign-crowd
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-check-lines
+      READY: money-review-check-l4
+      SHOT: en-money-scan-check-lines
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-failure
+      READY: money-failure
+      SHOT: en-3i-4-cant-read
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-aim
+      READY: money-scan-aim
+      SHOT: en-money-scan-aim
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-denied
+      READY: money-scan-denied
+      SHOT: en-money-scan-denied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-reading
+      READY: money-scan-reading
+      SHOT: en-money-scan-reading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-offline
+      READY: money-scan-offline
+      SHOT: en-money-scan-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-scan-type-lines
+      READY: money-type-lines
+      SHOT: en-money-type-lines
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-settle
+      READY: money-settle
+      SHOT: en-3i-5-settle
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-settle-nothing
+      READY: money-settle
+      SHOT: en-money-settle-nothing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-settle-square
+      READY: money-settled-tokek
+      SHOT: en-money-settle-square
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-payment-payer
+      READY: money-payment
+      SHOT: en-money-payment-payer
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-payment-disputed
+      READY: money-payment
+      SHOT: en-money-payment-disputed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-payout-methods
+      READY: money-payout-methods
+      SHOT: en-money-payout-methods
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-budget
+      READY: money-budget
+      SHOT: en-3i-6-budget
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-budget-over
+      READY: money-budget
+      SHOT: en-money-budget-over
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-budget-pre-trip
+      READY: money-budget
+      SHOT: en-money-budget-pre-trip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: money-lab-budget-none
+      READY: money-budget-none
+      SHOT: en-money-budget-none

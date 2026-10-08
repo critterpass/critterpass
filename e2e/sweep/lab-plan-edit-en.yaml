@@ -1,0 +1,75 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-plan-edit-lab
+  LIST: 'plan-edit-lab-.*'
+---
+# UI sweep (en), lab scenes: editing a plan item, alone and with the crew.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-item-sheet
+      READY: plan-item-sheet
+      SHOT: en-7b-1-item-sheet
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide
+      READY: plan-comments
+      SHOT: en-3g-2-as-drawn
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide-vote-landed
+      READY: plan-comments
+      SHOT: en-3g-2-vote-landed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide-tie
+      READY: plan-decide-status
+      SHOT: en-3g-2-tie
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide-closing
+      READY: plan-decide-status
+      SHOT: en-3g-2-closing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide-closed
+      READY: plan-decide-apply
+      SHOT: en-3g-2-closed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide-stacked
+      READY: plan-comments
+      SHOT: en-3g-2-stacked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide-quiet
+      READY: plan-comments
+      SHOT: en-3g-2-quiet
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-decide-loading
+      READY: plan-decide
+      SHOT: en-3g-2-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-item-comments
+      READY: plan-item-sheet
+      SHOT: en-7b-1-item-comments
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-edit-lab-item-sheet-clash
+      READY: 'plan-clash-drop-.*'
+      SHOT: en-7b-1-stop-sheet-clash

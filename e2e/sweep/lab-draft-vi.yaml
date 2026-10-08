@@ -1,0 +1,117 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-draft
+  LIST: draft-scene-list
+---
+# UI sweep (vi), lab scenes: the guide's draft, a changed day and a redraft.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-loading-chava
+      READY: draft-scene-back
+      SHOT: vi-draft-loading-chava
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-3c-8-drafting
+      READY: drafting-screen
+      SHOT: vi-3c-8-drafting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-3c-11-change-a-day
+      READY: change-day
+      SHOT: vi-3c-11-change-a-day
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-3c-12-redraft
+      READY: redraft-diff
+      SHOT: vi-3c-12-redraft
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-3c-9-draft
+      READY: draft-scene-back
+      SHOT: vi-3c-9-draft
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-booked
+      READY: draft-day-booked-1
+      SHOT: vi-draft-booked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-must-do-missing
+      READY: draft-scene-back
+      SHOT: vi-draft-must-do-missing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-over-budget
+      READY: draft-scene-back
+      SHOT: vi-draft-over-budget
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-stale
+      READY: draft-scene-back
+      SHOT: vi-draft-stale
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-stays-closures
+      READY: draft-scene-back
+      SHOT: vi-draft-stays-closures
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-redraft-waiting
+      READY: draft-scene-back
+      SHOT: vi-draft-redraft-waiting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-redrafting
+      READY: draft-scene-back
+      SHOT: vi-draft-redrafting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-offline
+      READY: draft-scene-back
+      SHOT: vi-draft-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-quota-reached
+      READY: draft-scene-back
+      SHOT: vi-draft-quota-reached
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-history
+      READY: draft-scene-back
+      SHOT: vi-draft-history
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-empty
+      READY: draft-scene-back
+      SHOT: vi-draft-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-failed
+      READY: draft-scene-back
+      SHOT: vi-draft-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: draft-scene-draft-member
+      READY: draft-scene-back
+      SHOT: vi-draft-member

@@ -1,0 +1,12 @@
+appId: app.critterpass.dev
+---
+# UI sweep (vi): every screen before the pass is issued.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: subflows/seed-onboarding.yaml
+    env:
+      LANG: vi

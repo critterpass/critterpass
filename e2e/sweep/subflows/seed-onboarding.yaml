@@ -1,0 +1,200 @@
+appId: app.critterpass.dev
+---
+# Every screen before the pass is issued, from the splash: join with a code (3a-11) and the
+# returning sign-in off the splash, then the new pass 3a-1 → 3a-9, with the keyboard up wherever
+# there is a field. Ends on the first-run Home (3b-1). ${LANG} prefixes the screenshots.
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-1-splash
+- tapOn:
+    id: 'onboarding-invite-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-11-code-keyboard
+- inputText: 'ZZZZ22'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-wrong'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-11-code-wrong-keyboard
+- hideKeyboard
+- runFlow: back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-sign-in'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-sign-in'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-8-sign-in
+- tapOn:
+    id: 'phone-number'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-8-sign-in-keyboard
+- hideKeyboard
+- runFlow: back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-field'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Winston'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-2-name-keyboard
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-2-name
+- tapOn:
+    id: 'onboarding-name-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-photo'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-3-photo
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-4-first
+- tapOn:
+    id: 'taste-card-left'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'taste-card-right'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-4-this-or-that
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: 'taste-card-left'
+      - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      id: 'taste-skip'
+    direction: DOWN
+- tapOn:
+    id: 'taste-skip'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-summary'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-4-summary
+- repeat:
+    while:
+      notVisible:
+        id: 'home-search'
+    times: 3
+    commands:
+      - tapOn:
+          id: 'taste-done'
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'home-search'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-5-home-empty
+- tapOn:
+    id: 'home-search'
+- inputText: 'Sing'
+- extendedWaitUntil:
+    visible:
+      id: 'home-row-SIN'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-5-home-search-keyboard
+- tapOn:
+    id: 'home-row-SIN'
+# On Android hideKeyboard with no keyboard open is a BACK press, which would leave Home base.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-5-home
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${LANG}-3a-6-issued
+- tapOn:
+    id: 'onboarding-issued-save'
+- extendedWaitUntil:
+    visible:
+      id: 'save-phone'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-7-save
+- tapOn:
+    id: 'save-phone'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-8-phone-empty
+- tapOn:
+    id: 'phone-number'
+- inputText: '91234567'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-8-phone-keyboard
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-8-phone
+- tapOn:
+    id: 'phone-country'
+- extendedWaitUntil:
+    visible:
+      id: 'country-picker-panel'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-8-country
+- tapOn:
+    id: 'country-picker-close'
+- waitForAnimationToEnd
+- runFlow: back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 10000
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-9-permissions
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-1-first-run

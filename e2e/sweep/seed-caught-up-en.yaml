@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# UI sweep (en): the demo crew with nothing that needs you.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: caught_up
+      LANG: en
+- runFlow:
+    file: subflows/seed-caught-up.yaml
+    env:
+      LANG: en

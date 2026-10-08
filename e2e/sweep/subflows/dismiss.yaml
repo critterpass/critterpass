@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# Closes the sheet ${ID}: its close button (`${ID}-close`) when it has one, else a swipe down, else
+# back. ${MARK} is an element only the sheet shows, used to tell whether it is still up.
+- runFlow:
+    when:
+      visible:
+        id: '${ID}-close'
+    commands:
+      - tapOn:
+          id: '${ID}-close'
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: '${MARK}'
+    commands:
+      - swipe:
+          start: 50%, 35%
+          end: 50%, 95%
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: '${MARK}'
+    commands:
+      - runFlow: back.yaml
+- extendedWaitUntil:
+    notVisible:
+      id: '${MARK}'
+    timeout: 10000

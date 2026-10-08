@@ -4,6 +4,8 @@
  * recorded run counts as DEFAULT_FLOW_MINUTES. Update a row when a journey's length changes for
  * good; an approximate number is enough to balance shards.
  */
+import { sweepFlows } from './sweep-manifest';
+
 export const DEFAULT_FLOW_MINUTES = 5;
 
 export const FLOW_MEDIAN_MINUTES: Readonly<Record<string, number>> = {
@@ -43,7 +45,16 @@ export const FLOW_MEDIAN_MINUTES: Readonly<Record<string, number>> = {
   'e2e/happy/vote.yaml': 3.7,
 };
 
+/**
+ * The UI sweep's flows, by what they take: a fresh launch, then about a third of a minute a
+ * screenshot. A lab of seventy scenes and one of five must not count the same.
+ */
+const SWEEP_MINUTES: ReadonlyMap<string, number> = new Map(
+  sweepFlows().map((flow) => [`${flow.flow}.yaml`, 2 + flow.shots.length / 3]),
+);
+
 /** Recorded median minutes of a repo-root-relative flow file, or the default. */
 export function flowMinutes(flow: string): number {
-  return FLOW_MEDIAN_MINUTES[flow.replace(/\\/g, '/')] ?? DEFAULT_FLOW_MINUTES;
+  const file = flow.replace(/\\/g, '/');
+  return FLOW_MEDIAN_MINUTES[file] ?? SWEEP_MINUTES.get(file) ?? DEFAULT_FLOW_MINUTES;
 }

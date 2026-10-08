@@ -1,0 +1,243 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-monetize-lab
+  LIST: 'monetize-lab-.*'
+---
+# UI sweep (vi), lab scenes: plans, the paywall and the trip boost.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-1-paywall
+      READY: paywall
+      SHOT: vi-4e-1-paywall
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-1-not-available
+      READY: paywall
+      SHOT: vi-4e-1-not-available
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-1-pending
+      READY: paywall
+      SHOT: vi-4e-1-pending
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-1-paid-unconfirmed
+      READY: paywall
+      SHOT: vi-4e-1-paid-unconfirmed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-1-subscribed
+      READY: paywall
+      SHOT: vi-4e-1-subscribed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-2-compare
+      READY: compare
+      SHOT: vi-4e-2-compare
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-2-not-available
+      READY: compare
+      SHOT: vi-4e-2-not-available
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-3-welcome
+      READY: welcome
+      SHOT: vi-4e-3-welcome
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4e-3-confirming
+      READY: welcome
+      SHOT: vi-4e-3-confirming
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-yearly
+      READY: plan
+      SHOT: vi-4d-1-yearly
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-free
+      READY: plan
+      SHOT: vi-4d-1-free
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-free-no-store
+      READY: plan
+      SHOT: vi-4d-1-free-no-store
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-ending
+      READY: plan
+      SHOT: vi-4d-1-ending
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-grace
+      READY: plan
+      SHOT: vi-4d-1-grace
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-gift
+      READY: plan
+      SHOT: vi-4d-1-gift
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-other-store
+      READY: plan
+      SHOT: vi-4d-1-other-store
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-2-monthly
+      READY: plan-cancel-page
+      SHOT: vi-4d-2-monthly
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-2-yearly
+      READY: plan-cancel-page
+      SHOT: vi-4d-2-yearly
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-3-grace
+      READY: billing-issue
+      SHOT: vi-4d-3-grace
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-3-off
+      READY: billing-issue
+      SHOT: vi-4d-3-off
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-3-recovered
+      READY: billing-issue
+      SHOT: vi-4d-3-recovered
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-3-boost
+      READY: boost
+      SHOT: vi-4b-3-boost
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-3-cover
+      READY: boost
+      SHOT: vi-4b-3-cover
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-3-locked
+      READY: boost
+      SHOT: vi-4b-3-locked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-3-already-boosted
+      READY: boost
+      SHOT: vi-4b-3-already-boosted
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-3-not-available
+      READY: boost
+      SHOT: vi-4b-3-not-available
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-5-stamped
+      READY: stamped
+      SHOT: vi-4b-5-stamped
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-5-finishing
+      READY: stamped
+      SHOT: vi-4b-5-finishing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4c-1-boost-card
+      READY: boost-card-scene
+      SHOT: vi-4c-1-boost-card
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4c-1-buyer
+      READY: boost-card-scene
+      SHOT: vi-4c-1-buyer
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4c-1-settled-thanked
+      READY: boost-card-scene
+      SHOT: vi-4c-1-settled-thanked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4c-1-covered
+      READY: boost-card-scene
+      SHOT: vi-4c-1-covered
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4c-1-split-pending
+      READY: boost-card-scene
+      SHOT: vi-4c-1-split-pending
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4c-1-all-square
+      READY: boost-card-scene
+      SHOT: vi-4c-1-all-square
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4c-1-refunded
+      READY: boost-card-scene
+      SHOT: vi-4c-1-refunded
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4b-5-split-pending
+      READY: stamped
+      SHOT: vi-4b-5-split-pending
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4f-1-seat-cap
+      READY: seat-cap-scene
+      SHOT: vi-4f-1-seat-cap
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4f-1-no-price
+      READY: seat-cap-scene
+      SHOT: vi-4f-1-no-price
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: monetize-lab-4d-1-paused-until
+      READY: plan
+      SHOT: vi-4d-1-paused-until
