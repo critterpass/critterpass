@@ -13,8 +13,7 @@ import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useFlag } from '@/lib/analytics/flags';
-import { feedback } from '@/motion';
-import { toast } from '@/motion/island-toast';
+import { useCommandFeedback, type CommandFeedbackCopy } from '@/motion/island-toast';
 
 import { MoneyLoading } from '../balances/BalancesScreen';
 import { addExpenseCommand, commitReceiptCommand } from '../data/commands';
@@ -51,6 +50,7 @@ export function ScanScreen() {
   useReceiptQueueDrain(services);
   const locale = useLocale();
   const { t } = useLingui();
+  const { report } = useCommandFeedback();
   const commit = useCommand(commitReceiptCommand);
   const add = useCommand(addExpenseCommand);
   const [autoSplit, setAutoSplit] = useState(true);
@@ -78,16 +78,13 @@ export function ScanScreen() {
     return <TypeLinesScreen ctx={ctx} parsed={scene.parsed} receiptId={scan.state.receiptId} />;
   }
 
-  const done = (title: string) => {
-    feedback.emit('success');
-    toast.show({ id: 'money-receipt', title });
-    router.dismissTo(MONEY_ROUTES.balances);
-  };
-
-  // A step that did not go through says so, and what to do next; the screen stays as it was.
-  const failed = (title: string) => {
-    feedback.emit('error');
-    toast.show({ id: 'money-receipt-failed', title });
+  // A step that went through says so and leaves for the balances; one that did not says so, and
+  // what to do next, and the screen stays as it was.
+  const settle = (result: SendResult, copy: CommandFeedbackCopy) => {
+    const outcome = report(result, { ...copy, id: 'money-receipt' });
+    if (outcome === 'done' || (outcome === 'queued' && copy.offlineCapable === true)) {
+      router.dismissTo(MONEY_ROUTES.balances);
+    }
   };
 
   // Typing it in starts from what the server read of the shop's name.
@@ -110,23 +107,21 @@ export function ScanScreen() {
         keepTotal: scene.keepTotal,
       }),
     );
-    if (result.kind === 'applied' || alreadyCommitted(result)) {
-      done(t({ id: 'money.scan.committed', message: 'Split. Balances re-count.' }));
-    } else if (result.kind === 'unavailable') {
-      failed(
-        t({
+    // An earlier SPLIT IT whose answer was lost already made the expense: that is done too.
+    settle(
+      alreadyCommitted(result) ? { kind: 'applied', opId: result.opId, result: null } : result,
+      {
+        done: t({ id: 'money.scan.committed', message: 'Split. Balances re-count.' }),
+        needsSignal: t({
           id: 'money.scan.commitOffline',
           message: "Couldn't reach CritterPass. Try SPLIT IT again when you're online.",
         }),
-      );
-    } else {
-      failed(
-        t({
+        refused: t({
           id: 'money.scan.commitRefused',
           message: "That split didn't go through. Try again, or type it in.",
         }),
-      );
-    }
+      },
+    );
   }
 
   async function onEven() {
@@ -146,16 +141,14 @@ export function ScanScreen() {
       description: scene.parsed.merchant ?? '',
       ...(scene.parsed.merchant === null ? {} : { merchant: scene.parsed.merchant }),
     });
-    if (result.kind === 'queued' || result.kind === 'applied') {
-      done(t({ id: 'money.scan.splitEven', message: 'Split evenly. Balances re-count.' }));
-    } else {
-      failed(
-        t({
-          id: 'money.scan.evenRefused',
-          message: "That didn't go through. Try again, or type it in.",
-        }),
-      );
-    }
+    settle(result, {
+      done: t({ id: 'money.scan.splitEven', message: 'Split evenly. Balances re-count.' }),
+      offlineCapable: true,
+      refused: t({
+        id: 'money.scan.evenRefused',
+        message: "That didn't go through. Try again, or type it in.",
+      }),
+    });
   }
 
   const photoUri =
