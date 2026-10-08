@@ -46,8 +46,15 @@ describe('short money amounts', () => {
     expect(symbolTrails('IDR', 'en')).toBe(false);
   });
 
-  it('leaves small amounts whole', () => {
+  it('leaves whole amounts whole and keeps every cent of the rest', () => {
     expect(formatShort(6_800n, 'USD', 'en')).toBe('US$68');
+    expect(formatShort(640n, 'USD', 'en')).toBe('US$6.40');
+    expect(formatShort(18_640n, 'USD', 'en')).toBe('US$186.40');
+    expect(formatShort(-18_640n, 'USD', 'en')).toBe('−US$186.40');
+    expect(formatShort(333n, 'USD', 'en')).toBe('US$3.33');
+    // Three decimals show all three; a currency with none never grows any.
+    expect(formatShort(5_250n, 'KWD', 'en').replace(/\s/gu, ' ')).toBe('KWD 5.250');
+    expect(formatShort(9_500n, 'VND', 'en')).toBe('₫9,500');
   });
 });
 
