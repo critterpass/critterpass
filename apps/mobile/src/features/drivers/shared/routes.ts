@@ -26,6 +26,11 @@ export function driversRoute(
   return { pathname: SCREENS[screen], params: { tripId, ...params } };
 }
 
+/** The trip the driver screens belong to: where back lands when one was opened from a link. */
+export function tripRoute(tripId: string): Href {
+  return { pathname: '/(tabs)/trips/[tripId]', params: { tripId } };
+}
+
 export const driverRoutes = {
   directory: (tripId: string, area?: string): Href => ({
     pathname: '/[tripId]/drivers/directory',

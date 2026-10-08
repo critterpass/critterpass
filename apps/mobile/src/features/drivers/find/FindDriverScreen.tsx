@@ -26,10 +26,8 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { tripHubRoute } from '@/features/trip/hub/routes';
-
 import { dayLabel } from '../shared/format';
-import { driverRoutes, driversRoute, splitDays } from '../shared/routes';
+import { driverRoutes, driversRoute, splitDays, tripRoute } from '../shared/routes';
 import { useDriverDays } from '../shared/use-driver-days';
 import { useDrivers } from '../shared/use-drivers';
 import { SourceCard } from './source-card';
@@ -96,7 +94,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
                 }),
             locale,
           )}
-          onPress={() => goBackOr(tripHubRoute(tripId))}
+          onPress={() => goBackOr(tripRoute(tripId))}
         />
         <Text variant="h1" designSize={52} accessibilityRole="header">
           {upper(t({ id: 'drivers.find.title', message: 'Find a driver' }), locale)}
