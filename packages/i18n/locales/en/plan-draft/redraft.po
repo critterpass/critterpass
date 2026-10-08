@@ -101,8 +101,8 @@ msgid "planDraft.change.dayTitle"
 msgstr "Day {n} · {title}"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
-msgid "planDraft.diff.keptToast"
-msgstr "Day {n} is {title} now."
+msgid "planDraft.diff.keptTitle"
+msgstr "Day {n} changed"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.identical"
@@ -111,10 +111,6 @@ msgstr "Day {n} is already the best I can do. That one didn’t count."
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.diff.revertedToast"
 msgstr "Day {n} is back as it was."
-
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
-msgid "planDraft.diff.keptToastPlain"
-msgstr "Day {n} is redrafted."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.dayChip"
