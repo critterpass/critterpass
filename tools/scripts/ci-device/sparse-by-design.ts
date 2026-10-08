@@ -15,6 +15,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'undesigned-states 3i-5 "Payment detail (payee), disputed": one payment, its pink note and the actions its state allows',
   ],
   [
+    'shell-edge-to-edge',
+    'developer gallery tab demo: a heading, one line and the tab bar, drawn to check the screen runs edge to edge',
+  ],
+  [
     'gallery-rise',
     'developer gallery rise-demo route: a demo of the rise presentation, a heading and one line of help',
   ],
