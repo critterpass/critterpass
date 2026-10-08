@@ -1,6 +1,6 @@
 /**
  * `useWalletContext()`: the signed-in member, their crew and its forward address, the trip the
- * wallet shows (the one under way, else the next) with its travellers, and whether the member has
+ * wallet shows (the one it was opened for, else the one under way, else the next) with its travellers, and whether the member has
  * Pass+. While a wallet screen is open it holds the trip's sync stream, which carries the trip's
  * bookings, documents and flight legs.
  */
@@ -12,6 +12,7 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { TRIP_STREAM_TTL_S } from '@/data/powersync/use-trip-streams';
 
+import { useWalletTripId } from './wallet-trip';
 import { linkCodeWasSent } from '../link-code/link-code-model';
 import { inboundAddress } from './inbound-domain';
 import { useLiveRows } from './live-rows';
@@ -68,8 +69,16 @@ export function firstName(name: string | null | undefined): string {
   return name?.trim().split(/\s+/u)[0] ?? '';
 }
 
-/** The trip under way, else the next one ahead, else the latest that ended. */
-export function pickTrip(trips: readonly TripRow[]): TripRow | null {
+/**
+ * The trip the wallet was opened for when it is one of the crew's, else the trip under way, else
+ * the next one ahead, else the latest that ended.
+ */
+export function pickTrip(
+  trips: readonly TripRow[],
+  openedFor: string | null = null,
+): TripRow | null {
+  const asked = openedFor === null ? undefined : trips.find((trip) => trip.id === openedFor);
+  if (asked !== undefined) return asked;
   const underWay = trips.find((trip) => UNDER_WAY.has(trip.status));
   if (underWay !== undefined) return underWay;
   const ahead = trips
@@ -101,6 +110,7 @@ function useTripStream(tripId: string | null): void {
 }
 
 export function useWalletContext(): WalletContext {
+  const openedFor = useWalletTripId();
   const uidRows = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES);
   const uid = uidRows.rows[0]?.value ?? null;
   const byUid = uid === null ? null : [uid];
@@ -121,7 +131,7 @@ export function useWalletContext(): WalletContext {
     held_code_until: string | null;
   }>(INBOUND_SQL, byCrew, INBOUND_TABLES);
   const passPlus = useLiveRows<{ pass_plus: number }>(PASS_PLUS_SQL, byUid, PASS_PLUS_TABLES);
-  const trip = pickTrip(trips.rows);
+  const trip = pickTrip(trips.rows, openedFor);
   const participants = useLiveRows<{ user_id: string }>(
     PARTICIPANTS_SQL,
     trip === null ? null : [trip.id],

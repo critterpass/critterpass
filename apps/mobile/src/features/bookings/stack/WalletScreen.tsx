@@ -4,8 +4,8 @@
  * syncs), the offline count from the cached bundle, and the banner for bookings found in a
  * crewmate's inbox. Renders offline.
  */
-import { router } from 'expo-router';
-import { useMemo, useState, type ReactNode } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
 
 import { useLiveRows } from '../data/live-rows';
 import { soonestRelevant, stackOrder, type WalletBooking } from '../data/model';
@@ -13,6 +13,7 @@ import { CANDIDATES_SQL, CANDIDATES_TABLES, type CandidateRow } from '../data/qu
 import { useBookingsServices } from '../data/services';
 import { useWallet, type Wallet } from '../data/use-wallet';
 import { useWalletContext, type WalletContext } from '../data/use-wallet-context';
+import { openWalletTrip } from '../data/wallet-trip';
 import { FlightCard } from '../flight-card/FlightCard';
 import { flightView } from '../flight-card/flight-model';
 import { gateChanged } from '../flight-card/gate-memory';
@@ -82,6 +83,11 @@ export function telUrl(phone: string): string {
 
 export function WalletScreen() {
   useFormats();
+  // A trip hub's Bookings tile names its trip: the wallet shows that one, before the first paint.
+  const { tripId } = useLocalSearchParams<{ tripId?: string }>();
+  useLayoutEffect(() => {
+    if (typeof tripId === 'string' && tripId !== '') openWalletTrip(tripId);
+  }, [tripId]);
   const context = useWalletContext();
   const services = useBookingsServices();
   const wallet = useWallet(context.trip?.id ?? null, context.uid);

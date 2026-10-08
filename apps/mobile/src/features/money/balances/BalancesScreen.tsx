@@ -6,11 +6,12 @@
  * then says the balances are still syncing and lists the expenses it has.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { openWalletTrip, useWalletTripId } from '@/features/bookings';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Stack } from '@/ui/layout/Stack';
@@ -152,6 +153,16 @@ function MoneySyncing({
 
 export function BalancesScreen() {
   const selected = useSelectedTrip();
+  // A trip hub's Money or Bookings tile names its trip: both halves of the wallet open on that
+  // one, and the trip switch here still moves away from it.
+  const { tripId } = useLocalSearchParams<{ tripId?: string }>();
+  const openedFor = useWalletTripId();
+  useLayoutEffect(() => {
+    if (typeof tripId === 'string' && tripId !== '') openWalletTrip(tripId);
+  }, [tripId]);
+  useLayoutEffect(() => {
+    if (openedFor !== null) selectTrip(openedFor);
+  }, [openedFor]);
   useReceiptQueueDrain(useMoneyServices());
   const ctx = useMoneyContext(selected);
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
