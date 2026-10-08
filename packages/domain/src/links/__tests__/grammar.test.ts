@@ -49,6 +49,18 @@ const appSegment = fc.string({
   minLength: 1,
   maxLength: 20,
 });
+/** An in-app route's query as the grammar keeps it: plain names, values percent-encoded. */
+const appSearch = fc
+  .array(
+    fc.tuple(
+      fc
+        .string({ unit: fc.constantFrom(...`${BASE64URL}.`), minLength: 1, maxLength: 12 })
+        .filter((key) => key !== 'c'),
+      fc.string({ maxLength: 24 }),
+    ),
+    { minLength: 1, maxLength: 4 },
+  )
+  .map((pairs) => pairs.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&'));
 
 const target: fc.Arbitrary<LinkTarget> = fc.oneof(
   fc.record({ kind: fc.constant('invite' as const), code }),
@@ -65,10 +77,14 @@ const target: fc.Arbitrary<LinkTarget> = fc.oneof(
   fc.record({ kind: fc.constant('plan' as const), id: fc.uuid() }),
   fc.record({ kind: fc.constant('guide' as const), slug }),
   fc.record({ kind: fc.constant('locals' as const), slug }),
-  fc.record({
-    kind: fc.constant('app' as const),
-    path: fc.array(appSegment, { minLength: 1, maxLength: 8 }).map((parts) => parts.join('/')),
-  }),
+  fc.record(
+    {
+      kind: fc.constant('app' as const),
+      path: fc.array(appSegment, { minLength: 1, maxLength: 8 }).map((parts) => parts.join('/')),
+      search: appSearch,
+    },
+    { requiredKeys: ['kind', 'path'] },
+  ),
 );
 
 describe('link grammar', () => {
@@ -163,5 +179,66 @@ describe('link grammar', () => {
       code: 'K7M2QX',
     });
     expect(parseSchemeUrl('otherapp://i/K7M2QX')).toBeNull();
+  });
+
+  it('keeps the query of an in-app route and drops its fragment', () => {
+    const mailbox: LinkTarget = {
+      kind: 'app',
+      path: 'wallet/mailbox/connected',
+      search: 'provider=gmail&status=connected',
+    };
+    expect(
+      parseSchemeUrl('critterpass://wallet/mailbox/connected?provider=gmail&status=connected'),
+    ).toEqual(mailbox);
+    expect(buildSchemeUrl(mailbox, 'staging')).toBe(
+      'critterpass-staging://wallet/mailbox/connected?provider=gmail&status=connected',
+    );
+    expect(
+      parseSchemeUrl('critterpass-dev://setup/calendar/connected?provider=google&status=failed#x'),
+    ).toEqual({
+      kind: 'app',
+      path: 'setup/calendar/connected',
+      search: 'provider=google&status=failed',
+    });
+    expect(parseSchemeUrl('critterpass://app/recap/abc/postcard?postcard_id=p1')).toEqual({
+      kind: 'app',
+      path: 'recap/abc/postcard',
+      search: 'postcard_id=p1',
+    });
+    const link = parseLink('https://critterpass.app/app/crew?seat_offer=o1&c=wa');
+    expect(link).toEqual({
+      target: { kind: 'app', path: 'crew', search: 'seat_offer=o1' },
+      host: 'critterpass.app',
+      channel: 'wa',
+    });
+    expect(parseLinkPath(linkPath(mailbox))).toEqual(mailbox);
+  });
+
+  it('writes an in-app query in one form, and drops one it cannot read', () => {
+    expect(parseSchemeUrl('critterpass://memory/m1?trip=a+b&note=caf%C3%A9%20%26%20bar')).toEqual({
+      kind: 'app',
+      path: 'memory/m1',
+      search: 'trip=a%20b&note=caf%C3%A9%20%26%20bar',
+    });
+    const bare = { kind: 'app', path: 'memory/m1' };
+    expect(parseSchemeUrl('critterpass://memory/m1?')).toEqual(bare);
+    expect(parseSchemeUrl('critterpass://memory/m1?c=wa')).toEqual(bare);
+    expect(parseSchemeUrl('critterpass://memory/m1?bad%ZZ=1')).toEqual(bare);
+    expect(parseSchemeUrl('critterpass://memory/m1?na%20me=1')).toEqual(bare);
+    expect(parseSchemeUrl(`critterpass://memory/m1?trip=${'x'.repeat(1100)}`)).toEqual(bare);
+    const many = Array.from({ length: 17 }, (_, index) => `k${index}=1`).join('&');
+    expect(parseSchemeUrl(`critterpass://memory/m1?${many}`)).toEqual(bare);
+  });
+
+  it('leaves the query of every other kind out of the link', () => {
+    expect(parseSchemeUrl('critterpass://plan/0199a1c2-7b3e-7c10-9a55-3f1f6e2d4b03?x=1')).toEqual({
+      kind: 'plan',
+      id: '0199a1c2-7b3e-7c10-9a55-3f1f6e2d4b03',
+    });
+    expect(parseLink('https://critterpass.app/g/lundi?x=1')?.target).toEqual({
+      kind: 'guide',
+      slug: 'lundi',
+    });
+    expect(parseLinkPath('/g/lundi?x=1')).toBeNull();
   });
 });

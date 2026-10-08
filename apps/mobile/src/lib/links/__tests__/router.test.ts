@@ -48,6 +48,25 @@ describe('routeIncomingUrl after onboarding', () => {
     [`critterpass://hub/${TRIP}`, `/trips/${TRIP}`],
     [`critterpass://hub/${TRIP}/day/2026-10-17`, `/trips/${TRIP}/day/2026-10-17`],
     [`critterpass://hub/${TRIP}/offline`, `/hub/${TRIP}/offline`],
+    // The api's OAuth callbacks return here: the screen reads the outcome from the query.
+    [
+      'critterpass://wallet/mailbox/connected?provider=gmail&status=connected',
+      '/wallet/mailbox/connected?provider=gmail&status=connected',
+    ],
+    [
+      'critterpass-staging://setup/calendar/connected?provider=google&status=failed',
+      '/setup/calendar/connected?provider=google&status=failed',
+    ],
+    // A push names what to open on the screen in its query.
+    [
+      `critterpass://recap/${TRIP}/postcard?postcard_id=${CREW}`,
+      `/recap/${TRIP}/postcard?postcard_id=${CREW}`,
+    ],
+    [
+      `https://critterpass.app/app/recap/${TRIP}/postcard?postcard_id=${CREW}&c=wa#top`,
+      `/recap/${TRIP}/postcard?postcard_id=${CREW}`,
+    ],
+    [`critterpass://hub/${TRIP}?from=push`, `/trips/${TRIP}?from=push`],
     [
       'critterpass-dev://i/BAX6XA',
       '/onboarding/invite/ticket?code=BAX6XA&kind=invite&state=active',
@@ -115,6 +134,19 @@ describe('before onboarding', () => {
     setOnboardingComplete(true);
     await expect(resumePendingLink()).resolves.toBe('/explore/lundi');
     await expect(resumePendingLink()).resolves.toBeNull();
+  });
+
+  it('keeps the query of a link that waited for the pass', async () => {
+    await expect(
+      routeIncomingUrl('critterpass://setup/calendar/connected?provider=google&status=connected'),
+    ).resolves.toBe('/');
+    expect(peekPendingLink(1_000_000)?.link).toBe(
+      '/app/setup/calendar/connected?provider=google&status=connected',
+    );
+    setOnboardingComplete(true);
+    await expect(resumePendingLink()).resolves.toBe(
+      '/setup/calendar/connected?provider=google&status=connected',
+    );
   });
 
   it('drops a pending link older than a day', async () => {
