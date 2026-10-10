@@ -59,6 +59,7 @@ const WIRE: readonly (readonly [builder: string, link: string])[] = [
   ['legendariesLink', '/critters/legendaries'],
   ['settingsLink', '/you/settings'],
   ['membershipLink', '/you/plan'],
+  ['firstTripEndingLink', `/you/plan/first-trip-ending/${TRIP}`],
   [
     'mailboxConnectedLink',
     '/wallet/mailbox/connected?provider=gmail&status=authorized&state=st_4f9a&code=4%2F0AbC-dEf_123',

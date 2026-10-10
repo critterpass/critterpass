@@ -1468,6 +1468,9 @@ importers:
       '@cp/domain':
         specifier: workspace:*
         version: link:../../packages/domain
+      '@cp/entitlements':
+        specifier: workspace:*
+        version: link:../../packages/entitlements
       '@cp/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n

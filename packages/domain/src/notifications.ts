@@ -396,6 +396,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'memory.surfaced': ['anniversary_memory'],
   // Pass+: a planned pause ends in a week and renewal is still off, to that member only.
   'subscription.resume_due': ['pass_resume_reminder'],
+  // The free first trip closes in three days, to those who would lose its perks (governed).
+  'ftf.ending_soon': ['free_boost_ending'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

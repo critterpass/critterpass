@@ -19,4 +19,12 @@ export const BILLING_PUSH = {
     id: 'notifications.billing.boost_body',
     message: 'It’s on for the whole crew. The details are in the crew chat.',
   },
+  ftfEndingTitle: /*i18n*/ {
+    id: 'notifications.billing.ftf_ending_title',
+    message: '{days, plural, one {# day} other {# days}} left on your free first trip',
+  },
+  ftfEndingBody: /*i18n*/ {
+    id: 'notifications.billing.ftf_ending_body',
+    message: 'Perks pause on {date}. The plan, photos and critters stay yours.',
+  },
 } as const;

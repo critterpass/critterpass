@@ -8,8 +8,8 @@
  */
 import { createHash } from 'node:crypto';
 
-import { emitEvent, scheduleEvent } from '@cp/db';
-import { BILLING_QUEUES, FTF_MIN_SEATED } from '@cp/domain';
+import { cancelScheduledEvent, emitEvent, scheduleEvent } from '@cp/db';
+import { BILLING_QUEUES, FTF_MIN_SEATED, ftfEndingRemindAt } from '@cp/domain';
 import { ftfEligible } from '@cp/entitlements';
 import type pg from 'pg';
 
@@ -118,6 +118,7 @@ export async function grantFirstTripFree(
     tz: 'UTC',
     at: grant.ends_at,
   });
+  await armFtfEndingReminder(tx, grant.id, grant.ends_at, now);
   await emitEvent(tx, {
     type: 'ftf.granted',
     aggregateKind: 'ftf_grant',
@@ -132,6 +133,25 @@ export async function grantFirstTripFree(
   await recomputeTrip(tx, tripId, clock);
   for (const uid of seated) await recomputeUser(tx, uid, clock);
   return { granted: true, grant_id: grant.id, review };
+}
+
+/**
+ * Arms (or moves) the "three days left" reminder for a grant's window; a window already inside
+ * its last three days gets none, since its perks are about to pause anyway.
+ */
+export async function armFtfEndingReminder(
+  tx: pg.PoolClient,
+  grantId: string,
+  endsAt: Date,
+  now: Date,
+): Promise<void> {
+  const timer = { kind: BILLING_QUEUES.ftfEnding, refId: grantId };
+  const at = ftfEndingRemindAt(endsAt);
+  if (at.getTime() > now.getTime()) {
+    await scheduleEvent(tx, { ...timer, tz: 'UTC', at });
+  } else {
+    await cancelScheduledEvent(tx, timer);
+  }
 }
 
 /** At a first-trip-free window's close: recompute the trip and everyone on it. */

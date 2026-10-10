@@ -920,3 +920,11 @@ msgstr "Thời gian tạm dừng Pass+ của bạn kết thúc vào {date}"
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.done_title"
 msgstr "Kế hoạch đã thay đổi"
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_title"
+msgstr "Chuyến đi đầu miễn phí còn {days} ngày"
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_body"
+msgstr "Đặc quyền tạm dừng vào {date}. Kế hoạch, ảnh và các bạn critter vẫn là của bạn."

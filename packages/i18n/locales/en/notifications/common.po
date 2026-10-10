@@ -920,3 +920,11 @@ msgstr "Your Pass+ pause ends on {date}"
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.done_title"
 msgstr "Your plan changed"
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_title"
+msgstr "{days, plural, one {# day} other {# days}} left on your free first trip"
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_body"
+msgstr "Perks pause on {date}. The plan, photos and critters stay yours."

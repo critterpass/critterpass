@@ -1106,3 +1106,87 @@ msgstr "Your purchases are back."
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.yearly"
 msgstr "Your year is already paid, so there is nothing to pause. Cancelling only stops the next renewal."
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.icons"
+msgstr "All icons"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.boost"
+msgstr "Boost {place}"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.boostTrip"
+msgstr "Boost this trip"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.critters"
+msgstr "Critters"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.daysLeft"
+msgstr "days left on your free first trip"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.guideNote"
+msgstr "Everything you made stays. Only the extras take a nap."
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.keptLabel"
+msgstr "Kept for good"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.liveMap"
+msgstr "Live map"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.trail"
+msgstr "Map trail"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.passPlus"
+msgstr "Pass+ just for me"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.pausedLabel"
+msgstr "Pauses {date}"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.pauses"
+msgstr "Perks pause {date}"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.photos"
+msgstr "Photos"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.title"
+msgstr "Recap"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.redrafts"
+msgstr "Redrafts"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.stayFree"
+msgstr "Stay free"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.plan"
+msgstr "The plan"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.endedLine"
+msgstr "The plan, photos and critters are still yours."
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.recap"
+msgstr "The recap"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.guide"
+msgstr "Unlimited Tokek"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.ended"
+msgstr "Your free first trip has ended"
