@@ -31,8 +31,18 @@ export type MemberMessageType = (typeof MEMBER_MESSAGE_TYPES)[number];
 export const MESSAGE_SENDER_KINDS = ['user', 'guide', 'system'] as const;
 export type MessageSenderKind = (typeof MESSAGE_SENDER_KINDS)[number];
 
-/** What a `system` row records; `ref_id` is the member it is about, `body` the new crew name. */
-export const SYSTEM_MESSAGE_KINDS = ['member_joined', 'member_left', 'crew_renamed'] as const;
+/**
+ * What a `system` row records; `ref_id` is the member it is about, `body` the new crew name. A
+ * former member asking back in posts `rejoin_asked`; `trip_settled` marks the moment a trip's
+ * balances came out square (`ref_id` the trip, `body` how many people it settled).
+ */
+export const SYSTEM_MESSAGE_KINDS = [
+  'member_joined',
+  'member_left',
+  'crew_renamed',
+  'rejoin_asked',
+  'trip_settled',
+] as const;
 export type SystemMessageKind = (typeof SYSTEM_MESSAGE_KINDS)[number];
 
 export const ATTACHMENT_KINDS = ['photo', 'voice'] as const;

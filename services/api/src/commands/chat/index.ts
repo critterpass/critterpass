@@ -2,6 +2,7 @@
 import type { CommandRegistry } from '../_framework/registry';
 import { deleteMessageCommand } from './delete-message';
 import { editMessageCommand } from './edit-message';
+import { askToRejoinCommand, removeKeptChatCommand } from './kept-chat';
 import { markReadCommand } from './mark-read';
 import './moderation-kind';
 import { muteMemberCommand } from './mute-member';
@@ -17,4 +18,6 @@ export function registerChatCommands(registry: CommandRegistry): void {
   registry.register(markReadCommand);
   registry.register(reportMessageCommand);
   registry.register(muteMemberCommand);
+  registry.register(askToRejoinCommand);
+  registry.register(removeKeptChatCommand);
 }

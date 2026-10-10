@@ -13,6 +13,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport } from '@/data/powersync/transport';
 
+import { actionsFor } from '../use-message-actions';
 import { loadTimeline } from '../use-messages';
 import { loadReadMarkers, readByCount } from '../use-read-receipts';
 import { draftProblem, useSendMessage } from '../use-send-message';
@@ -98,6 +99,16 @@ describe('sticker sends', () => {
       refId: FORM,
       status: 'sending',
     });
+  });
+
+  it('never offers to copy a sticker', async () => {
+    const stack = await open();
+    const { result } = await renderHook(() => useSendMessage(CREW), { wrapper: stack.wrapper });
+    await result.current.send(sticker);
+    const [entry] = (await loadTimeline(stack.db, CREW, stack.uid)).messages;
+    const sent = { ...entry!, status: 'sent' as const };
+    expect(actionsFor(sent, MAYA)).toEqual(['reply', 'report', 'mute']);
+    expect(actionsFor(sent, stack.uid)).toEqual(['reply', 'delete']);
   });
 });
 

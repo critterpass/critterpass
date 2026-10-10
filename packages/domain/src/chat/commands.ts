@@ -133,3 +133,7 @@ export interface MuteMemberResult {
   readonly uid: string;
   readonly muted: boolean;
 }
+
+/** A former member who kept the chat: ask the organisers to let them back in, or drop the chat. */
+export const keptChatPayloadSchema = z.object({ crew_id: z.uuid() });
+export type KeptChatPayload = z.infer<typeof keptChatPayloadSchema>;

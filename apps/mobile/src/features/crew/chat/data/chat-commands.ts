@@ -6,6 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- command names and wire values, never copy. */
 import type {
   EditMessagePayload,
+  KeptChatPayload,
   MarkReadPayload,
   MessageIdPayload,
   MuteMemberPayload,
@@ -88,6 +89,18 @@ export const muteMemberCommand = defineClientCommand<MuteMemberPayload>({
     payload.muted
       ? msg({ id: 'chat.queued.mute', message: 'Muting a crewmate' })
       : msg({ id: 'chat.queued.unmute', message: 'Unmuting a crewmate' }),
+});
+
+export const askToRejoinCommand = defineClientCommand<KeptChatPayload>({
+  name: 'ask_to_rejoin',
+  offline: true,
+  summarize: () => msg({ id: 'chat.queued.askToRejoin', message: 'Asking to rejoin the crew' }),
+});
+
+export const removeKeptChatCommand = defineClientCommand<KeptChatPayload>({
+  name: 'remove_kept_chat',
+  offline: true,
+  summarize: () => msg({ id: 'chat.queued.removeChat', message: 'Removing a crew chat' }),
 });
 
 /** The payload a failed send stored in its summary, or null when it cannot be read back. */

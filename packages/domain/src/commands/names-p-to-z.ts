@@ -35,6 +35,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'remind_all_payments',
   'remove_candidate',
   'remove_idea',
+  'remove_kept_chat',
   'remove_member',
   'remove_packing_item',
   'remove_past_trip',

@@ -25,6 +25,7 @@ export const COMMAND_NAMES_A_TO_O = [
   'approve_vendor_message',
   'ask_availability',
   'ask_member_about_saves',
+  'ask_to_rejoin',
   'assign_provider',
   'attribute_referral',
   'befriend_critter',

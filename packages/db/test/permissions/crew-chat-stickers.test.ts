@@ -68,7 +68,7 @@ describe('sticker messages', () => {
   });
 
   it('refuses a member who has not met the form, and an outsider who has', async () => {
-    for (const uid of [fixture.actors.organiser, fixture.actors.outsider]) {
+    for (const uid of [fixture.actors.coOrganiser, fixture.actors.outsider]) {
       await expect(insert(uid, 'sticker', 'cheer', 'critter_form', formId)).rejects.toThrow(
         /row-level security/i,
       );
