@@ -15,15 +15,8 @@ import {
 } from '@cp/domain';
 
 import { registerNotification } from '../notify/register';
-import {
-  deepLink,
-  liveOptions,
-  pendingVoters,
-  pollData,
-  pollFacts,
-  resultData,
-  str,
-} from './facts';
+import { deepLink, liveOptions, pendingVoters, pollFacts, resultData, str } from './facts';
+import { votePosterCtx } from './poster';
 
 export function registerPushes(): void {
   registerNotification({
@@ -53,7 +46,7 @@ export function registerPushes(): void {
         crewId: state.poll.crew_id,
         tripId: state.poll.trip_id,
         deepLink: deepLink(state),
-        ctx: pollData(state, facts.guide),
+        ctx: await votePosterCtx(tx, state, facts.guide),
         needsYou: true,
         collapseVars: { poll_id: state.poll.id },
       };
@@ -80,7 +73,7 @@ export function registerPushes(): void {
         crewId: facts.state.poll.crew_id,
         tripId: facts.state.poll.trip_id,
         deepLink: deepLink(facts.state),
-        ctx: pollData(facts.state, facts.guide),
+        ctx: await votePosterCtx(tx, facts.state, facts.guide),
         needsYou: true,
         collapseVars: { poll_id: facts.state.poll.id },
       };
@@ -110,7 +103,7 @@ export function registerPushes(): void {
         crewId: facts.state.poll.crew_id,
         tripId: facts.state.poll.trip_id,
         deepLink: deepLink(facts.state),
-        ctx: pollData(facts.state, facts.guide),
+        ctx: await votePosterCtx(tx, facts.state, facts.guide),
         needsYou: true,
         collapseVars: { poll_id: facts.state.poll.id },
       };

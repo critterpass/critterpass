@@ -52,6 +52,16 @@ async function built(input: PushNotificationRow, readout = false) {
 }
 
 describe('payload shapes', () => {
+  it('gives a member sender their crew colour, and nobody else one', async () => {
+    const member = { kind: 'member' as const, id: 'u1', name: 'Maya' };
+    const withColour = await built({ ...row, sender: member, sender_colour: 'pink/dashed' });
+    expect(withColour.cp.sender).toEqual({ ...member, tone: 'pink' });
+    const guide = await built({ ...row, sender_colour: 'pink' });
+    expect(guide.cp.sender.tone).toBeUndefined();
+    const unknown = await built({ ...row, sender: member, sender_colour: null });
+    expect(unknown.cp.sender.tone).toBeUndefined();
+  });
+
   it('builds the APNs alert payload', async () => {
     const payload = apnsAlertPayload(await built(row), spec('vote_needs_you'), row.thread_id);
     expect(payload.ok && apnsAlertPayloadSchema.safeParse(payload.payload).success).toBe(true);

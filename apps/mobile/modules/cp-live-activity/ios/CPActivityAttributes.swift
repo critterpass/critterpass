@@ -204,12 +204,14 @@ public struct LAMeetUpStraggler: Codable, Hashable, Sendable {
     public var initial: String
     public var tone: Int
     public var line: String
+    public var min: Int?
 
     enum CodingKeys: String, CodingKey {
         case name = "name"
         case initial = "initial"
         case tone = "tone"
         case line = "line"
+        case min = "min"
     }
 }
 
@@ -416,6 +418,7 @@ public struct CritterNearbyActivityAttributes: ActivityAttributes, Hashable, Sen
         public var blurStage: Int
         public var foundKey: String?
         public var remainMin: Int?
+        public var endsAt: Int?
 
         enum CodingKeys: String, CodingKey {
             case seq = "seq"
@@ -425,6 +428,7 @@ public struct CritterNearbyActivityAttributes: ActivityAttributes, Hashable, Sen
             case blurStage = "blur_stage"
             case foundKey = "found_key"
             case remainMin = "remain_min"
+            case endsAt = "ends_at"
         }
     }
 

@@ -60,6 +60,9 @@ async function loadTarget(tx: pg.PoolClient, data: PushSendData): Promise<Target
        d.platform, d.bundle_id, d.locale AS device_locale,
        d.permission_state ->> 'notif' AS notif_permission,
        t.id AS token_id, t.token, t.env,
+       (SELECT m.colour FROM crew_members m
+         WHERE n.sender ->> 'kind' = 'member' AND m.crew_id = n.crew_id
+           AND m.user_id::text = n.sender ->> 'id') AS sender_colour,
        coalesce(p.voice_readout, false)
          AND coalesce(e.pass_plus AND (e.expires_at IS NULL OR e.expires_at > now()), false) AS readout
      FROM notifications n

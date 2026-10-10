@@ -46,7 +46,7 @@ enum CPNotificationCategories {
                 destructive: false, textInput: false,
                 command: nil, scope: nil),
         ]),
-        CPNotificationCategorySpec(id: "cp.changeset", poster: false, actions: [
+        CPNotificationCategorySpec(id: "cp.changeset", poster: true, actions: [
             CPNotificationActionSpec(
                 id: "APPROVE", title: "Yes",
                 foreground: false, authenticationRequired: false,
@@ -62,6 +62,11 @@ enum CPNotificationCategories {
                 foreground: false, authenticationRequired: false,
                 destructive: false, textInput: false,
                 command: "undo_guide_action", scope: "changeset"),
+            CPNotificationActionSpec(
+                id: "OPEN", title: "Open",
+                foreground: true, authenticationRequired: false,
+                destructive: false, textInput: false,
+                command: nil, scope: nil),
         ]),
         CPNotificationCategorySpec(id: "cp.disruption", poster: false, actions: [
             CPNotificationActionSpec(
@@ -220,6 +225,13 @@ enum CPNotificationCategories {
         CPNotificationCategorySpec(id: "cp.vendor", poster: false, actions: [
             CPNotificationActionSpec(
                 id: "approve", title: "Send",
+                foreground: true, authenticationRequired: false,
+                destructive: false, textInput: false,
+                command: nil, scope: nil),
+        ]),
+        CPNotificationCategorySpec(id: "cp.roundup", poster: true, actions: [
+            CPNotificationActionSpec(
+                id: "OPEN", title: "Open",
                 foreground: true, authenticationRequired: false,
                 destructive: false, textInput: false,
                 command: nil, scope: nil),

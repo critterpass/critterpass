@@ -248,9 +248,9 @@ describe('meet-up, vote and critter activities', () => {
     expect(state.members[15]).toMatchObject({ step: 0, arrived: true });
     expect(state.members[0]).toMatchObject({ step: 10, min: null });
     expect(state.stragglers).toHaveLength(2);
-    expect(state.stragglers.map((s) => s.line)).toEqual([
-      'Scooter · 2 km',
-      'Scooter · 2 km · 28 min',
+    expect(state.stragglers.map((s) => [s.line, s.min])).toEqual([
+      ['Scooter · 2 km', null],
+      ['Scooter · 2 km', 28],
     ]);
     expect(state.state).toBe('gathering');
     const ended = buildMeetUpLaState({ ...meetUp, endReason: 'boost_ended' }, new Date(), 2);
@@ -292,6 +292,7 @@ describe('meet-up, vote and critter activities', () => {
           foundKey: null,
         },
         i,
+        new Date('2026-10-03T09:40:00Z'),
       ),
     );
     expect(rings.map((r) => r.ring)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -299,6 +300,10 @@ describe('meet-up, vote and critter activities', () => {
     expect(rings[10]?.blur_stage).toBe(0);
     // Ten minutes to stay, counted down in whole minutes; nothing left to say once it is full.
     expect(rings.map((r) => r.remain_min)).toEqual([10, 9, 8, 7, 6, 5, 4, 3, 2, 1, null]);
+    // The end time counts down to the second: now plus what is left of the ten minutes.
+    const nowS = Date.parse('2026-10-03T09:40:00Z') / 1000;
+    expect(rings[4]?.ends_at).toBe(nowS + 360);
+    expect(rings[10]?.ends_at).toBeNull();
   });
 });
 

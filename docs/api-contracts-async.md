@@ -247,10 +247,20 @@ Common custom block `cp` (≤1 KB):
 ```json
 { "v": 1, "nid": "<uuidv7>", "type": "vote.needs_you", "deeplink": "/vote/<poll>",
   "crew_id": "…", "trip_id": "…",
-  "sender": { "kind": "guide|member|system", "id": "tokek|<uid>", "name": "Tokek", "avatar": "avatars/guide-tokek@3x.png" },
+  "sender": { "kind": "guide|member|system", "id": "tokek|<uid>", "name": "Tokek", "avatar": "avatars/guide-tokek@3x.png", "tone": "pink" },
   "ctx": { "poll_id": "…", "options": [{ "id": "…", "label": "Bali" }] },
   "full": false }
 ```
+
+`sender.tone` (members only, optional): the sender's crew colour (`yellow|orange|blue|pink|green|cream`, the accent of `crew_members.colour` in the notification's crew). A sender with no photo is drawn as their initial on it (iOS NSE `INImage`, Android `Person` icon), never the guide art.
+
+Poster context the expanded views draw on their first frame without a fetch (each fits the 1 KB block; a block that would not fit drops its `ctx` and the extension fetches with `full: false` rules):
+
+| Category | `ctx` fields |
+|---|---|
+| `cp.vote` | `poll_id, kind, stage, question, guide`, `options[{id, label, critter, tone, count}]` (≤ 3 live answers; `critter` = guide slug as the art key: a destination answer's city guide, otherwise the trip's guide; `tone` = guide colour, or orange, green, blue, pink, yellow in turn), `voted` (crew members who have voted), `eligible`, `closes_at` (unix s or null) |
+| `cp.changeset` (`changeset_needs_yes`) | `change_set_id, poll_id, trip_id`, `diff[{label, from, to}]` (≤ 3 stop changes, `HH:mm` in the trip's zone; `from` null for an added stop, `to` null for a dropped one), `yes_count`, `needed` (yeses that decide it under the change's policy), `closes_at` (unix s or null), `voters[{initial, tone}]` (≤ 4 who said yes, earliest first; an initial, never a name) |
+| `cp.roundup` (`evening_roundup`) | `subtitle, roundup_id, count`, `lines[{kind, title, sub?, deeplink?}]` (≤ 5 ranked rows; `kind` = the rolled-up notification's key, which picks the row icon; to fit, links go first, then `sub`, then rows from the end) |
 
 `full: false` → NSE fetches `GET /v1/notifications/{nid}` with the action key (minimal-payload mode for private content).
 
@@ -265,10 +275,10 @@ ContentState ≤4 KB, ETA/text only, never coordinates; art = bundled/App Group 
 | Activity | Attributes (static) | ContentState | Start | Updates | Ent | Phase |
 |---|---|---|---|---|---|---|
 | `LeaveBy` | `trip_id, leave_by_id, title, legs[]` | `{leave_at, state: waiting\|soon\|go\|late\|done, up_count, total, pips[{uid_hash, up}], leg, guide_line}` | local, scheduled `startDate` (26+), or push-to-start T−≤8 h | broadcast channel per LeaveBy (crew pips need boost for crew channel; own LA free) | own free; crew pips per C10 | 48 |
-| `MeetUp` | `trip_id, meetup_id, place_name` | `{eta[{uid_hash, min}], all_under_5, state}` | push-to-start | broadcast p5 (p10 arrive/late) | Boost | 48 |
+| `MeetUp` | `trip_id, meetup_id, place_name, meet_at` | `{eta_min, all_under_5, state, members[{uid_hash, initial, tone, step, min, arrived}], stragglers[{name, initial, tone, line, min}] (≤ 2 furthest out; `line` = how they come, "Scooter · 2 km"; `min` = their ETA), end_reason}` | push-to-start | broadcast p5 (p10 arrive/late) | Boost | 48 |
 | `Flight` | `booking_id, flight_no, route` | `{phase, sched, est, gate, delay_min, colour}` | push-to-start T−3 h | per-device token | free (C37) | 48 |
 | `Vote` | `poll_id, question` | `{closes_at, tallies[], voted: bool}` | push-to-start T−24 h | broadcast per poll | free | 48 |
-| `CritterNearby` | `spawn_id, silhouette_key` | `{distance_band, blur_stage}` | local | local/token | free | 48 |
+| `CritterNearby` | `spawn_id, silhouette_key, place_name` | `{state, distance_band, ring (0–10), blur_stage, found_key, remain_min, ends_at}`: `ends_at` = unix s when the dwell completes if the member stays put (counted down to the second), null once it is not filling | local | local/token | free | 48 |
 | `Storm` | `trip_id, watch_id` | `{severity, window, action_line}` | push-to-start | token | free | 48 |
 | `SOS` | `sos_id, sender_name` | `{state, responders, last_seen_min}` | push-to-start (recipients), local (sender) | token p10 | free | 48 |
 | `Alarm` (AlarmKit `AlarmAttributes<CPAlarmMetadata>`) | `leave_by_id` | countdown/paused presentation | AlarmKit schedule at plan sync | re-sync via background push | free | 36, 48 |
@@ -292,8 +302,8 @@ Category ids shared iOS (`UNNotificationCategory`) / Android (action set). Backg
 
 | Category | Notifications | Actions (id → command) | Content ext |
 |---|---|---|---|
-| `cp.vote` | N-01, N-02 | `VOTE_1..VOTE_3` → `cast_ballot{poll_id, option_id}` (labels via `notificationActions` per vote); `OPEN` fg | ✓ animated poster + stamp (`.doNotDismiss`) |
-| `cp.changeset` | N-50 (needs yes; doc delta: key `changeset_needs_yes` on `change_set.proposed` to affected voters still pending, `cp.ctx{change_set_id, poll_id, trip_id}`; result notice `changeset_decided` on applied/rejected/expired, `cp.generic`), 7h-7 | `APPROVE` / `DECLINE` → `approve_changeset{decision: yes\|no}` (action-key scope `changeset`); `UNDO` → `undo_guide_action` | – |
+| `cp.vote` | N-01, N-02 (`ctx` above) | `VOTE_1..VOTE_3` → `cast_ballot{poll_id, option_id}` (labels via `notificationActions` per vote); `OPEN` fg ("Open the showdown") | ✓ two-tile poster + stamp (`.doNotDismiss`) |
+| `cp.changeset` | N-50 (needs yes; doc delta: key `changeset_needs_yes` on `change_set.proposed` to affected voters still pending, `ctx` above; result notice `changeset_decided` on applied/rejected/expired, `cp.generic`), 7h-7 | `APPROVE` / `DECLINE` → `approve_changeset{decision: yes\|no}` (action-key scope `changeset`; the poster titles them "Yes, swap" / "Not this one"); `UNDO` → `undo_guide_action` (guide actions only); `OPEN` fg ("Open the plan") | ✓ before → after poster (changes needing a yes) |
 | `cp.disruption` | N-28 (`cp.ctx{poll_id, disruption_id, action_id?}`: `action_id` is the id of the row in `disruptions.actions` waiting for the yes, `poll_id` its decision poll; a storm's crew vote has no row, so its push carries no `action_id` and no APPROVE) | `APPROVE` → `decide_disruption_action{disruption_id, action_id, decision: approve}`; `OPEN` fg | – |
 | `cp.leaveby` | N-20, N-21 | `IM_UP` → `set_readiness{up}`; `SNOOZE` → `snooze_leave_by`; `LATE_10` → `report_running_late{10}` | – |
 | `cp.sos` | N-24 | `COMING` → `respond_sos{coming}`; `CALL` fg (`tel:`); `OPEN` fg | – |
@@ -306,6 +316,7 @@ Category ids shared iOS (`UNNotificationCategory`) / Android (action set). Backg
 | `cp.help` | N-25, `location_share_ending` | `STOP_SHARE` → `stop_help_share`, `EXTEND_SHARE` → `extend_help_share`: on `location_share_ending` only, for the sharer (`ctx.sharer_id`) | – |
 | `cp.memory` | N-35 | `REACT` → `react_memory` | – |
 | `cp.setup_ask` | N-05 | `freed` / `not_movable` fg → `answer_availability_ask{answer}` (opens the ask sheet, which confirms) | – |
+| `cp.roundup` | `evening_roundup` (`ctx` above; the collapsed body stays the ranked lines as text) | `OPEN` fg; Clear is the system's | ✓ rows poster on long-press |
 | `cp.generic` | all others | `OPEN` fg | – |
 
 ## 4. Off-app surfaces → commands (P48, P49, P50)
