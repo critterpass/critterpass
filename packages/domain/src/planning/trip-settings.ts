@@ -130,3 +130,34 @@ export const cancelSummaryResultSchema = z.object({
   ),
 });
 export type CancelSummaryResult = z.infer<typeof cancelSummaryResultSchema>;
+
+export interface BookingTerms {
+  /** The booking's local date (its start in the trip's zone), null when it has no date. */
+  readonly startsOn: string | null;
+  /** The last moment it can be cancelled for free, from the confirmation; null when unknown. */
+  readonly freeCancelUntil: string | null;
+}
+
+/**
+ * What new dates do to a booking: still inside them, it is fine; outside them it moves when it
+ * can still be cancelled for free, is lost when free cancelling has passed, and otherwise the
+ * guide asks the supplier (no deadline on record).
+ */
+export function datesImpactOf(
+  booking: BookingTerms,
+  range: { readonly start: string; readonly end: string },
+  now: Date,
+): DatesImpactKind {
+  if (booking.startsOn === null) return 'fine';
+  if (booking.startsOn >= range.start && booking.startsOn <= range.end) return 'fine';
+  return cancelTermsOf(booking, now);
+}
+
+/** What cancelling a booking now gets back: all of it, nothing, or a question to the supplier. */
+export function cancelTermsOf(
+  booking: Pick<BookingTerms, 'freeCancelUntil'>,
+  now: Date,
+): 'moves' | 'lost' | 'ask' {
+  if (booking.freeCancelUntil === null) return 'ask';
+  return Date.parse(booking.freeCancelUntil) > now.getTime() ? 'moves' : 'lost';
+}

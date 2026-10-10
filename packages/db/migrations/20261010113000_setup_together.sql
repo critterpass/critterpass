@@ -202,6 +202,7 @@ GRANT SELECT ON trip_member_setup TO powersync_repl;
 -- 4. How a member likes to sleep, beside their room chips (their own row only): share a room,
 --    a room of their own, or either; and the ground-floor chip.
 ALTER TABLE room_prefs ADD COLUMN sleep text CHECK (sleep IN ('share', 'own', 'either'));
+GRANT INSERT (sleep), UPDATE (sleep) ON room_prefs TO app_user;
 ALTER TABLE room_prefs DROP CONSTRAINT IF EXISTS room_prefs_chips_check;
 ALTER TABLE room_prefs ADD CONSTRAINT room_prefs_chips_check
   CHECK (chips <@ ARRAY['early_bird', 'night_owl', 'light_sleeper', 'snorer', 'dont_care',

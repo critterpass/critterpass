@@ -25,12 +25,6 @@ beforeAll(async () => {
               ($3, current_date + 20, 'busy', 'manual')`,
       [actors.member, actors.coOrganiser, actors.outsider],
     );
-    await tx.query(
-      `INSERT INTO budget_max_private (trip_id, user_id, amount_minor, currency, amount_trip_minor,
-         trip_currency)
-       VALUES ($1, $2, 120000, 'USD', 120000, 'USD')`,
-      [tripId, actors.organiser],
-    );
     await tx.query('SELECT app.recompute_member_setup($1)', [tripId]);
   });
 }, 240_000);
@@ -59,7 +53,8 @@ describe('trip_member_setup', () => {
     const { actors } = harness.fixture;
     const seen = await flags();
     expect(seen.get(actors.member)).toEqual({ days_in: true, max_in: false });
-    expect(seen.get(actors.organiser)).toEqual({ days_in: false, max_in: true });
+    // The fixture's organiser reported a busy day and gave a max.
+    expect(seen.get(actors.organiser)).toEqual({ days_in: true, max_in: true });
     // An unknown day is no answer.
     expect(seen.get(actors.coOrganiser)).toEqual({ days_in: false, max_in: false });
     expect(seen.has(actors.outsider)).toBe(false);
@@ -75,7 +70,9 @@ describe('trip_member_setup', () => {
       );
       await tx.query('SELECT app.recompute_member_setup($1)', [tripId]);
     });
-    expect((await flags()).get(actors.member)).toEqual({ days_in: false, max_in: false });
+    const locked = await flags();
+    expect(locked.get(actors.member)).toEqual({ days_in: false, max_in: false });
+    expect(locked.get(actors.organiser)).toEqual({ days_in: false, max_in: true });
     await withSystem(harness.db.pool, async (tx) => {
       await tx.query(
         `INSERT INTO calendar_days (user_id, date, state, source)
