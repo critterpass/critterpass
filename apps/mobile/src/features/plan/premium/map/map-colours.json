@@ -1,0 +1,47 @@
+{
+  "light": {
+    "sea": "#cfe3f1",
+    "land": "#f4f1e8",
+    "coast": "#e6e1d3",
+    "green": "#e4ecd6",
+    "lake": "#cfe3f1",
+    "mainCasing": "#e8d9a8",
+    "mainFill": "#fff6d8",
+    "mainCasingFar": "#e2dccb",
+    "mainFillFar": "#ffffff",
+    "localCasing": "#e4dfd0",
+    "localFill": "#ffffff",
+    "label": "#6e6a5c",
+    "labelBold": "#4d4a40",
+    "labelHalo": "#f4f1e8",
+    "peak": "#b8b09a",
+    "routeCasing": "#ffffff"
+  },
+  "night": {
+    "sea": "#121b26",
+    "land": "#1d2026",
+    "coast": "#2b2f37",
+    "green": "#1c2620",
+    "lake": "#16222e",
+    "mainCasing": "#3b3f48",
+    "mainFill": "#4c505a",
+    "mainCasingFar": "#3b3f48",
+    "mainFillFar": "#4c505a",
+    "localCasing": "#2a2d34",
+    "localFill": "#353840",
+    "label": "#9a9daa",
+    "labelBold": "#c3c5cf",
+    "labelHalo": "#1d2026",
+    "peak": "#71747f",
+    "routeCasing": "#0e0f13"
+  },
+  "marks": {
+    "boat": "#2f6fe0",
+    "ink": "#1c1d24",
+    "pinRing": "#ffffff",
+    "pinNumeral": "#ffffff",
+    "pinShadow": "rgba(20,22,40,0.25)",
+    "sunRoute": "#e0a800",
+    "mintRoute": "#2fb886"
+  }
+}

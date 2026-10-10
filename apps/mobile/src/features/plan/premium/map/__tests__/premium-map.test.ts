@@ -1,8 +1,10 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { premium } from '@cp/design-tokens';
+
 import { dayColours } from '../day-colours';
 import { cameraPadding, settleDetent, sheetHeight } from '../detents';
-import { MAP_PALETTES } from '../palette';
+import { MAP_MARKS, MAP_PALETTES } from '../palette';
 import { premiumMapStyle } from '../premium-map-style';
 import { boatArc, dayLegs, planMapFeatures, traceLegs, type MapDay } from '../route-features';
 
@@ -18,16 +20,17 @@ const day3: MapDay = {
 
 describe('dayColours', () => {
   it('runs sun, pink, sky, mint, tangerine and repeats', () => {
+    const { accent } = premium;
     expect([1, 2, 3, 4, 5, 6].map((n) => dayColours(n).fill)).toEqual([
-      '#ffd84a',
-      '#ff5fa8',
-      '#4f86ff',
-      '#54d6a4',
-      '#ff9a4d',
-      '#ffd84a',
+      accent.sun,
+      accent.pink,
+      accent.sky,
+      accent.mint,
+      accent.tangerine,
+      accent.sun,
     ]);
-    expect(dayColours(1).route).toBe('#e0a800');
-    expect(dayColours(0).fill).toBe('#ffd84a');
+    expect(dayColours(1).route).toBe(MAP_MARKS.sunRoute);
+    expect(dayColours(0).fill).toBe(accent.sun);
   });
 });
 

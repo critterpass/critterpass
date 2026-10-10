@@ -1,8 +1,11 @@
 /**
  * The premium map's two looks (design `bali-map.html`): a light cream-and-blue map and its night
- * variant, used by every map in the premium app. Map colours are style data for MapLibre, not UI
- * tokens: they paint tiles, never views.
+ * variant, used by every map in the premium app, and the marks drawn on it. Map colours are style
+ * data for MapLibre (`map-colours.json`, like the map style files), not UI colours: they paint
+ * tiles and map layers, never views.
  */
+import colours from './map-colours.json';
+
 export type MapMode = 'light' | 'night';
 
 export interface MapPalette {
@@ -11,7 +14,7 @@ export interface MapPalette {
   readonly coast: string;
   readonly green: string;
   readonly lake: string;
-  /** Main roads: casing, then fill. Below zoom 11 the light map uses the far-out pair. */
+  /** Main roads: casing, then fill. Below town level the light map uses the far-out pair. */
   readonly mainCasing: string;
   readonly mainFill: string;
   readonly mainCasingFar: string;
@@ -27,46 +30,22 @@ export interface MapPalette {
   readonly routeCasing: string;
 }
 
+export interface MapMarks {
+  /** A boat leg's dotted line. */
+  readonly boat: string;
+  /** Stay flags and the stay square. */
+  readonly ink: string;
+  readonly pinRing: string;
+  readonly pinNumeral: string;
+  readonly pinShadow: string;
+  /** Deeper sun and mint so a route and its pins read on the light map. */
+  readonly sunRoute: string;
+  readonly mintRoute: string;
+}
+
 export const MAP_PALETTES: Readonly<Record<MapMode, MapPalette>> = {
-  light: {
-    sea: '#cfe3f1',
-    land: '#f4f1e8',
-    coast: '#e6e1d3',
-    green: '#e4ecd6',
-    lake: '#cfe3f1',
-    mainCasing: '#e8d9a8',
-    mainFill: '#fff6d8',
-    mainCasingFar: '#e2dccb',
-    mainFillFar: '#ffffff',
-    localCasing: '#e4dfd0',
-    localFill: '#ffffff',
-    label: '#6e6a5c',
-    labelBold: '#4d4a40',
-    labelHalo: '#f4f1e8',
-    peak: '#b8b09a',
-    routeCasing: '#ffffff',
-  },
-  night: {
-    sea: '#121b26',
-    land: '#1d2026',
-    coast: '#2b2f37',
-    green: '#1c2620',
-    lake: '#16222e',
-    mainCasing: '#3b3f48',
-    mainFill: '#4c505a',
-    mainCasingFar: '#3b3f48',
-    mainFillFar: '#4c505a',
-    localCasing: '#2a2d34',
-    localFill: '#353840',
-    label: '#9a9daa',
-    labelBold: '#c3c5cf',
-    labelHalo: '#1d2026',
-    peak: '#71747f',
-    routeCasing: '#0e0f13',
-  },
+  light: colours.light,
+  night: colours.night,
 };
 
-/** The boat leg's blue, the same in both looks. */
-export const BOAT_BLUE = '#2f6fe0';
-/** The ink of stay flags and the stay square. */
-export const MAP_INK = '#1c1d24';
+export const MAP_MARKS: MapMarks = colours.marks;

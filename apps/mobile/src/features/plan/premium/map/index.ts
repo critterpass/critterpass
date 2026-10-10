@@ -12,8 +12,8 @@ export {
   sheetHeight,
 } from './detents';
 export type { CameraPadding, MapDetent } from './detents';
-export { BOAT_BLUE, MAP_INK, MAP_PALETTES } from './palette';
-export type { MapMode, MapPalette } from './palette';
+export { MAP_MARKS, MAP_PALETTES } from './palette';
+export type { MapMarks, MapMode, MapPalette } from './palette';
 export { PlanRouteLayer } from './plan-route-layer';
 export type { PlanRouteLayerProps } from './plan-route-layer';
 export { PremiumMapCanvas } from './premium-map-canvas';

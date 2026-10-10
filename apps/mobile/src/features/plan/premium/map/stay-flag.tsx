@@ -3,11 +3,11 @@
  * name ("Villa"), or the bare ink square on small maps. One per map, so a `Marker` view.
  */
 import { Marker, type LngLat } from '@maplibre/maplibre-react-native';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Text } from '@/ui/premium';
+import { makePremiumStyles, Text } from '@/ui/premium';
 
-import { MAP_INK } from './palette';
+import { MAP_MARKS } from './palette';
 
 export interface StayFlagProps {
   readonly lngLat: LngLat;
@@ -16,35 +16,32 @@ export interface StayFlagProps {
   readonly accessibilityLabel: string;
 }
 
-const styles = StyleSheet.create({
+const useStyles = makePremiumStyles((t) => ({
   flag: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: MAP_INK,
+    backgroundColor: MAP_MARKS.ink,
     borderRadius: 14,
     paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 7,
     paddingRight: 10,
-    shadowColor: '#141628',
-    shadowOpacity: 0.28,
-    shadowRadius: 9,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 6,
+    boxShadow: t.shadow.float,
   },
-  square: { width: 16, height: 16, borderRadius: 5, backgroundColor: '#ffd84a' },
+  square: { width: 16, height: 16, borderRadius: 5, backgroundColor: t.accent.sun },
   bare: {
     width: 12,
     height: 12,
     borderRadius: 4,
-    backgroundColor: MAP_INK,
+    backgroundColor: MAP_MARKS.ink,
     borderWidth: 2,
-    borderColor: '#ffffff',
+    borderColor: MAP_MARKS.pinRing,
   },
-});
+}));
 
 export function StayFlag({ lngLat, label, accessibilityLabel }: StayFlagProps) {
+  const styles = useStyles();
   const hasLabel = label !== null && label !== undefined && label !== '';
   return (
     <Marker lngLat={lngLat} anchor="center">
