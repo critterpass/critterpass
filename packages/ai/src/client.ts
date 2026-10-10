@@ -3,7 +3,9 @@
  * runs on DeepSeek through its Anthropic-compatible Messages API;
  * this module is the provider seam, so a second provider plugs in here behind the same interface.
  * It adds a request timeout, jittered retries on transient statuses only, refusal mapping, and one
- * usage record (with `cost_micros`) per call handed to `onUsage`.
+ * usage record (with `cost_micros`) per call handed to `onUsage`. A call the provider may have
+ * billed without answering (a timeout, or a stream that broke after it started) still leaves a
+ * record, with the tokens it reported so far (none for a timeout) and their cost.
  *
  * Provider rules enforced here, so callers never depend on a feature the provider lacks:
  * - structured output: DeepSeek ignores `output_config.format`, so a requested JSON format becomes
@@ -14,7 +16,7 @@
  * - tool choice: `any` is not enforced and a forced tool is rejected with thinking on, so both are
  *   configuration errors; `temperature` only applies without thinking.
  */
-import Anthropic, { APIError } from '@anthropic-ai/sdk';
+import Anthropic, { APIConnectionTimeoutError, APIError } from '@anthropic-ai/sdk';
 import type { AiRoute } from '@cp/domain';
 
 import { DEEPSEEK_ANTHROPIC_URL } from './env';
@@ -27,15 +29,22 @@ import {
 import { computeCostMicros, type TokenUsage } from './pricing';
 import { resolveGenerationRoute, type RouteConfig } from './routing';
 import {
-  DECLINE_MARKER,
   isDeclined,
   parseStructuredText,
   REPAIR_INSTRUCTION,
   structuredInstruction,
   textOf,
 } from './structured';
+import { DeclineGuard } from './decline-guard';
 import type { Telemetry } from './telemetry/langfuse';
-import { buildUsageRecord, toTokenUsage, type AiUsageRecord, type UsageContext } from './usage';
+import {
+  buildUsageRecord,
+  NO_TOKENS,
+  readStreamUsage,
+  toTokenUsage,
+  type AiUsageRecord,
+  type UsageContext,
+} from './usage';
 
 type MessageParams = Anthropic.Messages.MessageCreateParamsNonStreaming;
 type StreamEvent = Anthropic.Messages.RawMessageStreamEvent;
@@ -164,51 +173,6 @@ function retryAfterMs(error: unknown): number | undefined {
     ? Math.min(seconds * 1000, MAX_DELAY_MS)
     : undefined;
 }
-
-function textDelta(event: StreamEvent): string | undefined {
-  return event.type === 'content_block_delta' && event.delta.type === 'text_delta'
-    ? event.delta.text
-    : undefined;
-}
-
-/**
- * Holds a stream's first text until it can tell a decline marker from an answer: an answer's
- * events are released in order, a declined reply's text never leaves the gateway.
- */
-class DeclineGuard {
-  private held: StreamEvent[] = [];
-  private text = '';
-  private decided = false;
-  declined = false;
-
-  /** Events that may be yielded now. */
-  push(event: StreamEvent): StreamEvent[] {
-    const text = textDelta(event);
-    if (this.decided) return this.declined && text !== undefined ? [] : [event];
-    if (text === undefined && this.held.length === 0) return [event];
-    this.held.push(event);
-    this.text += text ?? '';
-    const head = this.text.trimStart();
-    if (head.length < DECLINE_MARKER.length && DECLINE_MARKER.startsWith(head)) return [];
-    return this.decide();
-  }
-
-  /** Called at the end of the stream: whatever is still held is decided now. */
-  flush(): StreamEvent[] {
-    return this.decided ? [] : this.decide();
-  }
-
-  private decide(): StreamEvent[] {
-    this.decided = true;
-    this.declined = this.text.trimStart().startsWith(DECLINE_MARKER);
-    const released = this.declined
-      ? this.held.filter((event) => textDelta(event) === undefined)
-      : this.held;
-    this.held = [];
-    return released;
-  }
-}
-
 export function createGateway(options: GatewayOptions): Gateway {
   const client = new Anthropic({
     apiKey: options.apiKey,
@@ -290,12 +254,46 @@ export function createGateway(options: GatewayOptions): Gateway {
     return { route, message, usage, costMicros };
   }
 
+  /**
+   * Records a call that ended without a reply the provider may still bill. Recording never masks
+   * the call's own failure, which is the error the caller sees.
+   */
+  async function billUnsettled(
+    route: RouteConfig,
+    usage: TokenUsage,
+    context: UsageContext,
+  ): Promise<void> {
+    const at = now();
+    const record = buildUsageRecord({
+      route: route.route,
+      model: route.model,
+      tier: route.tier,
+      usage,
+      costMicros: computeCostMicros(route.tier, usage, at),
+      context,
+      at,
+    });
+    await options.onUsage?.(record).catch(() => undefined);
+  }
+
+  /** A request that timed out was sent and may have been generated in full. */
+  const timedOut = (error: unknown): boolean =>
+    error instanceof APIConnectionTimeoutError ||
+    (error instanceof GatewayError && error.cause instanceof APIConnectionTimeoutError);
+
   async function create(
+    route: RouteConfig,
     params: MessageParams,
     signal: AbortSignal | undefined,
+    context: UsageContext,
   ): Promise<Anthropic.Messages.Message> {
     const requestOptions = signal === undefined ? {} : { signal };
-    return withRetry(() => client.messages.create(params, requestOptions));
+    try {
+      return await withRetry(() => client.messages.create(params, requestOptions));
+    } catch (error) {
+      if (timedOut(error)) await billUnsettled(route, NO_TOKENS, context);
+      throw error;
+    }
   }
 
   return {
@@ -304,7 +302,7 @@ export function createGateway(options: GatewayOptions): Gateway {
       const route = resolveGenerationRoute(routeId);
       const params = buildMessageParams(route, input);
       const startedAt = now();
-      const message = await create(params, input.signal);
+      const message = await create(route, params, input.signal, context);
       const first = await settle(route, message, context, startedAt);
       if (input.outputFormat === undefined || message.stop_reason === 'tool_use') return first;
       if (parseStructuredText(textOf(message)) !== undefined) return first;
@@ -317,7 +315,7 @@ export function createGateway(options: GatewayOptions): Gateway {
           { role: 'user', content: REPAIR_INSTRUCTION },
         ],
       };
-      return settle(route, await create(repair, input.signal), context, now());
+      return settle(route, await create(route, repair, input.signal, context), context, now());
     },
 
     async *streamModel(routeId, input, context = {}) {
@@ -327,6 +325,9 @@ export function createGateway(options: GatewayOptions): Gateway {
       const startedAt = now();
       for (let attempt = 1; ; attempt += 1) {
         let started = false;
+        let settled = false;
+        let failure: unknown;
+        let known = NO_TOKENS;
         try {
           const stream = client.messages.stream(
             params,
@@ -335,18 +336,27 @@ export function createGateway(options: GatewayOptions): Gateway {
           const guard = new DeclineGuard();
           for await (const event of stream) {
             started = true;
+            known = readStreamUsage(known, event);
             for (const released of guard.push(event)) yield { kind: 'delta', event: released };
           }
           for (const released of guard.flush()) yield { kind: 'delta', event: released };
           const message = await stream.finalMessage();
+          // `settle` writes the usage record itself, refusal included.
+          settled = true;
           yield { kind: 'done', result: await settle(route, message, context, startedAt) };
           return;
         } catch (error) {
+          failure = error;
           // Only a stream that failed before its first event can be retried transparently.
           if (started || !isRetryableProviderError(error) || attempt >= maxAttempts) {
             throw toGatewayError(error);
           }
           await sleep(backoff(attempt, error));
+        } finally {
+          // A stream that broke, or was abandoned, after it started is billed on what it reported.
+          if (!settled && (started || timedOut(failure))) {
+            await billUnsettled(route, known, context);
+          }
         }
       }
     },

@@ -1,5 +1,5 @@
 /**
- * The recap copy prompt (route `recap.narration`, pro tier, structured output, no tools): the guide
+ * The recap copy prompt (route `recap.narration`, fast tier, structured output, no tools): the guide
  * narrates the trip's story cards and names each traveller's award, in its own voice, from facts
  * the worker computed. The facts arrive as data; the guide adds words, never a number, a person or
  * an event the facts do not hold.

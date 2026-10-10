@@ -1,11 +1,10 @@
 /**
  * Route → model and request shape (docs/api-contracts.md §6 "Model routing"). Generation runs on
- * DeepSeek with explicit model ids: the fast tier
- * (`deepseek-flash`, vision-capable) answers chat, voice, parsing, photo work and short lines; the
- * pro tier (`deepseek-v4-pro`, text only) plans, redrafts, proposes, narrates recaps, writes the
- * content libraries, runs the guest guide and builds the itinerary skeleton. Swapping a model is a
- * change to `MODEL_IDS` plus a full eval run; the gateway's provider seam (./client.ts) is where a
- * second provider would plug in.
+ * DeepSeek with explicit model ids: the fast tier (`deepseek-flash`, vision-capable) answers chat,
+ * voice, parsing, photo work, short lines and recap narration; the pro tier (`deepseek-v4-pro`,
+ * text only) plans, redrafts, proposes, writes the content libraries, runs the guest guide and
+ * builds the itinerary skeleton. Swapping a model is a change to `MODEL_IDS` plus a full eval run;
+ * the gateway's provider seam (./client.ts) is where a second provider would plug in.
  *
  * Thinking: DeepSeek thinks by default, so every route states it. Streamed and fast routes run
  * without thinking (it delays the first token); pro job routes think with an explicit effort. A
@@ -236,7 +235,9 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'proposal.personal': pro('D', 8192, 'low', { output: 'structured' }),
   'disruption.plan_b': pro('R', 8192, 'low', { output: 'structured' }),
   'replan.weather': pro('R', 4096, 'low', { output: 'structured' }),
-  'recap.narration': pro('B', 16_000, 'low', { output: 'structured' }),
+  // Recap words and voice tags: structured JSON checked by the number guard and tone rules, so it
+  // needs no thinking. A full reply (8 cards and every award) is under 2k tokens.
+  'recap.narration': fast('B', 8192, { output: 'structured', cacheLayers: JOB_LAYERS }),
   'notification.templates': pro(null, 16_000, 'low', {
     output: 'structured',
     delivery: 'batch',

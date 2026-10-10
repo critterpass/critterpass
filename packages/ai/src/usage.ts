@@ -18,6 +18,44 @@ export function toTokenUsage(usage: Anthropic.Messages.Usage): TokenUsage {
   };
 }
 
+/** No tokens reported: a call that failed before the provider said anything about its usage. */
+export const NO_TOKENS: TokenUsage = {
+  inputTokens: 0,
+  cacheWriteTokens: 0,
+  cacheReadTokens: 0,
+  outputTokens: 0,
+};
+
+const count = (value: number | null | undefined, fallback: number): number =>
+  typeof value === 'number' && Number.isFinite(value) ? Math.max(0, Math.round(value)) : fallback;
+
+/**
+ * The tokens a stream has reported so far: `message_start` carries the prompt's, each
+ * `message_delta` the running output count. A stream that breaks part-way is billed on these.
+ */
+export function readStreamUsage(
+  known: TokenUsage,
+  event: Anthropic.Messages.RawMessageStreamEvent,
+): TokenUsage {
+  if (event.type === 'message_start') {
+    const usage = event.message.usage;
+    return {
+      inputTokens: count(usage.input_tokens, 0),
+      cacheWriteTokens: count(usage.cache_creation_input_tokens, 0),
+      cacheReadTokens: count(usage.cache_read_input_tokens, 0),
+      outputTokens: count(usage.output_tokens, 0),
+    };
+  }
+  if (event.type !== 'message_delta') return known;
+  const usage = event.usage;
+  return {
+    inputTokens: count(usage.input_tokens, known.inputTokens),
+    cacheWriteTokens: count(usage.cache_creation_input_tokens, known.cacheWriteTokens),
+    cacheReadTokens: count(usage.cache_read_input_tokens, known.cacheReadTokens),
+    outputTokens: count(usage.output_tokens, known.outputTokens),
+  };
+}
+
 /** Who and what a call is billed to; every field is optional (system jobs have no user). */
 export interface UsageContext {
   readonly userId?: string | null;
