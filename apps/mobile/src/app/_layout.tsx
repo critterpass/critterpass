@@ -108,6 +108,7 @@ import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { PremiumThemeProvider } from '@/ui/premium';
+import { PremiumKeyboardProvider } from '@/ui/premium/shell';
 import { PremiumRootStack } from '@/ui/premium/shell/navigation/premium-root-stack';
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
@@ -228,9 +229,11 @@ function RootNavigator() {
     // on the premium path; the current UI stays dark whatever the premium appearance setting says.
     return (
       <PremiumThemeProvider>
-        <SessionDatabaseProvider value={databaseOpen}>
-          <PremiumRootStack />
-        </SessionDatabaseProvider>
+        <PremiumKeyboardProvider>
+          <SessionDatabaseProvider value={databaseOpen}>
+            <PremiumRootStack />
+          </SessionDatabaseProvider>
+        </PremiumKeyboardProvider>
       </PremiumThemeProvider>
     );
   }
