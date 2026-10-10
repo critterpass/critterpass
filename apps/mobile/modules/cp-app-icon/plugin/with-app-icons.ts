@@ -1,21 +1,27 @@
 /**
- * Bundles the alternate app icons the icon bake wrote (`generated/critter-art/app-icons/`) so
- * cp-app-icon can switch to them.
+ * Bundles the alternate app icons so cp-app-icon can switch to them.
  *
- * - iOS: each icon's baked app icon set (light, dark and tinted images, so it follows the system
- *   look) goes into the app's asset catalog as an alternate icon, listed in the app target's
- *   `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES`. A forced appearance (`stamp-dark`) is a
- *   one-image app icon set, bundled only for the appearances passed in `forcedAppearances`: each
- *   costs about 2 MB of compiled asset catalog per icon, against about 6 MB per automatic icon.
+ * - The four designed icons (passport, face, stamp, sticker) come from
+ *   `assets/app-icons/`, exported from the design by tools/design-renders/export-app-icons.mjs:
+ *   on iOS an Icon Composer bundle each (light, dark, clear and tinted from one layered file),
+ *   added to the app target as a resource; on Android adaptive background, foreground and
+ *   monochrome layers.
+ * - Earned icons come from the icon bake (`generated/critter-art/app-icons/`): on iOS a baked
+ *   app icon set (light, dark and tinted images) in the asset catalog. A forced appearance
+ *   (`temple-dark`) is a one-image app icon set, bundled only for the appearances passed in
+ *   `forcedAppearances`.
+ * - Every alternate is listed in the app target's `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES`
+ *   (about 5.5 MB of compiled asset catalog each).
  * - Android: one `activity-alias` of MainActivity per icon, the default one enabled; the launcher
  *   entry moves from MainActivity to that alias, so switching never leaves the app without one.
  *
- * PASSPORT in the automatic appearance is the primary icon and gets no alternate. Four alternates
- * are bundled by default (`DEFAULT_ALTERNATE_IDS`); the `alternates` option brings others back. Self-contained
- * on purpose: Expo loads config plugins with Node's plain TypeScript stripping, which cannot
- * resolve relative extensionless imports or workspace packages.
+ * PASSPORT in the automatic appearance is the primary icon (`ios.icon`, Expo's adaptive icon) and
+ * gets no alternate. The designed alternates are bundled by default (`DEFAULT_ALTERNATE_IDS`); the
+ * `alternates` option brings earned ones back. Self-contained on purpose: Expo loads config
+ * plugins with Node's plain TypeScript stripping, which cannot resolve relative extensionless
+ * imports or workspace packages.
  */
-import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import {
@@ -43,12 +49,19 @@ export const APP_ICON_IDS = [
 export const PRIMARY_ICON_ID = 'passport';
 export type ForcedAppearance = 'light' | 'dark' | 'tinted';
 
+/** The icons drawn in the design and exported into `assets/app-icons/`. */
+export const DESIGNED_ICON_IDS = ['passport', 'face', 'stamp', 'sticker'] as const;
+
 /**
- * The alternates bundled unless `alternates` says otherwise: four, because each one adds about
- * 6 MB of compiled asset catalog on iOS. Any other catalogue id comes back by listing it.
+ * The alternates bundled unless `alternates` says otherwise: the designed ones people can switch
+ * to. Any other catalogue id comes back by listing it.
  */
-export const DEFAULT_ALTERNATE_IDS: readonly AppIconId[] = ['face', 'pon', 'sardi', 'temple'];
+export const DEFAULT_ALTERNATE_IDS: readonly AppIconId[] = ['face', 'stamp', 'sticker'];
 export type AppIconId = (typeof APP_ICON_IDS)[number];
+
+export function isDesignedIcon(id: string): boolean {
+  return (DESIGNED_ICON_IDS as readonly string[]).includes(id);
+}
 
 export interface AppIconsOptions {
   /** Catalogue ids to bundle besides the primary icon. */
@@ -57,6 +70,7 @@ export interface AppIconsOptions {
 }
 
 const GENERATED = ['generated', 'critter-art', 'app-icons'];
+const DESIGNED = ['assets', 'app-icons'];
 const ALIAS_PREFIX = '.CpIcon_';
 
 /** The icons bundled as automatic-appearance alternates. */
@@ -66,19 +80,28 @@ export function automaticAlternateIds(
   return APP_ICON_IDS.filter((id) => id !== PRIMARY_ICON_ID && alternates.includes(id));
 }
 
-/** Native names of the forced-appearance alternates (`passport-dark`). */
+/**
+ * Native names of the forced-appearance alternates (`temple-dark`): earned icons only, because a
+ * designed icon's one Icon Composer bundle already follows every appearance.
+ */
 export function forcedAlternateNames(
   appearances: readonly ForcedAppearance[],
   alternates: readonly AppIconId[] = DEFAULT_ALTERNATE_IDS,
 ): string[] {
-  return bundledIds(alternates).flatMap((id) =>
+  return forcedIds(alternates).flatMap((id) =>
     appearances.map((appearance) => `${id}-${appearance}`),
   );
 }
 
-/** The primary icon and the bundled alternates. */
-function bundledIds(alternates: readonly AppIconId[]): string[] {
-  return [PRIMARY_ICON_ID, ...automaticAlternateIds(alternates)];
+function forcedIds(alternates: readonly AppIconId[]): string[] {
+  return automaticAlternateIds(alternates).filter((id) => !isDesignedIcon(id));
+}
+
+/** The designed alternates, added to the app target as Icon Composer bundles. */
+export function iconComposerAlternateIds(
+  alternates: readonly AppIconId[] = DEFAULT_ALTERNATE_IDS,
+): string[] {
+  return automaticAlternateIds(alternates).filter(isDesignedIcon);
 }
 
 /** The bake writes `any`, `dark` and `tinted` images; a forced LIGHT is the `any` image. */
@@ -102,13 +125,20 @@ function writeIosIcons(
 ) {
   const generated = join(projectRoot, ...GENERATED, 'ios');
   const catalog = join(appDir, 'Images.xcassets');
-  for (const id of automaticAlternateIds(alternates)) {
+  for (const id of iconComposerAlternateIds(alternates)) {
+    const source = join(projectRoot, ...DESIGNED, 'ios', `${id}.icon`);
+    if (!existsSync(source)) throw new Error(`with-app-icons: ${source} is missing`);
+    const target = join(appDir, `${id}.icon`);
+    rmSync(target, { recursive: true, force: true });
+    cpSync(source, target, { recursive: true });
+  }
+  for (const id of forcedIds(alternates)) {
     const source = join(generated, `${id}.appiconset`);
     if (!existsSync(source))
       throw new Error(`with-app-icons: ${id}.appiconset is not in ${generated}`);
     cpSync(source, join(catalog, `${id}.appiconset`), { recursive: true, force: true });
   }
-  for (const id of bundledIds(alternates)) {
+  for (const id of forcedIds(alternates)) {
     for (const appearance of forced) {
       const file = forcedImageFile(id, appearance);
       const set = join(catalog, `${id}-${appearance}.appiconset`);
@@ -129,16 +159,18 @@ function writeAndroidIcons(projectRoot: string, resDir: string) {
   for (const dir of ['drawable-xxxhdpi', 'mipmap-anydpi-v26', 'values']) {
     cpSync(join(generated, dir), join(resDir, dir), { recursive: true, force: true });
   }
+  // The designed icons' layers replace the baked ones of the same name.
+  const designed = join(projectRoot, ...DESIGNED, 'android');
+  for (const dir of ['drawable-xxxhdpi', 'mipmap-anydpi-v26']) {
+    cpSync(join(designed, dir), join(resDir, dir), { recursive: true, force: true });
+  }
   // Launchers below API 26 read no adaptive icon: they get the foreground layer as a plain icon.
   const fallback = join(resDir, 'mipmap-xxxhdpi');
   mkdirSync(fallback, { recursive: true });
-  for (const file of readdirSync(join(generated, 'drawable-xxxhdpi'))) {
+  for (const file of readdirSync(join(resDir, 'drawable-xxxhdpi'))) {
     const match = /^ic_launcher_foreground_(.+)\.png$/.exec(file);
     if (match?.[1]) {
-      cpSync(
-        join(generated, 'drawable-xxxhdpi', file),
-        join(fallback, `ic_launcher_${match[1]}.png`),
-      );
+      cpSync(join(resDir, 'drawable-xxxhdpi', file), join(fallback, `ic_launcher_${match[1]}.png`));
     }
   }
 }
@@ -258,6 +290,16 @@ const withAppIcons: ConfigPlugin<AppIconsOptions | undefined> = (config, options
     ].join(' ');
     // The `xcode` package ships no types: read its project object through PbxProject.
     const project: unknown = mod.modResults;
+    // A file already in the group is left alone, so prebuilds stay idempotent. `never`: the
+    // helper's own parameter type comes from the untyped package too.
+    for (const id of iconComposerAlternateIds(alternates)) {
+      IOSConfig.XcodeUtils.addResourceFileToGroup({
+        filepath: `${projectName}/${id}.icon`,
+        groupName: projectName,
+        project: project as never,
+        isBuildFile: true,
+      });
+    }
     for (const settings of appTargetBuildSettings(project as PbxProject, projectName)) {
       settings['ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES'] = `"${names}"`;
       settings['ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS'] = 'NO';

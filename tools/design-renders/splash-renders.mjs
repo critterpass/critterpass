@@ -1,152 +1,182 @@
-// The launch splash renders: the iOS launch image with its in-app layers, and the Android 12+
-// splash egg's wobble frames, captured from design/Critterpass Store Assets.dc.html.
-/* global document, getComputedStyle -- page callbacks run in the browser */
+// The launch renders, captured from design/premium/"CritterPass 10 Icon Splash and Store.dc.html":
+// the iOS launch images (10.01 light, 10.03 dark) with the two layers the in-app launch animation
+// draws on top of them (the glow and the passport cover), and the Android 12+ splash icon and
+// branding wordmark (10.04 light, 10.05 dark).
+/* global document -- page callbacks run in the browser */
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
 import { openPage } from './design-page.mjs';
+import { repoRoot } from './serve-design.mjs';
 
-/** The launch image is a square centred on the screen; 736 pt holds the whole halftone glow. */
-const SPLASH_PT = 736;
+const PART_10 = 'premium/CritterPass 10 Icon Splash and Store.dc.html';
+/** The launch image is a square centred on the screen; 736 pt holds the whole glow. */
+export const SPLASH_PT = 736;
 const SPLASH_SCALE = 3;
-/** Android 12+ splash icon: a 288 dp canvas (192 dp circle mask), drawn at xxxhdpi. */
-const ANDROID_SPLASH_DP = 288;
+/** Room around the cover for its drop shadow in the cover-only layer. */
+export const COVER_PAD = 80;
+/** Android draws the branding image in a 200 × 80 dp box; the wordmark sits on its bottom edge. */
+const BRAND_DP = { width: 200, height: 80 };
 const ANDROID_SCALE = 4;
-/** The system splash wobble: the design's keyframes up to rest, sampled into frames under 1 s. */
-const WOBBLE_FRAMES = 16;
-const WOBBLE_FRAME_MS = 60;
 
-/** Finds a store-assets splash frame (the phone screen under a data-screen-label) and scrolls it into view. */
-async function openSplashFrame(browser, server, scale, label) {
-  const { context, page } = await openPage(browser, server, scale);
-  await page.goto(`${server.origin}/${encodeURIComponent('Critterpass Store Assets.dc.html')}`, {
-    waitUntil: 'networkidle',
-    timeout: 60_000,
-  });
-  const frame = page.locator(`[data-screen-label="${label}"] > div`).nth(1);
-  await frame.scrollIntoViewIfNeeded();
-  await page.waitForFunction(
-    (l) => document.querySelector(`[data-screen-label="${l}"] canvas`)?.width > 0,
-    label,
+const BOREL = readFileSync(path.join(repoRoot, 'apps/mobile/assets/fonts/Borel-400.ttf'));
+
+/** Serves Borel locally instead of from Google Fonts, so exports never depend on the network. */
+async function routeBorel(page, origin) {
+  await page.route('https://fonts.googleapis.com/**', (route) =>
+    route.fulfill({
+      contentType: 'text/css',
+      body: `@font-face{font-family:'Borel';font-style:normal;font-weight:400;src:url(${origin}/__borel.ttf) format('truetype');}`,
+    }),
   );
-  await page.waitForTimeout(1500);
-  // The canvas page behind the phone frame must not leak into the transparent export.
-  await frame.evaluate((el) => {
-    for (let node = el.parentElement; node; node = node.parentElement) {
-      node.style.background = 'transparent';
-    }
-  });
-  return { context, page, frame };
+  await page.route('https://fonts.gstatic.com/**', (route) => route.abort());
+  await page.route(`${origin}/__borel.ttf`, (route) =>
+    route.fulfill({ contentType: 'font/ttf', body: BOREL }),
+  );
 }
 
 /**
- * The iOS launch image and its two in-app layers. The frame is resized to a square centred on the
- * design's screen centre, and the glow's mask is pinned to the design phone's absolute geometry
- * (390 × 844 pt) so the glow keeps its size wherever the square sits.
+ * Captures one launch phone (`10.01` or `10.03`): the glow is re-pinned to absolute pixels (its
+ * radial size is a percentage of the 390 × 844 phone) and widened to a centred 736 pt square, and
+ * everything but the glow and the cover is hidden.
  */
-export async function renderLaunch(browser, server) {
-  const { context, page, frame } = await openSplashFrame(
-    browser,
-    server,
-    SPLASH_SCALE,
-    'Splash iOS launch',
-  );
+async function renderLaunchPhone(browser, server, code) {
+  const { context, page } = await openPage(browser, server, SPLASH_SCALE);
+  await routeBorel(page, server.origin);
   try {
-    await frame.evaluate((el, side) => {
-      const { width, height } = el.getBoundingClientRect();
-      const glow = el.firstElementChild;
-      const mask = getComputedStyle(glow).maskImage || getComputedStyle(glow).webkitMaskImage;
-      const m = /at ([\d.]+)% ([\d.]+)%, (.+?) ([\d.]+)%, (.+?) ([\d.]+)%\)/.exec(mask);
-      if (!m) throw new Error(`unexpected glow mask: ${mask}`);
-      const [cx, cy] = [(+m[1] / 100) * width, (+m[2] / 100) * height];
-      const reach = Math.hypot(Math.max(cx, width - cx), Math.max(cy, height - cy));
-      const [x, y] = [cx + (side - width) / 2, cy + (side - height) / 2];
-      const pinned = `radial-gradient(circle ${(+m[6] / 100) * reach}px at ${x}px ${y}px, ${m[3]} ${(+m[4] / 100) * reach}px, ${m[5]} ${(+m[6] / 100) * reach}px)`;
-      glow.style.maskImage = pinned;
-      glow.style.webkitMaskImage = pinned;
-      Object.assign(el.style, {
-        width: `${side}px`,
-        height: `${side}px`,
-        borderRadius: '0',
-        boxShadow: 'none',
-        background: 'transparent',
-      });
-    }, SPLASH_PT);
-    // Exact clips: element screenshots round up to whole pixels, which would resize the image.
-    const square = await frame.boundingBox();
-    const launchClip = { x: square.x, y: square.y, width: SPLASH_PT, height: SPLASH_PT };
-    const egg = frame.locator('doodle-art').first();
-    const eggBox = await egg.boundingBox();
-    const eggSize = Number(await egg.getAttribute('size'));
-    const launch = await page.screenshot({ clip: launchClip, omitBackground: true });
-    const eggOnly = await page.screenshot({
-      clip: { x: eggBox.x, y: eggBox.y, width: eggSize, height: eggSize },
+    await page.goto(`${server.origin}/${encodeURIComponent(PART_10).replace('%2F', '/')}`, {
+      waitUntil: 'networkidle',
+      timeout: 120_000,
+    });
+    await page.waitForFunction(
+      (c) =>
+        [...document.querySelectorAll('b')].some(
+          (b) => b.textContent === c && b.closest('div')?.parentElement?.querySelector('canvas'),
+        ),
+      code,
+    );
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(1500);
+    // The 736 pt square is wider than the phone: give it room on the left of the page.
+    await page.setViewportSize({ width: 2400, height: 1400 });
+    await page.evaluate(() => (document.body.style.paddingLeft = '400px'));
+    const found = await page.evaluate(
+      ({ code, side }) => {
+        const caption = [...document.querySelectorAll('b')].find((b) => b.textContent === code);
+        const holder = caption.closest('div').parentElement;
+        const frame = [...holder.querySelectorAll('div')].find(
+          (d) => d.style.width === '390px' && d.style.height === '844px',
+        );
+        const cover = [...frame.querySelectorAll('div')].find(
+          (d) => d.style.left === '95px' && d.style.top === '291px',
+        );
+        const glow = [...frame.querySelectorAll('div')].find((d) =>
+          d.style.background.startsWith('radial-gradient'),
+        );
+        if (!cover || !glow) throw new Error(`launch phone ${code}: no cover or glow`);
+        for (const el of document.body.querySelectorAll('*')) {
+          const keep =
+            el.contains(glow) || el.contains(cover) || glow.contains(el) || cover.contains(el);
+          if (!keep) el.style.visibility = 'hidden';
+        }
+        for (let el = glow.parentElement; el; el = el.parentElement) {
+          Object.assign(el.style, { overflow: 'visible', boxShadow: 'none', filter: 'none' });
+          el.style.background = 'transparent';
+        }
+        const m = /radial-gradient\(([\d.]+)% ([\d.]+)%(?: at [^,]+)?, (.*)\)$/.exec(
+          glow.style.background,
+        );
+        if (!m) throw new Error(`unexpected glow: ${glow.style.background}`);
+        const box = frame.getBoundingClientRect();
+        const rx = (+m[1] / 100) * box.width;
+        const ry = (+m[2] / 100) * box.height;
+        Object.assign(glow.style, {
+          inset: 'auto',
+          left: `${(box.width - side) / 2}px`,
+          top: `${(box.height - side) / 2}px`,
+          width: `${side}px`,
+          height: `${side}px`,
+          background: `radial-gradient(${rx}px ${ry}px at 50% 50%, ${m[3]})`,
+        });
+        glow.setAttribute('data-launch', 'glow');
+        cover.setAttribute('data-launch', 'cover');
+        return true;
+      },
+      { code, side: SPLASH_PT },
+    );
+    if (!found) throw new Error(`launch phone ${code} not found`);
+    const glow = page.locator('[data-launch="glow"]');
+    const cover = page.locator('[data-launch="cover"]');
+    await glow.scrollIntoViewIfNeeded();
+    const g = await glow.boundingBox();
+    const square = { x: g.x, y: g.y, width: SPLASH_PT, height: SPLASH_PT };
+    const launch = await page.screenshot({ clip: square });
+    await cover.evaluate((el) => (el.style.visibility = 'hidden'));
+    const glowOnly = await page.screenshot({ clip: square });
+    await cover.evaluate((el) => (el.style.visibility = 'visible'));
+    await glow.evaluate((el) => (el.style.visibility = 'hidden'));
+    const c = await cover.boundingBox();
+    const coverOnly = await page.screenshot({
+      clip: {
+        x: c.x - COVER_PAD,
+        y: c.y - COVER_PAD,
+        width: 200 + COVER_PAD * 2,
+        height: 262 + COVER_PAD * 2,
+      },
       omitBackground: true,
     });
-    await egg.evaluate((el) => (el.style.visibility = 'hidden'));
-    const glow = await page.screenshot({ clip: launchClip, omitBackground: true });
-    return { launch, eggOnly, glow };
+    return { launch, glowOnly, coverOnly };
   } finally {
     await context.close();
   }
 }
 
-/** The Android 12+ splash egg: the design's wobble keyframes, paused at each frame's time. */
-export async function renderWobble(browser, server) {
-  const { context, page, frame } = await openSplashFrame(
-    browser,
-    server,
-    ANDROID_SCALE,
-    'Splash Android',
+/** The Android splash branding: Borel 22 "CritterPass" on the bottom edge of a 200 × 80 dp box. */
+async function renderBrand(browser, server, colour) {
+  const { context, page } = await openPage(browser, server, ANDROID_SCALE);
+  await routeBorel(page, server.origin);
+  const url = `${server.origin}/premium/__brand.html`;
+  await page.route(url, (route) =>
+    route.fulfill({
+      contentType: 'text/html; charset=utf-8',
+      body: `<!DOCTYPE html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:transparent}</style></head><body>
+<div id="brand" style="position:absolute;left:0;top:0;width:${BRAND_DP.width}px;height:${BRAND_DP.height}px;display:flex;align-items:flex-end;justify-content:center;">
+<span style="font-family:Borel,cursive;font-size:22px;line-height:1.2;color:${colour};">CritterPass</span>
+</div></body></html>`,
+    }),
   );
   try {
-    const motion = frame.locator('tg-motion').first();
-    const { restMs } = await frame.evaluate((el) => {
-      Object.assign(el.style, { background: 'transparent', boxShadow: 'none', borderRadius: '0' });
-      // The phone camera dot and the 192 dp mask guide are annotations, not splash content.
-      el.firstElementChild.style.visibility = 'hidden';
-      const anchor = el.children[1];
-      anchor.firstElementChild.style.visibility = 'hidden';
-      for (const note of el.querySelectorAll('span')) note.style.visibility = 'hidden';
-      const kf = anchor.querySelector('tg-motion').getAttribute('kf') ?? '';
-      const dur = Number(anchor.querySelector('tg-motion').getAttribute('dur'));
-      // Rest: the first r0 keyframe once the wobble has started.
-      const stops = kf.split(';').map((s) => s.trim().split(':'));
-      const rest = stops.find(([, value], i) => i > 1 && value.trim() === 'r0');
-      return { restMs: Number(rest?.[0] ?? 0.5) * dur };
+    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(300);
+    return await page.screenshot({
+      clip: { x: 0, y: 0, ...BRAND_DP },
+      omitBackground: true,
     });
-    const box = await frame.boundingBox();
-    const side = ANDROID_SPLASH_DP;
-    const clip = {
-      x: box.x + box.width / 2 - side / 2,
-      y: box.y + box.height / 2 - side / 2,
-      width: side,
-      height: side,
-    };
-    const frames = [];
-    for (let i = 0; i < WOBBLE_FRAMES; i += 1) {
-      const at = (restMs * i) / (WOBBLE_FRAMES - 1);
-      await motion.evaluate((el, t) => {
-        for (const a of el.getAnimations()) {
-          a.pause();
-          a.currentTime = t;
-        }
-      }, at);
-      frames.push(await page.screenshot({ clip, omitBackground: true }));
-    }
-    return frames;
   } finally {
     await context.close();
   }
 }
 
-export function wobbleDrawable(count) {
-  const items = Array.from(
-    { length: count },
-    (_, i) =>
-      `    <item android:drawable="@drawable/splash_egg_wobble_${String(i).padStart(2, '0')}" android:duration="${WOBBLE_FRAME_MS}" />`,
-  );
-  return `<?xml version="1.0" encoding="utf-8"?>
-<!-- Generated by tools/design-renders/export-app-icons.mjs: the Android 12+ splash egg wobble. -->
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="true">
-${items.join('\n')}
-</animation-list>
-`;
+/**
+ * Every launch file, keyed by its path under apps/mobile/assets. `renderAndroidIcon` draws the
+ * App Icon in the circle shape (10.04 uses the light icon, 10.05 the dark one).
+ */
+export async function exportSplashes(browser, server, renderAndroidIcon) {
+  const light = await renderLaunchPhone(browser, server, '10.01');
+  const dark = await renderLaunchPhone(browser, server, '10.03');
+  return {
+    'launch/splash-ios.png': light.launch,
+    'launch/splash-ios-dark.png': dark.launch,
+    'launch/glow.png': light.glowOnly,
+    'launch/glow-dark.png': dark.glowOnly,
+    'launch/cover.png': light.coverOnly,
+    'launch/cover-dark.png': dark.coverOnly,
+    'launch/android-icon.png': await renderAndroidIcon('passport', 'light'),
+    'launch/android-icon-dark.png': await renderAndroidIcon('passport', 'dark'),
+    'launch/android-brand.png': await renderBrand(browser, server, '#ff9a4d'),
+    'launch/android-brand-dark.png': await renderBrand(browser, server, '#ffd84a'),
+  };
 }

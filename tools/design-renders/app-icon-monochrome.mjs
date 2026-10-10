@@ -2,9 +2,9 @@
 // preview) into Android's monochrome layer: the line art as opaque white, the fill transparent.
 import { PNG } from 'pngjs';
 
-/** The design's themed-preview colours (`App Icon.dc.html`: T is the fill, D the line art). */
-const FILL = [0xdf, 0xe5, 0xcc];
-const LINE = [0x3a, 0x47, 0x20];
+/** The design's themed-preview colours (`premium/App Icon.dc.html` mono mode: fill and line art). */
+const FILL = [0xe2, 0xe7, 0xd0];
+const LINE = [0x39, 0x46, 0x1f];
 
 const luminance = (r, g, b) => 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
