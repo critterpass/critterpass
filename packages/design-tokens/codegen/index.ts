@@ -10,14 +10,18 @@ import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { premium } from '../src/premium';
 import { tokenDeclarations, tokens } from '../src/validate';
 import { buildAndroidFonts } from './android-fonts';
 import { emitCss } from './css';
 import { flattenForNative } from './flatten';
 import { emitFontsCss } from './fonts-css';
 import { emitKotlin } from './kotlin';
+import { emitPremiumKotlin } from './premium-kotlin';
+import { emitPremiumSwift } from './premium-swift';
 import { emitSwift } from './swift';
-import { emitTs } from './ts';
+import { emitTs, serialize } from './ts';
+import { GENERATED_HEADER } from './generated-header';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -43,6 +47,12 @@ function main(): void {
   write('generated/swift/CPTokens.swift', emitSwift(leaves));
   write('generated/kotlin/CpTokens.kt', emitKotlin(leaves));
   write('../../apps/web/src/styles/tokens.css', emitCss(leaves));
+  write(
+    'generated/ts/premium.ts',
+    `${GENERATED_HEADER}\nexport const premium = ${serialize(premium, 0)} as const;\n`,
+  );
+  write('generated/swift/CPPremium.swift', emitPremiumSwift(premium));
+  write('generated/kotlin/CpPremium.kt', emitPremiumKotlin(premium));
 
   copy('swift/CPFont.swift', 'generated/swift/CPFont.swift');
   const androidFontFiles = buildAndroidFonts();
