@@ -137,3 +137,7 @@ export interface MuteMemberResult {
 /** A former member who kept the chat: ask the organisers to let them back in, or drop the chat. */
 export const keptChatPayloadSchema = z.object({ crew_id: z.uuid() });
 export type KeptChatPayload = z.infer<typeof keptChatPayloadSchema>;
+
+/** Pin a crew chat message to the trip, or take the pin off. */
+export const pinMessagePayloadSchema = z.object({ message_id: z.uuid(), pinned: z.boolean() });
+export type PinMessagePayload = z.infer<typeof pinMessagePayloadSchema>;

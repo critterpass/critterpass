@@ -60,6 +60,9 @@ export const messages = pgTable(
     deletedAt: instant('deleted_at'),
     /** Hidden by moderation for everyone; filtered out of RLS and the stream. */
     hiddenAt: instant('hidden_at'),
+    /** Pinned to the trip by a member (`pin_message`); null when not pinned. */
+    pinnedAt: instant('pinned_at'),
+    pinnedBy: uuid('pinned_by').references(() => users.id, { onDelete: 'set null' }),
     createdAt: instant('created_at').notNull().defaultNow(),
     updatedAt: instant('updated_at').notNull().defaultNow(),
   },

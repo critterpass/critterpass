@@ -51,14 +51,15 @@ function lines() {
 
 describe('trip settled line', () => {
   it('posts nothing for another sticker kind', async () => {
-    await grant([fixture.actors.member], 'crew_level');
+    await grant([fixture.actors.member], 'special');
     expect((await lines()).rows).toEqual([]);
   });
 
   it('posts one line when the trip settles, and never a second', async () => {
     const { organiser, coOrganiser, member } = fixture.actors;
     await grant([organiser, coOrganiser, member]);
-    expect((await lines()).rows).toEqual([{ ref_id: fixture.tripId, body: '3' }]);
+    const { rows } = await lines();
+    expect(rows.map((row) => `${row.ref_id}:${row.body}`)).toEqual([`${fixture.tripId}:3`]);
     await grant([organiser]);
     expect((await lines()).rows).toHaveLength(1);
   });

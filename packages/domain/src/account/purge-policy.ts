@@ -167,7 +167,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.media_objects', ['owner_id', keep('the stored objects still to erase')]),
   ...rules('public.devices', ['user_id', del]),
   // Chat: the user's messages go (3n-9), the conversation around them stays.
-  ...rules('public.messages', ['sender_id', { kind: 'tombstone' }]),
+  ...rules('public.messages', ['sender_id', { kind: 'tombstone' }], ['pinned_by', nul]),
   ...rules('public.message_reactions', ['user_id', keep(CREW)]),
   // Membership: a former member, so crews render "former member".
   ...rules('public.crew_members', ['user_id', { kind: 'former_member' }]),

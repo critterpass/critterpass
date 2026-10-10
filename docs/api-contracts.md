@@ -197,6 +197,7 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `mark_read` | `{crew_id, seq}` → `crew_members.last_read_seq = GREATEST(…)`, clamped to the last seq | member or kept-chat former member | – | – | A, O, N | 24 |
 | `report_message` | `{message_id, reason, note?}` → `moderation_reports` kind `message` (`report_content` rules) | active member, not the sender | – | – | A, O | 24 |
 | `mute_member` | `{crew_id, uid, muted}` → `user_settings.muted_uids` (own devices only) | active member | – | – | A, O | 24 |
+| `pin_message` (doc delta) | `{message_id, pinned}` → `messages.pinned_at/pinned_by` (the first pinner is kept; tombstones and system rows `STATE_INVALID not_pinnable`) | active member | – | – | A, O | 24 |
 | `ask_to_rejoin` (doc delta) | `{crew_id}` → a `rejoin_asked` system line in the crew chat, at most once a day (`asked: false` after) | former member who kept the chat | – | – | A, O | 24 |
 | `remove_kept_chat` (doc delta) | `{crew_id}` → own `keep_in_chat = false`; the chat stops syncing | former member who kept the chat | – | `crew.member_updated` | A, O | 24 |
 | `take_guide_offer` | `{action_id}` | member | – | `guide_action.taken` | A, O | 24 |

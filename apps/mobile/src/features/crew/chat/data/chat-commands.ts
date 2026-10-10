@@ -10,6 +10,7 @@ import type {
   MarkReadPayload,
   MessageIdPayload,
   MuteMemberPayload,
+  PinMessagePayload,
   ReactMessagePayload,
   ReportMessagePayload,
   StickerPose,
@@ -89,6 +90,15 @@ export const muteMemberCommand = defineClientCommand<MuteMemberPayload>({
     payload.muted
       ? msg({ id: 'chat.queued.mute', message: 'Muting a crewmate' })
       : msg({ id: 'chat.queued.unmute', message: 'Unmuting a crewmate' }),
+});
+
+export const pinMessageCommand = defineClientCommand<PinMessagePayload>({
+  name: 'pin_message',
+  offline: true,
+  summarize: (payload) =>
+    payload.pinned
+      ? msg({ id: 'chat.queued.pin', message: 'Pinning a message to the trip' })
+      : msg({ id: 'chat.queued.unpin', message: 'Unpinning a message' }),
 });
 
 export const askToRejoinCommand = defineClientCommand<KeptChatPayload>({

@@ -1,6 +1,7 @@
 /** Registered command names from `p` to `z`, sorted; see `./names`. */
 export const COMMAND_NAMES_P_TO_Z = [
   'pause_location_share',
+  'pin_message',
   'ping_all',
   'plusone_comment',
   'post_place_decision',

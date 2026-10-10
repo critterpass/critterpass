@@ -6,6 +6,7 @@ import { askToRejoinCommand, removeKeptChatCommand } from './kept-chat';
 import { markReadCommand } from './mark-read';
 import './moderation-kind';
 import { muteMemberCommand } from './mute-member';
+import { pinMessageCommand } from './pin-message';
 import { reactMessageCommand } from './react-message';
 import { reportMessageCommand } from './report-message';
 import { sendMessageCommand } from './send-message';
@@ -18,6 +19,7 @@ export function registerChatCommands(registry: CommandRegistry): void {
   registry.register(markReadCommand);
   registry.register(reportMessageCommand);
   registry.register(muteMemberCommand);
+  registry.register(pinMessageCommand);
   registry.register(askToRejoinCommand);
   registry.register(removeKeptChatCommand);
 }
