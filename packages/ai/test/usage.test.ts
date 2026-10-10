@@ -5,13 +5,14 @@ import {
   createGateway,
   GatewayError,
   isPeakTime,
+  MODEL_IDS,
   PRICES,
   type AiUsageRecord,
   type GatewayStreamEvent,
   type TokenUsage,
   textOf,
 } from '../src';
-import { fixtureTransport } from './fixture-transport';
+import { fixtureTransport, loadFixture } from './fixture-transport';
 
 const USER_TURN = [{ role: 'user' as const, content: 'hi' }];
 /** Monday 05:00 UTC: off-peak. Monday 02:00 UTC: peak. */
@@ -215,6 +216,122 @@ describe('streamModel against a recorded DeepSeek stream', () => {
     expect(error).toMatchObject({ code: 'AI_REFUSED' });
     expect(streamedText(events)).toBe('');
     expect(records).toHaveLength(1);
+  });
+});
+
+describe('calls the provider may have billed without answering', () => {
+  function failingGateway(fetchImpl: typeof fetch) {
+    const records: AiUsageRecord[] = [];
+    const gateway = createGateway({
+      apiKey: 'fixture-key',
+      fetch: fetchImpl,
+      timeoutMs: 20,
+      onUsage: (record) => {
+        records.push(record);
+        return Promise.resolve();
+      },
+      sleep: () => Promise.resolve(),
+      now: () => AT,
+    });
+    return { gateway, records };
+  }
+
+  /** A request the provider never answers: it ends only when the client gives up on it. */
+  const hanging: typeof fetch = (_input, init) =>
+    new Promise((_resolve, reject) => {
+      init?.signal?.addEventListener('abort', () => {
+        reject(new DOMException('The operation was aborted.', 'AbortError'));
+      });
+    });
+
+  /** The recorded stream's first `events` events, then a broken connection. */
+  function breaksAfter(events: number): typeof fetch {
+    const sse = loadFixture('flash-stream').response.sse ?? [];
+    const encoder = new TextEncoder();
+    return () => {
+      let sent = false;
+      // Erroring drops queued chunks, so the break comes on the read after the events.
+      const body = new ReadableStream<Uint8Array>({
+        pull(controller) {
+          if (sent) {
+            controller.error(new TypeError('terminated'));
+            return;
+          }
+          sent = true;
+          const text = sse
+            .slice(0, events)
+            .map((e) => `event: ${e.event}\ndata: ${JSON.stringify(e.data)}\n\n`)
+            .join('');
+          controller.enqueue(encoder.encode(text));
+        },
+      });
+      const headers = { 'content-type': 'text/event-stream', 'request-id': 'req_broken' };
+      return Promise.resolve(new Response(body, { status: 200, headers }));
+    };
+  }
+
+  it('records a timed-out call with no tokens and no cost, and still fails it', async () => {
+    const { gateway, records } = failingGateway(hanging);
+    await expect(
+      gateway.callModel('recap.narration', { messages: USER_TURN }, { tripId: 'trip-1' }),
+    ).rejects.toMatchObject({ code: 'AI_UNAVAILABLE' });
+    expect(records).toEqual([
+      expect.objectContaining({
+        route: 'recap.narration',
+        model: MODEL_IDS.fast,
+        tier: 'fast',
+        tripId: 'trip-1',
+        tokensIn: 0,
+        tokensOut: 0,
+        cacheRead: 0,
+        costMicros: 0,
+      }),
+    ]);
+  });
+
+  it('records a timed-out stream once, without retrying it', async () => {
+    const { gateway, records } = failingGateway(hanging);
+    const run = async () => {
+      for await (const _event of gateway.streamModel('guide.chat', { messages: USER_TURN })) {
+        // Nothing arrives.
+      }
+    };
+    await expect(run()).rejects.toMatchObject({ code: 'AI_UNAVAILABLE' });
+    expect(records).toHaveLength(1);
+    expect(records[0]).toMatchObject({ route: 'guide.chat', tokensIn: 0, costMicros: 0 });
+  });
+
+  it('bills a stream that broke part-way on the tokens it reported', async () => {
+    const { gateway, records } = failingGateway(breaksAfter(6));
+    const events: GatewayStreamEvent[] = [];
+    const run = async () => {
+      for await (const event of gateway.streamModel('guide.chat', { messages: USER_TURN })) {
+        events.push(event);
+      }
+    };
+    await expect(run()).rejects.toMatchObject({ code: 'AI_UNAVAILABLE' });
+    expect(events.length).toBeGreaterThan(0);
+    // The prompt as message_start reported it; no output count arrived before the break.
+    const reported: TokenUsage = { ...ZERO, inputTokens: 291, cacheReadTokens: 5504 };
+    expect(records).toEqual([
+      expect.objectContaining({
+        route: 'guide.chat',
+        tokensIn: 291 + 5504,
+        tokensOut: 0,
+        cacheRead: 5504,
+        costMicros: computeCostMicros('fast', reported, AT),
+      }),
+    ]);
+    expect(records[0]?.costMicros).toBeGreaterThan(0);
+  });
+
+  it('bills a stream its reader abandoned part-way', async () => {
+    const { gateway, records } = gatewayFor(['flash-stream']);
+    for await (const event of gateway.streamModel('guide.chat', { messages: USER_TURN })) {
+      if (event.kind === 'delta' && event.event.type === 'content_block_delta') break;
+    }
+    expect(records).toHaveLength(1);
+    expect(records[0]).toMatchObject({ tokensIn: 291 + 5504, cacheRead: 5504, tokensOut: 0 });
   });
 });
 
