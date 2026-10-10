@@ -127,7 +127,12 @@ export function PlanRouteLayer({
             'line-color': ['case', ['==', ['get', 'mode'], 'boat'], BOAT_BLUE, ['get', 'color']],
             'line-width': width,
             // A boat leg is dotted (1 on, 9 off at the design's width).
-            'line-dasharray': ['case', ['==', ['get', 'mode'], 'boat'], ['literal', [0.2, 2]], ['literal', [1, 0]]],
+            'line-dasharray': [
+              'case',
+              ['==', ['get', 'mode'], 'boat'],
+              ['literal', [0.2, 2]],
+              ['literal', [1, 0]],
+            ],
           }}
         />
         <Layer
@@ -135,7 +140,11 @@ export function PlanRouteLayer({
           type="line"
           filter={['==', ['get', 'mode'], 'walk']}
           layout={{ 'line-cap': 'round', 'line-join': 'round' }}
-          paint={{ 'line-color': ['get', 'color'], 'line-width': width, 'line-dasharray': [0.2, 1.8] }}
+          paint={{
+            'line-color': ['get', 'color'],
+            'line-width': width,
+            'line-dasharray': [0.2, 1.8],
+          }}
         />
       </GeoJSONSource>
       <GeoJSONSource id={`${id}-pins`} data={pins} onPress={onPress}>

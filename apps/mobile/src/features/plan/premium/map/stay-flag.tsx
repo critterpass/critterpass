@@ -3,7 +3,9 @@
  * name ("Villa"), or the bare ink square on small maps. One per map, so a `Marker` view.
  */
 import { Marker, type LngLat } from '@maplibre/maplibre-react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { Text } from '@/ui/premium';
 
 import { MAP_INK } from './palette';
 
@@ -32,7 +34,6 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   square: { width: 16, height: 16, borderRadius: 5, backgroundColor: '#ffd84a' },
-  label: { color: '#ffffff', fontSize: 11, fontWeight: '600' },
   bare: {
     width: 12,
     height: 12,
@@ -56,7 +57,7 @@ export function StayFlag({ lngLat, label, accessibilityLabel }: StayFlagProps) {
         {hasLabel ? (
           <>
             <View style={styles.square} />
-            <Text style={styles.label} numberOfLines={1}>
+            <Text variant="badge" tone="onInk" numberOfLines={1}>
               {label}
             </Text>
           </>
