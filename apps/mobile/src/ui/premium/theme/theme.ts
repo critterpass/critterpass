@@ -22,6 +22,7 @@ export interface PremiumTheme {
   readonly radius: typeof premium.radius;
   readonly space: typeof premium.space;
   readonly size: typeof premium.size;
+  readonly opacity: typeof premium.opacity;
   readonly spring: typeof premium.spring;
   readonly motion: typeof premium.motion;
   /** Each elevation as `boxShadow` text. */
@@ -52,6 +53,7 @@ function build(scheme: PremiumScheme): PremiumTheme {
     radius: premium.radius,
     space: premium.space,
     size: premium.size,
+    opacity: premium.opacity,
     spring: premium.spring,
     motion: premium.motion,
     shadow: mapValues(mode.elevation, boxShadow),
@@ -64,3 +66,8 @@ export const PREMIUM_THEMES: Readonly<Record<PremiumScheme, PremiumTheme>> = {
   light: build('light'),
   dark: build('dark'),
 };
+
+/** A solid ring drawn as a zero-blur shadow (`0 0 0 <width>px <color>`), inside or outside the box. */
+export function ring(width: number, color: string, inset = false): string {
+  return boxShadow([{ x: 0, y: 0, blur: 0, spread: width, color, ...(inset ? { inset } : {}) }]);
+}

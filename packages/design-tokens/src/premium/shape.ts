@@ -89,8 +89,10 @@ export const premiumSize = {
   toggleKnob: 28,
   stepper: 40,
   stepperButton: 44,
+  stepperValue: 30,
   checkbox: 22,
   checkboxBorder: 2,
+  checkboxGlyph: 12,
   field: 52,
   fieldBorder: 1.5,
   focusRing: 2,
@@ -129,4 +131,12 @@ export const premiumSize = {
   /** Glyphs inside 40–44 controls and pills. */
   glyph: 18,
   iconStroke: 1.9,
+} as const;
+
+/** Opacities the design sets on whole elements. */
+export const premiumOpacity = {
+  /** Past items under an empty state ("Earlier"). */
+  earlier: 0.85,
+  /** A control that cannot be used and has no designed disabled fill (toggle, stepper side). */
+  disabled: 0.4,
 } as const;

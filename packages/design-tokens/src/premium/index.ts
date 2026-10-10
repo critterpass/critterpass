@@ -10,7 +10,7 @@ import { premiumElevationDark, premiumElevationLight } from './elevation';
 import type { PremiumMaterials } from './materials';
 import { premiumMaterialsDark, premiumMaterialsLight } from './materials';
 import { premiumMotion, premiumSprings } from './motion';
-import { premiumRadius, premiumSize, premiumSpace } from './shape';
+import { premiumOpacity, premiumRadius, premiumSize, premiumSpace } from './shape';
 import { premiumType } from './type';
 
 export type PremiumScheme = 'light' | 'dark';
@@ -37,6 +37,7 @@ export const premium = {
   radius: premiumRadius,
   space: premiumSpace,
   size: premiumSize,
+  opacity: premiumOpacity,
   spring: premiumSprings,
   motion: premiumMotion,
 } as const;
