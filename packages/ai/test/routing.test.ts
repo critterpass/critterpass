@@ -52,6 +52,7 @@ describe('routing table', () => {
       'menu.parse',
       'photo.picks',
       'avatar.moderate',
+      'recap.narration',
     ];
     for (const route of fast) expect(resolveRoute(route).tier, route).toBe('fast');
   });
