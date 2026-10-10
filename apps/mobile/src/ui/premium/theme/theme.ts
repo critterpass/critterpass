@@ -23,6 +23,7 @@ export interface PremiumTheme {
   readonly space: typeof premium.space;
   readonly size: typeof premium.size;
   readonly opacity: typeof premium.opacity;
+  readonly tilt: typeof premium.tilt;
   readonly spring: typeof premium.spring;
   readonly motion: typeof premium.motion;
   /** Each elevation as `boxShadow` text. */
@@ -54,6 +55,7 @@ function build(scheme: PremiumScheme): PremiumTheme {
     space: premium.space,
     size: premium.size,
     opacity: premium.opacity,
+    tilt: premium.tilt,
     spring: premium.spring,
     motion: premium.motion,
     shadow: mapValues(mode.elevation, boxShadow),

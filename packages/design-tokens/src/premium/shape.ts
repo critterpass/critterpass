@@ -111,6 +111,12 @@ export const premiumSize = {
   avatarLarge: 40,
   stackOverlap: 10,
   stackBorder: 2.5,
+  avatarSmall: 30,
+  statTile: 96,
+  photoCard: 96,
+  stampRound: 96,
+  stampRoundSmall: 80,
+  dayBadgeGap: 1,
   stickerBorder: 2.5,
   guideCritter: 38,
   bannerDoodle: 30,
@@ -124,8 +130,12 @@ export const premiumSize = {
   hairline: 0.5,
   emptyDash: 2,
   stampRingOuter: 3,
+  stampRingOuterSmall: 2.5,
   stampRingInner: 1,
-  stampRingGap: 3,
+  /** Where the inner hairline ring starts, from the stamp's edge. */
+  stampInnerAt: 7,
+  stampInnerAtSmall: 6,
+  stampRectInnerAt: 6,
   ripple: 220,
   icon: 24,
   /** Glyphs inside 40–44 controls and pills. */
@@ -139,4 +149,14 @@ export const premiumOpacity = {
   earlier: 0.85,
   /** A control that cannot be used and has no designed disabled fill (toggle, stepper side). */
   disabled: 0.4,
+} as const;
+
+/** Fixed tilts (degrees) the design gives stickers, stamps and photos. */
+export const premiumTilt = {
+  photo: -3,
+  statSticker: 8,
+  emptyCheck: 10,
+  tag: -5,
+  stampRound: -12,
+  stampRect: -4,
 } as const;
