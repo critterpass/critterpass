@@ -90,6 +90,13 @@ export const premiumSize = {
   errorDisc: 28,
   emptyCheck: 46,
   loadingCritter: 40,
+  /** Tokek's circle beside the tab bar, its ring, and Tokek inside it. */
+  guideCircle: 56,
+  guideCircleBorder: 3,
+  guideCircleCritter: 46,
+  /** Material bottom navigation height (the Android guide button floats above it) and its margin. */
+  androidTabBar: 80,
+  androidFabMargin: 16,
   segment: 40,
   toggleWidth: 52,
   toggleHeight: 32,

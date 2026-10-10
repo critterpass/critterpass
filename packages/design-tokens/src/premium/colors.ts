@@ -66,6 +66,18 @@ export interface PremiumPalette {
   readonly onInkSurface: string;
   /** A disabled icon button's fill (its glyph stays `onInk`). */
   readonly iconButtonDisabled: string;
+  /** The guide circle's radial fill (centre, middle, edge) and the ring around it. */
+  readonly guideCircleFrom: string;
+  readonly guideCircleMid: string;
+  readonly guideCircleTo: string;
+  readonly guideCircleRing: string;
+  /** The fill that grows across a hold-to-confirm pill. */
+  readonly holdFill: string;
+  /** What the page behind a sheet or a morph dims to. */
+  readonly scrim: string;
+  /** A locked critter's silhouette: grey for not yet found, gold for a rare one still to find. */
+  readonly lockedMask: string;
+  readonly lockedMaskGold: string;
   readonly status: {
     readonly booked: PremiumTint;
     readonly voteOpen: PremiumTint;
@@ -164,6 +176,14 @@ export const premiumLight: PremiumPalette = {
   inkSurface: '#1c1d24',
   onInkSurface: '#ffffff',
   iconButtonDisabled: 'rgba(28,29,36,.35)',
+  guideCircleFrom: '#fff3b8',
+  guideCircleMid: '#ffd84a',
+  guideCircleTo: '#f2b92e',
+  guideCircleRing: 'rgba(255,255,255,.95)',
+  holdFill: '#ffc2dc',
+  scrim: 'rgba(0,0,0,.2)',
+  lockedMask: '#e3e4ea',
+  lockedMaskGold: '#efe2b4',
   status: {
     booked: { bg: '#e3f6ec', text: '#1f7a55' },
     voteOpen: { bg: '#ffe4f0', text: '#b0306b' },
@@ -233,6 +253,14 @@ export const premiumDark: PremiumPalette = {
   inkSurface: '#f2f2f5',
   onInkSurface: '#15161b',
   iconButtonDisabled: 'rgba(242,242,245,.35)',
+  guideCircleFrom: '#fff3b8',
+  guideCircleMid: '#ffd84a',
+  guideCircleTo: '#f2b92e',
+  guideCircleRing: 'rgba(255,255,255,.2)',
+  holdFill: '#5a2440',
+  scrim: 'rgba(0,0,0,.45)',
+  lockedMask: '#2a2b33',
+  lockedMaskGold: '#3a3112',
   status: {
     booked: { bg: '#16332a', text: '#5fd6a2' },
     voteOpen: { bg: '#3b1a2b', text: '#ff8ac0' },
