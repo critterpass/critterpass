@@ -306,6 +306,7 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
 | `queue_guide_question` | `{thread_id, text}` (answered at 00:00 reset) | owner | only when `QUOTA_EXHAUSTED` | `guide.question_queued` | A, O | 32 |
+| `edit_queued_question` (doc delta) | `{question_id, text}` (rewords it while still queued; `STATE_INVALID not_queued` after) | owner | – | – | A, O | 32 |
 | `cancel_queued_question` (doc delta) | `{question_id}` | owner | – | `guide.question_cancelled` | A, O | 32 |
 | `rate_guide_answer` | `{message_id, verdict, note?}` | owner | – | `guide.answer_rated` (Langfuse score) | A, O | 32 |
 | `claim_guide_offer` (doc delta) | `{offer_id}` → `{offer_id, status}` (takes the offer's row lock, fails if full or expired, idempotent per member, publishes on crew_chat) | member | – | `guide_offer.taken` | A, O | 32 |

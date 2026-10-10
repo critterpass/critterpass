@@ -89,6 +89,7 @@ export const COMMAND_NAMES_A_TO_O = [
   'edit_expense',
   'edit_message',
   'edit_postcard',
+  'edit_queued_question',
   'end_encounter',
   'end_swipe_session',
   'ensure_plan_days',
