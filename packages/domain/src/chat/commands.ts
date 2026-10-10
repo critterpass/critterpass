@@ -6,9 +6,9 @@
 import { z } from 'zod';
 
 import { reportReasonSchema } from '../admin/moderation-kinds';
-import { ATTACHMENT_KINDS } from './message-types';
+import { ATTACHMENT_KINDS, stickerPoseSchema } from './message-types';
 import {
-  isReactionEmoji,
+  isReactionKey,
   MESSAGE_ATTACHMENTS_MAX,
   MESSAGE_BODY_MAX,
   MESSAGE_MENTIONS_MAX,
@@ -37,8 +37,20 @@ export const sendMessagePayloadSchema = z
     mentions_guide: z.boolean().default(false),
     reply_to: z.uuid().optional(),
     attachments: z.array(outgoingAttachmentSchema).max(MESSAGE_ATTACHMENTS_MAX).default([]),
+    /** A critter sticker instead of text or media: a form the sender has met, in one pose. */
+    sticker: z.object({ form_id: z.uuid(), pose: stickerPoseSchema }).optional(),
   })
   .superRefine((value, ctx) => {
+    if (value.sticker !== undefined) {
+      if (value.body !== '' || value.attachments.length > 0 || value.mentions_guide) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'a sticker carries no text or media',
+          path: ['sticker'],
+        });
+      }
+      return;
+    }
     if (value.body === '' && value.attachments.length === 0) {
       ctx.addIssue({ code: 'custom', message: 'empty message', path: ['body'] });
     }
@@ -78,7 +90,8 @@ export type MessageIdPayload = z.infer<typeof messageIdPayloadSchema>;
 
 export const reactMessagePayloadSchema = z.object({
   message_id: z.uuid(),
-  emoji: z.string().refine(isReactionEmoji, 'not an emoji'),
+  /** One emoji, or a critter reaction key (`c112.cheer`). */
+  emoji: z.string().refine(isReactionKey, 'not a reaction'),
   /** Absent: toggle. The app sends the state it showed so a replayed queue lands the same way. */
   on: z.boolean().optional(),
 });

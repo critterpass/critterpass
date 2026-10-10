@@ -1,6 +1,6 @@
 /**
  * Crew chat message kinds (docs/data-model.md §3.6). `text`, `photo`, `voice` and `system` are
- * built by the chat itself; every other kind is a rich card whose renderer belongs to the feature
+ * built by the chat itself, and `sticker` is a member's critter sticker; every other kind is a rich card whose renderer belongs to the feature
  * that posts it (polls, expenses, guide offers, change sets, boost cards, meet-ups, proposals and
  * supplier orders). The app's card registry is typed by this list, so a new kind lands here first.
  */
@@ -19,12 +19,13 @@ export const MESSAGE_TYPES = [
   'meetup',
   'proposal',
   'supplier_order',
+  'sticker',
 ] as const;
 export const messageTypeSchema = z.enum(MESSAGE_TYPES);
 export type MessageType = z.infer<typeof messageTypeSchema>;
 
 /** Kinds a member sends through `send_message`; cards are posted by their owning features. */
-export const MEMBER_MESSAGE_TYPES = ['text', 'photo', 'voice'] as const;
+export const MEMBER_MESSAGE_TYPES = ['text', 'photo', 'voice', 'sticker'] as const;
 export type MemberMessageType = (typeof MEMBER_MESSAGE_TYPES)[number];
 
 export const MESSAGE_SENDER_KINDS = ['user', 'guide', 'system'] as const;
@@ -51,3 +52,13 @@ export const storedAttachmentSchema = z.object({
   peaks: z.array(z.number().min(0).max(1)).max(64).optional(),
 });
 export type StoredAttachment = z.infer<typeof storedAttachmentSchema>;
+
+/**
+ * A critter sticker message: one pose of a critter form the sender has met. Stored as
+ * `type = 'sticker'`, `ref_kind = 'critter_form'`, `ref_id` the form and `body` the pose; the
+ * caption is fixed per pose and localised on the device, so a sticker carries no free text.
+ */
+export const STICKER_POSES = ['wave', 'cheer', 'think', 'point', 'sleep'] as const;
+export const stickerPoseSchema = z.enum(STICKER_POSES);
+export type StickerPose = z.infer<typeof stickerPoseSchema>;
+export const STICKER_REF_KIND = 'critter_form';

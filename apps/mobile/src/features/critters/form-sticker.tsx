@@ -5,6 +5,8 @@
  * the phone.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import type { Pose } from '@cp/critter-art';
+
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { artKind } from './art-kind';
@@ -17,6 +19,8 @@ export interface FormStickerProps {
   /** The form, by id or by its catalogue key (`cp-151:common`). */
   readonly form: string;
   readonly size: number;
+  /** A pose for this sticker (a chat sticker's), over the form's own. */
+  readonly pose?: Pose;
 }
 
 interface FormStickerRow {
@@ -41,7 +45,7 @@ const FORM_SQL = `SELECT f.id, f.key, f.critter_id, f.rarity, f.palette, f.pose,
   LIMIT 1`;
 const FORM_TABLES = ['critter_forms', 'critters', 'collection_entries'];
 
-export function FormSticker({ form, size }: FormStickerProps) {
+export function FormSticker({ form, size, pose }: FormStickerProps) {
   const uid = useOwnerUid();
   const { rows } = useLiveRows<FormStickerRow>(
     FORM_SQL,
@@ -68,6 +72,7 @@ export function FormSticker({ form, size }: FormStickerProps) {
       size={size}
       {...(row.canonical_seed === null ? {} : { seed: row.canonical_seed })}
       {...(spec === null ? {} : { form: spec })}
+      {...(pose === undefined ? {} : { pose })}
     />
   );
 }

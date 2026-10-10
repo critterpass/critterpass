@@ -13,6 +13,23 @@ export const VOICE_NOTE_MAX_MS = 120_000;
 export const CHAT_EDIT_WINDOW_MINUTES = 15;
 /** How many quick reactions the long-press bar offers. */
 export const QUICK_REACTIONS = ['👍', '❤️', '😂', '😮', '🔥', '🙏'] as const;
+/** The doodle reactions of the long-press bar: heart, star, flame, check and spark, stored as emoji. */
+export const DOODLE_REACTIONS = ['❤️', '⭐', '🔥', '✅', '✨'] as const;
+
+/** Poses a critter reaction can wear (the sticker poses plus the resting one). */
+const CRITTER_REACTION = /^c([1-9]\d{0,2})\.(idle|wave|cheer|think|point|sleep)$/u;
+
+/** A critter reaction key: `c<dex no>.<pose>`, for example `c112.cheer` (at most 16 characters). */
+export function critterReactionKey(no: number, pose: string): string {
+  return `c${no}.${pose}`;
+}
+
+/** The dex number and pose of a critter reaction key, or null for an emoji or anything else. */
+export function parseCritterReaction(value: string): { no: number; pose: string } | null {
+  const match = CRITTER_REACTION.exec(value);
+  if (match === null) return null;
+  return { no: Number(match[1]), pose: match[2] ?? 'idle' };
+}
 
 const SCHEME = /\b([a-z][a-z0-9+.-]{1,31}):(\/\/)?/gi;
 /** Schemes that run code or read local data when tapped, with or without `//`. */
@@ -45,4 +62,9 @@ export function isReactionEmoji(value: string): boolean {
     !/\s/u.test(value) &&
     /\p{Extended_Pictographic}|\p{Regional_Indicator}/u.test(value)
   );
+}
+
+/** What a reaction may be: one emoji, or a critter of the dex in a pose (`c112.cheer`). */
+export function isReactionKey(value: string): boolean {
+  return isReactionEmoji(value) || parseCritterReaction(value) !== null;
 }

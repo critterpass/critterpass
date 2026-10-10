@@ -1,6 +1,6 @@
 /**
- * `send_message` (docs/api-contracts.md §4.2): an active member posts text, photos or one voice
- * note. The command's `op_id` is the message id, so an offline send replayed from the queue (or a
+ * `send_message` (docs/api-contracts.md §4.2): an active member posts text, photos, one voice
+ * note or a critter sticker (a form they have met, in one pose). The command's `op_id` is the message id, so an offline send replayed from the queue (or a
  * notification REPLY retried) lands on one row. The insert trigger assigns the crew's next `seq`
  * under the counter row lock, so order is server receive order, never a device clock.
  */
@@ -11,6 +11,7 @@ import {
   DomainError,
   findUnsafeLink,
   sendMessagePayloadSchema,
+  STICKER_REF_KIND,
   type ChatMediaJob,
   type MemberMessageType,
   type SendMessageResult,
@@ -30,6 +31,16 @@ import {
 function typeOf(attachments: readonly StoredAttachment[]): MemberMessageType {
   if (attachments.some((attachment) => attachment.kind === 'voice')) return 'voice';
   return attachments.length > 0 ? 'photo' : 'text';
+}
+
+/** A sticker must be a form the sender has met; RLS shows the sender their own entries only. */
+async function assertFormMet(tx: pg.PoolClient, formId: string): Promise<void> {
+  const { rowCount } = await tx.query(
+    `SELECT 1 FROM collection_entries
+      WHERE user_id = app.uid() AND form_id = $1 AND verification <> 'revoked' LIMIT 1`,
+    [formId],
+  );
+  if (rowCount === 0) throw new DomainError('FORBIDDEN', { reason: 'sticker_not_met' });
 }
 
 /** The trip the crew is on or planning now, for the guide's context; null when there is none. */
@@ -64,14 +75,16 @@ export const sendMessageCommand = defineCommand({
         throw new DomainError('NOT_FOUND', { reason: 'message' });
       replyToSender = parent.sender_id;
     }
+    const sticker = payload.sticker;
+    if (sticker !== undefined) await assertFormMet(tx, sticker.form_id);
     const attachments = await resolveAttachments(tx, ctx.uid, payload.attachments);
-    const type = typeOf(attachments);
+    const type: MemberMessageType = sticker === undefined ? typeOf(attachments) : 'sticker';
     const tripId = await currentTrip(tx, payload.crew_id);
 
     const { rows } = await tx.query<{ seq: string }>(
       `INSERT INTO messages (id, crew_id, trip_id, sender_kind, sender_id, type, body, reply_to_id,
-         mentions, mentions_guide, attachments)
-       VALUES ($1, $2, $3, 'user', $4, $5, $6, $7, $8::uuid[], $9, $10::jsonb)
+         mentions, mentions_guide, attachments, ref_kind, ref_id)
+       VALUES ($1, $2, $3, 'user', $4, $5, $6, $7, $8::uuid[], $9, $10::jsonb, $11, $12)
        RETURNING seq`,
       [
         ctx.opId,
@@ -79,11 +92,13 @@ export const sendMessageCommand = defineCommand({
         tripId,
         ctx.uid,
         type,
-        payload.body,
+        sticker?.pose ?? payload.body,
         payload.reply_to ?? null,
         [...new Set(payload.mentions)],
         payload.mentions_guide,
         JSON.stringify(attachments),
+        sticker === undefined ? null : STICKER_REF_KIND,
+        sticker?.form_id ?? null,
       ],
     );
     const seq = Number(rows[0]?.seq);

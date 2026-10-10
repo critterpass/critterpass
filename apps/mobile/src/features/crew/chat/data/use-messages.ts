@@ -9,7 +9,7 @@
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { MuteMemberPayload } from '@cp/domain';
+import { STICKER_REF_KIND, type MuteMemberPayload } from '@cp/domain';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
@@ -79,6 +79,12 @@ interface RejectedRow {
   readonly rejected_at: string;
 }
 
+function localType(payload: OutgoingMessage, voice: boolean): ChatMessage['type'] {
+  if (payload.sticker !== undefined) return 'sticker';
+  if (voice) return 'voice';
+  return payload.attachments.length > 0 ? 'photo' : 'text';
+}
+
 function localMessage(
   id: string,
   me: string,
@@ -95,10 +101,10 @@ function localMessage(
     senderId: me,
     senderName: null,
     guideId: null,
-    type: voice ? 'voice' : payload.attachments.length > 0 ? 'photo' : 'text',
-    body: payload.body,
-    refKind: null,
-    refId: null,
+    type: localType(payload, voice),
+    body: payload.sticker?.pose ?? payload.body,
+    refKind: payload.sticker === undefined ? null : STICKER_REF_KIND,
+    refId: payload.sticker?.form_id ?? null,
     replyToId: payload.reply_to ?? null,
     mentions: payload.mentions,
     mentionsGuide: payload.mentions_guide,
