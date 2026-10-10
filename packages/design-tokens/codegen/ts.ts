@@ -2,7 +2,7 @@
 import type { Tokens } from '../src/types';
 import { GENERATED_HEADER } from './generated-header';
 
-function serialize(value: unknown, indent: number): string {
+export function serialize(value: unknown, indent: number): string {
   const pad = '  '.repeat(indent);
   const childPad = '  '.repeat(indent + 1);
   if (value === null) return 'null';
