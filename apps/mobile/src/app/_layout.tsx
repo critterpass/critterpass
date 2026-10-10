@@ -97,6 +97,7 @@ import {
 import { SHEET_GROUPS, sheetGroupOptions } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { analyticsViolationBreadcrumb, initAppSentry, sentryDsnFromEnv } from '@/lib/observability';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { ThemeProvider } from '@/lib/theme';
 import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
@@ -106,6 +107,8 @@ import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
+import { PremiumThemeProvider } from '@/ui/premium';
+import { PremiumRootStack } from '@/ui/premium/shell/navigation/premium-root-stack';
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
@@ -210,10 +213,27 @@ function RootNavigator() {
       .then(setLaunchUrl)
       .catch(() => setLaunchUrl(null));
   }, []);
-  useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
+  // Premium and the current UI keep separate saved navigation: their navigators differ.
+  const premium = usePremiumUi();
+  useNavigationPersistence({
+    navigationRef,
+    build: `${BUILD}:${premium ? 'premium' : 'current'}`,
+    launchUrl,
+  });
   useNoBackAffordanceGuard();
   useScreenTracking(useAnalytics());
   usePushNotifications(cpNotifications);
+  if (premium) {
+    // The one root premium theme: it sets the OS appearance and the status bar, so it lives only
+    // on the premium path; the current UI stays dark whatever the premium appearance setting says.
+    return (
+      <PremiumThemeProvider>
+        <SessionDatabaseProvider value={databaseOpen}>
+          <PremiumRootStack />
+        </SessionDatabaseProvider>
+      </PremiumThemeProvider>
+    );
+  }
   return (
     <NavigationThemeProvider value={navigationTheme}>
       <SessionDatabaseProvider value={databaseOpen}>
