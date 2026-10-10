@@ -22,6 +22,11 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
   {
     title: 'Labs',
     entries: [
+      {
+        testId: 'dev-nav-premium-shell',
+        href: '/(dev)/premium-shell/legend',
+        label: 'Premium shell (tabs, sheets, zoom, morph)',
+      },
       { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
       { testId: 'dev-nav-start-fresh', href: '/(dev)/start-fresh', label: 'Start as a new user' },
       {

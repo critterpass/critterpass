@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<style>
+html,body,#m{margin:0;height:100%;width:100%;background:#cfe3f1;font-family:-apple-system,'SF Pro Text','Helvetica Neue',Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+.leaflet-container{background:#cfe3f1}
+.lbl{font:600 11px -apple-system,sans-serif;color:#6e6a5c;white-space:nowrap;text-shadow:0 0 3px #f4f1e8,0 0 3px #f4f1e8,0 0 2px #f4f1e8;transform:translate(-50%,-50%)}
+.lbl.b{font-weight:700;font-size:12.5px;color:#4d4a40;letter-spacing:.01em}
+.dk .lbl{color:#9a9daa;text-shadow:0 0 3px #1d2026,0 0 3px #1d2026}.dk .lbl.b{color:#c3c5cf}.dk .pk{color:#71747f;text-shadow:0 0 3px #1d2026}.dk .leaflet-container{background:#121b26}
+.pk{display:flex;align-items:center;gap:4px;font:600 10px -apple-system,sans-serif;color:#7d7766;white-space:nowrap;text-shadow:0 0 3px #f4f1e8,0 0 3px #f4f1e8}
+.leaflet-tile-pane{filter:saturate(.92) brightness(1.02)}
+.leaflet-control-attribution{font-size:8px!important;background:rgba(255,255,255,.7)!important;border-radius:6px 0 0 0;color:#6e7180!important}
+.leaflet-control-attribution a{color:#6e7180!important}
+.fade{position:absolute;inset:0;pointer-events:none;z-index:450}
+.pin{position:relative}
+.ph{border:3px solid #fff;border-radius:13px;background:#ddd center/cover;box-shadow:0 2px 3px rgba(20,22,40,.12),0 10px 20px rgba(20,22,40,.18)}
+.tag{position:absolute;left:50%;top:100%;margin-top:4px;white-space:nowrap;font:700 10px/1 -apple-system,sans-serif;padding:5px 8px;border-radius:8px;border:2px solid #fff;color:#17142a;box-shadow:0 3px 8px rgba(20,22,40,.16)}
+.av{width:36px;height:36px;border-radius:50%;border:3px solid #fff;box-shadow:0 4px 12px rgba(20,22,40,.22);display:flex;align-items:center;justify-content:center;font:700 14px -apple-system,sans-serif;color:#17142a;box-sizing:border-box}
+.flag{display:flex;align-items:center;gap:6px;background:#1c1d24;color:#fff;font:600 11px -apple-system,sans-serif;padding:7px 11px 7px 9px;border-radius:14px;white-space:nowrap;box-shadow:0 8px 18px rgba(20,22,40,.28)}
+.dot{width:26px;height:26px;border-radius:50%;background:#fff;color:#1c1d24;font:700 11px -apple-system,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(20,22,40,.2)}
+.you{width:18px;height:18px;border-radius:50%;background:#4f86ff;border:4px solid #fff;box-shadow:0 0 0 10px rgba(79,134,255,.18),0 4px 10px rgba(20,22,40,.25);box-sizing:border-box}
+.car{display:flex;align-items:center;gap:6px;background:#fff;padding:5px 9px 5px 5px;border-radius:16px;font:700 11px -apple-system,sans-serif;color:#1c1d24;white-space:nowrap;box-shadow:0 6px 16px rgba(20,22,40,.2)}
+</style>
+</head>
+<body>
+<div id="m"></div>
+<script src="map-base.js"></script>
+<script src="map-routes.js"></script>
+<div class="fade" id="fade"></div>
+<script>
+const P = n => `https://bali.winstonb.online/media/photo/${n}-800.webp`;
+const C = { W: '#ffd84a', M: '#ff5fa8', A: '#4f86ff', J: '#54d6a4', R: '#ff9a4d', D: '#f4efe4' };
+const photo = (n, s, label, col, rot) => `<div class="pin" style="transform:rotate(${rot || 0}deg)"><div class="ph" style="width:${s}px;height:${s}px;background-image:url(${P(n)})"></div>${label ? `<div class="tag" style="background:${col};transform:translateX(-50%) rotate(${-(rot || 0) * 1.6}deg)">${label}</div>` : ''}</div>`;
+const av = (i, extra) => `<div style="display:flex">${i.split('').map((k, j) => `<div class="av" style="background:${C[k]};margin-left:${j ? -10 : 0}px">${k}</div>`).join('')}${extra || ''}</div>`;
+const DC = ['#ffd84a', '#ff5fa8', '#4f86ff', '#54d6a4', '#ff9a4d', '#ffd84a', '#ff5fa8', '#4f86ff'];
+const n = (k, c, o = {}) => `<div style="width:${o.s || 26}px;height:${o.s || 26}px;border-radius:50%;background:${c};color:${o.ink || '#17142a'};font:800 ${o.f || 12}px -apple-system,sans-serif;display:flex;align-items:center;justify-content:center;border:2.5px solid #fff;box-shadow:0 3px 8px rgba(20,22,40,.25);opacity:${o.dim ? .45 : 1};box-sizing:border-box">${k}</div>`;
+const sd = (c, dim) => `<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2px solid #fff;box-shadow:0 2px 5px rgba(20,22,40,.25);opacity:${dim ? .5 : 1}"></div>`;
+const sv = (ph, who, s = 34) => `<div style="position:relative"><div class="ph" style="width:${s}px;height:${s}px;border-width:2.5px;border-radius:11px;background-image:url(${P(ph)})"></div><div style="position:absolute;right:-5px;bottom:-5px;width:14px;height:14px;border-radius:50%;background:${C[who]};border:2px solid #fff"></div></div>`;
+const tk = () => `<div style="width:10px;height:10px;border-radius:50%;background:#fff;border:3px solid #a9d08c;box-shadow:0 2px 4px rgba(20,22,40,.2)"></div>`;
+const lab = (t, c = '#fff', ink = '#17142a') => `<div style="background:${c};color:${ink};font:700 10.5px -apple-system,sans-serif;padding:5px 8px;border-radius:9px;border:2px solid #fff;white-space:nowrap;box-shadow:0 4px 10px rgba(20,22,40,.2)">${t}</div>`;
+const stay = (t) => `<div class="flag" style="padding:6px 10px 6px 7px"><span style="width:16px;height:16px;border-radius:5px;background:#ffd84a;display:inline-block"></span>${t}</div>`;
+const clu = (k) => `<div style="width:30px;height:30px;border-radius:50%;background:rgba(28,29,36,.82);color:#fff;font:700 11px -apple-system,sans-serif;display:flex;align-items:center;justify-content:center;border:2.5px solid #fff;box-shadow:0 3px 8px rgba(20,22,40,.25)">${k}</div>`;
+const G = { villa: [-8.5, 115.242], jat: [-8.37, 115.131], mf: [-8.5188, 115.2585], cam: [-8.503, 115.256], karsa: [-8.5012, 115.2638], loca: [-8.5095, 115.2655], biah: [-8.507, 115.2615], sen: [-8.5058, 115.2592], mkt: [-8.5068, 115.2632], te: [-8.4153, 115.3154], teg: [-8.4319, 115.2793], gg: [-8.5234, 115.2873], gk: [-8.4234, 115.3125], bat: [-8.242, 115.375], kel: [-8.7505, 115.4746], cb: [-8.7155, 115.459], san: [-8.678, 115.263], amed: [-8.348, 115.645], sid: [-8.48, 115.438], ulu: [-8.8291, 115.0849], tc: [-8.442, 115.386], dps: [-8.7482, 115.1675], sem: [-8.691, 115.165] };
+G.toy = [-8.6815, 115.4855]; G.sari = [-8.4955, 115.2575]; G.tgan = [-8.4119, 115.5874]; G.kayu = [-8.511, 115.25];
+const D3 = [G.villa, G.jat, G.mf, G.cam, G.karsa, G.loca, G.villa];
+const DAYPTS = [[G.dps, G.villa, G.loca], [G.villa, G.gg, G.teg, G.sari, G.tgan, G.villa], D3, [G.villa, G.bat, G.te, G.villa], null, [G.villa, G.sen, G.te, G.villa], [G.villa, G.sid, G.tc, G.villa], [G.villa, G.dps]];
+const DAYCOL = ['#e0a800', '#ff5fa8', '#4f86ff', '#2fb886', '#ff9a4d', '#e0a800', '#ff5fa8', '#4f86ff'];
+const BOX = pts => { const la = pts.map(p => p[0]), lo = pts.map(p => p[1]); return [[Math.min(...la), Math.min(...lo)], [Math.max(...la), Math.max(...lo)]]; };
+const pinsFor = (pts, c) => pts.slice(1).filter((p, i, a) => !(p === pts[0] && i === a.length - 1)).map((p, i) => [p[0], p[1], n(i + 1, c, { s: 18, f: 10, ink: '#fff' }), 9]).concat([[pts[0][0], pts[0][1], '<div style="width:12px;height:12px;border-radius:4px;background:#1c1d24;border:2px solid #fff"></div>', 6]]);
+const others = (dim = true) => [[G.biah, 0], [G.gg, 1], [G.teg, 1], [G.bat, 3], [G.kel, 4], [G.cb, 4], [G.sid, 6], [G.ulu, 7]].map(([g, d]) => [g[0], g[1], sd(DC[d], dim), 6]);
+const d3m = (s = 26) => [[G.jat, 1], [G.mf, 2], [G.cam, 3], [G.karsa, 4], [G.loca, 5]].map(([g, k]) => [g[0], g[1], n(k, '#4f86ff', { s, ink: '#fff' }), s / 2]);
+const saved = () => [[G.te[0], G.te[1], sv('tirta-empul', 'A'), 17], [G.tc[0], G.tc[1], sv('tegenungan', 'D', 30), 15], [G.gk[0], G.gk[1], tk(), 5], [-8.47, 115.2, tk(), 5], [-8.6, 115.3, tk(), 5], [-8.55, 115.36, tk(), 5]];
+const S = {
+  trip: { bounds: [[-8.86, 115.05], [-8.22, 115.52]], pad: [[110, 330], [10, 10]], color: '#4f86ff', line: D3, m: [...others(), ...saved(), ...d3m(24), [G.villa[0], G.villa[1], stay('Villa'), [30, 14]]] },
+  tripday: { bounds: [[-8.53, 115.12], [-8.36, 115.3]], pad: [[110, 210], [14, 14]], line: D3, m: [[G.te[0], G.te[1], sv('tirta-empul', 'A', 30), 15], ...d3m(26), [G.villa[0], G.villa[1], stay('Villa'), [30, 14]], [G.karsa[0] + .004, G.karsa[1] + .004, lab('Karsa Spa · 14:00', '#fff'), [0, 30]]] },
+  island: { bounds: [[-8.86, 115.05], [-8.2, 115.7]], pad: [[10, 10], [10, 10]], m: [...others(false), ...d3m(14).map(x => [x[0], x[1], sd('#4f86ff'), 6]), [G.villa[0], G.villa[1], sd('#1c1d24'), 6]] },
+  mini: { bounds: [[-8.53, 115.12], [-8.36, 115.28]], pad: [[16, 16], [16, 16]], line: D3, m: [...d3m(22), [G.villa[0], G.villa[1], `<div style="width:16px;height:16px;border-radius:5px;background:#1c1d24;border:2px solid #fff"></div>`, 8]] },
+  dayfull: { bounds: [[-8.53, 115.12], [-8.36, 115.28]], pad: [[110, 260], [14, 14]], line: D3, m: [...d3m(28), [G.villa[0], G.villa[1], stay('Villa'), [30, 14]], [G.cam[0] - .002, G.cam[1] - .03, `<div style="display:flex;align-items:center;gap:6px">${sv('sanur', 'D', 28)}${lab('On the way · +3 min', '#54d6a4')}</div>`, [14, 14]], [G.cam[0] - .004, G.cam[1] + .004, lab('Campuhan Ridge', '#1c1d24', '#fff'), [-14, 30]]] },
+  places: { bounds: [[-8.55, 115.2], [-8.4, 115.33]], pad: [[110, 300], [10, 10]], m: [[G.te[0], G.te[1], sv('tirta-empul', 'A'), 17], [G.teg[0], G.teg[1], sv('tegenungan', 'R'), 17], [G.gk[0], G.gk[1], sv('diamond-beach', 'J', 30), 15], [G.cam[0], G.cam[1], n(3, '#4f86ff', { s: 22, ink: '#fff' }), 11], [G.mf[0], G.mf[1], n(2, '#4f86ff', { s: 22, ink: '#fff' }), 11], [G.gg[0], G.gg[1], sd('#ff5fa8'), 6], [-8.512, 115.262, clu(14), 15], [-8.47, 115.27, tk(), 5], [-8.45, 115.24, tk(), 5], [-8.49, 115.3, tk(), 5], [-8.53, 115.31, tk(), 5], [-8.44, 115.3, tk(), 5], [-8.42, 115.25, tk(), 5], [-8.48, 115.215, clu(6), 15], [G.villa[0], G.villa[1], stay('Villa'), [30, 14]]] },
+  picked: { bounds: [[-8.47, 115.24], [-8.38, 115.36]], pad: [[110, 330], [10, 10]], m: [[G.te[0], G.te[1], `<div style="display:flex;flex-direction:column;align-items:center;gap:6px">${lab('Tirta Empul · saved by Alex + Rin', '#1c1d24', '#fff')}${sv('tirta-empul', 'A', 46)}</div>`, [100, 80]], [G.gk[0], G.gk[1], sv('diamond-beach', 'J', 32), 16], [G.teg[0], G.teg[1], sv('tegenungan', 'R', 30), 15], [-8.43, 115.33, tk(), 5], [-8.4, 115.29, tk(), 5], [-8.45, 115.3, tk(), 5]] },
+  results: { bounds: [[-8.53, 115.23], [-8.48, 115.29]], pad: [[110, 330], [10, 10]], m: [[-8.507, 115.2615, n(1, '#ff5fa8'), 13], [-8.5035, 115.2665, n(2, '#ff5fa8'), 13], [-8.512, 115.258, n(3, '#ff5fa8'), 13], [-8.498, 115.257, n(4, '#ff5fa8'), 13], [-8.515, 115.27, n(5, '#ff5fa8'), 13], [-8.5, 115.274, n(6, '#ff5fa8'), 13], [G.villa[0], G.villa[1], stay('Villa'), [30, 14]]] },
+  placing: { bounds: [[-8.53, 115.12], [-8.4, 115.4]], pad: [[20, 20], [20, 20]], color: '#e0a800', line: [G.villa, G.te, G.gk, G.tc, G.villa], m: [[G.te[0], G.te[1], n(1, '#ffd84a'), 13], [G.gk[0], G.gk[1], n(2, '#ffd84a'), 13], [G.tc[0], G.tc[1], n(3, '#ffd84a'), 13], [G.sen[0], G.sen[1], n(4, '#4f86ff', { ink: '#fff' }), 13], [-8.46, 115.18, sv('batur-sunrise', 'M', 28), 14], [G.villa[0], G.villa[1], `<div style="width:16px;height:16px;border-radius:5px;background:#1c1d24;border:2px solid #fff"></div>`, 8]] },
+  gap: { bounds: [[-8.515, 115.245], [-8.495, 115.275]], pad: [[100, 142], [20, 20]], lines: [{ pts: [G.karsa, G.sen, G.mkt, G.loca], mode: 'walk' }], m: [[G.karsa[0], G.karsa[1], n(4, '#4f86ff', { ink: '#fff' }), 13], [G.sen[0], G.sen[1], sv('sanur', 'D', 30), 15], [G.mkt[0], G.mkt[1], n('+', '#54d6a4'), 13], [G.loca[0], G.loca[1], n(5, '#4f86ff', { ink: '#fff' }), 13]] },
+  penida: { bounds: [[-8.8, 115.24], [-8.66, 115.52]], pad: [[110, 420], [14, 14]], color: '#ff9a4d', lines: [{ pts: [G.villa, G.san], color: '#1c1d24' }, { pts: [G.san, G.toy], mode: 'boat' }, { pts: [G.toy, G.cb, G.kel] }], m: [[G.san[0], G.san[1], lab('Sanur · 07:00 boat', '#1c1d24', '#fff'), [40, 26]], [G.toy[0], G.toy[1], lab('Toyapakeh', '#fff'), [30, 26]], [G.cb[0], G.cb[1], n(1, '#ff9a4d'), 13], [G.kel[0], G.kel[1], n(2, '#ff9a4d'), 13], [-8.69, 115.33, lab('Fast boat · 45 min', '#4f86ff', '#fff'), [50, 12]]] },
+  route: { bounds: [[-8.75, 115.1], [-8.25, 115.72]], pad: [[110, 360], [16, 16]], color: '#2fb886', lines: [{ pts: [G.dps, G.villa], color: '#1c1d24' }, [G.villa, G.sid, G.amed]], m: [[G.dps[0], G.dps[1], lab('DPS · lands 11:40', '#fff'), [44, 30]], [G.villa[0], G.villa[1], stay('Ubud · 5 nights'), [56, 14]], [G.amed[0], G.amed[1], stay('Amed · 3 nights'), [60, 14]], [G.sid[0], G.sid[1], lab('About 2 h 30 by car', '#54d6a4'), [56, 34]], [G.kel[0], G.kel[1], lab('Day trip · Penida', '#ff9a4d'), [46, 12]]] },
+  penidamini: { bounds: [[-8.79, 115.26], [-8.66, 115.5]], pad: [[14, 14], [14, 14]], color: '#ff9a4d', lines: [{ pts: [G.villa, G.san], color: '#1c1d24' }, { pts: [G.san, G.toy], mode: 'boat' }, { pts: [G.toy, G.cb, G.kel] }], m: [[G.san[0], G.san[1], lab('Sanur', '#1c1d24', '#fff'), [20, 26]], [G.toy[0], G.toy[1], '<div style="width:12px;height:12px;border-radius:50%;background:#2f6fe0;border:2px solid #fff"></div>', 6], [G.cb[0], G.cb[1], n(1, '#ff9a4d', { s: 22 }), 11], [G.kel[0], G.kel[1], n(2, '#ff9a4d', { s: 22 }), 11]] },
+  addsat: { bounds: [[-8.505, 115.235], [-8.41, 115.32]], pad: [[96, 30], [30, 30]], color: '#e0a800', line: [G.villa, G.te], m: [[G.villa[0], G.villa[1], stay('Villa'), [30, 14]], [G.te[0], G.te[1], n('+', '#ffd84a', { s: 28, f: 15 }), 14], [G.gk[0], G.gk[1], sd('#9a9daa'), 6]] },
+  empty: { bounds: [[-8.86, 115.05], [-8.2, 115.6]], pad: [[110, 330], [10, 10]], m: [[G.villa[0], G.villa[1], `<div style="width:64px;height:64px;border-radius:50%;border:2.5px dashed #9a9daa;background:rgba(255,255,255,.5)"></div>`, 32]] },
+  tuebefore: { bounds: BOX(DAYPTS[1]), pad: [[14, 14], [14, 14]], thin: 1, color: '#9a9daa', line: [G.villa, G.teg, G.tgan, G.gg, G.sari, G.villa], m: pinsFor([G.villa, G.teg, G.tgan, G.gg, G.sari, G.villa], '#9a9daa') },
+  tueafter: { bounds: BOX(DAYPTS[1]), pad: [[14, 14], [14, 14]], thin: 1, color: '#ff5fa8', line: DAYPTS[1], m: pinsFor(DAYPTS[1], '#ff5fa8') },
+  ...Object.fromEntries(DAYPTS.map((p, i) => ['thumb' + i, p ? { bounds: BOX(p), pad: [[12, 12], [12, 12]], thin: 1, color: DAYCOL[i], line: p, m: pinsFor(p, DAYCOL[i]) } : { bounds: BOX([G.villa, G.kel, G.cb]), pad: [[12, 12], [12, 12]], thin: 1, color: DAYCOL[i], lines: [{ pts: [G.villa, G.san], color: '#1c1d24' }, { pts: [G.san, G.toy], mode: 'boat' }, { pts: [G.toy, G.cb, G.kel] }], m: pinsFor([G.villa, G.cb, G.kel], DAYCOL[i]) }])),
+  plan: {
+    bounds: [[-8.86, 115.06], [-8.22, 115.5]], pad: [[18, 70], [18, 30]],
+    color: '#1c1d24', lines: [[[-8.7482, 115.1675], [-8.5, 115.242], [-8.4153, 115.3154], [-8.242, 115.375], [-8.678, 115.263]], { pts: [[-8.678, 115.263], G.toy], mode: 'boat' }, [G.toy, [-8.7505, 115.4746]], [[-8.678, 115.263], [-8.8291, 115.0849]]],
+    m: [
+      [-8.7482, 115.1675, `<div class="dot" style="width:30px;height:30px;background:#1c1d24;color:#fff">1</div>`, 15],
+      [-8.5, 115.242, photo('tegenungan', 46, 'Ubud', '#54d6a4', -5), 23],
+      [-8.4153, 115.3154, photo('tirta-empul', 40, '', '', 6), 20],
+      [-8.242, 115.375, photo('batur-sunrise', 50, 'Batur', '#ff9a4d', 4), 25],
+      [-8.7505, 115.4746, photo('kelingking', 50, 'Penida', '#4f86ff', -4), 25],
+      [-8.8291, 115.0849, photo('uluwatu', 46, 'Uluwatu', '#ff5fa8', 5), 23],
+    ]
+  },
+  day: {
+    bounds: [[-8.53, 115.12], [-8.36, 115.28]], pad: [[20, 60], [20, 40]], color: '#1c1d24',
+    line: [[-8.5, 115.242], [-8.37, 115.131], [-8.5085, 115.265], [-8.4985, 115.2557], [-8.489, 115.2555], [-8.523, 115.2668]],
+    m: [
+      [-8.37, 115.131, `<div class="dot" style="background:#ffd84a">7</div>`, 13],
+      [-8.5085, 115.265, `<div class="dot">12</div>`, 13],
+      [-8.4985, 115.2557, `<div class="dot">14</div>`, 13],
+      [-8.489, 115.2555, `<div class="dot">15</div>`, 13],
+      [-8.523, 115.2668, `<div class="dot" style="background:#1c1d24;color:#fff">19</div>`, 13],
+      [-8.5, 115.242, `<div class="you"></div>`, 9],
+    ]
+  },
+  crew: {
+    bounds: [[-8.519, 115.247], [-8.486, 115.273]], pad: [[10, 70], [10, 10]],
+    lines: [[[-8.489, 115.2555], [-8.4985, 115.2557]], [[-8.507, 115.25], [-8.4985, 115.2557]], [[-8.516, 115.27], [-8.4985, 115.2557]], [[-8.5032, 115.2601], [-8.4985, 115.2557]]].map(p => ({ pts: p, mode: 'walk' })), color: '#1c1d24',
+    m: [
+      [-8.4985, 115.2557, `<div class="flag"><span style="width:8px;height:8px;border-radius:4px;background:#54d6a4"></span>Meet · 17:00</div>`, [44, 15]],
+      [-8.489, 115.2555, av('MR'), [30, 18]],
+      [-8.507, 115.25, av('A'), 18],
+      [-8.516, 115.27, av('J'), 18],
+      [-8.5005, 115.2595, `<div class="you"></div>`, 9],
+    ]
+  },
+  ride: {
+    bounds: [[-8.75, 115.16], [-8.5, 115.28]], pad: [[30, 60], [30, 40]],
+    color: '#1c1d24', line: [[-8.7482, 115.1675], [-8.5, 115.242]],
+    m: [
+      [-8.5, 115.242, `<div class="flag">Villa Kayu Manis</div>`, [50, 15]],
+      [-8.7482, 115.1675, `<div class="dot" style="background:#1c1d24;color:#fff;width:22px;height:22px"></div>`, 11],
+      [-8.715, 115.19, `<div class="car"><div class="av" style="width:24px;height:24px;border-width:2px;font-size:10px;background:#ffd84a;box-shadow:none">M</div>4 min</div>`, [16, 17]],
+    ]
+  }
+};
+const v = new URLSearchParams(location.search).get('v') || 'plan';
+const s = S[v] || S.plan;
+const map = L.map('m', { zoomControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.1, attributionControl: true });
+map.attributionControl.setPrefix(false);
+map.attributionControl.addAttribution('Map data © OpenStreetMap contributors, GADM');
+const B = window.BASE, rend = L.svg({ padding: .4 });
+const DK = new URLSearchParams(location.search).get('dark') === '1';
+const T = DK ? { sea: '#121b26', land: '#1d2026', coast: '#2b2f37', green: '#1c2620', lake: '#16222e', mc: '#3b3f48', mf: '#4c505a', lc: '#2a2d34', lf: '#353840', casing: '#0e0f13' } : { sea: '#cfe3f1', land: '#f4f1e8', coast: '#e6e1d3', green: '#e4ecd6', lake: '#cfe3f1', mc: '#e8d9a8', mf: '#fff6d8', lc: '#e4dfd0', lf: '#ffffff', casing: '#ffffff' };
+if (DK) { document.body.style.background = T.sea; document.getElementById('m').style.background = T.sea; document.documentElement.classList.add('dk'); }
+map.fitBounds(s.bounds, { paddingTopLeft: [s.pad[1][1], s.pad[0][0]], paddingBottomRight: [s.pad[0][1], s.pad[1][0]] });
+const z = map.getZoom();
+B.land.forEach(r => L.polygon(r, { renderer: rend, stroke: true, color: T.coast, weight: 1, fillColor: T.land, fillOpacity: 1, interactive: false }).addTo(map));
+B.green.forEach(r => L.polygon(r, { renderer: rend, stroke: false, fillColor: T.green, fillOpacity: 1, interactive: false }).addTo(map));
+B.water.forEach(r => L.polygon(r, { renderer: rend, stroke: false, fillColor: T.lake, fillOpacity: 1, interactive: false }).addTo(map));
+const rw = z >= 13 ? [7, 4.5, 4.5, 2.6] : z >= 11 ? [4.5, 2.8, 2.6, 1.4] : [2.6, 1.4, 0, 0];
+if (rw[2]) B.local.forEach(l => L.polyline(l, { renderer: rend, color: T.lc, weight: rw[2], lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(map));
+B.main.forEach(l => L.polyline(l, { renderer: rend, color: DK ? T.mc : (z >= 11 ? '#e8d9a8' : '#e2dccb'), weight: rw[0], lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(map));
+if (rw[3]) B.local.forEach(l => L.polyline(l, { renderer: rend, color: T.lf, weight: rw[3], lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(map));
+B.main.forEach(l => L.polyline(l, { renderer: rend, color: DK ? T.mf : (z >= 11 ? '#fff6d8' : '#ffffff'), weight: rw[1], lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(map));
+if (!s.nolabels) {
+  const lv = z >= 13 ? 4 : z >= 11.2 ? 3 : z >= 10 ? 2 : 1;
+  B.labels.filter(l => l[3] <= lv).forEach(([t, la, lo, k]) => L.marker([la, lo], { icon: L.divIcon({ html: '<div class="lbl' + (k <= 1 ? ' b' : '') + '">' + t + '</div>', className: '', iconSize: [0, 0] }), interactive: false, zIndexOffset: -1000 }).addTo(map));
+  if (z < 12.5) B.peaks.forEach(([t, la, lo]) => L.marker([la, lo], { icon: L.divIcon({ html: '<div class="pk" style="transform:translate(-6px,-6px)"><svg width="11" height="9" viewBox="0 0 11 9"><path d="M5.5 0 11 9H0z" fill="#b8b09a"></path></svg>' + t + '</div>', className: '', iconSize: [0, 0] }), interactive: false, zIndexOffset: -1000 }).addTo(map));
+}
+const RK = pts => pts.map(p => p[0].toFixed(4) + ',' + p[1].toFixed(4)).join(';');
+const arc = (a, b) => { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[1] - a[1], dy = b[0] - a[0]; const c = [mx + dx * .18, my - dy * .18]; return Array.from({ length: 25 }, (_, i) => { const t = i / 24, u = 1 - t; return [u * u * a[0] + 2 * u * t * c[0] + t * t * b[0], u * u * a[1] + 2 * u * t * c[1] + t * t * b[1]]; }); };
+const ls = s.lines || (s.line ? [s.line] : []);
+const W = s.thin ? [5, 3] : [8, 4.5];
+ls.forEach(l => {
+  const o = Array.isArray(l) ? { pts: l } : l, mode = o.mode || 'car', col = o.color || s.color || '#4f86ff';
+  if (mode === 'boat') { const g = arc(o.pts[0], o.pts[o.pts.length - 1]); L.polyline(g, { renderer: rend, color: '#fff', weight: W[0] - 1, opacity: .85, lineCap: 'round' }).addTo(map); L.polyline(g, { color: '#2f6fe0', weight: W[1], dashArray: '1 9', lineCap: 'round' }).addTo(map); return; }
+  const g = (window.ROUTES || {})[mode + ':' + RK(o.pts)] || o.pts;
+  L.polyline(g, { color: T.casing, weight: W[0], opacity: .95, lineCap: 'round', lineJoin: 'round' }).addTo(map);
+  L.polyline(g, { color: col, weight: W[1], opacity: 1, lineCap: 'round', lineJoin: 'round', dashArray: mode === 'walk' ? '1 8' : null }).addTo(map);
+});
+s.m.forEach(([la, lo, html, a]) => {
+  const anc = Array.isArray(a) ? a : [a, a];
+  L.marker([la, lo], { icon: L.divIcon({ html, className: '', iconSize: null, iconAnchor: anc }), interactive: false }).addTo(map);
+});
+const f = new URLSearchParams(location.search).get('fade');
+if (f) document.getElementById('fade').style.background = `linear-gradient(180deg, rgba(245,245,247,0) ${100 - +f}%, #f5f5f7 100%)`;
+</script>
+</body>
+</html>
