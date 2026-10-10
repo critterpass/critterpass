@@ -6,7 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import { useGateDecision } from '@/lib/navigation/gates';
 
 import { usePremiumTheme } from '../..';
-import { GuideFab, useGuideActions } from './guide-circle';
+import { GuideFab, useGuideActions, type GuideActions } from './guide-circle';
 import { GUIDE_TAB_IMAGE, TAB_ICONS, type PremiumTabIcon } from './tab-icons';
 
 /** The tab routes in bar order, with the route file each one is. */
@@ -31,6 +31,8 @@ export interface PremiumTabsProps {
   }[];
   /** The route file behind the guide circle. */
   readonly guideRoute?: string;
+  /** What the guide circle does; the app's guide sheet and Help unless a demo brings its own. */
+  readonly guide?: GuideActions;
 }
 
 /**
@@ -48,7 +50,8 @@ export function PremiumTabs({
   const { t } = useLingui();
   const decision = useGateDecision();
   const { color } = usePremiumTheme();
-  const guide = useGuideActions();
+  const appGuide = useGuideActions();
+  const guide = guideOverride ?? appGuide;
 
   if (gated && decision.kind === 'wait') return null;
   if (gated && decision.kind === 'redirect') return <Redirect href={decision.href} />;

@@ -16,7 +16,7 @@ const GLYPH: Record<CritterTier, string> = {
 };
 
 /** A no-break space: the glyph never wraps away from its word. */
-const GLUE = ' ';
+const GLUE = '\u00A0';
 
 export function tierWord(tier: CritterTier): string {
   switch (tier) {
