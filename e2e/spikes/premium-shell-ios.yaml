@@ -1,0 +1,224 @@
+appId: app.critterpass.dev
+---
+# The premium shell's iOS 26 spike, on the Developer tools demo (apps/mobile/src/app/(dev)/premium-shell):
+# does the system tab bar minimise and the native large title collapse over a LegendList and a
+# FlashList, does the search-role guide circle open a sheet instead of a tab, does the glass form
+# sheet ask before a dirty swipe-down, does the toolbar `+` morph into its sheet and a card zoom
+# into a headerless page, and the full screen, alert, hold to confirm and drawn `+` morph. Every
+# behaviour leaves a screenshot; the steps a spike may find broken are optional so the run keeps
+# capturing. Reached through "Developer tools" (never `openLink`).
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-premium-shell'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-premium-shell'
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-legend'
+    timeout: 20000
+- takeScreenshot: premium-shell-01-legend-top
+
+# Minimise on scroll and the large title collapsing, LegendList.
+- swipe:
+    direction: UP
+    duration: 600
+- swipe:
+    direction: UP
+    duration: 600
+- takeScreenshot: premium-shell-02-legend-scrolled
+- swipe:
+    direction: DOWN
+    duration: 400
+- swipe:
+    direction: DOWN
+    duration: 400
+- swipe:
+    direction: DOWN
+    duration: 400
+
+# The guide circle opens a sheet, not a tab.
+- tapOn:
+    id: 'guide-circle'
+    optional: true
+- tapOn:
+    text: 'Ask Tokek'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-guide'
+    timeout: 8000
+    optional: true
+- takeScreenshot: premium-shell-03-guide-sheet
+- tapOn:
+    id: 'premium-shell-guide-input'
+    optional: true
+- inputText: 'What time is the boat?'
+- takeScreenshot: premium-shell-04-guide-keyboard
+- tapOn:
+    id: 'sheet-cancel'
+    optional: true
+
+# The toolbar `+` (a view in the system zoom) → the half sheet.
+- tapOn:
+    id: 'premium-shell-plus'
+    optional: true
+- takeScreenshot: premium-shell-05-plus-morph-mid
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-add'
+    timeout: 8000
+    optional: true
+- takeScreenshot: premium-shell-06-plus-sheet
+- swipe:
+    start: 50%, 55%
+    end: 50%, 95%
+    duration: 500
+- takeScreenshot: premium-shell-07-plus-dismissed
+
+# The full-height glass form sheet asks before a dirty swipe-down.
+- tapOn:
+    id: 'premium-shell-sheet'
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-sheet'
+    timeout: 8000
+- tapOn:
+    id: 'premium-shell-sheet-name'
+- inputText: 'Boat to Penida'
+- takeScreenshot: premium-shell-08-sheet-keyboard
+- hideKeyboard
+- swipe:
+    start: 50%, 15%
+    end: 50%, 90%
+    duration: 500
+- extendedWaitUntil:
+    visible: 'Discard this booking?'
+    timeout: 5000
+    optional: true
+- takeScreenshot: premium-shell-09-sheet-asks
+- tapOn:
+    text: 'Keep editing'
+    optional: true
+- tapOn:
+    id: 'sheet-cancel'
+- extendedWaitUntil:
+    visible: 'Discard this booking?'
+    timeout: 5000
+    optional: true
+- tapOn:
+    text: 'Discard'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-legend'
+    timeout: 8000
+
+# A card zooms into a headerless page.
+- tapOn:
+    id: 'premium-shell-zoom'
+- takeScreenshot: premium-shell-10-zoom-mid
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-detail'
+    timeout: 8000
+- takeScreenshot: premium-shell-11-zoom-detail
+- tapOn:
+    id: 'push-back'
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-legend'
+    timeout: 8000
+
+# Push screen: inline title, glass back, alert, hold to confirm.
+- tapOn:
+    id: 'premium-shell-push'
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-push'
+    timeout: 8000
+- takeScreenshot: premium-shell-12-push
+- tapOn:
+    id: 'premium-shell-alert'
+- takeScreenshot: premium-shell-13-alert
+- tapOn:
+    text: 'Cancel'
+    optional: true
+- longPressOn:
+    id: 'premium-shell-hold'
+- extendedWaitUntil:
+    visible: 'Held: trip cancelled'
+    timeout: 5000
+    optional: true
+- takeScreenshot: premium-shell-14-hold-done
+
+# The share action opens the full screen.
+- tapOn:
+    text: 'Share'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-full'
+    timeout: 8000
+    optional: true
+- takeScreenshot: premium-shell-15-full-screen
+- tapOn:
+    id: 'full-screen-close'
+    optional: true
+- tapOn:
+    id: 'premium-shell-keep'
+    optional: true
+
+# FlashList under the native large title.
+- tapOn:
+    text: 'Flash'
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-flash'
+    timeout: 8000
+- takeScreenshot: premium-shell-16-flash-top
+- swipe:
+    direction: UP
+    duration: 600
+- swipe:
+    direction: UP
+    duration: 600
+- takeScreenshot: premium-shell-17-flash-scrolled
+
+# The drawn header and the drawn `+` morph.
+- tapOn:
+    text: 'Drawn'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-drawn'
+    timeout: 8000
+    optional: true
+- takeScreenshot: premium-shell-18-drawn-top
+- swipe:
+    direction: UP
+    duration: 600
+- takeScreenshot: premium-shell-19-drawn-scrolled
+- tapOn:
+    id: 'premium-shell-morph-plus'
+    optional: true
+- takeScreenshot: premium-shell-20-drawn-morph-mid
+- extendedWaitUntil:
+    visible:
+      id: 'premium-shell-morph-done'
+    timeout: 5000
+    optional: true
+- takeScreenshot: premium-shell-21-drawn-morph-open
+- tapOn:
+    id: 'premium-shell-morph-done'
+    optional: true
+- takeScreenshot: premium-shell-22-drawn-morph-closed

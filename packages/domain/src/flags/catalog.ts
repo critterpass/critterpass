@@ -93,6 +93,13 @@ export const FLAG_CATALOG = {
     description:
       'Show the anonymous bucketed budget dots on the setup budget track (from four maxes); off hides them without a release, the band itself stays.',
   },
+  'ui.premium': {
+    kind: 'boolean',
+    default: false,
+    owner: 'app',
+    description:
+      'The native premium UI (glass tabs, native stacks and sheets, the new screens) instead of the current one, per account; needs a build carrying @expo/ui and the keyboard controller, so older builds stay on the current UI. Developer tools can override it on one phone.',
+  },
 } as const satisfies FlagCatalog;
 
 export type FlagKey = keyof typeof FLAG_CATALOG;

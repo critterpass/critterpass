@@ -6,6 +6,25 @@ an iPhone 15 Pro by the founder on 2026-09-28. **FAIL on iOS download size**: 65
 ≤40 MB, see Size measured 2026-09-28. Release cold start on iOS passed — founder decision 2026-09-29 (no Instruments numbers, by their
 choice; revisit if performance issues appear); mid-range Android release cold start is still open.
 
+## Correction (10 Oct 2026): `Link.AppleZoom` works on iOS
+
+The `Link.AppleZoom` findings below are wrong for the installed `expo-router@58.0.9` and are
+superseded; the rest of this record stands.
+
+- The spike read `link/zoom/ZoomTransitionEnabler.js`, the non-iOS file, where the flag is `false`.
+  Metro resolves the iOS file, `ZoomTransitionEnabler.ios.js`, which enables zoom when
+  `process.env.EXPO_OS === 'ios'`.
+- `Link.AppleZoom` is a **tap** push transition (UIKit's `preferredTransition = .zoom`,
+  `ios/LinkPreview/LinkZoomTransition.swift`), not the long-press link preview. The spike used the
+  preview API (`Link.Trigger withAppleZoom`) instead of
+  `<Link href asChild><Link.AppleZoom>…</Link.AppleZoom></Link>`.
+- It only runs between screens of expo-router's native `Stack`; the spike pushed under the JS root
+  stack. The destination wraps its hero in `Link.AppleZoomTarget` and should have no native header
+  (the docs warn of glitches under one); swiping down on it zooms back into the source.
+- The premium UI uses it for card → page on iOS (`ui/premium/shell/zoom/zoom-link.tsx`) and keeps the
+  custom overlay chosen below on Android, which has no system zoom. Source:
+  `plans/261010-1701-premium-redesign/reports/research-261010-1701-native-glass-platform-capabilities-report.md` §4.
+
 ## Context
 
 Phase-02 needs a decision on how "grow-into-page" (design-system.md §3.3's `zoom` transition: shared
@@ -107,7 +126,7 @@ this pass, see the skia-critter ADR.
 
 ## Findings
 
-1. **`Link.AppleZoom` is a real dead end in this SDK, not a maybe** — this is a definitive,
+1. *(Superseded: see the 10 Oct 2026 correction above.)* **`Link.AppleZoom` is a real dead end in this SDK, not a maybe** — this is a definitive,
    source-verified finding (not "it didn't seem to work"), and it also does not match the
    interaction model design-system.md's `zoom` token describes anyway: `Link.AppleZoom` is Apple's
    long-press context-menu "Link Preview" zoom (`@platform ios 18+`, requires `Link.Trigger`), not a
