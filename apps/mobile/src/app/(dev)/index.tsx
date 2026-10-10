@@ -1,13 +1,14 @@
 import { router } from 'expo-router';
 import * as Updates from 'expo-updates';
 import { useState, type ReactNode } from 'react';
-import { ScrollView } from 'react-native';
+import { DevSettings, ScrollView } from 'react-native';
 
 import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
 import { seedLiveMap, type SeededLiveMap } from '@/data/dev/seed-live-map';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { reportProblemUnderneath } from '@/features/help/shake/ShakeListener';
 import { DEV_SECTIONS } from '@/lib/dev-tools/dev-screens';
+import { setPremiumUiOverride, usePremiumUiStatus } from '@/lib/premium-ui';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -191,6 +192,56 @@ function SeedLiveMap() {
   );
 }
 
+/** Restarts the JS so the navigators are built again for the other UI. */
+function restartApp(): void {
+  Updates.reloadAsync().catch(() => DevSettings.reload());
+}
+
+/**
+ * The premium UI on this phone: on or off whatever the account flag says, or following it. The
+ * choice applies at the next launch, so it restarts the app. A build without the premium native
+ * modules stays on the current UI (source `binary`).
+ */
+function PremiumUiSwitch() {
+  const status = usePremiumUiStatus();
+  const choose = (value: boolean | null) => {
+    setPremiumUiOverride(value);
+    restartApp();
+  };
+  const next = status.next;
+  return (
+    <Stack gap="8">
+      <SecondaryText
+        variant="caption"
+        testID={`dev-premium-ui-state-${status.current.premium ? 'on' : 'off'}`}
+      >
+        {`Now: ${status.current.premium ? 'premium' : 'current'} UI (${status.current.source})`}
+      </SecondaryText>
+      <SecondaryText variant="caption" testID={`dev-premium-ui-source-${next.source}`}>
+        {`Next launch: ${next.premium ? 'premium' : 'current'} (${next.source}; flag ${status.flag ? 'on' : 'off'}, build ${status.nativeReady ? 'ready' : 'missing modules'})`}
+      </SecondaryText>
+      <ListCard
+        testID="dev-premium-ui-on"
+        title="Premium UI on here"
+        chevron={false}
+        onPress={() => choose(true)}
+      />
+      <ListCard
+        testID="dev-premium-ui-off"
+        title="Premium UI off here"
+        chevron={false}
+        onPress={() => choose(false)}
+      />
+      <ListCard
+        testID="dev-premium-ui-follow"
+        title="Follow the account flag"
+        chevron={false}
+        onPress={() => choose(null)}
+      />
+    </Stack>
+  );
+}
+
 function Section({ title, children }: { readonly title: string; readonly children: ReactNode }) {
   return (
     <Stack gap="8">
@@ -227,6 +278,9 @@ export default function DevToolsIndexScreen() {
           title="Report a problem"
           onPress={reportProblemUnderneath}
         />
+        <Section title="Premium UI">
+          <PremiumUiSwitch />
+        </Section>
         <Section title="Demo data">
           <SeedDemoData />
           <SeedLiveMap />
