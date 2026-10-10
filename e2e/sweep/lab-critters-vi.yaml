@@ -1,0 +1,279 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-critters-lab
+  LIST: 'critters-lab-.*'
+---
+# UI sweep (vi), lab scenes: the Critterdex, a critter, encounters, legendaries and quests.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-1-hatch
+      READY: critters-hatched
+      SHOT: vi-3l-1-hatch
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-3-detail
+      READY: critters-detail
+      SHOT: vi-3l-3-detail
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-4-filling
+      READY: critters-encounter-accruing
+      SHOT: vi-3l-4-filling
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-7-quests
+      READY: quests-list
+      SHOT: vi-3l-7-quests
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-8-fresh
+      READY: critters-set
+      SHOT: vi-3l-8-fresh
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-pass
+      READY: critters-dex
+      SHOT: vi-3l-2-pass
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-legendary-on-dates
+      READY: critters-dex
+      SHOT: vi-3l-2-legendary-on-dates
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-egg-waiting
+      READY: critters-dex
+      SHOT: vi-3l-2-egg-waiting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-egg-ready
+      READY: critters-dex
+      SHOT: vi-3l-2-egg-ready
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-egg-unseen
+      READY: critters-dex
+      SHOT: vi-3l-2-egg-unseen
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-found
+      READY: critters-dex
+      SHOT: vi-3l-2-found
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-near
+      READY: critters-dex
+      SHOT: vi-3l-2-near
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-search
+      READY: critters-dex
+      SHOT: vi-3l-2-search
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-crew-hidden
+      READY: critters-dex
+      SHOT: vi-3l-2-crew-hidden
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-explore-at-home
+      READY: critters-dex
+      SHOT: vi-3l-2-explore-at-home
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-loading
+      READY: critters-dex-loading
+      SHOT: vi-3l-2-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-fresh
+      READY: critters-dex
+      SHOT: vi-3l-2-fresh
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-fresh-found-empty
+      READY: critters-dex
+      SHOT: vi-3l-2-fresh-found-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-fresh-near-empty
+      READY: critters-dex
+      SHOT: vi-3l-2-fresh-near-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-fresh-long-names
+      READY: critters-dex
+      SHOT: vi-3l-2-fresh-long-names
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-8-home-set
+      READY: critters-set
+      SHOT: vi-3l-8-home-set
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-1-hatch-offline
+      READY: critters-hatched
+      SHOT: vi-3l-1-hatch-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-1-hatch-local
+      READY: critters-hatched
+      SHOT: vi-3l-1-hatch-local
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-3-guide-look
+      READY: critters-detail
+      SHOT: vi-3l-3-guide-look
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-3-all-forms
+      READY: critters-detail
+      SHOT: vi-3l-3-all-forms
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-3-local
+      READY: critters-detail
+      SHOT: vi-3l-3-local
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-4-ready
+      READY: critters-encounter-ready
+      SHOT: vi-3l-4-ready
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-4-stepped-away
+      READY: critters-encounter-draining
+      SHOT: vi-3l-4-stepped-away
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-4-unknown-name
+      READY: critters-encounter-accruing
+      SHOT: vi-3l-4-unknown-name
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-10-legendary
+      READY: critters-encounter-ready
+      SHOT: vi-3l-10-legendary
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-5-wandered
+      READY: critters-encounter-wandered_off
+      SHOT: vi-3l-5-wandered
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-5-no-forecast
+      READY: critters-encounter-wandered_off
+      SHOT: vi-3l-5-no-forecast
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-4-nothing
+      READY: critters-encounter-nothing
+      SHOT: vi-3l-4-nothing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-9-once-a-year
+      READY: critters-legendaries
+      SHOT: vi-3l-9-once-a-year
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-9-reminders-on
+      READY: critters-legendaries
+      SHOT: vi-3l-9-reminders-on
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-9-notifications-off
+      READY: critters-legendaries
+      SHOT: vi-3l-9-notifications-off
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-9-empty
+      READY: critters-legendaries
+      SHOT: vi-3l-9-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-3-where-rare
+      READY: critters-where-map
+      SHOT: vi-3l-3-where-rare
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-3-where-legendary
+      READY: critters-where-steps
+      SHOT: vi-3l-3-where-legendary
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-near-map
+      READY: critters-near-map
+      SHOT: vi-3l-2-near-map
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-7-quest-done
+      READY: quests-list
+      SHOT: vi-3l-7-quest-done
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-7-writing
+      READY: quests-empty-writing
+      SHOT: vi-3l-7-writing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-7-offline
+      READY: quests-offline
+      SHOT: vi-3l-7-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-sticker-settled
+      READY: sticker-detail-how
+      SHOT: vi-3l-2-sticker-settled
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: critters-lab-3l-2-sticker-crew-level
+      READY: sticker-detail-how
+      SHOT: vi-3l-2-sticker-crew-level

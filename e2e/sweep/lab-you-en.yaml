@@ -1,0 +1,165 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-you-lab
+  LIST: 'you-lab-.*'
+---
+# UI sweep (en), lab scenes: the profile and settings.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-1-profile
+      READY: you-profile
+      SHOT: en-3n-1-profile
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-1-fresh
+      READY: you-profile-no-trips
+      SHOT: en-3n-1-fresh
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-2-settings
+      READY: you-settings
+      SHOT: en-3n-2-settings
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-sign-out-saved
+      READY: you-sign-out-confirm
+      SHOT: en-sign-out-saved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-sign-out-unsaved
+      READY: you-sign-out-warning
+      SHOT: en-sign-out-unsaved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-9-delete
+      READY: you-delete-continue
+      SHOT: en-3n-9-delete
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-10-hold
+      READY: you-delete-hold-step
+      SHOT: en-3n-10-hold
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-11-closed
+      READY: you-closed-closed
+      SHOT: en-3n-11-closed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-11-restore
+      READY: you-closed-restore
+      SHOT: en-3n-11-restore
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-7-sound
+      READY: you-sound
+      SHOT: en-3n-7-sound
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-8-language
+      READY: you-language
+      SHOT: en-3n-8-language
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-former-member-crew
+      READY: you-profile
+      SHOT: en-former-member-crew
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-former-member-chat
+      READY: you-former-chat
+      SHOT: en-former-member-chat
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-5-app-icon
+      READY: you-app-icon
+      SHOT: en-3n-5-app-icon
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-5-earned-in-use
+      READY: you-app-icon
+      SHOT: en-3n-5-earned-in-use
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-5-locked
+      READY: you-app-icon-problem
+      SHOT: en-3n-5-locked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-3-edit
+      READY: you-edit
+      SHOT: en-3n-3-edit
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-3-username-taken
+      READY: you-edit
+      SHOT: en-3n-3-username-taken
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-4-avatar
+      READY: you-avatar
+      SHOT: en-3n-4-avatar
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-4-initials
+      READY: you-avatar
+      SHOT: en-3n-4-initials
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-4-photo
+      READY: you-avatar
+      SHOT: en-3n-4-photo
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-1-long-crews
+      READY: you-profile
+      SHOT: en-3n-1-long-crews
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-3n-1-self-reported
+      READY: you-profile
+      SHOT: en-3n-1-self-reported
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-stamps-all
+      READY: you-stamps
+      SHOT: en-stamps-all
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-past-trip-add
+      READY: you-past-trip
+      SHOT: en-past-trip-add
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: you-lab-past-trip-edit
+      READY: you-past-trip
+      SHOT: en-past-trip-edit

@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# Opens one lab from a fresh launch, in ${LANG}: the splash, Developer tools from the top of its
+# list, then the entry ${NAV}, until the lab's list (${LIST}, an id only that list shows) is up.
+# Every sweep flow starts here and a scene that never came back returns here, so no flow walks back
+# through a list that is several screens long. A lab whose scenes are Developer tools entries
+# themselves has that list as its ${LIST}: it is up as soon as Developer tools opens.
+- runFlow:
+    file: start.yaml
+    env:
+      LANG: ${LANG}
+# A busy emulator can drop the tap on the splash's entry: tapped again while the splash stays.
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'onboarding-open'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-build-marker'
+          timeout: 20000
+- runFlow:
+    when:
+      notVisible:
+        id: '${LIST}'
+    commands:
+      # An entry half under the bottom edge takes no tap: it is brought to the middle first.
+      - scrollUntilVisible:
+          element:
+            id: '${NAV}'
+          direction: DOWN
+          centerElement: true
+          timeout: 90000
+          speed: 30
+      - tapOn:
+          id: '${NAV}'
+- extendedWaitUntil:
+    visible:
+      id: '${LIST}'
+    timeout: 20000

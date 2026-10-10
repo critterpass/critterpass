@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# One step back: the edge swipe on iOS, the system back on Android.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- waitForAnimationToEnd

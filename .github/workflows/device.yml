@@ -6,9 +6,11 @@
 # reused EAS e2e-test build with expo-updates turned off, so no run ever loads JS another run
 # published to the shared e2e-test update channel.
 #
-# The `sweep` preset (and the nightly schedule on main) runs e2e/screens/sweep: every user-facing
-# screen and sheet in English and Vietnamese, in compare mode, posted to a pull request or, without
-# one, to the "Nightly UI sweep" issue.
+# The `sweep` preset (and the nightly schedule on main) runs e2e/sweep, the flows generated from
+# tools/scripts/ci-device/sweep-manifest.json: every user-facing screen and sheet in English and
+# Vietnamese, in compare mode, posted to a pull request or, without one, to the "Nightly UI sweep"
+# issue. It is red on a screen-check finding, a `[ui-qa]` line, a lab that would not open or more than
+# 5% of its screenshots missing (tools/scripts/ci-device/sweep-result.ts), not on one failed step.
 #
 # The `happy` preset (and a daily schedule on main, Android) is the release gate: e2e/happy runs every
 # user flow end to end against staging with fresh accounts, records each flow on video and posts a
@@ -60,7 +62,7 @@ on:
         options: [light, dark]
         default: light
       preset:
-        description: sweep runs every screen (e2e/screens/sweep) in compare mode, pr empty posts to the nightly issue; happy is the release gate (e2e/happy, videos, the "Release gate" issue)
+        description: sweep runs every screen (e2e/sweep) in compare mode, pr empty posts to the nightly issue; happy is the release gate (e2e/happy, videos, the "Release gate" issue)
         type: choice
         options: [none, sweep, happy]
         default: none
@@ -159,11 +161,11 @@ jobs:
             # Daily release gate: every happy-path flow on Android.
             platform=android flows='' mode=flows pr='' build_url='' shards=3 appearance=light preset=happy
           elif [ "$EVENT" = schedule ]; then
-            # Nightly: the whole sweep on Android, and its English half on one iOS shard for what only
-            # iOS shows (safe areas, the keyboard, modal presentation). The labs-* flows draw their
-            # scenes on Android only, so the iOS shard leaves them out.
-            platform=both flows='' mode=compare pr='' build_url='' shards=7 appearance=light preset=sweep
-            ios_flows='e2e/screens/sweep/!(labs-*)-en.yaml' ios_shards=1
+            # Nightly: the whole sweep on Android, and the seed scenarios in English on one iOS shard
+            # for what only iOS shows (safe areas, the keyboard, modal presentation). The lab scenes
+            # are fixtures, the same on both, and the trip hub's photo seed is an Android flow.
+            platform=both flows='' mode=compare pr='' build_url='' shards=10 appearance=light preset=sweep
+            ios_flows='e2e/sweep/seed-!(trip-hub*)-en.yaml' ios_shards=1
           else
             platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
             shards=$IN_SHARDS appearance=$IN_APPEARANCE preset=$IN_PRESET
@@ -176,7 +178,7 @@ jobs:
           fi
           if [ "$preset" = sweep ]; then
             # Every screen in both languages; sheets unless screenshots alone were asked for.
-            [ -z "$flows" ] && flows='e2e/screens/sweep/*.yaml'
+            [ -z "$flows" ] && flows='e2e/sweep/*.yaml'
             [ "$mode" = flows ] && mode=compare
             # Without a pull request the images go to the nightly issue.
             [ -z "$pr" ] && pr=nightly
@@ -481,6 +483,7 @@ jobs:
             echo "::notice title=No screenshots::No shard captured a screenshot; the comment carries the check summary only."
           fi
       - name: Summarise the checks
+        id: summary
         if: needs.prepare.outputs.preset != 'happy'
         env:
           PRESET: ${{ needs.prepare.outputs.preset }}
@@ -502,7 +505,7 @@ jobs:
         run: |
           if [ "$PR" != nightly ]; then echo "number=$PR" >> "$GITHUB_OUTPUT"; exit 0; fi
           title='Nightly UI sweep'
-          about="Every night the device workflow sweeps every screen of main (e2e/screens/sweep) and comments here with the design | device sheets, the screen checks and the sweep coverage."
+          about="Every night the device workflow sweeps every screen of main (e2e/sweep) and comments here with the design | device sheets, the screen checks and the sweep coverage."
           if [ "$PRESET" = happy ]; then
             title='Release gate'
             about="The device workflow's happy preset runs every user flow (e2e/happy) end to end against staging, daily on main and before each TestFlight build, and comments here with each flow's result, time, video and failing step."
@@ -527,6 +530,16 @@ jobs:
           heading="Device screenshots"
           [ "$MODE" = compare ] && [ "${SHEETLESS:-}" != true ] && heading="Design | device sheets"
           tools/scripts/ci-device/publish-screenshots.sh "$PR" "$RUNNER_TEMP/images" "$heading ($JS_COMMIT)"
+      # After the comment is posted: the sweep's own verdict, which no single shard can give (more
+      # than 5% of the manifest's screenshots missing across all of them). The steps below are the
+      # release gate's and never run for a sweep.
+      - name: Fail a red sweep
+        if: steps.summary.outputs.sweep_red != ''
+        env:
+          SWEEP_RED: ${{ steps.summary.outputs.sweep_red }}
+        run: |
+          echo "::error title=UI sweep::$SWEEP_RED"
+          exit 1
       - name: Build the release gate report
         if: needs.prepare.outputs.preset == 'happy'
         env:

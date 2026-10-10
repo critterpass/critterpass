@@ -1,0 +1,87 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-album-lab
+  LIST: 'album-lab-.*'
+---
+# UI sweep (vi), lab scenes: the trip's album.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-best
+      READY: album-screen
+      SHOT: vi-3m-2-best
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-all
+      READY: album-screen
+      SHOT: vi-3m-2-all
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-people
+      READY: album-screen
+      SHOT: vi-3m-2-people
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-curating
+      READY: album-curating
+      SHOT: vi-3m-2-curating
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-uploading
+      READY: album-upload-banner
+      SHOT: vi-3m-2-uploading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-waiting
+      READY: album-upload-banner
+      SHOT: vi-3m-2-waiting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-failed
+      READY: album-upload-retry
+      SHOT: vi-3m-2-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-2-empty
+      READY: album-empty
+      SHOT: vi-3m-2-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-9-postcard
+      READY: postcard-screen
+      SHOT: vi-3m-9-postcard
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-9-sent
+      READY: postcard-sent
+      SHOT: vi-3m-9-sent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-9-mailed
+      READY: postcard-mailing
+      SHOT: vi-3m-9-mailed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-3m-9-received
+      READY: postcard-received
+      SHOT: vi-3m-9-received
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: album-lab-album-address
+      READY: album-address
+      SHOT: vi-album-address
