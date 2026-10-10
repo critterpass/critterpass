@@ -108,6 +108,8 @@ export const trips = pgTable('trips', {
   draftVersionId: uuid('draft_version_id'),
   replyBy: timestamp('reply_by', { withTimezone: true, mode: 'date' }),
   cancelledAt: timestamp('cancelled_at', { withTimezone: true, mode: 'date' }),
+  /** Who may change the crew's plan: `organiser_approves` (default), `anyone`, `organiser_only`. */
+  planChangeRule: text('plan_change_rule').notNull().default('organiser_approves'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

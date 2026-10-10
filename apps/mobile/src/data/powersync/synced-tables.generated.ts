@@ -311,7 +311,7 @@ export const SYNCED_TABLE_COLUMNS = {
   trip_stops:
     'trip_id crew_id position:integer destination_id nights:integer created_at updated_at',
   trips:
-    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
+    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at plan_change_rule created_at updated_at',
   usage_counters:
     'subject_kind subject_id metric period_key count:integer limit_at_time:integer reset_at started_at',
   user_entitlements:

@@ -33,7 +33,7 @@ import {
   requireVisibleChangeSet,
   type ChangeSetRow,
 } from '../../plan/changeset-store';
-import { tripOrganiserIds, tripVoters } from '../../plan/access';
+import { requirePlanProposer, tripOrganiserIds, tripVoters } from '../../plan/access';
 import { castFirstBallot, settleVote } from '../../plan/changeset-vote';
 import { chooseDeciderPolicy } from '../../plan/decider-policy';
 import { loadPlanState, lockTripPlan, replay } from '../../plan/versioning';
@@ -127,6 +127,7 @@ export const sendChangesetCommand = defineCommand({
     if (row.status !== 'draft' && row.status !== 'proposed') {
       throw new DomainError('STATE_INVALID', { state: row.status });
     }
+    await requirePlanProposer(tx, row.trip_id);
     const accepted = row.ops.filter((op) => op.accepted !== false);
     if (accepted.length === 0)
       throw new DomainError('STATE_INVALID', { reason: 'nothing_accepted' });

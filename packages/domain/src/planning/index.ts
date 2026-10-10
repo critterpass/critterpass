@@ -14,3 +14,4 @@ export * from './rt';
 export * from './search-filter';
 export * from './stances';
 export * from './templates';
+export * from './trip-settings';

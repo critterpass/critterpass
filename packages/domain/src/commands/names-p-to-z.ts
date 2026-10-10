@@ -120,6 +120,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'set_pause_intent',
   'set_payout_method',
   'set_place_stance',
+  'set_plan_change_rule',
   'set_readiness',
   'set_room_assignment',
   'set_room_prefs',
