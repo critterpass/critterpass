@@ -59,6 +59,9 @@ export const premiumMotion = {
   shimmerSweepMs: 1400,
   /** The thinking critter's bob (design: `fx="bob" dur="1400"`). */
   bobMs: 1400,
+  bobLift: 6,
+  /** Toasts rise in from this far below. */
+  toastRise: 24,
   /** How long a toast stays before it leaves on its own. */
   toastHoldMs: 4000,
   /** Press feedback on the primary pill. */

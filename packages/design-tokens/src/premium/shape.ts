@@ -70,6 +70,8 @@ export const premiumSpace = {
   segmentTrackPad: 3,
   toggleKnobInset: 2,
   photoFrame: 5,
+  /** Disc to headline on an empty state. */
+  emptyTextGap: 24,
 } as const;
 
 export const premiumSize = {
@@ -83,6 +85,11 @@ export const premiumSize = {
   glassNav: 44,
   glassPill: 44,
   toast: 58,
+  toastCheck: 36,
+  toastCritter: 44,
+  errorDisc: 28,
+  emptyCheck: 46,
+  loadingCritter: 40,
   segment: 40,
   toggleWidth: 52,
   toggleHeight: 32,
