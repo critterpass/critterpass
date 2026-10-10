@@ -1,6 +1,6 @@
 /**
  * Crew chat sticker rows (`messages.type = 'sticker'`): an active member inserts a sticker only for
- * a critter form they have met (a collection entry that was not revoked) and only in the sticker
+ * a critter form they have met (a collection entry of theirs) and only in the sticker
  * shape; a member's row never carries a card reference, and a member who has not met the form, or
  * an outsider, cannot post it.
  */

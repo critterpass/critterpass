@@ -27,12 +27,12 @@ afterAll(async () => {
   await chat?.stop();
 });
 
-async function meet(uid: string, formId: string, verification = 'pending'): Promise<void> {
+async function meet(uid: string, formId: string): Promise<void> {
   await withSystem(chat.doors.pool, (tx) =>
     tx.query(
       `INSERT INTO collection_entries (user_id, form_id, critter_id, found_at, source, verification)
-       SELECT $1, f.id, f.critter_id, now(), 'encounter', $3 FROM critter_forms f WHERE f.id = $2`,
-      [uid, formId, verification],
+       SELECT $1, f.id, f.critter_id, now(), 'encounter', 'pending' FROM critter_forms f WHERE f.id = $2`,
+      [uid, formId],
     ),
   );
 }
@@ -67,9 +67,9 @@ describe('sticker messages', () => {
     ]);
   });
 
-  it('refuses a sticker of a form the sender has not met, or lost', async () => {
-    const { crewId, owner } = await chatCrew(chat.doors);
-    await meet(owner.uid, rare, 'revoked');
+  it('refuses a sticker of a form only someone else has met', async () => {
+    const { crewId, owner, members } = await chatCrew(chat.doors);
+    await meet(members[0]!.uid, rare);
     for (const formId of [starter, rare]) {
       const sent = await runCommand(chat.doors, owner, 'send_message', {
         crew_id: crewId,

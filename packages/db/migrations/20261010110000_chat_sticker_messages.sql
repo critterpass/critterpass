@@ -1,8 +1,8 @@
 -- Critter stickers in the crew chat. A sticker is a member's message of type `sticker` that points
 -- at one critter form (`ref_kind = 'critter_form'`, `ref_id` the form) and carries its pose in
 -- `body`; the caption is fixed per pose and drawn by the app. A member may only send a form they
--- have met (a collection entry that was not revoked), and a member's row may carry no other
--- reference, so cards stay system-written.
+-- have met (a collection entry of theirs), and a member's row may carry no other reference, so
+-- cards stay system-written.
 --
 -- Critter reactions need no schema change: `message_reactions.emoji` already holds any key up to
 -- 16 characters, and the api accepts `c<dex no>.<pose>` beside emoji.
@@ -32,7 +32,6 @@ CREATE POLICY messages_insert ON messages FOR INSERT TO app_user
         type = 'sticker' AND EXISTS (
           SELECT 1 FROM collection_entries e
            WHERE e.user_id = app.uid() AND e.form_id = messages.ref_id
-             AND e.verification <> 'revoked'
         )
       )
     )

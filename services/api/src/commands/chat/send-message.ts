@@ -37,7 +37,7 @@ function typeOf(attachments: readonly StoredAttachment[]): MemberMessageType {
 async function assertFormMet(tx: pg.PoolClient, formId: string): Promise<void> {
   const { rowCount } = await tx.query(
     `SELECT 1 FROM collection_entries
-      WHERE user_id = app.uid() AND form_id = $1 AND verification <> 'revoked' LIMIT 1`,
+      WHERE user_id = app.uid() AND form_id = $1 LIMIT 1`,
     [formId],
   );
   if (rowCount === 0) throw new DomainError('FORBIDDEN', { reason: 'sticker_not_met' });
