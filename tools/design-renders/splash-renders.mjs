@@ -160,6 +160,65 @@ async function renderBrand(browser, server, colour) {
   }
 }
 
+/** Room around each launch sticker for its drop shadow. */
+export const STICKER_PAD = 16;
+
+/**
+ * The stickers that pop in as the cover lifts (10.02): Tokek waving, the plane and the puffin, as
+ * the design draws them, unrotated (the app animates the rotation).
+ */
+async function renderLaunchStickers(browser, server) {
+  const stickers = {
+    tokek:
+      '<doodle-art kind="gecko" size="116" pose="wave" sticker="#ffffff" anim="none" seed="41"></doodle-art>',
+    plane:
+      '<doodle-art kind="plane" size="58" sticker="#ffffff" accent="#4f86ff" anim="none" seed="18"></doodle-art>',
+    puffin:
+      '<doodle-art kind="puffin" size="76" sticker="#ffffff" anim="none" seed="596"></doodle-art>',
+  };
+  const { context, page } = await openPage(browser, server, SPLASH_SCALE);
+  const url = `${server.origin}/premium/__stickers.html`;
+  const body = Object.entries(stickers)
+    .map(
+      ([name, art], i) =>
+        `<div id="${name}" style="position:absolute;left:${100 + i * 240}px;top:100px;line-height:0">${art}</div>`,
+    )
+    .join('');
+  await page.route(url, (route) =>
+    route.fulfill({
+      contentType: 'text/html; charset=utf-8',
+      body: `<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script>
+<script src="doodles.js"></script><script src="critters-data.js"></script>
+<script src="critters-draw-1.js"></script><script src="critters-draw-2.js"></script>
+<style>html,body{margin:0;background:transparent}</style></head><body><x-dc>${body}</x-dc></body></html>`,
+    }),
+  );
+  try {
+    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.waitForFunction(
+      (n) => document.querySelectorAll('canvas').length >= n,
+      Object.keys(stickers).length,
+    );
+    await page.waitForTimeout(1500);
+    const out = {};
+    for (const name of Object.keys(stickers)) {
+      const box = await page.locator(`#${name} doodle-art`).boundingBox();
+      out[`launch/sticker-${name}.png`] = await page.screenshot({
+        clip: {
+          x: box.x - STICKER_PAD,
+          y: box.y - STICKER_PAD,
+          width: box.width + STICKER_PAD * 2,
+          height: box.height + STICKER_PAD * 2,
+        },
+        omitBackground: true,
+      });
+    }
+    return out;
+  } finally {
+    await context.close();
+  }
+}
+
 /**
  * Every launch file, keyed by its path under apps/mobile/assets. `renderAndroidIcon` draws the
  * App Icon in the circle shape (10.04 uses the light icon, 10.05 the dark one).
@@ -178,5 +237,6 @@ export async function exportSplashes(browser, server, renderAndroidIcon) {
     'launch/android-icon-dark.png': await renderAndroidIcon('passport', 'dark'),
     'launch/android-brand.png': await renderBrand(browser, server, '#ff9a4d'),
     'launch/android-brand-dark.png': await renderBrand(browser, server, '#ffd84a'),
+    ...(await renderLaunchStickers(browser, server)),
   };
 }
