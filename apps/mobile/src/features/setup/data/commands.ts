@@ -16,6 +16,7 @@ import type {
   RequestRoomSwapPayload,
   SetAvailabilityPayload,
   SetBudgetDefaultPayload,
+  SetGettingTherePayload,
   SetMustDosPayload,
   SetRoomAssignmentPayload,
   SetRoomPrefsPayload,
@@ -124,4 +125,10 @@ export const trackLotteryCommand = defineClientCommand<TrackLotteryPayload>({
   name: 'track_lottery',
   offline: true,
   summarize: () => msg({ id: 'setup.queued.lottery', message: 'Lottery reminders' }),
+});
+
+export const setGettingThereCommand = defineClientCommand<SetGettingTherePayload>({
+  name: 'set_getting_there',
+  offline: true,
+  summarize: () => msg({ id: 'setup.queued.gettingThere', message: 'How you get there' }),
 });

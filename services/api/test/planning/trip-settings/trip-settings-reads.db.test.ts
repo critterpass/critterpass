@@ -108,7 +108,7 @@ describe('the change-dates preview', () => {
       crew.organiser,
       `/v1/trips/${crew.tripId}/dates-impact?start=${day(36)}&end=${day(80)}`,
     );
-    expect(status).toBe(400);
+    expect(status).toBe(422);
   });
 
   it('is not found for someone outside the trip', async () => {
