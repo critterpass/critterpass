@@ -180,3 +180,66 @@ describe('revealing it to the payer', () => {
     expect(await capturedOutputs(harness.pool)).not.toContain('91738264');
   });
 });
+
+describe('choosing a default method', () => {
+  const kinds = async (session: SignedIn) =>
+    (
+      (await get(session, '/v1/me/payout-methods')).body['methods'] as {
+        kind: string;
+        is_default: boolean;
+      }[]
+    ).map((method) => [method.kind, method.is_default]);
+
+  it('puts the default first for its owner and for the payer, and keeps only one', async () => {
+    const cash = await harness.run(payee, 'set_payout_method', { kind: 'cash', default: true });
+    expect(resultOf(cash)).toMatchObject({ kind: 'cash', is_default: true });
+    expect(await kinds(payee)).toEqual([
+      ['cash', true],
+      ['paynow', false],
+    ]);
+
+    // Re-saving PayNow without saying keeps it a non-default; saying so moves the default.
+    await harness.run(payee, 'set_payout_method', {
+      kind: 'paynow',
+      details: { proxy_type: 'mobile', proxy: PHONE, name: 'Wei Ling' },
+    });
+    expect(await kinds(payee)).toEqual([
+      ['cash', true],
+      ['paynow', false],
+    ]);
+    await harness.run(payee, 'set_payout_method', {
+      kind: 'paynow',
+      details: { proxy_type: 'mobile', proxy: PHONE, name: 'Wei Ling' },
+      default: true,
+    });
+    expect(await kinds(payee)).toEqual([
+      ['paynow', true],
+      ['cash', false],
+    ]);
+    // Re-saving the default without saying keeps it the default.
+    await harness.run(payee, 'set_payout_method', {
+      kind: 'paynow',
+      details: { proxy_type: 'mobile', proxy: PHONE, name: 'Wei Ling' },
+    });
+    expect(await kinds(payee)).toEqual([
+      ['paynow', true],
+      ['cash', false],
+    ]);
+
+    await harness.run(payee, 'set_payout_method', { kind: 'cash', default: true });
+    const openPayment = generateUuidV7();
+    const requested = await harness.run(payee, 'request_payment', {
+      payment_id: openPayment,
+      trip_id: crew.tripId,
+      from_uid: payer.uid,
+      amount_minor: 1_000,
+      currency: 'USD',
+    });
+    expect(requested.status).toBe(200);
+    const seen = await get(payer, `/v1/payments/${openPayment}/payout`);
+    expect((seen.body['methods'] as { kind: string }[]).map((method) => method.kind)).toEqual([
+      'cash',
+      'paynow',
+    ]);
+  });
+});

@@ -2,7 +2,7 @@
  * Payout details over HTTPS only (never synced, never cached on a device's disk):
  * - `GET /v1/payments/{id}/payout`: the payer of an open payment reads the payee's methods through
  *   `app.reveal_payout`, which audits the read; anyone else gets `NOT_FOUND`.
- * - `GET /v1/me/payout-methods`: the owner's own methods, for the editor.
+ * - `GET /v1/me/payout-methods`: the owner's own methods, for the editor, default first.
  * Details are decrypted here, per request, and answered with `Cache-Control: no-store`.
  */
 import { crypto as dbCrypto, withUser } from '@cp/db';
@@ -25,6 +25,7 @@ interface MethodRow {
   readonly country: string | null;
   readonly label: string;
   readonly details_enc: string | null;
+  readonly is_default?: boolean;
 }
 
 function reveal(rows: readonly MethodRow[], deps: PayoutRouteDeps): RevealedPayoutMethod[] {
@@ -39,6 +40,7 @@ function reveal(rows: readonly MethodRow[], deps: PayoutRouteDeps): RevealedPayo
         : (JSON.parse(
             dbCrypto.decryptField(row.details_enc, deps.keyring),
           ) as RevealedPayoutMethod['details']),
+    ...(row.is_default === undefined ? {} : { is_default: row.is_default }),
   }));
 }
 
@@ -66,8 +68,9 @@ export function registerPayoutRoutes(app: OpenAPIHono<AppEnv>, deps: PayoutRoute
     const session = await requireCommandSession(deps.sessions, c.req.raw.headers);
     const rows = await withUser(deps.pool, session.uid, 'unknown', async (tx) => {
       const result = await tx.query<MethodRow>(
-        `SELECT id AS method_id, kind, country::text AS country, label, details_enc
-           FROM payout_methods WHERE user_id = $1 AND deleted_at IS NULL ORDER BY kind`,
+        `SELECT id AS method_id, kind, country::text AS country, label, details_enc, is_default
+           FROM payout_methods WHERE user_id = $1 AND deleted_at IS NULL
+          ORDER BY is_default DESC, kind`,
         [session.uid],
       );
       return result.rows;

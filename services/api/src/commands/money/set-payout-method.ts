@@ -2,7 +2,8 @@
  * `set_payout_method` (docs/api-contracts.md §4.1, C3): how the caller gets paid back. The details
  * are checked against their kind, encrypted with the field keyring before they touch the database,
  * and never appear in the result, an event, a hint or a log; one live method per kind, and removing
- * one keeps nothing readable. Only `app.reveal_payout` ever shows them to someone else.
+ * one keeps nothing readable. Only `app.reveal_payout` ever shows them to someone else. One live
+ * method can be the default, which payers see first.
  */
 import { crypto as dbCrypto, emitEvent } from '@cp/db';
 import {
@@ -47,13 +48,15 @@ export function createSetPayoutMethodCommand(deps: { readonly keyring: Keyring }
     allowAnonymous: true,
     authorize: () => Promise.resolve(),
     handle: async (tx, payload, ctx) => {
-      await tx.query(
+      const replaced = await tx.query<{ is_default: boolean }>(
         `UPDATE payout_methods SET deleted_at = $3
-          WHERE user_id = $1 AND kind = $2 AND deleted_at IS NULL`,
+          WHERE user_id = $1 AND kind = $2 AND deleted_at IS NULL RETURNING is_default`,
         [ctx.uid, payload.kind, ctx.clock.serverNow],
       );
       let methodId: string | null = null;
+      let isDefault = false;
       if (!payload.remove) {
+        isDefault = payload.default ?? replaced.rows.some((row) => row.is_default);
         let details: PayoutDetails;
         try {
           details = parsePayoutDetails(payload.kind, payload.details);
@@ -65,9 +68,17 @@ export function createSetPayoutMethodCommand(deps: { readonly keyring: Keyring }
             fields: error.issues.map((issue) => issue.path.join('.')),
           });
         }
+        if (isDefault) {
+          // One default per member: the new one takes over from whichever method had it.
+          await tx.query(
+            `UPDATE payout_methods SET is_default = false
+              WHERE user_id = $1 AND is_default AND deleted_at IS NULL`,
+            [ctx.uid],
+          );
+        }
         const { rows } = await tx.query<{ id: string }>(
-          `INSERT INTO payout_methods (user_id, kind, country, label, details_enc)
-           VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+          `INSERT INTO payout_methods (user_id, kind, country, label, details_enc, is_default)
+           VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
           [
             ctx.uid,
             payload.kind,
@@ -76,6 +87,7 @@ export function createSetPayoutMethodCommand(deps: { readonly keyring: Keyring }
             payload.kind === 'cash'
               ? null
               : dbCrypto.encryptField(JSON.stringify(details), deps.keyring),
+            isDefault,
           ],
         );
         methodId = rows[0]?.id ?? null;
@@ -88,7 +100,12 @@ export function createSetPayoutMethodCommand(deps: { readonly keyring: Keyring }
         actorId: ctx.uid,
         payload: { user_id: ctx.uid, kind: payload.kind, removed: payload.remove },
       });
-      return { method_id: methodId, kind: payload.kind, removed: payload.remove };
+      return {
+        method_id: methodId,
+        kind: payload.kind,
+        removed: payload.remove,
+        is_default: isDefault,
+      };
     },
   });
 }

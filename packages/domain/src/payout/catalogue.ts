@@ -95,6 +95,11 @@ export const setPayoutMethodPayloadSchema = z.strictObject({
   details: z.record(z.string(), z.unknown()).default({}),
   /** Removes the member's method of this kind. */
   remove: z.boolean().default(false),
+  /**
+   * Makes this method the one people paying the member see first (`true`) or clears that
+   * (`false`); left out, a re-saved method keeps whatever it was.
+   */
+  default: z.boolean().optional(),
 });
 export type SetPayoutMethodPayload = z.infer<typeof setPayoutMethodPayloadSchema>;
 
@@ -110,4 +115,6 @@ export interface RevealedPayoutMethod {
   readonly country: string | null;
   readonly label: string;
   readonly details: PayoutDetails;
+  /** The owner's own list only: the method shown first to people paying them. */
+  readonly is_default?: boolean;
 }
