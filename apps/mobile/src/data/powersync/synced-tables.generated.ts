@@ -67,7 +67,7 @@ export const SYNCED_TABLE_COLUMNS = {
   crew_year_grants:
     'crew_id buyer_id subscription_id original_transaction_id intent_id split_expense_id valid_from valid_to rebound_for_period_end revoked_at created_at updated_at',
   crews:
-    'name art settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
+    'name art cover settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
   critter_forms:
     'key critter_id rarity palette pose edge note requirement_copy xp:integer release_id created_at updated_at',
   critter_sets:

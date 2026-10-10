@@ -4,6 +4,7 @@
  */
 import { z } from 'zod';
 
+import { crewCoverSchema } from './covers';
 import { crewNameSchema, crewNotifyLevelSchema, type CrewNotifyLevel } from './limits';
 
 /** A crew art key from the content catalogue (lowercase slug). */
@@ -14,6 +15,7 @@ export const createCrewPayloadSchema = z.object({
   crew_id: z.uuid(),
   name: crewNameSchema,
   art: crewArtSchema.optional(),
+  cover: crewCoverSchema.optional(),
 });
 export type CreateCrewPayload = z.infer<typeof createCrewPayloadSchema>;
 
@@ -28,10 +30,14 @@ export const updateCrewPayloadSchema = z
     crew_id: z.uuid(),
     name: crewNameSchema.optional(),
     art: crewArtSchema.nullable().optional(),
+    cover: crewCoverSchema.nullable().optional(),
   })
-  .refine((value) => value.name !== undefined || value.art !== undefined, {
-    message: 'nothing to update',
-  });
+  .refine(
+    (value) => value.name !== undefined || value.art !== undefined || value.cover !== undefined,
+    {
+      message: 'nothing to update',
+    },
+  );
 export type UpdateCrewPayload = z.infer<typeof updateCrewPayloadSchema>;
 
 export const crewIdPayloadSchema = z.object({ crew_id: z.uuid() });
@@ -43,6 +49,23 @@ export const leaveCrewPayloadSchema = z.object({
   keep_in_chat: z.boolean().default(false),
 });
 export type LeaveCrewPayload = z.infer<typeof leaveCrewPayloadSchema>;
+
+/**
+ * Hands the crew's organiser role to another active member. With `leave` the caller then leaves
+ * the crew (as `leave_crew` does, chat kept or not); without it they stay on as a member.
+ */
+export const transferOrganiserPayloadSchema = z.object({
+  crew_id: z.uuid(),
+  to_uid: z.uuid(),
+  leave: z.boolean().default(false),
+  keep_in_chat: z.boolean().default(false),
+});
+export type TransferOrganiserPayload = z.infer<typeof transferOrganiserPayloadSchema>;
+
+export interface TransferOrganiserResult extends MembershipChangeResult {
+  readonly organiser: string;
+  readonly left: boolean;
+}
 
 export const removeMemberPayloadSchema = z.object({ crew_id: z.uuid(), uid: z.uuid() });
 export type RemoveMemberPayload = z.infer<typeof removeMemberPayloadSchema>;

@@ -8,6 +8,7 @@ import { z } from 'zod';
 export const GROWTH_EVENT_TYPES = [
   'crew.created',
   'crew.updated',
+  'crew.organiser_changed',
   'crew.code_rotated',
   'user.active_crew_changed',
   'invite.created',
@@ -32,6 +33,8 @@ const invitePayload = z.object({
 export const GROWTH_EVENT_PAYLOADS = {
   'crew.created': crewPayload,
   'crew.updated': crewPayload,
+  // Aggregate is the crew; `user_id` now runs it, `from_user_id` handed it over.
+  'crew.organiser_changed': crewPayload.extend({ user_id: z.uuid(), from_user_id: z.uuid() }),
   // Aggregate is the crew; the old code is revoked in the same transaction.
   'crew.code_rotated': crewPayload.extend({ join_code_id: z.uuid() }),
   'user.active_crew_changed': z.object({ user_id: z.uuid(), crew_id: z.uuid() }),

@@ -13,11 +13,18 @@ import {
   encodeMemberColour,
   memberColourForSlot,
   type CreateCrewResult,
+  type CrewCover,
 } from '@cp/domain';
 import type pg from 'pg';
 
 import { defineCommand } from '../_framework/define-command';
-import { activeCrewCount, codeExpiry, maxActiveCrews, mintJoinCode } from './shared';
+import {
+  activeCrewCount,
+  codeExpiry,
+  maxActiveCrews,
+  mintJoinCode,
+  requireCoverAllowed,
+} from './shared';
 
 const PG_UNIQUE_VIOLATION = '23505';
 
@@ -25,6 +32,7 @@ export interface StartCrewInput {
   readonly crewId: string;
   readonly name: string;
   readonly art: string | null;
+  readonly cover?: CrewCover | null;
   readonly uid: string;
   readonly now: Date;
 }
@@ -42,9 +50,9 @@ export async function startCrew(
   await tx.query('SAVEPOINT create_crew');
   try {
     await tx.query(
-      `INSERT INTO crews (id, name, art, created_by, settlement_currency)
-       VALUES ($1, $2, $3, $4, (SELECT upper(home_currency) FROM users WHERE id = $4))`,
-      [input.crewId, input.name, input.art, input.uid],
+      `INSERT INTO crews (id, name, art, cover, created_by, settlement_currency)
+       VALUES ($1, $2, $3, $5, $4, (SELECT upper(home_currency) FROM users WHERE id = $4))`,
+      [input.crewId, input.name, input.art, input.uid, input.cover ?? null],
     );
     await tx.query('RELEASE SAVEPOINT create_crew');
   } catch (error) {
@@ -94,7 +102,8 @@ export const createCrewCommand = defineCommand({
   schema: createCrewPayloadSchema,
   offline: true,
   allowAnonymous: true,
-  authorize: async (tx, _payload, ctx) => {
+  authorize: async (tx, payload, ctx) => {
+    await requireCoverAllowed(tx, ctx.uid, payload.cover);
     const limit = await maxActiveCrews(tx);
     if (!canStartCrew(await activeCrewCount(tx, ctx.uid), limit)) {
       throw new DomainError('STATE_INVALID', { reason: 'crew_limit', limit });
@@ -105,6 +114,7 @@ export const createCrewCommand = defineCommand({
       crewId: payload.crew_id,
       name: payload.name,
       art: payload.art ?? null,
+      cover: payload.cover ?? null,
       uid: ctx.uid,
       now: ctx.clock.serverNow,
     });

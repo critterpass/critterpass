@@ -156,6 +156,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'tell_crew_boost',
   'thank_boost',
   'track_lottery',
+  'transfer_organiser',
   'trigger_sos',
   'undo_disruption_action',
   'undo_guide_action',

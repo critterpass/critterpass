@@ -6,6 +6,7 @@ import { removeMemberCommand } from './remove-member';
 import { rotateJoinCodeCommand } from './rotate-join-code';
 import { setActiveCrewCommand } from './set-active-crew';
 import { setCrewNotifyCommand } from './set-crew-notify';
+import { transferOrganiserCommand } from './transfer-organiser';
 import { updateCrewCommand } from './update-crew';
 
 export function registerCrewCommands(registry: CommandRegistry): void {
@@ -16,4 +17,5 @@ export function registerCrewCommands(registry: CommandRegistry): void {
   registry.register(rotateJoinCodeCommand);
   registry.register(leaveCrewCommand);
   registry.register(removeMemberCommand);
+  registry.register(transferOrganiserCommand);
 }

@@ -24,6 +24,8 @@ export const crews = pgTable('crews', {
     .default(sql`uuidv7()`),
   name: text('name').notNull(),
   art: text('art'),
+  /** Pass cover colour key (`@cp/domain` CREW_COVERS); NULL draws the default. */
+  cover: text('cover'),
   settlementCurrency: text('settlement_currency'),
   memberCeiling: integer('member_ceiling').notNull().default(16),
   membershipEpoch: integer('membership_epoch').notNull().default(0),
