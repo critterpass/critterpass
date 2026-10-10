@@ -53,7 +53,13 @@ export {
   poseSchema,
 } from './forms/schema';
 export type { ArtParams } from './forms/schema';
-export { EDGE_RING_STYLES, TIER_COLORS } from './forms/tier-palette';
+export {
+  EDGE_RING_STYLES,
+  PREMIUM_LOCKED_MARK,
+  PREMIUM_STICKER,
+  premiumLockedMask,
+  TIER_COLORS,
+} from './forms/tier-palette';
 export type { EdgeRingStyle, Rarity, TierColors } from './forms/tier-palette';
 export { DESIGNED_FORMS } from './forms/designed';
 export type { DesignedForm } from './forms/designed';

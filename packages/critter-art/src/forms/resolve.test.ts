@@ -63,29 +63,27 @@ describe('DESIGNED_FORMS', () => {
     expect(DESIGNED_FORMS.filter((f) => f.critterId === 'cp-061')).toHaveLength(1);
   });
 
-  it('epic and legendary forms carry a pink/gold edge respectively; rare carries none', () => {
-    expect(findDesignedForm('cp-112', 'rare')?.form.edge).toBe('none');
-    expect(findDesignedForm('cp-112', 'epic')?.form.edge).toBe('epic');
-    expect(findDesignedForm('cp-112', 'legendary')?.form.edge).toBe('legendary');
-    expect(findDesignedForm('cp-061', 'legendary')?.form.edge).toBe('legendary');
+  it('every designed form wears the plain sticker edge, with no tier ring', () => {
+    for (const designed of DESIGNED_FORMS) expect(designed.form.edge).toBe('none');
   });
 
-  it.each(DESIGNED_FORMS)(
-    '$name builds and frames at 96/150/300pt with a sticker, incl. the edge ring where designed',
-    (designed) => {
-      for (const sizePt of [96, 150, 300]) {
-        const model = build(
-          { kind: designed.kind, seed: 7, form: designed.form, sticker: { color: '#f4efe4' } },
-          sizePt,
-        );
-        expect(model.ops.length).toBeGreaterThan(0);
-        if (designed.form.edge !== 'none') {
-          expect(model.edgeOutline).not.toBeNull();
-          expect(model.edgeColor).not.toBeNull();
-        }
-        const cmds = frame(model, 1);
-        expect(cmds.length).toBeGreaterThan(0);
-      }
-    },
-  );
+  it('draws the epic Tokek in pink', () => {
+    expect(findDesignedForm('cp-112', 'epic')?.form.palette).toMatchObject({
+      f: '#ff8fbf',
+      dk: '#d6337f',
+    });
+  });
+
+  it.each(DESIGNED_FORMS)('$name builds and frames at 96/150/300pt with a sticker', (designed) => {
+    for (const sizePt of [96, 150, 300]) {
+      const model = build(
+        { kind: designed.kind, seed: 7, form: designed.form, sticker: { color: '#f4efe4' } },
+        sizePt,
+      );
+      expect(model.ops.length).toBeGreaterThan(0);
+      expect(model.edgeOutline).toBeNull();
+      const cmds = frame(model, 1);
+      expect(cmds.length).toBeGreaterThan(0);
+    }
+  });
 });
