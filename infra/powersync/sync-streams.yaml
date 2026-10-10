@@ -455,6 +455,10 @@ streams:
           AND deleted_at IS NULL
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |-
+        SELECT * FROM trip_member_setup
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
+      - |-
         SELECT * FROM participant_dietary_flags
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)

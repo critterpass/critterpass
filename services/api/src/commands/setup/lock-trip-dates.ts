@@ -31,6 +31,7 @@ import {
   loadSetupTrip,
   publishSetup,
   queueBudgetRecompute,
+  refreshMemberSetup,
   requireOrganiser,
   requireStatus,
   setupMemberIds,
@@ -193,6 +194,8 @@ export const lockTripDatesCommand = defineCommand({
         await tx.query("SELECT set_config('app.uid', $1, true)", [ctx.uid]);
         await queueBudgetRecompute(tx, trip.id, true);
       }
+      // Whose days are in now counts the locked dates only.
+      if (moved) await refreshMemberSetup(tx, trip.id);
       const next: TripSetupStep =
         stepIndex(trip.setup_step) <= stepIndex('when') ? 'budget' : trip.setup_step;
       await moveStep(tx, trip, next, ctx.uid);

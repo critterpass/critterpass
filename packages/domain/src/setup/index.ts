@@ -8,3 +8,4 @@ export * from './templates';
 export * from './queues';
 export * from './rooms';
 export * from './must-dos';
+export * from './getting-there';

@@ -10,7 +10,25 @@
 import { z } from 'zod';
 
 import { DomainError } from '../errors';
-import { TRIP_SETUP_STEPS, tripSetupStepSchema, type TripSetupStep } from '../enums/trip';
+import {
+  TRIP_SETUP_STEPS,
+  tripSetupStepSchema,
+  type TripSetupStep,
+  type TripStatus,
+} from '../enums/trip';
+
+/**
+ * Trip states in which members still give their part of setup (free days, private max, how they
+ * sleep, how they get there): setup is a checklist done in any order once the dates lock, and the
+ * guide may draft with what is in while the rest arrives.
+ */
+export const SETUP_INPUT_STATUSES: readonly TripStatus[] = [
+  'won',
+  'setup',
+  'drafting',
+  'draft_review',
+  'redrafting',
+];
 
 export const setSetupStepPayloadSchema = z.strictObject({
   trip_id: z.uuid(),

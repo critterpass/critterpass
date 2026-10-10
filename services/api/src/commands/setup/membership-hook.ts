@@ -5,7 +5,7 @@
  * transaction that appends the event.
  */
 import { sendInTx } from '@cp/db';
-import { SETUP_QUEUES } from '@cp/domain';
+import { SETUP_INPUT_STATUSES, SETUP_QUEUES } from '@cp/domain';
 import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
@@ -26,11 +26,11 @@ export async function queueSetupRecomputes(
     const found = await tx.query<{ trip_id: string }>(
       `SELECT t.id AS trip_id
          FROM app.domain_event_for_routing($1) e
-         JOIN trips t ON t.status IN ('won', 'setup')
+         JOIN trips t ON t.status = ANY ($2::text[])
           AND (t.id = e.trip_id OR t.crew_id = e.crew_id
                OR t.id = (e.payload->>'trip_id')::uuid OR t.crew_id = (e.payload->>'crew_id')::uuid)
         WHERE e.type <> 'rsvp.changed' OR e.payload->>'rsvp' = 'out'`,
-      [event.id],
+      [event.id, SETUP_INPUT_STATUSES],
     );
     return found.rows;
   });

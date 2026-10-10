@@ -14,14 +14,17 @@ import {
 } from '@cp/domain';
 import type pg from 'pg';
 
+import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
+import { draftAgainWithNewAnswers } from '../draft/as-you-go';
 import {
   addDays,
+  MEMBER_INPUT_STATUSES,
   openSetupTripIds,
   queueWindowRecompute,
+  refreshMemberSetup,
   requireSetupMember,
   requireStatus,
-  SETUP_OPEN_STATUSES,
   todayIn,
 } from './shared';
 
@@ -60,7 +63,7 @@ export const setAvailabilityCommand = defineCommand({
   authorize: async (tx, payload: SetAvailabilityPayload, ctx) => {
     if (payload.trip_id === undefined) return;
     const trip = await requireSetupMember(tx, payload.trip_id, ctx.uid);
-    requireStatus(trip, SETUP_OPEN_STATUSES);
+    requireStatus(trip, MEMBER_INPUT_STATUSES);
   },
   handle: async (tx, payload, ctx): Promise<SetAvailabilityResult> => {
     const now = ctx.clock.serverNow;
@@ -104,7 +107,12 @@ export const setAvailabilityCommand = defineCommand({
       payload.trip_id === undefined
         ? tripIds
         : [payload.trip_id, ...tripIds.filter((id) => id !== payload.trip_id)];
-    for (const tripId of ordered) await queueWindowRecompute(tx, tripId);
+    for (const tripId of ordered) {
+      await queueWindowRecompute(tx, tripId);
+      if ((await asSystemRole(tx, () => refreshMemberSetup(tx, tripId))) > 0) {
+        await draftAgainWithNewAnswers(tx, tripId, ctx.uid);
+      }
+    }
     await emitEvent(tx, {
       type: 'availability.updated',
       aggregateKind: 'user',

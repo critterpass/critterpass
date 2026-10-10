@@ -9,6 +9,7 @@ import { outbox, withSystem } from '@cp/db';
 import {
   AVAILABILITY_HORIZON_DAYS,
   channelName,
+  SETUP_INPUT_STATUSES,
   SETUP_QUEUES,
   SETUP_RT,
   type TripStatus,
@@ -130,7 +131,7 @@ export async function recomputeWindows(
     );
     const trip = rows[0];
     if (trip === undefined) return { outcome: 'missing' };
-    if (trip.status !== 'won' && trip.status !== 'setup') return { outcome: 'closed' };
+    if (!SETUP_INPUT_STATUSES.includes(trip.status)) return { outcome: 'closed' };
     const counted = await tx.query<{ kept: number }>(
       'SELECT app.recompute_availability($1) AS kept',
       [tripId],

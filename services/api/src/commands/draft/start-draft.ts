@@ -1,8 +1,10 @@
 /**
  * `start_draft` (docs/api-contracts.md §4.6). DRAFT MY TRIP starts one private drafting job for
- * the trip (one at a time, however many organisers tap it) once its dates are locked; the job and
- * its queue entry commit with the command. System AI: no quota. A trip left drafting with no live
- * job (its job died before it could give the trip back) may start again.
+ * the trip (one at a time, however many organisers tap it) once its dates are locked, with whatever
+ * the crew has answered so far; the job and its queue entry commit with the command. From the
+ * review of an earlier draft it drafts again with the answers that came in since (the earlier
+ * draft stays restorable). System AI: no quota. A trip left drafting with no live job (its job
+ * died before it could give the trip back) may start again.
  */
 import { startAgentJob } from '@cp/ai';
 import { emitEvent, sendInTx } from '@cp/db';
@@ -12,6 +14,8 @@ import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
 import { liveJob, loadSetupTrip, requireOrganiser, requireStatus } from './shared';
 
+const DRAFTABLE = ['setup', 'drafting', 'draft_review'] as const;
+
 export const startDraftCommand = defineCommand({
   name: 'start_draft',
   v: 1,
@@ -19,17 +23,26 @@ export const startDraftCommand = defineCommand({
   offline: false,
   allowAnonymous: true,
   authorize: async (tx, payload) => {
-    requireStatus(await requireOrganiser(tx, payload.trip_id), ['setup', 'drafting']);
+    requireStatus(await requireOrganiser(tx, payload.trip_id), DRAFTABLE);
   },
   handle: (tx, payload, ctx) =>
     asSystemRole(tx, async () => {
       const trip = await loadSetupTrip(tx, payload.trip_id, true);
-      requireStatus(trip, ['setup', 'drafting']);
+      requireStatus(trip, DRAFTABLE);
       if (trip.start_date === null || trip.end_date === null) {
         throw new DomainError('STATE_INVALID', { reason: 'dates_not_locked' });
       }
       if (trip.destination_id === null) {
         throw new DomainError('STATE_INVALID', { reason: 'no_destination' });
+      }
+      if (trip.status === 'draft_review') {
+        const shared = await tx.query(
+          'SELECT 1 FROM trips WHERE id = $1 AND current_version_id IS NOT NULL',
+          [trip.id],
+        );
+        if ((shared.rowCount ?? 0) > 0) {
+          throw new DomainError('STATE_INVALID', { reason: 'plan_shared' });
+        }
       }
       const running = await liveJob(tx, trip.id, 'draft');
       if (running !== undefined) {
@@ -51,7 +64,7 @@ export const startDraftCommand = defineCommand({
           stepIds: DRAFT_STEP_IDS,
         },
       );
-      if (trip.status === 'setup') {
+      if (trip.status !== 'drafting') {
         await tx.query("UPDATE trips SET status = 'drafting' WHERE id = $1", [trip.id]);
       }
       await emitEvent(tx, {

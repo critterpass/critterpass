@@ -259,7 +259,7 @@ export const SYNCED_TABLE_COLUMNS = {
   room_assignments: 'trip_id stay_key room_key user_id trait_label created_at updated_at',
   room_plans:
     'trip_id stay_option_id rooms currency nights:integer stay_booking_id free_cancel_until same_pairs_all_stays:integer is_stale:integer locked_at locked_by version:integer created_at updated_at',
-  room_prefs: 'trip_id user_id chips partner_id created_at updated_at',
+  room_prefs: 'trip_id user_id chips partner_id sleep created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   rsvp_suggestions:
@@ -302,6 +302,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_ideas:
     'trip_id poi_id name name_local category lat:real lng:real backer_ids sources source_url fit fit_version_id created_by created_at updated_at deleted_at',
+  trip_member_setup:
+    'trip_id user_id days_in:integer max_in:integer way_mode way_from way_arrives_at way_minutes:integer way_estimate_minor:integer way_currency way_booking_id way_set_at created_at updated_at',
   trip_participants:
     'trip_id user_id role rsvp holds_seat:integer waitlist_position:integer chosen_options landed_at countdown_target_at egg_id created_at updated_at',
   trip_places:
@@ -311,7 +313,7 @@ export const SYNCED_TABLE_COLUMNS = {
   trip_stops:
     'trip_id crew_id position:integer destination_id nights:integer created_at updated_at',
   trips:
-    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at plan_change_rule created_at updated_at',
+    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at plan_change_rule sketched_days created_at updated_at',
   usage_counters:
     'subject_kind subject_id metric period_key count:integer limit_at_time:integer reset_at started_at',
   user_entitlements:

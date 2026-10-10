@@ -14,6 +14,7 @@ import {
   jsonb,
   pgTable,
   real,
+  smallint,
   text,
   timestamp,
   uuid,
@@ -110,6 +111,11 @@ export const trips = pgTable('trips', {
   cancelledAt: timestamp('cancelled_at', { withTimezone: true, mode: 'date' }),
   /** Who may change the crew's plan: `organiser_approves` (default), `anyone`, `organiser_only`. */
   planChangeRule: text('plan_change_rule').notNull().default('organiser_approves'),
+  /** Day numbers of the organiser's private draft that hold a stop (kept by a trigger). */
+  sketchedDays: smallint('sketched_days')
+    .array()
+    .notNull()
+    .default(sql`'{}'::smallint[]`),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

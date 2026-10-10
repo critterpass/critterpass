@@ -109,6 +109,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'set_entry_reminder',
   'set_explore_at_home',
   'set_flight_crew_visibility',
+  'set_getting_there',
   'set_guide_skin',
   'set_home_airport',
   'set_keep_in_chat',

@@ -18,6 +18,14 @@ import { fromStoredRedraftLimit } from '../../entitlements/materialise';
 
 export { loadSetupTrip, requireOrganiser, requireStatus } from '../setup/shared';
 
+/**
+ * The status a trip goes back to when a draft stops without a new one (cancelled or failed): to
+ * reviewing the guide's earlier draft when it has one, else to setup. SQL over the row `trips`.
+ */
+export const STATUS_AFTER_DRAFTING = `CASE WHEN EXISTS (
+    SELECT 1 FROM itinerary_versions v WHERE v.trip_id = trips.id AND v.origin = 'guide'
+  ) THEN 'draft_review' ELSE 'setup' END`;
+
 export async function liveJob(
   tx: pg.PoolClient,
   tripId: string,

@@ -1,13 +1,21 @@
 /**
  * `cancel_draft` (doc delta, docs/api-contracts.md §4.6): stops the trip's live drafting job at its
- * next step and puts the trip back into setup; nothing was saved or spent, so nothing is undone.
+ * next step and puts the trip back where it was: into setup, or back to reviewing the guide's
+ * earlier draft when it had one (a draft made again from new answers). Nothing was saved or spent,
+ * so nothing is undone.
  */
 import { emitEvent } from '@cp/db';
 import { cancelDraftPayloadSchema, DomainError } from '@cp/domain';
 
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
-import { liveJob, loadSetupTrip, publishDraftDone, requireOrganiser } from './shared';
+import {
+  liveJob,
+  loadSetupTrip,
+  publishDraftDone,
+  requireOrganiser,
+  STATUS_AFTER_DRAFTING,
+} from './shared';
 
 export const cancelDraftCommand = defineCommand({
   name: 'cancel_draft',
@@ -44,7 +52,9 @@ export const cancelDraftCommand = defineCommand({
         });
       }
       if (trip.status === 'drafting') {
-        await tx.query("UPDATE trips SET status = 'setup' WHERE id = $1", [trip.id]);
+        await tx.query(`UPDATE trips SET status = ${STATUS_AFTER_DRAFTING} WHERE id = $1`, [
+          trip.id,
+        ]);
       }
       return { trip_id: trip.id, cancelled_job_id: running?.id ?? null };
     }),

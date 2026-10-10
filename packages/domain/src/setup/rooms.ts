@@ -13,8 +13,14 @@ export const ROOM_CHIPS = [
   'light_sleeper',
   'snorer',
   'dont_care',
+  'ground_floor',
 ] as const;
 export const roomChipSchema = z.enum(ROOM_CHIPS);
+
+/** How a member likes to sleep: share a room, a room of their own, or either way. */
+export const ROOM_SLEEP_CHOICES = ['share', 'own', 'either'] as const;
+export const roomSleepSchema = z.enum(ROOM_SLEEP_CHOICES);
+export type RoomSleepChoice = z.infer<typeof roomSleepSchema>;
 
 export const ROOM_TRAIT_LABELS = [
   'light_sleepers',
@@ -86,9 +92,11 @@ export type RequestRoomSwapPayload = z.infer<typeof requestRoomSwapPayloadSchema
 
 export const setRoomPrefsPayloadSchema = z.strictObject({
   trip_id: z.uuid(),
-  chips: z.array(roomChipSchema).max(4),
+  chips: z.array(roomChipSchema).max(ROOM_CHIPS.length),
   /** Who they share a bed with; `null` clears it. */
   partner_uid: z.uuid().nullable().optional(),
+  /** How they like to sleep; `null` clears it, absent keeps it. */
+  sleep: roomSleepSchema.nullable().optional(),
 });
 export type SetRoomPrefsPayload = z.infer<typeof setRoomPrefsPayloadSchema>;
 

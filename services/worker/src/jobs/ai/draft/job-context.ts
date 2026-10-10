@@ -215,13 +215,20 @@ export async function hint(
   });
 }
 
-/** Puts a trip whose draft finally failed back into setup, and tells the drafting screen. */
+/**
+ * Puts a trip whose draft finally failed back where it was (reviewing the guide's earlier draft,
+ * else setup), and tells the drafting screen.
+ */
 export async function giveBack(pool: pg.Pool, job: AgentStepContext['agentJob']): Promise<void> {
   if (job.tripId === null) return;
   const tripId = job.tripId;
   await withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{ crew_id: string }>(
-      `UPDATE trips SET status = 'setup' WHERE id = $1 AND status = 'drafting' RETURNING crew_id`,
+      `UPDATE trips
+          SET status = CASE WHEN EXISTS (
+                SELECT 1 FROM itinerary_versions v WHERE v.trip_id = trips.id AND v.origin = 'guide'
+              ) THEN 'draft_review' ELSE 'setup' END
+        WHERE id = $1 AND status = 'drafting' RETURNING crew_id`,
       [tripId],
     );
     await publishDone(tx, tripId, { job_id: job.id, status: 'failed', version_id: null });

@@ -6,6 +6,7 @@
   { "from": "setup", "to": "drafting" },
   { "from": "drafting", "to": "draft_review" },
   { "from": "drafting", "to": "setup" },
+  { "from": "draft_review", "to": "drafting" },
   { "from": "draft_review", "to": "redrafting" },
   { "from": "redrafting", "to": "draft_review" },
   { "from": "draft_review", "to": "proposed" },

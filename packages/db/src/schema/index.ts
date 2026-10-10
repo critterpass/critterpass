@@ -150,6 +150,7 @@ export {
   roomPrefs,
   tripBudgetAggregates,
 } from './setup';
+export { tripMemberSetup } from './setup-members';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';
 export { calendarFeedTokens, commentPlusOnes, comments, personalPlanOps } from './collab';
 export { activityEvents, cmdLog, cmdResults, domainEvents, rtOutbox } from './platform';
