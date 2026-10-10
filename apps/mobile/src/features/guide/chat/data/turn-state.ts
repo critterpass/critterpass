@@ -1,6 +1,6 @@
 /**
  * One guide answer as it streams (docs/api-contracts.md §5.3): tokens type the reply in, tool
- * starts show the guide checking, each `proposal` deals a plan card, `usage` moves the meter and
+ * starts show the guide checking (and list as working steps, done when their result lands), each `proposal` deals a plan card, `usage` moves the meter and
  * `done` carries the web sources the answer cites. An `error` frame (refusal, busy, a tool that is
  * down) ends the turn with its code; a request the server refused before streaming (the meter is
  * spent) ends it as `quota`.
@@ -16,6 +16,13 @@ export interface GuideUsage {
 
 export type TurnPhase = 'thinking' | 'streaming' | 'done' | 'error';
 
+/** One tool the guide ran for this answer, in the order it started (the working-steps card). */
+export interface TurnStep {
+  readonly id: string;
+  readonly tool: string;
+  readonly done: boolean;
+}
+
 export interface TurnState {
   readonly phase: TurnPhase;
   readonly text: string;
@@ -24,6 +31,8 @@ export interface TurnState {
   readonly sources: readonly string[];
   /** Tools running now (the guide is checking something). */
   readonly checking: number;
+  /** Every tool started this turn, done once its result came back. */
+  readonly steps: readonly TurnStep[];
   readonly helpCard: boolean;
   readonly usage: GuideUsage | null;
   /** Wire code of a failed turn (`AI_REFUSED`, `AI_UNAVAILABLE`, `QUOTA_EXHAUSTED`, ...). */
@@ -40,6 +49,7 @@ export const THINKING: TurnState = {
   proposals: [],
   sources: [],
   checking: 0,
+  steps: [],
   helpCard: false,
   usage: null,
   errorCode: null,
@@ -62,10 +72,20 @@ export function applyTurnFrame(state: TurnState, frame: GuideFrame): TurnState {
   switch (frame.type) {
     case 'token':
       return { ...state, phase: 'streaming', text: state.text + (str(d['text']) ?? '') };
-    case 'tool_start':
-      return { ...state, checking: state.checking + 1 };
-    case 'tool_result':
-      return { ...state, checking: Math.max(0, state.checking - 1) };
+    case 'tool_start': {
+      const id = str(d['id']);
+      const tool = str(d['tool']);
+      const steps =
+        id === null || tool === null || state.steps.some((step) => step.id === id)
+          ? state.steps
+          : [...state.steps, { id, tool, done: false }];
+      return { ...state, checking: state.checking + 1, steps };
+    }
+    case 'tool_result': {
+      const id = str(d['id']);
+      const steps = state.steps.map((step) => (step.id === id ? { ...step, done: true } : step));
+      return { ...state, checking: Math.max(0, state.checking - 1), steps };
+    }
     case 'proposal': {
       const id = str(d['changeset_id']);
       return id === null || state.proposals.includes(id)
