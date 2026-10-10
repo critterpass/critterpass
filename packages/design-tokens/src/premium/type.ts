@@ -64,6 +64,7 @@ export const premiumType = {
   textButton: style(15, '600', 0, CONTROL_MAX_SCALE),
   glassTitle: style(15, '600', 0, CONTROL_MAX_SCALE),
   toast: style(14.5, '600', 0, BODY_MAX_SCALE),
+  toastAction: style(13.5, '600', 0, CONTROL_MAX_SCALE),
   rowText: style(14, '400', 0, BODY_MAX_SCALE),
   rowTextStrong: style(14, '600', 0, BODY_MAX_SCALE),
   buttonSmall: style(14, '600', 0, CONTROL_MAX_SCALE),
