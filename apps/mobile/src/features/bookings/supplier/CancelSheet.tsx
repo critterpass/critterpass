@@ -6,9 +6,7 @@
 import { ALL_PARTNERS_OFF, supplierCopy, type ActivityCancelQuote } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
 
-import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -20,13 +18,9 @@ import { useTheme } from '@/ui/theme';
 import { price } from '../format';
 import { useSupplierCopy } from './copy';
 import { deviceSupplierApi, type SupplierApi } from './data/api';
-import { cancelBookingCommand } from './data/commands';
+import { useCancelBooking, type CancelState } from './use-cancel-booking';
 
-export type CancelState =
-  | { readonly kind: 'loading' }
-  | { readonly kind: 'quote'; readonly quote: ActivityCancelQuote }
-  | { readonly kind: 'cancelled'; readonly quote: ActivityCancelQuote }
-  | { readonly kind: 'error'; readonly offline: boolean };
+export type { CancelState } from './use-cancel-booking';
 
 export interface CancelSheetViewProps {
   readonly title: string;
@@ -164,43 +158,16 @@ export function CancelSheet({
   readonly title: string;
   readonly api?: SupplierApi;
 }) {
-  const cancel = useCommand(cancelBookingCommand);
-  const [state, setState] = useState<CancelState>({ kind: 'loading' });
-  const [failed, setFailed] = useState(false);
-  const [attempt, setAttempt] = useState(0);
-  useEffect(() => {
-    let live = true;
-    void api.cancelQuote(bookingId).then((outcome) => {
-      if (!live) return;
-      setState(
-        outcome.kind === 'ok'
-          ? { kind: 'quote', quote: outcome.value }
-          : { kind: 'error', offline: outcome.kind === 'offline' },
-      );
-    });
-    return () => {
-      live = false;
-    };
-  }, [api, bookingId, attempt]);
+  const cancel = useCancelBooking(bookingId, api);
   return (
     <CancelSheetView
       title={title}
-      state={state}
-      busy={cancel.pending}
-      failed={failed}
-      onCancel={() => {
-        if (state.kind !== 'quote') return;
-        setFailed(false);
-        void cancel.send({ booking_id: bookingId, reason_code: 'traveller' }).then((result) => {
-          if (result.kind === 'applied') setState({ kind: 'cancelled', quote: state.quote });
-          else setFailed(true);
-        });
-      }}
+      state={cancel.state}
+      busy={cancel.busy}
+      failed={cancel.failed}
+      onCancel={cancel.confirm}
       onKeep={() => router.back()}
-      onRetry={() => {
-        setState({ kind: 'loading' });
-        setAttempt((n) => n + 1);
-      }}
+      onRetry={cancel.retry}
     />
   );
 }
