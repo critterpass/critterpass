@@ -51,7 +51,7 @@ async function granted(decision = 'allowed'): Promise<Granted> {
     );
     const crewId = crew.rows[0]!.id;
     const trip = await tx.query<{ id: string }>(
-      "INSERT INTO trips (crew_id, status) VALUES ($1, 'in_trip') RETURNING id",
+      "INSERT INTO trips (crew_id, status) VALUES ($1, 'voting') RETURNING id",
       [crewId],
     );
     const tripId = trip.rows[0]!.id;
