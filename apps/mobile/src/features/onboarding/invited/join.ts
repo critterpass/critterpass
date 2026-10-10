@@ -5,13 +5,23 @@
  * in too many crews, the trip is over, too many tries, or the join could not reach the server.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names and wire codes, never copy. */
-import type { AcceptInvitePayload, AcceptInviteResult } from '@cp/domain';
+import type {
+  AcceptInvitePayload,
+  AcceptInviteResult,
+  RequestFreshInvitePayload,
+} from '@cp/domain';
 
 import type { CommandClient } from '@/data/commands/client';
 import { defineClientCommand } from '@/data/commands/summaries';
 
 export const ACCEPT_INVITE = defineClientCommand<AcceptInvitePayload>({
   name: 'accept_invite',
+  offline: false,
+});
+
+/** A code that ran out: ask the person who shared it for a fresh invite. */
+export const REQUEST_FRESH_INVITE = defineClientCommand<RequestFreshInvitePayload>({
+  name: 'request_fresh_invite',
   offline: false,
 });
 

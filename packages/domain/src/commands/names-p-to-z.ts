@@ -51,6 +51,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'request_concierge',
   'request_crew_lock_screen',
   'request_data_export',
+  'request_fresh_invite',
   'request_ops_clinic_call',
   'request_payment',
   'request_phrase_card',

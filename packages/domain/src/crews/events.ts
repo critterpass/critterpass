@@ -17,6 +17,7 @@ export const GROWTH_EVENT_TYPES = [
   'invite.declined',
   'invite.revoked',
   'invite.nudged',
+  'invite.refresh_requested',
   'trip.seat_opened',
   'seat_offer.accepted',
   'referral.progressed',
@@ -53,6 +54,13 @@ export const GROWTH_EVENT_PAYLOADS = {
   'invite.revoked': invitePayload,
   // An installed invitee who has not opened their in-app invite after a day gets one nudge.
   'invite.nudged': invitePayload.extend({ invitee_user_id: z.uuid() }),
+  // Aggregate is the lapsed join code; the actor asked `ask_user_id` for a fresh invite.
+  'invite.refresh_requested': z.object({
+    join_code_id: z.uuid(),
+    crew_id: z.uuid(),
+    trip_id: z.uuid().nullable(),
+    ask_user_id: z.uuid(),
+  }),
   // Aggregate is the seat offer: a freed seat offered to the next person waiting.
   'trip.seat_opened': z.object({
     trip_id: z.uuid(),

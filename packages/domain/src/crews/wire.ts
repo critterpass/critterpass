@@ -67,6 +67,15 @@ export interface TransferOrganiserResult extends MembershipChangeResult {
   readonly left: boolean;
 }
 
+/** Someone holding a code that ran out asks the person who shared it for a fresh invite. */
+export const requestFreshInvitePayloadSchema = z.object({ code: z.string().min(1).max(16) });
+export type RequestFreshInvitePayload = z.infer<typeof requestFreshInvitePayloadSchema>;
+
+export interface RequestFreshInviteResult {
+  /** False when this caller already asked about this code in the last day (nothing sent again). */
+  readonly sent: boolean;
+}
+
 export const removeMemberPayloadSchema = z.object({ crew_id: z.uuid(), uid: z.uuid() });
 export type RemoveMemberPayload = z.infer<typeof removeMemberPayloadSchema>;
 

@@ -3,6 +3,7 @@ import type { CommandRegistry } from '../_framework/registry';
 import { createCrewCommand } from './create-crew';
 import { leaveCrewCommand } from './leave-crew';
 import { removeMemberCommand } from './remove-member';
+import { requestFreshInviteCommand } from './request-fresh-invite';
 import { rotateJoinCodeCommand } from './rotate-join-code';
 import { setActiveCrewCommand } from './set-active-crew';
 import { setCrewNotifyCommand } from './set-crew-notify';
@@ -18,4 +19,5 @@ export function registerCrewCommands(registry: CommandRegistry): void {
   registry.register(leaveCrewCommand);
   registry.register(removeMemberCommand);
   registry.register(transferOrganiserCommand);
+  registry.register(requestFreshInviteCommand);
 }

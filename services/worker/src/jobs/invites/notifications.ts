@@ -1,12 +1,13 @@
 /**
  * Crew growth pushes: a freed seat offered to someone waiting (from the trip's guide), an in-app
  * crew invite to someone already on CritterPass (from the inviter), the single nudge an
- * installed invitee gets after a day (from the guide), and a new member to the crew they joined
- * (from that member). Copy is templated here, marked for extraction
+ * installed invitee gets after a day (from the guide), a new member to the crew they joined
+ * (from that member), and someone whose invite ran out asking the person who shared it for a
+ * fresh one (from them). Copy is templated here, marked for extraction
  * into the `notifications/common` catalog, and rendered in each recipient's locale by the router; the guide-voice rewrite may restyle guide-sent copy. Deep
  * links are in-app routes; the app resolves them against its own scheme.
  */
-import { crewChatLink, crewsLink, seatOfferLink } from '@cp/domain';
+import { crewChatLink, crewInviteLink, crewsLink, seatOfferLink } from '@cp/domain';
 import type pg from 'pg';
 
 import { crewAudience } from '../notify/audience';
@@ -166,6 +167,43 @@ export function registerInviteNotifications(): void {
         sender: { kind: 'member', id: joiner, name },
         crewId: event.crewId,
         deepLink: crewChatLink(event.crewId ?? ''),
+      };
+    },
+  });
+
+  registerNotification({
+    key: 'invite_refresh_requested',
+    event: 'invite.refresh_requested',
+    audience: onlyUser('ask_user_id'),
+    async compose(tx, event) {
+      const asker = event.actorId;
+      const crewId = payloadId(event, 'crew_id') ?? event.crewId;
+      if (asker === null || crewId === null) return null;
+      const { rows } = await tx.query<{ name: string | null }>(
+        "SELECT nullif(split_part(trim(display_name), ' ', 1), '') AS name FROM users WHERE id = $1",
+        [asker],
+      );
+      const name = rows[0]?.name ?? null;
+      return {
+        title:
+          name === null
+            ? /*i18n*/ {
+                id: 'notifications.invite_refresh.title_anonymous',
+                message: 'Someone would like a fresh invite',
+              }
+            : /*i18n*/ {
+                id: 'notifications.invite_refresh.title',
+                message: '{name} would like a fresh invite',
+              },
+        body: /*i18n*/ {
+          id: 'notifications.invite_refresh.body',
+          message: 'Their invite to {crew} ran out. Send a new one in a tap.',
+        },
+        vars: { name: name ?? '', crew: await crewName(tx, crewId) },
+        sender: { kind: 'member', id: asker, name: name ?? '' },
+        crewId,
+        deepLink: crewInviteLink(crewId),
+        needsYou: true,
       };
     },
   });

@@ -160,6 +160,7 @@ const CATALOGUE = [
   spec('crew_invite_received', 'budgeted', 'cp.invite', 'cp_trip', 'member'),
   spec('seat_opened', 'budgeted', 'cp.rsvp', 'cp_trip', 'guide', { relevance: 0.8 }),
   spec('invite_opened', 'roundup_only', 'cp.generic', 'cp_roundup', 'guide'),
+  spec('invite_refresh_requested', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
   spec('member_joined', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
   spec('lottery_deadline', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
   spec('lottery_result', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
@@ -300,6 +301,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   // already on CritterPass, and the one nudge an installed invitee gets after a day.
   'trip.seat_opened': ['seat_opened'],
   'invite.created': ['crew_invite_received'],
+  // Someone whose invite ran out asks the person who shared it (or the organiser) for a new one.
+  'invite.refresh_requested': ['invite_refresh_requested'],
   'invite.nudged': ['nudge'],
   // Someone new in the crew, to the members already there.
   'crew.member_joined': ['member_joined'],

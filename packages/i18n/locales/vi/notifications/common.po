@@ -928,3 +928,15 @@ msgstr "Chuyến đi đầu miễn phí còn {days} ngày"
 #: ../domain/src/billing/templates.ts
 msgid "notifications.billing.ftf_ending_body"
 msgstr "Đặc quyền tạm dừng vào {date}. Kế hoạch, ảnh và các bạn critter vẫn là của bạn."
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title"
+msgstr "{name} muốn có lời mời mới"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title_anonymous"
+msgstr "Có người muốn có lời mời mới"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.body"
+msgstr "Lời mời vào {crew} đã hết hạn. Gửi lời mời mới chỉ với một chạm."

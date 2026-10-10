@@ -928,3 +928,15 @@ msgstr "{days, plural, one {# day} other {# days}} left on your free first trip"
 #: ../domain/src/billing/templates.ts
 msgid "notifications.billing.ftf_ending_body"
 msgstr "Perks pause on {date}. The plan, photos and critters stay yours."
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title"
+msgstr "{name} would like a fresh invite"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title_anonymous"
+msgstr "Someone would like a fresh invite"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.body"
+msgstr "Their invite to {crew} ran out. Send a new one in a tap."
