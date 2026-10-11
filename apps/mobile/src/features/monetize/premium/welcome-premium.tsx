@@ -4,7 +4,6 @@
  * button tries the Stamp icon. It celebrates only once the server says Pass+ is on; a restore is
  * welcomed without the party.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';

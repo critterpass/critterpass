@@ -3,7 +3,6 @@
  * vote block (ink once voted; the count steps on Snappy) and the status tag, and "Suggest an
  * idea" pinned at the bottom (the current suggest sheet, with its similar ideas).
  */
-import type { MessageDescriptor } from '@lingui/core';
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { useLocalSearchParams } from 'expo-router';
@@ -108,21 +107,21 @@ function IdeaCard({ row, onVote }: { readonly row: BoardRow; readonly onVote: ()
 
 function Board() {
   const th = usePremiumTheme();
-  const { t, i18n } = useLingui();
+  const { t } = useLingui();
   const params = useLocalSearchParams<{ suggest?: string }>();
   const toast = useToast();
   const b = useIdeaBoard(params.suggest === '1', (line) =>
     toast.show({ kind: 'done', message: line.title }),
   );
-  const left: MessageDescriptor = {
+  const left = t({
     id: 'help.ideas.votesLeft',
     message: plural(b.left, { one: '# vote left', other: '# votes left' }),
-  };
+  });
   return (
     <>
       <PushScreen
         title={t({ id: 'help.ideas.title', message: 'What’s next?' })}
-        subtitle={i18n._(left)}
+        subtitle={left}
         backLabel={t({ id: 'help.ideas.back', message: 'Help' })}
         scroll={false}
         testID="help-ideas"

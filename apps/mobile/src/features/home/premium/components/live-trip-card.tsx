@@ -4,6 +4,7 @@
  * per day (past white, today sun, ahead faint) beside a white chevron. Zooms into the hub (1.05).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- CSS gradients, never copy. */
+import { premium } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
@@ -100,6 +101,8 @@ const useStyles = makePremiumStyles((t) => ({
 }));
 
 const BLINK_MS = 800;
+/** Day ticks sit on the trip photo, so they stay white in both modes. */
+const ON_PHOTO = premium.modes.light.color;
 
 function BlinkDot() {
   const styles = useStyles();
@@ -182,10 +185,10 @@ export function LiveTripCard({
                     {
                       backgroundColor:
                         i + 1 < day
-                          ? '#ffffff'
+                          ? ON_PHOTO.onInk
                           : i + 1 === day
                             ? theme.accent.sun
-                            : 'rgba(255,255,255,.3)',
+                            : ON_PHOTO.spinnerTrack,
                     },
                   ]}
                 />

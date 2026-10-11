@@ -3,7 +3,7 @@
  * white tiles, an ink ring on filled tiles and on the caret's tile, a pink ring and a Snappy shake
  * when the code is wrong. Characters are SF 30/800, upper-case, from the real code alphabet.
  */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ComponentRef } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -40,7 +40,7 @@ export function CodeTiles({
 }: CodeTilesProps) {
   const theme = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
-  const input = useRef<TextInput>(null);
+  const input = useRef<ComponentRef<typeof TextInput>>(null);
   const shake = useSharedValue(0);
 
   useEffect(() => {

@@ -14,9 +14,7 @@ import { SessionGate } from '@/ui/states/SessionGate';
 // Signing out and deleting the account end in a cleared phone, leave-by alarms included.
 provideAlarmCanceller(getAlarmPort());
 
-/* eslint-disable lingui/no-unlocalized-strings -- route names, not copy. */
 const APPEARANCE_SHEET = sheetRouteOptions('half');
-/* eslint-enable lingui/no-unlocalized-strings */
 
 /**
  * The profile and its settings, pushed over the tabs from Home's header; session-only. The premium

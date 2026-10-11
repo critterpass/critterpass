@@ -68,6 +68,7 @@ export function BoostLockAlert({
                 width: 76,
                 height: 76,
                 borderRadius: 38,
+                // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
                 experimental_backgroundImage: `conic-gradient(${th.accent.pink} 0 30%, transparent 30% 100%)`,
               },
               spin,

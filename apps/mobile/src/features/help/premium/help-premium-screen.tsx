@@ -49,6 +49,10 @@ function Tile({ glyph, color }: { readonly glyph: PremiumIconName; readonly colo
   );
 }
 
+/** One wiggle's first and last beat, and each swing between. */
+const WIGGLE_EDGE_MS = 160;
+const WIGGLE_SWING_MS = 200;
+
 /** The phone in the shake card: a short wiggle every few seconds, still under Reduce Motion. */
 function ShakingPhone() {
   const th = usePremiumTheme();
@@ -60,11 +64,11 @@ function ShakingPhone() {
       withDelay(
         2240,
         withSequence(
-          withTiming(-10, { duration: 160 }),
-          withTiming(10, { duration: 200 }),
-          withTiming(-8, { duration: 200 }),
-          withTiming(6, { duration: 200 }),
-          withTiming(0, { duration: 160 }),
+          withTiming(-10, { duration: WIGGLE_EDGE_MS }),
+          withTiming(10, { duration: WIGGLE_SWING_MS }),
+          withTiming(-8, { duration: WIGGLE_SWING_MS }),
+          withTiming(6, { duration: WIGGLE_SWING_MS }),
+          withTiming(0, { duration: WIGGLE_EDGE_MS }),
         ),
       ),
       -1,

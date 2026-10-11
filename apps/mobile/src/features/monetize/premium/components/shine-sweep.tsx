@@ -47,6 +47,7 @@ export function ShineSweep({ every, width, distance, opacity = 0.7 }: ShineSweep
     );
   }, [reduced, every, width, distance, x]);
   const style = useAnimatedStyle(() => ({
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS angle, never copy.
     transform: [{ translateX: x.value }, { skewX: '-20deg' }],
   }));
   if (reduced) return null;
@@ -55,6 +56,7 @@ export function ShineSweep({ every, width, distance, opacity = 0.7 }: ShineSweep
       pointerEvents="none"
       style={[
         styles.band,
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS colour, never copy.
         { width, backgroundColor: `rgba(255,255,255,${String(opacity)})` },
         style,
       ]}

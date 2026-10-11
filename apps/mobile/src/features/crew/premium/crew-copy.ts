@@ -68,3 +68,10 @@ export function codeValidLine(expiresAt: string | null, locale: string): string 
 export function firstName(displayName: string | null): string {
   return memberFirstName(displayName);
 }
+
+/** A crew trip's status as one word for its row. */
+export function tripStatusWord(status: string): string {
+  if (status === 'in_trip') return t({ id: 'crew.premium.trip.on', message: 'On now' });
+  if (status === 'voting') return t({ id: 'crew.premium.trip.voting', message: 'Voting' });
+  return t({ id: 'crew.premium.trip.planning', message: 'Planning' });
+}

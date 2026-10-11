@@ -50,7 +50,9 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     overflow: 'hidden',
     padding: 20,
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
     experimental_backgroundImage: `radial-gradient(120% 100% at 80% 0%, ${NIGHT.top}, ${NIGHT.mid} 70%)`,
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS shadow, never copy.
     boxShadow: '0 20px 40px -18px rgba(23,20,42,0.6)',
   },
   text: { gap: 4, maxWidth: '62%' },

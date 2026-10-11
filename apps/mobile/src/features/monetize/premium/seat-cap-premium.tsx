@@ -3,7 +3,6 @@
  * boost costs once they're in, and Boost or Keep it at six (the newcomer waits in line). Drawn
  * as a sheet over the page that hit the limit.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';

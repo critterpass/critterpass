@@ -24,6 +24,7 @@ function PremiumSettingsRow({
 }) {
   const th = usePremiumTheme();
   const sub = row.subtitle === undefined ? {} : { subtitle: row.subtitle };
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a test hook, never copy.
   const id = row.testID ?? `you-settings-${row.key}`;
   switch (row.kind) {
     case 'value':
@@ -131,6 +132,7 @@ export function SettingsPremiumScreen() {
               action: {
                 key: 'plan',
                 label: plan.label,
+                // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
                 sfSymbol: 'star.circle',
                 glyph: 'pass' as const,
                 onPress: plan.onPress,

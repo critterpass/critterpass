@@ -4,6 +4,7 @@
  * earned on the road. A Pass+ style without Pass+ opens the paywall; a locked critter shakes and
  * says how it is earned.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- CSS values and the Pass+ brand mark, never copy. */
 import type { AppIconBaseId } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
@@ -34,6 +35,9 @@ import { deviceAppIcon } from '../../app-icon/device';
 import { AppIconLapseRevert } from '../../app-icon/lapse-revert';
 import type { IconChoice } from '../../app-icon/picker-model';
 
+/** A locked style's no-shake: three quick legs, then a settle. */
+const SHAKE_LEG_MS = 50;
+const SHAKE_SETTLE_MS = 100;
 const CORNER = 0.225;
 const STYLE_ICON = 60;
 const EARNED_ICON = 52;
@@ -72,12 +76,14 @@ function EarnedTile({
       accessibilityState={{ disabled: locked, selected: choice.state === 'in_use' }}
       onPress={() => {
         if (locked && !reduced) {
-          shake.value = withSequence(
-            withTiming(6, { duration: 50 }),
-            withTiming(-6, { duration: 50 }),
-            withTiming(6, { duration: 50 }),
-            withTiming(-6, { duration: 50 }),
-            withTiming(0, { duration: 100 }),
+          shake.set(
+            withSequence(
+              withTiming(6, { duration: SHAKE_LEG_MS }),
+              withTiming(-6, { duration: SHAKE_LEG_MS }),
+              withTiming(6, { duration: SHAKE_LEG_MS }),
+              withTiming(-6, { duration: SHAKE_LEG_MS }),
+              withTiming(0, { duration: SHAKE_SETTLE_MS }),
+            ),
           );
         }
         onChoose(choice);
@@ -182,7 +188,7 @@ export function AppIconPremiumScreen() {
                   width: PREVIEW_ICON,
                   height: PREVIEW_ICON,
                   borderRadius: 15,
-                  backgroundColor: 'rgba(255,255,255,.28)',
+                  backgroundColor: th.color.spinnerTrack,
                 }}
               />
             ),
@@ -221,7 +227,7 @@ export function AppIconPremiumScreen() {
                     style={{
                       borderRadius: STYLE_ICON * CORNER + 5,
                       boxShadow: selected
-                        ? `0 0 0 3px #fff, 0 0 0 5.5px ${th.color.ink}`
+                        ? `0 0 0 3px ${th.color.ground}, 0 0 0 5.5px ${th.color.ink}`
                         : undefined,
                     }}
                   >

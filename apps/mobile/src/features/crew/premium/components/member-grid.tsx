@@ -2,7 +2,6 @@
  * A crew's members as a six-across grid of 42 avatars with first names; the organiser wears an
  * ORG badge. Each opens that member's sheet. "+ Invite" in the header for whoever may invite.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';

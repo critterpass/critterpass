@@ -6,6 +6,7 @@ import { memberColourForSlot, type GuideColour } from '@cp/domain';
 
 import type { PremiumTheme } from '@/ui/premium';
 
+/* eslint-disable critterpass/no-literal-style, lingui/no-unlocalized-strings -- printed inks the premium tokens do not carry */
 export const PASS_PAPER = {
   ink: '#17142a',
   label: '#5d564b',
@@ -13,6 +14,10 @@ export const PASS_PAPER = {
   mrz: '#b3a993',
   rule: 'rgba(23,20,42,.14)',
 } as const;
+/* eslint-enable critterpass/no-literal-style, lingui/no-unlocalized-strings */
+
+/** The passport's printed mono sizes: a field label and the page header. */
+export const PASS_PAPER_TYPE = { label: 8.5, header: 9.5 } as const;
 
 /** The crew accent a member's join order gives them, as the premium accent. */
 export function memberAccent(theme: PremiumTheme, joinIndex: number): string {

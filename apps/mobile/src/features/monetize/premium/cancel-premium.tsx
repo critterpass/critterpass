@@ -3,7 +3,6 @@
  * year is already paid, so a yearly plan is told cancelling only stops the next renewal), what
  * you'd lose, and Pause, Keep Pass+ or Cancel anyway. Both happen in the store's own sheet.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 

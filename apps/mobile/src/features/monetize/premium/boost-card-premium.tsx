@@ -44,13 +44,13 @@ export function BoostCardPremium(props: BoostCardViewProps) {
       </Card>
     );
   }
+  const { remaining, ways } = model;
   const how = model.split
     ? t({ id: 'monetize.card.split', message: `split ${ways} ways` })
     : buyer === ''
       ? ''
       : t({ id: 'monetize.card.covered', message: `on ${buyer}` });
   const detail = [props.dates, how].filter((part) => part !== '').join(' · ');
-  const { remaining, ways } = model;
   const names = format.list(
     locale,
     model.settled.map((m) => m.name),

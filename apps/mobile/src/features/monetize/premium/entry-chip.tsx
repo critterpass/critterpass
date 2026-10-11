@@ -31,7 +31,9 @@ function useEntryLine(): (entry: PaywallEntryPoint) => string | null {
       case 'widget_locked':
       case 'widget_gallery':
         return t({ id: 'monetize.premium.entry.widget', message: 'Every widget' });
-      default:
+      case 'boost_card':
+      case 'pass_chip':
+      case 'plan_page':
         return null;
     }
   };

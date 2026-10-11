@@ -70,6 +70,7 @@ export function StartCrewSheet() {
           style={[
             styles.wash,
             {
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
               experimental_backgroundImage: `radial-gradient(circle at 50% 50%, ${coverWash(cover)} 0%, transparent 70%)`,
             },
           ]}

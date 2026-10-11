@@ -4,7 +4,7 @@
  * ink, the first-trip-free blue, Pon's tinted disc, the newcomer's lilac and the 1.07 / ambient
  * timings. Each is the design's own value; the kit lane promotes them to `premium.*` tokens.
  */
-/* eslint-disable critterpass/no-literal-style -- the design's values, pending a premium token group. */
+/* eslint-disable critterpass/no-literal-style, lingui/no-unlocalized-strings -- the design's values, pending a premium token group. */
 
 export const NIGHT = {
   top: '#332e5e',

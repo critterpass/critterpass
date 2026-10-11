@@ -13,8 +13,10 @@ import { PASS_PAPER } from '../pass-paper';
 import { PremiumProfileFace } from './profile-face';
 
 const FACE = 82;
+/* eslint-disable lingui/no-unlocalized-strings -- a CSS pattern, never copy. */
 const GUILLOCHE =
   'repeating-radial-gradient(circle at 20% 120%, rgba(23,20,42,.04) 0 1px, transparent 1px 7px)';
+/* eslint-enable lingui/no-unlocalized-strings */
 
 export interface PassportCardProps {
   readonly model: ProfileModel;
@@ -85,6 +87,7 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
                 accessibilityRole="button"
                 testID="you-profile-pass-plus"
               >
+                {/* eslint-disable-next-line lingui/no-unlocalized-strings -- the Pass+ brand mark, never copy. */}
                 <Tag label="Pass+" color={th.accent.sun} rotate={-3} />
               </Pressable>
             ) : null}

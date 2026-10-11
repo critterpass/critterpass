@@ -247,6 +247,7 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 14,
     boxShadow:
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS shadow, never copy.
       'inset 0 0 0 .5px rgba(120,100,60,.15), 0 2px 4px rgba(20,22,40,.05), 0 24px 44px -20px rgba(20,22,40,.3)',
   },
   pageHead: { flexDirection: 'row', justifyContent: 'space-between' },

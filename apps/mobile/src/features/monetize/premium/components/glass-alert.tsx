@@ -87,5 +87,6 @@ export function GlassAlert({
 
 const styles = StyleSheet.create({
   centre: { flex: 1, justifyContent: 'center', paddingHorizontal: 30 },
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS shadow, never copy.
   card: { borderRadius: 36, boxShadow: '0 40px 80px -20px rgba(20,22,40,0.5)' },
 });

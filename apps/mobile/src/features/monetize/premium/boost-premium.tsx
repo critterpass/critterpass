@@ -7,7 +7,7 @@
  */
 import { crewChatLink } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router, type Href } from 'expo-router';
+import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
@@ -41,6 +41,7 @@ export function BoostPremium() {
   const ways = props.seated.length;
   const { crew, destination } = props;
   const dots = [th.accent.pink, th.accent.sky, th.accent.mint, th.accent.sun];
+  const windowEnd = props.windowEnd ?? '';
   const until =
     props.windowEnd === null
       ? t({ id: 'monetize.boost.thisTripLine', message: 'On until a week after you land' })
@@ -51,7 +52,6 @@ export function BoostPremium() {
 
   const price = offer?.priceString ?? '';
   const each = model.eachShare ?? '';
-  const windowEnd = props.windowEnd ?? '';
   const buyLabel =
     offer === null
       ? t({ id: 'monetize.boost.buy', message: 'Boost' })
@@ -220,7 +220,7 @@ export function BoostPremium() {
           : {
               onMessage: () => {
                 setAlertSeen(true);
-                router.replace(crewChatLink(props.crewId ?? '') as Href);
+                router.replace(crewChatLink(props.crewId ?? ''));
               },
             })}
       />

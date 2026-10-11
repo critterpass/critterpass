@@ -67,11 +67,6 @@ export function airportLabel(iata: string | null): string {
   return airport === undefined ? iata : `${iata} · ${airport.name}`;
 }
 
-type Editing = 'name' | 'username' | 'home-airport' | 'languages' | null;
-
-/** The Edit profile avatar, as large as the render draws it. */
-const FACE = 112;
-
 export type EditingField = 'name' | 'username' | 'home-airport' | 'languages' | null;
 
 export function useEditProfile() {

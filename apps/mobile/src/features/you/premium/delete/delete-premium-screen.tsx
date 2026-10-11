@@ -32,6 +32,7 @@ export function DeletePremiumScreen() {
           closedOn={new Date()}
           busy={d.busy}
           problem={d.clearProblem}
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- a command value, never copy.
           onKeep={() => d.clear('sign_in')}
           onClose={() => d.clear()}
         />

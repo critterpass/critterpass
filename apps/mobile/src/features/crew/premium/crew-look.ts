@@ -105,3 +105,17 @@ export function memberAccent(colour: string | null | undefined): string {
   const parsed = parseMemberColour(colour ?? null);
   return parsed === null ? ACCENT.neutral : (MEMBER_ACCENT[parsed.accent] ?? ACCENT.neutral);
 }
+
+/** The crew crest: a small passport cover, bound on the left and tilted as if set down. */
+export const CREST_SHAPE = {
+  width: 78,
+  height: 76,
+  borderTopLeftRadius: 8,
+  borderBottomLeftRadius: 8,
+  borderTopRightRadius: 18,
+  borderBottomRightRadius: 18,
+  alignItems: 'center',
+  justifyContent: 'center',
+  transform: [{ rotate: '-4deg' }],
+  marginBottom: 8,
+} as const;

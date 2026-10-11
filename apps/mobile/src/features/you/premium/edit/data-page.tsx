@@ -9,9 +9,10 @@ import { View } from 'react-native';
 import { GlassPill, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
 
 import type { ProfileModel } from '../../profile/profile-model';
-import { PASS_PAPER } from '../pass-paper';
+import { PASS_PAPER, PASS_PAPER_TYPE } from '../pass-paper';
 import { PremiumProfileFace } from '../profile/profile-face';
 
+// eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS pattern, never copy.
 const HATCH = 'repeating-linear-gradient(115deg, rgba(23,20,42,.035) 0 1px, transparent 1px 6px)';
 
 export interface DataPageProps {
@@ -26,7 +27,7 @@ export interface DataPageProps {
 function Field({ label, value, big }: { label: string; value: string; big?: boolean }) {
   return (
     <View>
-      <Text variant="mono" color={PASS_PAPER.faint} style={{ fontSize: 8.5 }}>
+      <Text variant="mono" color={PASS_PAPER.faint} style={{ fontSize: PASS_PAPER_TYPE.label }}>
         {label}
       </Text>
       <Text
@@ -61,12 +62,13 @@ export function DataPage({
         backgroundColor: th.accent.paper,
         experimental_backgroundImage: HATCH,
         boxShadow: th.shadow.card,
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS angle, never copy.
         transform: [{ rotate: '-1.2deg' }],
         gap: th.space.gap10,
       }}
     >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text variant="mono" color={PASS_PAPER.label} style={{ fontSize: 9.5 }}>
+        <Text variant="mono" color={PASS_PAPER.label} style={{ fontSize: PASS_PAPER_TYPE.header }}>
           {t({ id: 'you.premium.passHeader', message: 'CRITTERPASS · PASSPORT' })}
         </Text>
         {model?.ring == null ? null : <TierLabel tier={model.ring} />}
@@ -102,6 +104,7 @@ export function DataPage({
         </View>
       </View>
       <Text variant="mono" color={PASS_PAPER.mrz} numberOfLines={1}>
+        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- the machine-readable line. */}
         {`P<CP${mrzName(name)}`.padEnd(30, '<')}
       </Text>
     </View>

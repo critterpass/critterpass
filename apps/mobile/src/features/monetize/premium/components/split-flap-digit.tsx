@@ -2,7 +2,6 @@
  * A split-flap tile: two dark halves with a seam, one big glyph (9.21's "3"; 3.09's code tiles use
  * the same build at 58 high). Ink on these stays dark in both modes.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import { StyleSheet, View } from 'react-native';
 
 import { Text, usePremiumTheme } from '@/ui/premium';

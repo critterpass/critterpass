@@ -45,9 +45,11 @@ export function InviteSheet() {
       channel === 'wa' || channel === 'imsg'
         ? composeUrl(channel, message)
         : channel === 'tg'
-          ? `tg://msg?text=${text}`
+          ? // eslint-disable-next-line lingui/no-unlocalized-strings -- a URL scheme, never copy.
+            `tg://msg?text=${text}`
           : channel === 'mail'
-            ? `mailto:?body=${text}`
+            ? // eslint-disable-next-line lingui/no-unlocalized-strings -- a URL scheme, never copy.
+              `mailto:?body=${text}`
             : null;
     if (target === null) {
       void services.share(message);

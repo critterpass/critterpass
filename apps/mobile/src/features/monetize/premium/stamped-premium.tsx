@@ -47,9 +47,6 @@ export function StampedPremium() {
   const PAPER_INK = th.color.onAccent;
   const STAMP_RING = th.stamp.pink.ring;
   const STAMP_TEXT = th.stamp.pink.text;
-  const PAPER_INK = th.color.onAccent;
-  const STAMP_RING = th.stamp.pink.ring;
-  const STAMP_TEXT = th.stamp.pink.text;
   const perks = perkLines(rows.perks, 'boost').slice(0, 4);
   const [hit, setHit] = useState(false);
   const owing = props.owing ?? [];

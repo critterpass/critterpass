@@ -1,11 +1,10 @@
 /**
- * Crew settings (3.12) as a push: back, "Crew", Edit for whoever manages it. The crew's crest in
- * its cover colour, its members as a grid (the organiser marked ORG; tap one for their sheet), its
- * trips still going, the code with how long it works (Share opens the invite sheet; hold it for a
- * new code), the per-crew notification level and whether the chat stays readable after leaving,
- * then Leave: the organiser hands the crew over first, a member confirms. Removing someone (from
- * their sheet) happens here with a 10 s Undo; members see no management controls.
+ * Crew settings (3.12) as a push: the crest in its cover colour, members as a grid (ORG marked, tap
+ * for their sheet), trips still going, the code (Share opens the invite sheet; hold for a new one),
+ * notification level, chat-after-leaving, then Leave (the organiser hands over first). Removal has
+ * a 10 s Undo; members see no management controls.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- route paths and CSS shadows, never copy. */
 import { t } from '@lingui/core/macro';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
@@ -30,7 +29,6 @@ import {
 } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 import { guideSticker } from '@/ui/avatar/guides';
-import { tripHubRoute } from '@/features/trip/hub/routes';
 
 import {
   LEAVE_CREW,
@@ -42,8 +40,8 @@ import { crewEditRoute, crewInviteRoute, crewLeaveRoute } from '../crews-sheet/r
 import { onRemovalRequest, useUndoableRemoval } from '../members/undoable-removal';
 import { returnHome } from '../start-crew/crew-created';
 import { useCrewDetail } from '../settings/use-crew-detail';
-import { codeValidLine, firstName } from './crew-copy';
-import { crewCoverOf, passInk } from './crew-look';
+import { codeValidLine, firstName, tripStatusWord } from './crew-copy';
+import { CREST_SHAPE, crewCoverOf, passInk } from './crew-look';
 import { MemberGrid } from './components/member-grid';
 import { CrewMissing } from './crew-missing';
 
@@ -202,7 +200,7 @@ export function CrewSettingsPremium() {
                     tone={trip.status === 'in_trip' ? 'booked' : 'voteOpen'}
                   />
                 }
-                onPress={() => router.push(tripHubRoute(trip.id))}
+                onPress={() => router.push(`/hub/${trip.id}`)}
                 testID={`crew-settings-trip-${trip.id}`}
               />
             ))}
@@ -303,27 +301,10 @@ export function CrewSettingsPremium() {
   );
 }
 
-function tripStatusWord(status: string): string {
-  if (status === 'in_trip') return t({ id: 'crew.premium.trip.on', message: 'On now' });
-  if (status === 'voting') return t({ id: 'crew.premium.trip.voting', message: 'Voting' });
-  return t({ id: 'crew.premium.trip.planning', message: 'Planning' });
-}
-
 const styles = StyleSheet.create({
   content: { gap: 14, paddingBottom: 40 },
   head: { alignItems: 'center', gap: 4, paddingTop: 8 },
-  crest: {
-    width: 78,
-    height: 76,
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
-    borderTopRightRadius: 18,
-    borderBottomRightRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    transform: [{ rotate: '-4deg' }],
-    marginBottom: 8,
-  },
+  crest: CREST_SHAPE,
   codeCard: { flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 },
   grow: { flex: 1 },
   code: { letterSpacing: 1.7 },
