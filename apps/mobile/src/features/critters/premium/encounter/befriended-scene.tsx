@@ -23,6 +23,7 @@ import { Confetti, Rays } from '../components/celebration';
 import { FormArt } from '../components/form-art';
 import { Hop, Land } from '../components/loops';
 import { premiumMemberColour } from '../components/member-colour';
+import { SUN_RAYS } from '../components/scrims';
 
 const STICKER = 220;
 
@@ -50,7 +51,7 @@ export function BefriendedScene(props: BefriendedSceneProps) {
       testID="critters-encounter-befriended"
     >
       <View style={[StyleSheet.absoluteFill, { backgroundColor: theme.color.ground }]}>
-        <Rays color="rgba(255,216,74,.32)" ms={24_000} centerY={insets.top + 200} />
+        <Rays color={SUN_RAYS} ms={24_000} centerY={insets.top + 200} />
         <Confetti count={46} fx={0.5} fy={0.32} />
       </View>
       <View style={[styles.column, { paddingTop: insets.top + 16 }]}>

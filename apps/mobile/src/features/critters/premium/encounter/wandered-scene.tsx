@@ -25,7 +25,7 @@ import {
 import type { SpawnArt } from '../../encounter/encounter-model';
 import { CritterSilhouette } from '../components/critter-silhouette';
 import { Float } from '../components/loops';
-import { CLEAR_GLASS, ON_PHOTO, SCRIM } from '../components/scrims';
+import { CLEAR_GLASS, ON_PHOTO, ON_PHOTO_MUTED, SCRIM } from '../components/scrims';
 import { tierAccent } from '../components/tier';
 import { EncounterGround } from './live-scene';
 
@@ -62,7 +62,7 @@ export function WanderedScene(props: WanderedSceneProps) {
       onClose={props.onClose}
       testID="critters-encounter-wandered_off"
     >
-      <View style={[StyleSheet.absoluteFill, { filter: 'saturate(0.6)' }]}>
+      <View style={[StyleSheet.absoluteFill, { filter: WASHED_PHOTO }]}>
         <EncounterGround dim={false} />
       </View>
       <View style={[StyleSheet.absoluteFill, { experimental_backgroundImage: fade }]} />
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   ghost: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
   prints: { flexDirection: 'row', gap: 14, marginTop: 6 },
-  print: { width: 8, height: 5, borderRadius: 3, backgroundColor: 'rgba(255,255,255,.75)' },
+  print: { width: 8, height: 5, borderRadius: 3, backgroundColor: ON_PHOTO_MUTED },
   bottom: { position: 'absolute', left: 20, right: 20, bottom: 0 },
   title: { marginTop: 12 },
   body: { marginTop: 8 },

@@ -26,7 +26,14 @@ import type { SpawnArt } from '../../encounter/encounter-model';
 import { FormArt } from '../components/form-art';
 import { HoldRing } from '../components/hold-ring';
 import { Hop, Ping } from '../components/loops';
-import { CLEAR_GLASS, ON_PHOTO, ON_PHOTO_SOFT, SCRIM } from '../components/scrims';
+import {
+  CLEAR_GLASS,
+  ON_PHOTO,
+  ON_PHOTO_SOFT,
+  PHOTO_SHADE,
+  SCRIM,
+  SHADE_BLUR,
+} from '../components/scrims';
 import { tierAccent } from '../components/tier';
 
 const STICKER = 170;
@@ -186,8 +193,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 30,
     borderRadius: 90,
-    backgroundColor: 'rgba(0,0,0,.35)',
-    filter: 'blur(8px)',
+    backgroundColor: PHOTO_SHADE,
+    filter: SHADE_BLUR,
   },
   ping: {
     position: 'absolute',

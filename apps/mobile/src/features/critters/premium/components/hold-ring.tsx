@@ -20,6 +20,7 @@ import {
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { SPRINGS, Text, usePremiumTheme } from '@/ui/premium';
+import { HOLD_TRACK } from './scrims';
 
 export const HOLD_MS = 1500;
 const SIZE = 108;
@@ -110,7 +111,7 @@ export function HoldRing({
       style={styles.ring}
     >
       <Canvas style={StyleSheet.absoluteFill}>
-        <Path path={track} style="stroke" strokeWidth={STROKE} color="rgba(255,255,255,0.25)" />
+        <Path path={track} style="stroke" strokeWidth={STROKE} color={HOLD_TRACK} />
         <Path
           path={arc}
           style="stroke"

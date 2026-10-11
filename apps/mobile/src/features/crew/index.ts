@@ -22,3 +22,5 @@ export {
   type SeatLimitPresenterProps,
 } from './seat-limit/registry';
 export { WaitlistSheet } from './seat-limit/WaitlistSheet';
+export { Doodle, type DoodleName } from './premium/chat/doodle';
+export { crewAccent } from './premium/crew-colour';
