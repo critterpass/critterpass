@@ -79,16 +79,20 @@ function TopCard({
     'worklet';
     const dir = vote === 'in' ? 1 : -1;
     if (reduced) {
-      fade.set(withTiming(0, REDUCED_FADE, (finished) => {
-        if (finished) scheduleOnRN(done));
-      });
+      fade.set(
+        withTiming(0, REDUCED_FADE, (finished) => {
+          if (finished) scheduleOnRN(done);
+        }),
+      );
       return;
     }
     if (vote === 'in') stamp.set(withSpring(1, SPRINGS.lively));
     y.set(withSpring(W.flyY, SPRINGS.smooth));
-    x.set(withSpring(dir * W.flyX, SPRINGS.smooth, (finished) => {
-      if (finished) scheduleOnRN(done));
-    });
+    x.set(
+      withSpring(dir * W.flyX, SPRINGS.smooth, (finished) => {
+        if (finished) scheduleOnRN(done);
+      }),
+    );
   };
 
   const release = (vote: SwipeVote | null) => {
@@ -113,9 +117,11 @@ function TopCard({
       }
       // The button vote nudges the card first, so it reads as the same card being swiped.
       const dir = vote === 'in' ? 1 : -1;
-      x.set(withSpring(dir * W.nudgeX, SPRINGS.snappy, (finished) => {
-        if (finished) flyOff(vote));
-      });
+      x.set(
+        withSpring(dir * W.nudgeX, SPRINGS.snappy, (finished) => {
+          if (finished) flyOff(vote);
+        }),
+      );
     },
   }));
 
@@ -201,7 +207,7 @@ export function SwipeDeck<T>({
   return (
     <View style={[styles.deck, style]} testID={testID}>
       {next === undefined ? null : (
-        <View style={[styles.card, styles.behind]} pointerEvents="none" key={`next-${keyOf(next)}`}>
+        <View style={[styles.card, styles.behind]} pointerEvents="none" key={keyOf(next)}>
           {renderCard(next)}
         </View>
       )}

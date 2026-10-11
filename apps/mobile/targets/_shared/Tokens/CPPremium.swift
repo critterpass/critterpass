@@ -102,6 +102,14 @@ public struct CPPremiumMode {
     public let colorInkSurface: Color
     public let colorOnInkSurface: Color
     public let colorIconButtonDisabled: Color
+    public let colorGuideCircleFrom: Color
+    public let colorGuideCircleMid: Color
+    public let colorGuideCircleTo: Color
+    public let colorGuideCircleRing: Color
+    public let colorHoldFill: Color
+    public let colorScrim: Color
+    public let colorLockedMask: Color
+    public let colorLockedMaskGold: Color
     public let colorStatusBookedBg: Color
     public let colorStatusBookedText: Color
     public let colorStatusVoteOpenBg: Color
@@ -210,6 +218,14 @@ public enum CPPremium {
         colorInkSurface: cpPremiumColor("#1c1d24"),
         colorOnInkSurface: cpPremiumColor("#ffffff"),
         colorIconButtonDisabled: cpPremiumColor("rgba(28,29,36,.35)"),
+        colorGuideCircleFrom: cpPremiumColor("#fff3b8"),
+        colorGuideCircleMid: cpPremiumColor("#ffd84a"),
+        colorGuideCircleTo: cpPremiumColor("#f2b92e"),
+        colorGuideCircleRing: cpPremiumColor("rgba(255,255,255,.95)"),
+        colorHoldFill: cpPremiumColor("#ffc2dc"),
+        colorScrim: cpPremiumColor("rgba(0,0,0,.2)"),
+        colorLockedMask: cpPremiumColor("#e3e4ea"),
+        colorLockedMaskGold: cpPremiumColor("#efe2b4"),
         colorStatusBookedBg: cpPremiumColor("#e3f6ec"),
         colorStatusBookedText: cpPremiumColor("#1f7a55"),
         colorStatusVoteOpenBg: cpPremiumColor("#ffe4f0"),
@@ -317,6 +333,14 @@ public enum CPPremium {
         colorInkSurface: cpPremiumColor("#f2f2f5"),
         colorOnInkSurface: cpPremiumColor("#15161b"),
         colorIconButtonDisabled: cpPremiumColor("rgba(242,242,245,.35)"),
+        colorGuideCircleFrom: cpPremiumColor("#fff3b8"),
+        colorGuideCircleMid: cpPremiumColor("#ffd84a"),
+        colorGuideCircleTo: cpPremiumColor("#f2b92e"),
+        colorGuideCircleRing: cpPremiumColor("rgba(255,255,255,.2)"),
+        colorHoldFill: cpPremiumColor("#5a2440"),
+        colorScrim: cpPremiumColor("rgba(0,0,0,.45)"),
+        colorLockedMask: cpPremiumColor("#2a2b33"),
+        colorLockedMaskGold: cpPremiumColor("#3a3112"),
         colorStatusBookedBg: cpPremiumColor("#16332a"),
         colorStatusBookedText: cpPremiumColor("#5fd6a2"),
         colorStatusVoteOpenBg: cpPremiumColor("#3b1a2b"),
@@ -435,6 +459,7 @@ public enum CPPremium {
         public static let textButton = CPPremiumType(family: .system, size: 15, weight: .semibold, tracking: 0, maxScale: 1.5)
         public static let glassTitle = CPPremiumType(family: .system, size: 15, weight: .semibold, tracking: 0, maxScale: 1.5)
         public static let toast = CPPremiumType(family: .system, size: 14.5, weight: .semibold, tracking: 0, maxScale: 2)
+        public static let toastAction = CPPremiumType(family: .system, size: 13.5, weight: .semibold, tracking: 0, maxScale: 1.5)
         public static let rowText = CPPremiumType(family: .system, size: 14, weight: .regular, tracking: 0, maxScale: 2)
         public static let rowTextStrong = CPPremiumType(family: .system, size: 14, weight: .semibold, tracking: 0, maxScale: 2)
         public static let buttonSmall = CPPremiumType(family: .system, size: 14, weight: .semibold, tracking: 0, maxScale: 1.5)
@@ -446,6 +471,9 @@ public enum CPPremium {
         public static let bannerAction = CPPremiumType(family: .system, size: 13, weight: .bold, tracking: 0, maxScale: 1.5)
         public static let note = CPPremiumType(family: .system, size: 13, weight: .regular, tracking: 0, maxScale: 2)
         public static let avatarInitial = CPPremiumType(family: .system, size: 13, weight: .bold, tracking: 0, maxScale: 1)
+        public static let avatarInitialSmall = CPPremiumType(family: .system, size: 12, weight: .bold, tracking: 0, maxScale: 1)
+        public static let avatarInitialLarge = CPPremiumType(family: .system, size: 14, weight: .bold, tracking: 0, maxScale: 1)
+        public static let errorMark = CPPremiumType(family: .system, size: 14, weight: .heavy, tracking: 0, maxScale: 1)
         public static let caption = CPPremiumType(family: .system, size: 12.5, weight: .medium, tracking: 0, maxScale: 2)
         public static let noteAction = CPPremiumType(family: .system, size: 12.5, weight: .semibold, tracking: 0, maxScale: 1.5)
         public static let captionMuted = CPPremiumType(family: .system, size: 12, weight: .regular, tracking: 0, maxScale: 2)
@@ -458,6 +486,7 @@ public enum CPPremium {
         public static let dayBadgeDay = CPPremiumType(family: .system, size: 17, weight: .heavy, tracking: 0, maxScale: 1)
         public static let dayBadgeWeekday = CPPremiumType(family: .system, size: 9.5, weight: .bold, tracking: 0, maxScale: 1)
         public static let stampWord = CPPremiumType(family: .system, size: 20, weight: .heavy, tracking: 0, maxScale: 1)
+        public static let stampCode = CPPremiumType(family: .system, size: 18, weight: .heavy, tracking: 0, maxScale: 1)
         public static let stampSmall = CPPremiumType(family: .system, size: 8, weight: .heavy, tracking: 1.12, maxScale: 1)
         public static let stampRect = CPPremiumType(family: .system, size: 22, weight: .heavy, tracking: 0, maxScale: 1)
         public static let guide = CPPremiumType(family: .guide, size: 15, weight: .regular, tracking: 0, maxScale: 2)
@@ -534,6 +563,7 @@ public enum CPPremium {
         public static let segmentTrackPad: CGFloat = 3
         public static let toggleKnobInset: CGFloat = 2
         public static let photoFrame: CGFloat = 5
+        public static let emptyTextGap: CGFloat = 24
     }
 
     public enum Size {
@@ -546,6 +576,16 @@ public enum CPPremium {
         public static let glassNav: CGFloat = 44
         public static let glassPill: CGFloat = 44
         public static let toast: CGFloat = 58
+        public static let toastCheck: CGFloat = 36
+        public static let toastCritter: CGFloat = 44
+        public static let errorDisc: CGFloat = 28
+        public static let emptyCheck: CGFloat = 46
+        public static let loadingCritter: CGFloat = 40
+        public static let guideCircle: CGFloat = 56
+        public static let guideCircleBorder: CGFloat = 3
+        public static let guideCircleCritter: CGFloat = 46
+        public static let androidTabBar: CGFloat = 80
+        public static let androidFabMargin: CGFloat = 16
         public static let segment: CGFloat = 40
         public static let toggleWidth: CGFloat = 52
         public static let toggleHeight: CGFloat = 32
@@ -574,6 +614,12 @@ public enum CPPremium {
         public static let avatarLarge: CGFloat = 40
         public static let stackOverlap: CGFloat = 10
         public static let stackBorder: CGFloat = 2.5
+        public static let avatarSmall: CGFloat = 30
+        public static let statTile: CGFloat = 96
+        public static let photoCard: CGFloat = 96
+        public static let stampRound: CGFloat = 96
+        public static let stampRoundSmall: CGFloat = 80
+        public static let dayBadgeGap: CGFloat = 1
         public static let stickerBorder: CGFloat = 2.5
         public static let guideCritter: CGFloat = 38
         public static let bannerDoodle: CGFloat = 30
@@ -587,8 +633,11 @@ public enum CPPremium {
         public static let hairline: CGFloat = 0.5
         public static let emptyDash: CGFloat = 2
         public static let stampRingOuter: CGFloat = 3
+        public static let stampRingOuterSmall: CGFloat = 2.5
         public static let stampRingInner: CGFloat = 1
-        public static let stampRingGap: CGFloat = 3
+        public static let stampInnerAt: CGFloat = 7
+        public static let stampInnerAtSmall: CGFloat = 6
+        public static let stampRectInnerAt: CGFloat = 6
         public static let ripple: CGFloat = 220
         public static let icon: CGFloat = 24
         public static let glyph: CGFloat = 18

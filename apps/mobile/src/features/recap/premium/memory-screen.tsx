@@ -5,10 +5,9 @@
  * which pitches the place to the crew's vote, and Share the memory. ✕ goes Home.
  */
 import { t } from '@lingui/core/macro';
-import { Image } from 'expo-image';
 import { Stack } from 'expo-router';
 import { useContext } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -73,7 +72,7 @@ function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
       <Stack.Screen options={{ headerShown: false }} />
       <View style={[StyleSheet.absoluteFill, { experimental_backgroundImage: RECAP_PAINT.dusk }]}>
         {m.photoUrl === null ? null : (
-          <Image source={{ uri: m.photoUrl }} style={StyleSheet.absoluteFill} contentFit="cover" />
+          <Image source={{ uri: m.photoUrl }} style={StyleSheet.absoluteFill} resizeMode="cover" />
         )}
         <View
           style={[

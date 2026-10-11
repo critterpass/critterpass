@@ -17,8 +17,8 @@ const GRABBER_CLEARANCE = 12;
 
 /**
  * A layout's options for a sheet route: the native form sheet with its grabber and detent. On
- * iOS 26 the system draws it as Liquid Glass (the content stays clear); the page behind steps back
- * at full height and dims at half.
+ * iOS 26 the system draws it as Liquid Glass and `SheetScreen` lays the sheet material's tint over
+ * it; the page behind steps back at full height and dims at half.
  */
 export function sheetRouteOptions(detent: SheetDetent): NativeStackNavigationOptions {
   return {
@@ -108,11 +108,15 @@ export function SheetScreen({
       testID={testID}
       style={[
         styles.root,
-        android && {
-          backgroundColor: t.material.sheet.fill,
-          borderTopLeftRadius: ANDROID_SHEET_RADIUS,
-          borderTopRightRadius: ANDROID_SHEET_RADIUS,
-        },
+        android
+          ? {
+              backgroundColor: t.material.sheet.fill,
+              borderTopLeftRadius: ANDROID_SHEET_RADIUS,
+              borderTopRightRadius: ANDROID_SHEET_RADIUS,
+            }
+          : // Sheet glass (foundations-spec §5): the system glass blurs, this tint makes it the
+            // sheet's denser material so the page behind reads as colour, not content.
+            { backgroundColor: t.material.sheet.tint },
       ]}
     >
       {android ? <View style={[styles.grabber, { backgroundColor: t.color.placeholder }]} /> : null}
