@@ -757,6 +757,14 @@ msgstr "Sent a sticker"
 msgid "notifications.push.privateBody"
 msgstr "Sent you something. Open to see it."
 
+#: ../../services/worker/src/push/message-text-copy.ts
+msgid "notifications.private.chat_body"
+msgstr "New message in {crew}"
+
+#: ../../services/worker/src/push/message-text-copy.ts
+msgid "notifications.private.guide_body"
+msgstr "{guide} has something for you. Open CritterPass to read it."
+
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.reminded"
 msgstr "Settle-up time: you owe {payee} {amount}."
