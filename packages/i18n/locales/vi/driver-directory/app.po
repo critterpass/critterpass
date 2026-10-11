@@ -80,7 +80,7 @@ msgstr "Hủy lời mời"
 msgid "drivers.ours.rerate"
 msgstr "Đổi câu trả lời"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "Chưa thêm được. Thử lại nhé."
 
@@ -88,7 +88,7 @@ msgstr "Chưa thêm được. Thử lại nhé."
 msgid "drivers.invite.failed"
 msgstr "Chưa tạo được link. Thử lại nhé."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "Chưa lưu được. Thử lại nhé."
 
@@ -152,7 +152,7 @@ msgstr "Tiếng Anh tốt"
 msgid "drivers.tag.greatPhotos"
 msgstr "Ảnh đẹp"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "Chào {first}, mình tìm thấy anh trên CritterPass. Anh có rảnh chở nhóm mình không?"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "Chưa nhóm nào mang về một tài xế ở đây mà muốn được giới thiệu. Có tài xế ở {widenTo}."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "Chuyến này chưa có tài xế."
+msgid "drivers.ours.emptyTitle"
+msgstr "Chưa có tài xế nào"
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "Nhắc"
 msgid "drivers.queued.nudge"
 msgstr "Nhắc tài xế"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "Ngoại tuyến. Danh sách lúc {time}."
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "Tài xế của nhóm"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Tài xế của nhóm"
 
@@ -326,7 +326,7 @@ msgstr "Đánh giá"
 msgid "drivers.rate.title"
 msgstr "Đánh giá tài xế"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Đánh giá mở sau chuyến đi, cho thành viên đã xác minh số điện thoại."
 
@@ -346,6 +346,10 @@ msgstr "Báo cáo mẹo này"
 msgid "drivers.report.title"
 msgstr "Báo cáo mục này?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr "Đi xe với ai trong chuyến này thì họ sẽ hiện ở đây cho cả nhóm."
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "Tự quản lý hồ sơ"
@@ -362,7 +366,7 @@ msgstr "Lưu câu trả lời"
 msgid "drivers.directory.widen"
 msgstr "Xem cả {widenTo}"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Cảm ơn. Bọn mình sẽ xem lại."
 

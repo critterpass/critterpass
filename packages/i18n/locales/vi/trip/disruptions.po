@@ -500,7 +500,7 @@ msgid "trip.disruptions.late.told"
 msgstr "Đã báo cho người đang chờ."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
-#: ../../apps/mobile/src/features/trip/disruptions/forecast/screen.tsx
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/use-forecast-screen.ts
 msgid "trip.disruptions.flight.backTo"
 msgstr "Chuyến đi"
 
