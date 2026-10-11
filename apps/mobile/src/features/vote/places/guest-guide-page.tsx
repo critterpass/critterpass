@@ -46,7 +46,7 @@ const GUEST_ID = DEFAULT_GUIDE_ID;
 const CITY_GUIDE_TABLES = ['destinations', ...DESTINATION_GUIDE_TABLES];
 
 /** The place's own guide while guides go by city (null: the guest guide covers it). */
-function useCityGuide(placeId: string): string | null {
+export function useCityGuide(placeId: string): string | null {
   const perCity = useGuidesPerCity();
   const { rows } = useLiveRows<{ guide: string | null }>(
     // eslint-disable-next-line lingui/no-unlocalized-strings -- SQL, never copy.

@@ -6,3 +6,4 @@ export { QuickCrewStart, type QuickCrewStartProps } from './places/quick-crew-st
 export { createPollCommand } from './data/vote-commands';
 export { money } from './format';
 export { crewColour } from './premium/components/crew';
+export { SoloPassSheet, type SoloPassSheetProps } from './premium/places/solo-sheet';

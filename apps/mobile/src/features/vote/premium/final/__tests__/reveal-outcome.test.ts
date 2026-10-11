@@ -38,7 +38,7 @@ function poll(overrides: Partial<PollView>): PollView {
     tiePreview: null,
     tieBreak: null,
     ...overrides,
-  } as PollView;
+  };
 }
 
 describe('revealOutcome', () => {
