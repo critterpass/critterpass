@@ -3,6 +3,7 @@
 //   pnpm --filter @cp/design-renders run render:premium [-- --part 04]
 // A frame is any 390×844 div with a 56 px radius (imported Phone or drawn inline); its code comes from the
 // nearest data-screen-label ancestor, else the "N.NN label" line under the phone.
+/* global document -- page.evaluate callbacks run inside the browser */
 import { createReadStream, existsSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import path from 'node:path';
@@ -36,9 +37,6 @@ function serve() {
   );
 }
 
-const isFrame = (d) =>
-  d.style.width === '390px' && d.style.height === '844px' && d.style.borderRadius === '56px';
-
 async function renderPart(page, origin, file) {
   await page.goto(`${origin}/${encodeURIComponent(file)}`, {
     waitUntil: 'networkidle',
@@ -48,15 +46,22 @@ async function renderPart(page, origin, file) {
   let last = -1;
   for (let stable = 0, tick = 0; tick < 90 && stable < 4; tick++) {
     await page.waitForTimeout(1000);
+    // Each evaluate carries its own frame test: functions do not cross into the page.
     const count = await page.evaluate(
-      (src) => [...document.querySelectorAll('div')].filter(new Function(`return ${src}`)()).length,
-      isFrame.toString(),
+      () =>
+        [...document.querySelectorAll('div')].filter(
+          (d) =>
+            d.style.width === '390px' &&
+            d.style.height === '844px' &&
+            d.style.borderRadius === '56px',
+        ).length,
     );
     stable = count === last && count > 0 ? stable + 1 : 0;
     last = count;
   }
-  const frames = await page.evaluate((src) => {
-    const frameTest = new Function(`return ${src}`)();
+  const frames = await page.evaluate(() => {
+    const frameTest = (d) =>
+      d.style.width === '390px' && d.style.height === '844px' && d.style.borderRadius === '56px';
     return [...document.querySelectorAll('div')].filter(frameTest).map((frame, index) => {
       frame.setAttribute('data-premium-shot', String(index));
       const owner = frame.closest('[data-screen-label]')?.getAttribute('data-screen-label') ?? '';
@@ -71,7 +76,7 @@ async function renderPart(page, origin, file) {
         label: text.replace(/^\d+\.\d+\s*/, '').slice(0, 120),
       };
     });
-  }, isFrame.toString());
+  });
   const rendered = [];
   for (const [index, frame] of frames.entries()) {
     const taken = rendered.some((r) => r.code === frame.code);
