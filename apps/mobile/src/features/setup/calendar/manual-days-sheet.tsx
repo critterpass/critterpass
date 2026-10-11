@@ -7,7 +7,7 @@
  */
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, type ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -27,24 +27,19 @@ import { monthLabel, weekdayLetters } from '../when/copy';
 import { DayGrid, weeksOfDates } from '../when/day-grid';
 import { MonthTitle } from '../when/month-pager';
 import {
-  datesBetween,
   loadMarks,
   manualPayload,
   monthCount,
   monthGrid,
-  paintMode,
-  painted,
   saveMarks,
   type ManualMark,
   type ManualMarks,
-  type PaintMode,
 } from './manual-days';
 import { DayFace, GLYPH, markWord, Swatch } from './manual-day-face';
 import { syncRange } from './sync-plan';
+import { useManualPaint } from './use-manual-paint';
 
 const TOOLS: readonly ManualMark[] = ['free', 'maybe', 'busy'];
-/** A tap that lands right after a drag is the drag's own release, not a second paint. */
-const RELEASE_MS = 400;
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
@@ -72,15 +67,10 @@ export function ManualDaysView(props: ManualDaysViewProps) {
   const theme = useTheme();
   const locale = useLocale();
   const [tool, setTool] = useState<ManualMark>(props.initialTool ?? 'free');
-  const stroke = useRef<{ origin: string; base: ManualMarks; mode: PaintMode } | null>(null);
-  const lastStroke = useRef(0);
   const pages = monthCount(props.from, props.to);
   const grid = monthGrid(props.from, props.page);
   const open = (date: string) => date >= props.from && date <= props.to;
-  const paint = (date: string) => {
-    if (Date.now() - lastStroke.current < RELEASE_MS) return;
-    props.onMarks(painted(props.marks, [date], tool, paintMode(props.marks, date, tool)));
-  };
+  const { paint, onDrag } = useManualPaint(props.marks, tool, open, props.onMarks);
   const step = (by: 1 | -1) => props.onPage(Math.max(0, Math.min(pages - 1, props.page + by)));
   const heading = t({ id: 'setup.manual.title', message: 'Mark your days' });
   return (
@@ -127,24 +117,7 @@ export function ManualDaysView(props: ManualDaysViewProps) {
           weekdays={weekdayLetters(locale)}
           weeks={weeksOfDates(grid.leadingBlanks, grid.days)}
           onSwipe={pages > 1 ? step : undefined}
-          onDrag={{
-            begin: (date) => {
-              if (!open(date)) return;
-              const mode = paintMode(props.marks, date, tool);
-              stroke.current = { origin: date, base: props.marks, mode };
-              props.onMarks(painted(props.marks, [date], tool, mode));
-            },
-            move: (date) => {
-              const held = stroke.current;
-              if (held === null) return;
-              const days = datesBetween(held.origin, date).filter(open);
-              props.onMarks(painted(held.base, days, tool, held.mode));
-            },
-            end: () => {
-              stroke.current = null;
-              lastStroke.current = Date.now();
-            },
-          }}
+          onDrag={onDrag}
           renderDay={(date) => {
             const mark = props.marks[date];
             const face = <DayFace date={date} mark={mark} open={open(date)} />;
@@ -195,9 +168,16 @@ export interface ManualDaysSheetProps {
   readonly onDismiss: () => void;
   /** The member's zone (the device's by default). */
   readonly tz?: string;
+  /** How the sheet is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<ManualDaysViewProps>;
 }
 
-export function ManualDaysSheet({ tripId, onDismiss, tz }: ManualDaysSheetProps) {
+export function ManualDaysSheet({
+  tripId,
+  onDismiss,
+  tz,
+  View: Look = ManualDaysView,
+}: ManualDaysSheetProps) {
   const { db } = useLocalFirst();
   const services = useSetupServices();
   const { send } = useCommand(setAvailabilityCommand);
@@ -234,7 +214,7 @@ export function ManualDaysSheet({ tripId, onDismiss, tz }: ManualDaysSheetProps)
   };
 
   return (
-    <ManualDaysView
+    <Look
       from={range.from}
       to={range.to}
       marks={marks}

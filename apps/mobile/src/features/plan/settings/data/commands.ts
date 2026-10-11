@@ -1,6 +1,11 @@
 /** Client specs for the trip settings commands (docs/api-contracts-planning.md). */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
-import type { CancelTripPayload, LeaveTripPayload, SetPlanChangeRulePayload } from '@cp/domain';
+import type {
+  CancelTripPayload,
+  ChangeTripDatesPayload,
+  LeaveTripPayload,
+  SetPlanChangeRulePayload,
+} from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
 import { defineClientCommand } from '@/data/commands/summaries';
@@ -19,5 +24,11 @@ export const cancelTripCommand = defineClientCommand<CancelTripPayload>({
 
 export const leaveTripCommand = defineClientCommand<LeaveTripPayload>({
   name: 'leave_trip',
+  offline: false,
+});
+
+/** Moving a planned trip to new dates needs the server's answer: the plan follows there. */
+export const changeTripDatesCommand = defineClientCommand<ChangeTripDatesPayload>({
+  name: 'change_trip_dates',
   offline: false,
 });

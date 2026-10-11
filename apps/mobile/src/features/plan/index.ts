@@ -36,3 +36,4 @@ export { registerRedraftBoost, type RedraftBoost } from './draft/boost-slot';
 export * from './premium/map';
 export { draftRoutes } from './draft/routes';
 export { usePlanGuide } from './plan-guide';
+export { OverlaySheet, type OverlaySheetProps } from './premium/sheets/overlay-sheet';

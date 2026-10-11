@@ -13,7 +13,7 @@ import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ComponentType } from 'react';
 
 import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
@@ -38,7 +38,7 @@ import {
   placedHeadline,
   sentToast,
 } from './changes-copy';
-import { ChangesReviewView } from './changes-review-view';
+import { ChangesReviewView, type ChangesReviewViewProps } from './changes-review-view';
 import { changeRows, needsYouRows } from './changes-rows';
 import {
   backCheckLabel,
@@ -72,9 +72,12 @@ const APPLIED_TOAST = 'plan-review-applied';
 export function ChangesReviewScreen({
   tripId,
   changesetId,
+  View = ChangesReviewView,
 }: {
   readonly tripId: string;
   readonly changesetId: string;
+  /** How the set is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<ChangesReviewViewProps>;
 }) {
   const guideName = usePlanGuide().name;
   const locale = useLocale();
@@ -197,7 +200,7 @@ export function ChangesReviewScreen({
     (tally?.yes.length ?? 0) + (answered === 'yes' && tally?.yes.includes(uid) !== true ? 1 : 0);
 
   return (
-    <ChangesReviewView
+    <View
       state={view.status}
       backLabel={
         ideas ? backIdeasLabel() : row?.trigger === 'check' ? backCheckLabel() : backPlainLabel()

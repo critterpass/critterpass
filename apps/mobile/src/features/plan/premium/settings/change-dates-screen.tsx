@@ -5,7 +5,7 @@
  * days that shift and the stops that go back to Ideas. "Ask the crew first" posts a 24-hour vote;
  * "Change it now" locks the new range.
  */
-import { generateUuidV7 } from '@cp/domain';
+import { DATES_CHANGE_STATUSES, generateUuidV7 } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -28,6 +28,7 @@ import {
 
 import { lockTripDatesCommand } from '@/features/setup';
 import { createPollCommand, crewColour } from '@/features/vote';
+import { changeTripDatesCommand } from '../../settings/data/commands';
 import { useDatesImpact } from '../../settings/data/use-settings-reads';
 import { DatesImpact } from './dates-impact';
 import { nextRange, RangeCalendar } from './range-calendar';
@@ -41,6 +42,7 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
   const plan = useTripPlan(tripId);
   const lock = useCommand(lockTripDatesCommand);
+  const move = useCommand(changeTripDatesCommand);
   const poll = useCommand(createPollCommand);
   const trip = plan.trip;
   const [picked, setPicked] = useState<{ start: string | null; end: string | null }>({
@@ -85,7 +87,10 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
   };
   const changeNow = async () => {
     if (range === null) return;
-    const sent = await lock.send({ trip_id: tripId, start: range.start, end: range.end });
+    const payload = { trip_id: tripId, start: range.start, end: range.end };
+    // Past setup the plan follows the dates; before it, locking them is all there is.
+    const planned = (DATES_CHANGE_STATUSES as readonly string[]).includes(trip.status);
+    const sent = await (planned ? move.send(payload) : lock.send(payload));
     if (sent.kind === 'applied') close();
   };
   return (
@@ -183,7 +188,7 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
           <TextButton
             label={t({ id: 'plan.dates.now', message: 'Change it now' })}
             onPress={() => void changeNow()}
-            disabled={range === null || lock.pending}
+            disabled={range === null || lock.pending || move.pending}
             testID="change-dates-now"
           />
         </View>

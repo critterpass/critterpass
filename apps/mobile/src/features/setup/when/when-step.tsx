@@ -6,12 +6,15 @@
  * are locked the step shows them; the organiser may change them while setup is still open.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes, never copy. */
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 
-import { CalendarConnectSheet } from '../calendar/calendar-connect-sheet';
-import { ManualDaysSheet } from '../calendar/manual-days-sheet';
+import {
+  CalendarConnectSheet,
+  type CalendarConnectViewProps,
+} from '../calendar/calendar-connect-sheet';
+import { ManualDaysSheet, type ManualDaysViewProps } from '../calendar/manual-days-sheet';
 import { syncRange } from '../calendar/sync-plan';
 import { useCalendarSync } from '../calendar/use-calendar-sync';
 import { askAvailabilityCommand, lockTripDatesCommand } from '../data/commands';
@@ -29,11 +32,18 @@ import {
 } from './model';
 import { DEFAULT_LENGTH_DAYS, suggestFrom } from './range';
 import { useWhenData } from './use-when-data';
-import { WeekPicker } from './week-picker';
+import { WeekPicker, type WeekPickerProps } from './week-picker';
 import { useUnsyncedMembers } from './use-unsynced';
-import { failureLine, WhenView, type WhenFailure } from './when-view';
+import { failureLine, WhenView, type WhenFailure, type WhenViewProps } from './when-view';
 
 type Overlay = 'calendar' | 'manual' | 'picker' | null;
+
+/** The sheets the step opens over itself, drawn in another look. */
+export interface WhenSheets {
+  readonly Connect?: ComponentType<CalendarConnectViewProps>;
+  readonly Manual?: ComponentType<ManualDaysViewProps>;
+  readonly Picker?: ComponentType<WeekPickerProps>;
+}
 
 function failureOf(code: string): WhenFailure {
   if (code === 'NETWORK' || code.startsWith('HTTP_')) return 'offline';
@@ -41,7 +51,18 @@ function failureOf(code: string): WhenFailure {
   return 'generic';
 }
 
-export function WhenStep({ trip, shell }: StepProps) {
+export function WhenStep({
+  trip,
+  shell,
+  View = WhenView,
+  sheets = {},
+}: StepProps & {
+  /** How the step is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<WhenViewProps>;
+  /** @default the current look's sheets */
+  readonly sheets?: WhenSheets;
+}) {
+  const Picker = sheets.Picker ?? WeekPicker;
   const services = useSetupServices();
   const data = useWhenData(trip.tripId);
   const calendar = useCalendarSync(trip.tripId);
@@ -110,7 +131,7 @@ export function WhenStep({ trip, shell }: StepProps) {
 
   return (
     <>
-      <WhenView
+      <View
         shell={shell}
         model={{
           isOrganiser: trip.isOrganiser,
@@ -156,13 +177,18 @@ export function WhenStep({ trip, shell }: StepProps) {
           tripId={trip.tripId}
           onDismiss={() => setOverlay(null)}
           onMarkByHand={() => setOverlay('manual')}
+          {...(sheets.Connect === undefined ? {} : { View: sheets.Connect })}
         />
       ) : null}
       {overlay === 'manual' ? (
-        <ManualDaysSheet tripId={trip.tripId} onDismiss={() => setOverlay(null)} />
+        <ManualDaysSheet
+          tripId={trip.tripId}
+          onDismiss={() => setOverlay(null)}
+          {...(sheets.Manual === undefined ? {} : { View: sheets.Manual })}
+        />
       ) : null}
       {overlay === 'picker' ? (
-        <WeekPicker
+        <Picker
           months={pickerMonths}
           startMonth={initialMonth(pickerMonths, best)}
           total={total}

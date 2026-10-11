@@ -48,15 +48,15 @@ export async function ensureDraftDays(tx: pg.PoolClient, head: DraftHead): Promi
   return { versionId: await createEmptyDraft(tx, head), created: true };
 }
 
-function daysApart(from: string, to: string): number {
+export function daysApart(from: string, to: string): number {
   return Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000);
 }
 
-function addDays(date: string, days: number): string {
+export function addDays(date: string, days: number): string {
   return new Date(Date.parse(date) + days * 86_400_000).toISOString().slice(0, 10);
 }
 
-async function placeOf(tx: pg.PoolClient, poiId: string): Promise<IdeaPlace | null> {
+export async function placeOf(tx: pg.PoolClient, poiId: string): Promise<IdeaPlace | null> {
   const { rows } = await tx.query<IdeaPlace>(
     `SELECT id AS "poiId", name, name_local AS "nameLocal", category, lat, lng
        FROM pois WHERE id = $1 AND status = 'active'`,
@@ -66,7 +66,7 @@ async function placeOf(tx: pg.PoolClient, poiId: string): Promise<IdeaPlace | nu
 }
 
 /** Each kept stop at the same local time of day on its day's new date. */
-async function onNewDates(
+export async function onNewDates(
   tx: pg.PoolClient,
   baseVersionId: string,
   start: string,

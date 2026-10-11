@@ -58,10 +58,16 @@ export interface OwnCalendarRowProps {
   readonly onMarkByHand: () => void;
 }
 
-export function OwnCalendarRow({ calendar, now, onConnect, onMarkByHand }: OwnCalendarRowProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const locale = useLocale();
+/** What the row says about this person's own calendar, and its one action, for either look. */
+export function ownCalendarWords(
+  { calendar, now, onConnect, onMarkByHand }: OwnCalendarRowProps,
+  locale: string,
+): {
+  readonly title: string;
+  readonly line: string;
+  readonly action: { readonly label: string; readonly onPress: () => void };
+  readonly stale: boolean;
+} {
   const stale = isStale(calendar, now);
   const ago = calendar.lastSyncedAt === null ? '' : agoLabel(locale, calendar.lastSyncedAt, now);
   let title: string;
@@ -119,6 +125,15 @@ export function OwnCalendarRow({ calendar, now, onConnect, onMarkByHand }: OwnCa
         onPress: onConnect,
       };
   }
+  return { title, line, action, stale };
+}
+
+export function OwnCalendarRow(props: OwnCalendarRowProps) {
+  const styles = useStyles();
+  const theme = useTheme();
+  const locale = useLocale();
+  const { calendar } = props;
+  const { title, line, action, stale } = ownCalendarWords(props, locale);
   return (
     <Row
       align="center"

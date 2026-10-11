@@ -59,6 +59,36 @@ export const setPlanChangeRuleResultSchema = z.object({
 });
 export type SetPlanChangeRuleResult = z.infer<typeof setPlanChangeRuleResultSchema>;
 
+/**
+ * `change_trip_dates`: an organiser moves a trip that is past setup (proposed, confirmed, before
+ * it starts) to new dates. The crew's plan follows: each day keeps its number on its new date, a
+ * stop keeps its local time, and stops on days the new dates no longer have go back to Ideas.
+ * Bookings keep their own times. Before then, `lock_trip_dates` sets the dates.
+ */
+export const changeTripDatesPayloadSchema = z
+  .strictObject({ trip_id: z.uuid(), start: z.iso.date(), end: z.iso.date() })
+  .refine((p) => p.start <= p.end, { message: 'start after end', path: ['end'] });
+export type ChangeTripDatesPayload = z.infer<typeof changeTripDatesPayloadSchema>;
+
+export const changeTripDatesResultSchema = z.object({
+  trip_id: z.uuid(),
+  start: z.iso.date(),
+  end: z.iso.date(),
+  changed: z.boolean(),
+  /** Stops that left their day: back to Ideas, or onto the last day when they have no place. */
+  moved_stops: z.array(
+    z.object({
+      stable_id: z.uuid(),
+      to: z.enum(['ideas', 'day']),
+      day_no: z.number().int().positive().optional(),
+    }),
+  ),
+});
+export type ChangeTripDatesResult = z.infer<typeof changeTripDatesResultSchema>;
+
+/** Trip states whose dates move with `change_trip_dates` (earlier ones use `lock_trip_dates`). */
+export const DATES_CHANGE_STATUSES = ['proposed', 'confirmed', 'pre_trip'] as const;
+
 /** What a dates change does to one booking: it moves, the supplier is asked, it is lost, or fine. */
 export const DATES_IMPACT_KINDS = ['moves', 'ask', 'lost', 'fine'] as const;
 export const datesImpactKindSchema = z.enum(DATES_IMPACT_KINDS);

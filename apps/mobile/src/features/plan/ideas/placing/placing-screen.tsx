@@ -7,7 +7,7 @@
 import { router, type Href } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useEffect } from 'react';
+import { useEffect, type ComponentType } from 'react';
 
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
@@ -20,7 +20,7 @@ import { ideaIcon } from '../idea-icon';
 import { backToIdeas } from '../ideas-copy';
 import { ideasRoute } from '../routes';
 import type { MapPin } from './placing-map';
-import { PlacingView, type PlacingLine } from './placing-view';
+import { PlacingView, type PlacingLine, type PlacingViewProps } from './placing-view';
 import { isFinished, PLACING_STEPS } from './progress';
 import {
   dayNames,
@@ -38,9 +38,12 @@ const REVIEW_ID = '7h-7';
 export function PlacingScreen({
   tripId,
   jobId,
+  View = PlacingView,
 }: {
   readonly tripId: string;
   readonly jobId: string;
+  /** How the wait is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<PlacingViewProps>;
 }) {
   const locale = useLocale();
   const state = usePlacingJob(jobId);
@@ -83,7 +86,7 @@ export function PlacingScreen({
   const nothing = done && state.status === 'succeeded' && reviewId === null;
   const failed = done && state.status !== 'succeeded';
   return (
-    <PlacingView
+    <View
       title={placingTitle(count)}
       pins={pins}
       lines={lines}

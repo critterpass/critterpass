@@ -8,7 +8,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, api paths and wire codes, never copy. */
 import { fxContextOf } from '@cp/cost-engine';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
@@ -24,7 +24,13 @@ import { useLiveRows } from '../data/rows';
 import { useSetupServices } from '../data/services';
 import { useSetupHints } from '../data/use-setup-channel';
 import type { StepProps } from '../shell/frame';
-import { BudgetView, EMPTY_PICK, type BudgetPick, type LockState } from './budget-view';
+import {
+  BudgetView,
+  EMPTY_PICK,
+  type BudgetPick,
+  type BudgetViewProps,
+  type LockState,
+} from './budget-view';
 import { useBudgetInputs } from './data/use-budget-inputs';
 import { saveOwnMax, useOwnMax } from './data/private-max';
 import { datesLabel } from './labels';
@@ -40,7 +46,7 @@ import {
   type AggregateRow,
 } from './model';
 import { OwnMaxRow } from './own-max-row';
-import { PrivateMaxView } from './private-max-view';
+import { PrivateMaxView, type PrivateMaxViewProps } from './private-max-view';
 
 const HOME_SQL = 'SELECT home_currency FROM users WHERE id = ?';
 
@@ -65,7 +71,25 @@ export function lockOutcome(
   return { kind: 'failed' };
 }
 
-export function BudgetStep({ trip, shell }: StepProps) {
+/** The pieces a look of the budget step draws; the current look's by default. */
+export interface BudgetLook {
+  readonly Budget: ComponentType<BudgetViewProps>;
+  readonly PrivateMax: ComponentType<PrivateMaxViewProps>;
+  readonly OwnMax: ComponentType<{ readonly set: boolean; readonly onChange: () => void }>;
+}
+
+const CURRENT_LOOK: BudgetLook = {
+  Budget: BudgetView,
+  PrivateMax: PrivateMaxView,
+  OwnMax: OwnMaxRow,
+};
+
+export function BudgetStep({
+  trip,
+  shell,
+  look = CURRENT_LOOK,
+}: StepProps & { readonly look?: BudgetLook }) {
+  const { Budget, PrivateMax, OwnMax } = look;
   const locale = useLocale();
   const { db } = useLocalFirst();
   const services = useSetupServices();
@@ -138,7 +162,7 @@ export function BudgetStep({ trip, shell }: StepProps) {
       : (own.usual?.amountMinor ?? null);
     const state = !own.loaded ? 'loading' : own.set && !editing ? 'set' : 'entry';
     return (
-      <PrivateMaxView
+      <PrivateMax
         // Keyed by the state alone: a saved default that arrives late prefills an empty keypad,
         // it never restarts one being typed on.
         key={state}
@@ -179,7 +203,7 @@ export function BudgetStep({ trip, shell }: StepProps) {
   }
 
   return (
-    <BudgetView
+    <Budget
       key={track !== null ? 'ready' : 'loading'}
       shell={shell}
       trip={trip}
@@ -197,7 +221,7 @@ export function BudgetStep({ trip, shell }: StepProps) {
       lock={lock}
       pick={pick}
       onPick={setPick}
-      ownMax={<OwnMaxRow set={own.set} onChange={() => setEditing(true)} />}
+      ownMax={<OwnMax set={own.set} onChange={() => setEditing(true)} />}
       onLock={(target) => {
         const attempt = attempts + 1;
         setAttempts(attempt);

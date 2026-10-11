@@ -8,7 +8,7 @@ import { generateStableId, generateUuidV7, type PlanOp } from '@cp/domain';
 import { Redirect } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
@@ -23,10 +23,17 @@ import { useMemberAsks } from '../data/use-member-ask';
 import { weekdayName } from '../format';
 import { checkRoutes } from '../routes';
 import * as copy from './balance-copy';
-import { BalanceView, type BalanceOfferView } from './balance-view';
+import { BalanceView, type BalanceViewProps, type BalanceOfferView } from './balance-view';
 import { useBalance } from './use-balance';
 
-export function BalanceScreen({ tripId }: { readonly tripId: string }) {
+export function BalanceScreen({
+  tripId,
+  View: Look = BalanceView,
+}: {
+  readonly tripId: string;
+  /** How the balance is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<BalanceViewProps>;
+}) {
   const plan = useTripPlan(tripId);
   const guideName = usePlanGuide().name;
   const editor = useDayEditing(plan);
@@ -135,7 +142,7 @@ export function BalanceScreen({ tripId }: { readonly tripId: string }) {
         };
 
   return (
-    <BalanceView
+    <Look
       backLabel={backTripLabel()}
       onBack={() => goBackOr(checkRoutes.check(tripId))}
       onlyYou={copy.onlyYouLabel()}

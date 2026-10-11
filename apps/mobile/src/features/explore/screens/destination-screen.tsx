@@ -5,7 +5,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ComponentType } from 'react';
 import { BackHandler } from 'react-native';
 
 import { EmptyState } from '@/ui/states/EmptyState';
@@ -18,7 +18,7 @@ import { dataOf } from '@/data/travel-data/freshness';
 import { goBackOr } from '@/lib/navigation/back';
 
 import type { ActionsMode } from '../components/destination-actions';
-import { DestinationView } from '../components/destination-view';
+import { DestinationView, type DestinationViewProps } from '../components/destination-view';
 import type { MonthPrices } from '../components/month-panel';
 import { useExploreDestination } from '../data/use-explore-destination';
 import { useExploreStream } from '../data/use-explore-stream';
@@ -54,9 +54,16 @@ export interface DestinationScreenProps {
   readonly destination: string;
   readonly tripId?: string | undefined;
   readonly crewId?: string | undefined;
+  /** How the page is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<DestinationViewProps> | undefined;
 }
 
-export function DestinationScreen({ destination, tripId, crewId }: DestinationScreenProps) {
+export function DestinationScreen({
+  destination,
+  tripId,
+  crewId,
+  View = DestinationView,
+}: DestinationScreenProps) {
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
   const { row } = useDestinationRow(destination);
@@ -196,7 +203,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
           : ('writing' as const);
 
   return (
-    <DestinationView
+    <View
       notice={notice}
       hero={{
         name,

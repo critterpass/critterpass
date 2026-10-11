@@ -1,6 +1,6 @@
 # Lane report: Journeys B, part 4 (decide and plan, the premium map)
 
-Branch `feat/premium-journeys-plan` (worktree `final-collab`), merged with `origin/feat/premium-redesign` and `origin/feat/premium-kit` up to 11 Oct ~18:00.
+Branch `feat/premium-journeys-plan` (worktree `final-collab`), merged with `origin/feat/premium-redesign` and `origin/feat/premium-kit` up to 11 Oct ~18:00 (`9ade70c0f`), then the remaining screens in flow order: vote `e5b88eb41`, setup steps `99972619f`, plan `758fd33e9`, fixes `156fa8e32`, proposal and day trip `32aee8871`, calendar connected `bb7e63b85`.
 
 ## Premium map (for Journeys D)
 
@@ -29,12 +29,42 @@ Branch `feat/premium-journeys-plan` (worktree `final-collab`), merged with `orig
 | 4.54 | Change dates | `settings/change-dates-screen.tsx`, `dates-impact.tsx`, `range-calendar.tsx` | `settings/dates.tsx` (modal) |
 | 4.55 | Cancel the trip | `settings/cancel-trip-screen.tsx` (hold to confirm) | `settings/cancel.tsx` |
 | 4.56 | Nothing saved yet | `plan-map/empty-plan.tsx` | (in the map) |
+| 4.01 | New poll | `features/vote/premium/poll/new-poll-sheet.tsx` | `app/vote/new-poll.tsx` (sheet in `vote/_layout.tsx`) |
+| 4.02 | Search places | `features/vote/premium/places/search-places.tsx` | `app/places/search.tsx` (full screen) |
+| 4.03 | Guest guide | `features/vote/premium/places/guest-guide.tsx` | `app/places/[placeId].tsx` |
+| 4.04 | Destination guide | `features/explore/premium/destination/destination-page.tsx`, `month-card.tsx`, `picks-carousel.tsx` | `app/explore/[destination].tsx` |
+| 4.07 | Solo pass | `features/vote/premium/places/solo-sheet.tsx` (shared `useSoloStart`) | from the guest guide |
+| 4.10 / 4.14 / 4.15 | When (heat calendar, own calendar card, no week fits) | `features/setup/premium/steps/when-view.tsx`, `heat-calendar.tsx`, `own-calendar-card.tsx` | `app/(trip)/[tripId]/setup/[step].tsx` |
+| 4.13 | Calendar connected | `features/setup/premium/calendar/connected-view.tsx` | `app/setup/calendar/connected.tsx` |
+| 4.16 / 4.17 | Budget sweet spot, waiting on maxes; private max + sleep | `steps/budget-view.tsx`, `budget-breakdown.tsx`, `private-max-view.tsx`, `sleep-choices.tsx` | `setup/[step].tsx` |
+| 4.19 | The route | `features/setup/premium/route/route-screen.tsx` (`set_trip_stops`) | `app/(trip)/[tripId]/setup/route.tsx` (new; the checklist row links it) |
+| 4.24 | Redraft diff | `features/plan/premium/draft/redraft-view.tsx` | `draft/redraft/[redraftId].tsx` |
+| 4.28 | All days | `features/plan/premium/all-days/all-days-view.tsx` | `plan/days.tsx` |
+| 4.32 | Link import | `features/explore/premium/search/link-sheet.tsx` | `search/link.tsx` (native sheet) |
+| 4.35 | Place cards on the map | `plan-map/place-carousel.tsx` (nearest first) | (in the map) |
+| 4.38 | Crew split | `features/explore/premium/split/split-page.tsx` | `split/[placeId].tsx` |
+| 4.41 | Placing | `features/plan/premium/ideas/placing-view.tsx` (real map) | `ideas/placing/[jobId].tsx` |
+| 4.42 | Swipe together | `features/explore/premium/swipe/swipe-page.tsx` (kit `SwipeDeck`, MATCH stamp) | `swipe/[sessionId].tsx` |
+| 4.43 / 4.44 | Plan check, fix panels | `features/plan/premium/check/check-view.tsx` | `check/index.tsx` |
+| 4.45 / 4.46 | Less driving, rain and crowds | `check/fix-pages.tsx` | `check/less-driving/[dayId].tsx`, `check/rain/[dayId].tsx` |
+| 4.47 | Balance the crew, gap ideas | `check/balance-gap.tsx` | `check/balance.tsx`, `check/gap.tsx` (native sheet) |
+| 4.48 | Review changes | `check/changes-view.tsx` | `review/[changesetId].tsx` |
+| 4.50 | Day-trip day | `features/explore/premium/day-trips/area-page.tsx` | `day-trip/[destinationId].tsx` |
+| 4.51 | Who's in | `features/proposal/premium/tracker-view.tsx` | `proposal/[id]/tracker.tsx` |
+| 4.52 | Slide to board | `features/proposal/premium/board-view.tsx` (pan slide track, a11y activate) | `proposal/[id]/board.tsx` |
+
+Pattern: each legacy container takes a `View` (or `look` / `views`) prop and keeps every read and command; the premium file is only the drawing, picked in the route by `usePremiumUi()`. Containers changed this way: when, budget and setup steps, calendar connected, all days, redraft diff, link import, placing, plan check and its fixes, gap, review changes, who's in, board, day-trip area, destination page. Shared pieces exported for both looks: `ownCalendarWords`, `budgetLine` / `lockLine`, `changeCardWords`, `metricWords`, `couldBe`, `whyWords`, `connectedWords`, `useSoloStart`, `useCityGuide`.
 
 Navigation: in the premium look `(trip)/[tripId]/_layout.tsx`, `setup/_layout.tsx` and `explore/_layout.tsx` render `PremiumStack` (native pushes); Add to plan and Ideas are native form sheets; change dates is a modal. The current look is unchanged.
 
-## Not built yet (legacy screen still shows in the premium look)
+## Still drawn by the current look inside premium pages
 
-4.01 new poll, 4.02 search places, 4.03 guest guide, 4.04 destination guide, 4.07 solo confirm; 4.10–4.17 setup steps (when heatmap, calendar sheets, no week fits, budget sweet spot, waiting on maxes, private max + sleep; the checklist opens the current step pages in any order once dates lock), 4.19 the route (row not tappable while the route switch is off); 4.24 redraft diff; 4.28 all days grid (reached from the plan's ⋯); 4.32 link import sheet, 4.35 place carousel (a pin opens the place page), 4.38 crew split, 4.41 placing, 4.42 swipe together, 4.43–4.48 fixes (the ⋯ menu and check lines open the current plan check), 4.50 day-trip day, 4.51 who's in, 4.52 slide to board. Logic hooks for several already exist (`use-link-screen`, `use-split`, `use-swipe-screen`, `use-place-detail`).
+- 4.11 / 4.12 calendar connect sheets and the week picker (overlays inside the when step); the rooms and must-dos setup steps.
+- Link paste and pick-one sheets, the plan sheet's item sheet host, move-stop sheet and move preview; the ask card inside the plan check.
+- Fix-in-place inside the plan sheet: the plan's check line opens the premium check page instead.
+- All days: drag a stop to another day is "Move a stop" on long press; day cards show a pins strip, not mini maps.
+- Rain chart and less-driving route sketches are left out; photos with credits use the current `MediaLayer` / `PlacePhoto`.
+- Swipe: "who is swiping" stays hidden (privacy).
 
 ## Design conflicts resolved (plan decision 5)
 
@@ -48,9 +78,11 @@ Navigation: in the premium look `(trip)/[tripId]/_layout.tsx`, `setup/_layout.ts
 - Search placeholder: "Find anything, or ask {guide}" on Find; the map pill names the destination.
 - Toasts use the existing island toast (the kit's `ToastHost` is not mounted on these routes).
 
-## Backend added (phase 1, earlier in the lane)
+## Backend added
 
-`trips.plan_change_rule` + `set_plan_change_rule`; setup together in any order with per-member parts (`trip_member_setup`), drafting as answers arrive and `trips.sketched_days`; `set_getting_there`; reads `GET /v1/trips/{id}/dates-impact` and `/cancel-summary`; client checklist model and reads.
+- `change_trip_dates` (`31e4209b7`, `b0ff48549`): the organiser moves a proposed, confirmed or pre-trip trip to new dates; the plan follows (days shift, stops keep their local time, stops on lost days go to Ideas or onto the last day, bookings keep their times) as a new plan version, with `trip.dates_changed` and a recompute. Domain schemas in `packages/domain/src/planning/trip-settings.ts` (`DATES_CHANGE_STATUSES`), command in `services/api/src/planning/trip-settings/change-trip-dates.ts`, contract row in `docs/api-contracts-planning.md`. DB test `services/api/test/planning/trip-settings/change-trip-dates.db.test.ts` (5 cases) passed on GitHub (run 38148041115). Change dates sends it after setup and `lock_trip_dates` before.
+- Outside my areas: `tools/scripts/test-images.ts` gives `git ls-files` a 64 MB buffer (`b8a76ead0`); the scan failed with ENOBUFS on the remote run.
+- Earlier in the lane: `trips.plan_change_rule` + `set_plan_change_rule`; setup together in any order with per-member parts (`trip_member_setup`), drafting as answers arrive and `trips.sketched_days`; `set_getting_there`; reads `GET /v1/trips/{id}/dates-impact` and `/cancel-summary`; client checklist model and reads.
 
 ## Follow-ups for the founder and controller
 
@@ -59,11 +91,11 @@ Navigation: in the premium look `(trip)/[tripId]/_layout.tsx`, `setup/_layout.ts
 3. Two files taken verbatim from Journeys A's branch (`features/monetize/premium/last-redraft-premium.tsx`, `monetize-palette.ts`) so its 9.18 view can be hosted; identical content, so merging A's branch is clean.
 4. New message ids need extraction and Vietnamese (`plan`, `setup`, `explore`, `vote` catalogs); not extracted in this lane.
 5. Getting there has no arrival-time picker (no date-time picker dependency); the member picks the way and where from.
-6. Change dates: "Change it now" sends `lock_trip_dates`; whether the server accepts it after setup is not confirmed here.
-7. Share invite on the setup header, Nudge on free days, and the route step (4.19) are not wired.
+6. New feature index exports: `@/features/vote` (`createPollCommand`, `money`, `crewColour`, `SoloPassSheet`, `useDestinationSearch`), `@/features/explore` (`Doodle`, `GuideDock`, `fitColour`, `PlaceResultRow`, `PlaceThumb`, `placeIcon`), `@/features/plan` (premium map, `draftRoutes`, `usePlanGuide`), new `@/features/setup` index (`lockTripDatesCommand`, `setMustDosCommand`).
+7. Share invite on the setup header and Nudge on free days are not wired.
 
 ## Checks
 
-Prettier on every changed file; ESLint on all premium files and touched routes is clean except test files (jest globals not resolved in a bare eslint run). Jest could not run on this Mac (load average 80–150, jest sat idle over an hour); new pure-logic tests: `plan/premium/settings/__tests__/range-calendar.test.ts`, `plan/ideas/__tests__/must-do-stars.test.ts`, plus the earlier `vote/premium/final/__tests__/reveal-outcome.test.ts` and `plan/premium/map/__tests__/premium-map.test.ts`. No tsc (lane rule); CI's typecheck is the first full pass.
+Prettier on every changed file. ESLint ran on the earlier commits (clean apart from test files); from the vote flow on, the coordinator's rule stopped local eslint, jest and vitest (the Mac was out of memory), so lint, typecheck and tests on the commits after `9ade70c0f` run first in CI on the integration branch. Pure-logic tests added earlier: `plan/premium/settings/__tests__/range-calendar.test.ts`, `plan/ideas/__tests__/must-do-stars.test.ts`, `vote/premium/final/__tests__/reveal-outcome.test.ts`, `plan/premium/map/__tests__/premium-map.test.ts`. Server: the `change_trip_dates` DB test passed remotely. No device screenshots from this lane.
 
 Status: DONE_WITH_CONCERNS
