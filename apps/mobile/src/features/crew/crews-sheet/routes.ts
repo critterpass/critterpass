@@ -17,6 +17,18 @@ export function crewInviteRoute(crewId: string): string {
   return `/crew/${crewId}/invite`;
 }
 
+export function crewEditRoute(crewId: string): string {
+  return `/crew/${crewId}/edit`;
+}
+
+export function crewLeaveRoute(crewId: string): string {
+  return `/crew/${crewId}/leave`;
+}
+
+export function crewMemberRoute(crewId: string, uid: string): string {
+  return `/crew/${crewId}/member/${uid}`;
+}
+
 export const CREW_SCREENS: Readonly<Record<string, string>> = {
   '3g-3': CREW_ROUTES.sheet,
 };

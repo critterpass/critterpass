@@ -5,13 +5,11 @@
  * works, and the programme terms.
  */
 import { t } from '@lingui/core/macro';
-import { useContext, useEffect, useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { coversUnlocked, REFERRAL_COVERS, REFERRAL_STAMP_SLOTS } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
-import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { InlineAction } from '@/ui/buttons/InlineAction';
@@ -24,8 +22,8 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { rowId } from '../crews-sheet/crew-commands';
 import { useCrewServices } from '../crews-sheet/crew-services';
-import { useSessionUid } from '@/data/powersync/use-session-uid';
-import { MINT_REFERRAL_CODE, useReferrals, type FriendStatus } from './referral-data';
+import { type FriendStatus } from './referral-data';
+import { useReferralLink } from './use-referral-link';
 import { REFERRAL_TERMS_URL } from './terms';
 
 const useStyles = makeStyles((th) => ({
@@ -66,25 +64,7 @@ export function ReferralScreen() {
   const theme = useTheme();
   const locale = useLocale();
   const services = useCrewServices();
-  const localFirst = useContext(LocalFirstContext);
-  const uid = useSessionUid();
-  const snapshot = useReferrals(localFirst?.db ?? null, uid);
-  const [minted, setMinted] = useState<string | null>(null);
-  const asked = useRef(false);
-  const code = snapshot.code ?? minted;
-
-  useEffect(() => {
-    if (localFirst === null || uid === null || asked.current) return;
-    if (!snapshot.loaded || snapshot.code !== null) return;
-    asked.current = true;
-    void localFirst.commands.send(MINT_REFERRAL_CODE, {}).then((sent) => {
-      const value =
-        sent.kind === 'applied' ? (sent.result as { code?: unknown } | null)?.code : undefined;
-      if (typeof value === 'string') setMinted(value);
-    });
-  }, [localFirst, uid, snapshot.loaded, snapshot.code]);
-
-  const url = code === null ? null : services.referralUrl(code);
+  const { snapshot, url } = useReferralLink();
   const covers = coversUnlocked(snapshot.stamps);
   const stamps = snapshot.stamps;
   const shown = Math.min(stamps, REFERRAL_STAMP_SLOTS);
