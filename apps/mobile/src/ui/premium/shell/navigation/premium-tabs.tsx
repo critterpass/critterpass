@@ -46,6 +46,7 @@ export function PremiumTabs({
   gated = true,
   tabs,
   guideRoute = GUIDE_TRIGGER_ROUTE,
+  guide: guideOverride,
 }: PremiumTabsProps) {
   const { t } = useLingui();
   const decision = useGateDecision();

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type ComponentRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Button, IconButton, Text, usePremiumTheme } from '@/ui/premium';
@@ -14,7 +14,7 @@ export const __CP_DEV_ROUTE__ = true;
  */
 export default function DrawnTab() {
   const t = usePremiumTheme();
-  const plus = useRef<View>(null);
+  const plus = useRef<ComponentRef<typeof View>>(null);
   const [anchor, setAnchor] = useState<MorphRect | null>(null);
   const [open, setOpen] = useState(false);
 

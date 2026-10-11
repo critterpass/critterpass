@@ -64,7 +64,10 @@ function open(action: DemoRow['action']): void {
         cancel: 'Cancel',
       });
       return;
-    default:
+    case 'zoom':
+    case undefined:
+      // The zoom row opens through its `ZoomLink`; filler rows open nothing.
+      return;
   }
 }
 
