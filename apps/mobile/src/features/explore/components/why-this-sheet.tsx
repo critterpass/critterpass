@@ -3,7 +3,7 @@
  * a model), and the guide's note when there is one. It rises over the deck and closes on a tap.
  */
 import { upper } from '@cp/i18n';
-import { plural } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { Pressable, StyleSheet, View } from 'react-native';
 
@@ -40,11 +40,9 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
-export function WhyThisSheet({ placeName, guideName, lines, note, onClose }: WhyThisSheetProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const { t, i18n } = useLingui();
-  const worded = lines.map((line) => {
+/** The guide's reasons for a card, worded, for either look of the swipe. */
+export function whyWords(lines: readonly WhyLine[], guideName: string): string[] {
+  return lines.map((line) => {
     if (line.kind === 'mustSee') {
       return t({
         id: 'explore.swipe.whyMustSee',
@@ -70,6 +68,13 @@ export function WhyThisSheet({ placeName, guideName, lines, note, onClose }: Why
       message: `It's about ${minutes} min on foot from the stay.`,
     });
   });
+}
+
+export function WhyThisSheet({ placeName, guideName, lines, note, onClose }: WhyThisSheetProps) {
+  const styles = useStyles();
+  const theme = useTheme();
+  const { t, i18n } = useLingui();
+  const worded = whyWords(lines, guideName);
   return (
     <Pressable
       style={styles.veil}

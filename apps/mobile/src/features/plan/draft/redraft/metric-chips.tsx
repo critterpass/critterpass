@@ -20,7 +20,7 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-function words(chip: MetricChip, locale: string): string {
+export function metricWords(chip: MetricChip, locale: string): string {
   switch (chip.kind) {
     case 'transit': {
       const minutes = Math.abs(chip.deltaMin);
@@ -87,7 +87,7 @@ export function MetricChips({
       {chips.map((chip) => (
         <View key={chip.kind} style={[styles.chip, { backgroundColor: colour(theme, chip) }]}>
           <Text variant="label" color={theme.semantic.text.onAccent}>
-            {words(chip, locale)}
+            {metricWords(chip, locale)}
           </Text>
         </View>
       ))}

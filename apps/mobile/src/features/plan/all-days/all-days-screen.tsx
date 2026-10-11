@@ -8,7 +8,7 @@
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useGettingThere } from '@/data/areas/use-getting-there';
@@ -25,7 +25,7 @@ import { tripPlanRoutes } from '../hub/routes';
 import { setChosenDay } from '../trip-map/chosen-day';
 import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
-import { AllDaysView } from './all-days-view';
+import { AllDaysView, type AllDaysViewProps } from './all-days-view';
 import { MovePreview, MoveStopSheet } from './move-preview';
 import { planMove, useCrossDayDrag, type MovePlan } from './use-cross-day-drag';
 
@@ -51,9 +51,12 @@ const travel: Travel = (from, to) =>
 export function AllDaysScreen({
   tripId,
   from,
+  View: DaysView = AllDaysView,
 }: {
   readonly tripId: string;
   readonly from: number | null;
+  /** How the grid is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<AllDaysViewProps>;
 }) {
   const { data, model } = useTripMapModel(tripId);
   const editor = useDayEditing(data.plan);
@@ -77,7 +80,7 @@ export function AllDaysScreen({
   };
   return (
     <>
-      <AllDaysView
+      <DaysView
         model={model}
         from={model.days.find((day) => day.dayNo === from) ?? null}
         over={drag.over}

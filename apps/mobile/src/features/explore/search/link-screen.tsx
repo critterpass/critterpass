@@ -5,9 +5,10 @@
  * "put them on the day" both end with what happened, by name.
  */
 import { router } from 'expo-router';
+import type { ComponentType } from 'react';
 
 import { LinkPaste } from './link-paste';
-import { LinkSheet } from './link-sheet';
+import { LinkSheet, type LinkSheetProps } from './link-sheet';
 import { PickOneSheet } from './pick-one-sheet';
 import { searchRoutes } from './routes';
 import { kindWord, useLinkScreen } from './use-link-screen';
@@ -17,9 +18,11 @@ export interface LinkScreenProps {
   readonly url: string | null;
   /** Opened to add a screenshot: the picker comes up first. */
   readonly screenshot: boolean;
+  /** How the found places are drawn; the logic is the same in every look. @default the current look */
+  readonly Sheet?: ComponentType<LinkSheetProps> | undefined;
 }
 
-export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
+export function LinkScreen({ tripId, url, screenshot, Sheet = LinkSheet }: LinkScreenProps) {
   const {
     trip,
     body,
@@ -59,7 +62,7 @@ export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
 
   return (
     <>
-      <LinkSheet
+      <Sheet
         state={state}
         guide={trip.guide}
         guideName={trip.guideName}
