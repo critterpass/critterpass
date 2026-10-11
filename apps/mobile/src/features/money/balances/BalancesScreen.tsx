@@ -6,12 +6,9 @@
  * then says the balances are still syncing and lists the expenses it has.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 
-import { useSyncPhase } from '@/data/status/use-sync-status';
-import { openWalletTrip, useWalletTripId } from '@/features/bookings';
 import { guideSticker } from '@/ui/avatar/guides';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Stack } from '@/ui/layout/Stack';
@@ -21,17 +18,12 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
 import { ExpenseListRow } from '../components/ExpenseListRow';
-import { expenseItems, type ExpenseItem } from '../data/expense-items';
-import { useMoneyServices } from '../data/services';
-import { useReceiptQueueDrain } from '../receipt/receipt-queue';
-import { selectTrip, useSelectedTrip } from '../data/selected-trip';
-import { useMoneyContext } from '../data/use-money-context';
-import { useTripMoney } from '../data/use-trip-money';
-import { expenseRoute, MONEY_ROUTES } from '../routes';
+import type { ExpenseItem } from '../data/expense-items';
+import { selectTrip } from '../data/selected-trip';
 import { BalancesView } from './BalancesView';
 import { CurrencySheet } from './CurrencySheet';
-import { buildBalances, isSolo } from './model';
 import { tripLabel, TripSheet } from './TripSheet';
+import { balancesNav, useBalancesScreen } from './use-balances-screen';
 import { WalletGuideProvider } from '@/features/bookings';
 
 const useStyles = makeStyles((t) => ({
@@ -85,23 +77,8 @@ export function MoneyNoTrip({ crew }: { readonly crew: boolean }) {
   );
 }
 
-/** How long a ledger that does not net to zero waits on the skeleton before saying so. */
-const SYNCING_AFTER_MS = 4000;
 /** How many expenses the syncing state lists; the history has the rest. */
 const SYNCING_ROWS = 5;
-
-/** True once `active` has held for `ms` without a break. */
-function useHeldFor(active: boolean, ms: number): boolean {
-  // One token per stretch of `active`: a timer that fired for an earlier stretch counts for nothing.
-  const stretch = useMemo(() => ({ active }), [active]);
-  const [held, setHeld] = useState<object | null>(null);
-  useEffect(() => {
-    if (!stretch.active) return undefined;
-    const timer = setTimeout(() => setHeld(stretch), ms);
-    return () => clearTimeout(timer);
-  }, [stretch, ms]);
-  return active && held === stretch;
-}
 
 /**
  * The trip's rows are here but its ledger does not add up yet (undesigned; the empty state over
@@ -152,92 +129,26 @@ function MoneySyncing({
 }
 
 export function BalancesScreen() {
-  const selected = useSelectedTrip();
-  // A trip hub's Money or Bookings tile names its trip: both halves of the wallet open on that
-  // one, and the trip switch here still moves away from it.
-  const { tripId } = useLocalSearchParams<{ tripId?: string }>();
-  const openedFor = useWalletTripId();
-  useLayoutEffect(() => {
-    if (typeof tripId === 'string' && tripId !== '') openWalletTrip(tripId);
-  }, [tripId]);
-  useLayoutEffect(() => {
-    if (openedFor !== null) selectTrip(openedFor);
-  }, [openedFor]);
-  useReceiptQueueDrain(useMoneyServices());
-  const ctx = useMoneyContext(selected);
-  const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
-  const syncPhase = useSyncPhase();
+  const state = useBalancesScreen();
   const { t } = useLingui();
   const [sheet, setSheet] = useState<'currency' | 'trip' | null>(null);
-  const currency = ctx.crew?.settlementCurrency ?? 'USD';
 
-  const model = useMemo(() => {
-    if (ctx.uid === null || ctx.trip === null) return null;
-    try {
-      return buildBalances({
-        uid: ctx.uid,
-        members: ctx.members,
-        shown: ctx.splitMembers,
-        ledger: rows.ledger,
-        payments: rows.payments,
-        expenses: rows.expenses,
-        currency,
-      });
-    } catch {
-      // A ledger mid-sync that does not net to zero yet: wait for the next checkpoint.
-      return null;
-    }
-  }, [ctx, rows, currency]);
-
-  const items = useMemo(
-    () =>
-      ctx.trip === null
-        ? []
-        : expenseItems({
-            expenses: rows.expenses,
-            shares: rows.shares,
-            pending: rows.pending,
-            members: ctx.members,
-            tripId: ctx.trip.id,
-            tz: ctx.trip.tz,
-            crewCurrency: currency,
-          }),
-    [ctx.trip, ctx.members, rows, currency],
-  );
-  // Every row is read and the ledger still does not net to zero.
-  const unbalancedFor = useHeldFor(
-    ctx.status === 'ready' && rows.loaded && model === null,
-    SYNCING_AFTER_MS,
-  );
-
-  if (unbalancedFor) {
+  if (state.kind === 'syncing') {
     return (
       <MoneySyncing
-        items={items}
-        currency={currency}
-        onExpense={(id) => router.push(expenseRoute(id))}
-        onHistory={() => router.push(MONEY_ROUTES.history)}
+        items={state.items}
+        currency={state.currency}
+        onExpense={balancesNav.expense}
+        onHistory={balancesNav.history}
       />
     );
   }
-  if (ctx.status === 'loading' || (ctx.status === 'ready' && (!rows.loaded || model === null))) {
-    return <MoneyLoading />;
-  }
-  if (ctx.status !== 'ready' || model === null || ctx.crew === null || ctx.trip === null) {
-    return <MoneyNoTrip crew={ctx.status === 'no_trip'} />;
-  }
-  const crew = ctx.crew;
-  const trip = ctx.trip;
-  const choices = [
-    ...new Set(
-      [currency, trip.localCurrency, ctx.homeCurrency].filter(
-        (value): value is string => value !== null,
-      ),
-    ),
-  ];
+  if (state.kind === 'loading') return <MoneyLoading />;
+  if (state.kind === 'none') return <MoneyNoTrip crew={state.crew} />;
+  const { ctx, crew, trip, model, items, currency, choices } = state;
   const fallbackTrip = t({ id: 'money.trips.unnamed', message: 'Trip' });
   return (
-    <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
+    <WalletGuideProvider tripId={trip.id}>
       <>
         <BalancesView
           currency={currency}
@@ -246,18 +157,18 @@ export function BalancesScreen() {
           lines={model.lines}
           settleTaps={model.plan.length}
           latest={items[0] ?? null}
-          empty={items.length === 0 && rows.ledger.length === 0}
-          solo={isSolo(ctx.uid ?? '', ctx.members, model.lines)}
-          offline={syncPhase === 'offline'}
+          empty={state.empty}
+          solo={state.solo}
+          offline={state.offline}
           tripLabel={ctx.trips.length > 1 ? tripLabel(trip, fallbackTrip) : null}
           onTrip={() => setSheet('trip')}
           onCurrency={() => setSheet('currency')}
-          onSettle={() => router.push(MONEY_ROUTES.settle)}
-          onScan={() => router.push(MONEY_ROUTES.scan)}
-          onAdd={() => router.push(MONEY_ROUTES.add)}
-          onBudget={() => router.push(MONEY_ROUTES.budget)}
-          onHistory={() => router.push(MONEY_ROUTES.history)}
-          onExpense={(id) => router.push(expenseRoute(id))}
+          onSettle={balancesNav.settle}
+          onScan={balancesNav.scan}
+          onAdd={balancesNav.add}
+          onBudget={balancesNav.budget}
+          onHistory={balancesNav.history}
+          onExpense={balancesNav.expense}
         />
         {sheet === 'currency' ? (
           <CurrencySheet
