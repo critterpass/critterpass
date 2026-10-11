@@ -14,7 +14,7 @@ import { View } from 'react-native';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { Text } from '@/ui/premium';
 
-import { crewAccent } from '../../crew/premium/crew-colour';
+import { crewAccent } from '@/features/crew';
 import { useLiveQuery } from '../chat/data/live-rows';
 import type { QuotaSpent } from '../chat/data/use-guide-turn';
 import { isSpent, untilReset } from '../meter/meter-model';

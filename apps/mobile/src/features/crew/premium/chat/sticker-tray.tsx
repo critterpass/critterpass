@@ -25,6 +25,7 @@ import type {
   TraySticker,
 } from '../../chat/data/use-sticker-tray';
 import { plainFormSpec, stickerArtKind } from '../../chat/data/use-sticker-form';
+import { CHAT_PAINT } from '../premium-paint';
 
 const TILE = 76;
 const ART = 68;
@@ -34,7 +35,7 @@ const useStyles = makePremiumStyles((th) => ({
     backgroundColor: th.color.card,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
-    boxShadow: '0 -10px 30px -10px rgba(20,22,40,.2)',
+    boxShadow: CHAT_PAINT.trayShadow,
     paddingTop: th.space.gap12,
   },
   tabs: {

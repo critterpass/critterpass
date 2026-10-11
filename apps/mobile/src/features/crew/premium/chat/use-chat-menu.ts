@@ -11,7 +11,7 @@ import type { TextInput } from 'react-native';
 import { useToast } from '@/ui/premium';
 import { confirmAlert } from '@/ui/premium/shell';
 
-import { whereRoute } from '../../../critters/routes';
+import { whereRoute } from '@/features/critters';
 import type { ChatMessage } from '../../chat/data/rows';
 import { chatMenuActions } from './chat-menu-actions';
 import type { ChatOverlay } from './chat-overlays';

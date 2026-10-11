@@ -13,7 +13,7 @@ import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { usePremiumTheme } from '@/ui/premium';
 
-import { critterRoute } from '../../../critters/routes';
+import { critterRoute } from '@/features/critters';
 import { crewInviteRoute } from '../../crews-sheet/routes';
 import { buildTimelineRows } from '../../chat/components/timeline-rows';
 import type { ChatMessage } from '../../chat/data/rows';

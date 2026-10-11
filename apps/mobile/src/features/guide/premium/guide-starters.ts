@@ -93,6 +93,11 @@ export function guideStarters(
   ];
 }
 
+/** Point and ask: the menu camera, answering in this thread's mode. */
+export function cameraHref(tripId: string | null, mode: string) {
+  return tripId === null ? undefined : hrefFor('3j-3', { tripId, mode, from: 'guide' });
+}
+
 export function offlineTools(tripId: string | null): OfflineTool[] {
   const trip = tripId === null ? {} : { tripId };
   const candidates = [

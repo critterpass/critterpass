@@ -19,6 +19,7 @@ import {
 
 import type { ReactionGroup } from '../../chat/data/use-reactions';
 import { DOODLE_FOR_EMOJI, Doodle } from './doodle';
+import { ring } from '../premium-paint';
 
 const BY_NO = new Map(critters.map((critter) => [critter.no, critter]));
 
@@ -46,9 +47,9 @@ const useStyles = makePremiumStyles((th) => ({
     paddingEnd: 7,
     borderRadius: th.radius.statusTag,
     backgroundColor: th.color.card,
-    boxShadow: `0 0 0 0.5px ${th.color.hairline}`,
+    boxShadow: ring(0.5, th.color.hairline),
   },
-  mine: { boxShadow: `0 0 0 1.5px ${th.accent.sun}` },
+  mine: { boxShadow: ring(1.5, th.accent.sun) },
   bust: { width: BUST, height: BUST, overflow: 'hidden', alignItems: 'center' },
 }));
 

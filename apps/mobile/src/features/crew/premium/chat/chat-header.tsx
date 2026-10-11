@@ -21,6 +21,7 @@ import {
 import { CREW_ROUTES, crewSettingsRoute } from '../../crews-sheet/routes';
 import { chatMapTarget } from '../../chat/slots';
 import { NoSignalChip } from './chat-chips';
+import { headerFade } from '../premium-paint';
 
 /** Height of the header block under the status bar (controls row and its fade). */
 export const CHAT_HEADER_HEIGHT = 58;
@@ -99,7 +100,7 @@ export function ChatHeader({ crewId, crewName, line }: ChatHeaderProps) {
         style={[
           StyleSheet.absoluteFill,
           {
-            experimental_backgroundImage: `linear-gradient(180deg, ${th.color.ground} 62%, transparent)`,
+            experimental_backgroundImage: headerFade(th.color.ground),
           },
         ]}
       />

@@ -24,6 +24,7 @@ import {
 import type { ReactionGroup } from '../../chat/data/use-reactions';
 import type { MessageAnchor } from './message-row';
 import { ReactionFace } from './reaction-chips';
+import { CHAT_PAINT } from '../premium-paint';
 
 /** The sticker bar's critters: Tokek cheering and thinking, Pon, the sardine, the puffin, Tokek asleep. */
 export const STICKER_BAR = [
@@ -48,7 +49,7 @@ const BAR_HEIGHT = 54;
 const ROW = 48;
 
 const useStyles = makePremiumStyles((th) => ({
-  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(20,22,40,.12)' },
+  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: CHAT_PAINT.menuScrim },
   frost: { ...StyleSheet.absoluteFillObject, backgroundColor: th.color.ground, opacity: 0.55 },
   bar: {
     position: 'absolute',
@@ -139,7 +140,7 @@ export function MessageMenu(props: MessageMenuProps) {
             key={reaction}
             style={[
               styles.cell,
-              mine.has(reaction) ? { backgroundColor: 'rgba(255,95,168,.14)' } : null,
+              mine.has(reaction) ? { backgroundColor: CHAT_PAINT.myReaction } : null,
             ]}
             onPress={() => {
               props.onReact(reaction);
@@ -172,7 +173,7 @@ export function MessageMenu(props: MessageMenuProps) {
           right: props.mine ? window.width - anchor.x - anchor.width : undefined,
           transform: [{ scale: lift }],
           transformOrigin: props.mine ? 'top right' : 'top left',
-          boxShadow: props.sticker ? undefined : '0 20px 40px -14px rgba(20,22,40,.35)',
+          boxShadow: props.sticker ? undefined : CHAT_PAINT.menuShadow,
         }}
       >
         {props.preview}

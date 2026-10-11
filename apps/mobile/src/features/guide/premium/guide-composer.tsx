@@ -18,9 +18,9 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useKeyboardFrame } from '@/ui/premium/shell';
 
-import { Doodle, type DoodleName } from '../../crew/premium/chat/doodle';
-import { useChatKeyboardHeight } from '../../crew/premium/chat/use-chat-keyboard';
+import { Doodle, type DoodleName } from '@/features/crew';
 import type { QuickAction } from '../chat/components/guide-sheet-view';
 import type { MeterComposer } from './use-premium-guide-meter';
 
@@ -82,7 +82,7 @@ export const GuideComposer = forwardRef<TextInput, GuideComposerProps>(
     const th = usePremiumTheme();
     const styles = useStyles();
     const insets = useSafeAreaInsets();
-    const keyboard = useChatKeyboardHeight();
+    const keyboard = useKeyboardFrame().height;
     const space = useAnimatedStyle(() => ({
       height: Math.max(keyboard.value, insets.bottom) + 8,
     }));

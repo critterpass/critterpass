@@ -25,6 +25,7 @@ import { DeliveryLine } from './delivery-line';
 import { MessageText } from './message-text';
 import { ReactionChips } from './reaction-chips';
 import { STICKER_TILT_MINE, STICKER_TILT_THEIRS, StickerMessage } from './sticker-message';
+import { CHAT_PAINT, ring } from '../premium-paint';
 
 export const AVATAR = 28;
 const GROUP_MAX = 300;
@@ -75,7 +76,7 @@ const useStyles = makePremiumStyles((th) => ({
     borderRadius: th.radius.banner,
     paddingVertical: 9,
     paddingHorizontal: 13,
-    boxShadow: `0 0 0 0.5px ${th.color.hairline}`,
+    boxShadow: ring(0.5, th.color.hairline),
   },
   mine: {
     alignSelf: 'flex-end',
@@ -97,7 +98,7 @@ const useStyles = makePremiumStyles((th) => ({
   },
   failed: {
     backgroundColor: th.color.card,
-    boxShadow: `0 0 0 1.5px ${th.color.destructive.fieldRing}`,
+    boxShadow: ring(1.5, th.color.destructive.fieldRing),
   },
   waiting: { opacity: 0.55 },
   guideAvatar: {
@@ -261,7 +262,7 @@ function ReplyQuote({
       </Text>
       <Text
         variant="captionMuted"
-        color={onInk ? 'rgba(255,255,255,.72)' : th.color.muted}
+        color={onInk ? CHAT_PAINT.onInkMeta : th.color.muted}
         numberOfLines={2}
       >
         {message.body}

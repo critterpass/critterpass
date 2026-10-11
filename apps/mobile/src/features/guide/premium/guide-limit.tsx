@@ -22,6 +22,7 @@ import { useTrailOff } from '../meter/limit-card';
 import type { GuideMeter } from '../meter/meter-model';
 import { resetClock } from '../meter/meter-model';
 import type { QueuedQuestion } from '../queued/use-queued-question';
+import { GUIDE_PAINT, ring } from './guide-paint';
 
 const useStyles = makePremiumStyles((th) => ({
   chip: {
@@ -38,7 +39,7 @@ const useStyles = makePremiumStyles((th) => ({
     height: 6,
     borderRadius: 3,
     backgroundColor: th.accent.sun,
-    boxShadow: '0 0 0 2px rgba(255,216,74,.35)',
+    boxShadow: GUIDE_PAINT.quotaHalo,
   },
   card: {
     borderRadius: 24,
@@ -73,7 +74,7 @@ const useStyles = makePremiumStyles((th) => ({
     paddingHorizontal: 16,
     gap: th.space.gap6,
     backgroundColor: th.color.card,
-    boxShadow: `0 0 0 2px ${th.accent.sun}`,
+    boxShadow: ring(2, th.accent.sun),
   },
   waitingHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
 }));

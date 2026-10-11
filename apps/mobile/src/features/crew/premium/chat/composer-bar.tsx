@@ -18,6 +18,7 @@ import {
 } from '@/ui/premium';
 
 import { MESSAGE_BODY_MAX as BODY_MAX } from '@cp/domain';
+import { ring } from '../premium-paint';
 
 const FIELD = 40;
 const SIDE = 38;
@@ -33,7 +34,7 @@ const useStyles = makePremiumStyles((th) => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: th.color.card,
-    boxShadow: `0 0 0 0.5px ${th.color.hairlineMenu}`,
+    boxShadow: ring(0.5, th.color.hairlineMenu),
     marginBottom: 1,
   },
   field: {
@@ -43,7 +44,7 @@ const useStyles = makePremiumStyles((th) => ({
     alignItems: 'flex-end',
     borderRadius: FIELD / 2,
     backgroundColor: th.color.card,
-    boxShadow: `0 0 0 0.5px ${th.color.hairlineMenu}`,
+    boxShadow: ring(0.5, th.color.hairlineMenu),
     paddingStart: th.space.gap14,
     paddingEnd: th.space.gap4,
   },

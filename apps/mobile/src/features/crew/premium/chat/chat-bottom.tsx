@@ -17,14 +17,13 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { REDUCED_FADE, SPRINGS, makePremiumStyles, usePremiumReducedMotion } from '@/ui/premium';
-import { KeyboardDismissArea } from '@/ui/premium/shell';
+import { KeyboardDismissArea, useKeyboardFrame } from '@/ui/premium/shell';
 
 import type { ChatMessage } from '../../chat/data/rows';
 import type { StickerTray as TrayData, TraySticker } from '../../chat/data/use-sticker-tray';
 import { ComposerBar, ComposerStrip } from './composer-bar';
 import { ReadOnlyBar, RecorderBar } from './chat-panels';
 import { StickerTray } from './sticker-tray';
-import { useChatKeyboardHeight } from './use-chat-keyboard';
 
 /** The tray's height before the keyboard has ever shown on this screen. */
 const DEFAULT_TRAY = 336;
@@ -81,7 +80,7 @@ export function ChatBottom(props: ChatBottomProps) {
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const reduced = usePremiumReducedMotion();
-  const keyboard = useChatKeyboardHeight();
+  const keyboard = useKeyboardFrame().height;
   const [trayHeight, setTrayHeight] = useState(DEFAULT_TRAY);
   const { composer } = props;
   // The tray takes the height the keyboard last had, so swapping one for the other never jumps.

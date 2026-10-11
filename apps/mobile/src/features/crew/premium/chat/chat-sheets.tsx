@@ -17,9 +17,10 @@ import {
   usePremiumTheme,
   type PremiumIconName,
 } from '@/ui/premium';
+import { CHAT_PAINT } from '../premium-paint';
 
 const useStyles = makePremiumStyles((th) => ({
-  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(20,22,40,.3)' },
+  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: CHAT_PAINT.sheetScrim },
   sheet: {
     position: 'absolute',
     left: 8,
@@ -35,7 +36,7 @@ const useStyles = makePremiumStyles((th) => ({
     width: 36,
     height: 5,
     borderRadius: 3,
-    backgroundColor: 'rgba(60,60,67,.3)',
+    backgroundColor: CHAT_PAINT.grabber,
   },
   sheetHead: { flexDirection: 'row', justifyContent: 'flex-end', marginTop: -4 },
   option: {

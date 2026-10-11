@@ -11,16 +11,15 @@ import { ScrollView, View, type TextInput } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
-import { hrefFor } from '@/lib/navigation/screen-registry';
 import { LoadingCritter, usePremiumTheme } from '@/ui/premium';
 
-import { crewAccent } from '../../crew/premium/crew-colour';
+import { crewAccent } from '@/features/crew';
 import { useGuideSheet } from '../chat/data/use-guide-sheet';
 import { guideRoutes } from '../chat/register';
 import { GuideComposer } from './guide-composer';
 import { GuideEmpty } from './guide-empty';
 import { PremiumGuidePlanCard } from './guide-plan-card';
-import { guideStarters, offlineTools } from './guide-starters';
+import { cameraHref, guideStarters, offlineTools } from './guide-starters';
 import { GuideThread } from './guide-thread';
 import { GuideTopBar } from './guide-top-bar';
 import { OfflineToolsCard } from './guide-offline';
@@ -89,10 +88,7 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
     },
     [names, context.uid],
   );
-  const camera =
-    trip === null
-      ? undefined
-      : hrefFor('3j-3', { tripId: trip.tripId, mode: sheet.mode, from: 'guide' });
+  const camera = cameraHref(trip?.tripId ?? null, sheet.mode);
   const ask = (text: string) => sheet.send(text);
   const starters = guideStarters(th, {
     hasTrip: trip !== null,

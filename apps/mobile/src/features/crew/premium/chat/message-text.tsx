@@ -5,6 +5,7 @@
 import { t } from '@lingui/core/macro';
 
 import { Text, usePremiumTheme } from '@/ui/premium';
+import { CHAT_PAINT } from '../premium-paint';
 
 const MENTION = /(@[\p{L}\p{N}_]+)/u;
 
@@ -57,7 +58,7 @@ export function MessageText({
       {edited ? (
         <Text
           variant="captionMuted"
-          color={tone === 'mine' ? 'rgba(255,255,255,.6)' : th.color.muted}
+          color={tone === 'mine' ? CHAT_PAINT.onInkSoft : th.color.muted}
         >
           {` ${t({ id: 'chat.premium.edited', message: '(edited)' })}`}
         </Text>

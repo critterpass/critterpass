@@ -24,7 +24,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { Doodle, type DoodleName } from '../../crew/premium/chat/doodle';
+import { Doodle, type DoodleName } from '@/features/crew';
 
 export interface GuideStarter {
   readonly key: string;
