@@ -51,7 +51,7 @@ export function coverLockedNote(cover: CrewCover): string {
 
 export function inviteMessage(crew: string, url: string, code: string): string {
   return t({
-    id: 'crew.start.shareMessage',
+    id: 'crew.premium.inviteMessage',
     message: `Join ${crew} on CritterPass: ${url} (code ${code})`,
   });
 }

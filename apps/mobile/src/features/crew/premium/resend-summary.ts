@@ -2,7 +2,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- outcome kinds, never copy. */
 import type { SendNudgePayload } from '@cp/domain';
 
-import type { NudgeOutcome } from '@/features/home/nudge/use-nudge';
+import type { NudgeOutcome } from '@/features/home';
 
 /** A delivery within this of now counts as sent now. */
 const SOON_MS = 2 * 60_000;
