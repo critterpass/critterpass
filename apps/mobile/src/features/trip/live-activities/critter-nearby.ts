@@ -183,8 +183,9 @@ export function startCritterNearbyActivity(deps: CritterNearbyDeps): () => void 
     }
     if (input === null) return;
     const over = input.state === 'caught' || input.state === 'expired';
-    // The frame without its version: the engine ticks every second, the ring moves far less often.
-    const frame = JSON.stringify(buildCritterLaState(input, 0));
+    // The frame without its version or end time: the engine ticks every second, the ring moves far
+    // less often, and the end time the surface counts down to is refreshed with every frame sent.
+    const frame = JSON.stringify({ ...buildCritterLaState(input, 0), ends_at: null });
     if (active === null) {
       if (!drawn()) return;
       const running = adoptable(input.spawnId);
