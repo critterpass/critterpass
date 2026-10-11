@@ -10,6 +10,13 @@ appId: app.critterpass.dev
         id: '${MARK}'
     commands:
       - runFlow: back.yaml
+      # A form the flow typed into asks before it closes: its changes are thrown away.
+      - runFlow:
+          when:
+            visible: 'Discard your changes\?'
+          commands:
+            - tapOn: 'DISCARD|Discard'
+            - waitForAnimationToEnd
       - runFlow:
           when:
             platform: iOS

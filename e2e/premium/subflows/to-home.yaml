@@ -1,13 +1,11 @@
 appId: app.critterpass.dev
 ---
-# Back to Home, whatever screen or sheet the last steps ended on (up to four steps back).
-- repeat:
-    times: 4
-    while:
-      notVisible:
-        id: 'home-screen'
-    commands:
-      - runFlow: back.yaml
+# Back to Home, whatever screen or sheet the last steps ended on: sheets are cancelled and screens
+# stepped back (see home-back-to.yaml), then the Home tab is opened.
+- runFlow:
+    file: home-back-to.yaml
+    env:
+      MARK: home-screen
 - runFlow:
     file: tab.yaml
     env:

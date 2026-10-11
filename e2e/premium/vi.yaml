@@ -20,17 +20,30 @@ onFlowComplete:
     file: subflows/home-crew.yaml
     env:
       LOOK: vi
-- runFlow: subflows/to-home.yaml
+# Each area starts from a fresh Home, whatever screen the last one left open.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+      LANG: vi
 - runFlow:
     file: subflows/pass-steps.yaml
     env:
       LOOK: vi
-- runFlow: subflows/to-home.yaml
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+      LANG: vi
 - runFlow:
     file: subflows/chat-crew.yaml
     env:
       LOOK: vi
-- runFlow: subflows/to-home.yaml
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+      LANG: vi
 - runFlow:
     file: subflows/plan-map.yaml
     env:
