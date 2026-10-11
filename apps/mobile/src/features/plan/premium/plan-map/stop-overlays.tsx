@@ -13,6 +13,7 @@ import { removeOp } from '@/data/plan/plan-ops';
 
 import { ItemSheetHost } from '../../day/item-sheet-host';
 import { tripPlanRoutes } from '../../hub/routes';
+import { PremiumItemSheet } from '../stop/item-sheet';
 import { StopMenu } from './stop-menu';
 import type { usePlanMap } from './use-plan-map';
 
@@ -38,6 +39,7 @@ export function StopOverlays(props: {
         slot={{ dayNo: day.dayNo, date: day.date ?? '' }}
         editor={map.editor}
         onClose={props.onClose}
+        Sheet={PremiumItemSheet}
       />
     );
   }

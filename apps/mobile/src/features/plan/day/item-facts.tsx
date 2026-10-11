@@ -57,7 +57,8 @@ export function costKind(
   return hasPlace || amountMinor !== null ? 'unknown' : 'none';
 }
 
-export function ItemFacts({
+/** What the facts say, for every look: who is going, the cost line, and whether the trip is one. */
+export function useFactWords({
   item,
   members,
   priceLevel = null,
@@ -99,6 +100,21 @@ export function ItemFacts({
                   id: 'plan.day.item.costGroup',
                   message: `${shown(item.amountMinor, item.currency)} for the group`,
                 });
+  return { solo, going, cost };
+}
+
+export function ItemFacts({
+  item,
+  members,
+  priceLevel = null,
+}: {
+  readonly item: DayItem;
+  readonly members: readonly PlanMember[];
+  /** The place's price level (0 = known to be free); null = not known. */
+  readonly priceLevel?: number | null;
+}) {
+  const { t } = useLingui();
+  const { solo, going, cost } = useFactWords({ item, members, priceLevel });
   return (
     <>
       <Section label={t({ id: 'plan.day.item.who', message: 'Who’s going' })}>

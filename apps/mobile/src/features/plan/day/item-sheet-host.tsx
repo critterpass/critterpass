@@ -14,6 +14,7 @@
 import type { PlanOp, PlanPush } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
+import type { ComponentType } from 'react';
 import { Linking, View } from 'react-native';
 
 import { useLiveRows } from '@/data/plan/live-rows';
@@ -36,7 +37,7 @@ import { retime, type Retime, type Travel } from '../day-plan/reschedule';
 import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
-import { ItemDetailSheet } from './item-detail-sheet';
+import { ItemDetailSheet, type ItemDetailSheetProps } from './item-detail-sheet';
 import { nowMinOn, pastTimePreview } from './past-time';
 import { pushedBack } from './pushed-back';
 import { gapLine, retimePreview } from './retime-copy';
@@ -73,6 +74,7 @@ export function ItemSheetHost({
   editor,
   travel,
   onClose,
+  Sheet = ItemDetailSheet,
 }: {
   readonly plan: TripPlan;
   readonly item: DayItem;
@@ -81,6 +83,8 @@ export function ItemSheetHost({
   /** Minutes between two stops (stored legs when the screen has them); straight-line otherwise. */
   readonly travel?: Travel;
   readonly onClose: () => void;
+  /** How the sheet is drawn; the logic is the same in every look. @default the current look */
+  readonly Sheet?: ComponentType<ItemDetailSheetProps>;
 }) {
   const { t } = useLingui();
   const locale = useLocale();
@@ -182,7 +186,7 @@ export function ItemSheetHost({
     />
   );
   return (
-    <ItemDetailSheet
+    <Sheet
       item={item}
       dayNos={plan.state.days.map((candidate) => candidate.day_no)}
       dayLabels={dayLabels}
