@@ -27,6 +27,8 @@ import { alarmText } from './alarm-copy';
 import { alarmWatched, dueAlarm } from './alarm-plan';
 import { alarmStore, useAlarmState } from './alarm-store';
 import { InAppAlarm } from './in-app-alarm';
+import { InAppAlarmPremium } from '../premium/alarm/InAppAlarmPremium';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { useAlarmSync } from './use-alarm-sync';
 import { useJourneyCheck } from '../disruptions/late/use-journey-check';
 
@@ -80,6 +82,8 @@ function useNotificationActions(
 }
 
 export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | null }) {
+  // The premium UI draws the in-app alarm in its own look; what it does is the same.
+  const Alarm = usePremiumUi() ? InAppAlarmPremium : InAppAlarm;
   setAlarmPort(alarmPort);
   useLiveActivityRegistration();
   const me = useOwnerUid();
@@ -157,7 +161,7 @@ export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | 
         if (snoozeAllowed) snooze(ringing.id, ringing.viewerSnoozes);
       }}
     >
-      <InAppAlarm
+      <Alarm
         guide={guide.slug}
         eyebrow={text.eyebrow}
         time={text.time}
