@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Taps ${ID}, or the element labelled ${LABEL} when the id is not in the hierarchy (iOS 26 toolbar
+# items and native tab bar items are reached by their label). Nothing happens when neither shows.
+- runFlow:
+    when:
+      visible:
+        id: '${ID}'
+    commands:
+      - tapOn:
+          id: '${ID}'
+- runFlow:
+    when:
+      notVisible:
+        id: '${ID}'
+    commands:
+      - tapOn:
+          text: '${LABEL}'
+          optional: true
+- waitForAnimationToEnd

@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# Turns the premium UI on for this phone and relaunches into it. Run from a screen that shows the
+# "Developer tools" entry (the splash or Home). Developer tools' "Premium UI on here" keeps the
+# choice in the default MMKV store, which a relaunch keeps and a cleared install (or "Start as")
+# drops, so this runs after any `start-as` step. The next-launch line names where the choice comes
+# from: `binary` means this build lacks the premium native modules and the flow stops here.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-premium-ui-on'
+          direction: DOWN
+          timeout: 20000
+          speed: 20
+- assertVisible:
+    id: 'dev-premium-ui-source-(flag|override)'
+- tapOn:
+    id: 'dev-premium-ui-on'
+# The switch restarts the JS; a stop and a plain launch make sure the next run reads the choice.
+- waitForAnimationToEnd
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000

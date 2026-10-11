@@ -1,0 +1,46 @@
+appId: app.critterpass.dev
+---
+# Sets the app's appearance to ${LOOK} (system, light or dark) from Pass → Edit → Appearance, then
+# returns to Home.
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile'
+    timeout: 15000
+- runFlow:
+    file: tap.yaml
+    env:
+      ID: 'you-profile-edit'
+      LABEL: 'Edit'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-fields'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'you-edit-appearance'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'you-edit-appearance'
+- extendedWaitUntil:
+    visible:
+      id: 'you-appearance-${LOOK}'
+    timeout: 10000
+- tapOn:
+    id: 'you-appearance-${LOOK}'
+- waitForAnimationToEnd
+- runFlow: back.yaml
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000
