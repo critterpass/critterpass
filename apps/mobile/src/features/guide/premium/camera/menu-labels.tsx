@@ -63,7 +63,7 @@ function Label({ sticker, index }: { readonly sticker: MenuSticker; readonly ind
   const styles = useStyles();
   const reduced = usePremiumReducedMotion();
   const tilt = TILTS[index % TILTS.length] ?? -3;
-  const turn = useSharedValue(tilt);
+  const turn = useSharedValue<number>(tilt);
   const clash = sticker.clash;
   useEffect(() => {
     if (!clash || reduced) return;

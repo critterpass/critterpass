@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   grow: { flex: 1 },
   kicker: { letterSpacing: 2.6 },
-  crestDisc: { ...StyleSheet.absoluteFillObject, borderRadius: 30, opacity: 0.24 },
+  crestDisc: { ...StyleSheet.absoluteFill, borderRadius: 30, opacity: 0.24 },
   perforation: { borderTopWidth: 2, borderStyle: 'dashed' },
   notch: { position: 'absolute', top: -12, width: 24, height: 24, borderRadius: 12 },
   notchLeft: { left: -12 },

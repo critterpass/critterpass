@@ -179,7 +179,7 @@ export function ProfileSections(props: ProfileSectionsProps) {
                   members={crew.members.map((member) => ({
                     id: member.id,
                     name: member.name,
-                    color: memberAccent(t, member.joinIndex),
+                    color: memberAccent(th, member.joinIndex),
                   }))}
                   max={3}
                   size={26}

@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  crestDisc: { ...StyleSheet.absoluteFillObject, borderRadius: 46, opacity: 0.24 },
+  crestDisc: { ...StyleSheet.absoluteFill, borderRadius: 46, opacity: 0.24 },
   name: { letterSpacing: 1.2 },
   seats: { flexDirection: 'row', gap: 3, alignItems: 'center' },
   seat: { borderWidth: 1.5, borderRadius: 11 },

@@ -159,7 +159,7 @@ function Open({ settle }: { readonly settle: Ready }) {
                 label={kindLabel(kind)}
                 size="small"
                 variant={mine ? 'primary' : 'floating'}
-                onPress={() => settle.onKind(kind)}
+                onPress={() => settle.onKind()}
                 testID={`money-settle-kind-${kind}`}
               />
             );

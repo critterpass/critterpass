@@ -141,7 +141,7 @@ function coverWash(cover: CrewCover): string {
 
 const styles = StyleSheet.create({
   stage: { height: 270, alignItems: 'center', justifyContent: 'center' },
-  wash: { ...StyleSheet.absoluteFillObject },
+  wash: { ...StyleSheet.absoluteFill },
   form: { paddingBottom: 24 },
   section: { marginTop: 8 },
 });
