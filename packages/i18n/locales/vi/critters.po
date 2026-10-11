@@ -122,20 +122,12 @@ msgstr "{place} đang yên dần"
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.eyebrowTierAt"
-msgstr "{tier} · {place}"
-
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.shareLine"
 msgstr "{tier} · gặp ở {city}"
 
 #: ../../apps/mobile/src/features/critters/where/where-copy.ts
 msgid "critters.where.eyebrow"
-msgstr "Dạng {tier}"
-
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.eyebrowTier"
 msgstr "Dạng {tier}"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -190,17 +182,9 @@ msgstr "Tất cả"
 msgid "critters.where.allFound"
 msgstr "Đã tìm hết"
 
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.alsoHas"
-msgstr "Cũng có"
-
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.any"
 msgstr "Ngày"
-
-#: ../../apps/mobile/src/features/critters/critters-copy.ts
-msgid "critters.back"
-msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
@@ -324,10 +308,6 @@ msgid "critters.dex.filterFound"
 msgstr "Đã gặp"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.found"
-msgstr "Gặp lúc"
-
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.guideNotes"
 msgstr "Trích sổ tay thực địa của {guideName}"
 
@@ -420,10 +400,6 @@ msgstr "Huyền thoại"
 msgid "critters.dex.legendaryOnDates"
 msgstr "Huyền thoại trong ngày đi của bạn"
 
-#: ../../apps/mobile/src/features/critters/critters-copy.ts
-msgid "critters.loading"
-msgstr "Đang tải critter"
-
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.loadingSet"
 msgstr "Đang tải bộ sưu tập"
@@ -504,10 +480,6 @@ msgstr "Thông báo đang tắt, nên lời nhắc sẽ nằm trong hộp thư c
 msgid "critters.encounter.reminderDenied"
 msgstr "Thông báo đang tắt nên chúng tôi không nhắc được. Hãy bật trong Cài đặt."
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.ok"
-msgstr "OK"
-
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.onOneDay"
 msgstr "Chỉ một ngày"
@@ -564,10 +536,6 @@ msgstr "Chia sẻ với nhóm"
 msgid "critters.hatch.later"
 msgstr "Để sau dẫn tôi đi dạo"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.eyebrow"
-msgstr "Đã lẩn mất"
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.someoneHere"
 msgstr "Có ai đó ở đây"
@@ -600,10 +568,6 @@ msgstr "Cả nhóm đã có mặt. Bạn ấy đã vào thẻ của mọi ngư�
 msgid "critters.legendary.emptyBody"
 msgstr "Chúng đến cùng những nơi chúng sống. Hãy xem lại sau lần cập nhật tới."
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.title"
-msgstr "Bạn này đã lẩn mất"
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Hôm nay, {time}"
@@ -620,14 +584,6 @@ msgstr "Hoàn tác"
 msgid "critters.dex.locked"
 msgstr "Một thổ địa chưa gặp ở {city}"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.body"
-msgstr "Mình chưa xác nhận được lần gặp đó nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
-
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.bodyAt"
-msgstr "Mình chưa xác nhận được lần gặp ở {place} nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderSet"
 msgstr "Chúng tôi sẽ nhắc bạn lúc {time}"
@@ -635,10 +591,6 @@ msgstr "Chúng tôi sẽ nhắc bạn lúc {time}"
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.welcome"
 msgstr "Chào mừng đến {place}"
-
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.where"
-msgstr "Ở đâu"
 
 #: ../../apps/mobile/src/features/critters/where/where-copy.ts
 msgid "critters.where.nearMap"
@@ -719,3 +671,215 @@ msgstr "Diện mạo hướng dẫn viên của bạn"
 #: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
 msgid "critters.dex.openProfile"
 msgstr "Hồ sơ của bạn"
+
+#. placeholder {0}: level.into
+#. placeholder {1}: level.need
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "critters.premium.quests.xpLabel"
+msgstr "{0} trên {1} XP. {unlock}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.header.eyebrow"
+msgstr "{crewName} · Cấp nhóm {lvl}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.beforeLine"
+msgstr "{name} sẽ viết những nhiệm vụ đầu tiên cho cả nhóm vào buổi sáng chuyến đi bắt đầu."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.writingLine"
+msgstr "{name} viết nhiệm vụ từ kế hoạch của nhóm mỗi sáng. Sắp có rồi."
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.eyebrowTierAt"
+msgstr "{tier} · {place}"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.eyebrowTier"
+msgstr "Dạng {tier}"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/here-now-card.tsx
+msgid "critters.premium.dex.formLabel"
+msgstr "{tier}: {line}"
+
+#. placeholder {0}: level.need
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "critters.premium.quests.ofXp"
+msgstr "/ {0} XP"
+
+#. placeholder {0}: props.no
+#. placeholder {1}: props.setName
+#: ../../apps/mobile/src/features/critters/premium/hatch/hatch-scene.tsx
+msgid "critters.premium.hatch.setTag"
+msgstr "#{0} trong bộ {1}"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/detail-parts.tsx
+msgid "critters.detail.alsoHas"
+msgstr "Cũng có"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-scene.tsx
+msgid "critters.premium.dex.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+#: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
+msgid "critters.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+#: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
+msgid "critters.premium.backToDex"
+msgstr "Quay lại Critterdex"
+
+#: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
+msgid "critters.premium.encounter.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.shareFailed"
+msgstr "Chưa mở được phần chia sẻ. Thử lại nhé?"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.header.levelOnly"
+msgstr "Cấp nhóm {lvl}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.title"
+msgstr "Nhiệm vụ nhóm"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.done"
+msgstr "Xong"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/detail-parts.tsx
+msgid "critters.detail.found"
+msgstr "Gặp lúc"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.go"
+msgstr "Đi"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.join"
+msgstr "Tôi tham gia"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.detail.missingLine"
+msgstr "Nó không có trên điện thoại này. Critterdex của bạn có mọi sinh vật bạn đã gặp."
+
+#: ../../apps/mobile/src/features/critters/premium/encounter/wandered-scene.tsx
+msgid "critters.premium.encounter.ghost"
+msgstr "Nó đã đi mất"
+
+#: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
+msgid "critters.premium.encounter.leave"
+msgstr "Để sau vậy"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "critters.premium.quests.legendary"
+msgstr "HUYỀN THOẠI"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.header.unlock"
+msgstr "Lên cấp {next} mở một sticker nhóm"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+#: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
+msgid "critters.loading"
+msgstr "Đang tải critter"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.missed"
+msgstr "Đã lỡ"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.nearest"
+msgstr "Gần nhất: {name}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.nearestAway"
+msgstr "Gần nhất: {name} · {away}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.overLine"
+msgstr "Chuyến này hết nhiệm vụ rồi. Cấp nhóm và sticker vẫn nằm trong pass của bạn."
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.ok"
+msgstr "OK"
+
+#. placeholder {0}: model.name ?? critter.set_name ?? ''
+#. placeholder {1}: model.foundCount
+#. placeholder {2}: model.forms.length
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.detail.formsLine"
+msgstr "Một {0}, bốn dạng · {1} trên {2}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.practise"
+msgstr "Tập nói"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.offline"
+msgstr "Tiến độ và phần thưởng sẽ cập nhật khi bạn có mạng lại."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.beforeTitle"
+msgstr "Nhiệm vụ bắt đầu từ ngày đầu tiên"
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.xp"
+msgstr "Thưởng · +{0} XP"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.critter"
+msgstr "Thưởng · critter huyền thoại"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.settled"
+msgstr "Thưởng · Tokek Sòng Phẳng"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.eyebrow"
+msgstr "Đã lẩn mất"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.how"
+msgstr "Nán lại gần đó khoảng 5 phút và mở CritterPass."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.overTitle"
+msgstr "Khép lại chuyến đi"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.detail.missingTitle"
+msgstr "Sinh vật này đã đi lang thang"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.title"
+msgstr "Bạn này đã lẩn mất"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.back"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.body"
+msgstr "Mình chưa xác nhận được lần gặp đó nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.bodyAt"
+msgstr "Mình chưa xác nhận được lần gặp ở {place} nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
+
+#: ../../apps/mobile/src/features/critters/premium/detail/detail-parts.tsx
+msgid "critters.detail.where"
+msgstr "Ở đâu"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.writingTitle"
+msgstr "Đang viết nhiệm vụ hôm nay"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.joined"
+msgstr "Bạn đã tham gia"

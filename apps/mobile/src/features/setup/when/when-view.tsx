@@ -94,15 +94,13 @@ export interface WhenActions {
   readonly onMarkByHand: () => void;
 }
 
-export function WhenView({
-  shell,
-  model,
-  actions,
-}: {
+export interface WhenViewProps {
   readonly shell: ShellFrame;
   readonly model: WhenModel;
   readonly actions: WhenActions;
-}) {
+}
+
+export function WhenView({ shell, model, actions }: WhenViewProps) {
   const locale = useLocale();
   const theme = useTheme();
   const tag =

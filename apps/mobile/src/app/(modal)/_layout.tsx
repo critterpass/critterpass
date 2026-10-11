@@ -1,11 +1,11 @@
 import { Stack } from 'expo-router/js-stack';
 
 import { modalGroupOptions } from '@/lib/navigation/transitions';
-import { GroupErrorBoundary } from '@/ui/shell/RootErrorBoundary';
+import { PremiumGroupErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionGate } from '@/ui/states/SessionGate';
 
 // A sheet that fails is contained here: the screen that opened it stays as it was.
-export { GroupErrorBoundary as ErrorBoundary };
+export { PremiumGroupErrorBoundary as ErrorBoundary };
 
 /**
  * Sheets and rise modals (screens owned by their areas). Each screen is a transparent card that

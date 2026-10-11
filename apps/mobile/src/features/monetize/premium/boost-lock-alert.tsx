@@ -1,7 +1,7 @@
 /**
  * Someone's already boosting (9.22): a crewmate holds the trip's boost right now. Nothing has been
- * charged; when their boost confirms, the boost's own push tells everyone on the trip, so "Tell me
- * when it's done" simply closes.
+ * charged. "Tell me when it's done" asks to hear how it ends: the boost's own push if they finish,
+ * the guide's "free to boost" if their lock lapses.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';

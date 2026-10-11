@@ -7,7 +7,7 @@
 import { tokens } from '@cp/design-tokens';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type ComponentType } from 'react';
 import { useWindowDimensions } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -35,7 +35,7 @@ import {
   spokenHour,
   allSwapsLabel,
 } from './rain-copy';
-import { RainView, type SwapRowView } from './rain-view';
+import { RainView, type RainViewProps, type SwapRowView } from './rain-view';
 import { useSwaps } from './use-swaps';
 
 const COLOURS = [
@@ -49,7 +49,16 @@ const BUSY_LEVEL = 70;
 
 const minuteOf = (clock: string) => Number(clock.slice(0, 2)) * 60 + Number(clock.slice(3, 5));
 
-export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonly dayId: string }) {
+export function RainScreen({
+  tripId,
+  dayId,
+  View: Look = RainView,
+}: {
+  readonly tripId: string;
+  readonly dayId: string;
+  /** How the swaps are drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<RainViewProps>;
+}) {
   const plan = useTripPlan(tripId);
   const guideName = usePlanGuide().name;
   const editor = useDayEditing(plan);
@@ -132,7 +141,7 @@ export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonl
   };
 
   return (
-    <RainView
+    <Look
       backLabel={date === null ? '' : dayTag(date)}
       onBack={() => goBackOr(checkRoutes.check(tripId))}
       chip={chip}

@@ -28,7 +28,7 @@ import { createPollCommand } from '../data/vote-commands';
 
 export type PollDeadline = 'none' | 'hour' | 'day' | 'days';
 
-const DEADLINE_MS: Readonly<Record<PollDeadline, number | null>> = {
+export const DEADLINE_MS: Readonly<Record<PollDeadline, number | null>> = {
   none: null,
   hour: 60 * 60 * 1000,
   day: 24 * 60 * 60 * 1000,

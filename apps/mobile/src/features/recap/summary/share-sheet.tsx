@@ -23,15 +23,13 @@ export interface RecapShareSheetProps {
   readonly moreActions?: ReactNode;
 }
 
-export function RecapShareSheet({
+/** The recap's share picture for any share sheet: how to draw it, the share actions, its words. */
+export function useRecapShareCard({
   model,
   guide,
   unit,
-  onClose,
-  moreActions,
-}: RecapShareSheetProps) {
+}: Pick<RecapShareSheetProps, 'model' | 'guide' | 'unit'>) {
   const locale = useLocale();
-  const { t } = useLingui();
   const lines = useMemo(() => headerTitle(model).split('\n'), [model]);
   const eyebrow = headerEyebrow(model, locale);
   const render = useMemo(() => {
@@ -44,12 +42,24 @@ export function RecapShareSheet({
     return (format: ShareFormat) => renderRecapCard(card, format);
   }, [guide, lines, eyebrow, model.tiles, locale, unit]);
   const deps = useMemo(() => deviceShareDeps(), []);
+  return { render, deps, altText: `${lines.join(' ')}, ${eyebrow}` };
+}
+
+export function RecapShareSheet({
+  model,
+  guide,
+  unit,
+  onClose,
+  moreActions,
+}: RecapShareSheetProps) {
+  const { t } = useLingui();
+  const share = useRecapShareCard({ model, guide, unit });
   return (
     <ShareSheet
       title={t({ id: 'recap.share.title', message: 'Share the recap' })}
-      altText={`${lines.join(' ')}, ${eyebrow}`}
-      render={render}
-      deps={deps}
+      altText={share.altText}
+      render={share.render}
+      deps={share.deps}
       testID="recap-share"
       onClose={onClose}
       moreActions={moreActions}

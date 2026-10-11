@@ -96,7 +96,7 @@ function InboxContent({ title, back }: { readonly title: string; readonly back: 
                 { value: 'all', label: t({ id: 'home.inbox.all', message: 'All' }) },
                 {
                   value: 'needs_you',
-                  label: t({ id: 'home.inbox.needsYou', message: `Needs you · ${needs}` }),
+                  label: t({ id: 'home.premium.inbox.needsYou', message: `Needs you · ${needs}` }),
                   weight: 1.4,
                 },
                 { value: 'crew', label: t({ id: 'home.inbox.crew', message: 'Crew' }) },

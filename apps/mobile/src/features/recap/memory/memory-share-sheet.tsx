@@ -33,7 +33,8 @@ export interface MemoryShareSheetProps {
   readonly onClose: () => void;
 }
 
-export function MemoryShareSheet(props: MemoryShareSheetProps) {
+/** The memory's share picture for any share sheet: how to draw it, the phone's share actions, its words. */
+export function useMemoryShare(props: Omit<MemoryShareSheetProps, 'onClose'>) {
   const { guideKind, eyebrow, title, body, photoUrl } = props;
   const deps = useMemo(() => deviceShareDeps(), []);
   // The signers arrive as a fresh list on every render of the screen; the picture is only drawn
@@ -68,11 +69,16 @@ export function MemoryShareSheet(props: MemoryShareSheetProps) {
     },
     [guideKind, eyebrow, title, body, photoUrl, signers],
   );
+  return { render, deps, altText: `${title}. ${body}` };
+}
+
+export function MemoryShareSheet(props: MemoryShareSheetProps) {
+  const share = useMemoryShare(props);
   return (
     <ShareSheet
-      altText={`${title}. ${body}`}
-      render={render}
-      deps={deps}
+      altText={share.altText}
+      render={share.render}
+      deps={share.deps}
       onClose={props.onClose}
       testID="memory-share"
     />

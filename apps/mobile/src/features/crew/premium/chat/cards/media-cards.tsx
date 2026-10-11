@@ -11,10 +11,10 @@ import { Icon, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '
 
 import type { ChatMessage } from '../../../chat/data/rows';
 import { useChatMedia } from '../../../chat/media/media-services';
-import { PhotoViewer } from '../../../chat/media/photo-message';
 import { useReadUrl } from '../../../chat/media/read-urls';
 import { useVoicePlayback } from '../../../chat/media/voice-playback';
 import { bars, clock } from '../../../chat/media/voice-message';
+import { PremiumPhotoViewer } from './photo-viewer';
 
 const PHOTO_SHARE = 0.66;
 const GAP = 4;
@@ -103,7 +103,7 @@ export function PhotoCard({
       </View>
       {message.body === '' ? null : <Text variant="body">{message.body}</Text>}
       {open === null ? null : (
-        <PhotoViewer
+        <PremiumPhotoViewer
           keys={photos.map((photo) => photo.media_key)}
           openKey={open}
           caption={message.body}

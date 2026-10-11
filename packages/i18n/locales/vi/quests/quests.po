@@ -34,17 +34,9 @@ msgstr "{name} sẽ viết những nhiệm vụ đầu tiên cho cả nhóm vào
 msgid "quests.empty.writingLine"
 msgstr "{name} viết nhiệm vụ từ kế hoạch của nhóm mỗi sáng. Sắp có rồi."
 
-#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
-msgid "quests.levelUp.line"
-msgstr "Một sticker nhóm mới đã vào pass của bạn."
-
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.allDone"
 msgstr "Xong hết"
-
-#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
-msgid "quests.levelUp.title"
-msgstr "Nhóm lên cấp {level}!"
 
 #: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
 msgid "quests.header.levelOnly"
@@ -150,3 +142,11 @@ msgstr "Đang viết nhiệm vụ hôm nay"
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.joined"
 msgstr "Bạn đã tham gia"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.line"
+msgstr "Một sticker nhóm mới đã vào pass của bạn."
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.title"
+msgstr "Nhóm lên cấp {level}!"

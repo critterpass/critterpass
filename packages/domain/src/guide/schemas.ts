@@ -59,6 +59,10 @@ export const rateGuideAnswerPayloadSchema = z.strictObject({
   note: z.string().trim().max(500).optional(),
 });
 
+/** "Ping me": push the caller when the thread's next answer lands (they are leaving the guide). */
+export const pingGuideAnswerPayloadSchema = z.strictObject({ thread_id: z.uuid() });
+export type PingGuideAnswerPayload = z.infer<typeof pingGuideAnswerPayloadSchema>;
+
 export const PHRASE_REGISTERS = ['casual', 'polite', 'formal'] as const;
 
 export const requestPhraseCardPayloadSchema = z.strictObject({

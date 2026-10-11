@@ -68,6 +68,7 @@ const SAMPLE_ARGUMENTS: {
   settingsLink: [[]],
   membershipLink: [[]],
   firstTripEndingLink: [[TRIP]],
+  tripBoostLink: [[TRIP]],
   mailboxConnectedLink: [
     ['gmail', AUTHORIZED],
     ['outlook', { status: 'denied' }],

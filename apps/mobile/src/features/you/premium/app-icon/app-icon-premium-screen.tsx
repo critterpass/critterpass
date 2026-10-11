@@ -279,7 +279,7 @@ export function AppIconPremiumScreen() {
               </Text>
               <Text variant="label" tone="muted">
                 {t({
-                  id: 'you.appIcon.earnedCount',
+                  id: 'you.premium.appIcon.earnedCount',
                   message: `${model.earnedUnlocked} of ${model.earned.length}`,
                 })}
               </Text>

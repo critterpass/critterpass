@@ -6,6 +6,7 @@
  */
 import { upper } from '@cp/i18n';
 import { router } from 'expo-router';
+import type { ComponentType } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -83,12 +84,17 @@ export function EncounterBanner({ banner }: { readonly banner: EncounterBannerMo
 }
 
 /** The banner over the session's encounter; nothing while none is under way. */
-export function LiveEncounterBanner() {
+export function LiveEncounterBanner({
+  Banner = EncounterBanner,
+}: {
+  /** The banner's look (the premium Critterdex passes its own). */
+  readonly Banner?: ComponentType<{ readonly banner: EncounterBannerModel }>;
+} = {}) {
   const { snapshot } = useEncounter();
   const encounterId = snapshot.encounterId;
   if (!LIVE.has(snapshot.phase) || encounterId === null) return null;
   return (
-    <EncounterBanner
+    <Banner
       banner={{
         place: snapshot.candidate?.spot.name ?? '',
         progress: snapshot.progress,

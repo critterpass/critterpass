@@ -1,3 +1,5 @@
+import { Children } from 'react';
+import type { ReactNode } from 'react';
 import { Text as RNText } from 'react-native';
 import type { TextProps as RNTextProps, TextStyle } from 'react-native';
 
@@ -6,6 +8,8 @@ import type { PremiumPalette, PremiumTypeName, PremiumTypeStyle } from '@cp/desi
 import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useThemeSettings } from '@/lib/theme';
+import { textLayoutProblems } from '@/ui/qa/text-layout-check';
+import { reportUiQa, UI_QA_ENABLED } from '@/ui/qa/ui-qa';
 
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 
@@ -23,6 +27,39 @@ export interface PremiumTextProps extends Omit<RNTextProps, 'allowFontScaling'> 
   /** A colour from the theme that is not a named tone (status tints, accents). */
   readonly color?: string | undefined;
   readonly align?: TextStyle['textAlign'];
+  /**
+   * The design sets this text on one line, so a second line at the default text size is reported
+   * as a layout bug. On by default for control labels; `false` for a label the design sets on two
+   * lines.
+   */
+  readonly singleLine?: boolean;
+}
+
+/** Labels set inside a control (button, pill, segment, tag, badge): one line by design. */
+const ONE_LINE_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>([
+  'button',
+  'buttonSmall',
+  'textButton',
+  'glassTitle',
+  'segment',
+  'pillSmall',
+  'badge',
+  'toastAction',
+  'bannerAction',
+  'noteAction',
+  'placeTag',
+  'tier',
+]);
+
+/** The children as one string, or `null` when they hold elements (nested styled spans). */
+function plainText(children: ReactNode): string | null {
+  const parts: string[] = [];
+  let plain = true;
+  Children.forEach(children, (child) => {
+    if (typeof child === 'string' || typeof child === 'number') parts.push(String(child));
+    else if (child !== null && child !== undefined && typeof child !== 'boolean') plain = false;
+  });
+  return plain ? parts.join('') : null;
 }
 
 /** Font face for a type style; the guide's Borel and the mono face fall back by script. */
@@ -59,12 +96,14 @@ export function Text({
   tone = 'ink',
   color,
   align,
+  singleLine,
   style,
+  onTextLayout,
   ...rest
 }: PremiumTextProps) {
   const theme = usePremiumTheme();
   const locale = useLocale();
-  const { plainGuideText } = useThemeSettings();
+  const { plainGuideText, fontScale } = useThemeSettings();
   const token = theme.type[variant];
   const font = premiumFont(token, locale, plainGuideText);
 
@@ -84,6 +123,24 @@ export function Text({
         align === undefined ? null : { textAlign: align },
         style,
       ]}
+      onTextLayout={(event) => {
+        const text = UI_QA_ENABLED ? plainText(rest.children) : null;
+        if (text !== null) {
+          const oneLine = singleLine ?? ONE_LINE_VARIANTS.has(variant);
+          const problems = textLayoutProblems({
+            lines: event.nativeEvent.lines,
+            text,
+            // A caller's line limit makes its ellipsis intended, except on a control label: a
+            // button or pill that cuts its own label is clipped, whatever the limit says.
+            truncationIsBug: rest.numberOfLines === undefined || oneLine,
+            lineLimited: rest.numberOfLines !== undefined,
+            // Larger text sizes wrap labels by design (Dynamic Type).
+            singleLine: oneLine && fontScale <= 1,
+          });
+          for (const code of problems) reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
+        }
+        onTextLayout?.(event);
+      }}
     />
   );
 }

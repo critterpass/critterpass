@@ -23,8 +23,6 @@ import { useCommandFeedback } from '@/motion/island-toast';
 import { music } from '@/motion/music';
 import { guideColour, guideIdOr, guidesOfSameCountry, guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { ScreenLoading } from '@/ui/states/ScreenLoading';
-import { ScreenMissing } from '@/ui/states/ScreenMissing';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import {
@@ -35,15 +33,12 @@ import {
 } from '../commands';
 import { useLiveRows } from '../data/live-rows';
 import { recapRoutes } from '../routes';
-import { SignatureSheet } from '../signature/signature-sheet';
-import { MvpSheet } from './mvp-sheet';
 import { awardTitle } from '../summary/award-copy';
 import { buildStoryCards } from './story-cards';
 import { storySubtitle, themeName } from './story-copy';
-import { StoryFooter } from './story-footer';
+import { CURRENT_LOOK, type StoryLook } from './story-look';
 import { storySession } from './story-session';
 import { storySummary } from './story-summary';
-import { StoryView } from './story-view';
 import { useAppActive } from './use-app-active';
 import { useRecapChannel } from './use-recap-channel';
 import { useStoryData } from './use-story-data';
@@ -67,7 +62,15 @@ function HardwareBack({ onBack }: { readonly onBack: () => void }) {
   return null;
 }
 
-function RecapStory({ tripId, replay }: { readonly tripId: string; readonly replay: boolean }) {
+function RecapStory({
+  tripId,
+  replay,
+  look,
+}: {
+  readonly tripId: string;
+  readonly replay: boolean;
+  readonly look: StoryLook;
+}) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const locale = useLocale();
@@ -121,34 +124,18 @@ function RecapStory({ tripId, replay }: { readonly tripId: string; readonly repl
         locale,
         unit,
         canSign,
+        ...(look.cards === undefined ? {} : { views: look.cards }),
       }),
-    [data, summary, live, guide, locale, unit, canSign],
+    [data, summary, live, guide, locale, unit, canSign, look.cards],
   );
 
   const summaryHref = recapRoutes.summary(tripId);
-  const backLabel = t({ id: 'recap.story.back', message: 'Recap' });
   if (data.recapId === null || cards.length === 0) {
-    return data.loaded ? (
-      <ScreenMissing
-        backLabel={backLabel}
-        fallback={summaryHref}
-        title={t({ id: 'recap.story.notReady.title', message: 'The story isn’t ready yet' })}
-        line={t({
-          id: 'recap.story.notReady.line',
-          message: 'The recap is still being put together. Its page shows where it is.',
-        })}
-        action={{
-          label: t({ id: 'recap.story.notReady.action', message: 'Open the recap' }),
-          onPress: () => (replay ? goBackOr(summaryHref) : router.replace(summaryHref)),
-        }}
-        testID="recap-story-missing"
-      />
-    ) : (
-      <ScreenLoading
-        backLabel={backLabel}
-        fallback={summaryHref}
-        label={t({ id: 'recap.story.loading', message: 'Loading the story' })}
-        testID="recap-story-waiting"
+    return (
+      <look.Absent
+        loaded={data.loaded}
+        summaryHref={summaryHref}
+        onOpenRecap={() => (replay ? goBackOr(summaryHref) : router.replace(summaryHref))}
       />
     );
   }
@@ -186,7 +173,7 @@ function RecapStory({ tripId, replay }: { readonly tripId: string; readonly repl
   return (
     <>
       <HardwareBack onBack={close} />
-      <StoryView
+      <look.View
         guide={guide}
         guideName={guideName}
         subtitle={storySubtitle(data.trip?.place ?? null, theme)}
@@ -198,7 +185,7 @@ function RecapStory({ tripId, replay }: { readonly tripId: string; readonly repl
         onFinished={complete}
         held={sheet !== null}
         footerFor={(card) => (
-          <StoryFooter
+          <look.Footer
             card={card}
             canVote={choices.length > 1}
             canRemind={data.gotAwayWindow !== null}
@@ -217,7 +204,7 @@ function RecapStory({ tripId, replay }: { readonly tripId: string; readonly repl
         )}
       />
       {sheet === 'mvp' ? (
-        <MvpSheet
+        <look.Mvp
           choices={choices}
           myVote={data.myVote}
           closed={closed}
@@ -230,7 +217,7 @@ function RecapStory({ tripId, replay }: { readonly tripId: string; readonly repl
         />
       ) : null}
       {sheet === 'signature' ? (
-        <SignatureSheet
+        <look.Signature
           name={
             data.travellers.find((person) => person.userId === data.viewerId)?.name ??
             t({ id: 'recap.signature.me', message: 'Me' })
@@ -252,12 +239,14 @@ function RecapStory({ tripId, replay }: { readonly tripId: string; readonly repl
 export function RecapStoryScreen({
   tripId,
   replay = false,
+  look = CURRENT_LOOK,
 }: {
   readonly tripId: string;
   /** Opened from the recap page, which is still underneath. */
   readonly replay?: boolean;
+  readonly look?: StoryLook;
 }) {
   const localFirst = useContext(LocalFirstContext);
   if (localFirst === null) return <SessionWaiting testID="recap-story-waiting" />;
-  return <RecapStory tripId={tripId} replay={replay} />;
+  return <RecapStory tripId={tripId} replay={replay} look={look} />;
 }

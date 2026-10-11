@@ -33,21 +33,20 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-export function SoloConfirm({
+/**
+ * Starting a solo trip, for either look: online, setup opens once the server has made the trip (a
+ * refusal says why); offline it opens at once and fills in when the trip lands.
+ */
+export function useSoloStart({
   placeId,
   placeName,
-  guideName,
   crewId,
-  onCancel,
 }: {
   readonly placeId: string;
   readonly placeName: string;
-  readonly guideName: string;
   readonly crewId: string | undefined;
-  readonly onCancel: () => void;
 }) {
-  const styles = useStyles();
-  const { t, i18n } = useLingui();
+  const { t } = useLingui();
   const create = useCommand(createTripCommand);
   const syncPhase = useSyncPhase();
   const [waiting, setWaiting] = useState<{ opId: string; tripId: string } | null>(null);
@@ -108,6 +107,25 @@ export function SoloConfirm({
     else if (result.kind === 'queued') setWaiting({ opId: result.opId, tripId });
     else if (result.kind === 'applied') open(tripId);
   };
+  return { start, busy };
+}
+
+export function SoloConfirm({
+  placeId,
+  placeName,
+  guideName,
+  crewId,
+  onCancel,
+}: {
+  readonly placeId: string;
+  readonly placeName: string;
+  readonly guideName: string;
+  readonly crewId: string | undefined;
+  readonly onCancel: () => void;
+}) {
+  const styles = useStyles();
+  const { t, i18n } = useLingui();
+  const { start, busy } = useSoloStart({ placeId, placeName, crewId });
   return (
     <Stack style={styles.card} testID="solo-confirm">
       <Text variant="h3">

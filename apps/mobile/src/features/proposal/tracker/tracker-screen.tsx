@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -41,14 +41,21 @@ import { proposalRoutes } from '../routes';
 import { ConfirmedCard } from './confirmed-card';
 import { lockState, publicStatus, tally } from './model';
 import { Suggestions } from './suggestions';
-import { TrackerView } from './tracker-view';
+import { TrackerView, type TrackerViewProps } from './tracker-view';
 
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 const DROPOUTS_SQL = 'SELECT user_id FROM trip_dropouts WHERE trip_id = ? AND resolved_at IS NULL';
 const CAP_SQL = 'SELECT seat_cap FROM trip_entitlements WHERE trip_id = ?';
 /* eslint-enable lingui/no-unlocalized-strings */
 
-export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
+export function TrackerScreen({
+  proposalId,
+  View = TrackerView,
+}: {
+  readonly proposalId: string;
+  /** How the tracker is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<TrackerViewProps>;
+}) {
   const proposal = useProposal(proposalId);
   useFindProposalTrip(proposal);
   const tripId = proposal?.tripId ?? null;
@@ -114,7 +121,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   };
   return (
     <>
-      <TrackerView
+      <View
         back={trackerBack(trip)}
         chip={trackerChip(locale, status === 'locked', proposal.freeCancelUntil, proposal.replyBy)}
         rows={trip.people.map((p) => ({

@@ -5,7 +5,7 @@
  * gives the redraft back, as does one that failed or could not beat the day.
  */
 import { t } from '@lingui/core/macro';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -32,7 +32,7 @@ import { useRedraft } from '../data/use-redraft';
 import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
 import { putBackToast } from './outcome-copy';
-import { RedraftDiffView } from './redraft-diff-view';
+import { RedraftDiffView, type RedraftDiffViewProps } from './redraft-diff-view';
 
 /** The guide's thinking beat lasts at least this long, however fast the job was. */
 export const THINKING_BEAT_MS = 900;
@@ -45,7 +45,15 @@ export interface RedraftDiffScreenProps {
   readonly day: number | null;
 }
 
-export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenProps) {
+export function RedraftDiffScreen({
+  tripId,
+  redraftId,
+  day,
+  View = RedraftDiffView,
+}: RedraftDiffScreenProps & {
+  /** How the redraft is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<RedraftDiffViewProps>;
+}) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const redraft = useRedraft(tripId, redraftId);
@@ -136,7 +144,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
     back();
   };
   return (
-    <RedraftDiffView
+    <View
       guide={trip.guide}
       takenOut={gone}
       locale={locale}

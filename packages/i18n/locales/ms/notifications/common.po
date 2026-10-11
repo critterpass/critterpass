@@ -868,3 +868,11 @@ msgstr ""
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.done_title"
 msgstr ""
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.title"
+msgstr ""
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.body"
+msgstr ""

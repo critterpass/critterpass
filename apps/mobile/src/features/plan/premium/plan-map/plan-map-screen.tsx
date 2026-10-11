@@ -19,13 +19,15 @@ import { GuideNote, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premiu
 import { tripCheckLine, peekCheckLine } from '../../trip-map/sheet-copy';
 import { useOpenOnDate } from '../../trip-map/chosen-day';
 import { ShareSheet } from '../../trip-map/share-sheet';
-import { PlanRouteLayer, PremiumMapCanvas, StayFlag, type MapDetent } from '../map';
+import { addRoute } from '../../add/routes';
+import { PlanRouteLayer, PremiumMapCanvas, sheetHeight, StayFlag, type MapDetent } from '../map';
 import { AddBar } from './add-bar';
 import { planMapCopy } from './copy';
 import { DayChips } from './day-chips';
 import { DayHead } from './day-head';
 import { EmptyPlan } from './empty-plan';
 import { framePoints, mapDays } from './map-days';
+import { nearestFirst, PlaceCarousel } from './place-carousel';
 import { PlacesLayer } from './places-layer';
 import { PlanMapSheet } from './plan-map-sheet';
 import { PlanMoreMenu } from './plan-more-menu';
@@ -58,6 +60,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
   const [menu, setMenu] = useState<number | null>(null);
   const [stopMenu, setStopMenu] = useState<string | null>(null);
   const [sharing, setSharing] = useState(false);
+  const [picked, setPicked] = useState<string | null>(null);
   const guide = guideSticker(model.guide.id);
   const search = useScreenHref('7d-1', {
     tripId,
@@ -123,14 +126,9 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         destinationSlug={model.destinationSlug}
         localRegionUri={model.regionUri}
         still={detent === 'full'}
+        onPressMap={() => setPicked(null)}
       >
-        <PlacesLayer
-          places={layer.places}
-          onPick={(placeId) => {
-            const place = hrefFor('7e-1', { placeId, tripId });
-            if (place !== undefined) router.push(place);
-          }}
-        />
+        <PlacesLayer places={layer.places} onPick={setPicked} />
         <PlanRouteLayer
           days={days}
           chosenDayNo={chosenDayNo}
@@ -247,6 +245,17 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           />
         </View>
       ) : null}
+      {picked === null || detent === 'full' ? null : (
+        <PlaceCarousel
+          places={nearestFirst(layer.places, picked)}
+          bottom={sheetHeight(detent, height) + 12}
+          onOpen={(placeId) => {
+            const place = hrefFor('7e-1', { placeId, tripId });
+            if (place !== undefined) router.push(place);
+          }}
+          onAdd={model.readOnly ? null : (placeId) => router.push(addRoute(tripId, placeId))}
+        />
+      )}
       {menu === null ? null : (
         <PlanMoreMenu
           tripId={tripId}

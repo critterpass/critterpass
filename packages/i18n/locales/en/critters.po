@@ -122,20 +122,12 @@ msgstr "{place} is going quiet"
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.eyebrowTierAt"
-msgstr "{tier} · {place}"
-
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.shareLine"
 msgstr "{tier} · found in {city}"
 
 #: ../../apps/mobile/src/features/critters/where/where-copy.ts
 msgid "critters.where.eyebrow"
-msgstr "{tier} form"
-
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.eyebrowTier"
 msgstr "{tier} form"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -190,17 +182,9 @@ msgstr "All"
 msgid "critters.where.allFound"
 msgstr "All found"
 
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.alsoHas"
-msgstr "Also has it"
-
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.any"
 msgstr "Any"
-
-#: ../../apps/mobile/src/features/critters/critters-copy.ts
-msgid "critters.back"
-msgstr "Back"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
@@ -324,10 +308,6 @@ msgid "critters.dex.filterFound"
 msgstr "Found"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.found"
-msgstr "Found"
-
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.guideNotes"
 msgstr "From {guideName}'s field notes"
 
@@ -420,10 +400,6 @@ msgstr "Legendary"
 msgid "critters.dex.legendaryOnDates"
 msgstr "Legendary on your dates"
 
-#: ../../apps/mobile/src/features/critters/critters-copy.ts
-msgid "critters.loading"
-msgstr "Loading the critter"
-
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.loadingSet"
 msgstr "Loading the set"
@@ -504,10 +480,6 @@ msgstr "Notifications are off, so reminders will wait in your inbox."
 msgid "critters.encounter.reminderDenied"
 msgstr "Notifications are off, so we can’t nudge you. Turn them on in Settings."
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.ok"
-msgstr "OK"
-
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.onOneDay"
 msgstr "On one day"
@@ -564,10 +536,6 @@ msgstr "Share with the crew"
 msgid "critters.hatch.later"
 msgstr "Show me around later"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.eyebrow"
-msgstr "Slipped away"
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.someoneHere"
 msgstr "Someone is here"
@@ -600,10 +568,6 @@ msgstr "The whole crew was there. It’s on everyone’s pass."
 msgid "critters.legendary.emptyBody"
 msgstr "They arrive with the places they live in. Check back after your next update."
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.title"
-msgstr "This one slipped away"
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Today, {time}"
@@ -620,14 +584,6 @@ msgstr "Undo"
 msgid "critters.dex.locked"
 msgstr "Unknown local at {city}"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.body"
-msgstr "We couldn't confirm that find, so it didn't stay. Come back and try again."
-
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
-msgid "critters.slipped.bodyAt"
-msgstr "We couldn't confirm the find at {place}, so it didn't stay. Come back and try again."
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderSet"
 msgstr "We'll nudge you at {time}"
@@ -635,10 +591,6 @@ msgstr "We'll nudge you at {time}"
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.welcome"
 msgstr "Welcome to {place}"
-
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.where"
-msgstr "Where"
 
 #: ../../apps/mobile/src/features/critters/where/where-copy.ts
 msgid "critters.where.nearMap"
@@ -719,3 +671,215 @@ msgstr "Your guide's look"
 #: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
 msgid "critters.dex.openProfile"
 msgstr "Your profile"
+
+#. placeholder {0}: level.into
+#. placeholder {1}: level.need
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "critters.premium.quests.xpLabel"
+msgstr "{0} of {1} XP. {unlock}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.header.eyebrow"
+msgstr "{crewName} · Crew lvl {lvl}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.beforeLine"
+msgstr "{name} writes the crew's first quests the morning your trip starts."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.writingLine"
+msgstr "{name} writes them from your plan every morning. They'll be here soon."
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.eyebrowTierAt"
+msgstr "{tier} · {place}"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.eyebrowTier"
+msgstr "{tier} form"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/here-now-card.tsx
+msgid "critters.premium.dex.formLabel"
+msgstr "{tier}: {line}"
+
+#. placeholder {0}: level.need
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "critters.premium.quests.ofXp"
+msgstr "/ {0} XP"
+
+#. placeholder {0}: props.no
+#. placeholder {1}: props.setName
+#: ../../apps/mobile/src/features/critters/premium/hatch/hatch-scene.tsx
+msgid "critters.premium.hatch.setTag"
+msgstr "#{0} in the {1} set"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/detail-parts.tsx
+msgid "critters.detail.alsoHas"
+msgstr "Also has it"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-scene.tsx
+msgid "critters.premium.dex.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+#: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
+msgid "critters.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+#: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
+msgid "critters.premium.backToDex"
+msgstr "Back to the Critterdex"
+
+#: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
+msgid "critters.premium.encounter.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.shareFailed"
+msgstr "Couldn't open sharing. Try again?"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.header.levelOnly"
+msgstr "Crew lvl {lvl}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.title"
+msgstr "Crew quests"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/detail-parts.tsx
+msgid "critters.detail.found"
+msgstr "Found"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.go"
+msgstr "Go"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.join"
+msgstr "I'm in"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.detail.missingLine"
+msgstr "It isn't on this phone. Your Critterdex has every one you've met."
+
+#: ../../apps/mobile/src/features/critters/premium/encounter/wandered-scene.tsx
+msgid "critters.premium.encounter.ghost"
+msgstr "It wandered off"
+
+#: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
+msgid "critters.premium.encounter.leave"
+msgstr "Leave it for now"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "critters.premium.quests.legendary"
+msgstr "LEGENDARY"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.header.unlock"
+msgstr "Level {next} unlocks a crew sticker"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+#: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
+msgid "critters.loading"
+msgstr "Loading the critter"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.missed"
+msgstr "Missed"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.nearest"
+msgstr "Nearest: {name}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.nearestAway"
+msgstr "Nearest: {name} · {away}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.overLine"
+msgstr "No more quests on this trip. Your crew level and stickers stay on your pass."
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.ok"
+msgstr "OK"
+
+#. placeholder {0}: model.name ?? critter.set_name ?? ''
+#. placeholder {1}: model.foundCount
+#. placeholder {2}: model.forms.length
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.detail.formsLine"
+msgstr "One {0}, four ways · {1} of {2}"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.practise"
+msgstr "Practise"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.offline"
+msgstr "Progress and rewards land when you're back online."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.beforeTitle"
+msgstr "Quests start on day one"
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.xp"
+msgstr "Reward · +{0} XP"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.critter"
+msgstr "Reward · legendary critter"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.settled"
+msgstr "Reward · Settled Tokek"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.eyebrow"
+msgstr "Slipped away"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.befriend.how"
+msgstr "Stay about 5 minutes nearby with CritterPass open."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.overTitle"
+msgstr "That's a wrap"
+
+#: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
+msgid "critters.premium.detail.missingTitle"
+msgstr "This critter has wandered"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.title"
+msgstr "This one slipped away"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.back"
+msgstr "Trip"
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.body"
+msgstr "We couldn't confirm that find, so it didn't stay. Come back and try again."
+
+#: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
+msgid "critters.slipped.bodyAt"
+msgstr "We couldn't confirm the find at {place}, so it didn't stay. Come back and try again."
+
+#: ../../apps/mobile/src/features/critters/premium/detail/detail-parts.tsx
+msgid "critters.detail.where"
+msgstr "Where"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
+msgid "quests.empty.writingTitle"
+msgstr "Writing today's quests"
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.card.joined"
+msgstr "You're in"

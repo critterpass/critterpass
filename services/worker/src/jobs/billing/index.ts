@@ -14,6 +14,7 @@ import { registerBoostPush } from './boost-push';
 import { createBillingDoor, type BillingDoor } from './door-client';
 import { ftfEndingJob, registerFtfEndingPush } from './ftf-ending';
 import { intentExpiryJob } from './intent-expiry';
+import { registerLockFreedPush } from './lock-freed-push';
 import { pauseRemindJob, registerPauseReminderPush } from './pause-remind';
 import { billingReconcileJob } from './reconcile';
 
@@ -47,6 +48,7 @@ export function billingJobs(
   const parsed = envSchema.parse(env);
   registerPauseReminderPush();
   registerBoostPush();
+  registerLockFreedPush();
   registerFtfEndingPush();
   if (parsed.API_INTERNAL_URL === undefined || parsed.BILLING_INTERNAL_SECRET === undefined) {
     logger.warn('Billing jobs are off: API_INTERNAL_URL or BILLING_INTERNAL_SECRET is unset');

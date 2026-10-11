@@ -38,7 +38,7 @@ import {
   withVoiceConsent,
   type VoiceConsentGuard,
 } from './voice-consent';
-import { VoiceGate } from './voice-consent-view';
+import { VoiceGate, type VoiceConsentViewProps } from './voice-consent-view';
 import { useVoiceTarget, voiceTurnRequest } from './voice-target';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
 import { VOICE_STICKER_SIZE } from './voice-stage';
@@ -93,6 +93,8 @@ export interface VoiceScreenProps {
   readonly talkOnOpen?: boolean;
   /** The view that draws voice mode (the premium one takes the same props). */
   readonly View?: ComponentType<VoiceViewProps>;
+  /** The view that asks for the voice consent first. */
+  readonly Consent?: ComponentType<VoiceConsentViewProps>;
 }
 
 export function VoiceScreen(props: VoiceScreenProps) {
@@ -114,6 +116,8 @@ function ConsentedVoiceScreen(props: VoiceScreenProps) {
       status={consent.status}
       guideName={context.guideName}
       sticker={<Sticker kind={sticker.kind} name={sticker.name} size={96} />}
+      guideKind={sticker.kind}
+      {...(props.Consent === undefined ? {} : { Consent: props.Consent })}
       onAgree={consent.agree}
       onType={() => router.back()}
     >

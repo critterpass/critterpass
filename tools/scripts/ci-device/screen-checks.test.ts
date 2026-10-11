@@ -1,10 +1,10 @@
-import { copyFileSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { copyFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { decodePng, type RgbaImage } from './png';
+import type { RgbaImage } from './png';
 import {
   checkScreen,
   findEmptyScreen,
@@ -13,37 +13,10 @@ import {
   keyboardTop,
   type Rgb,
 } from './screen-checks';
-import { appBackground, premiumGrounds, scanScreenshots } from './screen-scan';
+import { scanScreenshots } from './screen-scan';
+import { BG, blank, busyScreen, copy, FIXTURES, load, paint } from './screen-test-images';
 
-// Founder device screenshots and one CI simulator capture (downscaled; reviewer marks painted out
-// where they crossed an edge).
-const FIXTURES = path.join(import.meta.dirname, '__fixtures__/screens');
-const load = (name: string) => decodePng(readFileSync(path.join(FIXTURES, `${name}.png`)));
-const BG = appBackground();
 const codes = (image: RgbaImage) => checkScreen(image, { background: BG }).map((f) => f.code);
-
-function blank(width: number, height: number, colour: Rgb): RgbaImage {
-  const data = new Uint8Array(width * height * 4);
-  for (let i = 0; i < width * height; i += 1) data.set([...colour, 255], i * 4);
-  return { width, height, data };
-}
-
-function paint(image: RgbaImage, x0: number, y0: number, x1: number, y1: number, c: Rgb): void {
-  for (let y = Math.round(y0); y < Math.round(y1); y += 1)
-    for (let x = Math.round(x0); x < Math.round(x1); x += 1)
-      image.data.set([...c], (y * image.width + x) * 4);
-}
-
-function copy(image: RgbaImage): RgbaImage {
-  return { ...image, data: new Uint8Array(image.data) };
-}
-
-/** A synthetic screen: text-like lines down the whole height on the app background. */
-function busyScreen(): RgbaImage {
-  const image = blank(400, 860, BG);
-  for (let y = 80; y < 820; y += 24) paint(image, 30, y, 300, y + 12, [240, 235, 220]);
-  return image;
-}
 
 describe('screen checks', { timeout: 60_000 }, () => {
   it('reads the app background from the design tokens', () => {
@@ -102,72 +75,6 @@ describe('screen checks', { timeout: 60_000 }, () => {
       paint(framed, 0, 0, 20, 860, [31, 27, 56]);
       paint(framed, 380, 0, 400, 860, [31, 27, 56]);
       expect(findFrame(framed, { background: BG })?.code).toBe('SCREEN_FRAME');
-    });
-
-    it('judges a premium screen by its own ground, and still finds a frame around it', () => {
-      const grounds = premiumGrounds();
-      expect(grounds).toEqual([
-        [
-          [0xf5, 0xf5, 0xf7],
-          [0xff, 0xff, 0xff],
-        ],
-        [
-          [0x0e, 0x0f, 0x13],
-          [0x1c, 0x1d, 0x24],
-        ],
-      ]);
-      const options = { background: BG, premiumGrounds: grounds };
-      // The light screen framed by the current UI's ground; the dark one by black (the current
-      // ground is within a shade of the dark card, so it reads as that card).
-      const frames: Rgb[] = [BG, [0, 0, 0]];
-      for (const [index, [ground, card]] of (grounds as [Rgb, Rgb][]).entries()) {
-        // Cards set in by the 16 pt gutter (48 px on a 3x capture) on the premium ground.
-        const screen = blank(400, 860, ground);
-        for (let y = 90; y < 820; y += 70) paint(screen, 16, y, 384, y + 60, card);
-        expect(findFrame(screen, options)).toBeNull();
-        const framed = copy(screen);
-        const frame = frames[index] ?? BG;
-        paint(framed, 0, 0, 14, 860, frame);
-        paint(framed, 386, 0, 400, 860, frame);
-        expect(findFrame(framed, options)?.detail).toContain('14px');
-      }
-    });
-
-    it('judges the current UI the same when the premium grounds are known', () => {
-      const options = { background: BG, premiumGrounds: premiumGrounds() };
-      for (const name of [
-        'inbox',
-        'home-board',
-        'vote-showdown-half',
-        'pitch-search-keyboard',
-        'frame-sheet-over-chat',
-        'frame-join-code-keyboard',
-      ]) {
-        const image = load(name);
-        expect({ name, code: findFrame(image, options)?.code }).toEqual({
-          name,
-          code: findFrame(image, { background: BG })?.code,
-        });
-      }
-      const framed = busyScreen();
-      paint(framed, 0, 0, 14, 860, [11, 10, 18]);
-      paint(framed, 386, 0, 400, 860, [11, 10, 18]);
-      expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
-    });
-
-    it('allows an inset sheet over the dimmed page, and not the same inset from the top', () => {
-      // The iOS 26 guide sheet, lifted by the keyboard, 8 pt in from the dimmed page.
-      const options = { background: BG, premiumGrounds: premiumGrounds() };
-      expect(findFrame(load('inset-sheet-over-dimmed-keyboard'), options)).toBeNull();
-      const dimmed: Rgb = [190, 190, 192];
-      const sheet = blank(400, 860, dimmed);
-      paint(sheet, 24, 70, 200, 100, [120, 120, 124]);
-      paint(sheet, 8, 160, 392, 860, [248, 248, 250]);
-      for (let y = 200; y < 820; y += 24) paint(sheet, 30, y, 300, y + 12, [60, 60, 70]);
-      expect(findFrame(sheet, options)).toBeNull();
-      const framed = copy(sheet);
-      paint(framed, 8, 0, 392, 160, [248, 248, 250]);
-      expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
     });
 
     it('ignores full-bleed colour that fills the width', () => {

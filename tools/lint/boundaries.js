@@ -177,12 +177,15 @@ export const boundaryPolicies = [
       allow: { to: { element: { type: layer } } },
     })),
   ),
-  // The premium kit reuses two engines of the legacy kit, never its look: the one critter renderer
-  // (`ui/sticker`) and the shared-element zoom machinery (`ui/transitions`).
+  // The premium kit reuses three engines of the legacy kit, never its look: the one critter renderer
+  // (`ui/sticker`), the shared-element zoom machinery (`ui/transitions`) and the UI QA checks (`ui/qa`).
   {
     from: { element: { type: 'mobile-ui-premium' } },
     allow: {
-      to: { element: { type: 'mobile-ui' }, file: { path: '**/src/ui/{sticker,transitions}/**' } },
+      to: {
+        element: { type: 'mobile-ui' },
+        file: { path: '**/src/ui/{sticker,transitions,qa}/**' },
+      },
     },
   },
   // A feature may use another feature only through its public index.ts.
@@ -288,10 +291,10 @@ export function architectureLintConfig(rootDir, boundariesPlugin) {
             patterns: [
               { group: serverOnlyPatterns, message: serverOnlyMessage },
               {
-                // Any `@/ui…` outside `premium`, `sticker` and `transitions`, and any `@/motion…`.
-                regex: '^@/(ui(?!/(premium|sticker|transitions)(/|$))|motion)(/|$)',
+                // Any `@/ui…` outside `premium`, `sticker`, `transitions` and `qa`, and any `@/motion…`.
+                regex: '^@/(ui(?!/(premium|sticker|transitions|qa)(/|$))|motion)(/|$)',
                 message:
-                  'The premium kit never uses the legacy kit or legacy motion (only the critter renderer and the zoom engine).',
+                  'The premium kit never uses the legacy kit or legacy motion (only the critter renderer, the zoom engine and the UI QA checks).',
               },
             ],
           },

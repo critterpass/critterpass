@@ -56,6 +56,11 @@ export const releaseBoostIntentCommand = defineClientCommand<{ readonly intent_i
   name: 'release_boost_intent',
   offline: false,
 });
+/** "Tell me when it's done": hear how a crewmate's held boost lock ends. */
+export const watchBoostLockCommand = defineClientCommand<{ readonly trip_id: string }>({
+  name: 'watch_boost_lock',
+  offline: false,
+});
 
 const DAY_MONTH: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', timeZone: 'UTC' };
 
@@ -66,7 +71,11 @@ function day(locale: string, iso: string | null): string | null {
 }
 
 /** The boost sheet's props, plus the trip's crew (the premium alert's "Message" goes there). */
-export type BoostScreenState = BoostViewProps & { readonly crewId: string | null };
+export type BoostScreenState = BoostViewProps & {
+  readonly crewId: string | null;
+  /** Asks to hear how the held lock ends; false when it could not be asked (offline, refused). */
+  readonly onWatchLock: () => Promise<boolean>;
+};
 
 export function useBoostScreen(): BoostScreenState {
   const params = useLocalSearchParams<{ tripId?: string }>();
@@ -79,6 +88,7 @@ export function useBoostScreen(): BoostScreenState {
   const purchase = usePurchase(store);
   const createIntent = useCommand(createBoostIntentCommand);
   const releaseIntent = useCommand(releaseBoostIntentCommand);
+  const watchLock = useCommand(watchBoostLockCommand);
   const [option, setOption] = useState<BoostOption>('trip');
   const [whoPays, setWhoPays] = useState<WhoPays>('cover');
   const [intentError, setIntentError] = useState<'locked' | 'refused' | null>(null);
@@ -189,5 +199,7 @@ export function useBoostScreen(): BoostScreenState {
     onCheckAgain: purchase.retryVerify,
     onTerms: openTerms,
     onPrivacy: openPrivacy,
+    onWatchLock: async () =>
+      tripId !== '' && (await watchLock.send({ trip_id: tripId })).kind === 'applied',
   };
 }

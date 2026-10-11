@@ -200,10 +200,12 @@ const CATALOGUE = [
   spec('mvp_vote_open', 'roundup_only', 'cp.generic', 'cp_roundup', 'guide'),
   spec('anniversary_memory', 'budgeted', 'cp.memory', 'cp_trip', 'guide', passive),
   spec('queued_answer', 'budgeted', 'cp.generic', 'cp_guide', 'guide', passive),
+  spec('answer_ready', 'always', 'cp.generic', 'cp_guide', 'guide'),
   spec('evening_roundup', 'roundup_only', 'cp.roundup', 'cp_roundup', 'guide', 'roundup:{local_date}',),
   // Pass, Boost and billing.
   spec('free_boost_ending', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { paywall: true }),
   spec('boost_activated', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
+  spec('boost_lock_freed', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
   spec('gift_received', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
   spec('billing_failed', 'always', 'cp.generic', 'cp_always', 'system'),
   spec('pass_resume_reminder', 'budgeted', 'cp.generic', 'cp_guide', 'guide', { paywall: true }),
@@ -344,6 +346,7 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   // An organiser's private ask about one member's saves, to that member only.
   'check.member_asked': ['check_ask_member'],
   'guide.question_answered': ['queued_answer'],
+  'guide.answer_ready': ['answer_ready'],
   // Money: a new expense to the members it splits with, requests, nudges, reminders and
   // confirmations to the other side of each payment, and the Settled Tokek to everyone at once.
   'expense.added': ['money_event'],

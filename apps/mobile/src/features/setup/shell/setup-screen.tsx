@@ -80,11 +80,14 @@ export function SetupScreen({
   tripId,
   step,
   anyOrder = false,
+  views,
 }: {
   readonly tripId: string;
   readonly step: WizardStep | null;
   /** Setup together: once the dates are locked, any step opens as asked. */
   readonly anyOrder?: boolean;
+  /** Steps drawn in another look; the rest keep the current one. */
+  readonly views?: Partial<Record<WizardStep, (props: StepProps) => ReactNode>>;
 }) {
   const services = useSetupServices();
   const me = useMe();
@@ -188,6 +191,6 @@ export function SetupScreen({
       </Scaffold>
     );
   }
-  const StepView = STEP_VIEWS[viewing];
+  const StepView = views?.[viewing] ?? STEP_VIEWS[viewing];
   return <StepView trip={trip} shell={frame} />;
 }

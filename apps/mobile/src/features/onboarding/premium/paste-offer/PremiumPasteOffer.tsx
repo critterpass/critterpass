@@ -2,7 +2,8 @@
  * 2.03 / 2.04 the first-launch paste offer: a sun band with a generic crew ticket (nothing has been
  * read yet, so it names no crew), the system paste control (the clipboard is read only on its tap,
  * with no paste alert), and "No link, start fresh". A pasted crew link or code goes on to be
- * claimed; anything else says what it was and offers to type a code or start fresh.
+ * claimed; anything else says what it was, keeps a web link for the first trip (its card can take
+ * it back out), and offers to type a code or start fresh.
  */
 import { t } from '@lingui/core/macro';
 import * as Clipboard from 'expo-clipboard';
@@ -25,7 +26,9 @@ import {
 
 import { guideFacts } from '../../guide-faces';
 import { classifyPaste, type PasteSource } from '../../paste-classify';
+import { saveFirstTripLink, type SavedLink } from '../../saved-link';
 import { tilt } from '../components/tilt';
+import { SavedLinkCard } from './SavedLinkCard';
 
 export interface PremiumPasteOfferProps extends PasteOfferControls {
   readonly onShown: () => void;
@@ -118,7 +121,10 @@ export function PremiumPasteOffer({ onPasted, onSkip, onShown }: PremiumPasteOff
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const available = Clipboard.isPasteButtonAvailable;
-  const [notInvite, setNotInvite] = useState<{ source: PasteSource | null } | null>(null);
+  const [notInvite, setNotInvite] = useState<{
+    source: PasteSource | null;
+    saved: SavedLink | null;
+  } | null>(null);
   const tokek = guideFacts('tokek');
 
   useEffect(() => {
@@ -130,7 +136,7 @@ export function PremiumPasteOffer({ onPasted, onSkip, onShown }: PremiumPasteOff
   const onPaste = (text: string) => {
     const kind = classifyPaste(text);
     if (kind.kind === 'invite') onPasted(text);
-    else setNotInvite({ source: kind.source });
+    else setNotInvite({ source: kind.source, saved: saveFirstTripLink(text, kind.source) });
   };
   const typeCode = () => {
     onSkip();
@@ -191,6 +197,9 @@ export function PremiumPasteOffer({ onPasted, onSkip, onShown }: PremiumPasteOff
                 message: 'No crew in that one. Type the code from your invite, or start fresh.',
               })}
         </Text>
+        {notInvite?.saved == null ? null : (
+          <SavedLinkCard link={notInvite.saved} source={notInvite.source} />
+        )}
         {notInvite === null ? null : (
           <View style={{ alignSelf: 'stretch', marginTop: 12 }}>
             <GuideNote

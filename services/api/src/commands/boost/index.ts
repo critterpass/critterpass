@@ -8,6 +8,7 @@ import { rebindCrewYearCommand } from './rebind-crew-year';
 import { releaseBoostIntentCommand } from './release-boost-intent';
 import { tellCrewBoostCommand } from './tell-crew-boost';
 import { thankBoostCommand } from './thank-boost';
+import { watchBoostLockCommand } from './watch-boost-lock';
 
 export function registerBoostCommands(
   registry: CommandRegistry,
@@ -15,6 +16,7 @@ export function registerBoostCommands(
 ): void {
   registry.register(createBoostIntentCommand(deps));
   registry.register(releaseBoostIntentCommand);
+  registry.register(watchBoostLockCommand);
   registry.register(thankBoostCommand);
   registry.register(tellCrewBoostCommand);
   registry.register(moveBoostCommand);

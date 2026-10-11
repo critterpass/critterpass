@@ -12,3 +12,4 @@ export { Doodle, type DoodleName } from './premium/components/doodle';
 export { GuideDock, type GuideDockProps } from './premium/components/guide-dock';
 export { fitColour, PlaceResultRow } from './premium/components/place-result-row';
 export { PlaceThumb } from './premium/components/place-thumb';
+export { placeIcon } from './search/place-icons';

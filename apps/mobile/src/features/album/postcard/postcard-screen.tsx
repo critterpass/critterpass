@@ -9,7 +9,7 @@ import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
-import { useMemo, useState, type ComponentType } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -44,8 +44,7 @@ import {
   type SavedPostcard,
 } from './postcard-draft';
 import type { PostcardFormat } from './postcard-pair';
-import { NoteSheet, PhotoSheet } from './postcard-sheets';
-import { PostcardView, type PostcardViewProps } from './postcard-view';
+import { CURRENT_POSTCARD_LOOK, type PostcardLook } from './postcard-look';
 
 const SAVED_SQL = `
   SELECT id, format, photo_id, note, sent_at FROM postcards
@@ -57,10 +56,10 @@ const RECAP_SCREEN = '3m-1';
 
 export function PostcardScreen({
   tripId,
-  View = PostcardView,
+  look = CURRENT_POSTCARD_LOOK,
 }: {
   readonly tripId: string;
-  readonly View?: ComponentType<PostcardViewProps>;
+  readonly look?: PostcardLook;
 }) {
   useTripStreams(tripId);
   const { t } = useLingui();
@@ -243,7 +242,7 @@ export function PostcardScreen({
 
   return (
     <AlbumMediaProvider http={albumHttp}>
-      <View
+      <look.View
         format={draft.format}
         photoKey={photo?.displayKey ?? photo?.thumbKey ?? null}
         photoCaption={
@@ -269,7 +268,7 @@ export function PostcardScreen({
         onClose={() => void onClose()}
       />
       {sheet === 'note' ? (
-        <NoteSheet
+        <look.Note
           note={draft.note}
           format={draft.format}
           onDone={(note) => {
@@ -280,7 +279,7 @@ export function PostcardScreen({
         />
       ) : null}
       {sheet === 'photo' ? (
-        <PhotoSheet
+        <look.Photo
           photos={album.photos}
           selected={draft.photoId}
           onPick={(photoId) => {

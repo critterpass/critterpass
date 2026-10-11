@@ -33,6 +33,7 @@ import { homeVoteSlot } from '../slots';
 import type { OpenTripRow } from '../data/home-queries';
 import { BackHero } from './components/back-hero';
 import { StepCard } from './components/step-card';
+import { SavedLinkNote } from './components/saved-link-note';
 import { TripCollageCard } from './components/trip-collage-card';
 import { WaitTile } from './components/wait-tile';
 import { useGoing } from './use-premium-home';
@@ -244,6 +245,7 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
     <View style={styles.stack} testID={`home-mode-${home.mode}`}>
       {openTrip === null ? null : <JoinTripNote trip={openTrip} crewName={crew.name} />}
       {trip === null ? null : <TripCollageCard trip={trip} going={going} now={now} />}
+      {trip === null ? null : <SavedLinkNote tripId={trip.id} />}
       <OfflineLine trip={trip} now={now} />
       {home.mode === 'no_trip' ? <NoTripSection crewId={crew.id} /> : null}
       {recent === null ? null : (

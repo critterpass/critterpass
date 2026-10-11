@@ -41,7 +41,7 @@ export function useCodeEntry() {
     if (code !== null) inviteSession.open(code, null, services.now());
   }, [code, services]);
 
-  const onPaste = (text: string) => {
+  const onPaste = (text: string, via: 'paste' | 'scan' = 'paste') => {
     const link = parseIncomingLink(text.trim());
     if (link?.kind === 'invite' && link.seat !== undefined) {
       router.replace({
@@ -54,7 +54,9 @@ export function useCodeEntry() {
     if (pastedCode !== null) {
       setTypedRaw(pastedCode);
       setPastedFrom(
-        t({ id: 'onboarding.invite.code.pastedFrom', message: 'Pasted from your clipboard' }),
+        via === 'scan'
+          ? t({ id: 'onboarding.invite.code.scannedFrom', message: 'Read from the QR code' })
+          : t({ id: 'onboarding.invite.code.pastedFrom', message: 'Pasted from your clipboard' }),
       );
     }
   };

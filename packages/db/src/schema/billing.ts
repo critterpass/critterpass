@@ -114,6 +114,8 @@ export const boostIntents = pgTable('boost_intents', {
   splitMemberIds: uuid('split_member_ids').array().notNull().default([]),
   status: text('status').notNull().default('open'),
   expiresAt: at('expires_at').notNull(),
+  /** Members waiting to hear how this lock ends (asked from the someone's-boosting alert). */
+  waitingUids: uuid('waiting_uids').array().notNull().default([]),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

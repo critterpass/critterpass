@@ -8,7 +8,7 @@ import { FullScreen } from '@/ui/premium/shell';
 export const __CP_DEV_ROUTE__ = true;
 
 const STUB = [
-  { key: 'gate', label: 'GATE', value: 'D4' },
+  { key: 'gate', label: 'GATE', value: '14' },
   { key: 'boards', label: 'BOARDS', value: '09:05' },
   { key: 'seat', label: 'SEAT', value: '32A' },
   { key: 'zone', label: 'ZONE', value: '3' },

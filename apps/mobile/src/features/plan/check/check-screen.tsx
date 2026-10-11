@@ -9,7 +9,7 @@ import type { PlanCheckIssue } from '@cp/domain';
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, type ComponentType } from 'react';
 
 import { usePlanCheck } from '@/data/checks/use-plan-check';
 import { useCommand } from '@/data/commands/use-command';
@@ -46,7 +46,7 @@ import {
   swappedLine,
   unfitToast,
 } from './check-copy';
-import { CheckView } from './check-view';
+import { CheckView, type CheckViewProps } from './check-view';
 import { answerMemberAskCommand } from './commands';
 import { fixAll } from './data/fixer-api';
 import { useCheckContext } from './data/use-check-context';
@@ -61,7 +61,14 @@ import { checkRoutes } from './routes';
 import { stopHref } from './stop-href';
 import { fixActionOf, useFix, type ByHand, type FixOutcome } from './use-fix';
 
-export function CheckScreen({ tripId }: { readonly tripId: string }) {
+export function CheckScreen({
+  tripId,
+  View: Look = CheckView,
+}: {
+  readonly tripId: string;
+  /** How the check is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<CheckViewProps>;
+}) {
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
   const guideName = usePlanGuide().name;
   // Her own draft, before the crew has a plan: its issues are listed the same, and each card
@@ -218,7 +225,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const asker = plan.members.find((member) => member.uid === mine?.askedBy)?.name ?? '';
 
   return (
-    <CheckView
+    <Look
       backLabel={backTripLabel()}
       onBack={() => goBackOr(planRoutes.plan(tripId))}
       status={

@@ -1,0 +1,73 @@
+import { describe, expect, it } from 'vitest';
+
+import { findFrame, type Rgb } from './screen-checks';
+import { premiumGrounds } from './screen-scan';
+import { BG, blank, busyScreen, copy, load, paint } from './screen-test-images';
+
+describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
+  it('judges a premium screen by its own ground, and still finds a frame around it', () => {
+    const grounds = premiumGrounds();
+    expect(grounds).toEqual([
+      [
+        [0xf5, 0xf5, 0xf7],
+        [0xff, 0xff, 0xff],
+      ],
+      [
+        [0x0e, 0x0f, 0x13],
+        [0x1c, 0x1d, 0x24],
+      ],
+    ]);
+    const options = { background: BG, premiumGrounds: grounds };
+    // The light screen framed by the current UI's ground; the dark one by black (the current
+    // ground is within a shade of the dark card, so it reads as that card).
+    const frames: Rgb[] = [BG, [0, 0, 0]];
+    for (const [index, [ground, card]] of (grounds as [Rgb, Rgb][]).entries()) {
+      // Cards set in by the 16 pt gutter (48 px on a 3x capture) on the premium ground.
+      const screen = blank(400, 860, ground);
+      for (let y = 90; y < 820; y += 70) paint(screen, 16, y, 384, y + 60, card);
+      expect(findFrame(screen, options)).toBeNull();
+      const framed = copy(screen);
+      const frame = frames[index] ?? BG;
+      paint(framed, 0, 0, 14, 860, frame);
+      paint(framed, 386, 0, 400, 860, frame);
+      expect(findFrame(framed, options)?.detail).toContain('14px');
+    }
+  });
+
+  it('judges the current UI the same when the premium grounds are known', () => {
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    for (const name of [
+      'inbox',
+      'home-board',
+      'vote-showdown-half',
+      'pitch-search-keyboard',
+      'frame-sheet-over-chat',
+      'frame-join-code-keyboard',
+    ]) {
+      const image = load(name);
+      expect({ name, code: findFrame(image, options)?.code }).toEqual({
+        name,
+        code: findFrame(image, { background: BG })?.code,
+      });
+    }
+    const framed = busyScreen();
+    paint(framed, 0, 0, 14, 860, [11, 10, 18]);
+    paint(framed, 386, 0, 400, 860, [11, 10, 18]);
+    expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+  });
+
+  it('allows an inset sheet over the dimmed page, and not the same inset from the top', () => {
+    // The iOS 26 guide sheet, lifted by the keyboard, 8 pt in from the dimmed page.
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    expect(findFrame(load('inset-sheet-over-dimmed-keyboard'), options)).toBeNull();
+    const dimmed: Rgb = [190, 190, 192];
+    const sheet = blank(400, 860, dimmed);
+    paint(sheet, 24, 70, 200, 100, [120, 120, 124]);
+    paint(sheet, 8, 160, 392, 860, [248, 248, 250]);
+    for (let y = 200; y < 820; y += 24) paint(sheet, 30, y, 300, y + 12, [60, 60, 70]);
+    expect(findFrame(sheet, options)).toBeNull();
+    const framed = copy(sheet);
+    paint(framed, 8, 0, 392, 160, [248, 248, 250]);
+    expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+  });
+});

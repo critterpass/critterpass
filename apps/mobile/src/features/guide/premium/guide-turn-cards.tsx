@@ -84,11 +84,14 @@ export function WorkingCard({
   guideName,
   steps,
   onStop,
+  ping,
 }: {
   readonly slug: string;
   readonly guideName: string;
   readonly steps: readonly TurnStep[];
   readonly onStop: () => void;
+  /** "Ping me": absent offline; `asked` once the push is promised. */
+  readonly ping?: { readonly asked: boolean; readonly busy: boolean; readonly onPress: () => void };
 }) {
   const th = usePremiumTheme();
   const styles = useStyles();
@@ -131,6 +134,22 @@ export function WorkingCard({
         </View>
       </View>
       <View style={[styles.pills, { paddingLeft: 42 }]}>
+        {ping === undefined ? null : (
+          <PressableScale
+            style={[styles.pill, ping.asked ? { opacity: 0.6 } : null]}
+            onPress={ping.onPress}
+            disabled={ping.asked || ping.busy}
+            accessibilityRole="button"
+            accessibilityState={{ disabled: ping.asked, busy: ping.busy }}
+            testID="guide-ping"
+          >
+            <Text variant="rowTextStrong">
+              {ping.asked
+                ? t({ id: 'guide.premium.pinged', message: '🔔 I’ll ping you' })
+                : t({ id: 'guide.premium.ping', message: '🔔 Ping me' })}
+            </Text>
+          </PressableScale>
+        )}
         <PressableScale
           style={styles.pill}
           onPress={onStop}
