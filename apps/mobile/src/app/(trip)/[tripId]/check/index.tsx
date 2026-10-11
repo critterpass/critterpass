@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 
 import { CheckScreen } from '@/features/plan/check';
+import { PremiumAskCard } from '@/features/plan/premium/check/ask-card';
 import { PremiumCheckView } from '@/features/plan/premium/check/check-view';
 import { usePremiumUi } from '@/lib/premium-ui';
 
@@ -8,5 +9,10 @@ import { usePremiumUi } from '@/lib/premium-ui';
 export default function CheckRoute() {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
   const premium = usePremiumUi();
-  return <CheckScreen tripId={tripId ?? ''} {...(premium ? { View: PremiumCheckView } : {})} />;
+  return (
+    <CheckScreen
+      tripId={tripId ?? ''}
+      {...(premium ? { View: PremiumCheckView, Ask: PremiumAskCard } : {})}
+    />
+  );
 }

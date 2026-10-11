@@ -7,9 +7,9 @@
 import { router } from 'expo-router';
 import type { ComponentType } from 'react';
 
-import { LinkPaste } from './link-paste';
+import { LinkPaste, type LinkPasteProps } from './link-paste';
 import { LinkSheet, type LinkSheetProps } from './link-sheet';
-import { PickOneSheet } from './pick-one-sheet';
+import { PickOneSheet, type PickOneSheetProps } from './pick-one-sheet';
 import { searchRoutes } from './routes';
 import { kindWord, useLinkScreen } from './use-link-screen';
 
@@ -20,9 +20,20 @@ export interface LinkScreenProps {
   readonly screenshot: boolean;
   /** How the found places are drawn; the logic is the same in every look. @default the current look */
   readonly Sheet?: ComponentType<LinkSheetProps> | undefined;
+  /** The paste page before there is a link. @default the current look */
+  readonly Paste?: ComponentType<LinkPasteProps> | undefined;
+  /** The chooser for a mention that could be several places. @default the current look */
+  readonly PickOne?: ComponentType<PickOneSheetProps> | undefined;
 }
 
-export function LinkScreen({ tripId, url, screenshot, Sheet = LinkSheet }: LinkScreenProps) {
+export function LinkScreen({
+  tripId,
+  url,
+  screenshot,
+  Sheet = LinkSheet,
+  Paste = LinkPaste,
+  PickOne = PickOneSheet,
+}: LinkScreenProps) {
   const {
     trip,
     body,
@@ -47,7 +58,7 @@ export function LinkScreen({ tripId, url, screenshot, Sheet = LinkSheet }: LinkS
 
   if (body === null) {
     return (
-      <LinkPaste
+      <Paste
         problem={problem}
         readClipboard={readClipboard}
         onAdd={(link) => {
@@ -81,7 +92,7 @@ export function LinkScreen({ tripId, url, screenshot, Sheet = LinkSheet }: LinkS
         onClose={() => router.back()}
       />
       {pickingMatch?.kind === 'ambiguous' ? (
-        <PickOneSheet
+        <PickOne
           label={pickingMatch.label}
           candidates={pickingMatch.candidates}
           photos={pickPhotos}

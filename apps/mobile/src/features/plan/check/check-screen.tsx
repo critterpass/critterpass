@@ -19,7 +19,7 @@ import { useMotionMode } from '@/motion/motion-mode';
 import { toast } from '@/motion/island-toast';
 
 import { usePlanGuide } from '../plan-guide';
-import { AskCard } from './ask-card';
+import { AskCard, type AskCardProps } from './ask-card';
 import {
   appliedToast,
   draftAppliedToast,
@@ -64,10 +64,13 @@ import { fixActionOf, useFix, type ByHand, type FixOutcome } from './use-fix';
 export function CheckScreen({
   tripId,
   View: Look = CheckView,
+  Ask = AskCard,
 }: {
   readonly tripId: string;
   /** How the check is drawn; the logic is the same in every look. @default the current look */
   readonly View?: ComponentType<CheckViewProps>;
+  /** A private ask drawn in the same look. @default the current look */
+  readonly Ask?: ComponentType<AskCardProps>;
 }) {
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
   const guideName = usePlanGuide().name;
@@ -245,7 +248,7 @@ export function CheckScreen({
       know={check.know.map((issue) => knowLine(issue, ctx))}
       ask={
         mine === null ? null : (
-          <AskCard
+          <Ask
             asker={asker}
             places={mine.places}
             onYes={() => void answer.send({ ask_id: mine.id, accept: true })}
