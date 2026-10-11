@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { GlassIconButton, IconButton, usePremiumTheme, type PremiumIconName } from '../..';
@@ -24,7 +24,7 @@ export interface ShellAction {
    * Replaces the button with this element on iOS (a `Stack.Toolbar.View`), for an action that is
    * the source of a zoom or morph and so has to be a React Native view.
    */
-  readonly element?: ReactNode;
+  readonly element?: ReactElement;
 }
 
 /** foundations-spec §1: a root screen carries at most two actions, a push screen one. */

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, type ComponentRef } from 'react';
 import { TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
 
@@ -23,7 +23,7 @@ export interface ComposerProps extends Omit<
  * ink send. It holds no message state: the screen owns the draft, so nothing typed is lost when a
  * send fails.
  */
-export const Composer = forwardRef<TextInput, ComposerProps>(function Composer(
+export const Composer = forwardRef<ComponentRef<typeof TextInput>, ComposerProps>(function Composer(
   { accessibilityLabel, onSend, canSend, sendLabel, add, ...input },
   ref,
 ) {
