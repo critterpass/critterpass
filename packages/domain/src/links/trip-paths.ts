@@ -11,7 +11,6 @@ import {
   paymentLink,
   settleLink,
   tripDayLink,
-  tripHubLink,
   voteLink,
 } from './app-links';
 
@@ -24,15 +23,14 @@ const ID = '[^/?#]+';
 const NEW_THREAD = 'new';
 
 /**
- * Former path shapes and the path of the same screen today. Trip hub and day links were written
- * under `/hub`; money's pushed screens under the wallet tab; a Help share named a session page
- * that was never built (the crew map draws the sharer); a briefing line's balance, open vote and
- * queued answer named `/money`, `/polls/<id>` and a guide with no thread (`new` is the guide's
- * current one).
+ * Former path shapes and the path of the same screen today. Trip day links were written under
+ * `/hub` (the hub itself is a screen there again: the premium UI shows it over the tabs); money's
+ * pushed screens under the wallet tab; a Help share named a session page that was never built (the
+ * crew map draws the sharer); a briefing line's balance, open vote and queued answer named
+ * `/money`, `/polls/<id>` and a guide with no thread (`new` is the guide's current one).
  */
 const FORMER_PATHS: readonly (readonly [RegExp, (...parts: string[]) => string])[] = [
   [new RegExp(`^/hub/(${TRIP_ID})/day/(${DAY})/?$`, 'iu'), tripDayLink],
-  [new RegExp(`^/hub/(${TRIP_ID})/?$`, 'iu'), tripHubLink],
   [new RegExp(`^/wallet/money/payment/(${ID})/?$`, 'u'), paymentLink],
   [new RegExp(`^/wallet/money/expense/(${ID})/?$`, 'u'), expenseLink],
   [/^\/wallet\/money\/settle\/?$/u, settleLink],
