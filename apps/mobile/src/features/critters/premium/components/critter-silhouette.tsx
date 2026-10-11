@@ -1,14 +1,13 @@
 /**
  * A locked critter: its silhouette in the premium light mask (gold-tinted for legendaries, the dark
  * gold pair on ink, white at half strength for the one that wandered off), with the tier's "?" over
- * it. The one place premium code draws a masked critter until the kit sticker takes a mask.
+ * it.
  */
 import { PREMIUM_LOCKED_MARK, PREMIUM_STICKER, premiumLockedMask } from '@cp/critter-art';
 import type { Rarity } from '@cp/critter-art';
 import { StyleSheet, View } from 'react-native';
 
-import { Text } from '@/ui/premium';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { CritterSticker, Text } from '@/ui/premium';
 
 export interface CritterSilhouetteProps {
   readonly kind: string;
@@ -58,13 +57,12 @@ export function CritterSilhouette({
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <Sticker
+        <CritterSticker
           kind={kind}
           name={label}
           size={size}
           variant="mask"
           maskColor={mask}
-          sticker={null}
           {...(seed === undefined ? {} : { seed })}
         />
       </View>
