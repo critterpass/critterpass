@@ -46,7 +46,7 @@ Import from the barrel. Every control is at least 44 pt to tap, carries a label,
 Rules:
 
 - Glass is for chrome over content (headers, the tab bar, sheets, floating controls). Never put glass inside a card.
-- The kit never imports the legacy kit (`@/ui/*` outside `premium`, `@/motion`), and the legacy kit never imports the premium kit; lint enforces both (`tools/lint/boundaries.js`). The two shared engines are the critter renderer (`@/ui/sticker`) and the shared-element zoom (`@/ui/transitions`).
+- The kit never imports the legacy kit (`@/ui/*` outside `premium`, `@/motion`), and the legacy kit never imports the premium kit; lint enforces both (`tools/lint/boundaries.js`). The shared engines are the critter renderer (`@/ui/sticker`), the shared-element zoom (`@/ui/transitions`) and the `[ui-qa]` checks (`@/ui/qa`): premium `Text` reports truncated, word-broken and wrapped labels like the legacy `Text`, and `singleLine={false}` opts a two-line label out of the wrap check.
 - The kit holds no copy: screens pass translated labels.
 - The gallery `app/(dev)/premium-kit.tsx` shows every component in light and dark for device captures.
 
