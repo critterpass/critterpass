@@ -926,6 +926,14 @@ msgid "notifications.lockscreen.disruption.done_title"
 msgstr "Your plan changed"
 
 #: ../domain/src/billing/templates.ts
+msgid "notifications.billing.lock_freed_title"
+msgstr "{place} is free to boost"
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.lock_freed_body"
+msgstr "{buyer} didn’t finish boosting. It’s yours if you want it."
+
+#: ../domain/src/billing/templates.ts
 msgid "notifications.billing.ftf_ending_title"
 msgstr "{days, plural, one {# day} other {# days}} left on your free first trip"
 
