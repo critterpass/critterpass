@@ -3,8 +3,8 @@
  * down, Cancel and the system back all ask; the sheet's own verb (Save, Post, Add) does not, since
  * that is the edits being kept.
  */
-import { useNavigation, usePreventRemove } from 'expo-router';
-import { useCallback, useEffect, useRef } from 'react';
+import { usePreventRemove } from 'expo-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { confirmAlert } from './alerts';
 
@@ -52,16 +52,22 @@ export interface DirtySheetGuard {
  * first, and only "Discard" lets it go. On iOS the native sheet stays up while it asks.
  */
 export function useDirtySheetGuard(dirty: boolean, prompt: DiscardPrompt): DirtySheetGuard {
-  const navigation = useNavigation();
   const committing = useRef(false);
+  // Once the person discarded (or the verb kept the edits) the sheet is on its way out: the guard
+  // stands down, so the removal it lets through does not ask a second time.
+  const [released, setReleased] = useState(false);
   const promptRef = useRef(prompt);
   useEffect(() => {
     promptRef.current = prompt;
   });
 
-  usePreventRemove(dirty, ({ data }) => {
-    // The removal the guard held back, now let through.
-    const leave = () => navigation.dispatch(data.action);
+  usePreventRemove(dirty && !released, ({ repeat }) => {
+    // `repeat` drops the hold, then replays the removal the guard held back. Dispatching the held
+    // action by hand is held again (and asks again) while the guard is still up.
+    const leave = () => {
+      setReleased(true);
+      repeat();
+    };
     if (sheetLeaveDecision({ dirty, committing: committing.current }) === 'leave') {
       leave();
       return;
