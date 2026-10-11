@@ -192,13 +192,16 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `revoke_invite` (doc delta) | `{invite_id}` | inviter or crew organiser | – | `invite.revoked` | A | 23 |
 | `accept_seat_offer` (doc delta) | `{offer_id}` | the offered member, within 24 h | seats held < cap → else `SEAT_LIMIT` | `seat_offer.accepted` | A | 23 |
 | `set_crew_notify` (doc delta) | `{crew_id, level: all\|mentions\|off}` | member | – | – | A, O | 23 |
-| `send_message` | `{crew_id, body ≤4000, mentions[] (active members), mentions_guide?, reply_to?, attachments[{media_key, kind: photo\|voice, w?, h?, duration_ms?, peaks?}] ≤10}` (`op_id` = message id; server assigns `seq`; http/https links only; one voice note ≤2 min alone) | active member | guide mention → guide meter of asker (§6) | `chat.message_sent`, `chat.guide_mentioned` | A, O, N (reply) | 24 |
+| `send_message` | `{crew_id, body ≤4000, mentions[] (active members), mentions_guide?, reply_to?, attachments[{media_key, kind: photo\|voice, w?, h?, duration_ms?, peaks?}] ≤10, sticker?: {form_id, pose: wave\|cheer\|think\|point\|sleep}}` (`op_id` = message id; a sticker carries no text or media and must be a form the sender has met, else `FORBIDDEN sticker_not_met`; server assigns `seq`; http/https links only; one voice note ≤2 min alone) | active member | guide mention → guide meter of asker (§6) | `chat.message_sent`, `chat.guide_mentioned` | A, O, N (reply) | 24 |
 | `edit_message` | `{message_id, body, mentions?, mentions_guide?}` within `chat.edit_window_minutes` (default 15) | sender | – | `chat.message_edited` | A, O | 24 |
 | `delete_message` | `{message_id}` → tombstone (body and attachments cleared) | sender | – | `chat.message_deleted` | A, O | 24 |
-| `react_message` | `{message_id, emoji, on?}` (absent `on` toggles) | active member | – | `chat.reaction_changed` | A, O | 24 |
+| `react_message` | `{message_id, emoji, on?}` (absent `on` toggles; `emoji` is one emoji or a critter `c<dex no>.<pose>`, which must exist, else `VALIDATION unknown_critter`) | active member | – | `chat.reaction_changed` | A, O | 24 |
 | `mark_read` | `{crew_id, seq}` → `crew_members.last_read_seq = GREATEST(…)`, clamped to the last seq | member or kept-chat former member | – | – | A, O, N | 24 |
 | `report_message` | `{message_id, reason, note?}` → `moderation_reports` kind `message` (`report_content` rules) | active member, not the sender | – | – | A, O | 24 |
 | `mute_member` | `{crew_id, uid, muted}` → `user_settings.muted_uids` (own devices only) | active member | – | – | A, O | 24 |
+| `pin_message` (doc delta) | `{message_id, pinned}` → `messages.pinned_at/pinned_by` (the first pinner is kept; tombstones and system rows `STATE_INVALID not_pinnable`) | active member | – | – | A, O | 24 |
+| `ask_to_rejoin` (doc delta) | `{crew_id}` → a `rejoin_asked` system line in the crew chat, at most once a day (`asked: false` after) | former member who kept the chat | – | – | A, O | 24 |
+| `remove_kept_chat` (doc delta) | `{crew_id}` → own `keep_in_chat = false`; the chat stops syncing | former member who kept the chat | – | `crew.member_updated` | A, O | 24 |
 | `take_guide_offer` | `{action_id}` | member | – | `guide_action.taken` | A, O | 24 |
 | `add_comment` / `plusone_comment` | `{comment_id?, trip_id, target{kind: item\|option\|day\|poi_in_option, id}, body ≤1000}` / `{comment_id}` (doc delta: `trip_id`; the anchor must exist on the trip, else `NOT_FOUND{anchor}`; +1 once per member, idempotent, never on one's own (`STATE_INVALID{own_comment}`) or a deleted comment; each change hints `trip_plan:` `comment.changed`) | participant | – | `comment.added` / `comment.plusoned` | A, O | 29 |
 | `edit_comment` / `delete_comment` / `unplusone_comment` (doc delta) | `{comment_id, body}` / `{comment_id}` / `{comment_id}`: edit stamps `edited_at` (a deleted comment stays deleted); delete leaves a tombstone (body cleared, idempotent); un-+1 removes the caller's own +1 (idempotent) | author / author / participant | – | `comment.edited` / `comment.deleted` / `comment.unplusoned` | A, O | 29 |
@@ -310,6 +313,7 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
 | `queue_guide_question` | `{thread_id, text}` (answered at 00:00 reset) | owner | only when `QUOTA_EXHAUSTED` | `guide.question_queued` | A, O | 32 |
+| `edit_queued_question` (doc delta) | `{question_id, text}` (rewords it while still queued; `STATE_INVALID not_queued` after) | owner | – | – | A, O | 32 |
 | `cancel_queued_question` (doc delta) | `{question_id}` | owner | – | `guide.question_cancelled` | A, O | 32 |
 | `rate_guide_answer` | `{message_id, verdict, note?}` | owner | – | `guide.answer_rated` (Langfuse score) | A, O | 32 |
 | `claim_guide_offer` (doc delta) | `{offer_id}` → `{offer_id, status}` (takes the offer's row lock, fails if full or expired, idempotent per member, publishes on crew_chat) | member | – | `guide_offer.taken` | A, O | 32 |

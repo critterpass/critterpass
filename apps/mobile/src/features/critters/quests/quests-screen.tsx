@@ -5,7 +5,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -17,7 +17,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 
 import { signupQuestCommand } from './commands';
 import { useLiveRows } from './live-rows';
-import { guideOfSlug, QuestsView } from './quests-view';
+import { guideOfSlug, QuestsView, type QuestsViewProps } from './quests-view';
 import { useBefriendSpot } from './use-befriend-spot';
 import { useQuests } from './use-quests';
 import { useRewardReveal } from './use-reward-reveal';
@@ -30,7 +30,12 @@ const FLAG_TABLES = ['client_config'] as const;
 const NO_PARAMS: readonly unknown[] = [];
 /* eslint-enable lingui/no-unlocalized-strings */
 
-export function QuestsScreen() {
+export function QuestsScreen({
+  View = QuestsView,
+}: {
+  /** The view that draws the quests (the premium one takes the same props). */
+  readonly View?: ComponentType<QuestsViewProps>;
+} = {}) {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
   const id = typeof tripId === 'string' && tripId.length > 0 ? tripId : null;
   useTripStreams(id);
@@ -90,7 +95,7 @@ export function QuestsScreen() {
   }
 
   return (
-    <QuestsView
+    <View
       crewName={crewName}
       guide={guide}
       model={model}

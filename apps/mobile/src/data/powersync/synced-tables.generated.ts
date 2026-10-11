@@ -156,7 +156,7 @@ export const SYNCED_TABLE_COLUMNS = {
   memory_reactions: 'memory_id trip_id user_id emoji text created_at updated_at',
   message_reactions: 'message_id crew_id user_id emoji created_at',
   messages:
-    'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',
+    'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at pinned_at pinned_by created_at updated_at',
   must_dos:
     'trip_id owner_id title poi_id freeform:integer priority:integer co_owner_ids fit_status fit_note target_day:integer external_action external_deadline external_url fit_checked_at time_of_day deleted_at version:integer created_at updated_at',
   notification_prefs:

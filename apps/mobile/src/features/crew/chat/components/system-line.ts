@@ -1,5 +1,6 @@
 /**
- * Copy for `system` rows, by the member's first name: joins, departures and renames, each member's
+ * Copy for `system` rows, by the member's first name: joins, departures, renames, a former member
+ * asking back in, a trip coming out square, each member's
  * own answer to a proposal, the lock (by the organiser, or by itself at reply-by), and how a vote
  * on a plan change ended, naming what changed, and an organiser's own edit to the locked plan.
  */
@@ -41,6 +42,10 @@ export function systemLine(
       return t({ id: 'chat.system.left', message: `${name} left the crew` });
     case 'crew_renamed':
       return t({ id: 'chat.system.renamed', message: `${name} renamed the crew to ${body}` });
+    case 'rejoin_asked':
+      return t({ id: 'chat.system.rejoinAsked', message: `${name} would like to rejoin the crew` });
+    case 'trip_settled':
+      return t({ id: 'chat.system.tripSettled', message: "All square: everyone's settled up" });
     case 'rsvp_in':
       return t({ id: 'chat.system.rsvpIn', message: `${name} is in` });
     case 'rsvp_maybe':

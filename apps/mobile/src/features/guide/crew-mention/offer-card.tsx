@@ -4,54 +4,26 @@
  * an explicit confirm first, per member; confirming claims one slot (`claim_guide_offer`), which
  * books and charges nothing. After that the card says you're in; a full or expired offer says so.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- SQL and wire codes, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 
 import { upper } from '@cp/i18n';
 
-import { useCommand } from '@/data/commands/use-command';
-import { defineClientCommand } from '@/data/commands/summaries';
-import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { ChatCardProps } from '@/features/crew';
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { guideColour } from '@/ui/avatar/guides';
 
 import { guideAvatarId } from '../chat/components/guide-header';
-import { useLiveQuery } from '../chat/data/live-rows';
-import { useMinute } from '../meter/use-guide-meter';
+import { useGuideOffer, type ClaimProblem, type OfferState } from './use-guide-offer';
 
-export const claimGuideOfferCommand = defineClientCommand<{ readonly offer_id: string }>({
-  name: 'claim_guide_offer',
-  offline: false,
-});
-
-export type OfferState = 'open' | 'mine' | 'full' | 'expired';
-
-export interface OfferRow {
-  readonly slots_total: number;
-  readonly slots_taken: number;
-  readonly status: string;
-  readonly expires_at: string | null;
-  readonly mine: number;
-  readonly slug: string | null;
-}
-
-export function offerState(row: OfferRow, now: number): OfferState {
-  if (row.mine > 0) return 'mine';
-  if (row.status === 'full' || row.slots_taken >= row.slots_total) return 'full';
-  if (row.status !== 'open' || (row.expires_at !== null && Date.parse(row.expires_at) <= now)) {
-    return 'expired';
-  }
-  return 'open';
-}
-
-const SQL = `SELECT o.slots_total, o.slots_taken, o.status, o.expires_at,
-    (SELECT count(*) FROM guide_offer_claims c
-      WHERE c.offer_id = o.id AND c.user_id = (SELECT value FROM local_state WHERE id = '${OWNER_UID_KEY}')) AS mine,
-    (SELECT g.slug FROM guides g WHERE g.id = ?) AS slug
-  FROM guide_offers o WHERE o.id = ?`;
+export {
+  claimGuideOfferCommand,
+  offerState,
+  type ClaimProblem,
+  type OfferRow,
+  type OfferState,
+} from './use-guide-offer';
 
 const useStyles = makeStyles((t) => ({
   card: {
@@ -61,8 +33,6 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['12'],
   },
 }));
-
-export type ClaimProblem = 'offer_full' | 'offer_expired' | 'offline' | 'refused' | null;
 
 export interface OfferCardViewProps {
   readonly text: string;
@@ -151,44 +121,29 @@ export function OfferCardView(props: OfferCardViewProps) {
 /** Registered for `guide_offer` messages (see ../chat/register.ts). */
 export function GuideOfferCard({ message }: ChatCardProps) {
   const theme = useTheme();
-  const rows = useLiveQuery<OfferRow>(
-    message.refId === null ? null : SQL,
-    [message.guideId, message.refId],
-    ['guide_offers', 'guide_offer_claims', 'guides', 'local_state'],
-  );
-  const claim = useCommand(claimGuideOfferCommand);
+  const { offer, claim, claiming, problem } = useGuideOffer(message.refId, message.guideId);
   const [confirming, setConfirming] = useState(false);
-  const now = useMinute();
-  const [problem, setProblem] = useState<ClaimProblem>(null);
-  const row = rows?.[0];
-  if (row === undefined || message.refId === null) {
+  if (offer === null) {
     return (
       <Text variant="voice" color={theme.guide.tokek}>
         {message.body}
       </Text>
     );
   }
-  const offerId = message.refId;
   const confirm = async () => {
-    setProblem(null);
-    const result = await claim.send({ offer_id: offerId });
+    await claim();
     setConfirming(false);
-    if (result.kind === 'unavailable') setProblem('offline');
-    if (result.kind === 'rejected') {
-      const state = (result.detail as { state?: unknown } | undefined)?.state;
-      setProblem(state === 'offer_full' || state === 'offer_expired' ? state : 'refused');
-    }
   };
   return (
     <OfferCardView
       text={message.body}
-      color={guideColour(guideAvatarId(row.slug ?? 'tokek'))}
-      state={offerState(row, now.getTime())}
-      slotsLeft={Math.max(0, row.slots_total - row.slots_taken)}
-      taken={row.slots_taken}
-      total={row.slots_total}
+      color={guideColour(guideAvatarId(offer.guideSlug))}
+      state={offer.state}
+      slotsLeft={offer.slotsLeft}
+      taken={offer.taken}
+      total={offer.total}
       confirming={confirming}
-      busy={claim.pending}
+      busy={claiming}
       problem={problem}
       onIn={() => setConfirming(true)}
       onConfirm={() => void confirm()}
