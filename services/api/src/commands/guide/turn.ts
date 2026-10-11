@@ -32,6 +32,7 @@ import { buildGuideContext } from '../../ai/context';
 import { reserveGuideTurn } from '../../ai/guide-meter';
 import { speakTurn, spokenTags, type VoiceTurnDeps } from '../../lib/tts';
 import { requireVoiceConsent } from '../../lib/voice-consent';
+import { detachable, pingWaiting, pushAnswerPings } from './answer-pings';
 import { crewPassHolders, openThread, type GuideThread } from './threads';
 
 export interface GuideTurnDeps {
@@ -163,6 +164,7 @@ async function saveAnswer(pool: pg.Pool, thread: GuideThread, id: string, answer
       ],
     );
     await tx.query('UPDATE guide_threads SET last_message_at = now() WHERE id = $1', [thread.id]);
+    await pushAnswerPings(tx, thread, id);
   });
 }
 
@@ -274,8 +276,16 @@ export async function streamThreadTurn(
           },
           onFailed: (error) => log.warn({ err: error }, 'guide voice synthesis failed'),
         });
-  const stream = sseStream(outgoing, {
-    abort,
+  // The phone letting go stops the turn, unless someone asked to be pinged when it lands.
+  const leaving = new AbortController();
+  const detached = detachable(
+    outgoing,
+    () => withSystem(deps.pool, (tx) => pingWaiting(tx, thread.id)),
+    () => abort.abort(),
+  );
+  leaving.signal.addEventListener('abort', detached.leave);
+  const stream = sseStream(detached.stream, {
+    abort: leaving,
     ...(deps.heartbeatMs === undefined ? {} : { heartbeatMs: deps.heartbeatMs }),
   });
   return new Response(stream, { status: 200, headers: SSE_HEADERS });

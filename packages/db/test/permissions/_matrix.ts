@@ -1921,6 +1921,11 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: { sql: 'SELECT 1 FROM guide_crew_turns LIMIT 1', params: () => [] },
     expectations: SYSTEM_ONLY,
   },
+  // A pending "ping me" for a guide answer: the server's alone.
+  guide_answer_pings: {
+    selectProbe: { sql: 'SELECT 1 FROM guide_answer_pings LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
   briefings: { selectProbe: ownRowProbe('briefings'), expectations: OWNER_READ },
   briefing_items: { selectProbe: ownRowProbe('briefing_items'), expectations: OWNER_READ },
   alarms: { selectProbe: ownRowProbe('alarms'), expectations: OWNER_READ },

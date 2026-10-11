@@ -34,6 +34,8 @@ export interface GuideThreadProps {
   readonly onRetry: () => void;
   readonly onRephrase: (question: string) => void;
   readonly onStop: () => void;
+  /** "Ping me" on a slow answer; absent offline. */
+  readonly ping?: { readonly asked: boolean; readonly busy: boolean; readonly onPress: () => void };
   /** Shown when the thread is empty (the starters). */
   readonly empty: ReactNode;
   /** Shown after the last line: the offline tools, the meter's footer. */
@@ -79,7 +81,13 @@ function LiveTurnRows(props: GuideThreadProps & { readonly live: LiveTurn }) {
     <View style={{ gap: 12 }} testID="guide-live">
       {questionSaved ? null : <GuideQuestion text={live.question} author={null} />}
       {working ? (
-        <WorkingCard slug={slug} guideName={guideName} steps={state.steps} onStop={props.onStop} />
+        <WorkingCard
+          slug={slug}
+          guideName={guideName}
+          steps={state.steps}
+          onStop={props.onStop}
+          {...(props.ping === undefined ? {} : { ping: props.ping })}
+        />
       ) : state.phase === 'thinking' ? (
         <TypingBubble slug={slug} guideName={guideName} />
       ) : null}

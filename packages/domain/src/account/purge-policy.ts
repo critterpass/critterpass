@@ -89,6 +89,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.phrase_progress', ['user_id', del]),
   ...rules('public.custom_phrase_cards', ['user_id', del]),
   ...rules('public.queued_guide_questions', ['user_id', del]),
+  ...rules('public.guide_answer_pings', ['user_id', del]),
   ...rules('public.guide_messages', ['author_id', del]),
   ...rules('public.guide_threads', ['user_id', del]),
   ...rules('public.private_guide_threads', ['owner_id', del]),

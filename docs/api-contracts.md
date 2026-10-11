@@ -312,6 +312,7 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | `edit_queued_question` (doc delta) | `{question_id, text}` (rewords it while still queued; `STATE_INVALID not_queued` after) | owner | – | – | A, O | 32 |
 | `cancel_queued_question` (doc delta) | `{question_id}` | owner | – | `guide.question_cancelled` | A, O | 32 |
 | `rate_guide_answer` | `{message_id, verdict, note?}` | owner | – | `guide.answer_rated` (Langfuse score) | A, O | 32 |
+| `ping_guide_answer` (doc delta) | `{thread_id}` ("Ping me" on a slow answer, online only: the turn keeps running after the phone lets go, and the saved answer pushes `answer_ready` once) | thread reader | – | `guide.answer_ready` on save | A | 32 |
 | `claim_guide_offer` (doc delta) | `{offer_id}` → `{offer_id, status}` (takes the offer's row lock, fails if full or expired, idempotent per member, publishes on crew_chat) | member | – | `guide_offer.taken` | A, O | 32 |
 | `request_phrase_card` | `{trip_id, purpose, address?, language, register}` | participant | – | `phrase.requested` → TTS job | A | 32 |
 | `record_phrase_practice` | `{phrase_id, recognised, ok}` | self | – | `phrase.practised` (quest input) | A, O | 42 |
