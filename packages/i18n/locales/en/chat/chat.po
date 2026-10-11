@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
-msgid "chat.queued.message"
-msgstr "“{preview}” to the crew chat"
-
 #. placeholder {0}: group.count
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.reactions.count"
@@ -44,84 +40,13 @@ msgstr "{count, plural, one {# person} other {# people}}"
 msgid "chat.unread.label"
 msgstr "{count, plural, one {# unread message} other {# unread messages}}"
 
-#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
-msgid "chat.photo.many"
-msgstr "{count} photos"
-
 #: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
 msgid "chat.start.title"
 msgstr "{crew} talks here"
 
-#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
-msgid "chat.typing.two"
-msgstr "{first} and {second} are typing"
-
-#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
-msgid "chat.typing.one"
-msgstr "{first} is typing"
-
-#. placeholder {0}: planChange(body, locale)
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planEditAdded"
-msgstr "{name} added {0}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.rsvpOut"
-msgstr "{name} can't make it"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planEdited"
-msgstr "{name} changed the plan"
-
-#. placeholder {0}: planChange(body, locale)
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planEditRemoved"
-msgstr "{name} dropped {0}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.rsvpMaybe"
-msgstr "{name} is a maybe"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.rsvpIn"
-msgstr "{name} is in"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.rsvpWaitlisted"
-msgstr "{name} is on the waitlist"
-
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.mute.private"
 msgstr "{name} isn't told."
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.joined"
-msgstr "{name} joined the crew"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.left"
-msgstr "{name} left the crew"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.tripLocked"
-msgstr "{name} locked the trip in"
-
-#. placeholder {0}: planChange(body, locale)
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planEditMoved"
-msgstr "{name} moved {0}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.renamed"
-msgstr "{name} renamed the crew to {body}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.ideaSaved"
-msgstr "{name} saved {body} to Ideas"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.ideaSavedPlain"
-msgstr "{name} saved a place to Ideas"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.withGuide"
@@ -143,25 +68,9 @@ msgstr "1.5×"
 msgid "chat.voice.rate1"
 msgstr "1×"
 
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.title"
-msgstr "Add to the chat"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.alsoMute"
-msgstr "Also mute {senderName}"
-
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.loneLine"
 msgstr "Bring your friends in. Plans, photos and votes all land here."
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.harassment"
-msgstr "Bullying or harassment"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.camera"
-msgstr "Camera"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.cancel"
@@ -187,10 +96,6 @@ msgstr "Copy text"
 msgid "chat.voice.failed"
 msgstr "Couldn’t load"
 
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.failed"
-msgstr "Couldn’t open your photos. Try again."
-
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.fallbackTitle"
 msgstr "Crew chat"
@@ -212,10 +117,6 @@ msgstr "Delete for everyone"
 msgid "chat.delete.title"
 msgstr "Delete this message?"
 
-#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
-msgid "chat.queued.delete"
-msgstr "Deleting a message"
-
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.failed"
 msgstr "Didn’t send"
@@ -231,10 +132,6 @@ msgstr "Earlier message"
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.action.edit"
 msgstr "Edit"
-
-#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
-msgid "chat.queued.edit"
-msgstr "Edit to a message"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.edited"
@@ -255,10 +152,6 @@ msgstr "Get the update"
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.guide"
 msgstr "Guide"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.hate"
-msgstr "Hate"
 
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.invite"
@@ -335,10 +228,6 @@ msgstr "Mute {name}"
 msgid "chat.mute.title"
 msgstr "Mute {name}?"
 
-#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
-msgid "chat.queued.mute"
-msgstr "Muting a crewmate"
-
 #: ../../apps/mobile/src/features/crew/chat/components/unread-divider.tsx
 msgid "chat.unread.divider"
 msgstr "New"
@@ -347,41 +236,17 @@ msgstr "New"
 msgid "chat.composer.unsafeLink"
 msgstr "Only http and https links can be sent."
 
-#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
-msgid "chat.photo.open"
-msgstr "Open photo"
-
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.openSettings"
 msgstr "Opens crew settings"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.line"
-msgstr "Our team reviews it. The sender is not told who reported it."
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
 msgid "chat.voice.pause"
 msgstr "Pause voice note"
 
-#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
-msgid "chat.photo.one"
-msgstr "Photo"
-
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 msgid "chat.quote.photo"
 msgstr "Photo"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.photosOff"
-msgstr "Photo access is off"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.library"
-msgstr "Photo library"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.useLibrary"
-msgstr "Pick from the library"
 
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.line"
@@ -395,17 +260,9 @@ msgstr "Play voice note"
 msgid "chat.voice.speed"
 msgstr "Playback speed {rate}×"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.impersonation"
-msgstr "Pretending to be someone"
-
 #: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
 msgid "chat.react.with"
 msgstr "React with {emoji}"
-
-#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
-msgid "chat.queued.react"
-msgstr "Reaction {emoji}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.reactions.title"
@@ -424,14 +281,6 @@ msgstr "Reply"
 msgid "chat.action.report"
 msgstr "Report"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.title"
-msgstr "Report message"
-
-#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
-msgid "chat.queued.report"
-msgstr "Report of a message"
-
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.status.retry"
@@ -449,25 +298,9 @@ msgstr "Say hi to the crew"
 msgid "chat.voice.send"
 msgstr "Send"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.send"
-msgstr "Send report"
-
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.sending"
 msgstr "Sending"
-
-#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
-msgid "chat.typing.many"
-msgstr "Several people are typing"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.sexual"
-msgstr "Sexual content"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.personalInfo"
-msgstr "Sharing private information"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.slideToCancel"
@@ -478,65 +311,17 @@ msgstr "Slide to cancel"
 msgid "chat.quote.someone"
 msgstr "Someone"
 
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.someone"
-msgstr "Someone"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.other"
-msgstr "Something else"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.spam"
-msgstr "Spam"
-
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading.slow"
 msgstr "Still syncing the chat…"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.useCamera"
-msgstr "Take a photo instead"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
 msgid "chat.report.sent"
 msgstr "Thanks. Our team will take a look."
 
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.cameraOff"
-msgstr "The camera is off"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planKeptOne"
-msgstr "The crew said no to {change}. The plan stays as it was."
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planKept"
-msgstr "The crew said no. The plan stays as it was."
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planAdded"
-msgstr "The crew said yes: {change} is in the plan"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planChangedTo"
-msgstr "The crew said yes: the plan now has {change}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planChanged"
-msgstr "The crew said yes. The plan changed."
-
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.deniedTitle"
 msgstr "The microphone is off"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.tripLockedAuto"
-msgstr "The trip is locked in"
-
-#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
-msgid "chat.system.planVoteRanOut"
-msgstr "The vote ran out. The plan stays as it was."
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.title"
@@ -550,10 +335,6 @@ msgstr "Today"
 msgid "chat.voice.deniedBody"
 msgstr "Turn it on in Settings to send voice notes."
 
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.deniedBody"
-msgstr "Turn it on in Settings to share photos with the crew."
-
 #: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
 msgid "chat.react.anyEmoji"
 msgstr "Type any emoji"
@@ -562,10 +343,6 @@ msgstr "Type any emoji"
 msgid "chat.voice.typeInstead"
 msgstr "Type instead"
 
-#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
-msgid "chat.queued.unmute"
-msgstr "Unmuting a crewmate"
-
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.line"
 msgstr "Update the app to see it here."
@@ -573,14 +350,6 @@ msgstr "Update the app to see it here."
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.uploading"
 msgstr "Uploading"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.violence"
-msgstr "Violence or threats"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.voice"
-msgstr "Voice note"
 
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.voice"
@@ -629,3 +398,286 @@ msgstr "You're offline. Messages send when you're back."
 #: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
 msgid "chat.start.titlePlain"
 msgstr "Your crew talks here"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.message"
+msgstr "“{preview}” to the crew chat"
+
+#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
+msgid "chat.photo.many"
+msgstr "{count} photos"
+
+#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
+msgid "chat.typing.two"
+msgstr "{first} and {second} are typing"
+
+#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
+msgid "chat.typing.one"
+msgstr "{first} is typing"
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditAdded"
+msgstr "{name} added {0}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpOut"
+msgstr "{name} can't make it"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEdited"
+msgstr "{name} changed the plan"
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditRemoved"
+msgstr "{name} dropped {0}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpMaybe"
+msgstr "{name} is a maybe"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpIn"
+msgstr "{name} is in"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpWaitlisted"
+msgstr "{name} is on the waitlist"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.joined"
+msgstr "{name} joined the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.left"
+msgstr "{name} left the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLocked"
+msgstr "{name} locked the trip in"
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditMoved"
+msgstr "{name} moved {0}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.renamed"
+msgstr "{name} renamed the crew to {body}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSaved"
+msgstr "{name} saved {body} to Ideas"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSavedPlain"
+msgstr "{name} saved a place to Ideas"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rejoinAsked"
+msgstr "{name} would like to rejoin the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.sticker"
+msgstr "A sticker to the crew chat"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.title"
+msgstr "Add to the chat"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripSettled"
+msgstr "All square: everyone's settled up"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.alsoMute"
+msgstr "Also mute {senderName}"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.askToRejoin"
+msgstr "Asking to rejoin the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.harassment"
+msgstr "Bullying or harassment"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.camera"
+msgstr "Camera"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.failed"
+msgstr "Couldn’t open your photos. Try again."
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.delete"
+msgstr "Deleting a message"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.edit"
+msgstr "Edit to a message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.hate"
+msgstr "Hate"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.wave"
+msgstr "hi!"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.think"
+msgstr "hmm"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.mute"
+msgstr "Muting a crewmate"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.point"
+msgstr "omw"
+
+#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
+msgid "chat.photo.open"
+msgstr "Open photo"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.line"
+msgstr "Our team reviews it. The sender is not told who reported it."
+
+#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
+msgid "chat.photo.one"
+msgstr "Photo"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.photosOff"
+msgstr "Photo access is off"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.library"
+msgstr "Photo library"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.useLibrary"
+msgstr "Pick from the library"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.pin"
+msgstr "Pinning a message to the trip"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.impersonation"
+msgstr "Pretending to be someone"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.react"
+msgstr "Reaction {emoji}"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.removeChat"
+msgstr "Removing a crew chat"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.title"
+msgstr "Report message"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.report"
+msgstr "Report of a message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.send"
+msgstr "Send report"
+
+#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
+msgid "chat.typing.many"
+msgstr "Several people are typing"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.sexual"
+msgstr "Sexual content"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.personalInfo"
+msgstr "Sharing private information"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.someone"
+msgstr "Someone"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.other"
+msgstr "Something else"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.spam"
+msgstr "Spam"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-card.tsx
+msgid "chat.sticker.a11y"
+msgstr "Sticker: {caption}"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.useCamera"
+msgstr "Take a photo instead"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.cameraOff"
+msgstr "The camera is off"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKeptOne"
+msgstr "The crew said no to {change}. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKept"
+msgstr "The crew said no. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planAdded"
+msgstr "The crew said yes: {change} is in the plan"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChangedTo"
+msgstr "The crew said yes: the plan now has {change}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChanged"
+msgstr "The crew said yes. The plan changed."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLockedAuto"
+msgstr "The trip is locked in"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planVoteRanOut"
+msgstr "The vote ran out. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.deniedBody"
+msgstr "Turn it on in Settings to share photos with the crew."
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.unmute"
+msgstr "Unmuting a crewmate"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.unpin"
+msgstr "Unpinning a message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
+msgid "chat.report.violence"
+msgstr "Violence or threats"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.voice"
+msgstr "Voice note"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.cheer"
+msgstr "yes pls"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.sleep"
+msgstr "zzz"

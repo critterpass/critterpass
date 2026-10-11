@@ -940,3 +940,11 @@ msgstr "Có người muốn có lời mời mới"
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_refresh.body"
 msgstr "Lời mời vào {crew} đã hết hạn. Gửi lời mời mới chỉ với một chạm."
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.title"
+msgstr "{guide} đã có câu trả lời cho bạn"
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.body"
+msgstr "Câu trả lời bạn đang chờ đã có trong trò chuyện với hướng dẫn viên."

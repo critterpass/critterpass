@@ -11,10 +11,6 @@ msgstr ""
 msgid "album.upload.failed"
 msgstr "{failed, plural, one {# Foto wurde nicht hochgeladen.} other {# Fotos wurden nicht hochgeladen.}}"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
-msgid "album.postcard.noteLeft"
-msgstr "Noch {left} Zeichen"
-
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received"
 msgstr "{name} hat dir eine Postkarte geschickt"
@@ -50,17 +46,6 @@ msgstr "{uploader} · {time}"
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.waiting"
 msgstr "{waiting, plural, one {# Foto wartet auf Verbindung. Es geht von selbst hoch.} other {# Fotos warten auf Verbindung. Sie gehen von selbst hoch.}}"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.upload"
-msgstr "+ Hochladen"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
-msgid "album.formerTraveller"
-msgstr "Ehemalige Reisende"
 
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.photo"
@@ -106,14 +91,6 @@ msgstr "Trag eine Adresse ein. Nur die Druckerei sieht sie, nie deine Crew."
 msgid "album.viewer.meOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.empty.add"
-msgstr "Fotos hinzufügen"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.empty.line"
-msgstr "Füg die Fotos vom Trip hinzu und die ganze Crew sieht sie. Nur Fotos, keine Videos. Immer kostenlos."
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removed"
 msgstr ""
@@ -121,10 +98,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.savedToast"
 msgstr ""
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.all"
-msgstr "Alle · {total}"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.sent"
@@ -134,14 +107,6 @@ msgstr "In der Druckerei"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.back"
 msgstr "Zurück"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.best"
-msgstr "Beste · {picks}"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.byPerson"
-msgstr "Nach Person"
 
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcardEdit"
@@ -179,10 +144,6 @@ msgstr ""
 msgid "album.upload.pickFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailFailed"
-msgstr "Drucke nicht bestellt. Versuch es nochmal"
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removeFailed"
 msgstr ""
@@ -195,18 +156,6 @@ msgstr ""
 msgid "album.address.failed"
 msgstr "Nicht gespeichert. Prüf die Felder"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.saveFailed"
-msgstr "Postkarte nicht gespeichert"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendFailed"
-msgstr "Nicht gesendet. Versuch es nochmal"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.export.failed"
-msgstr "Zippen fehlgeschlagen. Versuch es nochmal"
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.countryLabel"
 msgstr ""
@@ -214,10 +163,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
 msgstr "CritterPass braucht die Erlaubnis, Fotos hinzuzufügen. Schalte sie in den Einstellungen ein."
-
-#: ../../apps/mobile/src/features/album/grid/album-copy.ts
-msgid "album.day.number"
-msgstr "Tag {day}"
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.day.themed"
@@ -235,15 +180,6 @@ msgstr "Löschen"
 msgid "album.delete.title"
 msgstr "Dieses Foto löschen?"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
-msgid "album.postcard.close"
-msgstr "Fertig"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.export"
-msgstr "Alle herunterladen"
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.line2"
 msgstr "Wohnung, Etage (optional)"
@@ -259,10 +195,6 @@ msgstr "Von {sender}"
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
 msgstr "Grüße aus"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.curating"
-msgstr "Ich gehe die Fotos durch. Meine Favoriten landen bald hier."
 
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
@@ -293,14 +225,6 @@ msgstr "Letzte Karte"
 msgid "album.viewer.loading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.mail"
-msgstr "Jedem von euch eine echte schicken"
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.name"
 msgstr "Name auf der Karte"
@@ -308,10 +232,6 @@ msgstr "Name auf der Karte"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.needed"
 msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailOffline"
-msgstr "Zum Bestellen der Drucke brauchst du Netz"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removeOffline"
@@ -321,45 +241,17 @@ msgstr ""
 msgid "album.address.offline"
 msgstr "Zum Speichern deiner Adresse brauchst du Netz"
 
-#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
-msgid "album.export.offline"
-msgstr "Zum Zippen des Albums brauchst du Netz"
-
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.day.undated"
 msgstr "Ohne Datum"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
-msgid "album.postcard.noPhoto"
-msgstr "Kein Foto"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
-msgid "album.postcard.noPhotos"
-msgstr "Noch keine Fotos im Album, also zeigt die Vorderseite die Farbe des Guides."
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.empty.title"
-msgstr "Noch keine Fotos"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.offlineLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.solo"
-msgstr ""
-
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 msgid "album.who.nobody"
 msgstr "Bisher hat niemand gesagt, dass er drauf ist."
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.people.none"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
-msgid "album.upload.dismiss"
-msgstr ""
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received.open"
@@ -381,21 +273,9 @@ msgstr "Öffnet das Foto. Gedrückt halten, um zu sehen, wer drauf ist"
 msgid "album.mail.status.queued"
 msgstr "Bestellt"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.mailing"
-msgstr ""
-
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.line"
 msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.passPlus"
-msgstr "Pass+"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.photoCaption"
-msgstr "Foto · {uploader}"
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.photo"
@@ -415,21 +295,9 @@ msgstr ""
 msgid "album.viewer.pickOn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.format.classic"
-msgstr "Postkarte"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.kept"
-msgstr ""
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.postal"
 msgstr "Postleitzahl"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.format.square"
-msgstr "Poster"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.printed"
@@ -438,14 +306,6 @@ msgstr "Gedruckt"
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.title"
 msgstr "Gedruckte Postkarten"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.passPlusOnly"
-msgstr "Gedruckte Postkarten gibt es mit Pass+"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.backLabel"
-msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removeConfirm"
@@ -480,10 +340,6 @@ msgstr "Adresse speichern"
 msgid "album.viewer.saved"
 msgstr "In Fotos gesichert"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendLater"
-msgstr ""
-
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.album"
 msgstr "Alle Fotos ansehen"
@@ -496,37 +352,17 @@ msgstr "Ab nach Hause damit"
 msgid "album.postcard.open"
 msgstr "Ab nach Hause damit"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.send"
-msgstr "An die Crew schicken"
-
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.received.own"
 msgstr "Eigene schicken"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sentTo"
-msgstr "An {names} geschickt"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sentBefore"
-msgstr "An die Crew geschickt. Du kannst sie jederzeit nochmal schicken"
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.share"
 msgstr "Teilen"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.segments"
-msgstr "Anzeigen"
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.region"
 msgstr "Bundesland oder Region (optional)"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-msgid "album.postcard.format.story"
-msgstr "Story 9:16"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.line1"
@@ -548,22 +384,9 @@ msgstr "Danke. Unser Team schaut es sich an."
 msgid "album.tile.crew"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
-msgid "album.postcard.photoTitle"
-msgstr "Die Vorderseite"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
-msgid "album.postcard.noteTitle"
-msgstr "Der Text"
-
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.unsupported"
 msgstr "Die Druckerei verschickt noch nicht in ihr Land, also bekommen sie die digitale"
-
-#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.placeFallback"
-msgstr "den Trip"
 
 #: ../../apps/mobile/src/features/album/hub-tile.tsx
 msgid "album.tile.first"
@@ -573,16 +396,8 @@ msgstr ""
 msgid "album.viewer.gone.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailUsed"
-msgstr "Für diesen Trip gibt es schon gedruckte Postkarten"
-
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.long"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
@@ -592,18 +407,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/album/upload/use-album-upload.ts
 msgid "album.upload.pickFailedLine"
 msgstr ""
-
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
-msgid "album.upload.retry"
-msgstr "Die fehlgeschlagenen nochmal versuchen"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
-msgid "album.postcard.noteDone"
-msgstr "Diesen Text nehmen"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
-msgid "album.postcard.photoOption"
-msgstr "Dieses Foto nehmen"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.missing"
@@ -653,7 +456,234 @@ msgstr "Deine gedruckten Postkarten sind in der Post"
 msgid "album.inbox.mailing.failed"
 msgstr "Deine gedruckten Postkarten konnten nicht hergestellt werden. Der Versand für diesen Trip ist wieder frei."
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/day-pocket.tsx
+msgid "album.premium.photoCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteLeft"
+msgstr "Noch {left} Zeichen"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.upload"
+msgstr "+ Hochladen"
+
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.formerTraveller"
+msgstr "Ehemalige Reisende"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.add"
+msgstr "Fotos hinzufügen"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.line"
+msgstr "Füg die Fotos vom Trip hinzu und die ganze Crew sieht sie. Nur Fotos, keine Videos. Immer kostenlos."
+
+#. placeholder {0}: photos.length
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.all"
+msgstr "Alle · {total}"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.best"
+msgstr "Beste · {picks}"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.byPerson"
+msgstr "Nach Person"
+
+#: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
+msgid "recap.premium.sheet.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailFailed"
+msgstr "Drucke nicht bestellt. Versuch es nochmal"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.saveFailed"
+msgstr "Postkarte nicht gespeichert"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendFailed"
+msgstr "Nicht gesendet. Versuch es nochmal"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.export.failed"
+msgstr "Zippen fehlgeschlagen. Versuch es nochmal"
+
+#. placeholder {0}: section.dayNo
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.day.number"
+msgstr "Tag {day}"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.close"
+msgstr "Fertig"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.export"
+msgstr "Alle herunterladen"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.editNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.premium.postcard.format"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.greetings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.curating"
+msgstr "Ich gehe die Fotos durch. Meine Favoriten landen bald hier."
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.mail"
+msgstr "Jedem von euch eine echte schicken"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailOffline"
+msgstr "Zum Bestellen der Drucke brauchst du Netz"
+
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.offline"
+msgstr "Zum Zippen des Albums brauchst du Netz"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noPhoto"
+msgstr "Kein Foto"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noPhotos"
+msgstr "Noch keine Fotos im Album, also zeigt die Vorderseite die Farbe des Guides."
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.title"
+msgstr "Noch keine Fotos"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.solo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.people.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.dismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.mailing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.photoCaption"
+msgstr "Foto · {uploader}"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.pickPhoto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.classic"
+msgstr "Postkarte"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.kept"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.square"
+msgstr "Poster"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.passPlusOnly"
+msgstr "Gedruckte Postkarten gibt es mit Pass+"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.backLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendLater"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.send"
+msgstr "An die Crew schicken"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentTo"
+msgstr "An {names} geschickt"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentBefore"
+msgstr "An die Crew geschickt. Du kannst sie jederzeit nochmal schicken"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.segments"
+msgstr "Anzeigen"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.story"
+msgstr "Story 9:16"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.photoTitle"
+msgstr "Die Vorderseite"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteTitle"
+msgstr "Der Text"
+
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.placeFallback"
+msgstr "den Trip"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailUsed"
+msgstr "Für diesen Trip gibt es schon gedruckte Postkarten"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.retry"
+msgstr "Die fehlgeschlagenen nochmal versuchen"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteDone"
+msgstr "Diesen Text nehmen"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.photoOption"
+msgstr "Dieses Foto nehmen"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.open"
 msgstr ""
 
@@ -661,6 +691,6 @@ msgstr ""
 msgid "album.export.started"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.asking"
 msgstr "Album wird gezippt…"

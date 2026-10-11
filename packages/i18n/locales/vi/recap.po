@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#. placeholder {0}: stamp.iata
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.arrived"
-msgstr "{0} · Đã đến"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.after"
 msgstr "{after, plural, other {trả xong sau # ngày}}"
@@ -47,10 +42,6 @@ msgstr "{count, plural, other {# lần đi trước bình minh}}"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.awards.title"
 msgstr "{count, plural, one {Chỉ mình bạn, một giải} other {# người, # giải}}"
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.stopLine"
-msgstr "{count, plural, other {Tắt # liên kết. Sau đó liên kết không mở ra gì nữa.}}"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.critters"
@@ -100,25 +91,13 @@ msgstr "{forms, plural, one {Tìm được một dạng trong chuyến đi.} oth
 msgid "recap.summary.forms.foundCount"
 msgstr "tìm được {found}"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.forms"
-msgstr "{found}/{total} dạng"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.ofCount"
 msgstr "tìm được {found}/{total}"
 
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.writing.title"
-msgstr "{guideName} đang viết bản tổng kết"
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.presents"
 msgstr "{guideName} giới thiệu"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.watchDetail"
-msgstr "{guideName} kể lại từ đầu"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.meals.value"
@@ -241,25 +220,9 @@ msgstr "{value, plural, other {{name}, # lần sửa lịch trình}}"
 msgid "recap.award.detail.rides"
 msgstr "{value, plural, other {{name}, lo # chuyến xe}}"
 
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.votes"
-msgstr "{votes, plural, other {# phiếu}}"
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.winner"
-msgstr "{votes, plural, other {MVP · # phiếu}}"
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.yours"
-msgstr "{votes, plural, other {Phiếu của bạn · # phiếu}}"
-
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.reactChip"
 msgstr "+ Thả cảm xúc"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.unnamed"
-msgstr "Một bé vàng"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.goldUnnamed"
@@ -277,10 +240,6 @@ msgstr "Một bé hiếm đã trốn mất."
 msgid "recap.queued.remind"
 msgstr "Nhắc về bé đã trốn mất"
 
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.linkLine"
-msgstr "Một trang web mà ai có liên kết cũng mở được: nơi đến, tháng đi, quãng đường, các địa điểm đã ghé và tên gọi. Không có ảnh, không có tiền bạc."
-
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
 msgid "recap.memory.titleNoPlace"
 msgstr "Một năm sau"
@@ -292,22 +251,6 @@ msgstr "khoảng {distance}"
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.distanceAbout"
 msgstr "Khoảng {distance}"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.arrivedNoCode"
-msgstr "Đã đến"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.retrying"
-msgstr "Đang thử lại…"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.back"
-msgstr "Quay lại"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paidTop"
-msgstr "Công nợ"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settledEarly"
@@ -325,37 +268,13 @@ msgstr "Đang làm lại bản tổng kết"
 msgid "recap.receipt.cheapest"
 msgstr "Ngày rẻ nhất"
 
-#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
-msgid "recap.summary.retry.failed"
-msgstr "Chưa yêu cầu lại được"
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.failed"
 msgstr "Chưa tạo được liên kết"
 
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.reunionFailed"
-msgstr "Chưa đề xuất được buổi họp mặt"
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.reactFailed"
-msgstr "Chưa gửi được cảm xúc đó"
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.failed"
-msgstr "Chưa gửi được chữ ký. Thử lại khi có sóng nhé."
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.shareFailed"
-msgstr "Không chia sẻ được thẻ này"
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.stopFailed"
 msgstr "Chưa dừng chia sẻ được"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.writing.line"
-msgstr "Đang đếm số cây số và số ảnh. Xong mình sẽ báo bạn."
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.crew"
@@ -397,10 +316,6 @@ msgstr "Mỗi người"
 msgid "recap.award.earlyRiser"
 msgstr "Dậy sớm nhất"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.chrome"
-msgstr "Nhập cảnh · Entrées"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.square"
 msgstr "không ai nợ ai"
@@ -425,39 +340,17 @@ msgstr "gamelan lo-fi"
 msgid "recap.link.goneAction"
 msgstr "Về Trang chủ"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.golden"
-msgstr "{name} Vàng"
-
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.goodCompany"
 msgstr "Bạn đồng hành vui vẻ"
-
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-#: ../../apps/mobile/src/features/recap/route-missing.tsx
-msgid "recap.link.back"
-msgstr "Trang chủ"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.humanCamera"
 msgstr "Máy ảnh biết đi"
 
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.reminded"
-msgstr "Mình sẽ nhắc bạn"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paidBottom"
-msgstr "Đầy đủ"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.crew"
 msgstr "trong album của nhóm"
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.missing.line"
-msgstr "Có thể nó đã bị xoá, hoặc máy này chưa tải về."
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.missingLine"
@@ -475,21 +368,9 @@ msgstr "Chỉ mình bạn"
 msgid "recap.summary.days.solo"
 msgstr "chỉ mình bạn, theo nhịp riêng"
 
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.later"
-msgstr "Giữ tên của mình"
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.pon"
 msgstr "đàn koto và mưa"
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.loading"
-msgstr "Đang tải kỷ niệm"
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.loading"
-msgstr "Đang tải câu chuyện"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.loading"
@@ -503,33 +384,13 @@ msgstr "Chặng dài nhất: {from} đến {to}, {minutes} phút."
 msgid "recap.story.theme.ajo"
 msgstr "marimba lo-fi"
 
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.signature.me"
-msgstr "Tôi"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.eyebrow"
-msgstr "Tiền nong, gói gọn"
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.offline"
 msgstr "Cần có sóng để tạo liên kết"
 
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.reunionOffline"
-msgstr "Cần có sóng để đề xuất"
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.stopOffline"
 msgstr "Cần có sóng để dừng chia sẻ"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
-msgid "recap.summary.retry.offline"
-msgstr "Cần có sóng để thử lại"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.critters.eyebrow"
-msgstr "Bạn mới"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.finds"
@@ -539,58 +400,17 @@ msgstr "Bạn địa phương mới"
 msgid "recap.story.label.critters"
 msgstr "Bạn địa phương mới"
 
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.offline"
-msgstr "Mất sóng"
-
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.places"
 msgstr "Trên đường đi"
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.line"
-msgstr "Ký một lần, chữ ký sẽ có trên mọi con dấu chung với nhóm, theo màu của bạn."
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.postcardDetail"
-msgstr "Một tấm ảnh và một lời nhắn, gửi cả nhóm"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.rateDetail"
-msgstr "Mỗi nơi một chạm, cho nhóm đi sau"
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.open"
-msgstr "Chạm một lần. Bạn có thể đổi đến khi cả nhóm bầu xong."
-
-#: ../../apps/mobile/src/features/recap/dev/memory-scenes.tsx
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.eyebrow"
-msgstr "Đúng một năm trước"
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.notReady.action"
-msgstr "Mở bản tổng kết"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.other"
 msgstr "Khác"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.page"
-msgstr "Trang {seq}"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paid"
-msgstr "Đã trả"
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.paco"
 msgstr "sáo pan và charango"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.photos"
-msgstr "Ảnh"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
@@ -604,49 +424,13 @@ msgstr "Lên kế hoạch họp mặt"
 msgid "recap.receipt.planned"
 msgstr "Dự kiến"
 
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.watch"
-msgstr "Xem lại câu chuyện"
-
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.priciest"
 msgstr "Đắt nhất"
 
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.rate"
-msgstr "Đánh giá chuyến đi"
-
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.react"
 msgstr "Thả cảm xúc"
-
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
-msgid "recap.memory.reactTitle"
-msgstr "Thả cảm xúc cho kỷ niệm"
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.back"
-msgstr "Tổng kết"
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.remind"
-msgstr "Nhắc tôi"
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.remindIn"
-msgstr "Nhắc tôi vào {month}"
-
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
-msgid "recap.memory.lineLabel"
-msgstr "Nói gì đó"
-
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
-msgid "recap.memory.send"
-msgstr "Gửi"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.postcard"
-msgstr "Gửi bưu thiếp"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -656,37 +440,9 @@ msgstr "Thanh toán"
 msgid "recap.summary.owed.lastDay"
 msgstr "trả xong vào ngày cuối"
 
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.link"
-msgstr "Chia sẻ liên kết"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.share"
-msgstr "Chia sẻ"
-
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.share"
 msgstr "Chia sẻ kỷ niệm"
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.title"
-msgstr "Chia sẻ tổng kết"
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.shareCard"
-msgstr "Chia sẻ trang này"
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.sign"
-msgstr "Ký tên"
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.save"
-msgstr "Ký tên"
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.title"
-msgstr "Ký vào con dấu của nhóm"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.open"
@@ -695,18 +451,6 @@ msgstr "Đang ký con dấu của nhóm"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.lundi"
 msgstr "hò biển chậm"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.line"
-msgstr "Bên mình có trục trặc. Không mất gì từ chuyến đi đâu. Thử lại nhé?"
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.soundOn"
-msgstr "Đang tắt tiếng. Bật lên"
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.soundOff"
-msgstr "Đang bật tiếng. Tắt đi"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.stamp.caption"
@@ -723,10 +467,6 @@ msgstr "Chỗ ở"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.open"
 msgstr "vẫn còn phải thanh toán"
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.stop"
-msgstr "Dừng chia sẻ"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.linkOff"
@@ -748,25 +488,13 @@ msgstr "Cảm ơn"
 msgid "recap.story.label.cover"
 msgstr "Trang bìa"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.awards.eyebrow"
-msgstr "Giải thưởng của nhóm"
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.awards"
 msgstr "Giải thưởng của nhóm"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.detail"
-msgstr "Cả nhóm đã ký. Giờ nó nằm trên hồ sơ của bạn."
-
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.goneLine"
 msgstr "Nhóm đã tắt liên kết này. Hãy hỏi người gửi để lấy liên kết mới."
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.photosDetail"
-msgstr "Album của nhóm, kèm các ảnh chọn"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.explorer"
@@ -786,10 +514,6 @@ msgstr "Hoa tiêu"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.unnamed"
-msgstr "Bé đã trốn mất"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.eyebrow"
 msgstr "Bé đã trốn mất"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
@@ -812,21 +536,9 @@ msgstr "Tổng kết"
 msgid "recap.story.subtitleNoPlace"
 msgstr "Tổng kết"
 
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.title"
-msgstr "Bản tổng kết chưa xong được"
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.notReady.line"
-msgstr "Bản tổng kết vẫn đang được viết. Trang tổng kết cho biết đã tới đâu."
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.receipt"
 msgstr "Hoá đơn"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.route.eyebrow"
-msgstr "Lộ trình"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.route"
@@ -835,10 +547,6 @@ msgstr "Lộ trình"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.stamp"
 msgstr "Con dấu"
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.notReady.title"
-msgstr "Câu chuyện chưa sẵn sàng"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.transfer"
@@ -851,14 +559,6 @@ msgstr "Thủ quỹ"
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.titleNoPlace"
 msgstr "Chuyến đi, tổng kết"
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.closed"
-msgstr "Đã hết giờ bầu. Viền vàng là MVP."
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.missing.title"
-msgstr "Kỷ niệm này không có ở đây"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.gone"
@@ -888,10 +588,6 @@ msgstr "Tổng kết chuyến đi"
 msgid "recap.link.eyebrowWhen"
 msgstr "Tổng kết chuyến đi · {month}"
 
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.retry"
-msgstr "Thử lại"
-
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.retry"
 msgstr "Thử lại"
@@ -908,21 +604,9 @@ msgstr "Đã cập nhật thêm"
 msgid "recap.summary.updated.expenses"
 msgstr "Đã cập nhật khoản chi muộn"
 
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.title"
-msgstr "Bầu MVP"
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.voteMvp"
-msgstr "Bầu MVP"
-
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.complete"
 msgstr "Đã xem tổng kết"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.whereNext"
-msgstr "Đi đâu tiếp? →"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.names"
@@ -935,10 +619,6 @@ msgstr "Bạn"
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
 msgid "recap.memory.you"
 msgstr "Bạn"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.dropout"
-msgstr "Bạn đã không đi chuyến này"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.mine"
@@ -963,6 +643,432 @@ msgstr "Phần của bạn: {amount}"
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.signature"
 msgstr "Chữ ký của bạn"
+
+#. placeholder {0}: stamp.iata
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrived"
+msgstr "{0} · Đã đến"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.stopLine"
+msgstr "{count, plural, other {Tắt # liên kết. Sau đó liên kết không mở ra gì nữa.}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.forms"
+msgstr "{found}/{total} dạng"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.writing.title"
+msgstr "{guideName} đang viết bản tổng kết"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.watchDetail"
+msgstr "{guideName} kể lại từ đầu"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.votes"
+msgstr "{votes, plural, other {# phiếu}}"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.winner"
+msgstr "{votes, plural, other {MVP · # phiếu}}"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.yours"
+msgstr "{votes, plural, other {Phiếu của bạn · # phiếu}}"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.plus"
+msgstr "+ Thả cảm xúc"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.unnamed"
+msgstr "Một bé vàng"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.linkLine"
+msgstr "Một trang web mà ai có liên kết cũng mở được: nơi đến, tháng đi, quãng đường, các địa điểm đã ghé và tên gọi. Không có ảnh, không có tiền bạc."
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.react"
+msgstr "Thả cảm xúc của bạn"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrivedNoCode"
+msgstr "Đã đến"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.retrying"
+msgstr "Đang thử lại…"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidTop"
+msgstr "Công nợ"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+msgid "recap.premium.story.close"
+msgstr "Đóng câu chuyện"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.failed"
+msgstr "Chưa yêu cầu lại được"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.shareFailed"
+msgstr "Chưa mở được bảng chia sẻ"
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reunionFailed"
+msgstr "Chưa đề xuất được buổi họp mặt"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.saveFailed"
+msgstr "Chưa lưu được. Kiểm tra quyền truy cập Ảnh nhé"
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reactFailed"
+msgstr "Chưa gửi được cảm xúc đó"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.failed"
+msgstr "Chưa gửi được chữ ký. Thử lại khi có sóng nhé."
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareFailed"
+msgstr "Không chia sẻ được thẻ này"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.writing.line"
+msgstr "Đang đếm số cây số và số ảnh. Xong mình sẽ báo bạn."
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.rendering"
+msgstr "Đang vẽ ảnh"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.chrome"
+msgstr "Nhập cảnh · Entrées"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.golden"
+msgstr "{name} Vàng"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.link.back"
+msgstr "Trang chủ"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.reminded"
+msgstr "Mình sẽ nhắc bạn"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidBottom"
+msgstr "Đầy đủ"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.missing.line"
+msgstr "Có thể nó đã bị xoá, hoặc máy này chưa tải về."
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.later"
+msgstr "Giữ tên của mình"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.memory.loading"
+msgstr "Đang tải kỷ niệm"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.loading"
+msgstr "Đang tải câu chuyện"
+
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.signature.me"
+msgstr "Tôi"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.eyebrow"
+msgstr "Tiền nong, gói gọn"
+
+#: ../../apps/mobile/src/features/recap/premium/story/cards/story-awards-receipt.tsx
+msgid "recap.premium.story.mvp"
+msgstr "MVP"
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reunionOffline"
+msgstr "Cần có sóng để đề xuất"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.offline"
+msgstr "Cần có sóng để thử lại"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.critters.eyebrow"
+msgstr "Bạn mới"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.next"
+msgstr "Trang sau"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.offline"
+msgstr "Mất sóng"
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.line"
+msgstr "Ký một lần, chữ ký sẽ có trên mọi con dấu chung với nhóm, theo màu của bạn."
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.postcardDetail"
+msgstr "Một tấm ảnh và một lời nhắn, gửi cả nhóm"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.rateDetail"
+msgstr "Mỗi nơi một chạm, cho nhóm đi sau"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.open"
+msgstr "Chạm một lần. Bạn có thể đổi đến khi cả nhóm bầu xong."
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.eyebrow"
+msgstr "Đúng một năm trước"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.action"
+msgstr "Mở bản tổng kết"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.page"
+msgstr "Trang {seq}"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paid"
+msgstr "Đã trả"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.pause"
+msgstr "Tạm dừng"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.photos"
+msgstr "Ảnh"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format"
+msgstr "Khổ ảnh"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.reunion"
+msgstr "Lên kế hoạch hội ngộ"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.play"
+msgstr "Phát"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.watch"
+msgstr "Xem lại câu chuyện"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format.post"
+msgstr "Bài đăng"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.previous"
+msgstr "Trang trước"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.rate"
+msgstr "Đánh giá chuyến đi"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.reactTitle"
+msgstr "Thả cảm xúc cho kỷ niệm"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.back"
+msgstr "Tổng kết"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.remind"
+msgstr "Nhắc tôi"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.remindIn"
+msgstr "Nhắc tôi vào {month}"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.save"
+msgstr "Lưu vào Ảnh"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.saved"
+msgstr "Đã lưu vào Ảnh"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.lineLabel"
+msgstr "Nói gì đó"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.send"
+msgstr "Gửi"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.postcard"
+msgstr "Gửi bưu thiếp"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.title"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.share"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.link"
+msgstr "Chia sẻ liên kết"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.share"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.share"
+msgstr "Chia sẻ kỷ niệm"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.title"
+msgstr "Chia sẻ tổng kết"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareCard"
+msgstr "Chia sẻ trang này"
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.save"
+msgstr "Ký tên"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.sign"
+msgstr "Ký tên"
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.title"
+msgstr "Ký vào con dấu của nhóm"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.position"
+msgstr "Trang {n}/{total}"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.line"
+msgstr "Bên mình có trục trặc. Không mất gì từ chuyến đi đâu. Thử lại nhé?"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOn"
+msgstr "Đang tắt tiếng. Bật lên"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOff"
+msgstr "Đang bật tiếng. Tắt đi"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.stop"
+msgstr "Dừng chia sẻ"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format.story"
+msgstr "Story"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.awards.eyebrow"
+msgstr "Giải thưởng của nhóm"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.detail"
+msgstr "Cả nhóm đã ký. Giờ nó nằm trên hồ sơ của bạn."
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.photosDetail"
+msgstr "Album của nhóm, kèm các ảnh chọn"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.eyebrow"
+msgstr "Bé đã trốn mất"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.error"
+msgstr "Ảnh chưa vẽ được."
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.title"
+msgstr "Bản tổng kết chưa xong được"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.line"
+msgstr "Bản tổng kết vẫn đang được viết. Trang tổng kết cho biết đã tới đâu."
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.route.eyebrow"
+msgstr "Lộ trình"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.title"
+msgstr "Câu chuyện chưa sẵn sàng"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.closed"
+msgstr "Đã hết giờ bầu. Viền vàng là MVP."
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.memory.missing.title"
+msgstr "Kỷ niệm này không có ở đây"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.voteMvp"
+msgstr "Bầu MVP"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.title"
+msgstr "Bầu MVP"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.whereNext"
+msgstr "Đi đâu tiếp? →"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.dropout"
+msgstr "Bạn đã không đi chuyến này"
 
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.yourTrip"

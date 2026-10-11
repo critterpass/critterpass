@@ -652,3 +652,477 @@ msgstr ""
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.linkPending"
 msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
+msgid "chat.premium.edited"
+msgstr ""
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.people"
+msgstr ""
+
+#. placeholder {0}: tray.met
+#. placeholder {1}: tray.total
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.count"
+msgstr ""
+
+#. placeholder {0}: group.count
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingMany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.guideTyping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.madeBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.withGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.budgetDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.freeDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate15"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate1"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.mute"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.former.rejoin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.rejoinAsked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.keyboard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
+msgid "chat.premium.attach.camera"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.recorder.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.cancelStrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.sheet.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-menu.tsx
+msgid "chat.premium.menu.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/photo-viewer.tsx
+msgid "chat.premium.viewer.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.header.fallbackTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.attach.denied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.menu.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.delete.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.failed.tooBig"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.failed.forbidden"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
+msgid "chat.premium.strip.editing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.who.former"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.hello"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-row.tsx
+msgid "chat.premium.row.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.delete.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.removeChat.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.list.jumpToLatest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.header.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.none"
+msgstr ""
+
+#. placeholder {0}: current.form.setName ?? ''
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.meetMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.field"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
+msgid "chat.premium.deleted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
+msgid "chat.premium.placeholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.footnote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-menu.tsx
+msgid "chat.premium.menu.more"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.newMessages"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.noSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.offlineMarker"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.photo.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.openSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-screen.tsx
+msgid "chat.premium.opening"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.header.openSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.pause"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
+msgid "chat.premium.attach.library"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.former.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.pin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.pinned"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.place"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.play"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.speed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.who.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.readBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.readOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.readOnlySince"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.recent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.former.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.removeChat.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.reply"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.replySticker"
+msgstr ""
+
+#. placeholder {0}: composer.replyTo.senderName ?? ''
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
+msgid "chat.premium.strip.replying"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.report"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
+msgid "chat.premium.placeholder.new"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.recorder.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.send"
+msgstr ""
+
+#. placeholder {0}: form.name
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
+msgid "chat.premium.placeholder.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.budget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
+msgid "chat.premium.strip.sticker"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.stickers"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.noRecent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.attach.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.micOff.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.card.unknown.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.micOff.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.micOff.type"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.unpin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.unpinned"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.card.unknown.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
+msgid "chat.premium.attach.voice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.mic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.placeDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.whereToFind"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.who"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.former.title"
+msgstr ""

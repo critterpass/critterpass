@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
-#. placeholder {0}: stamp.iata
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.arrived"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.after"
 msgstr ""
@@ -46,10 +41,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.awards.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.stopLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
@@ -100,24 +91,12 @@ msgstr ""
 msgid "recap.summary.forms.foundCount"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.forms"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.ofCount"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.writing.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.presents"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.watchDetail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -240,24 +219,8 @@ msgstr ""
 msgid "recap.award.detail.rides"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.votes"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.winner"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.yours"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.reactChip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.unnamed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -276,10 +239,6 @@ msgstr ""
 msgid "recap.queued.remind"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.linkLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
 msgid "recap.memory.titleNoPlace"
 msgstr ""
@@ -290,22 +249,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.distanceAbout"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.arrivedNoCode"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.retrying"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paidTop"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
@@ -324,36 +267,12 @@ msgstr ""
 msgid "recap.receipt.cheapest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
-msgid "recap.summary.retry.failed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.reunionFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.reactFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.failed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.shareFailed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.stopFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.writing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
@@ -396,10 +315,6 @@ msgstr ""
 msgid "recap.award.earlyRiser"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.chrome"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.square"
 msgstr ""
@@ -424,38 +339,16 @@ msgstr ""
 msgid "recap.link.goneAction"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.golden"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.goodCompany"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-#: ../../apps/mobile/src/features/recap/route-missing.tsx
-msgid "recap.link.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.humanCamera"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.reminded"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paidBottom"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.crew"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
@@ -474,20 +367,8 @@ msgstr ""
 msgid "recap.summary.days.solo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.later"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.pon"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
@@ -502,32 +383,12 @@ msgstr ""
 msgid "recap.story.theme.ajo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.signature.me"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.reunionOffline"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.stopOffline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
-msgid "recap.summary.retry.offline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.critters.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -538,58 +399,17 @@ msgstr ""
 msgid "recap.story.label.critters"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.offline"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.places"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.postcardDetail"
-msgstr "รูปหนึ่งใบกับข้อความสั้นๆ ถึงครู"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.rateDetail"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.open"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/dev/memory-scenes.tsx
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.notReady.action"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.other"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.page"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paid"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.paco"
 msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.photos"
-msgstr "รูป"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
@@ -603,49 +423,13 @@ msgstr ""
 msgid "recap.receipt.planned"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.watch"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.priciest"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.rate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.react"
 msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
-msgid "recap.memory.reactTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.remind"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.remindIn"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
-msgid "recap.memory.lineLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
-msgid "recap.memory.send"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.postcard"
-msgstr "ส่งโปสการ์ด"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -655,36 +439,8 @@ msgstr ""
 msgid "recap.summary.owed.lastDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.link"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.share"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.share"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.shareCard"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.sign"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.save"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/commands.ts
@@ -693,18 +449,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.lundi"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.soundOn"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.soundOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
@@ -721,10 +465,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.open"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
-msgid "recap.share.stop"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/commands.ts
@@ -747,25 +487,13 @@ msgstr ""
 msgid "recap.story.label.cover"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.awards.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.awards"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.detail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.goneLine"
 msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.photosDetail"
-msgstr "อัลบั้มของครู พร้อมรูปเด็ด"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.explorer"
@@ -785,10 +513,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.unnamed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
@@ -811,20 +535,8 @@ msgstr ""
 msgid "recap.story.subtitleNoPlace"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.notReady.line"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.receipt"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.route.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
@@ -833,10 +545,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.stamp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.story.notReady.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -849,14 +557,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.titleNoPlace"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.closed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.missing.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
@@ -887,10 +587,6 @@ msgstr ""
 msgid "recap.link.eyebrowWhen"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.retry"
 msgstr ""
@@ -907,20 +603,8 @@ msgstr ""
 msgid "recap.summary.updated.expenses"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.voteMvp"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.complete"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.whereNext"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
@@ -933,10 +617,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
 msgid "recap.memory.you"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
-msgid "recap.summary.dropout"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -961,6 +641,432 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.signature"
+msgstr ""
+
+#. placeholder {0}: stamp.iata
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrived"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.stopLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.forms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.writing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.watchDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.votes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.winner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.yours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.plus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.unnamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.linkLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.react"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrivedNoCode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.retrying"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidTop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+msgid "recap.premium.story.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.shareFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reunionFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.saveFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reactFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.writing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.rendering"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.chrome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.golden"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.link.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.reminded"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidBottom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.memory.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.signature.me"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/cards/story-awards-receipt.tsx
+msgid "recap.premium.story.mvp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reunionOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.critters.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.next"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.postcardDetail"
+msgstr "รูปหนึ่งใบกับข้อความสั้นๆ ถึงครู"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.rateDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.action"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.page"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.pause"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.photos"
+msgstr "รูป"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.reunion"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.play"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.watch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format.post"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.previous"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.reactTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.remind"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.remindIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.lineLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.postcard"
+msgstr "ส่งโปสการ์ด"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.link"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareCard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.sign"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.position"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+msgid "recap.share.stop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format.story"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.awards.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.detail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.photosDetail"
+msgstr "อัลบั้มของครู พร้อมรูปเด็ด"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.route.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.memory.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.story.voteMvp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+msgid "recap.mvp.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.whereNext"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+msgid "recap.summary.dropout"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
