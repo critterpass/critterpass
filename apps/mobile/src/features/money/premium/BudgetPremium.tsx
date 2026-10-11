@@ -10,7 +10,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { amountText, digitsToMinor } from '@/data/money/amount-digits';
 import { useWalletGuide, WalletGuideProvider } from '@/features/bookings';
-import { guideCritterKind, IconTile } from '@/features/trip';
+import { guideCritterKind } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Button,
@@ -25,9 +25,8 @@ import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { estimateMinor, finishDeltaShown } from '../budget/estimates';
 import { useBudget, type BudgetState } from '../budget/use-budget';
-import { useCategoryLabel } from '../components/category';
 import { formatWhole } from '../format';
-import { categoryLook } from './components/category-look';
+import { BudgetCategories } from './components/BudgetCategories';
 
 type Ready = Extract<BudgetState, { kind: 'ready' }>;
 
@@ -116,71 +115,6 @@ function Summary({ budget }: { readonly budget: Ready }) {
   );
 }
 
-function Categories({ budget }: { readonly budget: Ready }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  const locale = useLocale();
-  const label = useCategoryLabel();
-  const lines = budget.forecast.categories.filter(
-    (line) => line.plannedMinor > 0n || line.spentMinor > 0n,
-  );
-  if (lines.length === 0) return null;
-  return (
-    <View style={{ gap: th.space.gap8 }}>
-      <Text variant="label" tone="muted" style={{ paddingHorizontal: th.space.titleGutter }}>
-        {t({ id: 'money.premium.whereItWent', message: 'Where it went' })}
-      </Text>
-      <View
-        style={[
-          styles.card,
-          {
-            marginHorizontal: th.space.gap16,
-            borderRadius: th.radius.card,
-            backgroundColor: th.color.card,
-            boxShadow: th.shadow.card,
-          },
-        ]}
-      >
-        {lines.map((line, index) => {
-          const look = categoryLook(line.category, th.color);
-          const plan = estimateMinor(line.plannedMinor, budget.currency);
-          const diff = line.spentMinor - plan;
-          return (
-            <View
-              key={line.category}
-              style={[
-                styles.row,
-                index === 0 ? null : { borderTopWidth: 0.5, borderTopColor: th.color.hairline },
-              ]}
-              testID={`money-budget-category-${line.category}`}
-            >
-              <IconTile name={look.icon} bg={look.bg} color={look.color} size={40} />
-              <Text variant="rowTitle" style={styles.flex}>
-                {label(line.category)}
-              </Text>
-              <View style={styles.end}>
-                <Text variant="rowTextStrong" style={styles.tabular}>
-                  {formatWhole(line.spentMinor, budget.currency, locale)}
-                </Text>
-                {line.plannedMinor === 0n ? null : (
-                  <Text
-                    variant="helper"
-                    color={diff > 0n ? th.color.destructive.text : th.color.status.booked.text}
-                  >
-                    {diff > 0n
-                      ? `+${formatWhole(diff, budget.currency, locale)}`
-                      : `−${formatWhole(-diff, budget.currency, locale)}`}
-                  </Text>
-                )}
-              </View>
-            </View>
-          );
-        })}
-      </View>
-    </View>
-  );
-}
-
 function Body({ budget }: { readonly budget: Ready }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
@@ -200,7 +134,7 @@ function Body({ budget }: { readonly budget: Ready }) {
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
         <Summary budget={budget} />
-        <Categories budget={budget} />
+        <BudgetCategories budget={budget} />
         {biggest === null ? null : (
           <View style={{ paddingHorizontal: th.space.gap16 }}>
             <GuideNote

@@ -9,15 +9,11 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { crewAccent } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
-  Avatar,
   Banner,
   Button,
   OfflinePill,
-  PressableScale,
-  ring,
   Skeleton,
   Text,
   TextButton,
@@ -28,121 +24,10 @@ import { PushScreen } from '@/ui/premium/shell';
 import { heroCopy } from '../../day-of/day-of-copy';
 import { useDayOf, type DayOfProps } from '../../day-of/use-day-of';
 import { DayHero } from './DayHero';
+import { Readiness, Stops } from './DayCards';
 import { PackRow } from './PackRow';
 
 const LATE_STEPS = [10, 20, 30] as const;
-
-function Readiness({ props }: { readonly props: DayOfProps }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  const locale = useLocale();
-  const view = props.leaveBy;
-  if (view === null) return null;
-  const copy = heroCopy(view, props.now, props.guideName, locale);
-  return (
-    <View
-      style={[
-        styles.card,
-        { borderRadius: th.radius.cardRow, backgroundColor: th.color.card, boxShadow: th.shadow.card },
-      ]}
-      testID={`trip-day-hero-${view.phase}`}
-    >
-      {copy.instructions === null ? null : (
-        <Text variant="body" style={styles.instructions}>
-          {copy.instructions}
-        </Text>
-      )}
-      <View style={[styles.ready, copy.instructions === null ? null : { borderTopWidth: 0.5, borderTopColor: th.color.hairline }]}>
-        <View style={styles.stack}>
-          {view.crew.map((person, index) => (
-            <View
-              key={person.id}
-              style={[
-                styles.face,
-                index === 0 ? null : styles.overlap,
-                person.up ? null : { borderRadius: 14, boxShadow: ring(2, th.color.outlineEmpty, true) },
-              ]}
-            >
-              <View style={person.up ? null : styles.asleep}>
-                <Avatar name={person.name} color={crewAccent(person.joinIndex)} size={28} ringed />
-              </View>
-            </View>
-          ))}
-        </View>
-        <View style={styles.flex}>
-          <Text variant="rowTextStrong">{copy.readinessLabel}</Text>
-          {copy.readinessDetail === null ? null : (
-            <Text variant="captionMuted" tone="muted">
-              {copy.readinessDetail}
-            </Text>
-          )}
-        </View>
-      </View>
-      {view.viewerIn && !view.viewerUp ? (
-        <Button
-          label={t({ id: 'trip.dayOf.imUp', message: "I'm up" })}
-          size="medium"
-          onPress={props.onImUp}
-          testID="trip-day-im-up"
-        />
-      ) : null}
-      {view.viewerIn ? null : (
-        <Text variant="caption" tone="muted">
-          {t({ id: 'trip.dayOf.notYours', message: "You're not on this one. Sleep in." })}
-        </Text>
-      )}
-    </View>
-  );
-}
-
-function Stops({ props }: { readonly props: DayOfProps }) {
-  const th = usePremiumTheme();
-  if (props.timeline.length === 0) return null;
-  return (
-    <View
-      style={[
-        styles.timeline,
-        { marginHorizontal: th.space.gutter, borderRadius: th.radius.cardRow, backgroundColor: th.color.card, boxShadow: th.shadow.card },
-      ]}
-      testID="trip-day-timeline"
-    >
-      {props.timeline.map((entry, index) => {
-        const row = (
-          <View
-            style={[
-              styles.stop,
-              index === 0 ? null : { borderTopWidth: 0.5, borderTopColor: th.color.hairline },
-              entry.dimmed || entry.moment === 'done' ? styles.dim : null,
-            ]}
-          >
-            <Text variant="rowTextStrong" style={[styles.time, entry.moment === 'now' ? { color: th.color.status.booked.text } : null]}>
-              {entry.time}
-            </Text>
-            <View style={styles.flex}>
-              <Text variant="rowTitle" numberOfLines={2}>
-                {entry.title}
-              </Text>
-              {[entry.detail, entry.length, entry.legAfter].filter(Boolean).length === 0 ? null : (
-                <Text variant="captionMuted" tone="muted" numberOfLines={2}>
-                  {[entry.detail, entry.length, entry.legAfter].filter(Boolean).join(' · ')}
-                </Text>
-              )}
-            </View>
-          </View>
-        );
-        return entry.onPress === undefined ? (
-          <View key={entry.id} testID={`trip-day-stop-${entry.id}`}>
-            {row}
-          </View>
-        ) : (
-          <PressableScale key={entry.id} onPress={entry.onPress} pressedScale={0.99} accessibilityRole="button" testID={`trip-day-stop-${entry.id}`}>
-            {row}
-          </PressableScale>
-        );
-      })}
-    </View>
-  );
-}
 
 function Body({ props }: { readonly props: DayOfProps }) {
   const th = usePremiumTheme();
@@ -156,16 +41,30 @@ function Body({ props }: { readonly props: DayOfProps }) {
     copy !== null
       ? { label: copy.label, big: copy.time, spoken: copy.spokenTime, words: false }
       : lead === null
-        ? { label: null, big: t({ id: 'trip.dayOf.premium.freeTitle', message: 'A free day, on purpose' }), words: true }
+        ? {
+            label: null,
+            big: t({ id: 'trip.dayOf.premium.freeTitle', message: 'A free day, on purpose' }),
+            words: true,
+          }
         : lead.kind === 'done'
-          ? { label: null, big: t({ id: 'trip.dayOf.done', message: "That's everything on today's plan." }), words: true }
+          ? {
+              label: null,
+              big: t({ id: 'trip.dayOf.done', message: "That's everything on today's plan." }),
+              words: true,
+            }
           : {
-              label: lead.kind === 'next' ? t({ id: 'trip.dayOf.nextUp', message: 'Next up' }) : t({ id: 'trip.dayOf.firstUp', message: 'First up' }),
+              label:
+                lead.kind === 'next'
+                  ? t({ id: 'trip.dayOf.nextUp', message: 'Next up' })
+                  : t({ id: 'trip.dayOf.firstUp', message: 'First up' }),
               big: lead.time,
               words: false,
             };
   return (
-    <ScrollView contentInsetAdjustmentBehavior="never" contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: th.space.gap16 }}>
+    <ScrollView
+      contentInsetAdjustmentBehavior="never"
+      contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: th.space.gap16 }}
+    >
       <DayHero
         media={props.heroMedia ?? null}
         eyebrow={props.eyebrow}
@@ -181,15 +80,36 @@ function Body({ props }: { readonly props: DayOfProps }) {
         {view !== null ? (
           <Readiness props={props} />
         ) : lead !== null && lead.kind !== 'done' ? (
-          <View style={[styles.card, { borderRadius: th.radius.cardRow, backgroundColor: th.color.card, boxShadow: th.shadow.card }]}>
+          <View
+            style={[
+              styles.card,
+              {
+                borderRadius: th.radius.cardRow,
+                backgroundColor: th.color.card,
+                boxShadow: th.shadow.card,
+              },
+            ]}
+          >
             <Text variant="title">{lead.title}</Text>
           </View>
         ) : (
-          <View style={[styles.card, { borderRadius: th.radius.cardRow, backgroundColor: th.color.card, boxShadow: th.shadow.card }]}>
+          <View
+            style={[
+              styles.card,
+              {
+                borderRadius: th.radius.cardRow,
+                backgroundColor: th.color.card,
+                boxShadow: th.shadow.card,
+              },
+            ]}
+          >
             <Text variant="body" tone="inkSecondary">
               {lead === null
                 ? t({ id: 'trip.dayOf.freeDay', message: 'Nothing planned today. A free day.' })
-                : t({ id: 'trip.dayOf.premium.doneLine', message: 'Rest up. Tomorrow is on the plan.' })}
+                : t({
+                    id: 'trip.dayOf.premium.doneLine',
+                    message: 'Rest up. Tomorrow is on the plan.',
+                  })}
             </Text>
           </View>
         )}
@@ -203,7 +123,10 @@ function Body({ props }: { readonly props: DayOfProps }) {
         )}
       </View>
       {props.late === null ? null : (
-        <View style={[styles.lateRow, { paddingHorizontal: th.space.gutter }]} testID="trip-day-late">
+        <View
+          style={[styles.lateRow, { paddingHorizontal: th.space.gutter }]}
+          testID="trip-day-late"
+        >
           <Text variant="label" tone="muted">
             {t({ id: 'trip.dayOf.premium.late', message: 'Running late?' })}
           </Text>
@@ -221,7 +144,11 @@ function Body({ props }: { readonly props: DayOfProps }) {
       )}
       {props.onGo === undefined ? null : (
         <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap4 }}>
-          <Button label={t({ id: 'trip.dayOf.premium.go', message: 'Go' })} onPress={props.onGo} testID="trip-day-go" />
+          <Button
+            label={t({ id: 'trip.dayOf.premium.go', message: 'Go' })}
+            onPress={props.onGo}
+            testID="trip-day-go"
+          />
           {props.goDetail == null ? null : (
             <Text variant="captionMuted" tone="muted" align="center">
               {props.goDetail}
@@ -229,20 +156,41 @@ function Body({ props }: { readonly props: DayOfProps }) {
           )}
         </View>
       )}
-      <PackRow chips={props.pack} onToggle={props.onTogglePack} onAdd={props.onAddPack} onRemove={props.onRemovePack} />
+      <PackRow
+        chips={props.pack}
+        onToggle={props.onTogglePack}
+        onAdd={props.onAddPack}
+        onRemove={props.onRemovePack}
+      />
       <Stops props={props} />
       <View style={styles.links}>
         {props.onDayPlan === undefined ? null : (
-          <TextButton label={t({ id: 'trip.dayOf.toDayPlan', message: 'See the day plan' })} onPress={props.onDayPlan} testID="trip-day-plan" />
+          <TextButton
+            label={t({ id: 'trip.dayOf.toDayPlan', message: 'See the day plan' })}
+            onPress={props.onDayPlan}
+            testID="trip-day-plan"
+          />
         )}
         {props.onTomorrow === undefined ? null : (
-          <TextButton label={t({ id: 'trip.dayOf.toTomorrow', message: 'See tomorrow' })} onPress={props.onTomorrow} testID="trip-day-tomorrow" />
+          <TextButton
+            label={t({ id: 'trip.dayOf.toTomorrow', message: 'See tomorrow' })}
+            onPress={props.onTomorrow}
+            testID="trip-day-tomorrow"
+          />
         )}
         {props.onToday === undefined ? null : (
-          <TextButton label={t({ id: 'trip.dayOf.toToday', message: 'Back to today' })} onPress={props.onToday} testID="trip-day-today" />
+          <TextButton
+            label={t({ id: 'trip.dayOf.toToday', message: 'Back to today' })}
+            onPress={props.onToday}
+            testID="trip-day-today"
+          />
         )}
         {props.onOffline === undefined ? null : (
-          <TextButton label={t({ id: 'trip.dayOf.toOffline', message: 'What works with no signal' })} onPress={props.onOffline} testID="trip-day-offline" />
+          <TextButton
+            label={t({ id: 'trip.dayOf.toOffline', message: 'What works with no signal' })}
+            onPress={props.onOffline}
+            testID="trip-day-offline"
+          />
         )}
       </View>
     </ScrollView>
@@ -254,7 +202,13 @@ export function DayOfPremium({ tripId, date }: { readonly tripId: string; readon
   const { t } = useLingui();
   const day = useDayOf(tripId, date);
   return (
-    <PushScreen title={day.props.eyebrow} backLabel={t({ id: 'trip.dayOf.back', message: 'Trip' })} headerless scroll={false} testID="trip-day">
+    <PushScreen
+      title={day.props.eyebrow}
+      backLabel={t({ id: 'trip.dayOf.back', message: 'Trip' })}
+      headerless
+      scroll={false}
+      testID="trip-day"
+    >
       {day.props.state === 'loading' ? (
         <View style={{ padding: th.space.gutter, gap: th.space.gap12, paddingTop: 120 }}>
           <Skeleton height={200} radius={th.radius.cardLarge} />
@@ -270,17 +224,6 @@ export function DayOfPremium({ tripId, date }: { readonly tripId: string; readon
 const styles = StyleSheet.create({
   rise: { marginTop: -46 },
   card: { padding: 16, gap: 12 },
-  instructions: { lineHeight: 21 },
-  ready: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingTop: 12 },
-  stack: { flexDirection: 'row' },
-  face: {},
-  overlap: { marginLeft: -8 },
-  asleep: { opacity: 0.5 },
-  flex: { flex: 1, minWidth: 0 },
   lateRow: { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' },
-  timeline: { paddingHorizontal: 16, paddingVertical: 4 },
-  stop: { flexDirection: 'row', gap: 14, paddingVertical: 10 },
-  time: { width: 48, fontVariant: ['tabular-nums'] },
-  dim: { opacity: 0.5 },
   links: { alignItems: 'center', gap: 4 },
 });

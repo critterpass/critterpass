@@ -14,7 +14,11 @@ export default function TripDayRoute() {
   const day = typeof date === 'string' ? date : TODAY;
   return (
     <LocalFirstGate>
-      {premium ? <DayOfPremium tripId={tripId} date={day} /> : <DayOfScreen tripId={tripId} date={day} />}
+      {premium ? (
+        <DayOfPremium tripId={tripId} date={day} />
+      ) : (
+        <DayOfScreen tripId={tripId} date={day} />
+      )}
     </LocalFirstGate>
   );
 }

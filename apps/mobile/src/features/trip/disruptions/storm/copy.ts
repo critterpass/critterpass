@@ -66,27 +66,27 @@ export function dayEyebrow(day: string | null, locale: string): string {
   );
 }
 
-export function optionTitle(option: StormOptionData, locale: string): string {
+/** "Swap Fri and Sat", in sentence case (the premium cards). */
+export function optionText(option: StormOptionData, locale: string): string {
   const title = fact(option, 'title');
   switch (option.id) {
     case 'swap': {
       const from = stormDayName(option, locale);
       const to = swapDayName(option, locale);
-      return upper(
-        t({ id: 'trip.disruptions.storm.option.swap', message: `Swap ${from} and ${to}` }),
-        locale,
-      );
+      return t({ id: 'trip.disruptions.storm.option.swap', message: `Swap ${from} and ${to}` });
     }
     case 'keep': {
       const day = stormDayName(option, locale);
-      return upper(t({ id: 'trip.disruptions.storm.option.keep', message: `Keep ${day}` }), locale);
+      return t({ id: 'trip.disruptions.storm.option.keep', message: `Keep ${day}` });
     }
     case 'skip':
-      return upper(
-        t({ id: 'trip.disruptions.storm.option.skip', message: `Skip ${title}` }),
-        locale,
-      );
+      return t({ id: 'trip.disruptions.storm.option.skip', message: `Skip ${title}` });
   }
+}
+
+/** "SWAP FRI AND SAT" (the radio cards). */
+export function optionTitle(option: StormOptionData, locale: string): string {
+  return upper(optionText(option, locale), locale);
 }
 
 function moneyLine(option: StormOptionData, locale: string): string | null {

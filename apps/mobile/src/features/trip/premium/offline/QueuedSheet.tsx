@@ -43,7 +43,10 @@ export function QueuedSheet(props: QueuedItemSheetProps) {
         <View style={styles.waiting}>
           <View style={[styles.dot, { backgroundColor: th.accent.tangerine }]} />
           <Text variant="label" color={th.color.status.tangerine.text}>
-            {t({ id: 'trip.offline.waitingSince', message: `Waiting for signal since ${props.since}` })}
+            {t({
+              id: 'trip.offline.waitingSince',
+              message: `Waiting for signal since ${props.since}`,
+            })}
           </Text>
         </View>
         <Text variant="title" accessibilityRole="header">
@@ -92,7 +95,11 @@ export function QueuedSheet(props: QueuedItemSheetProps) {
           </Text>
         )}
         <View style={styles.center}>
-          <TextButton label={t({ id: 'trip.offline.premium.close', message: 'Close' })} onPress={props.onClose} testID="trip-offline-item-close" />
+          <TextButton
+            label={t({ id: 'trip.offline.premium.close', message: 'Close' })}
+            onPress={props.onClose}
+            testID="trip-offline-item-close"
+          />
         </View>
       </ScrollView>
     </Modal>
@@ -103,7 +110,13 @@ const styles = StyleSheet.create({
   body: { gap: 14 },
   waiting: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   dot: { width: 8, height: 8, borderRadius: 4 },
-  bubble: { marginLeft: 30, borderRadius: 22, borderBottomRightRadius: 6, paddingHorizontal: 16, paddingVertical: 12 },
+  bubble: {
+    marginLeft: 30,
+    borderRadius: 22,
+    borderBottomRightRadius: 6,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
   input: { minHeight: 44, lineHeight: 22 },
   pair: { flexDirection: 'row', gap: 8 },
   flex: { flex: 1 },

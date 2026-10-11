@@ -36,7 +36,12 @@ export function PackRow(props: {
             accessibilityState={{ checked: chip.packed }}
             accessibilityLabel={chip.label}
             {...(chip.personal
-              ? { accessibilityHint: t({ id: 'trip.dayOf.premium.packHint', message: 'Hold to remove it' }) }
+              ? {
+                  accessibilityHint: t({
+                    id: 'trip.dayOf.premium.packHint',
+                    message: 'Hold to remove it',
+                  }),
+                }
               : {})}
             testID={`trip-day-pack-${chip.id}`}
           >
@@ -69,10 +74,18 @@ export function PackRow(props: {
           <PressableScale
             onPress={() => setAdding(true)}
             accessibilityRole="button"
-            accessibilityLabel={t({ id: 'trip.dayOf.premium.addPack', message: 'Add something to pack' })}
+            accessibilityLabel={t({
+              id: 'trip.dayOf.premium.addPack',
+              message: 'Add something to pack',
+            })}
             testID="trip-day-pack-add"
           >
-            <View style={[styles.chip, { borderWidth: 1.5, borderStyle: 'dashed', borderColor: th.color.outlineEmpty }]}>
+            <View
+              style={[
+                styles.chip,
+                { borderWidth: 1.5, borderStyle: 'dashed', borderColor: th.color.outlineEmpty },
+              ]}
+            >
               <Text variant="pillSmall" tone="muted">
                 {t({ id: 'trip.dayOf.premium.addShort', message: '+ Add' })}
               </Text>
@@ -82,8 +95,14 @@ export function PackRow(props: {
       </View>
       {adding ? (
         <TextField
-          accessibilityLabel={t({ id: 'trip.dayOf.premium.addPack', message: 'Add something to pack' })}
-          placeholder={t({ id: 'trip.dayOf.premium.packPlaceholder', message: 'Headlamp, jacket…' })}
+          accessibilityLabel={t({
+            id: 'trip.dayOf.premium.addPack',
+            message: 'Add something to pack',
+          })}
+          placeholder={t({
+            id: 'trip.dayOf.premium.packPlaceholder',
+            message: 'Headlamp, jacket…',
+          })}
           value={text}
           onChangeText={setText}
           autoFocus
@@ -104,7 +123,15 @@ export function PackRow(props: {
 
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { height: 34, borderRadius: 17, flexDirection: 'row', alignItems: 'center', gap: 6, paddingLeft: 8, paddingRight: 12 },
+  chip: {
+    height: 34,
+    borderRadius: 17,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingLeft: 8,
+    paddingRight: 12,
+  },
   mark: { width: 18, height: 18, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   pending: { opacity: 0.7 },
 });

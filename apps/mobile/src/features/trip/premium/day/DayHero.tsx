@@ -38,8 +38,12 @@ export function DayHero(props: DayHeroProps) {
   const th = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const still = props.media === null ? undefined : pickBySize(props.media.images, width * PixelRatio.get());
-  const uri = props.media === null || still === undefined ? null : (savedStillUri(props.media, still.url) ?? still.url);
+  const still =
+    props.media === null ? undefined : pickBySize(props.media.images, width * PixelRatio.get());
+  const uri =
+    props.media === null || still === undefined
+      ? null
+      : (savedStillUri(props.media, still.url) ?? still.url);
   const white = premium.accent.paper;
   return (
     <View
@@ -55,10 +59,20 @@ export function DayHero(props: DayHeroProps) {
       testID="trip-day-hero"
     >
       {uri === null ? null : (
-        <Image source={{ uri }} style={StyleSheet.absoluteFill} resizeMode="cover" accessibilityIgnoresInvertColors />
+        <Image
+          source={{ uri }}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+          accessibilityIgnoresInvertColors
+        />
       )}
       <View style={[StyleSheet.absoluteFill, { backgroundImage: FADE }]} />
-      <View style={[styles.chips, { top: insets.top + th.space.gap6, left: 76, right: th.space.gutter }]}>
+      <View
+        style={[
+          styles.chips,
+          { top: insets.top + th.space.gap6, left: 76, right: th.space.gutter },
+        ]}
+      >
         <GlassPill kind="clear" label={props.eyebrow} testID="trip-day-eyebrow" />
         {props.forecast === null ? null : (
           <GlassPill

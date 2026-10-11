@@ -181,94 +181,87 @@ export function useDayOf(tripId: string, date: string) {
   };
 
   const props: DayOfProps = {
-      // Each day of the trip shows the next of the destination's photos.
-      heroMedia: heroAt(media.items, (dayNo ?? 0) + 1),
-      mediaLowData: mediaLowData,
-      // Ready once the day's own rows are in, so the hero never swaps its words under the reader.
-      state: 
-        trip.loaded &&
-        leaveBys.loaded &&
-        packing.loaded &&
-        (items.loaded || (tripRow !== null && tripRow.current_version_id === null))
-          ? 'ready'
-          : 'loading'
-      ,
-      eyebrow: dayEyebrow(localDate, dayNo, locale, relation === 'tomorrow'),
-      onToday: 
-        relation !== 'today' && tripOnToday
-          ? () => router.replace(tripDayRoute(tripId, null))
-          : undefined
-      ,
-      forecast: forecast === null ? null : forecastLabel(forecast.tempC, forecast.atTheTop, locale),
-      backFallback: tripHubRoute(tripId),
-      onOffline: () => router.push(tripOfflineRoute(tripId)),
-      onForecast: 
-        tripRow?.destination_id == null ? undefined : () => router.push(forecastHref(tripId))
-      ,
-      leaveBy: leaveBy,
-      now: now,
-      guideName: guideName,
-      firstUp: lead,
-      onGo: 
-        go?.target == null
-          ? undefined
-          : () => {
-              if (go.target !== null) router.push(goHref(go.target));
-            }
-      ,
-      goDetail: go?.detail ?? null,
-      // Late for the stop the hero names, while it is still ahead today.
-      late:
-        relation !== 'today' || planDayNo === null || lead === null || lead.kind === 'done'
-          ? null
-          : (minutes: number) => router.push(saidLateRoute(tripId, lead.id, minutes)),
-      pack: buildPackChips(packing.rows, pending.rows, tripId, localDate),
-      timeline: timeline.map((entry) => ({
-        ...entry,
-        ...(entry.bookingId !== null
-          ? { onPress: () => router.push('/(tabs)/wallet/bookings') }
-          : planDayNo === null
-            ? {}
-            : { onPress: () => router.push(dayRoute(tripId, planDayNo, entry.id)) }),
-      })),
-      onTomorrow: 
-        relation === 'today' && tripRow?.end_date != null && tomorrowOf(today) <= tripRow.end_date
-          ? () => router.push(tripDayRoute(tripId, tomorrowOf(today)))
-          : undefined
-      ,
-      onDayPlan: planDayNo === null ? undefined : () => router.push(dayRoute(tripId, planDayNo)),
-      offline: syncPhase === 'offline',
-      alarmNote: 
-        note === null
-          ? null
-          : {
-              text: note.text,
-              ...(note.sheet === null
-                ? {}
-                : {
-                    action: {
-                      label: note.actionLabel ?? '',
-                      onPress: () => setSheet(note.sheet),
-                    },
-                  }),
-            }
-      ,
-      onImUp: () => {
-        if (leaveBy === null) return;
-        alarmStore.silence(leaveBy.id);
-        void sendReadiness({ leave_by_id: leaveBy.id, state: 'up', source: 'app' });
-      },
-      onTogglePack: (id, packed) => void sendCheck({ item_id: id, checked: packed }),
-      onAddPack: (label) =>
-        void sendAdd({
-          item_id: generateUuidV7(),
-          trip_id: tripId,
-          day: localDate,
-          label,
-          personal: true,
-        })
-      ,
-      onRemovePack: (id) => void sendRemove({ item_id: id }),
+    // Each day of the trip shows the next of the destination's photos.
+    heroMedia: heroAt(media.items, (dayNo ?? 0) + 1),
+    mediaLowData: mediaLowData,
+    // Ready once the day's own rows are in, so the hero never swaps its words under the reader.
+    state:
+      trip.loaded &&
+      leaveBys.loaded &&
+      packing.loaded &&
+      (items.loaded || (tripRow !== null && tripRow.current_version_id === null))
+        ? 'ready'
+        : 'loading',
+    eyebrow: dayEyebrow(localDate, dayNo, locale, relation === 'tomorrow'),
+    onToday:
+      relation !== 'today' && tripOnToday
+        ? () => router.replace(tripDayRoute(tripId, null))
+        : undefined,
+    forecast: forecast === null ? null : forecastLabel(forecast.tempC, forecast.atTheTop, locale),
+    backFallback: tripHubRoute(tripId),
+    onOffline: () => router.push(tripOfflineRoute(tripId)),
+    onForecast:
+      tripRow?.destination_id == null ? undefined : () => router.push(forecastHref(tripId)),
+    leaveBy: leaveBy,
+    now: now,
+    guideName: guideName,
+    firstUp: lead,
+    onGo:
+      go?.target == null
+        ? undefined
+        : () => {
+            if (go.target !== null) router.push(goHref(go.target));
+          },
+    goDetail: go?.detail ?? null,
+    // Late for the stop the hero names, while it is still ahead today.
+    late:
+      relation !== 'today' || planDayNo === null || lead === null || lead.kind === 'done'
+        ? null
+        : (minutes: number) => router.push(saidLateRoute(tripId, lead.id, minutes)),
+    pack: buildPackChips(packing.rows, pending.rows, tripId, localDate),
+    timeline: timeline.map((entry) => ({
+      ...entry,
+      ...(entry.bookingId !== null
+        ? { onPress: () => router.push('/(tabs)/wallet/bookings') }
+        : planDayNo === null
+          ? {}
+          : { onPress: () => router.push(dayRoute(tripId, planDayNo, entry.id)) }),
+    })),
+    onTomorrow:
+      relation === 'today' && tripRow?.end_date != null && tomorrowOf(today) <= tripRow.end_date
+        ? () => router.push(tripDayRoute(tripId, tomorrowOf(today)))
+        : undefined,
+    onDayPlan: planDayNo === null ? undefined : () => router.push(dayRoute(tripId, planDayNo)),
+    offline: syncPhase === 'offline',
+    alarmNote:
+      note === null
+        ? null
+        : {
+            text: note.text,
+            ...(note.sheet === null
+              ? {}
+              : {
+                  action: {
+                    label: note.actionLabel ?? '',
+                    onPress: () => setSheet(note.sheet),
+                  },
+                }),
+          },
+    onImUp: () => {
+      if (leaveBy === null) return;
+      alarmStore.silence(leaveBy.id);
+      void sendReadiness({ leave_by_id: leaveBy.id, state: 'up', source: 'app' });
+    },
+    onTogglePack: (id, packed) => void sendCheck({ item_id: id, checked: packed }),
+    onAddPack: (label) =>
+      void sendAdd({
+        item_id: generateUuidV7(),
+        trip_id: tripId,
+        day: localDate,
+        label,
+        personal: true,
+      }),
+    onRemovePack: (id) => void sendRemove({ item_id: id }),
   };
   return {
     props,

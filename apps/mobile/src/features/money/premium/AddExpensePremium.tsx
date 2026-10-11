@@ -11,15 +11,12 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { crewAccent } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import {
-  Avatar,
   Button,
   EmptyState,
   PressableScale,
-  ring,
   SegmentedControl,
   Skeleton,
   Tag,
@@ -29,7 +26,7 @@ import {
 } from '@/ui/premium';
 import { askToDiscard, FullScreen } from '@/ui/premium/shell';
 
-import { DAY_CHIPS, daysBackOf, useSpentDayLabel } from '../add-expense/spent-day';
+import { daysBackOf } from '../add-expense/spent-day';
 import { sharesByMember, type SplitEditorMode } from '../add-expense/draft';
 import { useAddExpense } from '../add-expense/use-add-expense';
 import { CATEGORY_ORDER, useCategoryLabel } from '../components/category';
@@ -37,6 +34,8 @@ import { MONEY_FALLBACK } from '../components/screen-states';
 import { formatPlain, symbolOf } from '../format';
 import { AmountKeypad } from './components/AmountKeypad';
 import { ChoiceStrip } from './components/ChoiceStrip';
+import { PayerRow } from './components/PayerRow';
+import { SpentDayLine } from './components/SpentDayLine';
 import { SplitPeople } from './components/SplitPeople';
 
 type Open = 'currency' | 'category' | 'day' | null;
@@ -52,7 +51,6 @@ export function AddExpensePremium(props: {
   const insets = useSafeAreaInsets();
   const state = useAddExpense(props.editId, props.prefillName, props.tripId);
   const categoryLabel = useCategoryLabel();
-  const dayLabel = useSpentDayLabel();
   const [open, setOpen] = useState<Open>(null);
   const { draft, ctx } = state;
   const closeLabel = t({ id: 'money.premium.close', message: 'Close' });
@@ -220,71 +218,20 @@ export function AddExpensePremium(props: {
               testID="money-add-categories"
             />
           ) : null}
-          <View style={[styles.line, { paddingHorizontal: th.space.gutter }]}>
-            <Text variant="label" tone="muted" style={styles.lineLabel}>
-              {t({ id: 'money.premium.paidBy', message: 'Paid by' })}
-            </Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: th.space.gap6 }}
-            >
-              {members.map((member) => {
-                const payer = member.userId === draft.payerId;
-                return (
-                  <PressableScale
-                    key={member.userId}
-                    onPress={() => state.dispatch({ type: 'payer', userId: member.userId })}
-                    accessibilityRole="radio"
-                    accessibilityState={{ selected: payer }}
-                    accessibilityLabel={member.name}
-                    testID={`money-add-payer-${member.userId}`}
-                  >
-                    <View
-                      style={[
-                        styles.payer,
-                        payer
-                          ? {
-                              boxShadow: [ring(2.5, th.color.ground), ring(4.5, th.color.ink)].join(
-                                ', ',
-                              ),
-                            }
-                          : styles.dim,
-                      ]}
-                    >
-                      <Avatar name={member.name} color={crewAccent(member.joinIndex)} size={36} />
-                    </View>
-                  </PressableScale>
-                );
-              })}
-            </ScrollView>
-          </View>
-          <View style={[styles.line, { paddingHorizontal: th.space.gutter }]}>
-            <Text variant="label" tone="muted" style={styles.lineLabel}>
-              {t({ id: 'money.premium.when', message: 'When' })}
-            </Text>
-            <Button
-              label={`${dayLabel(daysBack, now)} ⌄`}
-              variant="floating"
-              size="small"
-              onPress={() => toggle('day')}
-              testID="money-add-day"
-            />
-          </View>
-          {open === 'day' ? (
-            <ChoiceStrip<number>
-              choices={Array.from({ length: DAY_CHIPS }, (_, back) => ({
-                value: back,
-                label: dayLabel(back, now),
-              }))}
-              value={daysBack}
-              onPick={(back) => {
-                state.setDay(back);
-                setOpen(null);
-              }}
-              testID="money-add-days"
-            />
-          ) : null}
+          <PayerRow
+            members={members}
+            payerId={draft.payerId}
+            onPayer={(userId) => state.dispatch({ type: 'payer', userId })}
+          />
+          <SpentDayLine
+            daysBack={daysBack}
+            open={open === 'day'}
+            onToggle={() => toggle('day')}
+            onPick={(back) => {
+              state.setDay(back);
+              setOpen(null);
+            }}
+          />
           <View style={{ paddingHorizontal: th.space.gap16 }}>
             <SegmentedControl<SplitEditorMode>
               accessibilityLabel={t({ id: 'money.premium.split', message: 'How it splits' })}
@@ -336,8 +283,4 @@ const styles = StyleSheet.create({
   amountRow: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
   tabular: { fontVariant: ['tabular-nums'] },
   what: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  line: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  lineLabel: { width: 56 },
-  payer: { borderRadius: 18 },
-  dim: { opacity: 0.45 },
 });
