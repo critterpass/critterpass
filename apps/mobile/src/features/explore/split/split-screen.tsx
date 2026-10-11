@@ -15,7 +15,6 @@ export function SplitScreen({
   readonly placeId: string;
 }) {
   const { view, picker } = useSplit({ tripId, placeId });
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a React key, never copy.
   const pickerKey = `${picker.mine?.stance ?? 'none'}:${picker.mine?.note ?? ''}`;
   return (
     <SplitView
