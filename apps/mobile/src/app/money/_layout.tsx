@@ -30,6 +30,7 @@ export default function MoneyLayout() {
         {premium ? (
           <PremiumStack>
             <PremiumStackScreen name="add" options={FULL_SCREEN_ROUTE_OPTIONS} />
+            <PremiumStackScreen name="scan" options={FULL_SCREEN_ROUTE_OPTIONS} />
           </PremiumStack>
         ) : (
           <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />

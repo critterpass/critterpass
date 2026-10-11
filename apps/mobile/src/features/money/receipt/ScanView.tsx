@@ -62,6 +62,8 @@ export interface ScanViewProps {
   readonly onType: () => void;
   readonly onRetake: () => void;
   readonly onSettings: () => void;
+  /** Draws a scene's panel in another look (the premium review and failure sheets); null keeps this one. */
+  readonly panelFor?: ((scene: ScanScene) => ReactNode | null) | undefined;
 }
 
 function Panel({ children, testID }: { readonly children: ReactNode; readonly testID: string }) {
@@ -271,6 +273,8 @@ export function ScanView(props: ScanViewProps) {
     panel = <FailureSheet {...scene.failure} />;
   }
 
+  const custom = props.panelFor?.(scene) ?? null;
+  if (custom !== null) panel = custom;
   return (
     <ScanCamera
       chip={{ label: upper(chipText, locale), tone: issue === null ? 'green' : 'pink' }}

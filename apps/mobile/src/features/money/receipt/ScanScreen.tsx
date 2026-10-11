@@ -25,7 +25,7 @@ import { useSendOnce } from '../data/use-send-once';
 import { MONEY_ROUTES } from '../routes';
 import { MemberPicker } from './MemberPicker';
 import { receiptView, toCommitPayload } from './review-model';
-import { ScanView } from './ScanView';
+import { ScanView, type ScanViewProps } from './ScanView';
 import { TypeLinesScreen } from './TypeLinesScreen';
 import { useReceiptQueueDrain } from './receipt-queue';
 import { useReviewScene } from './use-review-scene';
@@ -41,7 +41,14 @@ function alreadyCommitted(result: SendResult): boolean {
   );
 }
 
-export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: string | null }) {
+export function ScanScreen({
+  tripId: routeTripId = null,
+  panelFor,
+}: {
+  readonly tripId?: string | null;
+  /** Draws the review and failure sheets in another look. */
+  readonly panelFor?: ScanViewProps['panelFor'];
+}) {
   const services = useMoneyServices();
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a flag key, not copy
   const enabled = useFlag('money.receipts');
@@ -198,6 +205,7 @@ export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: s
           onType={typeItIn}
           onRetake={scan.retake}
           onSettings={() => void Linking.openSettings()}
+          panelFor={panelFor}
         />
         {picker === 'payer' ? (
           <MemberPicker
