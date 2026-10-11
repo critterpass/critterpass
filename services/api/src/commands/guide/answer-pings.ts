@@ -67,7 +67,7 @@ export function detachable(
 ): { readonly stream: AsyncGenerator<TurnEvent, void, undefined>; readonly leave: () => void } {
   const buffer: TurnEvent[] = [];
   let finished = false;
-  let failure: unknown = null;
+  let failure: Error | null = null;
   let wake: (() => void) | null = null;
   let left = false;
   const notify = () => {
@@ -81,7 +81,8 @@ export function detachable(
         notify();
       }
     } catch (error) {
-      failure = error;
+      failure =
+        error instanceof Error ? error : new Error('the guide stream failed', { cause: error });
     } finally {
       finished = true;
       notify();
