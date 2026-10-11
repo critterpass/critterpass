@@ -38,3 +38,13 @@ export const HATCH_PAINT = {
   rays: 'rgba(84,214,164,.25)',
   shell: '#fff1d6',
 } as const;
+
+/** A flat ring drawn as a spread shadow. */
+export function ring(width: number, color: string): string {
+  return `0 0 0 ${width}px ${color}`;
+}
+
+/** A gap ring then a coloured ring (a joined member's avatar on a card). */
+export function doubleRing(gap: number, gapColor: string, width: number, color: string): string {
+  return `${ring(gap, gapColor)}, ${ring(width, color)}`;
+}
