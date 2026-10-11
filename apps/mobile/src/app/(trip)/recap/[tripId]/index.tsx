@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 
 import { PremiumRecapScene } from '@/features/recap/premium/recap-scene';
+import { PremiumRecapShare } from '@/features/recap/premium/recap-share';
 import { RecapSummaryScreen } from '@/features/recap/summary/summary-screen';
 import { RouteMissing } from '@/features/recap/route-missing';
 import { premiumRoute } from '@/lib/premium-ui';
@@ -11,7 +12,7 @@ function RecapPage({ premium }: { readonly premium: boolean }) {
     <RecapSummaryScreen
       tripId={tripId}
       ended={ended === '1'}
-      {...(premium ? { View: PremiumRecapScene } : {})}
+      {...(premium ? { View: PremiumRecapScene, Share: PremiumRecapShare } : {})}
     />
   ) : (
     <RouteMissing testID="recap-missing" />

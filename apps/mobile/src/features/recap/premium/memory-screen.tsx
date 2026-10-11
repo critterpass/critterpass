@@ -29,9 +29,8 @@ import { FullScreen } from '@/ui/premium/shell';
 import { useLiveRows } from '../data/live-rows';
 import { reactionA11y, reactionLabel } from '../memory/memory-copy';
 import type { MemoryReactionChip } from '../memory/memory-model';
-import { MemoryShareSheet } from '../memory/memory-share-sheet';
-import { ReactionSheet } from '../memory/reaction-sheet';
 import { useMemoryScreen, type MemoryScreenState } from '../memory/use-memory-screen';
+import { PremiumMemoryShare, PremiumReactionSheet } from './memory-sheets';
 import { RECAP_PAINT } from './recap-paint';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- SQL, never copy.
@@ -135,10 +134,14 @@ function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
         </View>
       </View>
       {m.reacting ? (
-        <ReactionSheet initial={m.mine} onSend={m.onSend} onClose={() => m.setReacting(false)} />
+        <PremiumReactionSheet
+          initial={m.mine}
+          onSend={m.onSend}
+          onClose={() => m.setReacting(false)}
+        />
       ) : null}
       {m.sharing ? (
-        <MemoryShareSheet
+        <PremiumMemoryShare
           guideKind={m.guideKind}
           eyebrow={m.eyebrow}
           title={m.title}
