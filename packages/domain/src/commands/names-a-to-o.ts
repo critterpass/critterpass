@@ -36,6 +36,7 @@ export const COMMAND_NAMES_A_TO_O = [
   'cancel_trip',
   'cast_ballot',
   'cast_mvp_vote',
+  'change_trip_dates',
   'check_packing_item',
   'choose_late_option',
   'choose_private_option',
