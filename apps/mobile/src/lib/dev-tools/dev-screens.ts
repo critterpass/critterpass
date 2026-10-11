@@ -37,6 +37,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
       { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
       { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
       { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
+      { testId: 'dev-nav-premium-kit', href: '/(dev)/premium-kit', label: 'Premium kit' },
       { testId: 'dev-nav-money-lab', href: '/(dev)/money-lab', label: 'Money (3i scenes)' },
       { testId: 'dev-nav-type-lab', href: '/(dev)/type-lab', label: 'Type lab (label centring)' },
       { testId: 'dev-nav-guide-lab', href: '/(dev)/guide-lab', label: 'Guide (3j, 4b scenes)' },
