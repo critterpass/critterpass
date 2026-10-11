@@ -12,3 +12,8 @@ export { ring } from '@/ui/premium';
 export const PHRASE_PAINT = {
   glow: 'radial-gradient(circle at 50% 40%, rgba(255,216,74,.18), transparent 60%)',
 } as const;
+
+/** Voice mode's sun glow behind the listening guide. */
+export const VOICE_PAINT = {
+  glow: 'radial-gradient(circle at 50% 30%, rgba(255,216,74,.32), transparent 58%)',
+} as const;
