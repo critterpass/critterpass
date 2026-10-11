@@ -61,6 +61,16 @@ export const createBoostIntentResultSchema = z.object({
 export type CreateBoostIntentResult = z.infer<typeof createBoostIntentResultSchema>;
 
 export const releaseBoostIntentPayloadSchema = z.strictObject({ intent_id: z.uuid() });
+/**
+ * A seated member who found the trip's boost lock held by someone else asks to hear how it ends:
+ * a purchase tells them as it tells everyone; a lock that lapses or is let go tells them the trip
+ * is free to boost. `waiting: false` when no lock is held any more (nothing to wait for).
+ */
+export const watchBoostLockPayloadSchema = z.strictObject({ trip_id: z.uuid() });
+export type WatchBoostLockPayload = z.infer<typeof watchBoostLockPayloadSchema>;
+export interface WatchBoostLockResult {
+  readonly waiting: boolean;
+}
 export const thankBoostPayloadSchema = z.strictObject({ boost_id: z.uuid() });
 /** The buyer posts the boost's card to the crew chat (once per boost). */
 export const tellCrewBoostPayloadSchema = z.strictObject({ boost_id: z.uuid() });

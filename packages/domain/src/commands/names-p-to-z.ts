@@ -177,6 +177,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'verify_sender_email',
   'void_referral',
   'vote_idea',
+  'watch_boost_lock',
   'watch_flight',
   'withdraw_publish_consent',
 ] as const;

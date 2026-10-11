@@ -2,8 +2,8 @@
  * Boost a trip · who pays (9.12) as a sheet over the page that opened it: the entry stamp, the
  * perks, this trip or every trip all year, who pays (with the crew fanned out when it splits) and
  * the one button. The store's own sheet takes the payment (9.13). When a crewmate is paying right
- * now, the "someone's already boosting" alert (9.22) says so; the boost's own push tells everyone
- * when it is on.
+ * now, the "someone's already boosting" alert (9.22) says so, and "Tell me when it's done" asks to
+ * hear how it ends (the boost's own push if they finish, the guide's if the lock lapses).
  */
 import { crewChatLink } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
@@ -12,7 +12,7 @@ import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { Button, SegmentedControl, Text, usePremiumTheme } from '@/ui/premium';
+import { Button, SegmentedControl, Text, usePremiumTheme, useToast } from '@/ui/premium';
 
 import { useClosedCopy } from '../boost/closed-copy';
 import { useBoostScreen } from '../boost/use-boost-screen';
@@ -28,6 +28,7 @@ export function BoostPremium() {
   const { t, i18n } = useLingui();
   const th = usePremiumTheme();
   const props = useBoostScreen();
+  const toast = useToast();
   const rows = useBillingRows();
   const closedCopy = useClosedCopy();
   const { model } = props;
@@ -213,6 +214,17 @@ export function BoostPremium() {
         name={model.lockedBy ?? ''}
         onDone={() => {
           setAlertSeen(true);
+          void props.onWatchLock().then((asked) => {
+            if (!asked) {
+              toast.show({
+                kind: 'error',
+                message: t({
+                  id: 'monetize.premium.lockWatchFailed',
+                  message: 'That didn’t go through. You’ll still hear if they finish.',
+                }),
+              });
+            }
+          });
           close();
         }}
         {...(props.crewId === null

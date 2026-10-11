@@ -37,7 +37,7 @@ export const SYNCED_TABLE_COLUMNS = {
   boost_credits:
     'crew_id user_id reason from_boost_id store_transaction_id expires_at consumed_by_boost_id consumed_at revoked_at created_at',
   boost_intents:
-    'trip_id crew_id buyer_id product_key split_mode split_member_ids status expires_at created_at updated_at',
+    'trip_id crew_id buyer_id product_key split_mode split_member_ids status expires_at waiting_uids created_at updated_at',
   briefing_items:
     'briefing_id trip_id user_id position:integer icon text action target_user_ids deep_link facts status source source_event_id dedupe_key acted_at created_at updated_at i18n',
   briefings:

@@ -19,6 +19,14 @@ export const BILLING_PUSH = {
     id: 'notifications.billing.boost_body',
     message: 'It’s on for the whole crew. The details are in the crew chat.',
   },
+  lockFreedTitle: /*i18n*/ {
+    id: 'notifications.billing.lock_freed_title',
+    message: '{place} is free to boost',
+  },
+  lockFreedBody: /*i18n*/ {
+    id: 'notifications.billing.lock_freed_body',
+    message: '{buyer} didn’t finish boosting. It’s yours if you want it.',
+  },
   ftfEndingTitle: /*i18n*/ {
     id: 'notifications.billing.ftf_ending_title',
     message: '{days, plural, one {# day} other {# days}} left on your free first trip',
