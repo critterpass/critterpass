@@ -33,7 +33,7 @@ import { PlanMapSheet } from './plan-map-sheet';
 import { PlanMoreMenu } from './plan-more-menu';
 import { StopOverlays } from './stop-overlays';
 import { Timeline } from './timeline';
-import { TripRows } from './trip-rows';
+import { TripFixRows } from './trip-fixes';
 import { TopBar } from './top-bar';
 import { useMapCamera } from './use-map-camera';
 import { useMapFilters } from './use-map-filters';
@@ -171,7 +171,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         {model.empty ? (
           <EmptyPlan model={model} />
         ) : detent === 'full' ? (
-          <TripRows
+          <TripFixRows
+            tripId={tripId}
             rows={map.tripRows}
             guideName={model.guide.name}
             check={(() => {

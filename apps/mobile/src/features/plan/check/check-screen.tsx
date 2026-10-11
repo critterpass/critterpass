@@ -5,24 +5,18 @@
  * organisers and, for a member an organiser asked privately, the ask on top.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- toast ids, never copy. */
-import type { PlanCheckIssue } from '@cp/domain';
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useCallback, useMemo, useState, type ComponentType } from 'react';
+import { useState, type ComponentType } from 'react';
 
-import { usePlanCheck } from '@/data/checks/use-plan-check';
 import { useCommand } from '@/data/commands/use-command';
-import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { planRoutes } from '@/features/plan/overview/routes';
 import { useMotionMode } from '@/motion/motion-mode';
 import { toast } from '@/motion/island-toast';
 
-import { usePlanGuide } from '../plan-guide';
 import { AskCard, type AskCardProps } from './ask-card';
 import {
-  appliedToast,
-  draftAppliedToast,
   backTripLabel,
   balanceRowLabel,
   checkBody,
@@ -32,34 +26,18 @@ import {
   clearNotice,
   failedNotice,
   failedToast,
-  guideWorkingToast,
   fixAllLabel,
-  keptToast,
-  movedLine,
-  nearerDetail,
-  nearerNone,
-  nearerUseLabel,
   runningNotice,
-  sentToast,
-  sharedToast,
-  staleToast,
-  swappedLine,
-  unfitToast,
 } from './check-copy';
 import { CheckView, type CheckViewProps } from './check-view';
 import { answerMemberAskCommand } from './commands';
 import { fixAll } from './data/fixer-api';
-import { useCheckContext } from './data/use-check-context';
-import { useFixPreviews } from './data/use-fix-previews';
 import { useMemberAsks } from './data/use-member-ask';
-import { fixKindLabel, fixSummary, openByHandLabel } from './fix-copy';
-import { useFixedDays } from './fixed-days';
-import { checkedAgo, dayTag, driveLine } from './format';
-import type { IssueCardProps } from './issue-card';
-import { issueWords, kindTag, knowLine } from './issue-copy';
+import { checkedAgo } from './format';
+import { knowLine } from './issue-copy';
 import { checkRoutes } from './routes';
-import { stopHref } from './stop-href';
-import { fixActionOf, useFix, type ByHand, type FixOutcome } from './use-fix';
+import { useCheckCards } from './use-check-cards';
+import { fixActionOf } from './use-fix';
 
 export function CheckScreen({
   tripId,
@@ -72,136 +50,24 @@ export function CheckScreen({
   /** A private ask drawn in the same look. @default the current look */
   readonly Ask?: ComponentType<AskCardProps>;
 }) {
-  const plan = useTripPlan(tripId, { version: 'draft-or-current' });
-  const guideName = usePlanGuide().name;
-  // Her own draft, before the crew has a plan: its issues are listed the same, and each card
-  // opens its stop for her to change by hand (the guide's fixes are sent for the crew's plan).
-  const onDraft = plan.mode === 'draft';
-  const check = usePlanCheck(tripId, onDraft ? plan.versionId : null);
-  const byHand: ByHand | undefined = onDraft
-    ? (issue) => stopHref(tripId, plan.dayRows, issue)
-    : undefined;
-  const ctx = useCheckContext(plan);
+  const {
+    plan,
+    versionId,
+    check,
+    ctx,
+    onDraft,
+    byHand,
+    runner,
+    fixes,
+    fixedDays,
+    organiser,
+    guideName,
+    cards,
+  } = useCheckCards(tripId);
   const [motionMode] = useMotionMode();
-  const versionId = check.check?.version_id ?? null;
-  const runner = useFix(versionId, onDraft);
   const answer = useCommand(answerMemberAskCommand);
   const asks = useMemberAsks(tripId);
-  const [open, setOpen] = useState<string | null>(null);
   const [fixingAll, setFixingAll] = useState(false);
-  const fixedDays = useFixedDays();
-  // A card leaves at once when its fix landed, it was kept, or a fixer screen changed its day.
-  const fixes = useMemo(
-    () =>
-      check.fixes.filter(
-        (issue) =>
-          !runner.gone.has(issue.id) && (issue.day_id === null || !fixedDays.has(issue.day_id)),
-      ),
-    [check.fixes, fixedDays, runner.gone],
-  );
-  const clock = useCallback(
-    (instant: string, dayId: string | null = null) => ctx.clock(instant, dayId),
-    [ctx],
-  );
-  const previews = useFixPreviews(tripId, versionId, onDraft ? [] : fixes, ctx.name, clock);
-  const organiser = plan.organiser;
-
-  const after = (outcome: FixOutcome, done: string) => {
-    const words =
-      outcome.kind === 'applied'
-        ? onDraft
-          ? draftAppliedToast(done)
-          : appliedToast(done)
-        : outcome.kind === 'sent'
-          ? sentToast()
-          : outcome.kind === 'stale'
-            ? staleToast(guideName)
-            : outcome.kind === 'unfit'
-              ? unfitToast()
-              : outcome.kind === 'guideWorking'
-                ? guideWorkingToast(guideName)
-                : outcome.kind === 'shared'
-                  ? sharedToast()
-                  : failedToast();
-    toast.show({ id: `plan-check-${outcome.kind}`, ...words });
-  };
-
-  const onFix = async (issue: PlanCheckIssue) => {
-    const action = fixActionOf(issue, tripId, byHand);
-    if (action.kind === 'screen' || action.kind === 'by_hand') {
-      router.push(action.href);
-      return;
-    }
-    if (action.kind === 'too_far') {
-      setOpen(issue.id);
-      return;
-    }
-    if (action.kind !== 'apply' || issue.fix?.kind !== 'apply') return;
-    const op = issue.fix.ops[0];
-    const at = op?.after?.starts_at;
-    const done =
-      op === undefined || typeof at !== 'string'
-        ? ''
-        : movedLine(ctx.name(op.target), ctx.clock(at, issue.day_id));
-    after(await runner.fix(issue), done);
-  };
-
-  const cards: IssueCardProps[] = fixes.map((issue) => {
-    const words = issueWords(issue, ctx);
-    const preview = previews.get(issue.id) ?? {};
-    const action = fixActionOf(issue, tripId, byHand);
-    const date = ctx.dayDate(issue.day_id);
-    const nearer = issue.kind === 'too_far' ? (preview.nearer ?? null) : null;
-    return {
-      id: issue.id,
-      tags: [
-        kindTag(issue.kind),
-        ...(date === null ? [] : [{ label: dayTag(date), color: kindTag(issue.kind).color }]),
-      ],
-      title: words.title,
-      body: words.body,
-      summary: onDraft ? null : fixSummary(issue, ctx, preview),
-      fixLabel:
-        action.kind === 'none'
-          ? null
-          : action.kind === 'by_hand'
-            ? openByHandLabel(issue.stable_ids.length > 0)
-            : fixKindLabel(issue, organiser),
-      busy: runner.busy === issue.id,
-      onFix: () => void onFix(issue),
-      detail:
-        open !== issue.id
-          ? null
-          : {
-              line:
-                nearer === null
-                  ? nearerNone()
-                  : nearerDetail(
-                      nearer,
-                      preview.nearerLegMin ?? null,
-                      driveLine(preview.nearerSavedMin ?? 0),
-                      driveLine(preview.nearerLegMin ?? 0),
-                    ),
-              useLabel: nearerUseLabel(),
-              onUse:
-                nearer === null
-                  ? null
-                  : () =>
-                      void runner.fix(issue).then((outcome) => {
-                        setOpen(null);
-                        after(outcome, swappedLine(ctx.name(issue.stable_ids[0] ?? ''), nearer));
-                      }),
-              onKeep: () => {
-                setOpen(null);
-                // A keep is the crew plan's: on her own draft the card just leaves.
-                runner.keep(issue, organiser && !onDraft);
-                if (organiser && !onDraft)
-                  toast.show({ id: 'plan-check-kept', ...keptToast(guideName) });
-              },
-            },
-    };
-  });
-
   const fixable = onDraft
     ? []
     : fixes.filter((issue) => fixActionOf(issue, tripId, byHand).kind !== 'none');
