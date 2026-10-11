@@ -53,6 +53,7 @@ export const expenses = pgTable('expenses', {
   crewAmountMinor: minor('crew_amount_minor').notNull(),
   crewCurrency: currency('crew_currency').notNull(),
   splitMode: text('split_mode').notNull(),
+  splitStayKey: text('split_stay_key'),
   category: text('category').notNull().default('other'),
   description: text('description').notNull().default(''),
   merchant: text('merchant'),

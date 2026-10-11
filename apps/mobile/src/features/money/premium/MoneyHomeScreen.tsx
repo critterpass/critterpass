@@ -32,6 +32,7 @@ function Ready({ state }: { readonly state: BalancesReady }) {
   const { t } = useLingui();
   const { model, items, currency, ctx, trip } = state;
   const latest = items[0] ?? null;
+  const taps = model.plan.length;
   return (
     <>
       {ctx.trips.length > 1 ? (
@@ -78,7 +79,7 @@ function Ready({ state }: { readonly state: BalancesReady }) {
             ? t({ id: 'money.settle.none', message: 'Nothing to settle' })
             : t({
                 id: 'money.settle.taps',
-                message: plural(model.plan.length, {
+                message: plural(taps, {
                   one: 'Settle in # tap',
                   other: 'Settle in # taps',
                 }),

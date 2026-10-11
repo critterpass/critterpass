@@ -182,6 +182,7 @@ export {
   type PricedStay,
   type RoomSplit,
 } from './rooms/split';
+export { roomSplitShares, type RoomSeat } from './rooms/expense-shares';
 export {
   dropout,
   type DropoutChange,

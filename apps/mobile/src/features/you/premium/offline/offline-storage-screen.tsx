@@ -252,6 +252,21 @@ export function OfflineStoragePremiumScreen() {
               />
             }
           />
+          <Row
+            title={t({ id: 'you.premium.offline.wifiOnly', message: 'Only on Wi-Fi' })}
+            trailing={
+              <Toggle
+                value={store.wifiOnly}
+                onChange={store.setWifiOnly}
+                disabled={!store.auto}
+                accessibilityLabel={t({
+                  id: 'you.premium.offline.wifiOnly',
+                  message: 'Only on Wi-Fi',
+                })}
+                testID="trip-offline-wifi-only"
+              />
+            }
+          />
         </ListCard>
 
         <GuideNote

@@ -4,15 +4,14 @@ export { NextRow, type HubNext } from './hub/next-row';
 export {
   crewAccent,
   guideCritterKind,
+  guideCritterName,
   IconTile,
   LineIcon,
   tripZoomId,
   turn,
   type LineIconName,
 } from './premium';
-// The saved trip days behind the premium Offline page (You · Storage): what is saved, refreshing
-// and removing it, and the auto-download preference.
-export { AUTO_ID, AUTO_SQL, autoDownloadOn, PREFS_KIND } from './bundle/background-prefetch';
+export { useDayPrefs, type DayPrefs } from './bundle/background-prefetch';
 export {
   BUNDLE_KIND,
   parseSavedDay,

@@ -59,7 +59,7 @@ export function PayoutMethodBlock(props: {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
-  const { method, row } = props;
+  const { method, row, label, toName } = props;
   const qr = payoutQr(method, row.amountMinor, row.currency);
   const details = method.details as Readonly<Record<string, string | undefined>>;
   const amount = formatAmount(row.amountMinor, row.currency, locale);
@@ -79,7 +79,7 @@ export function PayoutMethodBlock(props: {
         >
           <Qr
             payload={qr.payload}
-            label={t({ id: 'money.pay.qrLabel', message: `${props.label} for ${props.toName}` })}
+            label={t({ id: 'money.pay.qrLabel', message: `${label} for ${toName}` })}
           />
           <Text variant="caption" color={LIGHT.inkSecondary} align="center">
             {qr.withAmount

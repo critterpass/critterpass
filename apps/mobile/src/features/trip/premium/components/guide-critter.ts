@@ -7,3 +7,8 @@ import { guideSticker } from '@/ui/avatar/guides';
 export function guideCritterKind(guideId: string | null | undefined): string {
   return guideSticker(guideId).kind;
 }
+
+/** The guide's own name as its critter is called ("Tokek"). */
+export function guideCritterName(guideId: string | null | undefined): string {
+  return guideSticker(guideId).name;
+}

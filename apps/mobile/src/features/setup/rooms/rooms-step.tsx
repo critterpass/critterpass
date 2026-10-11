@@ -64,7 +64,14 @@ export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): Ro
   return [...chips.filter((c) => c !== 'dont_care'), chip].slice(-4);
 }
 
-export function RoomsStep({ trip, shell }: StepProps) {
+export function RoomsStep({
+  trip,
+  shell,
+  View = RoomsView,
+}: StepProps & {
+  /** The look the step is drawn in (the premium rooms pages pass theirs). */
+  readonly View?: typeof RoomsView;
+}) {
   const locale = useLocale();
   const data = useRoomsData(trip.tripId, trip.me);
   const crewMoney = useCrewMoney(trip.tripId);
@@ -180,7 +187,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
   // Nothing to show on the way past: the must-dos step is already opening.
   if (pass) return null;
   return (
-    <RoomsView
+    <View
       trip={trip}
       shell={shell}
       model={model}

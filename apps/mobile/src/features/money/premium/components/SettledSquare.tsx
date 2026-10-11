@@ -49,7 +49,7 @@ export function SettledSquare({ settle }: { readonly settle: Ready }) {
     <View style={{ gap: th.space.gap16 }} testID="money-settle-square">
       <View style={styles.stampWrap}>
         <RoundStamp
-          word={t({ id: 'money.premium.square', message: 'SQUARE' })}
+          word={t({ id: 'money.premium.squareStamp', message: 'SQUARE' })}
           top={name.toUpperCase()}
           bottom={t({
             id: 'money.premium.squareCount',

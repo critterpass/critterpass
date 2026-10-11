@@ -90,6 +90,9 @@ export function WalletBookingsScreen() {
   const passOf = (id: string) =>
     data.wallet.entries.get(id)?.barcode != null ? () => router.push(boardingPassRoute(id)) : null;
 
+  // Named as the current wallet names them, so both read the same catalog entry.
+  const count = data.banner?.count ?? 0;
+  const member = data.banner?.member ?? '';
   return (
     <WalletGuideProvider tripId={data.context.trip?.id ?? null}>
       <RootScreen
@@ -149,16 +152,16 @@ export function WalletBookingsScreen() {
                         data.banner.member === null
                           ? t({
                               id: 'bookings.banner.mine',
-                              message: plural(data.banner.count, {
+                              message: plural(count, {
                                 one: "Found # booking in your inbox that wasn't here yet.",
                                 other: "Found # bookings in your inbox that weren't here yet.",
                               }),
                             })
                           : t({
                               id: 'bookings.banner.member',
-                              message: plural(data.banner.count, {
-                                one: `Found # booking in ${data.banner.member}'s inbox that wasn't here yet.`,
-                                other: `Found # bookings in ${data.banner.member}'s inbox that weren't here yet.`,
+                              message: plural(count, {
+                                one: `Found # booking in ${member}'s inbox that wasn't here yet.`,
+                                other: `Found # bookings in ${member}'s inbox that weren't here yet.`,
                               }),
                             })
                       }

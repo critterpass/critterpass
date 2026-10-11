@@ -6,13 +6,10 @@
  */
 import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
-import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { goBackOr } from '@/lib/navigation/back';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -27,10 +24,8 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { dayLabel } from '../shared/format';
-import { driverRoutes, driversRoute, splitDays, tripRoute } from '../shared/routes';
-import { useDriverDays } from '../shared/use-driver-days';
-import { useDrivers } from '../shared/use-drivers';
 import { SourceCard } from './source-card';
+import { useFindDriver } from './use-find-driver';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -57,30 +52,10 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
   const locale = useLocale();
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
-  const plan = useDriverDays(tripId);
-  const { state, refresh } = useDrivers(tripId);
-  const [picked, setPicked] = useState<ReadonlySet<string>>(() => new Set(splitDays(initial)));
-  const [adding, setAdding] = useState(false);
-  const chosen = plan.days.filter((day) => picked.has(day.date));
-  const first = chosen[0] ?? plan.days.find((day) => day.gap !== null) ?? null;
-  const daysParam = { days: [...picked].sort().join(',') };
-  const shortlist =
-    state.kind === 'ready' || state.kind === 'offline'
-      ? (state.data?.drivers ?? []).filter((driver) => driver.terms.status === 'shortlisted')
-      : [];
-  const toggle = (date: string) =>
-    setPicked((prev) => {
-      const next = new Set(prev);
-      if (next.has(date)) next.delete(date);
-      else next.add(date);
-      return next;
-    });
+  const find = useFindDriver(tripId, initial);
+  const { plan, state, refresh, picked, toggle, first, shown, canAdd, shortlist } = find;
   const sticker = guideSticker(plan.guide.id);
-  const shown = adding ? plan.days : chosen;
-  // "+ Day" only while a day is left to add; with no days at all the row says why.
-  const canAdd = !adding && plan.days.length > chosen.length;
-  const shortlistFailed =
-    state.kind === 'error' || (state.kind === 'offline' && state.data === null);
+  const shortlistFailed = find.shortlistFailed;
   return (
     <Scaffold variant="dark" testID="drivers-find">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
@@ -94,7 +69,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
                 }),
             locale,
           )}
-          onPress={() => goBackOr(tripRoute(tripId))}
+          onPress={find.onBack}
         />
         <Text variant="h1" designSize={52} accessibilityRole="header">
           {upper(t({ id: 'drivers.find.title', message: 'Find a driver' }), locale)}
@@ -126,7 +101,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
             <ChoiceChip
               label={upper(t({ id: 'drivers.find.addDay', message: '+ Day' }), locale)}
               selected={false}
-              onPress={() => setAdding(true)}
+              onPress={find.startAdding}
               testID="drivers-find-add-day"
             />
           ) : null}
@@ -153,7 +128,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
           })}
           color={theme.color.blue}
           icon="ticket"
-          onPress={() => router.push(driversRoute(tripId, 'tours', daysParam))}
+          onPress={find.onTours}
           testID="drivers-find-tours"
         />
         <SourceCard
@@ -164,7 +139,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
           })}
           color={theme.color.pink}
           icon="chat"
-          onPress={() => router.push(driversRoute(tripId, 'add', daysParam))}
+          onPress={find.onFound}
           testID="drivers-find-found"
         />
         <View style={styles.ask}>
@@ -185,7 +160,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
               label={t({ id: 'drivers.find.draft', message: 'Draft it' })}
               tone="yellow"
               size="sm"
-              onPress={() => router.push(driversRoute(tripId, 'ask', daysParam))}
+              onPress={find.onAsk}
               testID="drivers-find-ask"
             />
           </Row>
@@ -201,14 +176,12 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
           })}
           color={theme.color.yellow}
           icon="car"
-          onPress={() =>
-            router.push(driverRoutes.directory(tripId, plan.area === '' ? undefined : plan.area))
-          }
+          onPress={find.onDirectory}
           testID="drivers-find-directory"
         />
         <TextLink
           label={t({ id: 'drivers.find.ours', message: 'Our drivers: rate or invite one' })}
-          onPress={() => router.push(driverRoutes.ours(tripId))}
+          onPress={find.onOurs}
           testID="drivers-find-ours"
         />
         {shortlistFailed ? (
@@ -260,7 +233,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
             tone="yellow"
             size="sm"
             block
-            onPress={() => router.push(driversRoute(tripId, 'compare', daysParam))}
+            onPress={find.onCompare}
             testID="drivers-find-compare"
           />
         </View>

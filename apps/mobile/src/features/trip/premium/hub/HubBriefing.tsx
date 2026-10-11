@@ -106,11 +106,12 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
   if (state.kind === 'hidden') return null;
   const stale =
     state.kind === 'ready' && state.staleDate !== null
-      ? t({
-          id: 'trip.briefing.fromDate',
-          message: `from ${briefingDate(locale, state.staleDate)}`,
-        })
-      : t({ id: 'trip.briefing.today', message: 'today' });
+      ? briefingDate(locale, state.staleDate)
+      : null;
+  const when =
+    stale === null
+      ? t({ id: 'trip.briefing.today', message: 'today' })
+      : t({ id: 'trip.briefing.fromDate', message: `from ${stale}` });
   return (
     <View
       style={[
@@ -157,7 +158,7 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
             </Text>
             {state.kind === 'ready' ? (
               <Text variant="caption" tone="muted">
-                {stale}
+                {when}
               </Text>
             ) : null}
           </View>

@@ -7,7 +7,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- line kinds and ids are wire values, never copy. */
 import { itemisedShares, type ItemisedLine } from '@cp/cost-engine';
-import type { AddExpensePayload } from '@cp/domain';
+import type { KeypadExpensePayload } from '@cp/domain';
 
 import { minorToUnits, unitsToMinor } from '../add-expense/draft';
 import type { ParsedReceipt } from './review-model';
@@ -75,7 +75,7 @@ export function typedPayload(input: {
   readonly tripId: string;
   readonly fxSnapshotId: string | null;
   readonly merchant: string | null;
-}): AddExpensePayload | null {
+}): KeypadExpensePayload | null {
   const result = typedShares(input);
   if (result === null) return null;
   return {

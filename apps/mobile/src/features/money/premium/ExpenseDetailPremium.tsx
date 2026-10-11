@@ -1,7 +1,7 @@
 /**
  * Expense detail (7.21): what it was, the amount as entered large, what it came to in the crew's
  * currency with the payer and the day, tags (category, "split from a receipt scan", waiting to
- * sync), who owes what (the payer's row in green with what they get back, a left-out row faded),
+ * sync), who owes what (by room for a stay split by room; the payer's row in green with what they get back, a left-out row faded),
  * the changes as a timeline, then Edit and Delete for whoever may change it. Delete asks once.
  */
 import { format } from '@cp/i18n';
@@ -28,6 +28,7 @@ import { rateText, useFieldLabel } from '../expense-detail/detail-copy';
 import { useExpenseDetail, type ExpenseDetail } from '../expense-detail/use-expense-detail';
 import { formatAmount, formatAmountShown } from '../format';
 import { categoryLook } from './components/category-look';
+import { RoomSplitSection } from './components/RoomSplitSection';
 
 type Ready = Extract<ExpenseDetail, { kind: 'ready' }>;
 
@@ -160,6 +161,7 @@ export function ExpenseDetailPremium({
   const { item, currency } = detail;
   const look = categoryLook(item.category, th.color);
   const title = item.title === '' ? categoryLabel(item.category) : item.title;
+  const payer = item.payerName;
   const converted =
     item.crewAmountMinor !== null && item.currency !== currency
       ? `≈ ${formatAmount(item.crewAmountMinor, currency, locale)}`
@@ -174,7 +176,7 @@ export function ExpenseDetailPremium({
         });
   const sub = [
     converted,
-    item.payerName === '' ? null : t({ id: 'money.row.paid', message: `${item.payerName} paid` }),
+    payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }),
     when,
   ]
     .filter(Boolean)
@@ -243,7 +245,7 @@ export function ExpenseDetailPremium({
             />
           )}
         </View>
-        <Shares detail={detail} />
+        <RoomSplitSection detail={detail} fallback={<Shares detail={detail} />} />
         <Changes detail={detail} />
         {detail.canChange ? (
           <View style={[styles.pair, { paddingHorizontal: th.space.gutter }]}>

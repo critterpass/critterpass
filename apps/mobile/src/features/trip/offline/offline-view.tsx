@@ -18,6 +18,8 @@ import { OfflineCard, type OfflineCardProps } from './offline-card';
 import { SendsList, type SendsLine } from './sends-list';
 import { StillWorksList, type StillWorksLine } from './still-works-list';
 
+import type { QueuedItemSheetProps } from './queued-item-sheet';
+
 export interface OfflineViewProps {
   readonly card: OfflineCardProps;
   readonly stillWorks: readonly StillWorksLine[];
@@ -33,6 +35,8 @@ export interface OfflineViewProps {
   readonly onOpenSend: (opId: string) => void;
   readonly onDismissConflict: (opId: string) => void;
   readonly sheet?: ReactNode;
+  /** The waiting write opened from the sends list, for a UI that draws its own sheet. */
+  readonly queued?: QueuedItemSheetProps | null;
 }
 
 export function OfflineView(props: OfflineViewProps) {

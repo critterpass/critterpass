@@ -21,7 +21,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { PAYOUT_FIELDS, validDetails } from './payout-details';
-import { usePayoutKindLabel } from './payout-labels';
+import { usePayoutFieldLabel, usePayoutKindLabel } from './payout-labels';
 import { MONEY_ROUTES } from '../routes';
 
 const useStyles = makeStyles((t) => ({
@@ -49,28 +49,7 @@ export function PayoutMethodsEditor(props: PayoutMethodsEditorProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const kindLabel = usePayoutKindLabel();
-  const fieldLabel = (field: string): string => {
-    switch (field) {
-      case 'bank_name':
-        return t({ id: 'money.payout.field.bank', message: 'Bank' });
-      case 'account_name':
-        return t({ id: 'money.payout.field.accountName', message: 'Name on the account' });
-      case 'account_number':
-        return t({ id: 'money.payout.field.account', message: 'Account number' });
-      case 'swift':
-        return t({ id: 'money.payout.field.swift', message: 'SWIFT code (optional)' });
-      case 'proxy':
-        return t({ id: 'money.payout.field.mobile', message: 'Mobile number' });
-      case 'name':
-        return t({ id: 'money.payout.field.name', message: 'Name the payer sees' });
-      case 'bank_bin':
-        return t({ id: 'money.payout.field.bin', message: 'Bank code (6 digits)' });
-      case 'acquirer_id':
-        return t({ id: 'money.payout.field.acquirer', message: 'Bank id' });
-      default:
-        return t({ id: 'money.payout.field.link', message: 'Wise link' });
-    }
-  };
+  const fieldLabel = usePayoutFieldLabel();
   const isSaved = props.saved.some((method) => method.kind === props.kind);
   const valid = validDetails(props.kind, props.values) !== null;
   return (

@@ -5,7 +5,6 @@
  * coming and how far away they are on foot.
  */
 import { upper } from '@cp/i18n';
-import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
@@ -18,6 +17,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { useResponderLine, useSosStepText } from './sos-copy';
 import type { SosModel, SosResponder, SosStepView } from './sos-model';
 
 const useStyles = makeStyles((t) => ({
@@ -70,48 +70,7 @@ function StepRow({ step, text }: { readonly step: SosStepView; readonly text: st
 export function SosSteps({ model, guideName, guideSticker }: SosStepsProps) {
   const { t } = useLingui();
   const locale = useLocale();
-  const name = model.senderName;
-  const textFor = (step: SosStepView): string => {
-    switch (step.key) {
-      case 'sent': {
-        const n = step.n ?? 0;
-        if (!step.done) {
-          return t({ id: 'safety.sos.stepSending', message: 'Sending the SOS to the crew' });
-        }
-        return n === 0
-          ? t({ id: 'safety.sos.stepSentNobody', message: 'Nobody else is on this trip to alert' })
-          : t({
-              id: 'safety.sos.stepSent',
-              message: plural(n, {
-                one: 'SOS sent to your one crewmate',
-                other: 'SOS sent to all # of you',
-              }),
-            });
-      }
-      case 'location_live':
-        return model.role === 'sender'
-          ? t({
-              id: 'safety.sos.stepLiveYou',
-              message: 'Your location stays live until you are safe',
-            })
-          : t({
-              id: 'safety.sos.stepLive',
-              message: `${name}'s location stays live until they are safe`,
-            });
-      case 'ops_clinic':
-        return t({
-          id: 'safety.sos.stepClinic',
-          message: 'Ops desk is calling the clinic with you',
-        });
-      case 'insurance':
-        return step.done
-          ? t({
-              id: 'safety.sos.stepInsuranceSent',
-              message: 'Insurance details went to the clinic',
-            })
-          : t({ id: 'safety.sos.stepInsurance', message: 'Insurance details wait for a yes' });
-    }
-  };
+  const textFor = useSosStepText(model);
   return (
     <Card tone="raised" testID="sos-steps">
       <Stack gap="14">
@@ -130,16 +89,10 @@ export function SosSteps({ model, guideName, guideSticker }: SosStepsProps) {
 }
 
 export function ResponderRow({ responder }: { readonly responder: SosResponder }) {
-  const { t } = useLingui();
   const theme = useTheme();
   const styles = useStyles();
   const who = responder.name;
-  const eta = responder.etaMin;
-  const line = responder.arrived
-    ? t({ id: 'safety.sos.arrived', message: `${who} is there.` })
-    : eta === null
-      ? t({ id: 'safety.sos.going', message: `${who} is going.` })
-      : t({ id: 'safety.sos.goingEta', message: `${who} is going. ${eta} minutes away on foot.` });
+  const line = useResponderLine()(responder);
   return (
     <Row gap="10" align="center" testID={`sos-responder-${responder.uid}`}>
       <View style={[styles.initial, { backgroundColor: theme.color.blue }]}>

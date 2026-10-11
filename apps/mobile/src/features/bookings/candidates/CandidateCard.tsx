@@ -23,9 +23,9 @@ import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
-import { displayWithHome, useMoneyDisplay } from '@/data/money';
+import { useMoneyDisplay } from '@/data/money';
 
-import { clock, dayDate, price as formatPrice, zoneOf } from '../format';
+import { useCandidateLine } from './candidate-line';
 import { candidateIcon, type CandidateView } from './candidate-model';
 import { useWalletGuide } from '../data/wallet-guide';
 
@@ -60,48 +60,6 @@ export interface CandidateCardProps {
   readonly onByHand: () => void;
 }
 
-function useLine(view: CandidateView, tz: string | undefined): string {
-  const locale = useLocale();
-  useMoneyDisplay();
-  const { t } = useLingui();
-  const booking = view.booking;
-  if (booking === null) return '';
-  const zone = zoneOf(booking.tz, tz);
-  const start = booking.segments[0]?.sched_dep_at ?? booking.starts_at;
-  // A flight reads "07:05 → 08:30" when the confirmation printed when it lands.
-  const lands = booking.segments[booking.segments.length - 1]?.sched_arr_at;
-  const leaves = clock(locale, start, zone);
-  const seats = view.travellerIds.length;
-  return [
-    dayDate(locale, start, zone),
-    booking.kind === 'stay'
-      ? ''
-      : lands === undefined || leaves === ''
-        ? leaves
-        : `${leaves} → ${clock(locale, lands, zone)}`,
-    booking.location ?? '',
-    seats >= 2
-      ? t({
-          id: 'bookings.candidate.seats',
-          message: plural(seats, { one: '# seat', other: '# seats' }),
-        })
-      : '',
-    view.mine && booking.price !== null
-      ? t({ id: 'bookings.candidate.paidByYou', message: 'paid by you' })
-      : '',
-    booking.price === null
-      ? ''
-      : displayWithHome(
-          formatPrice(locale, booking.price.amount_minor, booking.price.currency),
-          booking.price.amount_minor,
-          booking.price.currency,
-          locale,
-        ),
-  ]
-    .filter((part) => part !== '')
-    .join(' · ');
-}
-
 export function CandidateCard(props: CandidateCardProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -111,7 +69,7 @@ export function CandidateCard(props: CandidateCardProps) {
   const { name: guideName } = useWalletGuide();
   const [motionMode] = useMotionMode();
   const { view } = props;
-  const line = useLine(view, props.tz);
+  const line = useCandidateLine(view, props.tz);
   const animate = props.assemble && motionMode !== 'off';
   const reveal = (node: ReactNode, key: string, order: number) => {
     const delay = order * ASSEMBLE_STAGGER_MS;

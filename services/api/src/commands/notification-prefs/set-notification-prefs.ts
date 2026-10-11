@@ -44,6 +44,8 @@ export const setNotificationPrefsPayloadSchema = z
     /** `false` mutes a category; merged key by key into what is stored. */
     per_category: z.partialRecord(mutableCategorySchema, z.boolean()),
     voice_readout: z.boolean(),
+    /** Chat and guide pushes say only that something new is waiting, never the words. */
+    hide_message_text: z.boolean(),
   })
   .partial()
   .strict()
@@ -87,6 +89,7 @@ export const setNotificationPrefsCommand = defineCommand({
       crew_chat_mode: payload.crew_chat,
       leave_by_dnd: payload.leave_by_dnd,
       voice_readout: payload.voice_readout,
+      hide_message_text: payload.hide_message_text,
     };
     const sets: string[] = [];
     const values: unknown[] = [ctx.uid];
