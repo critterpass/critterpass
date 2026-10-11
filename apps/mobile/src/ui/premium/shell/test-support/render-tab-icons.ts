@@ -1,5 +1,5 @@
 /**
- * Draws the premium tab bar's images into `../navigation/tab-icons/` (@2x and @3x PNGs):
+ * Draws the premium tab bar's images into `../navigation/tab-icons/` (1x, @2x and @3x PNGs):
  *
  * - the four tab icons from `design/premium/Tabs.dc.html` (24 grid, 1.9 stroke, round joins), drawn
  *   at 22 pt as template images (the native bar tints them);
@@ -20,7 +20,7 @@ import { build, frame, layout, type RenderSpec } from '@cp/critter-art';
 import { renderToCanvas, viewportFor, type CanvasFactory } from '@cp/critter-art/canvas2d';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'navigation', 'tab-icons');
-const SCALES = [2, 3] as const;
+const SCALES = [1, 2, 3] as const;
 const ICON_PT = 22;
 const GRID = 24;
 const STROKE = 1.9;
@@ -42,7 +42,7 @@ const GUIDE_IMAGES = { 'guide-tab': 28, 'guide-fab': 46 } as const;
 const GUIDE_SPEC: RenderSpec = { kind: 'gecko', seed: 7, sticker: null };
 
 function fileName(name: string, scale: number): string {
-  return `${name}@${scale}x.png`;
+  return scale === 1 ? `${name}.png` : `${name}@${scale}x.png`;
 }
 
 function drawIcon(shapes: readonly Shape[], scale: number): Buffer {

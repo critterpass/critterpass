@@ -73,19 +73,10 @@ appId: app.critterpass.dev
     id: 'sheet-cancel'
     optional: true
 
-# The toolbar `+` (a view in the system zoom) → the half sheet. The bar may expose the item by its
-# label only (iOS 26 hosts toolbar views in its own glass item), so the label is the fallback.
+# The toolbar `+` (a system bar button, reached by its label) grows into the half sheet.
 - tapOn:
-    id: 'premium-shell-plus'
+    text: 'Add a booking'
     optional: true
-- runFlow:
-    when:
-      notVisible:
-        id: 'premium-shell-add'
-    commands:
-      - tapOn:
-          text: 'Add a booking'
-          optional: true
 - takeScreenshot: premium-shell-05-plus-morph-mid
 - extendedWaitUntil:
     visible:

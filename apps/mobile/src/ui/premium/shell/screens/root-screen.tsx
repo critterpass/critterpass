@@ -23,6 +23,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '../..';
+import { useToolbarPlusMorph } from '../zoom/toolbar-plus-morph';
 import {
   capActions,
   DrawnHeaderActions,
@@ -93,6 +94,15 @@ interface RootScreenParts {
 
 function NativeRootScreen({ title, actions, children, testID }: RootScreenParts) {
   const t = usePremiumTheme();
+  const morphing = actions.find((action) => action.primary === true && action.morph === true);
+  const noop = useCallback(() => undefined, []);
+  const morph = useToolbarPlusMorph(morphing?.onPress ?? noop);
+  // System buttons only: a toolbar view's content is invisible to VoiceOver on iOS 26.
+  const native = actions.map((action): ShellAction => {
+    const button: ShellAction = { ...action };
+    delete (button as { element?: unknown }).element;
+    return action.key === morphing?.key ? { ...button, onPress: morph.start } : button;
+  });
   const options = {
     headerShown: true,
     title,
@@ -107,8 +117,9 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       <Stack.Screen options={options} />
-      <NativeHeaderActions actions={actions} />
+      <NativeHeaderActions actions={native} />
       {children({ scrollProps: { contentInsetAdjustmentBehavior: 'automatic' }, largeTitle: null })}
+      {morph.overlay}
     </View>
   );
 }

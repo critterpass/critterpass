@@ -77,6 +77,14 @@ data class CpPremiumMode(
     val colorInkSurface: Color,
     val colorOnInkSurface: Color,
     val colorIconButtonDisabled: Color,
+    val colorGuideCircleFrom: Color,
+    val colorGuideCircleMid: Color,
+    val colorGuideCircleTo: Color,
+    val colorGuideCircleRing: Color,
+    val colorHoldFill: Color,
+    val colorScrim: Color,
+    val colorLockedMask: Color,
+    val colorLockedMaskGold: Color,
     val colorStatusBookedBg: Color,
     val colorStatusBookedText: Color,
     val colorStatusVoteOpenBg: Color,
@@ -185,6 +193,14 @@ object CpPremium {
         colorInkSurface = premiumColor("#1c1d24"),
         colorOnInkSurface = premiumColor("#ffffff"),
         colorIconButtonDisabled = premiumColor("rgba(28,29,36,.35)"),
+        colorGuideCircleFrom = premiumColor("#fff3b8"),
+        colorGuideCircleMid = premiumColor("#ffd84a"),
+        colorGuideCircleTo = premiumColor("#f2b92e"),
+        colorGuideCircleRing = premiumColor("rgba(255,255,255,.95)"),
+        colorHoldFill = premiumColor("#ffc2dc"),
+        colorScrim = premiumColor("rgba(0,0,0,.2)"),
+        colorLockedMask = premiumColor("#e3e4ea"),
+        colorLockedMaskGold = premiumColor("#efe2b4"),
         colorStatusBookedBg = premiumColor("#e3f6ec"),
         colorStatusBookedText = premiumColor("#1f7a55"),
         colorStatusVoteOpenBg = premiumColor("#ffe4f0"),
@@ -292,6 +308,14 @@ object CpPremium {
         colorInkSurface = premiumColor("#f2f2f5"),
         colorOnInkSurface = premiumColor("#15161b"),
         colorIconButtonDisabled = premiumColor("rgba(242,242,245,.35)"),
+        colorGuideCircleFrom = premiumColor("#fff3b8"),
+        colorGuideCircleMid = premiumColor("#ffd84a"),
+        colorGuideCircleTo = premiumColor("#f2b92e"),
+        colorGuideCircleRing = premiumColor("rgba(255,255,255,.2)"),
+        colorHoldFill = premiumColor("#5a2440"),
+        colorScrim = premiumColor("rgba(0,0,0,.45)"),
+        colorLockedMask = premiumColor("#2a2b33"),
+        colorLockedMaskGold = premiumColor("#3a3112"),
         colorStatusBookedBg = premiumColor("#16332a"),
         colorStatusBookedText = premiumColor("#5fd6a2"),
         colorStatusVoteOpenBg = premiumColor("#3b1a2b"),
@@ -408,6 +432,7 @@ object CpPremium {
         val textButton = CpPremiumType(CpPremiumFamily.System, 15.sp, FontWeight(600), 0.sp, 1.5f)
         val glassTitle = CpPremiumType(CpPremiumFamily.System, 15.sp, FontWeight(600), 0.sp, 1.5f)
         val toast = CpPremiumType(CpPremiumFamily.System, 14.5.sp, FontWeight(600), 0.sp, 2f)
+        val toastAction = CpPremiumType(CpPremiumFamily.System, 13.5.sp, FontWeight(600), 0.sp, 1.5f)
         val rowText = CpPremiumType(CpPremiumFamily.System, 14.sp, FontWeight(400), 0.sp, 2f)
         val rowTextStrong = CpPremiumType(CpPremiumFamily.System, 14.sp, FontWeight(600), 0.sp, 2f)
         val buttonSmall = CpPremiumType(CpPremiumFamily.System, 14.sp, FontWeight(600), 0.sp, 1.5f)
@@ -419,6 +444,9 @@ object CpPremium {
         val bannerAction = CpPremiumType(CpPremiumFamily.System, 13.sp, FontWeight(700), 0.sp, 1.5f)
         val note = CpPremiumType(CpPremiumFamily.System, 13.sp, FontWeight(400), 0.sp, 2f)
         val avatarInitial = CpPremiumType(CpPremiumFamily.System, 13.sp, FontWeight(700), 0.sp, 1f)
+        val avatarInitialSmall = CpPremiumType(CpPremiumFamily.System, 12.sp, FontWeight(700), 0.sp, 1f)
+        val avatarInitialLarge = CpPremiumType(CpPremiumFamily.System, 14.sp, FontWeight(700), 0.sp, 1f)
+        val errorMark = CpPremiumType(CpPremiumFamily.System, 14.sp, FontWeight(800), 0.sp, 1f)
         val caption = CpPremiumType(CpPremiumFamily.System, 12.5.sp, FontWeight(500), 0.sp, 2f)
         val noteAction = CpPremiumType(CpPremiumFamily.System, 12.5.sp, FontWeight(600), 0.sp, 1.5f)
         val captionMuted = CpPremiumType(CpPremiumFamily.System, 12.sp, FontWeight(400), 0.sp, 2f)
@@ -431,6 +459,7 @@ object CpPremium {
         val dayBadgeDay = CpPremiumType(CpPremiumFamily.System, 17.sp, FontWeight(800), 0.sp, 1f)
         val dayBadgeWeekday = CpPremiumType(CpPremiumFamily.System, 9.5.sp, FontWeight(700), 0.sp, 1f)
         val stampWord = CpPremiumType(CpPremiumFamily.System, 20.sp, FontWeight(800), 0.sp, 1f)
+        val stampCode = CpPremiumType(CpPremiumFamily.System, 18.sp, FontWeight(800), 0.sp, 1f)
         val stampSmall = CpPremiumType(CpPremiumFamily.System, 8.sp, FontWeight(800), 1.12.sp, 1f)
         val stampRect = CpPremiumType(CpPremiumFamily.System, 22.sp, FontWeight(800), 0.sp, 1f)
         val guide = CpPremiumType(CpPremiumFamily.Guide, 15.sp, FontWeight(400), 0.sp, 2f)
@@ -507,6 +536,7 @@ object CpPremium {
         val segmentTrackPad: Dp = 3.dp
         val toggleKnobInset: Dp = 2.dp
         val photoFrame: Dp = 5.dp
+        val emptyTextGap: Dp = 24.dp
     }
 
     object Size {
@@ -519,6 +549,16 @@ object CpPremium {
         val glassNav: Dp = 44.dp
         val glassPill: Dp = 44.dp
         val toast: Dp = 58.dp
+        val toastCheck: Dp = 36.dp
+        val toastCritter: Dp = 44.dp
+        val errorDisc: Dp = 28.dp
+        val emptyCheck: Dp = 46.dp
+        val loadingCritter: Dp = 40.dp
+        val guideCircle: Dp = 56.dp
+        val guideCircleBorder: Dp = 3.dp
+        val guideCircleCritter: Dp = 46.dp
+        val androidTabBar: Dp = 80.dp
+        val androidFabMargin: Dp = 16.dp
         val segment: Dp = 40.dp
         val toggleWidth: Dp = 52.dp
         val toggleHeight: Dp = 32.dp
@@ -547,6 +587,12 @@ object CpPremium {
         val avatarLarge: Dp = 40.dp
         val stackOverlap: Dp = 10.dp
         val stackBorder: Dp = 2.5.dp
+        val avatarSmall: Dp = 30.dp
+        val statTile: Dp = 96.dp
+        val photoCard: Dp = 96.dp
+        val stampRound: Dp = 96.dp
+        val stampRoundSmall: Dp = 80.dp
+        val dayBadgeGap: Dp = 1.dp
         val stickerBorder: Dp = 2.5.dp
         val guideCritter: Dp = 38.dp
         val bannerDoodle: Dp = 30.dp
@@ -560,8 +606,11 @@ object CpPremium {
         val hairline: Dp = 0.5.dp
         val emptyDash: Dp = 2.dp
         val stampRingOuter: Dp = 3.dp
+        val stampRingOuterSmall: Dp = 2.5.dp
         val stampRingInner: Dp = 1.dp
-        val stampRingGap: Dp = 3.dp
+        val stampInnerAt: Dp = 7.dp
+        val stampInnerAtSmall: Dp = 6.dp
+        val stampRectInnerAt: Dp = 6.dp
         val ripple: Dp = 220.dp
         val icon: Dp = 24.dp
         val glyph: Dp = 18.dp

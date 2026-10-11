@@ -8,10 +8,8 @@
 import { useCallback, useContext, useMemo, useState } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { useLiveRows } from '@/features/home/data/watch-query';
-import { sendNudgeCommand } from '@/features/home/home-commands';
-import { shareRelay } from '@/features/home/nudge/share-relay';
-import { nudgeOutcome, type NudgeOutcome } from '@/features/home/nudge/use-nudge';
+import { useQuietLiveRows as useLiveRows } from '@/data/powersync/live-rows';
+import { nudgeOutcome, sendNudgeCommand, shareRelay, type NudgeOutcome } from '@/features/home';
 
 import { summariseResend, type ResendSummary, type ResendWhen } from './resend-summary';
 
