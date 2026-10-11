@@ -43,6 +43,7 @@ interface ExpenseRow {
   readonly fx_snapshot_id: string | null;
   readonly crew_currency: string;
   readonly split_mode: ExpenseSplitMode;
+  readonly split_stay_key: string | null;
   readonly category: ExpenseCategory;
   readonly description: string;
   readonly merchant: string | null;
@@ -63,7 +64,7 @@ export async function loadExpense(
   const read = async () => {
     const { rows } = await tx.query<ExpenseRow>(
       `SELECT id, crew_id, trip_id, payer_id, amount_minor::text, currency, fx_snapshot_id,
-              crew_currency, split_mode, category, description, merchant, spent_at,
+              crew_currency, split_mode, split_stay_key, category, description, merchant, spent_at,
               local_date::text AS local_date, trip_day, version, created_by, deleted_at
          FROM expenses WHERE id = $1 ${lock ? 'FOR UPDATE' : ''}`,
       [expenseId],
@@ -93,6 +94,7 @@ export async function loadExpense(
     fxSnapshotId: row.fx_snapshot_id,
     crewCurrency: row.crew_currency,
     splitMode: row.split_mode,
+    splitStayKey: row.split_stay_key,
     category: row.category,
     description: row.description,
     merchant: row.merchant,
@@ -158,7 +160,7 @@ export async function updateExpense(
       `UPDATE expenses SET payer_id = $2, amount_minor = $3, currency = $4, fx_snapshot_id = $5,
          crew_amount_minor = $6, crew_currency = $7, split_mode = $8, category = $9,
          description = $10, merchant = $11, spent_at = $12, local_date = $13, trip_day = $14,
-         version = $15
+         version = $15, split_stay_key = $16
        WHERE id = $1`,
       [
         next.id,
@@ -176,6 +178,7 @@ export async function updateExpense(
         next.localDate,
         next.tripDay,
         version,
+        next.splitMode === 'by_room' ? (next.splitStayKey ?? null) : null,
       ],
     );
     await tx.query(

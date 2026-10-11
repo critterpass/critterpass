@@ -6,7 +6,11 @@
  */
 import { z } from 'zod';
 
-export const EXPENSE_SPLIT_MODES = ['equal', 'weights', 'fixed', 'items'] as const;
+/**
+ * `by_room`: a stay expense split by the room plan. The server computes each guest's share from
+ * their room's nightly price and recomputes it whenever the rooms change.
+ */
+export const EXPENSE_SPLIT_MODES = ['equal', 'weights', 'fixed', 'items', 'by_room'] as const;
 export const expenseSplitModeSchema = z.enum(EXPENSE_SPLIT_MODES);
 export type ExpenseSplitMode = z.infer<typeof expenseSplitModeSchema>;
 
@@ -33,7 +37,8 @@ export const splitShareSchema = z.strictObject({
 });
 export type SplitShareInput = z.infer<typeof splitShareSchema>;
 
-export const expenseSplitSchema = z.strictObject({
+/** EVENLY, BY SHARE or CUSTOM, over the members the client names. */
+export const keypadSplitSchema = z.strictObject({
   mode: z.enum(['equal', 'weights', 'fixed']),
   shares: z
     .array(splitShareSchema)
@@ -43,6 +48,20 @@ export const expenseSplitSchema = z.strictObject({
       message: 'a member appears twice',
     }),
 });
+export type KeypadSplitInput = z.infer<typeof keypadSplitSchema>;
+
+/** BY ROOM: the guests and their shares come from the room plan, never from the client. */
+export const roomSplitSchema = z.strictObject({
+  mode: z.literal('by_room'),
+  /** One stay of the plan (a trip with two stays books each apart); null covers every stay. */
+  stay_key: z.string().min(1).max(40).nullable().default(null),
+});
+export type RoomSplitInput = z.infer<typeof roomSplitSchema>;
+
+export const expenseSplitSchema = z.discriminatedUnion('mode', [
+  keypadSplitSchema,
+  roomSplitSchema,
+]);
 export type ExpenseSplitInput = z.infer<typeof expenseSplitSchema>;
 
 const description = z.string().trim().max(140);
