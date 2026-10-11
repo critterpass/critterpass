@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# The guide offline (5.17, Android: airplane mode cannot cut the iOS simulator's network): the
+# offline tools, then a question that waits for signal. The waiting question is cancelled before
+# signal comes back, so it is never sent; the top flow also turns airplane mode off when it ends.
+- setAirplaneMode: enabled
+- extendedWaitUntil:
+    visible:
+      id: 'guide-offline-tools|guide-offline-queue'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '5.17'
+      NAME: offline
+      LOOK: light
+- runFlow:
+    when:
+      visible:
+        id: 'guide-composer'
+    commands:
+      - tapOn:
+          id: 'guide-composer'
+      - inputText: 'Is the market open'
+      - tapOn:
+          text: 'Ask'
+          optional: true
+      - hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'guide-queued'
+    timeout: 5000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'guide-queued'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '5.17'
+            NAME: question-waits
+            LOOK: light
+      - tapOn:
+          id: 'guide-queued-cancel'
+          optional: true
+- setAirplaneMode: disabled

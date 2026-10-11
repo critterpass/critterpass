@@ -1,0 +1,55 @@
+appId: app.critterpass.dev
+onFlowComplete:
+  # Find's offline capture switches the signal off; a stopped run must not leave it off.
+  - runFlow:
+      when:
+        platform: Android
+      commands:
+        - setAirplaneMode: disabled
+---
+# Premium sweep, planning the trip (design part 4). The `draft_ready` trip: the guide's draft and
+# "Who's in" after sending. The `everyday` Bali trip's plan on one map, what its ⋯ menu opens and
+# Find with the places it reaches, light first, then dark for the key screens (the map at peek and
+# at half, trip settings, Find, a place and Swipe together; 1.09, 1.11 and 1.12). A capture sweep:
+# every step after the start is conditional, so a missing state skips its shot. Vote, setup and
+# drafting are in plan-vote.yaml.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: draft_ready
+- runFlow:
+    file: subflows/plan-draft.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: subflows/plan-map.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/plan-menu.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/plan-find.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/plan-map.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/plan-menu.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/plan-find.yaml
+    env:
+      LOOK: dark

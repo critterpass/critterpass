@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# Back to the guide sheet from a screen it opened (dietary, camera, voice): one step back at a time
+# while ${MARK} (an id only that screen shows) is up, with a swipe down on iOS for a screen
+# presented as a sheet.
+- repeat:
+    times: 3
+    while:
+      visible:
+        id: '${MARK}'
+    commands:
+      - runFlow: back.yaml
+      - runFlow:
+          when:
+            platform: iOS
+            visible:
+              id: '${MARK}'
+          commands:
+            - swipe:
+                start: 50%, 30%
+                end: 50%, 95%
+            - waitForAnimationToEnd

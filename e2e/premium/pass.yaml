@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# Premium design | device capture of the Pass tab, the account and Pass+ (9.01–9.24) with
+# notification settings (6.38), as the organiser of the Bali demo crew (a confirmed trip to boost):
+# light first, then dark for the profile, its edit page, Settings, notifications, Your plan and the
+# Pass+ page. Nothing is bought, held or removed. A capture sweep: a state that does not come up is
+# skipped, never failed.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: subflows/pass-steps.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/pass-steps.yaml
+    env:
+      LOOK: dark

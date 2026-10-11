@@ -1,0 +1,29 @@
+appId: app.critterpass.dev
+---
+# From Home to the Bali crew's chat. Home has no chat button: the inbox's "Jordan joined" row
+# (the demo world's earlier rows) opens the crew chat. Ends on the chat, or on whatever showed up
+# when a step was missing (a capture sweep keeps going).
+- runFlow:
+    file: tap.yaml
+    env:
+      ID: 'home-bell'
+      LABEL: 'Inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-screen'
+    timeout: 10000
+    optional: true
+- scrollUntilVisible:
+    element:
+      text: '.*joined.*'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    text: '.*joined.*'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'chat-screen'
+    timeout: 15000
+    optional: true

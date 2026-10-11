@@ -1,0 +1,9 @@
+appId: app.critterpass.dev
+---
+# Premium design | device capture of first run and joining (2.01–2.19): the pass flow on a cleared
+# install, then joining a crew by code and by link on another cleared install. A capture sweep:
+# a state that does not come up is skipped, never failed. Light only (a cleared install has no
+# appearance choice); the dark keys are captured by home.yaml and pass.yaml.
+- runFlow: subflows/fresh.yaml
+- runFlow: subflows/first-run-pass.yaml
+- runFlow: subflows/first-run-invite.yaml
