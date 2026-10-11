@@ -21,7 +21,6 @@ import type { PickOneSheetProps } from '../../search/pick-one-sheet';
 import { placeIcon } from '../../search/place-icons';
 import { PlaceResultRow } from '../components/place-result-row';
 
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- a separator, never copy. */
 const CREDIT_SEPARATOR = ' · ';
 const PASTE_WIDTH = 120;
 const PASTE_HEIGHT = 44;

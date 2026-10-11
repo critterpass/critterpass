@@ -4,7 +4,6 @@
  * the bigger fixes on their own screens, FIX ALL into one review (7h-7), the balance row for
  * organisers and, for a member an organiser asked privately, the ask on top.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- toast ids, never copy. */
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';

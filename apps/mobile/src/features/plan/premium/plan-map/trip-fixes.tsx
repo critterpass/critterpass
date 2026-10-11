@@ -35,6 +35,7 @@ export function useDayFixes(tripId: string): {
 }
 
 const checkHref = (tripId: string) =>
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a route path, never copy.
   ({ pathname: '/[tripId]/check', params: { tripId } }) as const;
 
 export function TripFixRows(props: TripRowsProps & { readonly tripId: string }) {

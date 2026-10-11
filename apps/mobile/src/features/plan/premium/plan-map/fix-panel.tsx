@@ -17,7 +17,12 @@ export interface DayFix {
   readonly onKeep: () => void;
 }
 
-export function FixPanel(props: { readonly fix: DayFix; readonly onOtherWays: () => void }) {
+export function FixPanel(props: {
+  readonly fix: DayFix;
+  readonly onOtherWays: () => void;
+  /** Set in from the screen edge (the map sheet); flush inside a card. */
+  readonly inset?: boolean;
+}) {
   const theme = usePremiumTheme();
   const { t } = useLingui();
   const { card } = props.fix;

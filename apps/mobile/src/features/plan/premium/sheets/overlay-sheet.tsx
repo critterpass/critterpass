@@ -55,7 +55,7 @@ export function OverlaySheet(props: OverlaySheetProps) {
         accessibilityLabel={props.closeLabel}
       />
       <Animated.View
-        entering={props.inRoute === true ? FadeInDown : undefined}
+        {...(props.inRoute === true ? { entering: FadeInDown } : {})}
         style={props.tall === true ? { flex: 1 } : { flexShrink: 1, maxHeight: '92%' }}
       >
         <GlassSurface

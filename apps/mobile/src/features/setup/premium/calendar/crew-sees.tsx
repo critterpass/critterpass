@@ -14,7 +14,6 @@ import type { MyDay } from '../../calendar/use-my-days';
 import { dayRange } from '../../data/date-range';
 import { weekdayLetters } from '../../when/copy';
 
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- a mark for no answer, never copy. */
 const NONE = '–';
 
 export function CrewSees({ week }: { readonly week: readonly MyDay[] }) {
@@ -46,6 +45,7 @@ export function CrewSees({ week }: { readonly week: readonly MyDay[] }) {
       <View style={{ flexDirection: 'row', gap: 4, marginTop: theme.space.gap8 }}>
         {week.map((day) => {
           const colours = look(day.state);
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO date, never copy.
           const column = (new Date(`${day.date}T12:00:00Z`).getUTCDay() + 6) % 7;
           const word = day.state === 'unknown' ? NONE : markWord(day.state);
           const weekday = letters[column] ?? '';

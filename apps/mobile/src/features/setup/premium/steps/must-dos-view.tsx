@@ -125,6 +125,7 @@ export function PremiumMustDosView(props: MustDosViewProps) {
       testID="must-dos-screen"
     >
       <ChecklistPill
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- a checklist row key, never copy.
         row="must_dos"
         done={done}
         trailing={t({
