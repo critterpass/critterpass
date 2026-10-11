@@ -49,6 +49,9 @@ export interface TripRowsProps {
   readonly fixes?: ReadonlyMap<number, readonly DayFix[]>;
   /** Every way to fix a problem: the plan check. */
   readonly onOtherWays?: () => void;
+  /** The day whose fix is open, when the caller steps through them. */
+  readonly opened?: number | null;
+  readonly onOpened?: (dayNo: number | null) => void;
 }
 
 /** A day's tag in its status tint. */
@@ -123,10 +126,14 @@ export function TripRows({
   onOpenDay,
   fixes,
   onOtherWays,
+  opened: openedDay,
+  onOpened,
 }: TripRowsProps) {
   const styles = useStyles();
   const theme = usePremiumTheme();
-  const [opened, setOpened] = useState<number | null>(null);
+  const [ownOpened, setOwnOpened] = useState<number | null>(null);
+  const opened = openedDay === undefined ? ownOpened : openedDay;
+  const setOpened = onOpened ?? setOwnOpened;
   return (
     <View>
       {check === null ? null : (
