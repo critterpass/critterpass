@@ -29,3 +29,31 @@ export const EDGE_RING_STYLES: Readonly<Record<Exclude<EdgeStyle, 'none'>, EdgeR
   epic: { color: '#ff5fa8', width: 2 },
   legendary: { color: '#ffd84a', width: 3 },
 };
+
+/**
+ * Premium sticker colours: the die-cut edge is plain white on every tier, and locked critters are
+ * light silhouettes on light ground (gold-tinted for legendaries; the dark gold pair on ink). The
+ * "?" over a locked critter is a UI overlay in the tier's text colour, not part of the art.
+ */
+export const PREMIUM_STICKER = {
+  edge: '#ffffff',
+  lockedMask: '#e3e4ea',
+  lockedLegendaryMask: '#efe2b4',
+  lockedLegendaryOnInk: '#6b5a24',
+  ghostMask: '#ffffff',
+  ghostOpacity: 0.5,
+} as const;
+
+/** The premium "?" colour over a locked silhouette, by tier. */
+export const PREMIUM_LOCKED_MARK: Readonly<Record<Rarity, string>> = {
+  common: '#9a9daa',
+  rare: '#2f5fc4',
+  epic: '#d6337f',
+  legendary: '#a8800f',
+};
+
+/** The mask colour for a locked critter of `rarity` in the premium design. */
+export function premiumLockedMask(rarity: Rarity, onInk = false): string {
+  if (rarity !== 'legendary') return PREMIUM_STICKER.lockedMask;
+  return onInk ? PREMIUM_STICKER.lockedLegendaryOnInk : PREMIUM_STICKER.lockedLegendaryMask;
+}

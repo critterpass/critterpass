@@ -26,7 +26,8 @@ import { useCategoryLabel } from '../components/category';
 import type { ExpenseItem } from '../data/expense-items';
 import { useMoneyDisplay } from '@/data/money';
 
-import { calendarDate, formatAmount, formatAmountShown } from '../format';
+import { formatAmount, formatAmountShown } from '../format';
+import { rateText, useFieldLabel } from './detail-copy';
 import type { EditField, FxLine } from './model';
 import { MONEY_ROUTES } from '../routes';
 
@@ -60,26 +61,6 @@ export interface ExpenseDetailViewProps {
   readonly onDelete: () => void;
 }
 
-function useFieldLabel() {
-  const { t } = useLingui();
-  return (field: EditField) => {
-    switch (field) {
-      case 'amount':
-        return t({ id: 'money.detail.field.amount', message: 'the amount' });
-      case 'payer':
-        return t({ id: 'money.detail.field.payer', message: 'who paid' });
-      case 'split':
-        return t({ id: 'money.detail.field.split', message: 'the split' });
-      case 'what':
-        return t({ id: 'money.detail.field.what', message: 'the name' });
-      case 'category':
-        return t({ id: 'money.detail.field.category', message: 'the category' });
-      case 'when':
-        return t({ id: 'money.detail.field.when', message: 'the date' });
-    }
-  };
-}
-
 export function ExpenseDetailView(props: ExpenseDetailViewProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -100,29 +81,7 @@ export function ExpenseDetailView(props: ExpenseDetailViewProps) {
     item.crewAmountMinor !== null && item.currency !== props.crewCurrency
       ? formatAmount(item.crewAmountMinor, props.crewCurrency, locale)
       : null;
-  const fx = props.fx;
-  const rateLine =
-    fx === null
-      ? null
-      : (() => {
-          const rate = format.number(locale, fx.rate, { maximumSignificantDigits: 6 });
-          const from = fx.from;
-          const to = fx.to;
-          const on =
-            fx.asOf === null
-              ? ''
-              : format.date(locale, calendarDate(fx.asOf), {
-                  day: 'numeric',
-                  month: 'short',
-                  timeZone: 'UTC',
-                });
-          return on === ''
-            ? t({ id: 'money.detail.rateNoDate', message: `Rate 1 ${from} = ${rate} ${to}` })
-            : t({
-                id: 'money.detail.rate',
-                message: `Rate 1 ${from} = ${rate} ${to} on ${on}`,
-              });
-        })();
+  const rateLine = rateText(locale, props.fx);
   return (
     <Scaffold variant="dark" testID="money-expense-detail">
       <ScrollView

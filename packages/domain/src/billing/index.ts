@@ -1,6 +1,7 @@
 export * from './commands';
 export * from './errors';
 export * from './events';
+export * from './ftf-ending';
 export * from './products';
 export * from './states';
 export * from './subscription-state';

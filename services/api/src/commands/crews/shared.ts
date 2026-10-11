@@ -4,11 +4,13 @@
  * `app.issue_join_code` with a redraw on the (rare) collision with a live code.
  */
 import {
+  crewCoverAllowed,
   DomainError,
   generateJoinCode,
   INVITE_TTL_DAYS,
   MAX_ACTIVE_CREWS_PER_USER,
   nextMemberColour,
+  type CrewCover,
 } from '@cp/domain';
 import type pg from 'pg';
 
@@ -34,6 +36,22 @@ export async function requireActiveMember(
   const row = rows[0];
   if (row === undefined) throw new DomainError('NOT_FOUND', { reason: 'crew' });
   return row;
+}
+
+/** An earned cover goes on a crew only when the caller unlocked it with referral stamps. */
+export async function requireCoverAllowed(
+  tx: pg.PoolClient,
+  uid: string,
+  cover: CrewCover | null | undefined,
+): Promise<void> {
+  if (cover === undefined || cover === null || crewCoverAllowed(cover, 0)) return;
+  const { rows } = await tx.query<{ n: number }>(
+    `SELECT count(*)::int AS n FROM stamps WHERE user_id = $1 AND kind = 'referral'`,
+    [uid],
+  );
+  if (!crewCoverAllowed(cover, rows[0]?.n ?? 0)) {
+    throw new DomainError('FORBIDDEN', { reason: 'cover_locked', cover });
+  }
 }
 
 export async function activeCrewCount(tx: pg.PoolClient, uid: string): Promise<number> {

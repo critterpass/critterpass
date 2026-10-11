@@ -14,6 +14,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import app.critterpass.appgroup.AppGroupStore
 import app.critterpass.surfaces.R
+import app.critterpass.notifications.Channels
 import app.critterpass.notifications.R as NotificationsR
 import java.net.HttpURLConnection
 import java.net.URL
@@ -61,6 +62,7 @@ class ActionWorker(context: Context, params: WorkerParameters) : CoroutineWorker
   override suspend fun getForegroundInfo(): ForegroundInfo {
     val notification = NotificationCompat.Builder(applicationContext, FOREGROUND_CHANNEL)
       .setSmallIcon(NotificationsR.drawable.cp_notification_icon)
+      .setColor(Channels.ACCENT_ARGB)
       .setContentTitle(applicationContext.getString(R.string.cp_surfaces_sending))
       .setPriority(NotificationCompat.PRIORITY_LOW)
       .build()

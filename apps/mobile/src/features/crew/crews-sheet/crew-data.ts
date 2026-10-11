@@ -31,6 +31,8 @@ export interface CrewRow {
   readonly id: string;
   readonly name: string;
   readonly art: string | null;
+  /** The pass cover key (`crews.cover`); null draws the default cover. */
+  readonly cover: string | null;
   readonly created_by: string | null;
 }
 
@@ -92,7 +94,7 @@ function queries(uid: string) {
   const me = quoted(uid);
   const mine = `SELECT crew_id FROM crew_members WHERE user_id = ${me} AND status = 'active'`;
   return {
-    crews: `SELECT id, name, art, created_by FROM crews
+    crews: `SELECT id, name, art, cover, created_by FROM crews
       WHERE id IN (${mine}) OR id IN (SELECT crew_id FROM invites WHERE invitee_user_id = ${me})
       ORDER BY name`,
     members: `SELECT cm.crew_id, cm.user_id, cm.role, cm.colour, cm.notify_level, u.display_name

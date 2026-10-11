@@ -4,27 +4,24 @@
  * syncs), the offline count from the cached bundle, and the banner for bookings found in a
  * crewmate's inbox. Renders offline.
  */
-import { router, useLocalSearchParams } from 'expo-router';
-import { useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
+import { router } from 'expo-router';
+import type { ReactNode } from 'react';
 
-import { useLiveRows } from '../data/live-rows';
-import { soonestRelevant, stackOrder, type WalletBooking } from '../data/model';
-import { CANDIDATES_SQL, CANDIDATES_TABLES, type CandidateRow } from '../data/queries';
+import type { WalletBooking } from '../data/model';
+import type { Wallet } from '../data/use-wallet';
+import type { WalletContext } from '../data/use-wallet-context';
+
 import { useBookingsServices } from '../data/services';
-import { useWallet, type Wallet } from '../data/use-wallet';
-import { useWalletContext, type WalletContext } from '../data/use-wallet-context';
-import { openWalletTrip } from '../data/wallet-trip';
 import { FlightCard } from '../flight-card/FlightCard';
 import { flightView } from '../flight-card/flight-model';
 import { gateChanged } from '../flight-card/gate-memory';
 import { zoneOf } from '../format';
 import { InsuranceCard } from '../insurance/InsuranceCard';
 import { HeldMailCard } from '../link-code/HeldMailCard';
-import { pickPolicy, useInsurancePolicies } from '../insurance/insurance-data';
 import { bookingRoute, BOOKINGS_ROUTES, boardingPassRoute } from '../routes';
-import { bannerOf } from './banner';
 import { BookingBody } from './BookingBody';
 import { useDeckMeta } from './deck-meta';
+import { useWalletScreen } from './use-wallet-screen';
 import { WalletView } from './WalletView';
 import { WalletGuideProvider } from '../data/wallet-guide';
 import { useFormats } from '@/lib/i18n/formats';
@@ -83,32 +80,11 @@ export function telUrl(phone: string): string {
 
 export function WalletScreen() {
   useFormats();
-  // A trip hub's Bookings tile names its trip: the wallet shows that one, before the first paint.
-  const { tripId } = useLocalSearchParams<{ tripId?: string }>();
-  useLayoutEffect(() => {
-    if (typeof tripId === 'string' && tripId !== '') openWalletTrip(tripId);
-  }, [tripId]);
-  const context = useWalletContext();
+  const { context, wallet, state, closed, open, banner, insurance, pick } = useWalletScreen();
   const services = useBookingsServices();
-  const wallet = useWallet(context.trip?.id ?? null, context.uid);
   const meta = useDeckMeta();
-  const candidates = useLiveRows<CandidateRow>(
-    CANDIDATES_SQL,
-    context.uid === null ? null : [context.uid, context.crewId ?? '', context.trip?.id ?? ''],
-    CANDIDATES_TABLES,
-  );
-  const insurance = useInsurancePolicies();
-  const policy = pickPolicy(insurance.policies, context.trip?.id ?? null);
-  const [picked, setPicked] = useState<string | null>(null);
-  const names = useMemo(
-    () => new Map(context.members.map((member) => [member.userId, member.name])),
-    [context.members],
-  );
-  const selected = picked ?? soonestRelevant(wallet.upcoming, services.now());
-  const { closed, open } = stackOrder(wallet.upcoming, selected);
+  const policy = insurance.policy;
   const tz = context.trip?.tz ?? undefined;
-  const loading = context.status === 'loading' || (context.status === 'ready' && !wallet.loaded);
-  const state = loading ? 'loading' : wallet.upcoming.length === 0 ? 'empty' : 'ready';
   return (
     <WalletGuideProvider tripId={context.trip?.id ?? null}>
       <WalletView
@@ -125,7 +101,7 @@ export function WalletScreen() {
         openBody={
           open === null ? null : <OpenBody booking={open} wallet={wallet} context={context} />
         }
-        banner={bannerOf(candidates.rows, context.uid, names)}
+        banner={banner}
         archiveCount={wallet.past.length}
         heldMail={
           context.heldMail > 0 ? (
@@ -150,7 +126,7 @@ export function WalletScreen() {
             />
           ) : null
         }
-        onSelect={setPicked}
+        onSelect={pick}
         onOpenDetail={() => {
           if (open !== null) router.push(bookingRoute(open.id));
         }}

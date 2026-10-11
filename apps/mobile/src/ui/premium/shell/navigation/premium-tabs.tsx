@@ -52,7 +52,7 @@ export function PremiumTabs({
   const decision = useGateDecision();
   const { color } = usePremiumTheme();
   const appGuide = useGuideActions();
-  const guide = guideOverride ?? appGuide;
+  const actions = guideOverride ?? appGuide;
 
   if (gated && decision.kind === 'wait') return null;
   if (gated && decision.kind === 'redirect') return <Redirect href={decision.href} />;
@@ -64,7 +64,8 @@ export function PremiumTabs({
     pass: t({ id: 'common.shell.tabPass', message: 'Pass' }),
   };
   const items = tabs ?? PREMIUM_TABS.map((tab) => ({ ...tab, label: labels[tab.icon] }));
-  const guideName = 'Tokek';
+  // Named as in the guide button's message (same id), so the catalog's `{guide}` gets its value.
+  const guide = 'Tokek';
   const ios = Platform.OS === 'ios';
 
   return (
@@ -87,15 +88,15 @@ export function PremiumTabs({
           name={guideRoute}
           role="search"
           disabled
-          hidden={!ios || guide.ask === undefined}
+          hidden={!ios || actions.ask === undefined}
           testID="guide-circle"
-          accessibilityLabel={t({ id: 'common.shell.fabAsk', message: `Ask ${guideName}` })}
-          listeners={{ tabPress: () => guide.ask?.() }}
+          accessibilityLabel={t({ id: 'common.shell.fabAsk', message: `Ask ${guide}` })}
+          listeners={{ tabPress: () => actions.ask?.() }}
         >
           <NativeTabs.Trigger.Icon src={GUIDE_TAB_IMAGE} renderingMode="original" />
         </NativeTabs.Trigger>
       </NativeTabs>
-      {ios ? null : <GuideFab actions={guide} />}
+      {ios ? null : <GuideFab actions={actions} />}
     </View>
   );
 }

@@ -13,7 +13,7 @@ struct CritterdexAccessory: View {
                     .font(.system(size: 10, weight: .heavy))
                     .tracking(1)
                 Text("\(dex.found) OF \(dex.total)")
-                    .font(.system(size: 17, weight: .black).monospacedDigit())
+                    .font(.system(size: 17, weight: .heavy).monospacedDigit())
                     .widgetAccentable()
                 Gauge(value: CritterdexModel.fraction(found: dex.found, total: dex.total)) {
                     EmptyView()

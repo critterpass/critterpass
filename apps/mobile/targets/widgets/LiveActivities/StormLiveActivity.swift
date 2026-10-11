@@ -9,7 +9,7 @@ struct StormLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: StormActivityAttributes.self) { context in
             StormLockScreen(state: context.state)
-                .activityBackgroundTint(LAPalette.card)
+                .activityBackgroundTint(nil)
                 .activitySystemActionForegroundColor(LAPalette.paper)
         } dynamicIsland: { context in
             let state = context.state
@@ -18,25 +18,31 @@ struct StormLiveActivityWidget: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     StormEyebrow(state: state)
                         .padding(.leading, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     StormWindow(state: state)
                         .padding(.trailing, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     StormBody(state: state, headlineSize: 17)
                         .padding(.horizontal, 10)
+                    .islandAppearance()
                 }
             } compactLeading: {
                 Image(systemName: StormLockScreen.symbol(state))
                     .foregroundStyle(tint)
+                    .islandAppearance()
             } compactTrailing: {
                 Text(state.windowStart.laDate, format: .dateTime.hour().minute())
                     .font(.system(size: 13, weight: .heavy).monospacedDigit())
                     .foregroundStyle(tint)
+                    .islandAppearance()
             } minimal: {
                 Image(systemName: StormLockScreen.symbol(state))
                     .foregroundStyle(tint)
+                    .islandAppearance()
             }
             .keylineTint(tint)
         }
@@ -114,8 +120,8 @@ struct StormBody: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(state.headline.uppercased())
-                .font(.system(size: headlineSize, weight: .black))
+            Text(state.headline)
+                .font(.system(size: headlineSize, weight: .heavy))
                 .foregroundStyle(LAPalette.paper)
                 .lineLimit(2)
                 .minimumScaleFactor(0.7)

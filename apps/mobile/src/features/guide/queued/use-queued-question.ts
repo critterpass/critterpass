@@ -1,7 +1,8 @@
 /**
  * The question waiting for the meter's reset (4b-1 ASK AT MIDNIGHT): queued through
  * `queue_guide_question` (online only: the server checks the meter is spent), shown until it is
- * answered at the device's midnight, and cancellable before then. One per day: a second ask is
+ * answered at the device's midnight, and reworded or cancelled before then (a rewording shows at
+ * once and waits in the offline queue). One per day: a second ask is
  * refused as `already_queued`.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire codes, never copy. */
@@ -12,6 +13,7 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 import {
   cancelQueuedQuestionCommand,
+  editQueuedQuestionCommand,
   queueGuideQuestionCommand,
 } from '../chat/data/guide-commands';
 import { useLiveQuery } from '../chat/data/live-rows';
@@ -37,6 +39,8 @@ export function useQueuedQuestion(threadId: string) {
   );
   const queue = useCommand(queueGuideQuestionCommand);
   const cancelCommand = useCommand(cancelQueuedQuestionCommand);
+  const editCommand = useCommand(editQueuedQuestionCommand);
+  const [edits, setEdits] = useState<ReadonlyMap<string, string>>(new Map());
   const [sent, setSent] = useState<QueuedQuestion | null>(null);
   const [cancelled, setCancelled] = useState<ReadonlySet<string>>(new Set());
   const [problem, setProblem] = useState<QueueProblem>(null);
@@ -45,7 +49,9 @@ export function useQueuedQuestion(threadId: string) {
   const synced: QueuedQuestion | null =
     row === undefined ? null : { id: row.id, text: row.text, answerAfter: row.answer_after };
   const candidate = synced ?? sent;
-  const queued = candidate !== null && !cancelled.has(candidate.id) ? candidate : null;
+  const live = candidate !== null && !cancelled.has(candidate.id) ? candidate : null;
+  const edited = live === null ? undefined : edits.get(live.id);
+  const queued = live === null || edited === undefined ? live : { ...live, text: edited };
 
   const ask = useCallback(
     async (text: string): Promise<boolean> => {
@@ -74,5 +80,15 @@ export function useQueuedQuestion(threadId: string) {
     void cancelCommand.send({ question_id: queued.id });
   }, [cancelCommand, queued]);
 
-  return { queued, problem, asking: queue.pending, ask, cancel };
+  const edit = useCallback(
+    (text: string) => {
+      const next = text.trim();
+      if (queued === null || next === '' || next === queued.text) return;
+      setEdits((current) => new Map([...current, [queued.id, next]]));
+      void editCommand.send({ question_id: queued.id, text: next });
+    },
+    [editCommand, queued],
+  );
+
+  return { queued, problem, asking: queue.pending, ask, edit, cancel };
 }

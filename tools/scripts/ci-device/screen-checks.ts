@@ -3,8 +3,10 @@
  * glance but no runtime guard sees:
  *
  * - SCREEN_FRAME: the screen sits in a frame (an inset card, a dark border): both side edges are
- *   one colour that isn't the app background, and it gives way to the screen at the same inset on
- *   both sides, down most of the screen. The designed presenter scale under an open sheet (.93,
+ *   one colour that isn't the screen's ground, and it gives way to the screen at the same inset on
+ *   both sides, down most of the screen. The ground is the current UI's background, or the premium
+ *   UI's grounds (page and card, light or dark) on a screen drawn on them, judged by the colour that
+ *   fills the screen's middle. The designed presenter scale under an open sheet (.93,
  *   docs/design-system.md) is allowed: an inset of that size that stops where a full-width sheet
  *   starts, rather than running on down the sheet's sides.
  * - KEYBOARD_BAND: with the keyboard up, a full-width band of one colour that isn't the screen's
@@ -24,9 +26,14 @@ export interface ScreenFinding {
 
 export type Rgb = readonly [number, number, number];
 
+/** The colours a UI's screen can show to the screen's edges: its page ground and its card. */
+export type Grounds = readonly Rgb[];
+
 export interface ScreenCheckOptions {
   /** The app's screen background (`semantic.bg.base`). */
   readonly background: Rgb;
+  /** The premium UI's grounds per scheme: a screen drawn on one is judged by it. */
+  readonly premiumGrounds?: readonly Grounds[];
   /** The screen is sparse on purpose (./sparse-by-design): no EMPTY_SCREEN check. */
   readonly sparseByDesign?: boolean;
 }
@@ -38,6 +45,8 @@ export const LIMITS = {
   bottom: 0.95,
   /** Two colours this close (largest channel difference) count as the same. */
   sameColour: 10,
+  /** A screen's middle this close to a premium ground is drawn on it (capture noise only). */
+  exactGround: 3,
   /** A frame is at least this thick, and at most this. */
   frameMin: 0.008,
   frameMax: 0.12,
@@ -169,6 +178,40 @@ function isSheetAroundInsetCard(
   return below.filter(onFrame).length >= below.length * 0.9;
 }
 
+/** The exact colour seen most often (no quantising: flat token colours are what it looks for). */
+function commonest(samples: readonly Rgb[]): Rgb {
+  const counts = new Map<number, { count: number; colour: Rgb }>();
+  for (const colour of samples) {
+    const key = (colour[0] << 16) | (colour[1] << 8) | colour[2];
+    const entry = counts.get(key);
+    if (entry) entry.count += 1;
+    else counts.set(key, { count: 1, colour });
+  }
+  let best: { count: number; colour: Rgb } = { count: 0, colour: [0, 0, 0] };
+  for (const entry of counts.values()) if (entry.count > best.count) best = entry;
+  return best.colour;
+}
+
+/**
+ * The grounds a screen is judged by: a premium scheme's grounds when the colour filling the
+ * screen's middle is exactly one of them (premium screens draw the token colours; the current UI's
+ * dark navy shades come within a few steps of the premium dark ones, so near is not enough),
+ * otherwise the current UI's background alone, as before.
+ */
+export function screenGrounds(
+  image: RgbaImage,
+  rows: readonly number[],
+  options: ScreenCheckOptions,
+): Grounds {
+  const families = options.premiumGrounds ?? [];
+  if (families.length === 0) return [options.background];
+  const middle = commonest(rows.flatMap((y) => rowSamples(image, y, 0.15, 0.85, 30)));
+  const premium = families.find((grounds) =>
+    grounds.some((ground) => colourDistance(middle, ground) <= LIMITS.exactGround),
+  );
+  return premium ?? [options.background];
+}
+
 export function findFrame(image: RgbaImage, options: ScreenCheckOptions): ScreenFinding | null {
   const { width } = image;
   const min = Math.max(2, width * LIMITS.frameMin);
@@ -176,12 +219,15 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   // Above the keyboard, when one is up: its tray runs to both edges.
   const keyboard = keyboardTop(image);
   const rows = rowsBetween(image, 0.12, keyboard === null ? 0.88 : keyboard / image.height, 200);
+  const grounds = screenGrounds(image, rows, options);
+  const isGround = (colour: Rgb) =>
+    grounds.some((ground) => colourDistance(colour, ground) <= LIMITS.sameColour);
   const insets: number[] = [];
   const edges: Rgb[] = [];
   for (const y of rows) {
     const left = pixel(image, 0, y);
     const right = pixel(image, width - 1, y);
-    if (colourDistance(left, options.background) <= LIMITS.sameColour) continue;
+    if (isGround(left)) continue;
     if (colourDistance(left, right) > LIMITS.sameColour) continue;
     const l = run(image, y, 0, 1, Math.ceil(max) + 1);
     const r = run(image, y, width - 1, -1, Math.ceil(max) + 1);
@@ -199,7 +245,7 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   if (isSheetAroundInsetCard(image, rows, frameColour)) return null;
   return {
     code: 'SCREEN_FRAME',
-    detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(options.background)}`,
+    detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(grounds[0] ?? options.background)}`,
   };
 }
 

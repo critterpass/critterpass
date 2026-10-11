@@ -109,6 +109,20 @@ describe('a streamed answer', () => {
     expect(state.checking).toBe(0);
   });
 
+  it('lists each tool it ran as a working step, done once its result lands', () => {
+    const frames = [
+      { type: 'tool_start', data: { tool: 'weather', id: 't1' } },
+      { type: 'tool_start', data: { tool: 'plan_read', id: 't2' } },
+      { type: 'tool_start', data: { tool: 'plan_read', id: 't2' } },
+      { type: 'tool_result', data: { id: 't1', card: {} } },
+    ];
+    const state = frames.reduce(applyTurnFrame, THINKING);
+    expect(state.steps).toEqual([
+      { id: 't1', tool: 'weather', done: true },
+      { id: 't2', tool: 'plan_read', done: false },
+    ]);
+  });
+
   it('ends on the error frame with its code', () => {
     const state = applyTurnFrame(THINKING, {
       type: 'error',

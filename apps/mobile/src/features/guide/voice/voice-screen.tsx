@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- storage keys, api paths and wire codes, never copy. */
 import { router } from 'expo-router';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState, type ComponentType } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 
 import type { GuideThreadMode } from '@cp/domain';
@@ -42,7 +42,7 @@ import { VoiceGate } from './voice-consent-view';
 import { useVoiceTarget, voiceTurnRequest } from './voice-target';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
 import { VOICE_STICKER_SIZE } from './voice-stage';
-import { VoiceView } from './voice-view';
+import { VoiceView, type VoiceViewProps } from './voice-view';
 
 /** The speech module as the screen uses it; the route adapts the native module to this. */
 export interface VoiceSpeech {
@@ -91,6 +91,8 @@ export interface VoiceScreenProps {
   readonly speech: VoiceSpeech | null;
   /** Start listening as the screen opens (the guide sheet's microphone was held, not tapped). */
   readonly talkOnOpen?: boolean;
+  /** The view that draws voice mode (the premium one takes the same props). */
+  readonly View?: ComponentType<VoiceViewProps>;
 }
 
 export function VoiceScreen(props: VoiceScreenProps) {
@@ -126,6 +128,7 @@ function OpenVoiceScreen({
   speech,
   talkOnOpen = false,
   consent,
+  View = VoiceView,
 }: VoiceScreenProps & { readonly consent: VoiceConsentGuard }) {
   const { i18n } = useLingui();
   const { context, target } = useVoiceTarget(tripId, given);
@@ -215,8 +218,9 @@ function OpenVoiceScreen({
   const offered = useVoiceProposals(trip?.tripId ?? null, state.proposals, mode === 'group');
   const sticker = guideSticker(guideAvatarId(context.guideSlug));
   return (
-    <VoiceView
+    <View
       guideName={context.guideName}
+      guideKind={sticker.kind}
       shared={mode === 'group'}
       sticker={<Sticker kind={sticker.kind} name={sticker.name} size={VOICE_STICKER_SIZE} />}
       state={state}

@@ -10,8 +10,10 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+// The palette module has no imports, so the shards (no workspace install) can load it directly.
+import { premiumDark, premiumLight } from '../../../packages/design-tokens/src/premium/colors';
 import { decodePng } from './png';
-import { checkScreen, parseHex, type Rgb, type ScreenFinding } from './screen-checks';
+import { checkScreen, parseHex, type Grounds, type Rgb, type ScreenFinding } from './screen-checks';
 import { isSparseByDesign } from './sparse-by-design';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
@@ -44,8 +46,20 @@ export function appBackground(tokensDir = TOKENS): Rgb {
   return parseHex(value);
 }
 
+/** The premium UI's page ground and card, light then dark, from its palette. */
+export function premiumGrounds(): readonly Grounds[] {
+  return [premiumLight, premiumDark].map((palette) => [
+    parseHex(palette.ground),
+    parseHex(palette.card),
+  ]);
+}
+
 /** Findings per screenshot name (without `.png`), for the screenshots that have any. */
-export function scanScreenshots(dir: string, background: Rgb): Map<string, ScreenFinding[]> {
+export function scanScreenshots(
+  dir: string,
+  background: Rgb,
+  grounds: readonly Grounds[] = premiumGrounds(),
+): Map<string, ScreenFinding[]> {
   const byShot = new Map<string, ScreenFinding[]>();
   const files = readdirSync(dir)
     .filter((file) => file.endsWith('.png'))
@@ -54,6 +68,7 @@ export function scanScreenshots(dir: string, background: Rgb): Map<string, Scree
     const shot = file.slice(0, -'.png'.length);
     const findings = checkScreen(decodePng(readFileSync(path.join(dir, file))), {
       background,
+      premiumGrounds: grounds,
       sparseByDesign: isSparseByDesign(shot),
     });
     if (findings.length > 0) byShot.set(shot, findings);

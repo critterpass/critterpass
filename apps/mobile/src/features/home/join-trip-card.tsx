@@ -42,38 +42,23 @@ function reasonOf(detail: unknown): string | null {
   return typeof reason === 'string' ? reason : null;
 }
 
-export interface JoinTripCardProps {
-  readonly trip: OpenTripRow;
-  readonly crewName: string;
+export interface JoinTrip {
+  readonly join: () => void;
+  readonly pending: boolean;
 }
 
-export function JoinTripCard({ trip, crewName }: JoinTripCardProps) {
+/**
+ * Taking a seat on the crew's trip (`join_trip`, online): one toast per trip says what happened,
+ * whether seated, waitlisted with the place in line, the trip over, refused or offline.
+ */
+export function useJoinTrip(tripId: string): JoinTrip {
   const { t } = useLingui();
-  const locale = useLocale();
-  const theme = useTheme();
-  const join = useCommand(joinTripCommand);
-  const place = trip.destination_name;
-  const underWay = trip.status === 'in_trip';
-  const title =
-    place === null
-      ? underWay
-        ? t({ id: 'home.joinTrip.titleNow', message: `${crewName} is on a trip right now.` })
-        : t({ id: 'home.joinTrip.titleSoon', message: `${crewName} has a trip locked in.` })
-      : underWay
-        ? t({
-            id: 'home.joinTrip.titleNowPlace',
-            message: `${crewName} is in ${place} right now.`,
-          })
-        : t({
-            id: 'home.joinTrip.titleSoonPlace',
-            message: `${crewName} is going to ${place}.`,
-          });
-
-  const onJoin = () => {
-    void join.send({ trip_id: trip.id }).then((sent) => {
+  const command = useCommand(joinTripCommand);
+  const join = () => {
+    void command.send({ trip_id: tripId }).then((sent) => {
       // One toast per trip: a second tap replaces the first answer.
       // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
-      const id = `join-trip-${trip.id}`;
+      const id = `join-trip-${tripId}`;
       if (sent.kind === 'applied') {
         const answer = (sent.result ?? {}) as JoinAnswer;
         if (answer.waitlisted !== true) {
@@ -110,6 +95,36 @@ export function JoinTripCard({ trip, crewName }: JoinTripCardProps) {
       });
     });
   };
+  return { join, pending: command.pending };
+}
+
+export interface JoinTripCardProps {
+  readonly trip: OpenTripRow;
+  readonly crewName: string;
+}
+
+export function JoinTripCard({ trip, crewName }: JoinTripCardProps) {
+  const { t } = useLingui();
+  const locale = useLocale();
+  const theme = useTheme();
+  const join = useJoinTrip(trip.id);
+  const onJoin = join.join;
+  const place = trip.destination_name;
+  const underWay = trip.status === 'in_trip';
+  const title =
+    place === null
+      ? underWay
+        ? t({ id: 'home.joinTrip.titleNow', message: `${crewName} is on a trip right now.` })
+        : t({ id: 'home.joinTrip.titleSoon', message: `${crewName} has a trip locked in.` })
+      : underWay
+        ? t({
+            id: 'home.joinTrip.titleNowPlace',
+            message: `${crewName} is in ${place} right now.`,
+          })
+        : t({
+            id: 'home.joinTrip.titleSoonPlace',
+            message: `${crewName} is going to ${place}.`,
+          });
 
   return (
     <Card testID="home-join-trip">

@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 
 import { CameraScreen, type CameraScreenProps } from '@/features/guide/camera/camera-screen';
 import { threadModeOf } from '@/features/guide/chat/data/use-guide-thread';
+import { PremiumCameraScene } from '@/features/guide/premium/camera/camera-scene';
+import { usePremiumUi } from '@/lib/premium-ui';
 
 import { getOcr } from '../../../../modules/cp-ocr';
 
@@ -32,6 +34,7 @@ export default function CameraRoute() {
     mode?: string;
     from?: string;
   }>();
+  const premium = usePremiumUi();
   const recognize = useMemo(() => deviceRecognizer(), []);
   return (
     <CameraScreen
@@ -39,6 +42,7 @@ export default function CameraRoute() {
       mode={threadModeOf(mode) ?? null}
       fromSheet={from === 'guide'}
       recognize={recognize}
+      {...(premium ? { View: PremiumCameraScene } : {})}
     />
   );
 }

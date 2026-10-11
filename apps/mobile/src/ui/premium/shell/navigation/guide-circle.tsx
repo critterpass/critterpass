@@ -9,6 +9,7 @@ import { useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { PressableScale } from '../..';
 import { SHELL_SIZE, useShellExtras } from '../shell-theme';
+import { fromGuideCircle } from './guide-href';
 import { GUIDE_FAB_IMAGE } from './tab-icons';
 
 /** The guide chat sheet and the Help hub, by their design screen ids (data keys, never shown). */
@@ -40,7 +41,7 @@ export function useGuideActions(): GuideActions {
   const ask = useCallback(() => {
     if (askHref === undefined) return;
     void Haptics.selectionAsync();
-    router.push(askHref);
+    router.push(fromGuideCircle(askHref));
   }, [askHref]);
   const help = useCallback(() => {
     if (helpHref === undefined) return;

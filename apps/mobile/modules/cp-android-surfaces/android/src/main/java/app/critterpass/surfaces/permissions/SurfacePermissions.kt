@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
+import app.critterpass.notifications.Channels
 import app.critterpass.surfaces.liveupdate.LiveUpdateRenderer
 import app.critterpass.surfaces.sos.SosChannel
 
@@ -67,7 +68,7 @@ object SurfacePermissions {
       "channel" -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && channelId != null) {
         Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
           .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-          .putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+          .putExtra(Settings.EXTRA_CHANNEL_ID, Channels.localId(channelId))
       } else {
         null
       }
@@ -87,7 +88,7 @@ object SurfacePermissions {
   /** Per-channel importance (0 when blocked), for the ping settings rows. */
   fun channelImportance(context: Context, channelId: String): Int {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return NotificationManager.IMPORTANCE_DEFAULT
-    return context.getSystemService(NotificationManager::class.java)?.getNotificationChannel(channelId)?.importance
+    return context.getSystemService(NotificationManager::class.java)?.getNotificationChannel(Channels.localId(channelId))?.importance
       ?: NotificationManager.IMPORTANCE_DEFAULT
   }
 }

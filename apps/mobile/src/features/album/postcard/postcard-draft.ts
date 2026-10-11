@@ -99,3 +99,15 @@ export function recipientsOf(
 ): string[] {
   return people.map((person) => person.id).filter((id) => id !== me);
 }
+
+/** The recap's line for the postcard, from its stored cards; null when it has none. */
+export function recapNote(cards: unknown): string | null {
+  try {
+    const parsed = (typeof cards === 'string' ? JSON.parse(cards) : cards) as {
+      postcard?: { line?: string; narration?: string };
+    } | null;
+    return parsed?.postcard?.line ?? parsed?.postcard?.narration ?? null;
+  } catch {
+    return null;
+  }
+}

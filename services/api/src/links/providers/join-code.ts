@@ -2,7 +2,8 @@
  * Crew, trip and referral codes (`/i/{code}`, `/j/{code}`, `/r/{code}`, typed codes): the code
  * lookup of ../join-code-provider.ts, plus what the invite ticket shows a stranger holding the
  * link: the crew's members as stubs (first name and colour), how many named seats still wait (never
- * who), and for a trip code its dates, seats taken of the cap, the per-person estimate and guide.
+ * who), and for a trip code its dates, seats taken of the cap, how many already wait for a seat,
+ * the per-person estimate and guide.
  */
 import type { LinkPreview } from '@cp/domain';
 import type pg from 'pg';
@@ -15,6 +16,7 @@ export interface TripSeats {
   readonly trip_end: string | null;
   readonly seats_taken: number;
   readonly seat_cap: number;
+  readonly waitlist_ahead: number;
   readonly estimate_minor: number | null;
   readonly estimate_currency: string | null;
   readonly guide_slug: string | null;
@@ -29,6 +31,8 @@ export async function tripSeats(tx: pg.PoolClient, tripId: string): Promise<Trip
               AS seats_taken,
             coalesce((SELECT te.seat_cap FROM trip_entitlements te WHERE te.trip_id = t.id), 6)
               AS seat_cap,
+            (SELECT count(*)::int FROM trip_participants tp
+              WHERE tp.trip_id = t.id AND tp.rsvp = 'waitlisted') AS waitlist_ahead,
             (SELECT round(avg(s.total_minor))::int FROM trip_share_totals s
               WHERE s.trip_id = t.id AND NOT s.is_missing) AS estimate_minor,
             (SELECT min(s.currency) FROM trip_share_totals s

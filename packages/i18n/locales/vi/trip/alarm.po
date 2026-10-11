@@ -105,7 +105,7 @@ msgstr "Reo đúng phút"
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.slide"
-msgstr "Trượt, mình dậy rồi"
+msgstr "trượt, mình dậy rồi →"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx

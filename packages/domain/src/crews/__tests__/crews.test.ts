@@ -14,6 +14,7 @@ import {
   decideCrewJoin,
   MAX_ACTIVE_CREWS_PER_USER,
 } from '../limits';
+import { crewCoverAllowed, DEFAULT_CREW_COVER, parseCrewCover } from '../covers';
 import { updateCrewPayloadSchema } from '../wire';
 
 describe('member colours', () => {
@@ -93,5 +94,27 @@ describe('crew limits', () => {
 
   it('needs something to change on update', () => {
     expect(updateCrewPayloadSchema.safeParse({ crew_id: crypto.randomUUID() }).success).toBe(false);
+  });
+});
+
+describe('crew covers', () => {
+  it('lets anyone pick a free cover and an earned one only past its stamps', () => {
+    expect(crewCoverAllowed('sky', 0)).toBe(true);
+    expect(crewCoverAllowed('navy', 2)).toBe(false);
+    expect(crewCoverAllowed('navy', 3)).toBe(true);
+    expect(crewCoverAllowed('collector', 4)).toBe(false);
+    expect(crewCoverAllowed('collector', 5)).toBe(true);
+  });
+
+  it('reads an unknown stored cover as the default', () => {
+    expect(parseCrewCover('mint')).toBe('mint');
+    expect(parseCrewCover('plaid')).toBe(DEFAULT_CREW_COVER);
+    expect(parseCrewCover(null)).toBe(DEFAULT_CREW_COVER);
+  });
+
+  it('accepts a cover-only update', () => {
+    expect(
+      updateCrewPayloadSchema.safeParse({ crew_id: crypto.randomUUID(), cover: 'sun' }).success,
+    ).toBe(true);
   });
 });

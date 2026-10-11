@@ -89,12 +89,12 @@ struct CountdownView: View {
                     eyebrow(place.map { "\($0.uppercased()) IN" } ?? String(localized: "TRIP IN"))
                     number(days)
                     Text(days == 1 ? "DAY" : "DAYS")
-                        .font(.system(size: 15, weight: .black))
+                        .font(.system(size: 15, weight: .heavy))
                         .foregroundStyle(LAPalette.night)
                 case .onTrip(let place, let day):
                     eyebrow(place?.uppercased() ?? String(localized: "ON THE TRIP"))
                     Text("DAY")
-                        .font(.system(size: 15, weight: .black))
+                        .font(.system(size: 15, weight: .heavy))
                         .foregroundStyle(LAPalette.night)
                     number(day)
                 case .noTrip:
@@ -121,7 +121,7 @@ struct CountdownView: View {
 
     private func number(_ value: Int) -> some View {
         Text("\(value)")
-            .font(.system(size: 56, weight: .black).monospacedDigit())
+            .font(.system(size: 56, weight: .heavy).monospacedDigit())
             .foregroundStyle(LAPalette.night)
             .lineLimit(1)
             .minimumScaleFactor(0.5)

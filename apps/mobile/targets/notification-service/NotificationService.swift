@@ -63,7 +63,13 @@ final class NotificationService: UNNotificationServiceExtension, @unchecked Send
             avatarKey: identity.avatarKey(crews: crews, crewId: crewId),
             signedUrl: sender.avatarUrl,
             fetch: { url in await AvatarLoader.download(url) },
-            guideDefault: { UIImage(named: AvatarLoader.guideDefaultImageName)?.pngData() }
+            guideDefault: {
+                // A member without a photo is their initial on their crew colour, never the gecko.
+                if sender.kind == .member {
+                    return InitialAvatar.png(name: identity.displayName, tone: sender.tone)
+                }
+                return UIImage(named: AvatarLoader.guideDefaultImageName)?.pngData()
+            }
         )
         return await CommunicationContent.apply(identity: identity, avatar: avatar, to: content)
     }

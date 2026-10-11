@@ -2,7 +2,7 @@
  * Billing jobs. Most run only when the worker can reach the api's internal billing door
  * (`API_INTERNAL_URL` and `BILLING_INTERNAL_SECRET`, the same secret the api holds); without them
  * the queues keep their jobs until the door is configured and the jobs are redriven. The pause
- * reminder reads the database only, so it runs either way.
+ * reminder and the free first trip's ending read the database only, so they run either way.
  */
 import { z } from 'zod';
 
@@ -12,6 +12,7 @@ import { billingApplyJob } from './apply';
 import { boostExpireJob, ftfGrantJob, tripChangedJob } from './boost-expire';
 import { registerBoostPush } from './boost-push';
 import { createBillingDoor, type BillingDoor } from './door-client';
+import { ftfEndingJob, registerFtfEndingPush } from './ftf-ending';
 import { intentExpiryJob } from './intent-expiry';
 import { pauseRemindJob, registerPauseReminderPush } from './pause-remind';
 import { billingReconcileJob } from './reconcile';
@@ -46,9 +47,10 @@ export function billingJobs(
   const parsed = envSchema.parse(env);
   registerPauseReminderPush();
   registerBoostPush();
+  registerFtfEndingPush();
   if (parsed.API_INTERNAL_URL === undefined || parsed.BILLING_INTERNAL_SECRET === undefined) {
     logger.warn('Billing jobs are off: API_INTERNAL_URL or BILLING_INTERNAL_SECRET is unset');
-    return [pauseRemindJob()];
+    return [pauseRemindJob(), ftfEndingJob()];
   }
   return [
     ...billingJobsFor(
@@ -59,5 +61,6 @@ export function billingJobs(
       metrics,
     ),
     pauseRemindJob(),
+    ftfEndingJob(),
   ];
 }

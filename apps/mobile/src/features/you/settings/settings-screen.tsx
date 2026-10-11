@@ -57,11 +57,11 @@ export function versionLine(version: string | null, build: string | null): strin
   return build === null ? `${name} ${version}` : `${name} ${version} (${build})`;
 }
 
-export function SettingsScreen({
-  services = deviceAccountServices,
-}: {
-  readonly services?: AccountServices;
-}) {
+/**
+ * Everything Settings shows and does, shared by the current and the premium page: the sections
+ * (rows with their values and handlers), the plan chip, the version line and the crew-chat choice.
+ */
+export function useSettingsModel(services: AccountServices = deviceAccountServices) {
   const { t } = useLingui();
   const prefs = useFeedbackPrefs();
   const locale = useLocale();
@@ -146,11 +146,31 @@ export function SettingsScreen({
     },
   );
   const plan = usePlanChip();
+  return {
+    sections,
+    plan,
+    version: versionLine(Application.nativeApplicationVersion, Application.nativeBuildVersion),
+    chattiness: synced.settings.chattiness,
+    setChattiness: (next: typeof synced.settings.chattiness) => synced.change({ chattiness: next }),
+    crewChat: pings.prefs.crewChat,
+    setCrewChat: (crewChat: typeof pings.prefs.crewChat) => pings.change({ crewChat }),
+    choosingCrewChat,
+    setChoosingCrewChat,
+  };
+}
+
+export function SettingsScreen({
+  services = deviceAccountServices,
+}: {
+  readonly services?: AccountServices;
+}) {
+  const { sections, plan, version, crewChat, setCrewChat, choosingCrewChat, setChoosingCrewChat } =
+    useSettingsModel(services);
   return (
     <>
       <SettingsView
         sections={sections}
-        version={versionLine(Application.nativeApplicationVersion, Application.nativeBuildVersion)}
+        version={version}
         onTokek={playTokekTheme}
         {...(plan === null ? {} : { plan })}
       >
@@ -158,8 +178,8 @@ export function SettingsScreen({
       </SettingsView>
       {choosingCrewChat ? (
         <CrewChatSheet
-          selected={pings.prefs.crewChat}
-          onSelect={(crewChat) => pings.change({ crewChat })}
+          selected={crewChat}
+          onSelect={(next) => setCrewChat(next)}
           onClose={() => setChoosingCrewChat(false)}
         />
       ) : null}

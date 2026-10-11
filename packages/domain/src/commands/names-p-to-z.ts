@@ -1,6 +1,7 @@
 /** Registered command names from `p` to `z`, sorted; see `./names`. */
 export const COMMAND_NAMES_P_TO_Z = [
   'pause_location_share',
+  'pin_message',
   'ping_all',
   'plusone_comment',
   'post_place_decision',
@@ -35,6 +36,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'remind_all_payments',
   'remove_candidate',
   'remove_idea',
+  'remove_kept_chat',
   'remove_member',
   'remove_packing_item',
   'remove_past_trip',
@@ -51,6 +53,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'request_concierge',
   'request_crew_lock_screen',
   'request_data_export',
+  'request_fresh_invite',
   'request_ops_clinic_call',
   'request_payment',
   'request_phrase_card',
@@ -158,6 +161,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'tell_crew_boost',
   'thank_boost',
   'track_lottery',
+  'transfer_organiser',
   'trigger_sos',
   'undo_disruption_action',
   'undo_guide_action',

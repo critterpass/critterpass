@@ -9,7 +9,7 @@ import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -37,6 +37,7 @@ import {
   clampNote,
   closeStep,
   initialDraft,
+  recapNote,
   recipientsOf,
   saveStep,
   type PostcardDraft,
@@ -44,7 +45,7 @@ import {
 } from './postcard-draft';
 import type { PostcardFormat } from './postcard-pair';
 import { NoteSheet, PhotoSheet } from './postcard-sheets';
-import { PostcardView } from './postcard-view';
+import { PostcardView, type PostcardViewProps } from './postcard-view';
 
 const SAVED_SQL = `
   SELECT id, format, photo_id, note, sent_at FROM postcards
@@ -54,18 +55,13 @@ const RECAP_SQL = 'SELECT cards FROM recaps WHERE trip_id = ?';
 const PAYWALL_SCREEN = '4e-1';
 const RECAP_SCREEN = '3m-1';
 
-function recapNote(cards: unknown): string | null {
-  try {
-    const parsed = (typeof cards === 'string' ? JSON.parse(cards) : cards) as {
-      postcard?: { line?: string; narration?: string };
-    } | null;
-    return parsed?.postcard?.line ?? parsed?.postcard?.narration ?? null;
-  } catch {
-    return null;
-  }
-}
-
-export function PostcardScreen({ tripId }: { readonly tripId: string }) {
+export function PostcardScreen({
+  tripId,
+  View = PostcardView,
+}: {
+  readonly tripId: string;
+  readonly View?: ComponentType<PostcardViewProps>;
+}) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const locale = useLocale();
@@ -247,7 +243,7 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
 
   return (
     <AlbumMediaProvider http={albumHttp}>
-      <PostcardView
+      <View
         format={draft.format}
         photoKey={photo?.displayKey ?? photo?.thumbKey ?? null}
         photoCaption={

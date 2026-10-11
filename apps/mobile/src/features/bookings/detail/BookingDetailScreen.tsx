@@ -2,40 +2,18 @@
  * A booking's detail over synced rows: sharing, "I landed", documents from the phone's own copy,
  * edit and delete (asked once, the split expense stays in Money).
  */
-import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { useLocale } from '@/lib/i18n/use-locale';
-import { useCommandFeedback } from '@/motion/island-toast';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
 import { makeStyles } from '@/ui/theme';
 
-import {
-  deleteBookingCommand,
-  reportLandedCommand,
-  setBookingVisibilityCommand,
-  setFlightCrewVisibilityCommand,
-} from '../data/commands';
-import { useBookingsServices } from '../data/services';
-import { useWallet } from '../data/use-wallet';
-import { useWalletContext } from '../data/use-wallet-context';
-import { canReportLanded, flightView } from '../flight-card/flight-model';
-import { useChipLabel, useUpdatedLine } from '../flight-card/labels';
-import { displayWithHome, useMoneyDisplay } from '@/data/money';
-
-import { clock, dayDate, price as formatPrice, shortDate, zoneOf } from '../format';
-import { boardingPassRoute, BOOKINGS_ROUTES, editBookingRoute } from '../routes';
-import { BookingDetailView, type DetailDoc } from './BookingDetailView';
-import { BookingMissing } from './BookingMissing';
 import { WalletGuideProvider } from '../data/wallet-guide';
-import { useTripGuide } from '../supplier/data/use-trip-guide';
-import { cancelRoute } from '../supplier/routes';
-import { useFormats } from '@/lib/i18n/formats';
+import { BookingDetailView } from './BookingDetailView';
+import { BookingMissing } from './BookingMissing';
+import { useBookingDetail } from './use-booking-detail';
 
 const useConfirmStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
@@ -54,129 +32,30 @@ function DeleteConfirm(props: ConfirmSheetProps) {
 }
 
 export function BookingDetailScreen({ bookingId }: { readonly bookingId: string }) {
-  const context = useWalletContext();
-  const { name: guideName } = useTripGuide(context.trip?.id ?? null);
-  const wallet = useWallet(context.trip?.id ?? null, context.uid);
-  const services = useBookingsServices();
-  const locale = useLocale();
-  useFormats();
-  useMoneyDisplay();
   const { t } = useLingui();
-  const chipLabel = useChipLabel();
-  const updatedLine = useUpdatedLine();
-  const del = useCommand(deleteBookingCommand);
-  const share = useCommand(setBookingVisibilityCommand);
-  const shareFlight = useCommand(setFlightCrewVisibilityCommand);
-  const landed = useCommand(reportLandedCommand);
-  const { report } = useCommandFeedback();
+  const detail = useBookingDetail(bookingId);
   const [confirming, setConfirming] = useState(false);
-  const booking = wallet.all.find((item) => item.id === bookingId);
-  if (booking === undefined) return <BookingMissing loaded={wallet.loaded} />;
-  const tz = zoneOf(booking.tz, context.trip?.tz);
-  const names = new Map(context.members.map((member) => [member.userId, member.name]));
-  const view = booking.kind === 'flight' ? flightView(booking, wallet.segments) : null;
-  const start = view?.departsAt ?? booking.startsAt;
-  const end = view?.arrivesAt ?? booking.endsAt;
-  const when =
-    booking.kind === 'stay'
-      ? [shortDate(locale, booking.startsAt, tz), shortDate(locale, booking.endsAt, tz)]
-          .filter((part) => part !== '')
-          .join(' → ')
-      : [`${dayDate(locale, start, tz)} ${clock(locale, start, tz)}`.trim(), clock(locale, end, tz)]
-          .filter((part) => part !== '')
-          .join(' → ');
-  const payer = booking.paidBy === null ? null : (names.get(booking.paidBy) ?? null);
-  const amount =
-    booking.priceMinor === null || booking.currency === null
-      ? null
-      : displayWithHome(
-          formatPrice(locale, booking.priceMinor, booking.currency),
-          booking.priceMinor,
-          booking.currency,
-          locale,
-        );
-  const price =
-    amount === null
-      ? null
-      : payer === null
-        ? amount
-        : t({ id: 'bookings.detail.paidBy', message: `${amount} · paid by ${payer}` });
-  const status =
-    view === null
-      ? null
-      : [
-          chipLabel(view.chip, view.delayMin),
-          view.source === null ? null : updatedLine(clock(locale, view.source.at, tz)),
-        ]
-          .filter(Boolean)
-          .join(' · ');
-  const entry = wallet.entries.get(booking.id);
-  const orderId = booking.supplierOrderId;
-  const docs: DetailDoc[] = wallet.attachments
-    .filter((doc) => doc.booking_id === booking.id)
-    .map((doc, index) => ({
-      id: doc.id,
-      label: t({ id: 'bookings.detail.doc', message: `Document ${index + 1}` }),
-      uri: entry?.files[doc.id] ?? null,
-    }));
-  const deleteIt = async () => {
-    setConfirming(false);
-    // The queued delete takes the booking out of the wallet's rows at once: leave for the wallet
-    // first, so this screen never draws "not in the wallet" on the way out.
-    const sent = del.send({ booking_id: booking.id, base_version: booking.version });
-    router.dismissTo(BOOKINGS_ROUTES.wallet);
-    await sent;
-  };
+  if (detail.kind === 'missing') return <BookingMissing loaded={detail.loaded} />;
   return (
-    <WalletGuideProvider tripId={context.trip?.id ?? null}>
+    <WalletGuideProvider tripId={detail.tripId}>
       <>
         <BookingDetailView
-          booking={booking}
-          tz={tz}
-          when={when}
-          travellers={format.list(
-            locale,
-            booking.travellerIds.map((id) => names.get(id) ?? '').filter((name) => name !== ''),
-          )}
-          price={price}
-          status={status}
-          canReportLanded={booking.mine && view !== null && canReportLanded(view, services.now())}
-          docs={docs}
-          hasPass={booking.mine && entry?.barcode != null}
-          onPass={() => router.push(boardingPassRoute(booking.id))}
-          onDoc={(doc) => {
-            if (doc.uri !== null) void services.openUrl(doc.uri);
-          }}
-          onShare={(next) => {
-            const sent =
-              booking.kind === 'flight'
-                ? shareFlight.send({ booking_id: booking.id, visible: next })
-                : share.send({ booking_id: booking.id, visibility: next ? 'crew' : 'personal' });
-            void sent.then((result) =>
-              report(result, { offlineCapable: true, id: 'bookings-share' }),
-            );
-          }}
-          onLanded={() => {
-            if (landed.pending) return;
-            void landed.send({ booking_id: booking.id }).then((result) =>
-              report(result, {
-                offlineCapable: true,
-                // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast key, not copy
-                id: `bookings-landed-${booking.id}`,
-                done: t({
-                  id: 'bookings.detail.landedToast',
-                  message: `Welcome in. ${guideName} tells the crew.`,
-                }),
-              }),
-            );
-          }}
-          onEdit={() => router.push(editBookingRoute(booking.id))}
+          booking={detail.booking}
+          tz={detail.tz}
+          when={detail.when}
+          travellers={detail.travellers}
+          price={detail.price}
+          status={detail.status}
+          canReportLanded={detail.canReportLanded}
+          docs={detail.docs}
+          hasPass={detail.hasPass}
+          onPass={detail.onPass}
+          onDoc={detail.onDoc}
+          onShare={detail.onShare}
+          onLanded={detail.onLanded}
+          onEdit={detail.onEdit}
           onDelete={() => setConfirming(true)}
-          onSupplierCancel={
-            booking.mine && orderId !== null && booking.status !== 'cancelled'
-              ? () => router.push(cancelRoute(orderId, booking.title))
-              : null
-          }
+          onSupplierCancel={detail.onSupplierCancel}
         />
         {confirming ? (
           <DeleteConfirm
@@ -187,7 +66,10 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
             ]}
             confirmLabel={t({ id: 'bookings.delete.confirm', message: 'Delete booking' })}
             mode="button"
-            onConfirm={() => void deleteIt()}
+            onConfirm={() => {
+              setConfirming(false);
+              void detail.deleteIt();
+            }}
             onCancel={() => setConfirming(false)}
             testID="bookings-delete-confirm"
           />
