@@ -71,7 +71,10 @@ describe('changing a planned trip’s dates', () => {
   });
 
   it('is for organisers only', async () => {
-    await harness.pool.query("UPDATE trips SET status = 'confirmed' WHERE id = $1", [crew.tripId]);
+    // The trip walks its real path to confirmed (the status guard allows nothing shorter).
+    for (const status of ['setup', 'drafting', 'draft_review', 'proposed', 'confirmed']) {
+      await harness.pool.query('UPDATE trips SET status = $2 WHERE id = $1', [crew.tripId, status]);
+    }
     expect(errorOf(await change(member, day(50), day(52)))).toMatchObject({
       code: 'FORBIDDEN',
     });
