@@ -21,10 +21,8 @@ import { useDietaryForm } from '../../dietary/use-dietary-form';
 import { DietaryConsent } from './dietary-consent';
 import { DietaryForm } from './dietary-form';
 
-/* eslint-disable lingui/no-unlocalized-strings -- the profile's visibility values, never copy. */
 const SHARED = 'crew_flags' as const;
 const PRIVATE = 'self' as const;
-/* eslint-enable lingui/no-unlocalized-strings */
 
 export function PremiumDietaryScreen({ services }: { readonly services: DietaryServices }) {
   const localFirst = useContext(LocalFirstContext);
