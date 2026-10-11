@@ -4,7 +4,7 @@ import { Redirect, useLocalSearchParams } from 'expo-router';
 import { TripAccessGate } from '@/features/trip/access/trip-access-gate';
 import { LocalFirstGate } from '@/features/trip/hub/local-first-gate';
 import { TRIPS_TAB } from '@/features/trip/hub/routes';
-import { TripHubScreen } from '@/features/trip/hub/screen';
+import { TripHubPremium } from '@/features/trip/premium/hub/TripHubPremium';
 import { goBackOr } from '@/lib/navigation/back';
 import { premiumRoute } from '@/lib/premium-ui';
 
@@ -20,7 +20,7 @@ function TripHubOverTabs() {
   return (
     <TripAccessGate tripId={tripId}>
       <LocalFirstGate>
-        <TripHubScreen tripId={tripId} onSwitch={() => goBackOr(TRIPS_TAB)} />
+        <TripHubPremium tripId={tripId} onBack={() => goBackOr(TRIPS_TAB)} />
       </LocalFirstGate>
     </TripAccessGate>
   );
@@ -32,5 +32,5 @@ function TripHubInTab() {
   return <Redirect href={tripId === null ? TRIPS_TAB : `/trips/${tripId}`} />;
 }
 
-/** One trip's hub over the tabs (3k-1, 6.01). */
+/** One trip's hub over the tabs (3k-1, 1.05, 6.01–6.03). */
 export default premiumRoute({ premium: TripHubOverTabs, legacy: TripHubInTab });

@@ -7,3 +7,4 @@ export { LineIcon, type LineIconName, type LineIconProps } from './components/Li
 export { guideCritterKind } from './components/guide-critter';
 export { turn } from './components/turn';
 export { crewAccent } from './components/crew-accent';
+export { tripZoomId } from './hub/zoom-id';

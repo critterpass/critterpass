@@ -6,6 +6,7 @@ export {
   guideCritterKind,
   IconTile,
   LineIcon,
+  tripZoomId,
   turn,
   type LineIconName,
 } from './premium';
