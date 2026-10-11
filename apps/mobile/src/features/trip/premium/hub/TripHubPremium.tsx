@@ -23,7 +23,6 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { confirmAlert, ZoomTarget } from '@/ui/premium/shell';
-import { VisitConsentRow } from '@/ui/permission-primer';
 
 import { tripDates } from '../../hub/hub-copy';
 import type { HubHeader } from '../../hub/hub-model';
@@ -37,6 +36,7 @@ import { HubHero } from './HubHero';
 import { HubSwitch, type HubDoor } from './HubSwitch';
 import { HubTiles } from './HubTiles';
 import { TodayList } from './TodayList';
+import { VisitConsentLine } from './VisitConsentLine';
 import { tripZoomId } from './zoom-id';
 
 export interface TripHubPremiumProps {
@@ -212,7 +212,7 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
               </View>
             )}
             <ActivityTicker items={hub.ticker} />
-            {hub.calledOff ? null : <VisitConsentRow />}
+            {hub.calledOff ? null : <VisitConsentLine />}
           </>
         )}
       </ScrollView>
