@@ -104,7 +104,6 @@ export function PremiumAwardsCard({ eyebrow, headline, awards }: AwardsCardProps
 }
 
 export function PremiumReceiptCard(props: ReceiptCardProps) {
-  const th = usePremiumTheme();
   const styles = useStyles();
   const reduced = usePremiumReducedMotion();
   const stamped = useClockReached(1800);

@@ -26,7 +26,9 @@ import { withGroups, type Item } from '../../dex/dex-groups';
 import { filterSets, setOfCritter } from '../../dex/dex-model';
 import type { DexViewProps } from '../../dex/dex-view';
 import { useLanded } from '../../dex/use-landed';
+import { LiveEncounterBanner } from '../../dex/encounter-banner';
 import { DexEmpty, EggCard, ExploreAtHome, SlippedCard } from './dex-extras';
+import { PremiumEncounterBanner } from './encounter-banner';
 import { HereNowCard } from './here-now-card';
 import { HomeSetCard, LegendaryBanner, PlaceRow } from './set-cards';
 
@@ -112,7 +114,7 @@ export function PremiumDexScene(props: DexViewProps) {
               onDismiss={props.onDismissSlipped ?? (() => undefined)}
             />
           )}
-          {props.encounterBanner}
+          <LiveEncounterBanner Banner={PremiumEncounterBanner} />
           {props.egg === null ? null : (
             <EggCard
               egg={props.egg}
