@@ -17,7 +17,7 @@ import { Text } from '@/ui/text/Text';
 
 import { uploadStroke } from './upload';
 
-const PAD_HEIGHT = 160;
+export const PAD_HEIGHT = 160;
 
 export interface SignatureSheetProps {
   readonly name: string;
@@ -28,17 +28,16 @@ export interface SignatureSheetProps {
   readonly upload?: typeof uploadStroke;
 }
 
-export function SignatureSheet({
-  name,
+/** The signature's state for any view of it: what is on the pad, its width, and saving it. */
+export function useSignatureForm({
   onClose,
   onSaved,
   upload = uploadStroke,
-}: SignatureSheetProps) {
+}: Omit<SignatureSheetProps, 'name'>) {
   const { t } = useLingui();
   const [value, setValue] = useState<Signature | null>(null);
   const [width, setWidth] = useState(0);
   const [saving, setSaving] = useState(false);
-  const title = t({ id: 'recap.signature.title', message: 'Sign the crew stamp' });
 
   async function onSave() {
     if (value === null || value.kind === 'typed') {
@@ -67,6 +66,14 @@ export function SignatureSheet({
     onClose();
   }
 
+  return { value, setValue, setWidth, saving, save: () => void onSave() };
+}
+
+export function SignatureSheet(props: SignatureSheetProps) {
+  const { t } = useLingui();
+  const { value, setValue, setWidth, saving, save } = useSignatureForm(props);
+  const { name, onClose } = props;
+  const title = t({ id: 'recap.signature.title', message: 'Sign the crew stamp' });
   return (
     <Sheet
       detents={['fit']}
@@ -94,7 +101,7 @@ export function SignatureSheet({
               : t({ id: 'recap.signature.later', message: 'Keep my name' })
           }
           loading={saving}
-          onPress={() => void onSave()}
+          onPress={save}
           testID="recap-signature-save"
         />
       </Stack>

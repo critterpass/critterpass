@@ -45,8 +45,11 @@ export function PremiumSheet({
   title,
   onClose,
   children,
+  scroll = true,
   testID,
 }: {
+  /** False for a sheet whose content takes drags itself (a signature pad). */
+  readonly scroll?: boolean;
   readonly title: string;
   readonly onClose: () => void;
   readonly children: ReactNode;
@@ -82,9 +85,13 @@ export function PremiumSheet({
               onPress={onClose}
             />
           </View>
-          <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ gap: 10 }}>
-            {children}
-          </ScrollView>
+          {scroll ? (
+            <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ gap: 10 }}>
+              {children}
+            </ScrollView>
+          ) : (
+            <View style={{ gap: 10 }}>{children}</View>
+          )}
         </View>
       </KeyboardAvoidingView>
     </Modal>

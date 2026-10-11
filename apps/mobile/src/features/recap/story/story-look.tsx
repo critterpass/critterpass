@@ -10,6 +10,7 @@ import type { ComponentType } from 'react';
 import { ScreenLoading } from '@/ui/states/ScreenLoading';
 import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
+import { SignatureSheet, type SignatureSheetProps } from '../signature/signature-sheet';
 import { MvpSheet, type MvpSheetProps } from './mvp-sheet';
 import type { StoryCardViews } from './story-card-views';
 import { StoryFooter, type StoryFooterProps } from './story-footer';
@@ -56,6 +57,7 @@ export interface StoryLook {
   readonly Footer: ComponentType<StoryFooterProps>;
   readonly Mvp: ComponentType<MvpSheetProps>;
   readonly Absent: ComponentType<StoryAbsentProps>;
+  readonly Signature: ComponentType<SignatureSheetProps>;
   readonly cards?: StoryCardViews;
 }
 
@@ -64,4 +66,5 @@ export const CURRENT_LOOK: StoryLook = {
   Footer: StoryFooter,
   Mvp: MvpSheet,
   Absent: StoryAbsent,
+  Signature: SignatureSheet,
 };

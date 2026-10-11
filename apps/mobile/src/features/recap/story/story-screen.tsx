@@ -33,7 +33,6 @@ import {
 } from '../commands';
 import { useLiveRows } from '../data/live-rows';
 import { recapRoutes } from '../routes';
-import { SignatureSheet } from '../signature/signature-sheet';
 import { awardTitle } from '../summary/award-copy';
 import { buildStoryCards } from './story-cards';
 import { storySubtitle, themeName } from './story-copy';
@@ -218,7 +217,7 @@ function RecapStory({
         />
       ) : null}
       {sheet === 'signature' ? (
-        <SignatureSheet
+        <look.Signature
           name={
             data.travellers.find((person) => person.userId === data.viewerId)?.name ??
             t({ id: 'recap.signature.me', message: 'Me' })

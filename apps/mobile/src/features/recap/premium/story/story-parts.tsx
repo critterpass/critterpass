@@ -28,6 +28,7 @@ import { PremiumAwardsCard, PremiumReceiptCard } from './cards/story-awards-rece
 import { PremiumCoverCard } from './cards/story-cover';
 import { PremiumGotAwayCard, PremiumStampCard } from './cards/story-got-away-stamp';
 import { PremiumCrittersCard, PremiumRouteCard } from './cards/story-route-friends';
+import { PremiumSignatureSheet } from './signature-sheet';
 import { PremiumStoryScene } from './story-scene';
 
 const useStyles = makePremiumStyles((th) => ({
@@ -192,6 +193,7 @@ export const PREMIUM_STORY_LOOK: StoryLook = {
   Footer: PremiumStoryFooter,
   Mvp: PremiumMvpSheet,
   Absent: PremiumStoryAbsent,
+  Signature: PremiumSignatureSheet,
   cards: {
     Cover: PremiumCoverCard,
     Critters: PremiumCrittersCard,
