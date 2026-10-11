@@ -1,18 +1,72 @@
 import Foundation
 
-/// What a vote or RSVP notification's poster shows and offers, read from the push's `cp` block
-/// (docs/api-contracts-async.md §3.1: `ctx.poll_id` and `ctx.options[{id, label}]` for votes,
-/// `ctx.proposal_id` for RSVPs). Foundation only, so the host tests run it without a simulator.
+/// What a poster notification shows and offers, read from the push's `cp` block
+/// (docs/api-contracts-async.md §3.1, §3.4): votes (`ctx.poll_id`, `ctx.options[{id, label,
+/// critter, tone, count}]`, `voted`, `eligible`, `closes_at`), RSVPs (`ctx.proposal_id`), a change
+/// that needs a yes (`ctx.change_set_id`, `diff`, `yes_count`, `needed`, `closes_at`, `voters`) and
+/// the evening roundup (`ctx.lines`). Foundation only, so the host tests run it without a
+/// simulator.
 struct PosterContent: Equatable, Sendable {
     struct Option: Equatable, Sendable {
         let id: String
         let label: String
+        /// The guide slug whose critter stands for this answer.
+        var critter: String? = nil
+        /// Its colour (`orange`, `green`, `blue`, `pink`, `yellow`, `cream`).
+        var tone: String? = nil
+        /// Votes so far when the push was sent.
+        var count: Int? = nil
+    }
+
+    /// How far the vote has got when the push was sent.
+    struct Turnout: Equatable, Sendable {
+        var voted: Int?
+        var eligible: Int?
+        var closesAt: Date?
+    }
+
+    struct Change: Equatable, Sendable {
+        struct Row: Equatable, Sendable {
+            let label: String
+            /// `HH:mm`; nil for an added stop.
+            let from: String?
+            /// `HH:mm`; nil for a dropped stop.
+            let to: String?
+        }
+
+        struct Voter: Equatable, Sendable {
+            let initial: String
+            let tone: String?
+        }
+
+        let changeSetId: String?
+        let rows: [Row]
+        let yesCount: Int?
+        let needed: Int?
+        let closesAt: Date?
+        let voters: [Voter]
+
+        /// Two stops trading times: the yes reads "Yes, swap".
+        var isSwap: Bool {
+            rows.count == 2 && rows.allSatisfy { $0.from != nil && $0.to != nil }
+                && rows[0].from == rows[1].to && rows[1].from == rows[0].to
+        }
+    }
+
+    struct RoundupLine: Equatable, Sendable {
+        /// The rolled-up notification's key: picks the row's icon.
+        let kind: String
+        let title: String
+        let sub: String?
     }
 
     enum Kind: Equatable, Sendable {
         case vote(pollId: String, options: [Option])
         /// Without a proposal id the poster only opens the app.
         case rsvp(proposalId: String?)
+        /// Yes and no go on to the app (`approve_changeset`), as they did before the poster.
+        case changeset(Change)
+        case roundup(subtitle: String?, lines: [RoundupLine])
     }
 
     /// Set on a notification this extension re-posted with its answer, so reopening it shows the
@@ -24,6 +78,7 @@ struct PosterContent: Equatable, Sendable {
     let body: String
     /// The answer already given: an option id for a vote, `in` or `maybe` for an RSVP.
     let stamped: String?
+    var turnout = Turnout()
 
     init?(category: String, title: String, body: String, userInfo: [AnyHashable: Any]) {
         let cp = userInfo["cp"] as? [String: Any]
@@ -35,17 +90,51 @@ struct PosterContent: Equatable, Sendable {
                 guard let id = raw["id"] as? String, let label = raw["label"] as? String else {
                     return nil
                 }
-                return Option(id: id, label: label)
+                return Option(
+                    id: id, label: label, critter: raw["critter"] as? String,
+                    tone: raw["tone"] as? String, count: Self.int(raw["count"]))
             }
             kind = .vote(pollId: pollId, options: options)
+            turnout = Turnout(
+                voted: Self.int(ctx?["voted"]), eligible: Self.int(ctx?["eligible"]),
+                closesAt: Self.date(ctx?["closes_at"]))
         case "cp.rsvp":
             kind = .rsvp(proposalId: (ctx?["proposal_id"] as? String).flatMap { $0.isEmpty ? nil : $0 })
+        case "cp.changeset":
+            let rows = (ctx?["diff"] as? [[String: Any]] ?? []).compactMap { raw -> Change.Row? in
+                guard let label = raw["label"] as? String else { return nil }
+                return Change.Row(label: label, from: raw["from"] as? String, to: raw["to"] as? String)
+            }
+            let voters = (ctx?["voters"] as? [[String: Any]] ?? []).compactMap { raw -> Change.Voter? in
+                guard let initial = raw["initial"] as? String, !initial.isEmpty else { return nil }
+                return Change.Voter(initial: initial, tone: raw["tone"] as? String)
+            }
+            kind = .changeset(Change(
+                changeSetId: ctx?["change_set_id"] as? String, rows: rows,
+                yesCount: Self.int(ctx?["yes_count"]), needed: Self.int(ctx?["needed"]),
+                closesAt: Self.date(ctx?["closes_at"]), voters: voters))
+        case "cp.roundup":
+            let lines = (ctx?["lines"] as? [[String: Any]] ?? []).compactMap { raw -> RoundupLine? in
+                guard let title = raw["title"] as? String else { return nil }
+                return RoundupLine(
+                    kind: raw["kind"] as? String ?? "", title: title, sub: raw["sub"] as? String)
+            }
+            kind = .roundup(subtitle: ctx?["subtitle"] as? String, lines: lines)
         default:
             return nil
         }
         self.title = title
         self.body = body
         stamped = userInfo[Self.stampKey] as? String
+    }
+
+    private static func int(_ value: Any?) -> Int? {
+        (value as? NSNumber)?.intValue
+    }
+
+    /// A unix-seconds field.
+    private static func date(_ value: Any?) -> Date? {
+        (value as? NSNumber).map { Date(timeIntervalSince1970: $0.doubleValue) }
     }
 
     var options: [Option] {
@@ -68,6 +157,8 @@ struct PosterContent: Equatable, Sendable {
             case "MAYBE": return .rsvp(proposalId: proposalId, status: "maybe")
             default: return nil
             }
+        case .changeset, .roundup:
+            return nil
         }
     }
 
@@ -92,6 +183,15 @@ struct PosterContent: Equatable, Sendable {
                 PosterAction(id: "MAYBE", title: String(localized: "Maybe"), foreground: false),
                 open,
             ]
+        case .changeset(let change):
+            let yes = change.isSwap ? String(localized: "Yes, swap") : String(localized: "Yes")
+            return [
+                PosterAction(id: "APPROVE", title: yes, foreground: false),
+                PosterAction(id: "DECLINE", title: String(localized: "Not this one"), foreground: false),
+                open,
+            ]
+        case .roundup:
+            return [open]
         }
     }
 
@@ -99,6 +199,8 @@ struct PosterContent: Equatable, Sendable {
         switch kind {
         case .vote: return String(localized: "Open the showdown")
         case .rsvp: return String(localized: "Open the trip")
+        case .changeset: return String(localized: "Open the plan")
+        case .roundup: return String(localized: "Open")
         }
     }
 
@@ -129,6 +231,19 @@ struct PosterContent: Equatable, Sendable {
                 ? String(localized: "You're in. Sending when you're back online.")
                 : String(localized: "You said maybe. Sending when you're back online.")
         }
+    }
+
+    /// "3 of 6 have voted. It closes Friday." from the push's turnout, nil without one.
+    func turnoutLine(now: Date = Date(), calendar: Calendar = .current) -> String? {
+        guard let voted = turnout.voted, let eligible = turnout.eligible, eligible > 0 else {
+            return nil
+        }
+        let have = String(localized: "\(voted) of \(eligible) have voted.")
+        guard let closes = turnout.closesAt, closes > now else { return have }
+        let day = calendar.isDate(closes, inSameDayAs: now)
+            ? closes.formatted(date: .omitted, time: .shortened)
+            : closes.formatted(.dateTime.weekday(.wide))
+        return "\(have) " + String(localized: "It closes \(day).")
     }
 
     /// "Kyoto 3 · Lisbon 1", in the poll's option order.

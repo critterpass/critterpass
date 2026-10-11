@@ -35,8 +35,16 @@ export const IOS_EXTENSION_CRITTER_ART: Readonly<Record<string, readonly string[
   ],
   // AvatarLoader.guideDefaultImageName: the face a notification shows when no avatar loads.
   'notification-service': ['gecko-common-idle-color-96pt'],
-  // The vote poster's two sides (notification-content/VotePosterView.swift).
-  'notification-content': ['sardine-common-idle-color-48pt', 'tanuki-common-idle-color-48pt'],
+  // Each guide's critter: a vote answer's art and Tokek on the posters (VotePosterView.swift).
+  'notification-content': [
+    'alpaca-common-idle-color-48pt',
+    'axolotl-common-idle-color-48pt',
+    'gecko-common-idle-color-48pt',
+    'langur-common-idle-color-48pt',
+    'puffin-common-idle-color-48pt',
+    'sardine-common-idle-color-48pt',
+    'tanuki-common-idle-color-48pt',
+  ],
 };
 
 const CATALOG_NAME = 'CritterArt.xcassets';
