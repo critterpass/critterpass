@@ -5,7 +5,7 @@ import WidgetKit
 /// The leave-by alarm between its one snooze and the next ring: AlarmKit shows this Live
 /// Activity (lock screen and Dynamic Island) while the snooze counts down, and keeps it up when
 /// the countdown is paused and while the alarm rings. The ringing alert itself is system-drawn,
-/// with "I'm up" as its stop button; the paused and ringing faces here offer I'M UP too.
+/// with "I'm up" as its stop button; the paused and ringing faces here offer "I'm up" too.
 struct LeaveByAlarmCountdownWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: AlarmAttributes<CPAlarmMetadata>.self) { context in
@@ -33,7 +33,7 @@ struct LeaveByAlarmCountdownWidget: Widget {
                     )
                 }
             }
-            .activityBackgroundTint(AlarmPalette.night)
+            .activityBackgroundTint(AlarmPalette.ground)
             .activitySystemActionForegroundColor(AlarmPalette.cream)
         } dynamicIsland: { context in
             DynamicIsland {
@@ -92,12 +92,12 @@ struct LeaveByAlarmCountdownView: View {
             .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title.uppercased())
-                    .font(.caption.weight(.heavy))
-                    .tracking(1.2)
+                    .font(.system(size: 11, weight: .bold))
+                    .tracking(0.66)
                     .foregroundStyle(tint)
                     .lineLimit(1)
                 LeaveByAlarmTimer(window: window)
-                    .font(.system(size: 40, weight: .black, design: .rounded).monospacedDigit())
+                    .font(.system(size: 40, weight: .bold).monospacedDigit())
                     .foregroundStyle(AlarmPalette.cream)
                     .minimumScaleFactor(0.6)
                     .lineLimit(1)
@@ -143,7 +143,7 @@ enum LeaveByAlarmFace: Equatable {
 }
 
 /// The paused and ringing faces: the same glow and title as the countdown, the time left (or
-/// "TIME TO GO") standing still, and I'M UP, which tells the crew and lets the app stop the alarm.
+/// "Time to go") standing still, and "I'm up", which tells the crew and lets the app stop the alarm.
 struct LeaveByAlarmStillView: View {
     enum Face: Equatable {
         case paused(remaining: TimeInterval)
@@ -172,12 +172,12 @@ struct LeaveByAlarmStillView: View {
             .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title.uppercased())
-                    .font(.caption.weight(.heavy))
-                    .tracking(1.2)
+                    .font(.system(size: 11, weight: .bold))
+                    .tracking(0.66)
                     .foregroundStyle(tint)
                     .lineLimit(1)
                 headline
-                    .font(.system(size: 28, weight: .black, design: .rounded).monospacedDigit())
+                    .font(.system(size: 28, weight: .bold).monospacedDigit())
                     .foregroundStyle(AlarmPalette.cream)
                     .minimumScaleFactor(0.6)
                     .lineLimit(1)
@@ -185,9 +185,8 @@ struct LeaveByAlarmStillView: View {
             Spacer(minLength: 0)
             if let leaveById {
                 Button(intent: ImUpIntent(leaveById: leaveById)) {
-                    Text("I'M UP")
-                        .font(.system(size: 13, weight: .heavy))
-                        .tracking(0.8)
+                    Text("I'm up")
+                        .font(.system(size: 13, weight: .bold))
                         .foregroundStyle(AlarmPalette.night)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
@@ -202,7 +201,7 @@ struct LeaveByAlarmStillView: View {
 
     private var headline: Text {
         switch face {
-        case .ringing: return Text("TIME TO GO")
+        case .ringing: return Text("Time to go")
         case .paused(let remaining):
             return Text(Duration.seconds(remaining), format: .time(pattern: .minuteSecond))
         }

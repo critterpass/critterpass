@@ -17,9 +17,10 @@ struct NextLeaveByAccessory: View {
             .widgetAccentable()
             if leaveAt > .now {
                 Text(timerInterval: Date.now...leaveAt, countsDown: true)
-                    .font(.system(size: 18, weight: .black).monospacedDigit())
+                    .font(.system(size: 18, weight: .heavy).monospacedDigit())
+                    .widgetAccentable()
             } else {
-                Text("TIME TO GO").font(.system(size: 18, weight: .black))
+                Text("Time to go").font(.system(size: 18, weight: .heavy)).widgetAccentable()
             }
             Text(verbatim: leaveBy.placeName ?? leaveBy.title)
                 .font(.system(size: 11, weight: .semibold))
