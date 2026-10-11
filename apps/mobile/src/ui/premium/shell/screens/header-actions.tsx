@@ -21,10 +21,16 @@ export interface ShellAction {
   readonly onPress: () => void;
   readonly testID?: string;
   /**
-   * Replaces the button with this element on iOS (a `Stack.Toolbar.View`), for an action that is
-   * the source of a zoom or morph and so has to be a React Native view.
+   * Replaces the button with this element on iOS (a `Stack.Toolbar.View`) on a push screen. iOS 26
+   * hides a toolbar view's content from VoiceOver and UI tests, so root screens always use the
+   * system button.
    */
   readonly element?: ReactElement;
+  /**
+   * The ink `+` opens a sheet: on a native root screen it grows into the sheet (1.06) before
+   * `onPress` presents the sheet route.
+   */
+  readonly morph?: boolean;
 }
 
 /** foundations-spec §1: a root screen carries at most two actions, a push screen one. */

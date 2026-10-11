@@ -11,8 +11,8 @@ import { useState } from 'react';
 import { Platform, ScrollView, View } from 'react-native';
 
 import { useFormats } from '@/lib/i18n/formats';
-import { Banner, IconButton, Skeleton, TextField, usePremiumTheme } from '@/ui/premium';
-import { RootScreen, ZoomLink, type ShellAction } from '@/ui/premium/shell';
+import { Banner, Skeleton, TextField, usePremiumTheme } from '@/ui/premium';
+import { RootScreen, type ShellAction } from '@/ui/premium/shell';
 
 import { WalletGuideProvider } from '../data/wallet-guide';
 import { zoneOf } from '../format';
@@ -78,22 +78,7 @@ export function WalletBookingsScreen() {
       primary: true,
       onPress: () => router.push(ADD_SHEET_ROUTE),
       testID: 'bookings-add',
-      ...(ios
-        ? {
-            element: (
-              <ZoomLink
-                href={ADD_SHEET_ROUTE}
-                zoomId="wallet-add"
-                accessibilityLabel={addLabel}
-                testID="bookings-add"
-              >
-                <View pointerEvents="none">
-                  <IconButton icon="plus" label={addLabel} tone="ink" size={36} />
-                </View>
-              </ZoomLink>
-            ),
-          }
-        : {}),
+      morph: true,
     },
   ];
 
