@@ -24,6 +24,7 @@ import { AddBar } from './add-bar';
 import { planMapCopy } from './copy';
 import { DayChips } from './day-chips';
 import { DayHead } from './day-head';
+import { EmptyPlan } from './empty-plan';
 import { framePoints, mapDays } from './map-days';
 import { PlacesLayer } from './places-layer';
 import { PlanMapSheet } from './plan-map-sheet';
@@ -169,7 +170,9 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         bodyBottom={detent === 'half' ? 90 : 0}
         accessibilityLabel={placeName}
       >
-        {detent === 'full' ? (
+        {model.empty ? (
+          <EmptyPlan model={model} />
+        ) : detent === 'full' ? (
           <TripRows
             rows={map.tripRows}
             guideName={model.guide.name}
@@ -231,7 +234,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           </View>
         )}
       </PlanMapSheet>
-      {detent === 'half' && !model.readOnly ? (
+      {detent === 'half' && !model.readOnly && !model.empty ? (
         <View style={styles.addBar}>
           <AddBar
             label={planMapCopy.addTo(map.chips.find((c) => c.dayNo === map.dayNo)?.weekday ?? '')}
