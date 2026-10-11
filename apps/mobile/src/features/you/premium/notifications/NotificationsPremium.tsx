@@ -2,7 +2,7 @@
  * Notifications (6.38): today's pushes against the budget (tap for every push today, sent and
  * held), the pushes per day, what always gets through as chips, then Timing (quiet hours, the
  * evening roundup), each crew's chat (everything, mentions only, off) and what the guide sends
- * (tips, money, critters nearby). Every change saves as it is made and waits offline.
+ * (tips, money, critters nearby), and whether pushes hide message text. Every change saves as it is made and waits offline.
  */
 import type { CrewNotifyLevel } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
@@ -164,6 +164,19 @@ export function NotificationsPremium() {
             ))}
           </Group>
         )}
+        <Group title={t({ id: 'you.premium.pings.lockScreen', message: 'Lock screen' })}>
+          <ToggleRow
+            first
+            title={t({ id: 'you.premium.pings.hideText', message: 'Hide message text' })}
+            sub={t({
+              id: 'you.premium.pings.hideTextLine',
+              message: 'Chat and guide pushes only say something new is waiting.',
+            })}
+            value={prefs.hideMessageText}
+            onChange={(hideMessageText) => change({ hideMessageText })}
+            testID="you-pings-hide-text"
+          />
+        </Group>
         <Group title={t({ id: 'you.premium.pings.fromGuide', message: 'From Tokek' })}>
           <ToggleRow
             first

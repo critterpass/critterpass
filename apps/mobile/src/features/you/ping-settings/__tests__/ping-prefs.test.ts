@@ -20,6 +20,7 @@ describe('ping prefs from the synced row', () => {
         crew_chat_mode: 'mentions',
         money: 1,
         critters_nearby: 0,
+        hide_message_text: 1,
       }),
     ).toEqual({
       budget: 3,
@@ -30,6 +31,7 @@ describe('ping prefs from the synced row', () => {
       crewChat: 'mentions',
       money: true,
       crittersNearby: false,
+      hideMessageText: true,
     });
   });
 
@@ -43,6 +45,7 @@ describe('ping prefs from the synced row', () => {
       crew_chat_mode: 'loud',
       money: null,
       critters_nearby: null,
+      hide_message_text: null,
     });
     expect(prefs).toEqual({ ...DEFAULT_PING_PREFS, budget: 10 });
   });
@@ -54,6 +57,9 @@ describe('the patch a change sends', () => {
     expect(payloadFor({ crewChat: 'off', money: false }, DEFAULT_PING_PREFS)).toEqual({
       crew_chat: 'off',
       money: false,
+    });
+    expect(payloadFor({ hideMessageText: true }, DEFAULT_PING_PREFS)).toEqual({
+      hide_message_text: true,
     });
     expect(payloadFor({ roundupTime: '19:00' }, DEFAULT_PING_PREFS)).toEqual({
       roundup_time: '19:00',

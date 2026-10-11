@@ -20,6 +20,8 @@ export interface PingPrefs {
   readonly crewChat: CrewChatMode;
   readonly money: boolean;
   readonly crittersNearby: boolean;
+  /** Chat and guide pushes say only that something is waiting, never the words. */
+  readonly hideMessageText: boolean;
 }
 
 export const BUDGET_MIN = 1;
@@ -34,6 +36,7 @@ export const DEFAULT_PING_PREFS: PingPrefs = {
   crewChat: 'all',
   money: true,
   crittersNearby: true,
+  hideMessageText: false,
 };
 
 export interface PingPrefsRow {
@@ -45,10 +48,11 @@ export interface PingPrefsRow {
   readonly crew_chat_mode: string | null;
   readonly money: number | null;
   readonly critters_nearby: number | null;
+  readonly hide_message_text: number | null;
 }
 
 export const PREFS_SQL = `SELECT budget_per_day, roundup_time, quiet_from, quiet_to, guide_tips,
-  crew_chat_mode, money, critters_nearby FROM notification_prefs WHERE user_id = ?`;
+  crew_chat_mode, money, critters_nearby, hide_message_text FROM notification_prefs WHERE user_id = ?`;
 export const PREFS_TABLES = ['notification_prefs'];
 
 /** Postgres `time` syncs as `HH:MM:SS`; the screen and the command speak `HH:MM`. */
@@ -70,6 +74,7 @@ export function prefsFromRow(row: PingPrefsRow | undefined): PingPrefs {
     crewChat: mode ?? d.crewChat,
     money: flag(row.money, d.money),
     crittersNearby: flag(row.critters_nearby, d.crittersNearby),
+    hideMessageText: flag(row.hide_message_text, d.hideMessageText),
   };
 }
 
@@ -86,6 +91,7 @@ export interface SetNotificationPrefsPayload {
   readonly crew_chat?: CrewChatMode;
   readonly money?: boolean;
   readonly critters_nearby?: boolean;
+  readonly hide_message_text?: boolean;
 }
 
 /** The patch for a change, given what is shown now (quiet hours always travel as a pair). */
@@ -108,5 +114,6 @@ export function payloadFor(
     ...(change.crewChat !== undefined ? { crew_chat: change.crewChat } : {}),
     ...(change.money !== undefined ? { money: change.money } : {}),
     ...(change.crittersNearby !== undefined ? { critters_nearby: change.crittersNearby } : {}),
+    ...(change.hideMessageText !== undefined ? { hide_message_text: change.hideMessageText } : {}),
   };
 }
