@@ -1,4 +1,3 @@
-/* eslint-disable lingui/no-unlocalized-strings -- the dev kit gallery's sample labels, never shipped copy. */
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 

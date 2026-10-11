@@ -212,6 +212,8 @@ export const boundaryPolicies = [
 ];
 
 const serverOnlyPatterns = serverOnlyPackages.flatMap((pkg) => [`@cp/${pkg}`, `@cp/${pkg}/*`]);
+const serverOnlyMessage =
+  'Server-only package: apps reach the database, AI and suppliers through the api over HTTP.';
 
 /**
  * Flat-config blocks enforcing the architecture: boundaries between classified elements plus a
@@ -267,8 +269,47 @@ export function architectureLintConfig(rootDir, boundariesPlugin) {
             patterns: [
               {
                 group: serverOnlyPatterns,
+                message: serverOnlyMessage,
+              },
+            ],
+          },
+        ],
+      },
+    },
+    // The premium / legacy kit split by import path, so it holds even where the `@/` alias does not
+    // resolve for the element rules above. Each block repeats the server-only ban because a later
+    // block's options replace the earlier ones for the same rule.
+    {
+      files: ['apps/mobile/src/ui/premium/**/*.{ts,tsx}'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              { group: serverOnlyPatterns, message: serverOnlyMessage },
+              {
+                // Any `@/ui…` outside `premium`, `sticker` and `transitions`, and any `@/motion…`.
+                regex: '^@/(ui(?!/(premium|sticker|transitions)(/|$))|motion)(/|$)',
                 message:
-                  'Server-only package: apps reach the database, AI and suppliers through the api over HTTP.',
+                  'The premium kit never uses the legacy kit or legacy motion (only the critter renderer and the zoom engine).',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: ['apps/mobile/src/ui/**/*.{ts,tsx}', 'apps/mobile/src/motion/**/*.{ts,tsx}'],
+      ignores: ['apps/mobile/src/ui/premium/**'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              { group: serverOnlyPatterns, message: serverOnlyMessage },
+              {
+                group: ['@/ui/premium', '@/ui/premium/*'],
+                message: 'The legacy kit never uses the premium kit.',
               },
             ],
           },
