@@ -17,3 +17,9 @@ export const PHRASE_PAINT = {
 export const VOICE_PAINT = {
   glow: 'radial-gradient(circle at 50% 30%, rgba(255,216,74,.32), transparent 58%)',
 } as const;
+
+/** Point and ask: the camera's dark ground and the shadow under each menu label. */
+export const MENU_PAINT = {
+  ground: 'radial-gradient(circle at 40% 30%, #4a4038, #221e1a 70%)',
+  labelShadow: '0 4px 10px rgba(0,0,0,.3)',
+} as const;

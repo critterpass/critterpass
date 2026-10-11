@@ -7,7 +7,15 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- api paths, wire values and design ids, never copy. */
 import { router } from 'expo-router';
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentType,
+} from 'react';
 import { Image, StyleSheet } from 'react-native';
 
 import type { GuideThreadMode } from '@cp/domain';
@@ -27,7 +35,7 @@ import { GuideStreamError } from '../chat/data/guide-frames';
 import { handToSheet } from '../chat/data/handed-question';
 import { streamGuide } from '../chat/data/guide-stream';
 import { useGuideContext } from '../chat/data/use-guide-context';
-import { CameraView, type MenuFollowUp } from './camera-view';
+import { CameraView, type CameraViewProps, type MenuFollowUp } from './camera-view';
 import { MenuCamera } from './menu-camera';
 import { showModeHref } from '../phrases/phrase-card';
 import { languagePair, useLanguageNames } from './menu-language';
@@ -84,6 +92,8 @@ export interface CameraScreenProps {
   readonly fromSheet?: boolean;
   /** The phone's text recognition; null in a build without it. */
   readonly recognize: ((uri: string) => Promise<RecognisedStill>) | null;
+  /** The view that draws the camera (the premium one takes the same props). */
+  readonly View?: ComponentType<CameraViewProps>;
 }
 
 export function CameraScreen(props: CameraScreenProps) {
@@ -99,6 +109,7 @@ function OpenCameraScreen({
   tripId,
   mode = null,
   fromSheet = false,
+  View = CameraView,
   recognize,
 }: CameraScreenProps) {
   const { t, i18n } = useLingui();
@@ -220,7 +231,7 @@ function OpenCameraScreen({
   const sticker = guideSticker(guideAvatarId(context.guideSlug));
 
   return (
-    <CameraView
+    <View
       guideName={context.guideName}
       sticker={<Sticker kind={sticker.kind} name={sticker.name} size={48} />}
       state={state}
