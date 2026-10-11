@@ -128,7 +128,7 @@ class SenderStyleTest {
     assertEquals(ids.size, ids.toSet().size)
     assertTrue(Channels.FALLBACK in ids)
     val local = Channels.ALL.map { it.localId }
-    assertEquals(local.size, (local + Channels.RETIRED).toSet().size)
+    assertEquals(local.size + Channels.RETIRED.size, (local + Channels.RETIRED).toSet().size)
   }
 
   @Test
