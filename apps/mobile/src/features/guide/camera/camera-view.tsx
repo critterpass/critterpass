@@ -19,6 +19,7 @@ import { PressScale } from '@/ui/press/PressScale';
 import { PermissionCard } from '@/ui/states/PermissionCard';
 
 import { useIssueLine } from './menu-issue-line';
+import { MenuOrderCard, type MenuOrderCardProps } from './menu-order-card';
 import { menuStickers, showsFlags, type MenuScanState } from './menu-scan';
 import { MenuStickers } from './menu-stickers';
 
@@ -39,8 +40,8 @@ export interface CameraViewProps {
   readonly followUps: readonly MenuFollowUp[];
   /** "Indonesian → English": the menu's language and the reader's, once the guide told it. */
   readonly languages?: string | null;
-  /** The order card, while the person is putting an order together. */
-  readonly order?: ReactNode;
+  /** The order being put together, for the view's own order card. */
+  readonly order?: MenuOrderCardProps;
   readonly onScan: () => void;
   readonly onRetake: () => void;
   /** "Ask about this menu": the question goes to the guide with the dishes. */
@@ -200,7 +201,11 @@ export function CameraView(props: CameraViewProps) {
             />
           ) : null}
         </Stack>
-        {ordering ? <View style={styles.inset}>{props.order}</View> : null}
+        {ordering && props.order !== undefined ? (
+          <View style={styles.inset}>
+            <MenuOrderCard {...props.order} />
+          </View>
+        ) : null}
         {!ordering &&
         state.phase === 'result' &&
         state.reading !== null &&

@@ -39,7 +39,6 @@ import { CameraView, type CameraViewProps, type MenuFollowUp } from './camera-vi
 import { MenuCamera } from './menu-camera';
 import { showModeHref } from '../phrases/phrase-card';
 import { languagePair, useLanguageNames } from './menu-language';
-import { MenuOrderCard } from './menu-order-card';
 import { createMenuReadingFold, MenuReadingError } from './menu-reading';
 import {
   changeOrder,
@@ -255,26 +254,24 @@ function OpenCameraScreen({
       {...(order === null
         ? {}
         : {
-            order: (
-              <MenuOrderCard
-                guideName={context.guideName}
-                crewSize={crewSize}
-                stickers={stickers}
-                order={order}
-                onChange={(id, by) => setOrder((current) => changeOrder(current ?? {}, id, by))}
-                onShow={showOrder}
-                {...(splitOrder === undefined ? {} : { onSplit: splitOrder })}
-                onAsk={() =>
-                  askGuide(
-                    t({
-                      id: 'guide.camera.orderForAsk',
-                      message: `What should we order for ${crewSize} people, and how do I say it?`,
-                    }),
-                  )
-                }
-                onClose={() => setOrder(null)}
-              />
-            ),
+            order: {
+              guideName: context.guideName,
+              crewSize,
+              stickers,
+              order,
+              onChange: (id: string, by: 1 | -1) =>
+                setOrder((current) => changeOrder(current ?? {}, id, by)),
+              onShow: showOrder,
+              ...(splitOrder === undefined ? {} : { onSplit: splitOrder }),
+              onAsk: () =>
+                askGuide(
+                  t({
+                    id: 'guide.camera.orderForAsk',
+                    message: `What should we order for ${crewSize} people, and how do I say it?`,
+                  }),
+                ),
+              onClose: () => setOrder(null),
+            },
           })}
       onScan={() => void controller.current?.scan()}
       onRetake={() => {

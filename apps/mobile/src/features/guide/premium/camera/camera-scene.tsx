@@ -27,6 +27,7 @@ import { useIssueLine } from '../../camera/menu-issue-line';
 import { menuStickers, showsFlags } from '../../camera/menu-scan';
 import { MENU_PAINT } from '../guide-paint';
 import { MenuLabels } from './menu-labels';
+import { PremiumOrderCard } from './order-card';
 
 const useStyles = makePremiumStyles((th) => ({
   corner: { position: 'absolute', width: 34, height: 34, borderColor: th.accent.stickerEdge },
@@ -220,7 +221,11 @@ export function PremiumCameraScene(props: CameraViewProps) {
             />
           </View>
         ) : null}
-        {ordering ? <View style={styles.inset}>{props.order}</View> : null}
+        {ordering && props.order !== undefined ? (
+          <View style={styles.inset}>
+            <PremiumOrderCard {...props.order} />
+          </View>
+        ) : null}
         {!ordering &&
         state.phase === 'result' &&
         state.reading !== null &&
