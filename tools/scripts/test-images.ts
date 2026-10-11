@@ -57,6 +57,8 @@ export function testImages(root = REPO_ROOT): string[] {
   const tracked = execFileSync('git', ['ls-files', 'apps', 'packages', 'services', 'tools'], {
     cwd: root,
     encoding: 'utf8',
+    // The tracked list outgrew the 1 MB default buffer (ENOBUFS on the runners).
+    maxBuffer: 64 * 1024 * 1024,
   })
     .split('\n')
     .filter((file) => TEST_CODE.test(file) && !file.includes('/fixtures/'));
