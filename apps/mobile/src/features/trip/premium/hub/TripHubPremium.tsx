@@ -92,6 +92,7 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
   const openPlan = tile('plan');
   if (openPlan !== undefined) doors.push({ key: 'plan', onPress: openPlan });
   if (!hub.calledOff && trip !== null) {
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a route path, not copy
     doors.push({ key: 'map', onPress: () => router.push(`/map/${tripId}`) });
   }
   const openMoney = tile('money');

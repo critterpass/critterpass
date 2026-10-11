@@ -18,6 +18,11 @@ import { usePhaseLine } from '../../hub/phase-line';
 /** The photo's height: the 1.05 hero, tall enough for the name and the switch under it. */
 export const HUB_HERO_HEIGHT = 380;
 
+/** The photo's fade: dark at the top for the circles, clear in the middle, dark under the name. */
+const HERO_FADE =
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
+  'linear-gradient(180deg, rgba(10,10,25,0.35) 0%, rgba(10,10,25,0) 35%, rgba(10,10,25,0.6) 100%)';
+
 export interface HubHeroProps {
   readonly destination: string;
   /** "Oct 12–19 · 6 going", or "Day 4 of 8 · Thu 15 Oct" during the trip. */
@@ -98,8 +103,7 @@ export function HubHero(props: HubHeroProps) {
             style={[
               StyleSheet.absoluteFill,
               {
-                backgroundImage:
-                  'linear-gradient(180deg, rgba(10,10,25,0.35) 0%, rgba(10,10,25,0) 35%, rgba(10,10,25,0.6) 100%)',
+                backgroundImage: HERO_FADE,
               },
             ]}
           />

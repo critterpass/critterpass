@@ -174,7 +174,6 @@ export function BoardingPassPremium({ bookingId }: { readonly bookingId: string 
           {pass.payload === null ? null : (
             <GlassPill
               kind="clear"
-              icon="sun"
               label={
                 bright
                   ? t({ id: 'bookings.pass.bright', message: 'Brightness up' })
