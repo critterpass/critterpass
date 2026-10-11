@@ -114,7 +114,7 @@ function Board() {
     toast.show({ kind: 'done', message: line.title }),
   );
   const left = t({
-    id: 'help.ideas.votesLeft',
+    id: 'help.premium.ideas.votesLeft',
     message: plural(b.left, { one: '# vote left', other: '# votes left' }),
   });
   return (

@@ -79,7 +79,7 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
           {t({ id: 'crew.premium.on.kicker', message: 'Crew made' })}
         </Text>
         <Text variant="display" align="center" accessibilityRole="header">
-          {t({ id: 'crew.start.createdTitle', message: `${name} is on` })}
+          {t({ id: 'crew.premium.on.title', message: `${name} is on` })}
         </Text>
         <Animated.View
           style={[

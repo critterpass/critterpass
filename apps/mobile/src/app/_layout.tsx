@@ -114,7 +114,7 @@ import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
 import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
-import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
+import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionDatabaseProvider } from '@/ui/states/SessionGate';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
 import { ShakeToReport } from '@/features/help/shake/ShakeListener';
@@ -123,7 +123,7 @@ import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
 void SplashScreen.preventAutoHideAsync();
 
 // Expo Router renders this in place of the root layout when anything below it throws.
-export { RootErrorBoundary as ErrorBoundary };
+export { PremiumRootErrorBoundary as ErrorBoundary };
 
 // The session drains and configures the App Group the extensions share.
 configureDeviceAppGroup({ outbox: appGroupOutbox, writeEndpointsConfig });

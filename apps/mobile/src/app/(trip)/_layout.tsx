@@ -7,11 +7,11 @@ import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
-import { GroupErrorBoundary } from '@/ui/shell/RootErrorBoundary';
+import { PremiumGroupErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionGate } from '@/ui/states/SessionGate';
 
 // A trip screen that fails is contained here: the tabs and the pages under it stay as they were.
-export { GroupErrorBoundary as ErrorBoundary };
+export { PremiumGroupErrorBoundary as ErrorBoundary };
 
 /**
  * Trip-day stack (screens owned by the trip area); session-only. Its layouts and screens read the

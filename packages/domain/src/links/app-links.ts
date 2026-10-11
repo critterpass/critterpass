@@ -229,6 +229,11 @@ export function membershipLink(): string {
   return '/you/plan';
 }
 
+/** A trip's boost sheet (who pays), opened when the trip is free to boost again. */
+export function tripBoostLink(tripId: string): string {
+  return `/boost/${encodeURIComponent(tripId)}`;
+}
+
 /** The free first trip's last days: what stays, what pauses, and the ways to keep it going. */
 export function firstTripEndingLink(tripId: string): string {
   return `/you/plan/first-trip-ending/${encodeURIComponent(tripId)}`;

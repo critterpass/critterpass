@@ -50,7 +50,7 @@ export function PlanRingPill({
       testID={testID}
       accessible
       accessibilityLabel={tr({
-        id: 'home.nextUp.planSpoken',
+        id: 'home.premium.planSpoken',
         message: `plan ${done} percent done`,
       })}
     >

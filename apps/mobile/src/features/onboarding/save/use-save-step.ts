@@ -13,6 +13,7 @@ import { updateDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
 import { useOnboardingServices } from '../services';
+import { markReturningInstall } from '../splash/returning-marker';
 import { useSaveFlow } from './use-save-flow';
 
 /** Long enough for the SAVED tick to pop (300 ms delay + pop) before the page moves on. */
@@ -36,6 +37,7 @@ export function useSaveStep() {
     // While the phone page is up it is the one that reacts; this page moves on once it is back.
     if (!focused) return undefined;
     if (state.kind === 'saved') {
+      markReturningInstall();
       updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
       const timer = setTimeout(
         () => (outside ? goBack() : router.replace(ONBOARDING_ROUTES.permissions)),
@@ -44,6 +46,7 @@ export function useSaveStep() {
       return () => clearTimeout(timer);
     }
     if (state.kind === 'switched') {
+      markReturningInstall();
       markOnboardingComplete();
       services.restart();
     }

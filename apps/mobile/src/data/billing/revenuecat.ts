@@ -58,6 +58,11 @@ export interface StorePort {
   /** Every purchase the store finishes later (Ask to Buy, SCA, an interrupted purchase). */
   onTransactions(listener: (transactions: readonly StoreTransaction[]) => void): () => void;
   showManageSubscriptions(): Promise<void>;
+  /**
+   * The App Store's own offer-code sheet (partner and promo Offer Codes). Absent on Play, which
+   * redeems codes on its own page; the redeemed purchase arrives through `onTransactions`.
+   */
+  readonly presentCodeRedemption?: () => Promise<void>;
 }
 
 export function storePlatform(os: string = Platform.OS): StorePlatform | null {
@@ -203,5 +208,8 @@ export function createRevenueCatStore(uid: string): StorePort | null {
     async showManageSubscriptions() {
       await Purchases.showManageSubscriptions();
     },
+    ...(platform === 'app_store'
+      ? { presentCodeRedemption: () => Purchases.presentCodeRedemptionSheet() }
+      : {}),
   };
 }

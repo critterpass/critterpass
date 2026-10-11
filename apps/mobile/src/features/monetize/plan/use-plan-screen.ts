@@ -18,7 +18,7 @@ const ENTRY = 'plan_page';
 
 export function usePlanScreen(): PlanViewProps {
   const locale = useLocale();
-  const { rows, store, plan, boosts, restore, recheck, manage } = usePlan();
+  const { rows, store, plan, boosts, restore, recheck, manage, redeem } = usePlan();
   useRecheckOnReturn(recheck);
   const products = useProducts(store, locale, rows.catalogue);
   const offers = products.status === 'ready' ? products.offers : {};
@@ -40,6 +40,7 @@ export function usePlanScreen(): PlanViewProps {
     onUpgrade: () => router.push({ pathname: MONETIZE_ROUTES.paywall, params: { entry: ENTRY } }),
     onManageStore: manage,
     onRestore: recheck,
+    onRedeem: redeem,
     onCancel: () => router.push(MONETIZE_ROUTES.cancel),
     onBillingIssue: () => router.push(MONETIZE_ROUTES.billingIssue),
   };

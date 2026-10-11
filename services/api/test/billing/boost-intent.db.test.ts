@@ -1,7 +1,8 @@
 /**
  * The trip's boost lock. Two members racing for it: exactly one gets it, the other is told who
  * holds it and until when. Only seated members may take it; the holder can take it again or let it
- * go; a lock past its 15 minutes lapses; and a trip already boosted takes no new lock.
+ * go; a lock past its 15 minutes lapses; and a trip already boosted takes no new lock. Another
+ * seated member can ask to hear how a held lock ends.
  */
 import { withSystem } from '@cp/db';
 import { generateUuidV7 } from '@cp/domain';
@@ -117,5 +118,32 @@ describe('create_boost_intent', () => {
       code: 'STATE_INVALID',
       detail: { reason: 'already_boosted' },
     });
+  });
+});
+
+describe('watch_boost_lock', () => {
+  it('adds a seated member to the held lock once, and has nothing to wait for once it is free', async () => {
+    const own = await buildMoneyCrew(harness, 3);
+    const [holder, waiter] = [own.members[1]!, own.members[2]!];
+    const taken = await harness.run(holder, 'create_boost_intent', intent(own.tripId));
+    const id = resultOf<{ intent_id: string }>(taken).intent_id;
+
+    const watch = () => harness.run(waiter, 'watch_boost_lock', { trip_id: own.tripId });
+    expect(resultOf(await watch())).toEqual({ waiting: true });
+    expect(resultOf(await watch())).toEqual({ waiting: true });
+    const { rows } = await harness.pool.query<{ waiting_uids: string[] }>(
+      'SELECT waiting_uids FROM boost_intents WHERE id = $1',
+      [id],
+    );
+    expect(rows[0]?.waiting_uids).toEqual([waiter.uid]);
+
+    const self = await harness.run(holder, 'watch_boost_lock', { trip_id: own.tripId });
+    expect(errorOf(self).code).toBe('VALIDATION');
+    const outsider = await harness.signIn();
+    const refused = await harness.run(outsider, 'watch_boost_lock', { trip_id: own.tripId });
+    expect(errorOf(refused).code).toMatch(/NOT_ELIGIBLE|NOT_FOUND/);
+
+    await harness.run(holder, 'release_boost_intent', { intent_id: id });
+    expect(resultOf(await watch())).toEqual({ waiting: false });
   });
 });

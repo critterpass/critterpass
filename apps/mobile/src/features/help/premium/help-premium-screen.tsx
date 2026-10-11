@@ -196,7 +196,7 @@ export function HelpPremiumScreen() {
                   ? {}
                   : {
                       subtitle: t({
-                        id: 'help.hub.suggestCaption',
+                        id: 'help.premium.suggestCaption',
                         message: `Vote on ${hub.ideasToVote} ideas`,
                       }),
                     })}

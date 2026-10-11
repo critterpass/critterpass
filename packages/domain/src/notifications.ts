@@ -204,6 +204,7 @@ const CATALOGUE = [
   // Pass, Boost and billing.
   spec('free_boost_ending', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { paywall: true }),
   spec('boost_activated', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
+  spec('boost_lock_freed', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
   spec('gift_received', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
   spec('billing_failed', 'always', 'cp.generic', 'cp_always', 'system'),
   spec('pass_resume_reminder', 'budgeted', 'cp.generic', 'cp_guide', 'guide', { paywall: true }),

@@ -39,6 +39,8 @@ export interface PlanViewProps {
   readonly onUpgrade: () => void;
   readonly onManageStore: () => void;
   readonly onRestore: () => void;
+  /** Redeem a store offer or promo code. */
+  readonly onRedeem: () => void;
   readonly onCancel: () => void;
   readonly onBillingIssue: () => void;
 }

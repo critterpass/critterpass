@@ -30,3 +30,11 @@ export const SHAKE_LEG_MS = 50;
 /** A stamp's fade-in as it starts to fall, and its squash at impact. */
 export const STAMP_APPEAR_MS = 80;
 export const STAMP_SQUASH_MS = 60;
+
+/** The returning passport (2.02): navy cover, gold ink, a soft drop, and the sun-lit ground. */
+export const NAVY_PASS = {
+  cover: 'linear-gradient(160deg, #2a2f5a, #1f2a52)',
+  gold: '#e9c77a',
+  shadow: 'inset 0 0 0 6px rgba(0,0,0,0.18), 0 30px 50px -20px rgba(0,0,0,0.5)',
+  ground: (ground: string) => `radial-gradient(120% 70% at 50% 30%, #fff6c9 0%, ${ground} 62%)`,
+} as const;

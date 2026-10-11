@@ -65,6 +65,7 @@ function Plan(over: Partial<PlanInput>, storeAvailable = true) {
       onUpgrade={noop}
       onManageStore={noop}
       onRestore={noop}
+      onRedeem={noop}
       onCancel={noop}
       onBillingIssue={noop}
     />
