@@ -2,7 +2,8 @@
  * 2.01 the splash: the tangerine passport cover bobbing in the middle, the guides floating around
  * it, Tokek waving with his sticky note, and the ways in at the bottom (open a pass, an invite
  * code, sign in to a pass made before). Everything is bundled, so a first launch without signal
- * looks the same. No back: it is the first screen.
+ * looks the same. No back: it is the first screen. A phone that held a saved pass before (a
+ * reinstall) gets the Welcome back splash instead.
  */
 import { t } from '@lingui/core/macro';
 import { Pressable, View } from 'react-native';
@@ -11,10 +12,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button, CritterSticker, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
 import { guideFace } from '../../photo/use-photo-step';
+import { useReturningInstall } from '../../splash/returning-marker';
 import { useSplashActions } from '../../splash/use-splash-actions';
 import { IdleFloat } from '../components/IdleFloat';
 import { COVER_FRAME } from '../components/onboarding-colours';
 import { tilt } from '../components/tilt';
+import { WelcomeBack } from './WelcomeBack';
 
 const FLOATERS = [
   { id: 'pon', left: '3%', top: '6%', size: 76, period: 4600, delay: 0 },
@@ -99,7 +102,17 @@ export function PremiumSplashPage() {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const actions = useSplashActions();
+  const returning = useReturningInstall();
   const tokek = guideFace('tokek');
+  if (returning === true) {
+    return (
+      <WelcomeBack
+        onSignIn={actions.signIn}
+        onNewPass={actions.open}
+        onInviteCode={actions.inviteCode}
+      />
+    );
+  }
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="onboarding-splash">
       <View style={{ flex: 1, marginTop: insets.top }} testID="onboarding-stage">

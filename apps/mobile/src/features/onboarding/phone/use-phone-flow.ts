@@ -15,6 +15,7 @@ import { feedback } from '@/motion/feedback';
 import type { CodeStatus } from '@/ui/inputs/CodeBoxes';
 
 import type { useSaveFlow } from '../save/use-save-flow';
+import { markReturningInstall } from '../splash/returning-marker';
 import type { OnboardingAuth } from '../services';
 import { formatNational, resendWaitS, toE164, typedNumber } from './phone-number';
 
@@ -95,6 +96,7 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
       case 'signed_in':
         setStatus('valid');
         feedback.emit('success');
+        markReturningInstall();
         onSignedIn(outcome.userId);
         return;
       case 'linked':
