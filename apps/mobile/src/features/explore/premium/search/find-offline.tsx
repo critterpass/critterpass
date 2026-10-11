@@ -107,7 +107,7 @@ export function FindOffline({ search, trip, from, queued, onOpen }: FindOfflineP
           {[
             t({ id: 'search.offline.works.plan', message: 'The plan' }),
             t({ id: 'search.offline.works.bookings', message: 'Bookings' }),
-            t({ id: 'search.offline.works.places', message: `${curated} places` }),
+            t({ id: 'search.premium.offline.places', message: `${curated} places` }),
           ].map((label) => (
             <View
               key={label}
