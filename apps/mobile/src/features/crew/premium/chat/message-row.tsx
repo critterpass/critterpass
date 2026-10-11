@@ -17,15 +17,16 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
+import { chatCard, renderCard } from '../../chat/cards/registry';
 import { isStickerPose } from '../../chat/cards/sticker-caption';
 import type { ChatMessage } from '../../chat/data/rows';
 import type { ReactionGroup } from '../../chat/data/use-reactions';
+import { CHAT_PAINT, ring } from '../premium-paint';
 import { premiumCard } from './cards/registry';
 import { DeliveryLine } from './delivery-line';
 import { MessageText } from './message-text';
 import { ReactionChips } from './reaction-chips';
 import { STICKER_TILT_MINE, STICKER_TILT_THEIRS, StickerMessage } from './sticker-message';
-import { CHAT_PAINT, ring } from '../premium-paint';
 
 export const AVATAR = 28;
 const GROUP_MAX = 300;
@@ -144,10 +145,14 @@ export const PremiumMessageRow = memo(function PremiumMessageRow(props: MessageR
     );
   } else if (message.type !== 'text' && message.type !== 'system') {
     const card = premiumCard(message.type);
+    // A kind with no premium card yet draws its current one; a kind this build does not know
+    // draws the "needs a newer CritterPass" card.
     body =
-      card === undefined
-        ? premiumCard('unknown')?.render(message, mine)
-        : card.render(message, mine);
+      card !== undefined
+        ? card.render(message, mine)
+        : chatCard(message.type) !== undefined
+          ? renderCard(message, mine)
+          : premiumCard('unknown')?.render(message, mine);
   } else if (guide) {
     body = (
       <View style={[styles.guide, tail(false, last)]}>

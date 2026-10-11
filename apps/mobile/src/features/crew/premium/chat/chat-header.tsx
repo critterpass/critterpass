@@ -20,8 +20,8 @@ import {
 
 import { CREW_ROUTES, crewSettingsRoute } from '../../crews-sheet/routes';
 import { chatMapTarget } from '../../chat/slots';
-import { NoSignalChip } from './chat-chips';
 import { headerFade } from '../premium-paint';
+import { NoSignalChip } from './chat-chips';
 
 /** Height of the header block under the status bar (controls row and its fade). */
 export const CHAT_HEADER_HEIGHT = 58;

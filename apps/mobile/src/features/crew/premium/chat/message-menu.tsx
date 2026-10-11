@@ -22,9 +22,9 @@ import {
 } from '@/ui/premium';
 
 import type { ReactionGroup } from '../../chat/data/use-reactions';
+import { CHAT_PAINT } from '../premium-paint';
 import type { MessageAnchor } from './message-row';
 import { ReactionFace } from './reaction-chips';
-import { CHAT_PAINT } from '../premium-paint';
 
 /** The sticker bar's critters: Tokek cheering and thinking, Pon, the sardine, the puffin, Tokek asleep. */
 export const STICKER_BAR = [

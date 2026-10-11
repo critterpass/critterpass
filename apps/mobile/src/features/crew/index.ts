@@ -24,3 +24,4 @@ export {
 export { WaitlistSheet } from './seat-limit/WaitlistSheet';
 export { Doodle, type DoodleName } from './premium/chat/doodle';
 export { crewAccent } from './premium/crew-colour';
+export { registerPremiumChatCard, type PremiumChatCard } from './premium/chat/cards/registry';

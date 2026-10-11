@@ -1,4 +1,4 @@
-/* eslint-disable lingui/no-unlocalized-strings -- shadow and gradient values the premium tokens do not carry yet */
+/* eslint-disable critterpass/no-literal-style, lingui/no-unlocalized-strings -- colours, shadows and gradients the premium tokens do not carry yet */
 /** The guide thread's paint the premium tokens do not carry yet. */
 export const GUIDE_PAINT = {
   /** The halo round the quota chip's sun dot. */
@@ -22,4 +22,9 @@ export const VOICE_PAINT = {
 export const MENU_PAINT = {
   ground: 'radial-gradient(circle at 40% 30%, #4a4038, #221e1a 70%)',
   labelShadow: '0 4px 10px rgba(0,0,0,.3)',
+} as const;
+
+/** The claim sheet's scrim over the chat. */
+export const OFFER_PAINT = {
+  scrim: 'rgba(20,22,40,.25)',
 } as const;

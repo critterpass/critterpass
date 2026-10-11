@@ -18,8 +18,8 @@ import {
 } from '@/ui/premium';
 
 import type { ReactionGroup } from '../../chat/data/use-reactions';
-import { DOODLE_FOR_EMOJI, Doodle } from './doodle';
 import { ring } from '../premium-paint';
+import { DOODLE_FOR_EMOJI, Doodle } from './doodle';
 
 const BY_NO = new Map(critters.map((critter) => [critter.no, critter]));
 
