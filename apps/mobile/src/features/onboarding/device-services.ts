@@ -14,6 +14,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
+import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import * as Updates from 'expo-updates';
 import { DevSettings, Platform } from 'react-native';
@@ -25,6 +26,8 @@ import type { NativeIdTokenProvider } from '@/data/auth';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { markInAppRestart } from '@/lib/links/launch-replay';
 
+import { getOcr, type OcrApi } from '../../../modules/cp-ocr';
+import { inviteTextOf, type ScanOutcome } from './invited/scan-code';
 import { devicePhotoServices } from './photo/device-photos';
 import type { AvatarLifter } from './photo/photo-pipeline';
 import type { OnboardingServices } from './services';
@@ -150,6 +153,30 @@ async function locateOnce(): Promise<{ lat: number; lng: number } | 'denied' | n
   }
 }
 
+/** Scan QR: the back camera's photo, read for barcodes on the phone, then dropped. */
+function scanInviteWith(ocr: OcrApi): () => Promise<ScanOutcome> {
+  return async () => {
+    try {
+      const permission = await ImagePicker.requestCameraPermissionsAsync();
+      if (!permission.granted) return { kind: 'denied' };
+      const shot = await ImagePicker.launchCameraAsync({
+        mediaTypes: ['images'],
+        cameraType: ImagePicker.CameraType.back,
+        quality: 0.7,
+        exif: false,
+      });
+      const uri = shot.canceled ? undefined : shot.assets[0]?.uri;
+      if (uri === undefined) return { kind: 'cancelled' };
+      const codes = await ocr.scanBarcode(uri);
+      const text = inviteTextOf(codes.map((found) => found.value));
+      return text === null ? { kind: 'not_invite' } : { kind: 'invite', text };
+    } catch {
+      // The picker rejects when the camera permission is missing (revoked in Settings).
+      return { kind: 'denied' };
+    }
+  };
+}
+
 /** Restarts the JS so the app boots on the session now in storage. */
 function restartApp(): void {
   // The link this process was opened with is not followed again: a sign-in lands on Home.
@@ -165,6 +192,7 @@ let services: OnboardingServices | null = null;
 
 /** `lifter`: the on-device subject lift, or null in a binary built without it. */
 export function deviceOnboardingServices(lifter: AvatarLifter | null): OnboardingServices {
+  const ocr = getOcr();
   services ??= {
     auth: deviceAuth(),
     apple: Platform.OS === 'ios' ? appleProvider : null,
@@ -172,6 +200,7 @@ export function deviceOnboardingServices(lifter: AvatarLifter | null): Onboardin
     geoHint,
     geocodeTown,
     locateOnce,
+    ...(ocr === null ? {} : { scanInvite: scanInviteWith(ocr) }),
     photos: devicePhotoServices(lifter),
     restart: restartApp,
   };

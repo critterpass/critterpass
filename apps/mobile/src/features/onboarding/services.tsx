@@ -9,6 +9,7 @@ import { createContext, useContext, type ReactNode } from 'react';
 
 import type { AuthDataLayer, NativeIdTokenProvider } from '@/data/auth';
 
+import type { ScanOutcome } from './invited/scan-code';
 import type { PhotoServices } from './photo/photo-pipeline';
 
 export type OnboardingAuth = Pick<
@@ -31,6 +32,8 @@ export interface OnboardingServices {
   readonly geoHint: () => Promise<GeoHint | null>;
   /** `GET /v1/geocode` (raw body) for a town no airport matched; null offline. Absent in tests. */
   readonly geocodeTown?: (query: string) => Promise<unknown>;
+  /** Scan QR: a camera photo read for an invite code on the phone. Absent without the reader. */
+  readonly scanInvite?: () => Promise<ScanOutcome>;
   /** One when-in-use fix from a tap: a point, `denied`, or null when no fix came. */
   readonly locateOnce?: () => Promise<{ lat: number; lng: number } | 'denied' | null>;
   /** Null in a build without the photo picker: the real-photo option is not offered. */

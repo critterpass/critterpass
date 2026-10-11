@@ -32,6 +32,7 @@ import { CodeTiles } from '../components/CodeTiles';
 import { memberAccent } from '../components/member-colour';
 import { WizardPage } from '../components/WizardPage';
 import { WizardHeader } from '../components/WizardHeader';
+import { ScanQrButton } from './ScanQrButton';
 
 export function PremiumCodePage() {
   const theme = usePremiumTheme();
@@ -143,6 +144,9 @@ export function PremiumCodePage() {
         accessibilityLabel={t({ id: 'onboarding.invite.code.label', message: 'Crew code' })}
         testID="invite-code-boxes"
       />
+      {entry.code === null ? (
+        <ScanQrButton onInvite={(text) => entry.onPaste(text, 'scan')} />
+      ) : null}
       {entry.pastedFrom !== null ? (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
           <View
