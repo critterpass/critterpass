@@ -17,7 +17,7 @@ import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-
 import NotFoundScreen from '../../+not-found';
 
 /** Sheets the premium look draws as native form sheets; the rest animate themselves. */
-const NATIVE_SHEETS: ReadonlySet<string> = new Set(['add/[placeId]', 'search/link']);
+const NATIVE_SHEETS: ReadonlySet<string> = new Set(['add/[placeId]', 'search/link', 'check/gap']);
 
 /**
  * Every trip route (`/{tripId}/...`): keeps the trip's sync streams while any of them is open. A
@@ -53,6 +53,11 @@ export default function TripIdLayout() {
         <PremiumStackScreen
           name="search/link"
           options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.9, 1] }}
+        />
+        {/* Filling a gap rises over the map (4.44). */}
+        <PremiumStackScreen
+          name="check/gap"
+          options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.62, 1] }}
         />
         {/* Ideas rises over the plan map, leaving its top showing (4.40). */}
         <PremiumStackScreen
