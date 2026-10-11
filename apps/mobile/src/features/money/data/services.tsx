@@ -7,6 +7,8 @@
 import type { PostReceiptBody, RevealedPayoutMethod } from '@cp/domain';
 import { createContext, useContext, type ReactNode } from 'react';
 
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
+
 import { useRefusedMoneyWrites } from './use-refused-money-writes';
 
 export type ReaderStatus = 'ok' | 'unsupported_script' | 'no_text';
@@ -91,13 +93,17 @@ export function MoneyServicesProvider({
 }) {
   return (
     <MoneyServicesContext.Provider value={services}>
-      <RefusedMoneyWrites />
+      {useContext(LocalFirstContext) === null ? null : <RefusedMoneyWrites />}
       {children}
     </MoneyServicesContext.Provider>
   );
 }
 
-/** Every money screen sits under the provider, so a refused write is said on whichever is open. */
+/**
+ * Every money screen sits under the provider, so a refused write is said on whichever is open. The
+ * premium tab bar mounts the Wallet tab at launch, before the local database is open: the listener
+ * joins once it is.
+ */
 function RefusedMoneyWrites() {
   useRefusedMoneyWrites();
   return null;
