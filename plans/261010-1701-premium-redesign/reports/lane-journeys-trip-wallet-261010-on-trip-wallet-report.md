@@ -51,6 +51,8 @@ On the trip (`apps/mobile/src/features/{trip,safety}/premium/`):
 | 7.03, 7.05 | Add a booking page, mailbox sheet | `bookings/premium/{AddBookingPremium,MailboxPremium}.tsx`, `components/CandidateCard.tsx` |
 | 7.19, 7.20 | Receipt check (failure and review panels over the scan camera) | `money/premium/receipt/ScanPanels.tsx` via `ScanView`'s `panelFor` |
 | 9.05 | "Only on Wi-Fi" for automatic trip-day saves | `trip/bundle/background-prefetch.ts` (`useDayPrefs`), toggle on journeys A's `you/premium/offline` page |
+| 4.x rooms, 7.07–7.09 | Rooms: organiser plan, drag editor sheet with the By room / Evenly split, a member's room with the swap request and wishes | `setup/premium/rooms/*` (one optional `View` prop on `setup/rooms/rooms-step.tsx`; `rooms` added to the views `app/(trip)/[tripId]/setup/[step].tsx` passes) |
+| 7.22 | Stay expense split by room (rooms, your share, the guide's note, split evenly instead) | `money/premium/components/RoomSplitSection.tsx`, `money/data/use-room-split.ts`, `money/index.ts` (`useStayRoomSplit`) |
 | — | Meet-up editor sheet on the crew map; visit consent line on the hub | `crew/live-map/premium/MeetupEditorPremium.tsx`, `trip/premium/hub/VisitConsentLine.tsx` |
 
 Leave-by alarm (brand lane hand-off): the alarm request now sends the sun tint and the "Leave by 03:10 · Batur" title; the slider label reads "slide, I'm up →".
@@ -62,6 +64,8 @@ Hooks both UIs share: `trip/hub/use-trip-hub.ts`, `trip/day-of/use-day-of.ts`, `
 ## Backend added (earlier in this lane)
 
 Default payout method (payers see it first), wallet search, airport suggestions, the books export, ping summaries for the new screens, and a stay expense split by room that follows the room plan (`money/data/room-split.ts`, tested; not yet wired to a screen).
+
+By-room split (this pass): `split_mode = 'by_room'` with `split_stay_key` (migration `20261012000000_expense_split_by_room.sql`), shares from `roomSplitShares` (moved to `@cp/cost-engine`, with a property test that shares always sum to the expense), and every live by-room expense re-split in the same transaction as `set_stay_choice` / `set_room_assignment` (lock and swap requests change nobody's room). Someone who already settled sees a top-up or refund line, because balances come from the ledger. Database test `services/api/test/money/room-split.db.test.ts` passed on GitHub, along with the expenses and rooms suites.
 
 ## Design conflicts resolved (plan decision 5)
 
@@ -77,8 +81,7 @@ Default payout method (payers see it first), wallet search, airport suggestions,
 
 ## Not built yet (left for the next pass)
 
-- 7.07–7.09 rooms: waiting on the controller's OK to add one optional `View` prop to `setup/rooms/rooms-step.tsx` (the WhenStep/BudgetStep pattern). Otherwise the connected rooms logic would have to be copied.
-- 7.22 stay expense by room, and 7.08's By room / Evenly: these need a backend split mode and a server recompute when rooms change. `money/data/room-split.ts` computes the shares but is not wired.
+- 7.09's swap with another member who agrees: the server only takes a request to the organiser, so the premium page asks the organiser (logged in `docs/undesigned-states.md`).
 - 6.38's "hide message text" toggle: there is no backend field for it.
 - Vietnamese strings for the new message ids still need the catalog extract and translation pass (`pnpm --filter @cp/i18n extract`, then `compile`), left to the integration pass. Every premium screen in this lane reuses current ids with the same placeholders (checked with a scan). The scan found the same kind of clash in other lanes' files (monetize, home, plan, setup, crew, explore, `search.offline.works.places`); extraction will stop until those are renamed.
 
