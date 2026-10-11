@@ -10,6 +10,7 @@ import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
+import { sheetRouteOptions } from '@/ui/premium/shell';
 import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
 
 import NotFoundScreen from '../../+not-found';
@@ -38,6 +39,11 @@ export default function TripIdLayout() {
         ))}
         {/* Changing the dates rises as a modal with its ✕ (4.54). */}
         <PremiumStackScreen name="settings/dates" options={{ presentation: 'modal' }} />
+        {/* Ideas rises over the plan map, leaving its top showing (4.40). */}
+        <PremiumStackScreen
+          name="ideas/index"
+          options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.82, 1] }}
+        />
       </PremiumStack>
     );
   }
