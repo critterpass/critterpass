@@ -1,7 +1,7 @@
 /**
  * Offline storage (9.05) over the trip-day packs the trip feature saves: each saved trip with what
  * it holds and its size on the phone, the total and the phone's free space, whether trip days save
- * by themselves, and Save now / Remove. Reads and writes the same rows as the current page.
+ * by themselves (and only on Wi-Fi), and Save now / Remove. Reads and writes the same rows as the current page.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useMemo } from 'react';
@@ -10,12 +10,7 @@ import { savedMapAreas } from '@/data/areas/saved-map-areas';
 import { useAreaLinks } from '@/data/areas/use-area-links';
 import { useTripAreasOn } from '@/data/areas/use-trip-areas';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import {
-  AUTO_ID,
-  AUTO_SQL,
-  autoDownloadOn,
-  PREFS_KIND,
-} from '@/features/trip/bundle/background-prefetch';
+import { useDayPrefs } from '@/features/trip';
 import {
   BUNDLE_KIND,
   parseSavedDay,
@@ -58,6 +53,9 @@ export interface OfflineStorage {
   readonly freeBytes: number | null;
   readonly auto: boolean;
   readonly setAuto: (next: boolean) => void;
+  /** Automatic saves wait for Wi-Fi; Save now is unaffected. */
+  readonly wifiOnly: boolean;
+  readonly setWifiOnly: (next: boolean) => void;
   readonly save: (tripId: string) => Promise<RefreshOutcome['kind'] | 'failed'>;
   readonly remove: (tripId: string) => void;
 }
@@ -70,9 +68,7 @@ export function useOfflineStorage(): OfflineStorage {
     [BUNDLE_KIND],
     ['local_private', 'trips', 'destinations'],
   ).rows;
-  const auto = autoDownloadOn(
-    useLiveRows<{ data: string }>(AUTO_SQL, [AUTO_ID], ['local_private']).rows,
-  );
+  const prefs = useDayPrefs();
   const areasOn = useTripAreasOn();
   const areaDays = useLiveRows<AreaDayRow>(AREA_DAYS_SQL, areasOn ? [] : null, [
     'plan_days',
@@ -115,12 +111,10 @@ export function useOfflineStorage(): OfflineStorage {
     trips,
     totalBytes: trips.reduce((sum, trip) => sum + trip.bytes, 0),
     freeBytes: services.freeBytes(),
-    auto,
-    setAuto: (next) =>
-      void db.execute(
-        'INSERT OR REPLACE INTO local_private (id, kind, data, fetched_at) VALUES (?, ?, ?, ?)',
-        [AUTO_ID, PREFS_KIND, JSON.stringify({ auto: next }), new Date().toISOString()],
-      ),
+    auto: prefs.auto,
+    setAuto: prefs.setAuto,
+    wifiOnly: prefs.wifiOnly,
+    setWifiOnly: prefs.setWifiOnly,
     save: (tripId) =>
       refreshTripDays(db, services, tripId)
         .then((outcome) => outcome.kind)
