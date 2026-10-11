@@ -36,6 +36,8 @@ export default function TripIdLayout() {
         {sheetScreens('(trip)/[tripId]').map((name) => (
           <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
         ))}
+        {/* Changing the dates rises as a modal with its ✕ (4.54). */}
+        <PremiumStackScreen name="settings/dates" options={{ presentation: 'modal' }} />
       </PremiumStack>
     );
   }

@@ -3,6 +3,7 @@
  * right, hairlines between them, a wider gap before the destructive row, which reads in pink. It
  * grows from its anchor on the Snappy spring (a fade with Reduce Motion); a tap outside closes it.
  */
+import type { ReactNode } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
 
@@ -35,7 +36,7 @@ export interface GlassMenuProps {
   readonly anchor: { readonly x: number; readonly y: number };
   readonly alignEnd?: boolean;
   /** Drawn above the menu, lifted (the stop's preview card). */
-  readonly preview?: React.ReactNode;
+  readonly preview?: ReactNode;
   readonly accessibilityLabel: string;
   readonly testID?: string;
 }
