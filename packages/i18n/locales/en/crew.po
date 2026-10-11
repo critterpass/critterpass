@@ -652,3 +652,477 @@ msgstr "Your crews"
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.linkPending"
 msgstr "Your link appears once you’re online and your pass is saved."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
+msgid "chat.premium.edited"
+msgstr "(edited)"
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.people"
+msgstr "{0, plural, one {# person} other {# people}}"
+
+#. placeholder {0}: tray.met
+#. placeholder {1}: tray.total
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.count"
+msgstr "{0} of {1}"
+
+#. placeholder {0}: group.count
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.a11y"
+msgstr "{0} reacted"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.title"
+msgstr "{crewName} is on"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingMany"
+msgstr "{first} and others are typing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingOne"
+msgstr "{first} is typing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.guideTyping"
+msgstr "{guideName} is writing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.madeBy"
+msgstr "{madeBy} made the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.withGuide"
+msgstr "{people} · {guide}'s in here"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.line"
+msgstr "{place} is settled · {settled} of {settled}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.budgetDraft"
+msgstr "@tokek help us set a rough budget"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.freeDraft"
+msgstr "@tokek when is everyone free?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate15"
+msgstr "1.5×"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate1"
+msgstr "1×"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.add"
+msgstr "Add a photo, poll or more"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.title"
+msgstr "All square"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.mute"
+msgstr "Also mute {senderName}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.former.rejoin"
+msgstr "Ask to rejoin"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.rejoinAsked"
+msgstr "Asked the organisers"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.keyboard"
+msgstr "Back to the keyboard"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
+msgid "chat.premium.attach.camera"
+msgstr "Camera"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.recorder.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.cancelStrip"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.sheet.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-menu.tsx
+msgid "chat.premium.menu.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/photo-viewer.tsx
+msgid "chat.premium.viewer.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.copy"
+msgstr "Copy"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.failed"
+msgstr "Couldn’t load"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.header.fallbackTitle"
+msgstr "Crew chat"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.attach.denied"
+msgstr "CritterPass can’t see your photos"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.menu.delete"
+msgstr "Delete"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.delete"
+msgstr "Delete"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.delete.title"
+msgstr "Delete this message?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.failed"
+msgstr "Didn't send"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.failed.tooBig"
+msgstr "Didn't send · too big for this signal"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.failed.forbidden"
+msgstr "Didn't send · you can't post here now"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.edit"
+msgstr "Edit"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
+msgid "chat.premium.strip.editing"
+msgstr "Editing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.who.former"
+msgstr "Former member"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.hello"
+msgstr "Hi all! I'm your guide in here. Mention me with @ and I'll pitch in. Where to start?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-row.tsx
+msgid "chat.premium.row.hint"
+msgstr "Hold to react, reply or pin"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.invite"
+msgstr "Invite the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.delete.line"
+msgstr "It goes for everyone in the crew."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.line"
+msgstr "It goes to our review team. They don’t see who reported it."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.removeChat.line"
+msgstr "It leaves your phones. The crew keeps it."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.list.jumpToLatest"
+msgstr "Jump to latest"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.loading"
+msgstr "Loading voice note"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.header.map"
+msgstr "Map"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.none"
+msgstr "Meet a critter on a trip and its stickers land here."
+
+#. placeholder {0}: current.form.setName ?? ''
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.meetMore"
+msgstr "Meet more in {0}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.field"
+msgstr "Message"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
+msgid "chat.premium.deleted"
+msgstr "Message deleted"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
+msgid "chat.premium.placeholder"
+msgstr "Message, or @tokek"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.footnote"
+msgstr "Messages stay on everyone's phone, offline too"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/message-menu.tsx
+msgid "chat.premium.menu.more"
+msgstr "More reactions"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.newMessages"
+msgstr "New messages ↓"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.noSignal"
+msgstr "NO SIGNAL"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.locked"
+msgstr "Not met yet: where to find it"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.offlineMarker"
+msgstr "Offline · sends when you’re back"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.photo.open"
+msgstr "Open photo"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.openSettings"
+msgstr "Open Settings"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-screen.tsx
+msgid "chat.premium.opening"
+msgstr "Opening the chat…"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.header.openSettings"
+msgstr "Opens crew settings"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.pause"
+msgstr "Pause voice note"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
+msgid "chat.premium.attach.library"
+msgstr "Photos"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.former.body"
+msgstr "Photos and the recap stay yours. To post again, ask to rejoin."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.pin"
+msgstr "Pin to the trip"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.pinned"
+msgstr "Pinned to the trip"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.place"
+msgstr "Pitch a place to go"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.play"
+msgstr "Play voice note"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.speed"
+msgstr "Playback speed {rate}×"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.who.title"
+msgstr "Reactions"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.readBy"
+msgstr "Read by {readBy}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.readOnly"
+msgstr "Read only"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.readOnlySince"
+msgstr "Read only · you left on {day}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.recent"
+msgstr "Recent"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.former.remove"
+msgstr "Remove chat"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
+msgid "chat.premium.removeChat.title"
+msgstr "Remove this chat?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.reply"
+msgstr "Reply"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.replySticker"
+msgstr "Reply with a sticker"
+
+#. placeholder {0}: composer.replyTo.senderName ?? ''
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
+msgid "chat.premium.strip.replying"
+msgstr "Replying to {0}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.report"
+msgstr "Report"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.send"
+msgstr "Report"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.title"
+msgstr "Report this message?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.retry"
+msgstr "Retry"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
+msgid "chat.premium.placeholder.new"
+msgstr "Say hi to the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.recorder.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.send"
+msgstr "Send"
+
+#. placeholder {0}: form.name
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.send"
+msgstr "Send {0}: {caption}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
+msgid "chat.premium.placeholder.offline"
+msgstr "Sends when you’re back"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.sent"
+msgstr "Sent {time}"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.budget"
+msgstr "Set a rough budget"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
+msgid "chat.premium.strip.sticker"
+msgstr "Sticker"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.stickers"
+msgstr "Stickers"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.noRecent"
+msgstr "Stickers you send show up here."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.hint"
+msgstr "Tap to react, hold to see who"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.attach.failed"
+msgstr "That didn’t open. Try again?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.micOff.title"
+msgstr "The microphone is off"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.trip"
+msgstr "The trip"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.card.unknown.title"
+msgstr "This message needs a newer CritterPass"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.micOff.body"
+msgstr "Turn on the microphone for CritterPass in Settings to send voice notes."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
+msgid "chat.premium.micOff.type"
+msgstr "Type it instead"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.unpin"
+msgstr "Unpin from the trip"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.unpinned"
+msgstr "Unpinned"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.card.unknown.line"
+msgstr "Update the app to see it here."
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
+msgid "chat.premium.attach.voice"
+msgstr "Voice note"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.mic"
+msgstr "Voice note: hold to talk"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
+msgid "chat.premium.waiting"
+msgstr "Waiting for signal"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.placeDraft"
+msgstr "What about "
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.free"
+msgstr "When is everyone free?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.whereToFind"
+msgstr "Where to find it"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
+msgid "chat.premium.menu.who"
+msgstr "Who reacted"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.former.title"
+msgstr "You're not in {crewName} now"

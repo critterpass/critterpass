@@ -6,14 +6,16 @@
 import type { GuideThreadMode } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { useCallback, useContext, useRef, type ComponentRef } from 'react';
+import { useCallback, useContext, useRef, useState, type ComponentRef } from 'react';
 import { ScrollView, View, type TextInput } from 'react-native';
 
+import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
-import { LoadingCritter, usePremiumTheme } from '@/ui/premium';
+import { LoadingCritter, usePremiumTheme, useToast } from '@/ui/premium';
 
 import { crewAccent } from '@/features/crew';
+import { pingGuideAnswerCommand } from '../chat/data/guide-commands';
 import { useGuideSheet } from '../chat/data/use-guide-sheet';
 import { guideRoutes } from '../chat/register';
 import { GuideComposer } from './guide-composer';
@@ -54,6 +56,9 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
   const { context, trip, turn, thread } = sheet;
   const offline = useSyncPhase() === 'offline';
   const input = useRef<ComponentRef<typeof TextInput>>(null);
+  const pingCommand = useCommand(pingGuideAnswerCommand);
+  const toast = useToast();
+  const [pinged, setPinged] = useState<number | null>(null);
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const meter = usePremiumGuideMeter({
     tripId: trip?.tripId ?? null,
@@ -134,6 +139,28 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
             input.current?.focus();
           }}
           onStop={turn.stop}
+          {...(offline || turn.live === null
+            ? {}
+            : {
+                ping: {
+                  asked: pinged === turn.live.key,
+                  busy: pingCommand.pending,
+                  onPress: () => {
+                    const key = turn.live?.key ?? null;
+                    void pingCommand.send({ thread_id: turn.threadId }).then((result) => {
+                      if (result.kind !== 'applied') return;
+                      setPinged(key);
+                      toast.show({
+                        kind: 'done',
+                        message: t({
+                          id: 'guide.premium.pingToast',
+                          message: 'Close the guide if you like. I’ll ping you when it’s ready.',
+                        }),
+                      });
+                    });
+                  },
+                },
+              })}
           empty={
             <GuideEmpty
               slug={context.guideSlug}

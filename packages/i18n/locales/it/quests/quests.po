@@ -34,16 +34,8 @@ msgstr ""
 msgid "quests.empty.writingLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
-msgid "quests.levelUp.line"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.allDone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
-msgid "quests.levelUp.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
@@ -149,4 +141,12 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.joined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.title"
 msgstr ""

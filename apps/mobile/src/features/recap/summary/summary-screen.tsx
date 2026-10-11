@@ -26,7 +26,7 @@ import { storySession } from '../story/story-session';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { useRecapSummary } from '../data/use-recap-summary';
 import { useRecapLinkActions } from '../link/use-recap-link';
-import { RecapShare } from './share-choice-sheet';
+import { RecapShare, type RecapShareProps } from './share-choice-sheet';
 import { SummaryView, type SummaryViewProps } from './summary-view';
 
 const UNIT_SQL = 'SELECT distance_unit FROM user_settings WHERE user_id = ?';
@@ -44,10 +44,12 @@ function RecapSummary({
   tripId,
   ended,
   View,
+  Share,
 }: {
   readonly tripId: string;
   readonly ended: boolean;
   readonly View: ComponentType<SummaryViewProps>;
+  readonly Share: ComponentType<RecapShareProps>;
 }) {
   useTripStreams(tripId);
   const { t } = useLingui();
@@ -135,7 +137,7 @@ function RecapSummary({
       />
       {ended && recapId !== null ? <RecapEndSlot recapId={recapId} /> : null}
       {sharing ? (
-        <RecapShare
+        <Share
           model={model}
           guide={guide}
           unit={unit}
@@ -151,13 +153,16 @@ export function RecapSummaryScreen({
   tripId,
   ended = false,
   View = SummaryView,
+  Share = RecapShare,
 }: {
   readonly tripId: string;
   readonly ended?: boolean;
   /** The view that draws the page (the premium one takes the same props). */
   readonly View?: ComponentType<SummaryViewProps>;
+  /** The share sheet (the premium one takes the same props). */
+  readonly Share?: ComponentType<RecapShareProps>;
 }) {
   const localFirst = useContext(LocalFirstContext);
   if (localFirst === null) return <SessionWaiting testID="recap-waiting" />;
-  return <RecapSummary tripId={tripId} ended={ended} View={View} />;
+  return <RecapSummary tripId={tripId} ended={ended} View={View} Share={Share} />;
 }

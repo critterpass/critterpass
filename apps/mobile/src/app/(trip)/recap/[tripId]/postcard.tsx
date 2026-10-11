@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 
 import { OpenedPostcardScreen } from '@/features/album/postcard/opened-postcard-screen';
-import { PremiumPostcardScene } from '@/features/album/premium/postcard-scene';
+import { PREMIUM_POSTCARD_LOOK } from '@/features/album/premium/postcard-sheets';
 import { RouteMissing } from '@/features/recap/route-missing';
 import { usePremiumUi } from '@/lib/premium-ui';
 
@@ -20,7 +20,7 @@ export default function RecapPostcardRoute() {
     <OpenedPostcardScreen
       tripId={tripId}
       postcardId={typeof postcardId === 'string' ? postcardId : null}
-      {...(premium ? { View: PremiumPostcardScene } : {})}
+      {...(premium ? { look: PREMIUM_POSTCARD_LOOK } : {})}
     />
   );
 }

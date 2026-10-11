@@ -8,6 +8,14 @@ export interface GuideCopy {
   readonly message: string;
 }
 
+export const ANSWER_READY_TITLE = /*i18n*/ {
+  id: 'notifications.guide.answer_ready.title',
+  message: '{guide} has your answer',
+};
+export const ANSWER_READY_BODY = /*i18n*/ {
+  id: 'notifications.guide.answer_ready.body',
+  message: 'The answer you were waiting for is in the guide.',
+};
 export const QUEUED_ANSWER_TITLE = /*i18n*/ {
   id: 'notifications.guide.queued_answer.title',
   message: '{guide} answered your question',

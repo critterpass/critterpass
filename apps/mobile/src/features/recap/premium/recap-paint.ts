@@ -15,3 +15,10 @@ export const RECAP_PAINT = {
 
 /** The recap tiles' tilts, as drawn (top left, top right, bottom left, bottom right). */
 export const TILE_TILTS = [-2, 2.5, 1.5, -1.5] as const;
+
+/** The story's progress tracks: light over a dark card, darker over paper (OFF-TOKEN #d6d7dd). */
+export const STORY_TRACK = {
+  light: 'rgba(255,255,255,.35)',
+  fillLight: '#ffffff',
+  ink: '#d6d7dd',
+} as const;

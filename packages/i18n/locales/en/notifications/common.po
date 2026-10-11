@@ -944,3 +944,11 @@ msgstr "Someone would like a fresh invite"
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_refresh.body"
 msgstr "Their invite to {crew} ran out. Send a new one in a tap."
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.title"
+msgstr "{guide} has your answer"
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.body"
+msgstr "The answer you were waiting for is in the guide."

@@ -12,11 +12,6 @@ import type { ReactNode } from 'react';
 import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
-import { AwardsCard } from '../cards/awards-card';
-import { CoverCard } from '../cards/cover-card';
-import { CrittersCard } from '../cards/critters-card';
-import { GotAwayCard } from '../cards/got-away-card';
-import { PostcardCard } from '../cards/postcard-card';
 import {
   receiptFooter,
   receiptNote,
@@ -24,9 +19,7 @@ import {
   receiptSubtitle,
   yourShare,
 } from '../cards/receipt-copy';
-import { ReceiptCard } from '../cards/receipt-card';
-import { ROUTE_CARD_MS, RouteCard } from '../cards/route-card';
-import { StampCard } from '../cards/stamp-card';
+import { ROUTE_CARD_MS } from '../cards/route-card';
 import { artKind } from '../data/critter-art';
 import { inkOnPaper, stampInkOnPaper } from '../data/paper-ink';
 import type { StrokeFetch } from '../signature/stroke-store';
@@ -49,6 +42,7 @@ import {
   travellersChip,
   tripDates,
 } from './story-copy';
+import { CURRENT_CARD_VIEWS, type StoryCardViews } from './story-card-views';
 import { awardCards, signers } from './story-people';
 import type { RecapLive } from './use-recap-channel';
 import type { StoryData } from './use-story-data';
@@ -75,6 +69,7 @@ export interface StoryCardsInput {
   /** The traveller has no signature yet: SIGN IT follows the stamp page. */
   readonly canSign?: boolean;
   readonly loadStroke?: StrokeFetch;
+  readonly views?: StoryCardViews;
 }
 
 function upperPlace(summary: SummaryModel): string {
@@ -83,6 +78,7 @@ function upperPlace(summary: SummaryModel): string {
 
 export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
   const { data, summary, guide, locale, unit } = input;
+  const V = input.views ?? CURRENT_CARD_VIEWS;
   const recap = data.recap;
   const stats = recap?.stats ?? null;
   if (recap === null || stats === null) return [];
@@ -110,7 +106,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
 
   add(
     'cover',
-    <CoverCard
+    <V.Cover
       guide={guide}
       ground={input.ground}
       eyebrow={eyebrow}
@@ -128,7 +124,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
   if (stats.critters.forms_found > 0 && data.foundForms.length > 0) {
     add(
       'critters',
-      <CrittersCard
+      <V.Critters
         eyebrow={t({ id: 'recap.story.critters.eyebrow', message: 'New friends' })}
         headline={copy.critters?.headline ?? newLocalsTitle(stats.critters.new_critters)}
         line={formsFoundLine(stats.critters.forms_found)}
@@ -147,7 +143,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
     const to = longest === undefined ? undefined : route.stops[longest.to];
     add(
       'route',
-      <RouteCard
+      <V.Route
         guide={guide}
         eyebrow={t({ id: 'recap.story.route.eyebrow', message: 'The route' })}
         km={km}
@@ -184,7 +180,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
   if (awards.length > 0) {
     add(
       'awards',
-      <AwardsCard
+      <V.Awards
         eyebrow={t({ id: 'recap.story.awards.eyebrow', message: 'The crew awards' })}
         headline={copy.awards?.headline ?? awardsTitle(awards.length)}
         awards={awards}
@@ -198,7 +194,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
     const dates = tripDates(summary, locale);
     add(
       'receipt',
-      <ReceiptCard
+      <V.Receipt
         guide={guide}
         eyebrow={t({ id: 'recap.story.receipt.eyebrow', message: 'Money, wrapped' })}
         headline={
@@ -233,7 +229,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
     add(
       // eslint-disable-next-line lingui/no-unlocalized-strings -- a card id, never copy.
       'got_away',
-      <GotAwayCard
+      <V.GotAway
         kind={artKind(gotAway.critter_key)}
         city={place}
         eyebrow={t({ id: 'recap.story.gotAway.eyebrow', message: 'The one that got away' })}
@@ -265,7 +261,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
     const seq = stamp.seq_no;
     add(
       'stamp',
-      <StampCard
+      <V.Stamp
         chrome={t({ id: 'recap.story.stamp.chrome', message: 'Entries · Entrées' })}
         page={seq === null ? null : t({ id: 'recap.story.stamp.page', message: `Page ${seq}` })}
         place={place}
@@ -300,7 +296,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
 
   add(
     'postcard',
-    <PostcardCard
+    <V.Postcard
       tripId={data.tripId}
       guide={guide}
       place={place}

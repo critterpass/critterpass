@@ -5,12 +5,14 @@
  * home set and exploring at home, and the countries in rank groups. A filter or a search narrows
  * the sets, with an empty state when nothing is left; a critter just landed scrolls its set in.
  */
+import { t } from '@lingui/core/macro';
 import { FlashList } from '@shopify/flash-list';
+import { router, Stack } from 'expo-router';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { SegmentedControl, Skeleton, Tag, Text, TextField, usePremiumTheme } from '@/ui/premium';
-import { RootScreen } from '@/ui/premium/shell';
 
 import {
   comparison,
@@ -24,7 +26,9 @@ import { withGroups, type Item } from '../../dex/dex-groups';
 import { filterSets, setOfCritter } from '../../dex/dex-model';
 import type { DexViewProps } from '../../dex/dex-view';
 import { useLanded } from '../../dex/use-landed';
+import { LiveEncounterBanner } from '../../dex/encounter-banner';
 import { DexEmpty, EggCard, ExploreAtHome, SlippedCard } from './dex-extras';
+import { PremiumEncounterBanner } from './encounter-banner';
 import { HereNowCard } from './here-now-card';
 import { HomeSetCard, LegendaryBanner, PlaceRow } from './set-cards';
 
@@ -62,6 +66,7 @@ function CountBlock({ props }: { readonly props: DexViewProps }) {
 
 export function PremiumDexScene(props: DexViewProps) {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
   const locale = useLocale();
   const { model, filter, query } = props;
   const landed = props.state === 'ready' ? (props.landed ?? null) : null;
@@ -109,7 +114,7 @@ export function PremiumDexScene(props: DexViewProps) {
               onDismiss={props.onDismissSlipped ?? (() => undefined)}
             />
           )}
-          {props.encounterBanner}
+          <LiveEncounterBanner Banner={PremiumEncounterBanner} />
           {props.egg === null ? null : (
             <EggCard
               egg={props.egg}
@@ -137,44 +142,56 @@ export function PremiumDexScene(props: DexViewProps) {
     </View>
   );
   return (
-    <RootScreen title={dexTitle()} header="drawn" testID="critters-dex">
-      {({ scrollProps }) =>
-        props.state === 'loading' ? (
-          <View style={{ padding: 20, gap: 12 }} testID="critters-dex-loading">
-            <Skeleton height={64} radius={20} width="60%" />
-            <Skeleton height={180} radius={26} />
-            <Skeleton height={140} radius={24} />
-          </View>
-        ) : (
-          <FlashList
-            {...scrollProps}
-            ref={list}
-            data={items}
-            keyExtractor={(item) => item.key}
-            getItemType={(item) => item.kind}
-            contentContainerStyle={{
-              paddingHorizontal: th.space.gutter,
-              paddingBottom: th.space.tabBarClearance,
-            }}
-            // The count block stands in for the large title (the design draws no title row).
-            ListHeaderComponent={header}
-            ListEmptyComponent={narrowed ? <DexEmpty filter={filter} query={query} /> : null}
-            ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
-            renderItem={({ item }) =>
-              item.kind === 'group' ? (
-                <Text variant="label" tone="muted" style={{ marginTop: 8 }}>
-                  {item.label.toLocaleUpperCase(locale)}
-                </Text>
-              ) : narrowed && item.set.home ? (
-                <HomeSetCard set={item.set} onOpen={props.onOpenSet} />
-              ) : (
-                <PlaceRow set={item.set} onOpen={props.onOpenSet} />
-              )
-            }
-            testID="critters-dex-list"
+    <View
+      style={{ flex: 1, backgroundColor: th.color.ground, paddingTop: insets.top }}
+      testID="critters-dex"
+    >
+      <Stack.Screen options={{ headerShown: false }} />
+      {/* Pushed from the passport's Critterdex row: the glass back goes there. */}
+      {router.canGoBack() ? (
+        <View style={{ paddingHorizontal: th.space.gutter, paddingVertical: 6 }}>
+          <GlassIconButton
+            icon="back"
+            label={t({ id: 'critters.premium.dex.back', message: 'Back' })}
+            onPress={() => router.back()}
+            testID="critters-dex-back"
           />
-        )
-      }
-    </RootScreen>
+        </View>
+      ) : null}
+      {props.state === 'loading' ? (
+        <View style={{ padding: 20, gap: 12 }} testID="critters-dex-loading">
+          <Skeleton height={64} radius={20} width="60%" />
+          <Skeleton height={180} radius={26} />
+          <Skeleton height={140} radius={24} />
+        </View>
+      ) : (
+        <FlashList
+          ref={list}
+          data={items}
+          keyExtractor={(item) => item.key}
+          getItemType={(item) => item.kind}
+          contentContainerStyle={{
+            paddingHorizontal: th.space.gutter,
+            paddingBottom: insets.bottom + 24,
+          }}
+          // The count block stands in for the large title (the design draws no title row).
+          ListHeaderComponent={header}
+          ListEmptyComponent={narrowed ? <DexEmpty filter={filter} query={query} /> : null}
+          ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+          renderItem={({ item }) =>
+            item.kind === 'group' ? (
+              <Text variant="label" tone="muted" style={{ marginTop: 8 }}>
+                {item.label.toLocaleUpperCase(locale)}
+              </Text>
+            ) : narrowed && item.set.home ? (
+              <HomeSetCard set={item.set} onOpen={props.onOpenSet} />
+            ) : (
+              <PlaceRow set={item.set} onOpen={props.onOpenSet} />
+            )
+          }
+          testID="critters-dex-list"
+        />
+      )}
+    </View>
   );
 }

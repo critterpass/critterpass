@@ -28,6 +28,7 @@ import {
 import { defineJob, type JobLogger } from '../../boss';
 import { privacyRedactionKeys } from '../../obs/logger';
 import { registerNotification } from '../notify/register';
+import { registerAnswerReadyPush } from './answer-ready';
 import { reserveGuideAnswer } from './meter';
 import { guideReader, type GuideRuntime } from './runtime';
 
@@ -237,6 +238,7 @@ export function registerQueuedAnswerPush(): void {
 
 export function queuedAnswerJob(runtime: GuideRuntime, clock: () => Date = () => new Date()) {
   registerQueuedAnswerPush();
+  registerAnswerReadyPush();
   return defineJob({
     queue: GUIDE_QUEUES.queuedAnswer,
     schema: queuedAnswerJobSchema,

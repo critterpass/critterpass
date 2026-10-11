@@ -56,6 +56,7 @@ const TABLE_RULES: readonly TableRule[] = [
   ['feedback_tickets', 'owner only'],
   ['flight_watches', 'sealed', null],
   ['ftf_grants', 'crew billing', 'crews'],
+  ['guide_answer_pings', 'system only'],
   ['hype_aggregates', 'crew read-only'],
   ['idea_votes', 'owner only'],
   ['leave_bys', 'crew read-only'],

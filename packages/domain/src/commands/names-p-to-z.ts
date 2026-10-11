@@ -3,6 +3,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'pause_location_share',
   'pin_message',
   'ping_all',
+  'ping_guide_answer',
   'plusone_comment',
   'post_place_decision',
   'promote_waitlist',
