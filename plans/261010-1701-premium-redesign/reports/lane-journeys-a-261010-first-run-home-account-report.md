@@ -68,16 +68,28 @@ Every premium view sits behind `premiumRoute({ premium, legacy })` (or `usePremi
 - 9.05 Offline storage (`app/(trip)/hub/offline-storage.tsx`, `features/trip/bundle/*`) is in the trip lane's files; not built here.
 - Shared-looking pieces to promote to the kit: `monetize/premium/components/{glass-alert,modal-sheet,gold-button,confetti,split-flap-digit}`, `onboarding/premium/components/{CodeTiles,PassPaper,WizardPage}`, `crew/premium/components/qr-code.tsx`.
 
+## Gaps built after the first pass
+
+- **Resend (3.10)**: the invite sheet suggests resending your own unanswered in-app invites (never naming who); a tap sends now, a long press waits for their usual hour. `send_nudge` gained `when: 'now' | 'their_hour'` (now unless quiet hours or the day's cap). `0ec80bded`
+- **Tell me when it's done (9.22)**: `watch_boost_lock` adds the member to the lock's `waiting_uids` (migration `20261011120000_boost_lock_waiting.sql`, synced schema regenerated); a lock that lapses or is let go sends `boost_lock_freed` (from the trip's guide, into `/boost/<trip>`); a purchase already sends `boost_activated`. `8c43918d7`
+- **Redeem a code (9.17)**: the App Store's in-app offer-code sheet (RevenueCat), re-check on close; Play and no-SDK phones open the store's redeem page. `74e540cbb`
+- **Did you mean + Use my location (2.10)**: `/v1/geocode` names a misspelt town and its nearest airport; one when-in-use fix from the tap lists the nearest airports. `531264dce`
+- **Welcome back (2.02)**: an iOS keychain mark written when a pass is saved or signed in; a reinstall opens on the navy passport, NO SIGNAL chip offline, Sign in waits for signal. `0b536e7bf`
+- **Scan QR (2.16)**: one back-camera photo read on the phone by the OCR module's barcode reader, then handled like a paste. `e29175d0f`
+- **Saved link (2.04)**: a non-invite web link pasted on first launch is kept (tap the check to drop it) and offered on Home once a trip exists, through the add-from-a-link page. `9cea82e4f`
+
 ## Follow-ups for the founder / controller
 
-- **Catalogs**: the new message ids are not extracted yet and have no Vietnamese translations. Running `@cp/i18n extract` in four lanes at once would conflict, so run it once on the integration branch, then do one VI pass.
-- **Typecheck not run locally** (the brief forbids `tsc` on this Mac). Per-file checks did run: imports resolve, no redeclarations, no use before declaration, and ESLint is clean on every lane file. Full `tsc` runs on the integration PR.
-- Resend invite, optionally at 21:00 (3.10): needs `resend_invite` plus invite-open tracking. That is a backend change, so the sheet shows no Resend card yet.
-- "Tell me when it's done" on the boost lock (9.22): needs a push when the holder's boost confirms.
-- Redeem a code (9.17): needs the StoreKit offer-code sheet and/or gift-code entry.
-- Town → nearest airport "Did you mean" and one-shot GPS (2.10), the reinstall marker for "Welcome back" offline (2.02), Scan QR (2.16) and the live-map replay and open count (9.19) are still client and native follow-ups.
+- **Checks**: no local lint, typecheck or tests ran after the coordinator's rule change (only `prettier --check`). Server tests added for CI: `services/api/test/home/nudges.db.test.ts` (resend now / quiet hours), `services/api/test/billing/boost-intent.db.test.ts` (`watch_boost_lock`), `services/worker/test/billing/lock-freed-push.db.test.ts`; app tests: `resend-summary`, `town-guess`, `scan-code`, `saved-link`, `use-nudge`, `plan-views`; domain: `nudges/__tests__/send-now.test.ts`, `links/__tests__/app-links.test.ts`.
+- **Catalogs**: new message ids are not extracted (the coordinator runs extract once on the integration branch).
+- **Not built, with why**:
+  - Our own gift and partner codes (`redeem_code`, `create_gift` in api-contracts §4.15): no code is minted anywhere yet, the `codes.code_hash` needs a new peppered secret, and the code-enumeration limiter is not wired. That is the gifting feature, not a screen gap. Partner codes today are store Offer Code batches (`ops.offer_code_batches`), which the in-app sheet redeems.
+  - Live-map replay and "opened it N times" (9.19): no data. `trip_locations` keeps no position history by design, and nothing counts map opens. The gate content stays as built, without them.
+  - Welcome back on Android (2.02): Android clears app storage on uninstall. A reinstall-surviving mark needs Play Block Store, which is a new native module.
+  - Live QR scanning: VisionCamera 5's core has no code scanner (a separate native package). Scan QR reads one photo instead.
+- Hand-offs to other lanes (unchanged): error sheet into `RootErrorBoundary`, last-redraft and live-map gate content into their hosts, 9.05 Offline storage.
 
 ## Open questions
 
-- 2.04 "Saved card · Remove it": swipe, ✕, or tapping the check? Saving a pasted non-invite link for the first trip is not built yet (it needs an on-device store), so removing it is not built either.
+- 2.04 "Saved card · Remove it": built as tapping the check (it empties; tapping again keeps the link). Swipe or ✕ would be a small change if preferred.
 - Code validity: the design says 7 days, the server issues 14. The code line reads the server's `expiresAt`.
