@@ -7,7 +7,7 @@ import * as Clipboard from 'expo-clipboard';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
-import { PremiumPasteOffer } from '@/features/onboarding/premium/paste-offer/PremiumPasteOffer';
+import { PremiumPasteOffer } from '@/features/onboarding';
 import type { PasteOfferControls } from '@/lib/links/SplashResolveGate';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { makeStyles, MIN_TOUCH_TARGET } from '@/ui';

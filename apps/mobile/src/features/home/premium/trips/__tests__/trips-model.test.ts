@@ -1,8 +1,10 @@
 import { describe, expect, it } from '@jest/globals';
 
+import type { TripStatus } from '@cp/domain';
+
 import { splitTrips, tripStage, type PremiumTripRow } from '../trips-model';
 
-const row = (id: string, status: string, place: string | null = 'Bali'): PremiumTripRow => ({
+const row = (id: string, status: TripStatus, place: string | null = 'Bali'): PremiumTripRow => ({
   id,
   crew_id: 'c',
   status,

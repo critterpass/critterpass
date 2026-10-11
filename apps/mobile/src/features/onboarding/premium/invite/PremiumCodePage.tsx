@@ -181,7 +181,7 @@ export function PremiumCodePage() {
       ) : null}
       {entry.found && problem === null ? (
         <Animated.View
-          entering={reduced ? undefined : FadeInDown.springify()}
+          {...(reduced ? {} : { entering: FadeInDown.springify() })}
           testID="invite-code-found"
         >
           <View

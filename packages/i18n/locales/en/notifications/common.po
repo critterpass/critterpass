@@ -749,6 +749,10 @@ msgstr "Sent a photo"
 msgid "notifications.crew_chat.voice"
 msgstr "Sent a voice note"
 
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.sticker"
+msgstr "Sent a sticker"
+
 #: ../../services/worker/src/push/payload.ts
 msgid "notifications.push.privateBody"
 msgstr "Sent you something. Open to see it."

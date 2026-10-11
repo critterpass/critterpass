@@ -9,5 +9,5 @@ export function fromGuideCircle(href: Href): Href {
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a URL query, not copy
     return `${href}${href.includes('?') ? '&' : '?'}from=circle` as Href;
   }
-  return { ...href, params: { ...href.params, from: 'circle' } } as Href;
+  return { ...href, params: { ...href.params, from: 'circle' } };
 }

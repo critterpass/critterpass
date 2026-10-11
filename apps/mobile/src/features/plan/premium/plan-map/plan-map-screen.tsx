@@ -117,7 +117,9 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
     <View style={styles.screen} testID="trip-map">
       <PremiumMapCanvas
         cameraRef={camera}
-        initialCenter={stay === null ? (model.center ?? [0, 0]) : [stay.lng, stay.lat]}
+        initialCenter={
+          stay === null ? [model.center?.[0] ?? 0, model.center?.[1] ?? 0] : [stay.lng, stay.lat]
+        }
         destinationSlug={model.destinationSlug}
         localRegionUri={model.regionUri}
         still={detent === 'full'}

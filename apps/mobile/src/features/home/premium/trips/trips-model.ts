@@ -4,11 +4,12 @@
  * the filter narrows it to planning or home-again trips. Called-off trips stay out of the list.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- statuses and filter values, never copy. */
+import type { TripStatus } from '@cp/domain';
 
 export interface PremiumTripRow {
   readonly id: string;
   readonly crew_id: string;
-  readonly status: string;
+  readonly status: TripStatus;
   readonly start_date: string | null;
   readonly end_date: string | null;
   readonly tz: string | null;

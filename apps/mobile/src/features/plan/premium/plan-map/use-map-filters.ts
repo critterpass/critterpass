@@ -60,7 +60,7 @@ export function useMapFilters(input: {
         }).map((chip) => ({
           key: chip.key,
           label: chip.label,
-          selected: chip.selected,
+          selected: chip.selected === true,
           ...(chip.count === undefined ? {} : { count: chip.count }),
           ...(chip.key === DAY_CHIP && day !== null ? { dayNo: day.dayNo } : {}),
         }));

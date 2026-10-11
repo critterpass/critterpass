@@ -8,9 +8,13 @@ import { useContext, useMemo } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSessionUid } from '@/data/powersync/use-session-uid';
-import { SET_ACTIVE_CREW } from '@/features/crew/crews-sheet/crew-commands';
-import { useCrews } from '@/features/crew/crews-sheet/crew-data';
-import { crewCards, inviteCards, type CrewCardView } from '@/features/crew/crews-sheet/crew-view';
+import {
+  crewCards,
+  inviteCards,
+  SET_ACTIVE_CREW,
+  useCrews,
+  type CrewCardView,
+} from '@/features/crew';
 
 import { useLiveRows } from '../../data/watch-query';
 

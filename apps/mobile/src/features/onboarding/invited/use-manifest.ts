@@ -45,6 +45,7 @@ export function useManifest() {
       // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
       analytics.capture('invite_manifest_reached', {
         duration_ms: Math.max(0, services.now() - openedAt),
+        waitlisted: joined.waitlisted,
       });
     }
   }, [joined, session.openedAt, analytics, services]);

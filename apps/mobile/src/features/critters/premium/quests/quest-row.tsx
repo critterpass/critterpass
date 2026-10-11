@@ -212,13 +212,9 @@ export function QuestRow({
       )}
       <Animated.View
         key={done ? 'done' : 'open'}
-        entering={
-          done && reveal !== undefined
-            ? reduced
-              ? FadeIn.duration(150)
-              : ZoomIn.springify()
-            : undefined
-        }
+        {...(done && reveal !== undefined
+          ? { entering: reduced ? FadeIn.duration(150) : ZoomIn.springify() }
+          : {})}
       >
         <Text variant="badge" tone="muted">
           {rewardLine(card, done)}

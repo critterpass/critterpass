@@ -1,6 +1,7 @@
 /** The caller's trips for the premium Trips tab, live from the synced rows. */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and table names, never copy. */
-import { useLiveRows, useOwnerUid } from '@/features/trip/hub/data/live-rows';
+import { useQuietLiveRows as useLiveRows } from '@/data/powersync/live-rows';
+import { useSessionUid } from '@/data/powersync/use-session-uid';
 
 import type { PremiumTripRow } from './trips-model';
 
@@ -30,7 +31,7 @@ export interface PremiumTrips {
 }
 
 export function usePremiumTrips(): PremiumTrips {
-  const me = useOwnerUid();
+  const me = useSessionUid();
   const result = useLiveRows<PremiumTripRow>(TRIPS_SQL, me === null ? null : [me], TABLES);
   const crew = useLiveRows<{ id: string }>(
     ACTIVE_CREW_SQL,

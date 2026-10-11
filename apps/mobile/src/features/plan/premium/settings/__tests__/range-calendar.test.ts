@@ -1,3 +1,5 @@
+import { describe, expect, it } from '@jest/globals';
+
 import { monthCells, nextRange, shiftMonth } from '../range-calendar';
 
 describe('picking a new date range', () => {

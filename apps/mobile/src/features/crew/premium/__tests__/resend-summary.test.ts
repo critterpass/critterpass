@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import type { NudgeOutcome } from '@/features/home/nudge/use-nudge';
+import type { NudgeOutcome } from '@/features/home';
 
 import { summariseResend } from '../resend-summary';
 
