@@ -27,9 +27,9 @@ import {
 
 import { liveMapPaywall } from '../gate-slot';
 import type { LiveMapModel } from '../model';
-import { MeetupEditor } from '../panel/meetup-editor';
 import { useLiveMapScreen } from '../use-live-map-screen';
 import { CrewPanel } from './CrewPanel';
+import { MeetupEditorPremium } from './MeetupEditorPremium';
 
 /** Where the map opens with nothing to frame yet: the trip's own centre is not known. */
 const FALLBACK: readonly [number, number] = [115.2625, -8.5069];
@@ -228,7 +228,7 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
         ) : null}
       </View>
       {m.overlay.kind === 'editor' ? (
-        <MeetupEditor
+        <MeetupEditorPremium
           mode={m.meetup === null ? 'create' : m.overlay.mode}
           destinationId={m.destinationId}
           near={m.ownFix === null ? null : { lat: m.ownFix.lat, lng: m.ownFix.lng }}
