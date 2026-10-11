@@ -25,6 +25,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { useSetupServices } from '../data/services';
 import { installDeviceId, startCalendarOAuth } from './oauth';
 import { useCalendarSync, type CalendarSyncStatus } from './use-calendar-sync';
+import { useMyDays, type MyDay } from './use-my-days';
 
 export interface CalendarConnectViewProps {
   readonly status: CalendarSyncStatus;
@@ -43,6 +44,8 @@ export interface CalendarConnectViewProps {
   readonly onProvider: (provider: OAuthCalendarProvider) => void;
   readonly onMarkByHand: () => void;
   readonly onDismiss: () => void;
+  /** This person's own days for the coming week as the crew reads them; null when not read. */
+  readonly week?: readonly MyDay[] | null;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -247,6 +250,7 @@ export function CalendarConnectSheet({
   const sync = useCalendarSync(tripId, { now: services.now });
   const google = useFlag(calendarOAuthFlag('google'));
   const microsoft = useFlag(calendarOAuthFlag('microsoft'));
+  const week = useMyDays(tripId, sync.lastSyncedAt);
   const [opening, setOpening] = useState<OAuthCalendarProvider | null>(null);
   const [oauthFailed, setOauthFailed] = useState(false);
   const providers: OAuthCalendarProvider[] = [
@@ -282,6 +286,7 @@ export function CalendarConnectSheet({
       onProvider={onProvider}
       onMarkByHand={onMarkByHand}
       onDismiss={onDismiss}
+      week={week}
     />
   );
 }
