@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { renderUi } from '@/ui/test-support/render';
 
@@ -11,13 +12,21 @@ const METRICS = {
   insets: { top: 47, left: 0, right: 0, bottom: 34 },
 };
 
+/** PostHog is the network boundary: no flag is on and nothing is sent. */
+const analytics = new Proxy(
+  { posthog: { getFeatureFlag: () => undefined, onFeatureFlags: () => () => undefined } },
+  { get: (target, key) => (key in target ? target[key as keyof typeof target] : () => undefined) },
+) as unknown as AnalyticsClient;
+
 function renderScreen() {
   return renderUi(
-    <SafeAreaProvider initialMetrics={METRICS}>
-      <ScreenJoltProvider>
-        <DevToolsIndexScreen />
-      </ScreenJoltProvider>
-    </SafeAreaProvider>,
+    <AnalyticsProvider client={analytics}>
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <ScreenJoltProvider>
+          <DevToolsIndexScreen />
+        </ScreenJoltProvider>
+      </SafeAreaProvider>
+    </AnalyticsProvider>,
   );
 }
 
