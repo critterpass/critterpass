@@ -8,7 +8,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command values, route ids and date options, never copy. */
 import { t } from '@lingui/core/macro';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ComponentType } from 'react';
 
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { useCommand } from '@/data/commands/use-command';
@@ -21,15 +21,30 @@ import { useSetupTrip } from '../data/setup-trip';
 import { useMe } from '../data/use-me';
 import { setupRoutes } from '../routes';
 import { SetupSheetWaiting } from '../shell/sheet-waiting';
-import { AddSheetView } from './add-sheet-view';
+import { AddSheetView, type AddSheetViewProps } from './add-sheet-view';
 import { useMustDosData } from './data';
-import { MorePlacesSection, type LivePickNote } from './more-places-section';
+import { MorePlacesSection, type LivePickNote, type MorePlacesProps } from './more-places-section';
 import { resolveLivePick, useMorePlaces, type LivePlace } from './more-places';
 import { buildMustDos } from './model';
 import { listWith, type NewPick } from './save';
 import { tripDates, useMustDoSearch } from './search';
 
-export function AddMustDoSheet({ tripId }: { readonly tripId: string }) {
+/** How the sheet is drawn; the logic is the same in every look. */
+export interface AddMustDoLook {
+  readonly Sheet: ComponentType<AddSheetViewProps>;
+  readonly More: ComponentType<MorePlacesProps>;
+}
+
+const CURRENT_LOOK: AddMustDoLook = { Sheet: AddSheetView, More: MorePlacesSection };
+
+export function AddMustDoSheet({
+  tripId,
+  look = CURRENT_LOOK,
+}: {
+  readonly tripId: string;
+  /** @default the current look */
+  readonly look?: AddMustDoLook;
+}) {
   const services = useSetupServices();
   const me = useMe();
   const trip = useSetupTrip(tripId, me);
@@ -86,8 +101,9 @@ export function AddMustDoSheet({ tripId }: { readonly tripId: string }) {
     });
   };
 
+  const { Sheet, More } = look;
   return (
-    <AddSheetView
+    <Sheet
       trip={trip}
       me={self}
       query={query}
@@ -102,12 +118,7 @@ export function AddMustDoSheet({ tripId }: { readonly tripId: string }) {
         if (query.trim() !== '') add({ text: query, poiId: null });
       }}
       more={
-        <MorePlacesSection
-          state={more}
-          note={note}
-          destinationName={trip.destinationName}
-          onPick={pickLive}
-        />
+        <More state={more} note={note} destinationName={trip.destinationName} onPick={pickLive} />
       }
     />
   );
