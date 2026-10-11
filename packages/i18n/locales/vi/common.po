@@ -9,11 +9,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
 msgid "home.nextUp.eyebrow"
-msgstr ""
+msgstr "Sắp tới · {day}"
 
 #: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
 msgid "home.countdown.today"
-msgstr ""
+msgstr "Hôm nay"
 
 #. placeholder {0}: counter.position
 #. placeholder {1}: counter.total
@@ -34,10 +34,6 @@ msgstr "{accessibilityLabel}, đang gửi"
 #: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
 msgid "common.chat.fromAuthor"
 msgstr "{author}: {text}"
-
-#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
-msgid "common.camera.scanned"
-msgstr "Đã đọc {count} dòng"
 
 #: ../../apps/mobile/src/ui/chips/CountBadge.tsx
 msgid "common.badge.new"
@@ -68,10 +64,6 @@ msgstr "{guide} đã tìm khắp nơi rồi. Mình về trang chủ nhé."
 msgid "common.shell.tabBadge"
 msgstr "{label}, {count} mới"
 
-#: ../../apps/mobile/src/ui/data/CalendarHeatmap.tsx
-msgid "common.data.heatmapDay"
-msgstr "{n}: {free}/{total} người rảnh"
-
 #: ../../apps/mobile/src/ui/data/Donut.tsx
 msgid "common.data.segmentShare"
 msgstr "{name} {pct}"
@@ -96,10 +88,6 @@ msgstr "{name} nợ {amount}"
 msgid "map.doodlePin.accessibilityLabel"
 msgstr "{name}, {categoryLabel}"
 
-#: ../../apps/mobile/src/ui/critters/SetGrid.tsx
-msgid "common.critter.slotFound"
-msgstr "{name}, {city}, {forms}/4 dạng"
-
 #: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.formLabel"
 msgstr "{name}, dạng {form}"
@@ -120,17 +108,9 @@ msgstr "{names} và {hidden} người nữa"
 msgid "map.avatarStackPin.accessibilityLabel"
 msgstr "{names} ở đây"
 
-#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
-msgid "common.vote.lookingHere"
-msgstr "{names} đang xem"
-
 #: ../../apps/mobile/src/ui/map/AvatarStackPin.tsx
 msgid "map.avatarStackPin.accessibilityLabelOverflow"
 msgstr "{names} và {overflow} người nữa ở đây"
-
-#: ../../apps/mobile/src/ui/plan/MustDoRow.tsx
-msgid "common.plan.isTyping"
-msgstr "{ownerName} đang nhập"
 
 #: ../../apps/mobile/src/ui/money/SettleRow.tsx
 msgid "common.money.settleSummary"
@@ -144,6 +124,10 @@ msgstr "Đã dùng {pct}"
 msgid "common.slider.percent"
 msgstr "{percent}%"
 
+#: ../../apps/mobile/src/ui/premium/controls/Progress.tsx
+msgid "common.progress.stepOf"
+msgstr "{step}/{all}"
+
 #: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
 msgid "common.monetize.seatsTaken"
 msgstr "{taken}/{capacity} chỗ đã có người"
@@ -151,10 +135,6 @@ msgstr "{taken}/{capacity} chỗ đã có người"
 #: ../../apps/mobile/src/ui/data/MonthBars.tsx
 msgid "common.data.monthBarsSummary"
 msgstr "{title}: đẹp nhất vào {best}"
-
-#: ../../apps/mobile/src/ui/states/LimitMeter.tsx
-msgid "common.limit.count"
-msgstr "Đã dùng {used}/{limit}"
 
 #: ../../apps/mobile/src/ui/inputs/SegmentBudget.tsx
 msgid "common.segmentBudget.value"
@@ -167,10 +147,6 @@ msgstr "{votes, plural, other {# phiếu}}"
 #: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
 msgid "common.monetize.seatWaiting"
 msgstr "{waitingName} đang chờ chỗ số {seatNumber}"
-
-#: ../../apps/mobile/src/ui/data/WeatherStrip.tsx
-msgid "common.data.weatherDay"
-msgstr "{where}: {temp}, khả năng mưa {rain}"
 
 #: ../../apps/mobile/src/ui/critters/HereNowForms.tsx
 msgid "common.critter.formFound"
@@ -192,15 +168,12 @@ msgstr "Bản đồ chi tiết của {place} sắp có."
 msgid "common.monetize.activeMonths"
 msgstr "Đang dùng: {active}"
 
-#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.addAttachment"
 msgstr "Thêm tệp đính kèm"
 
-#: ../../apps/mobile/src/ui/trip/EtaList.tsx
-msgid "common.trip.arrivesAt"
-msgstr "đến lúc {eta}"
-
+#: ../../apps/mobile/src/ui/premium/shell/navigation/guide-circle.tsx
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/GuideFab.tsx
 msgid "common.shell.fabAsk"
 msgstr "Hỏi {guide}"
@@ -259,10 +232,6 @@ msgstr "Hủy"
 msgid "common.icon.car"
 msgstr "Ô tô"
 
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.diffSummary"
-msgstr "Đổi từ {before} sang {after}"
-
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.chat"
 msgstr "Trò chuyện"
@@ -284,6 +253,7 @@ msgid "common.chat.closeActions"
 msgstr "Đóng"
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierCommon"
 msgstr "Thường"
 
@@ -374,6 +344,7 @@ msgid "common.status.ended"
 msgstr "Đã xong"
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierEpic"
 msgstr "Sử thi"
 
@@ -389,17 +360,9 @@ msgstr "Yêu thích"
 msgid "motion.motionLab.cues"
 msgstr "Feedback cues"
 
-#: ../../apps/mobile/src/ui/vote/RateStack.tsx
-msgid "common.vote.fine"
-msgstr "Cũng được"
-
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.flight"
 msgstr "Chuyến bay"
-
-#: ../../apps/mobile/src/ui/documents/Postcard.tsx
-msgid "common.postcard.flip"
-msgstr "Lật bưu thiếp"
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.food"
@@ -417,20 +380,22 @@ msgstr "Miễn phí"
 msgid "motion.motionLab.freeze"
 msgstr "freeze"
 
+#: ../../apps/mobile/src/ui/premium/shell/navigation/guide-circle.tsx
 #: ../../apps/mobile/src/ui/shell/GuideFab.tsx
 msgid "common.shell.fabHelp"
 msgstr "Trợ giúp"
 
-#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
-msgid "common.missing.back"
+#: ../../apps/mobile/src/app/+not-found.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
+msgid "common.shell.errorBack"
 msgstr "Quay lại"
 
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
 msgstr "Quay lại"
 
-#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
-msgid "common.shell.errorBack"
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.back"
 msgstr "Quay lại"
 
 #: ../../apps/mobile/src/app/+not-found.tsx
@@ -458,6 +423,7 @@ msgstr "Nổi bật"
 msgid "common.confirm.hold"
 msgstr "Giữ"
 
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabHome"
 msgstr "Trang chủ"
@@ -482,28 +448,17 @@ msgstr "Island toast"
 msgid "common.missing.line"
 msgstr "Có thể mục này đã bị xoá, hoặc máy này chưa nhận được."
 
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.keepChange"
-msgstr "Giữ thay đổi này"
-
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.changeKept"
-msgstr "Đã giữ"
-
 #: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
 #: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
 msgid "common.plan.later"
 msgstr "Muộn hơn 15 phút"
-
-#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
-msgid "common.vote.leading"
-msgstr "Đang dẫn"
 
 #: ../../apps/mobile/src/ui/critters/MonthStrip.tsx
 msgid "common.critter.legendaryMonths"
 msgstr "Huyền thoại vào {legendary}"
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierLegendary"
 msgstr "Huyền thoại"
 
@@ -523,6 +478,10 @@ msgstr "Trực tiếp"
 msgid "common.loading"
 msgstr "Đang tải"
 
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
+msgid "common.critter.tierLocked"
+msgstr "Chưa mở"
+
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.locked"
 msgstr "Đã khóa"
@@ -530,10 +489,6 @@ msgstr "Đã khóa"
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.loops"
 msgstr "Loop presets"
-
-#: ../../apps/mobile/src/ui/vote/RateStack.tsx
-msgid "common.vote.lovedIt"
-msgstr "Mê lắm"
 
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.mapViewToggle"
@@ -559,32 +514,13 @@ msgstr "Motion mode"
 msgid "motion.motionLab.demoToastSubtitle"
 msgstr "motion-lab demo toast"
 
-#. placeholder {0}: person.name
-#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
-msgid "common.plan.pickPerson"
-msgstr "Chuyển {0}"
-
-#. placeholder {0}: picked.name
-#. placeholder {1}: room.name
-#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
-msgid "common.plan.movePersonHere"
-msgstr "Chuyển {0} sang {1}"
-
 #: ../../apps/mobile/src/ui/plan/DayRow.tsx
 msgid "common.plan.moveDown"
 msgstr "Chuyển xuống"
 
-#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
-msgid "common.plan.moveHere"
-msgstr "Chuyển tới đây"
-
 #: ../../apps/mobile/src/ui/plan/DayRow.tsx
 msgid "common.plan.moveUp"
 msgstr "Chuyển lên"
-
-#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
-msgid "common.recap.mvp"
-msgstr "MVP"
 
 #: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
 msgid "motion.commandFeedback.needsSignal"
@@ -594,10 +530,6 @@ msgstr "Cần có sóng. Thử lại khi bạn có mạng nhé."
 msgid "common.story.next"
 msgstr "Trang sau"
 
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.no"
-msgstr "Không"
-
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.noResults"
 msgstr "Bộ lọc này chưa có kết quả."
@@ -605,11 +537,6 @@ msgstr "Bộ lọc này chưa có kết quả."
 #: ../../apps/mobile/src/ui/states/OfflinePill.tsx
 msgid "common.offline.noSignal"
 msgstr "Mất sóng"
-
-#. placeholder {0}: top.label
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.noTo"
-msgstr "Không chọn {0}"
 
 #: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
 msgid "common.signature.empty"
@@ -635,6 +562,10 @@ msgstr "Số {dexNumber}"
 msgid "common.toggle.off"
 msgstr "Tắt"
 
+#: ../../apps/mobile/src/ui/premium/feedback/Banner.tsx
+msgid "common.offline.queued"
+msgstr "Ngoại tuyến · có mạng lại là gửi thay đổi"
+
 #: ../../apps/mobile/src/ui/inputs/Toggle.tsx
 msgid "common.toggle.on"
 msgstr "Bật"
@@ -659,10 +590,7 @@ msgstr "Mở Cài đặt"
 msgid "common.data.overPlan"
 msgstr "vượt kế hoạch"
 
-#: ../../apps/mobile/src/ui/story/PageDots.tsx
-msgid "common.story.pageOf"
-msgstr "Trang {page}/{total}"
-
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabPass"
 msgstr "Pass"
@@ -719,15 +647,12 @@ msgstr "Trang trước"
 msgid "common.settings.private"
 msgstr "Riêng tư"
 
-#: ../../apps/mobile/src/ui/data/HourlyCrowd.tsx
-msgid "common.data.crowdSummary"
-msgstr "vắng nhất lúc {quiet}, đông nhất lúc {busy}"
-
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.rain"
 msgstr "Mưa"
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierRare"
 msgstr "Hiếm"
 
@@ -747,18 +672,6 @@ msgstr "Đọc to"
 msgid "common.chat.recordVoice"
 msgstr "Ghi tin nhắn thoại"
 
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.rejectChange"
-msgstr "Bỏ thay đổi này"
-
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.changeRejected"
-msgstr "Đã bỏ"
-
-#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
-msgid "common.chat.removeAttachment"
-msgstr "Bỏ {label}"
-
 #: ../../apps/mobile/src/ui/recap/RouteRider.tsx
 msgid "common.recap.route"
 msgstr "Lộ trình, {distance}: {route}"
@@ -771,10 +684,6 @@ msgstr "Lưu vào Ảnh"
 msgid "shareImage.saved"
 msgstr "Đã lưu vào Ảnh"
 
-#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
-msgid "common.camera.scanning"
-msgstr "Đang quét, đã đọc {count} dòng"
-
 #: ../../apps/mobile/src/ui/inputs/SearchField.tsx
 msgid "common.search.label"
 msgstr "Tìm"
@@ -782,14 +691,6 @@ msgstr "Tìm"
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.send"
 msgstr "Gửi"
-
-#: ../../apps/mobile/src/ui/states/OutboxList.tsx
-msgid "common.outbox.title"
-msgstr "Sẽ gửi khi có mạng lại"
-
-#: ../../apps/mobile/src/ui/states/OutboxList.tsx
-msgid "common.outbox.sent"
-msgstr "Đã gửi"
 
 #: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
 msgid "shareImage.title"
@@ -831,10 +732,6 @@ msgstr "Ô ký tên"
 msgid "common.signature.signed"
 msgstr "Đã ký"
 
-#: ../../apps/mobile/src/ui/vote/RateStack.tsx
-msgid "common.vote.skipIt"
-msgstr "Bỏ qua"
-
 #: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
 msgid "common.story.position"
 msgstr "Trang {n}/{total}"
@@ -874,14 +771,6 @@ msgstr "Bắt đầu lại từ các nhóm của bạn"
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.stay"
 msgstr "Chỗ ở"
-
-#: ../../apps/mobile/src/ui/story/StepTabs.tsx
-msgid "common.story.step"
-msgstr "Bước {n}/{total}, {name}"
-
-#: ../../apps/mobile/src/ui/story/StepTabs.tsx
-msgid "common.story.stepDone"
-msgstr "Bước {n}/{total}, {name}, xong"
 
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.stopRecording"
@@ -1069,6 +958,7 @@ msgstr "hôm nay"
 msgid "errors.RATE_LIMITED"
 msgstr "Bạn thử quá nhiều lần. Hãy đợi một lát rồi thử lại."
 
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabTrips"
 msgstr "Chuyến đi"
@@ -1088,6 +978,10 @@ msgstr "Bật vị trí để xem bạn đang ở đâu."
 #: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.lockedLabel"
 msgstr "Thổ địa chưa gặp, tới {city} mới tìm thấy"
+
+#: ../../apps/mobile/src/ui/premium/feedback/Toast.tsx
+msgid "common.toast.undo"
+msgstr "Hoàn tác"
 
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx
 msgid "common.status.unopened"
@@ -1113,23 +1007,7 @@ msgstr "Núi lửa"
 msgid "common.status.vote"
 msgstr "Bình chọn"
 
-#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
-msgid "common.recap.voteMvp"
-msgstr "Bầu MVP"
-
-#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
-#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
-msgid "common.vote.tapToVote"
-msgstr "Bầu cho nơi này"
-
-#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
-msgid "common.vote.versus"
-msgstr "vs"
-
-#: ../../apps/mobile/src/ui/states/OutboxList.tsx
-msgid "common.outbox.queued"
-msgstr "Đang chờ có mạng"
-
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabWallet"
 msgstr "Ví"
@@ -1153,15 +1031,6 @@ msgstr "Chúng tôi không tìm thấy mục này. Có thể nó đã bị gỡ.
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.CONSENT_REQUIRED"
 msgstr "Chúng tôi cần bạn đồng ý trước khi làm việc này."
-
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.yes"
-msgstr "Có"
-
-#. placeholder {0}: top.label
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.yesTo"
-msgstr "Chọn {0}"
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.FORBIDDEN"
@@ -1209,6 +1078,5 @@ msgstr "chuyến của bạn: {trip}"
 
 #: ../../apps/mobile/src/ui/chat/ChatRichCard.tsx
 #: ../../apps/mobile/src/ui/data/PollBars.tsx
-#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
 msgid "common.data.yourVote"
 msgstr "phiếu của bạn"

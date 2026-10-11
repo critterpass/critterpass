@@ -7,6 +7,172 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: place.backers
+#: ../../apps/mobile/src/features/plan/premium/plan-map/place-carousel.tsx
+msgid "plan.premium.carousel.saved"
+msgstr "{0, plural, one {Saved by one of the crew} other {Saved by # of the crew}}"
+
+#. placeholder {0}: format.list(locale, typists)
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.typingMany"
+msgstr "{0} are typing"
+
+#. placeholder {0}: data.days_moving
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.shift"
+msgstr "{0} days shift with the dates"
+
+#. placeholder {0}: data.days_moving
+#. placeholder {1}: data.stops_to_ideas
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.toIdeas"
+msgstr "{0} days shift, {1} stops go back to Ideas"
+
+#. placeholder {0}: going.length
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.who.some"
+msgstr "{0} going ›"
+
+#. placeholder {0}: typists[0] ?? ''
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.typingOne"
+msgstr "{0} is typing"
+
+#. placeholder {0}: free?.user_ids.length ?? 0
+#. placeholder {1}: free?.total ?? 0
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.free"
+msgstr "{0} of {1} are free"
+
+#. placeholder {0}: stars.starredCount
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.starred"
+msgstr "{0} of {total} starred"
+
+#. placeholder {0}: wholeMoney(locale, overBy, model.currency)
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "plan.premium.draft.over"
+msgstr "{0} over the sweet spot each"
+
+#. placeholder {0}: String(n)
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.ideasWaiting"
+msgstr "{0} saved places aren’t in a day yet"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.refundAmount"
+msgstr "{amount} comes back"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.sub"
+msgstr "{dates}, {cost} each. Fix anything before the crew sees it."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.subNoCost"
+msgstr "{dates}. No cost estimate yet. Fix anything before the crew sees it."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.trip.toFix"
+msgstr "{fixCount, plural, one {# to fix} other {# to fix}}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.trip.fixAndKnow"
+msgstr "{fixWord} · {knowWord}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.going"
+msgstr "{going} going"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.going"
+msgstr "{going} going"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.redrafting"
+msgstr "{guideName} is redrafting a day."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "plan.premium.redraft.thinking"
+msgstr "{guideName} is redrafting Day {n}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.title"
+msgstr "{guideName}’s draft"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.backEyebrow"
+msgstr "{guideName}’s draft"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.ideas"
+msgstr "{ideas, plural, one {One saved place isn’t in a day yet} other {# saved places aren’t in a day yet}}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.fix.chip"
+msgstr "{kind} · fix"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.trip.toKnow"
+msgstr "{know, plural, one {# to know} other {# to know}}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.title"
+msgstr "{label} clashes with the crew plan"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.late.minutes"
+msgstr "{minutes} min"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.theirs"
+msgstr "{otherName}’s must-do"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.noPlanLine"
+msgstr "{saved, plural, one {One place is saved in Ideas. It goes onto a day once there is a plan.} other {# places are saved in Ideas. They go onto days once there is a plan.}}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.missing"
+msgstr "{title} ({owner}): {reason}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.removed"
+msgstr "{title} is back in Ideas"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.some"
+msgstr "{total, plural, one {{made} of # must-do made it} other {{made} of # must-dos made it}}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.all"
+msgstr "{total, plural, one {Your must-do made it} other {All # must-dos made it}}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.plusOneAction"
+msgstr "+1"
+
+#. placeholder {0}: format.list(locale, plusOned ? [t({ id: 'plan.collab.you', message: 'you' }), ...others] : others)
+#. placeholder {1}: ago(locale, comment.createdAt, now)
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.plusOnes"
+msgstr "+1 from {0} · {1}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.plusOne"
+msgstr "+1 this"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/place-carousel.tsx
+msgid "plan.premium.carousel.count"
+msgstr "1 of {count} in view · nearest first"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.earlier"
+msgstr "15 minutes earlier"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.later"
+msgstr "15 minutes later"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.plusOne"
 msgstr "A +1"
@@ -19,6 +185,10 @@ msgstr "A change for the crew to okay"
 msgid "plan.day.queued.comment"
 msgstr "A comment"
 
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.draftLine"
+msgstr "A day-by-day plan from your must-dos, in about a minute."
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.edit"
 msgstr "A plan edit"
@@ -27,29 +197,1079 @@ msgstr "A plan edit"
 msgid "plan.day.item.kindActivity"
 msgstr "Activity"
 
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/plan/premium/plan-map/place-carousel.tsx
+msgid "search.premium.row.add"
+msgstr "Add {0}"
+
+#. placeholder {0}: props.name
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.premium.add.title"
+msgstr "Add {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.itemComposer"
+msgstr "Add a comment"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.addAny"
+msgstr "Add a stop, or paste a link"
+
+#: ../../apps/mobile/src/features/plan/premium/check/ask-card.tsx
+msgid "plan.check.ask.yes"
+msgstr "Add them"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.addTo"
+msgstr "Add to {weekday}, or paste a link"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.addToDay"
+msgstr "Add to a day"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.allDays"
+msgstr "All days"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.title"
+msgstr "All days"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.settledTitle"
+msgstr "Already sorted"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rule.anyone"
+msgstr "Anyone"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.planChangesLine"
+msgstr "Anyone can suggest"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.mine"
+msgstr "Apply to my plan only"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.apply"
 msgstr "Applying the winner"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.ask"
+msgstr "Ask {guide} about it"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.changeDay"
+msgstr "Ask {guideName} to change a day"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.askCrew"
+msgstr "Ask the crew first"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.askDraft"
+msgstr "Ask your organiser to let {guide} draft it"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.send"
 msgstr "Asking the crew"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "plan.premium.draft.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.allDays.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "plan.premium.redraft.back"
+msgstr "Back to the draft"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.moneyLine"
+msgstr "Balances stay to settle ({open} open)"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.lessDriving.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.booking"
+msgstr "Booking"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.offlineLine"
+msgstr "Bookings, maps, phrases"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.spent.boost"
+msgstr "Boost for unlimited redrafts"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.maxes"
+msgstr "Budget maxes"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.propose"
+msgstr "Build the proposal"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.cancelConfirm"
+msgstr "Call off trip"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "common.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.title"
+msgstr "Cancel {place}?"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.cancelConfirm"
+msgstr "Cancel draft"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.cancel"
+msgstr "Cancel the draft"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.cancelTitle"
+msgstr "Cancel the draft?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.cancel"
+msgstr "Cancel the trip"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.fitIn"
+msgstr "Change a day to fit it"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.title"
+msgstr "Change dates"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "plan.premium.redraft.title"
+msgstr "Change Day {n}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.now"
+msgstr "Change it now"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.review.queued.toggle"
 msgstr "Change kept or dropped"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.changeTime"
+msgstr "Change the time"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.time"
+msgstr "Change time"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.chat"
+msgstr "Chat and photos"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.check"
+msgstr "Check"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.check"
+msgstr "Check the plan"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.closeMenu"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.closeMenu"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/plan/premium/check/balance-gap.tsx
+msgid "plan.premium.gap.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.premium.add.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.closeMenu"
+msgstr "Close the menu"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.leave"
+msgstr "Come back later"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.deleted"
+msgstr "Comment deleted"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.copy"
+msgstr "Copy a crew’s plan"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.cost"
+msgstr "Cost"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.identicalTitle"
+msgstr "Couldn’t beat this day"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.dates"
+msgstr "Dates"
+
+#. placeholder {0}: day.dayNo
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.dayN"
+msgstr "Day {0}"
+
+#. placeholder {0}: openRedraft.dayNo
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.premium.review.redraftReadyDay"
+msgstr "Day {0}, redrafted, is ready."
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.dayChip"
+msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.dayTitle"
+msgstr "Day {n}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.identical"
+msgstr "Day {n} is already the best I can do. That one didn’t count."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.title"
+msgstr "Day {n}, redrafted"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "plan.premium.draft.missed"
+msgstr "Didn’t fit"
+
+#. placeholder {0}: at(checkIn.leftAt)
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.doneAt"
+msgstr "Done at {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.done"
+msgstr "Done here"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.again"
+msgstr "Draft again"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.dropSlot"
+msgstr "Drops here"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.earlier"
+msgstr "Earlier by 15 minutes"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.history"
+msgstr "Earlier drafts"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.ends"
+msgstr "Ends"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.everyone"
+msgstr "Everyone"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.add.who.everyone"
+msgstr "Everyone ›"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.cancelTold"
+msgstr "Everyone on it gets told."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.searchAny"
+msgstr "Find anything, or ask {guide}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.fine"
+msgstr "Fine"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.line"
+msgstr "Four ways to start. Most crews mix two."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.freeLine"
+msgstr "From the days everyone marked"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.premium.stop.go"
+msgstr "Go"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.drop"
+msgstr "Go with the crew"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.guide"
+msgstr "Guide"
+
+#. placeholder {0}: at(checkIn.arrivedAt)
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.hereSince"
+msgstr "Here since {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.line"
+msgstr "Here’s exactly what happens. Nothing’s gone until you hold the button."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.summaryPlain"
+msgstr "Here’s what {guideName} would change."
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.hint"
+msgstr "Hold a day to move one of its stops"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.hold"
+msgstr "Hold to cancel {place}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.placeDetail"
+msgstr "Hours, photos and how to get there"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.here"
+msgstr "I’m here"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.ideas"
+msgstr "Ideas"
+
+#. placeholder {0}: String(n)
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.ideas"
+msgstr "Ideas · {0}"
+
+#. placeholder {0}: ideas.length
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.title"
+msgstr "Ideas · {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.ideasGo"
+msgstr "Ideas ›"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.inCar"
+msgstr "in the car, nothing booked moves"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.road"
+msgstr "In the car: about {before} → {after}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.failed"
+msgstr "It didn’t count. Try again, maybe with another reason."
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.add.saveLater"
+msgstr "Just save it for later"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.justYou"
+msgstr "Just you"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.add.who.justYou"
+msgstr "Just you"
+
+#. placeholder {0}: was ?? ''
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pollNo"
+msgstr "Keep {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/placing-view.tsx
+msgid "plan.premium.placing.keepBrowsing"
+msgstr "Keep browsing"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.keep"
+msgstr "Keep drafting"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.keep"
+msgstr "Keep it"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.keep"
+msgstr "Keep it"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.keep"
+msgstr "Keep mine"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.keep"
+msgstr "Keep the trip"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.change.keep"
+msgstr "Keep this change"
+
+#. placeholder {0}: money(locale, booking.kept_minor, booking.currency)
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.kept"
+msgstr "Keeps {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.later"
+msgstr "Later by 15 minutes"
+
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
+msgid "plan.premium.check.leave"
+msgstr "Leave it"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.leave"
+msgstr "Leave the trip"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.change.skip"
+msgstr "Leave this one as it was"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "trip.menu.leaveTitle"
+msgstr "Leave this trip?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "trip.menu.leaveConfirm"
+msgstr "Leave trip"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.clash"
+msgstr "Leaving that one out would put two stops at the same time. Tick it again, or put the whole day back and ask differently."
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.title"
+msgstr "Less driving"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.draft"
+msgstr "Let {guide} draft it"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.loading"
+msgstr "Looking for a shorter order"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.lost"
+msgstr "Lost"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.swipeLine"
+msgstr "Matches stay"
 
 #: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindMeal"
 msgstr "Meal"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.money"
+msgstr "Money"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.more"
+msgstr "More for this plan"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.stopMenu"
+msgstr "More for this stop"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.title"
+msgstr "Move {name}?"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.move"
+msgstr "Move it"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pollQuestion"
+msgstr "Move the trip to {next}?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.moveTo"
+msgstr "Move to"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.move"
+msgstr "Move to another day"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.move.pickDay"
+msgstr "Move to day…"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.move.pickStop"
+msgstr "Move which stop?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.moves"
+msgstr "Moves"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.boostLine"
+msgstr "Moves to your next trip"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.moving"
+msgstr "Moving to {time}"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.mustDoLead"
+msgstr "Must-dos: star one each."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/range-calendar.tsx
+msgid "plan.dates.nextMonth"
+msgstr "Next month"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.no"
+msgstr "No"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.noComments"
+msgstr "No comments yet. Say what you think."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.noPlanTitle"
+msgstr "No plan yet"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.stopped"
+msgstr "Nobody saw it. Start again whenever you like."
+
+#: ../../apps/mobile/src/features/plan/premium/check/ask-card.tsx
+msgid "plan.check.ask.no"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.datesOpen"
+msgstr "Not set"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.notes"
+msgstr "Notes"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.empty"
+msgstr "Nothing left on this day"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.title"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.emptySub"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.emptyTitle"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.rain.noneBody"
+msgstr "Nothing to swap. Every block is dry and quiet enough where it is."
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.ok"
+msgstr "OK"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.onMap"
+msgstr "On map"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.on"
+msgstr "On: {title}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rule.only"
+msgstr "Only me"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.maxesLine"
+msgstr "Only the crew total shows"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.onlyYou"
+msgstr "Only you see this"
+
+#: ../../apps/mobile/src/features/plan/premium/check/ask-card.tsx
+msgid "plan.check.ask.private"
+msgstr "Only you two see this. Nothing moves to make room."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.redraftOpen"
+msgstr "Open"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.maps"
+msgstr "Open in maps"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
+msgid "plan.premium.fix.otherWays"
+msgstr "Other ways"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.paste"
+msgstr "Paste what you saved"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pick"
+msgstr "Pick new dates"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.pickPlace"
+msgstr "Pick the place"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.ping"
+msgstr "Ping me when it’s ready"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.place"
+msgstr "Place them for me"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.places"
+msgstr "Places as a list"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.planChanges"
+msgstr "Plan changes"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.copyLine"
+msgstr "Plans other crews made"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/range-calendar.tsx
+msgid "plan.dates.prevMonth"
+msgstr "Previous month"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.private"
+msgstr "Private"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.putBack"
+msgstr "Put {old} back"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.putBackDay"
+msgstr "Put the day back"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.loading"
+msgstr "Reading the changes"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.stale.cta"
+msgstr "Redraft affected days"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.refund"
+msgstr "Refunded in full"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.removeAll"
+msgstr "Remove for everyone"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.remove"
+msgstr "Remove from plan"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.remove"
+msgstr "Remove from the day"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.removeMine"
+msgstr "Remove my save"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rules"
+msgstr "Rules"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.late.label"
+msgstr "Running late?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.offline"
+msgstr "Save for offline"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.search"
+msgstr "Search {place}, or ask {guide}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.see"
+msgstr "See"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.see"
+msgstr "See"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.allDays.see"
+msgstr "See"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.details"
+msgstr "See the details"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.lessDriving.openCheck"
+msgstr "See the plan check"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.sendFirst"
+msgstr "Send it to the crew first"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.rain.sendFirst"
+msgstr "Send to the crew first"
+
+#. placeholder {0}: format.list(locale, model.stale.map(changeWord))
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "plan.premium.draft.stale"
+msgstr "Setup changed since this draft: {0}."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.allDays.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.share"
+msgstr "Share the plan"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.skip"
+msgstr "Skip it, just me"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.skip"
+msgstr "Skip it, just me"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.skipSolo"
+msgstr "Skip this stop"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.skipSolo"
+msgstr "Skip this stop"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.estimate"
+msgstr "Some of these drives are estimates; they are checked again once the order is in."
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.star"
+msgstr "Star {name} as your must-do"
+
+#. placeholder {0}: clock(locale, useStart)
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.useStart"
+msgstr "Start at {0} instead"
+
+#. placeholder {0}: props.useStart.time
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.premium.add.useStart"
+msgstr "Start at {0} instead"
+
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.startNow"
+msgstr "Start from now ({0})?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.starts"
+msgstr "Starts"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.stay"
+msgstr "Stay"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.chatLine"
+msgstr "Stay where they are"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.suggest"
+msgstr "Suggest it to the crew"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.suggest"
+msgstr "Suggest to the crew"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.swipe"
+msgstr "Swipe together"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.unPlusOne"
+msgstr "Take back your +1"
+
+#. placeholder {0}: entry.name
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.premium.leftOut.takenOut"
+msgstr "Taken out of the trip: {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.slowTitle"
+msgstr "Taking a bit longer than usual"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.failed"
+msgstr "That didn’t go through. Try again with signal."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.failedTitle"
+msgstr "That redraft didn’t work"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.changed"
+msgstr "The crew moved it since you changed it for yourself. Keep yours, or go with theirs?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.removed"
+msgstr "The crew took it out of their plan. Keep it just for you, or let it go?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.plan"
+msgstr "The plan"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.comingTitle"
+msgstr "The plan is on its way"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.trip"
+msgstr "The trip"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.wholeTrip"
+msgstr "The whole trip"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.kept"
+msgstr "Their terms keep part of it"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.keptAmount"
+msgstr "They keep {amount}"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.review.missing"
+msgstr "This change isn’t on your phone yet. It shows up once it syncs."
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.none"
+msgstr "This order is already the shortest without moving anything booked."
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.bookingLine"
+msgstr "Tickets and voucher are in Bookings."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.pasteLine"
+msgstr "TikToks, posts, screenshots"
+
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+msgid "plan.check.toKnow"
+msgstr "To know"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.cancelled"
+msgstr "Trip called off. Everyone on it was told."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.title"
+msgstr "Trip settings"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.settings"
+msgstr "Trip settings"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.undo"
+msgstr "Undo"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.undo"
 msgstr "Undo the guide change"
 
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.unstar"
+msgstr "Unstar {name}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.suggestionLine"
+msgstr "Waiting for the crew to say yes."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.ask"
+msgstr "We ask"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.ask"
+msgstr "We ask them for you"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.unavailable"
+msgstr "What cancelling does shows with signal. Try again when you’re back."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.changes"
+msgstr "What it changes"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.unavailable"
+msgstr "What this changes shows with signal. You can still ask the crew."
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.when"
+msgstr "When"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.where"
+msgstr "Where"
+
+#: ../../apps/mobile/src/features/plan/settings/data/commands.ts
+msgid "plan.settings.queued.rule"
+msgstr "Who can change the plan"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.who"
+msgstr "Who’s coming"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.who"
+msgstr "Who’s going"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.who"
+msgstr "Who’s going"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.yes"
+msgstr "Yes"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pollYes"
+msgstr "Yes, {next}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.you"
+msgstr "you"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rule.approve"
+msgstr "You approve"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.settled"
+msgstr "You’ve kept or put back this redraft already."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.boost"
+msgstr "Your boost"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.review.queued.no"
 msgstr "Your no to a plan change"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.redraftReady"
+msgstr "Your redraft is ready."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "trip.menu.leaveSeat"
+msgstr "Your seat opens for the next person waiting."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.eyebrow"
+msgstr "Your trip"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.vote"

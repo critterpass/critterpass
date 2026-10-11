@@ -134,7 +134,7 @@ export function PlaceCarousel(props: {
                     icon="plus"
                     size={34}
                     tone="control"
-                    label={t({ id: 'search.row.add', message: `Add ${place.name}` })}
+                    label={t({ id: 'search.premium.row.add', message: `Add ${place.name}` })}
                     onPress={() => props.onAdd?.(place.id)}
                     testID={`plan-map-card-add-${place.id}`}
                   />

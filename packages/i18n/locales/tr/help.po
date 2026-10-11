@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
 
+#. placeholder {0}: b.left
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.premium.ideas.votesLeft"
+msgstr ""
+
 #. placeholder {0}: props.votesLeft
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.votesLeft"
@@ -17,19 +22,27 @@ msgstr "{0, plural, one {# oy kaldı} other {# oy kaldı}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# oy} other {# oy}}"
 
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, one {{first} ve # kişi daha} other {{first} ve # kişi daha}}"
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ Fikir öner"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "Bir insan iki gün içinde e-postayla yanıtlar."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerInbox"
 msgstr "Bir insan iki gün içinde Gelen Kutunda yanıtlar."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footer"
 msgstr "Bir insan iki gün içinde yanıtlar."
 
@@ -50,8 +63,13 @@ msgid "help.article.askHuman"
 msgstr "Bir insana sor"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.askHuman"
 msgstr "Bir insana sor"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.guideLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.done"
@@ -63,6 +81,7 @@ msgstr "Hata"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.building"
 msgstr "Yapılıyor"
 
@@ -71,6 +90,7 @@ msgid "help.feedback.topic.critters"
 msgstr "Critters"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.declined"
 msgstr "Reddedildi"
 
@@ -95,11 +115,16 @@ msgstr "Grr"
 msgid "help.feedback.topic.guideChat"
 msgstr "Rehber sohbeti"
 
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
 msgstr "Yardım"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.back"
 msgstr "Yardım"
 
@@ -112,11 +137,16 @@ msgid "help.hub.title"
 msgstr "Yardım ve geri bildirim"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.centre"
 msgstr "Yardım merkezi"
 
 #: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
 msgid "help.shake.hidden"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.heading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
@@ -139,6 +169,10 @@ msgstr "Cihaz bilgisini ekle"
 msgid "help.article.missingBody"
 msgstr "Bir dahaki sefere çevrimiçi olduğunda yardım merkeziyle birlikte gelir."
 
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.shakeLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
 msgid "help.feedback.discard"
 msgstr ""
@@ -149,6 +183,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.open"
 msgstr "İnceleniyor"
 
@@ -161,6 +196,7 @@ msgid "help.feedback.mood.meh"
 msgstr "Eh işte"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.merged"
 msgstr "Birleştirildi"
 
@@ -173,6 +209,7 @@ msgid "help.feedback.topic.money"
 msgstr "Para"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.new"
 msgstr "Yeni"
 
@@ -185,14 +222,17 @@ msgid "help.article.no"
 msgstr "Hayır"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.none"
 msgstr "Henüz fikir yok. İlki seninki olabilir."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "Yardım merkezinde bununla eşleşen bir şey henüz yok."
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.noneShipped"
 msgstr "Buradan henüz yayınlanan bir şey yok."
 
@@ -222,6 +262,7 @@ msgstr "Panoya iğnelendi. Tekrar çevrimiçi olduğunda paylaşılır ve bir in
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.planned"
 msgstr "Planlandı"
 
@@ -242,6 +283,7 @@ msgid "help.ideas.posted"
 msgstr "YENİ altında paylaşıldı. İlerlerse Tokek sana haber verir."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rate"
 msgstr "Uygulamayı puanla"
 
@@ -250,6 +292,7 @@ msgid "help.sent.received"
 msgstr "Alındı"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.search"
 msgstr "İadeler, çevrimdışı haritalar, masraf bölüşme…"
 
@@ -258,6 +301,7 @@ msgid "help.feedback.removePhoto"
 msgstr "Bu resmi kaldır"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.report"
 msgstr "Sorun bildir"
 
@@ -266,6 +310,7 @@ msgid "help.feedback.titleProblem"
 msgstr "Sorun bildir"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedback"
 msgstr "Geri bildirim gönder"
 
@@ -278,14 +323,21 @@ msgid "help.feedback.send"
 msgstr "Gönder"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.back"
 msgstr "Ayarlar"
 
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.shake"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shipped"
 msgstr "Yayınlandı"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shippedTab"
 msgstr "Yayınlananlar"
 
@@ -294,6 +346,7 @@ msgid "help.article.english"
 msgstr "Şimdilik İngilizce gösteriliyor"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.english"
 msgstr "Şimdilik İngilizce gösteriliyor"
 
@@ -314,6 +367,7 @@ msgid "help.article.stuck"
 msgstr "Hâlâ takıldın mı?"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.suggest"
 msgstr "Özellik öner"
 
@@ -321,11 +375,16 @@ msgstr "Özellik öner"
 msgid "help.feedback.titleIdea"
 msgstr "Özellik öner"
 
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.premium.suggest"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.suggest.title"
 msgstr "Fikir öner"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rateCaption"
 msgstr "On saniye sürer"
 
@@ -347,10 +406,12 @@ msgid "help.feedback.tooBig"
 msgstr "Bu resim gönderilemeyecek kadar büyük. Bunun yerine ekran görüntüsü dene."
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "Pano, tekrar çevrimiçi olduğunda açılır."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.articlesOffline"
 msgstr ""
 
@@ -368,16 +429,23 @@ msgid "help.ideas.teamNote"
 msgstr "Tokek: {0}"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.top"
 msgstr "En çok"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.underReview"
 msgstr "İnceleniyor"
 
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.suggest.vote"
 msgstr "Oy ver ▲"
+
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr ""
 
 #. placeholder {0}: props.ideasToVote
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
@@ -406,6 +474,7 @@ msgid "help.suggest.descriptionLabel"
 msgstr "Ne yapardı? İsteğe bağlı"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedbackCaption"
 msgstr "Neyi seviyorsun, neyi sevmiyorsun"
 
@@ -414,10 +483,12 @@ msgid "help.feedback.placeholder"
 msgstr "Neyi seviyorsun, neyi sevmiyorsun…"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.title"
 msgstr "Sırada ne var?"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.tabs"
 msgstr "Hangi fikirler"
 
@@ -452,8 +523,3 @@ msgstr ""
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Bir fikre oyun"
-
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, one {{first} ve # kişi daha} other {{first} ve # kişi daha}}"

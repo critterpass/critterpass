@@ -7,14 +7,344 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.snoozeNote"
+msgstr "({guideName} sẽ thở dài)"
+
+#. placeholder {0}: props.crew.length
+#: ../../apps/mobile/src/features/trip/premium/hub/HubHero.tsx
+msgid "trip.hub.premium.crew"
+msgstr "{0} người đi"
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/trip/premium/day-change/StormPremium.tsx
+msgid "trip.disruptions.storm.premiumPick"
+msgstr "{0} chọn"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.datesGoing"
+msgstr "{dates} · {going} người đi"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.premium.title"
+msgstr "Điểm tin của {guideName}"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.waitingLine"
+msgstr "Với bạn, {title} vẫn bắt đầu lúc {start}."
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.waitingTitle"
+msgstr "{who}: trễ {minutes} phút"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addShort"
+msgstr "+ Thêm"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.chip"
+msgstr "+{minutes} phút"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.lateBy"
+msgstr "+{minutes} phút"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.freeTitle"
+msgstr "Một ngày tự do, có chủ đích"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addPack"
+msgstr "Thêm đồ cần mang"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.backOnline"
+msgstr "Có sóng lại"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toToday"
+msgstr "Về hôm nay"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubHero.tsx
+msgid "trip.hub.premium.back"
+msgstr "Quay lại các chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.keep"
+msgstr "Huỷ"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.premium.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/FlightDisruptionPremium.tsx
+msgid "trip.disruptions.flight.premiumClose"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.dayOf"
+msgstr "Ngày {dayNo}/{days}"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.conflictsTitle"
+msgstr "Chưa gửi được"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.cancelSend"
+msgstr "Đừng gửi nữa"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.eta"
+msgstr "Dự kiến {eta}"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.firstUp"
+msgstr "Việc đầu tiên"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.premiumNav"
+msgstr "Dự báo"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.fromDate"
+msgstr "từ {stale}"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.go"
+msgstr "Ổn"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.go"
+msgstr "Đi"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.packPlaceholder"
+msgstr "Đèn pin đội đầu, áo khoác…"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.packHint"
+msgstr "Giữ để bỏ"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.premium.failedTitle"
+msgstr "Mình chưa viết xong điểm tin hôm nay"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
+msgid "trip.dayOf.imUp"
+msgstr "Mình dậy rồi"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.imUp"
+msgstr "Mình dậy rồi"
+
 #: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
 msgid "trip.missing.line"
 msgstr "Có thể chuyến đã bị xóa, hoặc bạn không còn trong chuyến."
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.alreadySent"
+msgstr "Nó vừa được gửi xong."
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.alreadySending"
+msgstr "Nó đang được gửi đi rồi."
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.etaStale"
+msgstr "Dự kiến gần nhất {eta}"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.map"
+msgstr "Bản đồ"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.editLabel"
+msgstr "Tin nhắn"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.money"
+msgstr "Tiền"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.nextUp"
+msgstr "Tiếp theo"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.pingedLine"
+msgstr "Hết lượt báo lại. Cả nhóm đã được nhắn để gõ cửa bạn."
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.noSignal"
+msgstr "Mất sóng"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.offlineDay"
+msgstr "Không có sóng. Kế hoạch hôm nay, thẻ lên máy bay và câu nói đã lưu trên máy này."
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.freeDay"
+msgstr "Hôm nay không có lịch. Một ngày tự do."
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.title"
+msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.conflictOk"
+msgstr "OK"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.online"
+msgstr "Có sóng"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.offlineOpen"
+msgstr "Mở"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.openPlan"
+msgstr "Mở kế hoạch hôm nay"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.pack"
+msgstr "Mang theo"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/VisitConsentLine.tsx
+msgid "permissions.visits.row"
+msgstr "Những nơi bạn ghé trong chuyến này chưa được ghi nhớ."
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.plan"
+msgstr "Kế hoạch"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.planB"
+msgstr "Phương án B"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.doneLine"
+msgstr "Nghỉ ngơi đi. Ngày mai đã có kế hoạch."
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.late"
+msgstr "Bị trễ à?"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.premium.saveEdit"
+msgstr "Lưu chỉnh sửa"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toDayPlan"
+msgstr "Xem kế hoạch ngày"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toTomorrow"
+msgstr "Xem ngày mai"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.premium.sendsItself"
+msgstr "Có mạng lại là tự gửi"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.sendsTitle"
+msgstr "Sẽ gửi khi có sóng"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.set"
+msgstr "Đã chốt"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.slide"
+msgstr "trượt, mình dậy rồi →"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.snooze"
+msgstr "Báo lại sau 5 phút"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.stillWorks"
+msgstr "Vẫn dùng được"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.done"
+msgstr "Hết lịch hôm nay rồi."
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.premiumTitle"
+msgstr "Phần còn lại của chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.premium.eyebrow"
+msgstr "ĐIỂM TIN SÁNG NAY"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.premiumMissing"
+msgstr "Chuyến đi này chưa có trên điện thoại này."
 
 #: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
 msgid "trip.missing.title"
 msgstr "Chuyến đi này không có ở đây"
 
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.menu.cancelledNote"
+msgstr "Chuyến đi này đã bị hủy. Trò chuyện, tiền, đặt chỗ và ảnh vẫn còn ở đây."
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.today"
+msgstr "hôm nay"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.today"
+msgstr "Hôm nay"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.failed"
+msgstr "Bản tin hôm nay chưa đến được. Lịch trình bên dưới vẫn là mới nhất."
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.backToTrip"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.back"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubHero.tsx
+msgid "trip.hub.premium.menu"
+msgstr "Tuỳ chọn chuyến đi"
+
 #: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
 msgid "trip.missing.back"
 msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.storageLink"
+msgstr "Các chuyến đã lưu trên máy"
+
+#: ../../apps/mobile/src/features/trip/premium/hub/VisitConsentLine.tsx
+msgid "permissions.visits.accept"
+msgstr "Bật"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.waitingSince"
+msgstr "Đang chờ sóng từ {since}"
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.watching"
+msgstr "Theo dõi"
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.weak"
+msgstr "Sóng yếu"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toOffline"
+msgstr "Những gì dùng được khi mất sóng"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
+msgid "trip.dayOf.notYours"
+msgstr "Bạn không đi chặng này. Cứ ngủ tiếp."

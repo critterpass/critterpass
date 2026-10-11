@@ -19,7 +19,7 @@ msgstr "{0} / 10"
 
 #. placeholder {0}: row.name
 #. placeholder {1}: row.destination_name
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.shareText"
 msgstr "{0}, {1}. Worth a look?"
 
@@ -157,7 +157,7 @@ msgstr "Check before you go"
 msgid "explore.detail.chooseDay"
 msgstr "Choose a day"
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.closed"
 msgstr "Closed"
 
@@ -169,7 +169,7 @@ msgstr "Crew split {w}–{r}"
 msgid "explore.detail.why.busySeen"
 msgstr "crews have seen it busy from {at}"
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.entry"
 msgstr "Entry"
 
@@ -262,7 +262,7 @@ msgid "explore.detail.why.hoursUnknown"
 msgstr "its hours aren't known"
 
 #: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.hoursUnknown"
 msgstr "Its hours aren't known, so I can't fit it yet."
 
@@ -282,7 +282,7 @@ msgstr "Not this place"
 msgid "explore.offers.offline"
 msgstr "Offers need a connection."
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.open"
 msgstr "Open"
 
@@ -295,7 +295,7 @@ msgid "explore.detail.fits.other"
 msgstr "Other days ›"
 
 #: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.planTrip"
 msgstr "Plan a trip here"
 
@@ -333,7 +333,7 @@ msgstr "Remove from Ideas"
 msgid "explore.detail.removeAll.link"
 msgstr "Remove from Ideas for everyone"
 
-#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-remove-for-everyone.ts
 msgid "explore.detail.removeAll.done"
 msgstr "Removed from Ideas for everyone"
 
@@ -397,7 +397,7 @@ msgstr "Still in Ideas: the crew saved it too"
 msgid "explore.detail.suggestFor"
 msgstr "Suggest for {weekday} · {time}"
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.takes"
 msgstr "Takes"
 
@@ -433,7 +433,7 @@ msgstr "Undo"
 msgid "explore.offers.disclosure"
 msgstr "We may earn a commission if you book. It never changes what we rank first."
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.wear"
 msgstr "Wear"
 

@@ -23,7 +23,7 @@ msgid "drivers.replied.total"
 msgstr ""
 
 #. placeholder {0}: plan.people
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.people"
 msgstr "{0} kişi"
 
@@ -38,14 +38,14 @@ msgstr ""
 msgid "drivers.replied.perDay"
 msgstr ""
 
-#. placeholder {0}: assigned.name ?? ''
+#. placeholder {0}: leg.name
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.assigned"
 msgstr "Bu gün {0} sürüyor"
 
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
-#. placeholder {2}: hoursFigure(card.included_hours, locale)
+#. placeholder {2}: hoursFigure(includedHours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.overtime"
 msgstr "{0} {1} saat sürüyor. {name} için fiyat {2} saati kapsıyor."
@@ -53,6 +53,7 @@ msgstr "{0} {1} saat sürüyor. {name} için fiyat {2} saati kapsıyor."
 #. placeholder {0}: required.length - left.length
 #. placeholder {1}: required.length
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.count"
 msgstr "{1} satırdan {0} tanesi kontrol edildi"
 
@@ -69,7 +70,7 @@ msgid "drivers.ask.title"
 msgstr "{0} gönderisi"
 
 #. placeholder {0}: money(card.overtime_minor, card.currency, locale) ?? ''
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.perHour"
 msgstr "{0}/saat"
 
@@ -106,6 +107,7 @@ msgid "drivers.card.daysFrom"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.missing"
 msgstr "Mesajında {count} şey yok. Soruyu yazayım mı?"
 
@@ -130,6 +132,7 @@ msgid "drivers.offline.included"
 msgstr "{included} dahil"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/includes-line.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.notIncl"
 msgstr "{item} ayrı"
 
@@ -137,7 +140,12 @@ msgstr "{item} ayrı"
 msgid "drivers.share.expiresIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.premium.loved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.lovedValue"
 msgstr ""
 
@@ -146,6 +154,7 @@ msgid "drivers.ours.loved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.missing"
 msgstr "{missing} eksik"
 
@@ -207,26 +216,30 @@ msgid "drivers.pick.takenBy"
 msgstr "{takenBy} ayırtıldı"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.card.trips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.addDay"
 msgstr "+ Gün"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.yes"
 msgstr "✓Evet"
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.sevenPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.tipBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.day"
 msgstr "Günlük"
 
@@ -258,19 +271,26 @@ msgstr ""
 msgid "drivers.share.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.premium.add"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 msgid "drivers.ask.addBudget"
 msgstr "Bütçe ekle"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
+msgid "drivers.back.add"
+msgstr "Şoför ekle"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.title"
 msgstr "Şoför ekle"
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
-msgid "drivers.back.add"
-msgstr "Şoför ekle"
-
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.addAnother"
 msgstr "Karşılaştırmak için bir tane daha ekle"
 
@@ -286,6 +306,7 @@ msgstr ""
 msgid "drivers.invite.bahasa"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.add"
 msgstr "Karşılaştırmaya ekle"
@@ -295,6 +316,7 @@ msgid "drivers.detail.shortlist"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.confirm"
 msgstr "Listeye ekle"
 
@@ -302,19 +324,23 @@ msgstr "Listeye ekle"
 msgid "drivers.queued.shortlist"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.ask"
 msgstr "{name} adlı şoföre sor"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.ask"
 msgstr "Benim için sor"
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.askPrice"
 msgstr ""
 
@@ -323,12 +349,18 @@ msgid "drivers.pick.ask"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.priceAsk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.tours"
 msgstr "Özel tur ayırt"
+
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.premium.browse"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.private"
@@ -341,6 +373,10 @@ msgstr "Ara"
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.note"
 msgstr "Aramalar veri değil, şebeke kullanır. Mesaj, yeniden çevrimiçi olduğunda gönderilir."
+
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+msgid "drivers.premium.cancel"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
@@ -359,7 +395,7 @@ msgstr ""
 msgid "drivers.line.car"
 msgstr "Araç"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.car"
 msgstr "Araç"
 
@@ -376,8 +412,14 @@ msgid "drivers.add.badge.check"
 msgstr "Kontrol et"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
 msgid "drivers.find.compare"
 msgstr "Karşılaştır"
+
+#. placeholder {0}: drivers.length
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareTitle"
+msgstr ""
 
 #. placeholder {0}: drivers.length
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
@@ -385,11 +427,13 @@ msgid "drivers.compare.title"
 msgstr "{0} şoförü karşılaştır"
 
 #: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.complete"
 msgstr "Tamam"
 
 #. placeholder {0}: left.length
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.confirmMore"
 msgstr "{0} tane daha onayla"
 
@@ -421,7 +465,7 @@ msgstr "Kopyala ve gruplarda kendin paylaş. CritterPass orada asla paylaşım y
 msgid "drivers.ask.copy"
 msgstr "Gönderiyi kopyala"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr ""
 
@@ -434,10 +478,11 @@ msgid "drivers.add.badge.unread"
 msgstr "Okunamadı"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.title"
 msgstr "Okunamadı"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr ""
 
@@ -446,12 +491,18 @@ msgid "drivers.card.covers"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.loved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
+msgid "drivers.premium.cutOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
@@ -465,6 +516,7 @@ msgid "drivers.find.back"
 msgstr "{0}. gün · {1}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.day"
 msgstr ""
@@ -474,6 +526,7 @@ msgid "drivers.share.dayNo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.dayTrips"
 msgstr ""
 
@@ -482,16 +535,19 @@ msgid "drivers.share.days"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.draft"
 msgstr "Taslak yaz"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.card.role"
 msgstr ""
 
 #. placeholder {0}: current.area
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.area"
 msgstr "Şoför · {0}"
 
@@ -499,16 +555,22 @@ msgstr "Şoför · {0}"
 msgid "drivers.share.nameLabel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.premium.navTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.directory"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-msgid "drivers.find.directory"
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.directory.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.title"
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.find.directory"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
@@ -519,12 +581,12 @@ msgstr ""
 msgid "drivers.add.screenshotDetail"
 msgstr "Bırak veya seç"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.each"
 msgstr "Kişi başı"
 
 #. placeholder {0}: chosen.length
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.eachDays"
 msgstr "Kişi başı, {0} gün"
 
@@ -532,7 +594,7 @@ msgstr "Kişi başı, {0} gün"
 msgid "drivers.include.entry"
 msgstr "Giriş"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.entry"
 msgstr "Giriş ücretleri"
 
@@ -542,30 +604,35 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.back.find"
+msgstr "Şoför bul"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.directory.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.find.title"
 msgstr "Şoför bul"
 
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.find"
 msgstr "Şoför bul"
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-msgid "drivers.find.title"
-msgstr "Şoför bul"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.fine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.fix"
 msgstr "Düzelt"
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.intro"
 msgstr "Sabit fiyat, rezervasyon ve ödeme sağlayıcıda. Başlıklar, fotoğraflar ve puanlar kelimesi kelimesine onlara ait."
@@ -575,11 +642,15 @@ msgid "drivers.find.legs"
 msgstr "Bu etaplar için"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.found"
 msgstr "Kendim buldum"
 
 #. placeholder {0}: card.currency
+#. placeholder {0}: tour.currency
 #. placeholder {1}: card.price_from
+#. placeholder {1}: tour.price_from
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.price"
 msgstr "{0} {1} fiyatından başlar"
@@ -588,9 +659,17 @@ msgstr "{0} {1} fiyatından başlar"
 msgid "drivers.price.from"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.fromKlook"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.from"
 msgstr "Viator’dan"
+
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.fromViator"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.contactDetail"
@@ -605,6 +684,10 @@ msgstr "Yakıt"
 msgid "drivers.ours.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+msgid "drivers.premium.loadingDriver"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.goodEnglish"
 msgstr ""
@@ -614,6 +697,7 @@ msgid "drivers.tag.greatPhotos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/price-notes.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.priceAskWords"
 msgstr ""
 
@@ -621,7 +705,7 @@ msgstr ""
 msgid "drivers.share.message"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr ""
 
@@ -633,7 +717,12 @@ msgstr ""
 msgid "drivers.replied.confirmMessage"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.howWas"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.body"
 msgstr "İçinde şoförün adını, numarasını veya fiyatını bulamadım."
 
@@ -643,6 +732,7 @@ msgstr ""
 
 #. placeholder {0}: plan.area
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.askBody"
 msgstr "{0} grupları için bir gönderi yazarım. Sen paylaşırsın."
 
@@ -654,10 +744,12 @@ msgstr ""
 msgid "drivers.pick.tellBody"
 msgstr "Tarihler ve alış konumlarıyla yazarım. Sen gönderirsin."
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.added"
 msgstr "Karşılaştırmada"
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.invite"
 msgstr ""
@@ -686,7 +778,12 @@ msgstr ""
 msgid "drivers.check.title"
 msgstr "Doğru mu?"
 
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
+msgid "drivers.premium.checkTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.toursBody"
 msgstr "Klook ve Viator, araç başına sabit fiyat"
 
@@ -706,7 +803,7 @@ msgstr ""
 msgid "drivers.share.quoteAnyone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.licence"
 msgstr "Lisans"
 
@@ -723,10 +820,12 @@ msgid "drivers.ours.listed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.directoryBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.since"
 msgstr ""
 
@@ -735,6 +834,7 @@ msgid "drivers.directory.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.loading"
 msgstr "Liste yükleniyor"
 
@@ -742,6 +842,7 @@ msgstr "Liste yükleniyor"
 msgid "drivers.ours.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.loading"
 msgstr "Özel araçlar aranıyor"
@@ -767,6 +868,7 @@ msgid "drivers.add.kindText"
 msgstr "Mesaj"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.message"
 msgstr ""
 
@@ -799,14 +901,17 @@ msgid "drivers.tag.newCar"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyLineNone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.noDays"
 msgstr ""
 
@@ -815,6 +920,7 @@ msgid "drivers.ours.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.askPriceHint"
 msgstr ""
 
@@ -827,14 +933,17 @@ msgid "drivers.load.offlineTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.empty"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyAny"
 msgstr ""
 
@@ -846,7 +955,7 @@ msgstr ""
 msgid "drivers.ours.notClaimed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.notIncl"
 msgstr "Dahil değil"
 
@@ -863,10 +972,12 @@ msgid "drivers.share.notOpened"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Söylemedi"
 
 #: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "Söylemedi. WhatsApp’tan sor"
 
@@ -878,7 +989,7 @@ msgstr ""
 msgid "drivers.queued.nudge"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr ""
 
@@ -887,9 +998,11 @@ msgid "drivers.tag.onTime"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.shortlisted"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.tip"
 msgstr ""
@@ -899,6 +1012,7 @@ msgid "drivers.detail.tip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.intro"
 msgstr ""
 
@@ -906,13 +1020,22 @@ msgstr ""
 msgid "drivers.invite.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.openKlook"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.openViator"
 msgstr "Viator’ı aç"
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.openViator"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr ""
 
@@ -921,14 +1044,16 @@ msgid "drivers.ours.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.ours"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.overtime"
 msgstr "Fazla mesai"
 
@@ -951,6 +1076,7 @@ msgid "drivers.add.paste"
 msgstr "Yapıştır"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.foundBody"
 msgstr "Mesaj yapıştır, ekran görüntüsü bırak, kişi paylaş"
 
@@ -970,6 +1096,11 @@ msgstr ""
 msgid "drivers.compare.pick"
 msgstr "Seç"
 
+#. placeholder {0}: driver.name
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.pick"
 msgstr ""
@@ -987,6 +1118,7 @@ msgid "drivers.share.noDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.intro"
 msgstr "Önce etapları, sonra şoförün nereden geleceğini seç. Kaynakları karıştırıp sonra karşılaştırabilirsin."
 
@@ -998,13 +1130,25 @@ msgstr "Fiyat"
 msgid "drivers.card.noPrice"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.klookSearch"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.klookLink"
 msgstr "Klook’ta şoförlü özel araçlar ↗"
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.viatorSearch"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.viatorLink"
 msgstr "Viator’da özel şoförler ↗"
+
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.toursTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.title"
@@ -1019,11 +1163,12 @@ msgstr ""
 msgid "drivers.ours.rate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr ""
 
@@ -1032,22 +1177,27 @@ msgid "drivers.add.read"
 msgstr "Oku"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.loadingDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.confirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.report"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.reportTip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.title"
 msgstr ""
 
@@ -1060,6 +1210,7 @@ msgid "drivers.ours.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.own"
 msgstr ""
 
@@ -1087,11 +1238,19 @@ msgstr "Ekran görüntüsü"
 msgid "drivers.add.kindImage"
 msgstr "Ekran görüntüsü"
 
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.premium.see"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.whatsapp"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days.ts
 msgid "drivers.pick.asked"
 msgstr ""
 
@@ -1114,6 +1273,11 @@ msgstr "{0} paylaştı"
 msgid "drivers.add.shared"
 msgstr "{0} ile paylaşıldı · {1}"
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+msgid "drivers.premium.shortlist"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.shortlist"
 msgstr "Liste"
@@ -1122,15 +1286,21 @@ msgstr "Liste"
 msgid "drivers.back.shortlist"
 msgstr "Liste"
 
+#. placeholder {0}: props.drivers.length
+#: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
+msgid "drivers.premium.shortlistCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.badge.shortlisted"
 msgstr "Listede"
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.widen"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.shows"
 msgstr "Gösteriyor"
 
@@ -1142,15 +1312,16 @@ msgstr ""
 msgid "drivers.line.languages"
 msgstr "Diller"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.speaks"
 msgstr "Diller"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.supplierChecks"
 msgstr "Sağlayıcı denetler"
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.more"
 msgstr ""
 
@@ -1167,6 +1338,7 @@ msgid "drivers.share.revokeConfirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.intro"
 msgstr "Onaylamak veya düzeltmek için her satıra dokun. Sen onaylamadan ekibe hiçbir şey gitmez."
 
@@ -1182,7 +1354,7 @@ msgstr "WhatsApp’tan haber ver: {name}"
 msgid "drivers.add.pasteDetail"
 msgstr "Metin veya bağlantı"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr ""
 
@@ -1198,7 +1370,14 @@ msgstr ""
 msgid "drivers.load.failedTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.error"
 msgstr "Kaydedilmedi. Bağlantını kontrol edip yeniden dene."
 
@@ -1238,6 +1417,7 @@ msgstr ""
 msgid "drivers.pick.error.moved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.down"
 msgstr "Sağlayıcılar şu an yanıt vermiyor. Biraz sonra yeniden dene."
@@ -1259,11 +1439,18 @@ msgid "drivers.pick.error.gone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.unavailable"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
 msgid "drivers.load.offlineLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
@@ -1274,24 +1461,34 @@ msgstr "Bugünkü alış noktaları ve konumlar"
 msgid "drivers.include.tolls"
 msgstr "Otoyol ücreti"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.tolls"
 msgstr "Otoyol ücreti"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.back.trip"
 msgstr "Gezi"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.trips"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
 msgid "drivers.load.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.another"
 msgstr "Başka bir ekran görüntüsü dene"
 
@@ -1300,6 +1497,7 @@ msgid "drivers.pick.askBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.type"
 msgstr "Gerisini yaz"
 
@@ -1308,6 +1506,7 @@ msgid "drivers.ours.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.priceNote"
 msgstr ""
 
@@ -1347,6 +1546,7 @@ msgstr "Hangi etaplar?"
 msgid "drivers.ours.nudgeUsed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 msgid "drivers.rate.missingLine"
 msgstr ""
@@ -1363,6 +1563,7 @@ msgstr ""
 msgid "drivers.queued.rate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.intro"
 msgstr ""
@@ -1376,9 +1577,10 @@ msgid "drivers.offline.title"
 msgstr "Dönüş aracın"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days.ts
 msgid "drivers.pick.askedLine"
 msgstr ""

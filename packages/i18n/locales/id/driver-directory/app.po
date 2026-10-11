@@ -80,7 +80,7 @@ msgstr "Membatalkan undangan"
 msgid "drivers.ours.rerate"
 msgstr "Ubah jawaban saya"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "Belum bisa menambahkan. Coba lagi."
 
@@ -88,7 +88,7 @@ msgstr "Belum bisa menambahkan. Coba lagi."
 msgid "drivers.invite.failed"
 msgstr "Belum bisa membuat tautan. Coba lagi."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "Belum bisa menyimpan jawaban. Coba lagi."
 
@@ -152,7 +152,7 @@ msgstr "Bahasa Inggris bagus"
 msgid "drivers.tag.greatPhotos"
 msgstr "Foto bagus"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "Halo {first}, saya menemukan Anda di CritterPass. Apakah Anda bisa mengantar rombongan kami?"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "Belum ada rombongan yang membawa pulang sopir di sini yang mau ditampilkan. Ada sopir di {widenTo}."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "Belum ada sopir di perjalanan ini."
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "Ingatkan"
 msgid "drivers.queued.nudge"
 msgstr "Pengingat untuk sopir Anda"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "Offline. Daftar dari {time}."
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "Sopir kami"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Sopir kami"
 
@@ -326,7 +326,7 @@ msgstr "Beri nilai"
 msgid "drivers.rate.title"
 msgstr "Nilai sopir Anda"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Penilaian dibuka setelah perjalanan, untuk anggota dengan nomor terverifikasi."
 
@@ -346,6 +346,10 @@ msgstr "Laporkan tips ini"
 msgid "drivers.report.title"
 msgstr "Laporkan ini?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "Mengelola profilnya sendiri"
@@ -362,7 +366,7 @@ msgstr "Simpan jawaban"
 msgid "drivers.directory.widen"
 msgstr "Tampilkan {widenTo} juga"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Terima kasih. Kami akan memeriksanya."
 

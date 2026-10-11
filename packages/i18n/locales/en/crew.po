@@ -7,18 +7,67 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
+msgid "chat.premium.edited"
+msgstr "(edited)"
+
 #. placeholder {0}: members.length
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.members"
 msgstr "{0} members"
 
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.people"
+msgstr "{0, plural, one {# person} other {# people}}"
+
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.count"
+msgstr "{0} members"
+
+#. placeholder {0}: tray.met
+#. placeholder {1}: tray.total
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.count"
+msgstr "{0} of {1}"
+
+#. placeholder {0}: group.count
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.a11y"
+msgstr "{0} reacted"
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.promoted"
+msgstr "{chosenName} runs the crew now"
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.line"
+msgstr "{count, plural, one {One of your invites hasn’t been answered yet.} other {# of your invites haven’t been answered yet.}}"
+
 #: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.createdTitle"
 msgstr "{crew} is on"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.title"
+msgstr "{crewName} is on"
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.inDays"
 msgstr "{place} in {days} days"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingMany"
+msgstr "{first} and others are typing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingOne"
+msgstr "{first} is typing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.guideTyping"
+msgstr "{guideName} is writing"
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.invitedBy"
@@ -28,9 +77,33 @@ msgstr "{inviter} invited you"
 msgid "crew.composer.noteLeft"
 msgstr "{left} left · “loves night markets, hates early starts”"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.madeBy"
+msgstr "{madeBy} made the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.title"
+msgstr "{name} is on"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.removed"
+msgstr "{name} is out of the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoted"
+msgstr "{name} runs the crew now"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.withGuide"
+msgstr "{people} · {guide}'s in here"
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.planning"
 msgstr "{place} · planning"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.line"
+msgstr "{place} is settled · {settled} of {settled}"
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.voteFinalLeader"
@@ -56,8 +129,32 @@ msgstr "{tripName} is full at {cap}. {name} joins the waitlist and gets the next
 msgid "crew.sheet.unreadSpoken"
 msgstr "{unread} new messages"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.budgetDraft"
+msgstr "@tokek help us set a rough budget"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.freeDraft"
+msgstr "@tokek when is everyone free?"
+
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+msgid "crew.premium.plusInvite"
+msgstr "+ Invite"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate15"
+msgstr "1.5×"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate1"
+msgstr "1×"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.aFriend"
+msgstr "A friend"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.aFriend"
 msgstr "A friend"
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
@@ -88,9 +185,17 @@ msgstr "A seat in the crew"
 msgid "crew.waitlist.offerTitle"
 msgstr "A seat opened on {place}"
 
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.tripUnnamed"
+msgstr "A trip"
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.somewhere"
 msgstr "A trip"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.add"
+msgstr "Add a photo, poll or more"
 
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.waitlist"
@@ -100,627 +205,6 @@ msgstr "Add to the waitlist"
 msgid "crew.settings.notifyAll"
 msgstr "All"
 
-#. placeholder {0}: entry.stamps
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.at"
-msgstr "At {0} stamps"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.backPlain"
-msgstr "Back"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.back"
-msgstr "Back"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.codeCopied"
-msgstr "Code copied"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.collector"
-msgstr "Collector cover"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.message"
-msgstr "Come to {crewName} on CritterPass: {url}"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
-msgid "crew.composer.codeCopy"
-msgstr "Copy code"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.copy"
-msgstr "Copy link"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.copy"
-msgstr "Copy link"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.covers"
-msgstr "Covers"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.previewCrew"
-msgstr "Crew"
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeLabel"
-msgstr "Crew code"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
-msgid "crew.composer.codeLabel"
-msgstr "Crew code"
-
-#. placeholder {0}: code.split('').join(' ')
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeA11y"
-msgstr "Crew code {0}"
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.name"
-msgstr "Crew name"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.name"
-msgstr "Crew name"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
-msgid "crew.queued.rename"
-msgstr "Crew name change"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
-msgid "crew.queued.notify"
-msgstr "Crew notification setting"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.settings"
-msgstr "Crew settings"
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.art"
-msgstr "Crew sticker"
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.back"
-msgstr "Crews"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.ringDashed"
-msgstr "dashed ring"
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.done"
-msgstr "Done"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.ringDouble"
-msgstr "double ring"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.body"
-msgstr "Each friend who joins and plans with a crew stamps both your passes."
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.friends"
-msgstr "Friends"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.qrHint"
-msgstr "Hold it up for them to scan."
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.homeHint"
-msgstr "Home guess from their number: {homeHint}"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.howTitle"
-msgstr "How it works"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.keepChat"
-msgstr "If I leave, keep reading the chat history"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveRoles"
-msgstr "If you organise a trip alone, the longest-standing member takes over."
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.invite"
-msgstr "Invite friends"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.invite"
-msgstr "Invite friends"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.title"
-msgstr "Invite friends"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.invite"
-msgstr "Invite someone"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.title"
-msgstr "Invite to {crewName}"
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateNamed"
-msgstr "Invites you sent to a named friend keep working."
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.offerBody"
-msgstr "It’s yours if you take it in the next {hours} h."
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.join"
-msgstr "Join"
-
-#. placeholder {0}: services.inviteUrl(code)
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.shareMessage"
-msgstr "Join {crew} on CritterPass: {0} (code {code})"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joinCode"
-msgstr "Join with a code"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.joined"
-msgstr "Joined"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joined"
-msgstr "Joined ✓"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.crewOnly"
-msgstr "Just the crew"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.later"
-msgstr "Later"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.laterSection"
-msgstr "Later"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveConfirm"
-msgstr "Leave"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leave"
-msgstr "Leave the crew"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveTitle"
-msgstr "Leave this crew?"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.copied"
-msgstr "Link copied"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.copied"
-msgstr "Link copied"
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateTitle"
-msgstr "Make a new code?"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.member"
-msgstr "Member"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.title"
-msgstr "Members"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.notifyMentions"
-msgstr "Mentions"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.messages"
-msgstr "Messages"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.share"
-msgstr "More…"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.startBody"
-msgstr "Name it and share the code. The guide comes with the first trip."
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.navy"
-msgstr "Navy cover"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.rotate"
-msgstr "New code"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.rotated"
-msgstr "New code ready"
-
-#. placeholder {0}: p.name
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
-msgid "crew.queued.create"
-msgstr "New crew: {0}"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.noCode"
-msgstr "No live code"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.noFriends"
-msgstr "No one yet"
-
-#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
-msgid "crew.seatLimit.notNow"
-msgstr "Not now"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.nothingPlanned"
-msgstr "Nothing planned yet"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.notify"
-msgstr "Notifications"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.notifyOff"
-msgstr "Off"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.phoneWhy"
-msgstr "Only used to recognise them when they join."
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.organiser"
-msgstr "Organiser"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.pending"
-msgstr "Pending"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.pick"
-msgstr "Pick from contacts"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.shareMessage"
-msgstr "Plan trips with me on CritterPass: {url}"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.previewA11y"
-msgstr "Preview of the invite ticket"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/JoinQr.tsx
-msgid "crew.qr.a11y"
-msgstr "QR code for {url}"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.stamps"
-msgstr "Referral stamps · {shown} of 5"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.terms"
-msgstr "Referral terms"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeConfirm"
-msgstr "Remove"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.remove"
-msgstr "Remove {name}"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeTitle"
-msgstr "Remove {removingName}?"
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateConfirm"
-msgstr "Replace the code"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.save"
-msgstr "Save my pass"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.rename"
-msgstr "Save name"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.signIn"
-msgstr "Save your pass first: invites go out from a saved account."
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeBody"
-msgstr "Send this code, or the link, to whoever you want in. It works for 14 days."
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.how"
-msgstr "Send your link. When a friend makes their pass through it, then joins a crew and votes, or starts a trip, you each get a referral stamp. Three stamps unlock the Navy cover, five the Collector cover."
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.lastPhoto"
-msgstr "sent a photo"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.lastVoice"
-msgstr "sent a voice note"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.share"
-msgstr "Share my link"
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.share"
-msgstr "Share the code"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.qr"
-msgstr "Show a QR code"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.stamped"
-msgstr "Stamped"
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.title"
-msgstr "Start a crew"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.start"
-msgstr "Start a crew"
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.create"
-msgstr "Start the crew"
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.notReady"
-msgstr "Still getting your pass ready. Try again in a moment."
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.slow"
-msgstr "Still working on it. The connection is slow; this can take a little while."
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.take"
-msgstr "Take the seat"
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.didNotGoThrough"
-msgstr "That didn’t go through. Check your signal and try again."
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.failed"
-msgstr "That didn’t go through. Try again with signal."
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joinFailed"
-msgstr "That invite can’t be joined now"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.failed"
-msgstr "That invite didn’t go out. Try again."
-
-#: ../../apps/mobile/src/features/crew/settings/use-crew-rename.ts
-msgid "crew.settings.renameRefused"
-msgstr "That name didn’t save. Try another one."
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.missed"
-msgstr "That seat went to someone else. You’re still in line."
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateOld"
-msgstr "The code and link you already shared stop working at once."
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeComing"
-msgstr "The crew is saved. Its code and invite link are on their way…"
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.theTrip"
-msgstr "the trip"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.aTrip"
-msgstr "The trip"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.name"
-msgstr "Their first name"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.phone"
-msgstr "Their number (optional)"
-
-#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
-msgid "crew.seatLimit.someone"
-msgstr "They"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeTrips"
-msgstr "They leave the crew’s trips; their seat opens for the waitlist."
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeAccess"
-msgstr "They stop seeing the crew’s chat, plans and money right away."
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.previewHead"
-msgstr "They’ll see"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
-msgid "crew.composer.notSynced"
-msgstr "This crew isn’t on your phone yet. Invite friends once it syncs."
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.missing"
-msgstr "This crew isn’t on your phone yet. It shows up once it syncs."
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.nameHint"
-msgstr "Up to {max} characters"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
-msgid "crew.composer.useSuggestion"
-msgstr "Use {words}"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.voteOpen"
-msgstr "vote open"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.tags"
-msgstr "What they’re into (up to 3)"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.whatsapp"
-msgstr "WhatsApp"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.mode"
-msgstr "Who"
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.you"
-msgstr "You"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.back"
-msgstr "You"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.you"
-msgstr "You"
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveTrips"
-msgstr "You leave its trips; your seat opens for the waitlist."
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joinedToast"
-msgstr "You’re in {crewName}"
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.taken"
-msgstr "You’re in for {place}"
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.crewLimit"
-msgstr "You’re in ten crews already. Leave one to start another."
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.invited"
-msgstr "You’re invited"
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.next"
-msgstr "You’re next for a seat on {place}"
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.number"
-msgstr "You’re number {position} for a seat on {place}"
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.needsSignal"
-msgstr "You’re offline. Send the invite when you’re back online."
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeLater"
-msgstr "Your code arrives once you’re back online. The crew is saved."
-
-#: ../../apps/mobile/src/features/crew/invite-composer/use-contact-pick.ts
-msgid "crew.composer.pickFailed"
-msgstr "Your contacts didn’t open. Type their name instead."
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.title"
-msgstr "Your crews"
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.linkPending"
-msgstr "Your link appears once you’re online and your pass is saved."
-
-#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
-msgid "chat.premium.edited"
-msgstr "(edited)"
-
-#. placeholder {0}: line.count
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.people"
-msgstr "{0, plural, one {# person} other {# people}}"
-
-#. placeholder {0}: tray.met
-#. placeholder {1}: tray.total
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
-msgid "chat.premium.tray.count"
-msgstr "{0} of {1}"
-
-#. placeholder {0}: group.count
-#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
-msgid "chat.premium.reaction.a11y"
-msgstr "{0} reacted"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
-msgid "chat.premium.welcome.title"
-msgstr "{crewName} is on"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.typingMany"
-msgstr "{first} and others are typing"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.typingOne"
-msgstr "{first} is typing"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
-msgid "chat.premium.guideTyping"
-msgstr "{guideName} is writing"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
-msgid "chat.premium.welcome.madeBy"
-msgstr "{madeBy} made the crew"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.withGuide"
-msgstr "{people} · {guide}'s in here"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
-msgid "chat.premium.settled.line"
-msgstr "{place} is settled · {settled} of {settled}"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
-msgid "chat.premium.starter.budgetDraft"
-msgstr "@tokek help us set a rough budget"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
-msgid "chat.premium.starter.freeDraft"
-msgstr "@tokek when is everyone free?"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
-msgid "chat.voice.rate15"
-msgstr "1.5×"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
-msgid "chat.voice.rate1"
-msgstr "1×"
-
-#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
-msgid "chat.premium.composer.add"
-msgstr "Add a photo, poll or more"
-
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.settled.title"
 msgstr "All square"
@@ -728,6 +212,10 @@ msgstr "All square"
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
 msgid "chat.premium.report.mute"
 msgstr "Also mute {senderName}"
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.note"
+msgstr "Anyone with the code can join until it runs out. A new code stops the old one."
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.former.rejoin"
@@ -737,8 +225,25 @@ msgstr "Ask to rejoin"
 msgid "chat.premium.rejoinAsked"
 msgstr "Asked the organisers"
 
+#. placeholder {0}: entry.stamps
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.at"
+msgstr "At {0} stamps"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.backPlain"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.back"
 msgstr "Back"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
@@ -748,6 +253,12 @@ msgstr "Back to the keyboard"
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
 msgid "chat.premium.attach.camera"
 msgstr "Camera"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.cancel"
+msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.recorder.cancel"
@@ -762,6 +273,11 @@ msgstr "Cancel"
 msgid "chat.premium.cancel"
 msgstr "Cancel"
 
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.close"
+msgstr "Close"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.sheet.close"
 msgstr "Close"
@@ -774,21 +290,163 @@ msgstr "Close"
 msgid "chat.premium.viewer.close"
 msgstr "Close"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.codeCopied"
+msgstr "Code copied"
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-bits.tsx
+msgid "crew.premium.codeComing"
+msgstr "Code on its way"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.collector"
+msgstr "Collector cover"
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.collector"
+msgstr "Collector cover"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.message"
+msgstr "Come to {crewName} on CritterPass: {url}"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.on.copied"
+msgstr "Copied"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.copy"
+msgstr "Copy"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.copy"
 msgstr "Copy"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.share.copy"
+msgstr "Copy code"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeCopy"
+msgstr "Copy code"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copy"
+msgstr "Copy link"
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.copyLink"
+msgstr "Copy link"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.copy"
+msgstr "Copy link"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.copyA11y"
+msgstr "Copy the crew code"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.failed"
 msgstr "Couldn’t load"
 
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.cover"
+msgstr "Cover"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.covers"
+msgstr "Covers"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-missing.tsx
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.title"
+msgstr "Crew"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.previewCrew"
+msgstr "Crew"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.header.fallbackTitle"
 msgstr "Crew chat"
 
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeLabel"
+msgstr "Crew code"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeLabel"
+msgstr "Crew code"
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-pass.tsx
+msgid "crew.premium.pass.code"
+msgstr "CREW CODE"
+
+#. placeholder {0}: code.split('').join(' ')
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeA11y"
+msgstr "Crew code {0}"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.kicker"
+msgstr "Crew made"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.name"
+msgstr "Crew name"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.name"
+msgstr "Crew name"
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.nameLabel"
+msgstr "Crew name"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.rename"
+msgstr "Crew name change"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.notify"
+msgstr "Crew notification setting"
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-pass.tsx
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.pass.kicker"
+msgstr "CREW PASS"
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-pass.tsx
+msgid "crew.premium.pass.a11y"
+msgstr "Crew pass for {name}"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.settings"
+msgstr "Crew settings"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.art"
+msgstr "Crew sticker"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.back"
+msgstr "Crews"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.attach.denied"
 msgstr "CritterPass can’t see your photos"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.ringDashed"
+msgstr "dashed ring"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
@@ -815,29 +473,176 @@ msgstr "Didn't send · too big for this signal"
 msgid "chat.premium.failed.forbidden"
 msgstr "Didn't send · you can't post here now"
 
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.discard"
+msgstr "Discard"
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.discardTitle"
+msgstr "Discard changes?"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.ringDouble"
+msgstr "double ring"
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.discard"
+msgstr "Drop it"
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.discardTitle"
+msgstr "Drop this crew?"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.body"
+msgstr "Each friend who joins and plans with a crew stamps both your passes."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.edit"
+msgstr "Edit"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.edit"
 msgstr "Edit"
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.title"
+msgstr "Edit crew"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
 msgid "chat.premium.strip.editing"
 msgstr "Editing"
 
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.note"
+msgstr "Everyone sees the new pass, and invites you’ve already sent update too."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.notify.all"
+msgstr "Everything"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.cover.lockedCollector"
+msgstr "Five friends who join and plan a trip unlock the Collector cover."
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.hint"
+msgstr "Five seats wait on the pass. Tokek joins with your first trip."
+
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
 msgid "chat.premium.who.former"
 msgstr "Former member"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.friends"
+msgstr "Friends"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.friends"
+msgstr "Friends you invited"
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.go"
+msgstr "Hand over to {chosenName} and leave"
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.stay"
+msgstr "Hand over, but stay in"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.pendingSub"
+msgstr "Hasn’t made a pass yet"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.hello"
 msgstr "Hi all! I'm your guide in here. Mention me with @ and I'll pitch in. Where to start?"
 
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.code.holdHint"
+msgstr "Hold for a new code"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qrHint"
+msgstr "Hold it up for them to scan."
+
 #: ../../apps/mobile/src/features/crew/premium/chat/message-row.tsx
 msgid "chat.premium.row.hint"
 msgstr "Hold to react, reply or pin"
 
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.hint"
+msgstr "Hold to send it at their usual hour instead."
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.homeHint"
+msgstr "Home guess from their number: {homeHint}"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.howTitle"
+msgstr "How it works"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.keepChat"
+msgstr "If I leave, keep reading the chat history"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveRoles"
+msgstr "If you organise a trip alone, the longest-standing member takes over."
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.member"
+msgstr "In the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.ink"
+msgstr "Ink cover"
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.invite"
+msgstr "Invite friends"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.title"
+msgstr "Invite friends"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.invite"
+msgstr "Invite friends"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.invite"
+msgstr "Invite someone"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.invite"
+msgstr "Invite the crew"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.invite"
 msgstr "Invite the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.title"
+msgstr "Invite to {crewName}"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.title"
+msgstr "Invite to {crewName}"
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateNamed"
+msgstr "Invites you sent to a named friend keep working."
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.failed"
+msgstr "It didn’t send. Check your connection and try again."
 
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
 msgid "chat.premium.delete.line"
@@ -851,13 +656,121 @@ msgstr "It goes to our review team. They don’t see who reported it."
 msgid "chat.premium.removeChat.line"
 msgstr "It leaves your phones. The crew keeps it."
 
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.offerBody"
+msgstr "It’s yours if you take it in the next {hours} h."
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.join"
+msgstr "Join"
+
+#. placeholder {0}: services.inviteUrl(code)
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.shareMessage"
+msgstr "Join {crew} on CritterPass: {0} (code {code})"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.inviteMessage"
+msgstr "Join {crew} on CritterPass: {url} (code {code})"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinCode"
+msgstr "Join with a code"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.joined"
+msgstr "Joined"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.joined"
+msgstr "JOINED"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joined"
+msgstr "Joined ✓"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.list.jumpToLatest"
 msgstr "Jump to latest"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.crewOnly"
+msgstr "Just the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.keep"
+msgstr "Keep {name}"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.keepChat"
+msgstr "Keep chat if I leave"
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.keepEditing"
+msgstr "Keep editing"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.later"
+msgstr "Later"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.laterSection"
+msgstr "Later"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveConfirm"
+msgstr "Leave"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leave"
+msgstr "Leave the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveTitle"
+msgstr "Leave this crew?"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copied"
+msgstr "Link copied"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.copied"
+msgstr "Link copied"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.loading"
 msgstr "Loading voice note"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.joinedSub"
+msgstr "Made a pass. A crew trip stamps it."
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.share.mail"
+msgstr "Mail"
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoteTitle"
+msgstr "Make {name} the organiser?"
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateTitle"
+msgstr "Make a new code?"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.code.newTitle"
+msgstr "Make a new code?"
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promote"
+msgstr "Make organiser"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.header.map"
@@ -872,6 +785,28 @@ msgstr "Meet a critter on a trip and its stickers land here."
 msgid "chat.premium.tray.meetMore"
 msgstr "Meet more in {0}"
 
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.member"
+msgstr "Member"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.title"
+msgstr "Members"
+
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+msgid "crew.premium.members"
+msgstr "Members · {0}"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notifyMentions"
+msgstr "Mentions"
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.message"
+msgstr "Message"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
 msgid "chat.premium.composer.field"
 msgstr "Message"
@@ -884,17 +819,80 @@ msgstr "Message deleted"
 msgid "chat.premium.placeholder"
 msgstr "Message, or @tokek"
 
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.share.messages"
+msgstr "Messages"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.messages"
+msgstr "Messages"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.footnote"
 msgstr "Messages stay on everyone's phone, offline too"
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.mint"
+msgstr "Mint cover"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.share.more"
+msgstr "More"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/message-menu.tsx
 msgid "chat.premium.menu.more"
 msgstr "More reactions"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.share"
+msgstr "More…"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.startBody"
+msgstr "Name it and share the code. The guide comes with the first trip."
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.navy"
+msgstr "Navy cover"
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.navy"
+msgstr "Navy cover"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rotate"
+msgstr "New code"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rotated"
+msgstr "New code ready"
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.title"
+msgstr "New crew"
+
+#. placeholder {0}: p.name
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.create"
+msgstr "New crew: {0}"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.newMessages"
 msgstr "New messages ↓"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.noCode"
+msgstr "No live code"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.noFriends"
+msgstr "No one yet"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.noSignal"
@@ -904,9 +902,38 @@ msgstr "NO SIGNAL"
 msgid "chat.premium.tray.locked"
 msgstr "Not met yet: where to find it"
 
+#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
+msgid "crew.seatLimit.notNow"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.notify.off"
+msgstr "Nothing"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.nothingPlanned"
+msgstr "Nothing planned yet"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notify"
+msgstr "Notifications"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notifyOff"
+msgstr "Off"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.offlineMarker"
 msgstr "Offline · sends when you’re back"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.on"
+msgstr "On now"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.phoneWhy"
+msgstr "Only used to recognise them when they join."
 
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.photo.open"
@@ -924,9 +951,29 @@ msgstr "Opening the chat…"
 msgid "chat.header.openSettings"
 msgstr "Opens crew settings"
 
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+msgid "crew.premium.org"
+msgstr "ORG"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.organiser"
+msgstr "Organiser"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.page"
+msgstr "PAGE 07 · REFERRALS"
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.saved"
+msgstr "Pass updated"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.pause"
 msgstr "Pause voice note"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.pending"
+msgstr "Pending"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
 msgid "chat.premium.attach.library"
@@ -936,9 +983,17 @@ msgstr "Photos"
 msgid "chat.premium.former.body"
 msgstr "Photos and the recap stay yours. To post again, ask to rejoin."
 
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.pick"
+msgstr "Pick from contacts"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.pin"
 msgstr "Pin to the trip"
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.pink"
+msgstr "Pink cover"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
 msgid "chat.premium.pinned"
@@ -948,6 +1003,19 @@ msgstr "Pinned to the trip"
 msgid "chat.premium.starter.place"
 msgstr "Pitch a place to go"
 
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.shareMessage"
+msgstr "Plan trips with me on CritterPass: {url}"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.stampedSub"
+msgstr "Planned a trip. You both got a stamp."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.planning"
+msgstr "Planning"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.play"
 msgstr "Play voice note"
@@ -955,6 +1023,19 @@ msgstr "Play voice note"
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.speed"
 msgstr "Playback speed {rate}×"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.previewA11y"
+msgstr "Preview of the invite ticket"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.share.qr"
+msgstr "QR"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/JoinQr.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/qr-code.tsx
+msgid "crew.qr.a11y"
+msgstr "QR code for {url}"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
 msgid "chat.premium.who.title"
@@ -976,14 +1057,52 @@ msgstr "Read only · you left on {day}"
 msgid "chat.premium.tray.recent"
 msgstr "Recent"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamps"
+msgstr "Referral stamps · {shown} of 5"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.terms"
+msgstr "Referral terms"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeConfirm"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.remove"
+msgstr "Remove {name}"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.remove"
+msgstr "Remove {name}"
+
+#. placeholder {0}: detail.crew?.name ?? ''
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.removeTitle"
+msgstr "Remove {name} from {0}?"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeTitle"
+msgstr "Remove {removingName}?"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 #: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
 msgid "chat.premium.former.remove"
 msgstr "Remove chat"
 
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.removeRow"
+msgstr "Remove from the crew"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
 msgid "chat.premium.removeChat.title"
 msgstr "Remove this chat?"
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateConfirm"
+msgstr "Replace the code"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.reply"
@@ -1010,9 +1129,33 @@ msgstr "Report"
 msgid "chat.premium.report.title"
 msgstr "Report this message?"
 
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.action"
+msgstr "Resend"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.retry"
 msgstr "Retry"
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.organiser"
+msgstr "Runs this crew"
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.save"
+msgstr "Save my pass"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rename"
+msgstr "Save name"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.signIn"
+msgstr "Save your pass first: invites go out from a saved account."
 
 #: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
 msgid "chat.premium.placeholder.new"
@@ -1031,6 +1174,18 @@ msgstr "Send"
 msgid "chat.premium.tray.send"
 msgstr "Send {0}: {caption}"
 
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeBody"
+msgstr "Send this code, or the link, to whoever you want in. It works for 14 days."
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.sendWith"
+msgstr "Send with"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.how"
+msgstr "Send your link. When a friend makes their pass through it, then joins a crew and votes, or starts a trip, you each get a referral stamp. Three stamps unlock the Navy cover, five the Collector cover."
+
 #: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
 msgid "chat.premium.placeholder.offline"
 msgstr "Sends when you’re back"
@@ -1039,9 +1194,68 @@ msgstr "Sends when you’re back"
 msgid "chat.premium.sent"
 msgstr "Sent {time}"
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastPhoto"
+msgstr "sent a photo"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastVoice"
+msgstr "sent a voice note"
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.sent"
+msgstr "Sent again."
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.budget"
 msgstr "Set a rough budget"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.share"
+msgstr "Share my link"
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.share"
+msgstr "Share the code"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qr"
+msgstr "Show a QR code"
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.sky"
+msgstr "Sky cover"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamped"
+msgstr "Stamped"
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.verb"
+msgstr "Start"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.title"
+msgstr "Start a crew"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.start"
+msgstr "Start a crew"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.create"
+msgstr "Start the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.sticker"
+msgstr "Sticker"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
 msgid "chat.premium.strip.sticker"
@@ -1055,29 +1269,188 @@ msgstr "Stickers"
 msgid "chat.premium.tray.noRecent"
 msgstr "Stickers you send show up here."
 
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.notReady"
+msgstr "Still getting your pass ready. Try again in a moment."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.slow"
+msgstr "Still working on it. The connection is slow; this can take a little while."
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.sun"
+msgstr "Sun cover"
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.take"
+msgstr "Take the seat"
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.tangerine"
+msgstr "Tangerine cover"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.tapToCopy"
+msgstr "Tap to copy"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
 msgid "chat.premium.reaction.hint"
 msgstr "Tap to react, hold to see who"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.note"
+msgstr "Ten crews max. Five seats are waiting on this one."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.didNotGoThrough"
+msgstr "That didn’t go through. Check your signal and try again."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.failed"
+msgstr "That didn’t go through. Try again with signal."
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.attach.failed"
 msgstr "That didn’t open. Try again?"
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinFailed"
+msgstr "That invite can’t be joined now"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.failed"
+msgstr "That invite didn’t go out. Try again."
+
+#: ../../apps/mobile/src/features/crew/settings/use-crew-rename.ts
+msgid "crew.settings.renameRefused"
+msgstr "That name didn’t save. Try another one."
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.missed"
+msgstr "That seat went to someone else. You’re still in line."
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateOld"
+msgstr "The code and link you already shared stop working at once."
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeComing"
+msgstr "The crew is saved. Its code and invite link are on their way…"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.micOff.title"
 msgstr "The microphone is off"
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.discardLine"
+msgstr "The name you typed goes."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.code.newLine"
+msgstr "The old code stops working at once."
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.askOrganiser"
+msgstr "The organiser can make a fresh code."
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.discardLine"
+msgstr "The pass stays as it was."
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.theTrip"
+msgstr "the trip"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.settled.trip"
 msgstr "The trip"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.aTrip"
+msgstr "The trip"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.name"
+msgstr "Their first name"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.phone"
+msgstr "Their number (optional)"
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.noCode"
+msgstr "There’s no live code right now."
+
+#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
+msgid "crew.seatLimit.someone"
+msgstr "They"
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.sub"
+msgstr "They get the crew’s settings, codes and trips you run."
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.removeLine"
+msgstr "They leave the crew’s trips and chat. You can undo for 10 seconds."
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeTrips"
+msgstr "They leave the crew’s trips; their seat opens for the waitlist."
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoteLine"
+msgstr "They run the crew from now on. You stay in as a member."
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeAccess"
+msgstr "They stop seeing the crew’s chat, plans and money right away."
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.previewHead"
+msgstr "They’ll see"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+msgid "crew.composer.notSynced"
+msgstr "This crew isn’t on your phone yet. Invite friends once it syncs."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-missing.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.missing"
+msgstr "This crew isn’t on your phone yet. It shows up once it syncs."
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.card.unknown.title"
 msgstr "This message needs a newer CritterPass"
 
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.cover.lockedNavy"
+msgstr "Three friends who join and plan a trip unlock the Navy cover."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-missing.tsx
+msgid "crew.premium.loading"
+msgstr "Tokek is fetching the crew…"
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.who"
+msgstr "Tokek suggests"
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.scheduled"
+msgstr "Tokek will send it at {at}, their time."
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.micOff.body"
 msgstr "Turn on the microphone for CritterPass in Settings to send voice notes."
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.flipHint"
+msgstr "Turns the pass over"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.micOff.type"
@@ -1091,9 +1464,17 @@ msgstr "Unpin from the trip"
 msgid "chat.premium.unpinned"
 msgstr "Unpinned"
 
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.nameHint"
+msgstr "Up to {max} characters"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.card.unknown.line"
 msgstr "Update the app to see it here."
+
+#: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
+msgid "crew.composer.useSuggestion"
+msgstr "Use {words}"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
 msgid "chat.premium.attach.voice"
@@ -1103,6 +1484,14 @@ msgstr "Voice note"
 msgid "chat.premium.composer.mic"
 msgstr "Voice note: hold to talk"
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteOpen"
+msgstr "vote open"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.voting"
+msgstr "Voting"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.waiting"
 msgstr "Waiting for signal"
@@ -1110,6 +1499,14 @@ msgstr "Waiting for signal"
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.placeDraft"
 msgstr "What about "
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.tags"
+msgstr "What they’re into (up to 3)"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.whatsapp"
+msgstr "WhatsApp"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.free"
@@ -1119,10 +1516,109 @@ msgstr "When is everyone free?"
 msgid "chat.premium.menu.whereToFind"
 msgstr "Where to find it"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.mode"
+msgstr "Who"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.who"
 msgstr "Who reacted"
 
+#. placeholder {0}: detail.crew.name
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.title"
+msgstr "Who runs {0} next?"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.code.until"
+msgstr "Works until {date}"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.back"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.members.you"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.you"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.note"
+msgstr "You keep your critters and stamps. Money you’re owed stays in Balances."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveTrips"
+msgstr "You leave its trips; your seat opens for the waitlist."
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.handFirst"
+msgstr "You run this crew, so you’ll hand it over first."
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.tooSoon"
+msgstr "You sent one recently. Try again after {when}."
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoteSub"
+msgstr "You stay in as a member"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinedToast"
+msgstr "You’re in {crewName}"
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.taken"
+msgstr "You’re in for {place}"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.crewLimit"
+msgstr "You’re in ten crews already. Leave one to start another."
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.invited"
+msgstr "You’re invited"
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.next"
+msgstr "You’re next for a seat on {place}"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.former.title"
 msgstr "You're not in {crewName} now"
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.number"
+msgstr "You’re number {position} for a seat on {place}"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.needsSignal"
+msgstr "You’re offline. Send the invite when you’re back online."
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeLater"
+msgstr "Your code arrives once you’re back online. The crew is saved."
+
+#: ../../apps/mobile/src/features/crew/invite-composer/use-contact-pick.ts
+msgid "crew.composer.pickFailed"
+msgstr "Your contacts didn’t open. Type their name instead."
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.placeholderName"
+msgstr "Your crew"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.title"
+msgstr "Your crews"
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.linkPending"
+msgstr "Your link appears once you’re online and your pass is saved."

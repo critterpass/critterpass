@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: b.left
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.premium.ideas.votesLeft"
+msgstr "{0, plural, one {# vote left} other {# votes left}}"
+
 #. placeholder {0}: props.votesLeft
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.votesLeft"
@@ -17,19 +22,27 @@ msgstr "{0, plural, one {# vote left} other {# votes left}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# vote} other {# votes}}"
 
+#. js-lingui-generated-id
+#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+msgstr "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 msgid "help.ideas.suggest"
 msgstr "+ Suggest an idea"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "A human replies by email within two days."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerInbox"
 msgstr "A human replies in your Inbox within two days."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footer"
 msgstr "A human replies within two days."
 
@@ -50,8 +63,13 @@ msgid "help.article.askHuman"
 msgstr "Ask a human"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.askHuman"
 msgstr "Ask a human"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.guideLine"
+msgstr "Ask me anything. If I can’t fix it, a human will."
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 msgid "help.sent.done"
@@ -63,6 +81,7 @@ msgstr "Bug"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.building"
 msgstr "Building"
 
@@ -71,6 +90,7 @@ msgid "help.feedback.topic.critters"
 msgstr "Critters"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.declined"
 msgstr "Declined"
 
@@ -95,11 +115,16 @@ msgstr "Grr"
 msgid "help.feedback.topic.guideChat"
 msgstr "Guide chat"
 
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.title"
+msgstr "Help"
+
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
 msgstr "Help"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.back"
 msgstr "Help"
 
@@ -112,12 +137,17 @@ msgid "help.hub.title"
 msgstr "Help and feedback"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.centre"
 msgstr "Help centre"
 
 #: ../../apps/mobile/src/features/help/shake/ShakeListener.tsx
 msgid "help.shake.hidden"
 msgstr "Hidden from the screenshot: this screen shows private details."
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.heading"
+msgstr "How can we help?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 msgid "help.feedback.howsItGoing"
@@ -139,6 +169,10 @@ msgstr "Include device info"
 msgid "help.article.missingBody"
 msgstr "It arrives with the help centre next time you’re online."
 
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.shakeLine"
+msgstr "It sends us that screen, with your private bits blurred."
+
 #: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
 msgid "help.feedback.discard"
 msgstr "Leave"
@@ -149,6 +183,7 @@ msgstr "Leave without sending?"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.open"
 msgstr "Looking at it"
 
@@ -161,6 +196,7 @@ msgid "help.feedback.mood.meh"
 msgstr "Meh"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.merged"
 msgstr "Merged"
 
@@ -173,6 +209,7 @@ msgid "help.feedback.topic.money"
 msgstr "Money"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.new"
 msgstr "New"
 
@@ -185,14 +222,17 @@ msgid "help.article.no"
 msgstr "No"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.none"
 msgstr "No ideas yet. Yours could be the first."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "Nothing in the help centre matches that yet."
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.noneShipped"
 msgstr "Nothing shipped from here yet."
 
@@ -222,6 +262,7 @@ msgstr "Pinned. It posts when you’re back online, and a human reads it then."
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.planned"
 msgstr "Planned"
 
@@ -242,6 +283,7 @@ msgid "help.ideas.posted"
 msgstr "Posted under NEW. Tokek will tell you if it moves."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rate"
 msgstr "Rate the app"
 
@@ -250,6 +292,7 @@ msgid "help.sent.received"
 msgstr "Received"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.search"
 msgstr "Refunds, offline maps, splitting…"
 
@@ -258,6 +301,7 @@ msgid "help.feedback.removePhoto"
 msgstr "Remove this picture"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.report"
 msgstr "Report a problem"
 
@@ -266,6 +310,7 @@ msgid "help.feedback.titleProblem"
 msgstr "Report a problem"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedback"
 msgstr "Send feedback"
 
@@ -278,14 +323,21 @@ msgid "help.feedback.send"
 msgstr "Send it"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.back"
 msgstr "Settings"
 
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.shake"
+msgstr "Shake any screen"
+
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shipped"
 msgstr "Shipped"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shippedTab"
 msgstr "Shipped"
 
@@ -294,6 +346,7 @@ msgid "help.article.english"
 msgstr "Shown in English for now"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.english"
 msgstr "Shown in English for now"
 
@@ -314,6 +367,7 @@ msgid "help.article.stuck"
 msgstr "Still stuck?"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.suggest"
 msgstr "Suggest a feature"
 
@@ -321,11 +375,16 @@ msgstr "Suggest a feature"
 msgid "help.feedback.titleIdea"
 msgstr "Suggest a feature"
 
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.premium.suggest"
+msgstr "Suggest an idea"
+
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.suggest.title"
 msgstr "Suggest an idea"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rateCaption"
 msgstr "Takes ten seconds"
 
@@ -347,10 +406,12 @@ msgid "help.feedback.tooBig"
 msgstr "That picture is too big to send. Try a screenshot instead."
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "The board opens once you’re back online."
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.articlesOffline"
 msgstr "The help centre opens once you’re back online."
 
@@ -368,16 +429,23 @@ msgid "help.ideas.teamNote"
 msgstr "Tokek: {0}"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.top"
 msgstr "Top"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.underReview"
 msgstr "Under review"
 
 #: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 msgid "help.suggest.vote"
 msgstr "Vote ▲"
+
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr "Vote on {0} ideas"
 
 #. placeholder {0}: props.ideasToVote
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
@@ -406,6 +474,7 @@ msgid "help.suggest.descriptionLabel"
 msgstr "What would it do? Optional"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedbackCaption"
 msgstr "What you love, what bugs you"
 
@@ -414,10 +483,12 @@ msgid "help.feedback.placeholder"
 msgstr "What you love, what bugs you…"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.title"
 msgstr "What’s next?"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.tabs"
 msgstr "Which ideas"
 
@@ -452,8 +523,3 @@ msgstr "Your note wasn’t saved. It’s still here: try again."
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Your vote on an idea"
-
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, one {{first} and # other too} other {{first} and # others too}}"

@@ -190,7 +190,10 @@ export function PremiumRedraftView(props: RedraftDiffViewProps) {
       )}
       {(props.takenOut ?? []).map((entry) => (
         <Text key={entry.poiId} variant="caption" color={theme.color.destructive.text}>
-          {t({ id: 'planDraft.leftOut.takenOut', message: `Taken out of the trip: ${entry.name}` })}
+          {t({
+            id: 'planDraft.premium.leftOut.takenOut',
+            message: `Taken out of the trip: ${entry.name}`,
+          })}
         </Text>
       ))}
     </>,

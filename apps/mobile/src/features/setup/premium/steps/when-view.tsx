@@ -201,7 +201,10 @@ export function PremiumWhenView({ shell, model, actions }: WhenViewProps) {
               </Text>
               {option.isPick ? (
                 <Text variant="bannerAction" color={theme.color.status.tangerine.text}>
-                  {t({ id: 'setup.when.option.pick', message: `${model.guideName}'s pick` })}
+                  {t({
+                    id: 'setup.premium.when.option.pick',
+                    message: `${model.guideName}'s pick`,
+                  })}
                 </Text>
               ) : null}
             </PressableScale>

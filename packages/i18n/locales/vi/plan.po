@@ -7,6 +7,172 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: place.backers
+#: ../../apps/mobile/src/features/plan/premium/plan-map/place-carousel.tsx
+msgid "plan.premium.carousel.saved"
+msgstr "{0, plural, one {Một người trong nhóm đã lưu} other {# người trong nhóm đã lưu}}"
+
+#. placeholder {0}: format.list(locale, typists)
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.typingMany"
+msgstr "{0} đang nhập"
+
+#. placeholder {0}: data.days_moving
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.shift"
+msgstr "{0} ngày dời theo ngày đi"
+
+#. placeholder {0}: data.days_moving
+#. placeholder {1}: data.stops_to_ideas
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.toIdeas"
+msgstr "{0} ngày được dời, {1} điểm dừng quay về Ý tưởng"
+
+#. placeholder {0}: going.length
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.who.some"
+msgstr "{0} người đi ›"
+
+#. placeholder {0}: typists[0] ?? ''
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.typingOne"
+msgstr "{0} đang nhập"
+
+#. placeholder {0}: free?.user_ids.length ?? 0
+#. placeholder {1}: free?.total ?? 0
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.free"
+msgstr "{0}/{1} người rảnh"
+
+#. placeholder {0}: stars.starredCount
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.starred"
+msgstr "Đã gắn sao {0}/{total}"
+
+#. placeholder {0}: wholeMoney(locale, overBy, model.currency)
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "plan.premium.draft.over"
+msgstr "Vượt mức vừa ý {0} mỗi người"
+
+#. placeholder {0}: String(n)
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.ideasWaiting"
+msgstr "{0} nơi đã lưu chưa vào ngày nào"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.refundAmount"
+msgstr "Nhận lại {amount}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.sub"
+msgstr "{dates}, mỗi người {cost}. Sửa gì thì sửa trước khi cả nhóm thấy."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.subNoCost"
+msgstr "{dates}. Chưa có ước tính chi phí. Sửa gì thì sửa trước khi cả nhóm thấy."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.trip.toFix"
+msgstr "{fixCount, plural, other {# cần sửa}}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.trip.fixAndKnow"
+msgstr "{fixWord} · {knowWord}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.going"
+msgstr "{going} người đi"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.going"
+msgstr "{going} người đi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.redrafting"
+msgstr "{guideName} đang soạn lại một ngày."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "plan.premium.redraft.thinking"
+msgstr "{guideName} đang soạn lại Ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.title"
+msgstr "Bản nháp của {guideName}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.backEyebrow"
+msgstr "Bản nháp của {guideName}"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.ideas"
+msgstr "{ideas, plural, one {Một nơi đã lưu chưa vào ngày nào} other {# nơi đã lưu chưa vào ngày nào}}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.fix.chip"
+msgstr "{kind} · sửa"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
+msgid "plan.premium.trip.toKnow"
+msgstr "{know, plural, other {# cần biết}}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.title"
+msgstr "{label} không khớp với kế hoạch của nhóm"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.late.minutes"
+msgstr "{minutes} phút"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.theirs"
+msgstr "Việc phải làm của {otherName}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.noPlanLine"
+msgstr "{saved, plural, other {# nơi đã lưu trong Ý tưởng. Khi có kế hoạch, các nơi này sẽ vào từng ngày.}}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.missing"
+msgstr "{title} ({owner}): {reason}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.removed"
+msgstr "{title} đã quay về Ý tưởng"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.some"
+msgstr "{total, plural, other {{made}/# việc phải làm có mặt}}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.all"
+msgstr "{total, plural, other {Đủ cả # việc phải làm}}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.plusOneAction"
+msgstr "+1"
+
+#. placeholder {0}: format.list(locale, plusOned ? [t({ id: 'plan.collab.you', message: 'you' }), ...others] : others)
+#. placeholder {1}: ago(locale, comment.createdAt, now)
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.plusOnes"
+msgstr "+1 từ {0} · {1}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.plusOne"
+msgstr "+1 cho bình luận này"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/place-carousel.tsx
+msgid "plan.premium.carousel.count"
+msgstr "1/{count} trong khung nhìn · gần nhất trước"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.earlier"
+msgstr "Sớm hơn 15 phút"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.later"
+msgstr "Muộn hơn 15 phút"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.plusOne"
 msgstr "Một lượt +1"
@@ -19,6 +185,10 @@ msgstr "Một thay đổi chờ cả nhóm đồng ý"
 msgid "plan.day.queued.comment"
 msgstr "Một bình luận"
 
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.draftLine"
+msgstr "Kế hoạch từng ngày từ những nơi phải đến, trong khoảng một phút."
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.edit"
 msgstr "Một chỉnh sửa lịch trình"
@@ -27,29 +197,1079 @@ msgstr "Một chỉnh sửa lịch trình"
 msgid "plan.day.item.kindActivity"
 msgstr "Hoạt động"
 
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/plan/premium/plan-map/place-carousel.tsx
+msgid "search.premium.row.add"
+msgstr "Thêm {0}"
+
+#. placeholder {0}: props.name
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.premium.add.title"
+msgstr "Thêm {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.itemComposer"
+msgstr "Thêm bình luận"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.addAny"
+msgstr "Thêm điểm dừng, hoặc dán link"
+
+#: ../../apps/mobile/src/features/plan/premium/check/ask-card.tsx
+msgid "plan.check.ask.yes"
+msgstr "Thêm vào"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.addTo"
+msgstr "Thêm vào {weekday}, hoặc dán link"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.addToDay"
+msgstr "Thêm vào một ngày"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.allDays"
+msgstr "Tất cả ngày"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.title"
+msgstr "Tất cả ngày"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.settledTitle"
+msgstr "Đã xong rồi"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rule.anyone"
+msgstr "Ai cũng được"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.planChangesLine"
+msgstr "Ai cũng đề xuất được"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.mine"
+msgstr "Chỉ áp dụng cho kế hoạch của tôi"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.apply"
 msgstr "Áp dụng lựa chọn thắng"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.ask"
+msgstr "Hỏi {guide} về nơi này"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.changeDay"
+msgstr "Nhờ {guideName} đổi một ngày"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.askCrew"
+msgstr "Hỏi cả nhóm trước"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.askDraft"
+msgstr "Nhờ trưởng nhóm để {guide} lên bản nháp"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.send"
 msgstr "Đang hỏi cả nhóm"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "plan.premium.draft.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.allDays.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "plan.premium.redraft.back"
+msgstr "Quay lại bản nháp"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.moneyLine"
+msgstr "Số dư vẫn còn để thanh toán ({open} khoản mở)"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.booked"
+msgstr "Đã đặt"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.booked"
+msgstr "Đã đặt"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.lessDriving.booked"
+msgstr "Đã đặt"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.booking"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.offlineLine"
+msgstr "Đặt chỗ, bản đồ, câu nói"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.spent.boost"
+msgstr "Boost để soạn lại vô hạn"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.maxes"
+msgstr "Mức tối đa ngân sách"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.propose"
+msgstr "Lập đề xuất"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.cancelConfirm"
+msgstr "Hủy chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.cancel"
+msgstr "Huỷ"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "common.cancel"
+msgstr "Huỷ"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.title"
+msgstr "Huỷ {place}?"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.cancelConfirm"
+msgstr "Huỷ bản nháp"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.cancel"
+msgstr "Huỷ bản nháp"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.cancelTitle"
+msgstr "Huỷ bản nháp?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.cancel"
+msgstr "Huỷ chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.fitIn"
+msgstr "Đổi một ngày để xếp vào"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.title"
+msgstr "Đổi ngày"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "plan.premium.redraft.title"
+msgstr "Đổi Ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.now"
+msgstr "Đổi ngay"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.review.queued.toggle"
 msgstr "Giữ hoặc bỏ một thay đổi"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.changeTime"
+msgstr "Đổi giờ"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.time"
+msgstr "Đổi giờ"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.chat"
+msgstr "Chat và ảnh"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.check"
+msgstr "Kiểm tra"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.check"
+msgstr "Kiểm tra kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.closeMenu"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.closeMenu"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/plan/premium/check/balance-gap.tsx
+msgid "plan.premium.gap.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.premium.add.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.closeMenu"
+msgstr "Đóng menu"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.leave"
+msgstr "Để sau quay lại"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.deleted"
+msgstr "Bình luận đã xoá"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.copy"
+msgstr "Chép kế hoạch của nhóm khác"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.cost"
+msgstr "Chi phí"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.identicalTitle"
+msgstr "Không làm tốt hơn được"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.dates"
+msgstr "Ngày đi"
+
+#. placeholder {0}: day.dayNo
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.dayN"
+msgstr "Ngày {0}"
+
+#. placeholder {0}: openRedraft.dayNo
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.premium.review.redraftReadyDay"
+msgstr "Ngày {0} đã soạn lại xong."
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.dayChip"
+msgstr "Ngày {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.dayTitle"
+msgstr "Ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.identical"
+msgstr "Ngày {n} đã là tốt nhất mình làm được. Lần này không tính."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.title"
+msgstr "Ngày {n}, soạn lại"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "plan.premium.draft.missed"
+msgstr "Không vừa"
+
+#. placeholder {0}: at(checkIn.leftAt)
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.doneAt"
+msgstr "Xong lúc {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.done"
+msgstr "Xong ở đây"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.again"
+msgstr "Lên nháp lại"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.dropSlot"
+msgstr "Thả vào đây"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.earlier"
+msgstr "Sớm hơn 15 phút"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.history"
+msgstr "Các bản nháp trước"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.ends"
+msgstr "Kết thúc"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.everyone"
+msgstr "Cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.add.who.everyone"
+msgstr "Mọi người ›"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.cancelTold"
+msgstr "Mọi người trong chuyến đều được báo."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.searchAny"
+msgstr "Tìm gì cũng được, hoặc hỏi {guide}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.fine"
+msgstr "Ổn"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.line"
+msgstr "Bốn cách bắt đầu. Đa số nhóm kết hợp hai."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.freeLine"
+msgstr "Theo những ngày mọi người đã đánh dấu"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.premium.stop.go"
+msgstr "Đi"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.drop"
+msgstr "Theo nhóm"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.guide"
+msgstr "Hướng dẫn viên"
+
+#. placeholder {0}: at(checkIn.arrivedAt)
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.hereSince"
+msgstr "Tới lúc {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.line"
+msgstr "Đây đúng là những gì sẽ xảy ra. Chưa mất gì cho tới khi bạn giữ nút."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.summaryPlain"
+msgstr "Đây là những gì {guideName} muốn đổi."
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.hint"
+msgstr "Giữ một ngày để dời một điểm dừng trong đó"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.hold"
+msgstr "Giữ để huỷ {place}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.placeDetail"
+msgstr "Giờ mở cửa, ảnh và cách đi tới"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.here"
+msgstr "Tới rồi"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.ideas"
+msgstr "Ý tưởng"
+
+#. placeholder {0}: String(n)
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.ideas"
+msgstr "Ý tưởng · {0}"
+
+#. placeholder {0}: ideas.length
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.title"
+msgstr "Ý tưởng · {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.premium.allDays.ideasGo"
+msgstr "Ý tưởng ›"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.inCar"
+msgstr "trên xe, không dời gì đã đặt"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.road"
+msgstr "Trên xe: khoảng {before} → {after}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.failed"
+msgstr "Lần này không tính. Thử lại, có khi với lý do khác."
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.add.saveLater"
+msgstr "Để dành sau"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.justYou"
+msgstr "Chỉ mình bạn"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.add.who.justYou"
+msgstr "Chỉ mình bạn"
+
+#. placeholder {0}: was ?? ''
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pollNo"
+msgstr "Giữ {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/placing-view.tsx
+msgid "plan.premium.placing.keepBrowsing"
+msgstr "Xem tiếp"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.keep"
+msgstr "Soạn tiếp"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.keep"
+msgstr "Giữ nguyên"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.keep"
+msgstr "Giữ nhé"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.keep"
+msgstr "Giữ của tôi"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.keep"
+msgstr "Giữ chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.change.keep"
+msgstr "Giữ thay đổi này"
+
+#. placeholder {0}: money(locale, booking.kept_minor, booking.currency)
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.kept"
+msgstr "Giữ {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.later"
+msgstr "Muộn hơn 15 phút"
+
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
+msgid "plan.premium.check.leave"
+msgstr "Để vậy"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.leave"
+msgstr "Rời chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.change.skip"
+msgstr "Để điểm này như cũ"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "trip.menu.leaveTitle"
+msgstr "Rời chuyến đi này?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "trip.menu.leaveConfirm"
+msgstr "Rời chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.clash"
+msgstr "Bỏ thay đổi đó thì hai điểm dừng sẽ trùng giờ. Hãy chọn lại nó, hoặc trả cả ngày về như cũ rồi nhờ đổi kiểu khác."
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.title"
+msgstr "Bớt lái xe"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.draft"
+msgstr "Để {guide} lên bản nháp"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.loading"
+msgstr "Đang tìm thứ tự ngắn hơn"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.lost"
+msgstr "Mất"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.swipeLine"
+msgstr "Chỗ hợp ý được giữ lại"
 
 #: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindMeal"
 msgstr "Bữa ăn"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.money"
+msgstr "Tiền"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.more"
+msgstr "Thêm cho kế hoạch này"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.stopMenu"
+msgstr "Thêm cho điểm dừng này"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.title"
+msgstr "Chuyển {name}?"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.move"
+msgstr "Chuyển"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pollQuestion"
+msgstr "Dời chuyến đi sang {next}?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.moveTo"
+msgstr "Chuyển sang"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.move"
+msgstr "Dời sang ngày khác"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.move.pickDay"
+msgstr "Chuyển sang ngày…"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.move.pickStop"
+msgstr "Chuyển điểm dừng nào?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.moves"
+msgstr "Dời"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.boostLine"
+msgstr "Chuyển sang chuyến đi tiếp theo"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.moving"
+msgstr "Đang dời sang {time}"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.mustDoLead"
+msgstr "Việc phải làm: mỗi người gắn sao một nơi."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/range-calendar.tsx
+msgid "plan.dates.nextMonth"
+msgstr "Tháng sau"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.no"
+msgstr "Không"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.noComments"
+msgstr "Chưa có bình luận. Nói suy nghĩ của bạn."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.noPlanTitle"
+msgstr "Chưa có kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.stopped"
+msgstr "Chưa ai thấy. Muốn lúc nào thì bắt đầu lại."
+
+#: ../../apps/mobile/src/features/plan/premium/check/ask-card.tsx
+msgid "plan.check.ask.no"
+msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.datesOpen"
+msgstr "Chưa đặt"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.notes"
+msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.empty"
+msgstr "Ngày này không còn gì"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.title"
+msgstr "Chưa lưu gì"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.emptySub"
+msgstr "Chưa lưu gì"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.emptyTitle"
+msgstr "Chưa lưu gì"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.rain.noneBody"
+msgstr "Không có gì để đổi. Mọi khối giờ đều đủ khô ráo và vắng."
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.ok"
+msgstr "OK"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.onMap"
+msgstr "Trên bản đồ"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.on"
+msgstr "Về: {title}"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rule.only"
+msgstr "Chỉ mình tôi"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.maxesLine"
+msgstr "Chỉ hiện tổng của cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.onlyYou"
+msgstr "Chỉ bạn thấy"
+
+#: ../../apps/mobile/src/features/plan/premium/check/ask-card.tsx
+msgid "plan.check.ask.private"
+msgstr "Chỉ hai người thấy. Không có gì bị dời để lấy chỗ."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.redraftOpen"
+msgstr "Mở"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.maps"
+msgstr "Mở bản đồ"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
+msgid "plan.premium.fix.otherWays"
+msgstr "Cách khác"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.paste"
+msgstr "Dán những gì bạn đã lưu"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pick"
+msgstr "Chọn ngày mới"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
+msgid "planDraft.coverage.pickPlace"
+msgstr "Chọn địa điểm"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.ping"
+msgstr "Báo mình khi xong"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.place"
+msgstr "Xếp giúp tôi"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.places"
+msgstr "Địa điểm dạng danh sách"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.planChanges"
+msgstr "Thay đổi kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.copyLine"
+msgstr "Kế hoạch các nhóm khác đã làm"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/range-calendar.tsx
+msgid "plan.dates.prevMonth"
+msgstr "Tháng trước"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.private"
+msgstr "Riêng tư"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.putBack"
+msgstr "Trả lại {old}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.putBackDay"
+msgstr "Trả lại ngày cũ"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.loading"
+msgstr "Đang đọc các thay đổi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.stale.cta"
+msgstr "Soạn lại các ngày bị ảnh hưởng"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.refund"
+msgstr "Hoàn tiền đầy đủ"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.removeAll"
+msgstr "Bỏ cho cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.remove"
+msgstr "Bỏ khỏi kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.remove"
+msgstr "Bỏ khỏi ngày"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.removeMine"
+msgstr "Bỏ mục tôi đã lưu"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rules"
+msgstr "Quy tắc"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.late.label"
+msgstr "Đang trễ?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.save"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.offline"
+msgstr "Lưu để dùng ngoại tuyến"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.search"
+msgstr "Tìm ở {place}, hoặc hỏi {guide}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.see"
+msgstr "Xem"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.see"
+msgstr "Xem"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.allDays.see"
+msgstr "Xem"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.details"
+msgstr "Xem chi tiết"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.lessDriving.openCheck"
+msgstr "Xem phần kiểm tra kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.send"
+msgstr "Gửi"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.sendFirst"
+msgstr "Gửi cả nhóm xem trước"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.check.rain.sendFirst"
+msgstr "Gửi cả nhóm xem trước"
+
+#. placeholder {0}: format.list(locale, model.stale.map(changeWord))
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "plan.premium.draft.stale"
+msgstr "Phần chuẩn bị đã đổi từ bản nháp này: {0}."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.share"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.share"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+msgid "plan.allDays.share"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.share"
+msgstr "Chia sẻ kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.skip"
+msgstr "Bỏ qua, chỉ mình tôi"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.skip"
+msgstr "Bỏ qua, chỉ mình tôi"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.skipSolo"
+msgstr "Bỏ qua điểm này"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.skipSolo"
+msgstr "Bỏ qua điểm này"
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.estimate"
+msgstr "Một số quãng lái xe chỉ là ước tính; sẽ kiểm tra lại khi thứ tự đã chốt."
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.star"
+msgstr "Gắn sao {name} làm việc phải làm của bạn"
+
+#. placeholder {0}: clock(locale, useStart)
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.useStart"
+msgstr "Bắt đầu lúc {0}"
+
+#. placeholder {0}: props.useStart.time
+#: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
+msgid "plan.premium.add.useStart"
+msgstr "Bắt đầu lúc {0}"
+
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.day.stop.startNow"
+msgstr "Bắt đầu từ bây giờ ({0})?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
+msgid "plan.day.time.starts"
+msgstr "Bắt đầu"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.stay"
+msgstr "Chỗ ở"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.chatLine"
+msgstr "Vẫn giữ nguyên chỗ cũ"
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
+msgid "plan.allDays.preview.suggest"
+msgstr "Đề xuất với cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.suggest"
+msgstr "Đề xuất với cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.swipe"
+msgstr "Cùng lướt chọn"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.unPlusOne"
+msgstr "Rút lại +1 của bạn"
+
+#. placeholder {0}: entry.name
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.premium.leftOut.takenOut"
+msgstr "Đã bỏ khỏi chuyến đi: {0}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "plan.premium.drafting.slowTitle"
+msgstr "Lâu hơn thường lệ một chút"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.failed"
+msgstr "Chưa được. Thử lại khi có sóng nhé."
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.failedTitle"
+msgstr "Lần soạn lại không thành"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.changed"
+msgstr "Nhóm đã dời mục này sau khi bạn đổi riêng cho mình. Giữ của bạn hay theo nhóm?"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
+msgid "plan.overlay.clash.removed"
+msgstr "Nhóm đã bỏ mục này khỏi kế hoạch. Giữ riêng cho bạn hay bỏ luôn?"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.plan"
+msgstr "Kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.comingTitle"
+msgstr "Kế hoạch sắp tới rồi"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.trip"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.wholeTrip"
+msgstr "Cả chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.kept"
+msgstr "Theo điều khoản, họ giữ lại một phần"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.keptAmount"
+msgstr "Họ giữ {amount}"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.review.missing"
+msgstr "Thay đổi này chưa có trên máy bạn. Nó sẽ hiện ra khi đồng bộ xong."
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
+msgid "plan.premium.lessDriving.none"
+msgstr "Thứ tự này đã ngắn nhất mà không phải dời gì đã đặt."
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.bookingLine"
+msgstr "Vé và phiếu nằm trong mục Đặt chỗ."
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
+msgid "plan.tripMap.empty.pasteLine"
+msgstr "TikTok, bài đăng, ảnh chụp màn hình"
+
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+msgid "plan.check.toKnow"
+msgstr "Cần biết"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "trip.menu.cancelled"
+msgstr "Đã hủy chuyến. Mọi người trong chuyến đã được báo."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.title"
+msgstr "Cài đặt chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.menu.settings"
+msgstr "Cài đặt chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
+msgid "planDraft.drafting.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.undo"
+msgstr "Hoàn tác"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.undo"
 msgstr "Hoàn tác thay đổi của hướng dẫn viên"
 
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+msgid "plan.premium.ideas.unstar"
+msgstr "Bỏ sao {name}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.suggestionLine"
+msgstr "Đang chờ cả nhóm đồng ý."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.ask"
+msgstr "Bọn mình hỏi"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.ask"
+msgstr "Bọn mình hỏi giúp bạn"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.unavailable"
+msgstr "Cần có sóng để xem huỷ sẽ ảnh hưởng gì. Có sóng lại thì thử nhé."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
+msgid "plan.dates.changes"
+msgstr "Những gì sẽ thay đổi"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.unavailable"
+msgstr "Cần có sóng để xem sẽ thay đổi gì. Bạn vẫn hỏi cả nhóm được."
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.when"
+msgstr "Khi nào"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.where"
+msgstr "Ở đâu"
+
+#: ../../apps/mobile/src/features/plan/settings/data/commands.ts
+msgid "plan.settings.queued.rule"
+msgstr "Ai được đổi kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.who"
+msgstr "Ai đi cùng"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.day.item.who"
+msgstr "Ai đi"
+
+#: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
+msgid "plan.premium.add.who"
+msgstr "Ai đi"
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
+msgid "plan.premium.review.yes"
+msgstr "Đồng ý"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.pollYes"
+msgstr "Đồng ý, {next}"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
+msgid "plan.collab.you"
+msgstr "bạn"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.rule.approve"
+msgstr "Bạn duyệt"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+msgid "planDraft.diff.settled"
+msgstr "Bạn đã giữ hoặc trả lại bản soạn lại này rồi."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.boost"
+msgstr "Boost của bạn"
+
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.review.queued.no"
 msgstr "Bạn không đồng ý một thay đổi"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
+msgid "planDraft.review.redraftReady"
+msgstr "Bản soạn lại xong rồi."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "trip.menu.leaveSeat"
+msgstr "Chỗ của bạn sẽ dành cho người đang chờ tiếp theo."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
+msgid "plan.settings.eyebrow"
+msgstr "Chuyến đi của bạn"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.vote"

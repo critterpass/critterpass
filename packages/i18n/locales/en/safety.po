@@ -12,6 +12,7 @@ msgid "safety.help.phraseGloss"
 msgstr "\"{gloss}\" Show it, or tap to play."
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.active"
 msgstr "{crewName} can see where you are"
 
@@ -23,10 +24,12 @@ msgstr "{eta} minutes away on foot."
 msgid "safety.help.whereUnknown"
 msgstr "{guideName} has the numbers and the words."
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.onIt"
 msgstr "{guideName}'s on it"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.away"
 msgstr "{km} km from you"
@@ -35,6 +38,7 @@ msgstr "{km} km from you"
 msgid "safety.map.distance"
 msgstr "{km} km from you, in a straight line."
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.awayMiles"
 msgstr "{km} mi from you"
@@ -43,22 +47,25 @@ msgstr "{km} mi from you"
 msgid "safety.map.distanceMiles"
 msgstr "{km} mi from you, in a straight line."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepSent"
 msgstr "{n, plural, one {SOS sent to your one crewmate} other {SOS sent to all # of you}}"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.open24"
 msgstr "{name} · Open 24h"
 
-#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-screen.ts
 msgid "safety.sos.knowsQueued"
 msgstr "{name} hears you're coming the moment you have signal."
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.safeTitle"
 msgstr "{name} is safe"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.theyAreSafe"
 msgstr "{name} is safe"
@@ -67,10 +74,11 @@ msgstr "{name} is safe"
 msgid "safety.sos.safe"
 msgstr "{name} is safe."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-screen.ts
 msgid "safety.sos.knows"
 msgstr "{name} knows you're coming."
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.title"
@@ -80,19 +88,19 @@ msgstr "{name} needs help"
 msgid "safety.map.live"
 msgstr "{name}'s location is live."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepLive"
 msgstr "{name}'s location stays live until they are safe"
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.going"
 msgstr "{who} is going."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.goingEta"
 msgstr "{who} is going. {eta} minutes away on foot."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.arrived"
 msgstr "{who} is there."
 
@@ -101,6 +109,7 @@ msgid "safety.push.extendShare"
 msgstr "+1 h"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.extend"
 msgstr "+1 h"
 
@@ -144,6 +153,10 @@ msgstr "Ask the guide"
 msgid "safety.queued.clinic"
 msgstr "Asking the ops desk to call the clinic"
 
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.back"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.call"
 msgstr "Call"
@@ -152,11 +165,18 @@ msgstr "Call"
 msgid "safety.action.call"
 msgstr "Call"
 
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.call"
+msgstr "Call {general}"
+
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.callGeneral"
 msgstr "Call {general}"
 
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.callName"
 msgstr "Call {name}"
@@ -165,11 +185,12 @@ msgstr "Call {name}"
 msgid "safety.step.insurance"
 msgstr "Call your insurer's assistance line; the number is on your policy card."
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.help.calling"
 msgstr "Calling {number}. Your location is going to the crew."
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.deniedLine"
 msgstr "Calling and texting still work without it."
 
@@ -177,6 +198,12 @@ msgstr "Calling and texting still work without it."
 msgid "safety.send.cancel"
 msgstr "Cancel"
 
+#: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
+msgid "safety.premium.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
@@ -190,24 +217,34 @@ msgstr "Close the phrase"
 msgid "safety.service.coastGuard"
 msgstr "Coast guard"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.seen"
 msgstr "Crew alerted · {seen} seen"
+
+#. placeholder {0}: Math.max(1, Math.ceil(share.minutesLeft / 60))
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.crewSees"
+msgstr "Crew can see you · {0}h"
 
 #: ../../apps/mobile/src/features/safety/help/help-hero.tsx
 msgid "safety.help.sharing"
 msgstr "Crew can see you · {hours}h"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.help.disclaimer"
 msgstr "CritterPass tells your crew. For emergencies call {general}."
 
 #: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.done"
 msgstr "Done"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limitedLabel"
 msgstr "Emergency, from any mobile"
 
@@ -237,6 +274,7 @@ msgstr "Get a ride quote and book the next car."
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.go"
 msgstr "Go"
 
@@ -248,9 +286,14 @@ msgstr "Go to {name}, {minutes} min by car."
 msgid "safety.step.facility"
 msgstr "Go to {name}."
 
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.goingDone"
 msgstr "Going ✓"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.helpTitle"
+msgstr "Help"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
@@ -258,11 +301,13 @@ msgid "safety.back.help"
 msgstr "Help"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.centre"
 msgstr "Help with the app"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.hurt"
 msgstr "Hurt or sick"
 
@@ -274,6 +319,7 @@ msgstr "I fell"
 msgid "safety.push.coming"
 msgstr "I'm going"
 
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.imGoing"
 msgstr "I'm going"
@@ -284,9 +330,11 @@ msgstr "I'm lost"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.imLost"
 msgstr "I'm lost"
 
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.imOk"
 msgstr "I'm OK"
@@ -307,15 +355,15 @@ msgstr "If your passport is gone, contact {name}."
 msgid "safety.sosAccess.dnd"
 msgstr "In Do Not Disturb a crewmate’s SOS stays silent. Let it ring through."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepInsurance"
 msgstr "Insurance details wait for a yes"
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepInsuranceSent"
 msgstr "Insurance details went to the clinic"
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.help.insurer"
 msgstr "Insurance: {insurer} · the policy card is in Bookings"
 
@@ -328,15 +376,18 @@ msgid "safety.pending.openLine"
 msgstr "It shows here as soon as this phone has it."
 
 #: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.title"
 msgstr "Let the crew find you"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limited"
 msgstr "Limited coverage here: {general} works from any mobile phone. Your embassy can help too."
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.lostStolen"
 msgstr "Lost or stolen"
 
@@ -346,8 +397,13 @@ msgstr "Message to the crew"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.missedRide"
 msgstr "Missed a ride"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.needHand"
+msgstr "Need a hand?"
 
 #: ../../apps/mobile/src/features/safety/help/help-hero.tsx
 msgid "safety.help.title"
@@ -362,26 +418,31 @@ msgid "safety.map.needsHelp"
 msgstr "Needs help"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.noFacility"
 msgstr "No clinic on file near here yet. The numbers above work everywhere."
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.noInsurance"
 msgstr "No insurance on file · add"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.noAnswer"
 msgstr "No one's answered yet. Call {general}?"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youAlone"
 msgstr "Nobody else got this"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.nobody"
 msgstr "Nobody else is in your crew yet. Call {general} now."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepSentNobody"
 msgstr "Nobody else is on this trip to alert"
 
@@ -393,13 +454,17 @@ msgstr "Notifications are off, so a crewmate’s SOS cannot reach you."
 msgid "safety.sosAccess.fullScreen"
 msgstr "On a locked phone an SOS shows as a small banner. Let it take the full screen."
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.share.extendedQueued"
 msgstr "One more hour, once you have signal"
 
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
 msgstr "Open"
+
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+msgid "safety.premium.sosLoading"
+msgstr "Opening the SOS"
 
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 msgid "safety.pending.openTitle"
@@ -409,13 +474,21 @@ msgstr "Opening the SOS"
 msgid "safety.desk.title"
 msgstr "Ops desk calls the clinic with you"
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepClinic"
 msgstr "Ops desk is calling the clinic with you"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.walkBack"
 msgstr "Or walk back to your last planned stop."
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.premium.play"
+msgstr "Play it"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.premium.playing"
+msgstr "Playing…"
 
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
 msgid "safety.service.police"
@@ -429,6 +502,7 @@ msgstr "Report it to the police ({number}) and ask for a written report for your
 msgid "safety.step.police"
 msgstr "Report it to the police and ask for a written report for your insurer."
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.seeOnMap"
 msgstr "See {name} on the map"
@@ -437,6 +511,7 @@ msgstr "See {name} on the map"
 msgid "safety.send.againTitle"
 msgstr "Send another SOS today?"
 
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.sendNow"
 msgstr "Send now"
@@ -449,7 +524,7 @@ msgstr "Send SOS"
 msgid "safety.send.countdown"
 msgstr "Sending in {left}…"
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepSending"
 msgstr "Sending the SOS to the crew"
 
@@ -462,6 +537,7 @@ msgid "safety.send.sending"
 msgstr "Sending…"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.settings"
 msgstr "Settings"
 
@@ -470,18 +546,22 @@ msgid "safety.action.share"
 msgstr "Share"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.start"
 msgstr "Share my location · 1 h"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.denied"
 msgstr "Share needs location"
 
 #: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.toggle"
 msgstr "Share where I am with {crewName} for 1 hour when I open Help"
 
 #: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.toggleCrew"
 msgstr "Share where I am with my crew for 1 hour when I open Help"
 
@@ -489,7 +569,7 @@ msgstr "Share where I am with my crew for 1 hour when I open Help"
 msgid "safety.step.sharePin"
 msgstr "Share where you are so the crew can find you."
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.share.override"
 msgstr "Sharing anyway, for Help"
 
@@ -497,7 +577,7 @@ msgstr "Sharing anyway, for Help"
 msgid "safety.queued.extendShare"
 msgstr "Sharing for another hour"
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.share.extended"
 msgstr "Sharing for one more hour"
 
@@ -517,19 +597,26 @@ msgstr "Show it big"
 msgid "safety.step.phrase"
 msgstr "Show them: \"{phrase}\" ({gloss})."
 
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.premium.showThis"
+msgstr "SHOW THIS"
+
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.slide"
 msgstr "Slide to send SOS"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.at"
 msgstr "SOS · {time}"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.sentAt"
 msgstr "SOS sent · {time}"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.sos"
 msgstr "SOS to the crew"
 
@@ -562,14 +649,15 @@ msgid "safety.push.stopShare"
 msgstr "Stop"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.stop"
 msgstr "Stop"
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.share.stoppedQueued"
 msgstr "Stopped here. Your crew hears the moment you have signal."
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.share.stopped"
 msgstr "Stopped sharing"
 
@@ -581,6 +669,7 @@ msgstr "Stopping your Help share"
 msgid "safety.queued.resolve"
 msgstr "Telling the crew you are OK"
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youSafeTitle"
 msgstr "The crew knows you are OK"
@@ -602,6 +691,7 @@ msgid "safety.step.opsClinic"
 msgstr "The ops desk can call the clinic with you."
 
 #: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.control"
 msgstr "The share stops by itself after an hour. Off, Help still has every number and phrase, and you can share with one tap. Change it any time in Settings."
 
@@ -625,27 +715,34 @@ msgstr "Waiting for {name}'s location."
 msgid "safety.map.directions"
 msgstr "Walking directions"
 
+#. placeholder {0}: model.placeLabel
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.youreOn"
+msgstr "You're on {0}."
+
 #: ../../apps/mobile/src/features/safety/help/help-hero.tsx
 msgid "safety.help.where"
 msgstr "You're on {placeLabel}. {guideName} has the numbers and the words."
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.share.activeCrew"
+msgstr "Your crew can see where you are"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 msgid "safety.checklist.shared"
 msgstr "Your crew can see where you are"
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
-msgid "safety.share.activeCrew"
-msgstr "Your crew can see where you are"
-
-#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-screen.ts
 msgid "safety.sos.resolvedQueued"
 msgstr "Your crew hears the all-clear the moment you have signal."
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youTitle"
 msgstr "Your crew is on it"
 
-#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.share.overrideLine"
 msgstr "Your crew map share stays paused; this one stops in an hour."
 
@@ -657,11 +754,11 @@ msgstr "Your crew sees where you are the moment you have signal"
 msgid "safety.step.driverMessage"
 msgstr "Your guide can draft a message to your driver; you send it."
 
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepLiveYou"
 msgstr "Your location stays live until you are safe"
 
-#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-screen.ts
 msgid "safety.sos.resendFailed"
 msgstr "Your SOS didn't go out."
 
@@ -669,9 +766,14 @@ msgstr "Your SOS didn't go out."
 msgid "safety.send.failed"
 msgstr "Your SOS didn't go out. Slide to try again, or call {general}."
 
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.staleQuestion"
 msgstr "Your SOS didn't reach the crew in time. Are you still in trouble?"
+
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+msgid "safety.premium.sosGoing"
+msgstr "Your SOS is going out"
 
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.againLine"

@@ -80,7 +80,7 @@ msgstr "招待を取り消し中"
 msgid "drivers.ours.rerate"
 msgstr "回答を変える"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "追加できませんでした。もう一度お試しください。"
 
@@ -88,7 +88,7 @@ msgstr "追加できませんでした。もう一度お試しください。"
 msgid "drivers.invite.failed"
 msgstr "リンクを作れませんでした。もう一度お試しください。"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "回答を保存できませんでした。もう一度お試しください。"
 
@@ -152,7 +152,7 @@ msgstr "英語が上手"
 msgid "drivers.tag.greatPhotos"
 msgstr "写真が上手"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "こんにちは{first}さん、CritterPassで見つけました。私たちのグループの運転をお願いできますか？"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "ここで掲載を希望したドライバーを連れてきたグループはまだありません。{widenTo}にはドライバーがいます。"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "この旅行にはまだドライバーがいません。"
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "リマインド"
 msgid "drivers.queued.nudge"
 msgstr "ドライバーへのリマインド"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "オフライン。{time}時点のリストです。"
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "私たちのドライバー"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "私たちのドライバー"
 
@@ -326,7 +326,7 @@ msgstr "評価する"
 msgid "drivers.rate.title"
 msgstr "ドライバーを評価"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "評価は旅行後、電話番号を確認済みのメンバーが行えます。"
 
@@ -346,6 +346,10 @@ msgstr "このヒントを報告"
 msgid "drivers.report.title"
 msgstr "報告しますか？"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "本人が管理する掲載"
@@ -362,7 +366,7 @@ msgstr "回答を保存"
 msgid "drivers.directory.widen"
 msgstr "{widenTo}も表示"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "ありがとうございます。確認します。"
 

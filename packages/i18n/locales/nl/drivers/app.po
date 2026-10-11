@@ -23,7 +23,7 @@ msgid "drivers.replied.total"
 msgstr ""
 
 #. placeholder {0}: plan.people
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.people"
 msgstr "{0} personen"
 
@@ -38,14 +38,14 @@ msgstr ""
 msgid "drivers.replied.perDay"
 msgstr ""
 
-#. placeholder {0}: assigned.name ?? ''
+#. placeholder {0}: leg.name
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.assigned"
 msgstr "{0} rijdt deze dag"
 
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
-#. placeholder {2}: hoursFigure(card.included_hours, locale)
+#. placeholder {2}: hoursFigure(includedHours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.overtime"
 msgstr "{0} duurt {1} uur. De prijs van {name} dekt {2}."
@@ -53,6 +53,7 @@ msgstr "{0} duurt {1} uur. De prijs van {name} dekt {2}."
 #. placeholder {0}: required.length - left.length
 #. placeholder {1}: required.length
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.count"
 msgstr "{0} van {1} gecontroleerd"
 
@@ -69,7 +70,7 @@ msgid "drivers.ask.title"
 msgstr "Het bericht van {0}"
 
 #. placeholder {0}: money(card.overtime_minor, card.currency, locale) ?? ''
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.perHour"
 msgstr "{0}/uur"
 
@@ -106,6 +107,7 @@ msgid "drivers.card.daysFrom"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.missing"
 msgstr "{count} dingen staan niet in zijn bericht. Zal ik de vraag schrijven?"
 
@@ -130,6 +132,7 @@ msgid "drivers.offline.included"
 msgstr "{included} inbegrepen"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/includes-line.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.notIncl"
 msgstr "{item} extra"
 
@@ -137,7 +140,12 @@ msgstr "{item} extra"
 msgid "drivers.share.expiresIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.premium.loved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.lovedValue"
 msgstr ""
 
@@ -146,6 +154,7 @@ msgid "drivers.ours.loved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.missing"
 msgstr "{missing} ontbreken"
 
@@ -207,26 +216,30 @@ msgid "drivers.pick.takenBy"
 msgstr "{takenBy} is geboekt"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.card.trips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.addDay"
 msgstr "+ Dag"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.yes"
 msgstr "✓Ja"
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.sevenPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.tipBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.day"
 msgstr "Per dag"
 
@@ -258,19 +271,26 @@ msgstr ""
 msgid "drivers.share.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.premium.add"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 msgid "drivers.ask.addBudget"
 msgstr "Budget toevoegen"
+
+#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
+msgid "drivers.back.add"
+msgstr "Chauffeur toevoegen"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.title"
 msgstr "Chauffeur toevoegen"
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
-msgid "drivers.back.add"
-msgstr "Chauffeur toevoegen"
-
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.addAnother"
 msgstr "Nog een toevoegen om te vergelijken"
 
@@ -286,6 +306,7 @@ msgstr ""
 msgid "drivers.invite.bahasa"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.add"
 msgstr "Toevoegen aan vergelijking"
@@ -295,6 +316,7 @@ msgid "drivers.detail.shortlist"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.confirm"
 msgstr "Toevoegen aan shortlist"
 
@@ -302,19 +324,23 @@ msgstr "Toevoegen aan shortlist"
 msgid "drivers.queued.shortlist"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.ask"
 msgstr "Vraag {name}"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.ask"
 msgstr "Vraag het voor mij"
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.askPrice"
 msgstr ""
 
@@ -323,12 +349,18 @@ msgid "drivers.pick.ask"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.priceAsk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.tours"
 msgstr "Privétour boeken"
+
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.premium.browse"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.private"
@@ -341,6 +373,10 @@ msgstr "Bellen"
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
 msgid "drivers.offline.note"
 msgstr "Bellen gebruikt bereik, geen data. Het bericht wordt verstuurd zodra je weer online bent."
+
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+msgid "drivers.premium.cancel"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
@@ -359,7 +395,7 @@ msgstr ""
 msgid "drivers.line.car"
 msgstr "Auto"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.car"
 msgstr "Auto"
 
@@ -376,8 +412,14 @@ msgid "drivers.add.badge.check"
 msgstr "Controleren"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
 msgid "drivers.find.compare"
 msgstr "Vergelijk"
+
+#. placeholder {0}: drivers.length
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareTitle"
+msgstr ""
 
 #. placeholder {0}: drivers.length
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
@@ -385,11 +427,13 @@ msgid "drivers.compare.title"
 msgstr "Vergelijk {0}"
 
 #: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.complete"
 msgstr "Compleet"
 
 #. placeholder {0}: left.length
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.confirmMore"
 msgstr "Bevestig er nog {0}"
 
@@ -421,7 +465,7 @@ msgstr "Kopieer het en plaats het zelf in de groepen. CritterPass plaatst daar n
 msgid "drivers.ask.copy"
 msgstr "Bericht kopiëren"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr ""
 
@@ -434,10 +478,11 @@ msgid "drivers.add.badge.unread"
 msgstr "Niet leesbaar"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.title"
 msgstr "Niet leesbaar"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr ""
 
@@ -446,12 +491,18 @@ msgid "drivers.card.covers"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.loved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
+msgid "drivers.premium.cutOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
@@ -465,6 +516,7 @@ msgid "drivers.find.back"
 msgstr "Dag {0} · {1}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.day"
 msgstr ""
@@ -474,6 +526,7 @@ msgid "drivers.share.dayNo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.dayTrips"
 msgstr ""
 
@@ -482,16 +535,19 @@ msgid "drivers.share.days"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.draft"
 msgstr "Opstellen"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.card.role"
 msgstr ""
 
 #. placeholder {0}: current.area
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.area"
 msgstr "Chauffeur · {0}"
 
@@ -499,16 +555,22 @@ msgstr "Chauffeur · {0}"
 msgid "drivers.share.nameLabel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.premium.navTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
 msgid "drivers.ours.directory"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-msgid "drivers.find.directory"
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.directory.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.title"
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.find.directory"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
@@ -519,12 +581,12 @@ msgstr ""
 msgid "drivers.add.screenshotDetail"
 msgstr "Sleep of kies er een"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.each"
 msgstr "Per persoon"
 
 #. placeholder {0}: chosen.length
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.eachDays"
 msgstr "Per persoon, {0} dagen"
 
@@ -532,7 +594,7 @@ msgstr "Per persoon, {0} dagen"
 msgid "drivers.include.entry"
 msgstr "Entree"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.entry"
 msgstr "Entree"
 
@@ -542,30 +604,35 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.back.find"
+msgstr "Chauffeur zoeken"
+
+#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+msgid "drivers.directory.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.find.title"
 msgstr "Chauffeur zoeken"
 
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.find"
 msgstr "Chauffeur zoeken"
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-msgid "drivers.find.title"
-msgstr "Chauffeur zoeken"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.fine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.fix"
 msgstr "Verbeteren"
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.intro"
 msgstr "Vaste prijs, geboekt en betaald bij de aanbieder. Titels, foto’s en beoordelingen zijn van hen, woord voor woord."
@@ -575,11 +642,15 @@ msgid "drivers.find.legs"
 msgstr "Voor deze ritten"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.found"
 msgstr "Zelf een gevonden"
 
 #. placeholder {0}: card.currency
+#. placeholder {0}: tour.currency
 #. placeholder {1}: card.price_from
+#. placeholder {1}: tour.price_from
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.price"
 msgstr "Vanaf {0} {1}"
@@ -588,9 +659,17 @@ msgstr "Vanaf {0} {1}"
 msgid "drivers.price.from"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.fromKlook"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.from"
 msgstr "Van Viator"
+
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.fromViator"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.contactDetail"
@@ -605,6 +684,10 @@ msgstr "Brandstof"
 msgid "drivers.ours.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+msgid "drivers.premium.loadingDriver"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.goodEnglish"
 msgstr ""
@@ -614,6 +697,7 @@ msgid "drivers.tag.greatPhotos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/price-notes.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.priceAskWords"
 msgstr ""
 
@@ -621,7 +705,7 @@ msgstr ""
 msgid "drivers.share.message"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr ""
 
@@ -633,7 +717,12 @@ msgstr ""
 msgid "drivers.replied.confirmMessage"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.howWas"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.body"
 msgstr "Ik vond er geen naam, nummer of prijs van een chauffeur in."
 
@@ -643,6 +732,7 @@ msgstr ""
 
 #. placeholder {0}: plan.area
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.askBody"
 msgstr "Ik schrijf een bericht voor de groepen van {0}. Jij plaatst het."
 
@@ -654,10 +744,12 @@ msgstr ""
 msgid "drivers.pick.tellBody"
 msgstr "Ik schrijf het met data en ophaalpins. Jij verstuurt het."
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.added"
 msgstr "In de vergelijking"
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.invite"
 msgstr ""
@@ -686,7 +778,12 @@ msgstr ""
 msgid "drivers.check.title"
 msgstr "Klopt dit?"
 
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
+msgid "drivers.premium.checkTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.toursBody"
 msgstr "Klook en Viator, vaste prijs per auto"
 
@@ -706,7 +803,7 @@ msgstr ""
 msgid "drivers.share.quoteAnyone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.licence"
 msgstr "Vergunning"
 
@@ -723,10 +820,12 @@ msgid "drivers.ours.listed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.directoryBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.since"
 msgstr ""
 
@@ -735,6 +834,7 @@ msgid "drivers.directory.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.loading"
 msgstr "Shortlist laden"
 
@@ -742,6 +842,7 @@ msgstr "Shortlist laden"
 msgid "drivers.ours.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.loading"
 msgstr "Privéauto’s zoeken"
@@ -767,6 +868,7 @@ msgid "drivers.add.kindText"
 msgstr "Bericht"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.message"
 msgstr ""
 
@@ -799,14 +901,17 @@ msgid "drivers.tag.newCar"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyLineNone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.noDays"
 msgstr ""
 
@@ -815,6 +920,7 @@ msgid "drivers.ours.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.askPriceHint"
 msgstr ""
 
@@ -827,14 +933,17 @@ msgid "drivers.load.offlineTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.empty"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyAny"
 msgstr ""
 
@@ -846,7 +955,7 @@ msgstr ""
 msgid "drivers.ours.notClaimed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.notIncl"
 msgstr "Niet incl."
 
@@ -863,10 +972,12 @@ msgid "drivers.share.notOpened"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Niet gezegd"
 
 #: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "Niet gezegd. Vraag het hem via WhatsApp"
 
@@ -878,7 +989,7 @@ msgstr ""
 msgid "drivers.queued.nudge"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr ""
 
@@ -887,9 +998,11 @@ msgid "drivers.tag.onTime"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.shortlisted"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.tip"
 msgstr ""
@@ -899,6 +1012,7 @@ msgid "drivers.detail.tip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.intro"
 msgstr ""
 
@@ -906,13 +1020,22 @@ msgstr ""
 msgid "drivers.invite.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.openKlook"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.openViator"
 msgstr "Open Viator"
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.openViator"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr ""
 
@@ -921,14 +1044,16 @@ msgid "drivers.ours.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.ours"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.overtime"
 msgstr "Overuren"
 
@@ -951,6 +1076,7 @@ msgid "drivers.add.paste"
 msgstr "Plakken"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.foundBody"
 msgstr "Plak een bericht, sleep een screenshot, deel een contact"
 
@@ -970,6 +1096,11 @@ msgstr ""
 msgid "drivers.compare.pick"
 msgstr "Kies"
 
+#. placeholder {0}: driver.name
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.pick"
 msgstr ""
@@ -987,6 +1118,7 @@ msgid "drivers.share.noDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.intro"
 msgstr "Kies de ritten en dan waar de chauffeur vandaan komt. Je kunt bronnen mixen en ze daarna vergelijken."
 
@@ -998,13 +1130,25 @@ msgstr "Prijs"
 msgid "drivers.card.noPrice"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.klookSearch"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.klookLink"
 msgstr "Privéauto’s met chauffeur op Klook ↗"
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.viatorSearch"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.viatorLink"
 msgstr "Privéchauffeurs op Viator ↗"
+
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.toursTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.title"
@@ -1019,11 +1163,12 @@ msgstr ""
 msgid "drivers.ours.rate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr ""
 
@@ -1032,22 +1177,27 @@ msgid "drivers.add.read"
 msgstr "Lees het"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.loadingDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.confirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.report"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.reportTip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.title"
 msgstr ""
 
@@ -1060,6 +1210,7 @@ msgid "drivers.ours.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.own"
 msgstr ""
 
@@ -1087,11 +1238,19 @@ msgstr "Screenshot"
 msgid "drivers.add.kindImage"
 msgstr "Screenshot"
 
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.premium.see"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.whatsapp"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days.ts
 msgid "drivers.pick.asked"
 msgstr ""
 
@@ -1114,6 +1273,11 @@ msgstr "gedeeld door {0}"
 msgid "drivers.add.shared"
 msgstr "Gedeeld met {0} · {1}"
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+msgid "drivers.premium.shortlist"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 msgid "drivers.find.shortlist"
 msgstr "Shortlist"
@@ -1122,15 +1286,21 @@ msgstr "Shortlist"
 msgid "drivers.back.shortlist"
 msgstr "Shortlist"
 
+#. placeholder {0}: props.drivers.length
+#: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
+msgid "drivers.premium.shortlistCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.badge.shortlisted"
 msgstr "Op de shortlist"
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.widen"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.shows"
 msgstr "Laat hem zien"
 
@@ -1142,15 +1312,16 @@ msgstr ""
 msgid "drivers.line.languages"
 msgstr "Spreekt"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.speaks"
 msgstr "Spreekt"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.supplierChecks"
 msgstr "Aanbieder controleert"
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.more"
 msgstr ""
 
@@ -1167,6 +1338,7 @@ msgid "drivers.share.revokeConfirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.intro"
 msgstr "Tik op elke regel om die te bevestigen of te verbeteren. Er gaat niets naar de crew tot je dat doet."
 
@@ -1182,7 +1354,7 @@ msgstr "Laat het {name} weten via WhatsApp"
 msgid "drivers.add.pasteDetail"
 msgstr "Tekst of link"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr ""
 
@@ -1198,7 +1370,14 @@ msgstr ""
 msgid "drivers.load.failedTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.error"
 msgstr "Dat is niet opgeslagen. Controleer je verbinding en probeer het opnieuw."
 
@@ -1238,6 +1417,7 @@ msgstr ""
 msgid "drivers.pick.error.moved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.down"
 msgstr "De aanbieders reageren nu niet. Probeer het zo nog eens."
@@ -1259,11 +1439,18 @@ msgid "drivers.pick.error.gone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.unavailable"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
 msgid "drivers.load.offlineLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
@@ -1274,24 +1461,34 @@ msgstr "Ophaalpunten en pins van vandaag"
 msgid "drivers.include.tolls"
 msgstr "Tol"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
+#: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.tolls"
 msgstr "Tol"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.back.trip"
 msgstr "Reis"
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.trips"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
 msgid "drivers.load.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.another"
 msgstr "Probeer een andere screenshot"
 
@@ -1300,6 +1497,7 @@ msgid "drivers.pick.askBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.type"
 msgstr "Typ de rest"
 
@@ -1308,6 +1506,7 @@ msgid "drivers.ours.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.priceNote"
 msgstr ""
 
@@ -1347,6 +1546,7 @@ msgstr "Welke ritten?"
 msgid "drivers.ours.nudgeUsed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 msgid "drivers.rate.missingLine"
 msgstr ""
@@ -1363,6 +1563,7 @@ msgstr ""
 msgid "drivers.queued.rate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.intro"
 msgstr ""
@@ -1376,9 +1577,10 @@ msgid "drivers.offline.title"
 msgstr "Je rit terug"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days.ts
 msgid "drivers.pick.askedLine"
 msgstr ""

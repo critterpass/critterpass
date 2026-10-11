@@ -93,7 +93,7 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
                 ? openRedraft.dayNo === null
                   ? t({ id: 'planDraft.review.redraftReady', message: 'Your redraft is ready.' })
                   : t({
-                      id: 'planDraft.review.redraftReadyDay',
+                      id: 'planDraft.premium.review.redraftReadyDay',
                       message: `Day ${openRedraft.dayNo}, redrafted, is ready.`,
                     })
                 : t({

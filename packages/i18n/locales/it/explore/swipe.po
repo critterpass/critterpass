@@ -44,18 +44,6 @@ msgstr ""
 msgid "explore.swipe.building"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastMatch"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastIdea"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastSuggested"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchUnslotted"
 msgstr ""
@@ -158,10 +146,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.endedTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.trip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx

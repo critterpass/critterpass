@@ -34,9 +34,17 @@ msgstr "{name} writes the crew's first quests the morning your trip starts."
 msgid "quests.empty.writingLine"
 msgstr "{name} writes them from your plan every morning. They'll be here soon."
 
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.line"
+msgstr "A new crew sticker is on your pass."
+
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.allDone"
 msgstr "All done"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.title"
+msgstr "Crew level {level}!"
 
 #: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
 msgid "quests.header.levelOnly"
@@ -142,11 +150,3 @@ msgstr "Writing today's quests"
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.joined"
 msgstr "You're in"
-
-#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
-msgid "quests.levelUp.line"
-msgstr "A new crew sticker is on your pass."
-
-#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
-msgid "quests.levelUp.title"
-msgstr "Crew level {level}!"

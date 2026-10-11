@@ -43,12 +43,12 @@ msgstr "{count} ĐANG CHỜ"
 msgid "web.comingSoon.joined.friendsJoined"
 msgstr "{count}/3 NGƯỜI BẠN ĐÃ ĐĂNG KÝ"
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.days"
-msgstr "{days, plural, one {# ngày} other {# ngày}}"
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.days"
+msgstr "{days, plural, one {# ngày} other {# ngày}}"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.days"
 msgstr "{days, plural, one {# ngày} other {# ngày}}"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -71,12 +71,12 @@ msgstr "{guide}, {place}"
 msgid "web.invite.draftTitle"
 msgstr "Bản nháp của {guide} · {shown}/{total, plural, one {# ngày} other {# ngày}}"
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.pageTitle"
-msgstr "{headline} · CritterPass"
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageTitle"
+msgstr "{headline} · CritterPass"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageTitle"
 msgstr "{headline} · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/recap.ts
@@ -115,13 +115,13 @@ msgstr "Link của {name}"
 msgid "web.comingSoon.joined.savingSeat"
 msgstr "{name} đang giữ chỗ cho bạn ở {place}."
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.headline"
-msgstr "{place}, tổng kết"
-
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.photoAlt"
 msgstr "{place}, {area}"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headline"
+msgstr "{place}, tổng kết"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.passMonthly"
@@ -511,12 +511,12 @@ msgstr "Nhóm"
 msgid "web.referral.crewCaptain"
 msgstr "Trưởng nhóm"
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.crewOf"
-msgstr "Nhóm {size} người"
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.crewOf"
+msgstr "Nhóm {size} người"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.crewOf"
 msgstr "Nhóm {size} người"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1203,12 +1203,12 @@ msgstr "Một email khi ra mắt. Cùng lắm là hai. Không bao giờ spam."
 msgid "web.pricing.boostPrice"
 msgstr "Mua một lần cho mỗi chuyến đi"
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.openCta"
-msgstr "Mở trong CritterPass"
-
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openCta"
+msgstr "Mở trong CritterPass"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openCta"
 msgstr "Mở trong CritterPass"
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1431,12 +1431,12 @@ msgstr "Chuyển đến nội dung"
 msgid "web.home.chat1"
 msgstr "rồi mình đi đâu đây"
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.solo"
-msgstr "Chuyến đi một mình"
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.solo"
+msgstr "Chuyến đi một mình"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.solo"
 msgstr "Chuyến đi một mình"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts

@@ -104,7 +104,7 @@ msgstr "THẢ VÀO MỘT NGÀY"
 msgid "plan.ideas.findPlaces"
 msgstr "Tìm địa điểm để lưu"
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/use-ideas-model.ts
 msgid "plan.ideas.fitPending"
 msgstr "Sẽ cập nhật khi có sóng"
 

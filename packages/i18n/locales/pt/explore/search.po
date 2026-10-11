@@ -95,15 +95,15 @@ msgstr ""
 msgid "search.plain.drive"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
-msgid "search.offline.walk"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-offline-rows.ts
+msgid "search.offline.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/use-search-controller.ts
 msgid "search.pin.saved"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr ""
 msgid "search.link.error.unsupported"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.noText"
 msgstr ""
 
@@ -565,7 +565,7 @@ msgstr ""
 msgid "search.offline.count"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.openIdeas"
 msgstr ""
 
@@ -577,7 +577,7 @@ msgstr ""
 msgid "search.plain.openTill"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+#: ../../apps/mobile/src/features/explore/search/use-offline-rows.ts
 msgid "search.offline.openAsOf"
 msgstr ""
 
@@ -685,7 +685,7 @@ msgstr ""
 msgid "search.link.end.ideasInstead"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.noPicker"
 msgstr ""
 

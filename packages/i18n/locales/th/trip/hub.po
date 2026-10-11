@@ -144,15 +144,15 @@ msgstr ""
 msgid "trip.hub.tile.bookings"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelConfirm"
 msgstr ""
 
@@ -192,19 +192,19 @@ msgstr ""
 msgid "trip.hub.dayOf"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.deleteTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.delete"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.deleteConfirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.done"
 msgstr ""
 
@@ -224,7 +224,7 @@ msgstr ""
 msgid "trip.hub.tile.settled"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelTold"
 msgstr ""
 
@@ -280,15 +280,15 @@ msgstr ""
 msgid "trip.hub.leaveByToday"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.leaveTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.leave"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.leaveConfirm"
 msgstr ""
 
@@ -320,7 +320,7 @@ msgstr ""
 msgid "trip.list.emptyTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.deleteGone"
 msgstr ""
 
@@ -328,11 +328,11 @@ msgstr ""
 msgid "trip.hub.tile.notYet"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.noneFrom"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.noneYet"
 msgstr ""
 
@@ -340,11 +340,11 @@ msgstr ""
 msgid "trip.hub.todayDone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.empty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.noneTomorrow"
 msgstr ""
 
@@ -352,7 +352,7 @@ msgstr ""
 msgid "trip.hub.tile.noVotes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.nudge"
 msgstr ""
 
@@ -372,11 +372,11 @@ msgstr ""
 msgid "trip.hub.tile.draftPrivate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelBoost"
 msgstr ""
 
@@ -428,15 +428,15 @@ msgstr ""
 msgid "trip.hub.recap"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.sent"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.set"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+#: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.setDone"
 msgstr ""
 
@@ -452,7 +452,7 @@ msgstr ""
 msgid "trip.hub.sharePlan"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.leaveMoney"
 msgstr ""
 
@@ -481,11 +481,11 @@ msgstr ""
 msgid "trip.hub.takeOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelKept"
 msgstr ""
 
@@ -509,7 +509,7 @@ msgstr ""
 msgid "trip.hub.ticker.status.planning"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.stateChanged"
 msgstr ""
 
@@ -558,11 +558,11 @@ msgstr ""
 msgid "trip.hub.tomorrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelled"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.deleted"
 msgstr ""
 
@@ -582,7 +582,7 @@ msgstr ""
 msgid "trip.hub.wheelsUp"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-hub.ts
 msgid "trip.hub.whereNext"
 msgstr ""
 
@@ -590,7 +590,7 @@ msgstr ""
 msgid "trip.hub.openDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.left"
 msgstr ""
 
@@ -602,7 +602,7 @@ msgstr ""
 msgid "trip.briefing.queued"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.deleteCrew"
 msgstr ""
 
@@ -614,7 +614,7 @@ msgstr ""
 msgid "trip.hub.flight"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+#: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.leaveSeat"
 msgstr ""
 

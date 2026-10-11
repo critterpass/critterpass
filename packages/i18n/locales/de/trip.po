@@ -7,14 +7,344 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.snoozeNote"
+msgstr ""
+
+#. placeholder {0}: props.crew.length
+#: ../../apps/mobile/src/features/trip/premium/hub/HubHero.tsx
+msgid "trip.hub.premium.crew"
+msgstr ""
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/trip/premium/day-change/StormPremium.tsx
+msgid "trip.disruptions.storm.premiumPick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.datesGoing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.premium.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.waitingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.waitingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addShort"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.chip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.lateBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.freeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addPack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.backOnline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toToday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubHero.tsx
+msgid "trip.hub.premium.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.premium.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/FlightDisruptionPremium.tsx
+msgid "trip.disruptions.flight.premiumClose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.dayOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.conflictsTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.cancelSend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.eta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.firstUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.premiumNav"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.fromDate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.go"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.go"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.packPlaceholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.packHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.premium.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
+msgid "trip.dayOf.imUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.imUp"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
 msgid "trip.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.alreadySent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.alreadySending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
+msgid "trip.disruptions.late.etaStale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.editLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.money"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.nextUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.pingedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.noSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.offlineDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.freeDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.conflictOk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.online"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.hub.premium.offlineOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.openPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.pack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/VisitConsentLine.tsx
+msgid "permissions.visits.row"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.planB"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.premium.late"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.premium.saveEdit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toDayPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toTomorrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.premium.sendsItself"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.sendsTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.slide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
+msgid "trip.alarm.snooze"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.stillWorks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.premiumTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.premium.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.premiumMissing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
 msgid "trip.missing.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
+msgid "trip.menu.cancelledNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
+msgid "trip.hub.door.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
+msgid "trip.briefing.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.backToTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/HubHero.tsx
+msgid "trip.hub.premium.menu"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
 msgid "trip.missing.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.storageLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/hub/VisitConsentLine.tsx
+msgid "permissions.visits.accept"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
+msgid "trip.offline.waitingSince"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
+msgid "trip.disruptions.forecast.status.watching"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.weak"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+msgid "trip.dayOf.toOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
+msgid "trip.dayOf.notYours"
 msgstr ""

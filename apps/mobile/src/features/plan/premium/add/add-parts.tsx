@@ -154,7 +154,7 @@ export function PremiumWhoGoing({ members, out, open, onOpen, onToggle }: WhoGoi
     ? t({ id: 'plan.add.who.justYou', message: 'Just you' })
     : out.size === 0
       ? t({ id: 'plan.add.who.everyone', message: 'Everyone ›' })
-      : t({ id: 'plan.add.who.some', message: `${going.length} going ›` });
+      : t({ id: 'plan.premium.add.who.some', message: `${going.length} going ›` });
   const faces = (list: typeof members) =>
     list.map((member) => ({
       id: member.key,

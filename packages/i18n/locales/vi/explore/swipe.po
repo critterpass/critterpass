@@ -44,18 +44,6 @@ msgstr "{name} đang chọn thẻ cho cả nhóm. Mất khoảng {minutes} phút
 msgid "explore.swipe.building"
 msgstr "{0} đang chọn thẻ"
 
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastMatch"
-msgstr "{place} đã trùng"
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastIdea"
-msgstr "{place} đã vào Ý tưởng. {guideName} sẽ tìm cho nó một ngày."
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastSuggested"
-msgstr "Đã đề xuất {place} cho Ngày {day}"
-
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchUnslotted"
 msgstr "{placeName} đã trùng. Kế hoạch chưa có chỗ trống cho nơi này."
@@ -159,10 +147,6 @@ msgstr "Chúng đã nằm trong Ý tưởng dưới tên bạn. Khi trùng ý, n
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.endedTitle"
 msgstr "Phiên này đã kết thúc"
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.trip"
-msgstr "Chuyến đi"
 
 #: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
 msgid "explore.swipe.undo"

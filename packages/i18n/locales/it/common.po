@@ -35,10 +35,6 @@ msgstr ""
 msgid "common.chat.fromAuthor"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
-msgid "common.camera.scanned"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/chips/CountBadge.tsx
 msgid "common.badge.new"
 msgstr ""
@@ -68,10 +64,6 @@ msgstr ""
 msgid "common.shell.tabBadge"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/data/CalendarHeatmap.tsx
-msgid "common.data.heatmapDay"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/data/Donut.tsx
 msgid "common.data.segmentShare"
 msgstr ""
@@ -96,10 +88,6 @@ msgstr ""
 msgid "map.doodlePin.accessibilityLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/critters/SetGrid.tsx
-msgid "common.critter.slotFound"
-msgstr ""
-
 #: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.formLabel"
 msgstr ""
@@ -120,16 +108,8 @@ msgstr ""
 msgid "map.avatarStackPin.accessibilityLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
-msgid "common.vote.lookingHere"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/map/AvatarStackPin.tsx
 msgid "map.avatarStackPin.accessibilityLabelOverflow"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/plan/MustDoRow.tsx
-msgid "common.plan.isTyping"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/money/SettleRow.tsx
@@ -144,16 +124,16 @@ msgstr ""
 msgid "common.slider.percent"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/controls/Progress.tsx
+msgid "common.progress.stepOf"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
 msgid "common.monetize.seatsTaken"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/data/MonthBars.tsx
 msgid "common.data.monthBarsSummary"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/states/LimitMeter.tsx
-msgid "common.limit.count"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/inputs/SegmentBudget.tsx
@@ -166,10 +146,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
 msgid "common.monetize.seatWaiting"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/data/WeatherStrip.tsx
-msgid "common.data.weatherDay"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/HereNowForms.tsx
@@ -192,15 +168,12 @@ msgstr ""
 msgid "common.monetize.activeMonths"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.addAttachment"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/trip/EtaList.tsx
-msgid "common.trip.arrivesAt"
-msgstr ""
-
+#: ../../apps/mobile/src/ui/premium/shell/navigation/guide-circle.tsx
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/GuideFab.tsx
 msgid "common.shell.fabAsk"
 msgstr ""
@@ -259,10 +232,6 @@ msgstr ""
 msgid "common.icon.car"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.diffSummary"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.chat"
 msgstr ""
@@ -284,6 +253,7 @@ msgid "common.chat.closeActions"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierCommon"
 msgstr ""
 
@@ -374,6 +344,7 @@ msgid "common.status.ended"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierEpic"
 msgstr ""
 
@@ -389,16 +360,8 @@ msgstr ""
 msgid "motion.motionLab.cues"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/vote/RateStack.tsx
-msgid "common.vote.fine"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.flight"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/documents/Postcard.tsx
-msgid "common.postcard.flip"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
@@ -417,20 +380,22 @@ msgstr ""
 msgid "motion.motionLab.freeze"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/shell/navigation/guide-circle.tsx
 #: ../../apps/mobile/src/ui/shell/GuideFab.tsx
 msgid "common.shell.fabHelp"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
-msgid "common.missing.back"
+#: ../../apps/mobile/src/app/+not-found.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
+msgid "common.shell.errorBack"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
-msgid "common.shell.errorBack"
+#: ../../apps/mobile/src/ui/states/ScreenMissing.tsx
+msgid "common.missing.back"
 msgstr ""
 
 #: ../../apps/mobile/src/app/+not-found.tsx
@@ -458,6 +423,7 @@ msgstr ""
 msgid "common.confirm.hold"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabHome"
 msgstr ""
@@ -482,21 +448,9 @@ msgstr ""
 msgid "common.missing.line"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.keepChange"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.changeKept"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
 #: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
 msgid "common.plan.later"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
-msgid "common.vote.leading"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/MonthStrip.tsx
@@ -504,6 +458,7 @@ msgid "common.critter.legendaryMonths"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierLegendary"
 msgstr ""
 
@@ -523,16 +478,16 @@ msgstr ""
 msgid "common.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
+msgid "common.critter.tierLocked"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.locked"
 msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.loops"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/vote/RateStack.tsx
-msgid "common.vote.lovedIt"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
@@ -559,31 +514,12 @@ msgstr ""
 msgid "motion.motionLab.demoToastSubtitle"
 msgstr ""
 
-#. placeholder {0}: person.name
-#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
-msgid "common.plan.pickPerson"
-msgstr ""
-
-#. placeholder {0}: picked.name
-#. placeholder {1}: room.name
-#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
-msgid "common.plan.movePersonHere"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/plan/DayRow.tsx
 msgid "common.plan.moveDown"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
-msgid "common.plan.moveHere"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/plan/DayRow.tsx
 msgid "common.plan.moveUp"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
-msgid "common.recap.mvp"
 msgstr ""
 
 #: ../../apps/mobile/src/motion/island-toast/command-feedback.ts
@@ -594,21 +530,12 @@ msgstr ""
 msgid "common.story.next"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.no"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/map/CpMap.tsx
 msgid "map.cpMap.noResults"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/states/OfflinePill.tsx
 msgid "common.offline.noSignal"
-msgstr ""
-
-#. placeholder {0}: top.label
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.noTo"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
@@ -635,6 +562,10 @@ msgstr ""
 msgid "common.toggle.off"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/feedback/Banner.tsx
+msgid "common.offline.queued"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/inputs/Toggle.tsx
 msgid "common.toggle.on"
 msgstr ""
@@ -659,10 +590,7 @@ msgstr ""
 msgid "common.data.overPlan"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/story/PageDots.tsx
-msgid "common.story.pageOf"
-msgstr ""
-
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabPass"
 msgstr ""
@@ -719,15 +647,12 @@ msgstr ""
 msgid "common.settings.private"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/data/HourlyCrowd.tsx
-msgid "common.data.crowdSummary"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.rain"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
+#: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierRare"
 msgstr ""
 
@@ -747,18 +672,6 @@ msgstr ""
 msgid "common.chat.recordVoice"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.rejectChange"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
-msgid "common.plan.changeRejected"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
-msgid "common.chat.removeAttachment"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/recap/RouteRider.tsx
 msgid "common.recap.route"
 msgstr ""
@@ -771,24 +684,12 @@ msgstr ""
 msgid "shareImage.saved"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
-msgid "common.camera.scanning"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/inputs/SearchField.tsx
 msgid "common.search.label"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.send"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/states/OutboxList.tsx
-msgid "common.outbox.title"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/states/OutboxList.tsx
-msgid "common.outbox.sent"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/share-image/ShareSheet.tsx
@@ -831,10 +732,6 @@ msgstr ""
 msgid "common.signature.signed"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/vote/RateStack.tsx
-msgid "common.vote.skipIt"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
 msgid "common.story.position"
 msgstr ""
@@ -873,14 +770,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.stay"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/story/StepTabs.tsx
-msgid "common.story.step"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/story/StepTabs.tsx
-msgid "common.story.stepDone"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
@@ -1069,6 +958,7 @@ msgstr ""
 msgid "errors.RATE_LIMITED"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabTrips"
 msgstr ""
@@ -1087,6 +977,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.lockedLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/feedback/Toast.tsx
+msgid "common.toast.undo"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx
@@ -1113,23 +1007,7 @@ msgstr ""
 msgid "common.status.vote"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
-msgid "common.recap.voteMvp"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
-#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
-msgid "common.vote.tapToVote"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
-msgid "common.vote.versus"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/states/OutboxList.tsx
-msgid "common.outbox.queued"
-msgstr ""
-
+#: ../../apps/mobile/src/ui/premium/shell/navigation/premium-tabs.tsx
 #: ../../apps/mobile/src/ui/shell/TabBar.tsx
 msgid "common.shell.tabWallet"
 msgstr ""
@@ -1152,15 +1030,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
 msgid "errors.CONSENT_REQUIRED"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.yes"
-msgstr ""
-
-#. placeholder {0}: top.label
-#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
-msgid "common.vote.yesTo"
 msgstr ""
 
 #: ../../apps/mobile/src/lib/errors/error-messages.ts
@@ -1209,6 +1078,5 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/ChatRichCard.tsx
 #: ../../apps/mobile/src/ui/data/PollBars.tsx
-#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
 msgid "common.data.yourVote"
 msgstr ""

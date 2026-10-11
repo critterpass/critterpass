@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: stamp.iata
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrived"
+msgstr "{0} · Arrived"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.after"
 msgstr "{after, plural, one {settled # day after} other {settled # days after}}"
@@ -42,6 +47,11 @@ msgstr "{count, plural, one {# sunrise start} other {# sunrise starts}}"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.awards.title"
 msgstr "{count, plural, one {Just you, one award} other {# of you, # awards}}"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
+msgid "recap.share.stopLine"
+msgstr "{count, plural, one {Switches off # link. It opens nothing after that.} other {Switches off # links. They open nothing after that.}}"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.critters"
@@ -91,13 +101,27 @@ msgstr "{forms, plural, one {One form found on the trip.} other {# forms found o
 msgid "recap.summary.forms.foundCount"
 msgstr "{found} found"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.forms"
+msgstr "{found} of {total} forms"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.ofCount"
 msgstr "{found} of {total} found"
 
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.writing.title"
+msgstr "{guideName} is writing your recap"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.presents"
 msgstr "{guideName} presents"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.watchDetail"
+msgstr "{guideName} tells it from the start"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.meals.value"
@@ -220,9 +244,32 @@ msgstr "{value, plural, one {{name}, # plan edit} other {{name}, # plan edits}}"
 msgid "recap.award.detail.rides"
 msgstr "{value, plural, one {{name}, # ride sorted} other {{name}, # rides sorted}}"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.votes"
+msgstr "{votes, plural, one {# vote} other {# votes}}"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.winner"
+msgstr "{votes, plural, one {MVP · # vote} other {MVP · # votes}}"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.yours"
+msgstr "{votes, plural, one {Your vote · # vote} other {Your vote · # votes}}"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.plus"
+msgstr "+ React"
+
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.reactChip"
 msgstr "+ React"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.unnamed"
+msgstr "A golden one"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.goldUnnamed"
@@ -240,6 +287,11 @@ msgstr "A rare one got away."
 msgid "recap.queued.remind"
 msgstr "A reminder for the one that got away"
 
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
+msgid "recap.share.linkLine"
+msgstr "A web page anyone with the link can open: the place, the month, how far you went, places on the trail and first names. No photos, no money."
+
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
 msgid "recap.memory.titleNoPlace"
 msgstr "A year on"
@@ -251,6 +303,28 @@ msgstr "about {distance}"
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.distanceAbout"
 msgstr "About {distance}"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.react"
+msgstr "Add your reaction"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrivedNoCode"
+msgstr "Arrived"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.retrying"
+msgstr "Asking again…"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidTop"
+msgstr "Balances"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settledEarly"
@@ -268,13 +342,51 @@ msgstr "Building the recap again"
 msgid "recap.receipt.cheapest"
 msgstr "Cheapest day"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+msgid "recap.premium.story.close"
+msgstr "Close the story"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.failed"
+msgstr "Couldn't ask for it again"
+
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.failed"
 msgstr "Couldn't make a link"
 
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.shareFailed"
+msgstr "Couldn't open the share sheet"
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reunionFailed"
+msgstr "Couldn't pitch the reunion"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.saveFailed"
+msgstr "Couldn't save it. Check Photos access"
+
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reactFailed"
+msgstr "Couldn't send that reaction"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.failed"
+msgstr "Couldn't send your signature. Try again with signal."
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareFailed"
+msgstr "Couldn’t share this card"
+
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.stopFailed"
 msgstr "Couldn't stop sharing"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.writing.line"
+msgstr "Counting the kilometres and the photos. I'll ping you when it's ready."
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.crew"
@@ -304,6 +416,10 @@ msgstr "Day {from}"
 msgid "recap.story.route.days"
 msgstr "Days {from}–{to}"
 
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.rendering"
+msgstr "Drawing the picture"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.driver"
 msgstr "driven, mostly by {name}"
@@ -315,6 +431,10 @@ msgstr "Each"
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.earlyRiser"
 msgstr "Earliest riser"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.chrome"
+msgstr "Entries · Entrées"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.square"
@@ -340,17 +460,41 @@ msgstr "gamelan lo-fi"
 msgid "recap.link.goneAction"
 msgstr "Go to Home"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.golden"
+msgstr "Golden {name}"
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.goodCompany"
 msgstr "Good company"
+
+#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/route-missing.tsx
+msgid "recap.link.back"
+msgstr "Home"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.humanCamera"
 msgstr "Human camera"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.reminded"
+msgstr "I'll remind you"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidBottom"
+msgstr "In full"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.crew"
 msgstr "in the crew album"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+msgid "recap.memory.missing.line"
+msgstr "It may have been removed, or this phone hasn’t got it yet."
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.missingLine"
@@ -368,9 +512,24 @@ msgstr "Just you"
 msgid "recap.summary.days.solo"
 msgstr "just you, on your own clock"
 
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.later"
+msgstr "Keep my name"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.pon"
 msgstr "koto and rain"
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.memory.loading"
+msgstr "Loading the memory"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.loading"
+msgstr "Loading the story"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.loading"
@@ -384,13 +543,37 @@ msgstr "Longest leg: {from} to {to}, {minutes} min."
 msgid "recap.story.theme.ajo"
 msgstr "marimba lo-fi"
 
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.signature.me"
+msgstr "Me"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.eyebrow"
+msgstr "Money, wrapped"
+
+#: ../../apps/mobile/src/features/recap/premium/story/cards/story-awards-receipt.tsx
+msgid "recap.premium.story.mvp"
+msgstr "MVP"
+
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.offline"
 msgstr "Needs signal to make a link"
 
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.reunionOffline"
+msgstr "Needs signal to pitch it"
+
 #: ../../apps/mobile/src/features/recap/link/use-recap-link.ts
 msgid "recap.link.stopOffline"
 msgstr "Needs signal to stop sharing"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.offline"
+msgstr "Needs signal to try again"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.critters.eyebrow"
+msgstr "New friends"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.finds"
@@ -400,21 +583,85 @@ msgstr "New locals"
 msgid "recap.story.label.critters"
 msgstr "New locals"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.next"
+msgstr "Next slide"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.offline"
+msgstr "No signal"
+
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.places"
 msgstr "On the trail"
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.line"
+msgstr "Once, and it signs every stamp you share with the crew, in your colour."
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcardDetail"
+msgstr "One photo and a note, to the crew"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.rateDetail"
+msgstr "One tap a place, for the next crew"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.open"
+msgstr "One tap. You can change it until everyone has voted."
+
+#: ../../apps/mobile/src/features/recap/dev/memory-scenes.tsx
+#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
+msgid "recap.memory.eyebrow"
+msgstr "One year ago today"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.action"
+msgstr "Open the recap"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.other"
 msgstr "Other"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.page"
+msgstr "Page {seq}"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paid"
+msgstr "Paid"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.paco"
 msgstr "pan flute and charango"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.pause"
+msgstr "Pause"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photos"
+msgstr "Photos"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format"
+msgstr "Picture shape"
+
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.reunion"
 msgstr "Pitching a reunion to the crew"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.reunion"
+msgstr "Plan a reunion"
 
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.reunion"
@@ -424,13 +671,78 @@ msgstr "Plan a reunion"
 msgid "recap.receipt.planned"
 msgstr "Planned"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.play"
+msgstr "Play"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.watch"
+msgstr "Play the story again"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format.post"
+msgstr "Post"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.previous"
+msgstr "Previous slide"
+
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.priciest"
 msgstr "Priciest"
 
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.rate"
+msgstr "Rate the trip"
+
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.react"
 msgstr "React"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.reactTitle"
+msgstr "React to the memory"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.back"
+msgstr "Recap"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.remind"
+msgstr "Remind me"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.remindIn"
+msgstr "Remind me in {month}"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.save"
+msgstr "Save to Photos"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.saved"
+msgstr "Saved to Photos"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.lineLabel"
+msgstr "Say something"
+
+#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
+msgid "recap.memory.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.postcard"
+msgstr "Send a postcard"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.settled"
@@ -440,17 +752,83 @@ msgstr "Settled"
 msgid "recap.summary.owed.lastDay"
 msgstr "settled on the last day"
 
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.title"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
+msgid "recap.share.link"
+msgstr "Share a link"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.share"
+msgstr "Share recap"
+
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.premium.memory.share"
+msgstr "Share the memory"
+
 #: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
 msgid "recap.memory.share"
 msgstr "Share the memory"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
+msgid "recap.share.title"
+msgstr "Share the recap"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.shareCard"
+msgstr "Share this card"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.sign"
+msgstr "Sign it"
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.save"
+msgstr "Sign it"
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.title"
+msgstr "Sign the crew stamp"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.open"
 msgstr "Signing the crew stamp"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
+msgid "common.story.position"
+msgstr "Slide {n} of {total}"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.theme.lundi"
 msgstr "slow sea shanty"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.line"
+msgstr "Something went wrong on my side. Nothing from the trip is lost. Try again?"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOn"
+msgstr "Sound is off. Turn it on"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.soundOff"
+msgstr "Sound is on. Turn it off"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.stamp.caption"
@@ -467,6 +845,15 @@ msgstr "Stays"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.open"
 msgstr "still to settle up"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
+#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
+msgid "recap.share.stop"
+msgstr "Stop sharing"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.format.story"
+msgstr "Story"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.linkOff"
@@ -488,13 +875,26 @@ msgstr "Thank you"
 msgid "recap.story.label.cover"
 msgstr "The cover"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.awards.eyebrow"
+msgstr "The crew awards"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.awards"
 msgstr "The crew awards"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.detail"
+msgstr "The crew signed it. It's on your profile now."
+
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.goneLine"
 msgstr "The crew switched this link off. Ask whoever sent it for a new one."
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.photosDetail"
+msgstr "The crew's album, with the picks"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.explorer"
@@ -516,9 +916,17 @@ msgstr "The navigator"
 msgid "recap.summary.forms.unnamed"
 msgstr "The one that got away"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.eyebrow"
+msgstr "The one that got away"
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.gotAway"
 msgstr "The one that got away"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.error"
+msgstr "The picture didn't draw."
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.planner"
@@ -536,9 +944,23 @@ msgstr "The recap"
 msgid "recap.story.subtitleNoPlace"
 msgstr "The recap"
 
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.title"
+msgstr "The recap didn't come together"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.line"
+msgstr "The recap is still being put together. Its page shows where it is."
+
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.receipt"
 msgstr "The receipt"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.route.eyebrow"
+msgstr "The route"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.route"
@@ -547,6 +969,11 @@ msgstr "The route"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.stamp"
 msgstr "The stamp"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-look.tsx
+msgid "recap.story.notReady.title"
+msgstr "The story isn’t ready yet"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.transfer"
@@ -559,6 +986,16 @@ msgstr "The treasurer"
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.titleNoPlace"
 msgstr "The trip, the recap"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.closed"
+msgstr "The vote is closed. The gold edge is the MVP."
+
+#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "recap.memory.missing.title"
+msgstr "This memory isn’t here"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.gone"
@@ -588,6 +1025,15 @@ msgstr "Trip recap"
 msgid "recap.link.eyebrowWhen"
 msgstr "Trip recap · {month}"
 
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
+msgid "shareImage.retry"
+msgstr "Try again"
+
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.retry"
 msgstr "Try again"
@@ -604,9 +1050,24 @@ msgstr "Updated with late additions"
 msgid "recap.summary.updated.expenses"
 msgstr "Updated with late expenses"
 
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.title"
+msgstr "Vote for the MVP"
+
+#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.voteMvp"
+msgstr "Vote for the MVP"
+
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.complete"
 msgstr "Watched the recap"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.whereNext"
+msgstr "Where next? →"
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 msgid "recap.link.names"
@@ -619,6 +1080,11 @@ msgstr "You"
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
 msgid "recap.memory.you"
 msgstr "You"
+
+#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.dropout"
+msgstr "You sat this one out"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.mine"
@@ -643,432 +1109,6 @@ msgstr "Your share: {amount}"
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.signature"
 msgstr "Your signature"
-
-#. placeholder {0}: stamp.iata
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.arrived"
-msgstr "{0} · Arrived"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-msgid "recap.share.stopLine"
-msgstr "{count, plural, one {Switches off # link. It opens nothing after that.} other {Switches off # links. They open nothing after that.}}"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.forms"
-msgstr "{found} of {total} forms"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-msgid "recap.summary.writing.title"
-msgstr "{guideName} is writing your recap"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.watchDetail"
-msgstr "{guideName} tells it from the start"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.mvp.votes"
-msgstr "{votes, plural, one {# vote} other {# votes}}"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.mvp.winner"
-msgstr "{votes, plural, one {MVP · # vote} other {MVP · # votes}}"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.mvp.yours"
-msgstr "{votes, plural, one {Your vote · # vote} other {Your vote · # votes}}"
-
-#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-msgid "recap.premium.memory.plus"
-msgstr "+ React"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.unnamed"
-msgstr "A golden one"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-msgid "recap.share.linkLine"
-msgstr "A web page anyone with the link can open: the place, the month, how far you went, places on the trail and first names. No photos, no money."
-
-#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-msgid "recap.premium.memory.react"
-msgstr "Add your reaction"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.arrivedNoCode"
-msgstr "Arrived"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-msgid "recap.summary.failed.retrying"
-msgstr "Asking again…"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.back"
-msgstr "Back"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paidTop"
-msgstr "Balances"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-msgid "recap.premium.story.close"
-msgstr "Close the story"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
-msgid "recap.summary.retry.failed"
-msgstr "Couldn't ask for it again"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.shareFailed"
-msgstr "Couldn't open the share sheet"
-
-#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
-msgid "recap.memory.reunionFailed"
-msgstr "Couldn't pitch the reunion"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.saveFailed"
-msgstr "Couldn't save it. Check Photos access"
-
-#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
-msgid "recap.memory.reactFailed"
-msgstr "Couldn't send that reaction"
-
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.failed"
-msgstr "Couldn't send your signature. Try again with signal."
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.shareFailed"
-msgstr "Couldn’t share this card"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-msgid "recap.summary.writing.line"
-msgstr "Counting the kilometres and the photos. I'll ping you when it's ready."
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.rendering"
-msgstr "Drawing the picture"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.chrome"
-msgstr "Entries · Entrées"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.golden"
-msgstr "Golden {name}"
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-msgid "recap.link.back"
-msgstr "Home"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.story.reminded"
-msgstr "I'll remind you"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paidBottom"
-msgstr "In full"
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-msgid "recap.memory.missing.line"
-msgstr "It may have been removed, or this phone hasn’t got it yet."
-
-#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.later"
-msgstr "Keep my name"
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-msgid "recap.memory.loading"
-msgstr "Loading the memory"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
-msgid "recap.story.loading"
-msgstr "Loading the story"
-
-#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
-msgid "recap.signature.me"
-msgstr "Me"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.eyebrow"
-msgstr "Money, wrapped"
-
-#: ../../apps/mobile/src/features/recap/premium/story/cards/story-awards-receipt.tsx
-msgid "recap.premium.story.mvp"
-msgstr "MVP"
-
-#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
-msgid "recap.memory.reunionOffline"
-msgstr "Needs signal to pitch it"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
-msgid "recap.summary.retry.offline"
-msgstr "Needs signal to try again"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.critters.eyebrow"
-msgstr "New friends"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
-msgid "common.story.next"
-msgstr "Next slide"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.offline"
-msgstr "No signal"
-
-#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.line"
-msgstr "Once, and it signs every stamp you share with the crew, in your colour."
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.postcardDetail"
-msgstr "One photo and a note, to the crew"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.rateDetail"
-msgstr "One tap a place, for the next crew"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.mvp.open"
-msgstr "One tap. You can change it until everyone has voted."
-
-#: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
-msgid "recap.memory.eyebrow"
-msgstr "One year ago today"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
-msgid "recap.story.notReady.action"
-msgstr "Open the recap"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.page"
-msgstr "Page {seq}"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.receipt.paid"
-msgstr "Paid"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
-msgid "common.story.pause"
-msgstr "Pause"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.photos"
-msgstr "Photos"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.format"
-msgstr "Picture shape"
-
-#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-msgid "recap.premium.memory.reunion"
-msgstr "Plan a reunion"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
-msgid "common.story.play"
-msgstr "Play"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.watch"
-msgstr "Play the story again"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.format.post"
-msgstr "Post"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
-msgid "common.story.previous"
-msgstr "Previous slide"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.rate"
-msgstr "Rate the trip"
-
-#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
-msgid "recap.memory.reactTitle"
-msgstr "React to the memory"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
-msgid "recap.story.back"
-msgstr "Recap"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.story.remind"
-msgstr "Remind me"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.story.remindIn"
-msgstr "Remind me in {month}"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.save"
-msgstr "Save to Photos"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.saved"
-msgstr "Saved to Photos"
-
-#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
-msgid "recap.memory.lineLabel"
-msgstr "Say something"
-
-#: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
-msgid "recap.memory.send"
-msgstr "Send"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.postcard"
-msgstr "Send a postcard"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.title"
-msgstr "Share"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.share"
-msgstr "Share"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-msgid "recap.share.link"
-msgstr "Share a link"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.share"
-msgstr "Share recap"
-
-#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-msgid "recap.premium.memory.share"
-msgstr "Share the memory"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
-msgid "recap.share.title"
-msgstr "Share the recap"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.shareCard"
-msgstr "Share this card"
-
-#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.save"
-msgstr "Sign it"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.story.sign"
-msgstr "Sign it"
-
-#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.title"
-msgstr "Sign the crew stamp"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-player.tsx
-msgid "common.story.position"
-msgstr "Slide {n} of {total}"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-msgid "recap.summary.failed.line"
-msgstr "Something went wrong on my side. Nothing from the trip is lost. Try again?"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.soundOn"
-msgstr "Sound is off. Turn it on"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
-msgid "recap.story.soundOff"
-msgstr "Sound is on. Turn it off"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-msgid "recap.share.stop"
-msgstr "Stop sharing"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.format.story"
-msgstr "Story"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.awards.eyebrow"
-msgstr "The crew awards"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.stamp.detail"
-msgstr "The crew signed it. It's on your profile now."
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.photosDetail"
-msgstr "The crew's album, with the picks"
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.gotAway.eyebrow"
-msgstr "The one that got away"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.error"
-msgstr "The picture didn't draw."
-
-#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-msgid "recap.summary.failed.title"
-msgstr "The recap didn't come together"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
-msgid "recap.story.notReady.line"
-msgstr "The recap is still being put together. Its page shows where it is."
-
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
-msgid "recap.story.route.eyebrow"
-msgstr "The route"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
-msgid "recap.story.notReady.title"
-msgstr "The story isn’t ready yet"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.mvp.closed"
-msgstr "The vote is closed. The gold edge is the MVP."
-
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
-#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-msgid "recap.memory.missing.title"
-msgstr "This memory isn’t here"
-
-#: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
-msgid "shareImage.retry"
-msgstr "Try again"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-msgid "recap.summary.failed.retry"
-msgstr "Try again"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.story.voteMvp"
-msgstr "Vote for the MVP"
-
-#: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-msgid "recap.mvp.title"
-msgstr "Vote for the MVP"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.whereNext"
-msgstr "Where next? →"
-
-#: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-msgid "recap.summary.dropout"
-msgstr "You sat this one out"
 
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.yourTrip"

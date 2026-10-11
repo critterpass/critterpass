@@ -19,7 +19,7 @@ msgstr ""
 
 #. placeholder {0}: row.name
 #. placeholder {1}: row.destination_name
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.shareText"
 msgstr ""
 
@@ -157,7 +157,7 @@ msgstr "出发前请再确认"
 msgid "explore.detail.chooseDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.closed"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgstr ""
 msgid "explore.detail.why.busySeen"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.entry"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgid "explore.detail.why.hoursUnknown"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.hoursUnknown"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 msgid "explore.offers.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.open"
 msgstr ""
 
@@ -295,7 +295,7 @@ msgid "explore.detail.fits.other"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.planTrip"
 msgstr ""
 
@@ -333,7 +333,7 @@ msgstr ""
 msgid "explore.detail.removeAll.link"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-remove-for-everyone.ts
 msgid "explore.detail.removeAll.done"
 msgstr ""
 
@@ -397,7 +397,7 @@ msgstr ""
 msgid "explore.detail.suggestFor"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.takes"
 msgstr ""
 
@@ -433,7 +433,7 @@ msgstr ""
 msgid "explore.offers.disclosure"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.wear"
 msgstr ""
 

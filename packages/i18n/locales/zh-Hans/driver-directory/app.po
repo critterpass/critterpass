@@ -80,7 +80,7 @@ msgstr "正在取消邀请"
 msgid "drivers.ours.rerate"
 msgstr "修改我的回答"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "没能加入，请再试一次。"
 
@@ -88,7 +88,7 @@ msgstr "没能加入，请再试一次。"
 msgid "drivers.invite.failed"
 msgstr "没能生成链接，请再试一次。"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "没能保存，请再试一次。"
 
@@ -152,7 +152,7 @@ msgstr "英语好"
 msgid "drivers.tag.greatPhotos"
 msgstr "照片拍得好"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "你好{first}，我在 CritterPass 上找到了你。你有空载我们这一队吗？"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "还没有小队在这里带回愿意上架的司机。{widenTo} 有司机。"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "这个行程还没有司机。"
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "提醒"
 msgid "drivers.queued.nudge"
 msgstr "提醒司机"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "离线。{time} 的列表。"
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "我们的司机"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "我们的司机"
 
@@ -326,7 +326,7 @@ msgstr "评价"
 msgid "drivers.rate.title"
 msgstr "评价你的司机"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "行程结束后，手机号已验证的成员可以评价。"
 
@@ -346,6 +346,10 @@ msgstr "举报此提示"
 msgid "drivers.report.title"
 msgstr "要举报吗？"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "本人管理的信息"
@@ -362,7 +366,7 @@ msgstr "保存回答"
 msgid "drivers.directory.widen"
 msgstr "同时显示 {widenTo}"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "谢谢，我们会查看。"
 

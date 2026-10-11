@@ -80,7 +80,7 @@ msgstr "Davet iptal ediliyor"
 msgid "drivers.ours.rerate"
 msgstr "Cevabımı değiştir"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "Eklenemedi. Tekrar dene."
 
@@ -88,7 +88,7 @@ msgstr "Eklenemedi. Tekrar dene."
 msgid "drivers.invite.failed"
 msgstr "Bağlantı oluşturulamadı. Tekrar dene."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "Cevap kaydedilemedi. Tekrar dene."
 
@@ -152,7 +152,7 @@ msgstr "İyi İngilizce"
 msgid "drivers.tag.greatPhotos"
 msgstr "Harika fotoğraflar"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "Merhaba {first}, seni CritterPass'te buldum. Grubumuzu taşımaya müsait misin?"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "Hiçbir grup buraya listelenmek isteyen bir şoför getirmedi. {widenTo} için şoförler var."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "Bu yolculukta henüz şoför yok."
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "Hatırlat"
 msgid "drivers.queued.nudge"
 msgstr "Şoföre hatırlatma"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "Çevrimdışı. {time} tarihli liste."
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "Şoförlerimiz"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Şoförlerimiz"
 
@@ -326,7 +326,7 @@ msgstr "Puanla"
 msgid "drivers.rate.title"
 msgstr "Şoförünü puanla"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Puanlama yolculuktan sonra, telefonu doğrulanmış üyelere açılır."
 
@@ -346,6 +346,10 @@ msgstr "Bu ipucunu bildir"
 msgid "drivers.report.title"
 msgstr "Bunu bildir?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "Kendi profilini yönetiyor"
@@ -362,7 +366,7 @@ msgstr "Cevabı kaydet"
 msgid "drivers.directory.widen"
 msgstr "{widenTo} da göster"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Teşekkürler. İnceleyeceğiz."
 
