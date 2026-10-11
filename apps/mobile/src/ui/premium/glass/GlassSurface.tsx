@@ -19,7 +19,7 @@ export interface GlassSurfaceProps {
   readonly interactive?: boolean;
   readonly style?: StyleProp<ViewStyle>;
   readonly children?: ReactNode;
-  readonly testID?: string;
+  readonly testID?: string | undefined;
 }
 
 /** Liquid Glass ships with iOS 26 (the app's minimum); read once, it never changes at runtime. */
