@@ -5,7 +5,7 @@
  * new line; send sends. The bar carries the reply strip above the field.
  */
 import { t } from '@lingui/core/macro';
-import { forwardRef, type ReactNode } from 'react';
+import { forwardRef, type ReactNode, type ComponentRef } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 
 import {
@@ -95,7 +95,7 @@ export interface ComposerBarProps {
   readonly above?: ReactNode;
 }
 
-export const ComposerBar = forwardRef<TextInput, ComposerBarProps>(
+export const ComposerBar = forwardRef<ComponentRef<typeof TextInput>, ComposerBarProps>(
   function ComposerBar(props, ref) {
     const th = usePremiumTheme();
     const styles = useStyles();

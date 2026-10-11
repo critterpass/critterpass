@@ -280,9 +280,7 @@ export function ChatWelcome({
             testID={`chat-starter-${starter.key}`}
           >
             <Doodle name={starter.doodle} color={starter.color} size={28} />
-            <Text variant="rowTitle" style={{ fontSize: 14.5 }}>
-              {starter.label}
-            </Text>
+            <Text variant="rowTitle">{starter.label}</Text>
           </PressableScale>
         ))}
       </View>

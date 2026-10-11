@@ -98,9 +98,7 @@ export function PremiumMessageList({
     [],
   );
   // Whatever arrived while at the bottom counts as seen.
-  useEffect(() => {
-    if (atBottom) setSeen(newest);
-  }, [atBottom, newest]);
+  if (atBottom && seen !== newest) setSeen(newest);
 
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {

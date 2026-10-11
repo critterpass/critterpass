@@ -19,8 +19,11 @@ import {
 } from '@/ui/premium';
 import { CHAT_PAINT } from '../premium-paint';
 
+/** The slash across the microphone, as drawn. */
+const SLASH_TILT = -45;
+
 const useStyles = makePremiumStyles((th) => ({
-  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: CHAT_PAINT.sheetScrim },
+  scrim: { ...StyleSheet.absoluteFill, backgroundColor: CHAT_PAINT.sheetScrim },
   sheet: {
     position: 'absolute',
     left: 8,
@@ -189,7 +192,7 @@ export function MicOffSheet({
               height: 3,
               borderRadius: 2,
               backgroundColor: th.color.status.voteOpen.text,
-              transform: [{ rotate: '-45deg' }],
+              transform: [{ rotate: `${SLASH_TILT}deg` }],
             }}
           />
         </View>

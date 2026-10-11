@@ -9,8 +9,6 @@ import { TypingDots } from '@/ui/chat/TypingDots';
 import { Row, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
-import type { ChatMessage } from '../data/rows';
-
 const useStyles = makeStyles((th) => ({
   row: { alignItems: 'center', gap: th.space['8'], paddingVertical: th.space['4'] },
   dots: {

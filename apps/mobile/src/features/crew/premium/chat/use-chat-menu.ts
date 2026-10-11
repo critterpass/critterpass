@@ -5,7 +5,7 @@
 import { t } from '@lingui/core/macro';
 import * as Clipboard from 'expo-clipboard';
 import { router } from 'expo-router';
-import type { RefObject } from 'react';
+import type { ComponentRef, RefObject } from 'react';
 import type { TextInput } from 'react-native';
 
 import { useToast } from '@/ui/premium';
@@ -18,7 +18,7 @@ import type { ChatOverlay } from './chat-overlays';
 
 export interface ChatMenuDeps {
   readonly me: string | null;
-  readonly input: RefObject<TextInput | null>;
+  readonly input: RefObject<ComponentRef<typeof TextInput> | null>;
   readonly isPinned: (messageId: string) => boolean;
   readonly setPinned: (messageId: string, pinned: boolean) => Promise<unknown>;
   readonly metForm: (formId: string | null) => boolean;

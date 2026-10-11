@@ -25,7 +25,7 @@ import {
 import type { SpawnArt } from '../../encounter/encounter-model';
 import { CritterSilhouette } from '../components/critter-silhouette';
 import { Float } from '../components/loops';
-import { CLEAR_GLASS, ON_PHOTO, ON_PHOTO_MUTED, SCRIM } from '../components/scrims';
+import { CLEAR_GLASS, ON_PHOTO, ON_PHOTO_MUTED, SCRIM, WASHED_PHOTO } from '../components/scrims';
 import { tierAccent } from '../components/tier';
 import { EncounterGround } from './live-scene';
 

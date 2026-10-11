@@ -40,7 +40,8 @@ function clock(iso: string): string {
   const date = new Date(iso);
   return Number.isNaN(date.getTime())
     ? ''
-    : date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+    : // eslint-disable-next-line lingui/no-unlocalized-strings -- Intl option values, never copy.
+      date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
 }
 
 /** Why a send was refused, in the sender's words. */

@@ -5,7 +5,7 @@
  * queues for midnight. Keyboard: the foot rides it; the return key sends.
  */
 import { t } from '@lingui/core/macro';
-import { forwardRef } from 'react';
+import { forwardRef, type ComponentRef } from 'react';
 import { ScrollView, View, type TextInput } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -77,7 +77,7 @@ export interface GuideComposerProps {
   readonly onMicHold?: () => void;
 }
 
-export const GuideComposer = forwardRef<TextInput, GuideComposerProps>(
+export const GuideComposer = forwardRef<ComponentRef<typeof TextInput>, GuideComposerProps>(
   function GuideComposer(props, ref) {
     const th = usePremiumTheme();
     const styles = useStyles();

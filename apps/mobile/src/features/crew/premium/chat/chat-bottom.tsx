@@ -5,7 +5,7 @@
  * just above the composer. A member who left gets the read-only bar instead of the composer.
  */
 import { t } from '@lingui/core/macro';
-import { useState, type ReactNode, type RefObject } from 'react';
+import { useState, type ReactNode, type RefObject, type ComponentRef } from 'react';
 import { View, type TextInput } from 'react-native';
 import Animated, {
   runOnJS,
@@ -39,7 +39,6 @@ const useStyles = makePremiumStyles((th) => ({
 }));
 
 export interface ChatComposerState {
-  readonly inputRef: RefObject<TextInput | null>;
   readonly value: string;
   readonly onChangeText: (text: string) => void;
   readonly placeholder: string;
@@ -70,6 +69,8 @@ export interface ChatBottomProps {
   readonly crewName: string;
   readonly onRejoin: () => void;
   readonly onRemove: () => void;
+  /** The composer's field, kept apart from its state (a ref is never read while drawing). */
+  readonly inputRef: RefObject<ComponentRef<typeof TextInput> | null>;
   readonly composer: ChatComposerState;
   readonly tray: TrayData;
   readonly onSendSticker: (sticker: TraySticker) => void;
@@ -140,7 +141,7 @@ export function ChatBottom(props: ChatBottomProps) {
             />
           ) : null}
           <ComposerBar
-            ref={composer.inputRef}
+            ref={props.inputRef}
             value={composer.value}
             onChangeText={composer.onChangeText}
             placeholder={composer.placeholder}

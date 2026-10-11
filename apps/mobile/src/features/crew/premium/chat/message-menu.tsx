@@ -49,8 +49,8 @@ const BAR_HEIGHT = 54;
 const ROW = 48;
 
 const useStyles = makePremiumStyles((th) => ({
-  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: CHAT_PAINT.menuScrim },
-  frost: { ...StyleSheet.absoluteFillObject, backgroundColor: th.color.ground, opacity: 0.55 },
+  scrim: { ...StyleSheet.absoluteFill, backgroundColor: CHAT_PAINT.menuScrim },
+  frost: { ...StyleSheet.absoluteFill, backgroundColor: th.color.ground, opacity: 0.55 },
   bar: {
     position: 'absolute',
     height: BAR_HEIGHT,
@@ -172,6 +172,7 @@ export function MessageMenu(props: MessageMenuProps) {
           left: props.mine ? undefined : anchor.x,
           right: props.mine ? window.width - anchor.x - anchor.width : undefined,
           transform: [{ scale: lift }],
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- style keywords, never copy.
           transformOrigin: props.mine ? 'top right' : 'top left',
           boxShadow: props.sticker ? undefined : CHAT_PAINT.menuShadow,
         }}

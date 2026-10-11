@@ -67,9 +67,9 @@ function ActiveDot() {
   const pulse = useSharedValue(1);
   useEffect(() => {
     if (reduced) return undefined;
-    pulse.value = withRepeat(withTiming(0.45, { duration: 700 }), -1, true);
+    pulse.value = withRepeat(withTiming(0.45, { duration: th.motion.bobMs / 2 }), -1, true);
     return () => cancelAnimation(pulse);
-  }, [pulse, reduced]);
+  }, [pulse, reduced, th.motion.bobMs]);
   const style = useAnimatedStyle(() => ({ opacity: pulse.value }));
   return (
     <Animated.View

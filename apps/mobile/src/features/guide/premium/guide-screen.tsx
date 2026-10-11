@@ -6,7 +6,7 @@
 import type { GuideThreadMode } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { useCallback, useContext, useRef } from 'react';
+import { useCallback, useContext, useRef, type ComponentRef } from 'react';
 import { ScrollView, View, type TextInput } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -53,8 +53,8 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
   });
   const { context, trip, turn, thread } = sheet;
   const offline = useSyncPhase() === 'offline';
-  const input = useRef<TextInput>(null);
-  const scroll = useRef<ScrollView>(null);
+  const input = useRef<ComponentRef<typeof TextInput>>(null);
+  const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const meter = usePremiumGuideMeter({
     tripId: trip?.tripId ?? null,
     crewId: trip?.crewId ?? null,

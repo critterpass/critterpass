@@ -5,7 +5,7 @@
  * premium card registry; reactions sit under it. Holding a row opens the long-press menu.
  */
 import { t } from '@lingui/core/macro';
-import { memo, useRef, type ReactNode } from 'react';
+import { memo, useRef, type ReactNode, type ComponentRef } from 'react';
 import { View } from 'react-native';
 
 import {
@@ -121,7 +121,7 @@ export const PremiumMessageRow = memo(function PremiumMessageRow(props: MessageR
   const th = usePremiumTheme();
   const styles = useStyles();
   const { message, mine, first, last, handlers } = props;
-  const anchor = useRef<View>(null);
+  const anchor = useRef<ComponentRef<typeof View>>(null);
   const guide = message.senderKind === 'guide';
 
   const openMenu = () => {

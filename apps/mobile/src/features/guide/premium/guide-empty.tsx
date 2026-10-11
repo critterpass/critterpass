@@ -51,13 +51,14 @@ const useStyles = makePremiumStyles((th) => ({
 }));
 
 function Bobbing({ children }: { readonly children: ReactNode }) {
+  const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
   const y = useSharedValue(0);
   useEffect(() => {
     if (reduced) return undefined;
-    y.value = withRepeat(withTiming(-6, { duration: 1400 }), -1, true);
+    y.value = withRepeat(withTiming(-th.motion.bobLift, { duration: th.motion.bobMs }), -1, true);
     return () => cancelAnimation(y);
-  }, [reduced, y]);
+  }, [reduced, y, th.motion.bobLift, th.motion.bobMs]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   return <Animated.View style={style}>{children}</Animated.View>;
 }

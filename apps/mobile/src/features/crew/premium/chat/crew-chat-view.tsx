@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
 import { Keyboard, View, type TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -59,7 +59,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
   const readBy = useReadReceipts(crewId, me);
   const left = useLeftChat(crewId);
   const tray = useStickerTray(me);
-  const input = useRef<TextInput>(null);
+  const input = useRef<ComponentRef<typeof TextInput>>(null);
   const [trayOpen, setTrayOpen] = useState(false);
   const [overlay, setOverlay] = useState<ChatOverlay>(null);
   const media = useChatMediaActions(crewId, {
@@ -213,8 +213,8 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
         crewName={info.crewName ?? ''}
         onRejoin={left.onRejoin}
         onRemove={left.onRemove}
+        inputRef={input}
         composer={{
-          inputRef: input,
           value: draft,
           onChangeText: (text) => {
             setDraft(text);
