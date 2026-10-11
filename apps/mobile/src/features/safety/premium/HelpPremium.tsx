@@ -43,6 +43,7 @@ export function HelpPremium() {
     { id: 'missed_ride', label: t({ id: 'safety.help.missedRide', message: 'Missed a ride' }) },
   ];
   const facility = model.facility;
+  const name = facility?.name ?? '';
   const chip =
     share === null
       ? null
@@ -183,8 +184,8 @@ export function HelpPremium() {
             <View style={styles.flex}>
               <Text variant="rowTitle">
                 {facility.open24h
-                  ? t({ id: 'safety.help.open24', message: `${facility.name} · Open 24h` })
-                  : facility.name}
+                  ? t({ id: 'safety.help.open24', message: `${name} · Open 24h` })
+                  : name}
               </Text>
               <Text variant="captionMuted" tone="muted">
                 {facilityDetail(facility, t)}

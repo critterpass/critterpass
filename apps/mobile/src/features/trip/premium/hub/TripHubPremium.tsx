@@ -53,8 +53,8 @@ function useCaption(
   const locale = useLocale();
   const { t } = useLingui();
   if (header.phase === 'in') {
-    const { day, days } = header;
-    return t({ id: 'trip.hub.dayOf', message: `Day ${day} of ${days}` });
+    const { day: dayNo, days } = header;
+    return t({ id: 'trip.hub.dayOf', message: `Day ${dayNo} of ${days}` });
   }
   if (start === null) return null;
   const dates = tripDates(locale, start, end);

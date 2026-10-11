@@ -40,6 +40,7 @@ function Paying({ pay }: { readonly pay: Ready }) {
   const locale = useLocale();
   const kindLabel = usePayoutKindLabel();
   const { row, reveal, toName } = pay;
+  const payee = toName;
   const revealed = reveal.kind === 'ok' ? reveal.methods : [];
   const methods = [...revealed.map((m) => methodOf(m.kind)), 'cash' as const].filter(
     (value, index, all) => all.indexOf(value) === index,
@@ -85,15 +86,15 @@ function Paying({ pay }: { readonly pay: Ready }) {
           testID={`money-pay-reveal-${reveal.kind}`}
         >
           {reveal.kind === 'loading'
-            ? t({ id: 'money.pay.revealLoading', message: `Getting how ${toName} gets paid…` })
+            ? t({ id: 'money.pay.revealLoading', message: `Getting how ${payee} gets paid…` })
             : reveal.kind === 'offline'
               ? t({
                   id: 'money.pay.revealOffline',
-                  message: `Connect to see how ${toName} gets paid. You can still mark it paid.`,
+                  message: `Connect to see how ${payee} gets paid. You can still mark it paid.`,
                 })
               : t({
                   id: 'money.pay.revealNone',
-                  message: `Once ${toName} requests it, their payment details show here. Cash works any time.`,
+                  message: `Once ${payee} requests it, their payment details show here. Cash works any time.`,
                 })}
         </Text>
       )}
@@ -152,6 +153,8 @@ export function PaymentPremium({
     );
   }
   const { row, fromName, toName } = pay;
+  const payer = fromName;
+  const payee = toName;
   const paying = row.role === 'payer' && row.actions.includes('pay');
   const other = row.role === 'payer' ? toName : fromName;
   const amount = formatAmountShown(row.amountMinor, row.currency, locale);
@@ -184,8 +187,8 @@ export function PaymentPremium({
             {row.role === 'payer'
               ? t({ id: 'money.premium.toWhom', message: `to ${toName}` })
               : row.role === 'payee'
-                ? t({ id: 'money.pay.titleOwed', message: `${fromName} owes you` })
-                : t({ id: 'money.pay.titleOther', message: `${fromName} pays ${toName}` })}
+                ? t({ id: 'money.pay.titleOwed', message: `${payer} owes you` })
+                : t({ id: 'money.pay.titleOther', message: `${payer} pays ${payee}` })}
           </Text>
         </View>
         {paying ? <Paying pay={pay} /> : null}
@@ -198,7 +201,7 @@ export function PaymentPremium({
           >
             {t({
               id: 'money.pay.waiting',
-              message: `Waiting for ${toName} to confirm. It confirms itself after seven days.`,
+              message: `Waiting for ${payee} to confirm. It confirms itself after seven days.`,
             })}
           </Text>
         ) : null}

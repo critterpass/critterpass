@@ -118,6 +118,7 @@ export function HelpPhrase(props: {
 
 export function HelpShare({ share }: { readonly share: ShareControlsProps }) {
   const th = usePremiumTheme();
+  const { crewName } = share;
   const { t } = useLingui();
   return (
     <View
@@ -163,7 +164,7 @@ export function HelpShare({ share }: { readonly share: ShareControlsProps }) {
               ? t({ id: 'safety.share.activeCrew', message: 'Your crew can see where you are' })
               : t({
                   id: 'safety.share.active',
-                  message: `${share.crewName} can see where you are`,
+                  message: `${crewName} can see where you are`,
                 })}
           </Text>
           {share.extendCapped ? null : (

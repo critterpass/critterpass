@@ -160,6 +160,7 @@ export function ExpenseDetailPremium({
   const { item, currency } = detail;
   const look = categoryLook(item.category, th.color);
   const title = item.title === '' ? categoryLabel(item.category) : item.title;
+  const payer = item.payerName;
   const converted =
     item.crewAmountMinor !== null && item.currency !== currency
       ? `≈ ${formatAmount(item.crewAmountMinor, currency, locale)}`
@@ -174,7 +175,7 @@ export function ExpenseDetailPremium({
         });
   const sub = [
     converted,
-    item.payerName === '' ? null : t({ id: 'money.row.paid', message: `${item.payerName} paid` }),
+    payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }),
     when,
   ]
     .filter(Boolean)

@@ -18,6 +18,7 @@ export function QueuedSheet(props: QueuedItemSheetProps) {
   const { i18n, t } = useLingui();
   const [text, setText] = useState(props.body ?? '');
   const [note, setNote] = useState<string | null>(null);
+  const { since } = props;
   const settle = (change: QueueChange) => {
     if (change === 'done') props.onClose();
     else
@@ -45,7 +46,7 @@ export function QueuedSheet(props: QueuedItemSheetProps) {
           <Text variant="label" color={th.color.status.tangerine.text}>
             {t({
               id: 'trip.offline.waitingSince',
-              message: `Waiting for signal since ${props.since}`,
+              message: `Waiting for signal since ${since}`,
             })}
           </Text>
         </View>

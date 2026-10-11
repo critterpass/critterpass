@@ -17,6 +17,7 @@ export function WalletExtras({ data }: { readonly data: WalletScreenData }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const { heldMail, heldMailCodeSent } = data.context;
+  const count = heldMail;
   const policy = data.insurance.policy;
   const past = data.wallet.past.length;
   const chevron = <Icon name="forward" size={14} color={th.color.outlineEmpty} />;
@@ -27,7 +28,7 @@ export function WalletExtras({ data }: { readonly data: WalletScreenData }) {
           tone="info"
           text={`${t({
             id: 'bookings.heldMail.title',
-            message: plural(heldMail, { one: 'Mail is waiting', other: '# emails are waiting' }),
+            message: plural(count, { one: 'Mail is waiting', other: '# emails are waiting' }),
           })}. ${
             heldMailCodeSent
               ? t({
@@ -83,7 +84,10 @@ export function WalletExtras({ data }: { readonly data: WalletScreenData }) {
             <Row
               title={t({
                 id: 'bookings.archive.link',
-                message: plural(past, { one: '# past booking', other: '# past bookings' }),
+                message: plural(Math.max(0, past), {
+                  one: '# past booking',
+                  other: '# past bookings',
+                }),
               })}
               leading={<IconTile name="clock" bg={th.color.control} color={th.color.ink} />}
               trailing={chevron}

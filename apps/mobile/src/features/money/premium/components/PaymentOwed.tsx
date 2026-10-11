@@ -48,6 +48,7 @@ export function PaymentOwed({ pay }: { readonly pay: Ready }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const { row, fromName } = pay;
+  const payer = fromName;
   const asked = row.status !== 'plan' && row.status !== 'pending';
   const marked = row.status === 'marked_paid' || row.status === 'confirmed';
   const confirmed = row.status === 'confirmed';
@@ -145,7 +146,7 @@ export function PaymentOwed({ pay }: { readonly pay: Ready }) {
           {row.actions.includes('nudge') ? (
             <View style={styles.flex}>
               <Button
-                label={t({ id: 'money.pay.nudge', message: `Nudge ${fromName}` })}
+                label={t({ id: 'money.pay.nudge', message: `Nudge ${payer}` })}
                 variant="secondary"
                 disabled={pay.busy}
                 onPress={pay.onNudge}

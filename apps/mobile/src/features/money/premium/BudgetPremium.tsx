@@ -39,12 +39,13 @@ function Summary({ budget }: { readonly budget: Ready }) {
   const planned = f.plannedMinor === null ? null : estimateMinor(f.plannedMinor, budget.currency);
   const over = planned !== null && f.spentMinor > planned ? f.spentMinor - planned : null;
   const delta = finishDeltaShown(f, budget.currency);
+  const deltaText = delta === null ? '' : whole(delta < 0n ? -delta : delta);
   const pace =
     delta === null
       ? null
       : delta >= 0n
-        ? t({ id: 'money.budget.under', message: `On track to finish ${whole(delta)} under.` })
-        : t({ id: 'money.budget.over', message: `Heading for ${whole(-delta)} over.` });
+        ? t({ id: 'money.budget.under', message: `On track to finish ${deltaText} under.` })
+        : t({ id: 'money.budget.over', message: `Heading for ${deltaText} over.` });
   const fill =
     planned === null || planned === 0n
       ? 0
@@ -123,6 +124,7 @@ function Body({ budget }: { readonly budget: Ready }) {
   const [setting, setSetting] = useState(false);
   const [digits, setDigits] = useState('');
   const amount = digitsToMinor(digits, budget.currency, 'whole');
+  const { currency } = budget;
   const biggest = budget.forecast.biggest?.label ?? null;
   const hasPlan = budget.forecast.plannedMinor !== null;
   return (
@@ -152,14 +154,14 @@ function Body({ budget }: { readonly budget: Ready }) {
             <TextField
               accessibilityLabel={t({
                 id: 'money.budget.target',
-                message: `Crew total in ${budget.currency}`,
+                message: `Crew total in ${currency}`,
               })}
               placeholder={amountText('0', budget.currency, locale, 'whole')}
               value={digits === '' ? '' : amountText(digits, budget.currency, locale, 'whole')}
               onChangeText={(text) => setDigits(text.replace(/\D/g, ''))}
               keyboardType="number-pad"
               autoFocus
-              helper={t({ id: 'money.budget.target', message: `Crew total in ${budget.currency}` })}
+              helper={t({ id: 'money.budget.target', message: `Crew total in ${currency}` })}
               testID="money-budget-target"
             />
           </View>
@@ -221,12 +223,13 @@ export function BudgetPremium() {
     );
   }
   const day = budget.today;
+  const { days } = budget;
   const subtitle =
     day === 0
       ? t({ id: 'money.budget.before', message: 'Before the trip' })
       : day > budget.days
         ? t({ id: 'money.budget.after', message: 'Trip over' })
-        : t({ id: 'money.budget.day', message: `Day ${day} of ${budget.days}` });
+        : t({ id: 'money.budget.day', message: `Day ${day} of ${days}` });
   return (
     <WalletGuideProvider tripId={budget.tripId}>
       <PushScreen

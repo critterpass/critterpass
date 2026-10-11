@@ -38,6 +38,8 @@ function Ready({ props }: { readonly props: SosViewProps }) {
   const stepText = useSosStepText(props.model);
   const responderLine = useResponderLine();
   const { model, hero, general } = props;
+  const { guideName } = props.steps;
+  const { seen } = model;
   const name = model.senderName;
   const time = clockTime(model.openedAt, locale);
   const away = hero.distanceM === null ? null : distanceIn(hero.distanceM);
@@ -131,7 +133,7 @@ function Ready({ props }: { readonly props: SosViewProps }) {
                 size={30}
               />
               <Text variant="label" tone="muted">
-                {t({ id: 'safety.sos.onIt', message: `${props.steps.guideName}'s on it` })}
+                {t({ id: 'safety.sos.onIt', message: `${guideName}'s on it` })}
               </Text>
             </View>
             {model.steps.map((step) => (
@@ -170,7 +172,7 @@ function Ready({ props }: { readonly props: SosViewProps }) {
         ) : null}
         {model.role === 'sender' && model.state === 'open' && !model.reachedNobody ? (
           <Text variant="caption" tone="muted" testID="sos-seen">
-            {t({ id: 'safety.sos.seen', message: `Crew alerted · ${model.seen} seen` })}
+            {t({ id: 'safety.sos.seen', message: `Crew alerted · ${seen} seen` })}
           </Text>
         ) : null}
         {model.responders.map((responder) => (
@@ -213,6 +215,7 @@ export function SosPremium() {
   const { t } = useLingui();
   const sos = useSosScreen();
   if (sos.kind === 'pending') {
+    const { general } = sos;
     return (
       <FullScreen
         closeLabel={t({ id: 'safety.sos.close', message: 'Close' })}
@@ -229,7 +232,7 @@ export function SosPremium() {
               : t({ id: 'safety.premium.sosLoading', message: 'Opening the SOS' })}
           </Text>
           <Button
-            label={t({ id: 'safety.sos.callGeneral', message: `Call ${sos.general}` })}
+            label={t({ id: 'safety.sos.callGeneral', message: `Call ${general}` })}
             onPress={sos.onCallGeneral}
             testID="sos-pending-call"
           />

@@ -53,14 +53,14 @@ function PolicyCard(props: {
         ]}
       >
         <Text variant="tier" color={white} style={styles.eyebrow}>
-          {t({ id: 'bookings.insurance.eyebrow', message: 'TRAVEL INSURANCE' })}
+          {t({ id: 'bookings.premium.insuranceEyebrow', message: 'TRAVEL INSURANCE' })}
         </Text>
         <Text variant="stat" color={white} style={styles.provider} numberOfLines={1}>
           {props.provider}
         </Text>
         <View style={styles.fields}>
           <Text variant="badge" color={white} style={styles.fieldLabel}>
-            {t({ id: 'bookings.insurance.policyNo', message: 'POLICY NO.' })}
+            {t({ id: 'bookings.premium.policyNoEyebrow', message: 'POLICY NO.' })}
           </Text>
           <Text variant="mono" color={white} numberOfLines={1}>
             {props.policyNo}
@@ -117,8 +117,11 @@ export function InsurancePremium() {
             testID="bookings-insurance-number"
           />
           <TextField
-            accessibilityLabel={t({ id: 'bookings.insurance.phone', message: 'Assistance phone' })}
-            placeholder={t({ id: 'bookings.insurance.phone', message: 'Assistance phone' })}
+            accessibilityLabel={t({
+              id: 'bookings.premium.assistancePhone',
+              message: 'Assistance phone',
+            })}
+            placeholder={t({ id: 'bookings.premium.assistancePhone', message: 'Assistance phone' })}
             value={draft.phone}
             onChangeText={(phone) => form.onChange({ phone })}
             keyboardType="phone-pad"
@@ -143,7 +146,7 @@ export function InsurancePremium() {
             <Text variant="helper" color={th.color.destructive.helper}>
               {form.error === 'offline'
                 ? t({
-                    id: 'bookings.insurance.offline',
+                    id: 'bookings.premium.insuranceOffline',
                     message: 'Saving needs signal. Your typing stays here.',
                   })
                 : t({ id: 'bookings.insurance.failed', message: "That didn't save. Try again." })}
