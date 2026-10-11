@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Sets the app's appearance to ${LOOK} (system, light or dark) from Pass → Edit → Appearance, then
-# returns to Home.
+# returns to Home. Starts from wherever the last steps ended: it steps back to Home first.
+- runFlow: to-home.yaml
 - runFlow:
     file: tab.yaml
     env:

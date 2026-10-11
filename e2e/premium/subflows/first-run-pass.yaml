@@ -146,7 +146,7 @@ appId: app.critterpass.dev
       ID: 'onboarding-photo-next'
       LABEL: 'Next'
 
-# This or that: two picks, the designed mid-quiz state, then skip to the summary.
+# This or that: two picks, the designed mid-quiz state, then the rest answered to the summary.
 - extendedWaitUntil:
     visible:
       id: 'quiz-card-left'
@@ -166,16 +166,17 @@ appId: app.critterpass.dev
       CODE: '2.07'
       NAME: this-or-that
       LOOK: light
-- scrollUntilVisible:
-    element:
-      id: 'taste-skip'
-    direction: DOWN
-    centerElement: true
-    timeout: 10000
-    optional: true
-- tapOn:
-    id: 'taste-skip'
-    optional: true
+# "Skip this one" skips a single question: the rest are answered until the summary shows.
+- repeat:
+    times: 8
+    while:
+      notVisible:
+        id: 'taste-summary'
+    commands:
+      - tapOn:
+          id: 'quiz-card-left'
+          optional: true
+      - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
       id: 'taste-done'

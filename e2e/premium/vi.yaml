@@ -20,17 +20,17 @@ onFlowComplete:
     file: subflows/home-crew.yaml
     env:
       LOOK: vi
-- runFlow: subflows/vi-home.yaml
+- runFlow: subflows/to-home.yaml
 - runFlow:
     file: subflows/pass-steps.yaml
     env:
       LOOK: vi
-- runFlow: subflows/vi-home.yaml
+- runFlow: subflows/to-home.yaml
 - runFlow:
     file: subflows/chat-crew.yaml
     env:
       LOOK: vi
-- runFlow: subflows/vi-home.yaml
+- runFlow: subflows/to-home.yaml
 - runFlow:
     file: subflows/plan-map.yaml
     env:

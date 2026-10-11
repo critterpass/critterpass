@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# Back to Home between areas of the Vietnamese pass, whatever screen the last area ended on.
+# Back to Home, whatever screen or sheet the last steps ended on (up to four steps back).
 - repeat:
     times: 4
     while:

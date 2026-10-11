@@ -12,7 +12,7 @@ appId: app.critterpass.dev
     file: subflows/wallet-bookings.yaml
     env:
       LOOK: vi
-- runFlow: subflows/vi-home.yaml
+- runFlow: subflows/to-home.yaml
 - runFlow:
     file: subflows/wallet-money.yaml
     env:
