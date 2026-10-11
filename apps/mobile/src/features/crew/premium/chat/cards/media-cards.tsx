@@ -4,9 +4,8 @@
  * time left and the speed), and the card for a kind this build does not know yet.
  */
 import { t } from '@lingui/core/macro';
-import { Image } from 'expo-image';
 import { useState } from 'react';
-import { View, useWindowDimensions } from 'react-native';
+import { Image, View, useWindowDimensions } from 'react-native';
 
 import { Icon, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
@@ -67,7 +66,7 @@ function Tile({
       accessibilityLabel={t({ id: 'chat.photo.open', message: 'Open photo' })}
       style={[styles.tile, { width, aspectRatio: ratio }]}
     >
-      {url === null ? null : <Image source={{ uri: url }} style={{ flex: 1 }} contentFit="cover" />}
+      {url === null ? null : <Image source={{ uri: url }} style={{ flex: 1 }} resizeMode="cover" />}
     </PressableScale>
   );
 }
