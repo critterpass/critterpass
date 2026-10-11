@@ -14,7 +14,8 @@
 import type { PlanOp, PlanPush } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Linking, View } from 'react-native';
+import type { ComponentType } from 'react';
+import { View } from 'react-native';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import { dayItems, type DayItem } from '@/data/plan/plan-model';
@@ -36,11 +37,12 @@ import { retime, type Retime, type Travel } from '../day-plan/reschedule';
 import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
-import { ItemDetailSheet } from './item-detail-sheet';
+import { ItemDetailSheet, type ItemDetailSheetProps } from './item-detail-sheet';
 import { nowMinOn, pastTimePreview } from './past-time';
 import { pushedBack } from './pushed-back';
 import { gapLine, retimePreview } from './retime-copy';
-import { mapsUrl, placeRoute, reviewRoute } from './routes';
+import { openInMaps, openSuggestion } from './item-sheet-links';
+import { placeRoute, reviewRoute } from './routes';
 import { isStopOfToday, StopDayActions } from './stop-day-actions';
 
 export interface ItemSheetEditor {
@@ -53,19 +55,6 @@ export interface ItemSheetEditor {
 
 export type { PlanEditorEvents };
 
-function openInMaps(item: DayItem): void {
-  if (item.place === null) return;
-  void Linking.openURL(mapsUrl(item.title, item.place.lat, item.place.lng));
-}
-
-/** The open change set that touches `stableId`, if the crew is still deciding on one. */
-function openSuggestion(plan: TripPlan, stableId: string): string | null {
-  for (const set of plan.openChangesets) {
-    if (set.ops?.includes(`"${stableId}"`) === true) return set.id;
-  }
-  return null;
-}
-
 export function ItemSheetHost({
   plan,
   item,
@@ -73,6 +62,7 @@ export function ItemSheetHost({
   editor,
   travel,
   onClose,
+  look = {},
 }: {
   readonly plan: TripPlan;
   readonly item: DayItem;
@@ -81,7 +71,20 @@ export function ItemSheetHost({
   /** Minutes between two stops (stored legs when the screen has them); straight-line otherwise. */
   readonly travel?: Travel;
   readonly onClose: () => void;
+  /** How the sheet and its parts are drawn; the logic is the same in every look. */
+  readonly look?: {
+    readonly Sheet?: ComponentType<ItemDetailSheetProps>;
+    readonly DayActions?: typeof StopDayActions;
+    readonly Clash?: typeof ClashCard;
+    readonly Comments?: typeof ItemComments;
+  };
 }) {
+  const {
+    Sheet = ItemDetailSheet,
+    DayActions = StopDayActions,
+    Clash = ClashCard,
+    Comments = ItemComments,
+  } = look;
   const { t } = useLingui();
   const locale = useLocale();
   const theme = useTheme();
@@ -170,7 +173,7 @@ export function ItemSheetHost({
   };
 
   const dayActions = (
-    <StopDayActions
+    <DayActions
       tripId={tripId}
       item={item}
       date={slot.date}
@@ -182,7 +185,7 @@ export function ItemSheetHost({
     />
   );
   return (
-    <ItemDetailSheet
+    <Sheet
       item={item}
       dayNos={plan.state.days.map((candidate) => candidate.day_no)}
       dayLabels={dayLabels}
@@ -214,7 +217,7 @@ export function ItemSheetHost({
           dayActions
         ) : (
           <View style={{ gap: theme.space['12'] }}>
-            <ClashCard
+            <Clash
               clash={clash}
               label={item.title}
               onKeep={() => settle(true)}
@@ -245,7 +248,7 @@ export function ItemSheetHost({
       }}
       comments={
         onDraft ? null : (
-          <ItemComments
+          <Comments
             tripId={tripId}
             uid={plan.uid}
             item={item}

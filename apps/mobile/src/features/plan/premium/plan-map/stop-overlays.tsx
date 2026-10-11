@@ -13,8 +13,18 @@ import { removeOp } from '@/data/plan/plan-ops';
 
 import { ItemSheetHost } from '../../day/item-sheet-host';
 import { tripPlanRoutes } from '../../hub/routes';
+import { PremiumClashCard, PremiumDayActions } from '../stop/day-actions';
+import { PremiumItemComments } from '../stop/item-comments';
+import { PremiumItemSheet } from '../stop/item-sheet';
 import { StopMenu } from './stop-menu';
 import type { usePlanMap } from './use-plan-map';
+
+const STOP_LOOK = {
+  Sheet: PremiumItemSheet,
+  DayActions: PremiumDayActions,
+  Clash: PremiumClashCard,
+  Comments: PremiumItemComments,
+};
 
 export function StopOverlays(props: {
   readonly tripId: string;
@@ -38,6 +48,7 @@ export function StopOverlays(props: {
         slot={{ dayNo: day.dayNo, date: day.date ?? '' }}
         editor={map.editor}
         onClose={props.onClose}
+        look={STOP_LOOK}
       />
     );
   }

@@ -3,34 +3,27 @@
  * that is booked or somebody's must-do. A must-do says whose it is: "You asked for this one" to
  * the person who did.
  */
-import { useLingui } from '@lingui/react/macro';
+import { t } from '@lingui/core/macro';
 
 import type { DayItem } from '@/data/plan/plan-model';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
-export function ItemConfirm({
+/** The question, what follows from it and the action, for every look. */
+export function confirmWords({
   item,
   removing,
   canApply,
   mustDoMine,
-  solo = false,
-  alsoMoves = null,
-  onConfirm,
-  onCancel,
+  solo,
+  alsoMoves,
 }: {
   readonly item: DayItem;
   readonly removing: boolean;
   readonly canApply: boolean;
-  /** The must-do is the reader's own. */
   readonly mustDoMine: boolean;
-  /** A trip of one: nobody else to speak of. */
-  readonly solo?: boolean;
-  /** What else the removal moves on the day, said before it is confirmed. */
-  readonly alsoMoves?: string | null;
-  readonly onConfirm: () => void;
-  readonly onCancel: () => void;
-}) {
-  const { t } = useLingui();
+  readonly solo: boolean;
+  readonly alsoMoves: string | null;
+}): { readonly title: string; readonly lines: readonly string[]; readonly confirm: string } {
   const locked = item.lock !== null;
   const title =
     removing && !locked
@@ -61,27 +54,55 @@ export function ItemConfirm({
                 message: 'It comes off the day for everyone going.',
               })
           : t({ id: 'plan.day.item.pinnedLine', message: 'Someone pinned it where it is.' });
+  return {
+    title,
+    lines: [
+      line,
+      ...(alsoMoves === null ? [] : [alsoMoves]),
+      ...(canApply
+        ? []
+        : [
+            t({
+              id: 'plan.day.item.memberLine',
+              message: 'The crew okays it before it changes.',
+            }),
+          ]),
+    ],
+    confirm: removing
+      ? t({ id: 'plan.day.item.removeConfirm', message: 'Remove' })
+      : t({ id: 'plan.day.item.changeConfirm', message: 'Change it anyway' }),
+  };
+}
+
+export function ItemConfirm({
+  item,
+  removing,
+  canApply,
+  mustDoMine,
+  solo = false,
+  alsoMoves = null,
+  onConfirm,
+  onCancel,
+}: {
+  readonly item: DayItem;
+  readonly removing: boolean;
+  readonly canApply: boolean;
+  /** The must-do is the reader's own. */
+  readonly mustDoMine: boolean;
+  /** A trip of one: nobody else to speak of. */
+  readonly solo?: boolean;
+  /** What else the removal moves on the day, said before it is confirmed. */
+  readonly alsoMoves?: string | null;
+  readonly onConfirm: () => void;
+  readonly onCancel: () => void;
+}) {
+  const words = confirmWords({ item, removing, canApply, mustDoMine, solo, alsoMoves });
   return (
     <ConfirmSheet
       mode="button"
-      title={title}
-      consequences={[
-        line,
-        ...(alsoMoves === null ? [] : [alsoMoves]),
-        ...(canApply
-          ? []
-          : [
-              t({
-                id: 'plan.day.item.memberLine',
-                message: 'The crew okays it before it changes.',
-              }),
-            ]),
-      ]}
-      confirmLabel={
-        removing
-          ? t({ id: 'plan.day.item.removeConfirm', message: 'Remove' })
-          : t({ id: 'plan.day.item.changeConfirm', message: 'Change it anyway' })
-      }
+      title={words.title}
+      consequences={words.lines}
+      confirmLabel={words.confirm}
       onConfirm={onConfirm}
       onCancel={onCancel}
       testID="plan-item-confirm"

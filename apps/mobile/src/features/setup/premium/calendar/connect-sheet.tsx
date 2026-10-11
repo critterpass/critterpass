@@ -16,6 +16,7 @@ import { Button, ListCard, Text, Toggle, usePremiumTheme, type StatusTone } from
 import { relativeAge } from '@/ui/states/StaleCaption';
 
 import type { CalendarConnectViewProps } from '../../calendar/calendar-connect-sheet';
+import { CrewSees } from './crew-sees';
 
 const GLYPH = { device: '31', google: 'G', microsoft: 'O' } as const;
 
@@ -178,12 +179,17 @@ export function PremiumCalendarConnectView(props: CalendarConnectViewProps) {
       }
       testID="calendar-connect"
     >
-      <Text variant="caption" tone="inkSecondary">
-        {t({
-          id: 'setup.calendar.promise',
-          message: 'Only free and busy days leave your phone. Titles, places and people stay here.',
-        })}
-      </Text>
+      {props.week == null || props.week.length === 0 ? (
+        <Text variant="caption" tone="inkSecondary">
+          {t({
+            id: 'setup.calendar.promise',
+            message:
+              'Only free and busy days leave your phone. Titles, places and people stay here.',
+          })}
+        </Text>
+      ) : (
+        <CrewSees week={props.week} />
+      )}
       <ListCard>
         {rows.map((row) => (
           <View

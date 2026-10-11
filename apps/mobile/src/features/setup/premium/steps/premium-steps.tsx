@@ -1,7 +1,8 @@
 /**
- * The setup steps drawn in the premium look: the dates step and the budget step (the organiser's
- * sweet spot, a member's private max with how they sleep). Rooms and must-dos keep the current look
- * for now. Each wraps the shared step container, so reads and commands stay the same.
+ * The setup steps drawn in the premium look: the dates step, the budget step (the organiser's
+ * sweet spot, a member's private max with how they sleep) and the must-dos. The rooms step's
+ * premium look is the wallet's rooms view. Each wraps the shared step container, so reads and
+ * commands stay the same.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useMemo, type ReactNode } from 'react';
@@ -10,6 +11,7 @@ import { Button, Card, Text, usePremiumTheme } from '@/ui/premium';
 
 import { BudgetStep, type BudgetLook } from '../../budget/budget-step';
 import type { PrivateMaxViewProps } from '../../budget/private-max-view';
+import { MustDosStep } from '../../must-dos/must-dos-step';
 import type { StepProps } from '../../shell/frame';
 import type { WizardStep } from '../../shell/steps';
 import { WhenStep, type WhenSheets } from '../../when/when-step';
@@ -17,6 +19,7 @@ import { PremiumCalendarConnectView } from '../calendar/connect-sheet';
 import { PremiumManualDaysView } from '../calendar/manual-days-sheet';
 import { PremiumWeekPicker } from '../calendar/week-picker-sheet';
 import { PremiumBudgetView } from './budget-view';
+import { PremiumMustDosView } from './must-dos-view';
 import { PremiumPrivateMaxView } from './private-max-view';
 import { PremiumWhenView } from './when-view';
 
@@ -71,7 +74,12 @@ function PremiumWhenStep(props: StepProps) {
   return <WhenStep {...props} View={PremiumWhenView} sheets={WHEN_SHEETS} />;
 }
 
+function PremiumMustDosStep(props: StepProps) {
+  return <MustDosStep {...props} View={PremiumMustDosView} />;
+}
+
 export const PREMIUM_STEP_VIEWS: Partial<Record<WizardStep, (props: StepProps) => ReactNode>> = {
   when: PremiumWhenStep,
   budget: PremiumBudgetStep,
+  must_dos: PremiumMustDosStep,
 };

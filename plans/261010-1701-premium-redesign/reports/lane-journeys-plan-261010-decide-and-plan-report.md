@@ -1,6 +1,6 @@
 # Lane report: Journeys B, part 4 (decide and plan, the premium map)
 
-Branch `feat/premium-journeys-plan` (worktree `final-collab`), merged with `origin/feat/premium-redesign` and `origin/feat/premium-kit` up to 11 Oct ~18:00 (`9ade70c0f`), then the remaining screens in flow order: vote `e5b88eb41`, setup steps `99972619f`, plan `758fd33e9`, fixes `156fa8e32`, proposal and day trip `32aee8871`, calendar connected `bb7e63b85`.
+Branch `feat/premium-journeys-plan` (worktree `final-collab`), merged with `origin/feat/premium-redesign` and `origin/feat/premium-kit` up to 11 Oct ~18:00 (`9ade70c0f`), then the remaining screens in flow order, a second pass on the old-look pieces (`36f0d1057`, `9f6c93479` / `7e5d6172d`, `f97388a03`, `1b62203d0`, `b4a8a0a55`, `13bf65eea`) and a last pass (`ac6892075`, `dfd29b94a`, `e17d0f2a1`, `8b59a1ef4`, `e4c8bb505`): vote `e5b88eb41`, setup steps `99972619f`, plan `758fd33e9`, fixes `156fa8e32`, proposal and day trip `32aee8871`, calendar connected `bb7e63b85`.
 
 ## Premium map (for Journeys D)
 
@@ -57,12 +57,40 @@ Pattern: each legacy container takes a `View` (or `look` / `views`) prop and kee
 
 Navigation: in the premium look `(trip)/[tripId]/_layout.tsx`, `setup/_layout.tsx` and `explore/_layout.tsx` render `PremiumStack` (native pushes); Add to plan and Ideas are native form sheets; change dates is a modal. The current look is unchanged.
 
+## Old-look pieces finished (second pass, 12 Oct)
+
+| piece | premium file | how it is reached |
+|---|---|---|
+| 4.11 Find your free days | `features/setup/premium/calendar/connect-sheet.tsx` | `WhenStep` takes `sheets` (Connect, Manual, Picker) |
+| 4.12 Mark your days | `features/setup/premium/calendar/manual-days-sheet.tsx`, `month-grid.tsx` (paint logic shared as `calendar/use-manual-paint.ts`) | same |
+| Pick your days (week picker) | `features/setup/premium/calendar/week-picker-sheet.tsx` (pick state shared as `when/use-week-pick.ts`) | same |
+| Must-dos step | `features/setup/premium/steps/must-dos-view.tsx`, `must-do-card.tsx` | `MustDosStep` takes `View`; `PREMIUM_STEP_VIEWS.must_dos` |
+| Add a must-do | `features/setup/premium/must-dos/add-must-do-sheet.tsx` | `AddMustDoSheet` takes `look` (Sheet, More); `setup/must-dos/add.tsx` |
+| Stop details (item sheet) | `features/plan/premium/stop/item-sheet.tsx`, `time-rows.tsx`, `sheet-parts.tsx` (`confirmWords`, `useFactWords` shared) | `ItemSheetHost` takes `Sheet`; the plan map's stop menu |
+| Move a stop + preview | `features/plan/premium/all-days/move-sheets.tsx` | `AllDaysScreen` takes `sheets`; `plan/days.tsx` |
+| Link paste, pick one | `features/explore/premium/search/link-paste.tsx` | `LinkScreen` takes `Paste`, `PickOne`; `search/link.tsx` |
+| The check's private ask | `features/plan/premium/check/ask-card.tsx` | `CheckScreen` takes `Ask`; `check/index.tsx` |
+| 4.43 Fix in place | `features/plan/premium/plan-map/fix-panel.tsx`, `trip-fixes.tsx` (cards shared as `check/use-check-cards.ts`) | whole-trip rows: a day's problem tag opens its panel (Fix it / Suggest, Other ways, Leave it) |
+
+Shared: `OverlaySheet` (`features/plan/premium/sheets/overlay-sheet.tsx`, exported from `@/features/plan`): the inset glass sheet a page opens over itself, or a see-through route's whole screen (`inRoute`); it rides over the keyboard. A kit candidate with the others in the follow-ups.
+
+Rooms: the rooms setup step's premium look belongs to Journeys D (the wallet rooms view, 7.07–7.09). The rooms work from this pass (`9f6c93479`) was taken back out in `7e5d6172d`; `features/setup/rooms/**` is as it was before this pass.
+
+## Last pass (12 Oct)
+
+| piece | commit | premium file |
+|---|---|---|
+| Stop sheet's on-the-day actions, clash card, comment thread | `ac6892075` | `features/plan/premium/stop/day-actions.tsx`, `item-comments.tsx`; `ItemSheetHost` takes `look` (Sheet, DayActions, Clash, Comments) |
+| Add-a-must-do waiting state | `dfd29b94a` | `features/setup/premium/must-dos/sheet-waiting.tsx` (LoadingCritter; "not part of this setup" with Close) |
+| Day at half: the "Rain · fix" chip opens the fix in place under the head | `e17d0f2a1` | `features/plan/premium/plan-map/trip-fixes.tsx` (`PlanDayHead`) |
+| Whole trip: "The whole trip" with the ink "2 to fix · 2 to know" chip stepping through the days' problems | `8b59a1ef4` | same file (`TripFixRows`) |
+| 4.11 "What the crew sees" week | `e4c8bb505` | `features/setup/premium/calendar/crew-sees.tsx`, read `calendar/use-my-days.ts` |
+
+Server for the preview: `GET /v1/trips/{id}/my-days?start` (`services/api/src/planning/trip-settings/my-days.ts`, `myDaysResultSchema` in `packages/domain/src/setup/availability.ts`, row in `docs/api-contracts-planning.md`): the caller's own `calendar_days` for 7 days from `start`, `unknown` where nothing was shared, read as the caller (owner-only RLS), trip members only. DB test `services/api/test/planning/trip-settings/my-days.db.test.ts` (3 cases: own week, never a crewmate's, outsider 404) passed on GitHub, run 38159144057.
+
 ## Still drawn by the current look inside premium pages
 
-- 4.11 / 4.12 calendar connect sheets and the week picker (overlays inside the when step); the rooms and must-dos setup steps.
-- Link paste and pick-one sheets, the plan sheet's item sheet host, move-stop sheet and move preview; the ask card inside the plan check.
-- Fix-in-place inside the plan sheet: the plan's check line opens the premium check page instead.
-- All days: drag a stop to another day is "Move a stop" on long press; day cards show a pins strip, not mini maps.
+- All days: dragging a stop onto another day is "Move a stop" on long press; day cards show a pins strip, not mini maps. The all-days share sheet is the current one.
 - Rain chart and less-driving route sketches are left out; photos with credits use the current `MediaLayer` / `PlacePhoto`.
 - Swipe: "who is swiping" stays hidden (privacy).
 
@@ -93,9 +121,11 @@ Navigation: in the premium look `(trip)/[tripId]/_layout.tsx`, `setup/_layout.ts
 5. Getting there has no arrival-time picker (no date-time picker dependency); the member picks the way and where from.
 6. New feature index exports: `@/features/vote` (`createPollCommand`, `money`, `crewColour`, `SoloPassSheet`, `useDestinationSearch`), `@/features/explore` (`Doodle`, `GuideDock`, `fitColour`, `PlaceResultRow`, `PlaceThumb`, `placeIcon`), `@/features/plan` (premium map, `draftRoutes`, `usePlanGuide`), new `@/features/setup` index (`lockTripDatesCommand`, `setMustDosCommand`).
 7. Share invite on the setup header and Nudge on free days are not wired.
+8. `OverlaySheet` (`@/features/plan`) to the kit as its in-page sheet. Seven undesigned premium pieces from the second pass are logged at the end of `docs/undesigned-states.md` (outside my areas, as the contract asks).
+9. `@/features/plan` also exports `OverlaySheet`; setup and explore import it from there.
 
 ## Checks
 
-Prettier on every changed file. ESLint ran on the earlier commits (clean apart from test files); from the vote flow on, the coordinator's rule stopped local eslint, jest and vitest (the Mac was out of memory), so lint, typecheck and tests on the commits after `9ade70c0f` run first in CI on the integration branch. Pure-logic tests added earlier: `plan/premium/settings/__tests__/range-calendar.test.ts`, `plan/ideas/__tests__/must-do-stars.test.ts`, `vote/premium/final/__tests__/reveal-outcome.test.ts`, `plan/premium/map/__tests__/premium-map.test.ts`. Server: the `change_trip_dates` DB test passed remotely. No device screenshots from this lane.
+Prettier on every changed file. ESLint ran on the earlier commits (clean apart from test files); from the vote flow on, the coordinator's rule stopped local eslint, jest and vitest (the Mac was out of memory), so lint, typecheck and tests on the commits after `9ade70c0f` run first in CI on the integration branch. Pure-logic tests added earlier: `plan/premium/settings/__tests__/range-calendar.test.ts`, `plan/ideas/__tests__/must-do-stars.test.ts`, `vote/premium/final/__tests__/reveal-outcome.test.ts`, `plan/premium/map/__tests__/premium-map.test.ts`. Server: the `change_trip_dates` and `my-days` DB tests passed remotely (runs 38148041115, 38159144057). No device screenshots from this lane.
 
 Status: DONE_WITH_CONCERNS

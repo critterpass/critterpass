@@ -164,3 +164,16 @@ export interface WindowsResult {
   readonly unsynced_member_ids: readonly string[];
   readonly options: readonly WindowOptionWire[];
 }
+
+/** How many of the caller's own days the free-days sheet previews ("what the crew sees"). */
+export const MY_DAYS_WINDOW = 7;
+
+/** `GET /v1/trips/{id}/my-days?start`: the caller's own days from `start`, a week long. */
+export const myDaysQuerySchema = z.object({ start: z.iso.date() });
+
+/** Each day as the crew's counts read it: free, maybe, busy, or unknown with nothing shared. */
+export const myDaysResultSchema = z.object({
+  trip_id: z.uuid(),
+  days: z.array(z.object({ date: z.iso.date(), state: dayStateSchema })),
+});
+export type MyDaysResult = z.infer<typeof myDaysResultSchema>;

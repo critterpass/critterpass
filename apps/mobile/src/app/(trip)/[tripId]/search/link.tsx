@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { deviceSearchServices } from '@/features/explore/search/data/device-search-services';
 import { SearchServicesProvider } from '@/features/explore/search/data/search-services';
+import { PremiumLinkPaste, PremiumPickOne } from '@/features/explore/premium/search/link-paste';
 import { PremiumLinkSheet } from '@/features/explore/premium/search/link-sheet';
 import { LinkScreen } from '@/features/explore/search/link-screen';
 import { usePremiumUi } from '@/lib/premium-ui';
@@ -20,7 +21,9 @@ export default function SearchLinkRoute() {
         tripId={params.tripId ?? ''}
         url={params.url ?? null}
         screenshot={params.screenshot === '1'}
-        {...(premium ? { Sheet: PremiumLinkSheet } : {})}
+        {...(premium
+          ? { Sheet: PremiumLinkSheet, Paste: PremiumLinkPaste, PickOne: PremiumPickOne }
+          : {})}
       />
     </SearchServicesProvider>
   );
