@@ -33,3 +33,8 @@ export const HOLD_TRACK = 'rgba(255,255,255,0.25)';
 export const SHADE_BLUR = 'blur(8px)';
 /** The photo washed out behind a critter that wandered off. */
 export const WASHED_PHOTO = 'saturate(0.6)';
+/** The hatch's mint rays and the egg's shell. */
+export const HATCH_PAINT = {
+  rays: 'rgba(84,214,164,.25)',
+  shell: '#fff1d6',
+} as const;
