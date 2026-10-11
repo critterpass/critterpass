@@ -64,6 +64,8 @@ export const premiumMotion = {
   toastRise: 24,
   /** How long a toast stays before it leaves on its own. */
   toastHoldMs: 4000,
+  /** Line box of a rolling digit, as a multiple of its size (SF's natural line height). */
+  rollLineHeight: 1.2,
   /** Press feedback on the primary pill. */
   pressScale: 0.97,
   /** Content entering under a settled frame rises this far. */
@@ -82,6 +84,10 @@ export const premiumMotion = {
     rippleFrom: 0.6,
     rippleTo: 1.7,
     confettiPieces: 44,
+    /** How far confetti flies out, and how far it falls by the end. */
+    confettiReach: 170,
+    confettiFall: 140,
+    rippleStroke: 2,
     resultRise: 40,
   },
   swipe: {
@@ -96,5 +102,7 @@ export const premiumMotion = {
     nextFromY: 18,
     /** A fling past this share of the card width commits the vote. */
     commitRatio: 0.32,
+    /** A fling faster than this (pt/s) commits whatever the distance. */
+    flingVelocity: 800,
   },
 } as const;
