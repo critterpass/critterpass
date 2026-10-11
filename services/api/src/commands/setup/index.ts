@@ -6,6 +6,7 @@ import {
   createDisconnectCalendarCommand,
   type CalendarCommandDeps,
 } from './connect-calendar';
+import { setGettingThereCommand } from './getting-there';
 import { lockTripDatesCommand, setSetupStepCommand } from './lock-trip-dates';
 import { setAvailabilityCommand } from './set-availability';
 import { setBudgetDefaultCommand, submitBudgetMaxCommand } from './submit-budget-max';
@@ -28,6 +29,7 @@ export function registerSetupCommands(registry: CommandRegistry): void {
   registry.register(requestRoomSwapCommand);
   registry.register(setMustDosCommand);
   registry.register(trackLotteryCommand);
+  registry.register(setGettingThereCommand);
 }
 
 /** The calendar connection commands need the OAuth config, the state store and the flag gate. */

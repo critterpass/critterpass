@@ -7,6 +7,8 @@
  */
 import {
   applyPlanEdits,
+  planChangeRuleOf,
+  planEditRights,
   planOpsToEdits,
   type ApplyPlanOpsPayload,
   type ChangeSetOp,
@@ -75,7 +77,10 @@ export interface TripPlan {
   readonly versionId: string | null;
   readonly mode: 'group' | 'draft';
   readonly organiser: boolean;
-  /** Organisers edit directly; everyone else proposes a change set. */
+  /**
+   * Edits go straight in: organisers always, and every member on a trip whose plan-change rule is
+   * `anyone` (the crew's plan only; a draft is its organiser's). Everyone else proposes.
+   */
   readonly canApply: boolean;
   /** Active crew members in join order. */
   readonly members: readonly PlanMember[];
@@ -258,7 +263,14 @@ function useTripPlanRows(tripId: string | null, options: TripPlanOptions): TripP
       versionId: version,
       mode,
       organiser,
-      canApply: organiser,
+      canApply:
+        mode === 'draft'
+          ? organiser
+          : planEditRights({
+              member: trip !== null,
+              organiser,
+              rule: planChangeRuleOf(trip?.plan_change_rule),
+            }).direct,
       members: crew.rows
         .filter((row) => row.status === 'active')
         .map((row, joinIndex) => ({ uid: row.user_id, name: row.display_name ?? '', joinIndex })),

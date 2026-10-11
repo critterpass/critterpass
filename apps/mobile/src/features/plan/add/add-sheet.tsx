@@ -1,12 +1,8 @@
 /**
- * Add to plan (7f-1), one sheet for every add: the day it was opened from (or Tokek's day and time),
- * a fit dot on every day, and picking another day or time moves the block and redoes the reasons
- * on the phone. An organiser's ADD goes into the plan (with the nearby place when ticked); a
- * member's becomes a change set sent to the crew; either way the editor says where it landed, with
- * UNDO. While the fit is still coming the button waits; when no day fits it saves to Ideas until a
- * day is picked; a place already in the plan is only ever moved, never added twice. "Just save it
- * for later" keeps it in the trip's Ideas instead. Offline it still adds from the last fit, which
- * the queue sends later.
+ * Add to plan (7f-1, 4.39), one sheet for every add, in either look: the day it was opened from (or
+ * Tokek's), a fit dot on every day; another day or time moves the block and redoes the reasons. An
+ * organiser's ADD goes into the plan, a member's is sent to the crew, with UNDO. No day fits: it
+ * saves to Ideas; a place in the plan is only moved. Offline it adds from the last fit.
  */
 import { upper } from '@cp/i18n';
 import { generateStableId } from '@cp/domain';
@@ -48,31 +44,27 @@ import {
   type AddChoice,
 } from './add-model';
 import { AddSheetView } from './add-sheet-view';
+import type { AddSheetLook, AddSheetProps } from './add-look';
 import { isWhereItIs } from './placed-stop';
 import { sheetWords, voteNote } from './add-states-copy';
 import { otherDay, otherDayLabel, otherDayPick } from './better-day';
 import { closedLine, movedStops, useOpeningCheck } from './use-opening-check';
 import { nearbyAddOf, useAddFit, useFitPlace, useNearbyPlace } from './use-add-fit';
 import { addTarget } from './add-target';
-import { originDayId, type RoutePreset } from './routes';
+import { originDayId } from './routes';
 import { organiserName } from '../ideas/use-ideas-plan';
 import { useAddDays } from './use-add-days';
 import { useAddSubject } from './use-add-subject';
 import { useSaveToIdeas } from './use-save-to-ideas';
 import { toggledOut, WhoGoing } from './who-going';
 
-export interface AddSheetProps {
-  readonly tripId: string;
-  /** A place id, or a dropped pin's idea id. */
-  readonly placeId: string;
-  readonly preset: RoutePreset;
-  /** "+ right after this stop": the stop's stable id. */
-  readonly afterStableId?: string | undefined;
-}
-
 const WAITING_TIME = '··:··';
 
-export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddSheetProps) {
+const CURRENT_LOOK: AddSheetLook = { View: AddSheetView, Block: AddBlock, Who: WhoGoing };
+
+export function AddSheet(props: AddSheetProps) {
+  const { tripId, placeId, preset: route, afterStableId, look = CURRENT_LOOK } = props;
+  const { View: SheetView, Block, Who } = look;
   // Opened by a link with nothing under it, the sheet closes onto the trip's plan.
   const close = () => goBackOr(tripPlanRoutes.hub(tripId));
   const locale = useLocale();
@@ -240,7 +232,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   };
 
   return (
-    <AddSheetView
+    <SheetView
       name={upper(subject?.name ?? '', locale)}
       line={words.line}
       days={chips(dayGrades(server.fit))}
@@ -255,7 +247,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
       dayHeader={nowhere ? '' : dayHeader(dayLabel, shown)}
       block={
         nowhere ? null : (
-          <AddBlock
+          <Block
             leave={choice === null || waiting ? null : leaveLine(shown, choice.startMin)}
             time={waiting ? WAITING_TIME : time}
             length={lengthLabel(length)}
@@ -282,7 +274,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
         (server.status === 'offline' && server.fit === null ? offlineNote(guide) : null)
       }
       who={
-        <WhoGoing
+        <Who
           members={members}
           out={out}
           open={whoOpen}

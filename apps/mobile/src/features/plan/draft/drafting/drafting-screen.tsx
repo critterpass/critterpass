@@ -8,7 +8,7 @@
  * coming back to the wait then opens the draft.
  */
 import { router, useIsFocused } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
@@ -27,7 +27,7 @@ import { tripDays } from '../data/trip-days';
 import { useDraftJob } from '../data/use-draft-job';
 import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
-import { DraftingView } from './drafting-view';
+import { DraftingView, type DraftingViewProps } from './drafting-view';
 
 /** How long a finished job stays on screen before folding into the draft. */
 const DONE_HOLD_MS = 900;
@@ -44,7 +44,14 @@ function startFailure(detail: unknown): { reason: string | null; jobId: string |
   };
 }
 
-export function DraftingScreen({ tripId }: { readonly tripId: string }) {
+export function DraftingScreen({
+  tripId,
+  View = DraftingView,
+}: {
+  readonly tripId: string;
+  /** How the wait is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<DraftingViewProps>;
+}) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const { network } = useLocalFirst();
@@ -145,7 +152,7 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
     return <ScreenMissing backLabel={backLabel} fallback={parent} testID="drafting-missing" />;
   }
   return (
-    <DraftingView
+    <View
       guide={trip.guide}
       days={tripDays(trip.startDate, trip.endDate)}
       phase={phase}

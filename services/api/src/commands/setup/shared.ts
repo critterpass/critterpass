@@ -8,6 +8,7 @@ import { outbox, sendInTx } from '@cp/db';
 import {
   channelName,
   DomainError,
+  SETUP_INPUT_STATUSES,
   SETUP_QUEUES,
   type TripSetupStep,
   type TripStatus,
@@ -28,16 +29,14 @@ export interface SetupTrip {
   readonly destination_id: string | null;
 }
 
-/** Trip states in which the crew still contributes setup inputs. */
-export const SETUP_OPEN_STATUSES: readonly TripStatus[] = ['won', 'setup'];
-/** Must-dos keep coming until the proposal goes out (a late one is fitted into the draft). */
-export const MUST_DO_OPEN_STATUSES: readonly TripStatus[] = [
-  'won',
-  'setup',
-  'drafting',
-  'draft_review',
-  'redrafting',
-];
+/**
+ * Trip states in which the organiser still moves setup on (dates, budget target, rooms): before
+ * the guide drafts, and while she reviews the draft; never while the guide is at work on it.
+ */
+export const SETUP_OPEN_STATUSES: readonly TripStatus[] = ['won', 'setup', 'draft_review'];
+/** Members' own part (days, max, sleep, way there) and must-dos keep coming until the proposal. */
+export const MEMBER_INPUT_STATUSES: readonly TripStatus[] = SETUP_INPUT_STATUSES;
+export const MUST_DO_OPEN_STATUSES: readonly TripStatus[] = SETUP_INPUT_STATUSES;
 
 /** The trip as the caller sees it, or `NOT_FOUND`; `lock` takes the row lock as the server. */
 export async function loadSetupTrip(
@@ -136,12 +135,24 @@ export async function openSetupTripIds(tx: pg.PoolClient, uid: string): Promise<
   const { rows } = await tx.query<{ id: string }>(
     `SELECT t.id FROM trips t
        JOIN crew_members m ON m.crew_id = t.crew_id AND m.user_id = $1 AND m.status = 'active'
-      WHERE t.status IN ('won', 'setup')
+      WHERE t.status = ANY ($2::text[])
         AND $1 IN (SELECT app.setup_member_ids(t.id))
       ORDER BY t.id`,
-    [uid],
+    [uid, SETUP_INPUT_STATUSES],
   );
   return rows.map((row) => row.id);
+}
+
+/**
+ * Refreshes whether each setup member's days and max are in (flags only) and answers how many
+ * members' flags changed. Runs as the server.
+ */
+export async function refreshMemberSetup(tx: pg.PoolClient, tripId: string): Promise<number> {
+  const { rows } = await tx.query<{ changed: number }>(
+    'SELECT app.recompute_member_setup($1) AS changed',
+    [tripId],
+  );
+  return rows[0]?.changed ?? 0;
 }
 
 /** Today's date in `tz` (the trip's zone; UTC when it has none). */

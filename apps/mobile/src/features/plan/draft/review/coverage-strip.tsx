@@ -42,7 +42,7 @@ const useStyles = makeStyles((th) => ({
   miss: { gap: th.space['2'], alignItems: 'flex-start' },
 }));
 
-function why(reason: MustDoMissReason): string {
+export function why(reason: MustDoMissReason): string {
   switch (reason) {
     case 'closed':
       return t({ id: 'planDraft.miss.closed', message: 'closed on your dates' });

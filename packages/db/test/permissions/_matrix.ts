@@ -2297,6 +2297,18 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: READ_ONLY_ALL,
   },
+  // Each setup member's part (flags and the way there): the crew reads it, only the system writes.
+  trip_member_setup: {
+    selectProbe: {
+      ...tripRowProbe('trip_member_setup'),
+      seed: `INSERT INTO trip_member_setup (trip_id, user_id, days_in)
+             SELECT t.id, p.user_id, true
+               FROM trips t JOIN trip_participants p ON p.trip_id = t.id AND p.role = 'organiser'
+              WHERE t.id = $1
+             ON CONFLICT (trip_id, user_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
   // The trip's route: its members read it as they read the trip, only the system writes it.
   trip_stops: {
     selectProbe: {
