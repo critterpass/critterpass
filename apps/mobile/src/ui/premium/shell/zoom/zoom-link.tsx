@@ -7,7 +7,7 @@
  */
 import { Link, type Href } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Platform, Pressable, type StyleProp, type ViewStyle } from 'react-native';
+import { Platform, Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 
 // The grow engine is shared infrastructure that both UIs mount at the root; only its source and
 // target hooks are used here.
@@ -26,20 +26,26 @@ export interface ZoomLinkProps {
   readonly testID?: string;
 }
 
+/**
+ * The zoom source (`Link.AppleZoom`'s native view) hides what it wraps from VoiceOver and UI tests,
+ * so the card's accessible element is a plain view around it: it carries the label, the button
+ * role and the test id, and a VoiceOver activation taps through to the link inside.
+ */
 function IosZoomLink({ href, accessibilityLabel, children, style, testID }: ZoomLinkProps) {
   return (
-    <Link href={href} asChild>
-      <Link.AppleZoom>
-        <Pressable
-          accessibilityRole="link"
-          accessibilityLabel={accessibilityLabel}
-          style={style}
-          {...(testID === undefined ? {} : { testID })}
-        >
-          {children}
-        </Pressable>
-      </Link.AppleZoom>
-    </Link>
+    <View
+      accessible
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      style={style}
+      {...(testID === undefined ? {} : { testID })}
+    >
+      <Link href={href} asChild>
+        <Link.AppleZoom>
+          <Pressable accessible={false}>{children}</Pressable>
+        </Link.AppleZoom>
+      </Link>
+    </View>
   );
 }
 
@@ -57,7 +63,7 @@ function AndroidZoomLink({
     <Pressable
       ref={source}
       collapsable={false}
-      accessibilityRole="link"
+      accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       onPress={() => void zoomTo(zoomId, href, { reduced })}
       style={style}
