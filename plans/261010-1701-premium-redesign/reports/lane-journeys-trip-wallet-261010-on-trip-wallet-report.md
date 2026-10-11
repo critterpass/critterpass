@@ -40,12 +40,24 @@ On the trip (`apps/mobile/src/features/{trip,safety}/premium/`):
 | 6.20 | Driver detail | `drivers/premium/DriverDetailPremium.tsx` |
 | 6.24 | Rate your driver | `drivers/premium/RateDriverPremium.tsx` |
 | 6.25 | Drivers our crews used (directory, empty area) | `drivers/premium/DirectoryPremium.tsx` |
+| 5.24 | Getting around (map, route pill, transfer, ride card, phrase card, later legs) | `bookings/premium/GettingAroundPremium.tsx`, `components/GettingAroundParts.tsx` |
+| 6.08 | Running late (map, stay flag, you, option cards) | `trip/premium/day-change/RunningLatePremium.tsx` |
+| 6.19 | Find a driver (day chips, sources, shortlist bar) | `drivers/premium/FindDriverPremium.tsx` |
+| 6.21 | Private tours (supplier cards, partner links, disclosure) | `drivers/premium/PrivateToursPremium.tsx`, `bookings/premium/components/DisclosureLine.tsx` (`DisclosurePremium`) |
+| 6.22 | Check the card (in-place fixes, includes chips, guide's question; couldn't read it) | `drivers/premium/CheckCardPremium.tsx`, `components/{CheckParts,CouldntRead}.tsx` |
+| 6.23 | Compare (table card, guide's risk note, docked picks) | `drivers/premium/ComparePremium.tsx`, `components/CompareTable.tsx` |
+| 6.26 | In-app leave-by alarm (slide, I'm up) | `trip/premium/alarm/{InAppAlarmPremium,SlideToUp}.tsx`, switched in `trip/alarm/alarm-runtime.tsx` |
+| 6.38 | Notification settings | `you/premium/notifications/*` (route `app/you/pings.tsx`) |
+| 7.03, 7.05 | Add a booking page, mailbox sheet | `bookings/premium/{AddBookingPremium,MailboxPremium}.tsx`, `components/CandidateCard.tsx` |
+| 7.19, 7.20 | Receipt check (failure and review panels over the scan camera) | `money/premium/receipt/ScanPanels.tsx` via `ScanView`'s `panelFor` |
+| 9.05 | "Only on Wi-Fi" for automatic trip-day saves | `trip/bundle/background-prefetch.ts` (`useDayPrefs`), toggle on journeys A's `you/premium/offline` page |
+| — | Meet-up editor sheet on the crew map; visit consent line on the hub | `crew/live-map/premium/MeetupEditorPremium.tsx`, `trip/premium/hub/VisitConsentLine.tsx` |
 
 Leave-by alarm (brand lane hand-off): the alarm request now sends the sun tint and the "Leave by 03:10 · Batur" title; the slider label reads "slide, I'm up →".
 
 ## Logic moved out of views (legacy unchanged)
 
-Hooks both UIs share: `trip/hub/use-trip-hub.ts`, `trip/day-of/use-day-of.ts`, `trip/disruptions/{forecast/use-forecast-screen,storm/use-storm-screen,flight/use-flight-disruption}.ts`, `trip/briefing/briefing-copy.ts`, `trip/offline` (`queued` on the offline view props), `bookings/detail/use-booking-detail.ts`, `bookings/boarding-pass/use-boarding-pass.ts`, `bookings/insurance/use-insurance-form.ts`, `bookings/stack/use-wallet-screen.ts`, `money/{balances/use-balances-screen,history/use-history,expense-detail/use-expense-detail,settle/use-settle,settle/use-payment,add-expense/use-add-expense,budget/use-budget}.ts`, `money/expense-detail/detail-copy.ts`, `money/settle/payout-labels.ts` (`usePayoutFieldLabel`), `safety/{help/use-help-screen,help/help-copy,sos/use-sos-screen,sos/sos-copy}.ts`.
+Hooks both UIs share: `trip/hub/use-trip-hub.ts`, `trip/day-of/use-day-of.ts`, `trip/disruptions/{forecast/use-forecast-screen,storm/use-storm-screen,flight/use-flight-disruption}.ts`, `trip/briefing/briefing-copy.ts`, `trip/offline` (`queued` on the offline view props), `bookings/detail/use-booking-detail.ts`, `bookings/boarding-pass/use-boarding-pass.ts`, `bookings/insurance/use-insurance-form.ts`, `bookings/stack/use-wallet-screen.ts`, `money/{balances/use-balances-screen,history/use-history,expense-detail/use-expense-detail,settle/use-settle,settle/use-payment,add-expense/use-add-expense,budget/use-budget}.ts`, `money/expense-detail/detail-copy.ts`, `money/settle/payout-labels.ts` (`usePayoutFieldLabel`), `safety/{help/use-help-screen,help/help-copy,sos/use-sos-screen,sos/sos-copy}.ts`, `bookings/{add/use-add-booking,candidates/candidate-line,getting-around/use-getting-around-screen}.ts`, `trip/disruptions/late/use-known-late.ts`, `drivers/{find/use-find-driver,private-tours/use-private-tours,intake/check/use-check-card,compare/use-compare}.ts`.
 
 ## Backend added (earlier in this lane)
 
@@ -65,7 +77,10 @@ Default payout method (payers see it first), wallet search, airport suggestions,
 
 ## Not built yet (left for the next pass)
 
-6.08 running late, 6.19 find a driver, 6.21 private tours, 6.22 check the card, 6.23 compare (their containers still hold the logic in the view and need the hook split first), 6.26 in-app alarm restyle, 6.38 notification settings (`features/you`, journeys A's area?), 7.03 add a booking page, 7.05 mailbox sheet, 7.07–7.09 rooms, 7.19–7.20 receipt check, 7.22 stay expense by room, 5.24 getting around (handed to this lane). Their legacy screens keep working under the premium switch. Vietnamese strings for the new message ids still need the catalog extract + translation pass (`pnpm --filter @cp/i18n extract`, then `compile`); extraction takes 13+ minutes on this Mac, so it is left to the integration pass. Every premium screen in this lane reuses current ids with the same placeholders (checked with a scan), so `lingui extract` does not trip on them; the scan found the same kind of clash in other lanes' files (monetize, home, plan, setup, crew, explore), which will stop extraction until they are renamed.
+- 7.07–7.09 rooms: waiting on the controller's OK to add one optional `View` prop to `setup/rooms/rooms-step.tsx` (the WhenStep/BudgetStep pattern). Otherwise the connected rooms logic would have to be copied.
+- 7.22 stay expense by room, and 7.08's By room / Evenly: these need a backend split mode and a server recompute when rooms change. `money/data/room-split.ts` computes the shares but is not wired.
+- 6.38's "hide message text" toggle: there is no backend field for it.
+- Vietnamese strings for the new message ids still need the catalog extract and translation pass (`pnpm --filter @cp/i18n extract`, then `compile`), left to the integration pass. Every premium screen in this lane reuses current ids with the same placeholders (checked with a scan). The scan found the same kind of clash in other lanes' files (monetize, home, plan, setup, crew, explore, `search.offline.works.places`); extraction will stop until those are renamed.
 
 ## Pieces another lane may want (for the controller to promote to the kit)
 
@@ -73,7 +88,7 @@ Default payout method (payers see it first), wallet search, airport suggestions,
 
 ## Still using a legacy piece inside a premium screen
 
-`VisitConsentRow` on the hub, `useVehicleLine` from the current driver card, registered hub tiles (quests), the crew map's `MeetupEditor`, and `guideSticker` for the guide's critter kind. Each needs a premium version from its owner.
+`useVehicleLine` (a hook, fine as is), registered hub tiles (quests), `guideSticker` for the guide's critter kind, `RideBackCard` on getting around, `MemberPicker` and the scan camera chrome in receipt check, and the said-late screen (6.08 builds only the known-late path). Each needs a premium version from its owner.
 
 ## Founder follow-ups
 
