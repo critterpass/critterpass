@@ -95,7 +95,7 @@ describe('la.orchestrate meet-up', { timeout: 60_000 }, () => {
     const state = (update!.body['aps'] as { 'content-state': { stragglers: unknown[] } })[
       'content-state'
     ];
-    expect(state.stragglers).toEqual([expect.objectContaining({ line: '600 m · 6 min' })]);
+    expect(state.stragglers).toEqual([expect.objectContaining({ line: '600 m', min: 6 })]);
   });
 
   it('a lapsed Boost ends it everywhere with the reason, and nothing starts again', async () => {
