@@ -12,7 +12,10 @@ import { BudgetStep, type BudgetLook } from '../../budget/budget-step';
 import type { PrivateMaxViewProps } from '../../budget/private-max-view';
 import type { StepProps } from '../../shell/frame';
 import type { WizardStep } from '../../shell/steps';
-import { WhenStep } from '../../when/when-step';
+import { WhenStep, type WhenSheets } from '../../when/when-step';
+import { PremiumCalendarConnectView } from '../calendar/connect-sheet';
+import { PremiumManualDaysView } from '../calendar/manual-days-sheet';
+import { PremiumWeekPicker } from '../calendar/week-picker-sheet';
 import { PremiumBudgetView } from './budget-view';
 import { PremiumPrivateMaxView } from './private-max-view';
 import { PremiumWhenView } from './when-view';
@@ -58,8 +61,14 @@ function PremiumBudgetStep(props: StepProps) {
   return <BudgetStep {...props} look={look} />;
 }
 
+const WHEN_SHEETS: WhenSheets = {
+  Connect: PremiumCalendarConnectView,
+  Manual: PremiumManualDaysView,
+  Picker: PremiumWeekPicker,
+};
+
 function PremiumWhenStep(props: StepProps) {
-  return <WhenStep {...props} View={PremiumWhenView} />;
+  return <WhenStep {...props} View={PremiumWhenView} sheets={WHEN_SHEETS} />;
 }
 
 export const PREMIUM_STEP_VIEWS: Partial<Record<WizardStep, (props: StepProps) => ReactNode>> = {

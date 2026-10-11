@@ -6,7 +6,7 @@
  */
 import { calendarOAuthFlag, type OAuthCalendarProvider } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useFlag } from '@/lib/analytics/flags';
@@ -233,12 +233,15 @@ export interface CalendarConnectSheetProps {
   readonly tripId: string;
   readonly onDismiss: () => void;
   readonly onMarkByHand: () => void;
+  /** How the sheet is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<CalendarConnectViewProps>;
 }
 
 export function CalendarConnectSheet({
   tripId,
   onDismiss,
   onMarkByHand,
+  View: Look = CalendarConnectView,
 }: CalendarConnectSheetProps) {
   const services = useSetupServices();
   const sync = useCalendarSync(tripId, { now: services.now });
@@ -264,7 +267,7 @@ export function CalendarConnectSheet({
   };
 
   return (
-    <CalendarConnectView
+    <Look
       status={sync.status}
       lastSyncedAt={sync.lastSyncedAt}
       now={new Date(services.now())}
