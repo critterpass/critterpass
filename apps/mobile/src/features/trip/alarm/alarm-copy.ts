@@ -56,7 +56,7 @@ export function alarmText(alarm: AlarmTextInput, guideName: string, locale: stri
       t({ id: 'trip.alarm.guideLine', message: `${guideName} says: up! The day won't wait.` }),
     labels: {
       imUp: t({ id: 'trip.alarm.imUp', message: "I'm up" }),
-      slide: t({ id: 'trip.alarm.slide', message: "Slide, I'm up" }),
+      slide: t({ id: 'trip.alarm.slide', message: "slide, I'm up →" }),
       snooze: t({ id: 'trip.alarm.snooze', message: 'Snooze 5 min' }),
       snoozeNote: t({ id: 'trip.alarm.snoozeNote', message: `(${guideName} will sigh)` }),
       crewPinged: t({ id: 'trip.alarm.crewPinged', message: 'Crew was pinged' }),

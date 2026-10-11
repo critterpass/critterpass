@@ -5,7 +5,7 @@
  */
 import { z } from 'zod';
 
-import { laLine } from './la-common';
+import { laLine, unixSeconds, unixSecondsSchema } from './la-common';
 
 export const LA_CRITTER_DISTANCE_BANDS = ['near', 'close', 'here'] as const;
 export const LA_CRITTER_STATES = ['dwelling', 'draining', 'caught', 'expired'] as const;
@@ -33,6 +33,11 @@ export const critterLaStateSchema = z.object({
   found_key: z.string().max(80).nullable(),
   /** Whole minutes of staying put still to go ("STAY 4 MORE MIN"); null once it is not filling. */
   remain_min: z.number().int().nonnegative().nullable(),
+  /**
+   * When the dwell completes if the member stays put (unix seconds), so the surface counts down
+   * "4:00" to the second; null once it is not filling.
+   */
+  ends_at: unixSecondsSchema.nullable(),
 });
 export type CritterLaState = z.infer<typeof critterLaStateSchema>;
 
@@ -70,7 +75,11 @@ export function buildCritterLaAttributes(input: CritterLaInput): CritterLaAttrib
   };
 }
 
-export function buildCritterLaState(input: CritterLaInput, seq: number): CritterLaState {
+export function buildCritterLaState(
+  input: CritterLaInput,
+  seq: number,
+  now: Date = new Date(),
+): CritterLaState {
   const ring =
     input.state === 'caught' ? LA_CRITTER_RING_STEPS : critterRingStep(input.dwellFraction);
   const remaining = 1 - Math.min(1, Math.max(0, input.dwellFraction));
@@ -83,5 +92,6 @@ export function buildCritterLaState(input: CritterLaInput, seq: number): Critter
     blur_stage: critterBlurStage(ring),
     found_key: input.state === 'caught' ? input.foundKey : null,
     remain_min: filling ? Math.ceil(Math.round(remaining * input.dwellTargetS) / 60) : null,
+    ends_at: filling ? unixSeconds(now) + Math.round(remaining * input.dwellTargetS) : null,
   };
 }

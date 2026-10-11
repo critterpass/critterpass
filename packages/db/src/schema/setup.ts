@@ -218,6 +218,8 @@ export const roomPrefs = pgTable('room_prefs', {
   userId: userId(),
   chips: texts('chips'),
   partnerId: userRef('partner_id'),
+  /** `share` a room, a room of their `own`, or `either`; null until they say. */
+  sleep: text('sleep'),
   ...stamps(),
 });
 

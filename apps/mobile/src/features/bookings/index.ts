@@ -14,3 +14,4 @@ export { useWalletGuide, WalletGuideProvider } from './data/wallet-guide';
 export { Disclosure } from './supplier/Disclosure';
 export { usePartnerLink } from './supplier/data/use-partner-link';
 export { openWalletTrip, useWalletTripId } from './data/wallet-trip';
+export { WalletHalfSwitch as WalletHalfSwitchPremium } from './premium/components/WalletHalfSwitch';

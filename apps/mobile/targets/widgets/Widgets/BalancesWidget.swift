@@ -26,34 +26,32 @@ struct BalancesView: View {
         BalanceFace.make(entry.file?.snapshot.balances)
     }
 
+    /// The same light card on every face (6.31); the amount carries the meaning.
     static func ground(_ entry: HomeWidgetEntry) -> Color {
-        switch face(entry) {
-        case .owed: return LAPalette.green
-        case .owes: return LAPalette.orange
-        case .settled, .none: return LAPalette.card
-        }
+        LAPalette.card
     }
 
     var body: some View {
         if let file = entry.file {
             let acted = WidgetTaps.read(root: AppGroupContainer.url).ids(at: entry.date)
             let face = Self.face(entry)
-            let ink = face == nil || face == .settled ? LAPalette.paper : LAPalette.night
+            let ink = LAPalette.paper
             VStack(alignment: .leading, spacing: 2) {
                 Text(eyebrow(face))
-                    .font(.laEyebrow)
-                    .tracking(1.2)
-                    .foregroundStyle(ink)
+                    .font(.system(size: 11.5, weight: .bold))
+                    .tracking(0.46)
+                    .foregroundStyle(LAPalette.muted)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 Group {
                     switch face {
                     case .owed(let amount), .owes(let amount):
                         Text(verbatim: amount)
-                            .font(.system(size: 38, weight: .black).monospacedDigit())
+                            .font(.system(size: 36, weight: .heavy).monospacedDigit())
+                            .tracking(-1.08)
                             .privacySensitive()
                     case .settled:
-                        Text("ALL SQUARE").font(.system(size: 24, weight: .black))
+                        Text("All square").font(.system(size: 24, weight: .heavy))
                     case .none:
                         Text("No expenses yet.").font(.system(size: 14, weight: .semibold))
                     }
@@ -67,22 +65,20 @@ struct BalancesView: View {
                    let tripId = file.snapshot.trip?.id
                 {
                     if nudge.sentEarlier {
-                        Text("NUDGED \(nudge.firstName.uppercased())")
-                            .modifier(BalancesPill(ink: LAPalette.paper.opacity(0.7), fill: LAPalette.card.opacity(0.6)))
+                        Text("Nudged \(nudge.firstName)")
+                            .modifier(BalancesPill(ink: LAPalette.muted, fill: LAPalette.chip))
                     } else {
                         Button(intent: NudgeIntent(userId: nudge.userId, tripId: tripId)) {
-                            Text("NUDGE \(nudge.firstName.uppercased())")
-                                .modifier(BalancesPill(ink: LAPalette.paper, fill: LAPalette.card))
+                            Text("Nudge \(nudge.firstName)")
+                                .modifier(BalancesPill(ink: LAPalette.card, fill: LAPalette.paper))
                         }
                         .buttonStyle(.plain)
                     }
                 } else {
-                    Text("SEE WHO")
-                        .modifier(BalancesPill(
-                            ink: face == nil || face == .settled ? LAPalette.night : LAPalette.paper,
-                            fill: face == nil || face == .settled ? LAPalette.yellow : LAPalette.card))
+                    Text("See who")
+                        .modifier(BalancesPill(ink: LAPalette.card, fill: LAPalette.paper))
                 }
-                HomeWidgetStaleLine(entry: entry, ink: ink.opacity(0.7))
+                HomeWidgetStaleLine(entry: entry)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         } else {
@@ -106,8 +102,7 @@ struct BalancesPill: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 12, weight: .heavy))
-            .tracking(0.8)
+            .font(.system(size: 12.5, weight: .semibold))
             .foregroundStyle(ink)
             .lineLimit(1)
             .minimumScaleFactor(0.7)

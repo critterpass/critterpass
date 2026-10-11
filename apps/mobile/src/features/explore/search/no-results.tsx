@@ -46,7 +46,7 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-function hoursAndMinutes(minutes: number): string {
+export function hoursAndMinutes(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
   if (h === 0) return t({ id: 'search.none.minutes', message: `${m} min` });
@@ -228,7 +228,7 @@ export function NoResults(props: NoResultsProps) {
   );
 }
 
-function nearestLine(name: string, area: string | null, away: string): string {
+export function nearestLine(name: string, area: string | null, away: string): string {
   return area === null
     ? t({ id: 'search.none.nearestPlace', message: `The closest is ${name}, ${away} away.` })
     : t({ id: 'search.none.nearest', message: `The closest is ${name} in ${area}, ${away} away.` });

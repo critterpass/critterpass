@@ -6,6 +6,7 @@
  * breadcrumb so a report shows how the alarm was meant to ring.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, flag keys and log events, never copy. */
+import { premium } from '@cp/design-tokens';
 import * as Sentry from '@sentry/react-native';
 import * as Notifications from 'expo-notifications';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -14,7 +15,7 @@ import { AppState } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import { createDeviceResolver } from '@/data/commands/device';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { guideColour, guideOr } from '../hub/guide';
+import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
 
@@ -164,7 +165,8 @@ export function useAlarmSync(me: string | null): AlarmSyncState {
         await syncAlarms(desired, {
           backend: choice.backend,
           text: (alarm) => alarmText(alarm, guideFor(alarm.tripId).name, locale),
-          tint: (alarm) => guideColour(guideFor(alarm.tripId).slug),
+          // The alarm wears the sun on every surface (AlarmKit tint, Android accent), whoever guides.
+          tint: () => premium.accent.sun,
           deviceId,
           mirrored: mirroredRows,
           mirror: (payload) => mirror(payload),

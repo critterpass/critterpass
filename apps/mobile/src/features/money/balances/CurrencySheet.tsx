@@ -4,17 +4,14 @@
  * Switching re-rates the whole ledger on the server, so it goes online and says so.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { toast } from '@/motion/island-toast';
 import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { setSettlementCurrencyCommand } from '../data/commands';
+import { useSettlementCurrency } from './use-settlement-currency';
 
 const useStyles = makeStyles((t) => ({ body: { padding: t.space['16'], gap: t.space['12'] } }));
 
@@ -36,28 +33,8 @@ export function CurrencySheet({
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
-  const { send, pending } = useCommand(setSettlementCurrencyCommand);
-  const [error, setError] = useState(false);
+  const { pending, error, pick } = useSettlementCurrency(crewId, current, onClose);
   const title = t({ id: 'money.currency.title', message: `The crew counts in ${current}` });
-
-  async function pick(currency: string) {
-    if (currency === current || pending) return;
-    setError(false);
-    const result = await send({ crew_id: crewId, currency });
-    if (result.kind === 'applied') {
-      toast.show({
-        id: 'money-currency',
-        title: t({ id: 'money.currency.done', message: `Balances now in ${currency}` }),
-        subtitle: t({
-          id: 'money.currency.doneLine',
-          message: 'Every expense re-counts at the rate on the day it was spent.',
-        }),
-      });
-      onClose();
-    } else {
-      setError(true);
-    }
-  }
 
   return (
     <Sheet detents={['fit']} onDismiss={onClose} accessibilityLabel={title} testID="money-currency">
@@ -82,7 +59,7 @@ export function CurrencySheet({
               title: currency,
               checked: currency === current,
               disabled: pending,
-              onPress: () => void pick(currency),
+              onPress: () => pick(currency),
             }))}
           />
         ) : (

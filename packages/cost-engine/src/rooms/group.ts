@@ -7,7 +7,8 @@
  */
 import { DomainError } from '@cp/domain';
 
-export type RoomChip = 'early_bird' | 'night_owl' | 'light_sleeper' | 'snorer' | 'dont_care';
+export type RoomChip =
+  'early_bird' | 'night_owl' | 'light_sleeper' | 'snorer' | 'dont_care' | 'ground_floor';
 export type RoomTraitLabel = 'light_sleepers' | 'early_risers' | 'night_owls' | 'couple';
 
 export interface RoomGuest {

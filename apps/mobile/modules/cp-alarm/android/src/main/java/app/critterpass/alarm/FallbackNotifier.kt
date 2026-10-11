@@ -9,6 +9,8 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
+import app.critterpass.notifications.Channels
+import app.critterpass.notifications.R as NotificationsR
 
 /**
  * The alarm as a notification on the `cp_alarm` channel: the default everywhere, with I'M UP and
@@ -30,7 +32,8 @@ object FallbackNotifier {
     val id = request.leaveById
     val builder =
       Notification.Builder(context, CHANNEL_ID)
-        .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+        .setSmallIcon(NotificationsR.drawable.cp_notification_icon)
+        .setColor(Channels.ACCENT_ARGB)
         .setContentTitle(request.title)
         .setContentText(request.subtitle)
         .setStyle(Notification.BigTextStyle().bigText("${request.subtitle}\n${request.guideLine}"))

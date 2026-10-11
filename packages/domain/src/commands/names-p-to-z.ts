@@ -1,6 +1,7 @@
 /** Registered command names from `p` to `z`, sorted; see `./names`. */
 export const COMMAND_NAMES_P_TO_Z = [
   'pause_location_share',
+  'pin_message',
   'ping_all',
   'plusone_comment',
   'post_place_decision',
@@ -35,6 +36,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'remind_all_payments',
   'remove_candidate',
   'remove_idea',
+  'remove_kept_chat',
   'remove_member',
   'remove_packing_item',
   'remove_past_trip',
@@ -110,6 +112,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'set_entry_reminder',
   'set_explore_at_home',
   'set_flight_crew_visibility',
+  'set_getting_there',
   'set_guide_skin',
   'set_home_airport',
   'set_keep_in_chat',
@@ -121,6 +124,7 @@ export const COMMAND_NAMES_P_TO_Z = [
   'set_pause_intent',
   'set_payout_method',
   'set_place_stance',
+  'set_plan_change_rule',
   'set_readiness',
   'set_room_assignment',
   'set_room_prefs',

@@ -1,7 +1,8 @@
 /**
  * The question queued for midnight over the real local-first stack: ASK AT MIDNIGHT goes to the
  * server (online only) and shows at once from its answer, a second one the same day says so, the
- * synced row shows on its own, and CANCEL hides it and queues `cancel_queued_question`.
+ * synced row shows on its own, a rewording shows at once and queues `edit_queued_question`, and
+ * CANCEL hides it and queues `cancel_queued_question`.
  */
 import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
@@ -89,6 +90,29 @@ describe('the question queued for midnight', () => {
       await result.current.ask('And Arashiyama?');
     });
     expect(result.current.problem).toBe('already_queued');
+  });
+
+  it('rewords the synced question at once and queues the edit', async () => {
+    const stack = await open();
+    await stack.db.execute(
+      `INSERT INTO queued_guide_questions (id, user_id, thread_id, text, tz, queued_for, queued_at, answer_after, status)
+       VALUES (?, ?, ?, 'Is the tea house open?', 'Asia/Tokyo', '2027-04-04', '2027-04-04T07:50:00Z', ?, 'queued')`,
+      [QUESTION, stack.uid, THREAD, MIDNIGHT],
+    );
+    const { result } = await renderHook(() => useQueuedQuestion(THREAD), {
+      wrapper: stack.wrapper,
+    });
+    await waitFor(() => expect(result.current.queued?.text).toBe('Is the tea house open?'));
+    await act(async () => {
+      result.current.edit('  Is the tea house open on Monday?  ');
+      result.current.edit('');
+      await Promise.resolve();
+    });
+    expect(result.current.queued?.text).toBe('Is the tea house open on Monday?');
+    await waitFor(async () => {
+      const rows = await stack.db.getAll<{ cmd: string }>('SELECT cmd FROM commands');
+      expect(rows.map((row) => row.cmd)).toEqual(['edit_queued_question']);
+    });
   });
 
   it('shows the synced question and cancels it', async () => {

@@ -105,7 +105,7 @@ msgstr "Ring on the minute"
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.slide"
-msgstr "Slide, I'm up"
+msgstr "slide, I'm up →"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx

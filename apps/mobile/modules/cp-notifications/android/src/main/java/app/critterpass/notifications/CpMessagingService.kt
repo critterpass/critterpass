@@ -64,20 +64,24 @@ class CpMessagingService : ExpoFirebaseMessagingService() {
       val manager = NotificationManagerCompat.from(context)
       if (!manager.areNotificationsEnabled()) return
       val sender = message.sender
-      val icon = sender?.let { loadAvatar(context, it.avatar) }
+      val icon = sender?.let { loadAvatar(context, it.avatar) ?: InitialAvatar.icon(it.name, it.tone) }
       val tag = if (message.appendsToConversation) message.conversationId else message.nid
       val tap = NotificationTap(message.nid, message.deeplink, message.type, message.crewId)
+      val text = message.text
       val builder = NotificationCompat.Builder(context, message.channelId)
         .setSmallIcon(R.drawable.cp_notification_icon)
+        .setColor(Channels.ACCENT_ARGB)
         .setContentTitle(message.title)
-        .setContentText(message.body)
+        .setContentText(text)
         .setAutoCancel(true)
         .setCategory(
           if (sender != null) NotificationCompat.CATEGORY_MESSAGE else NotificationCompat.CATEGORY_REMINDER,
         )
         .setContentIntent(NotificationTaps.pendingIntent(context, tap, (tag ?: message.nid).hashCode()))
-      message.subtitle?.let { builder.setSubText(it) }
+      // The header names the channel ("Crew chat", "Money"); the payload's subtitle is a line of the text.
+      Channels.nameRes(message.channelId)?.let { builder.setSubText(context.getString(it)) }
       message.groupKey?.let { builder.setGroup(it) }
+      if (sender == null && text != message.body) builder.setStyle(NotificationCompat.BigTextStyle().bigText(text))
 
       if (sender != null) {
         val person = Person.Builder()
@@ -119,7 +123,7 @@ class CpMessagingService : ExpoFirebaseMessagingService() {
       val style = previous ?: NotificationCompat.MessagingStyle(user)
       style.isGroupConversation = message.isGroupConversation
       if (message.isGroupConversation) style.conversationTitle = message.conversationTitle
-      style.addMessage(message.body, System.currentTimeMillis(), person)
+      style.addMessage(message.text, System.currentTimeMillis(), person)
       return style
     }
 
@@ -131,6 +135,7 @@ class CpMessagingService : ExpoFirebaseMessagingService() {
     ) {
       val summary = NotificationCompat.Builder(context, channelId)
         .setSmallIcon(R.drawable.cp_notification_icon)
+        .setColor(Channels.ACCENT_ARGB)
         .setGroup(groupKey)
         .setGroupSummary(true)
         .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN)
@@ -141,7 +146,7 @@ class CpMessagingService : ExpoFirebaseMessagingService() {
 
     /**
      * The sender's face: the app's cached copy (`cp-app-group/assets/avatars/<key>@3x.png`), else an
-     * https avatar downloaded within 2 s. Null leaves the system's initial-letter avatar.
+     * https avatar downloaded within 2 s. Null falls back to the initial on the crew colour.
      */
     private fun loadAvatar(context: Context, avatar: String?): IconCompat? {
       if (avatar.isNullOrBlank()) return null

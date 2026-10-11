@@ -46,6 +46,13 @@ export type QueueGuideQuestionPayload = z.infer<typeof queueGuideQuestionPayload
 
 export const cancelQueuedQuestionPayloadSchema = z.strictObject({ question_id: z.uuid() });
 
+/** Rewording a queued question before the reset answers it. */
+export const editQueuedQuestionPayloadSchema = z.strictObject({
+  question_id: z.uuid(),
+  text: guideQuestionTextSchema,
+});
+export type EditQueuedQuestionPayload = z.infer<typeof editQueuedQuestionPayloadSchema>;
+
 export const rateGuideAnswerPayloadSchema = z.strictObject({
   message_id: z.uuid(),
   verdict: z.enum(['up', 'down']),

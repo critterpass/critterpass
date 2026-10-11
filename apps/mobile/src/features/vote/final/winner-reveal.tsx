@@ -11,9 +11,7 @@
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect, useRef } from 'react';
 
-import { useCommand } from '@/data/commands/use-command';
 import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
 import { guideSticker } from '@/ui/avatar/guides';
 import { goBackOr } from '@/lib/navigation/back';
@@ -25,12 +23,16 @@ import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
 import { useIsOrganiser, usePlaces } from '../data/use-board';
-import { originCity, useOrganiserName, useRevealSeenOnOpen } from '../data/use-final';
+import {
+  originCity,
+  useMarkRevealSeen,
+  useOrganiserName,
+  useRevealSeenOnOpen,
+} from '../data/use-final';
 import { useMyUid } from '../data/use-my-uid';
 import { stackOf, usePeople } from '../data/use-people';
 import { usePoll } from '../data/use-poll';
 import type { PollOptionView, PollView } from '../data/poll-view';
-import { markRevealSeenCommand } from '../data/vote-commands';
 import { guideOr, money, upper } from '../format';
 import { pollScore } from '../poll/poll-result';
 import { voteRoutes } from '../routes';
@@ -55,14 +57,7 @@ export function WinnerRevealView({ poll, me, settled = false }: WinnerRevealView
   const people = usePeople(poll.crewId);
   const organiser = useIsOrganiser(poll, me);
   const organiserName = useOrganiserName(poll);
-  const seen = useCommand(markRevealSeenCommand);
-  const fired = useRef(false);
-  const send = seen.send;
-  useEffect(() => {
-    if (fired.current || settled) return;
-    fired.current = true;
-    void send({ poll_id: poll.id });
-  }, [poll.id, send, settled]);
+  useMarkRevealSeen(poll.id, settled);
 
   const media = useDestinationsMedia([...places.values()].flatMap((p) => (p.slug ? [p.slug] : [])));
   const winner = poll.options.find((option) => option.winner);

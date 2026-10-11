@@ -29,7 +29,8 @@ export function actionsFor(
   if (message.deleted || message.status !== 'sent' || message.senderKind === 'system') return [];
   const mine = message.senderKind === 'user' && message.senderId === me;
   const actions: MessageAction[] = ['reply'];
-  if (message.body !== '') actions.push('copy');
+  // A sticker's body is its pose, not words to copy.
+  if (message.body !== '' && message.type !== 'sticker') actions.push('copy');
   if (mine) {
     const age = now - Date.parse(message.createdAt);
     if (message.type === 'text' && age <= editWindowMinutes * 60_000) actions.push('edit');

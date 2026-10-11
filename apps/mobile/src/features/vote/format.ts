@@ -5,14 +5,14 @@
 import { formatNarrowCurrency } from '@cp/cost-engine';
 import { format } from '@cp/i18n';
 
-import { guideColour, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideColour, guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 export function guideOr(value: string | null | undefined, fallback: GuideId = 'tokek'): GuideId {
   return isGuideStickerId(value) ? value : fallback;
 }
 
-export { guideColour };
+export { guideColour, guideSticker };
 
 /** Uppercases in the reader's language (Vietnamese keeps its diacritics). */
 export function upper(text: string, locale: string): string {

@@ -18,7 +18,7 @@ import {
   requireSetupMember,
   requireStatus,
   setupMemberIds,
-  SETUP_OPEN_STATUSES,
+  MEMBER_INPUT_STATUSES,
 } from './shared';
 
 export const setRoomPrefsCommand = defineCommand({
@@ -28,7 +28,7 @@ export const setRoomPrefsCommand = defineCommand({
   offline: true,
   allowAnonymous: true,
   authorize: async (tx, payload, ctx) => {
-    requireStatus(await requireSetupMember(tx, payload.trip_id, ctx.uid), SETUP_OPEN_STATUSES);
+    requireStatus(await requireSetupMember(tx, payload.trip_id, ctx.uid), MEMBER_INPUT_STATUSES);
   },
   handle: async (tx, payload, ctx) => {
     const partner = payload.partner_uid ?? null;
@@ -39,16 +39,20 @@ export const setRoomPrefsCommand = defineCommand({
       }
     }
     await tx.query(
-      `INSERT INTO room_prefs (trip_id, user_id, chips, partner_id) VALUES ($1, $2, $3::text[], $4)
+      `INSERT INTO room_prefs (trip_id, user_id, chips, partner_id, sleep)
+       VALUES ($1, $2, $3::text[], $4, $6)
        ON CONFLICT (trip_id, user_id) DO UPDATE
          SET chips = EXCLUDED.chips,
-             partner_id = CASE WHEN $5::boolean THEN EXCLUDED.partner_id ELSE room_prefs.partner_id END`,
+             partner_id = CASE WHEN $5::boolean THEN EXCLUDED.partner_id ELSE room_prefs.partner_id END,
+             sleep = CASE WHEN $7::boolean THEN EXCLUDED.sleep ELSE room_prefs.sleep END`,
       [
         payload.trip_id,
         ctx.uid,
         [...new Set(payload.chips)],
         partner,
         payload.partner_uid !== undefined,
+        payload.sleep ?? null,
+        payload.sleep !== undefined,
       ],
     );
     return { trip_id: payload.trip_id };
@@ -62,7 +66,7 @@ export const requestRoomSwapCommand = defineCommand({
   offline: true,
   allowAnonymous: true,
   authorize: async (tx, payload, ctx) => {
-    requireStatus(await requireSetupMember(tx, payload.trip_id, ctx.uid), SETUP_OPEN_STATUSES);
+    requireStatus(await requireSetupMember(tx, payload.trip_id, ctx.uid), MEMBER_INPUT_STATUSES);
   },
   handle: async (tx, payload, ctx) => {
     if (payload.with_uid !== undefined) {

@@ -16,18 +16,25 @@ struct CPSender: Codable, Equatable, Sendable {
     let name: String
     let avatar: String?
     let avatarUrl: String?
+    /// A member's crew colour (`yellow|orange|blue|pink|green|cream`): with no photo they show
+    /// as their initial on it.
+    let tone: String?
 
     enum CodingKeys: String, CodingKey {
-        case kind, id, name, avatar
+        case kind, id, name, avatar, tone
         case avatarUrl = "avatar_url"
     }
 
-    init(kind: Kind, id: String, name: String, avatar: String? = nil, avatarUrl: String? = nil) {
+    init(
+        kind: Kind, id: String, name: String, avatar: String? = nil, avatarUrl: String? = nil,
+        tone: String? = nil
+    ) {
         self.kind = kind
         self.id = id
         self.name = name
         self.avatar = avatar
         self.avatarUrl = avatarUrl
+        self.tone = tone
     }
 }
 

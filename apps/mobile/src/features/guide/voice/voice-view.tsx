@@ -29,6 +29,8 @@ export interface VoiceViewProps {
   /** The crew sees this conversation (group mode); otherwise it is the asker's own. */
   readonly shared: boolean;
   readonly sticker: ReactNode;
+  /** The guide's critter kind, for a view that draws the guide itself. */
+  readonly guideKind?: string;
   readonly state: VoiceState;
   readonly level: SharedValue<number>;
   /** The changes the guide offered in this turn. */
@@ -64,7 +66,7 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
-function useIssueLine(issue: VoiceIssue | null, guideName: string): string | null {
+export function useIssueLine(issue: VoiceIssue | null, guideName: string): string | null {
   const { t } = useLingui();
   switch (issue) {
     case null:
