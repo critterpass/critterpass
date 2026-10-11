@@ -23,6 +23,7 @@ import { SetupShell } from '../shell/setup-shell';
 import { memberLine, organiserLine } from './copy';
 import { traitsOf, type PerPerson, type PlanStay, type RoomsPlan } from './model';
 import { PriceLine } from './price-line';
+import { noticeText } from './rooms-words';
 import { MemberRoomTools, MemberSwapAction, type RoomChipKey } from './member-tools';
 import { RoomsPlanCards } from './rooms-plan';
 import { StayPicker, type StayOption } from './stay-picker';
@@ -54,47 +55,13 @@ export interface RoomsActions {
   readonly onAskSwap: () => void;
 }
 
-function noticeText(notice: RoomsNotice): string | null {
-  switch (notice) {
-    case 'conflict':
-      return t({
-        id: 'setup.rooms.notice.conflict',
-        message: 'Someone else just moved people. Here’s the latest.',
-      });
-    case 'lock_offline':
-      return t({ id: 'setup.rooms.notice.offline', message: 'Locking the rooms needs signal.' });
-    case 'lock_failed':
-      return t({
-        id: 'setup.rooms.notice.lockFailed',
-        message: 'That didn’t lock. Pick a stay and try again.',
-      });
-    case 'stay_failed':
-      return t({
-        id: 'setup.rooms.notice.stayFailed',
-        message: 'That stay didn’t go through. Check the dates are locked and try again.',
-      });
-    case 'stay_unavailable':
-      return t({
-        id: 'setup.rooms.notice.stayUnavailable',
-        message:
-          'That stay has no price for this trip right now, so it wasn’t picked. Try another.',
-      });
-    case null:
-      return null;
-  }
-}
-
-export function RoomsView({
-  trip,
-  shell,
-  model,
-  actions,
-  initialReject,
-}: StepProps & {
+export type RoomsViewProps = StepProps & {
   readonly model: RoomsModel;
   readonly actions: RoomsActions;
   readonly initialReject?: { readonly stayKey: string; readonly roomKey: string } | undefined;
-}) {
+};
+
+export function RoomsView({ trip, shell, model, actions, initialReject }: RoomsViewProps) {
   const theme = useTheme();
   const guide = guideSticker(trip.guide).name;
   const organiser: SetupMember | undefined = trip.members.find((member) => member.organiser);

@@ -9,7 +9,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- command values, route ids and date options, never copy. */
 import { MUST_DOS_PER_MEMBER } from '@cp/domain';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTyping } from '@/data/realtime/use-typing';
@@ -21,7 +21,7 @@ import { setupRoutes } from '../routes';
 import type { StepProps } from '../shell/frame';
 import { useMustDosData } from './data';
 import { buildMustDos, type MustDoItem } from './model';
-import { MustDosView } from './must-dos-view';
+import { MustDosView, type MustDosViewProps } from './must-dos-view';
 import { useExamplePlaces } from './examples';
 import { listWith, listWithout } from './save';
 
@@ -43,7 +43,14 @@ export function draftStateOf(trip: {
   return trip.status === 'draft_review' || trip.status === 'redrafting' ? 'ready' : 'writing';
 }
 
-export function MustDosStep({ trip, shell }: StepProps) {
+export function MustDosStep({
+  trip,
+  shell,
+  View = MustDosView,
+}: StepProps & {
+  /** How the step is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<MustDosViewProps>;
+}) {
   const data = useMustDosData(trip.tripId);
   const { typing } = useTyping('trip_presence', trip.tripId);
   const setMustDos = useCommand(setMustDosCommand);
@@ -85,7 +92,7 @@ export function MustDosStep({ trip, shell }: StepProps) {
   };
 
   return (
-    <MustDosView
+    <View
       trip={trip}
       shell={shell}
       model={model}

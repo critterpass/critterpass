@@ -7,7 +7,7 @@
  * straight on to the must-dos; the step stays in the stepper to open later.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, step names and notice keys, never copy. */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
 
 import { isSkippable } from '@cp/domain';
 
@@ -29,7 +29,7 @@ import type { RoomChipKey } from './copy';
 import { estimateOf, moveGuest, perPersonPrice, roomsPayload, type PlanStay } from './model';
 import { fractionDigits } from './price-line';
 import { useRoomsData } from './rooms-data';
-import { RoomsView, type RoomsModel, type RoomsNotice } from './rooms-view';
+import { RoomsView, type RoomsModel, type RoomsNotice, type RoomsViewProps } from './rooms-view';
 import type { StayOption } from './stay-picker';
 
 /**
@@ -64,7 +64,14 @@ export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): Ro
   return [...chips.filter((c) => c !== 'dont_care'), chip].slice(-4);
 }
 
-export function RoomsStep({ trip, shell }: StepProps) {
+export function RoomsStep({
+  trip,
+  shell,
+  View = RoomsView,
+}: StepProps & {
+  /** How the step is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<RoomsViewProps>;
+}) {
   const locale = useLocale();
   const data = useRoomsData(trip.tripId, trip.me);
   const crewMoney = useCrewMoney(trip.tripId);
@@ -180,7 +187,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
   // Nothing to show on the way past: the must-dos step is already opening.
   if (pass) return null;
   return (
-    <RoomsView
+    <View
       trip={trip}
       shell={shell}
       model={model}
