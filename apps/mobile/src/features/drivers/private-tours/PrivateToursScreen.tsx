@@ -5,17 +5,12 @@
  * (or has nothing for the trip) its row is a plain link to its own search: no prices or ratings of
  * ours. The commission disclosure stays at the bottom.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- wire values (link refs), never copy. */
-import { generateUuidV7 } from '@cp/domain';
-import { currencyExponent, isKnownCurrency } from '@cp/cost-engine';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { Disclosure, usePartnerLink } from '@/features/bookings';
+import { Disclosure } from '@/features/bookings';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -28,10 +23,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { deviceDriversApi, type Outcome, type PrivateTours } from '../shared/api';
-import { shortlistCommand } from '../shared/commands';
-import { splitDays } from '../shared/routes';
-import { useDriverDays } from '../shared/use-driver-days';
+import { usePrivateTours } from './use-private-tours';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -47,24 +39,8 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const plan = useDriverDays(tripId);
-  const openLink = usePartnerLink();
-  const shortlist = useCommand(shortlistCommand);
-  const [tours, setTours] = useState<Outcome<PrivateTours> | null>(null);
-  const [added, setAdded] = useState<ReadonlySet<string>>(new Set());
-  const picked = splitDays(days);
-  useEffect(() => {
-    let live = true;
-    void deviceDriversApi.privateTours(tripId, picked).then((outcome) => {
-      if (live) setTours(outcome);
-    });
-    return () => {
-      live = false;
-    };
-    // `picked` is derived from the `days` string.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tripId, days]);
-  const value = tours?.kind === 'ok' ? tours.value : null;
+  const tours = usePrivateTours(tripId, days);
+  const { plan } = tours;
   return (
     <Scaffold variant="dark" testID="drivers-tours">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
@@ -82,14 +58,14 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
               'Fixed price, booked and paid with the supplier. Titles, photos and ratings are theirs, word for word.',
           })}
         </Text>
-        {tours === null ? (
+        {tours.loading ? (
           <Skeleton
             preset="photo"
             label={t({ id: 'drivers.tours.loading', message: 'Looking for private cars' })}
           />
         ) : null}
-        {(value?.cards ?? []).map((card) => {
-          const done = added.has(card.product_id);
+        {tours.cards.map((card) => {
+          const done = tours.added.has(card.product_id);
           return (
             <View
               key={card.product_id}
@@ -123,27 +99,8 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
                       variant="secondary"
                       size="sm"
                       block
-                      disabled={done || card.price_from === null || card.currency === null}
-                      onPress={() => {
-                        const currency = card.currency ?? 'USD';
-                        const exp = isKnownCurrency(currency) ? currencyExponent(currency) : 2;
-                        void shortlist
-                          .send({
-                            provider_id: generateUuidV7(),
-                            trip_id: tripId,
-                            supplier: 'viator',
-                            product_id: card.product_id,
-                            price_minor: Math.round((card.price_from ?? 0) * 10 ** exp),
-                            currency,
-                            price_unit: 'group',
-                            included_hours: null,
-                            seats: null,
-                          })
-                          .then((result) => {
-                            if (result.kind === 'applied')
-                              setAdded((prev) => new Set([...prev, card.product_id]));
-                          });
-                      }}
+                      disabled={!tours.canAdd(card)}
+                      onPress={() => tours.add(card)}
                       testID={`drivers-tour-add-${card.product_id}`}
                     />
                   </View>
@@ -153,18 +110,7 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
                       tone="cream"
                       size="sm"
                       block
-                      onPress={() =>
-                        void openLink({
-                          partner: 'viator',
-                          tripId,
-                          target: {
-                            kind: 'activity',
-                            ref: card.product_id,
-                            query: card.title.slice(0, 200),
-                            ...(card.product_url ? { page_url: card.product_url } : {}),
-                          },
-                        })
-                      }
+                      onPress={() => tours.openCard(card)}
                     />
                   </View>
                 </Row>
@@ -172,39 +118,26 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
             </View>
           );
         })}
-        {(value?.links ?? [])
-          .filter((link) => !(link.partner === 'viator' && (value?.cards.length ?? 0) > 0))
-          .map((link) => (
-            <View
-              key={link.partner}
-              style={styles.card}
-              testID={`drivers-tours-link-${link.partner}`}
-            >
-              <TextLink
-                label={
-                  link.partner === 'klook'
-                    ? t({
-                        id: 'drivers.tours.klookLink',
-                        message: 'Private car charters on Klook ↗',
-                      })
-                    : t({ id: 'drivers.tours.viatorLink', message: 'Private drivers on Viator ↗' })
-                }
-                onPress={() =>
-                  void openLink({
-                    partner: link.partner,
-                    tripId,
-                    target: {
-                      kind: 'activity',
-                      ref: `private-car:${link.partner}`,
-                      query: link.target.query,
-                      ...(link.target.date ? { date: link.target.date } : {}),
-                    },
-                  })
-                }
-              />
-            </View>
-          ))}
-        {tours !== null && tours.kind !== 'ok' ? (
+        {tours.links.map((link) => (
+          <View
+            key={link.partner}
+            style={styles.card}
+            testID={`drivers-tours-link-${link.partner}`}
+          >
+            <TextLink
+              label={
+                link.partner === 'klook'
+                  ? t({
+                      id: 'drivers.tours.klookLink',
+                      message: 'Private car charters on Klook ↗',
+                    })
+                  : t({ id: 'drivers.tours.viatorLink', message: 'Private drivers on Viator ↗' })
+              }
+              onPress={() => tours.openPartner(link)}
+            />
+          </View>
+        ))}
+        {tours.down ? (
           <Text variant="bodySm" color={theme.semantic.text.secondary} testID="drivers-tours-down">
             {t({
               id: 'drivers.tours.down',
