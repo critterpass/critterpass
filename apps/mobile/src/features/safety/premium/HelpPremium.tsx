@@ -7,24 +7,16 @@
  */
 import type { HelpProblem } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { IconTile, type LineIconName } from '@/features/trip';
-import {
-  Button,
-  PressableScale,
-  StatusTag,
-  Text,
-  TextButton,
-  Toggle,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Button, PressableScale, StatusTag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { facilityDetail } from '../help/help-copy';
 import { serviceLabel } from '../help/service-label';
 import { useHelpScreen } from '../help/use-help-screen';
+import { HelpConsent, HelpPhrase, HelpShare } from './HelpParts';
 import { PhraseBig } from './PhraseBig';
 
 const PROBLEM_ICON: Readonly<Record<HelpProblem, LineIconName>> = {
@@ -33,35 +25,6 @@ const PROBLEM_ICON: Readonly<Record<HelpProblem, LineIconName>> = {
   lost: 'map',
   missed_ride: 'car',
 };
-
-function Consent({ crewName, onAnswer }: { readonly crewName: string; readonly onAnswer: (granted: boolean) => void }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  const [on, setOn] = useState(false);
-  const toggle =
-    crewName === ''
-      ? t({ id: 'safety.consent.toggleCrew', message: 'Share where I am with my crew for 1 hour when I open Help' })
-      : t({ id: 'safety.consent.toggle', message: `Share where I am with ${crewName} for 1 hour when I open Help` });
-  return (
-    <View style={[styles.card, { borderRadius: th.radius.cardRow, backgroundColor: th.color.card, boxShadow: th.shadow.card }]} testID="help-consent-sheet">
-      <Text variant="headline">{t({ id: 'safety.consent.title', message: 'Let the crew find you' })}</Text>
-      <View style={styles.rowCenter}>
-        <Text variant="rowText" style={styles.flex}>
-          {toggle}
-        </Text>
-        <Toggle value={on} onChange={setOn} accessibilityLabel={toggle} testID="help-consent-toggle" />
-      </View>
-      <Text variant="captionMuted" tone="muted">
-        {t({
-          id: 'safety.consent.control',
-          message:
-            'The share stops by itself after an hour. Off, Help still has every number and phrase, and you can share with one tap. Change it any time in Settings.',
-        })}
-      </Text>
-      <Button label={t({ id: 'safety.consent.done', message: 'Done' })} size="medium" onPress={() => onAnswer(on)} testID="help-consent-done" />
-    </View>
-  );
-}
 
 export function HelpPremium() {
   const th = usePremiumTheme();
@@ -83,10 +46,23 @@ export function HelpPremium() {
   const chip =
     share === null
       ? null
-      : t({ id: 'safety.premium.crewSees', message: `Crew can see you · ${Math.max(1, Math.ceil(share.minutesLeft / 60))}h` });
+      : t({
+          id: 'safety.premium.crewSees',
+          message: `Crew can see you · ${Math.max(1, Math.ceil(share.minutesLeft / 60))}h`,
+        });
   return (
-    <PushScreen title={t({ id: 'safety.premium.helpTitle', message: 'Help' })} backLabel={t({ id: 'safety.premium.back', message: 'Back' })} testID="help-screen">
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap14 }]}>
+    <PushScreen
+      title={t({ id: 'safety.premium.helpTitle', message: 'Help' })}
+      backLabel={t({ id: 'safety.premium.back', message: 'Back' })}
+      testID="help-screen"
+    >
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={[
+          styles.body,
+          { paddingHorizontal: th.space.gutter, gap: th.space.gap14 },
+        ]}
+      >
         <View style={styles.head}>
           <View style={styles.flex}>
             <Text variant="largeTitle" accessibilityRole="header">
@@ -98,12 +74,25 @@ export function HelpPremium() {
               </Text>
             )}
           </View>
-          {chip === null ? null : <StatusTag label={chip} tone="booked" testID="help-sharing-chip" />}
+          {chip === null ? null : (
+            <StatusTag label={chip} tone="booked" testID="help-sharing-chip" />
+          )}
         </View>
-        {help.asking ? <Consent crewName={help.crewName} onAnswer={help.answer} /> : null}
+        {help.asking ? <HelpConsent crewName={help.crewName} onAnswer={help.answer} /> : null}
         <View style={styles.tiles} testID="help-tiles">
-          <PressableScale style={styles.big} onPress={() => props.onCall(general)} accessibilityRole="button" accessibilityLabel={`${general}`} testID="help-call-general">
-            <View style={[styles.tile, { backgroundColor: th.accent.pink, borderRadius: th.radius.cardRow }]}>
+          <PressableScale
+            style={styles.big}
+            onPress={() => props.onCall(general)}
+            accessibilityRole="button"
+            accessibilityLabel={`${general}`}
+            testID="help-call-general"
+          >
+            <View
+              style={[
+                styles.tile,
+                { backgroundColor: th.accent.pink, borderRadius: th.radius.cardRow },
+              ]}
+            >
               <Text variant="stat" color={th.color.onAccent}>
                 {t({ id: 'safety.premium.call', message: `Call ${general}` })}
               </Text>
@@ -115,8 +104,22 @@ export function HelpPremium() {
             </View>
           </PressableScale>
           {model.side === null ? null : (
-            <PressableScale style={styles.small} onPress={() => props.onCall(model.side?.number ?? general)} accessibilityRole="button" testID="help-call-side">
-              <View style={[styles.tile, { backgroundColor: th.color.card, borderRadius: th.radius.cardRow, boxShadow: th.shadow.card }]}>
+            <PressableScale
+              style={styles.small}
+              onPress={() => props.onCall(model.side?.number ?? general)}
+              accessibilityRole="button"
+              testID="help-call-side"
+            >
+              <View
+                style={[
+                  styles.tile,
+                  {
+                    backgroundColor: th.color.card,
+                    borderRadius: th.radius.cardRow,
+                    boxShadow: th.shadow.card,
+                  },
+                ]}
+              >
                 <Text variant="title">{model.side.number}</Text>
                 <Text variant="captionMuted" tone="muted" numberOfLines={2}>
                   {serviceLabel(model.side.service, model.side.label)}
@@ -127,9 +130,29 @@ export function HelpPremium() {
         </View>
         <View style={styles.grid}>
           {problems.map((problem) => (
-            <PressableScale key={problem.id} style={styles.half} onPress={() => props.onProblem(problem.id)} accessibilityRole="button" testID={`help-problem-${problem.id}`}>
-              <View style={[styles.helper, { borderRadius: th.radius.field, backgroundColor: th.color.card, boxShadow: th.shadow.card }]}>
-                <IconTile name={PROBLEM_ICON[problem.id]} bg={th.color.control} color={th.color.ink} size={32} />
+            <PressableScale
+              key={problem.id}
+              style={styles.half}
+              onPress={() => props.onProblem(problem.id)}
+              accessibilityRole="button"
+              testID={`help-problem-${problem.id}`}
+            >
+              <View
+                style={[
+                  styles.helper,
+                  {
+                    borderRadius: th.radius.field,
+                    backgroundColor: th.color.card,
+                    boxShadow: th.shadow.card,
+                  },
+                ]}
+              >
+                <IconTile
+                  name={PROBLEM_ICON[problem.id]}
+                  bg={th.color.control}
+                  color={th.color.ink}
+                  size={32}
+                />
                 <Text variant="rowTextStrong" style={styles.flex} numberOfLines={2}>
                   {problem.label}
                 </Text>
@@ -140,99 +163,103 @@ export function HelpPremium() {
         {facility === null ? (
           model.coverage === 'full' ? (
             <Text variant="caption" tone="muted" testID="help-no-facility">
-              {t({ id: 'safety.help.noFacility', message: 'No clinic on file near here yet. The numbers above work everywhere.' })}
+              {t({
+                id: 'safety.help.noFacility',
+                message: 'No clinic on file near here yet. The numbers above work everywhere.',
+              })}
             </Text>
           ) : null
         ) : (
-          <View style={[styles.clinic, { borderRadius: th.radius.card, backgroundColor: th.color.card, boxShadow: th.shadow.card }]}>
+          <View
+            style={[
+              styles.clinic,
+              {
+                borderRadius: th.radius.card,
+                backgroundColor: th.color.card,
+                boxShadow: th.shadow.card,
+              },
+            ]}
+          >
             <View style={styles.flex}>
               <Text variant="rowTitle">
-                {facility.open24h ? t({ id: 'safety.help.open24', message: `${facility.name} · Open 24h` }) : facility.name}
+                {facility.open24h
+                  ? t({ id: 'safety.help.open24', message: `${facility.name} · Open 24h` })
+                  : facility.name}
               </Text>
               <Text variant="captionMuted" tone="muted">
                 {facilityDetail(facility, t)}
               </Text>
             </View>
-            <Button label={t({ id: 'safety.help.go', message: 'Go' })} size="medium" onPress={() => props.onGo(facility)} testID="help-clinic-go" />
+            <Button
+              label={t({ id: 'safety.help.go', message: 'Go' })}
+              size="medium"
+              onPress={() => props.onGo(facility)}
+              testID="help-clinic-go"
+            />
           </View>
         )}
         {model.coverage === 'limited' ? (
           <Text variant="caption" tone="muted" testID="help-limited">
-            {t({ id: 'safety.help.limited', message: `Limited coverage here: ${general} works from any mobile phone. Your embassy can help too.` })}
+            {t({
+              id: 'safety.help.limited',
+              message: `Limited coverage here: ${general} works from any mobile phone. Your embassy can help too.`,
+            })}
           </Text>
         ) : null}
         {model.phrase === null ? null : (
-          <PressableScale onPress={() => help.setShowIt(true)} accessibilityRole="button" testID="help-phrase">
-            <View style={[styles.phrase, { borderRadius: th.radius.cardRow, backgroundColor: th.color.inkSurface }]}>
-              <Text variant="badge" color={th.color.onInkSurface} style={styles.soft}>
-                {t({ id: 'safety.premium.showThis', message: 'SHOW THIS' })}
-              </Text>
-              <Text variant="title" color={th.color.onInkSurface}>
-                {model.phrase.text}
-              </Text>
-              <Text variant="caption" color={th.color.onInkSurface} style={styles.soft}>
-                {model.phrase.gloss}
-              </Text>
-              {props.onPlay === null ? null : (
-                <View style={styles.playRow}>
-                  <Button
-                    label={props.playing ? t({ id: 'safety.premium.playing', message: 'Playing…' }) : t({ id: 'safety.premium.play', message: 'Play it' })}
-                    size="small"
-                    variant="floating"
-                    onPress={props.onPlay}
-                    testID="help-phrase-play"
-                  />
-                </View>
-              )}
-            </View>
-          </PressableScale>
+          <HelpPhrase
+            phrase={model.phrase}
+            playing={props.playing}
+            onPlay={props.onPlay}
+            onShow={() => help.setShowIt(true)}
+          />
         )}
-        <View style={[styles.card, { borderRadius: th.radius.card, backgroundColor: th.color.card, boxShadow: th.shadow.card }]} testID="help-share">
-          {shareProps.locationDenied ? (
-            <>
-              <Text variant="rowTitle">{t({ id: 'safety.share.denied', message: 'Share needs location' })}</Text>
-              <Text variant="captionMuted" tone="muted">
-                {t({ id: 'safety.share.deniedLine', message: 'Calling and texting still work without it.' })}
-              </Text>
-              <TextButton label={t({ id: 'safety.share.settings', message: 'Settings' })} onPress={shareProps.onSettings} testID="help-share-settings" />
-            </>
-          ) : share === null ? (
-            <Button label={t({ id: 'safety.share.start', message: 'Share my location · 1 h' })} variant="secondary" loading={shareProps.busy} onPress={shareProps.onStart} testID="help-share-start" />
-          ) : (
-            <View style={styles.rowCenter}>
-              <Text variant="rowTextStrong" style={styles.flex}>
-                {shareProps.crewName === ''
-                  ? t({ id: 'safety.share.activeCrew', message: 'Your crew can see where you are' })
-                  : t({ id: 'safety.share.active', message: `${shareProps.crewName} can see where you are` })}
-              </Text>
-              {shareProps.extendCapped ? null : (
-                <Button label={t({ id: 'safety.share.extend', message: '+1 h' })} size="small" variant="floating" onPress={shareProps.onExtend} testID="help-share-extend" />
-              )}
-              <Button label={t({ id: 'safety.share.stop', message: 'Stop' })} size="small" variant="control" onPress={shareProps.onStop} testID="help-share-stop" />
-            </View>
-          )}
-        </View>
+        <HelpShare share={shareProps} />
         {props.onSos === null ? null : (
-          <Button label={t({ id: 'safety.help.sos', message: 'SOS to the crew' })} variant="destructive" onPress={props.onSos} testID="help-sos" />
+          <Button
+            label={t({ id: 'safety.help.sos', message: 'SOS to the crew' })}
+            variant="destructive"
+            onPress={props.onSos}
+            testID="help-sos"
+          />
         )}
         {props.insurer === null ? (
-          <TextButton label={t({ id: 'safety.help.noInsurance', message: 'No insurance on file · add' })} onPress={props.onInsurance} testID="help-insurance-add" />
+          <TextButton
+            label={t({ id: 'safety.help.noInsurance', message: 'No insurance on file · add' })}
+            onPress={props.onInsurance}
+            testID="help-insurance-add"
+          />
         ) : (
-          <PressableScale onPress={props.onInsurance} accessibilityRole="button" testID="help-insurance">
+          <PressableScale
+            onPress={props.onInsurance}
+            accessibilityRole="button"
+            testID="help-insurance"
+          >
             <Text variant="caption" tone="muted">
               {props.insurer}
             </Text>
           </PressableScale>
         )}
         <Text variant="captionMuted" tone="muted">
-          {t({ id: 'safety.help.disclaimer', message: `CritterPass tells your crew. For emergencies call ${general}.` })}
+          {t({
+            id: 'safety.help.disclaimer',
+            message: `CritterPass tells your crew. For emergencies call ${general}.`,
+          })}
         </Text>
         {props.onHelpCentre === undefined ? null : (
-          <TextButton label={t({ id: 'safety.help.centre', message: 'Help with the app' })} onPress={props.onHelpCentre} testID="help-centre" />
+          <TextButton
+            label={t({ id: 'safety.help.centre', message: 'Help with the app' })}
+            onPress={props.onHelpCentre}
+            testID="help-centre"
+          />
         )}
       </ScrollView>
       {help.showIt && help.phrase !== null ? (
-        <PhraseBig phrase={help.phrase.text} gloss={help.phrase.gloss} onClose={() => help.setShowIt(false)} />
+        <PhraseBig
+          phrase={help.phrase.text}
+          gloss={help.phrase.gloss}
+          onClose={() => help.setShowIt(false)}
+        />
       ) : null}
     </PushScreen>
   );
@@ -242,17 +269,18 @@ const styles = StyleSheet.create({
   body: { paddingTop: 8, paddingBottom: 40 },
   head: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
   flex: { flex: 1, minWidth: 0 },
-  card: { padding: 14, gap: 10 },
-  rowCenter: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   tiles: { flexDirection: 'row', gap: 10 },
   big: { flex: 1.6 },
   small: { flex: 1 },
   tile: { minHeight: 92, padding: 14, justifyContent: 'space-between' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   half: { width: '48.8%' },
-  helper: { minHeight: 58, flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12 },
+  helper: {
+    minHeight: 58,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingHorizontal: 12,
+  },
   clinic: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 },
-  phrase: { padding: 16, gap: 6 },
-  soft: { opacity: 0.7 },
-  playRow: { flexDirection: 'row', marginTop: 4 },
 });

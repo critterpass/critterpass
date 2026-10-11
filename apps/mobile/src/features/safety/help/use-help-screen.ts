@@ -159,85 +159,84 @@ export function useHelpScreen() {
   const capped =
     share === null || share.endsAt + 60 * 60_000 > now + HELP_SHARE_MAX_AHEAD_MIN * 60_000;
   const props: Omit<HelpViewProps, 'sosAccess'> = {
-      hero: {
-          guideName,
-          guideSticker: guide,
-          placeLabel: hub.model.placeLabel,
-          shareHours: share === null ? null : Math.max(1, Math.ceil(share.minutesLeft / 60)),
-          onBack: () => goBackOr(),
-        },
-      model: phrase === found ? hub.model : { ...hub.model, phrase: null },
-      share: {
-          crewName,
-          share,
-          locationDenied,
-          extendCapped: capped,
-          busy: start.pending || stop.pending || extend.pending,
-          onStart: () => startShare(),
-          onStop: () => {
-            const shareId = share?.shareId ?? null;
-            if (shareId === null) return;
-            setPending(null);
-            markShareStopped(shareId);
-            void stop.send({ share_id: shareId }).then((result) => {
-              const outcome = report(result, {
-                offlineCapable: true,
-                id: 'help-share-stop',
-                done:
-                  result.kind === 'queued'
-                    ? t({
-                        id: 'safety.share.stoppedQueued',
-                        message: 'Stopped here. Your crew hears the moment you have signal.',
-                      })
-                    : t({ id: 'safety.share.stopped', message: 'Stopped sharing' }),
-              });
-              if (outcome === 'refused' || outcome === 'needs-signal') {
-                unmarkShareStopped(shareId);
-                setStopFailed((n) => n + 1);
-              }
-            });
-          },
-          onExtend: () => {
-            if (share?.shareId == null) return;
-            void extend.send({ share_id: share.shareId }).then((result) =>
-              report(result, {
-                offlineCapable: true,
-                id: 'help-share-extend',
-                done:
-                  result.kind === 'queued'
-                    ? t({
-                        id: 'safety.share.extendedQueued',
-                        message: 'One more hour, once you have signal',
-                      })
-                    : t({ id: 'safety.share.extended', message: 'Sharing for one more hour' }),
-              }),
-            );
-          },
-          onSettings: () => void Linking.openSettings(),
-        },
-      insurer: 
-          insurer === null
-            ? null
-            : t({
-                id: 'safety.help.insurer',
-                message: `Insurance: ${insurer} · the policy card is in Bookings`,
-              })
-        ,
-      playing: speech.speaking,
-      onCall: call,
-      onProblem: (problem: HelpProblem) => router.push(safetyRoutes.checklist(tripId, problem)),
-      onGo: (facility) => {
-          const href = hrefFor(GETTING_AROUND_SCREEN, {
-            ...(tripId === null ? {} : { tripId }),
-            to: `${facility.lat},${facility.lng}`,
+    hero: {
+      guideName,
+      guideSticker: guide,
+      placeLabel: hub.model.placeLabel,
+      shareHours: share === null ? null : Math.max(1, Math.ceil(share.minutesLeft / 60)),
+      onBack: () => goBackOr(),
+    },
+    model: phrase === found ? hub.model : { ...hub.model, phrase: null },
+    share: {
+      crewName,
+      share,
+      locationDenied,
+      extendCapped: capped,
+      busy: start.pending || stop.pending || extend.pending,
+      onStart: () => startShare(),
+      onStop: () => {
+        const shareId = share?.shareId ?? null;
+        if (shareId === null) return;
+        setPending(null);
+        markShareStopped(shareId);
+        void stop.send({ share_id: shareId }).then((result) => {
+          const outcome = report(result, {
+            offlineCapable: true,
+            id: 'help-share-stop',
+            done:
+              result.kind === 'queued'
+                ? t({
+                    id: 'safety.share.stoppedQueued',
+                    message: 'Stopped here. Your crew hears the moment you have signal.',
+                  })
+                : t({ id: 'safety.share.stopped', message: 'Stopped sharing' }),
           });
-          if (href !== undefined) router.push(href);
-        },
-      onPlay: speech.speak,
-      onShowPhrase: () => setShowIt(true),
-      onSos: tripId === null ? null : () => router.push(safetyRoutes.send(tripId)),
-      onInsurance: () => router.push(BOOKINGS_ROUTES.insurance),
-      onHelpCentre: () => router.push(HELP_ROUTES.hub),
+          if (outcome === 'refused' || outcome === 'needs-signal') {
+            unmarkShareStopped(shareId);
+            setStopFailed((n) => n + 1);
+          }
+        });
+      },
+      onExtend: () => {
+        if (share?.shareId == null) return;
+        void extend.send({ share_id: share.shareId }).then((result) =>
+          report(result, {
+            offlineCapable: true,
+            id: 'help-share-extend',
+            done:
+              result.kind === 'queued'
+                ? t({
+                    id: 'safety.share.extendedQueued',
+                    message: 'One more hour, once you have signal',
+                  })
+                : t({ id: 'safety.share.extended', message: 'Sharing for one more hour' }),
+          }),
+        );
+      },
+      onSettings: () => void Linking.openSettings(),
+    },
+    insurer:
+      insurer === null
+        ? null
+        : t({
+            id: 'safety.help.insurer',
+            message: `Insurance: ${insurer} · the policy card is in Bookings`,
+          }),
+    playing: speech.speaking,
+    onCall: call,
+    onProblem: (problem: HelpProblem) => router.push(safetyRoutes.checklist(tripId, problem)),
+    onGo: (facility) => {
+      const href = hrefFor(GETTING_AROUND_SCREEN, {
+        ...(tripId === null ? {} : { tripId }),
+        to: `${facility.lat},${facility.lng}`,
+      });
+      if (href !== undefined) router.push(href);
+    },
+    onPlay: speech.speak,
+    onShowPhrase: () => setShowIt(true),
+    onSos: tripId === null ? null : () => router.push(safetyRoutes.send(tripId)),
+    onInsurance: () => router.push(BOOKINGS_ROUTES.insurance),
+    onHelpCentre: () => router.push(HELP_ROUTES.hub),
   };
   return { props, asking, answer, crewName, showIt, setShowIt, phrase, share, now };
 }

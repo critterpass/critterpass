@@ -12,7 +12,13 @@ function Card({ phrase, gloss }: { readonly phrase: string; readonly gloss: stri
   const th = usePremiumTheme();
   return (
     <View style={[styles.root, { backgroundColor: th.color.card }]}>
-      <Text variant="hero" align="center" adjustsFontSizeToFit numberOfLines={4} minimumFontScale={0.4}>
+      <Text
+        variant="hero"
+        align="center"
+        adjustsFontSizeToFit
+        numberOfLines={4}
+        minimumFontScale={0.4}
+      >
         {phrase}
       </Text>
       {gloss === '' ? null : (
@@ -33,7 +39,12 @@ export function PhraseBig(props: {
   return (
     <Modal visible animationType="fade" onRequestClose={props.onClose} testID="help-show-it">
       <PremiumThemeProvider scheme="light">
-        <FullScreen closeLabel={t({ id: 'safety.premium.close', message: 'Close' })} brighten overPhoto={false} onClose={props.onClose}>
+        <FullScreen
+          closeLabel={t({ id: 'safety.premium.close', message: 'Close' })}
+          brighten
+          overPhoto={false}
+          onClose={props.onClose}
+        >
           <Card phrase={props.phrase} gloss={props.gloss} />
         </FullScreen>
       </PremiumThemeProvider>

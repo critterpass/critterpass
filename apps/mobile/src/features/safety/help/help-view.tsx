@@ -54,7 +54,6 @@ const PROBLEM_ICONS = {
   missed_ride: 'car',
 } as const;
 
-
 export function HelpView(props: HelpViewProps) {
   const { model, share, insurer } = props;
   const { t } = useLingui();

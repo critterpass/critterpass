@@ -5,7 +5,10 @@ import { distanceIn } from '@/lib/i18n/formats';
 
 import type { HubFacility } from './help-model';
 
-export function facilityDetail(facility: HubFacility, t: ReturnType<typeof useLingui>['t']): string {
+export function facilityDetail(
+  facility: HubFacility,
+  t: ReturnType<typeof useLingui>['t'],
+): string {
   if (facility.minutes !== null) {
     const minutes = facility.minutes;
     return t({ id: 'safety.help.byCar', message: `${minutes} min by car` });
