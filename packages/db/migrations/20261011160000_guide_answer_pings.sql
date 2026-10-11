@@ -14,3 +14,24 @@ ALTER TABLE guide_answer_pings FORCE ROW LEVEL SECURITY;
 CREATE POLICY guide_answer_pings_system ON guide_answer_pings FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT, INSERT, UPDATE, DELETE ON guide_answer_pings TO app_system;
+
+-- domain_events: `guide.answer_ready` (the ping's push) joins the catalogue
+-- (packages/domain/src/guide/events.ts), added to whatever the constraint lists now.
+DO $$
+DECLARE
+  current_types text[];
+  merged text;
+BEGIN
+  SELECT array_agg(m[1] ORDER BY m[1]) INTO current_types
+    FROM pg_constraint c,
+         regexp_matches(pg_get_constraintdef(c.oid), '''([^'']+)''::text', 'g') AS m
+   WHERE c.conname = 'domain_events_type_check' AND c.conrelid = 'domain_events'::regclass;
+  SELECT string_agg(DISTINCT quote_literal(t), ', ') INTO merged
+    FROM unnest(current_types || ARRAY['guide.answer_ready']) AS t;
+  ALTER TABLE domain_events DROP CONSTRAINT domain_events_type_check;
+  EXECUTE format(
+    'ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN (%s))',
+    merged
+  );
+END
+$$;
