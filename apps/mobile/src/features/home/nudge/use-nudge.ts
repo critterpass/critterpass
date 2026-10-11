@@ -32,6 +32,8 @@ export type NudgeOutcome =
   | {
       readonly kind: 'scheduled';
       readonly at: string;
+      /** The delivery instant (ISO); `at` is its wall time in the crewmate's zone. */
+      readonly sendAt: string;
       readonly guide: string;
       readonly name: string;
     }
@@ -82,6 +84,7 @@ export function nudgeOutcome(result: SendResult, lastSentAt: Date | null = null)
     return {
       kind: 'scheduled',
       at: answer.send_at_local,
+      sendAt: answer.send_at,
       guide: answer.guide.name,
       name: answer.target_name,
     };

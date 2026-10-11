@@ -83,7 +83,13 @@ describe('useNudge', () => {
     await act(async () => {
       outcome = await result.current.nudge({ target_uid: DEV, reason: 'rsvp' });
     });
-    expect(outcome).toEqual({ kind: 'scheduled', at: '21:00', guide: 'Pon', name: 'Dev' });
+    expect(outcome).toEqual({
+      kind: 'scheduled',
+      at: '21:00',
+      sendAt: '2026-09-29T14:00:00.000Z',
+      guide: 'Pon',
+      name: 'Dev',
+    });
     expect(api.calls[0]?.path).toBe('/v1/cmd/send_nudge');
     expect(toastQueue.getCurrent()?.title).toBe(
       'Pon will nudge Dev at 21:00, when they open things.',

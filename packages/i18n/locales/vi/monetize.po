@@ -1106,3 +1106,87 @@ msgstr "Các giao dịch mua của bạn đã trở lại."
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
 msgid "monetize.cancel.yearly"
 msgstr "Năm của bạn đã được trả tiền rồi, nên không có gì để tạm dừng. Huỷ chỉ dừng lần gia hạn tới."
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.icons"
+msgstr "Mọi biểu tượng"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.boost"
+msgstr "Boost {place}"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.boostTrip"
+msgstr "Boost chuyến này"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.critters"
+msgstr "Critter"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.daysLeft"
+msgstr "ngày còn lại của chuyến đi đầu miễn phí"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.guideNote"
+msgstr "Mọi thứ bạn tạo vẫn còn nguyên. Chỉ phần thêm đi ngủ một chút thôi."
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.keptLabel"
+msgstr "Giữ mãi mãi"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.liveMap"
+msgstr "Bản đồ trực tiếp"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.trail"
+msgstr "Lộ trình trên bản đồ"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.passPlus"
+msgstr "Pass+ cho riêng tôi"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.pausedLabel"
+msgstr "Tạm dừng {date}"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.pauses"
+msgstr "Đặc quyền tạm dừng {date}"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.photos"
+msgstr "Ảnh"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.title"
+msgstr "Tổng kết"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.redrafts"
+msgstr "Soạn lại"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.stayFree"
+msgstr "Dùng miễn phí"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.plan"
+msgstr "Kế hoạch"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.endedLine"
+msgstr "Kế hoạch, ảnh và critter vẫn là của bạn."
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.recap"
+msgstr "Bản tổng kết"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.guide"
+msgstr "Tokek không giới hạn"
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.ended"
+msgstr "Chuyến đi đầu miễn phí đã kết thúc"

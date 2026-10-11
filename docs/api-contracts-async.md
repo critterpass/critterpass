@@ -198,7 +198,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `recap.mvp_close` (doc delta) | 72 h after the recap is first ready, or the last vote | `mvp.result`, `recap.mvp_closed` | 43 |
 | `recap.narrate` (doc delta) | after each new copy version | ElevenLabs (`eleven_v4`) per changed card and viewer language, R2 `recap_audio` media on the trip; no call when the words did not change. With a model configured, one `recap.narration` call per language first adds audio tags (`[warmly]`) to the lines being recorded: tags only, checked against the original words, sent to the speech model and never stored | 43 |
 | `anniversary.scan` | hourly `7 * * * *` (doc delta: each traveller's anniversary fires at 10:00 on the best day a year on in their own zone, armed when the recap's words are written) | the trip's memory (once), `memory.surfaced` → N-35 | 43 |
-| `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
+| `ftf.ending` | FTF end −3 d (doc delta: timer armed by the grant, moved with the trip's dates) | `ftf.ending_soon` → `free_boost_ending` (governed), only to seated members who lose Pass+ when the window closes; none when a boost of the trip's own outlasts it | 46 |
 | `billing.reconcile` | `0 5 * * *` | RevenueCat REST drift check, grace expiry (server 7 d) | 46 |
 | `billing.intent_expiry` (doc delta) | intent timer (15 min) | lapses an open boost intent, frees the trip lock | 46 |
 | `ftf.grant` (doc delta) | trip enters `setup` | first trip free check and grant | 46 |

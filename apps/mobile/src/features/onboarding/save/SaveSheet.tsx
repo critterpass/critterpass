@@ -20,47 +20,15 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { MergeChoice } from './MergeChoice';
 import { DeclinedMergeNote } from './MergeSheet';
 import { ProviderMark } from './ProviderMark';
-import type { SaveError, SaveState } from './use-save-flow';
+import { saveErrorLine } from './save-copy';
+import type { SaveState } from './use-save-flow';
+
+export { saveErrorLine };
 
 const useStyles = makeStyles((th) => ({
   body: { gap: th.space['12'], paddingHorizontal: th.space['20'], paddingBottom: th.space['16'] },
   center: { alignItems: 'center' },
 }));
-
-export function saveErrorLine(reason: SaveError): string {
-  switch (reason) {
-    case 'network':
-      return t({
-        id: 'onboarding.save.error.network',
-        message: 'No signal right now. Your pass is safe on this phone; try again in a moment.',
-      });
-    case 'different_email':
-      return t({
-        id: 'onboarding.save.error.email',
-        message: 'That account uses a different email. Try another way.',
-      });
-    case 'unavailable':
-      return t({
-        id: 'onboarding.save.error.unavailable',
-        message: 'That sign-in isn’t available on this phone. Try another way.',
-      });
-    case 'cancelled':
-      return t({
-        id: 'onboarding.save.error.cancelled',
-        message: 'Google sign-in didn’t finish. Try again, or use another way.',
-      });
-    case 'merge_expired':
-      return t({
-        id: 'onboarding.save.error.expired',
-        message: 'That took a while. Sign in again to continue.',
-      });
-    case 'unknown':
-      return t({
-        id: 'onboarding.save.error.unknown',
-        message: 'That didn’t work. Try again, or use another way.',
-      });
-  }
-}
 
 export interface SaveSheetProps {
   readonly state: SaveState;

@@ -86,3 +86,18 @@ export function nudgeSendTime(input: SendTimeInput): SendTime {
   const date = today.add({ days: 14 }).toString();
   return { at: localSchedule({ date, time, tz: input.tz }), local: `${date}T${time}` };
 }
+
+/**
+ * A nudge sent right away: now, in the target's zone, unless now is inside their quiet hours or
+ * the day already holds their cap of nudges. `null` then, and the caller waits for their hour.
+ */
+export function nudgeSendNow(input: Omit<SendTimeInput, 'hour'>): SendTime | null {
+  const zoned = Temporal.Instant.fromEpochMilliseconds(input.now.getTime()).toZonedDateTimeISO(
+    input.tz,
+  );
+  const date = zoned.toPlainDate().toString();
+  if (input.fullDates?.has(date) === true) return null;
+  const minute = zoned.hour * 60 + zoned.minute;
+  if (input.quiet !== null && inQuietHours(minute, input.quiet)) return null;
+  return { at: input.now, local: `${date}T${pad(zoned.hour)}:${pad(zoned.minute)}` };
+}

@@ -40,7 +40,8 @@ const SAVED_SQL = 'SELECT app_icon FROM users WHERE id = ?';
 const SAVED_TABLES = ['users'];
 const PREVIEWED = new Set(Object.keys(APP_ICON_PREVIEWS));
 
-export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: AppIconDevice }) {
+/** The picker's state and the choose action, shared by the current and the premium page. */
+export function useAppIconPicker(device: AppIconDevice) {
   const uid = useOwnerUid();
   const params = uid === null ? null : [uid];
   const unlocks = useLiveRows<{ icon_key: string; seen_at: string | null }>(
@@ -110,6 +111,11 @@ export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: Ap
     if (result === 'failed') setProblem('failed');
   };
 
+  return { model, switching, problem, choose };
+}
+
+export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: AppIconDevice }) {
+  const { model, switching, problem, choose } = useAppIconPicker(device);
   return (
     <>
       <AppIconLapseRevert device={device} />
