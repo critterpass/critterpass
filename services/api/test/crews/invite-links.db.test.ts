@@ -61,6 +61,7 @@ describe('personal link previews', () => {
       invitee_first_name: 'Dev',
       seats_taken: 3,
       seat_cap: 6,
+      waitlist_ahead: 0,
       state: 'active',
       invitee_home_hint: null,
       invitee_tags: [],
@@ -74,6 +75,20 @@ describe('personal link previews', () => {
       seats_taken: 4,
       state: 'active',
     });
+    await withSystem(harness.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        'INSERT INTO users (id) VALUES (uuidv7()) RETURNING id',
+      );
+      await tx.query(
+        "INSERT INTO crew_members (crew_id, user_id, colour) VALUES ($1, $2, 'orange')",
+        [link.crew, rows[0]!.id],
+      );
+      await tx.query(
+        "INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, 'member', 'waitlisted')",
+        [link.tripId, rows[0]!.id],
+      );
+    });
+    expect(await preview(link.target)).toMatchObject({ seats_taken: 4, waitlist_ahead: 1 });
     expect(await preview({ kind: 'invite', code: link.code })).not.toHaveProperty(
       'invitee_first_name',
     );

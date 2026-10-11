@@ -17,27 +17,45 @@ export interface LastRedraftSheetProps {
   readonly free: boolean;
 }
 
-export function LastRedraftSheet({ tripId, day, reasons, note, free }: LastRedraftSheetProps) {
+/**
+ * The last free redraft's state for either look: the trip (undefined while it loads, null when it
+ * is gone), its quota, sending the held redraft, and the boost when one is offered.
+ */
+export function useLastRedraft({ tripId, day, reasons, note, free }: LastRedraftSheetProps) {
   const trip = useDraftTrip(tripId);
   // The change-a-day sheet is under this question: closing it returns there, sending leaves both.
   const redraft = useSendRedraft(tripId, trip?.draftVersionId ?? null, 1, () =>
     forgetChangeDayAsk(tripId),
   );
-  if (trip === undefined || trip === null) {
-    return <DraftSheetWaiting tripId={tripId} gone={trip === null} />;
-  }
   const boost = redraftBoost();
-  const limit = trip.quota.limit ?? trip.quota.used + 1;
+  const limit = trip == null ? 0 : (trip.quota.limit ?? trip.quota.used + 1);
+  return {
+    trip,
+    limit,
+    n: trip == null ? 0 : Math.min(limit, trip.quota.used + 1),
+    sending: redraft.pending,
+    problem: redraft.outcome === null ? null : outcomeLine(redraft.outcome),
+    use: () => void redraft.send({ day, reasons, note, free }),
+    boost: boost === null ? undefined : () => boost(tripId),
+  };
+}
+
+export function LastRedraftSheet(props: LastRedraftSheetProps) {
+  const last = useLastRedraft(props);
+  const { trip } = last;
+  if (trip === undefined || trip === null) {
+    return <DraftSheetWaiting tripId={props.tripId} gone={trip === null} />;
+  }
   return (
     <LastRedraftView
       guide={trip.guide}
       destination={trip.destinationName}
-      n={Math.min(limit, trip.quota.used + 1)}
-      limit={limit}
-      sending={redraft.pending}
-      problem={redraft.outcome === null ? null : outcomeLine(redraft.outcome)}
-      onUse={() => void redraft.send({ day, reasons, note, free })}
-      onBoost={boost === null ? undefined : () => boost(tripId)}
+      n={last.n}
+      limit={last.limit}
+      sending={last.sending}
+      problem={last.problem}
+      onUse={last.use}
+      onBoost={last.boost}
     />
   );
 }

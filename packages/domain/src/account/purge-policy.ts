@@ -84,6 +84,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.personal_plan_ops', ['user_id', del]),
   ...rules('public.poll_reveals', ['user_id', del]),
   ...rules('public.room_prefs', ['user_id', del], ['partner_id', nul]),
+  ...rules('public.trip_member_setup', ['user_id', del]),
   ...rules('public.saved_items', ['user_id', del]),
   ...rules('public.saved_lists', ['user_id', del]),
   ...rules('public.phrase_progress', ['user_id', del]),

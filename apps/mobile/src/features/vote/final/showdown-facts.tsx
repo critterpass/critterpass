@@ -11,7 +11,8 @@ import { SurfaceToneProvider } from '@/ui/surface/Scaffold';
 
 import type { usePitchSections } from '../data/use-final';
 import type { PollOptionView } from '../data/poll-view';
-import { flightHours, money, monthShort, upper } from '../format';
+import { upper } from '../format';
+import { useShowdownFactLabels } from './showdown-fact-labels';
 
 /** The chips wrap inside this share of the half, beside the guide's silhouette. */
 const CHIP_COLUMN = '78%';
@@ -25,43 +26,8 @@ export function ShowdownFacts({
   readonly sectionsOf: ReturnType<typeof usePitchSections>;
   readonly alignEnd: boolean;
 }) {
-  const { t, i18n } = useLingui();
-  const sections = option.pitchId === null ? undefined : sectionsOf.get(option.pitchId);
-  const locale = i18n.locale;
-  const chips = (sections?.chips ?? []).flatMap((chip) => {
-    switch (chip.kind) {
-      case 'flight':
-        return [
-          upper(
-            t({ id: 'vote.showdown.flight', message: `${flightHours(chip.minutes)}h flight` }),
-            locale,
-          ),
-        ];
-      case 'price':
-        return [
-          upper(
-            t({
-              id: 'vote.showdown.each',
-              message: `${money(locale, chip.amount_minor, chip.currency)} each`,
-            }),
-            locale,
-          ),
-        ];
-      case 'best_months':
-        return [
-          upper(
-            t({
-              id: 'vote.showdown.best',
-              message: `Best ${chip.months.map((m) => monthShort(locale, m)).join(' · ')}`,
-            }),
-            locale,
-          ),
-        ];
-      case 'event':
-      case 'prices_pending':
-        return [];
-    }
-  });
+  const { i18n } = useLingui();
+  const chips = useShowdownFactLabels(option, sectionsOf).map((label) => upper(label, i18n.locale));
   if (chips.length === 0) return null;
   return (
     <SurfaceToneProvider value="accent">

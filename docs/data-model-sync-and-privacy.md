@@ -66,6 +66,7 @@ Transitions are enforced in command handlers (`packages/domain/state/*.ts`, one 
 | `won` | `setup` | organiser SET UP | `setup_step='when'`; FTF grant if crew's first trip (window starts) |
 | `setup` | `drafting` | organiser DRAFT MY TRIP | `agent_jobs(kind=draft)` |
 | `drafting` | `draft_review` / `setup` | job succeeded / failed or inputs changed | push if backgrounded |
+| `draft_review` | `drafting` (doc delta) | organiser DRAFT AGAIN, or a member's new answer on the guide's untouched draft | `agent_jobs(kind=draft)`; a stopped or failed draft goes back to `draft_review` |
 | `draft_review` | `redrafting` | change a day; `redraft_reservations` reserved | diff card |
 | `redrafting` | `draft_review` | KEEP or revert; reservation committed (released on failure) | — |
 | `draft_review` | `proposed` | organiser SEND | per-recipient `proposal_versions`; reply_by timer |

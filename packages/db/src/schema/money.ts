@@ -167,6 +167,7 @@ export const payoutMethods = pgTable('payout_methods', {
   country: char('country', { length: 2 }),
   label: text('label').notNull().default(''),
   detailsEnc: text('details_enc'),
+  isDefault: boolean('is_default').notNull().default(false),
   deletedAt: at('deleted_at'),
   createdAt: createdAt(),
   updatedAt: updatedAt(),

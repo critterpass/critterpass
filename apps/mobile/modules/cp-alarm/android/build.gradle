@@ -30,6 +30,8 @@ android {
 dependencies {
   // The App Group store: the outbox the alarm's buttons queue into and the stored schedule.
   implementation project(':cp-app-group')
+  // The premium tokens, the guide font (Borel), the notification icon and the alarm channel's copy.
+  implementation project(':cp-notifications')
   implementation 'androidx.core:core-ktx:1.19.1'
   implementation 'androidx.activity:activity-compose:1.10.1'
   implementation platform('androidx.compose:compose-bom:2025.06.01')

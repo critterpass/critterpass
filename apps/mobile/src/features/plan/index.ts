@@ -31,3 +31,8 @@ export { LateEntry } from './day/late-entry';
 export { lateStep, saidLateRoute } from './day/said-late';
 export { useSaidLate, type SaidLateView } from './day/use-said-late';
 export { registerRedraftBoost, type RedraftBoost } from './draft/boost-slot';
+// The premium map (light and night style, day colours, sheet detents, route and pin layers):
+// the plan map draws on it and the crew map on the trip reuses it.
+export * from './premium/map';
+export { draftRoutes } from './draft/routes';
+export { usePlanGuide } from './plan-guide';

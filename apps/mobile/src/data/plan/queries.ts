@@ -17,7 +17,8 @@ export const UID_TABLES = ['local_state'];
 export const TRIP_SQL = `SELECT t.id, t.crew_id, t.status, t.phase, t.start_date, t.end_date,
     coalesce(t.tz, d.tz) AS tz, t.current_version_id, t.draft_version_id, t.destination_id,
     d.name AS destination_name, d.slug AS destination_slug, t.guide_id, g.slug AS guide_slug,
-    g.name AS guide_name, t.local_currency, p.role AS role, p.role AS my_role, p.rsvp AS my_rsvp
+    g.name AS guide_name, t.local_currency, p.role AS role, p.role AS my_role, p.rsvp AS my_rsvp,
+    t.plan_change_rule
   FROM trips t
   LEFT JOIN destinations d ON d.id = t.destination_id
   LEFT JOIN guides g ON g.id = t.guide_id
@@ -45,6 +46,8 @@ export interface PlanTripRow {
   readonly role: string | null;
   readonly my_role: string | null;
   readonly my_rsvp: string | null;
+  /** Who may change the crew's plan (`organiser_approves` when absent). */
+  readonly plan_change_rule?: string | null;
 }
 
 /** The crew in join order (the join index picks each member's colour), active or not. */

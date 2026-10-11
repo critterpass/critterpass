@@ -1,9 +1,10 @@
-import { PassScreen } from '@/features/critters/dex/pass-screen';
 import { LocalFirstGate } from '@/features/critters/local-first-gate';
-import { PremiumDexScene } from '@/features/critters/premium/dex/dex-scene';
+import { PassScreen } from '@/features/critters/dex/pass-screen';
+import { ProfilePremiumScreen } from '@/features/you/premium/profile/profile-premium-screen';
 import { premiumRoute } from '@/lib/premium-ui';
 
-function CurrentPassRoute() {
+/** The PASS tab (3l-2): the Critterdex. */
+function LegacyPassRoute() {
   return (
     <LocalFirstGate>
       <PassScreen />
@@ -11,13 +12,5 @@ function CurrentPassRoute() {
   );
 }
 
-function PremiumPassRoute() {
-  return (
-    <LocalFirstGate>
-      <PassScreen View={PremiumDexScene} />
-    </LocalFirstGate>
-  );
-}
-
-/** The PASS tab (3l-2): the Critterdex. */
-export default premiumRoute({ premium: PremiumPassRoute, legacy: CurrentPassRoute });
+/** The premium PASS tab (9.01): the passport page, with the Critterdex a row away. */
+export default premiumRoute({ premium: ProfilePremiumScreen, legacy: LegacyPassRoute });

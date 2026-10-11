@@ -4,9 +4,10 @@ import UIKit
 import UserNotifications
 import UserNotificationsUI
 
-/// The Notification Content extension for `cp.vote` and `cp.rsvp` (docs/api-contracts-async.md
-/// §3.4): long-press opens the poster, with one button per vote option ("Vote Kyoto", up to three)
-/// or I'M IN / MAYBE, then OPEN. A button answers here, signed with the device action key, so it
+/// The Notification Content extension for `cp.vote`, `cp.rsvp`, `cp.changeset` and `cp.roundup`
+/// (docs/api-contracts-async.md §3.4): long-press opens the poster, with one button per vote option
+/// ("Vote Kyoto", up to three) or "I'm in" / "Maybe", then OPEN; a change offers its yes and no
+/// (handed on to the app) and the roundup only opens. A button answers here, signed with the device action key, so it
 /// works with the phone locked and the app closed; the poster stays open and takes the stamp, and
 /// the notification is re-posted under the same identifier with the answer as its line.
 final class NotificationViewController: UIViewController, @preconcurrency UNNotificationContentExtension {
@@ -16,6 +17,9 @@ final class NotificationViewController: UIViewController, @preconcurrency UNNoti
     override func viewDidLoad() {
         super.viewDidLoad()
         let hosting = UIHostingController(rootView: PosterRoot(state: state))
+        // The poster's height follows its content (a change's rows, the roundup's lines).
+        hosting.sizingOptions = .preferredContentSize
+        hosting.view.backgroundColor = .clear
         addChild(hosting)
         hosting.view.frame = view.bounds
         hosting.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -30,6 +34,7 @@ final class NotificationViewController: UIViewController, @preconcurrency UNNoti
             category: content.categoryIdentifier, title: content.title, body: content.body,
             userInfo: content.userInfo)
         state.content = poster
+        state.deliveredAt = notification.date
         if let stamped = poster?.stamped { state.stamp = .answered(stamped) }
         applyActions(answered: false)
     }
@@ -71,6 +76,13 @@ final class NotificationViewController: UIViewController, @preconcurrency UNNoti
         case .answered(.refused), .failed:
             state.stamp = .refused
         }
+    }
+
+    override func preferredContentSizeDidChange(forChildContentContainer container: any UIContentContainer) {
+        super.preferredContentSizeDidChange(forChildContentContainer: container)
+        let size = container.preferredContentSize
+        guard size.height > 0 else { return }
+        preferredContentSize = CGSize(width: view.bounds.width, height: size.height)
     }
 
     /// The buttons follow the poster: the options while it takes an answer, OPEN after.

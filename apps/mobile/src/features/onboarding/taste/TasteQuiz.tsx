@@ -5,30 +5,23 @@
  * the profile's retake sheet (`mode="sheet"`), where answers overwrite the old ones.
  */
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
-import {
-  nextQuestion,
-  normalizeAnswers,
-  tasteFromAnswers,
-  undoLastAnswer,
-  type TasteAnswer,
-} from '@cp/domain';
+import type { TasteAnswer } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { feedback } from '@/motion/feedback';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { onboardingQuiz, tokekLine } from '../content';
+import { tokekLine } from '../content';
 import { TokekSays } from '../tokek-says';
-import { FLING_MS, OR_BADGE_SIZE, QuizCard, type Side } from './QuizCard';
+import { FLING_MS, OR_BADGE_SIZE, QuizCard } from './QuizCard';
 import { tagWords } from './tag-labels';
 import { TagSlot, TagStamp } from './TagStamp';
+import { useTasteQuiz } from './use-taste-quiz';
 
 const useStyles = makeStyles((th) => ({
   root: { gap: th.space['14'] },
@@ -63,54 +56,8 @@ export function TasteQuiz({ answers, onAnswersChange, onDone, mode = 'page' }: T
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const quiz = onboardingQuiz();
-  const question = nextQuestion(quiz, answers);
-  const [flinging, setFlinging] = useState<Side | null>(null);
-  const [stampedFrom] = useState(() => normalizeAnswers(quiz, answers).length);
-  const tags = tasteFromAnswers(quiz, answers).tags;
-  const [lastTrigger, setLastTrigger] = useState<'taste' | 'taste_skip'>('taste');
-  const answeredCount = normalizeAnswers(quiz, answers).length;
-  const flingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(
-    () => () => {
-      if (flingTimer.current !== null) clearTimeout(flingTimer.current);
-    },
-    [],
-  );
-
-  const record = (value: TasteAnswer['value']) => {
-    if (question === null) return;
-    onAnswersChange([...answers, { q_id: question.id, value }]);
-  };
-
-  const pick = (side: Side) => {
-    if (question === null || flinging !== null) return;
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id.
-    feedback.emit('thud.heavy');
-    setFlinging(side);
-    setLastTrigger('taste');
-    flingTimer.current = setTimeout(() => {
-      flingTimer.current = null;
-      setFlinging(null);
-      record(side);
-    }, FLING_MS);
-  };
-
-  // A card in the air is an answer on its way: skip and undo wait for it to land, or the answer
-  // would be written over the list they just changed.
-  const skip = () => {
-    if (flinging !== null) return;
-    feedback.emit('tick');
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a content trigger id.
-    setLastTrigger('taste_skip');
-    record('skip');
-  };
-
-  const undo = () => {
-    if (flinging !== null) return;
-    feedback.emit('tick');
-    onAnswersChange(undoLastAnswer(normalizeAnswers(quiz, answers)));
-  };
+  const { question, flinging, stampedFrom, tags, lastTrigger, answeredCount, pick, skip, undo } =
+    useTasteQuiz(answers, onAnswersChange, FLING_MS);
 
   const tagRow = (
     <View style={styles.tags} testID="taste-tags">

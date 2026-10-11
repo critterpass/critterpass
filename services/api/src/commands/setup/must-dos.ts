@@ -19,6 +19,7 @@ import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
+import { draftAgainWithNewAnswers } from '../draft/as-you-go';
 import { queueFitChecks } from './must-do-fit';
 import {
   addDays,
@@ -147,7 +148,10 @@ export const setMustDosCommand = defineCommand({
         fit_status: 'unknown',
       });
     }
-    if (changed.length > 0) await queueFitChecks(tx, payload.trip_id);
+    if (changed.length > 0) {
+      await queueFitChecks(tx, payload.trip_id);
+      await draftAgainWithNewAnswers(tx, payload.trip_id, ctx.uid);
+    }
     await emitEvent(tx, {
       type: 'must_dos.changed',
       aggregateKind: 'trip',

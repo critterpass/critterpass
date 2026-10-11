@@ -24,7 +24,7 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-function changeWord(change: SetupChange): string {
+export function changeWord(change: SetupChange): string {
   switch (change) {
     case 'dates':
       return t({ id: 'planDraft.stale.dates', message: 'the dates' });

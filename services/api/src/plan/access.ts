@@ -1,9 +1,11 @@
 /**
  * Who may do what on a trip's plan, asked as the caller (the RLS helpers decide): any active member
- * of the trip's crew reads, comments and proposes; organisers and co-organisers edit directly.
+ * of the trip's crew reads and comments; organisers and co-organisers edit directly. What a member
+ * may do to the crew's plan follows the trip's plan-change rule: propose a change set (the
+ * default), edit directly (`anyone`), or neither (`organiser_only`).
  * A trip the caller cannot see answers `NOT_FOUND`, never `FORBIDDEN`.
  */
-import { DomainError } from '@cp/domain';
+import { DomainError, planChangeRuleOf, planEditRights, type PlanEditRights } from '@cp/domain';
 import type pg from 'pg';
 
 export interface TripAccess {
@@ -25,10 +27,37 @@ export async function requireTripMember(tx: pg.PoolClient, tripId: string): Prom
   return access;
 }
 
-/** Organisers and co-organisers; a member is told to propose a change set instead. */
+/** What the caller may do to the crew's plan under the trip's plan-change rule. */
+export async function planRightsOf(tx: pg.PoolClient, tripId: string): Promise<PlanEditRights> {
+  const { rows } = await tx.query<TripAccess & { rule: string | null }>(
+    `SELECT app.is_trip_member($1) AS member, app.is_trip_organiser($1) AS organiser,
+            (SELECT plan_change_rule FROM trips WHERE id = $1) AS rule`,
+    [tripId],
+  );
+  const row = rows[0];
+  return planEditRights({
+    member: row?.member === true,
+    organiser: row?.organiser === true,
+    rule: planChangeRuleOf(row?.rule),
+  });
+}
+
+/**
+ * Organisers and co-organisers, and every member on a trip whose rule is `anyone`; anyone else is
+ * told to propose a change set instead.
+ */
 export async function requirePlanEditor(tx: pg.PoolClient, tripId: string): Promise<void> {
-  const access = await requireTripMember(tx, tripId);
-  if (!access.organiser) throw new DomainError('FORBIDDEN', { reason: 'use_changeset' });
+  await requireTripMember(tx, tripId);
+  if (!(await planRightsOf(tx, tripId)).direct) {
+    throw new DomainError('FORBIDDEN', { reason: 'use_changeset' });
+  }
+}
+
+/** A member on a trip whose rule keeps the crew's plan to organisers proposes nothing to it. */
+export async function requirePlanProposer(tx: pg.PoolClient, tripId: string): Promise<void> {
+  if (!(await planRightsOf(tx, tripId)).propose) {
+    throw new DomainError('FORBIDDEN', { reason: 'organiser_only' });
+  }
 }
 
 /** Organisers of the trip (every `role = 'organiser'` seat). */

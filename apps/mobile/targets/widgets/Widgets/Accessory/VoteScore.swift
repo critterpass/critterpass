@@ -17,7 +17,7 @@ struct VoteScoreAccessory: View {
             if let score = AccessoryModel.voteScore(face) {
                 VStack(spacing: 0) {
                     Text(verbatim: score.score)
-                        .font(.system(size: 17, weight: .black).monospacedDigit())
+                        .font(.system(size: 17, weight: .heavy).monospacedDigit())
                         .widgetAccentable()
                     Text(verbatim: score.leader.uppercased())
                         .font(.system(size: 7, weight: .heavy))

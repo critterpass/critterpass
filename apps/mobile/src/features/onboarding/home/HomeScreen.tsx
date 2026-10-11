@@ -3,17 +3,15 @@
  * prompt), and picking one inks the HOME stamp that lands on the pass next.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
-import { useContext, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { tokens } from '@cp/design-tokens';
-import { advanceDraft, homeBaseFor, type GeoHint } from '@cp/domain';
+import { homeBaseFor } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { feedback } from '@/motion/feedback';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Stamp } from '@/ui/documents/Stamp';
 import { Icon } from '@/ui/icons/Icon';
@@ -23,15 +21,12 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { airportDataset, homeWord, tokekLine } from '../content';
-import { ensureDraft, updateDraft, usePassDraft } from '../flow-controller/draft-store';
-import { routeForStep } from '../flow-controller/steps';
-import { useTrackStep } from '../flow-controller/track';
 import { STAMP_BREATHE, useOnboardingLoop } from '../motion';
 import { OnboardingPage } from '../page-chrome';
-import { OnboardingServicesContext } from '../services';
 import { TokekSays } from '../tokek-says';
-import { regionName } from '../region-names';
-import { HOME_ROWS, homeResults, readerCountryOf, type HomeRow } from './home-search';
+import { driveLabel, rowFacts, rowKey, rowTitle } from './home-rows';
+import type { HomeRow } from './home-search';
+import { useHomeStep } from './use-home-step';
 
 const useStyles = makeStyles((th) => ({
   search: {
@@ -70,20 +65,6 @@ const useStyles = makeStyles((th) => ({
   stampWrap: { alignItems: 'center', paddingVertical: th.space['16'] },
 }));
 
-function countryName(country: string, locale: string): string {
-  return regionName(country, locale) ?? airportDataset().countries[country]?.name ?? country;
-}
-
-function driveLabel(minutes: number): string {
-  if (minutes < 90) return t({ id: 'onboarding.home.minutesAway', message: `${minutes} min away` });
-  const hours = Math.round(minutes / 60);
-  return t({ id: 'onboarding.home.hoursAway', message: `${hours} h away` });
-}
-
-function rowKey(row: HomeRow): string {
-  return row.kind === 'metro' ? row.metro.iata : row.airport.iata;
-}
-
 function ResultRow({
   row,
   selected,
@@ -98,16 +79,8 @@ function ResultRow({
   const styles = useStyles();
   const theme = useTheme();
   const iata = rowKey(row);
-  const country = row.kind === 'metro' ? row.metro.country : row.airport.country;
-  const currency = airportDataset().countries[country]?.currency;
-  const title =
-    row.kind === 'metro'
-      ? t({ id: 'onboarding.home.metro', message: `All ${row.metro.city} airports` })
-      : row.airport.name.replace(/ (International )?Airport$/u, '');
-  const facts =
-    row.kind === 'airport' && row.driveMinutes !== null
-      ? `${countryName(country, locale)} · ${driveLabel(row.driveMinutes)}`
-      : [countryName(country, locale), currency].filter(Boolean).join(' · ');
+  const title = rowTitle(row);
+  const facts = rowFacts(row, locale);
   return (
     <PressScale
       onPress={() => onPick(iata)}
@@ -186,56 +159,11 @@ function HomeStamp({ iata, locale }: { readonly iata: string; readonly locale: s
 }
 
 export function HomeScreen() {
-  useTrackStep('home');
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const services = useOnboardingServicesSafe();
-  const draft = usePassDraft() ?? ensureDraft();
   const inputFont = useInputFont();
-  const [query, setQuery] = useState('');
-  const [hint, setHint] = useState<GeoHint | null>(null);
-  const [picked, setPicked] = useState<string | null>(draft.home_iata);
-
-  useEffect(() => {
-    let live = true;
-    void services
-      ?.geoHint()
-      .then((next) => {
-        if (live) setHint(next);
-      })
-      .catch(() => undefined);
-    return () => {
-      live = false;
-    };
-  }, [services]);
-
-  // The search runs on the deferred query: a keystroke's render stays cheap, and the list catches up.
-  const searched = useDeferredValue(query);
-  const results = useMemo(
-    () => homeResults(airportDataset(), searched, hint, HOME_ROWS, readerCountryOf(locale)),
-    [searched, hint, locale],
-  );
-
-  const pick = (iata: string) => {
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id.
-    feedback.emit('thud.soft');
-    setPicked(iata);
-  };
-
-  const onNext = () => {
-    if (picked === null) return;
-    const next = updateDraft((d) => {
-      const moved = advanceDraft({ ...d, home_iata: picked }, 'home');
-      // The pass is issued the moment home is set: locally first, the server copy follows.
-      return moved.step === 'issued' && moved.issued_at === null
-        ? { ...moved, issued_at: new Date().toISOString() }
-        : moved;
-    });
-    if (next.step !== 'home') router.push(routeForStep(next.step));
-  };
-
-  const noResults = searched.trim().length > 0 && results.rows.length === 0;
+  const { setQuery, searched, results, noResults, picked, pick, next: onNext } = useHomeStep();
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a content trigger id.
   const farLine = tokekLine('home_far', locale);
   return (
@@ -291,11 +219,11 @@ export function HomeScreen() {
           testID="home-no-results"
           line={t({
             id: 'onboarding.home.noResults',
-            message: `No airport called “${searched.trim()}”. Try a city or a three-letter code.`,
+            message: `No airport called “${searched}”. Try a city or a three-letter code.`,
           })}
         />
       ) : null}
-      {searched.trim().length === 0 && results.farMinutes !== null ? (
+      {searched.length === 0 && results.farMinutes !== null ? (
         <TokekSays
           testID="home-far"
           line={t({
@@ -311,9 +239,4 @@ export function HomeScreen() {
       ) : null}
     </OnboardingPage>
   );
-}
-
-/** The geo hint is optional: without services (or offline) the nearest rows simply don't show. */
-function useOnboardingServicesSafe() {
-  return useContext(OnboardingServicesContext);
 }

@@ -3,13 +3,11 @@
  * pin; a name and ADD TO IDEAS save it to the trip's Ideas as a pin (`save_idea{pin}`), which
  * works offline from the queue.
  */
-import { generateUuidV7 } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import type { CameraRef, LngLat } from '@maplibre/maplibre-react-native';
-import { useRef, useState } from 'react';
+import type { CameraRef } from '@maplibre/maplibre-react-native';
+import { useRef } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
 import { makeStyles, Text, useTheme } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
@@ -17,8 +15,7 @@ import { TextField } from '@/ui/inputs/TextField';
 import { PlanningMapCanvas } from '@/ui/map/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
 
-import { saveIdeaCommand } from './commands';
-import { useDestinationCentre } from './use-addresses';
+import { useDropPin } from './use-drop-pin';
 
 const PIN_SIZE = 34;
 
@@ -50,24 +47,9 @@ export interface DropPinSheetProps {
 export function DropPinSheet(props: DropPinSheetProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const save = useCommand(saveIdeaCommand);
   const cameraRef = useRef<CameraRef | null>(null);
-  const centre = useDestinationCentre(props.destinationId);
-  const start = props.start ?? centre;
-  const [point, setPoint] = useState<LngLat | null>(null);
-  const [name, setName] = useState(props.name);
+  const { start, name, setName, setPoint, canAdd, add } = useDropPin(props);
   const title = t({ id: 'search.pin.title', message: 'Drop a pin' });
-  const at: LngLat | null = point ?? (start === null ? null : [start.lng, start.lat]);
-  const add = () => {
-    if (at === null || name.trim() === '') return;
-    void save.send({
-      idea_id: generateUuidV7(),
-      trip_id: props.tripId,
-      pin: { name: name.trim(), lat: at[1], lng: at[0] },
-      source: 'pin',
-    });
-    props.onSaved(name.trim());
-  };
   return (
     <Sheet
       title={title}
@@ -109,7 +91,7 @@ export function DropPinSheet(props: DropPinSheetProps) {
         <PillButton
           label={t({ id: 'search.pin.add', message: 'Add to Ideas' })}
           onPress={add}
-          disabled={at === null || name.trim() === ''}
+          disabled={!canAdd}
           block
           testID="search-drop-pin-add"
         />

@@ -7,13 +7,16 @@
 import { airportDataset } from '@cp/content/airports';
 import { homeBaseFor, pitchSectionsSchema, type PitchSections } from '@cp/domain';
 import { router, useIsFocused } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+import { useCommand } from '@/data/commands/use-command';
 
 import { voteRoutes } from '../routes';
 
 import { useLiveRows } from './live-rows';
 import { PENDING_REVEAL_SQL, REVEAL_TABLES } from './poll-queries';
 import type { PollView } from './poll-view';
+import { markRevealSeenCommand } from './vote-commands';
 
 const PITCHES_SQL = `SELECT id, sections FROM pitches
   WHERE id IN (SELECT pitch_id FROM poll_options WHERE poll_id = ? AND pitch_id IS NOT NULL)`;
@@ -22,6 +25,9 @@ const PITCH_TABLES = ['pitches', 'poll_options'];
 const ORGANISER_NAME_SQL = `SELECT u.display_name FROM trip_participants p JOIN users u ON u.id = p.user_id
   WHERE p.trip_id = ? AND p.role = 'organiser' ORDER BY p.created_at LIMIT 1`;
 const ORGANISER_TABLES = ['trip_participants', 'users'];
+
+const CREW_NAME_SQL = `SELECT name FROM crews WHERE id = ?`;
+const CREW_TABLES = ['crews'];
 
 /** Pitch sections by pitch id. */
 export function usePitchSections(pollId: string | null): ReadonlyMap<string, PitchSections> {
@@ -52,6 +58,16 @@ export function useOrganiserName(poll: PollView | null): string | null {
   );
   const name = rows[0]?.display_name ?? null;
   return name === null ? null : (name.split(' ')[0] ?? name);
+}
+
+/** The crew's name ("Bali Six"), once it is on this phone. */
+export function useCrewName(crewId: string | null): string | null {
+  const { rows } = useLiveRows<{ name: string | null }>(
+    CREW_NAME_SQL,
+    crewId === null ? null : [crewId],
+    CREW_TABLES,
+  );
+  return rows[0]?.name ?? null;
 }
 
 /** "Singapore" for SIN, else the code itself. */
@@ -110,4 +126,18 @@ export function useRevealOnOpen(me: string | null): void {
     opened.add(pending);
     router.push(voteRoutes.reveal(pending));
   }, [pending, focused]);
+}
+
+/**
+ * Files `mark_reveal_seen` once when a reveal plays (not when a seen result opens again), so each
+ * person sees it play once on any device.
+ */
+export function useMarkRevealSeen(pollId: string, settled: boolean): void {
+  const { send } = useCommand(markRevealSeenCommand);
+  const fired = useRef(false);
+  useEffect(() => {
+    if (fired.current || settled) return;
+    fired.current = true;
+    void send({ poll_id: pollId });
+  }, [pollId, send, settled]);
 }

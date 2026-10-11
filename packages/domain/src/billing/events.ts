@@ -30,6 +30,7 @@ export const BILLING_EVENT_TYPES = [
   'purchase.revoked',
   'ftf.granted',
   'ftf.reviewed',
+  'ftf.ending_soon',
   'crew_year.granted',
   'crew_year.rebound',
   'paywall.event',
@@ -90,6 +91,13 @@ export const BILLING_EVENT_PAYLOADS = {
     reason: z.enum(REVOCATION_REASONS),
   }),
   'ftf.granted': z.object({ crew_id: z.uuid(), trip_id: z.uuid(), grant_id: z.uuid() }),
+  // The window closes in three days; the push goes to those who would lose its perks.
+  'ftf.ending_soon': z.object({
+    crew_id: z.uuid(),
+    trip_id: z.uuid(),
+    grant_id: z.uuid(),
+    ends_at: z.iso.datetime({ offset: true }),
+  }),
   'ftf.reviewed': z.object({
     crew_id: z.uuid(),
     grant_id: z.uuid(),

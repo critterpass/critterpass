@@ -1,7 +1,7 @@
 /**
  * `send_nudge` and `record_app_open` through `/v1/cmd`: the pair cooldown answers
  * `NUDGE_TOO_SOON` with `next_at`; an installed target with push is scheduled at their modal open
- * hour in their own zone; an installed target without push gets an inbox nudge now and no relay;
+ * hour in their own zone (or at once when asked, outside quiet hours); an installed target without push gets an inbox nudge now and no relay;
  * a target who never installed gets the share-sheet relay and nothing is sent by us; strangers
  * and self-nudges are refused; app opens count once per hour.
  */
@@ -206,6 +206,62 @@ describe('send_nudge', () => {
         alex.uid,
       ]),
     ).toEqual([]);
+  });
+
+  it('resends an unanswered in-app invite at once, or at their hour inside quiet hours', async () => {
+    const invitee = async (name: string) => {
+      const session = await harness.signInAnonymously();
+      await sql("UPDATE users SET display_name = $2, tz = 'UTC' WHERE id = $1", [
+        session.uid,
+        name,
+      ]);
+      const deviceId = randomUUID();
+      await sql(
+        `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+         VALUES ($1, $2, 'ios', '1.0.0', 'en', 'UTC')`,
+        [deviceId, session.uid],
+      );
+      await sql(
+        `INSERT INTO push_tokens (device_id, kind, token, env)
+         VALUES ($1, 'apns_alert', $2, 'sandbox')`,
+        [deviceId, `token-${deviceId}`],
+      );
+      await sql(
+        `INSERT INTO invites (crew_id, inviter_id, kind, invitee_user_id, channel, expires_at)
+         VALUES ($1, $2, 'generic', $3, 'app', now() + interval '7 days')`,
+        [crewId, owner.uid, session.uid],
+      );
+      return session.uid;
+    };
+    const resend = (to: string) =>
+      harness.request('/v1/cmd/send_nudge', {
+        method: 'POST',
+        headers: { cookie: owner.cookie },
+        body: JSON.stringify(
+          envelope('send_nudge', { target_uid: to, reason: 'invite_open', when: 'now' }),
+        ),
+      });
+    type Scheduled = { result: { outcome: string; send_at: string } };
+
+    const awake = await invitee('Dev');
+    const before = Date.now();
+    const now = await resend(awake);
+    expect(now.status).toBe(200);
+    const sent = (await json<Scheduled>(now)).result;
+    expect(sent.outcome).toBe('scheduled');
+    expect(new Date(sent.send_at).getTime()).toBeGreaterThanOrEqual(before - 5_000);
+    expect(new Date(sent.send_at).getTime()).toBeLessThanOrEqual(Date.now() + 5_000);
+
+    const asleep = await invitee('Maya');
+    const hour = new Date().getUTCHours();
+    const at = (h: number) => `${String((h + 24) % 24).padStart(2, '0')}:00`;
+    await sql(
+      'INSERT INTO notification_prefs (user_id, quiet_from, quiet_to) VALUES ($1, $2, $3)',
+      [asleep, at(hour - 1), at(hour + 2)],
+    );
+    const later = (await json<Scheduled>(await resend(asleep))).result;
+    expect(later.outcome).toBe('scheduled');
+    expect(new Date(later.send_at).getTime()).toBeGreaterThan(Date.now() + 60 * 60_000);
   });
 
   it('refuses strangers and self-nudges', async () => {
