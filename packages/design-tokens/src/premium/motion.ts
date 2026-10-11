@@ -81,13 +81,16 @@ export const premiumMotion = {
     joltDown: 3,
     joltUp: 2,
     joltRotate: 0.4,
+    /** The ink ripple ring at impact: 220 across, 3 wide, grows .6 → 1.7 while fading from .7. */
+    rippleSize: 220,
     rippleFrom: 0.6,
     rippleTo: 1.7,
+    rippleOpacity: 0.7,
     confettiPieces: 44,
     /** How far confetti flies out, and how far it falls by the end. */
     confettiReach: 170,
     confettiFall: 140,
-    rippleStroke: 2,
+    rippleStroke: 3,
     resultRise: 40,
   },
   swipe: {
