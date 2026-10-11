@@ -63,9 +63,7 @@ Every premium view sits behind `premiumRoute({ premium, legacy })` (or `usePremi
 
 ## Hand-offs to other lanes (not in this lane's files)
 
-- 3.20 `features/home/premium/recovery/error-sheet.tsx` is built; `ui/shell/RootErrorBoundary.tsx` (shell lane) should render it when premium is on.
 - 9.18 `last-redraft-premium.tsx` and 9.19 `live-map-gate-premium.tsx` are built as content; the plan lane (`app/(trip)/[tripId]/draft/last-redraft.tsx`) and the map lane (`features/crew/live-map/states/gate-card.tsx`) host them.
-- 9.05 Offline storage (`app/(trip)/hub/offline-storage.tsx`, `features/trip/bundle/*`) is in the trip lane's files; not built here.
 - Shared-looking pieces to promote to the kit: `monetize/premium/components/{glass-alert,modal-sheet,gold-button,confetti,split-flap-digit}`, `onboarding/premium/components/{CodeTiles,PassPaper,WizardPage}`, `crew/premium/components/qr-code.tsx`.
 
 ## Gaps built after the first pass
@@ -77,6 +75,9 @@ Every premium view sits behind `premiumRoute({ premium, legacy })` (or `usePremi
 - **Welcome back (2.02)**: an iOS keychain mark written when a pass is saved or signed in; a reinstall opens on the navy passport, NO SIGNAL chip offline, Sign in waits for signal. `0b536e7bf`
 - **Scan QR (2.16)**: one back-camera photo read on the phone by the OCR module's barcode reader, then handled like a paste. `e29175d0f`
 - **Saved link (2.04)**: a non-invite web link pasted on first launch is kept (tap the check to drop it) and offered on Home once a trip exists, through the add-from-a-link page. `9cea82e4f`
+- **Offline storage (9.05)**: `features/you/premium/offline/*` behind the switch on `app/(trip)/hub/offline-storage.tsx`: ink meter (saved MB, free GB, a bar per trip), Save now / Remove (asked first), auto-save toggle, over the trip feature's own pack logic. "Only on Wi-Fi" and a Recaps share are left out: the background prefetch has no Wi-Fi rule and recaps keep no offline media, so either would be a control that does nothing. `605eddbb2`
+- **Something broke (3.20)**: the root, tabs, trip and sheet layouts export `PremiumRootErrorBoundary` / `PremiumGroupErrorBoundary` (`features/home/premium/recovery/premium-error-boundary.tsx`), which show the premium sheet when this run is premium (falling back to the current page if the sheet fails) and the current page otherwise; `premiumUiThisRun()` added to `lib/premium-ui`. `f2f52de45`
+- **Message ids**: 14 premium messages that reused a current id with different placeholders or words have their own ids now; a scan of the lane's areas finds no id defined with two messages. `d4e1409b1`
 
 ## Follow-ups for the founder / controller
 
@@ -87,7 +88,7 @@ Every premium view sits behind `premiumRoute({ premium, legacy })` (or `usePremi
   - Live-map replay and "opened it N times" (9.19): no data. `trip_locations` keeps no position history by design, and nothing counts map opens. The gate content stays as built, without them.
   - Welcome back on Android (2.02): Android clears app storage on uninstall. A reinstall-surviving mark needs Play Block Store, which is a new native module.
   - Live QR scanning: VisionCamera 5's core has no code scanner (a separate native package). Scan QR reads one photo instead.
-- Hand-offs to other lanes (unchanged): error sheet into `RootErrorBoundary`, last-redraft and live-map gate content into their hosts, 9.05 Offline storage.
+- Hand-offs to other lanes: last-redraft and live-map gate content into their hosts.
 
 ## Open questions
 
