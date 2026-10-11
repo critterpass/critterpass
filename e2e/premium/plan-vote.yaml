@@ -25,6 +25,11 @@ appId: app.critterpass.dev
     file: subflows/plan-places.yaml
     env:
       LOOK: light
+# The places pitch ends deep in a stack of sheets: the dark pass starts from a fresh Home.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
 - runFlow:
     file: subflows/appearance.yaml
     env:
