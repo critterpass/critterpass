@@ -111,6 +111,7 @@ export type StaySplitMode = 'by_room' | 'evenly';
 export function useStayRoomSplit(tripId: string) {
   const row = useLiveRows<ExpenseSplitRow>(STAY_EXPENSE_SQL, [tripId], ['expenses']).rows[0];
   const rooms = useSplitRooms(row === undefined ? null : tripId, null);
+  const mode: StaySplitMode = row?.split_mode === 'by_room' ? 'by_room' : 'evenly';
   return {
     expense:
       row?.id === undefined
@@ -119,7 +120,7 @@ export function useStayRoomSplit(tripId: string) {
             id: row.id,
             amountMinor: row.amount_minor ?? 0,
             currency: row.currency ?? '',
-            mode: row.split_mode === 'by_room' ? 'by_room' : 'evenly',
+            mode,
           },
     guests: [...new Set(rooms.flatMap((room) => room.occupants))],
     ...useSplitSwitch(row, row?.id ?? null),
