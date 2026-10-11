@@ -15,6 +15,7 @@ import type { CopyRenderer } from '../../push/render';
 import { loadRecipient, ON_TRIP_TZ_SQL } from '../notify/audience';
 import { enqueuePushSend } from '../notify/route';
 import { pushTargets } from '../notify/store';
+import { roundupLines, type RoundupLineSource } from './lines';
 import { rankRoundupItems, type RoundupCandidate } from './rank';
 import { composeRoundup } from './template';
 
@@ -71,18 +72,20 @@ export async function dueRoundups(tx: pg.PoolClient, now: Date): Promise<DueRoun
 
 interface ItemRow {
   id: string;
+  key: string;
+  title: string;
   body: string;
+  deep_link: string | null;
   needs_you: boolean;
   created_at: Date;
 }
 
-async function pendingItems(
-  tx: pg.PoolClient,
-  uid: string,
-  now: Date,
-): Promise<RoundupCandidate[]> {
+type PendingItem = RoundupCandidate & { readonly row: RoundupLineSource };
+
+async function pendingItems(tx: pg.PoolClient, uid: string, now: Date): Promise<PendingItem[]> {
   const { rows } = await tx.query<ItemRow>(
-    `SELECT n.id, n.body, n.needs_you, n.created_at FROM notifications n
+    `SELECT n.id, n.key, n.title, n.body, n.deep_link, n.needs_you, n.created_at
+       FROM notifications n
      WHERE n.user_id = $1 AND n.state = 'rolled_into_roundup' AND n.created_at <= $2
        AND (n.expires_at IS NULL OR n.expires_at > $2)
        AND n.created_at > coalesce(
@@ -95,6 +98,7 @@ async function pendingItems(
     text: row.body,
     needsYou: row.needs_you,
     createdAt: row.created_at,
+    row: { key: row.key, title: row.title, body: row.body, deepLink: row.deep_link },
   }));
 }
 
@@ -146,8 +150,10 @@ export function buildRoundup(
     if (done.rowCount) return { outcome: 'already_built' };
     const recipient = await loadRecipient(tx, data.user_id, now);
     if (recipient === undefined) return { outcome: 'no_recipient' };
-    const items = rankRoundupItems(await pendingItems(tx, data.user_id, now));
+    const pending = await pendingItems(tx, data.user_id, now);
+    const items = rankRoundupItems(pending);
     if (items.length === 0) return { outcome: 'empty' };
+    const sources = new Map(pending.map((item) => [item.id, item.row]));
 
     const guide = await activeGuide(tx, data.user_id);
     const copy = await composeRoundup(deps.renderer, recipient.locale, {
@@ -188,7 +194,7 @@ export function buildRoundup(
     const { rows } = await tx.query<{ id: string }>(
       `INSERT INTO notifications (user_id, key, category, class, sender, template_id, title, body, ctx,
          collapse_key, thread_id, dedupe_key, local_date, state, drop_reason)
-       VALUES ($1, 'evening_roundup', 'cp.generic', 'roundup_only', $2, $3, $4, $5, $6, $7, 'roundup',
+       VALUES ($1, 'evening_roundup', 'cp.roundup', 'roundup_only', $2, $3, $4, $5, $6, $7, 'roundup',
          $8, $9, $10, $11)
        RETURNING id`,
       [
@@ -197,7 +203,17 @@ export function buildRoundup(
         copy.templateId,
         copy.title,
         copy.body,
-        JSON.stringify({ subtitle: copy.subtitle, roundup_id: roundupId, count: items.length }),
+        JSON.stringify({
+          subtitle: copy.subtitle,
+          roundup_id: roundupId,
+          count: items.length,
+          lines: roundupLines(
+            items.flatMap((item) => {
+              const source = sources.get(item.id);
+              return source === undefined ? [] : [source];
+            }),
+          ),
+        }),
         `roundup:${data.local_date}`,
         `evening_roundup:${data.local_date}`,
         data.local_date,

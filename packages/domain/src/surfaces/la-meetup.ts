@@ -57,8 +57,10 @@ export const meetUpLaStragglerSchema = z.object({
   name: z.string().max(24),
   initial: z.string().max(2),
   tone: z.number().int().min(0).max(7),
-  /** "Scooter · 2 km · 8 min". */
+  /** How they are coming, as the crew map words it ("Scooter · 2 km"). */
   line: z.string().max(48),
+  /** Their ETA in whole minutes, shown on the row's right; null when unknown. */
+  min: z.number().int().nonnegative().nullable(),
 });
 
 export const meetUpLaStateSchema = z.object({
@@ -145,12 +147,8 @@ export function buildMeetUpLaState(input: MeetUpLaInput, now: Date, seq: number)
       name: laLine(m.name, 24),
       initial: initialOf(m.name),
       tone: m.tone,
-      line: laLine(
-        [m.statusText, m.etaMin === null ? null : `${m.etaMin} min`]
-          .filter((part): part is string => part !== null && part !== '')
-          .join(' · '),
-        48,
-      ),
+      line: laLine(m.statusText ?? '', 48),
+      min: m.etaMin,
     })),
     end_reason: input.endReason,
   };

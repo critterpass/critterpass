@@ -95,7 +95,7 @@
   <string name="cp_widget_today">Today</string>
   <string name="cp_widget_today_description">The day\'s plan, briefing and packing</string>
   <string name="cp_widget_today_empty">Nothing planned for today</string>
-  <string name="cp_widget_today_weather">Today · %1$d°</string>
+  <string name="cp_widget_degrees">%1$d°</string>
   <string name="cp_widget_balances">Balances</string>
   <string name="cp_widget_balances_description">What you owe or are owed</string>
   <string name="cp_widget_balances_empty">All square</string>
@@ -108,6 +108,7 @@
   <string name="cp_widget_crew">Crew</string>
   <string name="cp_widget_crew_description">Who\'s close to the meet-up</string>
   <string name="cp_widget_crew_empty">No meet-up right now</string>
+  <string name="cp_widget_crew_boost">Boost</string>
   <string name="cp_widget_next_flight">Next flight</string>
   <string name="cp_widget_next_flight_description">Your next flight, gate and delays</string>
   <string name="cp_widget_next_flight_empty">No flight coming up</string>
@@ -127,6 +128,5 @@
 
   <!-- The sleepy clock screen saver (5c-4); Android only runs it while charging or docked. -->
   <string name="cp_dream_label">CritterPass sleepy clock (while charging)</string>
-  <string name="cp_dream_leave_by">Leave by · %1$s</string>
-  <string name="cp_dream_no_leave_by">Tokek is asleep. No leave-by set.</string>
+  <string name="cp_dream_leave_by">Leave by %1$s</string>
 </resources>

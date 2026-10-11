@@ -75,7 +75,7 @@ export const NOTIFICATION_CATEGORY_SPECS: readonly NotificationCategorySpec[] = 
   { id: 'cp.vote', poster: true, actions: [...voteActions, open] },
   {
     id: 'cp.changeset',
-    poster: false,
+    poster: true,
     actions: [
       background({ id: 'APPROVE', title: 'Yes', command: 'approve_changeset', scope: 'changeset' }),
       background({
@@ -86,6 +86,7 @@ export const NOTIFICATION_CATEGORY_SPECS: readonly NotificationCategorySpec[] = 
         destructive: true,
       }),
       background({ id: 'UNDO', title: 'Undo', command: 'undo_guide_action', scope: 'changeset' }),
+      open,
     ],
   },
   {
@@ -209,6 +210,7 @@ export const NOTIFICATION_CATEGORY_SPECS: readonly NotificationCategorySpec[] = 
     ],
   },
   { id: 'cp.vendor', poster: false, actions: [foreground({ id: 'approve', title: 'Send' })] },
+  { id: 'cp.roundup', poster: true, actions: [open] },
   { id: 'cp.generic', poster: false, actions: [open] },
 ];
 

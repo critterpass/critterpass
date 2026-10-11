@@ -1,5 +1,8 @@
 package app.critterpass.surfaces.liveupdate
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import app.critterpass.notifications.tokens.CpPremium
 import org.json.JSONObject
 
 /**
@@ -33,14 +36,20 @@ data class ProgressSpec(
     data class Label(val key: String) : Chip
   }
 
-  /** Colour roles; ARGB from the design tokens (mint, ink, coral, cream, yellow, blue). */
-  enum class Tone(val argb: Int) {
-    DONE(0xFF54D6A4.toInt()),
-    AHEAD(0xFF6F698C.toInt()),
-    ALERT(0xFFFF6B5B.toInt()),
-    STOP(0xFFF4EFE4.toInt()),
-    MEMBER(0xFFFFD84A.toInt()),
-    ME(0xFF4F86FF.toInt());
+  /**
+   * Colour roles from the premium palette: the reached legs fill sun (the leave-by trail), the
+   * legs ahead sit on the to-do track, stops are muted dots, crewmates tangerine, you sky, and an
+   * alert pink.
+   */
+  enum class Tone(private val color: Color) {
+    DONE(CpPremium.Accent.sun),
+    AHEAD(CpPremium.Light.colorProgressTodo),
+    ALERT(CpPremium.Accent.pink),
+    STOP(CpPremium.Light.colorMuted),
+    MEMBER(CpPremium.Accent.tangerine),
+    ME(CpPremium.Accent.sky);
+
+    val argb: Int get() = color.toArgb()
 
     companion object {
       fun of(wire: String): Tone = entries.firstOrNull { it.name.equals(wire, ignoreCase = true) } ?: AHEAD

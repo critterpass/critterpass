@@ -10,11 +10,11 @@ struct RsvpPosterView: View {
             PosterPalette.yellow
             VStack(alignment: .leading, spacing: 6) {
                 Text("TRIP PROPOSAL")
-                    .font(.system(size: 11, weight: .heavy))
-                    .tracking(1.2)
+                    .font(.system(size: 11, weight: .bold))
+                    .tracking(0.66)
                     .foregroundStyle(PosterPalette.night.opacity(0.7))
-                Text("ARE YOU IN?")
-                    .font(.system(size: 40, weight: .black))
+                Text("Are you in?")
+                    .font(.system(size: 40, weight: .heavy))
                     .foregroundStyle(PosterPalette.night)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)

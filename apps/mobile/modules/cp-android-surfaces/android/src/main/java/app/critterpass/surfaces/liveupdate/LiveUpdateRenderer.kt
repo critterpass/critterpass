@@ -69,6 +69,7 @@ object LiveUpdateRenderer {
         val statusChanged = previousStatus == null || previousStatus != message.spec?.status
         val builder = NotificationCompat.Builder(context, if (ongoing) LIVE_CHANNEL else alertChannel(context, message.channelId))
           .setSmallIcon(NotificationsR.drawable.cp_notification_icon)
+          .setColor(Channels.ACCENT_ARGB)
           .setContentTitle(content.title)
           .setContentText(content.text)
           .setSubText(content.chip)
@@ -110,6 +111,7 @@ object LiveUpdateRenderer {
     }
     val builder = Notification.Builder(context, LIVE_CHANNEL)
       .setSmallIcon(NotificationsR.drawable.cp_notification_icon)
+      .setColor(Channels.ACCENT_ARGB)
       .setContentTitle(content.title)
       .setContentText(content.text)
       .setShortCriticalText(content.chip)

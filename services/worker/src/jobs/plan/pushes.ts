@@ -14,14 +14,22 @@ import {
   CHANGESET_NEEDS_YES_BODY,
   CHANGESET_NEEDS_YES_TITLE,
   tripPlanLink,
+  type PollDeciderPolicy,
 } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
+import { changesetPosterCtx } from './changeset-poster';
 import { setupFacts, str } from '../setup/facts';
 
 interface VoteFacts {
   readonly tripId: string;
+  readonly crewId: string;
+  readonly policy: PollDeciderPolicy | null;
+  readonly threshold: number | null;
+  readonly closesAt: Date | null;
+  /** Who said yes so far, earliest first. */
+  readonly yes: readonly string[];
   readonly changeSetId: string;
   readonly authorId: string;
   readonly pollId: string;
@@ -51,8 +59,17 @@ async function voteFacts(tx: pg.PoolClient, event: RoutedEvent): Promise<VoteFac
   const state = await loadPollState(tx, row.poll_id);
   if (state === undefined) return undefined;
   const voted = new Set(state.ballots.map((ballot) => ballot.user_id));
+  const yesOption = state.options.find((option) => option.kind === 'changeset')?.id;
   return {
     tripId: row.trip_id,
+    crewId: state.poll.crew_id,
+    policy: state.poll.decider_policy,
+    threshold: state.poll.threshold,
+    closesAt: state.poll.closes_at,
+    yes: state.ballots
+      .filter((ballot) => ballot.option_id === yesOption)
+      .sort((a, b) => a.cast_at.getTime() - b.cast_at.getTime())
+      .map((ballot) => ballot.user_id),
     changeSetId: id,
     authorId: row.author_id,
     pollId: row.poll_id,
@@ -92,7 +109,21 @@ export function registerPlanPushes(): void {
         crewId: trip.crewId,
         tripId: facts.tripId,
         deepLink: changeReviewLink(facts.tripId, facts.changeSetId),
-        ctx: { change_set_id: facts.changeSetId, poll_id: facts.pollId, trip_id: facts.tripId },
+        ctx: {
+          change_set_id: facts.changeSetId,
+          poll_id: facts.pollId,
+          trip_id: facts.tripId,
+          ...(await changesetPosterCtx(tx, {
+            changeSetId: facts.changeSetId,
+            crewId: facts.crewId,
+            tz: trip.tz ?? 'UTC',
+            policy: facts.policy,
+            threshold: facts.threshold,
+            eligible: facts.voters.length,
+            yesVoterIds: facts.yes,
+            closesAt: facts.closesAt,
+          })),
+        },
         needsYou: true,
         collapseVars: { change_set_id: facts.changeSetId },
       };

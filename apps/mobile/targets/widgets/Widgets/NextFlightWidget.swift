@@ -28,7 +28,7 @@ struct NextFlightView: View {
                 LAPill(tier: .passPlus)
                 if file.isLocked("next_flight") {
                     Text("Your next flight, here")
-                        .font(.system(size: 15, weight: .black))
+                        .font(.system(size: 15, weight: .heavy))
                         .foregroundStyle(LAPalette.paper)
                     Text("Gate and boarding time at a glance with Pass+.")
                         .font(.system(size: 11, weight: .semibold))
@@ -43,7 +43,7 @@ struct NextFlightView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
                     Text(verbatim: face.route)
-                        .font(.system(size: 20, weight: .black))
+                        .font(.system(size: 20, weight: .heavy))
                         .foregroundStyle(LAPalette.paper)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)

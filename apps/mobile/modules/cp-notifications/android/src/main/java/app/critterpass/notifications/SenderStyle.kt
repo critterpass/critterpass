@@ -13,6 +13,8 @@ data class NotificationSender(
   val personKey: String,
   /** An App Group avatar key (`guide-tokek`) or an https URL. */
   val avatar: String?,
+  /** A crewmate's crew colour (`yellow`, `orange`, `blue`, `pink`, `green`, `cream`). */
+  val tone: String? = null,
 ) {
   val isGuide: Boolean get() = kind == KIND_GUIDE
 }
@@ -41,6 +43,12 @@ data class SenderMessage(
 
   /** Chat messages stack into one notification per conversation; everything else stands alone. */
   val appendsToConversation: Boolean get() = type == CREW_CHAT_TYPE && conversationId != null
+
+  /**
+   * What the notification reads: the body, then the subtitle on its own line ("Morning briefing ·
+   * 4 things today"), since the header shows the channel. A chat line is the message alone.
+   */
+  val text: String get() = if (subtitle == null || appendsToConversation) body else "$body\n$subtitle"
 }
 
 const val KIND_GUIDE = "guide"
@@ -100,7 +108,7 @@ object SenderStyle {
         kind, id, name, guideNameFormat.format(name), "cp-guide:$id", json.optNonBlank("avatar"),
       )
       KIND_MEMBER -> NotificationSender(
-        kind, id, name, name, "cp-user:$id", json.optNonBlank("avatar"),
+        kind, id, name, name, "cp-user:$id", json.optNonBlank("avatar"), json.optNonBlank("tone"),
       )
       else -> null
     }

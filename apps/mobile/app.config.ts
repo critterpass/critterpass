@@ -59,17 +59,15 @@ function resolveVariant(): AppVariant {
 
 /**
  * Icon files per variant, exported from the design by tools/design-renders/export-app-icons.mjs.
- * Development and staging icons carry a DEV / STAGING label so testers can tell builds apart.
+ * iOS takes one Icon Composer bundle (light, dark, clear and tinted from its layers); Android an
+ * adaptive icon with a themed monochrome layer. Development and staging icons carry a DEV /
+ * STAGING label so testers can tell builds apart.
  */
 export function appIcons(appVariant: AppVariant) {
   const suffix = appVariant === 'production' ? '' : `-${appVariant}`;
   return {
     icon: `./assets/icon${suffix}.png`,
-    ios: {
-      light: `./assets/icon${suffix}.png`,
-      dark: `./assets/icon${suffix}-dark.png`,
-      tinted: `./assets/icon${suffix}-tinted.png`,
-    },
+    ios: `./assets/app-icons/ios/passport${suffix}.icon`,
     adaptiveIcon: {
       foregroundImage: `./assets/android-icon-foreground${suffix}.png`,
       backgroundImage: './assets/android-icon-background.png',
@@ -78,16 +76,27 @@ export function appIcons(appVariant: AppVariant) {
   };
 }
 
+/** The launch grounds (10.01 / 10.04 light, 10.03 / 10.05 dark). */
+export const LAUNCH_GROUND = { light: '#f5f5f7', dark: '#1c1d24' } as const;
+
 /**
- * The launch splash is the in-app hatch's first frame: the egg and its halftone glow on the app
- * background, one 736 pt square centred on the screen (iOS). Android 12+ draws the egg alone in
- * the system splash's icon mask, wobbling once (./plugins/with-splash-wobble).
+ * The launch splash. iOS: the passport cover on its glow, one 736 pt square centred on the
+ * screen, light and dark; the in-app launch animation (src/features/launch/premium) draws its
+ * first frame from the same layers. Android 12+: the passport icon in the system splash's circle
+ * (160 dp of the 288 dp canvas), the dark icon at night, with the wordmark as the branding image
+ * (./plugins/with-splash-branding).
  */
 export const SPLASH_PLUGIN_OPTIONS = {
-  backgroundColor: WINDOW_BACKGROUND,
-  image: './assets/splash-launch.png',
+  backgroundColor: LAUNCH_GROUND.light,
+  image: './assets/launch/splash-ios.png',
   imageWidth: 736,
-  android: { drawable: { icon: './assets/splash-android-wobble.xml' } },
+  dark: { backgroundColor: LAUNCH_GROUND.dark, image: './assets/launch/splash-ios-dark.png' },
+  android: {
+    backgroundColor: LAUNCH_GROUND.light,
+    image: './assets/launch/android-icon.png',
+    imageWidth: 160,
+    dark: { backgroundColor: LAUNCH_GROUND.dark, image: './assets/launch/android-icon-dark.png' },
+  },
 };
 
 const appVariant = resolveVariant();
@@ -197,6 +206,9 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     entitlements: {
       'com.apple.security.application-groups': ['group.app.critterpass'],
       'keychain-access-groups': ['$(AppIdentifierPrefix)app.critterpass.shared'],
+      // Flight changes, crew knocks and leave-by pings break through Focus and scheduled
+      // summaries (the worker sends them with `interruption-level: time-sensitive`).
+      'com.apple.developer.usernotifications.time-sensitive': true,
     },
   },
   android: {
@@ -212,9 +224,9 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     'expo-router',
     // Universal Links / App Links for this variant's link hosts (plugins/with-links.ts).
     ['./plugins/with-links', { variant: appVariant }],
-    // Before expo-splash-screen: style mods run last-registered first, and the wobble's duration
+    // Before expo-splash-screen: style mods run last-registered first, and the branding image
     // goes onto the splash theme that expo-splash-screen writes.
-    './plugins/with-splash-wobble',
+    './plugins/with-splash-branding',
     ['expo-splash-screen', SPLASH_PLUGIN_OPTIONS],
     [
       'expo-font',
