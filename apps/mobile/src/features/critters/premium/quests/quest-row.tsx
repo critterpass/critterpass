@@ -29,7 +29,7 @@ import type { QuestCardModel, QuestColour, QuestIcon } from '../../quests/quests
 import type { BefriendPlace } from '../../quests/use-befriend-spot';
 import type { RevealMode } from '../../quests/use-reward-reveal';
 import { CritterSilhouette } from '../components/critter-silhouette';
-import { doubleRing, ring } from '../components/scrims';
+import { doubleRing, layered, ring } from '../components/scrims';
 
 const DOODLE: Record<QuestIcon, DoodleName> = {
   sun: 'star',
@@ -162,7 +162,9 @@ export function QuestRow({
     <View
       style={[
         styles.row,
-        featured ? { borderRadius: 24, boxShadow: ring(2, th.accent.sun) } : null,
+        featured
+          ? { borderRadius: 24, boxShadow: layered(ring(2, th.accent.sun), th.shadow.card) }
+          : null,
         card.state === 'missed' ? { opacity: 0.55 } : null,
       ]}
       testID={`quest-card-${card.id}`}

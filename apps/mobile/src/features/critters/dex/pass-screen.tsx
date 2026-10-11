@@ -8,7 +8,7 @@
  */
 import { guideOfForm } from '@cp/domain';
 import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { setExploreAtHome, useExploreAtHome } from '@/lib/location';
@@ -20,7 +20,7 @@ import { eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model
 import { critterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute, whereRoute } from '../routes';
 import { NearMap } from '../where/near-map';
 import type { DexFilter } from './dex-model';
-import { DexView } from './dex-view';
+import { DexView, type DexViewProps } from './dex-view';
 import { LiveEncounterBanner } from './encounter-banner';
 import {
   dismissSlipped,
@@ -48,7 +48,14 @@ interface MeRow {
   readonly avatar_form_id: string | null;
 }
 
-export function PassScreen({ now = () => new Date() }: { readonly now?: () => Date }) {
+export function PassScreen({
+  now = () => new Date(),
+  View = DexView,
+}: {
+  readonly now?: () => Date;
+  /** The view that draws the dex (the premium one takes the same props). */
+  readonly View?: ComponentType<DexViewProps>;
+}) {
   const data = useDexRows();
   const uid = useOwnerUid();
   const me = useLiveRows<MeRow>(ME_SQL, uid === null ? null : [uid], ME_TABLES).rows[0];
@@ -76,7 +83,7 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   };
 
   return (
-    <DexView
+    <View
       shelf={<StickerShelf />}
       state={data.loaded ? 'ready' : 'loading'}
       model={data.model}

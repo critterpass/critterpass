@@ -14,10 +14,8 @@ export const CHAT_PAINT = {
   menuShadow: '0 20px 40px -14px rgba(20,22,40,.35)',
 } as const;
 
-/** A flat ring drawn as a spread shadow. */
-export function ring(width: number, color: string): string {
-  return `0 0 0 ${width}px ${color}`;
-}
+/** The kit's flat ring, here beside the other paint. */
+export { ring } from '@/ui/premium';
 
 /** The header's fade from the ground colour so content scrolls away under it. */
 export function headerFade(ground: string): string {

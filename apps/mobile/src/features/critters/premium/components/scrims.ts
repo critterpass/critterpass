@@ -4,6 +4,8 @@
  * yellow glow behind the guide.
  */
 /* eslint-disable critterpass/no-literal-style, lingui/no-unlocalized-strings -- gradients and colours the premium tokens do not carry yet */
+import { ring } from '@/ui/premium';
+
 export const SCRIM = {
   heroTop: 'linear-gradient(180deg, rgba(10,15,25,.5) 0%, rgba(10,15,25,0) 40%)',
   dusk: 'linear-gradient(180deg, #3b4a44 0%, #2a2622 60%, #1a1714 100%)',
@@ -39,12 +41,15 @@ export const HATCH_PAINT = {
   shell: '#fff1d6',
 } as const;
 
-/** A flat ring drawn as a spread shadow. */
-export function ring(width: number, color: string): string {
-  return `0 0 0 ${width}px ${color}`;
-}
+/** The kit's flat ring, here beside the other paint. */
+export { ring };
 
 /** A gap ring then a coloured ring (a joined member's avatar on a card). */
 export function doubleRing(gap: number, gapColor: string, width: number, color: string): string {
   return `${ring(gap, gapColor)}, ${ring(width, color)}`;
+}
+
+/** Several shadows drawn together, first on top. */
+export function layered(...shadows: readonly string[]): string {
+  return shadows.join(', ');
 }

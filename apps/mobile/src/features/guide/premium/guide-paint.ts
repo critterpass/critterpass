@@ -5,10 +5,8 @@ export const GUIDE_PAINT = {
   quotaHalo: '0 0 0 2px rgba(255,216,74,.35)',
 } as const;
 
-/** A flat ring drawn as a spread shadow. */
-export function ring(width: number, color: string): string {
-  return `0 0 0 ${width}px ${color}`;
-}
+/** The kit's flat ring, here beside the other paint. */
+export { ring } from '@/ui/premium';
 
 /** Phrase show mode's warm glow over ink. */
 export const PHRASE_PAINT = {
