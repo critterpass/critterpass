@@ -4,8 +4,7 @@
  * line from the guide when the briefing has nothing new (and when the next one comes); a failed
  * build; yesterday's lines while offline.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
-import { format, upper } from '@cp/i18n';
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -19,7 +18,8 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
-import type { BriefingLine, BriefingState, NextBriefing } from './briefing-model';
+import { briefingDate, useNothingToday } from './briefing-copy';
+import type { BriefingLine, BriefingState } from './briefing-model';
 import { BriefingRow } from './briefing-row';
 
 const STICKER = 40;
@@ -31,44 +31,6 @@ export interface BriefingCardProps {
   readonly onAct: (line: BriefingLine) => void;
 }
 
-function shortDate(locale: string, date: string): string {
-  return format.date(locale, new Date(`${date}T12:00:00Z`), {
-    timeZone: 'UTC',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-
-/**
- * The guide's own line when today's briefing has nothing in it, with when the next one comes. It
- * speaks for the briefing only ("nothing new from me"): the plan's check may still have something
- * to fix, and says so on the plan.
- */
-function useNothingToday(next: NextBriefing): string {
-  const locale = useLocale();
-  const { t } = useLingui();
-  if (next === null) {
-    return t({ id: 'trip.briefing.empty', message: 'Nothing new from me today. Enjoy it.' });
-  }
-  if (next.on === 'today') {
-    return t({
-      id: 'trip.briefing.noneYet',
-      message: "Nothing from me yet. Today's briefing comes this morning.",
-    });
-  }
-  if (next.on === 'tomorrow') {
-    return t({
-      id: 'trip.briefing.noneTomorrow',
-      message: "Nothing new from me today. I'll check again tomorrow morning.",
-    });
-  }
-  const start = shortDate(locale, next.date);
-  return t({
-    id: 'trip.briefing.noneFrom',
-    message: `Nothing from me yet. My morning briefings start ${start}.`,
-  });
-}
-
 export function BriefingCard({ state, guide, guideName, onAct }: BriefingCardProps) {
   const theme = useTheme();
   const locale = useLocale();
@@ -77,7 +39,9 @@ export function BriefingCard({ state, guide, guideName, onAct }: BriefingCardPro
   const ink = theme.semantic.text.onAccent;
   const nothing = useNothingToday(state.kind === 'none' ? state.next : null);
   const stale =
-    state.kind === 'ready' && state.staleDate !== null ? shortDate(locale, state.staleDate) : null;
+    state.kind === 'ready' && state.staleDate !== null
+      ? briefingDate(locale, state.staleDate)
+      : null;
   const when =
     stale === null
       ? t({ id: 'trip.briefing.today', message: 'today' })

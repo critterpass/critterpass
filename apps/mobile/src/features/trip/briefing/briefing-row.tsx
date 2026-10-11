@@ -4,7 +4,6 @@
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
-import { t } from '@lingui/core/macro';
 import { useEffect, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { scheduleOnRN } from 'react-native-worklets';
@@ -25,6 +24,7 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { briefingChipLabel as chipLabel } from './briefing-copy';
 import type { BriefingLine } from './briefing-model';
 
 const ICONS: Readonly<Record<string, DoodleName>> = {
@@ -49,23 +49,6 @@ const useStyles = makeStyles((th) => ({
     justifyContent: 'center',
   },
 }));
-
-function chipLabel(line: BriefingLine): string {
-  switch (line.action) {
-    case 'done':
-      return t({ id: 'trip.briefing.done', message: 'Done' });
-    case 'nudge':
-      return line.status === 'nudged'
-        ? t({ id: 'trip.briefing.sent', message: 'Sent' })
-        : t({ id: 'trip.briefing.nudge', message: 'Nudge' });
-    case 'set':
-      return line.status === 'set'
-        ? t({ id: 'trip.briefing.setDone', message: 'Set ✓' })
-        : t({ id: 'trip.briefing.set', message: 'Set' });
-    case 'open':
-      return t({ id: 'trip.briefing.open', message: 'Open' });
-  }
-}
 
 export interface BriefingRowProps {
   readonly line: BriefingLine;

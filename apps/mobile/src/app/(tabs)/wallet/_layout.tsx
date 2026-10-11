@@ -10,6 +10,7 @@ import { registerMoneyScreens } from '@/features/money/routes';
 import { pushTransition } from '@/lib/navigation/transitions';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
+import { sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 import { useTheme } from '@/ui/theme';
 
@@ -38,6 +39,8 @@ export default function WalletLayout() {
         <PremiumStack>
           <PremiumStackScreen name="money/index" options={PREMIUM_HALF_OPTIONS} />
           <PremiumStackScreen name="bookings" options={PREMIUM_HALF_OPTIONS} />
+          <PremiumStackScreen name="money/currency" options={sheetRouteOptions('half')} />
+          <PremiumStackScreen name="money/trip" options={sheetRouteOptions('half')} />
         </PremiumStack>
       </MoneyServicesProvider>
     );

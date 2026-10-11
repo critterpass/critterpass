@@ -4,16 +4,12 @@
  * and NOT NOW. NOT NOW folds the card to a NO RIDE flag, for me only. A day with a driver set says
  * who drives instead.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- SQL and table names. */
-import { pickupGapFor, rideAppsFor, type GapStop } from '@cp/domain';
+import type { GapStop } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useState } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { useLiveRows } from '../shared/use-live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -23,9 +19,8 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
-import { dismissGapCommand } from '../shared/commands';
 import { driversRoute } from '../shared/routes';
-import { useAssignments, useDismissedDays } from '../shared/use-drivers';
+import { useDriverLeg } from './use-driver-leg';
 
 export interface DriverLegCardProps {
   readonly tripId: string;
@@ -35,44 +30,27 @@ export interface DriverLegCardProps {
   readonly guide: string;
 }
 
-const COUNTRY_SQL = `SELECT d.country FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
-  WHERE t.id = ?`;
-
 export function DriverLegCard({ tripId, date, stops, stay, guide }: DriverLegCardProps) {
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const dismiss = useCommand(dismissGapCommand);
-  const dismissed = useDismissedDays(tripId);
-  // NOT NOW folds at once, before the dismissal syncs back (it is queued offline).
-  const [folded, setFolded] = useState(false);
-  const assignments = useAssignments(tripId);
-  const { rows } = useLiveRows<{ country: string | null }>(
-    COUNTRY_SQL,
-    [tripId],
-    ['trips', 'destinations'],
-  );
-  if (date === null) return null;
-  const assigned = assignments.rows.find((row) => row.day_date === date);
-  if (assigned !== undefined) {
+  const leg = useDriverLeg(tripId, date, stops, stay);
+  if (leg.kind === 'none' || date === null) return null;
+  if (leg.kind === 'assigned') {
     return (
       <Text variant="label" color={theme.color.green.base} testID="driver-leg-assigned">
-        {upper(
-          t({ id: 'drivers.leg.assigned', message: `${assigned.name ?? ''} drives this day` }),
-          locale,
-        )}
+        {upper(t({ id: 'drivers.leg.assigned', message: `${leg.name} drives this day` }), locale)}
       </Text>
     );
   }
-  const gap = pickupGapFor({ date, stops }, stay, rideAppsFor(rows[0]?.country ?? null).length > 0);
-  if (gap === null) return null;
-  if (folded || dismissed.has(date)) {
+  if (leg.kind === 'no_ride') {
     return (
       <Text variant="label" color={theme.color.orange} testID="driver-leg-no-ride">
         {upper(t({ id: 'drivers.leg.noRide', message: 'No ride' }), locale)}
       </Text>
     );
   }
+  const { gap } = leg;
   const place = gap.place;
   const why =
     gap.reason === 'late_return'
@@ -130,10 +108,7 @@ export function DriverLegCard({ tripId, date, stops, stay, guide }: DriverLegCar
               variant="secondary"
               size="sm"
               block
-              onPress={() => {
-                setFolded(true);
-                void dismiss.send({ trip_id: tripId, date });
-              }}
+              onPress={leg.notNow}
               testID="driver-leg-not-now"
             />
           </View>

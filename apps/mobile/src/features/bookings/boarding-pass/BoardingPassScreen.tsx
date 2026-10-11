@@ -3,55 +3,21 @@
  * `local_private` (never from the network), so it opens at the gate with no signal; the screen
  * goes to full brightness while the code shows.
  */
-import { useLingui } from '@lingui/react/macro';
-
 import { goBackOr } from '@/lib/navigation/back';
-import { useLocale } from '@/lib/i18n/use-locale';
 import { RiseModal } from '@/ui/sheet/RiseModal';
 
-import { useWallet } from '../data/use-wallet';
-import { useWalletContext } from '../data/use-wallet-context';
-import { currentLeg } from '../flight-card/flight-model';
-import { dayDate, zoneOf } from '../format';
 import { BOOKINGS_ROUTES } from '../routes';
 import { BoardingPassView } from './BoardingPassView';
+import { useBoardingPass } from './use-boarding-pass';
 import { useFullBrightness } from './use-full-brightness';
 import { WalletGuideProvider } from '../data/wallet-guide';
 
 export function BoardingPassScreen({ bookingId }: { readonly bookingId: string }) {
-  const context = useWalletContext();
-  const wallet = useWallet(context.trip?.id ?? null, context.uid);
-  const locale = useLocale();
-  const { t } = useLingui();
-  const booking = wallet.all.find((item) => item.id === bookingId) ?? null;
-  const entry = wallet.entries.get(bookingId);
-  const leg = booking === null ? null : currentLeg(booking.segments);
-  const tz = zoneOf(booking?.tz, context.trip?.tz);
-  const title =
-    leg === null
-      ? (booking?.title ?? '')
-      : `${leg.carrier} ${leg.flight_no} · ${leg.dep_airport} → ${leg.arr_airport}`;
-  const fields = [
-    {
-      key: 'seat',
-      label: t({ id: 'bookings.flight.seat', message: 'Seat' }),
-      value: booking?.details.seat,
-    },
-    { key: 'gate', label: t({ id: 'bookings.flight.gate', message: 'Gate' }), value: leg?.gate },
-    {
-      key: 'ref',
-      label: t({ id: 'bookings.card.ref', message: 'Ref' }),
-      value: booking?.supplierRef,
-    },
-  ].flatMap((field) =>
-    field.value === null || field.value === undefined || field.value === ''
-      ? []
-      : [{ key: field.key, label: field.label, value: field.value }],
-  );
-  const payload = entry?.barcode?.payload ?? null;
+  const pass = useBoardingPass(bookingId);
+  const { title, payload } = pass;
   useFullBrightness(payload !== null);
   return (
-    <WalletGuideProvider tripId={context.trip?.id ?? null}>
+    <WalletGuideProvider tripId={pass.tripId}>
       <RiseModal
         variant="paper"
         onDismiss={() => goBackOr(BOOKINGS_ROUTES.wallet)}
@@ -60,9 +26,9 @@ export function BoardingPassScreen({ bookingId }: { readonly bookingId: string }
       >
         <BoardingPassView
           title={title}
-          subtitle={dayDate(locale, leg?.sched_dep_at ?? booking?.startsAt, tz)}
+          subtitle={pass.subtitle}
           payload={payload}
-          fields={fields}
+          fields={pass.fields}
         />
       </RiseModal>
     </WalletGuideProvider>
