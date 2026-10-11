@@ -49,7 +49,7 @@ export function ChipRow(props: {
   return (
     <View style={{ gap: theme.space.gap8 }} testID="search-chips">
       <Text variant="label" tone="muted">
-        {t({ id: 'search.chips.eyebrow', message: `${props.guideName} read it as` })}
+        {t({ id: 'search.premium.chips.eyebrow', message: `${props.guideName} read it as` })}
       </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
         {props.chips.map((chip) => {
@@ -185,7 +185,7 @@ export function PlainList(props: PlainListProps) {
               ? {}
               : {
                   onAdd: () => props.onAdd(row.key, row.title),
-                  addLabel: t({ id: 'search.row.add', message: `Add ${row.title}` }),
+                  addLabel: t({ id: 'search.premium.row.add', message: `Add ${row.title}` }),
                   addTestID: `search-plain-add-${String(index)}`,
                 })}
             testID={
@@ -206,7 +206,10 @@ export function PlainList(props: PlainListProps) {
           }}
         >
           <Text variant="rowText" tone="muted">
-            {t({ id: 'search.plain.softMisses', message: `${soft} more, louder or further` })}
+            {t({
+              id: 'search.premium.plain.softMisses',
+              message: `${soft} more, louder or further`,
+            })}
           </Text>
           <TextButton
             label={t({ id: 'explore.premium.find.show', message: 'Show ›' })}

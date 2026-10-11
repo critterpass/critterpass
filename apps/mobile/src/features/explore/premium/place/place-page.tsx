@@ -160,7 +160,10 @@ export function PlacePage(props: PlaceDetailInput) {
                     ? {}
                     : {
                         onAdd: addHref(similar.poi_id),
-                        addLabel: t({ id: 'search.row.add', message: `Add ${similar.name}` }),
+                        addLabel: t({
+                          id: 'search.premium.row.add',
+                          message: `Add ${similar.name}`,
+                        }),
                       })}
                 />
               </ListCard>
@@ -186,7 +189,7 @@ export function PlacePage(props: PlaceDetailInput) {
           <GlassIconButton
             icon="share"
             kind="clear"
-            label={t({ id: 'explore.detail.share', message: 'Share' })}
+            label={t({ id: 'explore.premium.detail.share', message: 'Share' })}
             onPress={view.onShare}
             testID="place-detail-share"
           />
@@ -195,8 +198,8 @@ export function PlacePage(props: PlaceDetailInput) {
             kind="clear"
             label={
               view.saved
-                ? t({ id: 'explore.detail.unsave', message: 'Saved. Tap to remove' })
-                : t({ id: 'explore.detail.save', message: 'Save' })
+                ? t({ id: 'explore.premium.detail.unsave', message: 'Saved. Tap to remove' })
+                : t({ id: 'explore.premium.detail.save', message: 'Save' })
             }
             onPress={view.onToggleSave}
             testID="place-detail-save"

@@ -111,7 +111,8 @@ export function partAction(key: MemberPartKey): string {
 }
 
 export const copy = {
-  title: (destination: string) => t({ id: 'setup.premium.title', message: `${destination} setup` }),
+  title: (destination: string) =>
+    t({ id: 'setup.premium.checklist.title', message: `${destination} setup` }),
   going: (dates: string | null, count: number) => {
     const going = t({ id: 'setup.premium.going', message: plural(count, { other: '# going' }) });
     return dates === null ? going : `${dates} · ${going}`;

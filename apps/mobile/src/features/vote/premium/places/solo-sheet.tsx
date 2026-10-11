@@ -102,7 +102,7 @@ export function SoloPassSheet(props: SoloPassSheetProps) {
           </View>
           <View style={{ gap: theme.space.gap6 }}>
             <Text variant="emptyTitle" align="center" accessibilityRole="header">
-              {t({ id: 'vote.solo.title', message: `Just you, ${place}` })}
+              {t({ id: 'vote.premium.solo.title', message: `Just you, ${place}` })}
             </Text>
             <Text variant="emptyLine" tone="muted" align="center">
               {t({

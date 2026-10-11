@@ -95,7 +95,7 @@ export function PremiumJournalScene(props: AlbumViewProps) {
         tag:
           section.dayNo === null
             ? title
-            : t({ id: 'album.day.number', message: `Day ${section.dayNo}` }),
+            : t({ id: 'album.premium.day.number', message: `Day ${section.dayNo}` }),
         photos: section.photos,
         faces: facesOf(section.photos),
       };
@@ -126,7 +126,10 @@ export function PremiumJournalScene(props: AlbumViewProps) {
         <SegmentedControl
           options={[
             { value: 'best', label: t({ id: 'album.best', message: `Best · ${picks}` }) },
-            { value: 'all', label: t({ id: 'album.all', message: `All · ${photos.length}` }) },
+            {
+              value: 'all',
+              label: t({ id: 'album.premium.all', message: `All · ${photos.length}` }),
+            },
             { value: 'people', label: t({ id: 'album.byPerson', message: 'By person' }) },
           ]}
           value={segment}

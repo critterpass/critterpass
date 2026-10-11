@@ -248,7 +248,7 @@ export function NearbyRow(props: {
                         icon="plus"
                         size={28}
                         tone="control"
-                        label={t({ id: 'search.row.add', message: `Add ${place.name}` })}
+                        label={t({ id: 'search.premium.row.add', message: `Add ${place.name}` })}
                         onPress={() => props.onAdd?.(place.poi_id)}
                       />
                     </View>

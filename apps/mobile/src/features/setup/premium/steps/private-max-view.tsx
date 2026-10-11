@@ -69,7 +69,7 @@ export function PremiumPrivateMaxView(
       row="budget"
       done={model.state === 'set'}
       trailing={t({
-        id: 'setup.budget.member.counted',
+        id: 'setup.premium.budget.member.counted',
         message: `${model.counts.set} of ${model.counts.of} maxes are in.`,
       })}
     />

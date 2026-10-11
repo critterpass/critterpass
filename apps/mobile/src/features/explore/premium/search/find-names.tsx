@@ -59,7 +59,7 @@ function noneLine(address: boolean, asked: string | undefined): string {
   if (asked === undefined || asked === '') {
     return t({ id: 'search.name.none', message: 'No place called that' });
   }
-  return t({ id: 'search.name.noneNamed', message: `No place called “${asked}”` });
+  return t({ id: 'search.premium.name.noneNamed', message: `No place called “${asked}”` });
 }
 
 export function FindNames(props: FindNamesProps) {
@@ -108,7 +108,7 @@ export function FindNames(props: FindNamesProps) {
       ) : null}
       {notFound ? (
         <TextButton
-          label={t({ id: 'search.name.ask', message: `Ask ${props.guideName}` })}
+          label={t({ id: 'search.premium.name.ask', message: `Ask ${props.guideName}` })}
           onPress={props.onAsk}
           testID="search-name-ask"
         />
