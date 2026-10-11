@@ -4,7 +4,7 @@
  * fix), what changed in setup since, each day as a coloured tile with its stops, the stays, and the
  * foot: "Build the proposal" and asking the guide to change a day (with the redrafts left).
  */
-import { plural, t } from '@lingui/core/macro';
+import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,23 +26,14 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
-import { crewColour } from '@/features/vote';
 
 import { estimateMinor, estimateMoney, overBudgetMinor, wholeMoney } from '../../draft/data/format';
 import { counterLine } from '../../draft/data/quota-copy';
-import { missAction, why } from '../../draft/review/coverage-strip';
 import { dayDetail } from '../../draft/review/draft-day-row';
 import type { DraftReviewViewProps } from '../../draft/review/draft-review-view';
 import { changeWord } from '../../draft/review/stale-banner';
 import { dayColours } from '../map';
-
-type Person = DraftReviewViewProps['model']['mustDos']['owners'][number];
-const faces = (people: readonly Person[]) =>
-  people.map((person) => ({
-    id: person.uid,
-    name: person.name,
-    color: crewColour(person.joinIndex),
-  }));
+import { DraftCoverage, faces } from './draft-coverage';
 
 export function PremiumDraftReviewView(props: DraftReviewViewProps) {
   const { model, locale, quota, openRedraft } = props;
@@ -60,8 +51,6 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
   );
   const overBy = overBudgetMinor(model.costPpMinor, model.overByMinor, model.currency);
   const counter = counterLine(quota);
-  const { total, made, missing } = model.mustDos;
-  const all = missing.length === 0;
   return (
     <PushScreen
       title={t({ id: 'planDraft.review.title', message: `${guideName}’s draft` })}
@@ -135,94 +124,7 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
             testID="draft-stale"
           />
         )}
-        {total === 0 ? null : (
-          <View
-            testID="draft-coverage"
-            style={{
-              borderRadius: all ? 14 : theme.radius.cardLarge,
-              backgroundColor: all ? theme.color.status.booked.bg : theme.color.card,
-              ...(all ? {} : { boxShadow: theme.shadow.card }),
-              padding: all ? theme.space.gap10 : theme.space.gap16,
-              gap: theme.space.gap10,
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap10 }}>
-              <Text
-                variant={all ? 'label' : 'title'}
-                color={all ? theme.color.status.booked.text : theme.color.ink}
-                style={{ flex: 1 }}
-              >
-                {all
-                  ? t({
-                      id: 'planDraft.coverage.all',
-                      message: plural(total, {
-                        one: 'Your must-do made it',
-                        other: 'All # must-dos made it',
-                      }),
-                    })
-                  : t({
-                      id: 'planDraft.coverage.some',
-                      message: plural(total, {
-                        one: `${made} of # must-do made it`,
-                        other: `${made} of # must-dos made it`,
-                      }),
-                    })}
-              </Text>
-              <CrewStack
-                members={faces(model.mustDos.owners)}
-                size={22}
-                accessibilityLabel={model.mustDos.owners.map((p) => p.name).join(', ')}
-              />
-            </View>
-            {missing.map((miss, index) => {
-              const action = props.onFixMiss === undefined ? null : missAction(miss.reason);
-              const title = miss.title;
-              const owner = miss.owner?.name ?? '';
-              const reason = why(miss.reason);
-              return (
-                <View
-                  key={`${title}-${String(index)}`}
-                  style={{
-                    borderRadius: theme.radius.card,
-                    backgroundColor: theme.color.destructive.bg,
-                    padding: theme.space.gap12,
-                    gap: theme.space.gap8,
-                  }}
-                >
-                  <Text variant="badge" color={theme.color.destructive.text}>
-                    {t({
-                      id: 'plan.premium.draft.missed',
-                      message: 'Didn’t fit',
-                    }).toLocaleUpperCase()}
-                  </Text>
-                  <Text variant="rowTextStrong">
-                    {t({
-                      id: 'planDraft.coverage.missing',
-                      message: `${title} (${owner}): ${reason}`,
-                    })}
-                  </Text>
-                  {action === null ? null : (
-                    <View style={{ flexDirection: 'row' }}>
-                      <Button
-                        size="small"
-                        label={
-                          action === 'pick_place'
-                            ? t({ id: 'planDraft.coverage.pickPlace', message: 'Pick the place' })
-                            : t({
-                                id: 'planDraft.coverage.fitIn',
-                                message: 'Change a day to fit it',
-                              })
-                        }
-                        onPress={() => props.onFixMiss?.(miss)}
-                        testID={`draft-miss-fix-${String(index)}`}
-                      />
-                    </View>
-                  )}
-                </View>
-              );
-            })}
-          </View>
-        )}
+        <DraftCoverage model={model.mustDos} onFixMiss={props.onFixMiss} />
         {overBy > 0 ? (
           <Text variant="label" color={theme.color.destructive.text} testID="draft-over-budget">
             {t({
