@@ -1,6 +1,6 @@
 # Lane report: Journeys B, part 4 (decide and plan, the premium map)
 
-Branch `feat/premium-journeys-plan` (worktree `final-collab`), merged with `origin/feat/premium-redesign` and `origin/feat/premium-kit` up to 11 Oct ~18:00 (`9ade70c0f`), then the remaining screens in flow order and a second pass on the old-look pieces (`36f0d1057`, `9f6c93479` / `7e5d6172d`, `f97388a03`, `1b62203d0`, `b4a8a0a55`, `13bf65eea`): vote `e5b88eb41`, setup steps `99972619f`, plan `758fd33e9`, fixes `156fa8e32`, proposal and day trip `32aee8871`, calendar connected `bb7e63b85`.
+Branch `feat/premium-journeys-plan` (worktree `final-collab`), merged with `origin/feat/premium-redesign` and `origin/feat/premium-kit` up to 11 Oct ~18:00 (`9ade70c0f`), then the remaining screens in flow order, a second pass on the old-look pieces (`36f0d1057`, `9f6c93479` / `7e5d6172d`, `f97388a03`, `1b62203d0`, `b4a8a0a55`, `13bf65eea`) and a last pass (`ac6892075`, `dfd29b94a`, `e17d0f2a1`, `8b59a1ef4`, `e4c8bb505`): vote `e5b88eb41`, setup steps `99972619f`, plan `758fd33e9`, fixes `156fa8e32`, proposal and day trip `32aee8871`, calendar connected `bb7e63b85`.
 
 ## Premium map (for Journeys D)
 
@@ -76,13 +76,21 @@ Shared: `OverlaySheet` (`features/plan/premium/sheets/overlay-sheet.tsx`, export
 
 Rooms: the rooms setup step's premium look belongs to Journeys D (the wallet rooms view, 7.07–7.09). The rooms work from this pass (`9f6c93479`) was taken back out in `7e5d6172d`; `features/setup/rooms/**` is as it was before this pass.
 
+## Last pass (12 Oct)
+
+| piece | commit | premium file |
+|---|---|---|
+| Stop sheet's on-the-day actions, clash card, comment thread | `ac6892075` | `features/plan/premium/stop/day-actions.tsx`, `item-comments.tsx`; `ItemSheetHost` takes `look` (Sheet, DayActions, Clash, Comments) |
+| Add-a-must-do waiting state | `dfd29b94a` | `features/setup/premium/must-dos/sheet-waiting.tsx` (LoadingCritter; "not part of this setup" with Close) |
+| Day at half: the "Rain · fix" chip opens the fix in place under the head | `e17d0f2a1` | `features/plan/premium/plan-map/trip-fixes.tsx` (`PlanDayHead`) |
+| Whole trip: "The whole trip" with the ink "2 to fix · 2 to know" chip stepping through the days' problems | `8b59a1ef4` | same file (`TripFixRows`) |
+| 4.11 "What the crew sees" week | `e4c8bb505` | `features/setup/premium/calendar/crew-sees.tsx`, read `calendar/use-my-days.ts` |
+
+Server for the preview: `GET /v1/trips/{id}/my-days?start` (`services/api/src/planning/trip-settings/my-days.ts`, `myDaysResultSchema` in `packages/domain/src/setup/availability.ts`, row in `docs/api-contracts-planning.md`): the caller's own `calendar_days` for 7 days from `start`, `unknown` where nothing was shared, read as the caller (owner-only RLS), trip members only. DB test `services/api/test/planning/trip-settings/my-days.db.test.ts` (3 cases: own week, never a crewmate's, outsider 404) passed on GitHub, run 38159144057.
+
 ## Still drawn by the current look inside premium pages
 
-- Inside the stop details sheet: the on-the-day actions, the clash card and the comment thread (`StopDayActions`, `ClashCard`, `ItemComments`) are the current components, passed in by the host.
-- The add-a-must-do sheet's brief loading state (`SetupSheetWaiting`).
 - All days: dragging a stop onto another day is "Move a stop" on long press; day cards show a pins strip, not mini maps. The all-days share sheet is the current one.
-- The day-at-half "Rain at 1 · fix" chip opens the check page rather than a panel in the day sheet; the whole-trip head has no "2 to fix · 2 to know" count chip (the guide's check line leads to the page).
-- 4.11's "What the crew sees" preview week is left out (no read of the person's own days to show).
 - Rain chart and less-driving route sketches are left out; photos with credits use the current `MediaLayer` / `PlacePhoto`.
 - Swipe: "who is swiping" stays hidden (privacy).
 
@@ -118,6 +126,6 @@ Rooms: the rooms setup step's premium look belongs to Journeys D (the wallet roo
 
 ## Checks
 
-Prettier on every changed file. ESLint ran on the earlier commits (clean apart from test files); from the vote flow on, the coordinator's rule stopped local eslint, jest and vitest (the Mac was out of memory), so lint, typecheck and tests on the commits after `9ade70c0f` run first in CI on the integration branch. Pure-logic tests added earlier: `plan/premium/settings/__tests__/range-calendar.test.ts`, `plan/ideas/__tests__/must-do-stars.test.ts`, `vote/premium/final/__tests__/reveal-outcome.test.ts`, `plan/premium/map/__tests__/premium-map.test.ts`. Server: the `change_trip_dates` DB test passed remotely. No device screenshots from this lane.
+Prettier on every changed file. ESLint ran on the earlier commits (clean apart from test files); from the vote flow on, the coordinator's rule stopped local eslint, jest and vitest (the Mac was out of memory), so lint, typecheck and tests on the commits after `9ade70c0f` run first in CI on the integration branch. Pure-logic tests added earlier: `plan/premium/settings/__tests__/range-calendar.test.ts`, `plan/ideas/__tests__/must-do-stars.test.ts`, `vote/premium/final/__tests__/reveal-outcome.test.ts`, `plan/premium/map/__tests__/premium-map.test.ts`. Server: the `change_trip_dates` and `my-days` DB tests passed remotely (runs 38148041115, 38159144057). No device screenshots from this lane.
 
 Status: DONE_WITH_CONCERNS
