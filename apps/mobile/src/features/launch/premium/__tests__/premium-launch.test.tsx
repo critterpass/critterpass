@@ -40,7 +40,9 @@ describe('PremiumLaunch', () => {
     storage.clearAll();
     resetPremiumLaunchForTests(storage);
   });
-  afterEach(() => jest.useRealTimers());
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('holds on the launch frame until the launch screen goes, then settles and leaves', async () => {
     const onSettled = jest.fn<(cover: LaunchCoverFrame) => void>();
