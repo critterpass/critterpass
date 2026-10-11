@@ -2,8 +2,10 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
+import { LostLinkScreen } from '@/features/home/premium/recovery/lost-link-screen';
 import { useActiveGuide } from '@/lib/navigation/active-guide';
 import { canGoBack, goBackOr } from '@/lib/navigation/back';
+import { premiumRoute } from '@/lib/premium-ui';
 import { makeStyles, Scaffold, Stack, Text } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
@@ -25,7 +27,7 @@ const GUIDE_ART_SIZE = 160;
  * one line in its voice, the way home and, when a screen is behind this one (a bad link opened from
  * chat or the inbox), the way back to it. Never a dead end, never a raw path.
  */
-export default function NotFoundScreen() {
+function NotFoundScreen() {
   // The page draws its ways out as buttons ("Go home", and "Go back" when a screen is behind it).
   useNoBackByDesign();
   const { t } = useLingui();
@@ -78,3 +80,6 @@ export default function NotFoundScreen() {
     </Scaffold>
   );
 }
+
+/** Premium: the lost-link page (3.19) with Home, Search trips and Report this link. */
+export default premiumRoute({ premium: LostLinkScreen, legacy: NotFoundScreen });
