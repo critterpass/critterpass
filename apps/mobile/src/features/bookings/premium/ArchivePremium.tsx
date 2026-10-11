@@ -4,6 +4,7 @@
  * trip's name, with "Recap" when the trip has one. A cancelled booking is faded and struck with a
  * pink tag. Rows open the booking. Empty: the Foundations empty state.
  */
+import { premium } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -35,7 +36,6 @@ import { kindLook } from './components/kind-look';
 
 function monthOf(locale: string, iso: string | null): string {
   if (iso === null) return '';
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- Intl option values, not copy
   return format.date(locale, new Date(iso), { month: 'long', year: 'numeric' });
 }
 
@@ -92,6 +92,7 @@ export function ArchivePremium() {
   const tripId = context.trip?.id ?? null;
   const wallet = useWallet(tripId, context.uid);
   const meta = useDeckMeta();
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a screen id, not copy
   const recap = useScreenHref('3m-1', { tripId: tripId ?? '' });
   const [query, setQuery] = useState('');
   const shown = searchBookings(wallet.past, query);
@@ -201,7 +202,7 @@ export function ArchivePremium() {
 
 const styles = StyleSheet.create({
   search: { height: 46, borderRadius: 23, paddingHorizontal: 16, justifyContent: 'center' },
-  input: { fontSize: 16 },
+  input: { fontSize: premium.type.field.size },
   head: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   card: { overflow: 'hidden' },
   row: {

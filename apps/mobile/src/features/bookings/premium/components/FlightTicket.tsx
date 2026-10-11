@@ -13,8 +13,6 @@ import { Icon, StatusTag, Text, usePremiumTheme, type StatusTone } from '@/ui/pr
 
 import type { FlightChip, FlightView } from '../../flight-card/flight-model';
 
-const AIRLINE_BAND = '#1f2a52';
-
 export interface FlightTicketProps {
   readonly view: FlightView;
   readonly day: string;
@@ -36,7 +34,10 @@ function toneOf(chip: FlightChip): StatusTone {
       return 'maybe';
     case 'scheduled':
       return 'unopened';
-    default:
+    case 'on_time':
+    case 'boarding':
+    case 'departed':
+    case 'landed':
       return 'booked';
   }
 }
@@ -55,7 +56,7 @@ function StubCell(props: {
         </Text>
         {props.lock === true ? <Icon name="lock" size={9} color={th.accent.pink} /> : null}
       </View>
-      <Text style={[styles.stubValue, { color: th.color.ink }]} numberOfLines={1}>
+      <Text variant="stepperValue" style={styles.stubValue} numberOfLines={1}>
         {props.value === '' ? '–' : props.value}
       </Text>
     </View>
@@ -79,13 +80,19 @@ export function FlightTicket(props: FlightTicketProps) {
     <View
       style={[
         styles.card,
-        { borderRadius: 28, backgroundColor: th.color.card, boxShadow: th.shadow.card },
+        {
+          borderRadius: th.radius.cardLarge,
+          backgroundColor: th.color.card,
+          boxShadow: th.shadow.card,
+        },
       ]}
       testID="bookings-flight-ticket"
     >
       <View style={styles.top}>
-        <View style={[styles.airline, { backgroundColor: AIRLINE_BAND }]}>
-          <Text style={[styles.airlineCode, { color: premium.accent.sun }]}>{carrier}</Text>
+        <View style={[styles.airline, { backgroundColor: th.color.inkSurface }]}>
+          <Text variant="badge" color={premium.accent.sun}>
+            {carrier}
+          </Text>
         </View>
         <Text variant="rowTextStrong" style={styles.flex} numberOfLines={1}>
           {`${view.number} · ${props.day}`}
@@ -94,7 +101,9 @@ export function FlightTicket(props: FlightTicketProps) {
       </View>
       <View style={styles.route}>
         <View>
-          <Text style={[styles.code, { color: th.color.ink }, struck]}>{view.from}</Text>
+          <Text variant="display" style={struck}>
+            {view.from}
+          </Text>
           <Text variant="headline" style={styles.tabular}>
             {props.departs}
           </Text>
@@ -103,7 +112,9 @@ export function FlightTicket(props: FlightTicketProps) {
           ✈︎
         </Text>
         <View style={styles.end}>
-          <Text style={[styles.code, { color: th.color.ink }, struck]}>{view.to}</Text>
+          <Text variant="display" style={struck}>
+            {view.to}
+          </Text>
           <Text variant="headline" style={styles.tabular}>
             {props.arrives}
           </Text>
@@ -153,7 +164,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  airlineCode: { fontSize: 10, fontWeight: '800' },
   flex: { flex: 1 },
   route: {
     flexDirection: 'row',
@@ -164,7 +174,6 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
   },
   end: { alignItems: 'flex-end' },
-  code: { fontSize: 44, fontWeight: '800', letterSpacing: -1.5, lineHeight: 48 },
   tabular: { fontVariant: ['tabular-nums'] },
   perforation: { height: 24, justifyContent: 'center' },
   dash: { borderTopWidth: 2, borderStyle: 'dashed', marginHorizontal: 20 },
@@ -174,6 +183,6 @@ const styles = StyleSheet.create({
   stub: { flexDirection: 'row', paddingTop: 12, paddingHorizontal: 18, paddingBottom: 16, gap: 6 },
   cell: { flex: 1 },
   cellHead: { flexDirection: 'row', alignItems: 'center', gap: 3 },
-  caps: { fontSize: 10.5, fontWeight: '700', letterSpacing: 0.8 },
-  stubValue: { fontSize: 17, fontWeight: '700', marginTop: 2 },
+  caps: { letterSpacing: 0.8 },
+  stubValue: { marginTop: 2 },
 });

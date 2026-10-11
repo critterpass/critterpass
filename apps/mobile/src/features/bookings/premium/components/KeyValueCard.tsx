@@ -51,7 +51,8 @@ export function KeyValueCard({
             </Text>
             <Text
               variant="rowTextStrong"
-              style={[styles.value, row.mono === true ? styles.mono : null]}
+              style={styles.value}
+              {...(row.mono === true ? { variant: 'mono' as const } : {})}
               selectable
             >
               {row.value}
@@ -89,6 +90,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   key: { width: 116, paddingTop: 1 },
-  value: { flex: 1, fontSize: 14.5 },
-  mono: { fontFamily: 'Menlo', letterSpacing: 0.5 },
+  value: { flex: 1 },
 });

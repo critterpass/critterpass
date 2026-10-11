@@ -25,15 +25,11 @@ import { useBoardingPass } from '../boarding-pass/use-boarding-pass';
 import { BOOKINGS_ROUTES } from '../routes';
 import { PassCode } from './components/PassCode';
 
-/** The airline band and its code tile: brand colours the design keeps in both modes. */
-const AIRLINE_BAND = '#1f2a52';
-
 function Stub({
   fields,
 }: {
   readonly fields: readonly { key: string; label: string; value: string }[];
 }) {
-  const th = usePremiumTheme();
   return (
     <View style={styles.stub}>
       {fields.map((field) => (
@@ -41,11 +37,7 @@ function Stub({
           <Text variant="badge" tone="placeholder" style={styles.caps} numberOfLines={1}>
             {field.label.toUpperCase()}
           </Text>
-          <Text
-            variant="headline"
-            style={[styles.stubValue, { color: th.color.ink }]}
-            numberOfLines={1}
-          >
+          <Text variant="navTitle" numberOfLines={1}>
             {field.value}
           </Text>
         </View>
@@ -84,13 +76,20 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
   ];
   return (
     <View
-      style={[styles.card, { borderRadius: 30, backgroundColor: th.color.card }]}
+      style={[
+        styles.card,
+        {
+          borderRadius: th.radius.hero,
+          backgroundColor: th.color.card,
+          boxShadow: th.shadow.photo,
+        },
+      ]}
       testID="bookings-pass-card"
     >
       {leg === null ? null : (
-        <View style={[styles.band, { backgroundColor: AIRLINE_BAND }]}>
+        <View style={[styles.band, { backgroundColor: th.color.inkSurface }]}>
           <View style={[styles.carrier, { backgroundColor: premium.accent.sun }]}>
-            <Text variant="badge" color={AIRLINE_BAND} style={styles.heavy}>
+            <Text variant="badge" color={th.color.onAccent} style={styles.heavy}>
               {leg.carrier}
             </Text>
           </View>
@@ -113,7 +112,7 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
       ) : (
         <View style={styles.route}>
           <View>
-            <Text style={styles.code}>{leg.dep_airport}</Text>
+            <Text variant="display">{leg.dep_airport}</Text>
             <Text variant="caption" tone="muted">
               {pass.departs}
             </Text>
@@ -122,7 +121,7 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
             ✈︎
           </Text>
           <View style={styles.end}>
-            <Text style={styles.code}>{leg.arr_airport}</Text>
+            <Text variant="display">{leg.arr_airport}</Text>
             <Text variant="caption" tone="muted">
               {pass.arrives}
             </Text>
@@ -141,7 +140,7 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
           })}
         />
         {booking?.supplierRef == null ? null : (
-          <Text variant="label" tone="muted" style={styles.mono}>
+          <Text variant="mono" tone="muted">
             {booking.supplierRef}
           </Text>
         )}
@@ -205,7 +204,7 @@ export function BoardingPassPremium({ bookingId }: { readonly bookingId: string 
           <PremiumThemeProvider scheme="light">
             <PassCard bookingId={bookingId} />
           </PremiumThemeProvider>
-          <Text variant="label" align="center" color="rgba(255,255,255,0.75)">
+          <Text variant="label" align="center" color={th.accent.paper} style={styles.soft}>
             {t({ id: 'bookings.pass.offline', message: 'Saved on this phone · works offline' })}
           </Text>
         </ScrollView>
@@ -218,7 +217,7 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   top: { position: 'absolute', left: 0, right: 0, alignItems: 'center', zIndex: 1 },
   share: { position: 'absolute', zIndex: 1 },
-  card: { overflow: 'hidden', boxShadow: '0 30px 60px -20px rgba(0,0,0,0.6)' },
+  card: { overflow: 'hidden' },
   band: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -244,11 +243,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   end: { alignItems: 'flex-end' },
-  code: { fontSize: 46, fontWeight: '800', letterSpacing: -1.6, lineHeight: 50 },
   stub: { flexDirection: 'row', paddingHorizontal: 20, paddingBottom: 14, gap: 6 },
   stubCell: { flex: 1 },
-  caps: { letterSpacing: 0.8, fontSize: 10, fontWeight: '700' },
-  stubValue: { fontSize: 19, fontWeight: '700' },
+  caps: { letterSpacing: 0.8 },
   divider: { borderTopWidth: 1.5, borderStyle: 'dashed', marginHorizontal: 20 },
   codeWrap: { alignItems: 'center', gap: 10, paddingTop: 22, paddingBottom: 18 },
   mono: { fontFamily: 'Menlo', letterSpacing: 1.5 },

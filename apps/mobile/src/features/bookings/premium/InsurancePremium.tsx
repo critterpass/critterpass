@@ -18,20 +18,26 @@ import { useWalletGuide } from '../data/wallet-guide';
 import { useInsuranceForm } from '../insurance/use-insurance-form';
 import { KeyValueCard } from './components/KeyValueCard';
 
-const CARD_BLUE = ['#2f5fc4', '#4f86ff'] as const;
-
 function PolicyCard(props: {
   readonly provider: string;
   readonly policyNo: string;
   readonly onPress: () => void;
 }) {
+  const th = usePremiumTheme();
   const { t } = useLingui();
-  const white = '#ffffff';
+  const white = th.accent.paper;
+  // The design's blue card: the rain text colour into the sky accent.
+  const fill = [
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
+    'linear-gradient(135deg',
+    `${th.color.status.rain.text},`,
+    `${th.accent.sky})`,
+  ].join(' ');
   return (
     <PressableScale
       onPress={props.onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${props.provider}, ${props.policyNo}`}
+      accessibilityLabel={[props.provider, props.policyNo].join(', ')}
       accessibilityHint={t({ id: 'bookings.insurance.editHint', message: 'Edits the policy' })}
       testID="bookings-insurance-card"
     >
@@ -39,22 +45,24 @@ function PolicyCard(props: {
         style={[
           styles.card,
           {
+            borderRadius: th.radius.cardRow,
+            boxShadow: th.shadow.photo,
             transform: [turn(-3)],
-            backgroundImage: `linear-gradient(135deg, ${CARD_BLUE[0]}, ${CARD_BLUE[1]})`,
+            backgroundImage: fill,
           },
         ]}
       >
         <Text variant="tier" color={white} style={styles.eyebrow}>
           {t({ id: 'bookings.insurance.eyebrow', message: 'TRAVEL INSURANCE' })}
         </Text>
-        <Text style={styles.provider} numberOfLines={1}>
+        <Text variant="stat" color={white} style={styles.provider} numberOfLines={1}>
           {props.provider}
         </Text>
         <View style={styles.fields}>
-          <Text variant="tier" color={white} style={styles.fieldLabel}>
+          <Text variant="badge" color={white} style={styles.fieldLabel}>
             {t({ id: 'bookings.insurance.policyNo', message: 'POLICY NO.' })}
           </Text>
-          <Text variant="rowTitle" color={white} style={styles.mono} numberOfLines={1}>
+          <Text variant="mono" color={white} numberOfLines={1}>
             {props.policyNo}
           </Text>
         </View>
@@ -173,6 +181,7 @@ export function InsurancePremium() {
           <View style={{ paddingHorizontal: th.space.gutter }}>
             <Button
               label={t({ id: 'bookings.insurance.call', message: 'Call assistance' })}
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- a dial link, not copy
               onPress={() => void Linking.openURL(`tel:${phone.replace(/\s+/g, '')}`)}
               testID="bookings-insurance-call"
             />
@@ -262,24 +271,11 @@ export function InsurancePremium() {
 const styles = StyleSheet.create({
   form: { gap: 12, paddingTop: 12 },
   read: { paddingTop: 4 },
-  card: {
-    height: 200,
-    borderRadius: 24,
-    paddingVertical: 18,
-    paddingHorizontal: 20,
-    boxShadow: '0 22px 44px rgba(47,95,196,0.35)',
-  },
+  card: { height: 200, paddingVertical: 18, paddingHorizontal: 20 },
   eyebrow: { opacity: 0.8, letterSpacing: 0.9 },
-  provider: {
-    color: '#ffffff',
-    fontSize: 26,
-    fontWeight: '800',
-    letterSpacing: -0.5,
-    marginTop: 6,
-  },
+  provider: { marginTop: 6 },
   fields: { marginTop: 'auto', gap: 2 },
-  fieldLabel: { opacity: 0.7, fontSize: 10, letterSpacing: 0.8 },
-  mono: { fontFamily: 'Menlo' },
+  fieldLabel: { opacity: 0.7, letterSpacing: 0.8 },
   pair: { flexDirection: 'row', gap: 8 },
   flex: { flex: 1 },
 });

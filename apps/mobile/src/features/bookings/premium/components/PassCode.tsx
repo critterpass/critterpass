@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { View } from 'react-native';
 
 import { premium } from '@cp/design-tokens';
-import { Text } from '@/ui/premium';
+import { ring, Text } from '@/ui/premium';
 
 import { qrPath } from '../../boarding-pass/qr-path';
 
@@ -32,7 +32,7 @@ export function PassCode({
         padding: 10,
         borderRadius: 14,
         backgroundColor: LIGHT.card,
-        boxShadow: `inset 0 0 0 1px ${LIGHT.fieldBorder}`,
+        boxShadow: ring(1, LIGHT.fieldBorder, true),
         alignItems: 'center',
         justifyContent: 'center',
       }}
