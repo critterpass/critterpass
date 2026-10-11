@@ -17,9 +17,7 @@ import { relativeAge } from '@/ui/states/StaleCaption';
 
 import type { CalendarConnectViewProps } from '../../calendar/calendar-connect-sheet';
 
-/* eslint-disable lingui/no-unlocalized-strings -- calendar app marks, the same in every language. */
 const GLYPH = { device: '31', google: 'G', microsoft: 'O' } as const;
-/* eslint-enable lingui/no-unlocalized-strings */
 
 interface CalendarRow {
   readonly key: string;
@@ -165,6 +163,7 @@ export function PremiumCalendarConnectView(props: CalendarConnectViewProps) {
       closeLabel={t({ id: 'setup.premium.calendar.close', message: 'Close' })}
       onDismiss={props.onDismiss}
       aside={
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- a tilt, never copy.
         <View style={{ transform: [{ rotate: '8deg' }], marginTop: -8 }}>
           <Doodle name="cal" size={56} />
         </View>

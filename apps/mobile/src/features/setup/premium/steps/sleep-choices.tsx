@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 import { Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- chip keys, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- chip keys, never copy. */
 export const CHIPS = [
   'light_sleeper',
   'early_bird',
@@ -16,6 +16,7 @@ export const CHIPS = [
   'snorer',
   'ground_floor',
 ] as const;
+/* eslint-enable lingui/no-unlocalized-strings */
 
 export function SleepChoices(props: {
   readonly sleep: RoomSleepChoice | null;

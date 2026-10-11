@@ -4,6 +4,7 @@
  * the plan check's line with See, and the saved ideas still waiting. A card opens its day; holding
  * a card offers "Move a stop" to another day, which the shared screen previews before moving.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- screen ids and SF Symbol names, never copy. */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';

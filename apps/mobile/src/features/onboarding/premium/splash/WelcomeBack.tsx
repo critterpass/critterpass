@@ -85,6 +85,7 @@ export function WelcomeBack({
   // Sign in asked for while offline goes on by itself once signal is back.
   useEffect(() => {
     if (waiting && online) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- signal came back: the one wait ends.
       setWaiting(false);
       onSignIn();
     }

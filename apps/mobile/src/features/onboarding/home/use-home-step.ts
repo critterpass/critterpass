@@ -95,6 +95,7 @@ export function useHomeStep() {
     setLocate('locating');
     void locateOnce().then((fix) => {
       if (fix === 'denied' || fix === null) {
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- locate states, never copy.
         setLocate(fix === null ? 'no_fix' : 'denied');
         return;
       }

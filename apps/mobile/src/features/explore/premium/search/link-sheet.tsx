@@ -28,7 +28,6 @@ import { couldBe } from '../../search/match-row';
 const THUMB_W = 72;
 const THUMB_H = 96;
 const MARK = 22;
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- a mark, never copy. */
 const MAYBE = '?';
 
 export function PremiumLinkSheet(props: LinkSheetProps) {

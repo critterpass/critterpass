@@ -141,6 +141,7 @@ export function SplitPage({
                     variant="control"
                     label={t({ id: 'explore.premium.split.ratherNot', message: 'Rather not' })}
                     onPress={() =>
+                      // eslint-disable-next-line lingui/no-unlocalized-strings -- a stance key, never copy.
                       picker.onSay('rather_not', note.trim() === '' ? null : note.trim())
                     }
                     testID="split-say-not"

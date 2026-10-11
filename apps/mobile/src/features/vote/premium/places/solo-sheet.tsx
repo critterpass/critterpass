@@ -65,6 +65,7 @@ export function SoloPassSheet(props: SoloPassSheetProps) {
               boxShadow: theme.shadow.card,
               flexDirection: 'row',
               overflow: 'hidden',
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- a tilt, never copy.
               transform: [{ rotate: '-1.5deg' }],
             }}
           >

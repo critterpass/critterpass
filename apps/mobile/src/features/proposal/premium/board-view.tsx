@@ -159,6 +159,7 @@ export function PremiumBoardView(props: BoardViewProps) {
             borderRadius: 28,
             backgroundColor: theme.accent.paper,
             boxShadow: theme.shadow.card,
+            // eslint-disable-next-line lingui/no-unlocalized-strings -- a tilt, never copy.
             transform: [{ rotate: '-1.5deg' }],
             overflow: 'hidden',
           }}

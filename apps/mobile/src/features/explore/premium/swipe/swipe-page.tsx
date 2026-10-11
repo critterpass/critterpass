@@ -38,7 +38,6 @@ import { placeIcon } from '../../search/place-icons';
 import { Doodle } from '../components/doodle';
 
 const FLY_MS = 450;
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- a glyph, never copy. */
 const HEART = '♥';
 
 function CardFace({ face }: { readonly face: SwipeCardFace }) {

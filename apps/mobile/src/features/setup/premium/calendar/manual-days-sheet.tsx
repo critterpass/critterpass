@@ -5,6 +5,7 @@
  * Busy in ink, Maybe on butter with a dashed edge, each with its word for screen readers. "Save my
  * days" queues the marks; the shared `ManualDaysSheet` loads and saves them.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- ISO date parts, never copy. */
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';

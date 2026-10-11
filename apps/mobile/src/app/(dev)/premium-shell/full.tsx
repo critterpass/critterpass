@@ -1,4 +1,3 @@
-import { premium } from '@cp/design-tokens';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -66,16 +65,16 @@ function DemoPass() {
       ]}
     >
       <View style={[styles.band, { backgroundColor: th.color.inkSurface }]}>
-        <View style={[styles.carrier, { backgroundColor: premium.accent.sun }]}>
+        <View style={[styles.carrier, { backgroundColor: th.accent.sun }]}>
           <Text variant="badge" color={th.color.onAccent} style={styles.heavy}>
             SQ
           </Text>
         </View>
         <View style={styles.flex}>
-          <Text variant="rowTitle" color={premium.accent.paper}>
+          <Text variant="rowTitle" color={th.accent.paper}>
             SQ 943
           </Text>
-          <Text variant="label" color={premium.accent.paper} style={styles.soft}>
+          <Text variant="label" color={th.accent.paper} style={styles.soft}>
             Singapore Airlines · Economy · Tue 14 Oct
           </Text>
         </View>
@@ -132,13 +131,13 @@ function DemoPass() {
   );
 }
 
-/** The full-screen type: one job, ✕ top-left on clear glass, the window at full brightness. */
-export default function DemoFull() {
+/** The boarding pass on the dark page around it. */
+function DarkPage() {
   const th = usePremiumTheme();
   const insets = useSafeAreaInsets();
   return (
     <FullScreen closeLabel="Close" brighten testID="premium-shell-full">
-      <View style={[styles.root, { backgroundColor: premium.modes.dark.color.ground }]}>
+      <View style={[styles.root, { backgroundColor: th.color.ground }]}>
         <View style={[styles.top, { top: insets.top + th.space.gap6 }]}>
           <GlassPill kind="clear" label="Brightness up" />
         </View>
@@ -159,6 +158,15 @@ export default function DemoFull() {
         </ScrollView>
       </View>
     </FullScreen>
+  );
+}
+
+/** The full-screen type: one job, ✕ top-left on clear glass, the window at full brightness. */
+export default function DemoFull() {
+  return (
+    <PremiumThemeProvider scheme="dark">
+      <DarkPage />
+    </PremiumThemeProvider>
   );
 }
 

@@ -28,7 +28,7 @@ import { approxIn } from '../../budget/fx-preview';
 import { currencySymbol, fractionDigits, money } from '../../budget/model';
 import { setRoomPrefsCommand } from '../../data/commands';
 import { parseIdList, useLiveRows } from '../../data/rows';
-import { CHIPS, SleepChoices } from './sleep-choices';
+import { SleepChoices } from './sleep-choices';
 import { ChecklistPill, StepHeadline, StepPage } from './step-parts';
 
 type RoomChip = (typeof ROOM_CHIPS)[number];

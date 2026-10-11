@@ -27,10 +27,10 @@ import {
 import { useDestinationSlug } from '../../data/use-destination-slug';
 import { useMyUid } from '../../data/use-my-uid';
 import { useMyCrews, usePlaceSave } from '../../data/use-place-save';
-import { monthShort } from '../../format';
 import { useGuestBrief } from '../../places/brief-stream';
-import { fxLine, useCityGuide } from '../../places/guest-guide-page';
+import { useCityGuide } from '../../places/guest-guide-page';
 import { voteRoutes } from '../../routes';
+import { useGuestFacts } from './guest-facts';
 import { SoloSheet } from './solo-sheet';
 
 const HERO = 340;
@@ -45,7 +45,7 @@ export function GuestGuide({
 }) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
-  const { t, i18n } = useLingui();
+  const { t } = useLingui();
   const { state, retry } = useGuestBrief(placeId, crewId);
   const cityGuide = useCityGuide(placeId);
   const guide = guideSticker(cityGuide ?? DEFAULT_GUIDE_ID);
@@ -62,39 +62,7 @@ export function GuestGuide({
     else if (crews.length === 1 && crews[0] !== undefined) pitchTo(crews[0].id);
     else setPicking((open) => !open);
   };
-  const facts: { readonly key: string; readonly label: string; readonly value: string }[] = [];
-  if (place?.stops != null) {
-    facts.push({
-      key: 'home',
-      label: t({ id: 'vote.premium.guest.fromHome', message: 'From home' }),
-      value:
-        place.stops === 0
-          ? t({ id: 'vote.premium.guest.direct', message: 'Direct' })
-          : place.stops === 1
-            ? t({ id: 'vote.premium.guest.oneStop', message: '1 stop' })
-            : t({ id: 'vote.premium.guest.stops', message: `${place.stops} stops` }),
-    });
-  }
-  if (place !== null && place.bestMonths.length > 0) {
-    const first = place.bestMonths[0] ?? 1;
-    const last = place.bestMonths[place.bestMonths.length - 1] ?? first;
-    facts.push({
-      key: 'best',
-      label: t({ id: 'vote.premium.guest.best', message: 'Best' }),
-      value:
-        first === last
-          ? monthShort(i18n.locale, first)
-          : `${monthShort(i18n.locale, first)}–${monthShort(i18n.locale, last)}`,
-    });
-  }
-  const fx = place?.fx == null ? null : fxLine(i18n.locale, place.fx);
-  if (fx !== null) {
-    facts.push({
-      key: 'fx',
-      label: t({ id: 'vote.premium.guest.money', message: 'Money' }),
-      value: fx,
-    });
-  }
+  const facts = useGuestFacts(place);
   const streaming = state.phase === 'loading' || state.phase === 'streaming';
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="guest-page">
@@ -155,6 +123,7 @@ export function GuestGuide({
                   borderColor: theme.accent.stickerEdge,
                   backgroundColor: theme.accent.sun,
                   boxShadow: theme.shadow.sticker,
+                  // eslint-disable-next-line lingui/no-unlocalized-strings -- a tilt, never copy.
                   transform: [{ rotate: '-3deg' }],
                 }}
               >
@@ -207,6 +176,7 @@ export function GuestGuide({
                     backgroundColor: theme.color.banner.guide.bg,
                     padding: theme.space.gap16,
                     gap: theme.space.gap8,
+                    // eslint-disable-next-line lingui/no-unlocalized-strings -- a tilt, never copy.
                     transform: [{ rotate: '-1.2deg' }],
                   }}
                 >

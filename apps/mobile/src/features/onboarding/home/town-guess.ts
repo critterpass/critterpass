@@ -4,7 +4,6 @@
  * and the bundled airports give its nearest one. A position (a guessed town, or the phone's own
  * one-shot fix) becomes the same hint the network gives, so the nearest airports list under it.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { nearestAirports, type Airport, type GeoHint } from '@cp/domain';
 
 export interface TownGuess {
