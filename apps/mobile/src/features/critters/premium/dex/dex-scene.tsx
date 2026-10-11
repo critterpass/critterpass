@@ -12,7 +12,15 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { SegmentedControl, Skeleton, Tag, Text, TextField, usePremiumTheme } from '@/ui/premium';
+import {
+  GlassIconButton,
+  SegmentedControl,
+  Skeleton,
+  Tag,
+  Text,
+  TextField,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import {
   comparison,

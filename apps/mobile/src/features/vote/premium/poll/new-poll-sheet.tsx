@@ -68,7 +68,7 @@ export function NewPollSheet({ crewId }: { readonly crewId: string }) {
     return false;
   };
   const field = {
-    fontSize: theme.type.field.fontSize,
+    fontSize: theme.type.field.size,
     color: theme.color.ink,
   } as const;
   return (
