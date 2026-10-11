@@ -83,6 +83,7 @@ export function SetupChecklistScreen({ tripId }: { readonly tripId: string }) {
     () =>
       (key: ChecklistRow['key']): Href | undefined => {
         if (key === 'getting_there') return premiumSetupRoutes.gettingThere(tripId);
+        if (key === 'route') return premiumSetupRoutes.route(tripId);
         const step = ROW_STEP[key];
         return step === undefined ? undefined : setupRoutes.step(tripId, step);
       },

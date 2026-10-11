@@ -87,7 +87,7 @@ const useStyles = makeStyles((th) => ({
   cta: { alignSelf: 'stretch' },
 }));
 
-function lockLine(lock: LockState): string | null {
+export function lockLine(lock: LockState): string | null {
   switch (lock.kind) {
     case 'over_band':
       return t({
@@ -118,6 +118,32 @@ function lockLine(lock: LockState): string | null {
   }
 }
 
+/** The step's line: what the maxes are for, and whether the crew's band is in yet. */
+export function budgetLine(band: BandView, guide: string): string {
+  return band.kind === 'waiting'
+    ? band.of <= 1
+      ? // A trip of one: there is no crew to fit and nobody to keep a max from.
+        t({
+          id: 'setup.budget.lineAlone',
+          message: 'Pick what feels comfy for this trip. It guides what gets suggested.',
+        })
+      : band.of < BUDGET_K_MIN
+        ? // A crew under four never gets a band: the organiser picks, and each max stays private.
+          t({
+            id: 'setup.budget.lineSmallCrew',
+            message:
+              'Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs.',
+          })
+        : t({
+            id: 'setup.budget.lineWaiting',
+            message: 'Everyone sets a private max. The band shows once four are in.',
+          })
+    : t({
+        id: 'setup.budget.line',
+        message: `Everyone set a private max. Nobody sees anyone else’s number, including ${guide}.`,
+      });
+}
+
 export function BudgetView(props: BudgetViewProps) {
   const { shell, trip, band, currency, lock } = props;
   const styles = useStyles();
@@ -143,29 +169,7 @@ export function BudgetView(props: BudgetViewProps) {
     return bars === null ? { kind: 'missing' } : { kind: 'ready', bars };
   }, [props.estimatesLoading, props.estimates, target, track]);
   const guide = guideSticker(trip.guide).name;
-  const line =
-    band.kind === 'waiting'
-      ? band.of <= 1
-        ? // A trip of one: there is no crew to fit and nobody to keep a max from.
-          t({
-            id: 'setup.budget.lineAlone',
-            message: 'Pick what feels comfy for this trip. It guides what gets suggested.',
-          })
-        : band.of < BUDGET_K_MIN
-          ? // A crew under four never gets a band: the organiser picks, and each max stays private.
-            t({
-              id: 'setup.budget.lineSmallCrew',
-              message:
-                'Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs.',
-            })
-          : t({
-              id: 'setup.budget.lineWaiting',
-              message: 'Everyone sets a private max. The band shows once four are in.',
-            })
-      : t({
-          id: 'setup.budget.line',
-          message: `Everyone set a private max. Nobody sees anyone else’s number, including ${guide}.`,
-        });
+  const line = budgetLine(band, guide);
   const message = lockLine(lock);
   const infeasible = band.kind === 'infeasible';
 

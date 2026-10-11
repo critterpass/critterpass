@@ -28,7 +28,6 @@ import { SoloPassSheet } from '@/features/vote';
 
 import type { DestinationViewProps } from '../../components/destination-view';
 import { Doodle } from '../components/doodle';
-import { placeIcon } from '../../search/place-icons';
 import { MonthCard } from './month-card';
 import { PicksCarousel } from './picks-carousel';
 

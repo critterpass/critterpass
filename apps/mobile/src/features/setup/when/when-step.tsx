@@ -6,7 +6,7 @@
  * are locked the step shows them; the organiser may change them while setup is still open.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes, never copy. */
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 
@@ -31,7 +31,7 @@ import { DEFAULT_LENGTH_DAYS, suggestFrom } from './range';
 import { useWhenData } from './use-when-data';
 import { WeekPicker } from './week-picker';
 import { useUnsyncedMembers } from './use-unsynced';
-import { failureLine, WhenView, type WhenFailure } from './when-view';
+import { failureLine, WhenView, type WhenFailure, type WhenViewProps } from './when-view';
 
 type Overlay = 'calendar' | 'manual' | 'picker' | null;
 
@@ -41,7 +41,14 @@ function failureOf(code: string): WhenFailure {
   return 'generic';
 }
 
-export function WhenStep({ trip, shell }: StepProps) {
+export function WhenStep({
+  trip,
+  shell,
+  View = WhenView,
+}: StepProps & {
+  /** How the step is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<WhenViewProps>;
+}) {
   const services = useSetupServices();
   const data = useWhenData(trip.tripId);
   const calendar = useCalendarSync(trip.tripId);
@@ -110,7 +117,7 @@ export function WhenStep({ trip, shell }: StepProps) {
 
   return (
     <>
-      <WhenView
+      <View
         shell={shell}
         model={{
           isOrganiser: trip.isOrganiser,
