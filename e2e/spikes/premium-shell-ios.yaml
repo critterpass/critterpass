@@ -46,13 +46,18 @@ appId: app.critterpass.dev
     direction: DOWN
     duration: 400
 
-# The guide circle opens a sheet, not a tab.
+# The guide circle opens a sheet, not a tab. On Android the guide is the floating button; on iOS
+# its label is the search circle's own, so a text tap there would land on the open sheet.
 - tapOn:
     id: 'guide-circle'
     optional: true
-- tapOn:
-    text: 'Ask Tokek'
-    optional: true
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          text: 'Ask Tokek'
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'premium-shell-guide'
@@ -68,10 +73,19 @@ appId: app.critterpass.dev
     id: 'sheet-cancel'
     optional: true
 
-# The toolbar `+` (a view in the system zoom) → the half sheet.
+# The toolbar `+` (a view in the system zoom) → the half sheet. The bar may expose the item by its
+# label only (iOS 26 hosts toolbar views in its own glass item), so the label is the fallback.
 - tapOn:
     id: 'premium-shell-plus'
     optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'premium-shell-add'
+    commands:
+      - tapOn:
+          text: 'Add a booking'
+          optional: true
 - takeScreenshot: premium-shell-05-plus-morph-mid
 - extendedWaitUntil:
     visible:
