@@ -8,7 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -27,7 +27,7 @@ import { ProposalLoading } from '../proposal-loading';
 import { tripDates, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { boardOutcome, arrivalCode, type BoardOutcome } from './model';
-import { BoardView } from './board-view';
+import { BoardView, type BoardViewProps } from './board-view';
 import { SeatSheet } from './seat-sheet';
 
 const EXTRA_SQL = `SELECT c.name AS crew_name, u.home_airport FROM trips t
@@ -36,11 +36,14 @@ const EXTRA_SQL = `SELECT c.name AS crew_name, u.home_airport FROM trips t
   WHERE t.id = ?`;
 
 export function BoardScreen(props: {
+  /** How the pass is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<BoardViewProps>;
   readonly proposalId: string;
   readonly options: readonly string[];
   /** Opens on the decline question (a member who already said IN). */
   readonly decline?: boolean;
 }) {
+  const Look = props.View ?? BoardView;
   const proposal = useProposal(props.proposalId);
   useFindProposalTrip(proposal);
   const tripId = proposal?.tripId ?? null;
@@ -110,7 +113,7 @@ export function BoardScreen(props: {
 
   return (
     <>
-      <BoardView
+      <Look
         guide={trip.guide}
         eyebrow={tripLine(locale, trip.destination, trip.startDate, trip.endDate)}
         name={me?.name ?? ''}

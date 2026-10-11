@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- toast ids and place kinds, never copy. */
 import { format } from '@cp/i18n';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ComponentType } from 'react';
 
 import { goBackOr } from '@/lib/navigation/back';
 import { clearDayAreaCommand, dayAreaOutcome, setDayAreaCommand } from '@/data/areas/commands';
@@ -32,7 +32,7 @@ import { exploreRoutes } from '../routes';
 import { weekdayOfDate } from '../search/weekday-names';
 import { PICKS_SHOWN } from '../sponsored-model';
 import { areaAction, organiserFirstName, pickerDays } from './area-model';
-import { AreaView } from './area-view';
+import { AreaView, type AreaViewProps } from './area-view';
 import * as copy from './copy';
 import { DayPickerSheet } from './day-picker-sheet';
 import { travelLine } from '@/data/areas/travel-line';
@@ -43,7 +43,14 @@ export interface AreaScreenProps {
   readonly destinationId: string;
 }
 
-export function AreaScreen({ tripId, destinationId }: AreaScreenProps) {
+export function AreaScreen({
+  tripId,
+  destinationId,
+  View = AreaView,
+}: AreaScreenProps & {
+  /** How the page is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<AreaViewProps>;
+}) {
   const locale = useLocale();
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
   const areas = useTripAreas(tripId, plan.dayRows);
@@ -160,7 +167,7 @@ export function AreaScreen({ tripId, destinationId }: AreaScreenProps) {
 
   return (
     <>
-      <AreaView
+      <View
         hero={{
           name,
           guide,
