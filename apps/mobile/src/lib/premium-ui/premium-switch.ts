@@ -96,6 +96,14 @@ export function usePremiumUiStatus(): PremiumUiStatus {
 }
 
 /**
+ * The UI this run settled on, read outside React's providers (the root error boundary): false
+ * until a screen has asked, so a failure before then keeps the current recovery page.
+ */
+export function premiumUiThisRun(): boolean {
+  return launch?.premium ?? false;
+}
+
+/**
  * Whether this screen renders the premium UI. Fixed for the app's run: a flag that changes while
  * the app is open (a later bootstrap, a sign-out) applies at the next launch.
  */

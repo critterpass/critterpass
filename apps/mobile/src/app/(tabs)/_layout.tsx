@@ -1,11 +1,11 @@
 import '@/features/home/register';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { PremiumTabs } from '@/ui/premium/shell/navigation/premium-tabs';
-import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
+import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { ShellTabs } from '@/ui/shell/ShellTabs';
 
 // A screen that fails inside the tabs is contained here: the pages pushed over them stay.
-export { RootErrorBoundary as ErrorBoundary };
+export { PremiumRootErrorBoundary as ErrorBoundary };
 
 /**
  * The app's tabs. The tab screens (`index`, `trips`, `wallet`, `pass`) belong to their areas; the

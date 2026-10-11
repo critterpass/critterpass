@@ -6,6 +6,7 @@ export {
 } from './native-modules';
 export {
   premiumUiOverride,
+  premiumUiThisRun,
   resolvePremiumUi,
   setPremiumUiOverride,
   usePremiumUi,
