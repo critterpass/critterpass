@@ -13,7 +13,7 @@ import {
   keyboardTop,
   type Rgb,
 } from './screen-checks';
-import { appBackground, scanScreenshots } from './screen-scan';
+import { appBackground, premiumGrounds, scanScreenshots } from './screen-scan';
 
 // Founder device screenshots and one CI simulator capture (downscaled; reviewer marks painted out
 // where they crossed an edge).
@@ -102,6 +102,57 @@ describe('screen checks', { timeout: 60_000 }, () => {
       paint(framed, 0, 0, 20, 860, [31, 27, 56]);
       paint(framed, 380, 0, 400, 860, [31, 27, 56]);
       expect(findFrame(framed, { background: BG })?.code).toBe('SCREEN_FRAME');
+    });
+
+    it('judges a premium screen by its own ground, and still finds a frame around it', () => {
+      const grounds = premiumGrounds();
+      expect(grounds).toEqual([
+        [
+          [0xf5, 0xf5, 0xf7],
+          [0xff, 0xff, 0xff],
+        ],
+        [
+          [0x0e, 0x0f, 0x13],
+          [0x1c, 0x1d, 0x24],
+        ],
+      ]);
+      const options = { background: BG, premiumGrounds: grounds };
+      // The light screen framed by the current UI's ground; the dark one by black (the current
+      // ground is within a shade of the dark card, so it reads as that card).
+      const frames: Rgb[] = [BG, [0, 0, 0]];
+      for (const [index, [ground, card]] of (grounds as [Rgb, Rgb][]).entries()) {
+        // Cards set in by the 16 pt gutter (48 px on a 3x capture) on the premium ground.
+        const screen = blank(400, 860, ground);
+        for (let y = 90; y < 820; y += 70) paint(screen, 16, y, 384, y + 60, card);
+        expect(findFrame(screen, options)).toBeNull();
+        const framed = copy(screen);
+        const frame = frames[index] ?? BG;
+        paint(framed, 0, 0, 14, 860, frame);
+        paint(framed, 386, 0, 400, 860, frame);
+        expect(findFrame(framed, options)?.detail).toContain('14px');
+      }
+    });
+
+    it('judges the current UI the same when the premium grounds are known', () => {
+      const options = { background: BG, premiumGrounds: premiumGrounds() };
+      for (const name of [
+        'inbox',
+        'home-board',
+        'vote-showdown-half',
+        'pitch-search-keyboard',
+        'frame-sheet-over-chat',
+        'frame-join-code-keyboard',
+      ]) {
+        const image = load(name);
+        expect({ name, code: findFrame(image, options)?.code }).toEqual({
+          name,
+          code: findFrame(image, { background: BG })?.code,
+        });
+      }
+      const framed = busyScreen();
+      paint(framed, 0, 0, 14, 860, [11, 10, 18]);
+      paint(framed, 386, 0, 400, 860, [11, 10, 18]);
+      expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
     });
 
     it('ignores full-bleed colour that fills the width', () => {
