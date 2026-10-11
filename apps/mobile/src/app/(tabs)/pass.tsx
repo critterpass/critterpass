@@ -12,5 +12,16 @@ function LegacyPassRoute() {
   );
 }
 
-/** The premium PASS tab (9.01): the passport page, with the Critterdex a row away. */
-export default premiumRoute({ premium: ProfilePremiumScreen, legacy: LegacyPassRoute });
+/**
+ * The premium PASS tab (9.01): the passport page, with the Critterdex a row away. The premium tab
+ * bar mounts it at launch, before the local database is open, so it waits for it.
+ */
+function PremiumPassRoute() {
+  return (
+    <LocalFirstGate>
+      <ProfilePremiumScreen />
+    </LocalFirstGate>
+  );
+}
+
+export default premiumRoute({ premium: PremiumPassRoute, legacy: LegacyPassRoute });
