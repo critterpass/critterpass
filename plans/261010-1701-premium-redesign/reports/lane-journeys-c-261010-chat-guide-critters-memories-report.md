@@ -31,7 +31,7 @@ Logic moved out of views so both looks share it: `useGuideSheet`, `useDietaryFor
 ## Second pass (coordinator follow-ups)
 
 - **Story (8.10, 8.11, 8.13, 8.14 as the last card)**: built. The story screen takes a `StoryLook` (view, footer, MVP sheet, not-ready state, signature sheet, card components); the current look is the default.
-- **"Ping me" (5.18)**: built end to end. `ping_guide_answer {thread_id}` (online, any thread reader) records a ping in `guide_answer_pings` (new table: forced RLS, app_system only, C1, merge and purge rules, permission matrix). While a ping waits, the turn keeps running after the phone lets go of the stream (`detachable` in `commands/guide/answer-pings.ts`); saving the answer emits `guide.answer_ready` for each fresh ping and clears them; the worker pushes `answer_ready` (class always) opening the thread. Copy in the notifications catalog (EN, VI). Tests: `services/api/test/commands/guide/detachable.test.ts` (passes locally), `answer-pings.db.test.ts` (remote), DB permissions and merge-rule coverage (remote, pass).
+- **"Ping me" (5.18)**: built end to end. `ping_guide_answer {thread_id}` (online, any thread reader) records a ping in `guide_answer_pings` (new table: forced RLS, app_system only, C4 and off the sync publication, merge and purge rules, permission matrix and table rule). While a ping waits, the turn keeps running after the phone lets go of the stream (`detachable` in `commands/guide/answer-pings.ts`); saving the answer emits `guide.answer_ready` for each fresh ping and clears them; the worker pushes `answer_ready` (class always) opening the thread. Copy in the notifications catalog (EN, VI). Tests: `services/api/test/commands/guide/detachable.test.ts` (passes locally), `answer-pings.db.test.ts` (remote), DB permissions and merge-rule coverage (remote, pass).
 - **Current-style parts replaced with premium ones**: memory reaction and share sheets, recap share sheet (with the link rows), voice consent, menu order card, chat photo viewer, journal upload banner, live encounter banner on the Critterdex, postcard note and photo sheets, story MVP vote and signature sheet. The signature pad itself stays the app's one signature engine (`ui/documents/SignatureLayer`), like the critter renderer.
 - **Decisions applied**: "Keep it to myself" stays; crew quests stay a push from the trip.
 - **Copy**: the lane's new strings are extracted into the area catalogs with Vietnamese for every one (287 entries; 55 reuse existing translations).
@@ -68,7 +68,7 @@ Critter stickers as a message type, critter reactions and read receipts (migrati
 
 - ESLint on every touched file of this lane: clean (other lanes' crew files excepted, above).
 - Jest: sticker tray, dietary, hatch (model, runtime, screen), pass screen, quests, voice consent, postcard draft, album states, story clock and voice, `callsGuide`; memory screen blocked by the jest mock (above).
-- Remote (GitHub): `@cp/db` permissions and merge-rule coverage pass; `@cp/api` answer pings and `@cp/db` events and migrate dispatched after the event-type fix.
+- Remote (GitHub): `@cp/api` answer pings passes (3 tests); `@cp/db` permissions, merge-rule coverage, events, migrate and publication pass (3138 tests), except `admin-reader.test.ts`, which fails on `trip_member_setup` (another lane's table on the integration branch: it needs an admin_reader grant migration).
 - Undesigned states logged in `docs/undesigned-states.md`.
 
 ## Open questions for the founder
