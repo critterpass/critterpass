@@ -41,6 +41,9 @@ export interface MapMarks {
   /** Deeper sun and mint so a route and its pins read on the light map. */
   readonly sunRoute: string;
   readonly mintRoute: string;
+  /** The guide's picks: a small white dot in a soft green ring. */
+  readonly pickRing: string;
+  readonly pickFill: string;
 }
 
 export const MAP_PALETTES: Readonly<Record<MapMode, MapPalette>> = {
