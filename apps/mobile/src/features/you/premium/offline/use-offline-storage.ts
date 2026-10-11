@@ -10,23 +10,21 @@ import { savedMapAreas } from '@/data/areas/saved-map-areas';
 import { useAreaLinks } from '@/data/areas/use-area-links';
 import { useTripAreasOn } from '@/data/areas/use-trip-areas';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { useQuietLiveRows as useLiveRows } from '@/data/powersync/live-rows';
 import {
   AUTO_ID,
   AUTO_SQL,
   autoDownloadOn,
   PREFS_KIND,
-} from '@/features/trip/bundle/background-prefetch';
-import {
   BUNDLE_KIND,
   parseSavedDay,
   refreshTripDays,
   removeTripDays,
   type RefreshOutcome,
   type SavedDay,
-} from '@/features/trip/bundle/bundle-manager';
-import { useTripDayServices } from '@/features/trip/bundle/services';
-import type { SavedTrip } from '@/features/trip/bundle/storage-settings';
-import { useLiveRows } from '@/features/trip/hub/data/live-rows';
+  type SavedTrip,
+  useTripDayServices,
+} from '@/features/trip';
 
 const SAVED_SQL = `SELECT l.data, t.id AS trip_id, d.name AS destination_name
   FROM local_private l

@@ -7,3 +7,4 @@ export { TasteQuiz } from './taste/TasteQuiz';
 export { RealPhotoSheet } from './photo/RealPhotoSheet';
 export { useRealPhoto } from './photo/use-real-photo';
 export { PremiumPasteOffer } from './premium/paste-offer/PremiumPasteOffer';
+export { clearFirstTripLink, useSavedFirstTripLink } from './saved-link';

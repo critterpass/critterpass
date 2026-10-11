@@ -5,6 +5,7 @@ export { PlaceScreen } from './screens/place-screen';
 export { SavedScreen } from './screens/saved-screen';
 export { registerSavedPlansSlot, SavedPlansSlot } from './saved-plans-slot';
 export { exploreRoutes } from './routes';
+export { searchRoutes } from './search/routes';
 export { WhySponsoredScreen } from './screens/why-sponsored-screen';
 export { SwipeScreen } from './screens/swipe-screen';
 // Premium pieces other areas' premium screens draw with until the kit carries them.

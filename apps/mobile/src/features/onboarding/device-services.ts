@@ -26,7 +26,6 @@ import type { NativeIdTokenProvider } from '@/data/auth';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { markInAppRestart } from '@/lib/links/launch-replay';
 
-import { getOcr, type OcrApi } from '../../../modules/cp-ocr';
 import { inviteTextOf, type ScanOutcome } from './invited/scan-code';
 import { devicePhotoServices } from './photo/device-photos';
 import type { AvatarLifter } from './photo/photo-pipeline';
@@ -153,8 +152,13 @@ async function locateOnce(): Promise<{ lat: number; lng: number } | 'denied' | n
   }
 }
 
+/** The on-device barcode reader (cp-ocr), handed in by the route. */
+export interface BarcodeReader {
+  scanBarcode(imageUri: string): Promise<readonly { readonly value: string }[]>;
+}
+
 /** Scan QR: the back camera's photo, read for barcodes on the phone, then dropped. */
-function scanInviteWith(ocr: OcrApi): () => Promise<ScanOutcome> {
+function scanInviteWith(ocr: BarcodeReader): () => Promise<ScanOutcome> {
   return async () => {
     try {
       const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -190,9 +194,14 @@ function restartApp(): void {
 
 let services: OnboardingServices | null = null;
 
-/** `lifter`: the on-device subject lift, or null in a binary built without it. */
-export function deviceOnboardingServices(lifter: AvatarLifter | null): OnboardingServices {
-  const ocr = getOcr();
+/**
+ * `lifter`: the on-device subject lift, or null in a binary built without it; `ocr`: the barcode
+ * reader, or null without one (no Scan QR).
+ */
+export function deviceOnboardingServices(
+  lifter: AvatarLifter | null,
+  ocr: BarcodeReader | null,
+): OnboardingServices {
   services ??= {
     auth: deviceAuth(),
     apple: Platform.OS === 'ios' ? appleProvider : null,

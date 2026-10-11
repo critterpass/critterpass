@@ -5,6 +5,7 @@ import { OnboardingServicesProvider } from '@/features/onboarding/services';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell';
 
+import { getOcr } from '../../../modules/cp-ocr';
 import { getSubjectLift } from '../../../modules/cp-subject-lift';
 
 /**
@@ -17,7 +18,7 @@ import { getSubjectLift } from '../../../modules/cp-subject-lift';
 export default function OnboardingLayout() {
   const premium = usePremiumUi();
   return (
-    <OnboardingServicesProvider services={deviceOnboardingServices(getSubjectLift())}>
+    <OnboardingServicesProvider services={deviceOnboardingServices(getSubjectLift(), getOcr())}>
       {premium ? (
         <PremiumStack>
           <PremiumStackScreen name="issued" options={{ gestureEnabled: false }} />

@@ -6,8 +6,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 
-import { searchRoutes } from '@/features/explore/search/routes';
-import { clearFirstTripLink, useSavedFirstTripLink } from '@/features/onboarding/saved-link';
+import { searchRoutes } from '@/features/explore';
+import { clearFirstTripLink, useSavedFirstTripLink } from '@/features/onboarding';
 import { GuideNote, TextButton } from '@/ui/premium';
 
 export function SavedLinkNote({ tripId }: { readonly tripId: string }) {
