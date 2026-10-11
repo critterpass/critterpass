@@ -3,6 +3,7 @@ import { Pressable } from 'react-native';
 import type {
   AccessibilityRole,
   AccessibilityState,
+  AccessibilityValue,
   Insets,
   LayoutChangeEvent,
   StyleProp,
@@ -25,7 +26,7 @@ export function hitSlopFor(width: number, height: number): Insets {
 }
 
 export interface PressableScaleProps {
-  readonly children: ReactNode | ((state: { readonly pressed: boolean }) => ReactNode);
+  readonly children?: ReactNode | ((state: { readonly pressed: boolean }) => ReactNode);
   readonly onPress?: (() => void) | undefined;
   readonly onLongPress?: (() => void) | undefined;
   readonly disabled?: boolean | undefined;
@@ -37,6 +38,7 @@ export interface PressableScaleProps {
   readonly accessibilityLabel?: string | undefined;
   readonly accessibilityHint?: string | undefined;
   readonly accessibilityState?: AccessibilityState;
+  readonly accessibilityValue?: AccessibilityValue;
   readonly onLayout?: (event: LayoutChangeEvent) => void;
   readonly testID?: string | undefined;
 }
@@ -58,6 +60,7 @@ export function PressableScale({
   accessibilityLabel,
   accessibilityHint,
   accessibilityState,
+  accessibilityValue,
   onLayout,
   testID,
 }: PressableScaleProps) {
@@ -84,6 +87,7 @@ export function PressableScale({
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: disabled === true, ...accessibilityState }}
+      {...(accessibilityValue === undefined ? {} : { accessibilityValue })}
       style={[style, animated]}
     >
       {children}
