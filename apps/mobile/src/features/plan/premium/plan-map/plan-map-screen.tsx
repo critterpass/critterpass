@@ -24,7 +24,6 @@ import { PlanRouteLayer, PremiumMapCanvas, sheetHeight, StayFlag, type MapDetent
 import { AddBar } from './add-bar';
 import { planMapCopy } from './copy';
 import { DayChips } from './day-chips';
-import { DayHead } from './day-head';
 import { EmptyPlan } from './empty-plan';
 import { framePoints, mapDays } from './map-days';
 import { nearestFirst, PlaceCarousel } from './place-carousel';
@@ -33,7 +32,7 @@ import { PlanMapSheet } from './plan-map-sheet';
 import { PlanMoreMenu } from './plan-more-menu';
 import { StopOverlays } from './stop-overlays';
 import { Timeline } from './timeline';
-import { TripFixRows } from './trip-fixes';
+import { PlanDayHead, TripFixRows } from './trip-fixes';
 import { TopBar } from './top-bar';
 import { useMapCamera } from './use-map-camera';
 import { useMapFilters } from './use-map-filters';
@@ -197,7 +196,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           />
         ) : day === null ? null : (
           <View style={{ gap: 12, paddingTop: detent === 'peek' ? 14 : 10 }}>
-            <DayHead
+            <PlanDayHead
+              tripId={tripId}
               dayNo={day.dayNo}
               eyebrow={map.eyebrow}
               title={day.theme ?? day.area?.name ?? map.eyebrow}

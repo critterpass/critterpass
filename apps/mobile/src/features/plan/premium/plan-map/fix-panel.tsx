@@ -28,8 +28,8 @@ export function FixPanel(props: { readonly fix: DayFix; readonly onOtherWays: ()
       exiting={FadeOut}
       testID={`trip-fix-${card.id}`}
       style={{
-        marginHorizontal: theme.space.gap12,
-        marginBottom: theme.space.gap12,
+        marginHorizontal: props.inset === false ? 0 : theme.space.gap12,
+        marginBottom: props.inset === false ? 0 : theme.space.gap12,
         borderRadius: 18,
         backgroundColor: pink.bg,
         padding: theme.space.gap12,
