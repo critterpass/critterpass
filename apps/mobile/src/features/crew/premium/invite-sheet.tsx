@@ -3,7 +3,8 @@
  * server gave it), Copy link, and the apps to send it with: WhatsApp and Messages open with the
  * invite written, Telegram and Mail too where the phone has them, More is the system share sheet
  * (also the fallback when an app cannot open). An organiser without a live code mints one here.
- * Nobody who has not joined is named, and nothing is sent on anyone's behalf.
+ * Nobody who has not joined is named. The caller's own unanswered in-app invites can be sent again
+ * (now, or at the invitee's usual hour).
  */
 import { t } from '@lingui/core/macro';
 import { useLocalSearchParams } from 'expo-router';
@@ -23,6 +24,8 @@ import { useCrewDetail } from '../settings/use-crew-detail';
 import { codeValidLine, inviteMessage } from './crew-copy';
 import { ShareTarget } from './components/crew-bits';
 import { QrCode } from './components/qr-code';
+import { ResendCard } from './components/resend-card';
+import { useResendInvites } from './use-resend-invites';
 
 export function InviteSheet() {
   const th = usePremiumTheme();
@@ -66,6 +69,7 @@ export function InviteSheet() {
     void commands.send(ROTATE_JOIN_CODE, { crew_id: crewId }).finally(() => setMinting(false));
   };
 
+  const unanswered = useResendInvites(crewId, detail.uid);
   const valid = codeValidLine(detail.code?.expires_at ?? null, locale);
   return (
     <SheetScreen
@@ -158,13 +162,22 @@ export function InviteSheet() {
           testID="crew-invite-more"
         />
       </View>
-      <GuideNote
-        name="Tokek"
-        text={t({
-          id: 'crew.premium.invite.note',
-          message: 'Anyone with the code can join until it runs out. A new code stops the old one.',
-        })}
-      />
+      {unanswered.count > 0 ? (
+        <ResendCard
+          count={unanswered.count}
+          sending={unanswered.sending}
+          onResend={unanswered.resend}
+        />
+      ) : (
+        <GuideNote
+          name="Tokek"
+          text={t({
+            id: 'crew.premium.invite.note',
+            message:
+              'Anyone with the code can join until it runs out. A new code stops the old one.',
+          })}
+        />
+      )}
     </SheetScreen>
   );
 }

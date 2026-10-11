@@ -209,7 +209,7 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 |---|---|---|---|---|---|---|
 | `act_inbox_item` | `{item_id, action}` (runs the action's stored command through its own authorize/entitle/handle in the same transaction and op_id, then settles the item; an item settled elsewhere answers `{outcome: 'already_resolved'}`; action-key scope `inbox`) | owner | per target | `inbox.item_resolved` | A, O, N | 25 |
 | `mark_inbox_read` | `{item_ids[]}` or `{all: true}` → `{count}` (read never resolves) | owner | – | `inbox.read` | A, O | 25 |
-| `send_nudge` | `{target_uid, reason, context?{kind,id}}` → `{outcome: 'scheduled', send_at, send_at_local, tz, guide, target_name}` (installed with push) \| `{outcome: 'inbox', …}` (installed, push denied) \| `{outcome: 'relay', relay: 'share_sheet', text, url, …}` (never installed; nothing sent by us). Target may be an active crewmate or an in-app invitee | member | ≤1/pair/24 h (`NUDGE_TOO_SOON`), ≤2 received/day, never in quiet hours | `nudge.sent`, `nudge.received` (at delivery) | A, O, W | 25 |
+| `send_nudge` | `{target_uid, reason, context?{kind,id}, when?: 'now' \| 'their_hour'}` (`now`: at once unless the target is in quiet hours or has the day's nudges, then their hour) → `{outcome: 'scheduled', send_at, send_at_local, tz, guide, target_name}` (installed with push) \| `{outcome: 'inbox', …}` (installed, push denied) \| `{outcome: 'relay', relay: 'share_sheet', text, url, …}` (never installed; nothing sent by us). Target may be an active crewmate or an in-app invitee | member | ≤1/pair/24 h (`NUDGE_TOO_SOON`), ≤2 received/day, never in quiet hours | `nudge.sent`, `nudge.received` (at delivery) | A, O, W | 25 |
 | `record_app_open` (doc delta) | `{hour_local}` fire-and-forget on foreground; counts once per hour | self | – | – | A, O | 25 |
 | `undo_guide_action` | `{action_id}` | affected member or organiser | within undo window | `guide_action.undone` | A, O, N | 25 |
 | `dismiss_tip` | `{tip_id}` | self | – | `tip.dismissed` | A, O | 25 |
@@ -419,6 +419,7 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 |---|---|---|---|---|---|---|
 | `create_boost_intent` | `{trip_id, product_id, split_mode: me\|even, member_uids[]}` → `{intent_id, app_account_token}` (lock 15 min) | participant | not boosted; lock → `BOOST_INTENT_LOCKED` | `boost.intent_locked` | A | 46 |
 | `release_boost_intent` | `{intent_id}` | owner / S expiry | – | `boost.intent_released` | A, S | 46 |
+| `watch_boost_lock` (doc delta) | `{trip_id}` → `{waiting}`: adds the caller to the open lock's `waiting_uids`; when the lock lapses or is let go they get `boost_lock_freed` (a purchase already sends `boost_activated`); `waiting: false` when no lock is held | seated member; the lock's holder → `VALIDATION{reason: own_lock}` | – | – | A | 46 |
 | `fulfil_purchase` | `{source: revenuecat\|client_sync, transaction}` (idempotent on store txn id) | S | – | `entitlement.granted`, `boost.activated` (IOUs → ledger if split), N-34 | S | 46 |
 | `revoke_purchase` | `{transaction_id, reason: refund\|revoke}` | S | – | `entitlement.revoked`, IOU annotate | S | 46 |
 | `move_boost` / `apply_boost_credit` | `{boost_id, to_trip_id}` / `{credit_id, trip_id}` | buyer / S on cancel | – | `boost.moved` | A, S | 46 |
