@@ -25,7 +25,9 @@ describe('sheetLeaveDecision', () => {
 });
 
 describe('askToDiscard', () => {
-  afterEach(() => jest.restoreAllMocks());
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
   /** The OS alert's boundary: presses the button with this label. */
   function choose(label: string | null) {

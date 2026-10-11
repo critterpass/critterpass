@@ -100,7 +100,6 @@ export interface FormerAppLinkSample {
 
 /** Every former path `currentAppPath` reads, with the link it stands for today. */
 export const FORMER_APP_LINK_SAMPLES: readonly FormerAppLinkSample[] = [
-  { former: `/hub/${TRIP}`, current: builders.tripHubLink(TRIP) },
   { former: `/hub/${TRIP}/day/2026-10-17`, current: builders.tripDayLink(TRIP, '2026-10-17') },
   { former: `/wallet/money/payment/${ID}`, current: builders.paymentLink(ID) },
   { former: `/wallet/money/expense/${ID}`, current: builders.expenseLink(ID) },

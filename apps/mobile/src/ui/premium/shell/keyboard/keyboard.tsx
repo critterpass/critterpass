@@ -6,13 +6,15 @@
  *
  * - `PremiumKeyboardProvider` once above the premium navigators;
  * - `KeyboardStickyFooter` for a composer or a form's foot that rides the keyboard;
- * - `KeyboardAwareScroll` for forms: keeps the focused field above the keyboard, drags it away.
+ * - `KeyboardAwareScroll` for forms: keeps the focused field above the keyboard, drags it away;
+ * - `useKeyboardFrame` for a screen that lays itself out around the keyboard on the UI thread.
  *
  * Native form sheets on iOS move with the keyboard by themselves: don't add an avoider inside one.
  */
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import type * as KeyboardControllerModule from 'react-native-keyboard-controller';
 import {
+  Keyboard,
   Platform,
   ScrollView,
   View,
@@ -20,6 +22,12 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
+import {
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
+  type SharedValue,
+} from 'react-native-reanimated';
 
 import { keyboardControllerReady } from '@/lib/premium-ui';
 
@@ -124,4 +132,64 @@ export function KeyboardDismissArea({
       {children}
     </KeyboardGestureArea>
   );
+}
+
+/** Where the keyboard is, as UI-thread values. */
+export interface KeyboardFrame {
+  /** The keyboard's height in points: 0 when closed, positive while it is up. */
+  readonly height: SharedValue<number>;
+  /** 0 closed, 1 fully up. */
+  readonly progress: SharedValue<number>;
+}
+
+/** The system keyboard's own animation length when an event carries none (Android). */
+const FALLBACK_KEYBOARD_MS = 250;
+
+/** Older builds: follows React Native's keyboard events (iOS before it moves, Android after). */
+function useEventKeyboardFrame(): KeyboardFrame {
+  const height = useSharedValue(0);
+  const progress = useSharedValue(0);
+  useEffect(() => {
+    const ios = Platform.OS === 'ios';
+    const move = (to: number, duration: number) => {
+      const timing = { duration: duration > 0 ? duration : FALLBACK_KEYBOARD_MS };
+      height.set(withTiming(to, timing));
+      progress.set(withTiming(to > 0 ? 1 : 0, timing));
+    };
+    const show = Keyboard.addListener(ios ? 'keyboardWillShow' : 'keyboardDidShow', (event) => {
+      move(event.endCoordinates.height, event.duration);
+    });
+    const hide = Keyboard.addListener(ios ? 'keyboardWillHide' : 'keyboardDidHide', (event) => {
+      move(0, event.duration);
+    });
+    return () => {
+      show.remove();
+      hide.remove();
+    };
+  }, [height, progress]);
+  return { height, progress };
+}
+
+/** The hook for this build, chosen once: the native module cannot appear during a run. */
+let frameHook: (() => KeyboardFrame) | undefined;
+
+function chooseFrameHook(): () => KeyboardFrame {
+  const library = keyboardController();
+  if (library === null) return useEventKeyboardFrame;
+  const { useReanimatedKeyboardAnimation } = library;
+  return function useControllerKeyboardFrame() {
+    const { height, progress } = useReanimatedKeyboardAnimation();
+    // The library reports the keyboard as a negative offset; callers get its height.
+    const shown = useDerivedValue(() => Math.max(0, -height.get()));
+    return { height: shown, progress };
+  };
+}
+
+/**
+ * The keyboard's height and progress, frame-accurate through keyboard-controller where the build
+ * carries it, else driven by React Native's keyboard events.
+ */
+export function useKeyboardFrame(): KeyboardFrame {
+  frameHook ??= chooseFrameHook();
+  return frameHook();
 }
