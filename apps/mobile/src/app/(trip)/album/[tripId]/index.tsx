@@ -3,12 +3,16 @@ import { useLocalSearchParams } from 'expo-router';
 import { AlbumMissing } from '@/features/album/grid/album-missing';
 import { AlbumScreen } from '@/features/album/grid/album-screen';
 import { PremiumJournalScene } from '@/features/album/premium/journal-scene';
+import { PremiumUploadBanner } from '@/features/album/premium/upload-banner';
 import { premiumRoute } from '@/lib/premium-ui';
 
 function Album({ premium }: { readonly premium: boolean }) {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
   return typeof tripId === 'string' && tripId.length > 0 ? (
-    <AlbumScreen tripId={tripId} {...(premium ? { View: PremiumJournalScene } : {})} />
+    <AlbumScreen
+      tripId={tripId}
+      {...(premium ? { View: PremiumJournalScene, Banner: PremiumUploadBanner } : {})}
+    />
   ) : (
     <AlbumMissing testID="album-missing" />
   );

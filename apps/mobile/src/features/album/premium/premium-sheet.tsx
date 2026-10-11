@@ -1,5 +1,5 @@
 /**
- * A sheet that rises over a premium recap screen (the MVP vote, a reaction, sharing): the scrim
+ * A sheet that rises over a premium screen (the MVP vote, a reaction, sharing, the postcard's note): the scrim
  * closes it, a grabber and ✕ sit on top, the content scrolls when it is tall, and the keyboard
  * pushes it up. Undesigned in the premium set, built from the kit's sheet radius and ground.
  */
@@ -18,7 +18,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassIconButton, Text, makePremiumStyles } from '@/ui/premium';
 
-import { RECAP_PAINT } from './recap-paint';
+/* eslint-disable-next-line critterpass/no-literal-style -- the sheet scrim the premium tokens do not carry yet */
+const SHEET_SCRIM = 'rgba(20,22,40,.3)';
 
 const useStyles = makePremiumStyles((th) => ({
   sheet: {
@@ -56,7 +57,7 @@ export function PremiumSheet({
   return (
     <Modal visible transparent animationType="slide" onRequestClose={onClose}>
       <Pressable
-        style={[StyleSheet.absoluteFill, { backgroundColor: RECAP_PAINT.scrim }]}
+        style={[StyleSheet.absoluteFill, { backgroundColor: SHEET_SCRIM }]}
         onPress={onClose}
         accessibilityRole="button"
         accessibilityLabel={t({ id: 'recap.premium.sheet.close', message: 'Close' })}

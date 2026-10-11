@@ -4,7 +4,7 @@
  * read-only with a way on to sending your own; the traveller's own, or none, is the composer.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState, type ComponentType } from 'react';
+import { useState } from 'react';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import { goBackOr } from '@/lib/navigation/back';
@@ -16,7 +16,7 @@ import { AlbumMediaProvider } from '../grid/album-media';
 import { albumHttp } from '../upload/device-upload';
 import type { PostcardFormat } from './postcard-pair';
 import { PostcardScreen } from './postcard-screen';
-import type { PostcardViewProps } from './postcard-view';
+import type { PostcardLook } from './postcard-look';
 import { ReceivedView } from './received-view';
 
 const OPENED_SQL = `
@@ -26,12 +26,12 @@ const OPENED_SQL = `
 export function OpenedPostcardScreen({
   tripId,
   postcardId,
-  View,
+  look,
 }: {
   readonly tripId: string;
   readonly postcardId: string | null;
-  /** The composer's view (the premium postcard takes the same props). */
-  readonly View?: ComponentType<PostcardViewProps>;
+  /** The composer's look (the premium postcard passes its own). */
+  readonly look?: PostcardLook;
 }) {
   const { t } = useLingui();
   const album = useAlbum(tripId);
@@ -44,7 +44,7 @@ export function OpenedPostcardScreen({
   const [own, setOwn] = useState(false);
 
   if (opened === undefined || album.me === null || opened.created_by === album.me || own) {
-    return <PostcardScreen tripId={tripId} {...(View === undefined ? {} : { View })} />;
+    return <PostcardScreen tripId={tripId} {...(look === undefined ? {} : { look })} />;
   }
   const front = album.photos.find((photo) => photo.id === opened.photo_id) ?? null;
   return (

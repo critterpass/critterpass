@@ -7,7 +7,7 @@ import { plural, t } from '@lingui/core/macro';
 
 import { View } from 'react-native';
 
-import { PremiumPostcardCard } from '@/features/album';
+import { PremiumPostcardCard, PremiumSheet } from '@/features/album';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import {
@@ -24,7 +24,6 @@ import {
 import type { MvpSheetProps } from '../../story/mvp-sheet';
 import type { StoryFooterProps } from '../../story/story-footer';
 import type { StoryAbsentProps, StoryLook } from '../../story/story-look';
-import { PremiumSheet } from '../premium-sheet';
 import { PremiumAwardsCard, PremiumReceiptCard } from './cards/story-awards-receipt';
 import { PremiumCoverCard } from './cards/story-cover';
 import { PremiumGotAwayCard, PremiumStampCard } from './cards/story-got-away-stamp';

@@ -7,6 +7,7 @@ import { t } from '@lingui/core/macro';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Image, View } from 'react-native';
 
+import { PremiumSheet } from '@/features/album';
 import { feedback } from '@/motion';
 import {
   Button,
@@ -23,8 +24,6 @@ import {
   type ShareActionsDeps,
 } from '@/ui/share-image/share-actions';
 import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
-
-import { PremiumSheet } from './premium-sheet';
 
 type Drawn =
   | { readonly status: 'drawing' }

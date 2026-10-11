@@ -7,6 +7,7 @@ import { t } from '@lingui/core/macro';
 import { useState } from 'react';
 import { View } from 'react-native';
 
+import { PremiumSheet } from '@/features/album';
 import {
   Button,
   PressableScale,
@@ -19,7 +20,6 @@ import {
 import { useMemoryShare, type MemoryShareSheetProps } from '../memory/memory-share-sheet';
 import { MEMORY_EMOJI, MEMORY_LINE_MAX, type ReactionSheetProps } from '../memory/reaction-sheet';
 import { PremiumShareSheet } from './premium-share-sheet';
-import { PremiumSheet } from './premium-sheet';
 
 const useStyles = makePremiumStyles((th) => ({
   chip: {

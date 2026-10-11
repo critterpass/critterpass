@@ -9,8 +9,6 @@ export const RECAP_PAINT = {
   onPhoto: '#ffffff',
   onPhotoSoft: 'rgba(255,255,255,.92)',
   glassOnPhoto: 'rgba(255,255,255,.2)',
-  /** The scrim under a sheet. */
-  scrim: 'rgba(20,22,40,.3)',
   /** The share link on a photo: white at .85. */
   shareOnPhoto: 'rgba(255,255,255,.85)',
 } as const;

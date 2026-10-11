@@ -23,7 +23,7 @@ import { useAlbum } from '../data/use-album';
 import { WhoSheet } from '../people/who-sheet';
 import { albumRoutes } from '../routes';
 import { albumHttp } from '../upload/device-upload';
-import { UploadBanner } from '../upload/upload-banner';
+import { UploadBanner, type UploadBannerViewProps } from '../upload/upload-banner';
 import { useAlbumUpload } from '../upload/use-album-upload';
 import { AlbumMediaProvider } from './album-media';
 import { AlbumView, type AlbumViewProps } from './album-view';
@@ -33,10 +33,13 @@ const HUB_SCREEN = '3k-1';
 export function AlbumScreen({
   tripId,
   View = AlbumView,
+  Banner,
 }: {
   readonly tripId: string;
   /** The view that draws the album (the premium journal takes the same props). */
   readonly View?: ComponentType<AlbumViewProps>;
+  /** The upload banner's look. */
+  readonly Banner?: ComponentType<UploadBannerViewProps>;
 }) {
   useTripStreams(tripId);
   const { t } = useLingui();
@@ -123,7 +126,13 @@ export function AlbumScreen({
         guide={guide}
         guideName={guideName}
         curationNote={album.curation?.note ?? null}
-        banner={<UploadBanner tripId={tripId} onRetry={uploads.retry} />}
+        banner={
+          <UploadBanner
+            tripId={tripId}
+            onRetry={uploads.retry}
+            {...(Banner === undefined ? {} : { View: Banner })}
+          />
+        }
         exportState={exportState}
         backFallback={hrefFor(HUB_SCREEN, { tripId }) ?? '/'}
         onUpload={uploads.pick}
