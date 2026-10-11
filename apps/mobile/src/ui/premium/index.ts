@@ -18,6 +18,18 @@ export type { IconProps, PremiumIconName } from './icons/Icon';
 export { hitSlopFor, PressableScale } from './motion/PressableScale';
 export type { PressableScaleProps } from './motion/PressableScale';
 export { usePremiumReducedMotion } from './motion/reduced-motion';
+export { burstPieces, Confetti } from './motion/Confetti';
+export type { ConfettiPiece, ConfettiProps } from './motion/Confetti';
+export { CrossFade } from './motion/CrossFade';
+export type { CrossFadeProps } from './motion/CrossFade';
+export { NumberRoll, rollSlots } from './motion/NumberRoll';
+export type { NumberRollProps, RollSlot } from './motion/NumberRoll';
+export { StampMoment } from './motion/StampMoment';
+export type { StampMomentProps } from './motion/StampMoment';
+export { SwipeDeck } from './motion/SwipeDeck';
+export type { SwipeDeckHandle, SwipeDeckProps } from './motion/SwipeDeck';
+export { swipeVerdict } from './motion/swipe-verdict';
+export type { SwipeVote } from './motion/swipe-verdict';
 export {
   enterTransition,
   exitTransition,
@@ -83,3 +95,13 @@ export { EmptySlot, Tag } from './stickers/Tag';
 export type { EmptySlotProps, TagProps } from './stickers/Tag';
 export { TierLabel, tierWord } from './stickers/TierLabel';
 export type { CritterTier, TierLabelProps } from './stickers/TierLabel';
+export { Banner, OfflinePill } from './feedback/Banner';
+export type { BannerProps, BannerTone, OfflinePillProps } from './feedback/Banner';
+export { Toast, toastText } from './feedback/Toast';
+export type { ToastProps, ToastSpec } from './feedback/Toast';
+export { ToastHost, useToast } from './feedback/ToastHost';
+export type { ToastHostProps } from './feedback/ToastHost';
+export { EmptyState } from './states/EmptyState';
+export type { EmptyStateProps } from './states/EmptyState';
+export { LoadingCritter, Skeleton } from './states/Skeleton';
+export type { LoadingCritterProps, SkeletonProps } from './states/Skeleton';
