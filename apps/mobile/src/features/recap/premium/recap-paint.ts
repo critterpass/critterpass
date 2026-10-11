@@ -12,3 +12,6 @@ export const RECAP_PAINT = {
   /** The share link on a photo: white at .85. */
   shareOnPhoto: 'rgba(255,255,255,.85)',
 } as const;
+
+/** The recap tiles' tilts, as drawn (top left, top right, bottom left, bottom right). */
+export const TILE_TILTS = [-2, 2.5, 1.5, -1.5] as const;

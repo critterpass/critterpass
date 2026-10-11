@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -27,7 +27,7 @@ import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { useRecapSummary } from '../data/use-recap-summary';
 import { useRecapLinkActions } from '../link/use-recap-link';
 import { RecapShare } from './share-choice-sheet';
-import { SummaryView } from './summary-view';
+import { SummaryView, type SummaryViewProps } from './summary-view';
 
 const UNIT_SQL = 'SELECT distance_unit FROM user_settings WHERE user_id = ?';
 
@@ -40,7 +40,15 @@ export function whereNextHref(crewId: string | null): Href {
   return crewId === null ? '/' : { pathname: '/', params: { crewId } };
 }
 
-function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly ended: boolean }) {
+function RecapSummary({
+  tripId,
+  ended,
+  View,
+}: {
+  readonly tripId: string;
+  readonly ended: boolean;
+  readonly View: ComponentType<SummaryViewProps>;
+}) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const me = useOwnerUid();
@@ -106,7 +114,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
 
   return (
     <>
-      <SummaryView
+      <View
         model={settling ? { ...model, phase: 'loading' } : model}
         guide={guide}
         guideName={guideName}
@@ -142,11 +150,14 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
 export function RecapSummaryScreen({
   tripId,
   ended = false,
+  View = SummaryView,
 }: {
   readonly tripId: string;
   readonly ended?: boolean;
+  /** The view that draws the page (the premium one takes the same props). */
+  readonly View?: ComponentType<SummaryViewProps>;
 }) {
   const localFirst = useContext(LocalFirstContext);
   if (localFirst === null) return <SessionWaiting testID="recap-waiting" />;
-  return <RecapSummary tripId={tripId} ended={ended} />;
+  return <RecapSummary tripId={tripId} ended={ended} View={View} />;
 }
