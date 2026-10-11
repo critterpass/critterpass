@@ -39,7 +39,9 @@ export function BriefingCard({ state, guide, guideName, onAct }: BriefingCardPro
   const ink = theme.semantic.text.onAccent;
   const nothing = useNothingToday(state.kind === 'none' ? state.next : null);
   const stale =
-    state.kind === 'ready' && state.staleDate !== null ? briefingDate(locale, state.staleDate) : null;
+    state.kind === 'ready' && state.staleDate !== null
+      ? briefingDate(locale, state.staleDate)
+      : null;
   const when =
     stale === null
       ? t({ id: 'trip.briefing.today', message: 'today' })

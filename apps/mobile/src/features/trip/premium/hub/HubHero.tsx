@@ -37,7 +37,13 @@ function heroUri(media: MediaAsset | null, widthPt: number): string | null {
 }
 
 /** The countdown (or day count) on the right; its digits re-read every second. */
-function PhaseBlock({ header, onPhoto }: { readonly header: HubHeader; readonly onPhoto: boolean }) {
+function PhaseBlock({
+  header,
+  onPhoto,
+}: {
+  readonly header: HubHeader;
+  readonly onPhoto: boolean;
+}) {
   const line = usePhaseLine(header, undefined);
   const th = usePremiumTheme();
   if (line === null || header.phase === 'in') return null;
@@ -100,7 +106,10 @@ export function HubHero(props: HubHeroProps) {
         </>
       ) : null}
       <View
-        style={[styles.controls, { top: insets.top + th.space.gap6, paddingHorizontal: th.space.gutter }]}
+        style={[
+          styles.controls,
+          { top: insets.top + th.space.gap6, paddingHorizontal: th.space.gutter },
+        ]}
       >
         <GlassIconButton
           icon="back"

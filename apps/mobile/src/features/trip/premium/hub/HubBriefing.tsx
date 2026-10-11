@@ -124,7 +124,11 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
       testID={`trip-briefing-${state.kind}`}
     >
       <View style={[styles.sticker, { transform: [turn(8)] }]} pointerEvents="none">
-        <CritterSticker kind={guideKind} name={guideName} size={state.kind === 'failed' ? 56 : 72} />
+        <CritterSticker
+          kind={guideKind}
+          name={guideName}
+          size={state.kind === 'failed' ? 56 : 72}
+        />
       </View>
       {state.kind === 'failed' ? (
         <View style={styles.failed}>
@@ -132,7 +136,10 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
             {t({ id: 'trip.briefing.premium.eyebrow', message: "THIS MORNING'S BRIEFING" })}
           </Text>
           <Text variant="headline" style={styles.titleRight}>
-            {t({ id: 'trip.briefing.premium.failedTitle', message: "I couldn't write today's yet" })}
+            {t({
+              id: 'trip.briefing.premium.failedTitle',
+              message: "I couldn't write today's yet",
+            })}
           </Text>
           <Text variant="rowText" tone="inkSecondary">
             {t({

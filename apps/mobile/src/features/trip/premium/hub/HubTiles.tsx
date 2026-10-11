@@ -81,9 +81,15 @@ export function HubTiles({ tiles, extra }: HubTilesProps) {
   const rows: (typeof cells)[] = [];
   for (let i = 0; i < cells.length; i += 2) rows.push(cells.slice(i, i + 2));
   return (
-    <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap10 }} testID="trip-hub-tiles">
+    <View
+      style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap10 }}
+      testID="trip-hub-tiles"
+    >
       {rows.map((row) => (
-        <View key={row.map((cell) => cell.key).join('-')} style={[styles.row, { gap: th.space.gap10 }]}>
+        <View
+          key={row.map((cell) => cell.key).join('-')}
+          style={[styles.row, { gap: th.space.gap10 }]}
+        >
           {row.map((cell) => (
             <View key={cell.key} style={styles.cell}>
               {cell.node}

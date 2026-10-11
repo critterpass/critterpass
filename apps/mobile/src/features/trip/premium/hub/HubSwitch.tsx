@@ -60,7 +60,10 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
       horizontal
       showsHorizontalScrollIndicator={false}
       accessibilityRole="tablist"
-      contentContainerStyle={[styles.row, { paddingHorizontal: th.space.gap16, gap: th.space.gap8 }]}
+      contentContainerStyle={[
+        styles.row,
+        { paddingHorizontal: th.space.gap16, gap: th.space.gap8 },
+      ]}
       testID="trip-hub-switch"
     >
       <Chip
