@@ -58,7 +58,7 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-function titleFor(phase: DraftPhase, guideName: string, days: number): string {
+export function titleFor(phase: DraftPhase, guideName: string, days: number): string {
   switch (phase.kind) {
     case 'failed':
       return t({ id: 'planDraft.drafting.failedTitle', message: `${guideName} couldn’t finish` });
@@ -81,7 +81,7 @@ function titleFor(phase: DraftPhase, guideName: string, days: number): string {
   }
 }
 
-function lineFor(phase: DraftPhase, days: number): string {
+export function lineFor(phase: DraftPhase, days: number): string {
   switch (phase.kind) {
     case 'running':
       return phase.slow
