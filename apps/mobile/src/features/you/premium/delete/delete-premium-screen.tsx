@@ -145,7 +145,7 @@ export function DeletePremiumScreen() {
               </Text>
               <Text variant="captionMuted" color={th.color.banner.guide.text}>
                 {t({
-                  id: 'you.delete.owedLine',
+                  id: 'you.premium.delete.owedLine',
                   message: `Settle up first, or ${balance.crew_name} keep it.`,
                 })}
               </Text>

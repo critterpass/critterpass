@@ -146,7 +146,10 @@ export function StampedPremium() {
           {props.boosted
             ? props.split
               ? t({ id: 'monetize.stamped.crewIn', message: 'The crew’s in' })
-              : t({ id: 'monetize.stamped.onYou', message: `${props.destination} is boosted` })
+              : t({
+                  id: 'monetize.premium.stamped.onYou',
+                  message: `${props.destination} is boosted`,
+                })
             : t({ id: 'monetize.stamped.finishing', message: 'Finishing up' })}
         </Text>
         {props.boosted ? (

@@ -70,7 +70,7 @@ export function LeaveCrewScreen() {
     toast.show({
       kind: 'done',
       message: t({
-        id: 'crew.premium.member.promoted',
+        id: 'crew.premium.leave.promoted',
         message: `${chosenName} runs the crew now`,
       }),
     });

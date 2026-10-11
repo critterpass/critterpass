@@ -61,7 +61,7 @@ export function BoostPremium() {
             id: 'monetize.premium.boostSplitBuy',
             message: `Boost for ${price} · you pay ${each}`,
           })
-        : t({ id: 'monetize.boost.buyFor', message: `Boost for ${price}` });
+        : t({ id: 'monetize.premium.boost.buyFor', message: `Boost for ${price}` });
 
   return (
     <>
@@ -184,7 +184,7 @@ export function BoostPremium() {
                   },
                   {
                     value: 'split',
-                    label: t({ id: 'monetize.boost.split', message: `Split ${ways} ways` }),
+                    label: t({ id: 'monetize.premium.boost.split', message: `Split ${ways} ways` }),
                   },
                 ]}
                 value={model.whoPays}

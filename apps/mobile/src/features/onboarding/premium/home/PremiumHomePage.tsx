@@ -317,7 +317,7 @@ export function PremiumHomePage() {
           name={tokek.name}
           critter={tokek.kind}
           text={t({
-            id: 'onboarding.home.far',
+            id: 'onboarding.premium.home.far',
             message: `Nearest is ${driveLabel(step.results.farMinutes)}. ${farLine}`,
           })}
           testID="home-far"

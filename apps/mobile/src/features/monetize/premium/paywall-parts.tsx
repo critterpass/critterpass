@@ -36,7 +36,7 @@ export function BoostRow({
       onPress={onPress}
       disabled={disabled}
       accessibilityLabel={t({
-        id: 'monetize.paywall.boostLabel',
+        id: 'monetize.premium.paywall.boostLabel',
         message: `Trip boost, ${price} for the crew`,
       })}
       testID="paywall-boost-stamp"

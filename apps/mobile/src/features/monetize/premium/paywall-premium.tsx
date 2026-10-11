@@ -136,7 +136,7 @@ export function PaywallPremium() {
               price === null
                 ? t({ id: 'monetize.paywall.visaLabel', message: `Pass+ visa, holder ${holder}` })
                 : t({
-                    id: 'monetize.paywall.visaLabelPriced',
+                    id: 'monetize.premium.paywall.visaLabelPriced',
                     message: `Pass+ visa, ${price}, holder ${holder}`,
                   })
             }
