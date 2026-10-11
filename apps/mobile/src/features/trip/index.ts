@@ -4,6 +4,7 @@ export { NextRow, type HubNext } from './hub/next-row';
 export {
   crewAccent,
   guideCritterKind,
+  guideCritterName,
   IconTile,
   LineIcon,
   tripZoomId,

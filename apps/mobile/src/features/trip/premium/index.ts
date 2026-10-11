@@ -4,7 +4,7 @@
  */
 export { IconTile } from './components/IconTile';
 export { LineIcon, type LineIconName, type LineIconProps } from './components/LineIcon';
-export { guideCritterKind } from './components/guide-critter';
+export { guideCritterKind, guideCritterName } from './components/guide-critter';
 export { turn } from './components/turn';
 export { crewAccent } from './components/crew-accent';
 export { tripZoomId } from './hub/zoom-id';
