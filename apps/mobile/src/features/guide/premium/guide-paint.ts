@@ -9,3 +9,8 @@ export const GUIDE_PAINT = {
 export function ring(width: number, color: string): string {
   return `0 0 0 ${width}px ${color}`;
 }
+
+/** Phrase show mode's warm glow over ink. */
+export const PHRASE_PAINT = {
+  glow: 'radial-gradient(circle at 50% 40%, rgba(255,216,74,.18), transparent 60%)',
+} as const;
