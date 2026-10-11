@@ -21,6 +21,11 @@ import { useDietaryForm } from '../../dietary/use-dietary-form';
 import { DietaryConsent } from './dietary-consent';
 import { DietaryForm } from './dietary-form';
 
+/* eslint-disable lingui/no-unlocalized-strings -- the profile's visibility values, never copy. */
+const SHARED = 'crew_flags' as const;
+const PRIVATE = 'self' as const;
+/* eslint-enable lingui/no-unlocalized-strings */
+
 export function PremiumDietaryScreen({ services }: { readonly services: DietaryServices }) {
   const localFirst = useContext(LocalFirstContext);
   if (localFirst === null) {
@@ -57,7 +62,7 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
         <View style={{ flex: 1, backgroundColor: th.color.ground }}>
           <DietaryConsent
             onShare={() => {
-              form.edit({ ...form.profile, visibility: 'crew_flags' });
+              form.edit({ ...form.profile, visibility: SHARED });
               setGrant(true);
               setStep('form');
             }}
@@ -77,7 +82,7 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
           onChange={form.edit}
           onShareChange={(share) => {
             if (share && !form.consented && !form.wasSharing) setGrant(true);
-            form.edit({ ...form.profile, visibility: share ? 'crew_flags' : 'self' });
+            form.edit({ ...form.profile, visibility: share ? SHARED : PRIVATE });
           }}
         />
         {keyboardUp ? null : (
@@ -97,7 +102,7 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
               loading={form.saving}
               onPress={() => {
                 Keyboard.dismiss();
-                const sharing = form.profile.visibility === 'crew_flags';
+                const sharing = form.profile.visibility === SHARED;
                 void guard.commit(() => form.save(form.profile, grant && sharing));
                 setGrant(false);
               }}

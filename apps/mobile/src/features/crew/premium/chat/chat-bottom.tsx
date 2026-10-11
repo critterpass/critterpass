@@ -77,7 +77,7 @@ export interface ChatBottomProps {
   readonly onLockedSticker: (critterId: string) => void;
 }
 
-export function ChatBottom(props: ChatBottomProps) {
+export function ChatBottom({ inputRef, ...props }: ChatBottomProps) {
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const reduced = usePremiumReducedMotion();
@@ -141,7 +141,7 @@ export function ChatBottom(props: ChatBottomProps) {
             />
           ) : null}
           <ComposerBar
-            ref={props.inputRef}
+            ref={inputRef}
             value={composer.value}
             onChangeText={composer.onChangeText}
             placeholder={composer.placeholder}
