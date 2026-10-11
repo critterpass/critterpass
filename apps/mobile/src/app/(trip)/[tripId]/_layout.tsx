@@ -6,8 +6,11 @@ import { isTripId } from '@/features/trip/access/trip-access';
 import { useTripAccess } from '@/features/trip/access/use-trip-access';
 import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
+import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
+import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
 
 import NotFoundScreen from '../../+not-found';
 
@@ -23,7 +26,19 @@ export default function TripIdLayout() {
   const trip = isTripId(tripId) ? tripId : null;
   useTripStreams(trip);
   const access = useTripAccess(trip);
+  const premium = usePremiumUi();
   if (trip === null || access === 'missing') return <NotFoundScreen />;
+  if (premium) {
+    // The premium UI: a native stack, so push pages get the native bar and glass back.
+    return (
+      <PremiumStack>
+        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a navigator's path, never copy. */}
+        {sheetScreens('(trip)/[tripId]').map((name) => (
+          <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
+        ))}
+      </PremiumStack>
+    );
+  }
   return (
     <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
       {/* Add to plan, paste a link, fill a gap and pick a driver's days rise as sheets over the
