@@ -25,7 +25,7 @@ import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
 import { useLiveRows } from '../hub/data/live-rows';
-import { AUTO_ID, AUTO_SQL, autoDownloadOn, PREFS_KIND } from './background-prefetch';
+import { useDayPrefs } from './background-prefetch';
 import {
   BUNDLE_KIND,
   parseSavedDay,
@@ -173,9 +173,8 @@ export function StorageSettingsScreen() {
     [BUNDLE_KIND],
     ['local_private', 'trips', 'destinations'],
   ).rows;
-  const auto = autoDownloadOn(
-    useLiveRows<{ data: string }>(AUTO_SQL, [AUTO_ID], ['local_private']).rows,
-  );
+  const dayPrefs = useDayPrefs();
+  const auto = dayPrefs.auto;
   // Day trips of the saved trips: the area each such day is spent in, named by its link.
   const areasOn = useTripAreasOn();
   const areaDays = useLiveRows<{
@@ -214,12 +213,7 @@ export function StorageSettingsScreen() {
     <StorageSettingsView
       trips={[...byTrip.values()]}
       auto={auto}
-      onAuto={(next) =>
-        void db.execute(
-          'INSERT OR REPLACE INTO local_private (id, kind, data, fetched_at) VALUES (?, ?, ?, ?)',
-          [AUTO_ID, PREFS_KIND, JSON.stringify({ auto: next }), new Date().toISOString()],
-        )
-      }
+      onAuto={dayPrefs.setAuto}
       onSave={(tripId) => {
         void refreshTripDays(db, services, tripId)
           .then((outcome) =>

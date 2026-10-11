@@ -10,3 +10,4 @@ export {
   turn,
   type LineIconName,
 } from './premium';
+export { useDayPrefs, type DayPrefs } from './bundle/background-prefetch';
