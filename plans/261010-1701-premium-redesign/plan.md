@@ -46,3 +46,23 @@ Founder ask (10 Oct): rebuild the whole mobile UI to the premium native design (
 ## Founder follow-up list
 
 Filled as lanes hit large backend features or design contradictions they resolved by rule 5.
+
+Larger features not built (no dead buttons meanwhile: the entry is hidden or shows what exists):
+- Peer room swap (7.09): a member can only ask the organiser; a yes-from-the-other-member swap needs a backend.
+- Gift and partner codes (9.17 `redeem_code`/`create_gift`): nothing mints codes yet; needs a peppered secret and the code-guessing limiter. Store offer codes work.
+- Welcome back on Android (2.02): Android wipes app data on uninstall; needs Play Block Store (new native module). iOS is built.
+- Recaps offline on 9.05: recaps keep no offline files today.
+- Live-map replay and open count (9.19): positions are deliberately not stored and nothing counts opens.
+- From the start: Wallet passes signing, flight-number lookup, meet-up compass camera (6.14), driver live status.
+
+Calls I made (reversible; say if you want any changed):
+- Tab bar = native iOS 26 bar with Tokek as the search-role circle (not the raised-centre pill).
+- The ink `+` on root screens is a system toolbar button (VoiceOver and UI tests can't reach custom toolbar views on iOS 26); it still grows into its sheet and folds back.
+- Pass tab = the passport page; the Critterdex is pushed from it (`/you/critterdex`).
+- Splitting a stay by room is built server-side and re-splits when rooms change; someone who already settled sees a top-up or refund line instead of the ledger being rewritten.
+- "Keep it to myself" for dietary needs added (not in the design); crew quests stay a push from the trip.
+- Native surfaces: the meet-up Live Activity shows one late-member row (iOS 160 pt limit); the meet-up fill follows the furthest-out member; the Today widget keeps Done/Nudge and packing chips; the crew widget shows initials only; Tokek keeps the AI-guide sender label; Android Money and Critters notification settings reset once (new silent channels).
+- Epic Tokek is pink (designed palette); the forms batches are updated. The published forms release is regenerated through the admin publish when this ships (it changes the live catalogue).
+- Scan QR reads one photo (the camera library has no live scanner); resend's long press waits for the invitee's usual hour.
+
+Small old-look pieces left for the polish pass after the device sweep: drag a stop onto another day in All days (long-press "Move a stop" works), the pins strip, the All-days share sheet, the rain and less-driving sketches, photo credits; other areas' chat cards until each registers a premium card.
