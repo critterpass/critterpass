@@ -29,6 +29,10 @@ export interface OnboardingServices {
   readonly google: NativeIdTokenProvider | null;
   /** `GET /v1/geo/hint`; null when offline or unknown (the nearest row is then hidden). */
   readonly geoHint: () => Promise<GeoHint | null>;
+  /** `GET /v1/geocode` (raw body) for a town no airport matched; null offline. Absent in tests. */
+  readonly geocodeTown?: (query: string) => Promise<unknown>;
+  /** One when-in-use fix from a tap: a point, `denied`, or null when no fix came. */
+  readonly locateOnce?: () => Promise<{ lat: number; lng: number } | 'denied' | null>;
   /** Null in a build without the photo picker: the real-photo option is not offered. */
   readonly photos: PhotoServices | null;
   /** Restarts the app's JavaScript, so it starts again on the session now in storage. */

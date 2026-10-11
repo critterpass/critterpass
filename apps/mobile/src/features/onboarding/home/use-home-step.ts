@@ -1,10 +1,11 @@
 /**
  * Page four's working state, shared by the current and the premium page: the search (offline over
- * the bundled airports, the IP hint's nearest on top, no GPS prompt), the picked home, and Next,
- * which issues the pass on the device the moment home is set.
+ * the bundled airports, the IP hint's nearest on top), a "Did you mean" town when no airport
+ * matches (online), "Use my location" (one when-in-use fix, only from that tap), the picked home,
+ * and Next, which issues the pass on the device the moment home is set.
  */
 import { router } from 'expo-router';
-import { useContext, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useDeferredValue, useEffect, useMemo, useState } from 'react';
 
 import { advanceDraft, type GeoHint } from '@cp/domain';
 
@@ -17,6 +18,12 @@ import { routeForStep } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
 import { OnboardingServicesContext } from '../services';
 import { HOME_ROWS, homeResults, readerCountryOf } from './home-search';
+import { hintAt, townGuess, townPointFrom, type TownGuess } from './town-guess';
+
+/** Typing rests this long before a town is looked up online. */
+const GUESS_DEBOUNCE_MS = 600;
+
+export type LocateStatus = 'idle' | 'locating' | 'denied' | 'no_fix';
 
 export function useHomeStep() {
   useTrackStep('home');
@@ -48,6 +55,54 @@ export function useHomeStep() {
     [searched, hint, locale],
   );
 
+  const noResults = searched.trim().length > 0 && results.rows.length === 0;
+  // With nothing found, the airports near you (the hint's, else the reader's country's) still show.
+  const near = useMemo(
+    () =>
+      noResults
+        ? homeResults(airportDataset(), '', hint, HOME_ROWS, readerCountryOf(locale)).rows
+        : [],
+    [noResults, hint, locale],
+  );
+
+  // "Did you mean": the typed town, geocoded online, and its nearest airport.
+  const [guess, setGuess] = useState<{ readonly query: string; readonly town: TownGuess } | null>(
+    null,
+  );
+  const lookup = services?.geocodeTown;
+  const wanted = noResults && lookup !== undefined ? searched.trim() : '';
+  useEffect(() => {
+    if (wanted === '' || lookup === undefined) return undefined;
+    let live = true;
+    const timer = setTimeout(() => {
+      void lookup(wanted).then((body) => {
+        const point = townPointFrom(body);
+        const town = point === null ? null : townGuess(airportDataset().airports, point);
+        if (live && town !== null) setGuess({ query: wanted, town });
+      });
+    }, GUESS_DEBOUNCE_MS);
+    return () => {
+      live = false;
+      clearTimeout(timer);
+    };
+  }, [wanted, lookup]);
+
+  // "Use my location": one fix from the tap, turned into the hint the nearest rows read.
+  const [locate, setLocate] = useState<LocateStatus>('idle');
+  const locateOnce = services?.locateOnce;
+  const locateMe = useCallback(() => {
+    if (locateOnce === undefined || locate === 'locating') return;
+    setLocate('locating');
+    void locateOnce().then((fix) => {
+      if (fix === 'denied' || fix === null) {
+        setLocate(fix === null ? 'no_fix' : 'denied');
+        return;
+      }
+      setHint(hintAt(airportDataset().airports, fix));
+      setLocate('idle');
+    });
+  }, [locateOnce, locate]);
+
   const pick = (iata: string) => {
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id.
     feedback.emit('thud.soft');
@@ -71,7 +126,12 @@ export function useHomeStep() {
     setQuery,
     searched: searched.trim(),
     results,
-    noResults: searched.trim().length > 0 && results.rows.length === 0,
+    noResults,
+    near,
+    didYouMean: guess !== null && guess.query === wanted ? guess.town : null,
+    canLocate: locateOnce !== undefined,
+    locate,
+    locateMe,
     picked,
     pick,
     next,

@@ -6,7 +6,6 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useMemo } from 'react';
 import { Keyboard, TextInput, View } from 'react-native';
 
 import { homeBaseFor } from '@cp/domain';
@@ -26,7 +25,8 @@ import {
 import { airportDataset, homeWord, tokekLine } from '../../content';
 import { guideFacts } from '../../guide-faces';
 import { driveLabel, rowFacts, rowKey, rowTitle } from '../../home/home-rows';
-import { HOME_ROWS, homeResults, readerCountryOf, type HomeRow } from '../../home/home-search';
+import type { HomeRow } from '../../home/home-search';
+import type { TownGuess } from '../../home/town-guess';
 import { useHomeStep } from '../../home/use-home-step';
 import { PICKED_ROW } from '../components/onboarding-colours';
 import { StampLanding } from '../components/StampLanding';
@@ -116,20 +116,70 @@ function Rows({
   );
 }
 
+function TownCard({
+  guess,
+  picked,
+  onUse,
+}: {
+  readonly guess: TownGuess;
+  readonly picked: boolean;
+  readonly onUse: () => void;
+}) {
+  const theme = usePremiumTheme();
+  const nearestLine = t({
+    id: 'onboarding.premium.home.nearestAirport',
+    message: `nearest airport ${guess.iata}`,
+  });
+  return (
+    <ListCard testID="home-did-you-mean">
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: theme.space.gap14,
+          paddingVertical: theme.space.gap12,
+          paddingHorizontal: theme.space.rowPadH,
+          backgroundColor: picked && theme.scheme === 'light' ? PICKED_ROW : 'transparent',
+        }}
+      >
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 12,
+            backgroundColor: theme.color.status.voteOpen.bg,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name="pin" size={20} color={theme.color.status.voteOpen.text} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text variant="rowTitle" numberOfLines={1}>
+            {guess.town}
+          </Text>
+          <Text variant="caption" tone="muted" numberOfLines={1}>
+            {guess.region === null ? nearestLine : `${guess.region} · ${nearestLine}`}
+          </Text>
+        </View>
+        <Button
+          label={t({ id: 'onboarding.premium.home.use', message: 'Use' })}
+          size="small"
+          onPress={onUse}
+          testID="home-did-you-mean-use"
+        />
+      </View>
+    </ListCard>
+  );
+}
+
 export function PremiumHomePage() {
   const theme = usePremiumTheme();
   const locale = useLocale();
   const step = useHomeStep();
   const tokek = guideFacts('tokek');
   const base = step.picked === null ? null : homeBaseFor(airportDataset(), step.picked);
-  // With nothing found, the airports near you (the empty query's rows) still show.
-  const near = useMemo(
-    () =>
-      step.noResults
-        ? homeResults(airportDataset(), '', null, HOME_ROWS, readerCountryOf(locale)).rows
-        : [],
-    [step.noResults, locale],
-  );
+  const near = step.near;
   const pick = (iata: string) => {
     Keyboard.dismiss();
     step.pick(iata);
@@ -213,6 +263,18 @@ export function PremiumHomePage() {
           </Text>
         </View>
       ) : null}
+      {step.didYouMean === null ? null : (
+        <View style={{ gap: theme.space.gap8 }}>
+          <Text variant="label" tone="muted">
+            {t({ id: 'onboarding.premium.home.didYouMean', message: 'Did you mean' })}
+          </Text>
+          <TownCard
+            guess={step.didYouMean}
+            picked={step.picked === step.didYouMean.iata}
+            onUse={() => pick(step.didYouMean?.iata ?? '')}
+          />
+        </View>
+      )}
       <Rows rows={step.results.rows} picked={step.picked} onPick={pick} testID="home-results" />
       {near.length > 0 ? (
         <View style={{ gap: theme.space.gap8 }}>
@@ -220,6 +282,34 @@ export function PremiumHomePage() {
             {t({ id: 'onboarding.premium.home.near', message: 'Airports near you' })}
           </Text>
           <Rows rows={near} picked={step.picked} onPick={pick} testID="home-near" />
+        </View>
+      ) : null}
+      {step.noResults && step.canLocate ? (
+        <View style={{ gap: theme.space.gap10, alignItems: 'center' }}>
+          <Button
+            label={t({ id: 'onboarding.premium.home.locate', message: 'Use my location' })}
+            variant="secondary"
+            icon="pin"
+            loading={step.locate === 'locating'}
+            onPress={step.locateMe}
+            testID="home-locate"
+          />
+          <Text variant="caption" tone="muted" align="center" testID="home-locate-line">
+            {step.locate === 'denied'
+              ? t({
+                  id: 'onboarding.premium.home.locateDenied',
+                  message: 'Location is off for CritterPass. Search for your town instead.',
+                })
+              : step.locate === 'no_fix'
+                ? t({
+                    id: 'onboarding.premium.home.locateNoFix',
+                    message: 'Couldn’t find you just now. Search for your town instead.',
+                  })
+                : t({
+                    id: 'onboarding.premium.home.locateOnce',
+                    message: 'Location is only used for this, once.',
+                  })}
+          </Text>
         </View>
       ) : null}
       {step.searched.length === 0 && step.results.farMinutes !== null ? (

@@ -1,6 +1,7 @@
 /**
  * The device's onboarding services: the app's one auth client, Sign in with Apple (iOS), Google
- * Sign-In, the IP geo hint over the api, and the photo avatar pipeline where this binary has the
+ * Sign-In, the IP geo hint and the town geocoder over the api, a one-shot location fix for the home
+ * search, and the photo avatar pipeline where this binary has the
  * picker and subject lift (otherwise `photos: null` and the real-photo option is not offered).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, env names and error codes, never copy. */
@@ -13,6 +14,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
+import * as Location from 'expo-location';
 import * as Updates from 'expo-updates';
 import { DevSettings, Platform } from 'react-native';
 
@@ -106,6 +108,48 @@ async function geoHint(): Promise<GeoHint | null> {
   }
 }
 
+/** `GET /v1/geocode` for a town the airport search does not know; null offline or on a failure. */
+async function geocodeTown(query: string): Promise<unknown> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), GEO_TIMEOUT_MS);
+  try {
+    const params = new URLSearchParams({ q: query, limit: '3' });
+    const response = await fetch(`${resolveApiBaseUrl()}/v1/geocode?${params.toString()}`, {
+      headers: await sessionHeaders(),
+      signal: controller.signal,
+    });
+    return response.ok ? await response.json() : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+const FIX_TIMEOUT_MS = 8000;
+
+/**
+ * One when-in-use fix for the home search, asked straight from the tap ("Use my location"): the
+ * system prompt, then a single balanced fix. The position is used once and never stored.
+ */
+async function locateOnce(): Promise<{ lat: number; lng: number } | 'denied' | null> {
+  try {
+    const permission = await Location.requestForegroundPermissionsAsync();
+    if (!permission.granted) return 'denied';
+    const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), FIX_TIMEOUT_MS));
+    const fix = await Promise.race([
+      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }).catch(() => null),
+      timeout,
+    ]);
+    const position = fix ?? (await Location.getLastKnownPositionAsync().catch(() => null));
+    return position === null
+      ? null
+      : { lat: position.coords.latitude, lng: position.coords.longitude };
+  } catch {
+    return null;
+  }
+}
+
 /** Restarts the JS so the app boots on the session now in storage. */
 function restartApp(): void {
   // The link this process was opened with is not followed again: a sign-in lands on Home.
@@ -126,6 +170,8 @@ export function deviceOnboardingServices(lifter: AvatarLifter | null): Onboardin
     apple: Platform.OS === 'ios' ? appleProvider : null,
     google: googleProvider,
     geoHint,
+    geocodeTown,
+    locateOnce,
     photos: devicePhotoServices(lifter),
     restart: restartApp,
   };
