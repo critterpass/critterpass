@@ -80,7 +80,7 @@ msgstr "Anulowanie zaproszenia"
 msgid "drivers.ours.rerate"
 msgstr "Zmień odpowiedź"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "Nie udało się dodać. Spróbuj ponownie."
 
@@ -88,7 +88,7 @@ msgstr "Nie udało się dodać. Spróbuj ponownie."
 msgid "drivers.invite.failed"
 msgstr "Nie udało się utworzyć linku. Spróbuj ponownie."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "Nie zapisano odpowiedzi. Spróbuj ponownie."
 
@@ -152,7 +152,7 @@ msgstr "Dobry angielski"
 msgid "drivers.tag.greatPhotos"
 msgstr "Świetne zdjęcia"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "Cześć {first}, znalazłem cię w CritterPass. Masz czas powozić naszą grupę?"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "Żadna ekipa nie przywiozła tu jeszcze kierowcy, który chciał być na liście. Kierowcy są w {widenTo}."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "W tej podróży nie ma jeszcze kierowców."
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "Przypomnij"
 msgid "drivers.queued.nudge"
 msgstr "Przypomnienie dla kierowcy"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "Offline. Lista z {time}."
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "Nasi kierowcy"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Nasi kierowcy"
 
@@ -326,7 +326,7 @@ msgstr "Oceń"
 msgid "drivers.rate.title"
 msgstr "Oceń kierowcę"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Ocenianie otwiera się po podróży, dla członków ze zweryfikowanym numerem."
 
@@ -346,6 +346,10 @@ msgstr "Zgłoś tę wskazówkę"
 msgid "drivers.report.title"
 msgstr "Zgłosić to?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "Sam prowadzi swój profil"
@@ -362,7 +366,7 @@ msgstr "Zapisz odpowiedź"
 msgid "drivers.directory.widen"
 msgstr "Pokaż też {widenTo}"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Dzięki. Przyjrzymy się temu."
 

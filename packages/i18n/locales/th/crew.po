@@ -7,17 +7,66 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
+msgid "chat.premium.edited"
+msgstr ""
+
 #. placeholder {0}: members.length
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.members"
+msgstr ""
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.people"
+msgstr ""
+
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.count"
+msgstr ""
+
+#. placeholder {0}: tray.met
+#. placeholder {1}: tray.total
+#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+msgid "chat.premium.tray.count"
+msgstr ""
+
+#. placeholder {0}: group.count
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.promoted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.createdTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.inDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingMany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.guideTyping"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
@@ -28,8 +77,32 @@ msgstr ""
 msgid "crew.composer.noteLeft"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
+msgid "chat.premium.welcome.madeBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.withGuide"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.planning"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
+msgid "chat.premium.settled.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
@@ -56,8 +129,32 @@ msgstr ""
 msgid "crew.sheet.unreadSpoken"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.budgetDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
+msgid "chat.premium.starter.freeDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+msgid "crew.premium.plusInvite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate15"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
+msgid "chat.voice.rate1"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.aFriend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.aFriend"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
@@ -88,8 +185,16 @@ msgstr ""
 msgid "crew.waitlist.offerTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.tripUnnamed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.somewhere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
+msgid "chat.premium.composer.add"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
@@ -100,633 +205,16 @@ msgstr ""
 msgid "crew.settings.notifyAll"
 msgstr ""
 
-#. placeholder {0}: entry.stamps
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.at"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.backPlain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.codeCopied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.collector"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.message"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
-msgid "crew.composer.codeCopy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.copy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.copy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.covers"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.previewCrew"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
-msgid "crew.composer.codeLabel"
-msgstr ""
-
-#. placeholder {0}: code.split('').join(' ')
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeA11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.name"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.name"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
-msgid "crew.queued.rename"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
-msgid "crew.queued.notify"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.settings"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.art"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.ringDashed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.ringDouble"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.body"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.friends"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.qrHint"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.homeHint"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.howTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.keepChat"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveRoles"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.invite"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.invite"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.invite"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateNamed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.offerBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.join"
-msgstr ""
-
-#. placeholder {0}: services.inviteUrl(code)
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.shareMessage"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joinCode"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.joined"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joined"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.crewOnly"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.later"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.laterSection"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveConfirm"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leave"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.copied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.copied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.member"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.notifyMentions"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.messages"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.share"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.startBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.navy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.rotate"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.rotated"
-msgstr ""
-
-#. placeholder {0}: p.name
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
-msgid "crew.queued.create"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.noCode"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.noFriends"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
-msgid "crew.seatLimit.notNow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.nothingPlanned"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.notify"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.notifyOff"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.phoneWhy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.organiser"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.pending"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.pick"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.shareMessage"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.previewA11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/JoinQr.tsx
-msgid "crew.qr.a11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.stamps"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.terms"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeConfirm"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.remove"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateConfirm"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.save"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.rename"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.signIn"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.how"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.lastPhoto"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.lastVoice"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.share"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.share"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.qr"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.stamped"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.start"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.create"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.notReady"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.slow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.take"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.didNotGoThrough"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.failed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joinFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.failed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/use-crew-rename.ts
-msgid "crew.settings.renameRefused"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.missed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
-msgid "crew.settings.rotateOld"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeComing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.theTrip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.aTrip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.name"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.phone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
-msgid "crew.seatLimit.someone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeTrips"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.removeAccess"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.previewHead"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
-msgid "crew.composer.notSynced"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.missing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
-msgid "crew.start.nameHint"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
-msgid "crew.composer.useSuggestion"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.voteOpen"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
-msgid "crew.composer.tags"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.whatsapp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.mode"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
-msgid "crew.members.you"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
-msgid "crew.composer.you"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
-msgid "crew.settings.leaveTrips"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.joinedToast"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.taken"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
-msgid "crew.start.crewLimit"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.invited"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.next"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
-msgid "crew.waitlist.number"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
-msgid "crew.composer.needsSignal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
-msgid "crew.start.codeLater"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/invite-composer/use-contact-pick.ts
-msgid "crew.composer.pickFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
-msgid "crew.sheet.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
-msgid "crew.referral.linkPending"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/message-text.tsx
-msgid "chat.premium.edited"
-msgstr ""
-
-#. placeholder {0}: line.count
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.people"
-msgstr ""
-
-#. placeholder {0}: tray.met
-#. placeholder {1}: tray.total
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
-msgid "chat.premium.tray.count"
-msgstr ""
-
-#. placeholder {0}: group.count
-#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
-msgid "chat.premium.reaction.a11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
-msgid "chat.premium.welcome.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.typingMany"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.typingOne"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
-msgid "chat.premium.guideTyping"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
-msgid "chat.premium.welcome.madeBy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
-msgid "chat.premium.header.withGuide"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
-msgid "chat.premium.settled.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
-msgid "chat.premium.starter.budgetDraft"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
-msgid "chat.premium.starter.freeDraft"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
-msgid "chat.voice.rate15"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
-msgid "chat.voice.rate1"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
-msgid "chat.premium.composer.add"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.settled.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
 msgid "chat.premium.report.mute"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.note"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
@@ -737,8 +225,25 @@ msgstr ""
 msgid "chat.premium.rejoinAsked"
 msgstr ""
 
+#. placeholder {0}: entry.stamps
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.at"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.backPlain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
@@ -747,6 +252,12 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
 msgid "chat.premium.attach.camera"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
@@ -762,6 +273,11 @@ msgstr ""
 msgid "chat.premium.cancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.close"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.sheet.close"
 msgstr ""
@@ -774,20 +290,162 @@ msgstr ""
 msgid "chat.premium.viewer.close"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.codeCopied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-bits.tsx
+msgid "crew.premium.codeComing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.collector"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.collector"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.message"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.on.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.copy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.share.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeCopy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.copyLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.copyA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.cover"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.covers"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-missing.tsx
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.previewCrew"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.header.fallbackTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-pass.tsx
+msgid "crew.premium.pass.code"
+msgstr ""
+
+#. placeholder {0}: code.split('').join(' ')
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.kicker"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.name"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.name"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.nameLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.rename"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.notify"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-pass.tsx
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.pass.kicker"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-pass.tsx
+msgid "crew.premium.pass.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.settings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.art"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.attach.denied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.ringDashed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
@@ -815,28 +473,175 @@ msgstr ""
 msgid "chat.premium.failed.forbidden"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.discardTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.ringDouble"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.discardTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.edit"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
 msgid "chat.premium.strip.editing"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.notify.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.cover.lockedCollector"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.hint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
 msgid "chat.premium.who.former"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.friends"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.friends"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.go"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.stay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.pendingSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.hello"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.code.holdHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qrHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/message-row.tsx
 msgid "chat.premium.row.hint"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.homeHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.howTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.keepChat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveRoles"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.member"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.ink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.invite"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateNamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
@@ -851,12 +656,120 @@ msgstr ""
 msgid "chat.premium.removeChat.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.offerBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.join"
+msgstr ""
+
+#. placeholder {0}: services.inviteUrl(code)
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.shareMessage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.inviteMessage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinCode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.joined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.joined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joined"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.list.jumpToLatest"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.crewOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.keepChat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.keepEditing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.laterSection"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveConfirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.copied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.joinedSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.share.mail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoteTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.code.newTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
@@ -872,6 +785,28 @@ msgstr ""
 msgid "chat.premium.tray.meetMore"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.member"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.title"
+msgstr ""
+
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+msgid "crew.premium.members"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notifyMentions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.message"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
 msgid "chat.premium.composer.field"
 msgstr ""
@@ -884,16 +819,79 @@ msgstr ""
 msgid "chat.premium.placeholder"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.share.messages"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.messages"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.footnote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.mint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.share.more"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/message-menu.tsx
 msgid "chat.premium.menu.more"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.startBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.navy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.navy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rotate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rotated"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.title"
+msgstr ""
+
+#. placeholder {0}: p.name
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.create"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.newMessages"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.noCode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.noFriends"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
@@ -904,8 +902,37 @@ msgstr ""
 msgid "chat.premium.tray.locked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
+msgid "crew.seatLimit.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.notify.off"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.nothingPlanned"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notify"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notifyOff"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.offlineMarker"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.on"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.phoneWhy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
@@ -924,8 +951,28 @@ msgstr ""
 msgid "chat.header.openSettings"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+msgid "crew.premium.org"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.organiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.page"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.saved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.pause"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.pending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
@@ -936,8 +983,16 @@ msgstr ""
 msgid "chat.premium.former.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.pin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.pink"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
@@ -948,12 +1003,38 @@ msgstr ""
 msgid "chat.premium.starter.place"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.shareMessage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+msgid "crew.premium.referral.stampedSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.planning"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.play"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.voice.speed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.previewA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.share.qr"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/JoinQr.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/qr-code.tsx
+msgid "crew.qr.a11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
@@ -976,13 +1057,51 @@ msgstr ""
 msgid "chat.premium.tray.recent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.terms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeConfirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.remove"
+msgstr ""
+
+#. placeholder {0}: detail.crew?.name ?? ''
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.removeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 #: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
 msgid "chat.premium.former.remove"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.removeRow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/use-left-chat.ts
 msgid "chat.premium.removeChat.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateConfirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
@@ -1010,8 +1129,32 @@ msgstr ""
 msgid "chat.premium.report.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.action"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.organiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rename"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.signIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
@@ -1031,6 +1174,18 @@ msgstr ""
 msgid "chat.premium.tray.send"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.sendWith"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.how"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
 msgid "chat.premium.placeholder.offline"
 msgstr ""
@@ -1039,8 +1194,67 @@ msgstr ""
 msgid "chat.premium.sent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastPhoto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastVoice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.sent"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.budget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qr"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.sky"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.verb"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.start"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.create"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.sticker"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
@@ -1055,28 +1269,187 @@ msgstr ""
 msgid "chat.premium.tray.noRecent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.notReady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.slow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.sun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.take"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
+msgid "crew.premium.cover.tangerine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.tapToCopy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
 msgid "chat.premium.reaction.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
+msgid "crew.premium.on.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.didNotGoThrough"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.attach.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/use-crew-rename.ts
+msgid "crew.settings.renameRefused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.missed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/settings/rotate-code-confirm.tsx
+msgid "crew.settings.rotateOld"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeComing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.micOff.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.discardLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.code.newLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.askOrganiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.discardLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.theTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.settled.trip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.aTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.name"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.phone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
+msgid "crew.premium.invite.noCode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
+msgid "crew.seatLimit.someone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.sub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.removeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoteLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeAccess"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.previewHead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/composer-unavailable.tsx
+msgid "crew.composer.notSynced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-missing.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.missing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.card.unknown.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.cover.lockedNavy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-missing.tsx
+msgid "crew.premium.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.who"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.scheduled"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.micOff.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
+msgid "crew.premium.edit.flipHint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
@@ -1091,8 +1464,16 @@ msgstr ""
 msgid "chat.premium.unpinned"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.nameHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/cards/media-cards.tsx
 msgid "chat.card.unknown.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
+msgid "crew.composer.useSuggestion"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-overlays.tsx
@@ -1103,12 +1484,28 @@ msgstr ""
 msgid "chat.premium.composer.mic"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.voting"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.placeDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.tags"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.whatsapp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
@@ -1119,10 +1516,109 @@ msgstr ""
 msgid "chat.premium.menu.whereToFind"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.mode"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.who"
 msgstr ""
 
+#. placeholder {0}: detail.crew.name
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.code.until"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/member-grid.tsx
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.members.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
+msgid "crew.composer.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
+msgid "crew.premium.leave.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.handFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
+msgid "crew.premium.resend.tooSoon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
+msgid "crew.premium.member.promoteSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.taken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.crewLimit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.invited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.next"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.former.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
+msgid "crew.waitlist.number"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.needsSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
+msgid "crew.start.codeLater"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/use-contact-pick.ts
+msgid "crew.composer.pickFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.placeholderName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.linkPending"
 msgstr ""

@@ -80,7 +80,7 @@ msgstr "Membatalkan jemputan"
 msgid "drivers.ours.rerate"
 msgstr "Tukar jawapan saya"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "Tak dapat tambah. Cuba lagi."
 
@@ -88,7 +88,7 @@ msgstr "Tak dapat tambah. Cuba lagi."
 msgid "drivers.invite.failed"
 msgstr "Tak dapat buat pautan. Cuba lagi."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "Tak dapat simpan jawapan. Cuba lagi."
 
@@ -152,7 +152,7 @@ msgstr "Bahasa Inggeris bagus"
 msgid "drivers.tag.greatPhotos"
 msgstr "Gambar cantik"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "Hai {first}, saya jumpa anda di CritterPass. Anda lapang untuk bawa kumpulan kami?"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "Belum ada kumpulan yang bawa balik pemandu di sini yang mahu disenaraikan. Ada pemandu di {widenTo}."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "Belum ada pemandu dalam perjalanan ini."
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "Ingatkan"
 msgid "drivers.queued.nudge"
 msgstr "Peringatan kepada pemandu"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "Luar talian. Senarai dari {time}."
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "Pemandu kami"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Pemandu kami"
 
@@ -326,7 +326,7 @@ msgstr "Nilai"
 msgid "drivers.rate.title"
 msgstr "Nilai pemandu anda"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Penilaian dibuka selepas perjalanan, untuk ahli dengan nombor disahkan."
 
@@ -346,6 +346,10 @@ msgstr "Laporkan tip ini"
 msgid "drivers.report.title"
 msgstr "Laporkan ini?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "Mengurus profilnya sendiri"
@@ -362,7 +366,7 @@ msgstr "Simpan jawapan"
 msgid "drivers.directory.widen"
 msgstr "Tunjuk {widenTo} juga"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Terima kasih. Kami akan semak."
 

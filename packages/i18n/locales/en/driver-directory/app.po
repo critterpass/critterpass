@@ -80,7 +80,7 @@ msgstr "Cancelling the invite"
 msgid "drivers.ours.rerate"
 msgstr "Change my answer"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "Couldn't add him. Try again."
 
@@ -88,7 +88,7 @@ msgstr "Couldn't add him. Try again."
 msgid "drivers.invite.failed"
 msgstr "Couldn't make his link. Try again."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "Couldn't save your answer. Try again."
 
@@ -152,7 +152,7 @@ msgstr "Good English"
 msgid "drivers.tag.greatPhotos"
 msgstr "Great photos"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "Hi {first}, I found you on CritterPass. Are you free to drive our group?"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "No crew has brought back a driver here who asked to be listed. Listed drivers cover {widenTo}."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "No drivers on this trip yet."
+msgid "drivers.ours.emptyTitle"
+msgstr "No drivers yet"
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "Nudge"
 msgid "drivers.queued.nudge"
 msgstr "Nudge to your driver"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "Offline. The list from {time}."
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "Our drivers"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Our drivers"
 
@@ -326,7 +326,7 @@ msgstr "Rate him"
 msgid "drivers.rate.title"
 msgstr "Rate your driver"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Rating opens after the trip, for members with a verified phone."
 
@@ -346,6 +346,10 @@ msgstr "Report this tip"
 msgid "drivers.report.title"
 msgstr "Report this?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr "Ride with someone on this trip and they land here for the crew."
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "Runs his own listing"
@@ -362,7 +366,7 @@ msgstr "Save our answer"
 msgid "drivers.directory.widen"
 msgstr "Show {widenTo} too"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Thanks. We will take a look."
 

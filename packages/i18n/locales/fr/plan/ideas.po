@@ -103,7 +103,7 @@ msgstr ""
 msgid "plan.ideas.findPlaces"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/use-ideas-model.ts
 msgid "plan.ideas.fitPending"
 msgstr ""
 

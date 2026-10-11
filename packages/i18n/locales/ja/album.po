@@ -7,9 +7,18 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ja\n"
 
+#: ../../apps/mobile/src/features/album/premium/day-pocket.tsx
+msgid "album.premium.photoCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.failed"
 msgstr "{failed, plural, other {#枚アップロードできませんでした。}}"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteLeft"
+msgstr "残り{left}文字"
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received"
@@ -46,6 +55,19 @@ msgstr "{uploader} · {time}"
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.waiting"
 msgstr "{waiting, plural, other {#枚が接続待ちです。つながれば自動で上がります。}}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.upload"
+msgstr "+ アップロード"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.formerTraveller"
+msgstr "以前の旅の仲間"
 
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.photo"
@@ -91,6 +113,16 @@ msgstr "住所を追加してください。見るのは印刷会社だけで、
 msgid "album.viewer.meOff"
 msgstr "自分を追加"
 
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.add"
+msgstr "写真を追加"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.line"
+msgstr "旅の写真を追加すると、クルー全員が見られます。写真のみ、動画は不可。ずっと無料。"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removed"
 msgstr "住所を削除しました"
@@ -98,6 +130,15 @@ msgstr "住所を削除しました"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.savedToast"
 msgstr "住所を保存しました"
+
+#. placeholder {0}: photos.length
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.all"
+msgstr "すべて · {total}"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.sent"
@@ -107,6 +148,16 @@ msgstr "印刷所にて"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.back"
 msgstr "戻る"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.best"
+msgstr "ベスト · {picks}"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.byPerson"
+msgstr "人ごと"
 
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcardEdit"
@@ -123,6 +174,10 @@ msgstr "写真を選ぶ"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.city"
 msgstr "市区町村"
+
+#: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
+msgid "recap.premium.sheet.close"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.failed"
@@ -144,6 +199,10 @@ msgstr "この写真を読み込めませんでした。接続を確認してく
 msgid "album.upload.pickFailed"
 msgstr "写真を開けませんでした"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailFailed"
+msgstr "印刷を注文できませんでした。もう一度試してね"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removeFailed"
 msgstr "削除できませんでした。もう一度お試しください"
@@ -156,6 +215,19 @@ msgstr "報告できませんでした。もう一度お試しください"
 msgid "album.address.failed"
 msgstr "保存できませんでした。入力を確認してね"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.saveFailed"
+msgstr "ポストカードを保存できませんでした"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendFailed"
+msgstr "送れませんでした。もう一度試してね"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.export.failed"
+msgstr "圧縮できませんでした。もう一度試してね"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.countryLabel"
 msgstr "国"
@@ -163,6 +235,15 @@ msgstr "国"
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
 msgstr "CritterPass が写真に追加する許可が必要です。設定でオンにしてください。"
+
+#. placeholder {0}: section.dayNo
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.day.number"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.number"
+msgstr "{day}日目"
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.day.themed"
@@ -180,6 +261,21 @@ msgstr "削除"
 msgid "album.delete.title"
 msgstr "この写真を削除しますか？"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.close"
+msgstr "完了"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.export"
+msgstr "すべてダウンロード"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.editNote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.line2"
 msgstr "部屋番号・階（任意）"
@@ -188,13 +284,26 @@ msgstr "部屋番号・階（任意）"
 msgid "album.address.why"
 msgstr "クルーからの印刷ポストカード用です。見るのは印刷会社だけで、クルーやガイドには見えません。"
 
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.premium.postcard.format"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.received.from"
 msgstr "{sender}より"
 
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.greetings"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
 msgstr "ごあいさつ from"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.curating"
+msgstr "写真を見ています。もうすぐここにベストが並びます。"
 
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
@@ -225,6 +334,15 @@ msgstr "ラストカード"
 msgid "album.viewer.loading"
 msgstr "写真を読み込み中"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.loading"
+msgstr "ポストカードを読み込み中"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.mail"
+msgstr "みんなに本物を郵送する"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.name"
 msgstr "カードに書く名前"
@@ -232,6 +350,10 @@ msgstr "カードに書く名前"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.needed"
 msgstr "印刷に必要です"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailOffline"
+msgstr "印刷の注文には電波が必要です"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removeOffline"
@@ -241,17 +363,51 @@ msgstr "住所の削除には電波が必要です"
 msgid "album.address.offline"
 msgstr "住所の保存には電波が必要です"
 
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.offline"
+msgstr "アルバムの圧縮には電波が必要です"
+
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.day.undated"
 msgstr "日付なし"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noPhoto"
+msgstr "写真なし"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noPhotos"
+msgstr "アルバムにまだ写真がないので、表面はガイドの色です。"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.title"
+msgstr "まだ写真がありません"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.offlineLine"
 msgstr "電波がありません。住所が保存済みかどうかを表示できず、保存にも接続が必要です。"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.solo"
+msgstr "この旅にはまだ他の人がいないので、送る相手がいません。"
+
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 msgid "album.who.nobody"
 msgstr "まだ誰も写っていると言っていません。"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.people.none"
+msgstr "まだ誰もタグ付けされていません。写真を開いて「写ってる」をタップ。"
+
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.dismiss"
+msgstr "OK"
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received.open"
@@ -273,9 +429,23 @@ msgstr "写真を開きます。長押しで写っている人を表示"
 msgid "album.mail.status.queued"
 msgstr "注文済み"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.mailing"
+msgstr "印刷を注文中…"
+
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.line"
 msgstr "チームが確認します。誰が報告したかはクルーに伝わりません。"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.photoCaption"
+msgstr "写真 · {uploader}"
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.photo"
@@ -291,13 +461,31 @@ msgstr "写真"
 msgid "album.viewer.pickOff"
 msgstr "ベストに"
 
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.pickPhoto"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOn"
 msgstr "ベスト"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.classic"
+msgstr "ポストカード"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.kept"
+msgstr "ポストカードを保存しました"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.postal"
 msgstr "郵便番号"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.square"
+msgstr "ポスター"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.printed"
@@ -306,6 +494,14 @@ msgstr "印刷済み"
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.title"
 msgstr "印刷ポストカード"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.passPlusOnly"
+msgstr "印刷ポストカードは Pass+ の特典です"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.backLabel"
+msgstr "まとめ"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removeConfirm"
@@ -340,6 +536,10 @@ msgstr "住所を保存"
 msgid "album.viewer.saved"
 msgstr "写真に保存しました"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendLater"
+msgstr "保存しました。電波があるときに送ってください"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.album"
 msgstr "写真をすべて見る"
@@ -352,17 +552,40 @@ msgstr "家に送ろう"
 msgid "album.postcard.open"
 msgstr "家に送ろう"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.send"
+msgstr "クルーに送る"
+
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.received.own"
 msgstr "自分も送る"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentTo"
+msgstr "{names}に送りました"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentBefore"
+msgstr "クルーに送りました。いつでも送り直せます"
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.share"
 msgstr "共有"
 
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.segments"
+msgstr "表示"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.region"
 msgstr "州・都道府県（任意）"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.story"
+msgstr "ストーリー 9:16"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.line1"
@@ -384,9 +607,24 @@ msgstr "ありがとう。チームが確認します。"
 msgid "album.tile.crew"
 msgstr "クルーのアルバム"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.photoTitle"
+msgstr "表面"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteTitle"
+msgstr "メッセージ"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.unsupported"
 msgstr "印刷会社がまだその国に発送していないため、デジタル版が届きます"
+
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.placeFallback"
+msgstr "この旅"
 
 #: ../../apps/mobile/src/features/album/hub-tile.tsx
 msgid "album.tile.first"
@@ -396,9 +634,22 @@ msgstr "クルー全員が見られます"
 msgid "album.viewer.gone.title"
 msgstr "この写真はもうありません"
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailUsed"
+msgstr "この旅の印刷ポストカードはもう注文済みです"
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.long"
 msgstr "ラベルには長すぎます"
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.back"
+msgstr "旅"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.title"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.retry"
@@ -407,6 +658,21 @@ msgstr "もう一度"
 #: ../../apps/mobile/src/features/album/upload/use-album-upload.ts
 msgid "album.upload.pickFailedLine"
 msgstr "少ししてからもう一度"
+
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.retry"
+msgstr "失敗した写真をもう一度"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteDone"
+msgstr "このメッセージにする"
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.photoOption"
+msgstr "この写真にする"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.missing"
@@ -456,233 +722,7 @@ msgstr "印刷ポストカードを郵送中です"
 msgid "album.inbox.mailing.failed"
 msgstr "印刷ポストカードを作れませんでした。この旅の郵送枠は空きに戻りました。"
 
-#: ../../apps/mobile/src/features/album/premium/day-pocket.tsx
-msgid "album.premium.photoCount"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noteLeft"
-msgstr "残り{left}文字"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.upload"
-msgstr "+ アップロード"
-
-#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.formerTraveller"
-msgstr "以前の旅の仲間"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.empty.add"
-msgstr "写真を追加"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.empty.line"
-msgstr "旅の写真を追加すると、クルー全員が見られます。写真のみ、動画は不可。ずっと無料。"
-
-#. placeholder {0}: photos.length
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.all"
-msgstr "すべて · {total}"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.best"
-msgstr "ベスト · {picks}"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.byPerson"
-msgstr "人ごと"
-
-#: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
-msgid "recap.premium.sheet.close"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailFailed"
-msgstr "印刷を注文できませんでした。もう一度試してね"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.saveFailed"
-msgstr "ポストカードを保存できませんでした"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendFailed"
-msgstr "送れませんでした。もう一度試してね"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.export.failed"
-msgstr "圧縮できませんでした。もう一度試してね"
-
-#. placeholder {0}: section.dayNo
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.day.number"
-msgstr "{day}日目"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.close"
-msgstr "完了"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.export"
-msgstr "すべてダウンロード"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
-msgid "album.premium.postcard.editNote"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.premium.postcard.format"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
-msgid "album.premium.postcard.greetings"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.curating"
-msgstr "写真を見ています。もうすぐここにベストが並びます。"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.loading"
-msgstr "ポストカードを読み込み中"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.mail"
-msgstr "みんなに本物を郵送する"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailOffline"
-msgstr "印刷の注文には電波が必要です"
-
-#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
-msgid "album.export.offline"
-msgstr "アルバムの圧縮には電波が必要です"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noPhoto"
-msgstr "写真なし"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noPhotos"
-msgstr "アルバムにまだ写真がないので、表面はガイドの色です。"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.empty.title"
-msgstr "まだ写真がありません"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.solo"
-msgstr "この旅にはまだ他の人がいないので、送る相手がいません。"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.people.none"
-msgstr "まだ誰もタグ付けされていません。写真を開いて「写ってる」をタップ。"
-
-#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
-msgid "album.upload.dismiss"
-msgstr "OK"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.mailing"
-msgstr "印刷を注文中…"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.passPlus"
-msgstr "Pass+"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.photoCaption"
-msgstr "写真 · {uploader}"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
-msgid "album.premium.postcard.pickPhoto"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.format.classic"
-msgstr "ポストカード"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.kept"
-msgstr "ポストカードを保存しました"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.format.square"
-msgstr "ポスター"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.passPlusOnly"
-msgstr "印刷ポストカードは Pass+ の特典です"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.backLabel"
-msgstr "まとめ"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendLater"
-msgstr "保存しました。電波があるときに送ってください"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.send"
-msgstr "クルーに送る"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sentTo"
-msgstr "{names}に送りました"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sentBefore"
-msgstr "クルーに送りました。いつでも送り直せます"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.segments"
-msgstr "表示"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.format.story"
-msgstr "ストーリー 9:16"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.photoTitle"
-msgstr "表面"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noteTitle"
-msgstr "メッセージ"
-
-#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.placeFallback"
-msgstr "この旅"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailUsed"
-msgstr "この旅の印刷ポストカードはもう注文済みです"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.back"
-msgstr "旅"
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.premium.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
-msgid "album.upload.retry"
-msgstr "失敗した写真をもう一度"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noteDone"
-msgstr "このメッセージにする"
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.photoOption"
-msgstr "この写真にする"
-
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.open"
 msgstr "zipの準備ができました。ダウンロード"
@@ -691,6 +731,7 @@ msgstr "zipの準備ができました。ダウンロード"
 msgid "album.export.started"
 msgstr "アルバムを圧縮中。準備ができるとここにリンクが出ます"
 
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.asking"
 msgstr "アルバムを圧縮中…"

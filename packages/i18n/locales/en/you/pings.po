@@ -41,6 +41,10 @@ msgstr "Chat waits in the app"
 msgid "you.pings.crewChat"
 msgstr "Crew chat"
 
+#: ../../apps/mobile/src/features/you/ping-settings/use-crew-chat-modes.ts
+msgid "crew.queued.notify"
+msgstr "Crew notification setting"
+
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.critters"
 msgstr "Critters nearby"

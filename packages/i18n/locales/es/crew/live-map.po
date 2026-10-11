@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: es\n"
 
+#. placeholder {0}: m.crewName
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+msgid "liveMap.premium.pill"
+msgstr ""
+
 #. placeholder {0}: first ?? ''
 #: ../../apps/mobile/src/features/crew/live-map/map/bunch-pill.tsx
 msgid "liveMap.bunch.more"
@@ -70,6 +75,10 @@ msgstr ""
 msgid "liveMap.status.atPlace"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+msgid "liveMap.premium.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
 msgid "liveMap.header.back"
 msgstr ""
@@ -91,6 +100,10 @@ msgstr ""
 msgid "liveMap.sheet.callName"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
+msgid "liveMap.premium.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
 msgid "liveMap.header.chat"
 msgstr ""
@@ -104,6 +117,7 @@ msgid "liveMap.status.cycling"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.droppedPin"
 msgstr ""
 
@@ -120,10 +134,12 @@ msgid "liveMap.status.arrived"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.actions.onMyWay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.inMinutes"
 msgstr ""
 
@@ -132,11 +148,16 @@ msgid "liveMap.status.driving"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.keepTime"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
 msgid "liveMap.always.banner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.lastSeen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
@@ -164,12 +185,13 @@ msgstr ""
 msgid "liveMap.meetup.pinTime"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
-msgid "liveMap.editor.title"
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.panel.noMeetupEyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
-msgid "liveMap.panel.noMeetupEyebrow"
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.title"
 msgstr ""
 
 #. placeholder {0}: meetup.time
@@ -177,11 +199,17 @@ msgstr ""
 msgid "liveMap.panel.meetupEyebrow"
 msgstr ""
 
+#. placeholder {0}: meetup.place_name
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.meetupAt"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/live-map/map/meetup-pin.tsx
 msgid "liveMap.meetup.pinLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.move"
 msgstr ""
 
@@ -190,6 +218,7 @@ msgid "liveMap.panel.moveIt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.moveTitle"
 msgstr ""
 
@@ -209,6 +238,7 @@ msgstr ""
 msgid "liveMap.noTrip.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
 msgid "liveMap.gate.notStartedTitle"
 msgstr ""
@@ -225,6 +255,7 @@ msgstr ""
 msgid "liveMap.offline.last"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
 msgid "liveMap.offline.none"
 msgstr ""
@@ -237,12 +268,21 @@ msgstr ""
 msgid "liveMap.status.onScooter"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.onTheWay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
 msgid "liveMap.primer.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
 msgid "liveMap.gate.offTripLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.pause"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
@@ -266,11 +306,17 @@ msgid "liveMap.queued.pause"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.panel.noMeetupLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.actions.pingAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.pingQueued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
@@ -287,6 +333,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
 msgid "liveMap.panel.lockScreen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.resume"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
@@ -306,6 +356,7 @@ msgid "liveMap.chip.savingBattery"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.search"
 msgstr ""
 
@@ -318,18 +369,22 @@ msgid "liveMap.gate.boostTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.panel.pending"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
-msgid "liveMap.editor.createTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.panel.setMeetup"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
+msgid "liveMap.editor.createTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.set"
 msgstr ""
 
@@ -337,12 +392,19 @@ msgstr ""
 msgid "liveMap.queued.createMeetup"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
 msgid "liveMap.primer.action"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
 msgid "liveMap.primer.title"
+msgstr ""
+
+#. placeholder {0}: m.endsOn
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.endsOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
@@ -353,15 +415,18 @@ msgstr ""
 msgid "liveMap.gate.startsOn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
 msgid "liveMap.gate.notStartedLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
 msgid "liveMap.gate.endedLine"
 msgstr ""
 
 #. placeholder {0}: m.endsOn
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 #: ../../apps/mobile/src/features/crew/live-map/screen.tsx
 msgid "liveMap.panel.footer"
 msgstr ""
@@ -378,8 +443,21 @@ msgstr ""
 msgid "liveMap.noTrip.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+msgid "liveMap.premium.wakesUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+msgid "liveMap.premium.guideName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
 #: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
 msgid "liveMap.gate.endedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.premium.turnOnLocation"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
@@ -399,6 +477,7 @@ msgid "liveMap.always.now"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.useSpot"
 msgstr ""
 
@@ -411,6 +490,7 @@ msgid "liveMap.status.walking"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.when"
 msgstr ""
 

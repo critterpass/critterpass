@@ -120,6 +120,7 @@ msgstr ""
 
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.egg"
 msgstr ""
 
@@ -353,6 +354,7 @@ msgid "proposal.loadingBack"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.done"
 msgstr ""
 
@@ -420,6 +422,10 @@ msgstr ""
 msgid "proposal.failed.connection"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
+msgid "proposal.premium.board.close"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.confirmed"
 msgstr ""
@@ -449,6 +455,7 @@ msgid "proposal.hype.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.crewPass"
 msgstr ""
 
@@ -457,6 +464,7 @@ msgid "proposal.turn.setup.when"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.dates"
 msgstr ""
 
@@ -582,12 +590,13 @@ msgstr ""
 msgid "proposal.version.cant"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
-msgid "proposal.out.confirm"
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
+msgid "proposal.board.out"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
-msgid "proposal.board.out"
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.out.confirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -636,6 +645,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.offer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
+msgid "proposal.premium.tileIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
+msgid "proposal.premium.in"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
@@ -740,6 +757,14 @@ msgstr ""
 msgid "proposal.alone.done"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
+msgid "proposal.premium.tileMaybe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
+msgid "proposal.premium.maybe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.maybe"
 msgstr ""
@@ -749,6 +774,7 @@ msgid "proposal.trailer.maybe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.maybe"
 msgstr ""
 
@@ -760,6 +786,11 @@ msgstr ""
 msgid "proposal.turn.setup.mustDos"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
+msgid "proposal.premium.tileNoReply"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr ""
@@ -861,15 +892,18 @@ msgstr ""
 msgid "proposal.issues.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.outChip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.passenger"
 msgstr ""
 
@@ -972,6 +1006,10 @@ msgstr ""
 msgid "proposal.objection.nothingOther"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
+msgid "proposal.premium.board.seat"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.ideasWaiting.button"
 msgstr ""
@@ -1051,6 +1089,7 @@ msgid "proposal.share.skip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.slide"
 msgstr ""
 
@@ -1188,10 +1227,12 @@ msgstr ""
 
 #. placeholder {0}: ticket.from
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.notAFlightFrom"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.notAFlight"
 msgstr ""
 
@@ -1209,9 +1250,11 @@ msgid "proposal.board.refusedSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.pending"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.waitChip"
 msgstr ""
@@ -1245,6 +1288,7 @@ msgstr ""
 msgid "proposal.card.track"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.title"
 msgstr ""
@@ -1357,11 +1401,13 @@ msgstr ""
 
 #. placeholder {0}: props.name
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.saved"
 msgstr ""
 
 #. placeholder {0}: props.name
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.waiting"
 msgstr ""
 
@@ -1374,6 +1420,7 @@ msgid "proposal.share.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.share"
 msgstr ""
 

@@ -7,8 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
+#: ../../apps/mobile/src/features/album/premium/day-pocket.tsx
+msgid "album.premium.photoCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteLeft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
@@ -45,6 +54,19 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.upload"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
+msgid "album.formerTraveller"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/commands.ts
@@ -91,12 +113,31 @@ msgstr ""
 msgid "album.viewer.meOff"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.savedToast"
+msgstr ""
+
+#. placeholder {0}: photos.length
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+msgid "album.all"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
@@ -106,6 +147,16 @@ msgstr ""
 #: ../../apps/mobile/src/features/album/grid/album-missing.tsx
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.best"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.byPerson"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/commands.ts
@@ -122,6 +173,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.city"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
+msgid "recap.premium.sheet.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
@@ -144,6 +199,10 @@ msgstr ""
 msgid "album.upload.pickFailed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.removeFailed"
 msgstr ""
@@ -156,12 +215,34 @@ msgstr ""
 msgid "album.address.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.saveFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.export.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.countryLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
+msgstr ""
+
+#. placeholder {0}: section.dayNo
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.day.number"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-copy.ts
+msgid "album.day.number"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
@@ -180,6 +261,21 @@ msgstr ""
 msgid "album.delete.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.export"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.editNote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.line2"
 msgstr ""
@@ -188,12 +284,25 @@ msgstr ""
 msgid "album.address.why"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.premium.postcard.format"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.received.from"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.greetings"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.curating"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
@@ -225,12 +334,25 @@ msgstr ""
 msgid "album.viewer.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.mail"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.name"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.needed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailOffline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
@@ -241,16 +363,50 @@ msgstr ""
 msgid "album.address.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
+msgid "album.export.offline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.day.undated"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noPhoto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noPhotos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.empty.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.offlineLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.solo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 msgid "album.who.nobody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.people.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.dismiss"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
@@ -273,8 +429,22 @@ msgstr ""
 msgid "album.mail.status.queued"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.mailing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.photoCaption"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
@@ -291,12 +461,30 @@ msgstr ""
 msgid "album.viewer.pickOff"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.pickPhoto"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.classic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.kept"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.postal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.square"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
@@ -305,6 +493,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.passPlusOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.backLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
@@ -340,6 +536,10 @@ msgstr ""
 msgid "album.viewer.saved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sendLater"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.album"
 msgstr ""
@@ -352,16 +552,39 @@ msgstr ""
 msgid "album.postcard.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.send"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.received.own"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentTo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.sentBefore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.share"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.segments"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.region"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.postcard.format.story"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
@@ -384,8 +607,23 @@ msgstr ""
 msgid "album.tile.crew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.photoTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.unsupported"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.placeFallback"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/hub-tile.tsx
@@ -396,8 +634,21 @@ msgstr ""
 msgid "album.viewer.gone.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+msgid "album.postcard.mailUsed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.long"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
@@ -406,6 +657,21 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/upload/use-album-upload.ts
 msgid "album.upload.pickFailedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
+#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
+msgid "album.upload.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.noteDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
+msgid "album.postcard.photoOption"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
@@ -456,233 +722,7 @@ msgstr ""
 msgid "album.inbox.mailing.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/premium/day-pocket.tsx
-msgid "album.premium.photoCount"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noteLeft"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.upload"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.formerTraveller"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.empty.add"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.empty.line"
-msgstr ""
-
-#. placeholder {0}: photos.length
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.all"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.best"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.byPerson"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
-msgid "recap.premium.sheet.close"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.saveFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.export.failed"
-msgstr ""
-
-#. placeholder {0}: section.dayNo
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.day.number"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.close"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.export"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
-msgid "album.premium.postcard.editNote"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.premium.postcard.format"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
-msgid "album.premium.postcard.greetings"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.curating"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.mail"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailOffline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/grid/album-screen.tsx
-msgid "album.export.offline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noPhoto"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noPhotos"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.empty.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.solo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.people.none"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
-msgid "album.upload.dismiss"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.mailing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.passPlus"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.photoCaption"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
-msgid "album.premium.postcard.pickPhoto"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.format.classic"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.kept"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.format.square"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.passPlusOnly"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.backLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sendLater"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.send"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sentTo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.sentBefore"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.segments"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
-msgid "album.postcard.format.story"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.photoTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noteTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.placeFallback"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.mailUsed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
-msgid "album.premium.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
-msgid "album.upload.retry"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.noteDone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
-msgid "album.postcard.photoOption"
-msgstr ""
-
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.open"
 msgstr ""
@@ -691,6 +731,7 @@ msgstr ""
 msgid "album.export.started"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.asking"
 msgstr ""
