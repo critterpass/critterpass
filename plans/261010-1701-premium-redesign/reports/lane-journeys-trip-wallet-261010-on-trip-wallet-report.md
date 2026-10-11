@@ -47,7 +47,7 @@ On the trip (`apps/mobile/src/features/{trip,safety}/premium/`):
 | 6.22 | Check the card (in-place fixes, includes chips, guide's question; couldn't read it) | `drivers/premium/CheckCardPremium.tsx`, `components/{CheckParts,CouldntRead}.tsx` |
 | 6.23 | Compare (table card, guide's risk note, docked picks) | `drivers/premium/ComparePremium.tsx`, `components/CompareTable.tsx` |
 | 6.26 | In-app leave-by alarm (slide, I'm up) | `trip/premium/alarm/{InAppAlarmPremium,SlideToUp}.tsx`, switched in `trip/alarm/alarm-runtime.tsx` |
-| 6.38 | Notification settings | `you/premium/notifications/*` (route `app/you/pings.tsx`) |
+| 6.38 | Notification settings, with "Hide message text" (`notification_prefs.hide_message_text`; chat and guide pushes then read "New message in {crew}" or a line naming the guide, in `services/worker/src/push/message-text-copy.ts`) | `you/premium/notifications/*` (route `app/you/pings.tsx`) |
 | 7.03, 7.05 | Add a booking page, mailbox sheet | `bookings/premium/{AddBookingPremium,MailboxPremium}.tsx`, `components/CandidateCard.tsx` |
 | 7.19, 7.20 | Receipt check (failure and review panels over the scan camera) | `money/premium/receipt/ScanPanels.tsx` via `ScanView`'s `panelFor` |
 | 9.05 | "Only on Wi-Fi" for automatic trip-day saves | `trip/bundle/background-prefetch.ts` (`useDayPrefs`), toggle on journeys A's `you/premium/offline` page |
@@ -82,7 +82,6 @@ By-room split (this pass): `split_mode = 'by_room'` with `split_stay_key` (migra
 ## Not built yet (left for the next pass)
 
 - 7.09's swap with another member who agrees: the server only takes a request to the organiser, so the premium page asks the organiser (logged in `docs/undesigned-states.md`).
-- 6.38's "hide message text" toggle: there is no backend field for it.
 - Vietnamese strings for the new message ids still need the catalog extract and translation pass (`pnpm --filter @cp/i18n extract`, then `compile`), left to the integration pass. Every premium screen in this lane reuses current ids with the same placeholders (checked with a scan). The scan found the same kind of clash in other lanes' files (monetize, home, plan, setup, crew, explore, `search.offline.works.places`); extraction will stop until those are renamed.
 
 ## Pieces another lane may want (for the controller to promote to the kit)
