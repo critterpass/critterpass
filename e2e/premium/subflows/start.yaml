@@ -1,12 +1,13 @@
 appId: app.critterpass.dev
 ---
 # A new account holding the api's ${SCENARIO} seed (see e2e/_shared/start-as.yaml), on Home, with
-# the premium UI on. ${output.crewCode} holds the crew's join code when the scenario answers one.
+# the premium UI on, in ${LANG} (en by default, or vi; the app keeps the language over relaunches). ${output.crewCode} holds the crew's join code when the scenario answers one.
+- evalScript: "${output.premiumLang = typeof LANG === 'undefined' || LANG === '' ? 'en' : LANG}"
 - runFlow:
     file: ../../_shared/start-as.yaml
     env:
       SCENARIO: ${SCENARIO}
-      LANG: en
+      LANG: ${output.premiumLang}
 - runFlow: premium-on.yaml
 # A trip that has turned on can show its welcome page over Home at any later step.
 - runFlow:

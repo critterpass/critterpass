@@ -27,7 +27,7 @@ appId: app.critterpass.dev
     file: tap.yaml
     env:
       ID: 'you-profile-edit'
-      LABEL: 'Edit'
+      LABEL: 'Edit|Sửa'
 - extendedWaitUntil:
     visible:
       id: 'you-edit-fields'

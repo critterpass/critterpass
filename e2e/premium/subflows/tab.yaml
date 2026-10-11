@@ -1,8 +1,11 @@
 appId: app.critterpass.dev
 ---
-# Opens the ${TAB} tab (home, trips, wallet or pass) of the system tab bar; ${LABEL} is its title.
+# Opens the ${TAB} tab (home, trips, wallet or pass) of the system tab bar. When the tab's id is not
+# in the hierarchy it is tapped by its title, in English or Vietnamese (${LABEL} is kept for
+# callers; the titles come from the app's catalogs).
+- evalScript: "${output.tabTitle = ({ home: 'Home|Trang chủ', trips: 'Trips|Chuyến đi', wallet: 'Wallet|Ví', pass: 'Pass' })[TAB] || LABEL}"
 - runFlow:
     file: tap.yaml
     env:
       ID: 'tab-${TAB}'
-      LABEL: '${LABEL}'
+      LABEL: '${output.tabTitle}'

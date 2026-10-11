@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Back to Home between areas of the Vietnamese pass, whatever screen the last area ended on.
+- repeat:
+    times: 4
+    while:
+      notVisible:
+        id: 'home-screen'
+    commands:
+      - runFlow: back.yaml
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000
+    optional: true
