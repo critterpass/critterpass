@@ -9,7 +9,30 @@ appId: app.critterpass.dev
       visible:
         id: '${MARK}'
     commands:
-      - runFlow: back.yaml
+      # A full-screen page (the menu camera) closes with its ✕, top left.
+      - runFlow:
+          when:
+            visible:
+              id: 'full-screen-close'
+          commands:
+            - tapOn:
+                id: 'full-screen-close'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: '${MARK}'
+          commands:
+            - runFlow: back.yaml
+      # Android's back does not leave the menu camera: its ✕ is tapped where it sits.
+      - runFlow:
+          when:
+            visible:
+              id: 'guide-camera|guide-camera-denied'
+          commands:
+            - tapOn:
+                point: '10%,9%'
+            - waitForAnimationToEnd
       # A form the flow typed into asks before it closes: its changes are thrown away.
       - runFlow:
           when:
