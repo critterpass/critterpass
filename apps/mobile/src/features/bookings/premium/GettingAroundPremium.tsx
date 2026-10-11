@@ -27,37 +27,9 @@ import {
 } from '@/ui/premium';
 
 import { useGettingAroundScreen } from '../getting-around/use-getting-around-screen';
+import { LaterLegs, PhraseCard, RideCard } from './components/GettingAroundParts';
 
 const MAP_HEIGHT = 420;
-
-function PhraseCard(props: {
-  readonly phrase: string;
-  readonly gloss: string;
-  readonly eyebrow: string;
-}) {
-  const th = usePremiumTheme();
-  return (
-    <View
-      style={[
-        styles.card,
-        {
-          borderRadius: th.radius.cardRow,
-          backgroundColor: th.color.card,
-          boxShadow: th.shadow.card,
-        },
-      ]}
-      testID="getting-around-phrase"
-    >
-      <Text variant="label" tone="muted">
-        {props.eyebrow}
-      </Text>
-      <Text variant="title">{props.phrase}</Text>
-      <Text variant="rowText" tone="muted" style={styles.italic}>
-        {props.gloss}
-      </Text>
-    </View>
-  );
-}
 
 export function GettingAroundPremium(input: {
   readonly ask: { readonly tripId?: string; readonly to?: string; readonly from?: string };
@@ -196,54 +168,7 @@ export function GettingAroundPremium(input: {
               </View>
             </PressableScale>
           )}
-          {ride === null ? null : (
-            <View
-              style={[
-                styles.card,
-                {
-                  borderRadius: th.radius.cardRow,
-                  backgroundColor: th.color.card,
-                  boxShadow: th.shadow.card,
-                },
-              ]}
-              testID="getting-around-ride"
-            >
-              <Text variant="headline">{ride.title}</Text>
-              {ride.detail == null ? null : (
-                <Text variant="caption" tone="muted">
-                  {ride.detail}
-                </Text>
-              )}
-              {ride.state === 'loading' ? <Skeleton height={44} radius={th.radius.field} /> : null}
-              {(ride.fares ?? []).map((fare) => (
-                <View key={fare.key} style={styles.fare}>
-                  <View style={styles.flex}>
-                    <Text variant="rowTextStrong">{fare.label}</Text>
-                    <Text variant="captionMuted" tone="muted">
-                      {[fare.line, fare.crew, ...fare.extras].filter(Boolean).join(' · ')}
-                    </Text>
-                  </View>
-                  <TextButton
-                    label={t({ id: 'suppliers.rides.whyEstimate', message: 'Why this estimate' })}
-                    onPress={fare.onWhy}
-                    testID={`getting-around-why-${fare.key}`}
-                  />
-                </View>
-              ))}
-              <View style={styles.apps}>
-                {ride.apps.map((app) => (
-                  <Button
-                    key={app.key}
-                    label={app.label}
-                    size="medium"
-                    variant={app === ride.apps[0] ? 'primary' : 'control'}
-                    onPress={app.onPress}
-                    testID={`getting-around-app-${app.key}`}
-                  />
-                ))}
-              </View>
-            </View>
-          )}
+          {ride === null ? null : <RideCard ride={ride} />}
           {journey === null ? null : (
             <View style={styles.row}>
               {journey.startedAt === null ? (
@@ -275,45 +200,7 @@ export function GettingAroundPremium(input: {
               />
             </PremiumThemeProvider>
           )}
-          {p.later.length === 0 ? null : (
-            <View style={{ gap: th.space.gap8 }}>
-              <Text variant="label" tone="muted">
-                {t({ id: 'suppliers.later.title', message: 'Later today' })}
-              </Text>
-              {p.later.map((leg) => (
-                <View
-                  key={leg.key}
-                  style={[
-                    styles.row,
-                    styles.card,
-                    {
-                      borderRadius: th.radius.banner,
-                      backgroundColor: th.color.card,
-                      boxShadow: th.shadow.card,
-                    },
-                  ]}
-                  testID={leg.testID}
-                >
-                  <View style={styles.flex}>
-                    <Text variant="rowTitle">{`${leg.from} → ${leg.to}`}</Text>
-                    {leg.detail === null ? null : (
-                      <Text variant="captionMuted" tone="muted">
-                        {leg.detail}
-                      </Text>
-                    )}
-                  </View>
-                  {leg.openLabel === null ? null : (
-                    <Button
-                      label={leg.openLabel}
-                      size="small"
-                      loading={leg.opening === true}
-                      onPress={leg.onOpen}
-                    />
-                  )}
-                </View>
-              ))}
-            </View>
-          )}
+          <LaterLegs later={p.later} />
         </ScrollView>
       </View>
     </View>
@@ -353,8 +240,5 @@ const styles = StyleSheet.create({
   card: { padding: 14, gap: 8 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   flex: { flex: 1, minWidth: 0 },
-  fare: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  apps: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  italic: { fontStyle: 'italic' },
   you: { width: 16, height: 16, borderRadius: 8 },
 });
