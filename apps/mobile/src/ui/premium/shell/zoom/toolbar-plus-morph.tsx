@@ -3,10 +3,12 @@
  * `+` is a system bar button (VoiceOver and UI tests reach it by its label), and UIKit has no morph
  * from a bar button into a form sheet, so the shell draws it: a sheet-glass shape grows from the
  * button's slot (the bar's trailing item) to the half sheet's frame while the page dims, then the
- * sheet route opens under it and the shape gives way to the real sheet. All on Smooth; Reduce
- * Motion opens the sheet with no shape.
+ * sheet route opens under it and the shape gives way to the real sheet. When the sheet goes
+ * (Cancel, a swipe down, its verb) and the screen is back in focus, the shape folds back into the
+ * `+`. All on Smooth; Reduce Motion cross-fades the shape in place instead.
  */
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, {
   Extrapolation,
@@ -20,7 +22,14 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { GlassSurface, Icon, SPRINGS, usePremiumReducedMotion, usePremiumTheme } from '../..';
+import {
+  GlassSurface,
+  Icon,
+  REDUCED_FADE_MS,
+  SPRINGS,
+  usePremiumReducedMotion,
+  usePremiumTheme,
+} from '../..';
 import { useShellExtras } from '../shell-theme';
 import type { MorphRect } from './plus-sheet-morph';
 
@@ -35,6 +44,8 @@ const PLUS_GROW = 1.2;
 const HANDOVER_MS = 380;
 const FADE_MS = 150;
 
+type MorphDirection = 'open' | 'close';
+
 /** The trailing toolbar slot in the window: where the ink `+` sits on a native root screen. */
 export function useTrailingBarSlot(): MorphRect {
   const { width } = useWindowDimensions();
@@ -43,38 +54,51 @@ export function useTrailingBarSlot(): MorphRect {
 }
 
 /**
- * Runs the morph, then `open` (the action that presents the sheet route). Returns the trigger for
- * the toolbar button and the overlay to render over the screen.
+ * Runs the morph, then `open` (the action that presents the sheet route), and folds the shape back
+ * into the `+` when the screen regains focus after that sheet. Returns the trigger for the toolbar
+ * button and the overlay to render over the screen.
  */
 export function useToolbarPlusMorph(open: () => void): {
   readonly start: () => void;
   readonly overlay: ReactNode;
 } {
-  const reduced = usePremiumReducedMotion();
-  const [running, setRunning] = useState(false);
-  const start = useCallback(() => {
-    if (reduced) {
-      open();
-      return;
-    }
-    setRunning(true);
-  }, [open, reduced]);
-  const done = useCallback(() => setRunning(false), []);
+  const [direction, setDirection] = useState<MorphDirection | null>(null);
+  // The sheet this screen opened is up: its return plays the fold back.
+  const sheetUp = useRef(false);
+  const start = useCallback(() => setDirection('open'), []);
+  const landed = useCallback(() => {
+    sheetUp.current = true;
+    open();
+  }, [open]);
+  const done = useCallback(() => setDirection(null), []);
+  useFocusEffect(
+    useCallback(() => {
+      if (!sheetUp.current) return;
+      sheetUp.current = false;
+      setDirection('close');
+    }, []),
+  );
   return {
     start,
-    overlay: running ? <ToolbarPlusMorph onLanded={open} onDone={done} /> : null,
+    overlay:
+      direction === null ? null : (
+        <ToolbarPlusMorph key={direction} direction={direction} onLanded={landed} onDone={done} />
+      ),
   };
 }
 
 function ToolbarPlusMorph({
+  direction,
   onLanded,
   onDone,
 }: {
+  readonly direction: MorphDirection;
   readonly onLanded: () => void;
   readonly onDone: () => void;
 }) {
   const t = usePremiumTheme();
   const extras = useShellExtras();
+  const reduced = usePremiumReducedMotion();
   const { width, height } = useWindowDimensions();
   const from = useTrailingBarSlot();
   const to = {
@@ -83,26 +107,48 @@ function ToolbarPlusMorph({
     width: width - SHEET_INSET * 2,
     height: height / 2 - SHEET_INSET,
   };
-  const progress = useSharedValue(0);
-  const shown = useSharedValue(1);
+  const opening = direction === 'open';
+  // Reduce Motion keeps the shape on the sheet's frame and only fades it.
+  const progress = useSharedValue(opening && !reduced ? 0 : 1);
+  const shown = useSharedValue(opening && reduced ? 0 : 1);
 
   useEffect(() => {
-    progress.set(
-      withSpring(1, SPRINGS.smooth, (finished) => {
-        'worklet';
-        if (!finished) return;
-        scheduleOnRN(onLanded);
-        shown.set(
-          withDelay(
-            HANDOVER_MS,
-            withTiming(0, { duration: FADE_MS }, (faded) => {
-              'worklet';
-              if (faded) scheduleOnRN(onDone);
-            }),
-          ),
-        );
-      }),
-    );
+    const handOver = () => {
+      'worklet';
+      scheduleOnRN(onLanded);
+      shown.set(
+        withDelay(
+          HANDOVER_MS,
+          withTiming(0, { duration: FADE_MS }, (faded) => {
+            'worklet';
+            if (faded) scheduleOnRN(onDone);
+          }),
+        ),
+      );
+    };
+    const finish = (finished?: boolean) => {
+      'worklet';
+      if (finished) scheduleOnRN(onDone);
+    };
+    if (opening && reduced) {
+      shown.set(
+        withTiming(1, { duration: REDUCED_FADE_MS }, (finished) => {
+          'worklet';
+          if (finished) handOver();
+        }),
+      );
+    } else if (opening) {
+      progress.set(
+        withSpring(1, SPRINGS.smooth, (finished) => {
+          'worklet';
+          if (finished) handOver();
+        }),
+      );
+    } else if (reduced) {
+      shown.set(withTiming(0, { duration: REDUCED_FADE_MS }, finish));
+    } else {
+      progress.set(withSpring(0, SPRINGS.smooth, finish));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one run per mount
   }, []);
 
@@ -117,13 +163,13 @@ function ToolbarPlusMorph({
       width: interpolate(p, [0, 1], [from.width, to.width]),
       height: interpolate(p, [0, 1], [from.height, to.height]),
       borderRadius: interpolate(p, [0, 1], [from.height / 2, t.radius.sheet]),
-      opacity: shown.value,
+      opacity: shown.value * interpolate(p, [0, 0.15], [0, 1], Extrapolation.CLAMP),
     };
   });
   const plusStyle = useAnimatedStyle(() => {
     const p = progress.value;
     return {
-      opacity: interpolate(p, [0, 0.3], [1, 0], Extrapolation.CLAMP),
+      opacity: reduced ? 0 : interpolate(p, [0, 0.3], [1, 0], Extrapolation.CLAMP),
       transform: [
         { rotate: `${interpolate(p, [0, 0.3], [0, PLUS_TURN], Extrapolation.CLAMP)}deg` },
         { scale: interpolate(p, [0, 0.3], [1, PLUS_GROW], Extrapolation.CLAMP) },
