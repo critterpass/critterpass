@@ -21,7 +21,7 @@ import {
 
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
 
-import { PremiumMapCanvas } from '../../../plan/premium/map';
+import { PremiumMapCanvas } from '@/features/plan';
 import type { SearchTrip } from '../../search/use-search-trip';
 import { useDropPin } from '../../search/use-drop-pin';
 

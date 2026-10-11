@@ -5,6 +5,7 @@
  * every chip the closest places show under what was left out; nothing at all opens the ways out
  * (4.33); a search that failed says so with a retry.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- test ids, never copy. */
 import type { SearchChip } from '@cp/domain';
 import { plural, t } from '@lingui/core/macro';
 import { Pressable, View } from 'react-native';

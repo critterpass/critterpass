@@ -2,6 +2,7 @@
  * Loading and not-here states for the vote's premium pages: the page's own header with skeleton
  * cards and the thinking critter, or the empty state with a way back.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- test ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 

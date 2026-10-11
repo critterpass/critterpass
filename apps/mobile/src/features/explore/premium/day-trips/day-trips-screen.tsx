@@ -20,8 +20,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
+import { usePlanGuide } from '@/features/plan';
 
-import { usePlanGuide } from '../../../plan/plan-guide';
 import * as copy from '../../day-trips/copy';
 import { dayTripsSection } from '../../day-trips/day-trips-model';
 import { dayTripLinks } from '../../day-trips/links';

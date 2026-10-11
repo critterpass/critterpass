@@ -4,7 +4,6 @@
  * (walks dotted, boats as arcs) and, while a stop is held, the order the drag would leave. Also
  * the points the camera frames.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- leg modes and keys, never copy. */
 import type { DayLeg } from '@/data/legs/day-legs';
 import type { LegPaths } from '@/data/legs/version-leg-paths';
 

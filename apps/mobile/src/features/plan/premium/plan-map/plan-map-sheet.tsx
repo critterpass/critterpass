@@ -61,15 +61,17 @@ export function PlanMapSheet({
 
   useEffect(() => {
     const target = sheetHeight(detent, height);
-    visible.value = reduced ? withTiming(target, REDUCED_FADE) : withSpring(target, SPRINGS.smooth);
+    visible.set(reduced ? withTiming(target, REDUCED_FADE) : withSpring(target, SPRINGS.smooth));
   }, [detent, height, reduced, visible]);
 
   const settle = (at: number, velocity: number) => {
     const next = settleDetent(at, velocity, height);
     // Settling where it already is still springs back into place.
-    visible.value = reduced
-      ? withTiming(sheetHeight(next, height), REDUCED_FADE)
-      : withSpring(sheetHeight(next, height), SPRINGS.smooth);
+    visible.set(
+      reduced
+        ? withTiming(sheetHeight(next, height), REDUCED_FADE)
+        : withSpring(sheetHeight(next, height), SPRINGS.smooth),
+    );
     if (next !== detent) onDetent(next);
   };
 
@@ -77,12 +79,12 @@ export function PlanMapSheet({
     .activeOffsetY([-6, 6])
     .onBegin(() => {
       'worklet';
-      start.value = visible.value;
+      start.set(visible.value);
     })
     .onUpdate((event) => {
       'worklet';
       const next = start.value - event.translationY;
-      visible.value = Math.max(sheetHeight('peek', height) * 0.8, Math.min(full, next));
+      visible.set(Math.max(sheetHeight('peek', height) * 0.8, Math.min(full, next)));
     })
     .onEnd((event) => {
       'worklet';

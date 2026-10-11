@@ -21,9 +21,8 @@ import { guideSticker } from '@/ui/avatar/guides';
 import { CritterSticker, Icon, ListCard, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 
-import { LEAVE_TRIP } from '../../../trip/hub/trip-commands';
 import { GlassMenu } from '../plan-map/glass-menu';
-import { setPlanChangeRuleCommand } from '../../settings/data/commands';
+import { leaveTripCommand, setPlanChangeRuleCommand } from '../../settings/data/commands';
 import { settingsRoutes } from './routes';
 
 function ruleWord(rule: PlanChangeRule): string {
@@ -102,7 +101,7 @@ export function TripSettingsScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
   const plan = useTripPlan(tripId);
   const setRule = useCommand(setPlanChangeRuleCommand);
-  const leave = useCommand(LEAVE_TRIP);
+  const leave = useCommand(leaveTripCommand);
   const [ruleMenu, setRuleMenu] = useState<number | null>(null);
   const trip = plan.trip;
   const title = t({ id: 'plan.settings.title', message: 'Trip settings' });

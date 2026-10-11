@@ -5,6 +5,7 @@
  * it files `mark_reveal_seen`, so it plays once per person on any device; opened again it is drawn
  * finished. A place locked in before anyone voted shows as locked in, with no score.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';

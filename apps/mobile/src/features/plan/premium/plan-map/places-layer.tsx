@@ -49,7 +49,7 @@ export function PlacesLayer({
 }) {
   const data = useMemo(() => placeFeatures(places), [places]);
   const onPress = (event: NativeSyntheticEvent<PressEventWithFeatures>) => {
-    const picked = event.nativeEvent.features[0]?.properties?.['id'];
+    const picked: unknown = event.nativeEvent.features[0]?.properties?.['id'];
     if (typeof picked !== 'string') return;
     event.stopPropagation();
     onPick(picked);

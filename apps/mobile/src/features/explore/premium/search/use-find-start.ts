@@ -4,13 +4,14 @@
  * and the crews' published plans for the destination. Read from the same hooks Explore in a trip
  * uses; the swipe tile never joins the session's presence, so nobody shows as swiping by looking.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- design screen ids, never copy. */
 import { router, type Href } from 'expo-router';
 import { useMemo } from 'react';
 
 import { useTripAreas } from '@/data/areas/use-trip-areas';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 
-import { communityRoutes } from '../../../community/routes';
 import { dayTripsSection } from '../../day-trips/day-trips-model';
 import { exploreRoutes } from '../../routes';
 import * as copy from '../../trip-explore/copy';
@@ -107,9 +108,9 @@ export function useFindStart(tripId: string, destinationId: string | null) {
             names: dayTrips.cards.map((card) => card.name),
             onPress: () => router.push(dayTripsRoute(tripId)),
           },
-    crewPlans:
-      destinationId === null
-        ? null
-        : { onPress: () => router.push(communityRoutes.browse(destinationId, tripId)) },
+    crewPlans: (() => {
+      const href = destinationId === null ? undefined : hrefFor('3o-1', { tripId, destinationId });
+      return href === undefined ? null : { onPress: () => router.push(href) };
+    })(),
   };
 }

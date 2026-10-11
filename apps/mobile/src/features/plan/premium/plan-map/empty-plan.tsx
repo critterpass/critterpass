@@ -4,6 +4,7 @@
  * pasting what was saved, swiping together and copying a crew's plan. While the organiser drafts,
  * a member reads that the plan is on its way and that saved places wait in Ideas.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- design screen ids, never copy. */
 import { plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
@@ -14,7 +15,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
-import { Doodle, type DoodleName } from '../../../explore/premium/components/doodle';
+import { Doodle, type DoodleName } from '@/features/explore';
 import { planRoutes } from '../../overview/routes';
 import { tripDates } from '../../trip-map/format';
 import type { TripMapModel } from '../../trip-map/sheet-props';

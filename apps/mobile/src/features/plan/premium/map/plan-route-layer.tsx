@@ -10,8 +10,6 @@ import { GeoJSONSource, Layer, type PressEventWithFeatures } from '@maplibre/map
 import { useEffect, useMemo, useState } from 'react';
 import { AccessibilityInfo, type NativeSyntheticEvent } from 'react-native';
 
-import type { ExpressionSpecification } from '@maplibre/maplibre-react-native';
-
 import { MAP_MARKS, MAP_PALETTES, type MapMode } from './palette';
 import { planMapFeatures, type Coord, type MapDay } from './route-features';
 
@@ -100,14 +98,6 @@ export function PlanRouteLayer({
   const width = thin ? 3 : 4.5;
   const casingWidth = thin ? 5 : 8;
   const radius = PIN_RADIUS[size];
-  const opacity: ExpressionSpecification = [
-    'case',
-    ['get', 'faded'],
-    0.2,
-    ['==', ['get', 'kind'], 'dot'],
-    0.5,
-    1,
-  ];
   const onPress = (event: NativeSyntheticEvent<PressEventWithFeatures>) => {
     const stopId = pressedStop(event.nativeEvent.features);
     if (stopId === null) return;
@@ -171,7 +161,14 @@ export function PlanRouteLayer({
             'circle-color': MAP_MARKS.pinShadow,
             'circle-blur': 0.6,
             'circle-translate': [0, 3],
-            'circle-opacity': opacity,
+            'circle-opacity': [
+              'case',
+              ['get', 'faded'],
+              0.2,
+              ['==', ['get', 'kind'], 'dot'],
+              0.5,
+              1,
+            ],
           }}
         />
         <Layer
@@ -182,8 +179,22 @@ export function PlanRouteLayer({
             'circle-color': ['get', 'color'],
             'circle-stroke-color': MAP_MARKS.pinRing,
             'circle-stroke-width': ['case', ['==', ['get', 'kind'], 'dot'], 2, 2.5],
-            'circle-opacity': opacity,
-            'circle-stroke-opacity': opacity,
+            'circle-opacity': [
+              'case',
+              ['get', 'faded'],
+              0.2,
+              ['==', ['get', 'kind'], 'dot'],
+              0.5,
+              1,
+            ],
+            'circle-stroke-opacity': [
+              'case',
+              ['get', 'faded'],
+              0.2,
+              ['==', ['get', 'kind'], 'dot'],
+              0.5,
+              1,
+            ],
           }}
         />
         <Layer
@@ -197,7 +208,10 @@ export function PlanRouteLayer({
             'text-allow-overlap': true,
             'text-ignore-placement': true,
           }}
-          paint={{ 'text-color': MAP_MARKS.pinNumeral, 'text-opacity': opacity }}
+          paint={{
+            'text-color': MAP_MARKS.pinNumeral,
+            'text-opacity': ['case', ['get', 'faded'], 0.2, ['==', ['get', 'kind'], 'dot'], 0.5, 1],
+          }}
         />
       </GeoJSONSource>
     </>

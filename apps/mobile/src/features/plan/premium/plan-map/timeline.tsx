@@ -6,7 +6,7 @@
  * that never moves opens the stop's menu, as a tap does. Under Reduce Motion the lift is a fade.
  */
 import * as Haptics from 'expo-haptics';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -143,7 +143,8 @@ export function Timeline(props: TimelineProps) {
   const styles = useStyles();
   const t = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
-  const layouts = useRef<{ y: number; h: number }[]>([]);
+  // Where each row sits, by index, as laid out (read by the drag, never by render).
+  const layouts = useSharedValue<Readonly<Record<number, { y: number; h: number }>>>({});
   const [held, setHeld] = useState<{ index: number; startY: number } | null>(null);
   const dy = useSharedValue(0);
   const lift = useSharedValue(0);
@@ -156,23 +157,24 @@ export function Timeline(props: TimelineProps) {
       return;
     }
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setHeld({ index, startY: layouts.current[index]?.y ?? 0 });
-    lift.value = reduced ? withTiming(1, REDUCED_FADE) : withSpring(1, SPRINGS.snappy);
+    setHeld({ index, startY: layouts.get()[index]?.y ?? 0 });
+    lift.set(reduced ? withTiming(1, REDUCED_FADE) : withSpring(1, SPRINGS.snappy));
   };
   const move = (translation: number) => {
     if (held === null) return;
-    const centre = held.startY + translation + (layouts.current[held.index]?.h ?? 0) / 2;
+    const centre = held.startY + translation + (layouts.get()[held.index]?.h ?? 0) / 2;
     let over = 0;
-    layouts.current.forEach((layout, index) => {
-      if (centre > layout.y + layout.h / 2 || index === 0) over = index;
-    });
+    for (const [key, layout] of Object.entries(layouts.get())) {
+      const index = Number(key);
+      if (centre > layout.y + layout.h / 2 || index === 0) over = Math.max(over, index);
+    }
     props.onCross(over);
   };
   const end = (moved: boolean) => {
     const was = held;
     setHeld(null);
-    lift.value = reduced ? withTiming(0, REDUCED_FADE) : withSpring(0, SPRINGS.smooth);
-    dy.value = 0;
+    lift.set(reduced ? withTiming(0, REDUCED_FADE) : withSpring(0, SPRINGS.smooth));
+    dy.set(0);
     if (was === null) return;
     if (!moved) {
       props.onCancel();
@@ -194,7 +196,7 @@ export function Timeline(props: TimelineProps) {
       })
       .onUpdate((event) => {
         'worklet';
-        dy.value = event.translationY;
+        dy.set(event.translationY);
         scheduleOnRN(move, event.translationY);
       })
       .onEnd((event) => {
@@ -221,7 +223,7 @@ export function Timeline(props: TimelineProps) {
             key={row.id}
             onLayout={(event: LayoutChangeEvent) => {
               const { y, height } = event.nativeEvent.layout;
-              layouts.current[index] = { y, h: height };
+              layouts.set({ ...layouts.get(), [index]: { y, h: height } });
             }}
           >
             <View style={styles.row}>

@@ -27,8 +27,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
+import { draftRoutes } from '@/features/plan';
 
-import { draftRoutes } from '../../../plan/draft/routes';
 import type { ChecklistRow, MemberPartKey } from '../../data/checklist';
 import { useSetupChecklist } from '../../data/use-setup-checklist';
 import { useMe } from '../../data/use-me';

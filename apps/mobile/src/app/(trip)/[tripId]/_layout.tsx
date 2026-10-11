@@ -1,3 +1,4 @@
+/* eslint-disable lingui/no-unlocalized-strings -- route names, never copy. */
 import { useLocalSearchParams } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 
@@ -14,6 +15,9 @@ import { sheetRouteOptions } from '@/ui/premium/shell';
 import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
 
 import NotFoundScreen from '../../+not-found';
+
+/** Sheets the premium look draws as native form sheets; the rest animate themselves. */
+const NATIVE_SHEETS: ReadonlySet<string> = new Set(['add/[placeId]']);
 
 /**
  * Every trip route (`/{tripId}/...`): keeps the trip's sync streams while any of them is open. A
@@ -33,12 +37,18 @@ export default function TripIdLayout() {
     // The premium UI: a native stack, so push pages get the native bar and glass back.
     return (
       <PremiumStack>
-        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a navigator's path, never copy. */}
-        {sheetScreens('(trip)/[tripId]').map((name) => (
-          <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
-        ))}
+        {sheetScreens('(trip)/[tripId]')
+          .filter((name) => !NATIVE_SHEETS.has(name))
+          .map((name) => (
+            <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
+          ))}
         {/* Changing the dates rises as a modal with its ✕ (4.54). */}
         <PremiumStackScreen name="settings/dates" options={{ presentation: 'modal' }} />
+        {/* Add to plan rises over the map, its top still showing (4.39). */}
+        <PremiumStackScreen
+          name="add/[placeId]"
+          options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.79, 1] }}
+        />
         {/* Ideas rises over the plan map, leaving its top showing (4.40). */}
         <PremiumStackScreen
           name="ideas/index"
@@ -51,7 +61,6 @@ export default function TripIdLayout() {
     <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
       {/* Add to plan, paste a link, fill a gap and pick a driver's days rise as sheets over the
           screen that opened them. */}
-      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a navigator's path, never copy. */}
       {sheetScreens('(trip)/[tripId]').map((name) => (
         <Stack.Screen key={name} name={name} options={modalGroupOptions()} />
       ))}

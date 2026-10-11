@@ -5,6 +5,7 @@
  * nearest of the kind) follow under their heading. "More places" lists what the open map knows,
  * display-only; a pick asks for the place behind it.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- test ids, never copy. */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 

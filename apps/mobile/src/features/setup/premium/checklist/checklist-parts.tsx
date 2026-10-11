@@ -19,7 +19,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { dayColours } from '../../../plan/premium/map';
+import { dayColours } from '@/features/plan';
 import type { SetupMember } from '../../data/setup-trip';
 
 export function crewFaces(

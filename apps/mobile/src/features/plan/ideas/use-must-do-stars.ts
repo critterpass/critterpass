@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useQuietLiveRows } from '@/data/powersync/live-rows';
 
-import { setMustDosCommand } from '../../setup/data/commands';
+import { setMustDosCommand } from '@/features/setup';
 
 const SQL = `SELECT id, owner_id, poi_id, title, priority FROM must_dos
   WHERE trip_id = ? AND deleted_at IS NULL ORDER BY priority, created_at, id`;

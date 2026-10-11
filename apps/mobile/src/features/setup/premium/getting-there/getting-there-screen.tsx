@@ -31,7 +31,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { money } from '../../../vote/format';
+import { money } from '@/features/vote';
 import { setGettingThereCommand } from '../../data/commands';
 import type { WayThere } from '../../data/checklist';
 import { useMe } from '../../data/use-me';

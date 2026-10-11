@@ -3,6 +3,7 @@
  * seven-column grid (cells 44 high, r12), the picked range in ink, and ‹ › to page months. A first
  * tap starts the range, a second ends it (a tap before the start starts again).
  */
+/* eslint-disable lingui/no-unlocalized-strings -- ISO date parts, never copy. */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 

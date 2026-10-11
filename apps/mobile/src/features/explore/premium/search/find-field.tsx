@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Keyboard, Pressable, TextInput, View } from 'react-native';
 
 import { Icon, ring, Text, TextButton, usePremiumTheme } from '@/ui/premium';
@@ -30,7 +30,7 @@ const GLYPH = 17;
 export function FindField(props: FindFieldProps) {
   const theme = usePremiumTheme();
   const { i18n } = useLingui();
-  const input = useRef<TextInput | null>(null);
+  const input = useRef<ComponentRef<typeof TextInput>>(null);
   const [editing, setEditing] = useState(true);
   const placeholder = t({
     id: 'explore.premium.find.placeholder',

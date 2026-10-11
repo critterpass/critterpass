@@ -4,6 +4,7 @@
  * safe "Keep the trip" as the ink one. Nothing is gone until the hold completes; with signal off
  * the consequences can't be read, and the page says so.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- toast ids and route paths, never copy. */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { ScrollView, View } from 'react-native';
@@ -18,8 +19,9 @@ import { toast } from '@/motion/island-toast';
 import { Button, ListCard, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
 import { HoldToConfirm, PushScreen } from '@/ui/premium/shell';
 
-import { CANCEL_TRIP } from '../../../trip/hub/trip-commands';
-import { money } from '../../../vote/format';
+import { money } from '@/features/vote';
+
+import { cancelTripCommand } from '../../settings/data/commands';
 import { useCancelSummary } from '../../settings/data/use-settings-reads';
 
 type Consequence = CancelSummaryResult['consequences'][number];
@@ -78,7 +80,7 @@ export function CancelTripScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
   const plan = useTripPlan(tripId);
   const summary = useCancelSummary(tripId, plan.versionId);
-  const cancel = useCommand(CANCEL_TRIP);
+  const cancel = useCommand(cancelTripCommand);
   const place = plan.trip?.destination_name ?? '';
   const title = t({ id: 'plan.settings.title', message: 'Trip settings' });
   const question = t({ id: 'plan.cancel.title', message: `Cancel ${place}?` });

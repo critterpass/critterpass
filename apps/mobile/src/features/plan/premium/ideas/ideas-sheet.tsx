@@ -15,16 +15,14 @@ import {
   Button,
   CrewStack,
   EmptyState,
-  Icon,
   ListCard,
   PressableScale,
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { fitColour } from '../../../explore/premium/components/place-result-row';
-import { PlaceThumb } from '../../../explore/premium/components/place-thumb';
-import { crewColour } from '../../../vote/premium/components/crew';
+import { fitColour, PlaceThumb } from '@/features/explore';
+import { crewColour } from '@/features/vote';
 import { ideaIcon } from '../../ideas/idea-icon';
 import {
   beforePlanBody,
@@ -39,10 +37,8 @@ import { useMustDoStars } from '../../ideas/use-must-do-stars';
 import { GlassMenu } from '../plan-map/glass-menu';
 
 const STAR = 36;
-/* eslint-disable lingui/no-unlocalized-strings -- star glyphs, never copy. */
 const STARRED = '★';
 const UNSTARRED = '☆';
-/* eslint-enable lingui/no-unlocalized-strings */
 
 export function IdeasSheet({ tripId }: { readonly tripId: string }) {
   const theme = usePremiumTheme();
