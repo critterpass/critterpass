@@ -12,6 +12,7 @@ Wallet and money (`apps/mobile/src/features/{bookings,money}/premium/`):
 | 7.06, 7.10, 7.12, 1.13 | Booking detail (stay and every kind, flight card, cancelled flight, dark with the light card) | `bookings/premium/BookingDetailPremium.tsx`, `components/FlightTicket.tsx`, `DocsCard.tsx`, `ShareCard.tsx`, `KeyValueCard.tsx` |
 | 7.11 | Boarding pass full screen | `bookings/premium/BoardingPassPremium.tsx`, `components/PassCode.tsx` |
 | 7.13 | Travel insurance (card, call, form as its edit state) | `bookings/premium/InsurancePremium.tsx` |
+| 7.04 | Add by hand / edit booking (kind chips, airports with "Did you mean", trip-day chips) | `bookings/premium/BookingFormPremium.tsx`, `components/{FlightFields,ChoiceRow}.tsx` |
 | 7.14 | Past bookings with search | `bookings/premium/ArchivePremium.tsx` |
 | 7.15 | Booking options (action sheet iOS, alert list Android) | `bookings/premium/booking-options.ts` |
 | 7.16, 7.17 | Wallet · Money half | `money/premium/MoneyHomeScreen.tsx` |
@@ -32,10 +33,13 @@ On the trip (`apps/mobile/src/features/{trip,safety}/premium/`):
 | 6.06 | Forecast | `trip/premium/day-change/ForecastPremium.tsx` |
 | 6.07 | Storm swap | `trip/premium/day-change/StormPremium.tsx` |
 | 6.09 | Flight disruption | `trip/premium/day-change/FlightDisruptionPremium.tsx`, `FlightParts.tsx` |
-| 6.10–6.13 | Crew map on journeys B's premium map, with journeys A's Boost gate card | `trip/premium/crew-map/*` |
+| 6.10–6.13 | Crew map on journeys B's premium map, with journeys A's Boost gate card | `crew/live-map/premium/*` (lives in the crew feature: features may only reach each other through their index; `LiveMapGatePremium` is now exported from `@/features/monetize`) |
 | 6.15, 6.18 | Offline page, queued send sheet | `trip/premium/offline/*` |
 | 6.16 | Help | `safety/premium/HelpPremium.tsx`, `HelpParts.tsx`, `PhraseBig.tsx` |
 | 6.17 | Crew SOS | `safety/premium/SosPremium.tsx`, `SosActions.tsx` |
+| 6.20 | Driver detail | `drivers/premium/DriverDetailPremium.tsx` |
+| 6.24 | Rate your driver | `drivers/premium/RateDriverPremium.tsx` |
+| 6.25 | Drivers our crews used (directory, empty area) | `drivers/premium/DirectoryPremium.tsx` |
 
 Leave-by alarm (brand lane hand-off): the alarm request now sends the sun tint and the "Leave by 03:10 · Batur" title; the slider label reads "slide, I'm up →".
 
@@ -61,7 +65,7 @@ Default payout method (payers see it first), wallet search, airport suggestions,
 
 ## Not built yet (left for the next pass)
 
-6.08 running late, 6.19–6.25 drivers, 6.26 in-app alarm restyle, 6.38 notification settings, 7.03 add a booking page, 7.04 add by hand, 7.05 mailbox sheet, 7.07–7.09 rooms, 7.19–7.20 receipt check, 7.22 stay expense by room, 5.24 getting around (handed to this lane). Their legacy screens keep working under the premium switch. Vietnamese strings for the new message ids still need the catalog extract + translation pass (`pnpm --filter @cp/i18n extract`, then `compile`).
+6.08 running late, 6.19 find a driver, 6.21 private tours, 6.22 check the card, 6.23 compare (their containers still hold the logic in the view and need the hook split first), 6.26 in-app alarm restyle, 6.38 notification settings (`features/you`, journeys A's area?), 7.03 add a booking page, 7.05 mailbox sheet, 7.07–7.09 rooms, 7.19–7.20 receipt check, 7.22 stay expense by room, 5.24 getting around (handed to this lane). Their legacy screens keep working under the premium switch. Vietnamese strings for the new message ids still need the catalog extract + translation pass (`pnpm --filter @cp/i18n extract`, then `compile`); extraction takes 13+ minutes on this Mac, so it is left to the integration pass. Every premium screen in this lane reuses current ids with the same placeholders (checked with a scan), so `lingui extract` does not trip on them; the scan found the same kind of clash in other lanes' files (monetize, home, plan, setup, crew, explore), which will stop extraction until they are renamed.
 
 ## Pieces another lane may want (for the controller to promote to the kit)
 
@@ -69,7 +73,7 @@ Default payout method (payers see it first), wallet search, airport suggestions,
 
 ## Still using a legacy piece inside a premium screen
 
-`VisitConsentRow` on the hub, registered hub tiles (quests), the crew map's `MeetupEditor`, and `guideSticker` for the guide's critter kind. Each needs a premium version from its owner.
+`VisitConsentRow` on the hub, `useVehicleLine` from the current driver card, registered hub tiles (quests), the crew map's `MeetupEditor`, and `guideSticker` for the guide's critter kind. Each needs a premium version from its owner.
 
 ## Founder follow-ups
 
