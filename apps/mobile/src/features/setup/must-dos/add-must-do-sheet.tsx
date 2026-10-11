@@ -33,9 +33,15 @@ import { tripDates, useMustDoSearch } from './search';
 export interface AddMustDoLook {
   readonly Sheet: ComponentType<AddSheetViewProps>;
   readonly More: ComponentType<MorePlacesProps>;
+  /** Before the trip is read, or for someone with no part in it. */
+  readonly Waiting: typeof SetupSheetWaiting;
 }
 
-const CURRENT_LOOK: AddMustDoLook = { Sheet: AddSheetView, More: MorePlacesSection };
+const CURRENT_LOOK: AddMustDoLook = {
+  Sheet: AddSheetView,
+  More: MorePlacesSection,
+  Waiting: SetupSheetWaiting,
+};
 
 export function AddMustDoSheet({
   tripId,
@@ -68,9 +74,10 @@ export function AddMustDoSheet({
   const [note, setNote] = useState<LivePickNote | null>(null);
   const self = trip?.members.find((member) => member.uid === trip.me);
   const close = () => goBackOr(setupRoutes.step(tripId, 'must_dos'));
+  const { Waiting } = look;
   if (trip === null || trip === undefined || self === undefined) {
     return (
-      <SetupSheetWaiting
+      <Waiting
         state={trip === undefined ? 'loading' : 'missing'}
         title={t({ id: 'setup.mustDos.title', message: 'Must-dos' })}
         onDismiss={close}

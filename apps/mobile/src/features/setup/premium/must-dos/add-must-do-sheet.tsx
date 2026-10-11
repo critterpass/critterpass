@@ -33,6 +33,7 @@ import { pillLabel } from '../../must-dos/lines';
 import type { FitPill } from '../../must-dos/model';
 import { noteText, type MorePlacesProps } from '../../must-dos/more-places-section';
 import { addSheetRows } from '../../must-dos/result-rows';
+import { PremiumWaiting } from './sheet-waiting';
 
 const PILL_TONE: Readonly<Record<FitPill['kind'], StatusTone>> = {
   fits: 'booked',
@@ -275,4 +276,5 @@ function PremiumAddSheetView(props: AddSheetViewProps) {
 export const PREMIUM_ADD_MUST_DO: AddMustDoLook = {
   Sheet: PremiumAddSheetView,
   More: PremiumMorePlaces,
+  Waiting: PremiumWaiting,
 };
