@@ -19,11 +19,20 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'dev-tools-entry'
+      - waitForAnimationToEnd
+      # The switch sits near the top of the list; a list that opens scrolled is searched both ways.
       - scrollUntilVisible:
           element:
             id: 'dev-premium-ui-on'
           direction: DOWN
-          timeout: 20000
+          timeout: 15000
+          speed: 20
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'dev-premium-ui-on'
+          direction: UP
+          timeout: 15000
           speed: 20
 - assertVisible:
     id: 'dev-premium-ui-source-(flag|override)'
