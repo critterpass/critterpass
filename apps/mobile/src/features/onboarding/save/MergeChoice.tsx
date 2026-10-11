@@ -15,25 +15,16 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { identityName } from './merge-copy';
 import type { SaveProvider } from './use-save-flow';
+
+export { identityName };
 
 const useStyles = makeStyles((th) => ({
   root: { gap: th.space['12'] },
   list: { gap: th.space['4'] },
   actions: { gap: th.space['12'], marginTop: th.space['4'] },
 }));
-
-/** "Your Google account", "Your Apple ID", "Your number": the identity the old pass holds. */
-export function identityName(provider: SaveProvider): string {
-  switch (provider) {
-    case 'google':
-      return t({ id: 'onboarding.merge.identity.google', message: 'Your Google account' });
-    case 'apple':
-      return t({ id: 'onboarding.merge.identity.apple', message: 'Your Apple ID' });
-    case 'phone':
-      return t({ id: 'onboarding.merge.identity.phone', message: 'Your number' });
-  }
-}
 
 export interface MergeChoiceProps {
   readonly provider: SaveProvider;

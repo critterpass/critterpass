@@ -11,6 +11,8 @@ export interface MemberRow {
   readonly user_id: string;
   readonly role: string;
   readonly display_name: string | null;
+  /** The member's crew colour (`blue`, `pink/dashed`…). */
+  readonly colour?: string | null;
 }
 
 const UUID = /^[0-9a-f-]{36}$/iu;
@@ -24,7 +26,7 @@ export function watchCrewMembers(
   if (!UUID.test(crewId)) return () => undefined;
   return watchRows<MemberRow>(
     db,
-    `SELECT cm.user_id, cm.role, u.display_name
+    `SELECT cm.user_id, cm.role, u.display_name, cm.colour
        FROM crew_members cm LEFT JOIN users u ON u.id = cm.user_id
       WHERE cm.crew_id = '${crewId}' AND cm.status = 'active'
       ORDER BY cm.created_at, cm.id`,

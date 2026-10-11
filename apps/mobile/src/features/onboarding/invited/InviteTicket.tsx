@@ -4,12 +4,11 @@
  * (first names and colours) and how many named seats still wait. It slides up and settles crooked
  * (about 720 ms) on arrival.
  */
-import { plural, t } from '@lingui/core/macro';
+import { t } from '@lingui/core/macro';
 import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import { money, formatMoney } from '@cp/cost-engine';
-import { format, upper } from '@cp/i18n';
+import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useSettle } from '@/motion/patterns/settle';
@@ -18,7 +17,10 @@ import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { membersLine, placeCode, ticketFacts } from './ticket-facts';
 import type { TicketModel } from './ticket-model';
+
+export { membersLine };
 
 const useStyles = makeStyles((th) => ({
   stub: {
@@ -29,33 +31,6 @@ const useStyles = makeStyles((th) => ({
   },
   stubText: { flex: 1 },
 }));
-
-function placeCode(place: string | null, locale: string): string {
-  if (place === null) return '???';
-  return upper(place.replace(/\s+/gu, '').slice(0, 3), locale);
-}
-
-export function membersLine(model: TicketModel, locale: string): string {
-  const names = model.members.map((m) => m.name);
-  const listed = format.list(locale, names);
-  const inLine =
-    names.length === 0
-      ? ''
-      : t({
-          id: 'onboarding.invite.ticket.membersIn',
-          message: plural(names.length, {
-            one: `${listed} is in.`,
-            other: `${listed} are in.`,
-          }),
-        });
-  if (model.waiting === 0) return inLine;
-  const waiting = model.waiting;
-  const waitLine = t({
-    id: 'onboarding.invite.ticket.waiting',
-    message: `${waiting} more invited, not in yet.`,
-  });
-  return inLine === '' ? waitLine : `${inLine} ${waitLine}`;
-}
 
 export interface InviteTicketProps {
   readonly model: TicketModel;
@@ -69,31 +44,8 @@ export function InviteTicket({ model, arrive }: InviteTicketProps) {
   const locale = useLocale();
   const settle = useSettle({ active: arrive });
 
-  const dates =
-    model.tripStart === null || model.tripEnd === null
-      ? t({ id: 'onboarding.invite.ticket.datesOpen', message: 'Dates to vote' })
-      : upper(
-          format.dateInterval(locale, new Date(model.tripStart), new Date(model.tripEnd), {
-            month: 'short',
-            day: 'numeric',
-          }),
-          locale,
-        );
-  const seatNumber = model.seat?.number ?? 0;
-  const seatCap = model.seat?.cap ?? 0;
-  const seat =
-    model.seat === null
-      ? t({ id: 'onboarding.invite.ticket.seatCrew', message: 'Crew seat' })
-      : t({ id: 'onboarding.invite.ticket.seatOf', message: `${seatNumber} of ${seatCap}` });
-  const each =
-    model.estimate === null
-      ? t({ id: 'onboarding.invite.ticket.eachLater', message: 'Worked out together' })
-      : `~${formatMoney(money(BigInt(model.estimate.minor), model.estimate.currency), {
-          mode: 'local',
-          locale,
-        })}`;
+  const { dates, seat, each, members } = ticketFacts(model, locale);
   const crew = model.crewName ?? '';
-  const members = membersLine(model, locale);
 
   return (
     <Animated.View style={settle}>
