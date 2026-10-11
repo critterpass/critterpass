@@ -155,6 +155,21 @@ describe('screen checks', { timeout: 60_000 }, () => {
       expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
     });
 
+    it('allows an inset sheet over the dimmed page, and not the same inset from the top', () => {
+      // The iOS 26 guide sheet, lifted by the keyboard, 8 pt in from the dimmed page.
+      const options = { background: BG, premiumGrounds: premiumGrounds() };
+      expect(findFrame(load('inset-sheet-over-dimmed-keyboard'), options)).toBeNull();
+      const dimmed: Rgb = [190, 190, 192];
+      const sheet = blank(400, 860, dimmed);
+      paint(sheet, 24, 70, 200, 100, [120, 120, 124]);
+      paint(sheet, 8, 160, 392, 860, [248, 248, 250]);
+      for (let y = 200; y < 820; y += 24) paint(sheet, 30, y, 300, y + 12, [60, 60, 70]);
+      expect(findFrame(sheet, options)).toBeNull();
+      const framed = copy(sheet);
+      paint(framed, 8, 0, 392, 160, [248, 248, 250]);
+      expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+    });
+
     it('ignores full-bleed colour that fills the width', () => {
       const bleed = busyScreen();
       paint(bleed, 0, 0, 400, 430, [255, 150, 70]);

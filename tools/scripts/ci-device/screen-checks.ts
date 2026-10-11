@@ -8,7 +8,8 @@
  *   UI's grounds (page and card, light or dark) on a screen drawn on them, judged by the colour that
  *   fills the screen's middle. The designed presenter scale under an open sheet (.93,
  *   docs/design-system.md) is allowed: an inset of that size that stops where a full-width sheet
- *   starts, rather than running on down the sheet's sides.
+ *   starts, rather than running on down the sheet's sides. So is an iOS 26 inset sheet over the
+ *   dimmed page: the dimmed page runs on above the sheet's top, where no screen sits inside it.
  * - KEYBOARD_BAND: with the keyboard up, a full-width band of one colour that isn't the screen's
  *   background sits right above it (the keyboard pushed a footer up and left a black gap).
  * - EMPTY_SCREEN: almost every row of the screen is bare background (content that never drew).
@@ -178,6 +179,45 @@ function isSheetAroundInsetCard(
   return below.filter(onFrame).length >= below.length * 0.9;
 }
 
+/**
+ * An inset sheet over the dimmed page (iOS 26 sheets float 8 pt in from the edges): the "frame" is
+ * the dimmed page showing down both sides of the sheet. Above the sheet's top the same dimmed page
+ * runs on from the edge well past the inset (there is no screen inside it there), and the sheet
+ * starts partway down, not at the top of the judged rows. A frame around the whole screen shows its
+ * inset from the top instead.
+ */
+function isInsetSheetOverDimmedPage(
+  image: RgbaImage,
+  rows: readonly number[],
+  inset: number,
+  frameColour: Rgb,
+): boolean {
+  const onFrame = (y: number) =>
+    colourDistance(pixel(image, 0, y), frameColour) <= LIMITS.sameColour &&
+    colourDistance(pixel(image, image.width - 1, y), frameColour) <= LIMITS.sameColour;
+  const atInset = (y: number) => {
+    const l = run(image, y, 0, 1, Math.ceil(inset * 3));
+    return Math.abs(l - inset) <= Math.max(2, image.width * 0.01);
+  };
+  const first = rows.findIndex((y) => onFrame(y) && atInset(y));
+  const firstRow = rows[first];
+  const topRow = rows[0];
+  if (first < 0 || firstRow === undefined || topRow === undefined) return false;
+  if (firstRow - topRow < image.height * 0.02) return false;
+  const above = rowsBetween(image, LIMITS.top, firstRow / image.height, 40);
+  const pageBehind = above.filter(
+    (y) =>
+      colourDistance(pixel(image, 0, y), frameColour) <= LIMITS.sameColour &&
+      run(image, y, 0, 1, Math.ceil(inset * 3)) > inset * 1.5,
+  );
+  if (pageBehind.length < 3 || pageBehind.length < above.length * 0.8) return false;
+  // The sheet's sides, from its top down to where they end (the keyboard or the screen's foot).
+  let last = first;
+  for (const [index, y] of rows.entries()) if (onFrame(y)) last = index;
+  const sides = rows.slice(first, last + 1);
+  return sides.filter(onFrame).length >= sides.length * 0.9;
+}
+
 /** The exact colour seen most often (no quantising: flat token colours are what it looks for). */
 function commonest(samples: readonly Rgb[]): Rgb {
   const counts = new Map<number, { count: number; colour: Rgb }>();
@@ -243,6 +283,7 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   const frameColour = dominant(edges);
   if (isPresenterUnderSheet(image, rows, inset, frameColour)) return null;
   if (isSheetAroundInsetCard(image, rows, frameColour)) return null;
+  if (isInsetSheetOverDimmedPage(image, rows, inset, frameColour)) return null;
   return {
     code: 'SCREEN_FRAME',
     detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(grounds[0] ?? options.background)}`,
