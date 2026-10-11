@@ -13,21 +13,9 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { PermissionCard } from '@/ui/states/PermissionCard';
 import { makeStyles } from '@/ui/theme';
 
-export interface AttachEntry {
-  readonly id: string;
-  readonly title: () => string;
-  readonly onPress: (crewId: string) => void;
-}
+import { attachEntries } from './attach-entries';
 
-const entries = new Map<string, AttachEntry>();
-
-/** Adds an entry under the built-in ones (a poll, an expense, a location); returns its removal. */
-export function registerAttachEntry(entry: AttachEntry): () => void {
-  entries.set(entry.id, entry);
-  return () => {
-    if (entries.get(entry.id) === entry) entries.delete(entry.id);
-  };
-}
+export { registerAttachEntry, type AttachEntry } from './attach-entries';
 
 export type AttachChoice = 'library' | 'camera' | 'voice';
 
@@ -74,7 +62,7 @@ export function AttachMenu({
       value: '',
       onPress: () => onChoose('voice'),
     },
-    ...[...entries.values()].map((entry) => ({
+    ...attachEntries().map((entry) => ({
       key: entry.id,
       kind: 'value' as const,
       title: entry.title(),
