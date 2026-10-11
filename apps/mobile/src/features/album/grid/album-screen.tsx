@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState, type ComponentType } from 'react';
 import { Linking } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -26,11 +26,18 @@ import { albumHttp } from '../upload/device-upload';
 import { UploadBanner } from '../upload/upload-banner';
 import { useAlbumUpload } from '../upload/use-album-upload';
 import { AlbumMediaProvider } from './album-media';
-import { AlbumView } from './album-view';
+import { AlbumView, type AlbumViewProps } from './album-view';
 
 const HUB_SCREEN = '3k-1';
 
-export function AlbumScreen({ tripId }: { readonly tripId: string }) {
+export function AlbumScreen({
+  tripId,
+  View = AlbumView,
+}: {
+  readonly tripId: string;
+  /** The view that draws the album (the premium journal takes the same props). */
+  readonly View?: ComponentType<AlbumViewProps>;
+}) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const { report } = useCommandFeedback();
@@ -107,7 +114,7 @@ export function AlbumScreen({ tripId }: { readonly tripId: string }) {
 
   return (
     <AlbumMediaProvider http={albumHttp}>
-      <AlbumView
+      <View
         loaded={album.loaded}
         photos={album.photos}
         people={album.people}
