@@ -128,7 +128,9 @@ describe('the private ask', () => {
     const push = await withSystem(world.harness.pool, (tx) =>
       registration!.compose(tx, event, dev),
     );
-    expect(push?.vars?.['line']).toMatch(/^Dev, can [A-Z][a-z]{2} \d+–\d+ move for Kyoto\?$/u);
+    expect(push?.vars?.['line']).toMatch(
+      /^Dev, can [A-Z][a-z]{2} \d+–(?:[A-Z][a-z]{2} )?\d+ move for Kyoto\?$/u,
+    );
     expect(
       await sendAvailabilityAsk(world.harness.pool, askId, () => Promise.reject(new Error('no'))),
     ).toBe('already_sent');

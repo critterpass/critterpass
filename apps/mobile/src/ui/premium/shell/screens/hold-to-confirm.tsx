@@ -133,6 +133,6 @@ export function HoldToConfirm({
 
 const styles = StyleSheet.create({
   pill: { overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
-  fill: { ...StyleSheet.absoluteFillObject },
+  fill: StyleSheet.absoluteFill,
   label: { fontWeight: '700' },
 });
