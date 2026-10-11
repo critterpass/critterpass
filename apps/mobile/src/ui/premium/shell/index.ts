@@ -5,8 +5,13 @@ export {
   KeyboardDismissArea,
   KeyboardStickyFooter,
   PremiumKeyboardProvider,
+  useKeyboardFrame,
 } from './keyboard/keyboard';
-export type { KeyboardAwareScrollProps, KeyboardStickyFooterProps } from './keyboard/keyboard';
+export type {
+  KeyboardAwareScrollProps,
+  KeyboardFrame,
+  KeyboardStickyFooterProps,
+} from './keyboard/keyboard';
 export { PremiumStack, PremiumStackScreen } from './navigation/premium-stack';
 export { GUIDE_TRIGGER_ROUTE, PREMIUM_TABS, PremiumTabs } from './navigation/premium-tabs';
 export type { PremiumTabsProps } from './navigation/premium-tabs';

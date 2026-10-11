@@ -13,7 +13,13 @@ import type { PremiumPalette, PremiumScheme } from '@cp/design-tokens';
 
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
 
-type GroupRoute = Parameters<typeof getFocusedRouteNameFromRoute>[0] & { readonly name: string };
+type FocusedRouteInput = Parameters<typeof getFocusedRouteNameFromRoute>[0];
+
+/** The route the native stack hands an options function: its key may be missing until it mounts. */
+interface GroupRoute {
+  readonly name: string;
+  readonly key: string | undefined;
+}
 
 /**
  * A screen of the current UI that animates itself as a sheet (`ui/sheet`) is presented at once and
@@ -31,7 +37,9 @@ function sheetGroupOptions({
 }: {
   readonly route: GroupRoute;
 }): NativeStackNavigationOptions {
-  const opened = getFocusedRouteNameFromRoute(route);
+  // The focused child is read from the route object itself (its private child state), so it is
+  // passed as is; only its optional `key` differs from the reader's declared input.
+  const opened = getFocusedRouteNameFromRoute(route as FocusedRouteInput);
   return opened !== undefined && SHEET_ROUTES.has(`${route.name}/${opened}`)
     ? SELF_ANIMATED_SHEET
     : {};
