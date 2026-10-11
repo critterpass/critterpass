@@ -25,7 +25,7 @@ import { useLiveRows, useOwnerUid } from './data/live-rows';
 import { useMediaLowData } from '../media/use-media-low-data';
 import { MY_TRIP_COUNT_SQL, MY_TRIP_COUNT_TABLES } from './data/queries';
 import { useHubRows } from './data/use-hub';
-import { guideColour, guideName as nameOf, guideOr } from './guide';
+import { guideName as nameOf, guideOr } from './guide';
 import { bookingsTile, moneyTile, planTile, tickerLines, wholeMoney } from './hub-copy';
 import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, offersSwipe, offlineCardPhase, viewerNet, type HubFlight } from './hub-model';

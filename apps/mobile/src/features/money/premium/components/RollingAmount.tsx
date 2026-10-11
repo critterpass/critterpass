@@ -96,6 +96,7 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
         if (digit === -1 || height === 0) {
           return (
             <Text
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- a React key, not copy
               key={`c${key}-${char}`}
               variant={variant}
               tone={tone}
