@@ -8,7 +8,7 @@ import { pushTransition } from '@/lib/navigation/transitions';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
 import { SessionGate } from '@/ui/states/SessionGate';
-import { PremiumStack } from '@/ui/premium/shell';
+import { FULL_SCREEN_ROUTE_OPTIONS, PremiumStack, PremiumStackScreen } from '@/ui/premium/shell';
 import { useTheme } from '@/ui/theme';
 
 import { getOcr } from '../../../modules/cp-ocr';
@@ -28,7 +28,9 @@ export default function MoneyLayout() {
     <MoneyServicesProvider services={services}>
       <SessionGate>
         {premium ? (
-          <PremiumStack />
+          <PremiumStack>
+            <PremiumStackScreen name="add" options={FULL_SCREEN_ROUTE_OPTIONS} />
+          </PremiumStack>
         ) : (
           <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
         )}
