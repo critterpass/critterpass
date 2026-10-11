@@ -7,6 +7,7 @@ import { WALLET_HALF_OPTIONS } from '@/features/bookings/stack/wallet-halves';
 import { deviceMoneyServices } from '@/features/money/data/device-services';
 import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
+import { LocalFirstGate } from '@/features/trip/hub/local-first-gate';
 import { pushTransition } from '@/lib/navigation/transitions';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
@@ -33,16 +34,20 @@ export default function WalletLayout() {
   const [motionMode] = useMotionMode();
   const services = useMemo(() => deviceMoneyServices(getOcr()), []);
   const premium = usePremiumUi();
+  // The premium tab bar mounts this tab at launch, before the local database is open; the halves
+  // read it as they render, so they wait for it here.
   if (premium) {
     return (
-      <MoneyServicesProvider services={services}>
-        <PremiumStack>
-          <PremiumStackScreen name="money/index" options={PREMIUM_HALF_OPTIONS} />
-          <PremiumStackScreen name="bookings" options={PREMIUM_HALF_OPTIONS} />
-          <PremiumStackScreen name="money/currency" options={sheetRouteOptions('half')} />
-          <PremiumStackScreen name="money/trip" options={sheetRouteOptions('half')} />
-        </PremiumStack>
-      </MoneyServicesProvider>
+      <LocalFirstGate>
+        <MoneyServicesProvider services={services}>
+          <PremiumStack>
+            <PremiumStackScreen name="money/index" options={PREMIUM_HALF_OPTIONS} />
+            <PremiumStackScreen name="bookings" options={PREMIUM_HALF_OPTIONS} />
+            <PremiumStackScreen name="money/currency" options={sheetRouteOptions('half')} />
+            <PremiumStackScreen name="money/trip" options={sheetRouteOptions('half')} />
+          </PremiumStack>
+        </MoneyServicesProvider>
+      </LocalFirstGate>
     );
   }
   return (
