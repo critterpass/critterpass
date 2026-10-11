@@ -18,7 +18,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { usePlanDate } from '../plan/plan-copy';
 import { useFtfEndingCopy } from './ftf-ending-copy';
 import { FTF_KEPT, FTF_PAUSED, type FtfEndingModel } from './ftf-ending-model';
-import type { FtfEndingActions } from './ftf-ending-screen';
+import type { FtfEndingActions } from './use-ftf-ending-actions';
 
 export interface FtfEndingViewProps extends FtfEndingActions {
   readonly ending: FtfEndingModel | null;
