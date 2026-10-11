@@ -150,7 +150,7 @@ export function InAppAlarmPremium(props: InAppAlarmProps) {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject },
+  root: StyleSheet.absoluteFill,
   content: { flex: 1, paddingHorizontal: 24, justifyContent: 'space-between' },
   center: { alignItems: 'center', gap: 6 },
   foot: { gap: 14, alignItems: 'center' },

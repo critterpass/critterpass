@@ -51,7 +51,7 @@ export function RoomSplitSection({
       confirm: t({ id: 'money.rooms.evenConfirm', message: 'Split evenly' }),
       cancel: t({ id: 'money.rooms.evenCancel', message: 'Cancel' }),
     }).then((yes) => {
-      if (yes) split.evenly(owing.map((share) => share.userId));
+      if (yes) split.splitEvenly(owing.map((share) => share.userId));
     });
   return (
     <View style={{ gap: th.space.gap12 }} testID="money-detail-rooms">

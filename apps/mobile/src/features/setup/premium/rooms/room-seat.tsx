@@ -17,6 +17,10 @@ import { useMotionMode } from '@/motion/motion-mode';
 import { Avatar, PressableScale, ring, SPRINGS, Text, usePremiumTheme } from '@/ui/premium';
 
 const SEAT = 52;
+/* eslint-disable lingui/no-unlocalized-strings -- rotation values, not copy. */
+const TILTED = '-8deg';
+const LEVEL = '0deg';
+/* eslint-enable lingui/no-unlocalized-strings */
 const FACE = 44;
 
 export function RoomSeat(props: {
@@ -66,7 +70,7 @@ export function RoomSeat(props: {
     transform: [
       { translateX: x.value },
       { translateY: y.value },
-      { rotate: lifted.value === 1 && !reduced ? '-8deg' : '0deg' },
+      { rotate: lifted.value === 1 && !reduced ? TILTED : LEVEL },
       { scale: lifted.value === 1 && !reduced ? 1.12 : 1 },
     ],
     zIndex: lifted.value === 1 ? 10 : 0,

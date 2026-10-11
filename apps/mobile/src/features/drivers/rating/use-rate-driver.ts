@@ -34,13 +34,8 @@ export function useRateDriver({
   const backLabel = t({ id: 'drivers.rate.back', message: 'Our drivers' });
   const parent = driverRoutes.ours(tripId);
   if (data === null) {
-    return {
-      kind: offline || failed ? 'failed' : 'loading',
-      offline,
-      reload,
-      backLabel,
-      parent,
-    } as const;
+    if (offline || failed) return { kind: 'failed', offline, reload, backLabel, parent } as const;
+    return { kind: 'loading', offline, reload, backLabel, parent } as const;
   }
   if (driver === undefined) return { kind: 'missing', backLabel, parent } as const;
 

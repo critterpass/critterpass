@@ -134,7 +134,9 @@ export function expenseItems(input: {
     .filter((payload) => payload.trip_id === input.tripId)
     .map((payload) => {
       const spentAt = payload.spent_at ?? new Date().toISOString();
-      const inSplit = payload.split.shares.filter(
+      // A by-room split's shares come from the server's room plan, so a queued one names nobody yet.
+      const shares = payload.split.mode === 'by_room' ? [] : payload.split.shares;
+      const inSplit = shares.filter(
         (share) =>
           payload.split.mode === 'equal' ||
           (payload.split.mode === 'weights'
@@ -153,7 +155,7 @@ export function expenseItems(input: {
           payload.currency === input.crewCurrency ? BigInt(payload.amount_minor) : null,
         localDate: localDateOf(spentAt, input.tz),
         spentAt,
-        leftOut: payload.split.shares
+        leftOut: shares
           .filter((share) => !inSplit.includes(share))
           .map((share) => memberName(input.members, share.user_id))
           .filter((name) => name !== ''),

@@ -70,7 +70,6 @@ export function useCheckCard(props: CheckCardInput) {
     setEditing(current.name === null ? 'name' : 'phone');
   };
   const edit = (field: DriverField, text: string) =>
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- currency code fallback, not copy.
     setCard(applyEdit(current, field, text, field === 'name' ? 'USD' : (plan.currency ?? 'USD')));
   const save = async () => {
     const result = await confirm.send({

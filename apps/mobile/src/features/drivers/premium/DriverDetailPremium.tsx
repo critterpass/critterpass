@@ -17,6 +17,10 @@ import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 import { useVehicleLine } from '../directory/DriverCard';
 import { useDriverDetail, type DriverReport } from '../directory/use-driver-detail';
 
+/* eslint-disable lingui/no-unlocalized-strings -- report kinds the moderation queue takes, not copy. */
+const REPORT = { listing: 'driver_listing', tip: 'driver_tip' } as const;
+/* eslint-enable lingui/no-unlocalized-strings */
+
 export function DriverDetailPremium(input: {
   readonly tripId: string;
   readonly listingId: string;
@@ -54,7 +58,6 @@ export function DriverDetailPremium(input: {
   const loved = driver.crews_loved ?? 0;
   const rated = driver.crews_rated ?? 0;
   const crewSize = driver.tip?.crew_size ?? 0;
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- Intl option values, not copy
   const tipMonth =
     driver.tip === null
       ? ''
@@ -197,7 +200,7 @@ export function DriverDetailPremium(input: {
             <TextButton
               label={t({ id: 'drivers.detail.reportTip', message: 'Report this tip' })}
               onPress={() => {
-                if (driver.tip !== null) ask({ kind: 'driver_tip', id: driver.tip.id });
+                if (driver.tip !== null) ask({ kind: REPORT.tip, id: driver.tip.id });
               }}
               testID="drivers-report-tip"
             />
@@ -206,7 +209,7 @@ export function DriverDetailPremium(input: {
         <View style={styles.center}>
           <TextButton
             label={t({ id: 'drivers.detail.report', message: 'Report this listing' })}
-            onPress={() => ask({ kind: 'driver_listing', id: driver.id })}
+            onPress={() => ask({ kind: REPORT.listing, id: driver.id })}
             testID="drivers-report"
           />
         </View>

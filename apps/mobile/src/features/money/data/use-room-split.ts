@@ -88,9 +88,9 @@ function useSplitSwitch(row: ExpenseSplitRow | undefined, expenseId: string | nu
   return {
     pending: edit.pending,
     /** Split the stay by the room plan (one stay of it, or all when the plan has one). */
-    byRoom: (stayKey: string | null) => send({ mode: 'by_room', stay_key: stayKey }),
+    splitByRoom: (stayKey: string | null) => send({ mode: 'by_room', stay_key: stayKey }),
     /** Split it evenly between `userIds`; it stops following the rooms. */
-    evenly: (userIds: readonly string[]) => {
+    splitEvenly: (userIds: readonly string[]) => {
       if (userIds.length === 0) return;
       send({ mode: 'equal', shares: userIds.map((user_id) => ({ user_id })) });
     },
@@ -119,7 +119,7 @@ export function useStayRoomSplit(tripId: string) {
             id: row.id,
             amountMinor: row.amount_minor ?? 0,
             currency: row.currency ?? '',
-            mode: (row.split_mode === 'by_room' ? 'by_room' : 'evenly') as StaySplitMode,
+            mode: row.split_mode === 'by_room' ? 'by_room' : 'evenly',
           },
     guests: [...new Set(rooms.flatMap((room) => room.occupants))],
     ...useSplitSwitch(row, row?.id ?? null),

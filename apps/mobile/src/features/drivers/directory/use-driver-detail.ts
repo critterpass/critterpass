@@ -2,7 +2,6 @@
  * A listed driver for either UI, over the api: the listing, the first WhatsApp line ready to send,
  * adding him to this trip's shortlist, and reporting the listing or its tip for moderation.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { whatsAppLink, type DriverDirectoryDetail } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';

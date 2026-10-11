@@ -6,7 +6,7 @@
  * changes. Save sends the new layout and the crew is told; Cancel asks first if anything moved.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useRef, useState } from 'react';
+import { useRef, useState, type ComponentRef } from 'react';
 import { Modal, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -48,7 +48,7 @@ export function RoomsEditor(props: {
   const [picked, setPicked] = useState<string | null>(null);
   const [full, setFull] = useState<string | null>(null);
   const rects = useRef(new Map<string, Rect>());
-  const views = useRef(new Map<string, View | null>());
+  const views = useRef(new Map<string, ComponentRef<typeof View> | null>());
   const tryMove = (uid: string, roomKey: string) => {
     const result = moveGuest(draft, uid, roomKey);
     if (result.kind === 'full') {
@@ -227,7 +227,7 @@ export function RoomsEditor(props: {
                     {Array.from(
                       { length: Math.max(0, room.capacity - room.occupants.length) },
                       (_, i) => (
-                        <View key={`empty-${i}`} style={styles.emptySeat}>
+                        <View key={i} style={styles.emptySeat}>
                           <View
                             style={[
                               styles.emptyFace,

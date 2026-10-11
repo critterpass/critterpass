@@ -85,6 +85,10 @@ export const addExpensePayloadSchema = z.strictObject({
   poi_id: z.uuid().optional(),
 });
 export type AddExpensePayload = z.infer<typeof addExpensePayloadSchema>;
+/** An `add_expense` the keypad or a receipt builds: its split names the members. */
+export type KeypadExpensePayload = Omit<AddExpensePayload, 'split'> & {
+  readonly split: KeypadSplitInput;
+};
 
 export const editExpensePayloadSchema = z.strictObject({
   expense_id: z.uuid(),

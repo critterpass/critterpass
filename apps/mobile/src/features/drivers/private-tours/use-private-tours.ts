@@ -45,7 +45,6 @@ export function usePrivateTours(tripId: string, days?: string) {
   const canAdd = (card: PrivateTourCard) =>
     !added.has(card.product_id) && card.price_from !== null && card.currency !== null;
   const add = (card: PrivateTourCard) => {
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- currency code fallback, not copy.
     const currency = card.currency ?? 'USD';
     const exp = isKnownCurrency(currency) ? currencyExponent(currency) : 2;
     void shortlist

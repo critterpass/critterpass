@@ -4,16 +4,14 @@
  * the guide's post to ask in the local groups, the drivers our crews used. Our drivers (rate,
  * invite) under them. One shortlist per trip across every source docks as an ink bar with Compare.
  */
-import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { crewAccent, guideCritterKind, IconTile, turn, type LineIconName } from '@/features/trip';
+import { guideCritterKind } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Button,
-  CrewStack,
   CritterSticker,
   Icon,
   PressableScale,
@@ -25,52 +23,7 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { useFindDriver } from '../find/use-find-driver';
 import { dayLabel } from '../shared/format';
-
-function Source(props: {
-  readonly icon: LineIconName;
-  readonly tint: { bg: string; text: string };
-  readonly tilt: number;
-  readonly title: string;
-  readonly body: string;
-  readonly cta: string;
-  readonly onPress: () => void;
-  readonly testID: string;
-}) {
-  const th = usePremiumTheme();
-  return (
-    <PressableScale
-      onPress={props.onPress}
-      pressedScale={0.98}
-      accessibilityRole="button"
-      accessibilityLabel={props.title}
-      testID={props.testID}
-    >
-      <View
-        style={[
-          styles.source,
-          {
-            borderRadius: th.radius.card,
-            backgroundColor: th.color.card,
-            boxShadow: th.shadow.card,
-          },
-        ]}
-      >
-        <View style={{ transform: [turn(props.tilt)] }}>
-          <IconTile name={props.icon} bg={props.tint.bg} color={props.tint.text} size={50} />
-        </View>
-        <View style={styles.flex}>
-          <Text variant="headline">{props.title}</Text>
-          <Text variant="caption" tone="muted">
-            {props.body}
-          </Text>
-        </View>
-        <View style={[styles.cta, { backgroundColor: th.color.control }]}>
-          <Text variant="noteAction">{props.cta}</Text>
-        </View>
-      </View>
-    </PressableScale>
-  );
-}
+import { ShortlistBar, Source } from './components/FindDriverParts';
 
 export function FindDriverPremium({
   tripId,
@@ -264,53 +217,11 @@ export function FindDriverPremium({
         ) : null}
       </ScrollView>
       {find.shortlist.length === 0 ? null : (
-        <View
-          style={[
-            styles.bar,
-            {
-              bottom: insets.bottom + 12,
-              left: th.space.gutter,
-              right: th.space.gutter,
-              backgroundColor: th.color.inkSurface,
-              boxShadow: th.shadow.toastInk,
-            },
-          ]}
-        >
-          <CrewStack
-            members={find.shortlist.map((driver, at) => ({
-              id: driver.id,
-              name: driver.name,
-              color: crewAccent(at + 5),
-            }))}
-            size={32}
-            accessibilityLabel={find.shortlist.map((d) => d.name).join(', ')}
-          />
-          <View style={styles.flex}>
-            <Text variant="captionMuted" color={th.color.onInkSurface} style={styles.soft}>
-              {t({
-                id: 'drivers.premium.shortlistCount',
-                message: `Shortlist · ${find.shortlist.length}`,
-              })}
-            </Text>
-            <Text variant="rowTextStrong" color={th.color.onInkSurface} numberOfLines={1}>
-              {format.list(
-                locale,
-                find.shortlist.map((driver) => driver.name),
-              )}
-            </Text>
-          </View>
-          <PressableScale
-            onPress={find.onCompare}
-            accessibilityRole="button"
-            testID="drivers-find-compare"
-          >
-            <View style={[styles.compare, { backgroundColor: th.accent.sun }]}>
-              <Text variant="rowTextStrong" color={th.color.onAccent}>
-                {t({ id: 'drivers.find.compare', message: 'Compare' })}
-              </Text>
-            </View>
-          </PressableScale>
-        </View>
+        <ShortlistBar
+          drivers={find.shortlist}
+          bottom={insets.bottom + 12}
+          onCompare={find.onCompare}
+        />
       )}
     </PushScreen>
   );
@@ -332,19 +243,6 @@ const styles = StyleSheet.create({
   check: { width: 18, height: 18, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   dashed: { borderWidth: 1.5, borderStyle: 'dashed' },
   source: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 },
-  cta: { height: 32, borderRadius: 16, paddingHorizontal: 12, justifyContent: 'center' },
   center: { alignItems: 'center' },
   row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  bar: {
-    position: 'absolute',
-    height: 64,
-    borderRadius: 32,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingLeft: 12,
-    paddingRight: 9,
-  },
-  soft: { opacity: 0.7 },
-  compare: { height: 46, borderRadius: 23, paddingHorizontal: 18, justifyContent: 'center' },
 });

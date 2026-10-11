@@ -82,7 +82,7 @@ function Ready({ props }: { readonly props: FlightViewProps }) {
           </Text>
         )}
         <FlightRows title={titles.done} rows={model.done} tone="done" testID="disruption-done" />
-        <Rows
+        <FlightRows
           title={titles.working}
           rows={model.working}
           tone="working"
@@ -96,7 +96,7 @@ function Ready({ props }: { readonly props: FlightViewProps }) {
             onAnswer={props.onAnswer}
           />
         ))}
-        <Rows
+        <FlightRows
           title={titles.problem}
           rows={model.problems}
           tone="problem"

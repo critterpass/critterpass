@@ -16,6 +16,10 @@ import { Text } from '@/ui/text/Text';
 import { DetailView } from './DetailView';
 import { useDriverDetail, type DriverReport } from './use-driver-detail';
 
+/* eslint-disable lingui/no-unlocalized-strings -- report kinds the moderation queue takes, not copy. */
+const REPORT = { listing: 'driver_listing', tip: 'driver_tip' } as const;
+/* eslint-enable lingui/no-unlocalized-strings */
+
 export function DetailScreen({
   tripId,
   listingId,
@@ -59,9 +63,9 @@ export function DetailScreen({
         onBack={() => router.back()}
         onMessage={detail.onMessage}
         onShortlist={detail.onShortlist}
-        onReport={() => setReporting({ kind: 'driver_listing', id: driver.id })}
+        onReport={() => setReporting({ kind: REPORT.listing, id: driver.id })}
         onReportTip={() => {
-          if (driver.tip !== null) setReporting({ kind: 'driver_tip', id: driver.tip.id });
+          if (driver.tip !== null) setReporting({ kind: REPORT.tip, id: driver.tip.id });
         }}
       />
       {reporting === null ? null : (

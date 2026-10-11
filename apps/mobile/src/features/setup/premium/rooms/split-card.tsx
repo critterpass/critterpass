@@ -15,6 +15,11 @@ import { SegmentedControl, Text, usePremiumTheme } from '@/ui/premium';
 import { money } from '../../budget/model';
 import type { PlanStay } from '../../rooms/model';
 
+/* eslint-disable lingui/no-unlocalized-strings -- split modes, not copy. */
+const BY_ROOM: StaySplitMode = 'by_room';
+const EVENLY: StaySplitMode = 'evenly';
+/* eslint-enable lingui/no-unlocalized-strings */
+
 function roomEach(
   stay: PlanStay,
   total: bigint | null,
@@ -22,7 +27,7 @@ function roomEach(
   currency: string,
 ): Map<string, number> {
   const guests = stay.rooms.flatMap((room) => room.occupants);
-  if (total !== null && mode === 'evenly') {
+  if (total !== null && mode === EVENLY) {
     const each = guests.length === 0 ? 0 : Number(total) / guests.length;
     return new Map(stay.rooms.map((room) => [room.key, each] as const));
   }
@@ -68,7 +73,7 @@ export function SplitCard(props: {
   const split = useStayRoomSplit(props.tripId);
   const expense = split.expense;
   const currency = expense?.currency || props.planCurrency;
-  const mode: StaySplitMode = expense?.mode ?? 'by_room';
+  const mode: StaySplitMode = expense?.mode ?? BY_ROOM;
   const each = roomEach(
     props.stay,
     expense === null ? null : BigInt(expense.amountMinor),
@@ -94,17 +99,17 @@ export function SplitCard(props: {
           <SegmentedControl<StaySplitMode>
             options={[
               {
-                value: 'by_room',
+                value: BY_ROOM,
                 label: t({ id: 'setup.premium.rooms.byRoom', message: 'By room' }),
               },
               {
-                value: 'evenly',
+                value: EVENLY,
                 label: t({ id: 'setup.premium.rooms.evenly', message: 'Evenly' }),
               },
             ]}
             value={mode}
             onChange={(next) =>
-              next === 'by_room' ? split.byRoom(props.stay.key) : split.evenly(guests)
+              next === BY_ROOM ? split.splitByRoom(props.stay.key) : split.splitEvenly(guests)
             }
             accessibilityLabel={t({
               id: 'setup.premium.rooms.splitMode',
