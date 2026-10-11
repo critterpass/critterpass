@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassIconButton, Text, makePremiumStyles } from '@/ui/premium';
 
-/* eslint-disable-next-line critterpass/no-literal-style -- the sheet scrim the premium tokens do not carry yet */
+// eslint-disable-next-line critterpass/no-literal-style, lingui/no-unlocalized-strings -- the sheet scrim the premium tokens do not carry yet
 const SHEET_SCRIM = 'rgba(20,22,40,.3)';
 
 const useStyles = makePremiumStyles((th) => ({

@@ -42,6 +42,12 @@ const useStyles = makePremiumStyles((th) => ({
   },
 }));
 
+/** The drawn picture as an image source. */
+function pngDataUri(bytes: Uint8Array): string {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a data: URI prefix, never copy.
+  return `data:image/png;base64,${toBase64(bytes)}`;
+}
+
 function toBase64(bytes: Uint8Array): string {
   let binary = '';
   for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i] ?? 0);
@@ -79,12 +85,7 @@ export function PremiumShareSheet({
     let live = true;
     render(format).then(
       (bytes) => {
-        // eslint-disable-next-line lingui/no-unlocalized-strings -- a data: URI prefix, never copy.
-        if (live)
-          setResult({
-            key,
-            drawn: { status: 'ready', bytes, uri: `data:image/png;base64,${toBase64(bytes)}` },
-          });
+        if (live) setResult({ key, drawn: { status: 'ready', bytes, uri: pngDataUri(bytes) } });
       },
       () => {
         if (live) setResult({ key, drawn: { status: 'failed' } });
