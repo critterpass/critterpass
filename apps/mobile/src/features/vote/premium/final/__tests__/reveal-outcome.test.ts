@@ -1,3 +1,5 @@
+import { describe, expect, it } from '@jest/globals';
+
 import type { PollOptionView, PollView } from '../../../data/poll-view';
 import { revealOutcome } from '../reveal-outcome';
 
@@ -38,7 +40,7 @@ function poll(overrides: Partial<PollView>): PollView {
     tiePreview: null,
     tieBreak: null,
     ...overrides,
-  } as PollView;
+  };
 }
 
 describe('revealOutcome', () => {

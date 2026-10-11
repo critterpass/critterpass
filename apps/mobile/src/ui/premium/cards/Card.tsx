@@ -14,7 +14,7 @@ export interface CardProps {
   /** Past items under an empty state draw at the design's .85. */
   readonly earlier?: boolean;
   readonly style?: StyleProp<ViewStyle>;
-  readonly testID?: string;
+  readonly testID?: string | undefined;
 }
 
 /**

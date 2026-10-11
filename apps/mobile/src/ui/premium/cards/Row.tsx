@@ -17,9 +17,9 @@ export interface RowProps {
   readonly variant?: 'item' | 'person';
   /** The leading element is a day badge: the row tucks in to 10 on its leading side. */
   readonly badgeLeads?: boolean;
-  readonly onPress?: () => void;
+  readonly onPress?: (() => void) | undefined;
   readonly accessibilityHint?: string;
-  readonly testID?: string;
+  readonly testID?: string | undefined;
 }
 
 /** A list row for `ListCard`: leading badge or avatar, title and subtitle, trailing tag or time. */

@@ -6,10 +6,10 @@ import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 export interface TagProps {
   readonly label: string;
   /** An accent fill (crew or sticker colour). @default sun */
-  readonly color?: string;
+  readonly color?: string | undefined;
   /** Degrees; the design tilts tags between −5 and +4. @default −5 */
-  readonly rotate?: number;
-  readonly testID?: string;
+  readonly rotate?: number | undefined;
+  readonly testID?: string | undefined;
 }
 
 /** A sticker tag: 14/800 on an accent, 2.5 white die-cut edge, sticker shadow, tilted. */
@@ -39,7 +39,7 @@ export function Tag({ label, color, rotate, testID }: TagProps) {
 
 export interface EmptySlotProps {
   readonly label: string;
-  readonly testID?: string;
+  readonly testID?: string | undefined;
 }
 
 /** A slot still to fill: the tag's shape in a 2 pt dashed outline. */

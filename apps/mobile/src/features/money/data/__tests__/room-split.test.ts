@@ -28,7 +28,7 @@ describe('splitting a stay by room', () => {
     });
     expect(shares).not.toBeNull();
     const by = new Map(shares!.map((share) => [share.user_id, share.fixed_minor]));
-    expect([...by.values()].reduce((sum, value) => sum + (value ?? 0), 0)).toBe(100_001);
+    expect([...by.values()].reduce<number>((sum, value) => sum + (value ?? 0), 0)).toBe(100_001);
     expect(by.get('a')).toBeGreaterThanOrEqual(30_000);
     expect(by.get('c')).toBeGreaterThan(by.get('a')!);
   });

@@ -25,3 +25,6 @@ export { WaitlistSheet } from './seat-limit/WaitlistSheet';
 export { Doodle, type DoodleName } from './premium/chat/doodle';
 export { crewAccent } from './premium/crew-colour';
 export { registerPremiumChatCard, type PremiumChatCard } from './premium/chat/cards/registry';
+export { SET_ACTIVE_CREW } from './crews-sheet/crew-commands';
+export { useCrews } from './crews-sheet/crew-data';
+export { crewCards, inviteCards, type CrewCardView } from './crews-sheet/crew-view';

@@ -4,7 +4,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import type { StyleProp, ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, { type AnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
@@ -14,7 +14,7 @@ const useStyles = makePremiumStyles((t) => ({
 }));
 
 export function RevealFooter(props: {
-  readonly style: StyleProp<ViewStyle>;
+  readonly style: StyleProp<AnimatedStyle<ViewStyle>>;
   readonly organiser: boolean;
   readonly organiserName: string | null;
   readonly winnerName: string;

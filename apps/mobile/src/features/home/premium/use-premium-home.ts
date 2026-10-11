@@ -5,6 +5,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and table names, never copy. */
 import { useMemo } from 'react';
 
+import { seatHeldSql } from '@/data/trips/seat-sql';
 import type { CrewMember, PremiumTheme } from '@/ui/premium';
 
 import { useLiveRows } from '../data/watch-query';
@@ -12,7 +13,7 @@ import type { HomeCrew } from '../data/use-home-state';
 import { memberAccent } from './components/member-colour';
 
 const SEATED_SQL = `SELECT user_id FROM trip_participants
-  WHERE trip_id = ? AND holds_seat = 1 ORDER BY created_at, user_id`;
+  WHERE trip_id = ? AND ${seatHeldSql()} ORDER BY created_at, user_id`;
 const SEATED_TABLES = ['trip_participants'];
 
 /** The crew's members as kit avatars, in join order. */

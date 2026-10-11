@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { MONETIZE_ROUTES } from '@/features/monetize/routes';
+import { MONETIZE_ROUTES } from '@/features/monetize';
 import { Text, usePremiumTheme } from '@/ui/premium';
 import { RootScreen } from '@/ui/premium/shell';
 

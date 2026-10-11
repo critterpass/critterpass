@@ -37,7 +37,8 @@ const ICONS: Readonly<Record<string, LineIconName>> = {
 };
 
 function chipLook(th: PremiumTheme, line: BriefingLine): { bg: string; fg: string } {
-  if (line.action === 'done') return th.color.status.booked;
+  if (line.action === 'done')
+    return { bg: th.color.status.booked.bg, fg: th.color.status.booked.text };
   if (line.action === 'nudge' && line.status !== 'nudged') {
     return { bg: th.color.ink, fg: th.color.onInk };
   }

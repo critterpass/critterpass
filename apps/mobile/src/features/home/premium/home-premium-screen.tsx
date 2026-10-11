@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and SF Symbol names, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState, type ComponentRef } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -102,7 +102,7 @@ function HomeFrame({ view, onPick, children }: HomeFrameProps) {
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
   const [switcherTop, setSwitcherTop] = useState<number | null>(null);
-  const anchor = useRef<View>(null);
+  const anchor = useRef<ComponentRef<typeof View>>(null);
   const crew = view?.crew ?? null;
   const needsYou = view?.needsYou ?? 0;
   const title = crew?.name ?? t({ id: 'home.premium.title', message: 'Home' });

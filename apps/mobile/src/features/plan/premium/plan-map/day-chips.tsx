@@ -13,7 +13,7 @@ import { dayColours } from '../map';
 export interface DayChipModel {
   readonly dayNo: number;
   readonly weekday: string;
-  readonly dateLabel?: string;
+  readonly dateLabel?: string | undefined;
   readonly accessibilityLabel: string;
 }
 

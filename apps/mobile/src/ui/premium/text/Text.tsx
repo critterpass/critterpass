@@ -21,7 +21,7 @@ export interface PremiumTextProps extends Omit<RNTextProps, 'allowFontScaling'> 
   /** @default 'ink' */
   readonly tone?: PremiumTextTone;
   /** A colour from the theme that is not a named tone (status tints, accents). */
-  readonly color?: string;
+  readonly color?: string | undefined;
   readonly align?: TextStyle['textAlign'];
 }
 
