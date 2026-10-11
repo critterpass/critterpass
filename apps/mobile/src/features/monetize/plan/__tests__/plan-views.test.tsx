@@ -155,6 +155,7 @@ describe('PlanView', () => {
         onUpgrade={jest.fn()}
         onManageStore={jest.fn()}
         onRestore={jest.fn()}
+        onRedeem={jest.fn()}
         onCancel={jest.fn()}
         onBillingIssue={jest.fn()}
       />

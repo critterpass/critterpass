@@ -3,9 +3,8 @@
  * trips, the store's own management rows and Cancel Pass+. The store never shows us a card, so
  * the payment row names the store that bills it.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- URLs, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { Linking, Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { mrzLine } from '@/ui/documents/mrz';
 import {
@@ -24,9 +23,6 @@ import { useBoostLine, usePlanDate, usePlanLine } from '../plan/plan-copy';
 import { usePlanScreen } from '../plan/use-plan-screen';
 import { useRestoreLine } from '../paywall/purchase-lines';
 import { PlanCard } from './components/plan-card';
-
-const REDEEM_URL =
-  Platform.OS === 'ios' ? 'https://apps.apple.com/redeem' : 'https://play.google.com/redeem';
 
 export function PlanPremium() {
   const { t } = useLingui();
@@ -191,7 +187,7 @@ export function PlanPremium() {
               <Row
                 key="redeem"
                 title={t({ id: 'monetize.premium.redeem', message: 'Redeem a code' })}
-                onPress={() => void Linking.openURL(REDEEM_URL)}
+                onPress={props.onRedeem}
                 testID="plan-redeem"
               />
               <Row
