@@ -4,9 +4,8 @@
  * Each photo shows once its signed link arrives.
  */
 import { t } from '@lingui/core/macro';
-import { Image } from 'expo-image';
 import { useEffect, useState } from 'react';
-import { FlatList, Modal, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { FlatList, Image, Modal, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassIconButton, Spinner, Text, usePremiumTheme } from '@/ui/premium';
@@ -66,7 +65,7 @@ export function PremiumPhotoViewer({
                   <Image
                     source={{ uri: url }}
                     style={StyleSheet.absoluteFill}
-                    contentFit="contain"
+                    resizeMode="contain"
                   />
                 )}
               </View>
