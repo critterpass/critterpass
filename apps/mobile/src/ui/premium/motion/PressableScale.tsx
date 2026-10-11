@@ -39,6 +39,9 @@ export interface PressableScaleProps {
   readonly accessibilityHint?: string | undefined;
   readonly accessibilityState?: AccessibilityState;
   readonly accessibilityValue?: AccessibilityValue;
+  /** False when a parent row speaks for this control (a stepper's arrows beside its value). */
+  readonly accessible?: boolean;
+  readonly importantForAccessibility?: 'auto' | 'yes' | 'no' | 'no-hide-descendants';
   readonly onLayout?: (event: LayoutChangeEvent) => void;
   readonly testID?: string | undefined;
 }
@@ -61,6 +64,8 @@ export function PressableScale({
   accessibilityHint,
   accessibilityState,
   accessibilityValue,
+  accessible,
+  importantForAccessibility,
   onLayout,
   testID,
 }: PressableScaleProps) {
@@ -88,6 +93,8 @@ export function PressableScale({
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: disabled === true, ...accessibilityState }}
       {...(accessibilityValue === undefined ? {} : { accessibilityValue })}
+      {...(accessible === undefined ? {} : { accessible })}
+      {...(importantForAccessibility === undefined ? {} : { importantForAccessibility })}
       style={[style, animated]}
     >
       {children}
