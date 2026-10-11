@@ -10,6 +10,8 @@
         <array>
           <string>cp.vote</string>
           <string>cp.rsvp</string>
+          <string>cp.changeset</string>
+          <string>cp.roundup</string>
         </array>
         <key>UNNotificationExtensionInitialContentSizeRatio</key>
         <real>0.55</real>

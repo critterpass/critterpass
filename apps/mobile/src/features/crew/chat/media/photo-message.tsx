@@ -67,7 +67,7 @@ export function photoItems(
   return keys.map((key) => ({ key, kind: 'image', uri: urls[key] ?? null, caption }));
 }
 
-function PhotoViewer({
+export function PhotoViewer({
   keys,
   openKey,
   caption,

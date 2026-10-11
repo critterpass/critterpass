@@ -11,6 +11,7 @@ import {
   applyIconAliases,
   automaticAlternateIds,
   forcedAlternateNames,
+  iconComposerAlternateIds,
 } from './with-app-icons';
 
 function manifest(): AndroidConfig.Manifest.AndroidManifest {
@@ -58,19 +59,23 @@ describe('with-app-icons', () => {
       'golden',
       'bali-six',
     ]);
-    expect(automaticAlternateIds()).toEqual(['face', 'temple', 'sardi', 'pon']);
+    expect(automaticAlternateIds()).toEqual(['face', 'stamp', 'sticker']);
     expect(automaticAlternateIds(['passport', 'golden'])).toEqual(['golden']);
   });
 
-  it('names forced appearances the way the module asks for them', () => {
-    expect(forcedAlternateNames(['dark'])).toEqual([
-      'passport-dark',
-      'face-dark',
+  it('bundles the designed icons as Icon Composer files and earned ones from the bake', () => {
+    expect(iconComposerAlternateIds()).toEqual(['face', 'stamp', 'sticker']);
+    expect(iconComposerAlternateIds(['face', 'temple'])).toEqual(['face']);
+  });
+
+  it('forces appearances on earned icons only, named the way the module asks for them', () => {
+    expect(forcedAlternateNames(['dark'])).toEqual([]);
+    expect(forcedAlternateNames(['dark', 'tinted'], ['face', 'temple', 'pon'])).toEqual([
       'temple-dark',
-      'sardi-dark',
+      'temple-tinted',
       'pon-dark',
+      'pon-tinted',
     ]);
-    expect(automaticAlternateIds(['bali-six'])).toEqual(['bali-six']);
   });
 
   it('moves the launcher entry onto one enabled alias per icon and keeps deep links', () => {

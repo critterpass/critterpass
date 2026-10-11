@@ -1,8 +1,8 @@
 import SwiftUI
 import WidgetKit
 
-/// The next leave-by: on the home screen and in StandBy (5c-4, small) the minutes to leave time on
-/// flip digits, then the alarm once it is time; on the lock screen (5c-3, rectangular) one line
+/// The next leave-by: on the home screen and in StandBy (small, 6.28 right) the minutes to leave
+/// time as one big warm numeral, then the alarm once it is time; on the lock screen (5c-3, rectangular) one line
 /// with the leave time and where to be. Free.
 struct NextLeaveByWidget: Widget {
     let kind = "CPNextLeaveByWidget"
@@ -50,8 +50,9 @@ struct NextLeaveByView: View {
     let entry: HomeWidgetEntry
     @Environment(\.widgetFamily) private var family
 
+    /// 6.28 right: the warm dark night ground; the lock screen family draws on the system's.
     static func ground(_ entry: HomeWidgetEntry) -> Color {
-        entry.file?.snapshot.nextLeaveBy == nil ? LAPalette.card : LAPalette.yellow
+        StandByPalette.rightGround
     }
 
     var body: some View {
@@ -67,10 +68,10 @@ struct NextLeaveByView: View {
             HomeWidgetSignedOut()
         } else {
             VStack(alignment: .leading, spacing: 4) {
-                Text("LEAVE-BY").font(.laEyebrow).tracking(1.2).foregroundStyle(LAPalette.yellow)
+                Text("LEAVE-BY").font(.laEyebrow).tracking(0.66).foregroundStyle(LAPalette.orange)
                 Text("Nothing early tomorrow. Sleep in.")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(LAPalette.paper)
+                    .foregroundStyle(StandByPalette.footer)
                 Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -79,39 +80,50 @@ struct NextLeaveByView: View {
 
     @ViewBuilder
     private func face(leaveBy: WSNextLeaveBy, leaveAt: Date) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        // StandBy scales a small widget about 2x: 6.28's 150 pt numeral is authored at 72.
+        VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 0) {
                 Text("LEAVE BY ")
                 Text(leaveAt, format: .dateTime.hour().minute())
             }
-            .font(.laEyebrow)
-            .tracking(1.2)
-            .foregroundStyle(LAPalette.night)
+            .font(.system(size: 11, weight: .bold))
+            .tracking(0.66)
+            .foregroundStyle(LAPalette.orange)
             switch LeaveByClockFace.make(leaveAt: leaveAt, now: entry.date) {
             case .minutes(let minutes):
-                FlipDigits(value: minutes)
+                Text(verbatim: "\(min(max(minutes, 0), 99))")
+                    .font(.system(size: 72, weight: .bold).monospacedDigit())
+                    .tracking(-3.6)
+                    .foregroundStyle(StandByPalette.numeral)
+                    .contentTransition(.numericText(countsDown: true))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                    .accessibilityLabel(Text("\(minutes) minutes"))
                 Text(verbatim: footer(String(localized: "minutes"), leaveBy.placeName))
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(LAPalette.night)
+                    .font(.system(size: 12))
+                    .foregroundStyle(StandByPalette.footer)
                     .lineLimit(1)
             case .at(let time):
                 Text(time, format: .dateTime.hour().minute())
-                    .font(.system(size: 40, weight: .black).monospacedDigit())
-                    .foregroundStyle(LAPalette.night)
+                    .font(.system(size: 44, weight: .bold).monospacedDigit())
+                    .tracking(-2.2)
+                    .foregroundStyle(StandByPalette.numeral)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
                 Text(verbatim: leaveBy.placeName ?? leaveBy.title)
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(LAPalette.night)
+                    .font(.system(size: 12))
+                    .foregroundStyle(StandByPalette.footer)
                     .lineLimit(1)
             case .alarm:
                 Image(systemName: "alarm.waves.left.and.right.fill")
                     .font(.system(size: 30, weight: .bold))
-                    .foregroundStyle(LAPalette.night)
-                Text("TIME TO GO")
-                    .font(.system(size: 22, weight: .black))
-                    .foregroundStyle(LAPalette.night)
+                    .foregroundStyle(StandByPalette.numeral)
+                Text("Time to go")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(StandByPalette.numeral)
                 Text(verbatim: leaveBy.placeName ?? leaveBy.title)
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(LAPalette.night)
+                    .font(.system(size: 12))
+                    .foregroundStyle(StandByPalette.footer)
                     .lineLimit(1)
             }
         }
@@ -120,27 +132,5 @@ struct NextLeaveByView: View {
 
     private func footer(_ unit: String, _ place: String?) -> String {
         [unit, place].compactMap { $0 }.joined(separator: " · ")
-    }
-}
-
-/// Two dark tiles with yellow digits, rolling on each minute.
-struct FlipDigits: View {
-    let value: Int
-
-    var body: some View {
-        let digits = Array(String(format: "%02d", min(max(value, 0), 99)))
-        HStack(spacing: 4) {
-            ForEach(Array(digits.enumerated()), id: \.offset) { _, digit in
-                Text(String(digit))
-                    .font(.system(size: 38, weight: .black).monospacedDigit())
-                    .foregroundStyle(LAPalette.yellow)
-                    .contentTransition(.numericText(countsDown: true))
-                    .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(LAPalette.card, in: RoundedRectangle(cornerRadius: 8))
-                    .overlay(Rectangle().fill(LAPalette.yellow.opacity(0.25)).frame(height: 1))
-            }
-        }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("\(value) minutes"))
     }
 }

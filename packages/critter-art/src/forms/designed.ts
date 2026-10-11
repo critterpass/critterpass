@@ -4,7 +4,9 @@ import type { FormSpec } from '../core/model';
 // epic recolours, and Pon's Sakura legendary. Golden Tokek's *unlocked* palette is undesigned (the
 // design only shows its locked silhouette) — "gold palette derived from 4a-3 gold-cover gecko"
 // picked here as a founder-reviewable starting point (see the review gallery), not a verified design
-// value. The other 148 critters' forms are the content factory's to author.
+// value. The other 148 critters' forms are the content factory's to author. The premium design
+// draws every tier with the plain white sticker edge (no pink/gold tier ring) and the epic Tokek in
+// pink.
 
 export interface DesignedForm {
   readonly critterId: string;
@@ -29,9 +31,9 @@ export const DESIGNED_FORMS: readonly DesignedForm[] = [
     name: 'Epic Tokek',
     form: {
       rarity: 'epic',
-      palette: { f: '#ff9a4d', dk: '#c4623e', bl: '#ff9a4d' },
+      palette: { f: '#ff8fbf', dk: '#d6337f', bl: '#ff8fbf' },
       pose: 'cheer',
-      edge: 'epic',
+      edge: 'none',
     },
   },
   {
@@ -41,7 +43,7 @@ export const DESIGNED_FORMS: readonly DesignedForm[] = [
     form: {
       rarity: 'legendary',
       palette: { f: '#ffd84a', dk: '#c99a2a', bl: '#fff6cc' },
-      edge: 'legendary',
+      edge: 'none',
     },
   },
   {
@@ -52,7 +54,7 @@ export const DESIGNED_FORMS: readonly DesignedForm[] = [
       rarity: 'legendary',
       palette: { f: '#ffc2d9', dk: '#c94f86', bl: '#fff1f6' },
       pose: 'cheer',
-      edge: 'legendary',
+      edge: 'none',
     },
   },
 ];

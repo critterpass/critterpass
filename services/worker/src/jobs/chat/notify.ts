@@ -85,6 +85,8 @@ function preview(type: MessageType): { id: string; message: string } {
     return /*i18n*/ { id: 'notifications.crew_chat.photo', message: 'Sent a photo' };
   if (type === 'voice')
     return /*i18n*/ { id: 'notifications.crew_chat.voice', message: 'Sent a voice note' };
+  if (type === 'sticker')
+    return /*i18n*/ { id: 'notifications.crew_chat.sticker', message: 'Sent a sticker' };
   return /*i18n*/ { id: 'notifications.crew_chat.text', message: '{text}' };
 }
 

@@ -34,7 +34,14 @@ function deviceZone(): string {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
-export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: boolean }) {
+/** Says one short line (the island toast, or the premium toast). */
+export type BoardNotify = (line: { readonly id: string; readonly title: string }) => void;
+
+/**
+ * The idea board's state and actions, shared by the current and the premium page: the rows of a
+ * tab, votes left this month, voting (taken back when the server refuses) and suggesting.
+ */
+export function useIdeaBoard(suggestOpen: boolean, notify: BoardNotify) {
   const { t } = useLingui();
   const locale = useLocale();
   const board = useBoard();
@@ -75,7 +82,7 @@ export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: bo
   const onVote = (id: string): boolean => {
     const mine = hasMyVote(id, synced, overrides);
     if (!mine && left === 0) {
-      toast.show({
+      notify({
         id: 'help-ideas-out-of-votes',
         title: t({
           id: 'help.ideas.outOfVotes',
@@ -106,7 +113,7 @@ export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: bo
     if (idea === undefined || !onVote(id)) return;
     const count = shownCount(idea, synced, new Map([...overrides, [id, true]]));
     closeSuggest();
-    toast.show({
+    notify({
       // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast key, never copy.
       id: `help-ideas-voted-${id}`,
       title: t({
@@ -129,7 +136,7 @@ export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: bo
       });
       closeSuggest();
       setTab('new');
-      toast.show({
+      notify({
         id: 'help-ideas-posted',
         title: t({
           id: 'help.ideas.posted',
@@ -141,36 +148,59 @@ export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: bo
     }
   };
 
+  return {
+    tab,
+    setTab,
+    rows,
+    left,
+    board,
+    onVote,
+    suggesting,
+    setSuggesting,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    posting,
+    matches: similar.map((idea) => ({
+      id: idea.id,
+      title: idea.title,
+      status: idea.status,
+      count: idea.votes_count,
+      voted: hasMyVote(idea.id, synced, overrides),
+    })),
+    voteForMatch,
+    post,
+    closeSuggest,
+  };
+}
+
+export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: boolean }) {
+  const b = useIdeaBoard(suggestOpen, (line) => toast.show(line));
   return (
     <>
       <BoardView
-        tab={tab}
-        onTab={setTab}
-        rows={rows}
-        votesLeft={left}
-        unavailable={board.unavailable}
-        loaded={board.loaded}
-        onVote={(id) => void onVote(id)}
-        onSuggest={() => setSuggesting(true)}
+        tab={b.tab}
+        onTab={b.setTab}
+        rows={b.rows}
+        votesLeft={b.left}
+        unavailable={b.board.unavailable}
+        loaded={b.board.loaded}
+        onVote={(id) => void b.onVote(id)}
+        onSuggest={() => b.setSuggesting(true)}
         onBack={() => goBackOr(HELP_ROUTES.hub)}
       />
-      {suggesting ? (
+      {b.suggesting ? (
         <SuggestSheet
-          title={title}
-          onTitle={setTitle}
-          description={description}
-          onDescription={setDescription}
-          matches={similar.map((idea) => ({
-            id: idea.id,
-            title: idea.title,
-            status: idea.status,
-            count: idea.votes_count,
-            voted: hasMyVote(idea.id, synced, overrides),
-          }))}
-          posting={posting}
-          onVote={voteForMatch}
-          onPost={() => void post()}
-          onClose={closeSuggest}
+          title={b.title}
+          onTitle={b.setTitle}
+          description={b.description}
+          onDescription={b.setDescription}
+          matches={b.matches}
+          posting={b.posting}
+          onVote={b.voteForMatch}
+          onPost={() => void b.post()}
+          onClose={b.closeSuggest}
         />
       ) : null}
     </>

@@ -5,7 +5,8 @@
  * - One nudge per (sender, target) per 24 hours: `NUDGE_TOO_SOON` with `next_at`.
  * - The branch is on "installed" (the target has any registered device), never on a push token:
  *   - installed with push → scheduled at the target's engagement hour (`scheduled_deliveries` +
- *     a `nudge.dispatch` timer), delivered as an inbox item plus the N-12 push;
+ *     a `nudge.dispatch` timer), or at once with `when: 'now'` outside their quiet hours,
+ *     delivered as an inbox item plus the N-12 push;
  *   - installed without push → an inbox item now, no push (`outcome: 'inbox'`);
  *   - not installed → nothing is sent by us: the sender gets guide-voiced text and the invite
  *     link for their own share sheet (`outcome: 'relay'`).
@@ -20,6 +21,7 @@ import {
   NUDGE_TARGET_DAILY_CAP,
   nudgeAvailableAt,
   nudgeRelayText,
+  nudgeSendNow,
   nudgeSendTime,
   sendNudgePayloadSchema,
   type LinkEnvironment,
@@ -107,7 +109,13 @@ async function crewGuide(tx: pg.PoolClient, crewId: string) {
   return { tripId: row?.trip_id ?? null, guide };
 }
 
-async function sendAt(tx: pg.PoolClient, uid: string, facts: TargetFacts, now: Date) {
+async function sendAt(
+  tx: pg.PoolClient,
+  uid: string,
+  facts: TargetFacts,
+  now: Date,
+  when: SendNudgePayload['when'],
+) {
   const hours = await tx.query<{ hour_local: number; opens: number; updated_at: Date }>(
     'SELECT hour_local, opens, updated_at FROM app_open_hours WHERE user_id = $1',
     [uid],
@@ -118,6 +126,13 @@ async function sendAt(tx: pg.PoolClient, uid: string, facts: TargetFacts, now: D
       GROUP BY 1 HAVING count(*) >= $4`,
     [uid, facts.tz, now, NUDGE_TARGET_DAILY_CAP],
   );
+  const quiet =
+    facts.quiet_from === null || facts.quiet_to === null
+      ? null
+      : { from: facts.quiet_from, to: facts.quiet_to };
+  const fullDates = new Set(full.rows.map((row) => row.day));
+  const right = when === 'now' ? nudgeSendNow({ now, tz: facts.tz, quiet, fullDates }) : null;
+  if (right !== null) return right;
   const hour = engagementHour(
     hours.rows.map((row) => ({
       hourLocal: row.hour_local,
@@ -126,16 +141,7 @@ async function sendAt(tx: pg.PoolClient, uid: string, facts: TargetFacts, now: D
     })),
     now,
   );
-  return nudgeSendTime({
-    now,
-    tz: facts.tz,
-    hour,
-    quiet:
-      facts.quiet_from === null || facts.quiet_to === null
-        ? null
-        : { from: facts.quiet_from, to: facts.quiet_to },
-    fullDates: new Set(full.rows.map((row) => row.day)),
-  });
+  return nudgeSendTime({ now, tz: facts.tz, hour, quiet, fullDates });
 }
 
 /** The invite link the relay shares: the target's own pending invite, else the crew's code. */
@@ -278,7 +284,7 @@ async function sendNudge(
       return { outcome: 'inbox', nudge_id: id, ...base };
     }
 
-    const at = await sendAt(tx, uid, facts, now);
+    const at = await sendAt(tx, uid, facts, now, payload.when);
     const id = await insert('push', { sendAt: at.at, sent: false });
     const { rows } = await tx.query<{ id: string }>(
       `INSERT INTO scheduled_deliveries (user_id, kind, target_ref, send_at_local, tz, due_at, payload)

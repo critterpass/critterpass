@@ -38,7 +38,7 @@ function parseDay(data: string): SavedDay | null {
   }
 }
 
-function useLineCopy(): (line: OfflineLine) => string {
+export function useOfflineLineCopy(): (line: OfflineLine) => string {
   const { t } = useLingui();
   return (line) => {
     if (line.kind === 'ready') return t({ id: 'home.offline.ready', message: 'Ready offline' });
@@ -70,18 +70,15 @@ function useLineCopy(): (line: OfflineLine) => string {
   };
 }
 
-export function OfflineLineRow({
-  trip,
-  now,
-}: {
-  /** The trip whose card the line sits under; null when Home shows none. */
-  readonly trip: HomeTripInput | null;
-  readonly now: Date;
-}) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const { t } = useLingui();
-  const copy = useLineCopy();
+export interface OfflineLineState {
+  /** The server refuses the upload queue: changes made here are not reaching the crew. */
+  readonly held: boolean;
+  /** What is saved for the trip; null while reading, with no trip, or nothing to say. */
+  readonly line: OfflineLine | null;
+}
+
+/** The offline line's facts for a trip, read from the phone alone. */
+export function useOfflineLine(trip: HomeTripInput | null, now: Date): OfflineLineState {
   const sync = useSyncStatus();
   const places = useLiveRows<{ n: number }>(
     MISSING_PLACES_SQL,
@@ -93,7 +90,34 @@ export function OfflineLineRow({
     trip === null ? null : savedDaysParams(trip.id),
     SAVED_DAYS_TABLES,
   );
-  if (sync.uploadHeld) {
+  if (sync.uploadHeld) return { held: true, line: null };
+  if (trip === null || !places.loaded || !saved.loaded) return { held: false, line: null };
+  const tz = trip.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const line = offlineLineFor({
+    today: toLocalWallTime(now, tz).date,
+    startDate: trip.startDate,
+    endDate: trip.endDate,
+    missingPlaces: places.rows[0]?.n ?? 0,
+    synced: sync.lastSyncedAt !== null,
+    days: saved.rows.flatMap((row) => parseDay(row.data) ?? []),
+  });
+  return { held: false, line };
+}
+
+export function OfflineLineRow({
+  trip,
+  now,
+}: {
+  /** The trip whose card the line sits under; null when Home shows none. */
+  readonly trip: HomeTripInput | null;
+  readonly now: Date;
+}) {
+  const styles = useStyles();
+  const theme = useTheme();
+  const { t } = useLingui();
+  const copy = useOfflineLineCopy();
+  const { held, line } = useOfflineLine(trip, now);
+  if (held) {
     return (
       <Row gap="8" testID="home-sync-held">
         <Text variant="caption" color={theme.semantic.text.secondary} style={styles.text}>
@@ -105,16 +129,6 @@ export function OfflineLineRow({
       </Row>
     );
   }
-  if (trip === null || !places.loaded || !saved.loaded) return null;
-  const tz = trip.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const line = offlineLineFor({
-    today: toLocalWallTime(now, tz).date,
-    startDate: trip.startDate,
-    endDate: trip.endDate,
-    missingPlaces: places.rows[0]?.n ?? 0,
-    synced: sync.lastSyncedAt !== null,
-    days: saved.rows.flatMap((row) => parseDay(row.data) ?? []),
-  });
   if (line === null) return null;
   const ready = line.kind === 'ready';
   return (

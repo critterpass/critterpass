@@ -1,3 +1,6 @@
+import { CrewSettingsPremium } from '@/features/crew/premium/crew-settings-screen';
 import { CrewSettingsScreen } from '@/features/crew/settings/CrewSettingsScreen';
+import { premiumRoute } from '@/lib/premium-ui';
 
-export default CrewSettingsScreen;
+/** Crew settings (3.12). */
+export default premiumRoute({ premium: CrewSettingsPremium, legacy: CrewSettingsScreen });

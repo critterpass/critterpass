@@ -40,7 +40,7 @@ export type ClassVariant = (typeof CLASS_VARIANTS)[number];
 export const NOTIFICATION_CATEGORIES = [
   'cp.vote', 'cp.changeset', 'cp.disruption', 'cp.leaveby', 'cp.sos', 'cp.money', 'cp.chat',
   'cp.rsvp', 'cp.invite', 'cp.import', 'cp.briefing', 'cp.help', 'cp.memory', 'cp.setup_ask',
-  'cp.vendor', 'cp.generic',
+  'cp.vendor', 'cp.roundup', 'cp.generic',
 ] as const;
 export type NotificationCategory = (typeof NOTIFICATION_CATEGORIES)[number];
 
@@ -160,6 +160,7 @@ const CATALOGUE = [
   spec('crew_invite_received', 'budgeted', 'cp.invite', 'cp_trip', 'member'),
   spec('seat_opened', 'budgeted', 'cp.rsvp', 'cp_trip', 'guide', { relevance: 0.8 }),
   spec('invite_opened', 'roundup_only', 'cp.generic', 'cp_roundup', 'guide'),
+  spec('invite_refresh_requested', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
   spec('member_joined', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
   spec('lottery_deadline', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
   spec('lottery_result', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
@@ -199,7 +200,7 @@ const CATALOGUE = [
   spec('mvp_vote_open', 'roundup_only', 'cp.generic', 'cp_roundup', 'guide'),
   spec('anniversary_memory', 'budgeted', 'cp.memory', 'cp_trip', 'guide', passive),
   spec('queued_answer', 'budgeted', 'cp.generic', 'cp_guide', 'guide', passive),
-  spec('evening_roundup', 'roundup_only', 'cp.generic', 'cp_roundup', 'guide', 'roundup:{local_date}',),
+  spec('evening_roundup', 'roundup_only', 'cp.roundup', 'cp_roundup', 'guide', 'roundup:{local_date}',),
   // Pass, Boost and billing.
   spec('free_boost_ending', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { paywall: true }),
   spec('boost_activated', 'budgeted', 'cp.generic', 'cp_trip', 'member'),
@@ -300,6 +301,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   // already on CritterPass, and the one nudge an installed invitee gets after a day.
   'trip.seat_opened': ['seat_opened'],
   'invite.created': ['crew_invite_received'],
+  // Someone whose invite ran out asks the person who shared it (or the organiser) for a new one.
+  'invite.refresh_requested': ['invite_refresh_requested'],
   'invite.nudged': ['nudge'],
   // Someone new in the crew, to the members already there.
   'crew.member_joined': ['member_joined'],
@@ -396,6 +399,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'memory.surfaced': ['anniversary_memory'],
   // Pass+: a planned pause ends in a week and renewal is still off, to that member only.
   'subscription.resume_due': ['pass_resume_reminder'],
+  // The free first trip closes in three days, to those who would lose its perks (governed).
+  'ftf.ending_soon': ['free_boost_ending'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

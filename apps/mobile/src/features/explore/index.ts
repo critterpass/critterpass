@@ -7,3 +7,8 @@ export { registerSavedPlansSlot, SavedPlansSlot } from './saved-plans-slot';
 export { exploreRoutes } from './routes';
 export { WhySponsoredScreen } from './screens/why-sponsored-screen';
 export { SwipeScreen } from './screens/swipe-screen';
+// Premium pieces other areas' premium screens draw with until the kit carries them.
+export { Doodle, type DoodleName } from './premium/components/doodle';
+export { GuideDock, type GuideDockProps } from './premium/components/guide-dock';
+export { fitColour, PlaceResultRow } from './premium/components/place-result-row';
+export { PlaceThumb } from './premium/components/place-thumb';

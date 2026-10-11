@@ -6,11 +6,14 @@
 /* eslint-disable lingui/no-unlocalized-strings -- command names and wire values, never copy. */
 import type {
   EditMessagePayload,
+  KeptChatPayload,
   MarkReadPayload,
   MessageIdPayload,
   MuteMemberPayload,
+  PinMessagePayload,
   ReactMessagePayload,
   ReportMessagePayload,
+  StickerPose,
 } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
@@ -31,6 +34,8 @@ export interface OutgoingMessage {
     readonly duration_ms?: number;
     readonly peaks?: readonly number[];
   }[];
+  /** A critter sticker (a form the sender has met, in one pose) instead of text or media. */
+  readonly sticker?: { readonly form_id: string; readonly pose: StickerPose };
 }
 
 export const SEND_MESSAGE = 'send_message';
@@ -39,7 +44,9 @@ export const sendMessageCommand = defineClientCommand<OutgoingMessage>({
   name: SEND_MESSAGE,
   offline: true,
   summarize: (payload) => ({
-    ...msg({ id: 'chat.queued.message', message: '“{preview}” to the crew chat' }),
+    ...(payload.sticker === undefined
+      ? msg({ id: 'chat.queued.message', message: '“{preview}” to the crew chat' })
+      : msg({ id: 'chat.queued.sticker', message: 'A sticker to the crew chat' })),
     values: { preview: payload.body.slice(0, 80), payload: JSON.stringify(payload) },
   }),
 });
@@ -83,6 +90,27 @@ export const muteMemberCommand = defineClientCommand<MuteMemberPayload>({
     payload.muted
       ? msg({ id: 'chat.queued.mute', message: 'Muting a crewmate' })
       : msg({ id: 'chat.queued.unmute', message: 'Unmuting a crewmate' }),
+});
+
+export const pinMessageCommand = defineClientCommand<PinMessagePayload>({
+  name: 'pin_message',
+  offline: true,
+  summarize: (payload) =>
+    payload.pinned
+      ? msg({ id: 'chat.queued.pin', message: 'Pinning a message to the trip' })
+      : msg({ id: 'chat.queued.unpin', message: 'Unpinning a message' }),
+});
+
+export const askToRejoinCommand = defineClientCommand<KeptChatPayload>({
+  name: 'ask_to_rejoin',
+  offline: true,
+  summarize: () => msg({ id: 'chat.queued.askToRejoin', message: 'Asking to rejoin the crew' }),
+});
+
+export const removeKeptChatCommand = defineClientCommand<KeptChatPayload>({
+  name: 'remove_kept_chat',
+  offline: true,
+  summarize: () => msg({ id: 'chat.queued.removeChat', message: 'Removing a crew chat' }),
 });
 
 /** The payload a failed send stored in its summary, or null when it cannot be read back. */

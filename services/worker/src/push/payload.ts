@@ -10,6 +10,7 @@ import {
   apnsAlertPayloadSchema,
   cpBlockSchema,
   fcmNotificationDataSchema,
+  GUIDE_COLOURS,
   jsonBytes,
   MAX_APNS_PAYLOAD_BYTES,
   MAX_CP_BYTES,
@@ -39,6 +40,8 @@ export interface PushNotificationRow {
   readonly trip_id: string | null;
   readonly thread_id: string | null;
   readonly is_private: boolean;
+  /** A member sender's `crew_members.colour` in this crew (`accent` or `accent/ring`). */
+  readonly sender_colour?: string | null;
 }
 
 export interface BuiltPush {
@@ -50,6 +53,13 @@ export interface BuiltPush {
 
 export type PayloadResult<T> =
   { readonly ok: true; readonly payload: T } | { readonly ok: false; readonly reason: string };
+
+/** A member sender with their crew colour, so a sender with no photo shows an initial on it. */
+function senderOf(row: PushNotificationRow): PushSender {
+  const accent = row.sender_colour?.split('/')[0];
+  const tone = GUIDE_COLOURS.find((colour) => colour === accent);
+  return row.sender.kind === 'member' && tone !== undefined ? { ...row.sender, tone } : row.sender;
+}
 
 function cpBlock(
   row: PushNotificationRow,
@@ -65,7 +75,7 @@ function cpBlock(
     ...(row.deep_link !== null ? { deeplink: row.deep_link } : {}),
     ...(row.crew_id !== null ? { crew_id: row.crew_id } : {}),
     ...(row.trip_id !== null ? { trip_id: row.trip_id } : {}),
-    sender: row.sender,
+    sender: senderOf(row),
     ...(withContext && !row.is_private && context !== undefined && Object.keys(context).length > 0
       ? { ctx: context }
       : {}),

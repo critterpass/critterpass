@@ -112,5 +112,61 @@ final class PosterModelTests: XCTestCase {
             poster.stampLine(answer: answer, outcome: nil),
             "You voted Kyoto. Sending when you're back online.")
     }
+
+    private func changeset(_ diff: [[String: Any]]) -> PosterContent? {
+        PosterContent(
+            category: "cp.changeset", title: "Swap the ridge and the market?", body: "Tokek has a change.",
+            userInfo: [
+                "cp": [
+                    "v": 1, "type": "changeset_needs_yes",
+                    "ctx": [
+                        "change_set_id": "cs1", "diff": diff, "yes_count": 2, "needed": 3,
+                        "closes_at": 1_760_000_000,
+                        "voters": [["initial": "M", "tone": "pink"], ["initial": ""]],
+                    ],
+                ],
+            ])
+    }
+
+    func testAChangeAsksYesSwapOnlyWhenTwoStopsTradeTimesAndLeavesTheAnswerToTheApp() throws {
+        let swap = try XCTUnwrap(changeset([
+            ["label": "Ridge walk", "from": "13:00", "to": "16:00"],
+            ["label": "Ubud market", "from": "16:00", "to": "13:00"],
+        ]))
+        XCTAssertEqual(swap.actions(answered: false).map(\.id), ["APPROVE", "DECLINE", "OPEN"])
+        XCTAssertEqual(swap.actions(answered: false).map(\.title), ["Yes, swap", "Not this one", "Open the plan"])
+        XCTAssertNil(swap.answer(for: "APPROVE"))
+        guard case .changeset(let change) = swap.kind else { return XCTFail("not a change") }
+        XCTAssertEqual(change.yesCount, 2)
+        XCTAssertEqual(change.needed, 3)
+        XCTAssertEqual(change.voters, [.init(initial: "M", tone: "pink")])
+
+        let added = try XCTUnwrap(changeset([["label": "Spa", "from": NSNull(), "to": "15:00"]]))
+        XCTAssertEqual(added.actions(answered: false).first?.title, "Yes")
+    }
+
+    func testTheRoundupKeepsItsRowsAndOnlyOpens() throws {
+        let poster = try XCTUnwrap(PosterContent(
+            category: "cp.roundup", title: "Tokek's roundup", body: "Bookings found, Kyoto invite",
+            userInfo: ["cp": ["v": 1, "type": "evening_roundup", "ctx": [
+                "subtitle": "Five small things from today",
+                "lines": [["kind": "booking_found", "title": "2 bookings found", "sub": "Check them"],
+                          ["kind": "quest", "title": "3 quests done"], ["sub": "no title"]],
+            ]]]))
+        guard case .roundup(let subtitle, let lines) = poster.kind else { return XCTFail("not a roundup") }
+        XCTAssertEqual(subtitle, "Five small things from today")
+        XCTAssertEqual(lines.map(\.title), ["2 bookings found", "3 quests done"])
+        XCTAssertEqual(poster.actions(answered: false).map(\.id), ["OPEN"])
+    }
+
+    func testTheVoteCaptionCountsTurnoutAndTheClosingDay() throws {
+        let now = Date(timeIntervalSince1970: 1_760_000_000)
+        var poster = try XCTUnwrap(vote(options: [("o1", "Kyoto")]))
+        XCTAssertNil(poster.turnoutLine(now: now))
+        poster.turnout = .init(voted: 3, eligible: 6, closesAt: now.addingTimeInterval(-60))
+        XCTAssertEqual(poster.turnoutLine(now: now), "3 of 6 have voted.")
+        poster.turnout.closesAt = now.addingTimeInterval(3 * 86_400)
+        XCTAssertTrue(poster.turnoutLine(now: now)?.hasPrefix("3 of 6 have voted. It closes ") == true)
+    }
 }
 #endif

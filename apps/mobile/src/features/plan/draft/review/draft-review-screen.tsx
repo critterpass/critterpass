@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router, useIsFocused } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -29,12 +29,19 @@ import { useDraftVersion, type HistoryEntry } from '../data/use-draft-version';
 import { draftRoutes } from '../routes';
 import { missAction, type MissedMustDo } from './coverage-strip';
 import { DraftLoading } from './draft-loading';
-import { DraftReviewView } from './draft-review-view';
+import { DraftReviewView, type DraftReviewViewProps } from './draft-review-view';
 import { MemberPlanning } from './member-planning';
 import { NoDraft } from './no-draft';
 import { VersionHistorySheet } from './version-history-sheet';
 
-export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
+export function DraftReviewScreen({
+  tripId,
+  View = DraftReviewView,
+}: {
+  readonly tripId: string;
+  /** How the draft is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<DraftReviewViewProps>;
+}) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);
@@ -146,7 +153,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   };
   return (
     <>
-      <DraftReviewView
+      <View
         guide={trip.guide}
         destination={trip.destinationName}
         dates={

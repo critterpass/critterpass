@@ -6,23 +6,17 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 
-import { LocalFirstContext, useLocalFirst } from '@/data/powersync/local-first-context';
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { makeStyles } from '@/ui';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
-import {
-  EMPTY_PROFILE,
-  refreshDietary,
-  useDietary,
-  useSaveDietary,
-  type DietaryProfile,
-  type DietaryServices,
-} from './dietary-data';
+import type { DietaryServices } from './dietary-data';
 import { DietaryView } from './dietary-view';
+import { useDietaryForm } from './use-dietary-form';
 
 const useStyles = makeStyles((t) => ({
   body: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['32'] },
@@ -41,30 +35,10 @@ export function DietaryScreen(props: { readonly services: DietaryServices }) {
 function OpenDietaryScreen({ services }: { readonly services: DietaryServices }) {
   const styles = useStyles();
   const { t } = useLingui();
-  const { db } = useLocalFirst();
-  const stored = useDietary();
-  const actions = useSaveDietary();
-  const [draft, setDraft] = useState<DietaryProfile | null>(null);
+  const form = useDietaryForm(services);
+  const { profile, edit, save, wasSharing } = form;
   const [asking, setAsking] = useState(false);
-  const [saved, setSaved] = useState(false);
   const scroll = useRef<{ scrollToEnd: (options?: { animated?: boolean }) => void }>(null);
-
-  useEffect(() => {
-    void refreshDietary(db, services, new Date());
-  }, [db, services]);
-
-  const profile = draft ?? stored.profile ?? EMPTY_PROFILE;
-  const wasSharing = stored.profile?.visibility === 'crew_flags';
-  const edit = (next: DietaryProfile) => {
-    setDraft(next);
-    setSaved(false);
-  };
-  const save = async (next: DietaryProfile, grantConsent = false) => {
-    if (wasSharing && next.visibility === 'self') await actions.stopSharing(next);
-    else await actions.save(next, { grantConsent });
-    setDraft(null);
-    setSaved(true);
-  };
 
   return (
     <Sheet
@@ -85,10 +59,10 @@ function OpenDietaryScreen({ services }: { readonly services: DietaryServices })
         <DietaryView
           profile={profile}
           onChange={edit}
-          saving={actions.pending}
-          saved={saved}
+          saving={form.saving}
+          saved={form.saved}
           onShareChange={(share) => {
-            if (share && !stored.consented && !wasSharing) {
+            if (share && !form.consented && !wasSharing) {
               setAsking(true);
               return;
             }

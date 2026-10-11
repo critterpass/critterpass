@@ -21,10 +21,10 @@ describe('public API surface (src/index.ts)', () => {
     expect(canonicalSeed(tokek)).toBe(7); // guide alias, not a local `no`
     const epic = findDesignedForm('cp-112', 'epic');
     if (!epic) throw new Error('designed epic Tokek missing');
-    const spec = resolveRenderSpec(tokek, { form: epic.form, sticker: { color: '#f4efe4' } });
+    const spec = resolveRenderSpec(tokek, { form: epic.form, sticker: { color: '#ffffff' } });
     const model = build(spec, 96);
     expect(model.ops.length).toBeGreaterThan(0);
-    expect(model.edgeOutline).not.toBeNull();
+    expect(model.stickerOutline).not.toBeNull();
     const boxLayout = layout(spec, 96);
     expect(boxLayout.w).toBe(96);
     expect(resolveKind(spec.kind).viewBox).toEqual([100, 100]);

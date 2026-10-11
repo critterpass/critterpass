@@ -16,10 +16,12 @@ import { useLiveRows } from '@/data/plan/live-rows';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import type { ChatCardProps } from '@/features/crew';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { memberFirstName } from '@/ui/people/member-name';
 
 import { PERKS_SQL, PERKS_TABLES, perkFromRow, type PerkRow } from '../data/billing-rows';
 import { useOwnerUid } from '../data/use-billing';
+import { BoostCardPremium } from '../premium/boost-card-premium';
 import { boostCardModel, shareText } from './boost-card-model';
 import {
   CARD_BOOST_SQL,
@@ -64,6 +66,7 @@ export function tripDates(locale: string, start: string | null, end: string | nu
 }
 
 export function BoostChatCard({ message }: ChatCardProps) {
+  const premium = usePremiumUi();
   const { t, i18n } = useLingui();
   const locale = useLocale();
   const uid = useOwnerUid();
@@ -145,8 +148,9 @@ export function BoostChatCard({ message }: ChatCardProps) {
           }),
         };
 
+  const Card = premium ? BoostCardPremium : BoostCardView;
   return (
-    <BoostCardView
+    <Card
       model={model}
       buyer={row === undefined || row.buyer_id === null ? '' : memberFirstName(row.buyer_name)}
       destination={row?.destination ?? row?.crew ?? ''}

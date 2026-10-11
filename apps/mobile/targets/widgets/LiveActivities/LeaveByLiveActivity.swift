@@ -2,11 +2,13 @@ import ActivityKit
 import SwiftUI
 import WidgetKit
 
-/// The leave-by Live Activity (5a-1 lock screen, 5a-5 Dynamic Island): leave time and the
-/// countdown to it, the trail from where the crew sleeps to the first stop with the guide's
-/// critter at its place on it, one pip per member that fills when they are up, and I'M UP.
-/// Frames change only by push (never animated in between); numbers and pips transition on update.
-/// The member's own pip reads "sending" between an I'M UP tap and the server's frame showing it.
+/// The leave-by Live Activity (lock screen in the 6.32 language: system glass, the guide's badge,
+/// ink text, sentence case; the Dynamic Island is 6.27): what the crew is leaving for and when,
+/// the countdown, the trail from where the crew sleeps to the first stop with the guide's critter
+/// at its place on it, one pip per member that fills when they are up, and "I'm up". Frames change
+/// only by push (never animated in between); numbers and pips transition on update. The member's
+/// own pip reads "sending" between an "I'm up" tap and the server's frame showing it. Tapping it
+/// opens the trip hub on the pickup.
 struct LeaveByLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: LeaveByActivityAttributes.self) { context in
@@ -14,11 +16,26 @@ struct LeaveByLiveActivityWidget: Widget {
                 attributes: context.attributes, state: context.state,
                 sendingPip: LeaveByPips.sending(activityId: context.activityID, state: context.state)
             )
-                .activityBackgroundTint(LAPalette.card)
-                .activitySystemActionForegroundColor(LAPalette.paper)
+            .activityBackgroundTint(nil)
+            .activitySystemActionForegroundColor(LAPalette.paper)
+            .widgetURL(LeaveByLinks.hub(attributes: context.attributes))
         } dynamicIsland: { context in
             LeaveByIsland.make(attributes: context.attributes, state: context.state)
         }
+    }
+}
+
+/// Where the leave-by's taps go.
+enum LeaveByLinks {
+    /// The trip hub, scrolled to the pickup.
+    static func hub(attributes: LeaveByActivityAttributes) -> URL? {
+        LADeepLink.url(route: "trips/\(attributes.tripId)?focus=leave_by:\(attributes.leaveById)")
+    }
+
+    /// The guide chat, opened about this pickup.
+    static func askGuide(attributes: LeaveByActivityAttributes) -> URL? {
+        LADeepLink.url(
+            route: "guide/new?trip=\(attributes.tripId)&leave_by=\(attributes.leaveById)")
     }
 }
 
@@ -30,65 +47,49 @@ struct LeaveByLockScreen: View {
     var body: some View {
         let guide = LAGuide(slug: attributes.guide)
         // The system clips a lock screen activity at 160 pt: every size below is chosen to fit.
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center, spacing: 10) {
-                LeaveByBadge(guide: guide, state: state.state, size: 40)
-                LeaveByHeadline(state: state, tint: guide.tint, timeSize: 24, showsTier: true)
+                LAGuideBadge(guide: guide, cheering: state.state == .go || state.state == .done)
+                LeaveByHeadline(state: state, title: attributes.title, ink: LAPalette.paper)
                 Spacer(minLength: 8)
-                LeaveByCountdown(state: state, tint: guide.tint)
+                LeaveByTime(state: state, ink: LAPalette.paper, size: 24)
             }
-            LeaveByTrail(legs: attributes.legs, state: state, guide: guide)
+            LeaveByTrail(
+                legs: attributes.legs, state: state, fill: LAPalette.paper,
+                reached: LAPalette.paper, upcoming: LAPalette.track, ring: LAPalette.card,
+                labels: LAPalette.muted)
             HStack(spacing: 10) {
-                LeaveByPips(state: state, sendingPip: sendingPip)
+                LeaveByPips(state: state, sendingPip: sendingPip, ink: LAPalette.muted)
                 Spacer(minLength: 4)
-                LeaveByImUpButton(leaveById: attributes.leaveById, state: state.state)
+                LeaveByImUpButton(leaveById: attributes.leaveById, state: state.state, height: 32)
             }
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 10)
+        .padding(.vertical, 14)
     }
 }
 
-struct LeaveByBadge: View {
-    let guide: LAGuide
-    let state: LALeaveByState
-    let size: CGFloat
-
-    var body: some View {
-        guide.art(cheer: state == .go || state == .done)
-            .resizable()
-            .scaledToFit()
-            .padding(3)
-            .frame(width: size, height: size)
-            .background(guide.tint, in: RoundedRectangle(cornerRadius: size * 0.27, style: .continuous))
-            .accessibilityHidden(true)
-    }
-}
-
+/// "LEAVE BY" (or what the moment is) over what the crew is leaving for.
 struct LeaveByHeadline: View {
     let state: LeaveByActivityAttributes.ContentState
-    let tint: Color
-    let timeSize: CGFloat
-    /// The FREE pill beside the eyebrow (5a-1); the Dynamic Island has no room for it.
-    var showsTier = false
+    let title: String
+    let ink: Color
+    var eyebrowInk: Color = LAPalette.muted
+    var titleSize: CGFloat = 17
 
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
-            HStack(spacing: 6) {
-                Text(eyebrow)
-                    .font(.laEyebrow)
-                    .tracking(1.2)
-                    .foregroundStyle(state.state == .late ? LAPalette.orange : tint)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-                if showsTier { LAPill(tier: .free) }
-            }
-            Text(state.leaveAt.laDate, format: .dateTime.hour().minute())
-                .font(.system(size: timeSize, weight: .black).monospacedDigit())
-                .foregroundStyle(LAPalette.paper)
+            Text(eyebrow)
+                .font(.laEyebrow)
+                .tracking(0.44)
+                .foregroundStyle(state.state == .late ? LAPalette.orange : eyebrowInk)
                 .lineLimit(1)
-                .minimumScaleFactor(0.6)
-                .contentTransition(.numericText())
+                .minimumScaleFactor(0.7)
+            Text(title)
+                .font(.system(size: titleSize, weight: titleSize > 16 ? .bold : .semibold))
+                .foregroundStyle(ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
         }
     }
 
@@ -102,33 +103,45 @@ struct LeaveByHeadline: View {
     }
 }
 
-/// Minutes and seconds to leave time, counted by the system (no pushes needed to tick).
-struct LeaveByCountdown: View {
+/// The leave time, large, with the system's own countdown under it while there is time.
+struct LeaveByTime: View {
     let state: LeaveByActivityAttributes.ContentState
-    let tint: Color
+    let ink: Color
+    let size: CGFloat
+    var showsCountdown = true
 
     var body: some View {
-        VStack(alignment: .trailing, spacing: 2) {
-            if state.state == .waiting || state.state == .soon, state.leaveAt.laDate > .now {
+        VStack(alignment: .trailing, spacing: 0) {
+            Text(state.leaveAt.laDate, format: .dateTime.hour().minute())
+                .font(.system(size: size, weight: .bold).monospacedDigit())
+                .tracking(-size * 0.03)
+                .foregroundStyle(ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+                .contentTransition(.numericText())
+            if showsCountdown, state.state == .waiting || state.state == .soon,
+                state.leaveAt.laDate > .now
+            {
                 Text(timerInterval: Date.now...state.leaveAt.laDate, countsDown: true)
-                    .font(.system(size: 20, weight: .heavy).monospacedDigit())
-                    .foregroundStyle(tint)
+                    .font(.system(size: 12, weight: .semibold).monospacedDigit())
+                    .foregroundStyle(LAPalette.muted)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 72, alignment: .trailing)
             }
-            Text(state.placeLine)
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(LAPalette.muted)
-                .lineLimit(1)
         }
     }
 }
 
-/// The stops with the guide's critter where the crew is: solid up to it, dashed after.
+/// The stops on a solid track, filled up to where the crew is, with each stop's name under it.
 struct LeaveByTrail: View {
     let legs: [String]
     let state: LeaveByActivityAttributes.ContentState
-    let guide: LAGuide
+    let fill: Color
+    let reached: Color
+    let upcoming: Color
+    /// The dots' border: the ground they sit on.
+    let ring: Color
+    let labels: Color
 
     private var position: Double {
         guard legs.count > 1 else { return 0 }
@@ -138,45 +151,32 @@ struct LeaveByTrail: View {
     }
 
     var body: some View {
-        VStack(spacing: 3) {
+        VStack(spacing: 4) {
             GeometryReader { geo in
                 let width = geo.size.width - 12
                 let x = 6 + width * position
                 ZStack {
-                    Path { path in
-                        path.move(to: CGPoint(x: 6, y: 21))
-                        path.addLine(to: CGPoint(x: 6 + width, y: 21))
-                    }
-                    .stroke(LAPalette.track, style: StrokeStyle(lineWidth: 2, dash: [4, 4]))
-                    Path { path in
-                        path.move(to: CGPoint(x: 6, y: 21))
-                        path.addLine(to: CGPoint(x: x, y: 21))
-                    }
-                    .stroke(guide.tint, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                    Capsule().fill(upcoming).frame(width: width, height: 4)
+                        .position(x: 6 + width / 2, y: 6)
+                    Capsule().fill(fill).frame(width: max(4, x - 6), height: 4)
+                        .position(x: 6 + max(4, x - 6) / 2, y: 6)
                     ForEach(Array(legs.indices), id: \.self) { index in
-                        let reached = Double(index) <= position * Double(legs.count - 1) + 0.001
+                        let done = Double(index) <= position * Double(legs.count - 1) + 0.001
                         Circle()
-                            .strokeBorder(reached ? guide.tint : LAPalette.track, lineWidth: 2)
-                            .background(Circle().fill(reached ? guide.tint : LAPalette.card))
+                            .fill(done ? reached : upcoming)
+                            .overlay(Circle().strokeBorder(ring, lineWidth: 2))
                             .frame(width: 12, height: 12)
                             .position(
-                                x: 6 + width * Double(index) / Double(max(1, legs.count - 1)), y: 21)
+                                x: 6 + width * Double(index) / Double(max(1, legs.count - 1)), y: 6)
                     }
-                    guide.art(cheer: state.state == .go || state.state == .done)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 18, height: 18)
-                        .position(x: x, y: 8)
-                        .accessibilityHidden(true)
                 }
             }
-            .frame(height: 28)
+            .frame(height: 12)
             HStack {
                 ForEach(Array(legs.enumerated()), id: \.offset) { index, leg in
-                    Text(leg.uppercased())
+                    Text(leg)
                         .font(.laLabel)
-                        .tracking(0.8)
-                        .foregroundStyle(LAPalette.muted)
+                        .foregroundStyle(labels)
                         .lineLimit(1)
                     if index < legs.count - 1 { Spacer(minLength: 4) }
                 }
@@ -185,13 +185,14 @@ struct LeaveByTrail: View {
     }
 }
 
-/// One pip per member (who is up is shared crew state), then "4 OF 6 UP". The member's own pip,
-/// while an I'M UP tap is on its way, is an outline in the fill colour.
+/// One pip per member (who is up is shared crew state), then "4 of 6 up". The member's own pip,
+/// while an "I'm up" tap is on its way, is an outline in the fill colour.
 struct LeaveByPips: View {
     let state: LeaveByActivityAttributes.ContentState
     var sendingPip: Int?
+    let ink: Color
 
-    /// The pip an I'M UP tap on this phone left marked as sending, if the frame still calls for it.
+    /// The pip an "I'm up" tap on this phone left marked as sending, if the frame still calls for it.
     static func sending(activityId: String, state: LeaveByActivityAttributes.ContentState) -> Int? {
         LeaveBySendingMark.read(activityId: activityId, root: AppGroupContainer.url)?.sendingPip(
             hashes: state.pips.map(\.uidHash), ups: state.pips.map(\.up), seq: state.seq, now: .now)
@@ -208,17 +209,16 @@ struct LeaveByPips: View {
                                 .accessibilityLabel(Text("Sending"))
                         } else {
                             Capsule()
-                                .fill(pip.up ? LAPalette.green : LAPalette.chip)
+                                .fill(pip.up ? LAPalette.green : LAPalette.track)
                         }
                     }
-                    .frame(minWidth: 4, maxWidth: state.pips.count > 8 ? 12 : 24)
+                    .frame(minWidth: 4, maxWidth: state.pips.count > 8 ? 12 : 22)
                     .frame(height: 6)
                 }
             }
-            Text("\(state.upCount) OF \(state.total) UP")
-                .font(.laLabel)
-                .tracking(0.8)
-                .foregroundStyle(LAPalette.paper)
+            Text("\(state.upCount) of \(state.total) up")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(ink)
                 .lineLimit(1)
                 .fixedSize()
                 .contentTransition(.numericText())
@@ -226,23 +226,22 @@ struct LeaveByPips: View {
     }
 }
 
-/// I'M UP from the locked phone: the intent records it and the crew's pips update by push.
+/// "I'm up" from the locked phone: the intent records it and the crew's pips update by push.
 struct LeaveByImUpButton: View {
     let leaveById: String
     let state: LALeaveByState
-    /// Fills its half of the expanded Dynamic Island (5a-5) instead of hugging its label.
+    var height: CGFloat = 34
+    /// Fills its half of the expanded Dynamic Island instead of hugging its label.
     var wide = false
 
     var body: some View {
         if state != .done {
             Button(intent: ImUpIntent(leaveById: leaveById)) {
-                Text("I'M UP")
-                    .font(.system(size: 13, weight: .heavy))
-                    .tracking(0.8)
+                Text("I'm up")
+                    .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(LAPalette.night)
                     .padding(.horizontal, 16)
-                    .padding(.vertical, wide ? 10 : 6)
-                    .frame(maxWidth: wide ? .infinity : nil)
+                    .frame(maxWidth: wide ? .infinity : nil, minHeight: height)
                     .background(LAPalette.yellow, in: Capsule())
             }
             .buttonStyle(.plain)

@@ -12,6 +12,8 @@ export type SheetDetent = 'half' | 'full' | 'fit';
 
 /** Material's sheet corner on Android; iOS keeps the system's own. */
 const ANDROID_SHEET_RADIUS = 28;
+/** The band at the top of an iOS sheet that the system grabber draws in and answers taps on. */
+const GRABBER_CLEARANCE = 12;
 
 /**
  * A layout's options for a sheet route: the native form sheet with its grabber and detent. On
@@ -62,6 +64,12 @@ export interface SheetScreenProps {
  * The sheet screen type (foundations-spec §1): Cancel left, bold verb right, drawn inside the
  * content on both platforms (Android's native sheet has no header). Swiping down cancels, and with
  * edits it asks first. The keyboard: iOS lifts the sheet itself; the footer rides it on both.
+ *
+ * Layout: the header row sits below the grabber and the body scrolls under it, never over it.
+ * react-native-screens sizes a form sheet's scroll view to the whole sheet when it finds one at the
+ * top of the content (its fix for sheets whose content has no fixed bottom), which put the form
+ * over the header and swallowed taps on Cancel. The header is therefore a real view first in the
+ * row order, and the scroll view lives inside a clipping body view, out of that search.
  */
 export function SheetScreen({
   title,
@@ -108,7 +116,7 @@ export function SheetScreen({
       ]}
     >
       {android ? <View style={[styles.grabber, { backgroundColor: t.color.placeholder }]} /> : null}
-      <View style={[styles.header, { paddingHorizontal: t.space.gutter }]}>
+      <View collapsable={false} style={[styles.header, { paddingHorizontal: t.space.gutter }]}>
         <PressableScale
           testID="sheet-cancel"
           accessibilityLabel={cancelLabel}
@@ -144,21 +152,25 @@ export function SheetScreen({
           </PressableScale>
         )}
       </View>
-      {scroll ? (
-        <ScrollView
-          style={styles.body}
-          contentContainerStyle={{
-            paddingHorizontal: t.space.gutter,
-            paddingBottom: t.space.gap16,
-          }}
-          keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
-          keyboardShouldPersistTaps="handled"
-        >
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={styles.body}>{children}</View>
-      )}
+      <View collapsable={false} style={styles.body}>
+        {scroll ? (
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={{
+              paddingHorizontal: t.space.gutter,
+              paddingBottom: t.space.gap16,
+            }}
+            contentInsetAdjustmentBehavior="never"
+            automaticallyAdjustKeyboardInsets
+            keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+            keyboardShouldPersistTaps="handled"
+          >
+            {children}
+          </ScrollView>
+        ) : (
+          children
+        )}
+      </View>
       {footer === undefined ? null : (
         <KeyboardStickyFooter
           openedOffset={t.space.gap8}
@@ -176,14 +188,18 @@ const NO_PROMPT: DiscardPrompt = { title: '', message: '', discard: '', keep: ''
 const styles = StyleSheet.create({
   root: { flex: 1 },
   grabber: { alignSelf: 'center', width: 36, height: 5, borderRadius: 3, marginTop: 8 },
+  // Clears the system grabber (iOS draws it over the top 20 pt of the sheet and takes taps there).
   header: {
     height: 56,
+    marginTop: Platform.OS === 'ios' ? GRABBER_CLEARANCE : 0,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    zIndex: 1,
   },
   cancel: { fontWeight: '400' },
   title: { flex: 1 },
   verbSpace: { minWidth: 44 },
-  body: { flex: 1 },
+  body: { flex: 1, overflow: 'hidden' },
+  scroll: { flex: 1 },
 });

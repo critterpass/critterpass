@@ -7,6 +7,7 @@
  */
 import { z } from 'zod';
 
+import { GUIDE_COLOURS } from './enums/catalogue';
 import { ANDROID_CHANNELS, NOTIFICATION_CATEGORIES, SENDER_KINDS } from './notifications';
 
 /** App bundle ids (and Android application ids): production, staging and development builds. */
@@ -46,6 +47,8 @@ export const pushSenderSchema = z.object({
   id: z.string().min(1).max(64),
   name: z.string().min(1).max(80),
   avatar: z.string().max(120).optional(),
+  /** A crew member's colour, so a sender with no photo shows their initial on it. */
+  tone: z.enum(GUIDE_COLOURS).optional(),
 });
 export type PushSender = z.infer<typeof pushSenderSchema>;
 

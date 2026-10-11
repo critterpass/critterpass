@@ -13,28 +13,11 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { Stack, Text } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
+import { reasonLabel } from './report-reasons';
+
 const useStyles = makeStyles((th) => ({ body: { padding: th.space['16'], gap: th.space['16'] } }));
 
-export function reasonLabel(reason: ReportReason): string {
-  switch (reason) {
-    case 'spam':
-      return t({ id: 'chat.report.spam', message: 'Spam' });
-    case 'harassment':
-      return t({ id: 'chat.report.harassment', message: 'Bullying or harassment' });
-    case 'hate':
-      return t({ id: 'chat.report.hate', message: 'Hate' });
-    case 'sexual':
-      return t({ id: 'chat.report.sexual', message: 'Sexual content' });
-    case 'violence':
-      return t({ id: 'chat.report.violence', message: 'Violence or threats' });
-    case 'impersonation':
-      return t({ id: 'chat.report.impersonation', message: 'Pretending to be someone' });
-    case 'personal_info':
-      return t({ id: 'chat.report.personalInfo', message: 'Sharing private information' });
-    case 'other':
-      return t({ id: 'chat.report.other', message: 'Something else' });
-  }
-}
+export { reasonLabel } from './report-reasons';
 
 export function ReportSheet({
   senderName,

@@ -7,16 +7,12 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
-import { toast } from '@/motion';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 import { makeStyles } from '@/ui/theme';
 
-import { useMyUid } from '../queries';
-import { removeIdeaCommand } from './commands';
+import { useRemoveForEveryone } from './use-remove-for-everyone';
 
 const useStyles = makeStyles((th) => ({
   link: { alignItems: 'center' },
@@ -32,24 +28,14 @@ export interface RemoveForEveryoneProps {
 
 export function RemoveForEveryone({ tripId, placeId, name, organiser }: RemoveForEveryoneProps) {
   const { t } = useLingui();
-  const uid = useMyUid();
-  const { ideas } = useTripIdeas(organiser ? tripId : null);
   const styles = useStyles();
   const [asking, setAsking] = useState(false);
-  const { send, pending } = useCommand(removeIdeaCommand);
-  const idea = ideas.find((entry) => entry.poiId === placeId);
-  if (!organiser || idea === undefined) return null;
-  const others = idea.backerIds.filter((backer) => backer !== uid).length;
-  if (others === 0) return null;
-  const savers = String(idea.backerIds.length);
+  const offer = useRemoveForEveryone({ tripId, placeId, organiser });
+  if (offer === null) return null;
+  const { savers, pending } = offer;
   const remove = () => {
     setAsking(false);
-    void send({ idea_id: idea.id, for_everyone: true });
-    toast.show({
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
-      id: `place-detail-idea-${placeId}`,
-      title: t({ id: 'explore.detail.removeAll.done', message: 'Removed from Ideas for everyone' }),
-    });
+    offer.remove();
   };
   const title = t({
     id: 'explore.detail.removeAll.title',

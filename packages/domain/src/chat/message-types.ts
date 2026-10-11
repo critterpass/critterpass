@@ -1,6 +1,6 @@
 /**
  * Crew chat message kinds (docs/data-model.md §3.6). `text`, `photo`, `voice` and `system` are
- * built by the chat itself; every other kind is a rich card whose renderer belongs to the feature
+ * built by the chat itself, and `sticker` is a member's critter sticker; every other kind is a rich card whose renderer belongs to the feature
  * that posts it (polls, expenses, guide offers, change sets, boost cards, meet-ups, proposals and
  * supplier orders). The app's card registry is typed by this list, so a new kind lands here first.
  */
@@ -19,19 +19,30 @@ export const MESSAGE_TYPES = [
   'meetup',
   'proposal',
   'supplier_order',
+  'sticker',
 ] as const;
 export const messageTypeSchema = z.enum(MESSAGE_TYPES);
 export type MessageType = z.infer<typeof messageTypeSchema>;
 
 /** Kinds a member sends through `send_message`; cards are posted by their owning features. */
-export const MEMBER_MESSAGE_TYPES = ['text', 'photo', 'voice'] as const;
+export const MEMBER_MESSAGE_TYPES = ['text', 'photo', 'voice', 'sticker'] as const;
 export type MemberMessageType = (typeof MEMBER_MESSAGE_TYPES)[number];
 
 export const MESSAGE_SENDER_KINDS = ['user', 'guide', 'system'] as const;
 export type MessageSenderKind = (typeof MESSAGE_SENDER_KINDS)[number];
 
-/** What a `system` row records; `ref_id` is the member it is about, `body` the new crew name. */
-export const SYSTEM_MESSAGE_KINDS = ['member_joined', 'member_left', 'crew_renamed'] as const;
+/**
+ * What a `system` row records; `ref_id` is the member it is about, `body` the new crew name. A
+ * former member asking back in posts `rejoin_asked`; `trip_settled` marks the moment a trip's
+ * balances came out square (`ref_id` the trip, `body` how many people it settled).
+ */
+export const SYSTEM_MESSAGE_KINDS = [
+  'member_joined',
+  'member_left',
+  'crew_renamed',
+  'rejoin_asked',
+  'trip_settled',
+] as const;
 export type SystemMessageKind = (typeof SYSTEM_MESSAGE_KINDS)[number];
 
 export const ATTACHMENT_KINDS = ['photo', 'voice'] as const;
@@ -51,3 +62,13 @@ export const storedAttachmentSchema = z.object({
   peaks: z.array(z.number().min(0).max(1)).max(64).optional(),
 });
 export type StoredAttachment = z.infer<typeof storedAttachmentSchema>;
+
+/**
+ * A critter sticker message: one pose of a critter form the sender has met. Stored as
+ * `type = 'sticker'`, `ref_kind = 'critter_form'`, `ref_id` the form and `body` the pose; the
+ * caption is fixed per pose and localised on the device, so a sticker carries no free text.
+ */
+export const STICKER_POSES = ['wave', 'cheer', 'think', 'point', 'sleep'] as const;
+export const stickerPoseSchema = z.enum(STICKER_POSES);
+export type StickerPose = z.infer<typeof stickerPoseSchema>;
+export const STICKER_REF_KIND = 'critter_form';

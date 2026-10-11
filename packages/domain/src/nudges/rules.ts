@@ -17,6 +17,11 @@ export const sendNudgePayloadSchema = z.object({
   reason: nudgeReasonSchema,
   /** What the nudge is about (a poll, a trip, a leave-by, an expense); defaults to the crew. */
   context: z.object({ kind: z.string().regex(/^[a-z_]{1,40}$/), id: z.uuid() }).optional(),
+  /**
+   * `now` delivers at once unless the target is in quiet hours or already has the day's nudges
+   * (then it falls back to their hour); `their_hour` (the default) waits for their usual hour.
+   */
+  when: z.enum(['now', 'their_hour']).optional(),
 });
 export type SendNudgePayload = z.infer<typeof sendNudgePayloadSchema>;
 

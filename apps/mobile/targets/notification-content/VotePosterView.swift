@@ -1,5 +1,6 @@
 import Observation
 import SwiftUI
+import UIKit
 
 /// What the poster shows right now; the controller changes it in place as an answer goes out, so
 /// the notification stays open (`.doNotDismiss`) and the stamp lands on the poster itself.
@@ -10,6 +11,7 @@ final class PosterState {
     var stamp: PosterStamp = .none
     /// Votes per option id once the server has answered.
     var tallies: [String: Int] = [:]
+    var deliveredAt: Date?
 }
 
 enum PosterStamp: Equatable, Sendable {
@@ -25,16 +27,71 @@ enum PosterStamp: Equatable, Sendable {
     case refused
 }
 
-/// Design tokens the posters use (packages/design-tokens `color.*`).
+/// The premium colours the posters draw with (targets/_shared/Tokens/CPPremium.swift): ink text
+/// on the notification's own material, adapting to dark mode; crew colours stay the same.
 enum PosterPalette {
-    static let card = Color(red: 0x12 / 255, green: 0x0F / 255, blue: 0x22 / 255)
-    static let paper = Color(red: 0xF4 / 255, green: 0xEF / 255, blue: 0xE4 / 255)
-    static let muted = Color(red: 0xA9 / 255, green: 0xA3 / 255, blue: 0xC0 / 255)
-    static let yellow = Color(red: 0xFF / 255, green: 0xD8 / 255, blue: 0x4A / 255)
-    static let orange = Color(red: 0xFF / 255, green: 0x9A / 255, blue: 0x4D / 255)
-    static let blue = Color(red: 0x4F / 255, green: 0x86 / 255, blue: 0xFF / 255)
-    static let green = Color(red: 0x54 / 255, green: 0xD6 / 255, blue: 0xA4 / 255)
-    static let night = Color(red: 0x0D / 255, green: 0x0B / 255, blue: 0x18 / 255)
+    static let ink = adaptive(CPPremium.light.colorInk, CPPremium.dark.colorInk)
+    static let secondary = adaptive(CPPremium.light.colorInkSecondary, CPPremium.dark.colorInkSecondary)
+    static let muted = adaptive(CPPremium.light.colorMuted, CPPremium.dark.colorMuted)
+    static let card = adaptive(CPPremium.light.colorCard, CPPremium.dark.colorCard)
+    static let hairline = adaptive(CPPremium.light.colorHairline, CPPremium.dark.colorHairline)
+    static let paper = CPPremium.Accent.paper
+    static let yellow = CPPremium.Accent.sun
+    static let orange = CPPremium.Accent.tangerine
+    static let blue = CPPremium.Accent.sky
+    static let green = CPPremium.Accent.mint
+    static let pink = CPPremium.Accent.pink
+    static let cream = CPPremium.Accent.neutral
+    /// Text on a crew colour: dark in both appearances.
+    static let night = CPPremium.light.colorOnAccent
+    /// Tokek's own ground.
+    static let guideBg = CPPremium.light.colorStatusMaybeBg
+
+    /// A crew colour by its payload name, sun when unknown.
+    static func tone(_ name: String?) -> Color {
+        switch name {
+        case "orange": return orange
+        case "blue": return blue
+        case "pink": return pink
+        case "green": return green
+        case "cream": return cream
+        default: return yellow
+        }
+    }
+
+    /// The light tile behind an answer's critter (6.29: tangerine `#fff1e6`, mint `#e3f6ec`).
+    static func tile(_ name: String?) -> Color {
+        switch name {
+        case "orange": return Color(red: 0xFF / 255, green: 0xF1 / 255, blue: 0xE6 / 255)
+        case "green": return CPPremium.light.colorStatusBookedBg
+        case "blue": return CPPremium.light.colorStatusRainBg
+        case "pink": return CPPremium.light.colorStatusVoteOpenBg
+        case "cream": return CPPremium.light.colorControl
+        default: return CPPremium.light.colorStatusMaybeBg
+        }
+    }
+
+    private static func adaptive(_ light: Color, _ dark: Color) -> Color {
+        let light = UIColor(light)
+        let dark = UIColor(dark)
+        return Color(UIColor { $0.userInterfaceStyle == .dark ? dark : light })
+    }
+}
+
+/// Each guide's critter as this extension embeds it (plugins/with-critter-art.ts lists the same
+/// names); an unknown guide is Tokek.
+enum PosterArt {
+    static func idle(slug: String?) -> String {
+        switch slug {
+        case "pon": return "tanuki-common-idle-color-48pt"
+        case "lundi": return "puffin-common-idle-color-48pt"
+        case "ajo": return "axolotl-common-idle-color-48pt"
+        case "sardi": return "sardine-common-idle-color-48pt"
+        case "paco": return "alpaca-common-idle-color-48pt"
+        case "chava": return "langur-common-idle-color-48pt"
+        default: return "gecko-common-idle-color-48pt"
+        }
+    }
 }
 
 struct PosterRoot: View {
@@ -44,71 +101,109 @@ struct PosterRoot: View {
         switch state.content?.kind {
         case .vote?: VotePosterView(state: state)
         case .rsvp?: RsvpPosterView(state: state)
-        case nil: PosterPalette.card
+        case .changeset(let change)?: ChangesetPosterView(state: state, change: change)
+        case .roundup(let subtitle, let lines)?:
+            RoundupPosterView(title: state.content?.title ?? "", subtitle: subtitle, lines: lines)
+        case nil: Color.clear
         }
     }
 }
 
-/// The vote showdown (5b-2): the first two options face off on an orange and blue split with
-/// their critters and a pulsing VS; the stamp lands on the poster once the vote is in.
-struct VotePosterView: View {
-    let state: PosterState
-    @State private var pulse = false
+/// The poster's header: a small badge, who it is from, and when.
+struct PosterHeader: View {
+    let title: String
+    let art: String
+    let tint: Color
+    var size: CGFloat = 24
+    var deliveredAt: Date?
 
     var body: some View {
-        let options = state.content?.options ?? []
-        ZStack {
-            PosterPalette.blue
-            PosterSlant().fill(PosterPalette.orange)
-            if let left = options.first {
-                side(left, art: "tanuki-common-idle-color-48pt", leading: true)
-            }
-            if options.count > 1 {
-                side(options[1], art: "sardine-common-idle-color-48pt", leading: false)
-            }
-            Text("VS")
-                .font(.system(size: 22, weight: .black))
-                .foregroundStyle(PosterPalette.yellow)
-                .frame(width: 58, height: 58)
-                .background(PosterPalette.night, in: Circle())
-                .scaleEffect(pulse ? 1.08 : 1)
-                .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: pulse)
-                .onAppear { pulse = true }
-            PosterStampView(stamp: state.stamp, label: stampLabel)
-        }
-        .clipped()
-    }
-
-    private func side(_ option: PosterContent.Option, art: String, leading: Bool) -> some View {
-        VStack(alignment: leading ? .leading : .trailing, spacing: 6) {
-            if leading { name(option) }
+        HStack(spacing: 8) {
             Image(art)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 84, height: 84)
-                .opacity(loser(option) ? 0.4 : 1)
+                .padding(1)
+                .frame(width: size, height: size)
+                .background(tint, in: RoundedRectangle(cornerRadius: size * 7 / 24, style: .continuous))
                 .accessibilityHidden(true)
-            if !leading { name(option) }
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: leading ? .topLeading : .bottomTrailing)
-    }
-
-    private func name(_ option: PosterContent.Option) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(option.label.uppercased())
-                .font(.system(size: 34, weight: .black))
-                .foregroundStyle(PosterPalette.night)
+            Text(title)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(PosterPalette.ink)
                 .lineLimit(1)
-                .minimumScaleFactor(0.5)
-            if let count = state.tallies[option.id] {
-                Text("\(count) VOTES")
-                    .font(.system(size: 11, weight: .heavy))
-                    .tracking(1)
-                    .foregroundStyle(PosterPalette.night)
-                    .contentTransition(.numericText())
+            Spacer(minLength: 6)
+            if let deliveredAt {
+                Text(deliveredAt, format: .relative(presentation: .named))
+                    .font(.system(size: 12))
+                    .foregroundStyle(PosterPalette.muted)
+                    .lineLimit(1)
             }
         }
+    }
+}
+
+/// The vote poster (6.29): who is asking, the first two answers as tiles with their critters and
+/// counts on stickers, "VS" between, and how many have voted with when it closes. The stamp lands
+/// on the poster once the vote is in.
+struct VotePosterView: View {
+    let state: PosterState
+
+    var body: some View {
+        let content = state.content
+        let options = Array((content?.options ?? []).prefix(2))
+        VStack(alignment: .leading, spacing: 12) {
+            PosterHeader(
+                title: content?.title ?? "", art: PosterArt.idle(slug: nil), tint: PosterPalette.yellow,
+                deliveredAt: state.deliveredAt)
+            ZStack {
+                HStack(spacing: 28) {
+                    ForEach(Array(options.enumerated()), id: \.element.id) { index, option in
+                        tile(option, tilt: index == 1)
+                    }
+                }
+                if options.count > 1 {
+                    Text(verbatim: "VS")
+                        .font(.system(size: 14, weight: .heavy))
+                        .foregroundStyle(PosterPalette.ink)
+                }
+                PosterStampView(stamp: state.stamp, label: stampLabel)
+            }
+            if let line = content?.turnoutLine() {
+                Text(line)
+                    .font(.system(size: 13))
+                    .foregroundStyle(PosterPalette.secondary)
+                    .lineLimit(2)
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+    }
+
+    private func tile(_ option: PosterContent.Option, tilt: Bool) -> some View {
+        let count = state.tallies[option.id] ?? option.count
+        return ZStack(alignment: .bottomLeading) {
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(PosterPalette.tile(option.tone))
+            Image(PosterArt.idle(slug: option.critter))
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .rotationEffect(.degrees(tilt ? -14 : 0))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .opacity(loser(option) ? 0.4 : 1)
+                .accessibilityHidden(true)
+            Text(count.map { "\(option.label) · \($0)" } ?? option.label)
+                .font(.system(size: 12, weight: .heavy))
+                .foregroundStyle(PosterPalette.night)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(PosterPalette.tone(option.tone), in: RoundedRectangle(cornerRadius: 7))
+                .overlay(RoundedRectangle(cornerRadius: 7).strokeBorder(Color.white, lineWidth: 2))
+                .padding(8)
+                .contentTransition(.numericText())
+        }
+        .frame(maxWidth: .infinity, minHeight: 100, maxHeight: 100)
     }
 
     private func loser(_ option: PosterContent.Option) -> Bool {
@@ -137,38 +232,28 @@ struct PosterStampView: View {
     var body: some View {
         if let label {
             Text(label)
-                .font(.system(size: 18, weight: .black))
+                .font(.system(size: 18, weight: .heavy))
                 .tracking(1.5)
-                .foregroundStyle(PosterPalette.night)
+                .foregroundStyle(CPPremium.Stamp.pinkText)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 6)
                 .background(PosterPalette.paper, in: RoundedRectangle(cornerRadius: 6))
-                .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(PosterPalette.night, lineWidth: 3))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6).strokeBorder(CPPremium.Stamp.pinkRing, lineWidth: 3)
+                )
                 .rotationEffect(.degrees(-8))
                 .opacity(isSending ? 0.6 : 1)
                 .padding(.horizontal, 24)
                 .transition(.scale(scale: 1.6).combined(with: .opacity))
-                .animation(.spring(duration: 0.4), value: label)
+                // The Lively spring (foundations 1.07).
+                .animation(CPPremium.Spring.lively.animation, value: label)
         }
     }
 
     private var isSending: Bool {
         if case .sending = stamp { return true }
         return false
-    }
-}
-
-/// The left side of the split: top edge to 60 %, bottom edge to 40 %.
-struct PosterSlant: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.minX + rect.width * 0.6, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.minX + rect.width * 0.4, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.closeSubpath()
-        return path
     }
 }

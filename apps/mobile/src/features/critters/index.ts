@@ -7,3 +7,4 @@
 export { useGuideSkin } from './detail/guide-skin';
 export { FormSticker, type FormStickerProps } from './form-sticker';
 export { encounterEngine } from './engine/session';
+export { critterRoute, whereRoute } from './routes';
