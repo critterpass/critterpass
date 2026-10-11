@@ -45,7 +45,8 @@ describe('routeIncomingUrl after onboarding', () => {
     ['https://critterpass.app/app/vote/123', '/vote/123'],
     ['critterpass://trip/abc/day/2', '/trip/abc/day/2'],
     [`critterpass://trips/${TRIP}/day/2026-10-17`, `/trips/${TRIP}/day/2026-10-17`],
-    [`critterpass://hub/${TRIP}`, `/trips/${TRIP}`],
+    // The hub's own path is a screen again: the current UI redirects it into the Trips tab.
+    [`critterpass://hub/${TRIP}`, `/hub/${TRIP}`],
     [`critterpass://hub/${TRIP}/day/2026-10-17`, `/trips/${TRIP}/day/2026-10-17`],
     [`critterpass://hub/${TRIP}/offline`, `/hub/${TRIP}/offline`],
     // The api's OAuth callbacks return here: the screen reads the outcome from the query.
@@ -66,7 +67,7 @@ describe('routeIncomingUrl after onboarding', () => {
       `https://critterpass.app/app/recap/${TRIP}/postcard?postcard_id=${CREW}&c=wa#top`,
       `/recap/${TRIP}/postcard?postcard_id=${CREW}`,
     ],
-    [`critterpass://hub/${TRIP}?from=push`, `/trips/${TRIP}?from=push`],
+    [`critterpass://hub/${TRIP}?from=push`, `/hub/${TRIP}?from=push`],
     [
       'critterpass-dev://i/BAX6XA',
       '/onboarding/invite/ticket?code=BAX6XA&kind=invite&state=active',
