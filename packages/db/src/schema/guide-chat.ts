@@ -173,7 +173,7 @@ registerTablePrivacy('queued_guide_questions', { class: 'C2' });
 registerTablePrivacy('phrase_progress', { class: 'C2' });
 registerTablePrivacy('custom_phrase_cards', { class: 'C2' });
 registerTablePrivacy('guide_crew_turns', { class: 'C4' });
-registerTablePrivacy('guide_answer_pings', { class: 'C1' });
+registerTablePrivacy('guide_answer_pings', { class: 'C4' });
 
 // Guide chat: threads, questions, phrase cards and practice follow their owner. A merged user may
 // end up with two private threads for one trip; both stay readable. A queued question for a day

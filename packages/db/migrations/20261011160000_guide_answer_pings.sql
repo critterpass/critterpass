@@ -1,7 +1,7 @@
 -- "Ping me" on a slow guide answer: the asker leaves the guide while it is still working and asks to
 -- hear when the answer lands. One row per (thread, user) waits until the server saves the thread's
 -- next answer, which pushes it and deletes the row; a row older than an hour has been answered or
--- given up and is ignored. Only the server reads or writes it (RLS class S, C1: ids and a time).
+-- given up and is ignored. Only the server reads or writes it (RLS class S, C4: never synced).
 CREATE TABLE guide_answer_pings (
   thread_id uuid NOT NULL REFERENCES guide_threads (id) ON DELETE CASCADE,
   user_id uuid NOT NULL REFERENCES users (id),

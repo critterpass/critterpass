@@ -14,28 +14,37 @@ Branch `feat/premium-journeys-chat-critters` (worktree `guide-language`), merged
 | 5.16 | Point and ask | `features/guide/premium/camera/**` | `app/(modal)/guide/camera.tsx` |
 | 5.21, 5.22 | Dietary consent and form | `features/guide/premium/dietary/**` | `app/(modal)/guide/dietary.tsx` |
 | 5.23 | Phrase show mode (full brightness) | `features/guide/premium/phrases/phrase-show-screen.tsx` | `app/(modal)/guide/phrase.tsx` |
-| 8.01 | Critterdex | `features/critters/premium/dex/**` | `app/(tabs)/pass.tsx` |
+| 8.01 | Critterdex (pushed from the passport's Critterdex row, glass back) | `features/critters/premium/dex/**` | `app/you/critterdex.tsx` |
 | 8.02 | Critter detail | `features/critters/premium/detail/**` | `app/critters/[critterId].tsx` |
 | 8.03, 8.04, 8.06 | Encounter, befriended, wandered off | `features/critters/premium/encounter/**` | `app/(trip)/encounter/[id].tsx` |
 | 8.05 | Egg hatch | `features/critters/premium/hatch/hatch-scene.tsx` | `app/(modal)/hatch/[tripId].tsx` |
 | 8.07 | Crew quests | `features/critters/premium/quests/**` | `app/(trip)/quests/[tripId].tsx` |
 | 8.08 | Legendary calendar | `features/critters/premium/legendary/**` | `app/critters/legendaries.tsx` |
 | 8.09 | Recap page | `features/recap/premium/recap-scene.tsx`, `recap-parts.tsx` | `app/(trip)/recap/[tripId]/index.tsx` |
+| 8.10, 8.11, 8.13, story player | Recap story: player (bars, tap, hold, swipe down), presenter row, the eight cards (cover, new friends, route, awards, money receipt, got away, passport stamp, postcard), MVP vote, card actions, signature sheet | `features/recap/premium/story/**` (`PREMIUM_STORY_LOOK`) | `app/(trip)/recap/[tripId]/story.tsx` |
 | 8.12 | Trip journal | `features/album/premium/journal-scene.tsx`, `day-pocket.tsx` | `app/(trip)/album/[tripId]/index.tsx` |
 | 8.14 | Postcard composer (Send it home) | `features/album/premium/postcard-*.tsx` | `app/(trip)/recap/[tripId]/postcard.tsx` |
 | 8.15 | A year later | `features/recap/premium/memory-screen.tsx` | `app/memory/[memoryId].tsx` |
 
 Logic moved out of views so both looks share it: `useGuideSheet`, `useDietaryForm`, `useMemoryScreen`, `useLegendaryCalendar`, `useStickerTray`, `useGuideReplying`, `useChatMediaActions`, the guide offer hook; the dex, hatch, quests, recap, album, postcard, voice and camera containers take a `View` prop (default the current view).
 
+## Second pass (coordinator follow-ups)
+
+- **Story (8.10, 8.11, 8.13, 8.14 as the last card)**: built. The story screen takes a `StoryLook` (view, footer, MVP sheet, not-ready state, signature sheet, card components); the current look is the default.
+- **"Ping me" (5.18)**: built end to end. `ping_guide_answer {thread_id}` (online, any thread reader) records a ping in `guide_answer_pings` (new table: forced RLS, app_system only, C1, merge and purge rules, permission matrix). While a ping waits, the turn keeps running after the phone lets go of the stream (`detachable` in `commands/guide/answer-pings.ts`); saving the answer emits `guide.answer_ready` for each fresh ping and clears them; the worker pushes `answer_ready` (class always) opening the thread. Copy in the notifications catalog (EN, VI). Tests: `services/api/test/commands/guide/detachable.test.ts` (passes locally), `answer-pings.db.test.ts` (remote), DB permissions and merge-rule coverage (remote, pass).
+- **Current-style parts replaced with premium ones**: memory reaction and share sheets, recap share sheet (with the link rows), voice consent, menu order card, chat photo viewer, journal upload banner, live encounter banner on the Critterdex, postcard note and photo sheets, story MVP vote and signature sheet. The signature pad itself stays the app's one signature engine (`ui/documents/SignatureLayer`), like the critter renderer.
+- **Decisions applied**: "Keep it to myself" stays; crew quests stay a push from the trip.
+- **Copy**: the lane's new strings are extracted into the area catalogs with Vietnamese for every one (287 entries; 55 reuse existing translations).
+
 ## Not done (follow-ups)
 
-- **8.10, 8.11, 8.13 story cards and the story player**: the story's cards are built by `buildStoryCards` with the current card components, played by the current `StoryPlayer`. A premium story needs premium versions of the eight cards and the player chrome (8 segments, presenter row, ✕ 36). Next pass.
-- **5.24 Getting around**: lives in `features/bookings/getting-around` (the trip/wallet lane's area). Left to that lane.
-- **Chat cards other areas own** (poll, expense, changeset, proposal, boost, meet-up, ride): the premium chat draws their current card until each area calls `registerPremiumChatCard` (exported from `@/features/crew`).
-- **"Ping me" on a slow answer (5.18)**: needs a push when the answer lands; the server does not send one. Only Stop is built.
-- **Current pieces still inside premium screens**: memory reaction and share sheets, the voice consent gate, the menu order card, the photo viewer, the journal's upload banner, the dex's live encounter banner and near map, the postcard's photo and note sheets.
-- **Guide circle as a sheet**: the premium guide draws a grabber and ✕ when opened with `from=circle`; the shell's guide circle (`useGuideActions`) should add that param.
-- **Typecheck**: per the brief, no local `tsc`; CI's typecheck is the first full type pass on these files. Lint is clean on every touched file.
+- **5.24 Getting around** and the guide circle's `from=circle`: with the trip/wallet lane and the shell fixer (coordinator).
+- **Chat cards other areas own** (poll, expense, changeset, proposal, boost, meet-up, ride) still draw their current card until each area calls `registerPremiumChatCard`.
+- **Full catalog extraction is blocked by two other lanes' files**: `ui/premium/motion/SwipeDeck.tsx` (Lingui's parser fails at 83:40) and a duplicate `crew.start.shareMessage` message between `crew/start-crew/crew-created.tsx` and `crew/premium/crew-copy.ts`. This lane's strings were extracted file by file.
+- **Jest on screens that import `@/features/trip`**: the trip area's index now loads the premium kit, whose springs use `ReduceMotion`, which the Reanimated jest mock lacks; `recap/memory/__tests__/memory-screen.test.tsx` fails to load for that reason (the story suites pass). Needs the mock (shell/kit) or the trip index to stop loading premium views.
+- **Lint outside this lane**: `crew/premium/resend-summary.ts` and `use-resend-invites.ts` import the home area directly (boundary errors).
+- **CI helper fixed in passing**: `tools/scripts/test-images.ts` ran out of output buffer listing tracked files (ENOBUFS), which stopped every remote database run; it now allows 64 MB.
+- **Typecheck**: per the brief, no local `tsc`; CI's typecheck is the first full type pass.
 
 ## Design conflicts resolved
 
@@ -57,11 +66,11 @@ Critter stickers as a message type, critter reactions and read receipts (migrati
 
 ## Checks
 
-- ESLint on every touched file: clean.
-- Jest: sticker tray, dietary, memory screen, hatch (model, runtime, screen), pass screen, quests, voice consent, postcard draft, album states, `callsGuide`.
+- ESLint on every touched file of this lane: clean (other lanes' crew files excepted, above).
+- Jest: sticker tray, dietary, hatch (model, runtime, screen), pass screen, quests, voice consent, postcard draft, album states, story clock and voice, `callsGuide`; memory screen blocked by the jest mock (above).
+- Remote (GitHub): `@cp/db` permissions and merge-rule coverage pass; `@cp/api` answer pings and `@cp/db` events and migrate dispatched after the event-type fix.
 - Undesigned states logged in `docs/undesigned-states.md`.
 
 ## Open questions for the founder
 
-1. Should a dietary profile be keepable without sharing (the render offers only Share or Not now)? Built as yes.
-2. Should crew quests keep the tab bar (root) or be a push from the trip? Built as a push.
+None open: "Keep it to myself" and quests as a push were decided.
