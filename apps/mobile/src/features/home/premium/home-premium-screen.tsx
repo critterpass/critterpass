@@ -225,10 +225,10 @@ function HomeFrame({ view, onPick, children }: HomeFrameProps) {
               </View>
             ) : null}
             {children}
-            <PremiumDevTools />
           </ScrollView>
         )}
       </RootScreen>
+      <PremiumDevTools />
       <View
         style={[
           styles.buttons,
