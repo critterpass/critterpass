@@ -1,8 +1,9 @@
 /**
  * The drafting screen wired to the phone. Arriving from DRAFT MY TRIP it starts the draft, or
  * joins the job already running (another tap, another organiser device), or goes straight to the
- * draft when one is ready. With no signal nothing starts; it tries again once the phone is back
- * online. The job keeps running if the app goes to the background, and its push opens the draft.
+ * draft when one is ready. With no answer (no signal, or a busy server) nothing starts; it tries
+ * again once the phone is back online, and on a slow beat while it is. The job keeps running if
+ * the app goes to the background, and its push opens the draft.
  * Only the screen she is looking at moves her on: once she has left the wait for somewhere else
  * (Home, a tab), a draft that lands navigates nothing; she is told and goes there herself, and
  * coming back to the wait then opens the draft.
@@ -24,6 +25,7 @@ import { useDraftTrip } from '../data/draft-trip';
 import { draftPhase, emptySnapshot, isLive, type StartState } from '../data/job';
 import { useDraftServices } from '../data/services';
 import { tripDays } from '../data/trip-days';
+import { useRetryStart } from '../data/retry-start';
 import { useDraftJob } from '../data/use-draft-job';
 import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
@@ -105,13 +107,8 @@ export function DraftingScreen({
     return () => clearTimeout(timer);
   }, [trip, loaded, job, begin, tripId, focused]);
 
-  // No signal: try again once the phone is back online.
-  useEffect(() => {
-    if (startState.kind !== 'offline') return undefined;
-    return network.subscribe((online) => {
-      if (online) void begin();
-    });
-  }, [startState.kind, network, begin]);
+  // No answer (no signal, or a server too busy to take it): try again until there is one.
+  useRetryStart(startState.kind === 'offline', network, begin);
 
   const shownJob = start.pending ? null : job;
   const phase = draftPhase(shownJob, startState, clock);
