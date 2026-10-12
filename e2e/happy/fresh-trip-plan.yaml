@@ -336,10 +336,17 @@ env:
     timeout: 15000
 - tapOn:
     id: 'day-plan-all-days'
+# Ideas › sits at the foot, below the day cards and the getting-there estimates.
 - extendedWaitUntil:
     visible:
-      id: 'all-days-ideas'
+      id: 'all-days'
     timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'all-days-ideas'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
 - tapOn:
     id: 'all-days-ideas'
 - extendedWaitUntil:
@@ -359,10 +366,11 @@ env:
     visible:
       id: 'all-days'
     timeout: 15000
-# The guide's check card on all days: its SEE opens the plan check.
-- extendedWaitUntil:
-    visible:
+# The guide's check card on all days, back at the head of the page: its SEE opens the plan check.
+- scrollUntilVisible:
+    element:
       id: 'all-days-check'
+    direction: UP
     timeout: 60000
 - tapOn:
     text: '(?i)^see$'
