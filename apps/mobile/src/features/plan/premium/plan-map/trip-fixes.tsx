@@ -10,7 +10,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Button, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 import { useCheckCards } from '../../check/use-check-cards';
 import { planMapCopy } from './copy';
@@ -38,8 +38,16 @@ const checkHref = (tripId: string) =>
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a route path, never copy.
   ({ pathname: '/[tripId]/check', params: { tripId } }) as const;
 
-export function TripFixRows(props: TripRowsProps & { readonly tripId: string }) {
-  const { tripId, ...rows } = props;
+export interface TripFixRowsProps extends TripRowsProps {
+  readonly tripId: string;
+  /** The crew, the dates and the countdown over the title. */
+  readonly eyebrow: string;
+  /** Share the plan (link, PDF, calendar, driver); none while it is a draft. */
+  readonly onShare: (() => void) | null;
+}
+
+export function TripFixRows(props: TripFixRowsProps) {
+  const { tripId, eyebrow, onShare, ...rows } = props;
   const theme = usePremiumTheme();
   const { fixes, know } = useDayFixes(tripId);
   const [opened, setOpened] = useState<number | null>(null);
@@ -67,6 +75,21 @@ export function TripFixRows(props: TripRowsProps & { readonly tripId: string }) 
           : t({ id: 'plan.premium.trip.fixAndKnow', message: `${fixWord} · ${knowWord}` });
   return (
     <View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap8 }}>
+        <Text variant="captionMuted" tone="muted" numberOfLines={1} style={{ flex: 1 }}>
+          {eyebrow}
+        </Text>
+        {onShare === null ? null : (
+          <Button
+            label={planMapCopy.share()}
+            variant="control"
+            size="small"
+            icon="share"
+            onPress={onShare}
+            testID="trip-share"
+          />
+        )}
+      </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap8 }}>
         <Text variant="title" style={{ flex: 1 }} accessibilityRole="header">
           {planMapCopy.wholeTrip()}

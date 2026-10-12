@@ -77,21 +77,25 @@ export function PlanMapSheet({
     if (next !== detent) onDetent(next);
   };
 
-  const pan = Gesture.Pan()
-    .activeOffsetY([-6, 6])
-    .onBegin(() => {
-      'worklet';
-      start.set(visible.value);
-    })
-    .onUpdate((event) => {
-      'worklet';
-      const next = start.value - event.translationY;
-      visible.set(Math.max(lowest, Math.min(full, next)));
-    })
-    .onEnd((event) => {
-      'worklet';
-      scheduleOnRN(settle, visible.value, -event.velocityY);
-    });
+  // The head always drags; at peek the body does not scroll, so it drags the sheet up too.
+  const drag = () =>
+    Gesture.Pan()
+      .activeOffsetY([-6, 6])
+      .onBegin(() => {
+        'worklet';
+        start.set(visible.value);
+      })
+      .onUpdate((event) => {
+        'worklet';
+        const next = start.value - event.translationY;
+        visible.set(Math.max(lowest, Math.min(full, next)));
+      })
+      .onEnd((event) => {
+        'worklet';
+        scheduleOnRN(settle, visible.value, -event.velocityY);
+      });
+  const pan = drag();
+  const bodyPan = drag().enabled(detent === 'peek');
 
   const sheetStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: full - visible.value }],
@@ -121,16 +125,18 @@ export function PlanMapSheet({
             {head}
           </View>
         </GestureDetector>
-        <ScrollView
-          scrollEnabled={detent !== 'peek'}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingHorizontal: t.space.gap16,
-            paddingBottom: bodyBottom + t.space.gap16 + (full - sheetHeight(detent, height)),
-          }}
-        >
-          {children}
-        </ScrollView>
+        <GestureDetector gesture={bodyPan}>
+          <ScrollView
+            scrollEnabled={detent !== 'peek'}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: t.space.gap16,
+              paddingBottom: bodyBottom + t.space.gap16 + (full - sheetHeight(detent, height)),
+            }}
+          >
+            {children}
+          </ScrollView>
+        </GestureDetector>
       </GlassSurface>
     </Animated.View>
   );

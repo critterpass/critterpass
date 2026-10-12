@@ -1,8 +1,8 @@
 /**
  * The plan map's top chrome (4.25, 4.26): the glass back, the search pill with the guide in it
  * ("Search Bali, or ask Tokek"), and the plan's ⋯ menu (the way into Ideas, the places list, all
- * days, sharing and the trip's settings). At peek the filter chips sit under it; at full the
- * chrome steps away for the island strip.
+ * days, sharing and the trip's settings). At peek the filter chips sit under it; at half the ⋯
+ * gives way to the Ideas count (4.26); at full the chrome steps away for the island strip.
  */
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -34,6 +34,8 @@ export interface TopBarProps {
   readonly guide: { readonly kind: string; readonly name: string };
   readonly labels: { readonly back: string; readonly more: string };
   readonly chips: readonly FilterChip[] | null;
+  /** In place of the ⋯ at half: the saved places not in a day yet, opening Ideas. */
+  readonly ideas?: { readonly count: number; readonly label: string; readonly onPress: () => void };
   readonly onBack: () => void;
   readonly onSearch: () => void;
   readonly onMore: (anchorY: number) => void;
@@ -80,6 +82,13 @@ const useStyles = makePremiumStyles((t) => ({
   },
   chipOn: { backgroundColor: t.color.inkSurface },
   dot: { width: 8, height: 8, borderRadius: 4 },
+  count: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 export function TopBar(props: TopBarProps) {
@@ -104,7 +113,7 @@ export function TopBar(props: TopBarProps) {
           style={{ flex: 1 }}
         >
           <GlassSurface kind="nav" interactive style={styles.pill}>
-            <Icon name="pin" size={17} color={t.color.muted} />
+            <Icon name="search" size={17} color={t.color.muted} />
             <Text variant="body" tone="inkSecondary" numberOfLines={1} style={styles.pillText}>
               {props.placeholder}
             </Text>
@@ -118,12 +127,27 @@ export function TopBar(props: TopBarProps) {
             </View>
           </GlassSurface>
         </PressableScale>
-        <GlassIconButton
-          icon="more"
-          label={props.labels.more}
-          onPress={() => props.onMore(top + 52)}
-          testID="plan-map-more"
-        />
+        {props.ideas === undefined ? (
+          <GlassIconButton
+            icon="more"
+            label={props.labels.more}
+            onPress={() => props.onMore(top + 52)}
+            testID="plan-map-more"
+          />
+        ) : (
+          <PressableScale
+            onPress={props.ideas.onPress}
+            accessibilityRole="button"
+            accessibilityLabel={props.ideas.label}
+            testID="plan-map-ideas"
+          >
+            <GlassSurface kind="nav" interactive style={styles.count}>
+              <Text variant="bannerAction" style={{ fontVariant: ['tabular-nums'] }}>
+                {String(props.ideas.count)}
+              </Text>
+            </GlassSurface>
+          </PressableScale>
+        )}
       </View>
       {props.chips === null ? null : (
         <ScrollView
