@@ -43,6 +43,21 @@ set on the service instance with the GraphQL mutation `serviceInstanceUpdate(ser
 at `https://backboard.railway.com/graphql/v2`, authenticated with the logged-in CLI's token from
 `~/.railway/config.json`; that token accepts every field except `railwayConfigFile`.
 
+A CLI upload never reads `services/<service>/railway.json` (it sits below the upload root and no config path can
+be set), so the api's pre-deploy migration runs only because `preDeployCommand: ["node dist/migrate.js"]` is set
+on its service instance with that mutation (with `healthcheckPath`, `healthcheckTimeout`, the restart policy and
+`drainingSeconds`); a new environment's api needs the same call before its first deploy. Read the instance back
+(`serviceInstance(serviceId, environmentId) { preDeployCommand }`) and check the deploy log for
+`no pending migrations` or the applied list. Deploy by upload only: `railway redeploy` builds with Railpack and
+fails. A deploy of `main` is, in order:
+
+1. `railway variables --service <s> --environment staging --set COMMIT_SHA=<short sha> --skip-deploys`, then
+   `railway up --service <s> --environment staging --detach` from a checkout of the merged commit, for `api`
+   (migrations run first) and `worker`.
+2. When `infra/powersync/**` changed (sync streams or service config), the same upload for `powersync-repl`,
+   `powersync-api` and `powersync-compact`: the config is baked into their image (`powersync.Dockerfile`), and a
+   table a new stream reads must already be in the `powersync` publication (its migration adds it).
+
 ### Variables (names only; values live in Railway)
 
 | Service | Variables |
