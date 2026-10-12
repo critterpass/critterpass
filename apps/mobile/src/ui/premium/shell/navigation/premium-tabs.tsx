@@ -6,6 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import { useGateDecision } from '@/lib/navigation/gates';
 
 import { usePremiumTheme } from '../..';
+import { GUIDE_BAND, GuideBandContext } from './guide-band';
 import { GuideFab, useGuideActions, type GuideActions } from './guide-circle';
 import { GUIDE_TAB_IMAGE, TAB_ICONS, type PremiumTabIcon } from './tab-icons';
 
@@ -70,32 +71,34 @@ export function PremiumTabs({
 
   return (
     <View style={styles.root}>
-      <NativeTabs
-        minimizeBehavior="onScrollDown"
-        tintColor={color.ink}
-        iconColor={{ default: color.muted, selected: color.ink }}
-        indicatorColor={color.control}
-        {...(Platform.OS === 'android' ? { backgroundColor: color.card } : {})}
-        labelVisibilityMode="labeled"
-      >
-        {items.map((tab) => (
-          <NativeTabs.Trigger key={tab.name} name={tab.name} testID={`tab-${tab.icon}`}>
-            <NativeTabs.Trigger.Icon src={TAB_ICONS[tab.icon]} renderingMode="template" />
-            <NativeTabs.Trigger.Label>{tab.label}</NativeTabs.Trigger.Label>
-          </NativeTabs.Trigger>
-        ))}
-        <NativeTabs.Trigger
-          name={guideRoute}
-          role="search"
-          disabled
-          hidden={!ios || actions.ask === undefined}
-          testID="guide-circle"
-          accessibilityLabel={t({ id: 'common.shell.fabAsk', message: `Ask ${guide}` })}
-          listeners={{ tabPress: () => actions.ask?.() }}
+      <GuideBandContext.Provider value={GUIDE_BAND}>
+        <NativeTabs
+          minimizeBehavior="onScrollDown"
+          tintColor={color.ink}
+          iconColor={{ default: color.muted, selected: color.ink }}
+          indicatorColor={color.control}
+          {...(Platform.OS === 'android' ? { backgroundColor: color.card } : {})}
+          labelVisibilityMode="labeled"
         >
-          <NativeTabs.Trigger.Icon src={GUIDE_TAB_IMAGE} renderingMode="original" />
-        </NativeTabs.Trigger>
-      </NativeTabs>
+          {items.map((tab) => (
+            <NativeTabs.Trigger key={tab.name} name={tab.name} testID={`tab-${tab.icon}`}>
+              <NativeTabs.Trigger.Icon src={TAB_ICONS[tab.icon]} renderingMode="template" />
+              <NativeTabs.Trigger.Label>{tab.label}</NativeTabs.Trigger.Label>
+            </NativeTabs.Trigger>
+          ))}
+          <NativeTabs.Trigger
+            name={guideRoute}
+            role="search"
+            disabled
+            hidden={!ios || actions.ask === undefined}
+            testID="guide-circle"
+            accessibilityLabel={t({ id: 'common.shell.fabAsk', message: `Ask ${guide}` })}
+            listeners={{ tabPress: () => actions.ask?.() }}
+          >
+            <NativeTabs.Trigger.Icon src={GUIDE_TAB_IMAGE} renderingMode="original" />
+          </NativeTabs.Trigger>
+        </NativeTabs>
+      </GuideBandContext.Provider>
       {ios ? null : <GuideFab actions={actions} />}
     </View>
   );

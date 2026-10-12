@@ -76,7 +76,7 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
           icon="close"
           label={t({ id: 'crew.premium.cancel', message: 'Cancel' })}
           onPress={() => router.back()}
-          testID="start-crew-close"
+          testID="full-screen-close"
         />
         <Text variant="navTitle" accessibilityRole="header" numberOfLines={1} style={styles.title}>
           {t({ id: 'crew.premium.start.title', message: 'New crew' })}

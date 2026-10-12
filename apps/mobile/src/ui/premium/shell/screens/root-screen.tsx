@@ -23,7 +23,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '../..';
-import { SHELL_SIZE } from '../shell-theme';
+import { useGuideBand } from '../navigation/guide-band';
 import { useToolbarPlusMorph } from '../zoom/toolbar-plus-morph';
 import {
   capActions,
@@ -63,13 +63,6 @@ export interface RootScreenProps {
 
 /** The drawn title row's height, after which the title has left and the bar shows it. */
 const TITLE_ROW = 52;
-
-/**
- * Android's guide button floats over the bottom of the page, above the Material bar. Root pages
- * end above it, so no row's trailing edge (amounts, chevrons, actions) ever sits under the button.
- */
-const FAB_BAND =
-  Platform.OS === 'android' ? SHELL_SIZE.guideCircle + SHELL_SIZE.androidFabMargin * 2 : 0;
 
 /**
  * The root screen type (foundations-spec §1): large title, at most two glass actions with the
@@ -135,6 +128,7 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
 function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) {
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
+  const guideBand = useGuideBand();
   const reduced = usePremiumReducedMotion();
   const [collapsed, setCollapsed] = useState(false);
   const shown = useSharedValue(0);
@@ -166,7 +160,7 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
   );
 
   return (
-    <View testID={testID} style={[styles.root, { paddingBottom: FAB_BAND }]} collapsable={false}>
+    <View testID={testID} style={[styles.root, { paddingBottom: guideBand }]} collapsable={false}>
       {children({ scrollProps: { onScroll, scrollEventThrottle: 16 }, largeTitle })}
       <View
         pointerEvents="box-none"
