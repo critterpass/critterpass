@@ -80,7 +80,10 @@ export function codeDaysLeft(expiresAt: string | null, now: Date): string | null
   const at = new Date(expiresAt).getTime();
   if (Number.isNaN(at)) return null;
   const days = Math.max(0, Math.ceil((at - now.getTime()) / DAY_MS));
-  return plural(days, { one: '# day left', other: '# days left' });
+  return t({
+    id: 'crew.premium.code.daysLeft',
+    message: plural(days, { one: '# day left', other: '# days left' }),
+  });
 }
 
 /**
