@@ -23,6 +23,7 @@ import {
 
 import { fitColour, PlaceThumb } from '@/features/explore';
 import { crewColour } from '@/features/vote';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { ideaIcon } from '../../ideas/idea-icon';
 import {
   beforePlanBody,
@@ -41,6 +42,8 @@ const STARRED = '★';
 const UNSTARRED = '☆';
 
 export function IdeasSheet({ tripId }: { readonly tripId: string }) {
+  // A native form sheet: its grabber and the swipe down are the way back to the map.
+  useBackAffordance();
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();

@@ -11,6 +11,7 @@ import { Keyboard, Pressable, TextInput, View } from 'react-native';
 
 import { Icon, ring, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { premiumFont } from '@/ui/premium/text/Text';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 
 import { SearchGlyph } from '../components/search-glyph';
 
@@ -28,6 +29,8 @@ const FIELD_HEIGHT = 48;
 const GLYPH = 17;
 
 export function FindField(props: FindFieldProps) {
+  // Cancel beside the field is Find's way back.
+  useBackAffordance();
   const theme = usePremiumTheme();
   const { i18n } = useLingui();
   const input = useRef<ComponentRef<typeof TextInput>>(null);

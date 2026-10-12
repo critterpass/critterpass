@@ -26,6 +26,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { guideSticker } from '@/ui/avatar/guides';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { crewInviteRoute } from '../crews-sheet/routes';
@@ -45,6 +46,8 @@ export interface CrewOnProps {
 }
 
 export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
+  // The crew is made: Done leaves, and the design draws no back or ✕ over the new pass.
+  useNoBackByDesign();
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
   const insets = useSafeAreaInsets();
